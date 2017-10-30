@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Store Servers Things",
+name: "Store Server Things",
 
 //---------------------------------------------------------------------
 // Action Section
