@@ -24,7 +24,7 @@ Update mods:
 If you don't run your bot with DBM make sure to copy this actions to your bot directory too!
 
 New guild info options:<br />
-![alt text](http://lasseniermann.de/dbmmods/ads/guild_info_1.JPG)
+![alt text](http://lasseniermann.de/dbmmods/ads/guild_info_2.JPG)
 
 New user info options:<br />
 ![alt text](http://lasseniermann.de/dbmmods/ads/user_info_1.JPG)

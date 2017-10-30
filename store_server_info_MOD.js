@@ -24,7 +24,7 @@ section: "Mods by Lasse",
 
 subtitle: function(data) {
 	const servers = ['Current Server', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const info = ['Creation Date', 'Time to AFK', 'Is server available?'];
+	const info = ['Creation Date', 'Time to AFK', 'Is server available?', 'More than 250 members?', 'Date bot joined server'];
 	return `${servers[parseInt(data.server)]} - ${info[parseInt(data.info)]}`;
 },
 
@@ -41,13 +41,19 @@ variableStorage: function(data, varType) {
 	let dataType = 'Text';
 	switch(info) {
 		case 0:
-			dataType = 'Date';
+			dataType = "Date";
 			break;
 		case 1:
-			dataType = 'Number';
+			dataType = "Number";
 			break;
 		case 2:
-			dataType = 'Boolean';
+			dataType = "Boolean";
+			break;
+		case 3:
+			dataType = "Boolean";
+			break;
+		case 4:
+			dataType = "Date";
 			break;
 	}
 	return ([data.varName2, dataType]);
@@ -100,6 +106,8 @@ html: function(isEvent, data) {
 			<option value="0" selected>Servers creation date</option>
 			<option value="1">Time User gets AFK</option>
 			<option value="2">Is Server available?</option>
+			<option value="3">More than 250 members?</option>
+			<option value="4">Date bot joined server</option>
 			</select>
 	</div>
 </div><br>
@@ -159,6 +167,12 @@ action: function(cache) {
 			break;
 		case 2:
 			result = targetServer.available;
+			break;
+		case 3:
+			result = targetServer.large;
+			break;
+		case 4:
+			result = targetServer.joinedAt;
 			break;
 		default:
 			break;
