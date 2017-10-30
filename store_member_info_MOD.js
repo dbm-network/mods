@@ -24,7 +24,7 @@ section: "Mods by Lasse",
 
 subtitle: function(data) {
 	const members = ['Mentioned User', 'Command Author', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const info = ['Members Join date', 'Members Voice Channel ID', 'Members Last Message', 'Member is kickable?', 'Member is bot?', 'Members Discriminator'];
+	const info = ['Members Join date', 'Members Voice Channel ID', 'Members Last Message', 'Member is kickable?', 'Member is bot?', 'Members Discriminator','Members account creation date'];
 	return `${members[parseInt(data.member)]} - ${info[parseInt(data.info)]}`;
 },
 
@@ -58,6 +58,9 @@ variableStorage: function(data, varType) {
 		case 5:
 			dataType = "Text";
 			break;
+		case 6:
+			dataType = "Date";
+			break;
 	}
 	return ([data.varName2, dataType]);
 },
@@ -76,26 +79,20 @@ fields: ["member", "varName", "info", "storage", "varName2"],
 // Command HTML
 //
 // This function returns a string containing the HTML used for
-// editting actions. 
+// editting actions.
 //
 // The "isEvent" parameter will be true if this action is being used
-// for an event. Due to their nature, events lack certain information, 
+// for an event. Due to their nature, events lack certain information,
 // so edit the HTML to reflect this.
 //
-// The "data" parameter stores constants for select elements to use. 
+// The "data" parameter stores constants for select elements to use.
 // Each is an array: index 0 for commands, index 1 for events.
-// The names are: sendTargets, members, roles, channels, 
+// The names are: sendTargets, members, roles, channels,
 //                messages, servers, variables
 //---------------------------------------------------------------------
 
 html: function(isEvent, data) {
 	return `
-<div>
-	<p>
-		<u>Note:</u><br>
-		This are some more features for DBM. Please contact Lasse#4890 if you have any problems or questions.<br>
-	</p>
-</div><br>
 <div>
 	<div style="float: left; width: 35%;">
 		Source Member:<br>
@@ -118,6 +115,7 @@ html: function(isEvent, data) {
 			<option value="3">Member is kickable?</option>
 			<option value="4">Member is bot?</option>
 			<option value="5">Members discriminator</option>
+			<option value="6">Members account creation date</option>
 			</select>
 	</div>
 </div><br>
@@ -153,7 +151,7 @@ init: function() {
 // Action Bot Function
 //
 // This is the function for the action within the Bot's Action class.
-// Keep in mind event calls won't have access to the "msg" parameter, 
+// Keep in mind event calls won't have access to the "msg" parameter,
 // so be sure to provide checks for variable existance.
 //---------------------------------------------------------------------
 
@@ -191,6 +189,11 @@ action: function(cache) {
 		case 5:
 			if(mem.user) {
 				result = mem.user.discriminator;
+			}
+			break;
+		case 6:
+			if (mem.user) {
+				result = mem.user.createdAt;
 			}
 			break;
 	}
