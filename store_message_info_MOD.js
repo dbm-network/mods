@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Store Servers Things",
+name: "Store Message Things",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -23,9 +23,9 @@ section: "Mods by Lasse",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const servers = ['Current Server', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const info = ['Creation Date', 'Time to AFK', 'Is server available?'];
-	return `${servers[parseInt(data.server)]} - ${info[parseInt(data.info)]}`;
+	const message = ['Command Message', 'Temp Variable', 'Server Variable', 'Global Variable'];
+	const info = ['Message edited at', 'Message edits history', 'Message is pinnable?', 'Message includes @everyone mention?'];
+	return `${message[parseInt(data.message)]} - ${info[parseInt(data.info)]}`;
 },
 
 //---------------------------------------------------------------------
@@ -38,16 +38,19 @@ variableStorage: function(data, varType) {
 	const type = parseInt(data.storage);
 	if(type !== varType) return;
 	const info = parseInt(data.info);
-	let dataType = 'Text';
+	let dataType = 'Unknown Type';
 	switch(info) {
 		case 0:
-			dataType = 'Date';
+			dataType = "Date";
 			break;
 		case 1:
-			dataType = 'Number';
+			dataType = "Array";
 			break;
 		case 2:
-			dataType = 'Boolean';
+			dataType = "Boolean";
+			break;
+		case 3:
+			dataType = "Boolean";
 			break;
 	}
 	return ([data.varName2, dataType]);
@@ -61,7 +64,7 @@ variableStorage: function(data, varType) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["server", "varName", "info", "storage", "varName2"],
+fields: ["message", "varName", "info", "storage", "varName2"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -83,9 +86,9 @@ html: function(isEvent, data) {
 	return `
 <div>
 	<div style="float: left; width: 35%;">
-		Source Server:<br>
-		<select id="server" class="round" onchange="glob.serverChange(this, 'varNameContainer')">
-			${data.servers[isEvent ? 1 : 0]}
+		Source Message:<br>
+		<select id="message" class="round" onchange="glob.messageChange(this, 'varNameContainer')">
+			${data.messages[isEvent ? 1 : 0]}
 		</select>
 	</div>
 	<div id="varNameContainer" style="display: none; float: right; width: 60%;">
@@ -97,10 +100,11 @@ html: function(isEvent, data) {
 	<div style="padding-top: 8px; width: 70%;">
 		Source Info:<br>
 		<select id="info" class="round">
-			<option value="0" selected>Servers creation date</option>
-			<option value="1">Time User gets AFK</option>
-			<option value="2">Is Server available?</option>
-			</select>
+			<option value="0" selected>Message edited at</option>
+			<option value="1">Message edit history</option>
+			<option value="2">Message is pinnable?</option>
+			<option value="3">Message includes @everyone mention?</option>
+		</select>
 	</div>
 </div><br>
 <div>
@@ -128,7 +132,7 @@ html: function(isEvent, data) {
 init: function() {
 	const {glob, document} = this;
 
-	glob.serverChange(document.getElementById('server'), 'varNameContainer')
+	glob.messageChange(document.getElementById('message'), 'varNameContainer')
 },
 
 //---------------------------------------------------------------------
@@ -141,24 +145,28 @@ init: function() {
 
 action: function(cache) {
 	const data = cache.actions[cache.index];
-	const server = parseInt(data.server);
+	const message = parseInt(data.message);
 	const varName = this.evalMessage(data.varName, cache);
 	const info = parseInt(data.info);
-	const targetServer = this.getServer(server, varName, cache);
-	if(!targetServer) {
+	const msg = this.getMessage(message, varName, cache);
+	if(!msg) {
 		this.callNextAction(cache);
 		return;
 	}
 	let result;
 	switch(info) {
 		case 0:
-			result = targetServer.createdAt;
+			result = msg.editedAt;
 			break;
 		case 1:
-			result = targetServer.afkTimeout;
+			result = msg.edits;
 			break;
 		case 2:
-			result = targetServer.available;
+			result = msg.pinnable;
+			break;
+		case 3:
+			if (msg.mentions)
+			result = msg.mentions.everyone;
 			break;
 		default:
 			break;
