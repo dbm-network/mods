@@ -5,6 +5,7 @@ Then everyone can have the latest update!
 NEW FEATURES:
 - Embed footer
 - Clear reactions
+- Unpin message
 - Many store guild info options
 - Many store user info options
 - Many store message info options
