@@ -12,15 +12,21 @@ NEW FEATURES:
 - Many store voice channel info options
 
 Install Mods:
-- Open DBM
-- Click Project
-- Click Open Actions Directory
-- Paste all files you downloaded
+- Then click the green button Clone or download
+- Choose Download ZIP
+- After downloading open DBM
+- Click on Project
+- Click on Open Actions Directory
+- Now copy all files you downloaded out of the zip file
+- Paste them into your actions folder you opened before
 
 Update mods:
-- Open DBM
-- Click Project
-- Click Open Actions Directory
+- Then click the green button Clone or download
+- Choose Download ZIP
+- After downloading open DBM
+- Click on Project
+- Click on Open Actions Directory
+- Now copy all files you downloaded out of the zip file
 - Paste all files you downloaded and overwrite all existing
 
 If you don't run your bot with DBM make sure to copy this actions to your bot directory too!
