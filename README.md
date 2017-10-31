@@ -10,6 +10,7 @@ NEW FEATURES:
 - Many store user info options
 - Many store message info options
 - Many store voice channel info options
+- Pixelate Image
 
 Install Mods:
 - Then click the green button Clone or download
@@ -43,11 +44,3 @@ New message info options:<br />
 New voice channel info options:<br />
 ![alt text](http://lasseniermann.de/dbmmods/ads/voice_channel_info_1.JPG)
 
-Action list with new actions:<br />
-![alt text](http://lasseniermann.de/dbmmods/ads/action_list_3.JPG)
-
-New set embed footer:<br />
-![alt text](http://lasseniermann.de/dbmmods/ads/set_embed_footer_1.JPG)
-
-New clear message reactions:<br />
-![alt text](http://lasseniermann.de/dbmmods/ads/clear_reacts_1.JPG)
