@@ -9,6 +9,7 @@ NEW FEATURES:
 - Many store guild info options
 - Many store user info options
 - Many store message info options
+- Many store voice channel info options
 
 Install Mods:
 - Open DBM
@@ -33,8 +34,11 @@ New user info options:<br />
 New message info options:<br />
 ![alt text](http://lasseniermann.de/dbmmods/ads/message_info_1.JPG)
 
+New voice channel info options:<br />
+![alt text](http://lasseniermann.de/dbmmods/ads/voice_channel_info_1.JPG)
+
 Action list with new actions:<br />
-![alt text](http://lasseniermann.de/dbmmods/ads/action_list_2.JPG)
+![alt text](http://lasseniermann.de/dbmmods/ads/action_list_3.JPG)
 
 New set embed footer:<br />
 ![alt text](http://lasseniermann.de/dbmmods/ads/set_embed_footer_1.JPG)
