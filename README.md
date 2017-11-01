@@ -2,6 +2,11 @@
 Here are some Mods for Discord Bot Maker! 
 Feel free to use them in your bots. But please, if you want to share this files please share the URL of this GitHub page.
 Then everyone can have the latest update!
+
+
+Make sure to join the DBM MODS DISCORD SERVER. To stay updated and be able to suggest things! https://discord.gg/NVGjs9M
+
+
 NEW FEATURES:
 - Embed footer
 - Clear reactions
