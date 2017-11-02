@@ -14,6 +14,7 @@ NEW FEATURES:
 - Many store guild info options
 - Many store user info options
 - Many store message info options
+- Completly new Store Bot Info action
 - Many store voice channel info options
 - Pixelate Image
 
@@ -49,3 +50,5 @@ New message info options:<br />
 New voice channel info options:<br />
 ![Picture is not here](http://lasseniermann.de/dbmmods/ads/voice_channel_info.JPG)
 
+New bot info options:<br />
+![Picture is not here](http://lasseniermann.de/dbmmods/ads/bot_info.JPG)
