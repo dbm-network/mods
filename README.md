@@ -4,7 +4,7 @@ Feel free to use them in your bots. But please, if you want to share this files 
 Then everyone can have the latest update!
 
 
-Make sure to join the DBM MODS DISCORD SERVER. To stay updated and be able to suggest things! https://discord.gg/NVGjs9M
+Make sure to join the DBM MODS DISCORD SERVER. To stay updated and be able to suggest things! https://discord.gg/Y4fPBnZ
 
 
 NEW FEATURES:
@@ -38,14 +38,14 @@ Update mods:
 If you don't run your bot with DBM make sure to copy this actions to your bot directory too!
 
 New guild info options:<br />
-![alt text](http://lasseniermann.de/dbmmods/ads/guild_info_2.JPG)
+![Picture is not here](http://lasseniermann.de/dbmmods/ads/guild_info.JPG)
 
 New user info options:<br />
-![alt text](http://lasseniermann.de/dbmmods/ads/user_info_1.JPG)
+![Picture is not here]](http://lasseniermann.de/dbmmods/ads/user_info.JPG)
 
 New message info options:<br />
-![alt text](http://lasseniermann.de/dbmmods/ads/message_info_1.JPG)
+![Picture is not here](http://lasseniermann.de/dbmmods/ads/message_info.JPG)
 
 New voice channel info options:<br />
-![alt text](http://lasseniermann.de/dbmmods/ads/voice_channel_info_1.JPG)
+![Picture is not here](http://lasseniermann.de/dbmmods/ads/voice_channel_info.JPG)
 
