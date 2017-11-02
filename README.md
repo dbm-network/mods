@@ -42,7 +42,7 @@ New guild info options:<br />
 ![Picture is not here](http://lasseniermann.de/dbmmods/ads/guild_info.JPG)
 
 New user info options:<br />
-![Picture is not here]](http://lasseniermann.de/dbmmods/ads/user_info.JPG)
+![Picture is not here](http://lasseniermann.de/dbmmods/ads/user_info.JPG)
 
 New message info options:<br />
 ![Picture is not here](http://lasseniermann.de/dbmmods/ads/message_info.JPG)
