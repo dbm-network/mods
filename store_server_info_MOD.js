@@ -24,7 +24,7 @@ section: "Mods by Lasse",
 
 subtitle: function(data) {
 	const servers = ['Current Server', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const info = ['Creation Date', 'Time to AFK', 'Is server available?', 'More than 250 members?', 'Date bot joined server'];
+	const info = ['Creation Date', 'Time to AFK', 'Is server available?', 'More than 250 members?', 'Date bot joined server', 'Channel amount', 'Emoji amount'];
 	return `${servers[parseInt(data.server)]} - ${info[parseInt(data.info)]}`;
 },
 
@@ -55,6 +55,11 @@ variableStorage: function(data, varType) {
 		case 4:
 			dataType = "Date";
 			break;
+		case 5:
+			dataType = "Number";
+			break;
+		case 6:
+			dataType = "Number"
 	}
 	return ([data.varName2, dataType]);
 },
@@ -108,6 +113,8 @@ html: function(isEvent, data) {
 			<option value="2">Is Server available?</option>
 			<option value="3">More than 250 members?</option>
 			<option value="4">Date bot joined server</option>
+			<option value="5">Channel amount</option>
+			<option value="6">Emoji amount</option>
 			</select>
 	</div>
 </div><br>
@@ -173,6 +180,12 @@ action: function(cache) {
 			break;
 		case 4:
 			result = targetServer.joinedAt;
+			break;
+		case 5:
+			result = targetServer.channels.array().length;
+			break;
+		case 6:
+			result = targetServer.emojis.array().length;
 			break;
 		default:
 			break;
