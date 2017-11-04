@@ -23,7 +23,7 @@ section: "Mods by Lasse",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const info = ['Uptime', 'Ready at?', 'Ping', 'Guild amount', 'User amount'];
+	const info = ['Uptime', 'Ready at?', 'Ping', 'Guild amount', 'User amount', 'Ping rounded'];
 	return `Bot Client - ${info[parseInt(data.info)]}`;
 },
 
@@ -52,6 +52,9 @@ variableStorage: function(data, varType) {
 			dataType = "Number";
 			break;
 		case 4:
+			dataType = "Number";
+			break;
+		case 5:
 			dataType = "Number";
 			break;
 	}
@@ -94,6 +97,7 @@ html: function(isEvent, data) {
 		<option value="2">Ping</option>
 		<option value="3">Total amount of guilds</option>
 		<option value="4">Total amount of users</option>
+		<option value="5">Ping rounded</option>
 	</select>
 </div>
 <div>
@@ -152,6 +156,9 @@ action: function(cache) {
 			break;
 		case 4:
 			result = botClient.users.array().length;
+			break;
+		case 5:
+			result = Math.round(botClient.ping);
 			break;
 		default:
 		break;
