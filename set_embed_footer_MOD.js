@@ -34,7 +34,7 @@ subtitle: function(data) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["storage", "varName", "message"],
+fields: ["storage", "varName", "message", "footerIcon"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -69,6 +69,10 @@ html: function(isEvent, data) {
 <div style="padding-top: 8px;">
 	Footer:<br>
 	<textarea id="message" rows="3" placeholder="Insert footer here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+</div><br>
+<div style="float: left; width: 99%;">
+	Footer Icon URL:<br>
+	<input id="footerIcon" class="round" type="text" placeholder="Leave blank for none!"><br>
 </div>`
 },
 
@@ -99,8 +103,10 @@ action: function(cache) {
 	const storage = parseInt(data.storage);
 	const varName = this.evalMessage(data.varName, cache);
 	const embed = this.getVariable(storage, varName, cache);
+	const message = parseInt(data.message);
+	const footerIcon = parseInt(data.footerIcon);
 	if(embed && embed.setFooter) {
-		embed.setFooter(this.evalMessage(data.message, cache));
+		embed.setFooter(this.evalMessage(data.message, cache), this.evalMessage(data.footerIcon, cache));
 	}
 	this.callNextAction(cache);
 },
