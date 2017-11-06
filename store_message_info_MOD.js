@@ -24,7 +24,7 @@ section: "Mods by Lasse",
 
 subtitle: function(data) {
 	const message = ['Command Message', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const info = ['Message edited at', 'Message edits history', 'Message is pinnable?', 'Message includes @everyone mention?', 'Messages different reactions count'];
+	const info = ['Message edited at', 'Message edits history', 'Message is pinnable?', 'Message includes @everyone mention?', 'Messages different reactions count', 'Mentioned users list', 'Mentioned users count'];
 	return `${message[parseInt(data.message)]} - ${info[parseInt(data.info)]}`;
 },
 
@@ -53,7 +53,13 @@ variableStorage: function(data, varType) {
 			dataType = "Boolean";
 			break;
 		case 4:
-			dataType = "Number"
+			dataType = "Number";
+			break;
+		case 5:
+			dataType = "Array";
+			break;
+		case 6:
+			dataType = "Number";
 			break;
 	}
 	return ([data.varName2, dataType]);
@@ -108,6 +114,8 @@ html: function(isEvent, data) {
 			<option value="2">Message is pinnable?</option>
 			<option value="3">Message includes @everyone mention?</option>
 			<option value="4">Messages different reactions count</option>
+			<option value="5">Messages mentioned users list</option>
+			<option value="6">Messages mentioned users count</option>
 		</select>
 	</div>
 </div><br>
@@ -173,6 +181,12 @@ action: function(cache) {
 			break;
 		case 4:
 			result = msg.reactions.array().length;
+			break;
+		case 5:
+			result = msg.mentions.users.array();
+			break;
+		case 6:
+			result = msg.mentions.users.array().length;
 			break;
 		default:
 			break;
