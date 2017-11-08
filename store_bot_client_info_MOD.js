@@ -23,7 +23,7 @@ section: "Mods by Lasse",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const info = ['Uptime', 'Ready at?', 'Ping', 'Guild amount', 'User amount', 'Ping rounded'];
+	const info = ['Uptime in milliseconds', 'Ready at?', 'Ping', 'Guild amount', 'User amount', 'Ping rounded', 'Uptime in seconds', 'Uptime in minutes'];
 	return `Bot Client - ${info[parseInt(data.info)]}`;
 },
 
@@ -55,6 +55,12 @@ variableStorage: function(data, varType) {
 			dataType = "Number";
 			break;
 		case 5:
+			dataType = "Number";
+			break;
+		case 6:
+			dataType = "Number";
+			break;
+		case 7:
 			dataType = "Number";
 			break;
 	}
@@ -92,12 +98,14 @@ html: function(isEvent, data) {
 <div style="float: left; width: 80%;">
 	Source Info:<br>
 	<select id="info" class="round">
-		<option value="0">Uptime</option>
+		<option value="0">Uptime in milliseconds</option>
 		<option value="1">Ready at</option>
 		<option value="2">Ping</option>
 		<option value="3">Total amount of guilds</option>
 		<option value="4">Total amount of users</option>
 		<option value="5">Ping rounded</option>
+		<option value="6">Uptime in seconds</option>
+		<option value="7">Uptime in minutes</option>
 	</select>
 </div>
 <div>
@@ -143,7 +151,7 @@ action: function(cache) {
 	}
 	switch(info) {
 		case 0:
-			result = botClient.uptime;
+			result = botClient.uptime + 'ms';
 			break;
 		case 1:
 			result = botClient.readyAt;
@@ -159,6 +167,12 @@ action: function(cache) {
 			break;
 		case 5:
 			result = Math.round(botClient.ping);
+			break;
+		case 6:
+			result = Math.floor(botClient.uptime/1000) + 's';
+			break;
+		case 7:
+			result = Math.floor(botClient.uptime/1000/60) + 'm';
 			break;
 		default:
 		break;
