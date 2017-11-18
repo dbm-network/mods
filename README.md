@@ -21,11 +21,12 @@ NEW FEATURES:
 - Pixelate Image
 
 Install Mods:
-- Then click the green button Clone or download
+- Click the green button Clone or download
 - Choose Download ZIP
 - After downloading open DBM
 - Click on Project
 - Click on Open Actions Directory
+- Go one folder back, you should be at /steamapps/common/Discord Bot Maker
 - Now copy all files you downloaded out of the zip file
 - Paste them into your actions folder you opened before
 
@@ -35,6 +36,7 @@ Update mods:
 - After downloading open DBM
 - Click on Project
 - Click on Open Actions Directory
+- Go one folder back, you should be at /steamapps/common/Discord Bot Maker
 - Now copy all files you downloaded out of the zip file
 - Paste all files you downloaded and overwrite all existing
 
