@@ -23,6 +23,7 @@ NEW FEATURES:
 Install Mods:
 - Click the green button Clone or download
 - Choose Download ZIP
+- Open ZIP and open the DBM-Mods-master folder
 - After downloading open DBM
 - Click on Project
 - Click on Open Actions Directory
@@ -33,6 +34,7 @@ Install Mods:
 Update mods:
 - Then click the green button Clone or download
 - Choose Download ZIP
+- Open ZIP and open the DBM-Mods-master folder
 - After downloading open DBM
 - Click on Project
 - Click on Open Actions Directory
