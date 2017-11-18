@@ -79,6 +79,11 @@ module.exports = {
 	html: function(isEvent, data) {
 		return `
 	<div>
+		<p>
+			<u>Note:</u><br>
+			Follow this guide to get help: http://bit.ly/2mDXAeY
+		</p>
+	</div><br>
 	<div style="float: left; width: 75%;">
 	<div>
 		End Behavior:<br>
@@ -86,14 +91,14 @@ module.exports = {
 			<option value="0" selected>Call Next Action Automatically</option>
 			<option value="1">Do Not Call Next Action</option>
 		</select>
-	<div><br><br><br>
+	<div><br>
 		WebAPI URL:  <br>
 		<input id="url" class="round"  style="width: 90%; type="text";><br>
 	</div>
 	</div><br>
 		JSON Path:  <br>
 		<input id="path" class="round"; style="width: 75%; type="text";><br>
-	<div><br><br>
+	<div><br>
 	<div style="float: left; width: 35%;">
 		Store In:<br>
 		<select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
