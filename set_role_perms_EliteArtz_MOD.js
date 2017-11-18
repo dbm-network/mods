@@ -24,8 +24,8 @@ section: "Mods by EliteArtz",
 
 subtitle: function(data) {
 	const roles = ['Mentioned Role', '1st Author Role', '1st Server Role', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	return `${roles[parseInt(data.storage)]}`;
-  return index < 3 ? `${names[index]}` : `${names[index]} (${data.varName})`;
+	const index = ['Yes', 'No']
+  return `${index[data.state]} - ${data.permission} - ${data.varName}`;
 },
 
 //---------------------------------------------------------------------
@@ -56,12 +56,6 @@ fields: ["role", "varName", "permission", "state"],
 
 html: function(isEvent, data) {
 	return `
-	<div>
-		<p>
-			<u>Known Buggs:</u><br>
-			- "undefined" Text in the info box in DBM after "Edit Action"
-		</p>
-	</div><br>
 <div style="padding-top: 8px;">
 	<div style="float: left; width: 35%;">
 		Source Role:<br>
@@ -102,7 +96,7 @@ html: function(isEvent, data) {
 init: function() {
 	const {glob, document} = this;
 
-	glob.roleChange(document.getElementById('storage'), 'varNameContainer')
+	glob.roleChange(document.getElementById('role'), 'varNameContainer')
 },
 
 //---------------------------------------------------------------------
