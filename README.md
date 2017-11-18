@@ -30,6 +30,8 @@ Install Mods:
 - Go one folder back, you should be at /steamapps/common/Discord Bot Maker
 - Now copy all files you downloaded out of the zip file
 - Paste them into your actions folder you opened before
+- Goto your bots project path (Project -> Projects Path)
+- Copy the node_modules folder to your bots folder
 
 Update mods:
 - Then click the green button Clone or download
