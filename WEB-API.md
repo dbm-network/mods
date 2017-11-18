@@ -6,6 +6,7 @@ https://dbotmaker.io/forums/threads/create-variable-from-json-webapi.85/
  # Changes
      * Can now use variables in the URL and Path textboxes.
      * added console logging to print what's going on in your bots console.
+     * added the new path fidner tool by General Wrex.
 
 
  # Installation: 
@@ -39,7 +40,7 @@ https://generalwrex.github.io/DBM-webapi-parsing
 
 ![jsontree](https://i.gyazo.com/7e1529df4b2894f9875ead96b56c01d8.png)
 
-Interact with it here! https://jsonblob.com/
+Interact with it here! https://github.com/generalwrex/DBM-WebAPI-Parser-PathFinder
 
 Lets say we wanted to get the **"b"** object from that ( the highlighted one )
 
