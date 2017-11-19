@@ -1,0 +1,46 @@
+{
+  "_from": "snekfetch@^3.3.0",
+  "_id": "snekfetch@3.3.0",
+  "_inBundle": false,
+  "_integrity": "sha512-R0VGqazwvZChkYuidDdaAzkvD6hUJ/qxfFUykyD1eovfH6PC2d9C9Qv+z4bUjMmKjBp0FE6GxMZtE9IKY/dngA==",
+  "_location": "/snekfetch",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "snekfetch@^3.3.0",
+    "name": "snekfetch",
+    "escapedName": "snekfetch",
+    "rawSpec": "^3.3.0",
+    "saveSpec": null,
+    "fetchSpec": "^3.3.0"
+  },
+  "_requiredBy": [
+    "/discord.js"
+  ],
+  "_resolved": "https://registry.npmjs.org/snekfetch/-/snekfetch-3.3.0.tgz",
+  "_shasum": "97aa0d79d5920f18c26d4c8a7fddbe91205ad0fa",
+  "_spec": "snekfetch@^3.3.0",
+  "_where": "C:\\Users\\SumRndmDde\\Discord Bot Maker\\DBM NWjs 0.23.7\\bot\\node_modules\\discord.js",
+  "author": {
+    "name": "Gus Caplan",
+    "email": "me@gus.host"
+  },
+  "bugs": {
+    "url": "https://github.com/devsnek/snekfetch/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {},
+  "deprecated": false,
+  "description": "Just do http requests without all that weird nastiness from other libs",
+  "devDependencies": {},
+  "homepage": "https://github.com/devsnek/snekfetch#readme",
+  "license": "MIT",
+  "main": "index.js",
+  "name": "snekfetch",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devsnek/snekfetch.git"
+  },
+  "version": "3.3.0"
+}
