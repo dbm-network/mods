@@ -154,10 +154,12 @@ module.exports = {
 					  result = "error: " + err;
 					  console.log("The Parse result returned an error: " + result);
 					  this.storeValue(result, storage, varName, cache);
+						this.callNextAction(cache);
 					} else if (res.statusCode !== 200) {
 					  result = "status: " + res.statusCode;
 					  console.log("The Parse result returned an error: " + result);
 					  this.storeValue(result, storage, varName, cache);
+						this.callNextAction(cache);
 					} else {
 					  result = eval("jsonData." + path, cache);
 					  this.storeValue(result, storage, varName, cache);
