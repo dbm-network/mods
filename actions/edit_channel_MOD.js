@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Store Bot Client Info",
+name: "Edit channel",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -23,54 +23,12 @@ section: "Mods by Lasse",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const info = ['Uptime in milliseconds', 'Ready at?', 'Ping', 'Guild amount', 'User amount', 'Ping rounded', 'Uptime in seconds', 'Uptime in minutes', 'Bots token', 'Voice connections amount'];
-	return `Bot Client - ${info[parseInt(data.info)]}`;
+	const names = ['Same Channel', 'Mentioned Channel', 'Default Channel', 'Temp Variable', 'Server Variable', 'Global Variable'];
+	const index = parseInt(data.storage);
+	return index < 3 ? `${names[index]}` : `${names[index]} - ${data.varName}`;
 },
 
-//---------------------------------------------------------------------
-// Action Storage Function
-//
-// Stores the relevant variable info for the editor.
-//---------------------------------------------------------------------
 
-variableStorage: function(data, varType) {
-	const type = parseInt(data.storage);
-	if(type !== varType) return;
-	const info = parseInt(data.info);
-	let dataType = 'Unknown Type';
-	switch(info) {
-		case 0:
-			dataType = "Number";
-			break;
-		case 1:
-			dataType = "Date";
-			break;
-		case 2:
-			dataType = "Number";
-			break;
-		case 3:
-			dataType = "Number";
-			break;
-		case 4:
-			dataType = "Number";
-			break;
-		case 5:
-			dataType = "Number";
-			break;
-		case 6:
-			dataType = "Number";
-			break;
-		case 7:
-			dataType = "Number";
-			break;
-		case 8:
-			dataType = "Token";
-			break;
-		case 9:
-			dataType = "Number";
-	}
-	return ([data.varName2, dataType]);
-},
 
 //---------------------------------------------------------------------
 // Action Fields
@@ -80,7 +38,7 @@ variableStorage: function(data, varType) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["info", "storage", "varName2"],
+fields: ["storage", "varName", "toChange", "newState"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -100,31 +58,32 @@ fields: ["info", "storage", "varName2"],
 
 html: function(isEvent, data) {
 	return `
-<div style="float: left; width: 80%;">
-	Source Info:<br>
-	<select id="info" class="round">
-		<option value="0">Uptime in milliseconds</option>
-		<option value="1">Ready at</option>
-		<option value="2">Ping</option>
-		<option value="3">Total amount of guilds</option>
-		<option value="4">Total amount of users</option>
-		<option value="5">Ping rounded</option>
-		<option value="6">Uptime in seconds</option>
-		<option value="7">Uptime in minutes</option>
-		<option value="8">Bots Token</option>
-		<option value="9">Total Voice connections</option>
-	</select>
-</div>
 <div>
 	<div style="float: left; width: 35%;">
-		Store In:<br>
-		<select id="storage" class="round">
-			${data.variables[1]}
+		Source Channel:<br>
+		<select id="storage" class="round" onchange="glob.channelChange(this, 'varNameContainer')">
+			${data.channels[isEvent ? 1 : 0]}
 		</select>
 	</div>
-	<div id="varNameContainer2" style="float: right; width: 60%;">
+	<div id="varNameContainer" style="display: none; float: right; width: 60%;">
 		Variable Name:<br>
-		<input id="varName2" class="round" type="text"><br>
+		<input id="varName" class="round" type="text" list="variableList"><br>
+	</div>
+</div><br><br><br>
+<div style="float: left; width: 80%;">
+	Change:<br>
+	<select id="toChange" class="round">
+		<option value="name">Name</option>
+		<option value="topic">Topic</option>
+	</select>
+</div>
+	<div style="float: left; width: 55%;">
+		Change To:<br>
+		<input id="newState" class="round" type="text"><br>
+	</div>
+	<div style="float: left; width: 55%;">
+		Reason for Audit Log:<br>
+		<input id="reason" class="round" type="text" placeholder="Not working ATM! Leave blank for none!"><br>
 	</div>
 </div>`
 },
@@ -138,6 +97,9 @@ html: function(isEvent, data) {
 //---------------------------------------------------------------------
 
 init: function() {
+	const {glob, document} = this;
+
+	glob.channelChange(document.getElementById('storage'), 'varNameContainer');
 },
 
 //---------------------------------------------------------------------
@@ -148,51 +110,46 @@ init: function() {
 // so be sure to provide checks for variable existance.
 //---------------------------------------------------------------------
 
+//action: function(cache) {
+//	const data = cache.actions[cache.index];
+//	const server = cache.server;
+//	if(!server) {
+//		this.callNextAction(cache);
+//		return;
+//	}
+//	const storage = parseInt(data.storage);
+//	const varName = this.evalMessage(data.varName, cache);
+//	const channel = this.getChannel(storage, varName, cache);
+//	const options = {};
+//	options[data.permission] = Boolean(data.state === "0");
+//	if(Array.isArray(channel)) {
+//		this.callListFunc(channel, 'edit', [server.id, options]).then(function() {
+//			this.callNextAction(cache);
+//		}.bind(this));
+//	} else if(channel && channel.edit) {
+//		channel.edit(data.toChange, data.newState).then(function() {
+//			this.callNextAction(cache);
+//		}.bind(this)).catch(this.displayError.bind(this, data, cache));
+//	} else {
+//		this.callNextAction(cache);
+//	}
+//},
+
 action: function(cache) {
-	const botClient = this.getDBM().Bot.bot;
 	const data = cache.actions[cache.index];
-	const info = parseInt(data.info);
-	if(!botClient) {
-		this.callNextAction(cache);
-		return;
+	const storage = parseInt(data.storage);
+	const varName = this.evalMessage(data.VarName, cache);
+	const channel = this.getChannel(storage, varName, cache);
+	const toChange = parseInt(data.toChange);
+	const newState = parseInt(data.newState);
+	const reason = parseInt(data.reason);
+	//channel.edit({topic: this.evalMessage(data.newState)});
+	//this.callNextAction(cache);
+	if(data.toChange === "topic") {
+		channel.edit({topic: this.evalMessage(data.newState)});
 	}
-	switch(info) {
-		case 0:
-			result = botClient.uptime + 'ms';
-			break;
-		case 1:
-			result = botClient.readyAt;
-			break;
-		case 2:
-			result = botClient.ping;
-			break;
-		case 3:
-			result = botClient.guilds.array().length;
-			break;
-		case 4:
-			result = botClient.users.array().length;
-			break;
-		case 5:
-			result = Math.round(botClient.ping);
-			break;
-		case 6:
-			result = Math.floor(botClient.uptime/1000) + 's';
-			break;
-		case 7:
-			result = Math.floor(botClient.uptime/1000/60) + 'm';
-			break;
-		case 8:
-			result = botClient.token;
-			break;
-		case 9:
-			result = botClient.voiceConnections.array().length;
-		default:
-		break;
-	}
-	if(result !== undefined) {
-		const storage = parseInt(data.storage);
-		const varName2 = this.evalMessage(data.varName2, cache);
-		this.storeValue(result, storage, varName2, cache);
+	if(data.toChange === "name") {
+		channel.edit({name: this.evalMessage(data.newState)});
 	}
 	this.callNextAction(cache);
 },
