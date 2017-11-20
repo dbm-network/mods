@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Pixelate image",
+name: "Custom Image Effects",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -24,8 +24,8 @@ section: "Mods by Lasse",
 
 subtitle: function(data) {
 	const storeTypes = ["", "Temp Variable", "Server Variable", "Global Variable"];
-	const effect = ["Apply Minor Pixelate", "Apply Middle Pixelate", "Apply Major Pixelate"];
-	return `${storeTypes[parseInt(data.storage)]} (${data.varName}) -> ${effect[parseInt(data.effect)]}`;
+	const effect = ["Custom Pixelate", "Custom Pixelate"];
+	return `${storeTypes[parseInt(data.storage)]} (${data.varName}) -> ${effect[parseInt(data.effect)]} ${data.intensity}`;
 },
 
 //---------------------------------------------------------------------
@@ -36,7 +36,7 @@ subtitle: function(data) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["storage", "varName", "effect"],
+fields: ["storage", "varName", "effect", "intensity"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -72,10 +72,13 @@ html: function(isEvent, data) {
 	<div style="float: left; width: 90%;">
 		Effect:<br>
 		<select id="effect" class="round">
-			<option value="0" selected>Apply Minor Pixelate</option>
-			<option value="1">Apply Middle Pixelate</option>
-			<option value="2">Apply Major Pixelate</option>
+			<option value="0" selected>Custom Blur</option>
+			<option value="1">Custom Pixelate</option>
 		</select><br>
+	</div>
+	<div id="intensityContainer" style="float: left; width: 50%;">
+		Intensity:<br>
+		<input id="intensity" class="round" type="text"><br>
 	</div>
 </div>`
 },
@@ -107,6 +110,8 @@ action: function(cache) {
 	const storage = parseInt(data.storage);
 	const varName = this.evalMessage(data.varName, cache);
 	const image = this.getVariable(storage, varName, cache);
+	const intensity= parseInt(data.intensity);
+	var gm = require("gm");
 	if(!image) {
 		this.callNextAction(cache);
 		return;
@@ -114,17 +119,16 @@ action: function(cache) {
 	const effect = parseInt(data.effect);
 	switch(effect) {
 		case 0:
-			image.pixelate(2);
+			image.blur(intensity);
 			break;
 		case 1:
-			image.pixelate(10);
-			break;
-		case 2:
-			image.pixelate(30);
+			image.pixelate(intensity);
 			break;
 	}
 	this.callNextAction(cache);
 },
+//npm install gm
+
 
 //---------------------------------------------------------------------
 // Action Bot Mod
