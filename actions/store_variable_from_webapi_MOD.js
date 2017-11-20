@@ -81,10 +81,9 @@ module.exports = {
 	<div>
 		<p>
 			<u>Note:</u><br>
-			Follow this guide to get help: http://bit.ly/2mDXAeY
+			Follow this guide to get help: <a href="#" onclick="DBM.openLink('http://bit.ly/2mDXAeY')">http://bit.ly/2mDXAeY</a>.
 		</p>
-	</div><br>
-	<div style="float: left; width: 75%;">
+	</div>
 	<div>
 		End Behavior:<br>
 		<select id="behavior" class="round">
@@ -98,7 +97,7 @@ module.exports = {
 	</div><br>
 		JSON Path:  <br>
 		<input id="path" class="round"; style="width: 75%; type="text";><br>
-	<div><br>
+	<div>
 	<div style="float: left; width: 35%;">
 		Store In:<br>
 		<select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
@@ -108,7 +107,6 @@ module.exports = {
 	<div id="varNameContainer" style="display: none; float: right; width: 60%;">
 		Variable Name:<br>
 		<input id="varName" class="round" type="text">
-	</div>
 	</div>`
 	},
 
@@ -154,12 +152,15 @@ module.exports = {
 					  result = "error: " + err;
 					  console.log("The Parse result returned an error: " + result);
 					  this.storeValue(result, storage, varName, cache);
+						this.callNextAction(cache);
 					} else if (res.statusCode !== 200) {
 					  result = "status: " + res.statusCode;
 					  console.log("The Parse result returned an error: " + result);
 					  this.storeValue(result, storage, varName, cache);
+						this.callNextAction(cache);
 					} else {
 					  result = eval("jsonData." + path, cache);
+					  console.log("The Parse result returned: " + result);
 					  this.storeValue(result, storage, varName, cache);
 					  if(data.behavior === "0") {
 						  this.callNextAction(cache);
