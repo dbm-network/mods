@@ -75,6 +75,9 @@ html: function(isEvent, data) {
 	<select id="toChange" class="round">
 		<option value="name">Name</option>
 		<option value="topic">Topic</option>
+                <option value="position">Position</option>
+                <option value="bitrate">Bitrate</option>
+                <option value="userLimit">User Limit</option
 	</select>
 </div>
 	<div style="float: left; width: 55%;">
@@ -150,6 +153,15 @@ action: function(cache) {
 	}
 	if(data.toChange === "name") {
 		channel.edit({name: this.evalMessage(data.newState)});
+	}
+	if(data.toChange === "position") {
+		channel.edit({position: this.evalMessage(data.newState)});
+	}
+	if(data.toChange === "bitrate") {
+		channel.edit({bitrate: this.evalMessage(data.newState)});
+	}
+	if(data.toChange === "userLimit") {
+		channel.edit({userLimit: this.evalMessage(data.newState)});
 	}
 	this.callNextAction(cache);
 },
