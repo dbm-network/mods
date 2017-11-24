@@ -1,36 +1,39 @@
-# DBM-webapi-parsing
+# WebAPI
+
+# Note: Store Variable From WebAPI is being depricated, please use the new Store JSON From WebAPI & Parse From Stored Json mods.
+
+**More info here!** - https://github.com/generalwrex/WrexMods
+
+Note: The mods in **DBM Mods** should be used over the mods on General Wrex's github repository if they exist in **DBM Mods**
+
+**General Wrex's Repository**: https://github.com/generalwrex/WrexMods
+
+# WrexMODS - Store JSON From WebAPI & Parse From Stored Json
 
 # Forum topic and example
 https://dbotmaker.io/forums/threads/create-variable-from-json-webapi.85/
 
  # Changes
-     * Can now use variables in the URL and Path textboxes.
-     * added console logging to print what's going on in your bots console.
-     * added the new path fidner tool by General Wrex.
+     * Now supports the use of JsonPATH in both Store and Parse 
 
 
- # Installation: 
-
-Choose the one you need from Release
-
-Extract the folder in Discord Bot Makers base directory
- ex. "steamapps\common\Discord Bot Maker <-"
-
-Restart Discord Bot Maker
-
-Remember to extract it in your projects directory as well if you want it in your bot!
+**WEBAPI  - Using API Keys in google's json webapi is appending** ```?key=[keygoeshere]``` ** to the end of your Google API url, google how to create a API key in googles developer console for how to create a key**
 
 
- # Contributing
-
-**Thanks to Tresmos for the help with testing!**
-
-If you want to help, just fork it out, make your changes and do a pull request!
-
-Here is a link to the github pages that contains the current menu for this action
-https://generalwrex.github.io/DBM-webapi-parsing
+ # Path Finder 
+  **A Helper program to get the JSON Path for this mod**
+    You can find it here!
+    https://github.com/generalwrex/DBM-WebAPI-Parser-PathFinder
 
 
+ # JSON Path
+ 
+ Find out more information about JSON Path here - http://goessner.net/articles/JsonPath/index.html#e2
+ Test it out here! http://jsonPath.com
+ 
+ ![jsonpathfirst](https://i.gyazo.com/f073451e1ad976860a097422c90ea754.png)
+ 
+ ![jsonpathsecond](https://i.gyazo.com/e0e07b4fa87ebe31c3b16bfbf7679697.png)
  # How to get the path
  
  Here is our example
@@ -40,7 +43,7 @@ https://generalwrex.github.io/DBM-webapi-parsing
 
 ![jsontree](https://i.gyazo.com/7e1529df4b2894f9875ead96b56c01d8.png)
 
-Interact with it here! https://github.com/generalwrex/DBM-WebAPI-Parser-PathFinder
+Interact with it here! https://jsonblob.com/
 
 Lets say we wanted to get the **"b"** object from that ( the highlighted one )
 
@@ -58,5 +61,3 @@ Instead of **array.0** its **array[0]**.
 so if you wanted the path to output **"Hello World"**, you would type  **string**  into the path textbox. (removing **object.** from it)
 
 Have fun!
- 
- 
