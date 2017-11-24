@@ -9,56 +9,52 @@ module.exports = {
 	// will return object.name
 	// in this example the variable would contain "[DEV] Version 1.2.2.3"
 	//---------------------------------------------------------------------
-
-
-
+		
+		
+		
 	//---------------------------------------------------------------------
 	// Action Name
 	//
 	// This is the name of the action displayed in the editor.
 	//---------------------------------------------------------------------
-
-	name: "Store Variable From WebAPI",
-
+	
+	name: "Parse From Stored Json",
+	
 	//---------------------------------------------------------------------
 	// Action Section
 	//
 	// This is the section the action will fall into.
 	//---------------------------------------------------------------------
-
-	section: "Mods by General Wrex",
-
-	//---------------------------------------------------------------------
-    // Dependencies Section
-    //
-    // If your action requires any node modules, add them here.
-    //---------------------------------------------------------------------
-    
-    dependencies: ["request"],
 	
+	section: "Mods by General Wrex",
 	
 	//---------------------------------------------------------------------
 	// Action Subtitle
 	//
 	// This function generates the subtitle displayed next to the name.
 	//---------------------------------------------------------------------
-
+	
 	subtitle: function(data) {
 		return `${data.varName}`;
 	},
-
+	
 	//---------------------------------------------------------------------
 	// Action Storage Function
 	//
 	// Stores the relevant variable info for the editor.
 	//---------------------------------------------------------------------
-
+	
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
-		if(type !== varType) return;
-		return ([data.varName, 'JSON Object']);
+        if(type !== varType) return;
+        
+        if(varType == typeof(object))
+        return ([data.varName, 'JSON Object']);
+        else{
+            return ([data.varName, 'JSON ' + varType + ' Value']);
+        }         
 	},
-
+	
 	//---------------------------------------------------------------------
 	// Action Fields
 	//
@@ -66,33 +62,28 @@ module.exports = {
 	// by creating elements with corresponding IDs in the HTML. These
 	// are also the names of the fields stored in the action's JSON data.
 	//---------------------------------------------------------------------
-
-	fields: ["behavior", "url", "path", "storage", "varName"],
-
+	
+	fields: ["behavior", "jsonObjectVarName", "path", "storage", "varName"],
+	
 	//---------------------------------------------------------------------
 	// Command HTML
 	//
 	// This function returns a string containing the HTML used for
-	// editing actions.
+	// editing actions. 
 	//
 	// The "isEvent" parameter will be true if this action is being used
-	// for an event. Due to their nature, events lack certain information,
+	// for an event. Due to their nature, events lack certain information, 
 	// so edit the HTML to reflect this.
 	//
-	// The "data" parameter stores constants for select elements to use.
+	// The "data" parameter stores constants for select elements to use. 
 	// Each is an array: index 0 for commands, index 1 for events.
-	// The names are: sendTargets, members, roles, channels,
+	// The names are: sendTargets, members, roles, channels, 
 	//                messages, servers, variables
 	//---------------------------------------------------------------------
-
+	
 	html: function(isEvent, data) {
 		return `
 	<div>
-		<p>
-			<u>Note:</u><br>
-			Follow this guide to get help: http://bit.ly/2mDXAeY
-		</p>
-	</div><br>
 	<div style="float: left; width: 75%;">
 	<div>
 		End Behavior:<br>
@@ -100,27 +91,27 @@ module.exports = {
 			<option value="0" selected>Call Next Action Automatically</option>
 			<option value="1">Do Not Call Next Action</option>
 		</select>
-	<div><br>
-		WebAPI URL:  <br>
-		<input id="url" class="round"  style="width: 90%; type="text";><br>
+	<div><br><br><br>
+		Stored JSON Variable Name: <br>
+		<input id="jsonObjectVarName" class="round"  style="width: 90%; type="text";><br>  
 	</div>
 	</div><br>
-		JSON Path:  <br>
-		<input id="path" class="round"; style="width: 75%; type="text";><br>
-	<div><br>
+		JSON Path: (supports the usage of <a href="http://goessner.net/articles/JsonPath/index.html#e2" target="_blank">JSON Path (Regex)</a>))<br>
+		<input id="path" class="round"; style="width: 75%; type="text";><br>  
+	<div><br><br> 
 	<div style="float: left; width: 35%;">
 		Store In:<br>
 		<select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
 			${data.variables[0]}
 		</select>
 	</div>
-	<div id="varNameContainer" style="display: none; float: right; width: 60%;">
+	<div id="varNameContainer" style="display: ; float: right; width: 60%;">
 		Variable Name:<br>
 		<input id="varName" class="round" type="text">
 	</div>
 	</div>`
 	},
-
+	
 	//---------------------------------------------------------------------
 	// Action Editor Init Code
 	//
@@ -128,57 +119,94 @@ module.exports = {
 	// is also run. This helps add modifications or setup reactionary
 	// functions for the DOM elements.
 	//---------------------------------------------------------------------
-
+	
 	init: function() {
 		const {glob, document} = this;
 		glob.variableChange(document.getElementById('storage'), 'varNameContainer');
 	},
-
+	
 	//---------------------------------------------------------------------
 	// Action Bot Function
 	//
 	// This is the function for the action within the Bot's Action class.
-	// Keep in mind event calls won't have access to the "msg" parameter,
+	// Keep in mind event calls won't have access to the "msg" parameter, 
 	// so be sure to provide checks for variable existance.
 	//---------------------------------------------------------------------
-
+	
 	action: function(cache) {
+
+		var WrexMODS = require("../js/WrexMods.js");
+		WrexMODS.DBM = this.getDBM();
 
 		const data = cache.actions[cache.index];
 		let result;
 		const varName = this.evalMessage(data.varName, cache);
 		const storage = parseInt(data.storage);
-		const url = this.evalMessage(data.url, cache);
-		const path = this.evalMessage(data.path, cache);
+		const jsonObjectVarName = this.evalMessage(data.jsonObjectVarName, cache);
+        const path = this.evalMessage(data.path, cache);
+        
+        const jsonData = this.getVariable(storage, jsonObjectVarName, cache);
+				
+		try 
+		{
+			
+			if(path && jsonData){
+					
 
-		if(url){
-			if(path){
-				var request = require('request');
-				request.get({
-					url: url,
-					json: true,
-					headers: {'User-Agent': 'request'}
-				  }, (err, res, jsonData) => {
-					if (err) {
-					  result = "error: " + err;
-					  console.log("The Parse result returned an error: " + result);
-					  this.storeValue(result, storage, varName, cache);
-					} else if (res.statusCode !== 200) {
-					  result = "status: " + res.statusCode;
-					  console.log("The Parse result returned an error: " + result);
-					  this.storeValue(result, storage, varName, cache);
-					} else {
-					  result = eval("jsonData." + path, cache);
-					  this.storeValue(result, storage, varName, cache);
-					  if(data.behavior === "0") {
-						  this.callNextAction(cache);
-					  }
+				var outData = WrexMODS.jsonPath(jsonData, path);
+						
+				// if it dont work, try to go backwards one path
+				if(outData == false){
+					outData = WrexMODS.jsonPath(jsonData, "$." + path);
+				}
+
+				// if it still dont work, try to go backwards two paths
+				if(outData == false){
+					outData = WrexMODS.jsonPath(jsonData, "$.." + path);
+				}
+
+				console.log(outData);
+
+				try {
+					var test = JSON.parse(JSON.stringify(outData));
+				} catch (error) {
+					var errorJson = JSON.stringify({error: error, success: false})
+					this.storeValue(errorJson, storage, varName, cache);
+					console.error(error.stack ? error.stack : error);
+				}
+
+				var outValue = eval(JSON.stringify(outData), cache);
+
+
+				if(outData.success != null || outValue.success != null){
+					var errorJson = JSON.stringify({error: "error", statusCode: 0, success: false})
+					this.storeValue(errorJson, storage, varName, cache);
+					console.log("WebAPI Parser: Error Invalid JSON, is the Path set correctly? [" + path + "]");
+				}else{
+					if(outValue.success != null || !outValue){
+						var errorJson = JSON.stringify({error: error, statusCode: statusCode, success: false})
+						this.storeValue(errorJson, storage, varName, cache);
+						console.log("WebAPI Parser: Error Invalid JSON, is the Path set correctly? [" + path + "]");
+					}else{
+						this.storeValue(outValue, storage, varName, cache);
+						console.log("WebAPI Parser: JSON Data values starting from ["+ path +"] stored to: ["+ varName+"]");
 					}
-				});
+					
+				}																	
 			}
+															
+		} catch (error) {
+			var errorJson = JSON.stringify({error: error, statusCode : 0, success: false})
+			this.storeValue(errorJson, storage, varName, cache);
+				
+			console.error("WebAPI Parser: Error: " + errorJson + " stored to: ["+ varName+"]");
 		}
-	},
 
+		if(data.behavior === "0") {
+			this.callNextAction(cache);
+		}		
+	},
+	
 	//---------------------------------------------------------------------
 	// Action Bot Mod
 	//
@@ -187,8 +215,8 @@ module.exports = {
 	// In order to reduce conflictions between mods, be sure to alias
 	// functions you wish to overwrite.
 	//---------------------------------------------------------------------
-
+	
 	mod: function(DBM) {
 	}
-
+	
 	}; // End of module
