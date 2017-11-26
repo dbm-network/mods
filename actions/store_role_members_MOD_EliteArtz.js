@@ -24,7 +24,7 @@ section: "Mods by EliteArtz",
 
 subtitle: function(data) {
 	const roles = ['Mentioned Role', '1st Author Role', '1st Server Role', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const info = ['Role Members Name', 'Role Members Object']
+	const info = ['Role Members Name', 'Role Members Object', 'Role Members ID']
 	return `${roles[parseInt(data.role)]} - ${info[parseInt(data.info)]}`;
 },
 
@@ -99,6 +99,7 @@ html: function(isEvent, data) {
 		<select id="info" class="round">
 			<option value="0" selected>Role Members Name</option>
 			<option value="1">Role Members Object</option>
+			<option value="2">Role Members ID</option>
 		</select>
 	</div>
 </div><br>
@@ -156,6 +157,11 @@ action: function(cache) {
 		case 1:
 			result = targetRole.members;
 			break;
+	  case 1:
+		  if(targetRole.members) {
+        result = targetRole.members.id;
+			}
+			 break;
 		default:
 			break;
 	}
