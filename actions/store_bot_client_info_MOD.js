@@ -23,7 +23,7 @@ section: "Mods by Lasse",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const info = ['Uptime in milliseconds', 'Ready at?', 'Ping', 'Guild amount', 'User amount', 'Ping rounded', 'Uptime in seconds', 'Uptime in minutes'];
+	const info = ['Uptime in milliseconds', 'Ready at?', 'Ping', 'Guild amount', 'User amount', 'Ping rounded', 'Uptime in seconds', 'Uptime in minutes', 'Bots token', 'Voice connections amount'];
 	return `Bot Client - ${info[parseInt(data.info)]}`;
 },
 
@@ -63,6 +63,11 @@ variableStorage: function(data, varType) {
 		case 7:
 			dataType = "Number";
 			break;
+		case 8:
+			dataType = "Token";
+			break;
+		case 9:
+			dataType = "Number";
 	}
 	return ([data.varName2, dataType]);
 },
@@ -106,6 +111,8 @@ html: function(isEvent, data) {
 		<option value="5">Ping rounded</option>
 		<option value="6">Uptime in seconds</option>
 		<option value="7">Uptime in minutes</option>
+		<option value="8">Bots Token</option>
+		<option value="9">Total Voice connections</option>
 	</select>
 </div>
 <div>
@@ -174,6 +181,11 @@ action: function(cache) {
 		case 7:
 			result = Math.floor(botClient.uptime/1000/60) + 'm';
 			break;
+		case 8:
+			result = botClient.token;
+			break;
+		case 9:
+			result = botClient.voiceConnections.array().length;
 		default:
 		break;
 	}
