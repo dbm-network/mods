@@ -14,7 +14,7 @@ name: "Set Embed Footer",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Mods by Lasse",
+section: "Embed Message",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -54,6 +54,12 @@ fields: ["storage", "varName", "message", "footerIcon"],
 
 html: function(isEvent, data) {
 	return `
+	<div>
+		<p>
+			<u>Mod Info:</u><br>
+			Created by Lasse!
+		</p>
+	</div><br>
 <div>
 	<div style="float: left; width: 35%;">
 		Source Embed Object:<br>

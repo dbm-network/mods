@@ -14,7 +14,7 @@ name: "Leave Server",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Mods by Lasse",
+section: "Bot Client Control",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -54,6 +54,12 @@ fields: ["server", "varName"],
 
 html: function(isEvent, data) {
 	return `
+	<div>
+		<p>
+			<u>Mod Info:</u><br>
+			Created by Lasse!
+		</p>
+	</div><br>
 <div>
 	<div style="float: left; width: 35%;">
 		Server:<br>

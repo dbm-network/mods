@@ -1,0 +1,2 @@
+"$basedir/../ffmpeg-binaries/bin/ffprobe"   "$@"
+exit $?

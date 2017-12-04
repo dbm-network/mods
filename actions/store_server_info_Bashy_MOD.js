@@ -14,7 +14,7 @@ name: "Store Server Things (Bashy)",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Mods by Bashy",
+section: "Server Control",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -87,6 +87,12 @@ fields: ["server", "varName", "info", "storage", "varName2"],
 
 html: function(isEvent, data) {
 	return `
+	<div>
+		<p>
+			<u>Mod Info:</u><br>
+			Created by Bashy!
+		</p>
+	</div><br>
 <div>
 	<div style="float: left; width: 35%;">
 		Source Server:<br>

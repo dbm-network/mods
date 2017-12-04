@@ -1,6 +1,41 @@
 TweetNaCl.js Changelog
 ======================
 
+v1.0.0
+------
+
+No code changes from v1.0.0-rc.1.
+
+
+v1.0.0-rc.1
+-----------
+
+* **IMPORTANT!** In previous versions, `nacl.secretbox.open`, `nacl.box.open`,
+  and `nacl.box.after` returned `false` when opening failed (for example, when
+  using incorrect key, nonce, or when input was maliciously or accidentally
+  modified after encryption). This version instead returns `null`.
+
+  The usual way to check for this condition:
+
+  `if (!result) { ... }`
+
+  is correct and will continue to work.
+
+  However, direct comparison with `false`:
+
+  `if (result == false) { ... }`
+
+  it will no longer work and **will not detect failure**. Please check
+  your code for this condition.
+
+  (`nacl.sign.open` always returned `null`, so it is not affected.)
+
+
+* Arguments type check now uses `instanceof Uint8Array` instead of `Object.prototype.toString`.
+* Removed deprecation checks for `nacl.util` (moved to a
+  [separate package](https://github.com/dchest/tweetnacl-util-js) in v0.14.0).
+* Removed deprecation checks for the old signature API (changed in v0.10.0).
+* Improved benchmarking.
 
 v0.14.5
 -------
@@ -181,18 +216,18 @@ v0.10.0
 * **Signature API breaking change!** `nacl.sign` and `nacl.sign.open` now deal
  with signed messages, and new `nacl.sign.detached` and
  `nacl.sign.detached.verify` are available.
- 
+
  Previously, `nacl.sign` returned a signature, and `nacl.sign.open` accepted a
  message and "detached" signature. This was unlike NaCl's API, which dealt with
  signed messages (concatenation of signature and message).
- 
+
  The new API is:
 
       nacl.sign(message, secretKey) -> signedMessage
       nacl.sign.open(signedMessage, publicKey) -> message | null
 
  Since detached signatures are common, two new API functions were introduced:
- 
+
       nacl.sign.detached(message, secretKey) -> signature
       nacl.sign.detached.verify(message, signature, publicKey) -> true | false
 

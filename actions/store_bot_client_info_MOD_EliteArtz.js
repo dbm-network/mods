@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Store Bot Client Info Things",
+name: "Store Bot Client Info #2",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -14,7 +14,7 @@ name: "Store Bot Client Info Things",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Mods by EliteArtz",
+section: "Bot Client Control",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -23,7 +23,7 @@ section: "Mods by EliteArtz",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const info = ['Bot Guilds Objects', 'Bot Guilds Names'];
+	const info = ['Bot Guilds Objects', 'Bot Guilds Names', 'Bot Guilds IDs'];
 	return `Bot Client - ${info[parseInt(data.info)]}`;
 },
 
@@ -44,6 +44,9 @@ variableStorage: function(data, varType) {
 			break;
 		case 1:
 			dataType = "Guild Name";
+			break;
+		case 2:
+			dataType = "Guild ID";
 			break;
 
 	}
@@ -78,11 +81,18 @@ fields: ["info", "storage", "varName2"],
 
 html: function(isEvent, data) {
 	return `
+	<div>
+		<p>
+			<u>Mod Info:</u><br>
+			Created by EliteArtz!
+		</p>
+	</div><br>
 <div style="float: left; width: 80%;">
 	Source Info:<br>
 	<select id="info" class="round">
 		<option value="0" selected>Bot Guilds Objects</option>
 		<option value="1">Bot Guilds Names</option>
+		<option value="2">Bot Guilds IDs</option>
 	</select>
 </div>
 <div>
@@ -128,12 +138,17 @@ action: function(cache) {
 	}
 	switch(info) {
 		case 0:
-			result = botClient.guilds;
-			break;
+		 result = botClient.guilds;
+		 break;
 		case 1:
-			result = botClient.guilds.array('id');
-			break;
-		default:
+		 result = botClient.guilds.array();
+		 break;
+		case 2:
+		  if(botClient.guilds) {
+		    result = botClient.guilds.id;
+    }
+		 break;
+  default:
 		break;
 	}
 	if(result !== undefined) {

@@ -14,7 +14,7 @@ name: "Stop Bot",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Mods by Lasse",
+section: "Bot Client Control",
 
 //---------------------------------------------------------------------
 // Action Subtitle

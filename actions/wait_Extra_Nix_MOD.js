@@ -14,7 +14,7 @@ name: "Extra Wait",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Mods by Nix",
+section: "Other Stuff",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -55,6 +55,12 @@ fields: ["time", "measurement"],
 
 html: function(isEvent, data) {
 	return `
+	<div>
+		<p>
+			<u>Mod Info:</u><br>
+			Created by Nix!
+		</p>
+	</div><br>
 <div>
 	<div style="float: left; width: 45%;">
 		Measurement:<br>

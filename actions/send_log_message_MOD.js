@@ -14,7 +14,7 @@ name: "Send Message to Console",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Mods by Lasse",
+section: "Other Stuff",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -23,20 +23,9 @@ section: "Mods by Lasse",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	return `${data.code}`;
+	return `${data.tosend}`;
 },
 
-//---------------------------------------------------------------------
-// Action Storage Function
-//
-// Stores the relevant variable info for the editor.
-//---------------------------------------------------------------------
-
-variableStorage: function(data, varType) {
-	const type = parseInt(data.storage);
-	if(type !== varType) return;
-	return ([data.code, 'Unknown Type']);
-},
 
 //---------------------------------------------------------------------
 // Action Fields
@@ -46,7 +35,7 @@ variableStorage: function(data, varType) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["code"],
+fields: ["tosend"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -66,15 +55,15 @@ fields: ["code"],
 
 html: function(isEvent, data) {
 	return `
-<div>
-	<p>
-		<u>Note:</u><br>
-		No Variables are working at the moment! I'll try to fix that!
-	</p>
-</div><br>
+	<div>
+		<p>
+			<u>Mod Info:</u><br>
+			Created by Lasse!
+		</p>
+	</div><br>
 <div style="padding-top: 8px;">
 	Message to send:<br>
-	<textarea id="code" rows="4" style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+	<textarea id="tosend" rows="4" style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
 </div>`
 },
 
@@ -98,8 +87,8 @@ init: function() {},
 
 action: function(cache) {
 	const data = cache.actions[cache.index];
-	let code;
-	code = this.evalMessage(console.log([data.code]));
+	const send = this.evalMessage(data.tosend, cache);
+	console.log([send]);
 	this.callNextAction(cache);
 },
 

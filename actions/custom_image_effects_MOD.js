@@ -14,7 +14,7 @@ name: "Custom Image Effects",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Mods by Lasse",
+section: "Image Editing",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -56,6 +56,12 @@ fields: ["storage", "varName", "effect", "intensity"],
 
 html: function(isEvent, data) {
 	return `
+	<div>
+		<p>
+			<u>Mod Info:</u><br>
+			Created by Lasse!
+		</p>
+	</div><br>
 <div>
 	<div style="float: left; width: 45%;">
 		Base Image:<br>
