@@ -14,7 +14,7 @@ name: "Store Message Things",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Mods by Lasse",
+section: "Messaging",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -93,6 +93,12 @@ fields: ["message", "varName", "info", "storage", "varName2"],
 
 html: function(isEvent, data) {
 	return `
+	<div>
+		<p>
+			<u>Mod Info:</u><br>
+			Created by Lasse!
+		</p>
+	</div><br>
 <div>
 	<div style="float: left; width: 35%;">
 		Source Message:<br>

@@ -14,7 +14,7 @@ module.exports = {
         // This is the section the action will fall into.
         //---------------------------------------------------------------------
 
-        section: "Mods by General Wrex",
+        section: "JSON Things",
 
         //---------------------------------------------------------------------
         // Action Subtitle
@@ -68,13 +68,18 @@ module.exports = {
         html: function(isEvent, data) {
             return `
             <div>
+          		<p>
+          			<u>Mod Info:</u><br>
+          			Created by General Wrex!
+          		</p>
+          	</div>
+            <div>
             <div style="float: left; width: 95%;">
                End Behavior:<br>
                <select id="behavior" class="round">
                   <option value="0" selected>Call Next Action Automatically</option>
                   <option value="1">Do Not Call Next Action</option>
                </select>
-               <br><br>
             </div>
             <div>
                <br>
@@ -91,15 +96,14 @@ module.exports = {
             </div>
             <div>
                <div style="float: left; width: 25%;">
-                  <br><br>
                   Type:<br>
                   <select id="theType" class="round" onchange="glob.variableChange(this, 'typeContainer')">
                      <option value="0" selected>Regex Match</option>
                      <option value="1" selected>Regex Replace</option>
                   </select>
                </div>
-               <div id="typeContainer" style="display: ; float: right; width: 70%;"><br><br>
-                  Match: (Regex Builder)<a href="http://buildregex.com/" target="_blank">http://buildregex.com/</a>)<br>
+               <div id="typeContainer" style="display: ; float: right; width: 70%;">
+                  Match: (Regex Builder)<a href="http://buildregex.com/" target="_blank">http://buildregex.com/</a>)
                   <input id="typeVariable" class="round" type="text">
                </div>
             </div>
@@ -111,7 +115,7 @@ module.exports = {
                   </select>
                </div>
                <div id="varNameContainer" style="display: ; float: right; width: 60%;"><br><br>
-                  Variable Name: <br>
+                  Variable Name:<br>
                   <input id="varName" class="round" type="text">
                </div>
             </div>

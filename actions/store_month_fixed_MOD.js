@@ -14,7 +14,7 @@ name: "Store Month (fix DBM)",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Mods by Lasse",
+section: "Other Stuff",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -67,6 +67,12 @@ fields: ["type", "storage", "varName"],
 
 html: function(isEvent, data) {
 	return `
+	<div>
+		<p>
+			<u>Mod Info:</u><br>
+			Created by Lasse!
+		</p>
+	</div><br>
 <div>
 	<div style="padding-top: 8px; width: 70%;">
 		Time Info:<br>

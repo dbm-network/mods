@@ -14,7 +14,7 @@ name: "Set Role Permissions",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Mods by EliteArtz",
+section: "Role Control",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -56,6 +56,12 @@ fields: ["role", "varName", "permission", "state"],
 
 html: function(isEvent, data) {
 	return `
+	<div>
+		<p>
+			<u>Mod Info:</u><br>
+			Created by EliteArtz!
+		</p>
+	</div><br>
 <div style="padding-top: 8px;">
 	<div style="float: left; width: 35%;">
 		Source Role:<br>

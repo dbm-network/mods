@@ -14,7 +14,7 @@ name: "Store Bot Client Info",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Mods by Lasse",
+section: "Bot Client Control",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -100,6 +100,12 @@ fields: ["info", "storage", "varName2"],
 
 html: function(isEvent, data) {
 	return `
+	<div>
+		<p>
+			<u>Mod Info:</u><br>
+			Created by Lasse!
+		</p>
+	</div><br>
 <div style="float: left; width: 80%;">
 	Source Info:<br>
 	<select id="info" class="round">

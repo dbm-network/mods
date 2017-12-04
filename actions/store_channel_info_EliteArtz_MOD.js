@@ -14,7 +14,7 @@ name: "Store Channel Info Things",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Mods by EliteArtz",
+section: "Channel Control",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -81,6 +81,12 @@ fields: ["channel", "varName", "info", "storage", "varName2"],
 
 html: function(isEvent, data) {
 	return `
+	<div>
+		<p>
+			<u>Mod Info:</u><br>
+			Created by EliteArtz!
+		</p>
+	</div><br>
 <div>
 	<div style="float: left; width: 35%;">
 		Source Channel:<br>

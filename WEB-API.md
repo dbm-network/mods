@@ -1,14 +1,6 @@
 # WebAPI
 
-# Forum topic and example
-https://dbotmaker.io/forums/threads/create-variable-from-json-webapi.85/
-
-# Original GitHub
-https://github.com/generalwrex/DBM-webapi-parsing
-
- # Changes
-     * Can now use variables in the URL and Path textboxes.
-     * added console logging to print what's going on in your bots console
+# Note: Store Variable From WebAPI is being depricated, please use the new Store JSON From WebAPI & Parse From Stored Json mods.
 
 **More info here!** - https://github.com/generalwrex/WrexMods
 
@@ -33,10 +25,6 @@ https://dbotmaker.io/forums/threads/create-variable-from-json-webapi.85/
     You can find it here!
     https://github.com/generalwrex/DBM-WebAPI-Parser-PathFinder
 
- # Path Finder 
-  **A Helper program to get the JSON Path for this mod**
-    You can find it here!
-    https://github.com/generalwrex/DBM-WebAPI-Parser-PathFinder
 
  # JSON Path
  
