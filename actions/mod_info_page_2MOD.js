@@ -71,6 +71,8 @@ html: function(isEvent, data) {
 		and a mention here:<br><br>
 		<u>Patrons:</u><br>
 		- MitchDaGamer<br>
+                - General Wrex<br>
+                - Eggsy<br>
 		<br>
 		Join the Discord Guild to stay updated and be able to suggest things.<br>
 		<a href="https://www.patreon.com/dbmmods" target="_blank">https://www.patreon.com/dbmmods</a><br>
