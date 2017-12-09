@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Edit channel",
+name: "Patrons",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -14,7 +14,7 @@ name: "Edit channel",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Channel Control",
+section: "#Mod Information",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -23,12 +23,16 @@ section: "Channel Control",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const names = ['Same Channel', 'Mentioned Channel', 'Default Channel', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const index = parseInt(data.storage);
-	return index < 3 ? `${names[index]}` : `${names[index]} - ${data.varName}`;
+	return `Does nothing - Click "Edit" for more information`;
 },
 
+//---------------------------------------------------------------------
+// Action Storage Function
+//
+// Stores the relevant variable info for the editor.
+//---------------------------------------------------------------------
 
+//variableStorage: function(data, varType) {},
 
 //---------------------------------------------------------------------
 // Action Fields
@@ -38,7 +42,7 @@ subtitle: function(data) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["storage", "varName", "toChange", "newState"],
+fields: [],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -58,40 +62,22 @@ fields: ["storage", "varName", "toChange", "newState"],
 
 html: function(isEvent, data) {
 	return `
-	<div>
-		<p>
-			<u>Mod Info:</u><br>
-			Created by Lasse!
-		</p>
-	</div><br>
 <div>
-	<div style="float: left; width: 35%;">
-		Source Channel:<br>
-		<select id="storage" class="round" onchange="glob.channelChange(this, 'varNameContainer')">
-			${data.channels[isEvent ? 1 : 0]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="display: none; float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList"><br>
-	</div>
-</div><br><br><br>
-<div>
-	<div style="float: left; width: 35%;">
-		Change:<br>
-		<select id="toChange" class="round">
-			<option value="name">Name</option>
-			<option value="topic">Topic</option>
-    	<option value="position">Position</option>
-    	<option value="bitrate">Bitrate</option>
-    	<option value="userLimit">User Limit</option>
-		</select>
-	</div><br>
-<div>
-	<div style="float: left; width: 80%;">
-		Change to:<br>
-		<input id="newState" class="round" type="text"><br>
-	</div>
+	<p>
+		<u>Patreon:</u><br>
+		You can support us on Patreon!<br>
+		Patreon is a website where you can support creators with a small donation<br>
+		per month. And you will get also some things like a Discord Patron role<br>
+		and a mention here:<br><br>
+		<u>Patrons:</u><br>
+		- MitchDaGamer (5$)<br>
+		- General Wrex (1$)<br>
+		- Eggsy (1$)<br>
+		- Lasse (1$)<br>
+		<br>
+		Become a patron today!<br>
+		<a href="https://www.patreon.com/dbmmods" target="_blank">https://www.patreon.com/dbmmods</a><br>
+	</p>
 </div>`
 },
 
@@ -103,11 +89,7 @@ html: function(isEvent, data) {
 // functions for the DOM elements.
 //---------------------------------------------------------------------
 
-init: function() {
-	const {glob, document} = this;
-
-	glob.channelChange(document.getElementById('storage'), 'varNameContainer');
-},
+init: function() {},
 
 //---------------------------------------------------------------------
 // Action Bot Function
@@ -117,33 +99,7 @@ init: function() {
 // so be sure to provide checks for variable existance.
 //---------------------------------------------------------------------
 
-action: function(cache) {
-	const data = cache.actions[cache.index];
-	const storage = parseInt(data.storage);
-	const varName = this.evalMessage(data.VarName, cache);
-	const channel = this.getChannel(storage, varName, cache);
-	const toChange = parseInt(data.toChange);
-	const newState = parseInt(data.newState);
-	const reason = parseInt(data.reason);
-	//channel.edit({topic: this.evalMessage(data.newState)});
-	//this.callNextAction(cache);
-	if(data.toChange === "topic") {
-		channel.edit({topic: this.evalMessage(data.newState)});
-	}
-	if(data.toChange === "name") {
-		channel.edit({name: this.evalMessage(data.newState)});
-	}
-	if(data.toChange === "position") {
-		channel.edit({position: this.evalMessage(data.newState)});
-	}
-	if(data.toChange === "bitrate") {
-		channel.edit({bitrate: this.evalMessage(data.newState)});
-	}
-	if(data.toChange === "userLimit") {
-		channel.edit({userLimit: this.evalMessage(data.newState)});
-	}
-	this.callNextAction(cache);
-},
+action: function(cache) {},
 
 //---------------------------------------------------------------------
 // Action Bot Mod
