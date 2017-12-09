@@ -76,24 +76,21 @@ html: function(isEvent, data) {
 		<input id="varName" class="round" type="text" list="variableList"><br>
 	</div>
 </div><br><br><br>
-<div style="float: left; width: 35%;">
-	Change:<br>
-	<select id="toChange" class="round">
-		<option value="name">Name</option>
-		<option value="topic">Topic</option>
-    <option value="position">Position</option>
-    <option value="bitrate">Bitrate</option>
-    <option value="userLimit">User Limit</option
-	</select>
-</div><br><br>
+<div>
+	<div style="float: left; width: 35%;">
+		Change:<br>
+		<select id="toChange" class="round">
+			<option value="name">Name</option>
+			<option value="topic">Topic</option>
+    	<option value="position">Position</option>
+    	<option value="bitrate">Bitrate</option>
+    	<option value="userLimit">User Limit</option>
+		</select>
+	</div><br>
 <div>
 	<div style="float: left; width: 80%;">
-		Change To:<br>
+		Change to:<br>
 		<input id="newState" class="round" type="text"><br>
-	</div>
-	<div style="float: left; width: 80%;">
-		Reason for Audit Log:<br>
-		<input id="reason" class="round" type="text" placeholder="Not working ATM! Leave blank for none!"><br>
 	</div>
 </div>`
 },
@@ -119,31 +116,6 @@ init: function() {
 // Keep in mind event calls won't have access to the "msg" parameter,
 // so be sure to provide checks for variable existance.
 //---------------------------------------------------------------------
-
-//action: function(cache) {
-//	const data = cache.actions[cache.index];
-//	const server = cache.server;
-//	if(!server) {
-//		this.callNextAction(cache);
-//		return;
-//	}
-//	const storage = parseInt(data.storage);
-//	const varName = this.evalMessage(data.varName, cache);
-//	const channel = this.getChannel(storage, varName, cache);
-//	const options = {};
-//	options[data.permission] = Boolean(data.state === "0");
-//	if(Array.isArray(channel)) {
-//		this.callListFunc(channel, 'edit', [server.id, options]).then(function() {
-//			this.callNextAction(cache);
-//		}.bind(this));
-//	} else if(channel && channel.edit) {
-//		channel.edit(data.toChange, data.newState).then(function() {
-//			this.callNextAction(cache);
-//		}.bind(this)).catch(this.displayError.bind(this, data, cache));
-//	} else {
-//		this.callNextAction(cache);
-//	}
-//},
 
 action: function(cache) {
 	const data = cache.actions[cache.index];

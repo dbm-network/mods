@@ -1,6 +1,11 @@
 module.exports = {
 	//---------------------------------------------------------------------
 	// Created by General Wrex
+	// My Patreons have made creating this script possible @ https://www.patreon.com/generalwrex
+	// At the time of editing this script, they are:
+	// - MitchDaGamer
+	//
+	// Thanks so much guys, you allow me to continue to do what i love!
 	// Add URL to json object,
 	// add path to the object you want from the json
 	// set your variable type and name
@@ -92,7 +97,7 @@ module.exports = {
 				<u>Mod Info:</u><br>
 				Created by General Wrex!
 			</p>
-		</div><br>
+		</div>
 	<div>
 	<div style="float: left; width: 75%;">
 	<div>
@@ -152,9 +157,12 @@ module.exports = {
 		const data = cache.actions[cache.index];
 		const varName = this.evalMessage(data.varName, cache);
 		const storage = parseInt(data.storage);
-		const url = this.evalMessage(data.url, cache);
+		var url = this.evalMessage(data.url, cache);
 		const path = this.evalMessage(data.path, cache);
 
+		if(!WrexMODS.checkURL(url)){
+			url = encodeURI(url);
+		};
 
 		if(WrexMODS.checkURL(url)){
 
