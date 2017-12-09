@@ -70,9 +70,12 @@ html: function(isEvent, data) {
 		per month. And you will get also some things like a Discord Patron role<br>
 		and a mention here:<br><br>
 		<u>Patrons:</u><br>
-		- MitchDaGamer<br>
+		- MitchDaGamer (5$)<br>
+		- General Wrex (1$)<br>
+		- Eggsy (1$)<br>
+		- Lasse (1$)<br>
 		<br>
-		Join the Discord Guild to stay updated and be able to suggest things.<br>
+		Become a patron today!<br>
 		<a href="https://www.patreon.com/dbmmods" target="_blank">https://www.patreon.com/dbmmods</a><br>
 	</p>
 </div>`
