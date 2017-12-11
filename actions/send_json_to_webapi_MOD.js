@@ -236,17 +236,13 @@ dbmMod.action = function(cache) {
                 } else {
                     if (jsonData) {
 
-
+			this.storeValue(jsonData, storage, varName, cache);
+			    
                         if (debugMode) {
-                            console.log("Response (Edit Raw Data and change debugMode to 0 to disable printing this):\r\n");
+			    console.log("WebAPI: JSON Data Response value stored to: [" + varName + "]");
+                            console.log("Response (Disable DebugMode to stop printing the response data to the console):\r\n");
                             console.log(JSON.stringify(jsonData, null, 4));
-                        }
-
-                        this.storeValue(jsonData, storage, varName, cache);
-                        console.log("WebAPI: JSON Data Response value stored to: [" + varName + "]");
-                        var outJson = JSON.stringify(jsonData, null, 4)
-                        this.storeValue(jsonData, storage, varName, cache);
-
+                        }                                          
                     } else {
                         var errorJson = JSON.stringify({
                             error,
