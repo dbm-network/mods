@@ -28,7 +28,7 @@ WrexMODS.CheckAndInstallNodeModule = function(moduleName){
 			var result = child.execSync(cliCommand,{stdio:[0,1,2]});
 			
 		} catch (error) {
-			console.error("Could not automatically install " + moduleName + " Please install it manually 'npm install " + moduleName + "' before continuing.");c
+			console.error("Could not automatically install " + moduleName + " Please install it manually 'npm install " + moduleName + "' before continuing.");
 		}
 	}	  	
 }
