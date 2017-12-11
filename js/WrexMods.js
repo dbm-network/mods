@@ -7,7 +7,7 @@ const WrexMODS= {};
 WrexMODS.API = {};
 
 WrexMODS.DBM = null;
-WrexMODS.Version = "1.0.0";
+WrexMODS.Version = "1.0.1";
 
 // Add Extra Variables Here
 //---------------------------------------------------------------------
@@ -28,7 +28,7 @@ WrexMODS.CheckAndInstallNodeModule = function(moduleName){
 			var result = child.execSync(cliCommand,{stdio:[0,1,2]});
 			
 		} catch (error) {
-			console.error("Could not automatically install " + moduleName + " Please install it manually 'npm install " + moduleName + "' before continuing.");
+			console.error("Could not automatically install " + moduleName + " Please install it manually 'npm install " + moduleName + "' before continuing.");c
 		}
 	}	  	
 }
@@ -72,6 +72,29 @@ WrexMODS.checkURL = function (url){
     else {
         return false;
     }
+};
+
+WrexMODS.runPostJson = function (url, json, returnJson = true, callback){
+    /// <summary>Runs a Request to return JSON Data</summary>  
+	/// <param name="url" type="String">The URL to get JSON from.</param>  
+	/// <param name="json" type="String">The json to post</param>  
+	/// <param name="returnJson" type="Boolean">True if the response should be in JSON format. False if not</param>  
+    /// <param name="callback" type="Function">The callback function, args: error, statusCode, data</param>  
+	var request = require('request');
+	
+	var options = {
+	  url: url,
+	  method: 'POST',
+	  json: json
+	};
+	
+	request(options, function (err, res, data) {
+		var statusCode = res.statusCode;
+		
+		if(callback && typeof callback == "function"){
+			callback(err, statusCode, data);
+		}
+	});  
 };
 
 WrexMODS.runPublicRequest = function (url, returnJson = false, callback){
