@@ -46,18 +46,3 @@ Update mods:
 
 If you don't run your bot with DBM make sure to copy this actions to your bot directory too!
 And if you have any more questions: Join the Discord!
-
-New guild info options:<br />
-![Picture is not here](http://lasseniermann.de/dbmmods/ads/guild_info.JPG)
-
-New user info options:<br />
-![Picture is not here](http://lasseniermann.de/dbmmods/ads/user_info.JPG)
-
-New message info options:<br />
-![Picture is not here](http://lasseniermann.de/dbmmods/ads/message_info.JPG)
-
-New voice channel info options:<br />
-![Picture is not here](http://lasseniermann.de/dbmmods/ads/voice_channel_info.JPG)
-
-New bot info options:<br />
-![Picture is not here](http://lasseniermann.de/dbmmods/ads/bot_info.JPG)
