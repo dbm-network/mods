@@ -24,7 +24,7 @@ section: "Server Control",
 
 subtitle: function(data) {
 	const servers = ['Current Server', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const info = ['Creation Date', 'Time to AFK', 'Is server available?', 'More than 250 members?', 'Date bot joined server', 'Channel amount', 'Emoji amount'];
+	const info = ['Creation Date', 'Time to AFK', 'Is server available?', 'More than 250 members?', 'Date bot joined server', 'Channel amount', 'Emoji amount', 'Total Invites'];
 	return `${servers[parseInt(data.server)]} - ${info[parseInt(data.info)]}`;
 },
 
@@ -59,7 +59,11 @@ variableStorage: function(data, varType) {
 			dataType = "Number";
 			break;
 		case 6:
-			dataType = "Number"
+			dataType = "Number";
+			break;
+		case 7:
+			dataType = "Number";
+			break;
 	}
 	return ([data.varName2, dataType]);
 },
@@ -121,6 +125,7 @@ html: function(isEvent, data) {
 			<option value="4">Date bot joined server</option>
 			<option value="5">Channel amount</option>
 			<option value="6">Emoji amount</option>
+                        <option value="7">Total Invitation Count</option>
 			</select>
 	</div>
 </div><br>
@@ -192,6 +197,9 @@ action: function(cache) {
 			break;
 		case 6:
 			result = targetServer.emojis.array().length;
+			break;
+		case 7:
+			result = targetServer.fetchInvites().length;
 			break;
 		default:
 			break;
