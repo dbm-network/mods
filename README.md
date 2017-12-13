@@ -1,8 +1,5 @@
 # DBM-Mods
-[![release](http://github-release-version.herokuapp.com/github/LasseNiermann/DBM-Mods/release.svg?style=flat)](https://github.com/LasseNiermann/DBM-Mods/releases/latest)
-
-
-[![Downloads](https://img.shields.io/github/downloads/Discord-Bot-Maker-Mods/DBM-Mods/total.svg)](https://github.com/Discord-Bot-Maker-Mods/DBM-Mods/releases)
+[![release](http://github-release-version.herokuapp.com/github/LasseNiermann/DBM-Mods/release.svg?style=flat)](https://github.com/LasseNiermann/DBM-Mods/releases/)
 
 Here are some Mods for Discord Bot Maker! 
 Feel free to use them in your bots. But please, if you want to share this files please share the URL of this GitHub page.
@@ -48,6 +45,7 @@ Update mods:
 - Paste all files you downloaded and overwrite all existing
 
 If you don't run your bot with DBM make sure to copy this actions to your bot directory too!
+And if you have any more questions: Join the Discord!
 
 New guild info options:<br />
 ![Picture is not here](http://lasseniermann.de/dbmmods/ads/guild_info.JPG)
