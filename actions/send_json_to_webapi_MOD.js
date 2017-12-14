@@ -183,10 +183,8 @@ dbmMod.init = function() {
 //---------------------------------------------------------------------
 
 dbmMod.action = function(cache) {
-
 	
-    var WrexMODS = require("../js/WrexMods.js");
-    WrexMODS.DBM = this.getDBM();
+	var WrexMODS = this.getWrexMods();
 
 	WrexMODS.CheckAndInstallNodeModule("valid-url");
 	WrexMODS.CheckAndInstallNodeModule("request");
@@ -276,11 +274,7 @@ dbmMod.action = function(cache) {
 //---------------------------------------------------------------------
 
 dbmMod.mod = function(DBM) {	
-	var WrexMODS = require("../js/WrexMods.js");
-	WrexMODS.DBM = DBM;
 
-    WrexMODS.CheckAndInstallNodeModule("valid-url");
-	WrexMODS.CheckAndInstallNodeModule("request");
 }
 
 module.exports = dbmMod;
