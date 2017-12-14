@@ -141,8 +141,7 @@ module.exports = {
 
 	action: function(cache) {
 
-		var WrexMODS = require("../js/WrexMods.js");
-		WrexMODS.DBM = this.getDBM();
+		var WrexMODS = this.getWrexMods();
 
 		const data = cache.actions[cache.index];
 		let result;
