@@ -67,56 +67,58 @@ module.exports = {
 
         html: function(isEvent, data) {
             return `
+            <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
             <div>
-          		<p>
-          			<u>Mod Info:</u><br>
-          			Created by General Wrex!
-          		</p>
-          	</div>
-            <div>
-            <div style="float: left; width: 95%;">
-               End Behavior:<br>
-               <select id="behavior" class="round">
-                  <option value="0" selected>Call Next Action Automatically</option>
-                  <option value="1">Do Not Call Next Action</option>
-               </select>
+               <p>
+                  <u>Mod Info:</u><br>
+                  Created by General Wrex!<br>
+               </p>
             </div>
             <div>
-               <br>
-               <div style="float: left; width: 30%;">
-                  Input Variable:<br>
-                  <select id="inputStorage" class="round" onchange="glob.variableChange(this, 'inputVarNameContainer')">
-                  ${data.variables[1]}
+               <div style="float: left; width: 95%;">
+                  End Behavior:<br>
+                  <select id="behavior" class="round">
+                     <option value="0" selected>Call Next Action Automatically</option>
+                     <option value="1">Do Not Call Next Action</option>
                   </select>
+                  <br>
                </div>
-               <div id="inputVarNameContainer" style="display: ; float: right; width: 60%;">
-                  Input Variable Name:<br>
-                  <input id="inputVarName" class="round" type="text">
+               <div>
+                  <div style="float: left; width: 30%;">
+                     Input Variable:<br>
+                     <select id="inputStorage" class="round" onchange="glob.variableChange(this, 'inputVarNameContainer')">
+                     ${data.variables[1]}
+                     </select>
+                  </div>
+                  <div id="inputVarNameContainer" style="display: ; float: right; width: 60%;">
+                     Input Variable Name:<br>
+                     <input id="inputVarName" class="round" type="text">
+                  </div>
                </div>
-            </div>
-            <div>
-               <div style="float: left; width: 25%;">
-                  Type:<br>
-                  <select id="theType" class="round" onchange="glob.variableChange(this, 'typeContainer')">
-                     <option value="0" selected>Regex Match</option>
-                     <option value="1" selected>Regex Replace</option>
-                  </select>
+               <div>
+                  <div style="float: left; width: 30%;">
+                     <br>Type:<br>
+                     <select id="theType" class="round">
+                        <option value="0" selected>Regex Match</option>
+                        <option value="1" >Regex Replace</option>
+                     </select>
+                  </div>
+                  <div id="typeContainer" style="display: ; float: right; width: 60%;">
+                     <br>Match: (Regex Builder)<a href="http://buildregex.com/" target="_blank">http://buildregex.com/</a>)
+                     <input id="typeVariable" class="round" type="text">
+                  </div>
                </div>
-               <div id="typeContainer" style="display: ; float: right; width: 70%;">
-                  Match: (Regex Builder)<a href="http://buildregex.com/" target="_blank">http://buildregex.com/</a>)
-                  <input id="typeVariable" class="round" type="text">
-               </div>
-            </div>
-            <div>
-               <div style="float: left; width: 30%;"><br><br>
-                  Store In:<br>
-                  <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-                  ${data.variables[1]}
-                  </select>
-               </div>
-               <div id="varNameContainer" style="display: ; float: right; width: 60%;"><br><br>
-                  Variable Name:<br>
-                  <input id="varName" class="round" type="text">
+               <div>
+                  <div style="float: left; width: 30%;"><br><br>
+                     Store In:<br>
+                     <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
+                     ${data.variables[1]}
+                     </select>
+                  </div>
+                  <div id="varNameContainer" style="display: ; float: right; width: 60%;"><br><br>
+                     Variable Name:<br>
+                     <input id="varName" class="round" type="text">
+                  </div>
                </div>
             </div>
          </div>`
