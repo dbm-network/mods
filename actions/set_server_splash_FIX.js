@@ -55,6 +55,12 @@ fields: ["server", "varName", "storage", "varName2"],
 
 html: function(isEvent, data) {
 	return `
+	<div>
+		<p>
+			<u>Fix Info:</u><br>
+			Fix by EliteArtz!
+		</p>
+	</div><br>
 <div>
 	<p>
 		<u>Note:</u><br>
