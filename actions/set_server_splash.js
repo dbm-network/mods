@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Set Server Splash Screen (FIX)",
+name: "Set Server Splash Screen",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -55,12 +55,6 @@ fields: ["server", "varName", "storage", "varName2"],
 
 html: function(isEvent, data) {
 	return `
-	<div>
-		<p>
-			<u>Fix Info:</u><br>
-			Fix by EliteArtz!
-		</p>
-	</div><br>
 <div>
 	<p>
 		<u>Note:</u><br>
