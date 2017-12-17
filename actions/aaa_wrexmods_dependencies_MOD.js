@@ -272,6 +272,20 @@ WrexMODS.jsonPath = function(obj, expr, arg) {
  
 // This function is called by DBM when the bot is started
 var customaction = {};
+customaction.name = "WrexMODS";
+customaction.section = "JSON Things";
+customaction.html = function() { 
+	return `
+<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
+     <p>
+		<u>Wrexmods Dependencies:</u><br><br>
+		This isn't an action, but it is required for the actions under this category. <br><br> 
+		<b> Create action wont do anything </b>
+	</p>
+</div>`	
+};
+
+
 customaction.mod = function(DBM) {
 
 	WrexMODS.DBM = DBM
