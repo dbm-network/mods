@@ -7,53 +7,59 @@ const WrexMODS= {};
 WrexMODS.API = {};
 
 WrexMODS.DBM = null;
-WrexMODS.Version = "1.0.1";
+
+WrexMODS.Version = "1.0.2";
+
+WrexMODS.MaxInstallAttempts = 3;
 
 // Add Extra Variables Here
 //---------------------------------------------------------------------
 
 
 //---------------------------------------------------------------------
-
+var currentInstallAttempts = 0;
 WrexMODS.CheckAndInstallNodeModule = function(moduleName){
 
+
+	var installed = false;
+
+	let result;
+
 	try {
-		require.resolve(moduleName)
+		result = require.resolve(moduleName);
+
+		currentInstallAttempts = 0;
+		installed = true;
 	} catch(e) {
 
+		if(currentInstallAttempts >= this.MaxInstallAttempts){
+			console.error("WrexMods: Could not automatically install " + moduleName + ". (Install attempt limit reached) Please install it manually 'npm install " + moduleName + "' before continuing.");
+			return false;
+		}
+
+			
 		try {
 			console.log("Installing Node Module: " + moduleName);	
-			var child = require('child_process');
+			var child = this.require('child_process');
 			var cliCommand = 'npm install ' + moduleName + " --loglevel=error";
-			var result = child.execSync(cliCommand,{stdio:[0,1,2]});
+			result = child.execSync(cliCommand,{stdio:[0,1,2]});
 			
+			currentInstallAttempts += 1;			
 		} catch (error) {
 			console.error("Could not automatically install " + moduleName + " Please install it manually 'npm install " + moduleName + "' before continuing.");
+			result = error;
 		}
 	}	  	
+
+	return installed;
 }
 
-WrexMODS.Initialize = function(){
-
-	this.CheckAndInstallNodeModule("request");
-	this.CheckAndInstallNodeModule("extend");
-    this.CheckAndInstallNodeModule("valid-url");
-   
-};
-
-// run the initialize
-WrexMODS.Initialize();
-
-// Add Functions Below Here
-//---------------------------------------------------------------------
-
-WrexMODS.setDBM = function(dbm){
-	/// <summary>Set's DBM so WrexMODS can have access to Discord Bot Makers Existing Actions</summary>  
-    /// <param name="dbm" type="String">The URL to check.</param>  
-	if(dbm){
-		this.DBM = dbm;
-	}
-};
+WrexMODS.require = function(moduleName){
+	/// <summary> Custom require function that will attempt to install the module if it doesn't exist</summary>
+	/// <returns type="Object">The required module</returns>
+	this.CheckAndInstallNodeModule(moduleName);	
+	return require(moduleName);
+}
 
 WrexMODS.checkURL = function (url){
     /// <summary>Checks if the provided URL is valid.</summary>  
@@ -64,7 +70,7 @@ WrexMODS.checkURL = function (url){
 		return false;
 	}
 
-    var validUrl = require('valid-url');
+    var validUrl = this.require('valid-url');
     
     if (validUrl.isUri(url)){
         return true;
@@ -76,11 +82,11 @@ WrexMODS.checkURL = function (url){
 
 WrexMODS.runPostJson = function (url, json, returnJson = true, callback){
     /// <summary>Runs a Request to return JSON Data</summary>  
-	/// <param name="url" type="String">The URL to get JSON from.</param>  
+	/// <param name="url" type="String">The URL to post the JSON to.</param>  
 	/// <param name="json" type="String">The json to post</param>  
 	/// <param name="returnJson" type="Boolean">True if the response should be in JSON format. False if not</param>  
     /// <param name="callback" type="Function">The callback function, args: error, statusCode, data</param>  
-	var request = require('request');
+	var request = this.require('request');
 	
 	var options = {
 	  url: url,
@@ -102,7 +108,7 @@ WrexMODS.runPublicRequest = function (url, returnJson = false, callback){
 	/// <param name="url" type="String">The URL to get JSON from.</param>  
 	/// <param name="returnJson" type="String">True if the response should be in JSON format. False if not</param>  
     /// <param name="callback" type="Function">The callback function, args: error, statusCode, data</param>  
-    var request = require("request");
+    var request = this.require("request");
            
 	request.get({
 		url: url,
@@ -126,7 +132,7 @@ WrexMODS.runBearerTokenRequest = function (url, returnJson = false, bearerToken,
 	/// <param name="returnJson" type="String">True if the response should be in JSON format. False if not</param>  
 	/// <param name="bearerToken" type="String">The token to run the request with.</param>  
 	/// <param name="callback" type="Function">The callback function, args: error, statusCode, data</param>  
-    var request = require("request");
+    var request = this.require("request");
 	
 	request.get({
 		url: url,
@@ -152,7 +158,7 @@ WrexMODS.runBasicAuthRequest = function (url, returnJson = false, username, pass
 	/// <param name="username" type="String">The username for the request</param>  
 	/// <param name="password" type="String">The password for the request</param>  
 	/// <param name="callback" type="Function">The callback function, args: error, statusCode, data</param>  
-    var request = require("request");
+    var request = this.require("request");
 	
 	request.get({
 		url: url,
@@ -264,5 +270,33 @@ WrexMODS.jsonPath = function(obj, expr, arg) {
 	}
  } 
  
+// This function is called by DBM when the bot is started
+var customaction = {};
+customaction.name = "WrexMODS";
+customaction.section = "JSON Things";
+customaction.html = function() { 
+	return `
+<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
+     <p>
+		<u>Wrexmods Dependencies:</u><br><br>
+		This isn't an action, but it is required for the actions under this category. <br><br> 
+		<b> Create action wont do anything </b>
+	</p>
+</div>`	
+};
 
-module.exports = WrexMODS;
+
+customaction.mod = function(DBM) {
+
+	WrexMODS.DBM = DBM
+	
+	WrexMODS.CheckAndInstallNodeModule("request");
+	WrexMODS.CheckAndInstallNodeModule("extend");
+    WrexMODS.CheckAndInstallNodeModule("valid-url");
+
+	DBM.Actions.getWrexMods = function(){		
+		return WrexMODS;
+	}
+};		
+module.exports = customaction; 
+ 
