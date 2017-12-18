@@ -151,8 +151,8 @@ module.exports = {
 	action: function(cache) {
 		var _this = this;
 
-		var WrexMODS = require("../js/WrexMods.js");
-		WrexMODS.DBM = this.getDBM();
+		var WrexMODS = this.getWrexMods();
+
 
 		const data = cache.actions[cache.index];
 		const varName = this.evalMessage(data.varName, cache);
@@ -239,12 +239,7 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	mod: function(DBM) {
-		var WrexMODS = require("../js/WrexMods.js");
-		WrexMODS.DBM = DBM;
 
-		WrexMODS.CheckAndInstallNodeModule("valid-url");
-		WrexMODS.CheckAndInstallNodeModule("request");
-		WrexMODS.CheckAndInstallNodeModule("valid-url");
 	}
 
 	}; // End of module
