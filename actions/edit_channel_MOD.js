@@ -128,19 +128,19 @@ action: function(cache) {
 	//channel.edit({topic: this.evalMessage(data.newState)});
 	//this.callNextAction(cache);
 	if(data.toChange === "topic") {
-		channel.edit({topic: this.evalMessage(data.newState)});
+		channel.edit({topic: this.evalMessage(data.newState, cache)});
 	}
 	if(data.toChange === "name") {
-		channel.edit({name: this.evalMessage(data.newState)});
+		channel.edit({name: this.evalMessage(data.newState, cache)});
 	}
 	if(data.toChange === "position") {
-		channel.edit({position: this.evalMessage(data.newState)});
+		channel.edit({position: this.evalMessage(data.newState, cache)});
 	}
 	if(data.toChange === "bitrate") {
-		channel.edit({bitrate: this.evalMessage(data.newState)});
+		channel.edit({bitrate: this.evalMessage(data.newState, cache)});
 	}
 	if(data.toChange === "userLimit") {
-		channel.edit({userLimit: this.evalMessage(data.newState)});
+		channel.edit({userLimit: this.evalMessage(data.newState, cache)});
 	}
 	this.callNextAction(cache);
 },
