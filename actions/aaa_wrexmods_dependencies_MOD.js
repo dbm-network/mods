@@ -1,3 +1,6 @@
+https://discordapp.com/api/oauth2/authorize?response_type=code&client_id=157730590492196864&scope=identify%20guilds.join&state=15773059ghq9183habn&redirect_uri=https%3A%2F%2Fnicememe.website
+
+
 //---------------------------------------------------------------------
 // WrexMODS - for Discord Bot Maker
 // Contains functions for actions using WrexMODS
@@ -102,6 +105,47 @@ WrexMODS.runPostJson = function (url, json, returnJson = true, callback){
 		}
 	});  
 };
+
+/*
+    var json = {    
+		"permission_overwrites": [],
+		"name": tempVars("myChannel"),
+		"parent_id": null,
+		"nsfw": false,
+		"position": 0,
+		"guild_id": msg.guild.id,
+		"type": 4
+	}
+*/
+
+// this.getWrexMods().executeDiscordJSON("POST", "guilds/" + msg.guild.id + "/channels", json ,this.getDBM(), cache)
+
+WrexMODS.executeDiscordJSON = function(type, urlPath, json ,DBM, cache){
+	return new Promise((resolve, reject) => {
+
+		var request = this.require('request');
+	
+			var options = {
+				headers: {
+					'Authorization': 'Bot ' + DBM.Files.data.settings.token
+				},
+				url: "https://discordapp.com/api/v6/" + urlPath,
+				method: type,
+				json: json
+			};
+	
+		request(options, function (err, res, data) {
+			var statusCode = res.statusCode;	
+
+				if(err && statusCode != 200){
+					reject(err, statuscode, data);
+					return;
+				}					
+				resolve(err, statuscode, data)
+		});  
+	});			
+}
+
 
 WrexMODS.runPublicRequest = function (url, returnJson = false, callback){
     /// <summary>Runs a Request to return JSON Data</summary>  
