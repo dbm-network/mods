@@ -15,6 +15,26 @@ WrexMODS.MaxInstallAttempts = 3;
 // Add Extra Variables Here
 //---------------------------------------------------------------------
 
+//---------------------------------------------------------------------
+	 // DBM Mods Manager Variables (Optional but nice to have!)
+	 //
+	 // These are variables that DBM Mods Manager uses to show information
+	 // about the mods for people to see in the list.
+	 //---------------------------------------------------------------------
+
+	 // Who made the mod (If not set, defaults to "DBM Mods")
+	 author: "General Wrex",
+
+	 // The version of the mod (Defaults to 1.0.0)
+	 version: "1.8.2",
+
+	 // A short description to show on the mod line for this mod (Must be on a single line)
+	 short_description: "Required for some mods. Does nothing",
+
+	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
+
+
+	 //---------------------------------------------------------------------
 
 //---------------------------------------------------------------------
 var currentInstallAttempts = 0;
@@ -37,19 +57,19 @@ WrexMODS.CheckAndInstallNodeModule = function(moduleName){
 			return false;
 		}
 
-			
+
 		try {
-			console.log("Installing Node Module: " + moduleName);	
+			console.log("Installing Node Module: " + moduleName);
 			var child = this.require('child_process');
 			var cliCommand = 'npm install ' + moduleName + " --loglevel=error";
 			result = child.execSync(cliCommand,{stdio:[0,1,2]});
-			
-			currentInstallAttempts += 1;			
+
+			currentInstallAttempts += 1;
 		} catch (error) {
 			console.error("Could not automatically install " + moduleName + " Please install it manually 'npm install " + moduleName + "' before continuing.");
 			result = error;
 		}
-	}	  	
+	}
 
 	return installed;
 }
@@ -57,54 +77,54 @@ WrexMODS.CheckAndInstallNodeModule = function(moduleName){
 WrexMODS.require = function(moduleName){
 	/// <summary> Custom require function that will attempt to install the module if it doesn't exist</summary>
 	/// <returns type="Object">The required module</returns>
-	this.CheckAndInstallNodeModule(moduleName);	
+	this.CheckAndInstallNodeModule(moduleName);
 	return require(moduleName);
 }
 
 WrexMODS.checkURL = function (url){
-    /// <summary>Checks if the provided URL is valid.</summary>  
-    /// <param name="url" type="String">The URL to check.</param>  
-	/// <returns type="Boolean">True if valid.</returns>  
-  
+    /// <summary>Checks if the provided URL is valid.</summary>
+    /// <param name="url" type="String">The URL to check.</param>
+	/// <returns type="Boolean">True if valid.</returns>
+
 	if(!url){
 		return false;
 	}
 
     var validUrl = this.require('valid-url');
-    
+
     if (validUrl.isUri(url)){
         return true;
-    } 
+    }
     else {
         return false;
     }
 };
 
 WrexMODS.runPostJson = function (url, json, returnJson = true, callback){
-    /// <summary>Runs a Request to return JSON Data</summary>  
-	/// <param name="url" type="String">The URL to post the JSON to.</param>  
-	/// <param name="json" type="String">The json to post</param>  
-	/// <param name="returnJson" type="Boolean">True if the response should be in JSON format. False if not</param>  
-    /// <param name="callback" type="Function">The callback function, args: error, statusCode, data</param>  
+    /// <summary>Runs a Request to return JSON Data</summary>
+	/// <param name="url" type="String">The URL to post the JSON to.</param>
+	/// <param name="json" type="String">The json to post</param>
+	/// <param name="returnJson" type="Boolean">True if the response should be in JSON format. False if not</param>
+    /// <param name="callback" type="Function">The callback function, args: error, statusCode, data</param>
 	var request = this.require('request');
-	
+
 	var options = {
 	  url: url,
 	  method: 'POST',
 	  json: json
 	};
-	
+
 	request(options, function (err, res, data) {
 		var statusCode = res.statusCode;
-		
+
 		if(callback && typeof callback == "function"){
 			callback(err, statusCode, data);
 		}
-	});  
+	});
 };
 
 /*
-    var json = {    
+    var json = {
 		"permission_overwrites": [],
 		"name": tempVars("myChannel"),
 		"parent_id": null,
@@ -121,7 +141,7 @@ WrexMODS.executeDiscordJSON = function(type, urlPath, json ,DBM, cache){
 	return new Promise((resolve, reject) => {
 
 		var request = this.require('request');
-	
+
 			var options = {
 				headers: {
 					'Authorization': 'Bot ' + DBM.Files.data.settings.token
@@ -130,51 +150,51 @@ WrexMODS.executeDiscordJSON = function(type, urlPath, json ,DBM, cache){
 				method: type,
 				json: json
 			};
-	
+
 		request(options, function (err, res, data) {
-			var statusCode = res.statusCode;	
+			var statusCode = res.statusCode;
 
 				if(err && statusCode != 200){
 					reject(err, statusCode, data);
 					return;
-				}					
+				}
 				resolve(err, statusCode, data)
-		});  
-	});			
+		});
+	});
 }
 
 
 WrexMODS.runPublicRequest = function (url, returnJson = false, callback){
-    /// <summary>Runs a Request to return JSON Data</summary>  
-	/// <param name="url" type="String">The URL to get JSON from.</param>  
-	/// <param name="returnJson" type="String">True if the response should be in JSON format. False if not</param>  
-    /// <param name="callback" type="Function">The callback function, args: error, statusCode, data</param>  
+    /// <summary>Runs a Request to return JSON Data</summary>
+	/// <param name="url" type="String">The URL to get JSON from.</param>
+	/// <param name="returnJson" type="String">True if the response should be in JSON format. False if not</param>
+    /// <param name="callback" type="Function">The callback function, args: error, statusCode, data</param>
     var request = this.require("request");
-           
+
 	request.get({
 		url: url,
 		json: returnJson,
 		headers: {'User-Agent': 'Other'}
-	  }, (err, res, data) => {    
+	  }, (err, res, data) => {
 
         var statusCode = res.statusCode;
-   
+
         if(callback && typeof callback == "function"){
             callback(err, statusCode, data);
         }
-    });	
+    });
 
-   
+
 };
 
 WrexMODS.runBearerTokenRequest = function (url, returnJson = false, bearerToken, callback){
-	/// <summary>Runs a Request to return HTML Data using a bearer Token.</summary>  
-	/// <param name="url" type="String">The URL to get JSON from.</param>  
-	/// <param name="returnJson" type="String">True if the response should be in JSON format. False if not</param>  
-	/// <param name="bearerToken" type="String">The token to run the request with.</param>  
-	/// <param name="callback" type="Function">The callback function, args: error, statusCode, data</param>  
+	/// <summary>Runs a Request to return HTML Data using a bearer Token.</summary>
+	/// <param name="url" type="String">The URL to get JSON from.</param>
+	/// <param name="returnJson" type="String">True if the response should be in JSON format. False if not</param>
+	/// <param name="bearerToken" type="String">The token to run the request with.</param>
+	/// <param name="callback" type="Function">The callback function, args: error, statusCode, data</param>
     var request = this.require("request");
-	
+
 	request.get({
 		url: url,
 		json: returnJson,
@@ -182,25 +202,25 @@ WrexMODS.runBearerTokenRequest = function (url, returnJson = false, bearerToken,
 			bearer: bearerToken
 		  },
 		headers: {'User-Agent': 'Other'}
-		}, (err, res, data) => {    
+		}, (err, res, data) => {
 
 		var statusCode = res.statusCode;
 
 		if(callback && typeof callback == "function"){
 			callback(err, statusCode, data);
 		}
-	});	
+	});
 };
 
 WrexMODS.runBasicAuthRequest = function (url, returnJson = false, username, password, callback){
-	/// <summary>Runs a Request to return HTML Data</summary>  
-	/// <param name="url" type="String">The URL to get JSON from.</param>  
-	/// <param name="returnJson" type="String">True if the response should be in JSON format. False if not</param>  
-	/// <param name="username" type="String">The username for the request</param>  
-	/// <param name="password" type="String">The password for the request</param>  
-	/// <param name="callback" type="Function">The callback function, args: error, statusCode, data</param>  
+	/// <summary>Runs a Request to return HTML Data</summary>
+	/// <param name="url" type="String">The URL to get JSON from.</param>
+	/// <param name="returnJson" type="String">True if the response should be in JSON format. False if not</param>
+	/// <param name="username" type="String">The username for the request</param>
+	/// <param name="password" type="String">The password for the request</param>
+	/// <param name="callback" type="Function">The callback function, args: error, statusCode, data</param>
     var request = this.require("request");
-	
+
 	request.get({
 		url: url,
 		json: returnJson,
@@ -210,14 +230,14 @@ WrexMODS.runBasicAuthRequest = function (url, returnJson = false, username, pass
 			sendImmediately: false
 		  },
 		headers: {'User-Agent': 'Other'}
-		}, (err, res, data) => {    
+		}, (err, res, data) => {
 
 		var statusCode = res.statusCode;
 
 		if(callback && typeof callback == "function"){
 			callback(err, statusCode, data);
 		}
-	});	
+	});
 };
 
 
@@ -303,41 +323,40 @@ WrexMODS.jsonPath = function(obj, expr, arg) {
 		  catch(e) { throw new SyntaxError("jsonPath: " + e.message + ": " + x.replace(/@/g, "_v").replace(/\^/g, "_a")); }
 	   }
 	};
- 
+
 	var $ = obj;
 	if (expr && obj && (P.resultType == "VALUE" || P.resultType == "PATH")) {
 	   P.trace(P.normalize(expr).replace(/^\$;/,""), obj, "$");
 	   return P.result.length ? P.result : false;
 	}
- } 
- 
+ }
+
 // This function is called by DBM when the bot is started
 var customaction = {};
 customaction.name = "WrexMODS";
 customaction.section = "JSON Things";
-customaction.html = function() { 
+customaction.html = function() {
 	return `
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
      <p>
 		<u>Wrexmods Dependencies:</u><br><br>
-		This isn't an action, but it is required for the actions under this category. <br><br> 
+		This isn't an action, but it is required for the actions under this category. <br><br>
 		<b> Create action wont do anything </b>
 	</p>
-</div>`	
+</div>`
 };
 
 
 customaction.mod = function(DBM) {
 
 	WrexMODS.DBM = DBM
-	
+
 	WrexMODS.CheckAndInstallNodeModule("request");
 	WrexMODS.CheckAndInstallNodeModule("extend");
     WrexMODS.CheckAndInstallNodeModule("valid-url");
 
-	DBM.Actions.getWrexMods = function(){		
+	DBM.Actions.getWrexMods = function(){
 		return WrexMODS;
 	}
-};		
-module.exports = customaction; 
- 
+};
+module.exports = customaction;
