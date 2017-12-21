@@ -1,6 +1,3 @@
-https://discordapp.com/api/oauth2/authorize?response_type=code&client_id=157730590492196864&scope=identify%20guilds.join&state=15773059ghq9183habn&redirect_uri=https%3A%2F%2Fnicememe.website
-
-
 //---------------------------------------------------------------------
 // WrexMODS - for Discord Bot Maker
 // Contains functions for actions using WrexMODS
@@ -138,10 +135,10 @@ WrexMODS.executeDiscordJSON = function(type, urlPath, json ,DBM, cache){
 			var statusCode = res.statusCode;	
 
 				if(err && statusCode != 200){
-					reject(err, statuscode, data);
+					reject(err, statusCode, data);
 					return;
 				}					
-				resolve(err, statuscode, data)
+				resolve(err, statusCode, data)
 		});  
 	});			
 }
