@@ -157,10 +157,6 @@ WrexMODS.runPublicRequest = function (url, returnJson = false, callback, token, 
     /// <param name="callback" type="Function">The callback function, args: error, statusCode, data</param>  
     var request = this.require("request");
 		   
-	var parser = this.require('http-string-parser');
-
-	var outHeaders = parser.parseHeaders(headers);
-
 	request.get({
 		url: url,
 		json: returnJson,
@@ -331,35 +327,9 @@ WrexMODS.jsonPath = function(obj, expr, arg) {
 var customaction = {};
 customaction.name = "WrexMODS";
 customaction.section = "JSON Things";
-
-// Add Extra Variables Here
-//---------------------------------------------------------------------
-
-//---------------------------------------------------------------------
-	 // DBM Mods Manager Variables (Optional but nice to have!)
-	 //
-	 // These are variables that DBM Mods Manager uses to show information
-	 // about the mods for people to see in the list.
-	 //---------------------------------------------------------------------
-
-	 // Who made the mod (If not set, defaults to "DBM Mods")
-	 customaction.author = "General Wrex",
-
-	 // The version of the mod (Defaults to 1.0.0)
-	 customaction.version = "1.8.2",
-
-	 // A short description to show on the mod line for this mod (Must be on a single line)
-	 customaction.short_description = "Required for some mods. Does nothing",
-
-	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-
-
-	 //---------------------------------------------------------------------
-
-//---------------------------------------------------------------------
-
-
-
+customaction.author = "General Wrex";
+customaction.version = "1.8.2";
+customaction.short_description = "Required for some mods. Does nothing";
 
 customaction.html = function() { 
 	return `
