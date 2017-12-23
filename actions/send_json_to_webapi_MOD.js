@@ -27,25 +27,23 @@ dbmMod.name = "Send Json to WebAPI";
 dbmMod.section = "JSON Things";
 
 //---------------------------------------------------------------------
-	 // DBM Mods Manager Variables (Optional but nice to have!)
-	 //
-	 // These are variables that DBM Mods Manager uses to show information
-	 // about the mods for people to see in the list.
-	 //---------------------------------------------------------------------
+// DBM Mods Manager Variables (Optional but nice to have!)
+//
+// These are variables that DBM Mods Manager uses to show information
+// about the mods for people to see in the list.
+//---------------------------------------------------------------------
 
-	 // Who made the mod (If not set, defaults to "DBM Mods")
-	 author: "General Wrex",
+// Who made the mod (If not set, defaults to "DBM Mods")
+dbmMod.author = "General Wrex";
 
-	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.8.2",
+// The version of the mod (Defaults to 1.0.0)
+dbmMod.version = "1.8.2";
 
-	 // A short description to show on the mod line for this mod (Must be on a single line)
-	 short_description: "Allows it to push Json to the Web",
+// A short description to show on the mod line for this mod (Must be on a single line)
+dbmMod.short_description = "Allows it to push Json to the Web";
 
-	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-   depends_on_mods: ["WrexMODS"],
-
-	 //---------------------------------------------------------------------
+// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
+dbmMod.depends_on_mods = ["WrexMODS"];
 
 //---------------------------------------------------------------------
 // Dependencies Section
