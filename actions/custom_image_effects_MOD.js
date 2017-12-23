@@ -24,7 +24,7 @@ section: "Image Editing",
 
 subtitle: function(data) {
 	const storeTypes = ["", "Temp Variable", "Server Variable", "Global Variable"];
-	const effect = ["Custom Pixelate", "Custom Pixelate"];
+	const effect = ["Custom Blur", "Custom Pixelate"];
 	return `${storeTypes[parseInt(data.storage)]} (${data.varName}) -> ${effect[parseInt(data.effect)]} ${data.intensity}`;
 },
 
