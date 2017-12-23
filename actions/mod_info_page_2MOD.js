@@ -27,6 +27,27 @@ subtitle: function(data) {
 },
 
 //---------------------------------------------------------------------
+	 // DBM Mods Manager Variables (Optional but nice to have!)
+	 //
+	 // These are variables that DBM Mods Manager uses to show information
+	 // about the mods for people to see in the list.
+	 //---------------------------------------------------------------------
+
+	 // Who made the mod (If not set, defaults to "DBM Mods")
+	 author: "Lasse",
+
+	 // The version of the mod (Defaults to 1.0.0)
+	 version: "1.8.2",
+
+	 // A short description to show on the mod line for this mod (Must be on a single line)
+	 short_description: "Information about the Mod Collection",
+
+	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
+
+
+	 //---------------------------------------------------------------------
+
+//---------------------------------------------------------------------
 // Action Storage Function
 //
 // Stores the relevant variable info for the editor.
@@ -70,8 +91,10 @@ html: function(isEvent, data) {
 		per month. And you will get also some things like a Discord Patron role<br>
 		and a mention here:<br><br>
 		<u>Patrons:</u><br>
+		- EliteeliteSeraTT (50$)<br>
 		- MitchDaGamer (5$)<br>
 		- General Wrex (1$)<br>
+		- AktilaHardy (5$)<br>
 		- Eggsy (1$)<br>
 		- Lasse (1$)<br>
 		<br>

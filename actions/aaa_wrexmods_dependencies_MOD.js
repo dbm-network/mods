@@ -1,3 +1,5 @@
+
+
 //---------------------------------------------------------------------
 // WrexMODS - for Discord Bot Maker
 // Contains functions for actions using WrexMODS
@@ -329,6 +331,36 @@ WrexMODS.jsonPath = function(obj, expr, arg) {
 var customaction = {};
 customaction.name = "WrexMODS";
 customaction.section = "JSON Things";
+
+// Add Extra Variables Here
+//---------------------------------------------------------------------
+
+//---------------------------------------------------------------------
+	 // DBM Mods Manager Variables (Optional but nice to have!)
+	 //
+	 // These are variables that DBM Mods Manager uses to show information
+	 // about the mods for people to see in the list.
+	 //---------------------------------------------------------------------
+
+	 // Who made the mod (If not set, defaults to "DBM Mods")
+	 customaction.author: "General Wrex",
+
+	 // The version of the mod (Defaults to 1.0.0)
+	 customaction.version: "1.8.2",
+
+	 // A short description to show on the mod line for this mod (Must be on a single line)
+	 customaction.short_description: "Required for some mods. Does nothing",
+
+	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
+
+
+	 //---------------------------------------------------------------------
+
+//---------------------------------------------------------------------
+
+
+
+
 customaction.html = function() { 
 	return `
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
