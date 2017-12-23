@@ -117,7 +117,7 @@ WrexMODS.runPostJson = function (url, json, returnJson = true, callback){
 
 // this.getWrexMods().executeDiscordJSON("POST", "guilds/" + msg.guild.id + "/channels", json ,this.getDBM(), cache)
 
-WrexMODS.executeDiscordJSON = function(type, urlPath, json ,DBM, cache){
+WrexMODS.executeDiscordJSON = function(type, urlPath, json ,DBM, cache, callback){
 	return new Promise((resolve, reject) => {
 
 		var request = this.require('request');
@@ -134,27 +134,41 @@ WrexMODS.executeDiscordJSON = function(type, urlPath, json ,DBM, cache){
 		request(options, function (err, res, data) {
 			var statusCode = res.statusCode;	
 
-				if(err && statusCode != 200){
-					reject(err, statusCode, data);
-					return;
-				}					
-				resolve(err, statusCode, data)
+			if(err){
+				reject({err, statusCode, data});
+			}else{
+				resolve({err, statusCode, data})		
+			}			
+			
+			if(callback && typeof callback == "function"){
+				callback(err, statusCode, data);
+			}
 		});  
 	});			
 }
 
 
-WrexMODS.runPublicRequest = function (url, returnJson = false, callback){
+WrexMODS.runPublicRequest = function (url, returnJson = false, callback, token, user, pass){
     /// <summary>Runs a Request to return JSON Data</summary>  
 	/// <param name="url" type="String">The URL to get JSON from.</param>  
 	/// <param name="returnJson" type="String">True if the response should be in JSON format. False if not</param>  
     /// <param name="callback" type="Function">The callback function, args: error, statusCode, data</param>  
     var request = this.require("request");
-           
+		   
+	var parser = this.require('http-string-parser');
+
+	var outHeaders = parser.parseHeaders(headers);
+
 	request.get({
 		url: url,
 		json: returnJson,
-		headers: {'User-Agent': 'Other'}
+		headers: {'User-Agent': 'Other'},
+		auth: {
+			bearer: token,
+			user: user,
+			pass: pass,
+			sendImmediately: false
+		  },
 	  }, (err, res, data) => {    
 
         var statusCode = res.statusCode;
