@@ -343,13 +343,13 @@ customaction.section = "JSON Things";
 	 //---------------------------------------------------------------------
 
 	 // Who made the mod (If not set, defaults to "DBM Mods")
-	 customaction.author: "General Wrex",
+	 customaction.author = "General Wrex",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 customaction.version: "1.8.2",
+	 customaction.version = "1.8.2",
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
-	 customaction.short_description: "Required for some mods. Does nothing",
+	 customaction.short_description = "Required for some mods. Does nothing",
 
 	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
