@@ -89,6 +89,7 @@ variableStorage: function(data, varType) {
 			break;
 		case 9:
 			dataType = "Number";
+			break;
 	}
 	return ([data.varName2, dataType]);
 },
@@ -213,6 +214,7 @@ action: function(cache) {
 			break;
 		case 9:
 			result = botClient.voiceConnections.array().length;
+			break;
 		default:
 		break;
 	}

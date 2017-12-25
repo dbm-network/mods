@@ -125,7 +125,9 @@ init: function() {},
 // so be sure to provide checks for variable existance.
 //---------------------------------------------------------------------
 
-action: function(cache) {},
+action: function(cache) {
+	this.callNextAction(cache);
+},
 
 //---------------------------------------------------------------------
 // Action Bot Mod
