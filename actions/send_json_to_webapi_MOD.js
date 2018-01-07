@@ -27,6 +27,25 @@ dbmMod.name = "Send Json to WebAPI";
 dbmMod.section = "JSON Things";
 
 //---------------------------------------------------------------------
+// DBM Mods Manager Variables (Optional but nice to have!)
+//
+// These are variables that DBM Mods Manager uses to show information
+// about the mods for people to see in the list.
+//---------------------------------------------------------------------
+
+// Who made the mod (If not set, defaults to "DBM Mods")
+dbmMod.author = "General Wrex";
+
+// The version of the mod (Defaults to 1.0.0)
+dbmMod.version = "1.8.2";
+
+// A short description to show on the mod line for this mod (Must be on a single line)
+dbmMod.short_description = "Allows it to push Json to the Web";
+
+// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
+dbmMod.depends_on_mods = ["WrexMODS"];
+
+//---------------------------------------------------------------------
 // Dependencies Section
 //
 // If your action requires any node modules, add them here.
@@ -80,19 +99,19 @@ dbmMod.fields = ["hideUrl", "debugMode", "postUrl", "postJson", "storage", "varN
 // Command HTML
 //
 // This function returns a string containing the HTML used for
-// editing actions. 
+// editing actions.
 //
 // The "isEvent" parameter will be true if this action is being used
-// for an event. Due to their nature, events lack certain information, 
+// for an event. Due to their nature, events lack certain information,
 // so edit the HTML to reflect this.
 //
-// The "data" parameter stores constants for select elements to use. 
+// The "data" parameter stores constants for select elements to use.
 // Each is an array: index 0 for commands, index 1 for events.
-// The names are: sendTargets, members, roles, channels, 
+// The names are: sendTargets, members, roles, channels,
 //                messages, servers, variables
 //---------------------------------------------------------------------
 
-dbmMod.html = function(isEvent, data) {	
+dbmMod.html = function(isEvent, data) {
 
     return `
 	<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
@@ -105,9 +124,9 @@ dbmMod.html = function(isEvent, data) {
 		  Once Hide Url is pressed, It becomes a password box. Save your url somewhere!<br><br>
 	   </p>
 	</div>
-	<div>   
+	<div>
 	   WebAPI Url Accepting JSON:<br>
-     <input id="hideUrl" type="hidden">   
+     <input id="hideUrl" type="hidden">
 	   <input id="postUrl" class="round" type="text">
      <button id= "btnhideUrl" class="tiny compact ui labeled icon button" onclick="document.getElementById('postUrl').setAttribute('type', 'password'); this.disabled = true; document.getElementById('hideUrl').value = 1"><i class="plus icon"></i>Hide URL </button>(Cannot be undone from the editor.)
 	</div>
@@ -129,12 +148,12 @@ dbmMod.html = function(isEvent, data) {
 	   </div><br><br><br><br>
    <h3>Action Options</h3>
 	   <div id="options">
-			  Debug Mode (Print More Info To Console):<br> 
+			  Debug Mode (Print More Info To Console):<br>
 		   <select id="debugMode" class="round" style="width: 45%">
 			   <option value="0">Disabled</option>
 			   <option value="1" selected>Enabled</option>
 		   </select><br>
-	   </div> 
+	   </div>
 	   <div>
 	   <p>
 		  <u>Note:</u><br>
@@ -142,7 +161,7 @@ dbmMod.html = function(isEvent, data) {
 		  Use <b>Parse From Stored Json</b> to parse the response into a variable!<br><br>
 	   </p>
 	</div>
-     <div> 
+     <div>
  </div>
 	</div>
  </div>`
@@ -167,23 +186,23 @@ dbmMod.init = function() {
 		var opn = require("opn");
 		opn(url)
 	}
-	
+
 	if(document.getElementById('hideUrl').value === '1'){
 		document.getElementById('postUrl').setAttribute('type', 'password');
 		document.getElementById('btnhideUrl').disabled = true;
-	} 
+	}
 };
 
 //---------------------------------------------------------------------
 // Action Bot Function
 //
 // This is the function for the action within the Bot's Action class.
-// Keep in mind event calls won't have access to the "msg" parameter, 
+// Keep in mind event calls won't have access to the "msg" parameter,
 // so be sure to provide checks for variable existance.
 //---------------------------------------------------------------------
 
 dbmMod.action = function(cache) {
-	
+
 	var WrexMODS = this.getWrexMods();
 
 	WrexMODS.CheckAndInstallNodeModule("valid-url");
@@ -206,7 +225,7 @@ dbmMod.action = function(cache) {
     if (WrexMODS.checkURL(url)) {
 
         if (postJson) {
-            // Test the json 
+            // Test the json
             try {
                 var test = JSON.parse(JSON.stringify(postJson));
             } catch (error) {
@@ -235,12 +254,12 @@ dbmMod.action = function(cache) {
                     if (jsonData) {
 
 			this.storeValue(jsonData, storage, varName, cache);
-			    
+
                         if (debugMode) {
 			    console.log("WebAPI: JSON Data Response value stored to: [" + varName + "]");
                             console.log("Response (Disable DebugMode to stop printing the response data to the console):\r\n");
                             console.log(JSON.stringify(jsonData, null, 4));
-                        }                                          
+                        }
                     } else {
                         var errorJson = JSON.stringify({
                             error,
@@ -273,7 +292,7 @@ dbmMod.action = function(cache) {
 // functions you wish to overwrite.
 //---------------------------------------------------------------------
 
-dbmMod.mod = function(DBM) {	
+dbmMod.mod = function(DBM) {
 
 }
 

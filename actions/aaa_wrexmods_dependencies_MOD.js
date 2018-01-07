@@ -1,3 +1,5 @@
+
+
 //---------------------------------------------------------------------
 // WrexMODS - for Discord Bot Maker
 // Contains functions for actions using WrexMODS
@@ -103,17 +105,68 @@ WrexMODS.runPostJson = function (url, json, returnJson = true, callback){
 	});  
 };
 
-WrexMODS.runPublicRequest = function (url, returnJson = false, callback){
+/*
+    var json = {    
+		"permission_overwrites": [],
+		"name": tempVars("myChannel"),
+		"parent_id": null,
+		"nsfw": false,
+		"position": 0,
+		"guild_id": msg.guild.id,
+		"type": 4
+	}
+*/
+
+// this.getWrexMods().executeDiscordJSON("POST", "guilds/" + msg.guild.id + "/channels", json ,this.getDBM(), cache)
+
+WrexMODS.executeDiscordJSON = function(type, urlPath, json ,DBM, cache, callback){
+	return new Promise((resolve, reject) => {
+
+		var request = this.require('request');
+	
+			var options = {
+				headers: {
+					'Authorization': 'Bot ' + DBM.Files.data.settings.token
+				},
+				url: "https://discordapp.com/api/v6/" + urlPath,
+				method: type,
+				json: json
+			};
+	
+		request(options, function (err, res, data) {
+			var statusCode = res.statusCode;	
+
+			if(err){
+				reject({err, statusCode, data});
+			}else{
+				resolve({err, statusCode, data})		
+			}			
+			
+			if(callback && typeof callback == "function"){
+				callback(err, statusCode, data);
+			}
+		});  
+	});			
+}
+
+
+WrexMODS.runPublicRequest = function (url, returnJson = false, callback, token, user, pass){
     /// <summary>Runs a Request to return JSON Data</summary>  
 	/// <param name="url" type="String">The URL to get JSON from.</param>  
 	/// <param name="returnJson" type="String">True if the response should be in JSON format. False if not</param>  
     /// <param name="callback" type="Function">The callback function, args: error, statusCode, data</param>  
     var request = this.require("request");
-           
+		   
 	request.get({
 		url: url,
 		json: returnJson,
-		headers: {'User-Agent': 'Other'}
+		headers: {'User-Agent': 'Other'},
+		auth: {
+			bearer: token,
+			user: user,
+			pass: pass,
+			sendImmediately: false
+		  },
 	  }, (err, res, data) => {    
 
         var statusCode = res.statusCode;
@@ -274,6 +327,10 @@ WrexMODS.jsonPath = function(obj, expr, arg) {
 var customaction = {};
 customaction.name = "WrexMODS";
 customaction.section = "JSON Things";
+customaction.author = "General Wrex";
+customaction.version = "1.8.2";
+customaction.short_description = "Required for some mods. Does nothing";
+
 customaction.html = function() { 
 	return `
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">

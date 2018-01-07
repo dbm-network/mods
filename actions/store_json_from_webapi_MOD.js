@@ -1,4 +1,3 @@
-module.exports = {
 	//---------------------------------------------------------------------
 	// Created by General Wrex
 	// My Patreons have made creating this script possible @ https://www.patreon.com/generalwrex
@@ -15,8 +14,32 @@ module.exports = {
 	// in this example the variable would contain "[DEV] Version 1.2.2.3"
 	//---------------------------------------------------------------------
 
+module.exports = {
 
+	//---------------------------------------------------------------------
+	// DBM Mods Manager Variables (Optional but nice to have!)
+	//
+	// These are variables that DBM Mods Manager uses to show information
+	// about the mods for people to see in the list.
+	//---------------------------------------------------------------------
+	
+	// Who made the mod (If not set, defaults to "DBM Mods")
+	author: "General Wrex",
+	
+	// The version of the mod (Defaults to 1.0.0)
+	version: "1.0.0",
+			
+    // A short description to show on the mod line for this mod (Must be on a single line)		
+	short_description: "Stores JSON from a webapi into a variable.",
+	
+	// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods	
+	depends_on_mods: ["WrexMODS"],
 
+	//---------------------------------------------------------------------
+	
+	
+	
+	
 	//---------------------------------------------------------------------
 	// Action Name
 	//
@@ -41,7 +64,7 @@ module.exports = {
 
     dependencies: ["request", "valid-url"],
 
-
+    
 	//---------------------------------------------------------------------
 	// Action Subtitle
 	//
@@ -72,7 +95,7 @@ module.exports = {
 	// are also the names of the fields stored in the action's JSON data.
 	//---------------------------------------------------------------------
 
-	fields: ["behavior", "url", "path", "storage", "varName"],
+	fields: ["behavior", "token", "user", "pass" ,"url", "path", "storage", "varName"],
 
 	//---------------------------------------------------------------------
 	// Command HTML
@@ -92,6 +115,7 @@ module.exports = {
 
 	html: function(isEvent, data) {
 		return `
+		<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
 		<div>
 			<p>
 				<u>Mod Info:</u><br>
@@ -99,21 +123,27 @@ module.exports = {
 			</p>
 		</div>
 	<div>
-	<div style="float: left; width: 75%;">
+	<div style="float: left; width: 95%;">
 	<div>
 		End Behavior:<br>
 		<select id="behavior" class="round">
 			<option value="0" selected>Call Next Action Automatically</option>
 			<option value="1">Do Not Call Next Action</option>
 		</select>
-	<div><br>
-		WebAPI URL: <br>
-		<input id="url" class="round"  style="width: 90%; type="text";><br>
+	<div><br><br>
+    WebAPI URL: <br>
+		<textarea id="url" class="round" style="width: 99%; resize: none;" type="textarea" rows="4" cols="20"></textarea><br>
+    Bearer Token ( If a bearer token is required, put it here!)<br>
+		<textarea id="token" class="round" placeholder="blank if none"   style="width: 99%; resize: none;" type="textarea" rows="4" cols="20"></textarea><br><br>		
+    Username( If a password is required, put it here!)<br>
+		<input id="user" class="round"  placeholder="blank if none" style="width: 99%; resize: none;" ><br>
+		Password ( If a password is required, put it here!)<br>
+		<input id="pass" class="round"  placeholder="blank if none"  style="width: 99%; resize: none;" ><br>
 	</div>
 	</div><br>
 		Initial JSON Path: (Leave blank to store everything, supports the usage of <a href="http://goessner.net/articles/JsonPath/index.html#e2" target="_blank">JSON Path (Regex)</a>)<br>
-		<input id="path" class="round"; style="width: 75%; type="text";>
-	<div><br>
+		<input id="path" class="round"; style="width: 75%;" type="text">
+	<div><br><br>
 	<div style="float: left; width: 35%;">
 		Store In:<br>
 		<select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
@@ -124,7 +154,11 @@ module.exports = {
 		JSON Storage Variable Name:<br>
 		<input id="varName" class="round" type="text">
 	</div>
-	</div>`
+	</div>
+</div>
+<!-- Remember to copy back the provided div here with your html to add the scrollbar-->
+
+`
 	},
 
 	//---------------------------------------------------------------------
@@ -153,9 +187,13 @@ module.exports = {
 
 		var WrexMODS = this.getWrexMods();
 
-
 		const data = cache.actions[cache.index];
 		const varName = this.evalMessage(data.varName, cache);
+		
+		const token = this.evalMessage(data.token, cache);
+		const user = this.evalMessage(data.user, cache);
+		const pass = this.evalMessage(data.pass, cache);
+		
 		const storage = parseInt(data.storage);
 		var url = this.evalMessage(data.url, cache);
 		const path = this.evalMessage(data.path, cache);
@@ -165,8 +203,8 @@ module.exports = {
 		};
 
 		if(WrexMODS.checkURL(url)){
-
-			WrexMODS.runPublicRequest(url,true, function(error, statusCode, jsonData){
+		
+			WrexMODS.runPublicRequest(url, true, function(error, statusCode, jsonData){
 
 				try {
 
@@ -222,7 +260,7 @@ module.exports = {
 				}
 
 
-			});
+			}, token, user, pass);
 		}
 		else{
 			console.error('URL ['+url+'] Is Not Valid');
@@ -239,6 +277,8 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	mod: function(DBM) {
+
+		
 
 	}
 
