@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Extra Wait",
+name: "Store Bot Client Info #3",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -14,7 +14,7 @@ name: "Extra Wait",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Other Stuff",
+section: "Bot Client Control",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -23,8 +23,33 @@ section: "Other Stuff",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const measurements = ['Weeks', 'Days'];
-	return `${data.time} ${measurements[parseInt(data.measurement)]}`;
+	const info = ['Total Amount of Channels', 'Total Amount of Emojis', 'Bot\'s Previous Pings'];
+	return `${info[parseInt(data.info)]}`;
+},
+
+//---------------------------------------------------------------------
+// Action Storage Function
+//
+// Stores the relevant variable info for the editor.
+//---------------------------------------------------------------------
+
+variableStorage: function(data, varType) {
+	const type = parseInt(data.storage);
+	if(type !== varType) return;
+	const info = parseInt(data.info);
+	let dataType = 'Unknown Type';
+	switch(info) {
+		case 0:
+			dataType = "Number";
+			break;
+		case 1:
+			dataType = "Number";
+			break;
+		case 1:
+			dataType = "Number";
+			break;
+	}
+	return ([data.varName2, dataType]);
 },
 
 //---------------------------------------------------------------------
@@ -35,7 +60,7 @@ subtitle: function(data) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["time", "measurement"],
+fields: ["info", "storage", "varName2"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -58,20 +83,27 @@ html: function(isEvent, data) {
 	<div>
 		<p>
 			<u>Mod Info:</u><br>
-			Created by Nix!
+			Created by EGGSY!
 		</p>
 	</div><br>
+<div style="float: left; width: 80%;">
+	Source Info:<br>
+	<select id="info" class="round">
+		<option value="0">Total Amount of Channels</option>
+		<option value="1">Total Amount of Emojis</option>
+		<option value="2">Bot's Previous Pings</option>
+	</select>
+</div><br>
 <div>
-	<div style="float: left; width: 45%;">
-		Measurement:<br>
-		<select id="measurement" class="round">
-			<option value="0" selected>Weeks</option>
-			<option value="1">Days</option>
+	<div style="float: left; width: 35%;">
+		Store In:<br>
+		<select id="storage" class="round">
+			${data.variables[1]}
 		</select>
 	</div>
-	<div style="float: right; width: 50%;">
-		Amount:<br>
-		<input id="time" class="round" type="text">
+	<div id="varNameContainer2" style="float: right; width: 60%;">
+		Variable Name:<br>
+		<input id="varName2" class="round" type="text"><br>
 	</div>
 </div>`
 },
@@ -85,6 +117,9 @@ html: function(isEvent, data) {
 //---------------------------------------------------------------------
 
 init: function() {
+	const {glob, document} = this;
+
+	glob.messageChange(document.getElementById('message'), 'varNameContainer')
 },
 
 //---------------------------------------------------------------------
@@ -97,18 +132,31 @@ init: function() {
 
 action: function(cache) {
 	const data = cache.actions[cache.index];
-	const time = parseInt(this.evalMessage(data.time, cache));
-	const type = parseInt(data.measurement);
-	switch(type) {
+	const botClient = this.getDBM().Bot.bot;
+	const info = parseInt(data.info);
+	if(!botClient) {
+		this.callNextAction(cache);
+		return;
+	}
+	switch(info) {
 		case 0:
-      setTimeout(this.callNextAction.bind(this, cache), time * 1000 * 60 * 60 * 24 * 7);
-    	break;
+			result = botClient.channels.size;
+			break;
 		case 1:
-		  setTimeout(this.callNextAction.bind(this, cache), time * 1000 * 60 * 60 * 24);
+			result = botClient.emojis.size;
+			break;
+		case 2:
+			result = botClient.pings;
 			break;
 		default:
-			this.callNextAction(cache);
+		break;
 	}
+	if(result !== undefined) {
+		const storage = parseInt(data.storage);
+		const varName2 = this.evalMessage(data.varName2, cache);
+		this.storeValue(result, storage, varName2, cache);
+	}
+	this.callNextAction(cache);
 },
 
 //---------------------------------------------------------------------
@@ -123,4 +171,4 @@ action: function(cache) {
 mod: function(DBM) {
 }
 
-}; // End of module
+}; // End of module, thanks to Lasse btw!

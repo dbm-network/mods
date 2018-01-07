@@ -28,6 +28,27 @@ subtitle: function(data) {
 },
 
 //---------------------------------------------------------------------
+	 // DBM Mods Manager Variables (Optional but nice to have!)
+	 //
+	 // These are variables that DBM Mods Manager uses to show information
+	 // about the mods for people to see in the list.
+	 //---------------------------------------------------------------------
+
+	 // Who made the mod (If not set, defaults to "DBM Mods")
+	 author: "Lasse",
+
+	 // The version of the mod (Defaults to 1.0.0)
+	 version: "1.8.2",
+
+	 // A short description to show on the mod line for this mod (Must be on a single line)
+	 short_description: "Stores Bot Information like Ping, Total Members or Guilds...",
+
+	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
+
+
+	 //---------------------------------------------------------------------
+
+//---------------------------------------------------------------------
 // Action Storage Function
 //
 // Stores the relevant variable info for the editor.
@@ -68,6 +89,7 @@ variableStorage: function(data, varType) {
 			break;
 		case 9:
 			dataType = "Number";
+			break;
 	}
 	return ([data.varName2, dataType]);
 },
@@ -192,6 +214,7 @@ action: function(cache) {
 			break;
 		case 9:
 			result = botClient.voiceConnections.array().length;
+			break;
 		default:
 		break;
 	}

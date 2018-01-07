@@ -24,9 +24,30 @@ section: "Image Editing",
 
 subtitle: function(data) {
 	const storeTypes = ["", "Temp Variable", "Server Variable", "Global Variable"];
-	const effect = ["Custom Pixelate", "Custom Pixelate"];
+	const effect = ["Custom Blur", "Custom Pixelate"];
 	return `${storeTypes[parseInt(data.storage)]} (${data.varName}) -> ${effect[parseInt(data.effect)]} ${data.intensity}`;
 },
+
+//---------------------------------------------------------------------
+	 // DBM Mods Manager Variables (Optional but nice to have!)
+	 //
+	 // These are variables that DBM Mods Manager uses to show information
+	 // about the mods for people to see in the list.
+	 //---------------------------------------------------------------------
+
+	 // Who made the mod (If not set, defaults to "DBM Mods")
+	 author: "Lasse",
+
+	 // The version of the mod (Defaults to 1.0.0)
+	 version: "1.8.2",
+
+	 // A short description to show on the mod line for this mod (Must be on a single line)
+	 short_description: "Adds image effects with a custom Intensity",
+
+	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
+
+
+	 //---------------------------------------------------------------------
 
 //---------------------------------------------------------------------
 // Action Fields
