@@ -23,7 +23,7 @@ section: "Bot Client Control",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const info = ['Total Amount of Channels', 'Total Amount of Emojis', 'Bot\'s Previous Pings', 'Uptime in Days', 'Uptime in Days (Rounded)'];
+	const info = ['Total Amount of Channels', 'Total Amount of Emojis', 'Bot\'s Previous Pings', 'Uptime in Days', 'Uptime in Days (Rounded)', 'Memory (RAM) Usage'];
 	return `${info[parseInt(data.info)]}`;
 },
 
@@ -53,6 +53,9 @@ variableStorage: function(data, varType) {
 			break;
 		case 4:
 			dataType = "Time";
+			break;
+		case 5:
+			dataType = "Number";
 			break;
 	}
 	return ([data.varName2, dataType]);
@@ -100,6 +103,7 @@ html: function(isEvent, data) {
 		<option value="2">Bot's Previous Pings</option>
 		<option value="3">Uptime in Days</option>
 		<option value="4">Uptime in Days (Rounded)</option>
+		<option value="5">Memory (RAM) Usage</option>
 	</select>
 </div><br>
 <div>
@@ -162,6 +166,9 @@ action: function(cache) {
 			break;
 		case 4:
 			result = Math.floor(botClient.uptime/msToDay);
+			break;
+		case 5:
+			result = "%" + ((process.memoryUsage().heapUsed / 1024) / 1024).toFixed(2);
 			break;
 		default:
 		break;
