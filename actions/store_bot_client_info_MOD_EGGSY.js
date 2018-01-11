@@ -23,7 +23,7 @@ section: "Bot Client Control",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const info = ['Total Amount of Channels', 'Total Amount of Emojis', 'Bot\'s Previous Pings'];
+	const info = ['Total Amount of Channels', 'Total Amount of Emojis', 'Bot\'s Previous Pings', 'Uptime in Days', 'Uptime in Days (Rounded)'];
 	return `${info[parseInt(data.info)]}`;
 },
 
@@ -45,8 +45,14 @@ variableStorage: function(data, varType) {
 		case 1:
 			dataType = "Number";
 			break;
-		case 1:
+		case 2:
 			dataType = "Number";
+			break;
+		case 3:
+			dataType = "Time";
+			break;
+		case 4:
+			dataType = "Time";
 			break;
 	}
 	return ([data.varName2, dataType]);
@@ -92,6 +98,8 @@ html: function(isEvent, data) {
 		<option value="0">Total Amount of Channels</option>
 		<option value="1">Total Amount of Emojis</option>
 		<option value="2">Bot's Previous Pings</option>
+		<option value="3">Uptime in Days</option>
+		<option value="4">Uptime in Days (Rounded)</option>
 	</select>
 </div><br>
 <div>
@@ -134,6 +142,7 @@ action: function(cache) {
 	const data = cache.actions[cache.index];
 	const botClient = this.getDBM().Bot.bot;
 	const info = parseInt(data.info);
+	const msToDay = (1000*60*60*24);
 	if(!botClient) {
 		this.callNextAction(cache);
 		return;
@@ -147,6 +156,12 @@ action: function(cache) {
 			break;
 		case 2:
 			result = botClient.pings;
+			break;
+		case 3:
+			result = botClient.uptime/msToDay;
+			break;
+		case 4:
+			result = Math.floor(botClient.uptime/msToDay);
 			break;
 		default:
 		break;
