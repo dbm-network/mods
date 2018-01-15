@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Store Role Members",
+name: "Store Server Things (EliteArtz)",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -14,7 +14,7 @@ name: "Store Role Members",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Role Control",
+section: "Server Control",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -23,9 +23,9 @@ section: "Role Control",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const roles = ['Mentioned Role', '1st Author Role', '1st Server Role', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const info = ['Role Members Name', 'Role Members Object', 'Role Members ID']
-	return `${roles[parseInt(data.role)]} - ${info[parseInt(data.info)]}`;
+	const servers = ['Current Server', 'Temp Variable', 'Server Variable', 'Global Variable'];
+	const info = ['Server Channel IDs', 'Server Role IDs', 'Server Member IDs'];
+	return `${servers[parseInt(data.server)]} - ${info[parseInt(data.info)]}`;
 },
 
 //---------------------------------------------------------------------
@@ -42,7 +42,7 @@ subtitle: function(data) {
 	 version: "1.8.3",
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
-	 short_description: "Stores Roles Members Objects/IDs/Names",
+	 short_description: "Stores more Server Information",
 
 	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
@@ -62,14 +62,13 @@ variableStorage: function(data, varType) {
 	let dataType = 'Unknown Type';
 	switch(info) {
 		case 0:
-			dataType = 'GuildMember';
+			dataType = 'Server Channel IDs';
 			break;
-		case 1:
-			dataType = 'GuildMember';
+    case 1:
+		  dataType = 'Server Role IDs'
 			break;
-		case 2:
-			dataType = 'GuildMember';
-			break;
+	  case 2:
+		  dataType = 'Server Member IDs'
 	}
 	return ([data.varName2, dataType]);
 },
@@ -82,7 +81,7 @@ variableStorage: function(data, varType) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["role", "varName", "info", "storage", "varName2"],
+fields: ["server", "varName", "info", "storage", "varName2"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -103,16 +102,16 @@ fields: ["role", "varName", "info", "storage", "varName2"],
 html: function(isEvent, data) {
 	return `
 	<div>
-		<p>
-			<u>Mod Info:</u><br>
-			Created by EliteArtz!
+	  <p>
+		  <u>Mod Info:</u><br>
+			Created by EliteArtz
 		</p>
 	</div><br>
 <div>
 	<div style="float: left; width: 35%;">
-		Source Role:<br>
-		<select id="role" class="round" onchange="glob.roleChange(this, 'varNameContainer')">
-			${data.roles[isEvent ? 1 : 0]}
+		Source Server:<br>
+		<select id="server" class="round" onchange="glob.serverChange(this, 'varNameContainer')">
+			${data.servers[isEvent ? 1 : 0]}
 		</select>
 	</div>
 	<div id="varNameContainer" style="display: none; float: right; width: 60%;">
@@ -124,9 +123,9 @@ html: function(isEvent, data) {
 	<div style="padding-top: 8px; width: 70%;">
 		Source Info:<br>
 		<select id="info" class="round">
-			<option value="0" selected>Role Members Name</option>
-			<option value="1">Role Members Object</option>
-			<option value="2">Role Members ID</option>
+			<option value="0" selected>Server Channel IDs</option>
+			<option value="1">Server Role IDs</option>
+			<option value="2">Server Member IDs</option>
 		</select>
 	</div>
 </div><br>
@@ -155,7 +154,7 @@ html: function(isEvent, data) {
 init: function() {
 	const {glob, document} = this;
 
-	glob.roleChange(document.getElementById('role'), 'varNameContainer')
+	glob.serverChange(document.getElementById('server'), 'varNameContainer')
 },
 
 //---------------------------------------------------------------------
@@ -168,25 +167,24 @@ init: function() {
 
 action: function(cache) {
 	const data = cache.actions[cache.index];
-	const role = parseInt(data.role);
+	const server = parseInt(data.server);
 	const varName = this.evalMessage(data.varName, cache);
 	const info = parseInt(data.info);
-	const targetRole = this.getRole(role, varName, cache);
-	const roleMembers = parseInt(targetRole.members);
-	if(!targetRole) {
+	const targetServer = this.getServer(server, varName, cache);
+	if(!targetServer) {
 		this.callNextAction(cache);
 		return;
 	}
 	let result;
 	switch(info) {
 		case 0:
-			result = targetRole.members.array();
+			result = targetServer.channels.map(channels => channels.id);
 			break;
 		case 1:
-			result = targetRole.members.id;
+			result = targetServer.roles.map(roles => roles.id);
 			break;
-	  case 2:
-      result = targetRole.members.map(member => member.id);
+		case 2:
+			result = targetServer.members.map(members => members.id);
 			break;
 		default:
 			break;
