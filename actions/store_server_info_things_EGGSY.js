@@ -24,7 +24,7 @@ section: "Server Control",
 
 subtitle: function(data) {
 	const servers = ['Current Server', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const info = ['DND Members Count', 'Online Members Count (fixed)', 'Offline Members Count', 'Idle Members Count'];
+	const info = ['DND Members Count', 'Online Members Count (fixed)', 'Offline Members Count', 'Idle Members Count', 'Total Bots Count in Server'];
 	return `${servers[parseInt(data.server)]} - ${info[parseInt(data.info)]}`;
 },
 
@@ -59,7 +59,7 @@ variableStorage: function(data, varType) {
 	const type = parseInt(data.storage);
 	if(type !== varType) return;
 	const info = parseInt(data.info);
-	let dataType = 'Text';
+	let dataType = 'Number';
 	switch(info) {
 		case 0:
 			dataType = "Number";
@@ -71,6 +71,9 @@ variableStorage: function(data, varType) {
 			dataType = "Number";
 			break;
 		case 3:
+			dataType = "Number";
+			break;
+		case 4:
 			dataType = "Number";
 			break;
 	}
@@ -131,6 +134,7 @@ html: function(isEvent, data) {
 			<option value="1">Online Members Count (fixed)</option>
 			<option value="2">Offline Members Count</option>
 			<option value="3">Idle Members Count</option>
+			<option value="4">Total Bots in Servers</option>
 			</select>
 	</div>
 </div><br>
@@ -193,6 +197,9 @@ action: function(cache) {
 			break;
 		case 3:
 			result = targetServer.members.filter(m => m.user.presence.status == "idle").size;
+			break;
+		case 4:
+			result = targetServer.members.filter(m => m.user.bot).size
 			break;
 	}
 	if(result !== undefined) {
