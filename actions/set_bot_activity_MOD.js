@@ -23,7 +23,7 @@ section: "Bot Client Control",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-		
+
 	const activities = ["Playing", "Listening", "Watching", "Streaming Twitch"];
 	return `${activities[data.activity]} ${data.nameText}`;
 },
@@ -62,10 +62,12 @@ html: function(isEvent, data) {
 			<u>Mod Info:</u><br>
 			Created by Lasse!<br>
 			Edited by General Wrex<br><br>
-			Streaming Activity only works with Twitch.
+			Streaming Activity only works with Twitch.<br>
+			This action requires the latest discord.js version!<br>
+			Check out this video: https://youtu.be/mrrtj5nlV58<br>
 		</p>
 	</div>
-  
+
   <div style="float: left; width: 70%;">
   Activity:<br>
   <select id="activity" class="round">
@@ -104,13 +106,13 @@ init: function() {
 action: function(cache) {
 	const botClient = this.getDBM().Bot.bot.user;
 	const data = cache.actions[cache.index];
-	
+
 	const nameText = this.evalMessage(data.nameText, cache)
 	const url = this.evalMessage(data.url, cache)
-	
-	
+
+
 	const activity = parseInt(data.activity);
-	
+
 	let target;
 	if(activity >= 0) {
 		switch(activity) {
@@ -128,21 +130,21 @@ action: function(cache) {
 				break;
 		}
 	}
-			
+
 	if(botClient) {
-		
+
 		let obj;
-			
-		if(nameText && activity){ 
+
+		if(nameText && activity){
 			obj = { game:{ name: nameText, type: target }}
-			
+
 			if(url){
 				obj = { game:{ name: nameText, type: target, url: url } }
 			}
 		}
-							
-		botClient.setPresence(obj).then(function() { 
-			this.callNextAction(cache); 
+
+		botClient.setPresence(obj).then(function() {
+			this.callNextAction(cache);
 			}.bind(this))
 		.catch(err=>console.log(err));
 	} else {
