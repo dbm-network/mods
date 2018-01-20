@@ -1,12 +1,12 @@
 {
   "name": "DBM Mods",
-  "version": "1.8.2",
+  "version": "1.8.3",
   "author": "DBM Mod Collection",
   "description": "A big collection of mods for DBM",
   "repository": {
     "type": "git",
     "repository_url": "https://github.com/Discord-Bot-Maker-Mods/DBM-Mods",
-    "branchname": "beta"
+    "branchname": "master"
   },
   "mod": {
     "type": "actions",
