@@ -10,15 +10,14 @@ Make sure to join the DBM MODS DISCORD SERVER. To stay updated and be able to su
 
 
 NEW FEATURES:
-- Embed footer
-- Clear reactions
-- Unpin message
-- Many store guild info options
-- Many store user info options
-- Many store message info options
-- Completly new Store Bot Info action
-- Many store voice channel info options
-- Pixelate Image
+- Create Category
+- Set Bot Activity (Playing, Watching, Listening & Streaming)
+- Start Bot Typing & Stop Bot Typing (Allows the bot to get the typing status)
+- Store Memory Usage
+- DBM Beta Music Stuff fix action (Check the video)
+- Update discord.js (Check the video)
+- Bug fixes
+https://youtu.be/mrrtj5nlV58
 
 Install Mods:
 - Click the green button Clone or download
