@@ -39,7 +39,7 @@ subtitle: function(data) {
 	 author: "EliteArtz",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.8.2",
+	 version: "1.8.3",
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
 	 short_description: "Stores Roles Members Objects/IDs/Names",
@@ -172,6 +172,7 @@ action: function(cache) {
 	const varName = this.evalMessage(data.varName, cache);
 	const info = parseInt(data.info);
 	const targetRole = this.getRole(role, varName, cache);
+	const roleMembers = parseInt(targetRole.members);
 	if(!targetRole) {
 		this.callNextAction(cache);
 		return;
@@ -182,13 +183,11 @@ action: function(cache) {
 			result = targetRole.members.array();
 			break;
 		case 1:
-			result = targetRole.members;
+			result = targetRole.members.id;
 			break;
-	  case 1:
-		  if(targetRole.members) {
-        result = targetRole.members.id;
-			}
-			 break;
+	  case 2:
+      result = targetRole.members.map(member => member.id);
+			break;
 		default:
 			break;
 	}

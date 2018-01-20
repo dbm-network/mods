@@ -23,9 +23,30 @@ section: "Bot Client Control",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const info = ['Total Amount of Channels', 'Total Amount of Emojis', 'Bot\'s Previous Pings'];
+	const info = ['Total Amount of Channels', 'Total Amount of Emojis', 'Bot\'s Previous Pings', 'Uptime in Days', 'Uptime in Days (Rounded)', 'Memory (RAM) Usage'];
 	return `${info[parseInt(data.info)]}`;
 },
+
+//---------------------------------------------------------------------
+	 // DBM Mods Manager Variables (Optional but nice to have!)
+	 //
+	 // These are variables that DBM Mods Manager uses to show information
+	 // about the mods for people to see in the list.
+	 //---------------------------------------------------------------------
+
+	 // Who made the mod (If not set, defaults to "DBM Mods")
+	 author: "EGGSY",
+
+	 // The version of the mod (Defaults to 1.0.0)
+	 version: "1.0.3",
+
+	 // A short description to show on the mod line for this mod (Must be on a single line)
+	 short_description: "Stores more Bot Client Information by EGGSY",
+
+	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
+
+
+	 //---------------------------------------------------------------------
 
 //---------------------------------------------------------------------
 // Action Storage Function
@@ -45,7 +66,16 @@ variableStorage: function(data, varType) {
 		case 1:
 			dataType = "Number";
 			break;
-		case 1:
+		case 2:
+			dataType = "Number";
+			break;
+		case 3:
+			dataType = "Time";
+			break;
+		case 4:
+			dataType = "Time";
+			break;
+		case 5:
 			dataType = "Number";
 			break;
 	}
@@ -92,6 +122,9 @@ html: function(isEvent, data) {
 		<option value="0">Total Amount of Channels</option>
 		<option value="1">Total Amount of Emojis</option>
 		<option value="2">Bot's Previous Pings</option>
+		<option value="3">Uptime in Days</option>
+		<option value="4">Uptime in Days (Rounded)</option>
+		<option value="5">Memory (RAM) Usage</option>
 	</select>
 </div><br>
 <div>
@@ -134,6 +167,7 @@ action: function(cache) {
 	const data = cache.actions[cache.index];
 	const botClient = this.getDBM().Bot.bot;
 	const info = parseInt(data.info);
+	const msToDay = (1000*60*60*24);
 	if(!botClient) {
 		this.callNextAction(cache);
 		return;
@@ -147,6 +181,15 @@ action: function(cache) {
 			break;
 		case 2:
 			result = botClient.pings;
+			break;
+		case 3:
+			result = botClient.uptime/msToDay;
+			break;
+		case 4:
+			result = Math.floor(botClient.uptime/msToDay);
+			break;
+		case 5:
+			result = "%" + ((process.memoryUsage().heapUsed / 1024) / 1024).toFixed(2);
 			break;
 		default:
 		break;
