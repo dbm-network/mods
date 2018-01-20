@@ -17,6 +17,7 @@ NEW FEATURES:
 - DBM Beta Music Stuff fix action (Check the video)
 - Update discord.js (Check the video)
 - Bug fixes
+
 https://youtu.be/mrrtj5nlV58
 
 Install Mods:
