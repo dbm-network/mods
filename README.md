@@ -1,5 +1,5 @@
 # DBM-Mods
-[![release](http://github-release-version.herokuapp.com/github/LasseNiermann/DBM-Mods/release.svg?style=flat)](https://github.com/LasseNiermann/DBM-Mods/releases/)
+[![release](http://github-release-version.herokuapp.com/github/Discord-Bot-Maker-Mods/DBM-Mods/release.svg?style=flat)](https://github.com/Discord-Bot-Maker-Mods/DBM-Mods/releases)
 
 Here are some Mods for Discord Bot Maker! 
 Feel free to use them in your bots. But please, if you want to share this files please share the URL of this GitHub page.
