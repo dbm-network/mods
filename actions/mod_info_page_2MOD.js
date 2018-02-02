@@ -37,7 +37,7 @@ subtitle: function(data) {
 	 author: "Lasse",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.8.2",
+	 version: "1.8.4",
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
 	 short_description: "Information about the Mod Collection",
@@ -94,6 +94,7 @@ html: function(isEvent, data) {
 		- MitchDaGamer (5$)<br>
 		- General Wrex (1$)<br>
 		- Eggsy (1$)<br>
+                - Proximity (1$)<br>
 		<br>
 		Become a patron today!<br>
 		<a href="https://www.patreon.com/dbmmods" target="_blank">https://www.patreon.com/dbmmods</a><br>
