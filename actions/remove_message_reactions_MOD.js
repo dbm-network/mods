@@ -25,7 +25,7 @@ section: "Messaging",
 subtitle: function(data) {
 	const names = ['Command Message', 'Temp Variable', 'Server Variable', 'Global Variable'];
 	const index = parseInt(data.storage);
-	return data.storage === "0" ? `Pin ${names[index]}` : `Pin ${names[index]} (${data.varName})`;
+	return `Remove reactions from Message`;
 },
 
 //---------------------------------------------------------------------
