@@ -279,20 +279,20 @@ action: function(cache) {
 			result = "%" + ((process.memoryUsage().heapUsed / 1024) / 1024).toFixed(2);
 			break;
 		case 16:
-		  result = botClient.guilds;
-		  break;
+			result = botClient.guilds;
+		 	break;
 		case 17:
-		  result = botClient.guilds.array();
-		  break;
+			result = botClient.guilds.array();
+			break;
 		case 18:
-		  result = botClient.guilds.map(guilds => guilds.id);
-      break;
-    case 19:
-      result = dibiem.Files.data.settings.tag;
-      break;
-    case 20:
-      result = dibiem.Files.data.settings.client;
-      break;
+			result = botClient.guilds.map(guilds => guilds.id);
+			break;
+		case 19:
+			result = dibiem.Files.data.settings.tag;
+			break;
+		case 20:
+			result = dibiem.Files.data.settings.client;
+			break;
 		default:
 		break;
 	}
