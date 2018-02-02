@@ -14,7 +14,7 @@ name: "Store Bot Client Info #2",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Bot Client Control",
+section: "Deprecated",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -111,7 +111,9 @@ html: function(isEvent, data) {
 	<div>
 		<p>
 			<u>Mod Info:</u><br>
-			Created by EliteArtz!
+			Created by EliteArtz!<br>
+			Merged into <b>Store Bot Client Info</b>.<br>
+			Please use that action instead!
 		</p>
 	</div><br>
 <div style="float: left; width: 80%;">
