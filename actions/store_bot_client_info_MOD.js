@@ -147,7 +147,7 @@ html: function(isEvent, data) {
 		<option value="13">Uptime in Days</option>
 		<option value="14">Uptime in Days (Rounded)</option>
 		<option value="15">Memory (RAM) Usage</option>
-		<option value="16" selected>Bot Guilds Objects</option>
+		<option value="16">Bot Guilds Objects</option>
 		<option value="17">Bot Guilds Names</option>
 		<option value="18">Bot Guilds IDs</option>
 		<option value="19">Bot Current Prefix</option>
@@ -188,8 +188,8 @@ init: function() {
 //---------------------------------------------------------------------
 
 action: function(cache) {
-    const botClient = this.getDBM().Bot.bot;
-    const dibiem = this.getDBM();
+  const botClient = this.getDBM().Bot.bot;
+  const dibiem = this.getDBM(); //EliteArtz... really????
 	const data = cache.actions[cache.index];
 	const info = parseInt(data.info);
 	if(!botClient) {
