@@ -188,7 +188,8 @@ init: function() {
 //---------------------------------------------------------------------
 
 action: function(cache) {
-	const botClient = this.getDBM().Bot.bot;
+    const botClient = this.getDBM().Bot.bot;
+    const dibiem = this.getDBM();
 	const data = cache.actions[cache.index];
 	const info = parseInt(data.info);
 	if(!botClient) {
