@@ -14,7 +14,7 @@ name: "Jump to Action",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "#Edit",
+section: "Other Stuff",
 
 //---------------------------------------------------------------------
 // Action Subtitle
