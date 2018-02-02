@@ -65,6 +65,7 @@ html: function(isEvent, data) {
 	return `
 <div>
 	<p>
+		Only required when using DBM Stable. The beta got updated with the newset version!<br><br>
 		<u>Warning:</u><br>
 		This action updates your ytdl-core version to the latest one.<br>
 		DBM Mods is not responsible for any lost commands or events!<br>
