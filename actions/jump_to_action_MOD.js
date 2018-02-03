@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Store UTC Time Info",
+name: "Jump to Action",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -23,41 +23,7 @@ section: "Other Stuff",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const time = ['UTC Year', 'UTC Month', 'UTC Day of the Month', 'UTC Hour', 'UTC Minute', 'UTC Second', 'UTC Millisecond'];
-	return `${time[parseInt(data.type)]}`;
-},
-
-//---------------------------------------------------------------------
-	 // DBM Mods Manager Variables (Optional but nice to have!)
-	 //
-	 // These are variables that DBM Mods Manager uses to show information
-	 // about the mods for people to see in the list.
-	 //---------------------------------------------------------------------
-
-	 // Who made the mod (If not set, defaults to "DBM Mods")
-	 author: "Lasse",
-
-	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.8.4",
-
-	 // A short description to show on the mod line for this mod (Must be on a single line)
-	 short_description: "Stores UTC Time and Date",
-
-	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-
-
-	 //---------------------------------------------------------------------
-
-//---------------------------------------------------------------------
-// Action Storage Function
-//
-// Stores the relevant variable info for the editor.
-//---------------------------------------------------------------------
-
-variableStorage: function(data, varType) {
-	const type = parseInt(data.storage);
-	if(type !== varType) return;
-	return ([data.varName, "Number"]);
+	return `Jump to action ${typeof data.call === 'number' ? "#" : "" + data.call}`;
 },
 
 //---------------------------------------------------------------------
@@ -68,7 +34,7 @@ variableStorage: function(data, varType) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["type", "storage", "varName"],
+fields: ["call"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -88,38 +54,18 @@ fields: ["type", "storage", "varName"],
 
 html: function(isEvent, data) {
 	return `
-	<div>
-		<p>
-			<u>Mod Info:</u><br>
-			Created by Lasse!
-		</p>
-	</div><br>
 <div>
-	<div style="padding-top: 8px; width: 70%;">
-		Time Info:<br>
-		<select id="type" class="round">
-			<option value="0" selected>UTC Year</option>
-			<option value="1">UTC Month</option>
-			<option value="2">UTC Day of the Month</option>
-			<option value="3">UTC Hour</option>
-			<option value="4">UTC Minute</option>
-			<option value="5">UTC Second</option>
-			<option value="6">UTC Millisecond</option>
-		</select>
-	</div>
+	<p>
+		<u>Mod Info:</u><br>
+		Created by Lasse!
+	</p>
 </div><br>
 <div>
-	<div style="float: left; width: 35%;">
-		Store In:<br>
-		<select id="storage" class="round">
-			${data.variables[1]}
-		</select>
+	<div id="varNameContainer" style="float: left; width: 60%;">
+		Jump to Action:<br>
+		<input id="call" class="round" type="text">
 	</div>
-	<div id="varNameContainer" style="float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text"><br>
-	</div>
-</div>`
+</div><br><br><br>`
 },
 
 //---------------------------------------------------------------------
@@ -130,8 +76,7 @@ html: function(isEvent, data) {
 // functions for the DOM elements.
 //---------------------------------------------------------------------
 
-init: function() {
-},
+init: function() {},
 
 //---------------------------------------------------------------------
 // Action Bot Function
@@ -143,39 +88,12 @@ init: function() {
 
 action: function(cache) {
 	const data = cache.actions[cache.index];
-	const type = parseInt(data.type);
-	let result;
-	switch(type) {
-		case 0:
-			result = new Date().getUTCFullYear();
-			break;
-		case 1:
-			result = new Date().getUTCMonth() + 1;
-			break;
-		case 2:
-			result = new Date().getUTCDate();
-			break;
-		case 3:
-			result = new Date().getUTCHours();
-			break;
-		case 4:
-			result = new Date().getUTCMinutes();
-			break;
-		case 5:
-			result = new Date().getUTCSeconds();
-			break;
-		case 6:
-			result = new Date().getUTCMilliseconds();
-			break;
-		default:
-			break;
+	const val = parseInt(this.evalMessage(data.call, cache));
+	const index = Math.max(val - 1, 0);
+	if(cache.actions[index]) {
+		cache.index = index - 1;
+		this.callNextAction(cache);
 	}
-	if(result !== undefined) {
-		const storage = parseInt(data.storage);
-		const varName = this.evalMessage(data.varName, cache);
-		this.storeValue(result, storage, varName, cache);
-	}
-	this.callNextAction(cache);
 },
 
 //---------------------------------------------------------------------
