@@ -23,7 +23,7 @@ section: "Other Stuff",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const time = ['UTC Year', 'UTC Month', 'UTC Day of the Month', 'UTC Hour', 'UTC Minute', 'UTC Second', 'UTC Milisecond'];
+	const time = ['UTC Year', 'UTC Month', 'UTC Day of the Month', 'UTC Hour', 'UTC Minute', 'UTC Second', 'UTC Millisecond'];
 	return `${time[parseInt(data.type)]}`;
 },
 
@@ -38,7 +38,7 @@ subtitle: function(data) {
 	 author: "Lasse",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.8.2",
+	 version: "1.8.4",
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
 	 short_description: "Stores UTC Time and Date",
@@ -104,7 +104,7 @@ html: function(isEvent, data) {
 			<option value="3">UTC Hour</option>
 			<option value="4">UTC Minute</option>
 			<option value="5">UTC Second</option>
-			<option value="6">UTC Milisecond</option>
+			<option value="6">UTC Millisecond</option>
 		</select>
 	</div>
 </div><br>
@@ -165,7 +165,7 @@ action: function(cache) {
 			result = new Date().getUTCSeconds();
 			break;
 		case 6:
-			result = new Date().getUTCMiliseconds();
+			result = new Date().getUTCMilliseconds();
 			break;
 		default:
 			break;
