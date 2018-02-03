@@ -94,7 +94,7 @@ html: function(isEvent, data) {
 		Join the Discord Guild to stay updated and be able to suggest things.<br>
 		<a href="https://discord.gg/Y4fPBnZ" target="_blank">Join now</a><br>
 		<u>Your version:</u><br>
-		1.8.4 ~ beta<br>
+		1.8.4<br>
 		<u>Changelog:</u><br>
 		Click here to see the latest updates:<br>
 		<a href="https://github.com/Discord-Bot-Maker-Mods/DBM-Mods/releases" target="_blank">Open Changelog</a><br>
