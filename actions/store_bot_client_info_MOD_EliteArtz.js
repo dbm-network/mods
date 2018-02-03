@@ -14,7 +14,7 @@ name: "Store Bot Client Info #2",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Bot Client Control",
+section: "Deprecated",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -23,7 +23,7 @@ section: "Bot Client Control",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const info = ['Bot Guilds Objects', 'Bot Guilds Names', 'Bot Guilds IDs'];
+    const info = ['Bot Guilds Objects', 'Bot Guilds Names', 'Bot Guilds IDs', 'Bot Current Prefix', 'Bot Client ID'];
 	return `Bot Client - ${info[parseInt(data.info)]}`;
 },
 
@@ -38,10 +38,10 @@ subtitle: function(data) {
 	 author: "EliteArtz",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.8.2",
+	 version: "1.8.4",
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
-	 short_description: "Stores a list of Bots Guilds Objects/IDs/Names",
+	 short_description: "Stores a list of Bots Guilds Objects/IDs/Names and your Bot tag + Client ID",
 
 	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
@@ -68,7 +68,13 @@ variableStorage: function(data, varType) {
 			break;
 		case 2:
 			dataType = "Guild ID";
-			break;
+            break;
+        case 3:
+            dataType = "Bot Tag";
+            break;
+        case 4:
+            dataType = "Bot ID";
+            break;
 
 	}
 	return ([data.varName2, dataType]);
@@ -105,7 +111,9 @@ html: function(isEvent, data) {
 	<div>
 		<p>
 			<u>Mod Info:</u><br>
-			Created by EliteArtz!
+			Created by EliteArtz!<br>
+			Merged into <b>Store Bot Client Info</b>.<br>
+			Please use that action instead!
 		</p>
 	</div><br>
 <div style="float: left; width: 80%;">
@@ -114,6 +122,8 @@ html: function(isEvent, data) {
 		<option value="0" selected>Bot Guilds Objects</option>
 		<option value="1">Bot Guilds Names</option>
 		<option value="2">Bot Guilds IDs</option>
+		<option value="3">Bot Current Prefix</option>
+		<option value="4">Bot Client ID</option>
 	</select>
 </div>
 <div>
@@ -150,7 +160,8 @@ init: function() {
 //---------------------------------------------------------------------
 
 action: function(cache) {
-	const botClient = this.getDBM().Bot.bot;
+    const botClient = this.getDBM().Bot.bot;
+    const dibiem = this.getDBM();
 	const data = cache.actions[cache.index];
 	const info = parseInt(data.info);
 	if(!botClient) {
@@ -159,16 +170,20 @@ action: function(cache) {
 	}
 	switch(info) {
 		case 0:
-		 result = botClient.guilds;
-		 break;
+		    result = botClient.guilds;
+		    break;
 		case 1:
-		 result = botClient.guilds.array();
-		 break;
+		    result = botClient.guilds.array();
+		    break;
 		case 2:
-		  if(botClient.guilds) {
-		    result = botClient.guilds.id;
-    }
-		 break;
+		    result = botClient.guilds.map(guilds => guilds.id);
+            break;
+        case 3:
+            result = dibiem.Files.data.settings.tag;
+            break;
+        case 4:
+            result = dibiem.Files.data.settings.client;
+            break;
   default:
 		break;
 	}

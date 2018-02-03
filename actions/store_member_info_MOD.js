@@ -24,7 +24,7 @@ section: "Member Control",
 
 subtitle: function(data) {
 	const members = ['Mentioned User', 'Command Author', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const info = ['Members Join date', 'Members Voice Channel ID', 'Members Last Message', 'Member is kickable?', 'Member is bot?', 'Members Discriminator','Members account creation date'];
+	const info = ['Members Join date', 'Members Voice Channel ID', 'Members Last Message', 'Member is kickable?', 'Member is bot?', 'Members Discriminator','Members account creation date', 'Members name withou mention'];
 	return `${members[parseInt(data.member)]} - ${info[parseInt(data.info)]}`;
 },
 
@@ -39,7 +39,7 @@ subtitle: function(data) {
 	 author: "Lasse",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.8.2",
+	 version: "1.8.4",
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
 	 short_description: "Stores Members Information",
@@ -81,6 +81,9 @@ variableStorage: function(data, varType) {
 			break;
 		case 6:
 			dataType = "Date";
+			break;
+		case 7:
+			dataType = "Text";
 			break;
 	}
 	return ([data.varName2, dataType]);
@@ -143,6 +146,7 @@ html: function(isEvent, data) {
 			<option value="4">Member is bot?</option>
 			<option value="5">Members discriminator</option>
 			<option value="6">Members account creation date</option>
+			<option value="7">Members name without mention</option>
 			</select>
 	</div>
 </div><br>
@@ -221,6 +225,11 @@ action: function(cache) {
 		case 6:
 			if (mem.user) {
 				result = mem.user.createdAt;
+			}
+			break;
+		case 7:
+			if (mem.user) {
+				result = mem.user.tag;
 			}
 			break;
 	}

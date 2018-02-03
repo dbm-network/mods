@@ -1,3 +1,0 @@
-[submodule "opus-native"]
-	path = opus-native
-	url = https://github.com/xiph/opus.git

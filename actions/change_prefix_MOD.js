@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Store UTC Time Info",
+name: "Change Prefix",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -14,7 +14,7 @@ name: "Store UTC Time Info",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Other Stuff",
+section: "Bot Client Control",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -23,8 +23,7 @@ section: "Other Stuff",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const time = ['UTC Year', 'UTC Month', 'UTC Day of the Month', 'UTC Hour', 'UTC Minute', 'UTC Second', 'UTC Millisecond'];
-	return `${time[parseInt(data.type)]}`;
+	return `Change Prefix`;
 },
 
 //---------------------------------------------------------------------
@@ -35,13 +34,13 @@ subtitle: function(data) {
 	 //---------------------------------------------------------------------
 
 	 // Who made the mod (If not set, defaults to "DBM Mods")
-	 author: "Lasse",
+	 author: "EliteArtz & General Wrex",
 
 	 // The version of the mod (Defaults to 1.0.0)
 	 version: "1.8.4",
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
-	 short_description: "Stores UTC Time and Date",
+	 short_description: "Change Prefix from Bot",
 
 	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
@@ -54,11 +53,7 @@ subtitle: function(data) {
 // Stores the relevant variable info for the editor.
 //---------------------------------------------------------------------
 
-variableStorage: function(data, varType) {
-	const type = parseInt(data.storage);
-	if(type !== varType) return;
-	return ([data.varName, "Number"]);
-},
+//variableStorage: function(data, varType) {},
 
 //---------------------------------------------------------------------
 // Action Fields
@@ -68,7 +63,7 @@ variableStorage: function(data, varType) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["type", "storage", "varName"],
+fields: ["pprefix"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -88,38 +83,18 @@ fields: ["type", "storage", "varName"],
 
 html: function(isEvent, data) {
 	return `
-	<div>
-		<p>
-			<u>Mod Info:</u><br>
-			Created by Lasse!
-		</p>
-	</div><br>
 <div>
-	<div style="padding-top: 8px; width: 70%;">
-		Time Info:<br>
-		<select id="type" class="round">
-			<option value="0" selected>UTC Year</option>
-			<option value="1">UTC Month</option>
-			<option value="2">UTC Day of the Month</option>
-			<option value="3">UTC Hour</option>
-			<option value="4">UTC Minute</option>
-			<option value="5">UTC Second</option>
-			<option value="6">UTC Millisecond</option>
-		</select>
-	</div>
-</div><br>
-<div>
-	<div style="float: left; width: 35%;">
-		Store In:<br>
-		<select id="storage" class="round">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text"><br>
-	</div>
-</div>`
+	<p>
+		<u>Mod Info:</u><br>
+		Made by EliteArtz<br>
+	</p>
+    <p>
+        <u>Thanks to:</u><br>
+        General Wrex for helping with scripting<br>
+    </p>
+    Change Prefix to:<br>
+	<textarea id="pprefix" class="round" style="width: 40%; resize: none;" type="textarea" rows="1" cols="20"></textarea><br><br>
+</div>`;
 },
 
 //---------------------------------------------------------------------
@@ -130,8 +105,7 @@ html: function(isEvent, data) {
 // functions for the DOM elements.
 //---------------------------------------------------------------------
 
-init: function() {
-},
+init: function() {},
 
 //---------------------------------------------------------------------
 // Action Bot Function
@@ -141,41 +115,22 @@ init: function() {
 // so be sure to provide checks for variable existance.
 //---------------------------------------------------------------------
 
-action: function(cache) {
-	const data = cache.actions[cache.index];
-	const type = parseInt(data.type);
-	let result;
-	switch(type) {
-		case 0:
-			result = new Date().getUTCFullYear();
-			break;
-		case 1:
-			result = new Date().getUTCMonth() + 1;
-			break;
-		case 2:
-			result = new Date().getUTCDate();
-			break;
-		case 3:
-			result = new Date().getUTCHours();
-			break;
-		case 4:
-			result = new Date().getUTCMinutes();
-			break;
-		case 5:
-			result = new Date().getUTCSeconds();
-			break;
-		case 6:
-			result = new Date().getUTCMilliseconds();
-			break;
-		default:
-			break;
-	}
-	if(result !== undefined) {
-		const storage = parseInt(data.storage);
-		const varName = this.evalMessage(data.varName, cache);
-		this.storeValue(result, storage, varName, cache);
-	}
-	this.callNextAction(cache);
+action: function (cache) {
+    const data = cache.actions[cache.index];
+
+    try {
+
+        var prefix = this.evalMessage(data.pprefix, cache);
+        if (prefix) {
+            this.getDBM().Files.data.settings.tag = prefix;
+            this.getDBM().Files.saveData("settings", function () { console.log("Prefix changed to " + prefix) });
+        } else {
+            console.log(prefix + " is not valid! Try again!");
+        }
+    } catch (err) {
+        console.log("ERROR!" + err.stack ? err.stack : err);
+    }
+    this.callNextAction(cache);
 },
 
 //---------------------------------------------------------------------

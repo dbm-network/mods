@@ -14,7 +14,7 @@ name: "Store Server Things (EliteArtz)",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Server Control",
+section: "Deprecated",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -39,7 +39,7 @@ subtitle: function(data) {
 	 author: "EliteArtz",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.8.3",
+	 version: "1.8.4",
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
 	 short_description: "Stores more Server Information",
@@ -104,7 +104,9 @@ html: function(isEvent, data) {
 	<div>
 	  <p>
 		  <u>Mod Info:</u><br>
-			Created by EliteArtz
+			Created by EliteArtz<br>
+			Merged into <b>Store Server Things</b>.<br>
+			Please use that action instead!
 		</p>
 	</div><br>
 <div>

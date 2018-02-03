@@ -22,24 +22,24 @@ module.exports = {
 	// These are variables that DBM Mods Manager uses to show information
 	// about the mods for people to see in the list.
 	//---------------------------------------------------------------------
-	
+
 	// Who made the mod (If not set, defaults to "DBM Mods")
 	author: "General Wrex",
-	
+
 	// The version of the mod (Defaults to 1.0.0)
-	version: "1.0.0",
-			
-    // A short description to show on the mod line for this mod (Must be on a single line)		
+	version: "1.0.1",
+
+    // A short description to show on the mod line for this mod (Must be on a single line)
 	short_description: "Stores JSON from a webapi into a variable.",
-	
-	// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods	
+
+	// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 	depends_on_mods: ["WrexMODS"],
 
 	//---------------------------------------------------------------------
-	
-	
-	
-	
+
+
+
+
 	//---------------------------------------------------------------------
 	// Action Name
 	//
@@ -47,6 +47,7 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	name: "Store Json From WebAPI",
+
 
 	//---------------------------------------------------------------------
 	// Action Section
@@ -56,15 +57,6 @@ module.exports = {
 
 	section: "JSON Things",
 
-	//---------------------------------------------------------------------
-    // Dependencies Section
-    //
-    // If your action requires any node modules, add them here.
-    //---------------------------------------------------------------------
-
-    dependencies: ["request", "valid-url"],
-
-    
 	//---------------------------------------------------------------------
 	// Action Subtitle
 	//
@@ -134,7 +126,7 @@ module.exports = {
     WebAPI URL: <br>
 		<textarea id="url" class="round" style="width: 99%; resize: none;" type="textarea" rows="4" cols="20"></textarea><br>
     Bearer Token ( If a bearer token is required, put it here!)<br>
-		<textarea id="token" class="round" placeholder="blank if none"   style="width: 99%; resize: none;" type="textarea" rows="4" cols="20"></textarea><br><br>		
+		<textarea id="token" class="round" placeholder="blank if none"   style="width: 99%; resize: none;" type="textarea" rows="4" cols="20"></textarea><br><br>
     Username( If a password is required, put it here!)<br>
 		<input id="user" class="round"  placeholder="blank if none" style="width: 99%; resize: none;" ><br>
 		Password ( If a password is required, put it here!)<br>
@@ -189,11 +181,11 @@ module.exports = {
 
 		const data = cache.actions[cache.index];
 		const varName = this.evalMessage(data.varName, cache);
-		
+
 		const token = this.evalMessage(data.token, cache);
 		const user = this.evalMessage(data.user, cache);
 		const pass = this.evalMessage(data.pass, cache);
-		
+
 		const storage = parseInt(data.storage);
 		var url = this.evalMessage(data.url, cache);
 		const path = this.evalMessage(data.path, cache);
@@ -203,7 +195,7 @@ module.exports = {
 		};
 
 		if(WrexMODS.checkURL(url)){
-		
+
 			WrexMODS.runPublicRequest(url, true, function(error, statusCode, jsonData){
 
 				try {
@@ -277,9 +269,8 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	mod: function(DBM) {
-
-		
-
-	}
+			 // aliases for backwards compatibility, in the bot only, DBM will still say the action is missing.
+			 DBM.Actions["Store Variable From WebAPI"] = DBM.Actions["Store Json From WebAPI"];
+	 }
 
 	}; // End of module

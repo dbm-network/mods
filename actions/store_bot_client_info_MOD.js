@@ -23,7 +23,7 @@ section: "Bot Client Control",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const info = ['Uptime in milliseconds', 'Ready at?', 'Ping', 'Guild amount', 'User amount', 'Ping rounded', 'Uptime in seconds', 'Uptime in minutes', 'Bots token', 'Voice connections amount'];
+const info = ['Uptime in milliseconds', 'Ready at?', 'Ping', 'Guild amount', 'User amount', 'Ping rounded', 'Uptime in seconds', 'Uptime in minutes', 'Bots token', 'Voice connections amount', 'Total Amount of Channels', 'Total Amount of Emojis', 'Bot\'s Previous Pings', 'Uptime in Days', 'Uptime in Days (Rounded)', 'Memory (RAM) Usage', 'Bot Guilds Objects', 'Bot Guilds Names', 'Bot Guilds IDs', 'Bot Current Prefix', 'Bot Client ID'];
 	return `Bot Client - ${info[parseInt(data.info)]}`;
 },
 
@@ -35,10 +35,10 @@ subtitle: function(data) {
 	 //---------------------------------------------------------------------
 
 	 // Who made the mod (If not set, defaults to "DBM Mods")
-	 author: "Lasse",
+	 author: "Lasse, EliteArtz and EGGSY",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.8.2",
+	 version: "1.8.4",
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
 	 short_description: "Stores Bot Information like Ping, Total Members or Guilds...",
@@ -90,6 +90,39 @@ variableStorage: function(data, varType) {
 		case 9:
 			dataType = "Number";
 			break;
+		case 10:
+			dataType = "Number";
+			break;
+		case 11:
+			dataType = "Number";
+			break;
+		case 12:
+			dataType = "Number";
+			break;
+		case 13:
+			dataType = "Time";
+			break;
+		case 14:
+			dataType = "Time";
+			break;
+		case 15:
+			dataType = "Number";
+			break;
+		case 16:
+			dataType = "Guild";
+			break;
+		case 17:
+			dataType = "Guild Name";
+			break;
+		case 18:
+			dataType = "Guild ID";
+			break;
+		case 19:
+			dataType = "Bot Tag";
+			break;
+		case 20:
+			dataType = "Bot ID";
+			break;
 	}
 	return ([data.varName2, dataType]);
 },
@@ -125,7 +158,7 @@ html: function(isEvent, data) {
 	<div>
 		<p>
 			<u>Mod Info:</u><br>
-			Created by Lasse!
+			Created by EliteArtz, EGGSY and Lasse!
 		</p>
 	</div><br>
 <div style="float: left; width: 80%;">
@@ -141,6 +174,17 @@ html: function(isEvent, data) {
 		<option value="7">Uptime in minutes</option>
 		<option value="8">Bots Token</option>
 		<option value="9">Total Voice connections</option>
+		<option value="10">Total Amount of Channels</option>
+		<option value="11">Total Amount of Emojis</option>
+		<option value="12">Bot's Previous Pings</option>
+		<option value="13">Uptime in Days</option>
+		<option value="14">Uptime in Days (Rounded)</option>
+		<option value="15">Memory (RAM) Usage</option>
+		<option value="16">Bot Guilds Objects</option>
+		<option value="17">Bot Guilds Names</option>
+		<option value="18">Bot Guilds IDs</option>
+		<option value="19">Bot Current Prefix</option>
+		<option value="20">Bot Client ID</option>
 	</select>
 </div>
 <div>
@@ -177,7 +221,8 @@ init: function() {
 //---------------------------------------------------------------------
 
 action: function(cache) {
-	const botClient = this.getDBM().Bot.bot;
+  const botClient = this.getDBM().Bot.bot;
+  const dibiem = this.getDBM(); //EliteArtz... really????
 	const data = cache.actions[cache.index];
 	const info = parseInt(data.info);
 	if(!botClient) {
@@ -214,6 +259,39 @@ action: function(cache) {
 			break;
 		case 9:
 			result = botClient.voiceConnections.array().length;
+			break;
+		case 10:
+			result = botClient.channels.size;
+			break;
+		case 11:
+			result = botClient.emojis.size;
+			break;
+		case 12:
+			result = botClient.pings;
+			break;
+		case 13:
+			result = botClient.uptime/msToDay;
+			break;
+		case 14:
+			result = Math.floor(botClient.uptime/msToDay);
+			break;
+		case 15:
+			result = "%" + ((process.memoryUsage().heapUsed / 1024) / 1024).toFixed(2);
+			break;
+		case 16:
+			result = botClient.guilds;
+		 	break;
+		case 17:
+			result = botClient.guilds.array();
+			break;
+		case 18:
+			result = botClient.guilds.map(guilds => guilds.id);
+			break;
+		case 19:
+			result = dibiem.Files.data.settings.tag;
+			break;
+		case 20:
+			result = dibiem.Files.data.settings.client;
 			break;
 		default:
 		break;
