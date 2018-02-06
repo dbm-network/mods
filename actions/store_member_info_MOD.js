@@ -24,7 +24,7 @@ section: "Member Control",
 
 subtitle: function(data) {
 	const members = ['Mentioned User', 'Command Author', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const info = ['Members Join date', 'Members Voice Channel ID', 'Members Last Message', 'Member is kickable?', 'Member is bot?', 'Members Discriminator','Members account creation date', 'Members name withou mention'];
+	const info = ['Members Join date', 'Members Voice Channel ID', 'Members Last Message', 'Member is kickable?', 'Member is bot?', 'Members Discriminator','Members account creation date', 'Members name without mention'];
 	return `${members[parseInt(data.member)]} - ${info[parseInt(data.info)]}`;
 },
 
