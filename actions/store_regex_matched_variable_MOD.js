@@ -14,7 +14,7 @@ module.exports = {
         // This is the section the action will fall into.
         //---------------------------------------------------------------------
 
-        section: "JSON Things",
+        section: "Variable Things",
 
         //---------------------------------------------------------------------
         // Action Subtitle
