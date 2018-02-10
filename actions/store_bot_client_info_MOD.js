@@ -23,7 +23,7 @@ section: "Bot Client Control",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-const info = ['Uptime in milliseconds', 'Ready at?', 'Ping', 'Guild amount', 'User amount', 'Ping rounded', 'Uptime in seconds', 'Uptime in minutes', 'Bots token', 'Voice connections amount', 'Total Amount of Channels', 'Total Amount of Emojis', 'Bot\'s Previous Pings', 'Uptime in Days', 'Uptime in Days (Rounded)', 'Memory (RAM) Usage', 'Bot Guilds Objects', 'Bot Guilds Names', 'Bot Guilds IDs', 'Bot Current Prefix', 'Bot Client ID'];
+const info = ['Uptime in milliseconds', 'Ready at?', 'Ping', 'Guild amount', 'User amount', 'Ping rounded', 'Uptime in seconds', 'Uptime in minutes', 'Bots token', 'Voice connections amount', 'Total Amount of Channels', 'Total Amount of Emojis', 'Bot\'s Previous Pings', 'Uptime in Days', 'Uptime in Days (Rounded)', 'Memory (RAM) Usage', 'Bot Guilds Objects', 'Bot Guilds Names', 'Bot Guilds IDs', 'Bot Current Prefix', 'Bot Client ID', 'Discord JS Version'];
 	return `Bot Client - ${info[parseInt(data.info)]}`;
 },
 
@@ -123,6 +123,9 @@ variableStorage: function(data, varType) {
 		case 20:
 			dataType = "Bot ID";
 			break;
+		case 21:
+			dataType = "Version Number";
+			break;
 	}
 	return ([data.varName2, dataType]);
 },
@@ -185,6 +188,7 @@ html: function(isEvent, data) {
 		<option value="18">Bot Guilds IDs</option>
 		<option value="19">Bot Current Prefix</option>
 		<option value="20">Bot Client ID</option>
+		<option value="21">Discord JS Version</option>
 	</select>
 </div>
 <div>
@@ -221,10 +225,12 @@ init: function() {
 //---------------------------------------------------------------------
 
 action: function(cache) {
-  const botClient = this.getDBM().Bot.bot;
-  const dibiem = this.getDBM(); //EliteArtz... really????
+  	const botClient = this.getDBM().Bot.bot;
+  	const dibiem = this.getDBM(); //EliteArtz... really???? Ugh you guys are meme
 	const data = cache.actions[cache.index];
 	const info = parseInt(data.info);
+	const DiscordJS = dibiem.DiscordJS = require('discord.js'); // tf is dibiem
+	const msToDay = (1000*60*60*24); // Really? Lasse? Did you really forget this?
 	if(!botClient) {
 		this.callNextAction(cache);
 		return;
@@ -292,6 +298,9 @@ action: function(cache) {
 			break;
 		case 20:
 			result = dibiem.Files.data.settings.client;
+			break;
+		case 21:
+			result = DiscordJS.version
 			break;
 		default:
 		break;
