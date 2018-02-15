@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Mod Information",
+name: "Welcome",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -118,26 +118,38 @@ tbody { border-top: 2px solid white; }
 </style>	
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
 	<p>
-		<u>Welcome!</u><br>
+		<h1>Welcome!</h1>
 		Thank you for using the DBM Mod Collection!<br>
-		If you want to tell us something, join the Discord Guild below.<br>
-		And if something doesn't work feel free to create an issue on GitHub<br>
-		or open #support and describe your problem.<br>
-		<u>Discord:</u><br>
+		If you want to tell us something, join the Discord Guild below.
+		And if something doesn't work feel free to create an issue on GitHub
+		or open #support and describe your problem.
+		
+		<h3>Discord:</h3>
 		Join the Discord Guild to stay updated and be able to suggest things.<br>
-		<a href="https://discord.gg/Y4fPBnZ" target="_blank">Join now</a><br>
-		<u>Your version:</u><br>
-		${this.version}<br>			
-		<u>Changelog:</u><br>
-		Click here to see the latest updates:<br>
-		<a href="https://github.com/Discord-Bot-Maker-Mods/DBM-Mods/releases" target="_blank">Open Changelog</a><br>
-		<u>GitHub:</u><br>
-		Visit us on GitHub! The whole mod collection is on GitHub<br>
+		https://discord.gg/Y4fPBnZ
+		
+		<h3>Your version:</h3>
+		${this.version}
+		
+		<h3>GitHub:</h3>
+		Visit us on GitHub! The whole mod collection is on GitHub
 		and everyone is invited to join us developing new mods!<br>
 		Copy and paste the link to view the site in your browser.<br>
-		<a href="https://github.com/Discord-Bot-Maker-Mods/DBM-Mods/" target="_blank">https://github.com/Discord-Bot-Maker-Mods/DBM-Mods/</a><br>
+		https://github.com/Discord-Bot-Maker-Mods/DBM-Mods/
+		
+		<h3>Patreon:</h3>
+		You can support us on Patreon!
+		Patreon is a website where you can support creators with a small donation
+		per month. And you will get also some things like a Discord Patron role and a mention here:<br>
+		<u>Patrons:</u><br>
+		- MitchDaGamer (5$)<br>
+		- General Wrex (1$)<br>
+		- Eggsy (1$)<br>
+		- Proximity (1$)<br><br>
+		Become a patron today!<br>
+		https://www.patreon.com/dbmmods
 	</p>
-		<u>Current List of Mods</u><br>
+		<h3>Current List of Mods</h3>
 		<table class="scroll">
 			<thead >
 				<tr>

@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Patrons",
+name: "License",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -14,7 +14,7 @@ name: "Patrons",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Deprecated",
+section: "#Mod Information",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -37,10 +37,10 @@ subtitle: function(data) {
 	 author: "Lasse",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.8.4",
+	 version: "1.8.5",
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
-	 short_description: "Information about the Mod Collection",
+	 short_description: "MIT License",
 
 	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
@@ -84,22 +84,17 @@ fields: [],
 html: function(isEvent, data) {
 	return `
 <div>
-	<p>
-		<h1>We merged this info into "Welcome"</h1>
-		<u>Patreon:</u><br>
-		You can support us on Patreon!<br>
-		Patreon is a website where you can support creators with a small donation<br>
-		per month. And you will get also some things like a Discord Patron role<br>
-		and a mention here:<br><br>
-		<u>Patrons:</u><br>
-		- MitchDaGamer (5$)<br>
-		- General Wrex (1$)<br>
-		- Eggsy (1$)<br>
-                - Proximity (1$)<br>
-		<br>
-		Become a patron today!<br>
-		<a href="https://www.patreon.com/dbmmods" target="_blank">https://www.patreon.com/dbmmods</a><br>
-	</p>
+<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
+DBM Mods has no official affiliation with Discord or Discord Bot Maker.<br>
+<h2>MIT License</h2><br>
+
+Copyright (c) 2017-2018 Lasse Niermann<br><br>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:<br><br>
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.<br><br>
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 </div>`
 },
 
