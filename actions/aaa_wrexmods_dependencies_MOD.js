@@ -96,7 +96,7 @@ WrexMODS.runPostJson = function (url, json, returnJson = true, callback){
 	};
 	
 	request(options, function (err, res, data) {
-		var statusCode = res.statusCode;
+		var statusCode = res ? res.statusCode : 200;
 		
 		if(callback && typeof callback == "function"){
 			callback(err, statusCode, data);
@@ -133,7 +133,7 @@ WrexMODS.executeDiscordJSON = function(type, urlPath, json ,DBM, cache, callback
 			};
 	
 		request(options, function (err, res, data) {
-			var statusCode = res.statusCode;	
+			var statusCode = res ? res.statusCode : 200;
 
 			if(err){
 				reject({err, statusCode, data});
@@ -168,7 +168,7 @@ WrexMODS.runPublicRequest = function (url, returnJson = false, callback, token, 
 		  },
 	  }, (err, res, data) => {    
 
-        var statusCode = res.statusCode;
+        var statusCode = res ? res.statusCode : 200;
    
         if(callback && typeof callback == "function"){
             callback(err, statusCode, data);
@@ -195,7 +195,7 @@ WrexMODS.runBearerTokenRequest = function (url, returnJson = false, bearerToken,
 		headers: {'User-Agent': 'Other'}
 		}, (err, res, data) => {    
 
-		var statusCode = res.statusCode;
+		var statusCode = res ? res.statusCode : 200;
 
 		if(callback && typeof callback == "function"){
 			callback(err, statusCode, data);
@@ -223,7 +223,7 @@ WrexMODS.runBasicAuthRequest = function (url, returnJson = false, username, pass
 		headers: {'User-Agent': 'Other'}
 		}, (err, res, data) => {    
 
-		var statusCode = res.statusCode;
+		var statusCode = res ? res.statusCode : 200;
 
 		if(callback && typeof callback == "function"){
 			callback(err, statusCode, data);
