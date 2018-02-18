@@ -108,12 +108,15 @@ module.exports = {
 		<div>
 		   <p>
 			  <u>Mod Info:</u><br>
-			  Created by General Wrex!
+			  Created by General Wrex!<br> 
+			  Updated: Feb 18th, 2018<br>			 
+			  If you dont want to see all that data in the console, scroll down to the options!<br><br> 
 		   </p>
 		</div>
 		<div style="float: left; width: 95%;">
 		   WebAPI URL: <br>
 		   <textarea id="url" class="round" style="width: 99%; resize: none;" type="textarea" rows="4" cols="20"></textarea>
+		   <text style="font-size: 60%;">If the url is the same, json data will be used from the initial store json within the command</text>
 		   <br>
 		   Headers (By default 'User-Agent: Other' is applied, It's 1 per line, (<b>key:value</b>))<br>
 		   <textarea id="headers" class="round" placeholder="User-Agent: Other" style="width: 99%; resize: none;" type="textarea" rows="4" cols="20"></textarea><br>  
@@ -125,8 +128,7 @@ module.exports = {
 		</div>
 		<div id="authSection" style="display: ;">
 		   <br>Bearer Token<br>
-		   <textarea id="token" class="round" placeholder="blank if none" style="width: 99%; resize: none;" type="textarea" rows="4" cols="20">      
-		   </textarea><br>
+		   <textarea id="token" class="round" placeholder="blank if none" style="width: 99%; resize: none;" type="textarea" rows="4" cols="20"></textarea><br>
 		   Username<br>
 		   <input id="user" class="round"  placeholder="blank if none" style="width: 99%; resize: none;" ><br>
 		   Password <br>
@@ -134,7 +136,7 @@ module.exports = {
 		</div>
 	 
 	 <br><br>
-	 Initial JSON Path: (Leave blank to store everything)<br> 
+	 JSON Path: (Leave blank to store everything)<br> 
 	 Supports the usage of JSON Path (Regex)<br> 
 	 More info here <br>
 	 http://goessner.net/articles/JsonPath/index.html#e2<br><br>
@@ -155,14 +157,15 @@ module.exports = {
 	 <br>
 	 <div style="float: left; width: 70%;">
 		<br>   
-		<div class="ui toggle checkbox">
-		   <input type="checkbox" id="debugModeBox" onclick="glob.checkBox(this, 'debug');">
-		   <label><font color="white">Debug Mode</font></label>		
+		<div>
+			<label for="debugMode"><font color="white">Debug Mode</font></label>		
+			<select id="debugMode" class="round">
+				<option value="1" selected>Enabled</option>
+				<option value="0" >Disabled</option>
+			</select>	   
 		   <text style="font-size: 60%;">Enables verbose printing to the console, disable to stop all but error printing</text>
 		</div>
 	 </div>
-	 <input type="hidden" id="debugMode" name="debugMode">
-	 <input type="hidden" id="showAuth" name="showAuth">
 	 </div>
 	 `
 	},
@@ -181,23 +184,13 @@ module.exports = {
 		glob.variableChange(document.getElementById('storage'), 'varNameContainer');
 		
 		glob.checkBox = function(element, type){ 
-			if(type === "debug") { 
-			  document.getElementById("debugMode").value = element.checked ? "1" : "0"; 
-			}
 			if(type === "auth"){
 				document.getElementById("authSection").style.display = element.checked  ? "" : "none";
 				document.getElementById("showAuth").value = element.checked ? "1" : "0"; 
 			}
 		};
 
-		// idk why but need a timeout with checkboxes or it wont set when the ui loads, the on ready event doesn't work
-		setTimeout(() => {
-			glob.checkBox(document.getElementById("toggleAuth"), "auth");
-			glob.checkBox(document.getElementById("debugModeBox"), "debug");
-
-			document.getElementById("debugModeBox").checked = document.getElementById("debugMode").value == "1" ? true : false;
-			document.getElementById("toggleAuth").checked = document.getElementById("showAuth").value == "1" ? true : false;
-		}, 500); 
+		glob.checkBox(document.getElementById("toggleAuth"), "auth");
 			
 	},
 
@@ -210,6 +203,9 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	action: function(cache) {
+
+		var _this = this;
+
 		const data = cache.actions[cache.index];
 
 		var WrexMODS = this.getWrexMods();
@@ -230,28 +226,6 @@ module.exports = {
 
 		let headers = this.evalMessage(data.headers, cache);
 
-		let setHeaders = {};
-
-		// set default required header
-		setHeaders["User-Agent"] = "Other";
-
-		// Because headers are a dictionary ;)
-		if(headers){
-			var lines = String(headers).split('\n');
-			for(var i = 0;i < lines.length;i++){
-				var header = lines[i].split(':');
-
-				if(lines[i].includes(':') && header.length > 0){
-					var key = header[0] || "Unknown";
-					var value = header[1] || "Unknown";
-					setHeaders[key] = value;
-
-					if(_DEBUG) console.log("Applied Header: " + lines[i])
-				}else{
-					console.error(`WebAPI: Error: Custom Header line ${lines[i]} is wrongly formatted. You must split the key from the value with a colon (:)`);
-				}				
-			}
-		}
 				
 		// if it fails the check, try to re-encode the url
 		if(!WrexMODS.checkURL(url)){
@@ -262,23 +236,13 @@ module.exports = {
 
 			try {
 			   
-				request.get({
-					url: url,
-					json: true,
-					headers: setHeaders,
-					auth: {
-						bearer: token,
-						user: user,
-						pass: pass,
-						sendImmediately: false
-					},
-				}, function(error, res, jsonData) {    
+				function storeData(error, res, jsonData) {    
 			
 					var statusCode = res ? res.statusCode : 200;
 							
 					if(error){
 						var errorJson = JSON.stringify({error, statusCode})
-						this.storeValue(errorJson, storage, varName, cache);
+						_this.storeValue(errorJson, storage, varName, cache);
 
 						console.error("WebAPI: Error: " + errorJson + " stored to: ["+ varName+"]");
 					}else{
@@ -292,7 +256,7 @@ module.exports = {
 								var test = JSON.parse(JSON.stringify(outData));
 							} catch (error) {
 								var errorJson = JSON.stringify({error: error, statusCode: statusCode, success: false})
-								this.storeValue(errorJson, storage, varName, cache);
+								_this.storeValue(errorJson, storage, varName, cache);
 								console.error(error.stack ? error.stack : error);
 							}
 
@@ -300,27 +264,92 @@ module.exports = {
 
 							if(outData.success != null){
 								var errorJson = JSON.stringify({error: error, statusCode: statusCode, success: false})
-								this.storeValue(errorJson, storage, varName, cache);
+								_this.storeValue(errorJson, storage, varName, cache);
 								console.log("WebAPI: Error Invalid JSON, is the Path set correctly? [" + path + "]");
 							}else{
 								if(outValue.success != null || !outValue){
 									var errorJson = JSON.stringify({error: error, statusCode: statusCode, success: false})
-									this.storeValue(errorJson, storage, varName, cache);
+									_this.storeValue(errorJson, storage, varName, cache);
 									console.log("WebAPI: Error Invalid JSON, is the Path set correctly? [" + path + "]");
 								}else{
-									this.storeValue(outValue, storage, varName, cache);
+									_this.storeValue(outValue, storage, varName, cache);
+									_this.storeValue(jsonData, 1, url, cache);
+									_this.storeValue(url, 1, url + "_URL", cache);
 									if(_DEBUG) console.log("WebAPI: JSON Data values starting from ["+ path +"] stored to: ["+ varName+"]");
 								}
 							}
 
 						}else{
 							if(_DEBUG) console.dir(jsonData);
-							this.storeValue(jsonData, storage, varName, cache);
+							_this.storeValue(jsonData, storage, varName, cache);
+							_this.storeValue(jsonData, 1, url, cache);
+							_this.storeValue(url, 1, url + "_URL", cache);
 							if(_DEBUG) console.log("WebAPI: JSON Data Object stored to: ["+ varName+"]");
 						}
 					}
-					this.callNextAction(cache);
-				}.bind(this));	
+					_this.callNextAction(cache);
+				}
+
+				var oldUrl = this.getVariable(1, url + "_URL", cache);
+
+				if(url === oldUrl){
+
+					let jsonData;
+					let error;
+					let res = { statusCode:200 }
+
+					try {
+						jsonData = this.getVariable(1, url, cache);
+					} catch (err) {
+						error = err;
+					}
+
+					console.log("WebAPI: Using previously stored json data from the initial store json action within this command.")
+
+					storeData(error, res, jsonData);
+					
+
+				}else{
+
+					let setHeaders = {};
+
+					// set default required header
+					setHeaders["User-Agent"] = "Other";
+
+
+					// Because headers are a dictionary ;)
+					if(headers){
+						var lines = String(headers).split('\n');
+						for(var i = 0;i < lines.length;i++){
+							var header = lines[i].split(':');
+
+							if(lines[i].includes(':') && header.length > 0){
+								var key = header[0] || "Unknown";
+								var value = header[1] || "Unknown";
+								setHeaders[key] = value;
+
+								if(_DEBUG) console.log("Applied Header: " + lines[i])
+							}else{
+								console.error(`WebAPI: Error: Custom Header line ${lines[i]} is wrongly formatted. You must split the key from the value with a colon (:)`);
+							}				
+						}
+					}
+
+
+					request.get({
+						url: url,
+						json: true,
+						headers: setHeaders,
+						auth: {
+							bearer: token,
+							user: user,
+							pass: pass,
+							sendImmediately: false
+						},
+					}, (error, res, jsonData) => storeData(error, res, jsonData));	
+				}
+
+			
 				
 			} catch (err) {
 				console.error(err.stack ? err.stack : err);
