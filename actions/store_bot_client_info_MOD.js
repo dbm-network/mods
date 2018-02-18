@@ -237,7 +237,7 @@ action: function(cache) {
 	}
 	switch(info) {
 		case 0:
-			result = botClient.uptime + 'ms';
+			result = botClient.uptime;
 			break;
 		case 1:
 			result = botClient.readyAt;
@@ -255,10 +255,10 @@ action: function(cache) {
 			result = Math.round(botClient.ping);
 			break;
 		case 6:
-			result = Math.floor(botClient.uptime/1000) + 's';
+			result = Math.floor(botClient.uptime/1000);
 			break;
 		case 7:
-			result = Math.floor(botClient.uptime/1000/60) + 'm';
+			result = Math.floor(botClient.uptime/1000/60);
 			break;
 		case 8:
 			result = botClient.token;
@@ -282,7 +282,7 @@ action: function(cache) {
 			result = Math.floor(botClient.uptime/msToDay);
 			break;
 		case 15:
-			result = "%" + ((process.memoryUsage().heapUsed / 1024) / 1024).toFixed(2);
+			result = ((process.memoryUsage().heapUsed / 1024) / 1024).toFixed(2) + "%";
 			break;
 		case 16:
 			result = botClient.guilds;
@@ -300,7 +300,7 @@ action: function(cache) {
 			result = dibiem.Files.data.settings.client;
 			break;
 		case 21:
-			result = DiscordJS.version
+			result = DiscordJS.version;
 			break;
 		default:
 		break;
