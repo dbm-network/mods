@@ -144,7 +144,6 @@ html: function(isEvent, data) {
 			<option value="2">Last Message</option>
 			<option value="3">Is kickable?</option>
 			<option value="4">Is bot?</option>
-			
 			<option value="6">Account Creation Date</option>
 			<option value="5">Discriminator (#0001)</option>
 			<option value="7">Tag (Lasse#0001)</option>
