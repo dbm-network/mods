@@ -14,7 +14,7 @@ name: "Store Role Members",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Role Control",
+section: "Deprecated",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -105,7 +105,9 @@ html: function(isEvent, data) {
 	<div>
 		<p>
 			<u>Mod Info:</u><br>
-			Created by EliteArtz!
+			Created by EliteArtz!<br>
+			Merged into <b>Store Role Things</b>.<br>
+			Please use that action instead!
 		</p>
 	</div><br>
 <div>
