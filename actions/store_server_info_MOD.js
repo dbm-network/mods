@@ -169,24 +169,23 @@ html: function(isEvent, data) {
 	<div style="padding-top: 8px; width: 70%;">
 		Source Info:<br>
 		<select id="info" class="round">
-			<option value="0" selected>Servers creation date</option>
+			<option value="0" selected>Servers Creation Date</option>
 			<option value="1">Time User gets AFK</option>
 			<option value="2">Is Server available?</option>
-			<option value="3">More than 250 members?</option>
-			<option value="4">Date bot joined server</option>
-			<option value="5">Channel amount</option>
-			<option value="6">Emoji amount</option>
-			<option value="7">Embed links?</option>
-			<option value="8">DND Members Count</option>
-			<option value="9">Online Members Count (fixed)</option>
-			<option value="10">Offline Members Count</option>
+			<option value="4">Date Bot Joined</option>
+			<option value="5">Channel Amount</option>
+			<option value="6">Emoji Amount</option>
+			<option value="7">Embeds links?</option>
+			<option value="9">Online Members Count</option
 			<option value="11">Idle Members Count</option>
-			<option value="12">Total Bots in Servers</option>
+			<option value="8">DND Members Count</option>
+			<option value="10">Offline Members Count</option>
 			<option value="13">Server Channel IDs</option>
 			<option value="14">Server Role IDs</option>
 			<option value="15">Server Member IDs</option>
 			<option value="16">Server Bot Count</option>
 			<option value="17">Server Human Member Count</option>
+			<option value="12">Total Bots in Servers</option>
 			</select>
 	</div>
 </div><br>
@@ -248,7 +247,7 @@ action: function(cache) {
 			result = targetServer.available;
 			break;
 		case 3:
-			result = targetServer.large;
+			result = targetServer.large; //Deprecated in v1.8.5
 			break;
 		case 4:
 			result = targetServer.joinedAt;
