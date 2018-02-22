@@ -218,7 +218,7 @@ module.exports = {
 
 			const DEBUG = parseInt(data.debugMode);
 
-			const myXPath = this.evalMessage(data.xpath, cache).replace(/`/g, "");
+			const myXPath = this.evalMessage(data.xpath, cache);
 
 			const html = this.getVariable(source, sourceVarName, cache);
 
@@ -227,6 +227,26 @@ module.exports = {
 				var xpath = WrexMODS.require('xpath');
 				var dom = WrexMODS.require('xmldom').DOMParser;
 			
+				var entities = {
+					'amp': '&',
+					'apos': '\'',
+					'#x27': '\'',
+					'#x2F': '/',
+					'#39': '\'',
+					'#47': '/',
+					'lt': '<',
+					'gt': '>',
+					'nbsp': ' ',
+					'quot': '"'
+				  }
+				  
+				  function decodeHTMLEntities (text) {
+					return text.replace(/&([^;]+);/gm, function (match, entity) {
+					  return entities[entity] || match
+					})
+				  }
+
+
 				if(html){
 
 					let mylocator = {};
@@ -235,10 +255,12 @@ module.exports = {
 						locator: mylocator,
 						errorHandler: {
 						   warning: (msg) => {manageXmlParseError(msg,1,parseLog)},
-						   error: (msg) => {manageXmlParseError(msg,2,parseLog)},
+						   error: (msg) => {manageXmlParseError(msg,2,parseLog); console.log("Error: " + msg)},
 						   fatalError: (msg) => {manageXmlParseError(msg,3,parseLog)},
 						},
-					}).parseFromString(html);
+					}).parseFromString(html.replace(/&([^;]+);/gm, function (match, entity) {
+						return entities[entity] || match
+					  }));
 
 					function manageXmlParseError(msg,errorLevel,errorLog){
 						if( (errorLog.errorLevel == null) || (errorLog.errorLevel < errorLevel)){
@@ -249,11 +271,12 @@ module.exports = {
 						}					 
 						errorLog[errorLevel.toString()].push(msg);
 					 }
-					
-					var nodes = xpath.select(myXPath, doc);
-												
-					if(nodes.length > 0){
 
+					
+					let nodes = xpath.select(myXPath, doc);
+									
+
+					if(nodes.length > 0){
 
 						var out = [];
 						nodes.forEach(node => {
