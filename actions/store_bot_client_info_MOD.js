@@ -23,7 +23,7 @@ section: "Bot Client Control",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-const info = ['Uptime in milliseconds', 'Ready at?', 'Ping', 'Guild amount', 'User amount', 'Ping rounded', 'Uptime in seconds', 'Uptime in minutes', 'Bots token', 'Voice connections amount', 'Total Amount of Channels', 'Total Amount of Emojis', 'Bot\'s Previous Pings', 'Uptime in Days', 'Uptime in Days (Rounded)', 'Memory (RAM) Usage', 'Bot Guilds Objects', 'Bot Guilds Names', 'Bot Guilds IDs', 'Bot Current Prefix', 'Bot Client ID', 'Discord JS Version', 'Uptime in Hours'];
+const info = ['Uptime in milliseconds', 'Ready at?', 'Ping', 'Guild amount', 'User amount', 'Ping rounded', 'Uptime in seconds', 'Uptime in minutes', 'Bots token', 'Voice connections amount', 'Total Amount of Channels', 'Total Amount of Emojis', 'Bot\'s Previous Pings', 'Uptime in Days', 'Uptime in Days (Rounded)', 'Memory (RAM) Usage', 'Bot Guilds Objects', 'Bot Guilds Names', 'Bot Guilds IDs', 'Bot Current Prefix', 'Bot Client ID', 'Discord JS Version', 'Restarting Uptime in Days', 'Restarting Uptime in Hours', 'Restarting Uptime in Minutes', 'Restarting Uptime in Seconds'];
 	return `Bot Client - ${info[parseInt(data.info)]}`;
 },
 
@@ -38,7 +38,7 @@ const info = ['Uptime in milliseconds', 'Ready at?', 'Ping', 'Guild amount', 'Us
 	 author: "Lasse, EliteArtz and EGGSY",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.8.5",
+	 version: "1.8.4",
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
 	 short_description: "Stores Bot Information like Ping, Total Members or Guilds...",
@@ -127,7 +127,16 @@ variableStorage: function(data, varType) {
 			dataType = "Version Number";
 			break;
 		case 22:
-			dataType = "Number";
+			dataType = "Time";
+			break;
+		case 23:
+			dataType = "Time";
+			break;
+		case 24:
+			dataType = "Time";
+			break;
+		case 25:
+			dataType = "Time";
 			break;
 	}
 	return ([data.varName2, dataType]);
@@ -167,32 +176,35 @@ html: function(isEvent, data) {
 			Created by EliteArtz, EGGSY and Lasse!
 		</p>
 	</div><br>
-	<div style="float: left; width: 80%;">
+<div style="float: left; width: 80%;">
 	Source Info:<br>
 	<select id="info" class="round">
-		<option value="0">Uptime in Milliseconds</option>
-		<option value="6">Uptime in Seconds</option>
-		<option value="7">Uptime in Minutes</option>
-		<option value="22">Uptime in Hours</option>
-		<option value="13">Uptime in Days</option>
-		<option value="14">Uptime in Days (Rounded)</option>
+		<option value="0">Uptime in milliseconds</option>
 		<option value="1">Ready at</option>
 		<option value="2">Ping</option>
-		<option value="5">Ping Rounded</option>
-		<option value="12">Bots Previous Pings</option>
-		<option value="9">Total Voice Connections</option>
-		<option value="15">Memory (RAM) Usage</option>
-		<option value="3">Total Amount of Guilds</option>
-		<option value="4">Total Amount of Users</option>
+		<option value="3">Total amount of guilds</option>
+		<option value="4">Total amount of users</option>
+		<option value="5">Ping rounded</option>
+		<option value="6">Uptime in seconds</option>
+		<option value="7">Uptime in minutes</option>
+		<option value="8">Bots Token</option>
+		<option value="9">Total Voice connections</option>
 		<option value="10">Total Amount of Channels</option>
 		<option value="11">Total Amount of Emojis</option>
+		<option value="12">Bot's Previous Pings</option>
+		<option value="13">Uptime in Days</option>
+		<option value="14">Uptime in Days (Rounded)</option>
+		<option value="15">Memory (RAM) Usage</option>
 		<option value="16">Bot Guilds Objects</option>
 		<option value="17">Bot Guilds Names</option>
 		<option value="18">Bot Guilds IDs</option>
 		<option value="19">Bot Current Prefix</option>
 		<option value="20">Bot Client ID</option>
-		<option value="8">Bot Token</option>
 		<option value="21">Discord JS Version</option>
+		<option value="22">Restarting Uptime in Days</option>
+		<option value="23">Restarting Uptime in Hours</option>
+		<option value="24">Restarting Uptime in Minutes</option>
+		<option value="25">Restarting Uptime in Seconds</option>
 	</select>
 </div>
 <div>
@@ -233,8 +245,8 @@ action: function(cache) {
   	const dibiem = this.getDBM(); //EliteArtz... really???? Ugh you guys are meme
 	const data = cache.actions[cache.index];
 	const info = parseInt(data.info);
-	const DiscordJS = dibiem.DiscordJS
-	const msToDay = (1000*60*60*24); // Really? Lasse? Did you really forget this? - :blobshh:
+	const DiscordJS = dibiem.DiscordJS = require('discord.js'); // tf is dibiem
+	const msToDay = (1000*60*60*24); // Really? Lasse? Did you really forget this?
 	if(!botClient) {
 		this.callNextAction(cache);
 		return;
@@ -307,7 +319,16 @@ action: function(cache) {
 			result = DiscordJS.version;
 			break;
 		case 22:
-			result = Math.floor(botClient.uptime/1000/60/60);
+			result = Math.floor((process.uptime() % 31536000) / 86400);
+			break;
+		case 23:
+			result = Math.floor((process.uptime() % 86400) / 3600);
+			break;
+		case 24:
+			result = Math.floor((process.uptime() % 3600) / 60);
+			break;
+		case 25:
+			result = Math.round(process.uptime() % 60);
 			break;
 		default:
 		break;
