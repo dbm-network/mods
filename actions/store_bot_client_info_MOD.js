@@ -23,7 +23,7 @@ section: "Bot Client Control",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-const info = ['Uptime in milliseconds', 'Ready at?', 'Ping', 'Guild amount', 'User amount', 'Ping rounded', 'Uptime in seconds', 'Uptime in minutes', 'Bots token', 'Voice connections amount', 'Total Amount of Channels', 'Total Amount of Emojis', 'Bot\'s Previous Pings', 'Uptime in Days', 'Uptime in Days (Rounded)', 'Memory (RAM) Usage', 'Bot Guilds Objects', 'Bot Guilds Names', 'Bot Guilds IDs', 'Bot Current Prefix', 'Bot Client ID', 'Discord JS Version', 'Restarting Uptime in Days', 'Restarting Uptime in Hours', 'Restarting Uptime in Minutes', 'Restarting Uptime in Seconds'];
+const info = ['Uptime in milliseconds', 'Ready at?', 'Ping', 'Guild amount', 'User amount', 'Ping rounded', 'Uptime in seconds', 'Uptime in minutes', 'Bots token', 'Voice connections amount', 'Total Amount of Channels', 'Total Amount of Emojis', 'Bot\'s Previous Pings', 'Uptime in Days', 'Uptime in Days (Rounded)', 'Memory (RAM) Usage', 'Bot Guilds Objects', 'Bot Guilds Names', 'Bot Guilds IDs', 'Bot Current Prefix', 'Bot Client ID', 'Discord JS Version', 'Uptime in Hours', 'Restarting Uptime in Days', 'Restarting Uptime in Hours', 'Restarting Uptime in Minutes', 'Restarting Uptime in Seconds'];
 	return `Bot Client - ${info[parseInt(data.info)]}`;
 },
 
@@ -38,7 +38,7 @@ const info = ['Uptime in milliseconds', 'Ready at?', 'Ping', 'Guild amount', 'Us
 	 author: "Lasse, EliteArtz and EGGSY",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.8.4",
+	 version: "1.8.5",
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
 	 short_description: "Stores Bot Information like Ping, Total Members or Guilds...",
@@ -127,7 +127,7 @@ variableStorage: function(data, varType) {
 			dataType = "Version Number";
 			break;
 		case 22:
-			dataType = "Time";
+			dataType = "Number";
 			break;
 		case 23:
 			dataType = "Time";
@@ -136,6 +136,9 @@ variableStorage: function(data, varType) {
 			dataType = "Time";
 			break;
 		case 25:
+			dataType = "Time";
+			break;
+		case 26:
 			dataType = "Time";
 			break;
 	}
@@ -187,7 +190,7 @@ html: function(isEvent, data) {
 		<option value="5">Ping rounded</option>
 		<option value="6">Uptime in seconds</option>
 		<option value="7">Uptime in minutes</option>
-		<option value="8">Bots Token</option>
+		<option value="8">Bot's Token</option>
 		<option value="9">Total Voice connections</option>
 		<option value="10">Total Amount of Channels</option>
 		<option value="11">Total Amount of Emojis</option>
@@ -201,10 +204,11 @@ html: function(isEvent, data) {
 		<option value="19">Bot Current Prefix</option>
 		<option value="20">Bot Client ID</option>
 		<option value="21">Discord JS Version</option>
-		<option value="22">Restarting Uptime in Days</option>
-		<option value="23">Restarting Uptime in Hours</option>
-		<option value="24">Restarting Uptime in Minutes</option>
-		<option value="25">Restarting Uptime in Seconds</option>
+		<option value="22">Uptime in Hours</option>
+		<option value="23">Restarting Uptime in Days</option>
+		<option value="24">Restarting Uptime in Hours</option>
+		<option value="25">Restarting Uptime in Minutes</option>
+		<option value="26">Restarting Uptime in Seconds</option>
 	</select>
 </div>
 <div>
@@ -246,7 +250,7 @@ action: function(cache) {
 	const data = cache.actions[cache.index];
 	const info = parseInt(data.info);
 	const DiscordJS = dibiem.DiscordJS = require('discord.js'); // tf is dibiem
-	const msToDay = (1000*60*60*24); // Really? Lasse? Did you really forget this?
+	const msToDay = (1000*60*60*24); // Really? Lasse? Did you really forget this? - :blobshh:
 	if(!botClient) {
 		this.callNextAction(cache);
 		return;
@@ -319,15 +323,18 @@ action: function(cache) {
 			result = DiscordJS.version;
 			break;
 		case 22:
-			result = Math.floor((process.uptime() % 31536000) / 86400);
+			result = Math.floor(botClient.uptime/1000/60/60);
 			break;
 		case 23:
-			result = Math.floor((process.uptime() % 86400) / 3600);
+			result = Math.floor((process.uptime() % 31536000) / 86400);
 			break;
 		case 24:
-			result = Math.floor((process.uptime() % 3600) / 60);
+			result = Math.floor((process.uptime() % 86400) / 3600);
 			break;
 		case 25:
+			result = Math.floor((process.uptime() % 3600) / 60);
+			break;
+		case 26:
 			result = Math.round(process.uptime() % 60);
 			break;
 		default:
