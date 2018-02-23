@@ -356,6 +356,7 @@ module.exports = {
 					else if(platform === 'win64') result = 'Windows';
 					else if(platform === 'linux') result = 'Linux';
 				}
+				break;
 			default:
 			break;
 		}
