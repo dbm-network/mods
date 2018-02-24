@@ -23,7 +23,7 @@ module.exports = {
 	//---------------------------------------------------------------------
 	
 	subtitle: function(data) {
-	const info = ['Uptime in Milliseconds', 'Ready At?', 'Ping', 'Guild Amount', 'User Amount', 'Rounded Ping', 'Uptime in Seconds', 'Uptime in Minutes', 'Bot\'s Token', 'Voice Connections Amount', 'Total Amount of Channels', 'Total Amount of Emojis', 'Bot\'s Previous Pings', 'Uptime in Days', 'Uptime in Days (Rounded)', 'Memory (RAM) Usage', 'Bot Guilds Objects', 'Bot Guilds Names', 'Bot Guilds IDs', 'Bot Current Prefix', 'Bot Client ID', 'Discord JS Version', 'Uptime in Hours', 'Restarting Uptime in Days', 'Restarting Uptime in Hours', 'Restarting Uptime in Minutes', 'Restarting Uptime in Seconds', 'Memory (RAM) Usage in MB', 'Bot\'s OS (Process Platform)', 'CPU Usage in MB', 'Bot\'s Directory'];
+	const info = ['Uptime in Milliseconds', 'Ready At?', 'Ping', 'Guild Amount', 'User Amount', 'Rounded Ping', 'Uptime in Seconds', 'Uptime in Minutes', 'Bot\'s Token', 'Voice Connections Amount', 'Total Amount of Channels', 'Total Amount of Emojis', 'Bot\'s Previous Pings', 'Uptime in Days', 'Uptime in Days (Rounded)', 'Memory (RAM) Usage', 'Bot Guilds Objects', 'Bot Guilds Names', 'Bot Guilds IDs', 'Bot Current Prefix', 'Bot Client ID', 'Discord JS Version', 'Uptime in Hours', 'Refreshing Uptime in Days', 'Refreshing Uptime in Hours', 'Refreshing Uptime in Minutes', 'Refreshing Uptime in Seconds', 'Memory (RAM) Usage in MB', 'Bot\'s OS (Process Platform)', 'CPU Usage in MB', 'Bot\'s Directory'];
 		return `Bot Client - ${info[parseInt(data.info)]}`;
 	},
 	
@@ -194,37 +194,31 @@ module.exports = {
 	<div style="float: left; width: 80%;">
 		Source Info:<br>
 		<select id="info" class="round">
-			<option value="0">Uptime in Milliseconds</option>
-			<option value="1">Ready At</option>
+			<option value="23">Refreshing Uptime in Days</option>
+			<option value="24">Refreshing Uptime in Hours</option>
+			<option value="25">Refreshing Uptime in Minutes</option>
+			<option value="26">Refreshing Uptime in Seconds</option>
+			<option value="1">Ready at</option>
 			<option value="2">Ping</option>
+			<option value="5">Ping Rounded</option>
+			<option value="12">Bots Previous Pings</option>
+			<option value="9">Total Voice Connections</option>
+			<option value="15">Memory (RAM) Usage</option>
+			<option value="27">Memory (RAM) Usage in MB</option>
+			<option value="29">CPU Usage in MB</option>
 			<option value="3">Total Amount of Guilds</option>
 			<option value="4">Total Amount of Users</option>
-			<option value="5">Rounded Ping</option>
-			<option value="6">Uptime in Seconds</option>
-			<option value="7">Uptime in Minutes</option>
-			<option value="8">Bot's Token</option>
-			<option value="9">Total Voice connections</option>
 			<option value="10">Total Amount of Channels</option>
 			<option value="11">Total Amount of Emojis</option>
-			<option value="12">Bot's Previous Pings</option>
-			<option value="13">Uptime in Days</option>
-			<option value="14">Uptime in Days (Rounded)</option>
-			<option value="15">Memory (RAM) Usage</option>
 			<option value="16">Bot Guilds Objects</option>
 			<option value="17">Bot Guilds Names</option>
 			<option value="18">Bot Guilds IDs</option>
 			<option value="19">Bot Current Prefix</option>
 			<option value="20">Bot Client ID</option>
+			<option value="28">Bot OS (Process Platform)</option>
+			<option value="30">Bot Directory</option>
+			<option value="8">Bot Token</option>
 			<option value="21">Discord JS Version</option>
-			<option value="22">Uptime in Hours</option>
-			<option value="23">Restarting Uptime in Days</option>
-			<option value="24">Restarting Uptime in Hours</option>
-			<option value="25">Restarting Uptime in Minutes</option>
-			<option value="26">Restarting Uptime in Seconds</option>
-			<option value="27">Memory (RAM) Usage in MB</option>
-			<option value="28">Bot's OS (Process Platform)</option>
-			<option value="29">CPU Usage in MB</option>
-			<option value="30">Bot's Directory</option>
 		</select>
 	</div>
 	<div>
@@ -238,6 +232,11 @@ module.exports = {
 			Variable Name:<br>
 			<input id="varName2" class="round" type="text"><br>
 		</div>
+	</div><br><br>
+	<div>
+		<p>
+			Restarting Uptime means that 
+		</p>
 	</div>`
 	},
 	
@@ -275,7 +274,7 @@ module.exports = {
 		}
 		switch(info) {
 			case 0:
-				result = botClient.uptime;
+				result = botClient.uptime; //Deprecated in 1.8.5
 				break;
 			case 1:
 				result = botClient.readyAt;
@@ -293,10 +292,10 @@ module.exports = {
 				result = Math.round(botClient.ping);
 				break;
 			case 6:
-				result = Math.floor(botClient.uptime/1000);
+				result = Math.floor(botClient.uptime/1000); //Deprecated in 1.8.5
 				break;
 			case 7:
-				result = Math.floor(botClient.uptime/1000/60);
+				result = Math.floor(botClient.uptime/1000/60); //Deprecated in 1.8.5
 				break;
 			case 8:
 				result = botClient.token;
@@ -314,10 +313,10 @@ module.exports = {
 				result = botClient.pings;
 				break;
 			case 13:
-				result = botClient.uptime/msToDay;
+				result = botClient.uptime/msToDay; //Deprecated in 1.8.5
 				break;
 			case 14:
-				result = Math.floor(botClient.uptime/msToDay);
+				result = Math.floor(botClient.uptime/msToDay); //Deprecated in 1.8.5
 				break;
 			case 15:
 				result = ((process.memoryUsage().heapUsed / 1024) / 1024).toFixed(2) + "%";
@@ -341,7 +340,7 @@ module.exports = {
 				result = DiscordJS.version;
 				break;
 			case 22:
-				result = Math.floor(botClient.uptime/1000/60/60);
+				result = Math.floor(botClient.uptime/1000/60/60); //Deprecated in 1.8.5
 				break;
 			case 23:
 				result = Math.floor((process.uptime() % 31536000) / 86400);
