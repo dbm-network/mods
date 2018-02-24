@@ -232,12 +232,7 @@ module.exports = {
 			Variable Name:<br>
 			<input id="varName2" class="round" type="text"><br>
 		</div>
-	</div><br><br>
-	<div>
-		<p>
-			Restarting Uptime means that 
-		</p>
-	</div>`
+	</div><br><br>`
 	},
 	
 	//---------------------------------------------------------------------
