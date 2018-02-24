@@ -23,7 +23,7 @@ module.exports = {
 	//---------------------------------------------------------------------
 	
 	subtitle: function(data) {
-	const info = ['Uptime in Milliseconds', 'Ready At?', 'Ping', 'Guild Amount', 'User Amount', 'Rounded Ping', 'Uptime in Seconds', 'Uptime in Minutes', 'Bot\'s Token', 'Voice Connections Amount', 'Total Amount of Channels', 'Total Amount of Emojis', 'Bot\'s Previous Pings', 'Uptime in Days', 'Uptime in Days (Rounded)', 'Memory (RAM) Usage', 'Bot Guilds Objects', 'Bot Guilds Names', 'Bot Guilds IDs', 'Bot Current Prefix', 'Bot Client ID', 'Discord JS Version', 'Uptime in Hours', 'Restarting Uptime in Days', 'Restarting Uptime in Hours', 'Restarting Uptime in Minutes', 'Restarting Uptime in Seconds', 'Memory (RAM) Usage in MB', 'Bot\'s OS (Process Platform)'];
+	const info = ['Uptime in Milliseconds', 'Ready At?', 'Ping', 'Guild Amount', 'User Amount', 'Rounded Ping', 'Uptime in Seconds', 'Uptime in Minutes', 'Bot\'s Token', 'Voice Connections Amount', 'Total Amount of Channels', 'Total Amount of Emojis', 'Bot\'s Previous Pings', 'Uptime in Days', 'Uptime in Days (Rounded)', 'Memory (RAM) Usage', 'Bot Guilds Objects', 'Bot Guilds Names', 'Bot Guilds IDs', 'Bot Current Prefix', 'Bot Client ID', 'Discord JS Version', 'Uptime in Hours', 'Restarting Uptime in Days', 'Restarting Uptime in Hours', 'Restarting Uptime in Minutes', 'Restarting Uptime in Seconds', 'Memory (RAM) Usage in MB', 'Bot\'s OS (Process Platform)', 'CPU Usage in MB', 'Bot\'s Directory'];
 		return `Bot Client - ${info[parseInt(data.info)]}`;
 	},
 	
@@ -147,6 +147,12 @@ module.exports = {
 			case 28:
 				dataType = "OS Name";
 				break;
+			case 29:
+				dataType = "Number";
+				break;
+			case 30:
+				dataType = "Directory";
+				break;
 		}
 		return ([data.varName2, dataType]);
 	},
@@ -217,6 +223,8 @@ module.exports = {
 			<option value="26">Restarting Uptime in Seconds</option>
 			<option value="27">Memory (RAM) Usage in MB</option>
 			<option value="28">Bot's OS (Process Platform)</option>
+			<option value="29">CPU Usage in MB</option>
+			<option value="30">Bot's Directory</option>
 		</select>
 	</div>
 	<div>
@@ -259,7 +267,8 @@ module.exports = {
 		const info = parseInt(data.info);
 		const DiscordJS = dibiem.DiscordJS = require('discord.js'); // tf is dibiem
 		const msToDay = (1000*60*60*24); // Really? Lasse? Did you really forget this? - :blobshh:
-		const used = process.memoryUsage().heapUsed / 1024 / 1024; // Sorry about all const things but this is needed, you know.
+		const usedMEMORY = process.memoryUsage().heapUsed / 1024 / 1024; // Sorry about all const things but this is needed, you know.
+		const usedCPU = process.cpuUsage().user / 1024 / 1024;
 		if(!botClient) {
 			this.callNextAction(cache);
 			return;
@@ -315,7 +324,7 @@ module.exports = {
 				break;
 			case 16:
 				result = botClient.guilds;
-				 break;
+				break;
 			case 17:
 				result = botClient.guilds.array();
 				break;
@@ -347,15 +356,25 @@ module.exports = {
 				result = Math.round(process.uptime() % 60);
 				break;
 			case 27:
-				result = Math.round((used * 100) / 100) + " MB";
+				result = Math.round((usedMEMORY * 100) / 100) + " MB";
 				break;
 			case 28:
 				if(process.platform) {
 					const platform = process.platform;
 					if(platform === 'win32') result = 'Windows';
-					else if(platform === 'win64') result = 'Windows';
+					else if(platform === 'aix') result = 'Aix';
 					else if(platform === 'linux') result = 'Linux';
+					else if(platform === 'darwin') result = 'Darwin';
+					else if(platform === 'openbsd') result = 'OpenBSD';
+					else if(platform === 'sunos') result = 'Solaris';
+					else if(platform === 'freebsd') result = 'FreeBSD';
 				}
+				break;
+			case 29:
+				result = Math.round((usedCPU * 100) / 100) + " MB";
+				break;
+			case 30:
+				result = process.cwd();
 				break;
 			default:
 			break;
