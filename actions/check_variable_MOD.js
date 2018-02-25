@@ -28,14 +28,14 @@ module.exports = {
     },
 
     //---------------------------------------------------------------------
-		 // DBM Mods Manager Variables (Optional but nice to have!)
-		 //
-		 // These are variables that DBM Mods Manager uses to show information
-		 // about the mods for people to see in the list.
-		 //---------------------------------------------------------------------
+		// DBM Mods Manager Variables (Optional but nice to have!)
+		//
+		// These are variables that DBM Mods Manager uses to show information
+		// about the mods for people to see in the list.
+		//---------------------------------------------------------------------
 	
-		 // Who made the mod (If not set, defaults to "DBM Mods")
-		 author: "EGGSY",
+		// Who made the mod (If not set, defaults to "DBM Mods")
+		author: "EGGSY",
          
         // The version of the mod (Defaults to 1.0.0)
         version: "1.8.5",
