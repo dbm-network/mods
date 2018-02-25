@@ -34,13 +34,13 @@ subtitle: function(data) {
 	 //---------------------------------------------------------------------
 
 	 // Who made the mod (If not set, defaults to "DBM Mods")
-	 author: "Lasse",
+	 author: "DBM Mods",
 
 	 // The version of the mod (Defaults to 1.0.0)
 	 version: "1.8.5",
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
-	 short_description: "Release overview",
+	 short_description: "Changelog overview",
 
 	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
@@ -85,6 +85,21 @@ html: function(isEvent, data) {
 	return `
 <div>
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
+	<p>
+		<h2>1.8.5: Many new options...</h2>
+		● Store Human & Bot Account!<br>
+		● Json WebAPI with sliders and bug fixes!<br>
+		● New Mod Information in DBM!<br>
+		● Little text changes!<br>
+		● Sorted many action options!<br>
+		● Find Message!<br>
+		● Merged Store Role Info!<br>
+		● Refreshing uptimes (1h:27m:10s or 1:27:10 or...)!<br>
+		● Store Bots platform OS & Bots directory!<br>
+		● Store CPU usage in MB & Memory usage in MB!<br>
+		● Removed deprecated files from 1.8.4!<br>
+		● Store and parse XML -> You can store data from (nearly) every website!<br>
+	</p>
 	<p>
 		<h2>1.8.4: Set Prefix + Write File + Jump to Action</h2>
 		● Set Voice Channel Permissions<br>

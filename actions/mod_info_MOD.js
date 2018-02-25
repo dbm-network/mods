@@ -34,10 +34,10 @@ subtitle: function(data) {
 //---------------------------------------------------------------------
 
 // Who made the mod (If not set, defaults to "DBM Mods")
-author: "Lasse",
+author: "DBM Mods",
 
 // The version of the mod (Defaults to 1.0.0)
-version: "1.8.5 - beta",
+version: "1.8.5",
 
 // A short description to show on the mod line for this mod.
 short_description: "Information about the Mod Collection.",
@@ -107,7 +107,7 @@ table.scroll thead th:last-child {
     width: 180px; /* 140px + 16px scrollbar width */
 }
 
-thead tr th { 
+thead tr th {
     height: 30px;
     line-height: 30px;
     /*text-align: left;*/
@@ -115,7 +115,7 @@ thead tr th {
 
 tbody { border-top: 2px solid white; }
 
-</style>	
+</style>
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
 	<p>
 		<h1>Welcome!</h1>
@@ -123,20 +123,20 @@ tbody { border-top: 2px solid white; }
 		If you want to tell us something, join the Discord Guild below.
 		And if something doesn't work feel free to create an issue on GitHub
 		or open #support and describe your problem.
-		
+
 		<h3>Discord:</h3>
 		Join the Discord Guild to stay updated and be able to suggest things.<br>
 		https://discord.gg/Y4fPBnZ
-		
+
 		<h3>Your version:</h3>
 		${this.version}
-		
+
 		<h3>GitHub:</h3>
 		Visit us on GitHub! The whole mod collection is on GitHub
 		and everyone is invited to join us developing new mods!<br>
 		Copy and paste the link to view the site in your browser.<br>
 		https://github.com/Discord-Bot-Maker-Mods/DBM-Mods/
-		
+
 		<h3>Patreon:</h3>
 		You can support us on Patreon!
 		Patreon is a website where you can support creators with a small donation
@@ -160,7 +160,7 @@ tbody { border-top: 2px solid white; }
 			</thead>
 				<tbody id="mods">
 				</tbody>
-		</table><br><br>			
+		</table><br><br>
 </div>`
 },
 
@@ -172,35 +172,35 @@ tbody { border-top: 2px solid white; }
 // functions for the DOM elements.
 //---------------------------------------------------------------------
 
-init: function() {	
+init: function() {
 	const {glob, document} = this;
 
 	var path = require("path")
 
 	try {
-						
+
 		var mods = document.getElementById("mods");
-	
+
 		require("fs").readdirSync(__dirname).forEach(function(file) {
 			if(file.match(/MOD.js/i)) {
 				var action = require(path.join(__dirname, file));
-				if(action.name && action.action !== null) {    	
+				if(action.name && action.action !== null) {
 
 					const tr = document.createElement('tr')
 					tr.setAttribute('class', 'table-dark')
-				
+
 					const name = document.createElement('td')
 					const headerText = document.createElement("b")
 					headerText.innerHTML = action.name
 					name.appendChild(headerText)
-								
+
 					name.setAttribute('scope', 'row')
 					tr.appendChild(name)
-				
+
 					const section = document.createElement('td')
 					section.appendChild(document.createTextNode(action.section))
 					tr.appendChild(section)
-				
+
 					const author = document.createElement('td')
 					author.appendChild(document.createTextNode(action.author ? action.author : "DBM"))
 					tr.appendChild(author)
@@ -210,8 +210,8 @@ init: function() {
 		});
 	} catch (error) {
 		// write any init errors to errors.txt in dbm's main directory
-		require("fs").appendFile("errors.txt", error.stack ? error.stack : error + "\r\n"); 
-	}				
+		require("fs").appendFile("errors.txt", error.stack ? error.stack : error + "\r\n");
+	}
 },
 
 //---------------------------------------------------------------------
