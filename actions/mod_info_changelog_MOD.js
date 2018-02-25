@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Patrons",
+name: "Changelog",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -34,13 +34,13 @@ subtitle: function(data) {
 	 //---------------------------------------------------------------------
 
 	 // Who made the mod (If not set, defaults to "DBM Mods")
-	 author: "Lasse",
+	 author: "DBM Mods",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.8.4",
+	 version: "1.8.5",
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
-	 short_description: "Information about the Mod Collection",
+	 short_description: "Changelog overview",
 
 	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
@@ -84,21 +84,45 @@ fields: [],
 html: function(isEvent, data) {
 	return `
 <div>
+<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
 	<p>
-		<u>Patreon:</u><br>
-		You can support us on Patreon!<br>
-		Patreon is a website where you can support creators with a small donation<br>
-		per month. And you will get also some things like a Discord Patron role<br>
-		and a mention here:<br><br>
-		<u>Patrons:</u><br>
-		- MitchDaGamer (5$)<br>
-		- General Wrex (1$)<br>
-		- Eggsy (1$)<br>
-                - Proximity (1$)<br>
-		<br>
-		Become a patron today!<br>
-		<a href="https://www.patreon.com/dbmmods" target="_blank">https://www.patreon.com/dbmmods</a><br>
+		<h2>1.8.5: Many new options...</h2>
+		● Store Human & Bot Account!<br>
+		● Json WebAPI with sliders and bug fixes!<br>
+		● New Mod Information in DBM!<br>
+		● Little text changes!<br>
+		● Sorted many action options!<br>
+		● Find Message!<br>
+		● Merged Store Role Info!<br>
+		● Refreshing uptimes (1h:27m:10s or 1:27:10 or...)!<br>
+		● Store Bots platform OS & Bots directory!<br>
+		● Store CPU usage in MB & Memory usage in MB!<br>
+		● Removed deprecated files from 1.8.4!<br>
+		● Store and parse XML -> You can store data from (nearly) every website!<br>
 	</p>
+	<p>
+		<h2>1.8.4: Set Prefix + Write File + Jump to Action</h2>
+		● Set Voice Channel Permissions<br>
+		● Write File (Creates a real file like a txt file)<br>
+		● Set Prefix (Global)<br>
+		● Jump to Action<br>
+		● Merged all Store Bot Client Info mods (Check info below)<br>
+		● Merged all Store Server Things mods (Check info below)<br>
+		● Reduced file size (We removed some obsolete modules 150 MB -> 330 KB)<br>
+		● Bug and typo fixes<br>
+		● Removed the music and discord.js fix because it is in beta fixed<br>
+		The merged actions are still usable but are located in the deprecated section. All functions are copied info the main action.
+	</p>
+	<p>
+		<h2>1.8.3: Category & Watching Netflix & Bot learned writing & Music Fix</h2>
+		● Create Category<br>
+		● Set Bot Activity (Playing, Watching, Listening & Streaming)<br>
+		● Start Bot Typing & Stop Bot Typing (Allows the bot to get the typing status)<br>
+		● Store Memory Usage<br>
+		● DBM Beta Music Stuff fix action (Check the video)<br>
+		● Update discord.js (Check the video)<br>
+		● Bug fixes<br>
+		● https://youtu.be/mrrtj5nlV58
 </div>`
 },
 

@@ -24,7 +24,7 @@ section: "Role Control",
 
 subtitle: function(data) {
 	const roles = ['Mentioned Role', '1st Author Role', '1st Server Role', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const info = ['Position role list', 'Creation Date', 'Managed bot role?', 'Member list with this role', 'Member amount with this role', 'Can bot edit role?']
+	const info = ['Position role list', 'Creation Date', 'Managed bot role?', 'Role Members', 'Role Members Amount', 'Can bot edit role?', 'Role Members Object', 'Role Members IDs']
 	return `${roles[parseInt(data.role)]} - ${info[parseInt(data.info)]}`;
 },
 
@@ -36,7 +36,7 @@ subtitle: function(data) {
 	 //---------------------------------------------------------------------
 
 	 // Who made the mod (If not set, defaults to "DBM Mods")
-	 author: "Lasse",
+	 author: "Lasse, EliteArtz",
 
 	 // The version of the mod (Defaults to 1.0.0)
 	 version: "1.8.2",
@@ -114,7 +114,7 @@ html: function(isEvent, data) {
 	<div>
 		<p>
 			<u>Mod Info:</u><br>
-			Created by Lasse!
+			Created by EliteArtz & Lasse!
 		</p>
 	</div><br>
 <div>
@@ -136,9 +136,11 @@ html: function(isEvent, data) {
 			<option value="0" selected>Postion in Role list</option>
 			<option value="1">Creation date</option>
 			<option value="2">Managed bot Role</option>
-			<option value="3">Members list with this Role</option>
-			<option value="4">Members amount with this role</option>
 			<option value="5">Can bot edit this role?</option>
+			<option value="3">Role Members</option>
+			<option value="4">Role Members Amount</option>
+			<option value="6">Role Members Objects</option>
+			<option value="7">Role Members IDs</option>
 		</select>
 	</div>
 </div><br>
@@ -207,6 +209,12 @@ action: function(cache) {
 			break;
 		case 5:
 			result = targetRole.editable;
+			break;
+		case 6:
+			result = targetRole.members.id; //Are that really objects @EliteArtz? lul
+			break;
+		case 7:
+			result = targetRole.members.map(member => member.id);
 			break;
 		default:
 			break;
