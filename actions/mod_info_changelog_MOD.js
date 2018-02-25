@@ -87,7 +87,7 @@ html: function(isEvent, data) {
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
 	<p>
 		<h2>1.8.5: Many new options...</h2>
-		● Store Human & Bot Account!<br>
+		● Store Human & Bot count!<br>
 		● Json WebAPI with sliders and bug fixes!<br>
 		● New Mod Information in DBM!<br>
 		● Little text changes!<br>
