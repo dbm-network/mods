@@ -138,9 +138,9 @@ html: function(isEvent, data) {
 </div><br><br><br>
 <div>
 	<p>
-	<u>Beta Info:</u><br>
+	<u>Note:</u><br>
 	This mod can only find messages which have been sent <b>after</b> the bot started.<br>
-	If there are multiple messages with the same content, the bot is always using the oldest message.<br>
+	If there are multiple messages with the same content, the bot is always using the oldest message (after start).<br>
 	We are trying to add global search instead of channel-only search.
 </div>`
 },
