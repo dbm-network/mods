@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Mod Information",
+name: "Welcome",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -27,25 +27,24 @@ subtitle: function(data) {
 },
 
 //---------------------------------------------------------------------
-	 // DBM Mods Manager Variables (Optional but nice to have!)
-	 //
-	 // These are variables that DBM Mods Manager uses to show information
-	 // about the mods for people to see in the list.
-	 //---------------------------------------------------------------------
+// DBM Mods Manager Variables (Optional but nice to have!)
+//
+// These are variables that DBM Mods Manager uses to show information
+// about the mods for people to see in the list.
+//---------------------------------------------------------------------
 
-	 // Who made the mod (If not set, defaults to "DBM Mods")
-	 author: "Lasse",
+// Who made the mod (If not set, defaults to "DBM Mods")
+author: "DBM Mods",
 
-	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.8.4",
+// The version of the mod (Defaults to 1.0.0)
+version: "1.8.5",
 
-	 // A short description to show on the mod line for this mod (Must be on a single line)
-	 short_description: "Information about the Mod Collection.",
+// A short description to show on the mod line for this mod.
+short_description: "Information about the Mod Collection.",
 
-	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
+// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
-
-	 //---------------------------------------------------------------------
+//---------------------------------------------------------------------
 
 //---------------------------------------------------------------------
 // Action Storage Function
@@ -53,7 +52,7 @@ subtitle: function(data) {
 // Stores the relevant variable info for the editor.
 //---------------------------------------------------------------------
 
-//variableStorage: function(data, varType) {},
+variableStorage: function(data, varType) {},
 
 //---------------------------------------------------------------------
 // Action Fields
@@ -63,7 +62,7 @@ subtitle: function(data) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: [],
+fields: ["mods"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -83,27 +82,85 @@ fields: [],
 
 html: function(isEvent, data) {
 	return `
-<div>
+<style>
+table.scroll {
+    width: 525px; /* 140px * 5 column + 16px scrollbar width */
+    border-spacing: 0;
+    border: 2px solid white;
+}
+
+table.scroll tbody,
+table.scroll thead tr { display: block; }
+
+table.scroll tbody {
+    height: 100px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+table.scroll tbody td,
+table.scroll thead th {
+    width: 176px;
+}
+
+table.scroll thead th:last-child {
+    width: 180px; /* 140px + 16px scrollbar width */
+}
+
+thead tr th {
+    height: 30px;
+    line-height: 30px;
+    /*text-align: left;*/
+}
+
+tbody { border-top: 2px solid white; }
+
+</style>
+<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
 	<p>
-		<u>Welcome!</u><br>
+		<h1>Welcome!</h1>
 		Thank you for using the DBM Mod Collection!<br>
-		If you want to tell us something, join the Discord Guild below.<br>
-		And if something doesn't work feel free to create an issue on GitHub<br>
-		or open #support and describe your problem.<br>
-		<u>Discord:</u><br>
+		If you want to tell us something, join the Discord Guild below.
+		And if something doesn't work feel free to create an issue on GitHub
+		or open #support and describe your problem.
+
+		<h3>Discord:</h3>
 		Join the Discord Guild to stay updated and be able to suggest things.<br>
-		<a href="https://discord.gg/Y4fPBnZ" target="_blank">Join now</a><br>
-		<u>Your version:</u><br>
-		1.8.4<br>
-		<u>Changelog:</u><br>
-		Click here to see the latest updates:<br>
-		<a href="https://github.com/Discord-Bot-Maker-Mods/DBM-Mods/releases" target="_blank">Open Changelog</a><br>
-		<u>GitHub:</u><br>
-		Visit us on GitHub! The whole mod collection is on GitHub<br>
+		https://discord.gg/Y4fPBnZ
+
+		<h3>Your version:</h3>
+		${this.version}
+
+		<h3>GitHub:</h3>
+		Visit us on GitHub! The whole mod collection is on GitHub
 		and everyone is invited to join us developing new mods!<br>
 		Copy and paste the link to view the site in your browser.<br>
-		<a href="https://github.com/Discord-Bot-Maker-Mods/DBM-Mods/" target="_blank">https://github.com/Discord-Bot-Maker-Mods/DBM-Mods/</a><br>
+		https://github.com/Discord-Bot-Maker-Mods/DBM-Mods/
+
+		<h3>Patreon:</h3>
+		You can support us on Patreon!
+		Patreon is a website where you can support creators with a small donation
+		per month. And you will get also some things like a Discord Patron role and a mention here:<br>
+		<u>Patrons:</u><br>
+		- MitchDaGamer (5$)<br>
+		- General Wrex (1$)<br>
+		- Eggsy (1$)<br>
+		- Proximity (1$)<br><br>
+		Become a patron today!<br>
+		https://www.patreon.com/dbmmods
 	</p>
+		<h3>Current List of Mods</h3>
+		<table class="scroll">
+			<thead >
+				<tr>
+					<th scope="col">Name</th>
+					<th scope="col">Section</th>
+					<th scope="col">Author</th>
+				</tr>
+			</thead>
+				<tbody id="mods">
+				</tbody>
+		</table><br><br>
 </div>`
 },
 
@@ -115,7 +172,47 @@ html: function(isEvent, data) {
 // functions for the DOM elements.
 //---------------------------------------------------------------------
 
-init: function() {},
+init: function() {
+	const {glob, document} = this;
+
+	var path = require("path")
+
+	try {
+
+		var mods = document.getElementById("mods");
+
+		require("fs").readdirSync(__dirname).forEach(function(file) {
+			if(file.match(/MOD.js/i)) {
+				var action = require(path.join(__dirname, file));
+				if(action.name && action.action !== null) {
+
+					const tr = document.createElement('tr')
+					tr.setAttribute('class', 'table-dark')
+
+					const name = document.createElement('td')
+					const headerText = document.createElement("b")
+					headerText.innerHTML = action.name
+					name.appendChild(headerText)
+
+					name.setAttribute('scope', 'row')
+					tr.appendChild(name)
+
+					const section = document.createElement('td')
+					section.appendChild(document.createTextNode(action.section))
+					tr.appendChild(section)
+
+					const author = document.createElement('td')
+					author.appendChild(document.createTextNode(action.author ? action.author : "DBM"))
+					tr.appendChild(author)
+					mods.appendChild(tr);
+				}
+			}
+		});
+	} catch (error) {
+		// write any init errors to errors.txt in dbm's main directory
+		require("fs").appendFile("errors.txt", error.stack ? error.stack : error + "\r\n");
+	}
+},
 
 //---------------------------------------------------------------------
 // Action Bot Function

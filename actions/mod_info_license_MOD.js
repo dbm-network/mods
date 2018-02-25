@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Store Bot Client Info #3",
+name: "License",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -14,7 +14,7 @@ name: "Store Bot Client Info #3",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Deprecated",
+section: "#Mod Information",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -23,8 +23,7 @@ section: "Deprecated",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const info = ['Total Amount of Channels', 'Total Amount of Emojis', 'Bot\'s Previous Pings', 'Uptime in Days', 'Uptime in Days (Rounded)', 'Memory (RAM) Usage'];
-	return `${info[parseInt(data.info)]}`;
+	return `Does nothing - Click "Edit" for more information`;
 },
 
 //---------------------------------------------------------------------
@@ -35,13 +34,13 @@ subtitle: function(data) {
 	 //---------------------------------------------------------------------
 
 	 // Who made the mod (If not set, defaults to "DBM Mods")
-	 author: "EGGSY",
+	 author: "Lasse",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.0.3",
+	 version: "1.8.5",
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
-	 short_description: "Stores more Bot Client Information by EGGSY",
+	 short_description: "MIT License",
 
 	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
@@ -54,33 +53,7 @@ subtitle: function(data) {
 // Stores the relevant variable info for the editor.
 //---------------------------------------------------------------------
 
-variableStorage: function(data, varType) {
-	const type = parseInt(data.storage);
-	if(type !== varType) return;
-	const info = parseInt(data.info);
-	let dataType = 'Unknown Type';
-	switch(info) {
-		case 0:
-			dataType = "Number";
-			break;
-		case 1:
-			dataType = "Number";
-			break;
-		case 2:
-			dataType = "Number";
-			break;
-		case 3:
-			dataType = "Time";
-			break;
-		case 4:
-			dataType = "Time";
-			break;
-		case 5:
-			dataType = "Number";
-			break;
-	}
-	return ([data.varName2, dataType]);
-},
+//variableStorage: function(data, varType) {},
 
 //---------------------------------------------------------------------
 // Action Fields
@@ -90,7 +63,7 @@ variableStorage: function(data, varType) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["info", "storage", "varName2"],
+fields: [],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -110,36 +83,18 @@ fields: ["info", "storage", "varName2"],
 
 html: function(isEvent, data) {
 	return `
-	<div>
-		<p>
-			<u>Mod Info:</u><br>
-			Created by EGGSY!<br>
-			Merged into <b>Store Bot Client Info</b>.<br>
-			Please use that action instead!
-		</p>
-	</div><br>
-<div style="float: left; width: 80%;">
-	Source Info:<br>
-	<select id="info" class="round">
-		<option value="0">Total Amount of Channels</option>
-		<option value="1">Total Amount of Emojis</option>
-		<option value="2">Bot's Previous Pings</option>
-		<option value="3">Uptime in Days</option>
-		<option value="4">Uptime in Days (Rounded)</option>
-		<option value="5">Memory (RAM) Usage</option>
-	</select>
-</div><br>
 <div>
-	<div style="float: left; width: 35%;">
-		Store In:<br>
-		<select id="storage" class="round">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer2" style="float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName2" class="round" type="text"><br>
-	</div>
+<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
+DBM Mods has no official affiliation with Discord or Discord Bot Maker.<br>
+<h2>MIT License</h2><br>
+
+Copyright (c) 2017-2018 Lasse Niermann<br><br>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:<br><br>
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.<br><br>
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 </div>`
 },
 
@@ -151,11 +106,7 @@ html: function(isEvent, data) {
 // functions for the DOM elements.
 //---------------------------------------------------------------------
 
-init: function() {
-	const {glob, document} = this;
-
-	glob.messageChange(document.getElementById('message'), 'varNameContainer')
-},
+init: function() {},
 
 //---------------------------------------------------------------------
 // Action Bot Function
@@ -165,44 +116,7 @@ init: function() {
 // so be sure to provide checks for variable existance.
 //---------------------------------------------------------------------
 
-action: function(cache) {
-	const data = cache.actions[cache.index];
-	const botClient = this.getDBM().Bot.bot;
-	const info = parseInt(data.info);
-	const msToDay = (1000*60*60*24);
-	if(!botClient) {
-		this.callNextAction(cache);
-		return;
-	}
-	switch(info) {
-		case 0:
-			result = botClient.channels.size;
-			break;
-		case 1:
-			result = botClient.emojis.size;
-			break;
-		case 2:
-			result = botClient.pings;
-			break;
-		case 3:
-			result = botClient.uptime/msToDay;
-			break;
-		case 4:
-			result = Math.floor(botClient.uptime/msToDay);
-			break;
-		case 5:
-			result = "%" + ((process.memoryUsage().heapUsed / 1024) / 1024).toFixed(2);
-			break;
-		default:
-		break;
-	}
-	if(result !== undefined) {
-		const storage = parseInt(data.storage);
-		const varName2 = this.evalMessage(data.varName2, cache);
-		this.storeValue(result, storage, varName2, cache);
-	}
-	this.callNextAction(cache);
-},
+action: function(cache) {},
 
 //---------------------------------------------------------------------
 // Action Bot Mod
@@ -216,4 +130,4 @@ action: function(cache) {
 mod: function(DBM) {
 }
 
-}; // End of module, thanks to Lasse btw!
+}; // End of module

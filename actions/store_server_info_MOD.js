@@ -24,7 +24,7 @@ section: "Server Control",
 
 subtitle: function(data) {
 	const servers = ['Current Server', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const info = ['Creation Date', 'Time to AFK', 'Is server available?', 'More than 250 members?', 'Date bot joined server', 'Channel amount', 'Emoji amount', 'Embed Links', 'DND Members Count', 'Online Members Count (fixed)', 'Offline Members Count', 'Idle Members Count', 'Total Bots Count in Server', 'Server Channel IDs', 'Server Role IDs', 'Server Member IDs'];
+	const info = ['Creation Date', 'Time to AFK', 'Is server available?', 'More than 250 members?', 'Date bot joined server', 'Channel amount', 'Emoji amount', 'Embed Links', 'DND Members Count', 'Online Members Count (fixed)', 'Offline Members Count', 'Idle Members Count', 'Total Bots Count in Server', 'Server Channel IDs', 'Server Role IDs', 'Server Member IDs', 'Server Bot Count', 'Server Human Member Count'];
 	return `${servers[parseInt(data.server)]} - ${info[parseInt(data.info)]}`;
 },
 
@@ -39,7 +39,7 @@ subtitle: function(data) {
 	 author: "Lasse, EGGSY & EliteArtz",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.8.4",
+	 version: "1.8.5",
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
 	 short_description: "Stores more Server Information",
@@ -104,10 +104,16 @@ variableStorage: function(data, varType) {
 			dataType = 'Server Channel IDs';
 			break;
 		case 14:
-			dataType = 'Server Role IDs'
+			dataType = 'Server Role IDs';
 			break;
 		case 15:
-			dataType = 'Server Member IDs'
+			dataType = 'Server Member IDs';
+			break;
+		case 16:
+			dataType = 'Number';
+			break;
+		case 17:
+			dataType = 'Number';
 			break;
 	}
 	return ([data.varName2, dataType]);
@@ -163,22 +169,23 @@ html: function(isEvent, data) {
 	<div style="padding-top: 8px; width: 70%;">
 		Source Info:<br>
 		<select id="info" class="round">
-			<option value="0" selected>Servers creation date</option>
+			<option value="0" selected>Servers Creation Date</option>
 			<option value="1">Time User gets AFK</option>
 			<option value="2">Is Server available?</option>
-			<option value="3">More than 250 members?</option>
-			<option value="4">Date bot joined server</option>
-			<option value="5">Channel amount</option>
-			<option value="6">Emoji amount</option>
-      <option value="7">Embed links?</option>
-			<option value="8">DND Members Count</option>
-			<option value="9">Online Members Count (fixed)</option>
-			<option value="10">Offline Members Count</option>
+			<option value="4">Date Bot Joined</option>
+			<option value="5">Channel Amount</option>
+			<option value="6">Emoji Amount</option>
+			<option value="7">Embeds links?</option>
+			<option value="9">Online Members Count</option
 			<option value="11">Idle Members Count</option>
-			<option value="12">Total Bots in Servers</option>
+			<option value="8">DND Members Count</option>
+			<option value="10">Offline Members Count</option>
 			<option value="13">Server Channel IDs</option>
 			<option value="14">Server Role IDs</option>
 			<option value="15">Server Member IDs</option>
+			<option value="16">Server Bot Count</option>
+			<option value="17">Server Human Member Count</option>
+			<option value="12">Total Bots in Servers</option>
 			</select>
 	</div>
 </div><br>
@@ -240,7 +247,7 @@ action: function(cache) {
 			result = targetServer.available;
 			break;
 		case 3:
-			result = targetServer.large;
+			result = targetServer.large; //Deprecated in v1.8.5
 			break;
 		case 4:
 			result = targetServer.joinedAt;
@@ -277,6 +284,12 @@ action: function(cache) {
 			break;
 		case 15:
 			result = targetServer.members.map(members => members.id);
+			break;
+		case 16:
+			result = targetServer.members.filter(m => m.user.bot == true).size;
+			break;
+		case 17:
+			result = targetServer.members.filter(m => m.user.bot == false).size;
 			break;
 		default:
 			break;

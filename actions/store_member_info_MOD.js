@@ -24,7 +24,7 @@ section: "Member Control",
 
 subtitle: function(data) {
 	const members = ['Mentioned User', 'Command Author', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const info = ['Members Join date', 'Members Voice Channel ID', 'Members Last Message', 'Member is kickable?', 'Member is bot?', 'Members Discriminator','Members account creation date', 'Members name withou mention'];
+	const info = ['Join date', 'Voice Channel ID', 'Last Message', 'Is kickable?', 'Is bot?', 'Discriminator','Account Creation Date', 'Tag'];
 	return `${members[parseInt(data.member)]} - ${info[parseInt(data.info)]}`;
 },
 
@@ -39,7 +39,7 @@ subtitle: function(data) {
 	 author: "Lasse",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.8.4",
+	 version: "1.8.5",
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
 	 short_description: "Stores Members Information",
@@ -139,14 +139,14 @@ html: function(isEvent, data) {
 	<div style="padding-top: 8px; width: 70%;">
 		Source Info:<br>
 		<select id="info" class="round">
-			<option value="0" selected>Members join date</option>
-			<option value="1">Members voice channel ID</option>
-			<option value="2">Members last Message</option>
-			<option value="3">Member is kickable?</option>
-			<option value="4">Member is bot?</option>
-			<option value="5">Members discriminator</option>
-			<option value="6">Members account creation date</option>
-			<option value="7">Members name without mention</option>
+			<option value="0" selected>Join Date</option>
+			<option value="1">Voice Channel</option>
+			<option value="2">Last Message</option>
+			<option value="3">Is kickable?</option>
+			<option value="4">Is bot?</option>
+			<option value="6">Account Creation Date</option>
+			<option value="5">Discriminator (#0001)</option>
+			<option value="7">Tag (Lasse#0001)</option>
 			</select>
 	</div>
 </div><br>
@@ -203,7 +203,7 @@ action: function(cache) {
 			result = mem.joinedAt;
 			break;
 		case 1:
-			result = mem.voiceChannelID;
+			result = mem.voiceChannel; //Changed from VC ID to VC - v1.8.5
 		default:
 			break;
 		case 2:
