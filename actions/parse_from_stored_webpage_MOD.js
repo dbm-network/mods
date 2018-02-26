@@ -231,15 +231,25 @@ module.exports = {
 
 			const myXPath = this.evalMessage(data.xpath, cache);
 
-			const html = this.getVariable(source, sourceVarName, cache);
+			let html = this.getVariable(source, sourceVarName, cache);
+
+			var xpath = require('xpath');
+			var dom = require('xmldom').DOMParser;
+			var ent = require('ent');
+
+			let errors = [];
 
 			if(myXPath){
 			
-				var xpath = require('xpath');
-				var dom = require('xmldom').DOMParser;
-				var ent = require('ent');
-			
-
+				// check for errors
+				let errored = false;			
+				try {
+					xpath.evaluate(myXPath, null, null, null);
+				} catch (error) {
+					errored = error;
+					if(!error.toString().includes('nodeType')) console.error(`Invalid XPath: [${myXPath}] (${(error ? error : "")})`);
+				}
+				
 				if(html){
 
 					let mylocator = {};
@@ -248,8 +258,8 @@ module.exports = {
 						locator: mylocator,
 						errorHandler: {
 						   warning: (msg) => {manageXmlParseError(msg,1,parseLog)},
-						   error: (msg) => {manageXmlParseError(msg,2,parseLog); ( DEBUG ? console.log("Error: " + msg) : "")},
-						   fatalError: (msg) => {manageXmlParseError(msg,3,parseLog)},
+						   error: (msg) => {manageXmlParseError(msg,2,parseLog); ( DEBUG ? console.log("XMLDOMError: " + msg) : "")},
+						   fatalError: (msg) => {manageXmlParseError(msg,3,parseLog); ( DEBUG ? console.log("FATAL XMLDOMError: " + msg) : "")},
 						},
 					}).parseFromString(ent.decode(html));
 
@@ -263,66 +273,72 @@ module.exports = {
 						}					 
 						errorLog[errorLevel.toString()].push(msg);
 					 }
-
 					
-					let nodes = xpath.select(myXPath, doc);
-									
+					 let nodes = [];
+					 try {
+						 nodes = xpath.select(myXPath, doc);
 
-					if(nodes.length > 0){
+						 if(nodes && nodes.length > 0){
 
-						var out = [];
-						nodes.forEach(node => {
+							var out = [];
+							nodes.forEach(node => {
+	
+								var name = node.name || "Text Value";
+								var value = node.value ? node.value : node.toString();
+	
+	
+								if(DEBUG) {
+									console.log("====================================");
+									console.log("Source String: " + node.toString());
+									console.log("====================================");
+									//console.log("Parent Node Name: " +  .name);
+									console.log("Name: " + name);
+									console.log("Line Number: " + node.lineNumber);
+									console.log("Column Number: " + node.columnNumber);
+									console.log("Parsed Value: " + value.trim());
+									console.log("====================================\n");								
+								}
+	
+								out.push(value.trim());
+							  })
+						  
+							  if(out.length > 1 && DEBUG){
+								console.log('Stored value(s);\r\n');
+	
+								for (i = 0; i < out.length; i++) {
+									console.log('[' + i + '] = ' + out[i]);
+								}
+	  
+								console.log('\r\nAppend the key that you want to store that value to the variable.');
+	  
+								const storageType = ['', 'tempVars', 'serverVars', 'globalVars'];
+								var output = storageType[storage]
+	  
+								console.log('Example ${'+output+'("'+ varName +'")} to ${'+output+'("'+ varName +'")[key]}');
+								console.log(''+ varName +'[key] if not using it as a template\r\n');
+							  }
+							
 
-							var name = node.name || "Text Value";
-							var value = node.value ? node.value : node.toString();
+							   this.storeValue(out, storage, varName, cache);
+							if(DEBUG) console.log(`Stored value(s) [${out}] to  [${varName}] `)
+							   
+	
+							  this.callNextAction(cache);	 	
+						}else{
+							console.error(`Could not store a value from path ${myXPath}, Check that the path is valid!\n`);
+							if(DEBUG) console.info("parsestatus ==> " + parseLog.errorLevel + "\nlocator:" +  mylocator.columnNumber + "/" + mylocator.lineNumber );
+							
+							this.storeValue(errored ? errored : undefined, storage, varName, cache);
+							  this.callNextAction(cache);	 	
+						} 		
 
+					 } catch (error) {
 
-							if(!node.name)
-
-
-							if(DEBUG) {
-								console.log("====================================");
-								console.log("Source String: " + node.toString());
-								console.log("====================================");
-								//console.log("Parent Node Name: " +  .name);
-								console.log("Name: " + name);
-								console.log("Line Number: " + node.lineNumber);
-								console.log("Column Number: " + node.columnNumber);
-								console.log("Parsed Value: " + value.trim());
-								console.log("====================================\n");								
-							}
-
-							out.push(value.trim());
-					  	})
-					  
-						  if(out && DEBUG){
-							console.log('Stored value(s);\r\n');
-
-							for (i = 0; i < out.length; i++) {
-								console.log('[' + i + '] = ' + out[i]);
-							}
-  
-							console.log('\r\nAppend the key that you want to store that value to the variable.');
-  
-							const storageType = ['', 'tempVars', 'serverVars', 'globalVars'];
-							var output = storageType[storage]
-  
-							console.log('Example ${'+output+'("'+ varName +'")} to ${'+output+'("'+ varName +'")[key]}');
-							console.log(''+ varName +'[key] if not using it as a template\r\n');
-						  }
-						
-					   	this.storeValue(out, storage, varName, cache);
-						if(DEBUG) console.log(`Stored value(s) [${out}] to  [${varName}] `)
-						   
-
-					  	this.callNextAction(cache);	 	
-					}else{
-						console.error(`Could not store a value from path ${myXPath}, Check that the path is valid!\n`);
-						if(DEBUG) console.info("parsestatus ==> " + parseLog.errorLevel + "\nlocator:" +  mylocator.columnNumber + "/" + mylocator.lineNumber );
-						
-						this.storeValue("", storage, varName, cache);
-					  	this.callNextAction(cache);	 	
-					} 		
+						 this.storeValue(errored ? errored : undefined, storage, varName, cache);
+						 this.callNextAction(cache);	 	
+					 }
+														
+				
 				}else{
 					console.error(`HTML data Is Not Valid!`);
 				}
@@ -333,7 +349,8 @@ module.exports = {
 
 		} catch (error) {
 			console.error("Webpage Things:  Error: " + error.stack ? error.stack : error);
-		}		
+		}	
+		
 	},
 
 	//---------------------------------------------------------------------
