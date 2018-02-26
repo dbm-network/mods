@@ -103,8 +103,8 @@ module.exports = {
 			<p>
 				<u>Mod Info:</u><br>
 				Created by General Wrex!<br>
-				This should also be able to parse regular XML stored to a variable with the store html mod
-			</p>
+				This returns an array of values, be sure to read your Bot Log/Terminal<br> 
+				while constructing command with <b>Debug Mode</b> Enabled. 
 			<p>
 				<u>Instructions:</u><br>
 					1. Input a Path into the XPath textarea<br>
@@ -124,7 +124,7 @@ module.exports = {
         <input id="sourceVarName" class="round" type="text" list="variableList">
       </div><br><br><br>
 		<div>			
-			XPath: <br>
+			XPath: (Supports multiple, split with the <b>|</b> symbol) <br>
 			<textarea id="xpath" class="round" style="width: 99%; resize: none;" type="textarea" rows="2" cols="20"></textarea><br>    
 		</div>	
 	  <div hidden="true">
@@ -295,7 +295,7 @@ module.exports = {
 							out.push(value.trim());
 					  	})
 					  
-						  if(out){
+						  if(out && DEBUG){
 							console.log('Stored value(s);\r\n');
 
 							for (i = 0; i < out.length; i++) {
@@ -312,11 +312,8 @@ module.exports = {
 						  }
 						
 					   	this.storeValue(out, storage, varName, cache);
-						console.log(`Stored value(s) [${out}] to  [${varName}] `)
+						if(DEBUG) console.log(`Stored value(s) [${out}] to  [${varName}] `)
 						   
-
-
-
 
 					  	this.callNextAction(cache);	 	
 					}else{
