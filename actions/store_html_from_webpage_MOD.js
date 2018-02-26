@@ -162,7 +162,7 @@ module.exports = {
 	
 			try {
 	
-				var WrexMODS = require(require("path").join(require("path").resolve("Actions"), 'aaa_wrexmods_dependencies_MOD.js')).getWrexMODS();
+				var WrexMODS = require(require("path").join(__dirname, 'aaa_wrexmods_dependencies_MOD.js')).getWrexMods();
 							
 				var valid = document.getElementById("valid");
 				var url = document.getElementById("url");
