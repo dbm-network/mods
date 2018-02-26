@@ -490,7 +490,7 @@ var customaction = {};
 customaction.name = "WrexMODS";
 customaction.section = "JSON Things";
 customaction.author = "General Wrex";
-customaction.version = "1.8.2";
+customaction.version = "1.8.3";
 customaction.short_description = "Required for some mods. Does nothing";
 
 customaction.html = function() { 
@@ -503,6 +503,10 @@ customaction.html = function() {
 	</p>
 </div>`	
 };
+
+customaction.getWrexMods = function(){
+	return WrexMODS;
+}
 
 
 customaction.mod = function(DBM) {
