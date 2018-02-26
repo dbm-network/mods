@@ -108,8 +108,8 @@ module.exports = {
 			<p>
 				<u>Instructions:</u><br>
 					1. Input a Path into the XPath textarea<br>
-					2. Test Online: https://codebeautify.org/Xpath-Tester;<br>
-					3. How to get XPath from Chrome: https://stackoverflow.com/a/46599584/1422928<br><br>
+					2. Test Online: <span class="wrexlink" data-url="https://codebeautify.org/Xpath-Tester">X-Path Tester</span><br>
+					3. How to get <span class="wrexlink" data-url="https://stackoverflow.com/a/46599584/1422928">XPath from Chrome.</span><br>
 					
 			</p>
 		</div>	
@@ -148,7 +148,17 @@ module.exports = {
 		   		<option value="0" >Disabled</option>
 			</select>
 	 </div>
-	</div>	
+	</div>		
+	<style>
+	  span.wrexlink {
+		color: #99b3ff;
+		text-decoration:underline;
+		cursor:pointer;
+	  }
+	  span.wrexlink:hover { 
+		color:#4676b9; 
+	  }
+	</style>
 	`
 	},
 
@@ -161,36 +171,33 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	init: function() {
+
 		const {glob, document} = this;
 			
 			try {	
-				var WrexMODS = require(require("path").join(require("path").resolve("Actions"), 'aaa_wrexmods_dependencies_MOD.js')).getWrexMODS();
-							
-				/*
-				var valid = document.getElementById("valid");
-				var xpath = document.getElementById("xpath");
+				var WrexMODS = require(require('path').join(__dirname,'aaa_wrexmods_dependencies_MOD.js')).getWrexMods();
+								
+				var wrexlinks = document.getElementsByClassName("wrexlink")
+				for(var x = 0; x < wrexlinks.length; x++) {
+				  
+				  var wrexlink = wrexlinks[x];
+				  var url = wrexlink.getAttribute('data-url');   
+				  if(url){
+					wrexlink.setAttribute("title", url);
+					wrexlink.addEventListener("click", function(e){
+					  e.stopImmediatePropagation();
+					  console.log("Launching URL: [" + url + "] in your default browser.")
+					  require('child_process').execSync('start ' + url);
+					});
+				  }   
+				}  
 
-				glob.checkPath = function(element){
-	
-					const value = element.value;
-					const checkedUrl = true;
-					
-					if(checkedUrl && value){
-						valid.innerHTML = "Valid Path Format!";
-						valid.style.color = "green";
-					}else{
-						valid.innerHTML = "Invalid Path Format!";
-						valid.style.color = "red";
-					}
-					
-				}	
-			*/																										
 			} catch (error) {
 				// write any init errors to errors.txt in dbm's main directory
 				require("fs").appendFile("errors.txt", error.stack ? error.stack : error + "\r\n"); 
 			}
 	
-			//glob.checkPath(document.getElementById("xpath"));
+
 			glob.variableChange(document.getElementById('storage'), 'varNameContainer');
 			glob.variableChange(document.getElementById('source'), 'sourceVarNameContainer')
 	},
@@ -209,6 +216,10 @@ module.exports = {
 
 			var WrexMODS = this.getWrexMods();
 
+			WrexMODS.CheckAndInstallNodeModule('xpath');
+			WrexMODS.CheckAndInstallNodeModule('xmldom');
+			WrexMODS.CheckAndInstallNodeModule('ent');
+
 			const data = cache.actions[cache.index];
 
 			const sourceVarName = this.evalMessage(data.sourceVarName, cache);
@@ -224,28 +235,10 @@ module.exports = {
 
 			if(myXPath){
 			
-				var xpath = WrexMODS.require('xpath');
-				var dom = WrexMODS.require('xmldom').DOMParser;
+				var xpath = require('xpath');
+				var dom = require('xmldom').DOMParser;
+				var ent = require('ent');
 			
-				var entities = {
-					'amp': '&',
-					'apos': '\'',
-					'#x27': '\'',
-					'#x2F': '/',
-					'#39': '\'',
-					'#47': '/',
-					'lt': '<',
-					'gt': '>',
-					'nbsp': ' ',
-					'quot': '"'
-				  }
-				  
-				  function decodeHTMLEntities (text) {
-					return text.replace(/&([^;]+);/gm, function (match, entity) {
-					  return entities[entity] || match
-					})
-				  }
-
 
 				if(html){
 
@@ -255,12 +248,11 @@ module.exports = {
 						locator: mylocator,
 						errorHandler: {
 						   warning: (msg) => {manageXmlParseError(msg,1,parseLog)},
-						   error: (msg) => {manageXmlParseError(msg,2,parseLog); console.log("Error: " + msg)},
+						   error: (msg) => {manageXmlParseError(msg,2,parseLog); ( DEBUG ? console.log("Error: " + msg) : "")},
 						   fatalError: (msg) => {manageXmlParseError(msg,3,parseLog)},
 						},
-					}).parseFromString(html.replace(/&([^;]+);/gm, function (match, entity) {
-						return entities[entity] || match
-					  }));
+					}).parseFromString(ent.decode(html));
+
 
 					function manageXmlParseError(msg,errorLevel,errorLog){
 						if( (errorLog.errorLevel == null) || (errorLog.errorLevel < errorLevel)){
@@ -310,6 +302,9 @@ module.exports = {
 					}else{
 						console.error(`Could not store a value from path ${myXPath}, Check that the path is valid!\n`);
 						if(DEBUG) console.info("parsestatus ==> " + parseLog.errorLevel + "\nlocator:" +  mylocator.columnNumber + "/" + mylocator.lineNumber );
+						
+						this.storeValue("", storage, varName, cache);
+					  	this.callNextAction(cache);	 	
 					} 		
 				}else{
 					console.error(`HTML data Is Not Valid!`);
