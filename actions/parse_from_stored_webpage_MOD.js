@@ -288,16 +288,36 @@ module.exports = {
 								console.log("Name: " + name);
 								console.log("Line Number: " + node.lineNumber);
 								console.log("Column Number: " + node.columnNumber);
-								console.log("Parsed Value: " + value);
+								console.log("Parsed Value: " + value.trim());
 								console.log("====================================\n");								
 							}
 
-							out.push(value);
+							out.push(value.trim());
 					  	})
 					  
-		
+						  if(out){
+							console.log('Stored value(s);\r\n');
+
+							for (i = 0; i < out.length; i++) {
+								console.log('[' + i + '] = ' + out[i]);
+							}
+  
+							console.log('\r\nAppend the key that you want to store that value to the variable.');
+  
+							const storageType = ['', 'tempVars', 'serverVars', 'globalVars'];
+							var output = storageType[storage]
+  
+							console.log('Example ${'+output+'("'+ varName +'")} to ${'+output+'("'+ varName +'")[key]}');
+							console.log(''+ varName +'[key] if not using it as a template\r\n');
+						  }
+						
 					   	this.storeValue(out, storage, varName, cache);
-					   	console.log(`Stored value(s) [${out}] to  [${varName}] `)
+						console.log(`Stored value(s) [${out}] to  [${varName}] `)
+						   
+
+
+
+
 					  	this.callNextAction(cache);	 	
 					}else{
 						console.error(`Could not store a value from path ${myXPath}, Check that the path is valid!\n`);
