@@ -5,55 +5,55 @@ module.exports = {
 	//
 	// This is the name of the action displayed in the editor.
 	//---------------------------------------------------------------------
-	
+
 	name: "Store Bot Client Info",
-	
+
 	//---------------------------------------------------------------------
 	// Action Section
 	//
 	// This is the section the action will fall into.
 	//---------------------------------------------------------------------
-	
+
 	section: "Bot Client Control",
-	
+
 	//---------------------------------------------------------------------
 	// Action Subtitle
 	//
 	// This function generates the subtitle displayed next to the name.
 	//---------------------------------------------------------------------
-	
+
 	subtitle: function(data) {
 	const info = ['Uptime in Milliseconds', 'Ready At?', 'Ping', 'Guild Amount', 'User Amount', 'Rounded Ping', 'Uptime in Seconds', 'Uptime in Minutes', 'Bot\'s Token', 'Voice Connections Amount', 'Total Amount of Channels', 'Total Amount of Emojis', 'Bot\'s Previous Pings', 'Uptime in Days', 'Uptime in Days (Rounded)', 'Memory (RAM) Usage', 'Bot Guilds Objects', 'Bot Guilds Names', 'Bot Guilds IDs', 'Bot Current Prefix', 'Bot Client ID', 'Discord JS Version', 'Uptime in Hours', 'Refreshing Uptime in Days', 'Refreshing Uptime in Hours', 'Refreshing Uptime in Minutes', 'Refreshing Uptime in Seconds', 'Memory (RAM) Usage in MB', 'Bot\'s OS (Process Platform)', 'CPU Usage in MB', 'Bot\'s Directory'];
 		return `Bot Client - ${info[parseInt(data.info)]}`;
 	},
-	
+
 	//---------------------------------------------------------------------
 		 // DBM Mods Manager Variables (Optional but nice to have!)
 		 //
 		 // These are variables that DBM Mods Manager uses to show information
 		 // about the mods for people to see in the list.
 		 //---------------------------------------------------------------------
-	
+
 		 // Who made the mod (If not set, defaults to "DBM Mods")
 		 author: "Lasse, EliteArtz and EGGSY",
-	
+
 		 // The version of the mod (Defaults to 1.0.0)
-		 version: "1.8.5",
-	
+		 version: "1.8.5 - Hotfix!",
+
 		 // A short description to show on the mod line for this mod (Must be on a single line)
 		 short_description: "Stores Bot Information like Ping, Total Members or Guilds...",
-	
+
 		 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-	
-	
+
+
 		 //---------------------------------------------------------------------
-	
+
 	//---------------------------------------------------------------------
 	// Action Storage Function
 	//
 	// Stores the relevant variable info for the editor.
 	//---------------------------------------------------------------------
-	
+
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
@@ -156,7 +156,7 @@ module.exports = {
 		}
 		return ([data.varName2, dataType]);
 	},
-	
+
 	//---------------------------------------------------------------------
 	// Action Fields
 	//
@@ -164,9 +164,9 @@ module.exports = {
 	// by creating elements with corresponding IDs in the HTML. These
 	// are also the names of the fields stored in the action's JSON data.
 	//---------------------------------------------------------------------
-	
+
 	fields: ["info", "storage", "varName2"],
-	
+
 	//---------------------------------------------------------------------
 	// Command HTML
 	//
@@ -182,7 +182,7 @@ module.exports = {
 	// The names are: sendTargets, members, roles, channels,
 	//                messages, servers, variables
 	//---------------------------------------------------------------------
-	
+
 	html: function(isEvent, data) {
 		return `
 		<div>
@@ -218,7 +218,6 @@ module.exports = {
 			<option value="28">Bot OS (Process Platform)</option>
 			<option value="30">Bot Directory</option>
 			<option value="8">Bot Token</option>
-			<option value="21">Discord JS Version</option>
 		</select>
 	</div>
 	<div>
@@ -234,7 +233,7 @@ module.exports = {
 		</div>
 	</div><br><br>`
 	},
-	
+
 	//---------------------------------------------------------------------
 	// Action Editor Init Code
 	//
@@ -242,10 +241,10 @@ module.exports = {
 	// is also run. This helps add modifications or setup reactionary
 	// functions for the DOM elements.
 	//---------------------------------------------------------------------
-	
+
 	init: function() {
 	},
-	
+
 	//---------------------------------------------------------------------
 	// Action Bot Function
 	//
@@ -253,13 +252,13 @@ module.exports = {
 	// Keep in mind event calls won't have access to the "msg" parameter,
 	// so be sure to provide checks for variable existance.
 	//---------------------------------------------------------------------
-	
+
 	action: function(cache) {
 		const botClient = this.getDBM().Bot.bot;
 		const dibiem = this.getDBM(); //EliteArtz... really???? Ugh you guys are meme
 		const data = cache.actions[cache.index];
 		const info = parseInt(data.info);
-		const DiscordJS = dibiem.DiscordJS = require('discord.js'); // tf is dibiem
+		//const DiscordJS = dibiem.DiscordJS = require('discord.js'); // HELP! THIS CAUSED THE ERROR discord.js not found!
 		const msToDay = (1000*60*60*24); // Really? Lasse? Did you really forget this? - :blobshh:
 		const usedMEMORY = process.memoryUsage().heapUsed / 1024 / 1024; // Sorry about all const things but this is needed, you know.
 		const usedCPU = process.cpuUsage().user / 1024 / 1024;
@@ -332,7 +331,7 @@ module.exports = {
 				result = dibiem.Files.data.settings.client;
 				break;
 			case 21:
-				result = DiscordJS.version;
+				result = DiscordJS.version; //Currently not working. Check above
 				break;
 			case 22:
 				result = Math.floor(botClient.uptime/1000/60/60); //Deprecated in 1.8.5
@@ -380,7 +379,7 @@ module.exports = {
 		}
 		this.callNextAction(cache);
 	},
-	
+
 	//---------------------------------------------------------------------
 	// Action Bot Mod
 	//
@@ -389,8 +388,8 @@ module.exports = {
 	// In order to reduce conflictions between mods, be sure to alias
 	// functions you wish to overwrite.
 	//---------------------------------------------------------------------
-	
+
 	mod: function(DBM) {
 	}
-	
+
 	}; // End of module
