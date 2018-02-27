@@ -35,10 +35,10 @@ return `Convert into ${data.varName}`;
 	 //---------------------------------------------------------------------
 
 	 // Who made the mod (If not set, defaults to "DBM Mods")
-	 author: "Tresmos",
+	 author: "General Wrex", //Idea by Tresmos
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.8.5",
+	 version: "1.8.6",
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
 	 short_description: "Converts YouTube Time Code into numeric time.",
@@ -92,7 +92,7 @@ html: function(isEvent, data) {
 <div>
 		<p>
 			<u>Mod Info:</u><br>
-			Created by Tresmos!
+			Created by General Wrex!
 		</p>
 </div><br>
 <div>
