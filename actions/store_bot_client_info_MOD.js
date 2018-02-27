@@ -205,6 +205,7 @@ module.exports = {
 			<option value="9">Total Voice Connections</option>
 			<option value="15">Memory (RAM) Usage</option>
 			<option value="27">Memory (RAM) Usage in MB</option>
+			<option value="21">Discord JS Version</option>
 			<option value="29">CPU Usage in MB</option>
 			<option value="3">Total Amount of Guilds</option>
 			<option value="4">Total Amount of Users</option>
@@ -258,7 +259,6 @@ module.exports = {
 		const dibiem = this.getDBM(); //EliteArtz... really???? Ugh you guys are meme
 		const data = cache.actions[cache.index];
 		const info = parseInt(data.info);
-		//const DiscordJS = dibiem.DiscordJS = require('discord.js'); // HELP! THIS CAUSED THE ERROR discord.js not found!
 		const msToDay = (1000*60*60*24); // Really? Lasse? Did you really forget this? - :blobshh:
 		const usedMEMORY = process.memoryUsage().heapUsed / 1024 / 1024; // Sorry about all const things but this is needed, you know.
 		const usedCPU = process.cpuUsage().user / 1024 / 1024;
@@ -331,7 +331,7 @@ module.exports = {
 				result = dibiem.Files.data.settings.client;
 				break;
 			case 21:
-				result = DiscordJS.version; //Currently not working. Check above
+				result = dibiem.DiscordJS.version;
 				break;
 			case 22:
 				result = Math.floor(botClient.uptime/1000/60/60); //Deprecated in 1.8.5
