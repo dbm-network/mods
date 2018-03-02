@@ -10,7 +10,7 @@ WrexMODS.API = {};
 
 WrexMODS.DBM = null;
 
-WrexMODS.Version = "1.0.3";
+WrexMODS.Version = "1.0.4";
 
 WrexMODS.MaxInstallAttempts = 3;
 
@@ -20,7 +20,7 @@ WrexMODS.MaxInstallAttempts = 3;
 
 //---------------------------------------------------------------------
 var currentInstallAttempts = 0;
-WrexMODS.CheckAndInstallNodeModule = function(moduleName){
+WrexMODS.CheckAndInstallNodeModule = function(moduleName, isGlobal = false){
 
 
 	var installed = false;
@@ -43,8 +43,8 @@ WrexMODS.CheckAndInstallNodeModule = function(moduleName){
 		try {
 			console.log("Installing Node Module: " + moduleName);	
 			var child = this.require('child_process');
-			var cliCommand = 'npm install ' + moduleName + " --save --loglevel=error";
-			result = child.execSync(cliCommand,{stdio:[0,1,2]});
+			var cliCommand = 'npm install ' + moduleName + " --loglevel=error " + (isGlobal ? "-g" : "--save");
+			result = child.execSync(cliCommand,{cwd: require('path').dirname(process.argv[1]),stdio:[0,1,2]});
 			
 			currentInstallAttempts += 1;			
 		} catch (error) {
