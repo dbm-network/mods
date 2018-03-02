@@ -214,21 +214,15 @@ module.exports = {
 
 			var url = this.evalMessage(data.url, cache);
 
-
-
 			if(!WrexMODS.checkURL(url)){
 				url = encodeURI(url);
 			}
 
-
 			if(WrexMODS.checkURL(url)){
 			
 			    // making sure all the required node modules are installed
-				var xpath = WrexMODS.require('xpath')
-				, dom = WrexMODS.require('xmldom').DOMParser
-				, request = WrexMODS.require('request')
-				
-							
+				var request = WrexMODS.require('request')
+											
 				request(url, function(err, res, html) { 	
 					
 					if(err) throw err;
