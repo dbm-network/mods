@@ -216,10 +216,6 @@ module.exports = {
 
 			var WrexMODS = this.getWrexMods();
 
-			WrexMODS.CheckAndInstallNodeModule('xpath');
-			WrexMODS.CheckAndInstallNodeModule('xmldom');
-			WrexMODS.CheckAndInstallNodeModule('ent');
-
 			const data = cache.actions[cache.index];
 
 			const sourceVarName = this.evalMessage(data.sourceVarName, cache);
@@ -233,9 +229,9 @@ module.exports = {
 
 			let html = this.getVariable(source, sourceVarName, cache);
 
-			var xpath = require('xpath');
-			var dom = require('xmldom').DOMParser;
-			var ent = require('ent');
+			var xpath = WrexMODS.require('xpath')
+			, dom = WrexMODS.require('xmldom').DOMParser
+			, ent = WrexMODS.require('ent')
 
 			let errors = [];
 
