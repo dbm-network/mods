@@ -14,7 +14,7 @@ name: "Slice",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "TEST",
+section: "Other Stuff",
 
 //---------------------------------------------------------------------
 // Action Subtitle
