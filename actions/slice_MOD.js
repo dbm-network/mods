@@ -88,7 +88,7 @@ html: function(isEvent, data) {
 	<p>
 	   <u>Mod Info:</u><br>
 	   Made by EGGSY!<br>
-	</p>
+	</p></div><br>
 	<div padding-top: 8px;">
 		Slice Text:<br>
 		<textarea id="slice" rows="2" placeholder="Insert message here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
