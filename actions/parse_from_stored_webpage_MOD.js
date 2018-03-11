@@ -103,13 +103,13 @@ module.exports = {
 			<p>
 				<u>Mod Info:</u><br>
 				Created by General Wrex!<br>
-				This should also be able to parse regular XML stored to a variable with the store html mod
-			</p>
+				This returns an array of values, be sure to read your Bot Log/Terminal<br> 
+				while constructing command with <b>Debug Mode</b> Enabled. 
 			<p>
 				<u>Instructions:</u><br>
 					1. Input a Path into the XPath textarea<br>
-					2. Test Online: https://codebeautify.org/Xpath-Tester;<br>
-					3. How to get XPath from Chrome: https://stackoverflow.com/a/46599584/1422928<br><br>
+					2. Test Online: <span class="wrexlink" data-url="https://codebeautify.org/Xpath-Tester">X-Path Tester</span><br>
+					3. How to get <span class="wrexlink" data-url="https://stackoverflow.com/a/46599584/1422928">XPath from Chrome.</span><br>
 					
 			</p>
 		</div>	
@@ -124,7 +124,7 @@ module.exports = {
         <input id="sourceVarName" class="round" type="text" list="variableList">
       </div><br><br><br>
 		<div>			
-			XPath: <br>
+			XPath: (Supports multiple, split with the <b>|</b> symbol) <br>
 			<textarea id="xpath" class="round" style="width: 99%; resize: none;" type="textarea" rows="2" cols="20"></textarea><br>    
 		</div>	
 	  <div hidden="true">
@@ -148,7 +148,17 @@ module.exports = {
 		   		<option value="0" >Disabled</option>
 			</select>
 	 </div>
-	</div>	
+	</div>		
+	<style>
+	  span.wrexlink {
+		color: #99b3ff;
+		text-decoration:underline;
+		cursor:pointer;
+	  }
+	  span.wrexlink:hover { 
+		color:#4676b9; 
+	  }
+	</style>
 	`
 	},
 
@@ -161,36 +171,33 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	init: function() {
+
 		const {glob, document} = this;
 			
 			try {	
-				var WrexMODS = require(require("path").join(require("path").resolve("Actions"), 'aaa_wrexmods_dependencies_MOD.js')).getWrexMODS();
-							
-				/*
-				var valid = document.getElementById("valid");
-				var xpath = document.getElementById("xpath");
+				var WrexMODS = require(require('path').join(__dirname,'aaa_wrexmods_dependencies_MOD.js')).getWrexMods();
+								
+				var wrexlinks = document.getElementsByClassName("wrexlink")
+				for(var x = 0; x < wrexlinks.length; x++) {
+				  
+				  var wrexlink = wrexlinks[x];
+				  var url = wrexlink.getAttribute('data-url');   
+				  if(url){
+					wrexlink.setAttribute("title", url);
+					wrexlink.addEventListener("click", function(e){
+					  e.stopImmediatePropagation();
+					  console.log("Launching URL: [" + url + "] in your default browser.")
+					  require('child_process').execSync('start ' + url);
+					});
+				  }   
+				}  
 
-				glob.checkPath = function(element){
-	
-					const value = element.value;
-					const checkedUrl = true;
-					
-					if(checkedUrl && value){
-						valid.innerHTML = "Valid Path Format!";
-						valid.style.color = "green";
-					}else{
-						valid.innerHTML = "Invalid Path Format!";
-						valid.style.color = "red";
-					}
-					
-				}	
-			*/																										
 			} catch (error) {
 				// write any init errors to errors.txt in dbm's main directory
 				require("fs").appendFile("errors.txt", error.stack ? error.stack : error + "\r\n"); 
 			}
 	
-			//glob.checkPath(document.getElementById("xpath"));
+
 			glob.variableChange(document.getElementById('storage'), 'varNameContainer');
 			glob.variableChange(document.getElementById('source'), 'sourceVarNameContainer')
 	},
@@ -220,33 +227,25 @@ module.exports = {
 
 			const myXPath = this.evalMessage(data.xpath, cache);
 
-			const html = this.getVariable(source, sourceVarName, cache);
+			let html = this.getVariable(source, sourceVarName, cache);
+
+			var xpath = WrexMODS.require('xpath')
+			, dom = WrexMODS.require('xmldom').DOMParser
+			, ent = WrexMODS.require('ent')
+
+			let errors = [];
 
 			if(myXPath){
 			
-				var xpath = WrexMODS.require('xpath');
-				var dom = WrexMODS.require('xmldom').DOMParser;
-			
-				var entities = {
-					'amp': '&',
-					'apos': '\'',
-					'#x27': '\'',
-					'#x2F': '/',
-					'#39': '\'',
-					'#47': '/',
-					'lt': '<',
-					'gt': '>',
-					'nbsp': ' ',
-					'quot': '"'
-				  }
-				  
-				  function decodeHTMLEntities (text) {
-					return text.replace(/&([^;]+);/gm, function (match, entity) {
-					  return entities[entity] || match
-					})
-				  }
-
-
+				// check for errors
+				let errored = false;			
+				try {
+					xpath.evaluate(myXPath, null, null, null);
+				} catch (error) {
+					errored = error;
+					if(!error.toString().includes('nodeType')) console.error(`Invalid XPath: [${myXPath}] (${(error ? error : "")})`);
+				}
+				
 				if(html){
 
 					let mylocator = {};
@@ -255,12 +254,11 @@ module.exports = {
 						locator: mylocator,
 						errorHandler: {
 						   warning: (msg) => {manageXmlParseError(msg,1,parseLog)},
-						   error: (msg) => {manageXmlParseError(msg,2,parseLog); console.log("Error: " + msg)},
-						   fatalError: (msg) => {manageXmlParseError(msg,3,parseLog)},
+						   error: (msg) => {manageXmlParseError(msg,2,parseLog); ( DEBUG ? console.log("XMLDOMError: " + msg) : "")},
+						   fatalError: (msg) => {manageXmlParseError(msg,3,parseLog); ( DEBUG ? console.log("FATAL XMLDOMError: " + msg) : "")},
 						},
-					}).parseFromString(html.replace(/&([^;]+);/gm, function (match, entity) {
-						return entities[entity] || match
-					  }));
+					}).parseFromString(ent.decode(html));
+
 
 					function manageXmlParseError(msg,errorLevel,errorLog){
 						if( (errorLog.errorLevel == null) || (errorLog.errorLevel < errorLevel)){
@@ -271,46 +269,72 @@ module.exports = {
 						}					 
 						errorLog[errorLevel.toString()].push(msg);
 					 }
-
 					
-					let nodes = xpath.select(myXPath, doc);
-									
+					 let nodes = [];
+					 try {
+						 nodes = xpath.select(myXPath, doc);
 
-					if(nodes.length > 0){
+						 if(nodes && nodes.length > 0){
 
-						var out = [];
-						nodes.forEach(node => {
+							var out = [];
+							nodes.forEach(node => {
+	
+								var name = node.name || "Text Value";
+								var value = node.value ? node.value : node.toString();
+	
+	
+								if(DEBUG) {
+									console.log("====================================");
+									console.log("Source String: " + node.toString());
+									console.log("====================================");
+									//console.log("Parent Node Name: " +  .name);
+									console.log("Name: " + name);
+									console.log("Line Number: " + node.lineNumber);
+									console.log("Column Number: " + node.columnNumber);
+									console.log("Parsed Value: " + value.trim());
+									console.log("====================================\n");								
+								}
+	
+								out.push(value.trim());
+							  })
+						  
+							  if(out.length > 1 && DEBUG){
+								console.log('Stored value(s);\r\n');
+	
+								for (i = 0; i < out.length; i++) {
+									console.log('[' + i + '] = ' + out[i]);
+								}
+	  
+								console.log('\r\nAppend the key that you want to store that value to the variable.');
+	  
+								const storageType = ['', 'tempVars', 'serverVars', 'globalVars'];
+								var output = storageType[storage]
+	  
+								console.log('Example ${'+output+'("'+ varName +'")} to ${'+output+'("'+ varName +'")[key]}');
+								console.log(''+ varName +'[key] if not using it as a template\r\n');
+							  }
+							
 
-							var name = node.name || "Text Value";
-							var value = node.value ? node.value : node.toString();
+							   this.storeValue(out, storage, varName, cache);
+							if(DEBUG) console.log(`Stored value(s) [${out}] to  [${varName}] `)
+							   
+	
+							  this.callNextAction(cache);	 	
+						}else{
+							console.error(`Could not store a value from path ${myXPath}, Check that the path is valid!\n`);
+							if(DEBUG) console.info("parsestatus ==> " + parseLog.errorLevel + "\nlocator:" +  mylocator.columnNumber + "/" + mylocator.lineNumber );
+							
+							this.storeValue(errored ? errored : undefined, storage, varName, cache);
+							  this.callNextAction(cache);	 	
+						} 		
 
+					 } catch (error) {
 
-							if(!node.name)
-
-
-							if(DEBUG) {
-								console.log("====================================");
-								console.log("Source String: " + node.toString());
-								console.log("====================================");
-								//console.log("Parent Node Name: " +  .name);
-								console.log("Name: " + name);
-								console.log("Line Number: " + node.lineNumber);
-								console.log("Column Number: " + node.columnNumber);
-								console.log("Parsed Value: " + value);
-								console.log("====================================\n");								
-							}
-
-							out.push(value);
-					  	})
-					  
-		
-					   	this.storeValue(out, storage, varName, cache);
-					   	console.log(`Stored value(s) [${out}] to  [${varName}] `)
-					  	this.callNextAction(cache);	 	
-					}else{
-						console.error(`Could not store a value from path ${myXPath}, Check that the path is valid!\n`);
-						if(DEBUG) console.info("parsestatus ==> " + parseLog.errorLevel + "\nlocator:" +  mylocator.columnNumber + "/" + mylocator.lineNumber );
-					} 		
+						 this.storeValue(errored ? errored : undefined, storage, varName, cache);
+						 this.callNextAction(cache);	 	
+					 }
+														
+				
 				}else{
 					console.error(`HTML data Is Not Valid!`);
 				}
@@ -321,7 +345,8 @@ module.exports = {
 
 		} catch (error) {
 			console.error("Webpage Things:  Error: " + error.stack ? error.stack : error);
-		}		
+		}	
+		
 	},
 
 	//---------------------------------------------------------------------

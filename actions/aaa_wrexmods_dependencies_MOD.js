@@ -10,7 +10,7 @@ WrexMODS.API = {};
 
 WrexMODS.DBM = null;
 
-WrexMODS.Version = "1.0.3";
+WrexMODS.Version = "1.0.4";
 
 WrexMODS.MaxInstallAttempts = 3;
 
@@ -20,47 +20,47 @@ WrexMODS.MaxInstallAttempts = 3;
 
 //---------------------------------------------------------------------
 var currentInstallAttempts = 0;
-WrexMODS.CheckAndInstallNodeModule = function(moduleName){
+WrexMODS.CheckAndInstallNodeModule = function(moduleName, isGlobal = false){
+	return new Promise((resolve, reject) => {
+		var installed = false;
 
-
-	var installed = false;
-
-	let result;
-
-	try {
-		result = require.resolve(moduleName);
-
-		currentInstallAttempts = 0;
-		installed = true;
-	} catch(e) {
-
-		if(currentInstallAttempts >= this.MaxInstallAttempts){
-			console.error("WrexMods: Could not automatically install " + moduleName + ". (Install attempt limit reached) Please install it manually 'npm install " + moduleName + "' before continuing.");
-			return false;
-		}
-
-			
+		let result;
+	
 		try {
-			console.log("Installing Node Module: " + moduleName);	
-			var child = this.require('child_process');
-			var cliCommand = 'npm install ' + moduleName + " --save --loglevel=error";
-			result = child.execSync(cliCommand,{stdio:[0,1,2]});
-			
-			currentInstallAttempts += 1;			
-		} catch (error) {
-			console.error("Could not automatically install " + moduleName + " Please install it manually 'npm install " + moduleName + "' before continuing.");
-			result = error;
-		}
-	}	  	
+			result = require.resolve(moduleName);
+	
+			currentInstallAttempts = 0;
+			installed = true;
+		} catch(e) {
+	
+			if(currentInstallAttempts >= this.MaxInstallAttempts){
+				console.error("WrexMods: Could not automatically install " + moduleName + ". (Install attempt limit reached) Please install it manually 'npm install " + moduleName + "' before continuing.");
+				reject(false);
+			}
+					
+			try {
+				console.log("Installing Node Module: " + moduleName);	
+				var child = require('child_process');
+				var cliCommand = 'npm install ' + moduleName + " --loglevel=error " + (isGlobal ? "-g" : "--save");
+				result = child.execSync(cliCommand,{cwd: require('path').dirname(process.argv[1]),stdio:[0,1,2]});
+				//result = child.execSync('npm',['install',(isGlobal ? "-g" : "--save"),'--loglevel=error'],{cwd: require('path').dirname(process.argv[1]),stdio:[0,1,2]});
+				resolve(installed)		
+				currentInstallAttempts += 1;			
+			} catch (error) {
+				console.error("Could not automatically install " + moduleName + " Please install it manually 'npm install " + moduleName + "' before continuing.");
+				result = error;
+			}
+		}	  
+		
+	})
 
-	return installed;
 }
 
 WrexMODS.require = function(moduleName){
 	/// <summary> Custom require function that will attempt to install the module if it doesn't exist</summary>
 	/// <returns type="Object">The required module</returns>
-	this.CheckAndInstallNodeModule(moduleName);	
-	return require(moduleName);
+	this.CheckAndInstallNodeModule(moduleName);		
+	return require.main.require(moduleName);
 }
 
 WrexMODS.checkURL = function (url){
@@ -322,7 +322,6 @@ WrexMODS.jsonPath = function(obj, expr, arg) {
 	}
  } 
 
- 
 WrexMODS.validUrl = function() {
     'use strict';
 	
@@ -490,7 +489,7 @@ var customaction = {};
 customaction.name = "WrexMODS";
 customaction.section = "JSON Things";
 customaction.author = "General Wrex";
-customaction.version = "1.8.2";
+customaction.version = "1.8.3";
 customaction.short_description = "Required for some mods. Does nothing";
 
 customaction.html = function() { 
@@ -503,6 +502,10 @@ customaction.html = function() {
 	</p>
 </div>`	
 };
+
+customaction.getWrexMods = function(){
+	return WrexMODS;
+}
 
 
 customaction.mod = function(DBM) {
