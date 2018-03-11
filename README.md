@@ -1,7 +1,7 @@
 # DBM-Mods
 [![release](http://github-release-version.herokuapp.com/github/Discord-Bot-Maker-Mods/DBM-Mods/release.svg?style=flat)](https://github.com/Discord-Bot-Maker-Mods/DBM-Mods/releases)
 
-Here are some Mods for Discord Bot Maker! 
+Here are some Mods for Discord Bot Maker!
 Feel free to use them in your bots. But please, if you want to share this files please share the URL of this GitHub page.
 Then everyone can have the latest update!
 
@@ -10,39 +10,29 @@ Make sure to join the DBM MODS DISCORD SERVER. To stay updated and be able to su
 
 
 NEW FEATURES:
-- Create Category
-- Set Bot Activity (Playing, Watching, Listening & Streaming)
-- Start Bot Typing & Stop Bot Typing (Allows the bot to get the typing status)
-- Store Memory Usage
-- DBM Beta Music Stuff fix action (Check the video)
-- Update discord.js (Check the video)
-- Bug fixes
-
-https://youtu.be/mrrtj5nlV58
+● Check Variable length
+● HTML and Json fixes
+● Generate Random Hex Color
+● Change images name
+● Delete File
+● Cleverbot .io & .com support
+● Randomize Letters
+● Slice variable
+● Translate variable
+● Store Attachment Info
+... and much more!
 
 Install Mods:
-- Click the green button Clone or download
-- Choose Download ZIP
-- Open ZIP and open the DBM-Mods-master folder
-- After downloading open DBM
-- Click on Project
-- Click on Open Actions Directory
-- Go one folder back, you should be at /steamapps/common/Discord Bot Maker
-- Now copy all files you downloaded out of the zip file
-- Paste them into your actions folder you opened before
-- Goto your bots project path (Project -> Projects Path)
-- Copy the node_modules folder to your bots folder
-
-Update mods:
-- Then click the green button Clone or download
-- Choose Download ZIP
-- Open ZIP and open the DBM-Mods-master folder
-- After downloading open DBM
-- Click on Project
-- Click on Open Actions Directory
-- Go one folder back, you should be at /steamapps/common/Discord Bot Maker
-- Now copy all files you downloaded out of the zip file
-- Paste all files you downloaded and overwrite all existing
+How to install mods:
+1. Download this file http://bit.ly/2pJiqv6
+2. Open ZIP and open the first (and only) folder
+3. Open DBM
+4. Click on Project
+5. Click on Open Actions Directory
+6. Go one folder back, you should be at /steamapps/common/Discord Bot Maker
+7. Now copy all files you downloaded out of the zip file
+8. Paste them into your folder you opened
+9. Please overwrite existing ones
 
 If you don't run your bot with DBM make sure to copy this actions to your bot directory too!
 And if you have any more questions: Join the Discord!
@@ -55,30 +45,30 @@ And if you have any more questions: Join the Discord!
 https://dbotmaker.io/forums/threads/create-variable-from-json-webapi.85/
 
  ## Changes
-     * Now supports the use of JsonPATH in both Store and Parse 
+     * Now supports the use of JsonPATH in both Store and Parse
 
 
 **WEBAPI  - Using API Keys in google's json webapi is appending** ```?key=[keygoeshere]``` ** to the end of your Google API url, google how to create a API key in googles developer console for how to create a key**
 
 
- ## Path Finder 
+ ## Path Finder
   **A Helper program to get the JSON Path for this mod**
     You can find it here!
     https://github.com/generalwrex/DBM-WebAPI-Parser-PathFinder
 
 
  ## JSON Path
- 
+
  Find out more information about JSON Path here - http://goessner.net/articles/JsonPath/index.html#e2
  Test it out here! http://jsonPath.com
- 
+
  ![jsonpathfirst](https://i.gyazo.com/f073451e1ad976860a097422c90ea754.png)
- 
+
  ![jsonpathsecond](https://i.gyazo.com/e0e07b4fa87ebe31c3b16bfbf7679697.png)
  ## How to get the path
- 
+
  Here is our example
- 
+
 ![jsonimage](https://i.gyazo.com/349715d816924fd40c7d521f5d45f798.png)
 
 

@@ -38,13 +38,13 @@ return `Convert into ${data.varName}`;
 	 author: "General Wrex", //Idea by Tresmos
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.8.6",
+	 version: "1.8.6", //Added in 1.8.6
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
 	 short_description: "Converts YouTube Time Code into numeric time.",
 
 	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-	
+
 
 	 //---------------------------------------------------------------------
 
@@ -131,7 +131,7 @@ init: function() {},
 //---------------------------------------------------------------------
 
 action: function (cache) {
-	
+
 	const data = cache.actions[cache.index];
 	const storage = parseInt(data.storage);
 	const varName = this.evalMessage(data.varName, cache);
@@ -173,7 +173,7 @@ action: function (cache) {
 			multiplier: 1
 		  }
 		];
-	  
+
 		for (var i = 0; i < parts.length; i++) {
 		  if (typeof matches[parts[i].pos] != 'undefined') {
 			durationInSec += parseInt(matches[parts[i].pos]) * parts[i].multiplier;
