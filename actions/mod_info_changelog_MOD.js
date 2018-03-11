@@ -37,7 +37,7 @@ subtitle: function(data) {
 	 author: "DBM Mods",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.8.5",
+	 version: "1.8.6",
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
 	 short_description: "Changelog overview",
@@ -85,6 +85,21 @@ html: function(isEvent, data) {
 	return `
 <div>
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
+	<p>
+		<h2>1.8.6: So many small new mods</h2>
+		● Check Variable length
+		● HTML and Json fixes
+		● Generate Random Hex Color
+		● Change images name
+		● Delete File
+		● Cleverbot .io & .com support
+		● Randomize Letters
+		● Slice variable
+		● Translate variable
+		● Store Attachment Info
+		● Convert YouTube Time
+		... and much more!
+	</p>
 	<p>
 		<h2>1.8.5: Many new options...</h2>
 		● Store Human & Bot count!<br>

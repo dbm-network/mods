@@ -37,7 +37,7 @@ subtitle: function(data) {
 	author: "EGGSY",
 
 	// The version of the mod (Defaults to 1.0.0)
-	version: "1.8.6",
+	version: "1.8.6", //Added in 1.8.6
 
 	// A short description to show on the mod line for this mod (Must be on a single line)
 	short_description: "Slice anything!",
@@ -70,15 +70,15 @@ fields: ["slice", "startingNumber", "sliceLength", "storage", "varName"],
 // Command HTML
 //
 // This function returns a string containing the HTML used for
-// editting actions. 
+// editting actions.
 //
 // The "isEvent" parameter will be true if this action is being used
-// for an event. Due to their nature, events lack certain information, 
+// for an event. Due to their nature, events lack certain information,
 // so edit the HTML to reflect this.
 //
-// The "data" parameter stores constants for select elements to use. 
+// The "data" parameter stores constants for select elements to use.
 // Each is an array: index 0 for commands, index 1 for events.
-// The names are: sendTargets, members, roles, channels, 
+// The names are: sendTargets, members, roles, channels,
 //                messages, servers, variables
 //---------------------------------------------------------------------
 
@@ -138,7 +138,7 @@ init: function() {
 // Action Bot Function
 //
 // This is the function for the action within the Bot's Action class.
-// Keep in mind event calls won't have access to the "msg" parameter, 
+// Keep in mind event calls won't have access to the "msg" parameter,
 // so be sure to provide checks for variable existance.
 //---------------------------------------------------------------------
 
@@ -155,7 +155,7 @@ action: function(cache) {
 	if(!sliceText) return console.log("Please write something to slice.");
 	if(!startingFrom && startingFrom != 0) return console.log("Please write a starting number.");
 	if(!sliceLength) return console.log("Please write slice length.");
-	
+
 	// Main code
 	result = `${sliceText}`.slice(`${startingFrom}`, `${sliceLength + startingFrom}`);
 
