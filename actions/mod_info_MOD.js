@@ -37,7 +37,7 @@ subtitle: function(data) {
 author: "DBM Mods",
 
 // The version of the mod (Defaults to 1.0.0)
-version: "1.8.5",
+version: "1.8.6",
 
 // A short description to show on the mod line for this mod.
 short_description: "Information about the Mod Collection.",
@@ -143,8 +143,9 @@ tbody { border-top: 2px solid white; }
 		per month. And you will get also some things like a Discord Patron role and a mention here:<br>
 		<u>Patrons:</u><br>
 		- MitchDaGamer (5$)<br>
+		- cryptomoon (3$)<br>
 		- General Wrex (1$)<br>
-		- Eggsy (1$)<br>
+		- EGGSY (1$)<br>
 		- Proximity (1$)<br><br>
 		Become a patron today!<br>
 		https://www.patreon.com/dbmmods
