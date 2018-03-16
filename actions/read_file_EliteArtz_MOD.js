@@ -23,7 +23,8 @@ section: "Other Stuff",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-    return `${data.filename} - ${data.input.replace(/[\n\r]+/, '')}`;
+    const info1 = data.filename;
+    return `Read File "${data.filename}"`;
 },
 
     //---------------------------------------------------------------------
@@ -69,7 +70,7 @@ variableStorage: function(data, varType) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["input", "filename", "turn", "storage", "varName2"],
+fields: ["filename", "storage", "varName2"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -170,7 +171,7 @@ action: function (cache) {
 // 	<div style="float: right; width: 35%;">
 //		Turn Find Json path's: 
 //    	<select id="turn" name="second-list" class="round" onchange="glob.variableChange(this, 'CHANGER')">
-//            <option value="0" selected>Find Json Path (Off)</option>
+//          <option value="0" selected>Find Json Path (Off)</option>
 //			<option value="1">Find Json Path (On)</option>
 //    	</select>
 //	</div><br>
@@ -191,6 +192,8 @@ action: function (cache) {
 //glob.variableChange(document.getElementById('turn'), 'CHANGER')
 //, FIELDS
 //"input", "turn" 
+//
+//
 //---------------------------------------------------------------------
 
 mod: function(DBM) {}
