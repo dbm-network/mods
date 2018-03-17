@@ -87,12 +87,7 @@ fields: ["channel", "varName", "username", "avatarurl", "storage", "varName2"],
 
 html: function(isEvent, data) {
 	return `
-<div>
-	<p>
-		<u>Mod Info:</u><br>
-		Created by Lasse!
-	</p>
-</div><br>
+<div><p><u>Mod Info:</u><br>Created by Lasse!</p></div>
 	<div>
 		<div style="float: left; width: 35%;">
 			Source Channel:<br>

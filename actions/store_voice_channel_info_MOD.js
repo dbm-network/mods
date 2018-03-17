@@ -29,25 +29,27 @@ subtitle: function(data) {
 },
 
 //---------------------------------------------------------------------
-	 // DBM Mods Manager Variables (Optional but nice to have!)
-	 //
-	 // These are variables that DBM Mods Manager uses to show information
-	 // about the mods for people to see in the list.
-	 //---------------------------------------------------------------------
+// DBM Mods Manager Variables (Optional but nice to have!)
+//
+// These are variables that DBM Mods Manager uses to show information
+// about the mods for people to see in the list.
+//---------------------------------------------------------------------
 
-	 // Who made the mod (If not set, defaults to "DBM Mods")
-	 author: "Lasse",
+// Who made the mod (If not set, defaults to "DBM Mods")
+author: "Lasse",
 
-	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.8.2",
+// The version of the mod (Defaults to 1.0.0)
+version: "1.8.7", //Added in 1.8.2
 
-	 // A short description to show on the mod line for this mod (Must be on a single line)
-	 short_description: "Stores Voice Channels Information",
+//1.8.7: Changed dropdown texts!
 
-	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
+// A short description to show on the mod line for this mod (Must be on a single line)
+short_description: "Stores Voice Channels Information",
+
+// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
 
-	 //---------------------------------------------------------------------
+//---------------------------------------------------------------------
 
 //---------------------------------------------------------------------
 // Action Storage Function
@@ -130,11 +132,11 @@ html: function(isEvent, data) {
 	<div style="padding-top: 8px; width: 70%;">
 		Source Info:<br>
 		<select id="info" class="round">
-			<option value="0" selected>Can bot speak?</option>
-			<option value="1">Can bot join?</option>
-			<option value="2">Can bot delete VC?</option>
-			<option value="3">Position in VC list</option>
-			<option value="4">Members connected</option>
+			<option value="0" selected>Can Bot Speak?</option>
+			<option value="1">Can Bot Join VC?</option>
+			<option value="2">Can Bot Delete VC?</option>
+			<option value="3">Position In VC List</option>
+			<option value="4">Connected Members</option>
 		</select>
 	</div>
 </div><br>

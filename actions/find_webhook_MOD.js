@@ -17,13 +17,36 @@ name: "Find Webhook",
 section: "Webhook Control",
 
 //---------------------------------------------------------------------
+// DBM Mods Manager Variables (Optional but nice to have!)
+//
+// These are variables that DBM Mods Manager uses to show information
+// about the mods for people to see in the list.
+//---------------------------------------------------------------------
+
+// Who made the mod (If not set, defaults to "DBM Mods")
+author: "Lasse",
+
+// The version of the mod (Defaults to 1.0.0)
+version: "1.8.7", //Added in 1.8.7
+
+//1.8.7: Changed dropdown texts!
+
+// A short description to show on the mod line for this mod (Must be on a single line)
+short_description: "Finds a Webhook and Stores it.",
+
+// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
+
+
+//---------------------------------------------------------------------
+
+
+//---------------------------------------------------------------------
 // Action Subtitle
 //
 // This function generates the subtitle displayed next to the name.
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	//const info = ['Channel ID', 'Channel Name', 'Channel Topic'];
 	return `${data.id}`;
 },
 
@@ -67,7 +90,7 @@ fields: ["id", "token", "storage", "varName"],
 
 html: function(isEvent, data) {
 	return `
-<div><p><u>Mod Info:</u><br>Created by Lasse!</p></div>
+<div><p><u>Mod Info:</u><br>Created by Lasse!</p></div><br><br>
 <div>
 	<div style="float: left; width: 40%;">
 		Webhook ID:<br>
