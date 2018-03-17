@@ -5,23 +5,40 @@ module.exports = {
 	//
 	// This is the name of the action displayed in the editor.
 	//---------------------------------------------------------------------
-	
+
 	name: "Bot Typing",
-	
+
 	//---------------------------------------------------------------------
 	// Action Section
 	//
 	// This is the section the action will fall into.
 	//---------------------------------------------------------------------
-	
+
 	section: "Bot Client Control",
-	
+
+	//---------------------------------------------------------------------
+	// DBM Mods Manager Variables (Optional but nice to have!)
+	//
+	// These are variables that DBM Mods Manager uses to show information
+	// about the mods for people to see in the list.
+	//---------------------------------------------------------------------
+
+	// Who made the mod (If not set, defaults to "DBM Mods")
+	author: "Lasse & EliteArtz",
+
+	// The version of the mod (Defaults to 1.0.0)
+	version: "1.8.7", // Added in 1.8.7
+
+	// A short description to show on the mod line for this mod (Must be on a single line)
+	short_description: "Allows the bot to get the *is typing* status",
+
+
 	//---------------------------------------------------------------------
 	// Action Subtitle
 	//
 	// This function generates the subtitle displayed next to the name.
 	//---------------------------------------------------------------------
-	
+
 	subtitle: function(data) {
 		const names = ['Same Channel', 'Mentioned Channel', 'Default Channel', 'Temp Variable', 'Server Variable', 'Global Variable'];
 		const names2 = ['Starts Typing', 'Stops Typing']
@@ -29,7 +46,7 @@ module.exports = {
 		const index = parseInt(data.storage);
 		return index < 3 ? `${names[index]} - ${names2[index2]}` : `${names[index]} - ${data.varName} - ${names2[index2]}`;
 	},
-	
+
 	//---------------------------------------------------------------------
 	// Action Fields
 	//
@@ -37,9 +54,9 @@ module.exports = {
 	// by creating elements with corresponding IDs in the HTML. These
 	// are also the names of the fields stored in the action's JSON data.
 	//---------------------------------------------------------------------
-	
+
 	fields: ["storage", "varName", "EliteArtzIsPro"],
-	
+
 	//---------------------------------------------------------------------
 	// Command HTML
 	//
@@ -55,7 +72,7 @@ module.exports = {
 	// The names are: sendTargets, members, roles, channels,
 	//                messages, servers, variables
 	//---------------------------------------------------------------------
-	
+
 	html: function(isEvent, data) {
 		return `
 		<div>
@@ -91,7 +108,7 @@ module.exports = {
 		</p>
 	</div><br>`
 	},
-	
+
 	//---------------------------------------------------------------------
 	// Action Editor Init Code
 	//
@@ -99,13 +116,13 @@ module.exports = {
 	// is also run. This helps add modifications or setup reactionary
 	// functions for the DOM elements.
 	//---------------------------------------------------------------------
-	
+
 	init: function() {
 		const {glob, document} = this;
-	
+
 		glob.channelChange(document.getElementById('storage'), 'varNameContainer');
 	},
-	
+
 	//---------------------------------------------------------------------
 	// Action Bot Function
 	//
@@ -113,15 +130,15 @@ module.exports = {
 	// Keep in mind event calls won't have access to the "msg" parameter,
 	// so be sure to provide checks for variable existance.
 	//---------------------------------------------------------------------
-	
+
 	action: function(cache) {
 		const data = cache.actions[cache.index];
 		const storage = parseInt(data.storage);
 		const varName = this.evalMessage(data.VarName, cache);
 		const time = parseInt(this.evalMessage(data.time, cache));
 		const channel = this.getChannel(storage, varName, cache);
-	
-	
+
+
 		try { //This "Try and Catch" Function is really useful for when it's coming up an error, it will log it in your logs.
 			if (data.EliteArtzIsPro === "0") { //"If and else" Function is for looking if the result of them equals what you wan't.
 				channel.startTyping(); //Starts the Typing
@@ -129,12 +146,12 @@ module.exports = {
 				channel.stopTyping(true); //Stops the Typing
 			}
 		} catch (e) {
-			console.error("ERROR!" + e + e.stack); // Here it's gonna log if an error occured.
+			console.error("ERROR! " + e + e.stack); // Here it's gonna log if an error occured.
 		}
-	
+
 		this.callNextAction(cache);
 	},
-	
+
 	//---------------------------------------------------------------------
 	// Action Bot Mod
 	//
@@ -143,9 +160,8 @@ module.exports = {
 	// In order to reduce conflictions between mods, be sure to alias
 	// functions you wish to overwrite.
 	//---------------------------------------------------------------------
-	
+
 	mod: function(DBM) {
 	}
-	
+
 	}; // End of module
-	
