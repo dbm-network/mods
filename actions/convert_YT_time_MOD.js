@@ -34,19 +34,19 @@ return `Convert into ${data.varName}`;
 	 // about the mods for people to see in the list.
 	 //---------------------------------------------------------------------
 
-	 // Who made the mod (If not set, defaults to "DBM Mods")
-	 author: "General Wrex", //Idea by Tresmos
+ // Who made the mod (If not set, defaults to "DBM Mods")
+ author: "General Wrex", //Idea by Tresmos
 
-	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.8.6", //Added in 1.8.6
+ // The version of the mod (Defaults to 1.0.0)
+ version: "1.8.6", //Added in 1.8.6
 
-	 // A short description to show on the mod line for this mod (Must be on a single line)
-	 short_description: "Converts YouTube Time Code into numeric time.",
+ // A short description to show on the mod line for this mod (Must be on a single line)
+ short_description: "Converts YouTube Time Code into numeric time.",
 
-	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
+ // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
 
-	 //---------------------------------------------------------------------
+ //---------------------------------------------------------------------
 
 //---------------------------------------------------------------------
 // Action Storage Function

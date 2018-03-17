@@ -143,10 +143,12 @@ tbody { border-top: 2px solid white; }
 		per month. And you will get also some things like a Discord Patron role and a mention here:<br>
 		<u>Patrons:</u><br>
 		- MitchDaGamer (5$)<br>
+		- Aamon (5$)<br>
 		- cryptomoon (3$)<br>
 		- General Wrex (1$)<br>
 		- EGGSY (1$)<br>
-		- Proximity (1$)<br><br>
+		- Proximity (1$)<br>
+		- William286 (1$)<br><br>
 		Become a patron today!<br>
 		https://www.patreon.com/dbmmods
 	</p>
