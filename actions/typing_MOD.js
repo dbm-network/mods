@@ -72,7 +72,7 @@ module.exports = {
 				<option value="1">Stop Typing</option>
 			</select>
 		</div><br>
-	</div><br>
+	</div><br><br>
 	<div>
 		<div style="float: left; width: 35%;">
 			Channel to start typing in:<br>
