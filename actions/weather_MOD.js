@@ -262,9 +262,6 @@ module.exports = {
 				case 13:
 					result = response.astronomy.sunset;
 					break;
-				case 14:
-					result = response.image.url;
-					break;
 				default:
 					break;
 			}
