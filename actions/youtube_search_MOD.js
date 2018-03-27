@@ -102,7 +102,7 @@ module.exports = {
 	// are also the names of the fields stored in the action's JSON data.
 	//---------------------------------------------------------------------
 
-	fields: ["video", "key", "info", "storage", "varName"],
+	fields: ["video", "key", "info", "resultNo", "storage", "varName"],
 
 	//---------------------------------------------------------------------
 	// Command HTML
@@ -136,7 +136,7 @@ module.exports = {
 	 	API Key:<br>
 	 	<textarea id="key" rows="2" placeholder="Write your key, take one from Google." style="width: 100%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
   	</div>
-	<div style="float: left; width: 100%; padding-top: 8px;">
+	<div style="float: left; width: 55%; padding-top: 8px;">
 		Source Info:<br>
 		<select id="info" class="round">
 			<option value="0">Video URL</option>
@@ -149,6 +149,21 @@ module.exports = {
 			<option value="7">Thumbnail (default)</option>
 			<option value="8">Thumbnail (medium)</option>
 			<option value="9">Thumbnail (high)</option>
+		</select>
+	</div>
+	<div style="float: right; width: 40%; padding-top: 8px;">
+		Result Number:<br>
+		<select id="resultNo" class="round">
+			<option value="0">1st Result</option>
+			<option value="1">2nd Result</option>
+			<option value="2">3rd Result</option>
+			<option value="3">4th Result</option>
+			<option value="4">5th Result</option>
+			<option value="5">6th Result</option>
+			<option value="6">7th Result</option>
+			<option value="7">8th Result</option>
+			<option value="8">9th Result</option>
+			<option value="9">10th Result</option>
 		</select>
 	</div><br>
 	<div>
@@ -191,6 +206,7 @@ module.exports = {
 		const info = parseInt(data.info);
 		const video = this.evalMessage(data.video, cache);
 		const key = this.evalMessage(data.key, cache);
+		const resultNumber = parseInt(data.resultNo);
 
 		// Check if everything is ok:
 		if (!video) return console.log("Please specify a city to get video informations.");
@@ -198,11 +214,11 @@ module.exports = {
 
 		// Main code:
 		var _this = this; // this is needed sometimes.
-		const WrexMODS = this.getWrexMods(); // as always.
+		const WrexMODS = _this.getWrexMods(); // as always.
 		const search = WrexMODS.require('youtube-search'); // WrexMODS'll automatically try to install the module if you run it with CMD/PowerShell.
 
 		var opts = {
-			maxResults: 1,
+			maxResults: 10,
 			key: `${key}`
 		};
 
@@ -211,34 +227,34 @@ module.exports = {
 
 			switch (info) {
 				case 0:
-					result = results[0].link;
+					result = results[resultNumber].link;
 					break;
 				case 1:
-					result = results[0].title;
+					result = results[resultNumber].title;
 					break;
 				case 2:
-					result = results[0].description;
+					result = results[resultNumber].description;
 					break;
 				case 3:
-					result = results[0].channelTitle;
+					result = results[resultNumber].channelTitle;
 					break;
 				case 4:
-					result = results[0].id;
+					result = results[resultNumber].id;
 					break;
 				case 5:
-					result = results[0].publishedAt;
+					result = results[resultNumber].publishedAt;
 					break;
 				case 6:
-					result = results[0].kind;
+					result = results[resultNumber].kind;
 					break;
 				case 7:
-					result = results[0].thumbnails.default.url;
+					result = results[resultNumber].thumbnails.default.url;
 					break;
 				case 8:
-					result = results[0].thumbnails.medium.url;
+					result = results[resultNumber].thumbnails.medium.url;
 					break;
 				case 9:
-					result = results[0].thumbnails.high.url;
+					result = results[resultNumber].thumbnails.high.url;
 					break;
 				default:
 					break;
