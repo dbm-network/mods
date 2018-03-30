@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Read File",
+name: "Revise",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -23,11 +23,10 @@ section: "Other Stuff",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-    const info1 = data.filename;
-    return `Read File "${data.filename}"`;
+	return `Revise: "${data.reviser}"`;
 },
 
-    //---------------------------------------------------------------------
+//---------------------------------------------------------------------
     // DBM Mods Manager Variables (Optional but nice to have!)
     //
     // These are variables that DBM Mods Manager uses to show information
@@ -38,29 +37,27 @@ subtitle: function(data) {
     author: "EliteArtz",
 
     // The version of the mod (Defaults to 1.0.0)
-    version: "1.8.6",
+    version: "1.8.7",
 
     // A short description to show on the mod line for this mod (Must be on a single line)
-    short_description: "Reads a File you wan't",
+    short_description: "Revises a Message that you wan't.",
 
-    // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
+	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
 
-    //---------------------------------------------------------------------
+	 //---------------------------------------------------------------------
+	//---------------------------------------------------------------------
+	// Action Storage Function
+	//
+	// Stores the relevant variable info for the editor.
+	//---------------------------------------------------------------------
 
-//---------------------------------------------------------------------
-// Action Storage Function
-//
-// Stores the relevant variable info for the editor.
-//---------------------------------------------------------------------
-
-variableStorage: function(data, varType) {
-    const type = parseInt(data.storage);
-    if (type !== varType) return;
-    const filename = parseInt(data.filename);
-    let dataType = 'File';
-    return ([data.varName2, dataType]);
-},
+	variableStorage: function (data, varType) {
+		const type = parseInt(data.storage);
+		if (type !== varType) return;
+		let dataType = 'Revised Result';
+		return ([data.varName2, dataType]);
+	},
 
 //---------------------------------------------------------------------
 // Action Fields
@@ -70,41 +67,35 @@ variableStorage: function(data, varType) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["filename", "storage", "varName2"],
+fields: ["reviser", "storage", "varName2"],
 
 //---------------------------------------------------------------------
 // Command HTML
 //
 // This function returns a string containing the HTML used for
-// editting actions.
+// editting actions. 
 //
 // The "isEvent" parameter will be true if this action is being used
-// for an event. Due to their nature, events lack certain information,
+// for an event. Due to their nature, events lack certain information, 
 // so edit the HTML to reflect this.
 //
-// The "data" parameter stores constants for select elements to use.
+// The "data" parameter stores constants for select elements to use. 
 // Each is an array: index 0 for commands, index 1 for events.
-// The names are: sendTargets, members, roles, channels,
+// The names are: sendTargets, members, roles, channels, 
 //                messages, servers, variables
 //---------------------------------------------------------------------
 
 html: function(isEvent, data) {
-    return `
+	return `
 <div>
     <p>
         <u>Mod Info:</u><br>
-        Created by EliteArtz<br><br>
-
-        <u>Notice:</u><br>
-        - Use currently "Parse from Stored Json" Mod by General Wrex. for getting Json object's etc<br>
-        - Find Json Object's etc will added soon!<br>
+        Made by EliteArtz<br>
     </p>
-    <div style="float: left; width: 60%">
-        Path:
-        <input id="filename" class="round" type="text">
+    <div style="width: 70%;">
+        Message to Revise:<br>
+        <input id="reviser" type="text" class="round">
     </div><br>
-</div><br><br><br>
-<div>
     <div style="float: left; width: 35%;">
         Store In:<br>
         <select id="storage" class="round">
@@ -116,7 +107,7 @@ html: function(isEvent, data) {
         <input id="varName2" class="round" type="text"><br>
     </div>
 </div>`
-    },
+},
 
 //---------------------------------------------------------------------
 // Action Editor Init Code
@@ -132,25 +123,26 @@ init: function() {},
 // Action Bot Function
 //
 // This is the function for the action within the Bot's Action class.
-// Keep in mind event calls won't have access to the "msg" parameter,
+// Keep in mind event calls won't have access to the "msg" parameter, 
 // so be sure to provide checks for variable existance.
 //---------------------------------------------------------------------
 
 action: function (cache) {
-    const
-        data = cache.actions[cache.index],
-        fs = require('fs');
-    var output = {};
+    const data = cache.actions[cache.index];
+    const reviseText = this.evalMessage(data.reviser, cache)
     try {
-        if (data.filename) {
-            output = fs.readFileSync(data.filename, 'utf8');
-            this.storeValue(output, parseInt(data.storage), this.evalMessage(data.varName2, cache), cache);
-            this.callNextAction(cache);
-        } else {
-            console.log(`Path is missing.`);
-         }
+        let array = reviseText.split(" ");
+
+        for (let i = array.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        const storage = parseInt(data.storage);
+        const varName2 = this.evalMessage(data.varName2, cache);
+        var out = array.join(" ").trim();
+        this.storeValue(out.substr(0, 1).toUpperCase() + out.substr(1), storage, varName2, cache)
     } catch (err) {
-        console.error("ERROR!" + err.stack ? err.stack : err);
+        console.log("ERROR!" + err.stack ? err.stack : err);
     }
     this.callNextAction(cache);
 },
@@ -164,38 +156,7 @@ action: function (cache) {
 // functions you wish to overwrite.
 //---------------------------------------------------------------------
 
-//---------------------------------------------------------------------
-//Add in the Future (HTML)
-//
-//
-// 	<div style="float: right; width: 35%;">
-//		Turn Find Json path's: 
-//    	<select id="turn" name="second-list" class="round" onchange="glob.variableChange(this, 'CHANGER')">
-//          <option value="0" selected>Find Json Path (Off)</option>
-//			<option value="1">Find Json Path (On)</option>
-//    	</select>
-//	</div><br>
-//</div><br>
-//<div>
-//	<div id="CHANGER" style="display: none; width: 50%;"><br>
-//		Read json's Path:<br>
-//		<input id="input" class="round" type="text">
-//	</div>
-//</div><br>
-//, INIT
-//
-//    const {
-//    glob,
-//    document
-//} = this;
-//
-//glob.variableChange(document.getElementById('turn'), 'CHANGER')
-//, FIELDS
-//"input", "turn" 
-//
-//
-//---------------------------------------------------------------------
-
-mod: function(DBM) {}
+mod: function(DBM) {
+}
 
 }; // End of module
