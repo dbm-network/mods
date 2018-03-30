@@ -27,7 +27,7 @@ module.exports = {
         author: "Danno3187", //Original Idea by EliteArtz
     
         // The version of the mod (Defaults to 1.0.0)
-        version: "1.8.7",
+        version: "1.8.8",
     
         // A short description to show on the mod line for this mod (Must be on a single line)
         short_description: "Allows a user to interact with 'Files'",
