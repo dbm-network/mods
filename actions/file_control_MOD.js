@@ -180,7 +180,6 @@ module.exports = {
             break;
 
             case 1:
-            console.log("Write File Activated");
             try{
                 if (filePATH && fileNAME) {
                     fs.writeFileSync(FullFile, inputtext, console.log(`${data.filename}${data.format} File was written.`));
@@ -193,7 +192,6 @@ module.exports = {
             break;
 
             case 2:
-            console.log("Append File Activated");
             try {
                 if (filePATH && fileNAME){
                     fs.appendFileSync(FullFile, inputtext + '\r\n' );
@@ -206,7 +204,6 @@ module.exports = {
             break;
 
             case 3:
-            console.log("Delete File Activated");
             try {
                 if (filePATH && fileNAME) {
                     fs.exists(`${FullFile}`, function(exists) {
