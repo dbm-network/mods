@@ -24,10 +24,10 @@ module.exports = {
     //---------------------------------------------------------------------
     
         // Who made the mod (If not set, defaults to "DBM Mods")
-        author: "Danno3187",
+        author: "Danno3187", //Original Idea by EliteArtz
     
         // The version of the mod (Defaults to 1.0.0)
-        version: "1.0.0",
+        version: "1.8.7",
     
         // A short description to show on the mod line for this mod (Must be on a single line)
         short_description: "Allows a user to interact with 'Files'",
@@ -80,7 +80,7 @@ module.exports = {
     <div >
         <p>
         <u>Mod Info</u><br>
-        Devs: Danno3817, EliteArtz, Noob Eggsy (his words)<br></p>
+        Made by Danno3817, EliteArtz & EGGSY<br></p>
         <div>
             <div style="float: left; padding-right: 10px; width: 20%;">
                 File Format:<br>
