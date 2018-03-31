@@ -27,7 +27,7 @@ module.exports = {
         author: "Danno3187", //Original Idea by EliteArtz
     
         // The version of the mod (Defaults to 1.0.0)
-        version: "1.8.7",
+        version: "1.8.7", //Added in 1.8.7
     
         // A short description to show on the mod line for this mod (Must be on a single line)
         short_description: "Allows a user to interact with 'Files'",
@@ -180,7 +180,6 @@ module.exports = {
             break;
 
             case 1:
-            console.log("Write File Activated");
             try{
                 if (filePATH && fileNAME) {
                     fs.writeFileSync(FullFile, inputtext, console.log(`${data.filename}${data.format} File was written.`));
@@ -193,7 +192,6 @@ module.exports = {
             break;
 
             case 2:
-            console.log("Append File Activated");
             try {
                 if (filePATH && fileNAME){
                     fs.appendFileSync(FullFile, inputtext + '\r\n' );
@@ -206,7 +204,6 @@ module.exports = {
             break;
 
             case 3:
-            console.log("Delete File Activated");
             try {
                 if (filePATH && fileNAME) {
                     fs.exists(`${FullFile}`, function(exists) {
