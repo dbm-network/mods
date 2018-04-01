@@ -93,11 +93,11 @@ html: function(isEvent, data) {
 		Replace Text:<br>
 		<textarea id="replacemsg" rows="2" placeholder="Insert message here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
 	</div><br>
-	<div style="float: left; width: 45%; padding-top: 8px;">
+	<div style="float: left; width: 50%; padding-top: 8px;">
 	   Replace to:<br>
 	   <input id="replaceto" class="round" type="text">
     </div><br>
-    <div>
+    <div style="padding-top: 8px;">
         <select id="ifEach" class="round" style="float: right; width: 45%;">
             <option value="1">Hole content</option>
             <option value="0" selected>For Each Word</option>
