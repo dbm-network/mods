@@ -37,10 +37,10 @@ subtitle: function(data) {
 	author: "EliteArtz",
 
 	// The version of the mod (Defaults to 1.0.0)
-	version: "1.8.7",
+	version: "1.8.7", //Added in 1.8.7
 
 	// A short description to show on the mod line for this mod (Must be on a single line)
-	short_description: "Replace's your message what you wan't.",
+	short_description: "Replaces your message what you wan't.",
 
 	// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
@@ -70,15 +70,15 @@ fields: ["replacemsg", "replaceto", "storage", "varName", "ifEach"],
 // Command HTML
 //
 // This function returns a string containing the HTML used for
-// editting actions. 
+// editting actions.
 //
 // The "isEvent" parameter will be true if this action is being used
-// for an event. Due to their nature, events lack certain information, 
+// for an event. Due to their nature, events lack certain information,
 // so edit the HTML to reflect this.
 //
-// The "data" parameter stores constants for select elements to use. 
+// The "data" parameter stores constants for select elements to use.
 // Each is an array: index 0 for commands, index 1 for events.
-// The names are: sendTargets, members, roles, channels, 
+// The names are: sendTargets, members, roles, channels,
 //                messages, servers, variables
 //---------------------------------------------------------------------
 
@@ -134,7 +134,7 @@ init: function() {
 // Action Bot Function
 //
 // This is the function for the action within the Bot's Action class.
-// Keep in mind event calls won't have access to the "msg" parameter, 
+// Keep in mind event calls won't have access to the "msg" parameter,
 // so be sure to provide checks for variable existance.
 //---------------------------------------------------------------------
 
@@ -142,7 +142,7 @@ action: function(cache) {
 	//Global Variable's
 	const data = cache.actions[cache.index];
 	var result = {};
-	
+
     // Code
 	try {
 		const replaceTEXT = this.evalMessage(data.replacemsg, cache);
