@@ -122,19 +122,20 @@ module.exports = {
 
 	html: function (isEvent, data) {
 		return `
+<div style="width: 550px; height: 350px; overflow-y: scroll;">
 		<div>
 			<p>
 				<u>Mod Info:</u><br>
 				Created by EGGSY!
 			</p>
 		</div><br>
-	<div style="padding-top: 8px;">
+	<div style="width: 95%; padding-top: 8px;">
 		Video to Search:<br>
-		<textarea id="video" rows="2" placeholder="Write video name here or use variables..." style="width: 100%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+		<textarea id="video" rows="2" placeholder="Write video name here or use variables..." style="width: 95%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
 	 </div>
-	 <div style="width: 100%; padding-top: 8px;">
+	 <div style="width: 95%; padding-top: 8px;">
 	 	API Key:<br>
-	 	<textarea id="key" rows="2" placeholder="Write your key, take one from Google." style="width: 100%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+	 	<textarea id="key" rows="2" placeholder="Write your key. Take one from Google." style="width: 95%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
   	</div>
 	<div style="float: left; width: 55%; padding-top: 8px;">
 		Source Info:<br>
@@ -151,7 +152,7 @@ module.exports = {
 			<option value="9">Thumbnail (high)</option>
 		</select>
 	</div>
-	<div style="float: right; width: 40%; padding-top: 8px;">
+	<div style="float: left; width: 35%; padding-left: 10px; padding-top: 8px;">
 		Result Number:<br>
 		<select id="resultNo" class="round">
 			<option value="0">1st Result</option>
@@ -177,10 +178,12 @@ module.exports = {
 			Variable Name:<br>
 			<input id="varName" class="round" type="text"><br>
 		</div>
-	</div><br><br>
+	</div>
+	<div style="float: left; width: 88%; padding-top: 8px;">
+		<br><p>To get an API key, create an application with "Youtube v3" API permissions on https://console.developers.google.com/apis/dashboard
+		Or check a tutorial by clicking <a href="https://www.youtube.com/watch?v=_HYYJelTExE">here</a>.</p>
 	<div>
-		<p>To get an API key create an application with "Youtube v3" API permissions on https://console.developers.google.com/apis/dashboard</p>
-	<div>`
+</div>`
 	},
 
 	//---------------------------------------------------------------------
