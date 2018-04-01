@@ -88,7 +88,7 @@ module.exports = {
 				dataType = "Wind Direction";
 				break;
 			case 9:
-				dataType = "Atmosphere Humidty";
+				dataType = "Atmosphere Humidity";
 				break;
 			case 10:
 				dataType = "Atmosphere Pressure";
