@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Revise",
+name: "Revise", //What is that?
 
 //---------------------------------------------------------------------
 // Action Section
@@ -37,7 +37,7 @@ subtitle: function(data) {
     author: "EliteArtz",
 
     // The version of the mod (Defaults to 1.0.0)
-    version: "1.8.7",
+    version: "1.8.7", //Added in 1.8.7
 
     // A short description to show on the mod line for this mod (Must be on a single line)
     short_description: "Revises a Message that you wan't.",
@@ -73,15 +73,15 @@ fields: ["reviser", "storage", "varName2"],
 // Command HTML
 //
 // This function returns a string containing the HTML used for
-// editting actions. 
+// editting actions.
 //
 // The "isEvent" parameter will be true if this action is being used
-// for an event. Due to their nature, events lack certain information, 
+// for an event. Due to their nature, events lack certain information,
 // so edit the HTML to reflect this.
 //
-// The "data" parameter stores constants for select elements to use. 
+// The "data" parameter stores constants for select elements to use.
 // Each is an array: index 0 for commands, index 1 for events.
-// The names are: sendTargets, members, roles, channels, 
+// The names are: sendTargets, members, roles, channels,
 //                messages, servers, variables
 //---------------------------------------------------------------------
 
@@ -123,7 +123,7 @@ init: function() {},
 // Action Bot Function
 //
 // This is the function for the action within the Bot's Action class.
-// Keep in mind event calls won't have access to the "msg" parameter, 
+// Keep in mind event calls won't have access to the "msg" parameter,
 // so be sure to provide checks for variable existance.
 //---------------------------------------------------------------------
 
