@@ -180,7 +180,7 @@ module.exports = {
 		</div>
 	</div>
 	<div style="float: left; width: 88%; padding-top: 8px;">
-		<br><p>To get an API key, create an application with "Youtube v3" API permissions on https://console.developers.google.com/apis/dashboard
+		<br><p>To get an API key, create an application with "YouTube v3" API permissions on https://console.developers.google.com/apis/dashboard
 		Or check a tutorial by clicking <a href="https://www.youtube.com/watch?v=_HYYJelTExE">here</a>.</p>
 	<div>
 </div>`
