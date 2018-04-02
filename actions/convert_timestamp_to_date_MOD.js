@@ -91,17 +91,16 @@ html: function(isEvent, data) {
 	return `
 <div style="width: 550px; height: 350px; overflow-y: scroll;">
 	<div style="float: left; width: 30%; padding-top: 8px;">
-		<p><u>Mod Info:</u><br />
-		Made by <b>iAmaury</b> !
-		<br />Suggested by <b>Jakob</b> !</p>
+		<p><u>Mod Info:</u><br>
+		Made by <b>iAmaury</b> !</p>
 	</div>
 	<div style="float: right; width: 60%; padding-top: 8px;">
-		<p><u>Note:</u><br />
+		<p><u>Note:</u><br>
 		You can convert <b>Unix Timestamp</b> and <b>YouTube Timestamp</b> with this mod (both were tested).</p>
-	</div><br /><br /><br />
+	</div><br><br><br>
 	<div style="float: left; width: 70%; padding-top: 8px;">
 		Timestamp to Convert:
-		<input id="time" class="round" type="text" placeholder="1522672056">
+		<input id="time" class="round" type="text" placeholder="e.g. 1522672056">
 	</div>
 	<div style="float: left; width: 35%; padding-top: 8px;">
 		Store Result In:<br>
@@ -115,8 +114,8 @@ html: function(isEvent, data) {
 	</div>
 	<div style="text-align: center; float: left; width: 100%; padding-top: 8px;">
 		<p><b>Available formats for timestamp:</b>
-		<br />Do not include <i>toDate</i>, <i>''</i> and <i>()</i></p>
-		<img src="https://i.imgur.com/bY5otko.png" alt="Timestamp Formats">
+		<br>Do not include <i>toDate</i>, <i>''</i> and <i>()</i></p>
+		<img src="https://i.imgur.com/bY5otko.png" alt="Timestamp Formats" />
 	</div>
 	</div>
 `;
