@@ -7,6 +7,9 @@
 // Changelog:
 // 1.0.0 - Lasse
 //   - Added getWebhook()
+//
+// 1.0.1 - Lasse
+//   - Added toDate()
 //---------------------------------------------------------------------
 
 const custommethods= {};
@@ -38,6 +41,20 @@ custommethods.getWebhook = function(type, varName, cache) {
     }
     return false;
 };
+
+/**
+ * Gets the date for the given Unix timestamp.
+ *
+ * @param {Number} time A timestamp
+ * @returns {Date} The corresponding date
+ */
+custommethods.toDate = function (time) {
+  if (! isNumber(time)) {
+    throw new Error('Expected a number');
+  }
+  return new Date(time * 1000);
+};
+
 
 //---------------------------------------------------------------------
 
