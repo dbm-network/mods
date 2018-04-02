@@ -14,7 +14,7 @@ name: "Youtube Time Converter",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Audio Control",
+section: "Deprecated",
 
 
 //---------------------------------------------------------------------
