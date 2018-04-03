@@ -38,7 +38,8 @@ return `Convert ${data.time}`;
  author: "iAmaury", //Idea by Tresmos
 
  // The version of the mod (Defaults to 1.0.0)
- version: "1.8.7", //Added in 1.8.6
+ version: "1.8.7", //Added in 1.8.7
+ //Replaces the "convert_YT_time_MOD.js"
 
  // A short description to show on the mod line for this mod (Must be on a single line)
  short_description: "Convert Timestamp to date.",
@@ -114,8 +115,7 @@ html: function(isEvent, data) {
 	<div style="text-align: center; float: left; width: 100%; padding-top: 8px;">
 		<p><b>Recommended formats:</b></p>
 		<img src="https://i.imgur.com/fZXXgFa.png" alt="Timestamp Formats" />
-	</div>
-`;
+	</div>`;
 },
 
 //---------------------------------------------------------------------
