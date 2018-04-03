@@ -89,7 +89,6 @@ fields: ["time", "storage", "varName"],
 
 html: function(isEvent, data) {
 	return `
-<div style="width: 550px; height: 350px; overflow-y: scroll;">
 	<div style="float: left; width: 30%; padding-top: 8px;">
 		<p><u>Mod Info:</u><br>
 		Made by <b>iAmaury</b> !</p>
@@ -113,10 +112,8 @@ html: function(isEvent, data) {
 		<input id="varName" class="round" type="text">
 	</div>
 	<div style="text-align: center; float: left; width: 100%; padding-top: 8px;">
-		<p><b>Available formats for timestamp:</b>
-		<br>Do not include <i>toDate</i>, <i>''</i> and <i>()</i></p>
-		<img src="https://i.imgur.com/bY5otko.png" alt="Timestamp Formats" />
-	</div>
+		<p><b>Recommended formats:</b></p>
+		<img src="https://i.imgur.com/fZXXgFa.png" alt="Timestamp Formats" />
 	</div>
 `;
 },
