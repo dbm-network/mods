@@ -123,6 +123,7 @@ module.exports = {
     <div>
         <div>
             <p>Important info:<br>
+            You'll need a '/' at the end of the Path '\\\' for windows users.<br>
             If you want to delete something in current directory, you can add '.' (dot) before '/':<br>
             e.g:<br>
             My bot directory is: "<b>/root/myBot/</b>"<br>
@@ -169,22 +170,30 @@ module.exports = {
             case 0: //Create
             console.log("Create File Activated");
             try {
-                if (filePATH && fileNAME){
-                    fs.writeFileSync(FullFile,"");
+                if (filePATH){
+                    if (fileNAME) { 
+                        fs.writeFileSync(FullFile,"");
+                    }else {
+                        console.log("File name is missing.");
+                    }
                 }else{
-                console.log("File name or File path is missing.");
+                console.log("File path is missing.");
                 }
             }catch (err){
-            console.log("ERROR!" + err.stack ? err.stack : err);
+                console.log("ERROR!" + err.stack ? err.stack : err);
             }this.callNextAction(cache);
             break;
 
             case 1: //Write
             try{
-                if (filePATH && fileNAME) {
-                    fs.writeFileSync(FullFile, inputtext, console.log(`${data.filename}${data.format} File was written.`));
-                } else {
-                console.log(`File name or File path is missing.`);
+                if (filePATH){
+                    if (fileNAME) { 
+                        fs.writeFileSync(FullFile, inputtext);
+                    }else {
+                        console.log("File name is missing.");
+                    }
+                }else{
+                console.log("File path is missing.");
                 }
             } catch (err) {
                 console.log("ERROR!" + err.stack ? err.stack : err);
@@ -199,18 +208,17 @@ module.exports = {
                 console.log("File name or File path is missing.");
                 }
             }catch (err){
-            console.log("ERROR!" + err.stack ? err.stack : err);
+                console.log("ERROR!" + err.stack ? err.stack : err);
             }this.callNextAction(cache);
             break;
 
             case 3: //Delete
             try {
-                if (filePATH && fileNAME) {
+                if (filePATH) {
                     fs.exists(`${FullFile}`, function(exists) {
                         if(exists) {
                             fs.unlink(FullFile, (err) => {
                                 if (err) return console.log(`Something went wrong while deleting: [${err}]`);
-                                console.log(`Sucessfully deleted [${FullFile}].`);
                               });
                         } else {
                             console.log('File not found, nothing to delete.');
