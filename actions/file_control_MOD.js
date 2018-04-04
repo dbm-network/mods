@@ -173,7 +173,6 @@ module.exports = {
                 if (filePATH){
                     if (fileNAME) { 
                         fs.writeFileSync(FullFile,"");
-                        console.log(`Sucessfully created: ${FullFile}`)
                     }else {
                         console.log("File name is missing.");
                     }
@@ -189,8 +188,7 @@ module.exports = {
             try{
                 if (filePATH){
                     if (fileNAME) { 
-                        fs.writeFileSync(FullFile, inputtext, console.log(`${data.filename}${data.format} File was written.`));
-                        console.log(`Sucessfully created: ${FullFile}`);
+                        fs.writeFileSync(FullFile, inputtext);
                     }else {
                         console.log("File name is missing.");
                     }
@@ -221,7 +219,6 @@ module.exports = {
                         if(exists) {
                             fs.unlink(FullFile, (err) => {
                                 if (err) return console.log(`Something went wrong while deleting: [${err}]`);
-                                console.log(`Sucessfully deleted [${FullFile}].`);
                               });
                         } else {
                             console.log('File not found, nothing to delete.');
