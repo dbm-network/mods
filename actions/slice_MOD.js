@@ -37,7 +37,7 @@ subtitle: function(data) {
 	author: "EGGSY",
 
 	// The version of the mod (Defaults to 1.0.0)
-	version: "1.8.6", //Added in 1.8.6
+	version: "1.8.7", //Added in 1.8.6
 
 	// A short description to show on the mod line for this mod (Must be on a single line)
 	short_description: "Slice anything!",
@@ -111,7 +111,7 @@ html: function(isEvent, data) {
 		Variable Name:<br>
 		<input id="varName" class="round" type="text">
 	</div><br><br><br><br>
-	<div id="lasseIsGay" style="padding-top: 8px;">
+	<div id="RandomText" style="padding-top: 8px;">
 		<p>
 		example text: you are the best<br>
 		If you want to slice <b>you</b>, starting number = 0, slice length = 3.

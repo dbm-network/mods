@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Write File",
+name: "Revise", //What is that?
 
 //---------------------------------------------------------------------
 // Action Section
@@ -14,7 +14,7 @@ name: "Write File",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Deprecated",
+section: "Other Stuff",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -23,7 +23,7 @@ section: "Deprecated",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	return `${data.filename}${data.format}`;
+	return `Revise: "${data.reviser}"`;
 },
 
 //---------------------------------------------------------------------
@@ -37,15 +37,27 @@ subtitle: function(data) {
     author: "EliteArtz",
 
     // The version of the mod (Defaults to 1.0.0)
-    version: "1.8.4",
+    version: "1.8.7", //Added in 1.8.7
 
     // A short description to show on the mod line for this mod (Must be on a single line)
-    short_description: "Creates a File with your File name and File format + including your Text you wan't to.",
+    short_description: "Revises a Message that you wan't.",
 
 	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
 
 	 //---------------------------------------------------------------------
+	//---------------------------------------------------------------------
+	// Action Storage Function
+	//
+	// Stores the relevant variable info for the editor.
+	//---------------------------------------------------------------------
+
+	variableStorage: function (data, varType) {
+		const type = parseInt(data.storage);
+		if (type !== varType) return;
+		let dataType = 'Revised Result';
+		return ([data.varName2, dataType]);
+	},
 
 //---------------------------------------------------------------------
 // Action Fields
@@ -55,7 +67,7 @@ subtitle: function(data) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["input", "format", "filename"],
+fields: ["reviser", "storage", "varName2"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -80,22 +92,20 @@ html: function(isEvent, data) {
         <u>Mod Info:</u><br>
         Made by EliteArtz<br>
     </p>
-	<div style="float: left; width: 30%;">
-		File Format:<br>
-		<select id="format" class="round">
-			<option value=".json">json File</option>
-			<option value=".txt" selected>txt File</option>
-			<option value=".js">js File</option>
-		</select>
-	</div><br>
-    <div style="float: left; width: 99%">
-        File name:<br>
-        <textarea id="filename" class="round" style="width 50%; resize: none;" type="textarea" rows="1" cols="30"></textarea><br>
+    <div style="width: 70%;">
+        Message to Revise:<br>
+        <input id="reviser" type="text" class="round">
+    </div><br>
+    <div style="float: left; width: 35%;">
+        Store In:<br>
+        <select id="storage" class="round">
+            ${data.variables[1]}
+        </select>
     </div>
-	<div style="float: left; width: 99%;">
-		Input Text:<br>
-		<textarea id="input" class="round" style="width: 99%; resize: none;" type="textarea" rows="5" cols="35"></textarea><br>
-	</div>
+    <div id="varNameContainer2" style="float: right; width: 60%;">
+        Variable Name:<br>
+        <input id="varName2" class="round" type="text"><br>
+    </div>
 </div>`
 },
 
@@ -119,16 +129,18 @@ init: function() {},
 
 action: function (cache) {
     const data = cache.actions[cache.index];
-
+    const reviseText = this.evalMessage(data.reviser, cache)
     try {
-        const fileNAME = this.evalMessage(data.filename, cache);
-        const fs = require('fs');
-        if (fileNAME) {
-            const inputtext = this.evalMessage(data.input, cache);
-            fs.writeFileSync(fileNAME + `${data.format}`, inputtext, console.log(`${data.filename}${data.format} File was written.`));
-        } else {
-        console.log(`File name is missing.`);
+        let array = reviseText.split(" ");
+
+        for (let i = array.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
         }
+        const storage = parseInt(data.storage);
+        const varName2 = this.evalMessage(data.varName2, cache);
+        var out = array.join(" ").trim();
+        this.storeValue(out.substr(0, 1).toUpperCase() + out.substr(1), storage, varName2, cache)
     } catch (err) {
         console.log("ERROR!" + err.stack ? err.stack : err);
     }
