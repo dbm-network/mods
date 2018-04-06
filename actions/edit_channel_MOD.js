@@ -6,7 +6,8 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Edit channel",
+name: "Edit Channel",
+//Changed by Lasse in 1.8.7 from "Edit channel" to "Edit Channel"
 
 //---------------------------------------------------------------------
 // Action Section
@@ -39,7 +40,7 @@ subtitle: function(data) {
 	 author: "Lasse",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.8.2",
+	 version: "1.8.7", //Added in 1.8.2
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
 	 short_description: "Edits a specific channel",
@@ -105,6 +106,7 @@ html: function(isEvent, data) {
     	<option value="position">Position</option>
     	<option value="bitrate">Bitrate</option>
     	<option value="userLimit">User Limit</option>
+			<option value="parent">Category ID</option>
 		</select>
 	</div><br>
 <div>
@@ -140,27 +142,25 @@ init: function() {
 action: function(cache) {
 	const data = cache.actions[cache.index];
 	const storage = parseInt(data.storage);
-	const varName = this.evalMessage(data.VarName, cache);
+	const varName = this.evalMessage(data.varName, cache);
 	const channel = this.getChannel(storage, varName, cache);
 	const toChange = parseInt(data.toChange);
-	const newState = parseInt(data.newState);
-	const reason = parseInt(data.reason);
-	//channel.edit({topic: this.evalMessage(data.newState)});
-	//this.callNextAction(cache);
+	const newState = this.evalMessage(data.newState, cache);
+	//const reason = parseInt(data.reason);
 	if(data.toChange === "topic") {
-		channel.edit({topic: this.evalMessage(data.newState, cache)});
-	}
-	if(data.toChange === "name") {
-		channel.edit({name: this.evalMessage(data.newState, cache)});
-	}
-	if(data.toChange === "position") {
-		channel.edit({position: this.evalMessage(data.newState, cache)});
-	}
-	if(data.toChange === "bitrate") {
-		channel.edit({bitrate: this.evalMessage(data.newState, cache)});
-	}
-	if(data.toChange === "userLimit") {
-		channel.edit({userLimit: this.evalMessage(data.newState, cache)});
+		channel.edit({topic: newState});
+	} else if(data.toChange === "name") {
+		channel.edit({name: newState});
+	} else if(data.toChange === "position") {
+		channel.edit({position: newState});
+	} else if(data.toChange === "bitrate") {
+		channel.edit({bitrate: newState});
+	} else if(data.toChange === "userLimit") {
+		channel.edit({userLimit: newState});
+	} else if(data.toChange === "parent") {
+		channel.setParent(newState); //Added by Lasse in 1.8.7
+	} else {
+		console.log('This should never been shown!');
 	}
 	this.callNextAction(cache);
 },
@@ -175,6 +175,9 @@ action: function(cache) {
 //---------------------------------------------------------------------
 
 mod: function(DBM) {
+	// aliases for backwards compatibility, in the bot only, DBM will still say the action is missing.
+	DBM.Actions["Edit channel"] = DBM.Actions["Edit Channel"];
+	//Thank You Wrex!
 }
 
 }; // End of module
