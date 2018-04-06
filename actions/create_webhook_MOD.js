@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Stop Bot",
+name: "Create Webhook",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -14,7 +14,7 @@ name: "Stop Bot",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Bot Client Control",
+section: "Webhook Control",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -23,7 +23,7 @@ section: "Bot Client Control",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	return `Stops bot`;
+	return `${data.username}`;
 },
 
 //---------------------------------------------------------------------
@@ -37,10 +37,10 @@ subtitle: function(data) {
 author: "Lasse",
 
 // The version of the mod (Defaults to 1.0.0)
-version: "1.8.2",
+version: "1.8.7", //Added in 1.8.7
 
 // A short description to show on the mod line for this mod (Must be on a single line)
-short_description: "Stops the bot completly",
+short_description: "Creates a Webhook and stores it.",
 
 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
@@ -53,7 +53,11 @@ short_description: "Stops the bot completly",
 // Stores the relevant variable info for the editor.
 //---------------------------------------------------------------------
 
-//variableStorage: function(data, varType) {},
+variableStorage: function(data, varType) {
+	const type = parseInt(data.storage);
+	if(type !== varType) return;
+	return ([data.varName2, 'Webhook Object']);
+},
 
 //---------------------------------------------------------------------
 // Action Fields
@@ -63,7 +67,7 @@ short_description: "Stops the bot completly",
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: [],
+fields: ["channel", "varName", "username", "avatarurl", "storage", "varName2"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -83,14 +87,40 @@ fields: [],
 
 html: function(isEvent, data) {
 	return `
-<div><p><u>Mod Info:</u><br>Created by Lasse!</p></div><br><br>
+<div><p><u>Mod Info:</u><br>Created by Lasse!</p></div>
+	<div>
+		<div style="float: left; width: 35%;">
+			Source Channel:<br>
+			<select id="channel" class="round" onchange="glob.channelChange(this, 'varNameContainer')">
+				${data.channels[isEvent ? 1 : 0]}
+			</select>
+		</div>
+		<div id="varNameContainer" style="display: none; float: right; width: 60%;">
+			Variable Name:<br>
+			<input id="varName" class="round" type="text" list="variableList"><br>
+		</div>
+	</div><br><br><br>
+<div style="float: left; width: 50%;">
+	Name:<br>
+	<input id="username" class="round" type="text"><br>
+</div>
+<div style="float: right; width: 50%;">
+	Avatar URL:<br>
+	<input id="avatarurl" class="round" type="text" placeholder="Leave blank for default!"><br>
+</div>
 <div>
-	<p>
-		<u>Warning:</u><br>
-		This action stops the bot. You cannot restart it with a command!<br>
-		Choose the permissions for this command/event carefully!
-	</p>
-</div>`
+	<div style="float: left; width: 35%;">
+		Store In:<br>
+		<select id="storage" class="round">
+			${data.variables[1]}
+		</select>
+	</div>
+	<div id="varNameContainer2" style="float: right; width: 60%;">
+		Variable Name:<br>
+		<input id="varName2" class="round" type="text"><br>
+	</div>
+</div>
+<div><u>Note:</u><br>You need to use a wait action before you store anything of this webhook. Discord needs some time to create the webhook...</div>`
 },
 
 //---------------------------------------------------------------------
@@ -101,7 +131,8 @@ html: function(isEvent, data) {
 // functions for the DOM elements.
 //---------------------------------------------------------------------
 
-init: function() {},
+init: function() {
+},
 
 //---------------------------------------------------------------------
 // Action Bot Function
@@ -113,8 +144,20 @@ init: function() {},
 
 action: function(cache) {
 	const data = cache.actions[cache.index];
-	console.log('Stopped bot!');
-	this.getDBM().Bot.bot.destroy();
+	const channel = parseInt(data.channel);
+	const varName = this.evalMessage(data.varName, cache);
+	const targetChannel = this.getChannel(channel, varName, cache);
+
+	const usname = this.evalMessage(data.username, cache);
+	const picurl = this.evalMessage(data.avatarurl, cache);
+
+	const storage = parseInt(data.storage);
+	const varName2 = this.evalMessage(data.varName2, cache);
+
+	targetChannel.createWebhook(usname, picurl, cache)
+		.then(webhook => this.storeValue(webhook, storage, varName2, cache))
+		.catch(console.error)
+	this.callNextAction(cache);
 },
 
 //---------------------------------------------------------------------

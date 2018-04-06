@@ -14,7 +14,7 @@ name: "Stop Typing",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Bot Client Control",
+section: "Deprecated",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -59,7 +59,8 @@ html: function(isEvent, data) {
 	<div>
 		<p>
 			<u>Mod Info:</u><br>
-			Created by Lasse!
+			Created by Lasse!<br>
+			- Deprecated! Use "Bot Typing" instead.
 		</p>
 	</div><br>
 <div>
