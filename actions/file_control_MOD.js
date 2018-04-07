@@ -167,7 +167,7 @@ module.exports = {
         const inputtext = this.evalMessage(data.input, cache);
 
         switch(task){
-            case 0:
+            case 0: //Create
             try {
                 if (filePATH){
                     if (fileNAME) { 
