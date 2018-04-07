@@ -168,7 +168,6 @@ module.exports = {
 
         switch(task){
             case 0:
-            console.log("Create File Activated");
             try {
                 if (filePATH){
                     if (fileNAME) { 
@@ -188,7 +187,7 @@ module.exports = {
             try{
                 if (filePATH){
                     if (fileNAME) { 
-                        fs.writeFileSync(FullFile, inputtext);
+                        fs.writeFileSync(FullFile, inputtext + '\r\n');
                     }else {
                         console.log("File name is missing.");
                     }
