@@ -131,11 +131,11 @@ module.exports = {
 		</div><br>
 	<div style="width: 95%; padding-top: 8px;">
 		Video to Search:<br>
-		<textarea id="video" rows="2" placeholder="Write video name here or use variables..." style="width: 95%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+		<textarea id="video" rows="2" placeholder="Write a video name here or use variables..." style="width: 95%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
 	 </div>
 	 <div style="width: 95%; padding-top: 8px;">
 	 	API Key:<br>
-	 	<textarea id="key" rows="2" placeholder="Write your key. Take one from Google." style="width: 95%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+	 	<textarea id="key" rows="2" placeholder="Write your key. Get one from Google." style="width: 95%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
   	</div>
 	<div style="float: left; width: 55%; padding-top: 8px;">
 		Source Info:<br>
@@ -180,7 +180,10 @@ module.exports = {
 		</div>
 	</div>
 	<div style="float: left; width: 88%; padding-top: 8px;">
-		<br><p>To get an API key, create an application with "YouTube Data API v3" permissions on https://console.developers.google.com/apis/dashboard or check a tutorial by clicking <a href="https://www.youtube.com/watch?v=_HYYJelTExE">here</a>.</p>
+		<br>
+		<p>
+			To get an API key, create an application with "YouTube Data API v3" permissions on https://console.developers.google.com/apis/dashboard or check a tutorial by clicking <a href="https://www.youtube.com/watch?v=_HYYJelTExE">here</a>.
+		</p>
 	<div>
 </div>`
 	},
@@ -214,7 +217,7 @@ module.exports = {
 		const resultNumber = parseInt(data.resultNo);
 
 		// Check if everything is ok:
-		if (!video) return console.log("Please specify a city to get video informations.");
+		if (!video) return console.log("Please specify a video name to get video informations.");
 		if (!key) return console.log("Please get your key from Google and write it in the field.");
 
 		// Main code:
