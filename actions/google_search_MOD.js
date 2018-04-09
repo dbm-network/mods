@@ -6,7 +6,7 @@ module.exports = {
 	// This is the name of the action displayed in the editor.
 	//---------------------------------------------------------------------
 
-	name: "YouTube Search",
+	name: "Google Search",
 
 	//---------------------------------------------------------------------
 	// Action Section
@@ -23,8 +23,8 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	subtitle: function (data) {
-		const info = ['Video URL', 'Video Name', 'Video Description', 'Channel Name', 'Video ID', 'Video Date', 'Video Kind', 'Video Thumbnail (D)', 'Video Thumbnail (M)', 'Video Thumbnail (H)'];
-		return `YouTube ${info[parseInt(data.info)]}`;
+		const info = ['Title', 'URL', 'Snippet'];
+		return `Google Result ${info[parseInt(data.info)]}`;
 	},
 
 	//---------------------------------------------------------------------
@@ -41,7 +41,7 @@ module.exports = {
 	version: "1.8.7", //Added in 1.8.7
 
 	// A short description to show on the mod line for this mod (Must be on a single line)
-	short_description: "Searches video informations on YouTube.",
+	short_description: "Googles the given text!.",
 
 	// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
@@ -58,37 +58,16 @@ module.exports = {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		const info = parseInt(data.info);
-		let dataType = 'Unknown YouTube Type';
+		let dataType = 'Unknown Google Type';
 		switch (info) {
 			case 0:
-				dataType = "YouTube Video URL";
+				dataType = "Google Result Title";
 				break;
 			case 1:
-				dataType = "YouTube Video Name";
+				dataType = "Google Result URL";
 				break;
 			case 2:
-				dataType = "YouTube Video Description";
-				break;
-			case 3:
-				dataType = "YouTube Channel Name";
-				break;
-			case 4:
-				dataType = "YouTube Video ID";
-				break;
-			case 5:
-				dataType = "YouTube Video Date";
-				break;
-			case 6:
-				dataType = "YouTube Video Kind";
-				break;
-			case 7:
-				dataType = "YouTube Video Thumbnail (D)";
-				break;
-			case 8:
-				dataType = "YouTube Video Thumbnail (M)";
-				break;
-			case 9:
-				dataType = "YouTube Video Thumbnail (H)";
+				dataType = "Google Result Snippet";
 				break;
 		}
 		return ([data.varName, dataType]);
@@ -102,7 +81,7 @@ module.exports = {
 	// are also the names of the fields stored in the action's JSON data.
 	//---------------------------------------------------------------------
 
-	fields: ["video", "key", "info", "resultNo", "storage", "varName"],
+	fields: ["string", "info", "resultNo", "storage", "varName"],
 
 	//---------------------------------------------------------------------
 	// Command HTML
@@ -122,7 +101,6 @@ module.exports = {
 
 	html: function (isEvent, data) {
 		return `
-<div style="width: 550px; height: 350px; overflow-y: scroll;">
 		<div>
 			<p>
 				<u>Mod Info:</u><br>
@@ -130,29 +108,18 @@ module.exports = {
 			</p>
 		</div><br>
 	<div style="width: 95%; padding-top: 8px;">
-		Video to Search:<br>
-		<textarea id="video" rows="2" placeholder="Write a video name here or use variables..." style="width: 95%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
-	 </div>
-	 <div style="width: 95%; padding-top: 8px;">
-	 	API Key:<br>
-	 	<textarea id="key" rows="2" placeholder="Write your key. Get one from Google." style="width: 95%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
-  	</div>
-	<div style="float: left; width: 55%; padding-top: 8px;">
+		String(s) to Search on Google:<br>
+		<textarea id="string" rows="5" placeholder="Write something or use variables to Google search it..." style="width: 100%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+	 </div><br>
+	 <div style="float: left; width: 45%; padding-top: 8px;">
 		Source Info:<br>
 		<select id="info" class="round">
-			<option value="0">Video URL</option>
-			<option value="1">Video Name</option>
-			<option value="2">Video Description</option>
-			<option value="3">Channel Name</option>
-			<option value="4">Video ID</option>
-			<option value="5">Video Published At</option>
-			<option value="6">Video Kind</option>
-			<option value="7">Thumbnail (default)</option>
-			<option value="8">Thumbnail (medium)</option>
-			<option value="9">Thumbnail (high)</option>
+			<option value="0">Result Title</option>
+			<option value="1">Result URL</option>
+			<option value="2">Result Snippet (Description)</option>
 		</select>
 	</div>
-	<div style="float: left; width: 35%; padding-left: 10px; padding-top: 8px;">
+	<div style="float: left; width: 50%; padding-left: 10px; padding-top: 8px;">
 		Result Number:<br>
 		<select id="resultNo" class="round">
 			<option value="0">1st Result</option>
@@ -166,26 +133,17 @@ module.exports = {
 			<option value="8">9th Result</option>
 			<option value="9">10th Result</option>
 		</select>
-	</div><br>
-	<div>
-		<div style="float: left; width: 35%; padding-top: 8px;">
+	</div><br><br>
+		<div style="float: left; width: 43%; padding-top: 8px;">
 			Store In:<br>
 			<select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
 				${data.variables[0]}
 			</select>
 		</div>
-		<div id="varNameContainer" style="float: right; width: 60%; padding-top: 8px;">
+		<div id="varNameContainer" style="float: right; width: 53%; padding-top: 8px;">
 			Variable Name:<br>
 			<input id="varName" class="round" type="text"><br>
-		</div>
-	</div>
-	<div style="float: left; width: 88%; padding-top: 8px;">
-		<br>
-		<p>
-			To get an API key, create an application with "YouTube Data API v3" permissions on https://console.developers.google.com/apis/dashboard or check a tutorial by clicking <a href="https://www.youtube.com/watch?v=_HYYJelTExE">here</a>.
-		</p>
-	<div>
-</div>`
+		</div>`
 	},
 
 	//---------------------------------------------------------------------
@@ -212,69 +170,42 @@ module.exports = {
 	action: function (cache) {
 		const data = cache.actions[cache.index];
 		const info = parseInt(data.info);
-		const video = this.evalMessage(data.video, cache);
-		const key = this.evalMessage(data.key, cache);
+		const string = this.evalMessage(data.string, cache).replace(/[\u{0080}-\u{FFFF}]/gu, ""); // The replace thing is very new, it's just replacing the invalid characters so command won't stuck when you use other languages.
 		const resultNumber = parseInt(data.resultNo);
 
 		// Check if everything is ok:
-		if (!video) return console.log("Please specify a video name to get video informations.");
-		if (!key) return console.log("Please get your key from Google and write it in the field.");
+		if (!string) return console.log("Please write something to Google it!");
 
 		// Main code:
-		var _this = this; // this is needed sometimes.
-		const WrexMODS = _this.getWrexMods(); // as always.
-		const search = WrexMODS.require('youtube-search'); // WrexMODS'll automatically try to install the module if you run it with CMD/PowerShell.
+		const WrexMODS = this.getWrexMods(); // as always.
+		const googleIt = WrexMODS.require('google-it');
 
-		var opts = {
-			maxResults: 10,
-			key: `${key}`
-		};
-
-		search(`${video}`, opts, function (err, results) {
-			if (err) return console.log(err);
-
+		googleIt({ 'query': `${string}`, 'no-display': 1, 'limit': 10 }).then(results => {
 			switch (info) {
 				case 0:
-					result = results[resultNumber].link;
-					break;
-				case 1:
 					result = results[resultNumber].title;
 					break;
+				case 1:
+					result = results[resultNumber].link;
+					break;
 				case 2:
-					result = results[resultNumber].description;
-					break;
-				case 3:
-					result = results[resultNumber].channelTitle;
-					break;
-				case 4:
-					result = results[resultNumber].id;
-					break;
-				case 5:
-					result = results[resultNumber].publishedAt;
-					break;
-				case 6:
-					result = results[resultNumber].kind;
-					break;
-				case 7:
-					result = results[resultNumber].thumbnails.default.url;
-					break;
-				case 8:
-					result = results[resultNumber].thumbnails.medium.url;
-					break;
-				case 9:
-					result = results[resultNumber].thumbnails.high.url;
+					result = results[resultNumber].snippet;
 					break;
 				default:
 					break;
 			}
-			// Storing:
 			if (result !== undefined) {
 				const storage = parseInt(data.storage);
-				const varName2 = _this.evalMessage(data.varName, cache);
-				_this.storeValue(result, storage, varName2, cache);
+				const varName2 = this.evalMessage(data.varName, cache);
+				this.storeValue(result, storage, varName2, cache);
+				this.callNextAction(cache);
+			} else {
+				this.callNextAction(cache);
 			}
-			_this.callNextAction(cache);
-		});
+		}).catch(e => {
+			console.log("An error in Google Search MOD: " + e);
+			this.callNextAction(cache);
+		})
 	},
 
 	//---------------------------------------------------------------------
