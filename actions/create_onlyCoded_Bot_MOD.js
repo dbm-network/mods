@@ -62,15 +62,15 @@ fields: ["temblate", "togen", "brefix", "path"],
 // Command HTML
 //
 // This function returns a string containing the HTML used for
-// editting actions. 
+// editting actions.
 //
 // The "isEvent" parameter will be true if this action is being used
-// for an event. Due to their nature, events lack certain information, 
+// for an event. Due to their nature, events lack certain information,
 // so edit the HTML to reflect this.
 //
-// The "data" parameter stores constants for select elements to use. 
+// The "data" parameter stores constants for select elements to use.
 // Each is an array: index 0 for commands, index 1 for events.
-// The names are: sendTargets, members, roles, channels, 
+// The names are: sendTargets, members, roles, channels,
 //                messages, servers, variables
 //---------------------------------------------------------------------
 
@@ -100,11 +100,11 @@ html: function(isEvent, data) {
     </div><br>
 	<div style="float: left; width: 45%;">
 		Prefix:<br>
-		<textarea id="brefix" class="round" style="width: 100%; resize: none;" type="textarea" rows="1" cols="50" placeholder="Leave Blank for Normal Prefix"></textarea><br>
+		<textarea id="brefix" class="round" style="width: 100%; resize: none;" type="textarea" rows="1" cols="50" placeholder="Please insert a Prefix here." >!</textarea><br>
     </div>
     <div style="float: right; width: 54%;">
 		Where to Save File's:<br>
-		<textarea id="path" class="round" style="width: 100%; resize: none;" type="textarea" rows="1" cols="55" placeholder="Leave Blank for 'In Your Bot Folder'"></textarea><br>
+		<textarea id="path" class="round" style="width: 100%; resize: none;" type="textarea" rows="1" cols="55" placeholder="Please let stay here \"resources/\"">resources/</textarea><br>
 	</div>
 </div>`
 },
@@ -123,7 +123,7 @@ init: function() {},
 // Action Bot Function
 //
 // This is the function for the action within the Bot's Action class.
-// Keep in mind event calls won't have access to the "msg" parameter, 
+// Keep in mind event calls won't have access to the "msg" parameter,
 // so be sure to provide checks for variable existance.
 //---------------------------------------------------------------------
 
@@ -338,7 +338,7 @@ bot.on("message", async message => {
             await msg.react(hundred);
 
             const reactions = await msg.awaitReactions(reaction => reaction.emoji.name === hundred || reaction.emoji.name === x, {time: 15000});
-            message.channel.send(\`Voting complete! 
+            message.channel.send(\`Voting complete!
 
 \${x}: \${reactions.get(x).count-1}
 \${hundred}: \${reactions.get(hundred).count-1}\`);

@@ -98,6 +98,7 @@ html: function(isEvent, data) {
         <u>Notice:</u><br>
         - Use currently "Parse from Stored Json" Mod by General Wrex. for getting Json object's etc<br>
         - Find Json Object's etc will added soon!<br>
+        - The Files can only be read when they are in the bot files. e.g. "./data/commands.json"<br>
     </p>
     <div style="float: left; width: 60%">
         Path:
@@ -140,12 +141,12 @@ action: function (cache) {
     const
         data = cache.actions[cache.index],
         fs = require('fs');
+        FILENAME = this.evalMessage(data.filename, cache)
     var output = {};
     try {
-        if (data.filename) {
-            output = fs.readFileSync(data.filename, 'utf8');
+        if (FILENAME) {
+            output = fs.readFileSync(FILENAME, 'utf8');
             this.storeValue(output, parseInt(data.storage), this.evalMessage(data.varName2, cache), cache);
-            this.callNextAction(cache);
         } else {
             console.log(`Path is missing.`);
          }
