@@ -14,7 +14,7 @@ name: "Read File",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Other Stuff",
+section: "File Stuff",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -38,7 +38,7 @@ subtitle: function(data) {
     author: "EliteArtz",
 
     // The version of the mod (Defaults to 1.0.0)
-    version: "1.8.6",
+    version: "1.8.7", //Added in 1.8.6
 
     // A short description to show on the mod line for this mod (Must be on a single line)
     short_description: "Reads a File you wan't",
@@ -98,6 +98,7 @@ html: function(isEvent, data) {
         <u>Notice:</u><br>
         - Use currently "Parse from Stored Json" Mod by General Wrex. for getting Json object's etc<br>
         - Find Json Object's etc will added soon!<br>
+        - The Files can only be read when they are in the bot files. e.g. "./data/commands.json"<br>
     </p>
     <div style="float: left; width: 60%">
         Path:
@@ -140,12 +141,12 @@ action: function (cache) {
     const
         data = cache.actions[cache.index],
         fs = require('fs');
+        FILENAME = this.evalMessage(data.filename, cache)
     var output = {};
     try {
-        if (data.filename) {
-            output = fs.readFileSync(data.filename, 'utf8');
+        if (FILENAME) {
+            output = fs.readFileSync(FILENAME, 'utf8');
             this.storeValue(output, parseInt(data.storage), this.evalMessage(data.varName2, cache), cache);
-            this.callNextAction(cache);
         } else {
             console.log(`Path is missing.`);
          }
@@ -169,7 +170,7 @@ action: function (cache) {
 //
 //
 // 	<div style="float: right; width: 35%;">
-//		Turn Find Json path's: 
+//		Turn Find Json path's:
 //    	<select id="turn" name="second-list" class="round" onchange="glob.variableChange(this, 'CHANGER')">
 //          <option value="0" selected>Find Json Path (Off)</option>
 //			<option value="1">Find Json Path (On)</option>
@@ -191,7 +192,7 @@ action: function (cache) {
 //
 //glob.variableChange(document.getElementById('turn'), 'CHANGER')
 //, FIELDS
-//"input", "turn" 
+//"input", "turn"
 //
 //
 //---------------------------------------------------------------------
