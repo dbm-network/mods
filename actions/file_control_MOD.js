@@ -168,7 +168,7 @@ module.exports = {
 
         switch(task){
             case 0: //Create
-                console.log("Create File Activated");
+            console.log("Create File Activated");
             try {
                 if (filePATH){
                     if (fileNAME) { 
