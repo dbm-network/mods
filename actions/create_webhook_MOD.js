@@ -6,8 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Edit Channel",
-//Changed by Lasse in 1.8.7 from "Edit channel" to "Edit Channel"
+name: "Create Webhook",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -15,7 +14,7 @@ name: "Edit Channel",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Channel Control",
+section: "Webhook Control",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -24,32 +23,41 @@ section: "Channel Control",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const names = ['Same Channel', 'Mentioned Channel', 'Default Channel', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const index = parseInt(data.storage);
-	return index < 3 ? `${names[index]}` : `${names[index]} - ${data.varName}`;
+	return `${data.username}`;
 },
 
 //---------------------------------------------------------------------
-	 // DBM Mods Manager Variables (Optional but nice to have!)
-	 //
-	 // These are variables that DBM Mods Manager uses to show information
-	 // about the mods for people to see in the list.
-	 //---------------------------------------------------------------------
+// DBM Mods Manager Variables (Optional but nice to have!)
+//
+// These are variables that DBM Mods Manager uses to show information
+// about the mods for people to see in the list.
+//---------------------------------------------------------------------
 
-	 // Who made the mod (If not set, defaults to "DBM Mods")
-	 author: "Lasse",
+// Who made the mod (If not set, defaults to "DBM Mods")
+author: "Lasse",
 
-	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.8.7", //Added in 1.8.2
+// The version of the mod (Defaults to 1.0.0)
+version: "1.8.7", //Added in 1.8.7
 
-	 // A short description to show on the mod line for this mod (Must be on a single line)
-	 short_description: "Edits a specific channel",
+// A short description to show on the mod line for this mod (Must be on a single line)
+short_description: "Creates a Webhook and stores it.",
 
-	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
+// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
 
-	 //---------------------------------------------------------------------
+//---------------------------------------------------------------------
 
+//---------------------------------------------------------------------
+// Action Storage Function
+//
+// Stores the relevant variable info for the editor.
+//---------------------------------------------------------------------
+
+variableStorage: function(data, varType) {
+	const type = parseInt(data.storage);
+	if(type !== varType) return;
+	return ([data.varName2, 'Webhook Object']);
+},
 
 //---------------------------------------------------------------------
 // Action Fields
@@ -59,7 +67,7 @@ subtitle: function(data) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["storage", "varName", "toChange", "newState"],
+fields: ["channel", "varName", "username", "avatarurl", "storage", "varName2"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -79,42 +87,40 @@ fields: ["storage", "varName", "toChange", "newState"],
 
 html: function(isEvent, data) {
 	return `
+<div><p><u>Mod Info:</u><br>Created by Lasse!</p></div>
 	<div>
-		<p>
-			<u>Mod Info:</u><br>
-			Created by Lasse!
-		</p>
-	</div><br>
+		<div style="float: left; width: 35%;">
+			Source Channel:<br>
+			<select id="channel" class="round" onchange="glob.channelChange(this, 'varNameContainer')">
+				${data.channels[isEvent ? 1 : 0]}
+			</select>
+		</div>
+		<div id="varNameContainer" style="display: none; float: right; width: 60%;">
+			Variable Name:<br>
+			<input id="varName" class="round" type="text" list="variableList"><br>
+		</div>
+	</div><br><br><br>
+<div style="float: left; width: 50%;">
+	Name:<br>
+	<input id="username" class="round" type="text"><br>
+</div>
+<div style="float: right; width: 50%;">
+	Avatar URL:<br>
+	<input id="avatarurl" class="round" type="text" placeholder="Leave blank for default!"><br>
+</div>
 <div>
 	<div style="float: left; width: 35%;">
-		Source Channel:<br>
-		<select id="storage" class="round" onchange="glob.channelChange(this, 'varNameContainer')">
-			${data.channels[isEvent ? 1 : 0]}
+		Store In:<br>
+		<select id="storage" class="round">
+			${data.variables[1]}
 		</select>
 	</div>
-	<div id="varNameContainer" style="display: none; float: right; width: 60%;">
+	<div id="varNameContainer2" style="float: right; width: 60%;">
 		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList"><br>
+		<input id="varName2" class="round" type="text"><br>
 	</div>
-</div><br><br><br>
-<div>
-	<div style="float: left; width: 35%;">
-		Change:<br>
-		<select id="toChange" class="round">
-			<option value="name">Name</option>
-			<option value="topic">Topic</option>
-    	<option value="position">Position</option>
-    	<option value="bitrate">Bitrate</option>
-    	<option value="userLimit">User Limit</option>
-			<option value="parent">Category ID</option>
-		</select>
-	</div><br>
-<div>
-	<div style="float: left; width: 80%;">
-		Change to:<br>
-		<input id="newState" class="round" type="text"><br>
-	</div>
-</div>`
+</div>
+<div><u>Note:</u><br>You need to use a wait action before you store anything of this webhook. Discord needs some time to create the webhook...</div>`
 },
 
 //---------------------------------------------------------------------
@@ -126,9 +132,6 @@ html: function(isEvent, data) {
 //---------------------------------------------------------------------
 
 init: function() {
-	const {glob, document} = this;
-
-	glob.channelChange(document.getElementById('storage'), 'varNameContainer');
 },
 
 //---------------------------------------------------------------------
@@ -141,27 +144,19 @@ init: function() {
 
 action: function(cache) {
 	const data = cache.actions[cache.index];
-	const storage = parseInt(data.storage);
+	const channel = parseInt(data.channel);
 	const varName = this.evalMessage(data.varName, cache);
-	const channel = this.getChannel(storage, varName, cache);
-	const toChange = parseInt(data.toChange);
-	const newState = this.evalMessage(data.newState, cache);
-	//const reason = parseInt(data.reason);
-	if(data.toChange === "topic") {
-		channel.edit({topic: newState});
-	} else if(data.toChange === "name") {
-		channel.edit({name: newState});
-	} else if(data.toChange === "position") {
-		channel.edit({position: newState});
-	} else if(data.toChange === "bitrate") {
-		channel.edit({bitrate: newState});
-	} else if(data.toChange === "userLimit") {
-		channel.edit({userLimit: newState});
-	} else if(data.toChange === "parent") {
-		channel.setParent(newState); //Added by Lasse in 1.8.7
-	} else {
-		console.log('This should never been shown!');
-	}
+	const targetChannel = this.getChannel(channel, varName, cache);
+
+	const usname = this.evalMessage(data.username, cache);
+	const picurl = this.evalMessage(data.avatarurl, cache);
+
+	const storage = parseInt(data.storage);
+	const varName2 = this.evalMessage(data.varName2, cache);
+
+	targetChannel.createWebhook(usname, picurl, cache)
+		.then(webhook => this.storeValue(webhook, storage, varName2, cache))
+		.catch(console.error)
 	this.callNextAction(cache);
 },
 
@@ -175,9 +170,6 @@ action: function(cache) {
 //---------------------------------------------------------------------
 
 mod: function(DBM) {
-	// aliases for backwards compatibility, in the bot only, DBM will still say the action is missing.
-	DBM.Actions["Edit channel"] = DBM.Actions["Edit Channel"];
-	//Thank You Wrex!
 }
 
 }; // End of module

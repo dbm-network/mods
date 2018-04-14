@@ -23,7 +23,7 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	subtitle: function (data) {
-		const info = ['Uptime in Milliseconds', 'Ready At?', 'Ping', 'Guild Amount', 'User Amount', 'Rounded Ping', 'Uptime in Seconds', 'Uptime in Minutes', 'Bot\'s Token', 'Voice Connections Amount', 'Total Amount of Channels', 'Total Amount of Emojis', 'Bot\'s Previous Pings', 'Uptime in Days', 'Uptime in Days (Rounded)', 'Memory (RAM) Usage', 'Bot Guilds Objects', 'Bot Guilds Names', 'Bot Guilds IDs', 'Bot Current Prefix', 'Bot Client ID', 'Discord JS Version', 'Uptime in Hours', 'Refreshing Uptime in Days', 'Refreshing Uptime in Hours', 'Refreshing Uptime in Minutes', 'Refreshing Uptime in Seconds', 'Memory (RAM) Usage in MB', 'Bot\'s OS (Process Platform)', 'CPU Usage in MB', 'Bot\'s Directory', 'Node JS Version'];
+		const info = ['Uptime in Milliseconds', 'Ready At?', 'Ping', 'Guild Amount', 'User Amount', 'Rounded Ping', 'Uptime in Seconds', 'Uptime in Minutes', 'Bot\'s Token', 'Voice Connections Amount', 'Total Amount of Channels', 'Total Amount of Emojis', 'Bot\'s Previous Pings', 'Uptime in Days', 'Uptime in Days (Rounded)', 'Memory (RAM) Usage', 'Bot Guilds Objects', 'Bot Guilds Names', 'Bot Guilds IDs', 'Bot Current Prefix', 'Bot Client ID', 'Discord JS Version', 'Uptime in Hours', 'Refreshing Uptime in Days', 'Refreshing Uptime in Hours', 'Refreshing Uptime in Minutes', 'Refreshing Uptime in Seconds', 'Memory (RAM) Usage in MB', 'Bot\'s OS (Process Platform)', 'CPU Usage in MB', 'Bot\'s Directory', 'Node JS Version', 'Amount of Commands', 'Amount of Events'];
 		return `Bot Client - ${info[parseInt(data.info)]}`;
 	},
 
@@ -38,7 +38,7 @@ module.exports = {
 	author: "Lasse, EliteArtz and EGGSY",
 
 	// The version of the mod (Defaults to 1.0.0)
-	version: "1.8.6",
+	version: "1.8.7",
 
 	// A short description to show on the mod line for this mod (Must be on a single line)
 	short_description: "Stores Bot Information like Ping, Total Members or Guilds...",
@@ -156,6 +156,12 @@ module.exports = {
 			case 31:
 				dataType = "Version Number";
 				break;
+			case 32:
+				dataType = "Number";
+				break;
+			case 33:
+				dataType = "Number";
+				break;
 		}
 		return ([data.varName2, dataType]);
 	},
@@ -214,6 +220,8 @@ module.exports = {
 			<option value="4">Total Amount of Users</option>
 			<option value="10">Total Amount of Channels</option>
 			<option value="11">Total Amount of Emojis</option>
+                        <option value="32">Total Amount of Commands</option>
+                        <option value="33">Total Amount of Events</option>
 			<option value="16">Bot Guilds Objects</option>
 			<option value="17">Bot Guilds Names</option>
 			<option value="18">Bot Guilds IDs</option>
@@ -374,6 +382,14 @@ module.exports = {
 				break;
 			case 31:
 				result = process.versions.node;
+				break;
+			case 32:
+				const commands = dibiem.Files.data.commands;
+				result = commands.length;
+				break;
+			case 33:
+				const events = dibiem.Files.data.events;
+				result = events.length;
 				break;
 			default:
 				break;

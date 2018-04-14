@@ -6,8 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Edit Channel",
-//Changed by Lasse in 1.8.7 from "Edit channel" to "Edit Channel"
+name: "Convert Timestamp to Date",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -15,7 +14,8 @@ name: "Edit Channel",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Channel Control",
+section: "Other Stuff",
+
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -24,9 +24,7 @@ section: "Channel Control",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const names = ['Same Channel', 'Mentioned Channel', 'Default Channel', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const index = parseInt(data.storage);
-	return index < 3 ? `${names[index]}` : `${names[index]} - ${data.varName}`;
+return `Convert ${data.time}`;
 },
 
 //---------------------------------------------------------------------
@@ -36,19 +34,32 @@ subtitle: function(data) {
 	 // about the mods for people to see in the list.
 	 //---------------------------------------------------------------------
 
-	 // Who made the mod (If not set, defaults to "DBM Mods")
-	 author: "Lasse",
+ // Who made the mod (If not set, defaults to "DBM Mods")
+ author: "iAmaury", //Idea by Tresmos
 
-	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.8.7", //Added in 1.8.2
+ // The version of the mod (Defaults to 1.0.0)
+ version: "1.8.7", //Added in 1.8.7
+ //Replaces the "convert_YT_time_MOD.js"
 
-	 // A short description to show on the mod line for this mod (Must be on a single line)
-	 short_description: "Edits a specific channel",
+ // A short description to show on the mod line for this mod (Must be on a single line)
+ short_description: "Convert Timestamp to date.",
 
-	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
+ // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
 
-	 //---------------------------------------------------------------------
+ //---------------------------------------------------------------------
+
+//---------------------------------------------------------------------
+// Action Storage Function
+//
+// Stores the relevant variable info for the editor.
+//---------------------------------------------------------------------
+
+variableStorage: function(data, varType) {
+		const type = parseInt(data.storage);
+		if(type !== varType) return;
+		return ([data.varName, 'Date']);
+	},
 
 
 //---------------------------------------------------------------------
@@ -59,7 +70,7 @@ subtitle: function(data) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["storage", "varName", "toChange", "newState"],
+fields: ["time", "storage", "varName"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -79,42 +90,32 @@ fields: ["storage", "varName", "toChange", "newState"],
 
 html: function(isEvent, data) {
 	return `
-	<div>
-		<p>
-			<u>Mod Info:</u><br>
-			Created by Lasse!
-		</p>
-	</div><br>
-<div>
-	<div style="float: left; width: 35%;">
-		Source Channel:<br>
-		<select id="storage" class="round" onchange="glob.channelChange(this, 'varNameContainer')">
-			${data.channels[isEvent ? 1 : 0]}
+	<div style="float: left; width: 30%; padding-top: 8px;">
+		<p><u>Mod Info:</u><br>
+		Made by <b>iAmaury</b> !</p>
+	</div>
+	<div style="float: right; width: 60%; padding-top: 8px;">
+		<p><u>Note:</u><br>
+		You can convert <b>Unix Timestamp</b> and <b>YouTube Timestamp</b> with this mod (both were tested).</p>
+	</div><br><br><br>
+	<div style="float: left; width: 70%; padding-top: 8px;">
+		Timestamp to Convert:
+		<input id="time" class="round" type="text" placeholder="e.g. 1522672056">
+	</div>
+	<div style="float: left; width: 35%; padding-top: 8px;">
+		Store Result In:<br>
+		<select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
+		${data.variables[0]}
 		</select>
 	</div>
-	<div id="varNameContainer" style="display: none; float: right; width: 60%;">
+	<div id="varNameContainer" style="float: right; display: none; width: 60%; padding-top: 8px;">
 		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList"><br>
+		<input id="varName" class="round" type="text">
 	</div>
-</div><br><br><br>
-<div>
-	<div style="float: left; width: 35%;">
-		Change:<br>
-		<select id="toChange" class="round">
-			<option value="name">Name</option>
-			<option value="topic">Topic</option>
-    	<option value="position">Position</option>
-    	<option value="bitrate">Bitrate</option>
-    	<option value="userLimit">User Limit</option>
-			<option value="parent">Category ID</option>
-		</select>
-	</div><br>
-<div>
-	<div style="float: left; width: 80%;">
-		Change to:<br>
-		<input id="newState" class="round" type="text"><br>
-	</div>
-</div>`
+	<div style="text-align: center; float: left; width: 100%; padding-top: 8px;">
+		<p><b>Recommended formats:</b></p>
+		<img src="https://i.imgur.com/fZXXgFa.png" alt="Timestamp Formats" />
+	</div>`;
 },
 
 //---------------------------------------------------------------------
@@ -128,7 +129,7 @@ html: function(isEvent, data) {
 init: function() {
 	const {glob, document} = this;
 
-	glob.channelChange(document.getElementById('storage'), 'varNameContainer');
+	glob.variableChange(document.getElementById('storage'), 'varNameContainer');
 },
 
 //---------------------------------------------------------------------
@@ -140,29 +141,30 @@ init: function() {
 //---------------------------------------------------------------------
 
 action: function(cache) {
+
 	const data = cache.actions[cache.index];
-	const storage = parseInt(data.storage);
-	const varName = this.evalMessage(data.varName, cache);
-	const channel = this.getChannel(storage, varName, cache);
-	const toChange = parseInt(data.toChange);
-	const newState = this.evalMessage(data.newState, cache);
-	//const reason = parseInt(data.reason);
-	if(data.toChange === "topic") {
-		channel.edit({topic: newState});
-	} else if(data.toChange === "name") {
-		channel.edit({name: newState});
-	} else if(data.toChange === "position") {
-		channel.edit({position: newState});
-	} else if(data.toChange === "bitrate") {
-		channel.edit({bitrate: newState});
-	} else if(data.toChange === "userLimit") {
-		channel.edit({userLimit: newState});
-	} else if(data.toChange === "parent") {
-		channel.setParent(newState); //Added by Lasse in 1.8.7
-	} else {
-		console.log('This should never been shown!');
+	var   _this = this; // this is needed sometimes.
+	const WrexMODS = _this.getWrexMods(); // as always.
+	const toDate = WrexMODS.require('normalize-date');
+	const time = this.evalMessage(data.time, cache);
+
+    // Main code.
+	let result;
+	if (/^\d+(?:\.\d*)?$/.exec(time)) {
+  		result = toDate((+time).toFixed(3));
 	}
-	this.callNextAction(cache);
+	else {
+		result = toDate(time);
+	}
+	if (result.toString() === "Invalid Date") result = undefined;
+
+    // Storage.
+	if(result !== undefined) {
+		const storage = parseInt(data.storage);
+		const varName = this.evalMessage(data.varName, cache);
+		this.storeValue(result, storage, varName, cache);
+	}
+    this.callNextAction(cache);
 },
 
 //---------------------------------------------------------------------
@@ -175,9 +177,6 @@ action: function(cache) {
 //---------------------------------------------------------------------
 
 mod: function(DBM) {
-	// aliases for backwards compatibility, in the bot only, DBM will still say the action is missing.
-	DBM.Actions["Edit channel"] = DBM.Actions["Edit Channel"];
-	//Thank You Wrex!
 }
 
 }; // End of module
