@@ -37,16 +37,16 @@ module.exports = {
 		// Who made the mod (If not set, defaults to "DBM Mods")
 		author: "EGGSY",
 
-        // The version of the mod (Defaults to 1.0.0)
-        version: "1.8.6", //Added in 1.8.6
+    // The version of the mod (Defaults to 1.0.0)
+    version: "1.8.6", //Added in 1.8.6
 
-        // A short description to show on the mod line for this mod (Must be on a single line)
-        short_description: "Check variables with more options.",
+    // A short description to show on the mod line for this mod (Must be on a single line)
+    short_description: "Check variables with more options.",
 
-        // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
+    // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
 
-        //---------------------------------------------------------------------
+    //---------------------------------------------------------------------
 
     //---------------------------------------------------------------------
     // Action Fields

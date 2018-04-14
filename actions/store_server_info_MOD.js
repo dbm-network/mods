@@ -24,7 +24,7 @@ section: "Server Control",
 
 subtitle: function(data) {
 	const servers = ['Current Server', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const info = ['Creation Date', 'Time to AFK', 'Is server available?', 'More than 250 members?', 'Date bot joined server', 'Channel amount', 'Emoji amount', 'Embed Links', 'DND Members Count', 'Online Members Count (fixed)', 'Offline Members Count', 'Idle Members Count', 'Total Bots Count in Server', 'Server Channel IDs', 'Server Role IDs', 'Server Member IDs', 'Server Bot Count', 'Server Human Member Count'];
+	const info = ['Creation Date', 'Time to AFK', 'Is server available?', 'More than 250 members?', 'Date bot joined server', 'Channel amount', 'Emoji amount', 'Embed Links', 'DND Members Count', 'Online Members Count (fixed)', 'Offline Members Count', 'Idle Members Count', 'Total Bots Count in Server', 'Server Channel IDs', 'Server Role IDs', 'Server Member IDs', 'Server Bot Count', 'Server Human Member Count', 'Server Member Count'];
 	return `${servers[parseInt(data.server)]} - ${info[parseInt(data.info)]}`;
 },
 
@@ -39,7 +39,7 @@ subtitle: function(data) {
 	 author: "Lasse, EGGSY & EliteArtz",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.8.5",
+	 version: "1.8.7",
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
 	 short_description: "Stores more Server Information",
@@ -115,6 +115,9 @@ variableStorage: function(data, varType) {
 		case 17:
 			dataType = 'Number';
 			break;
+		case 18:
+			dataType = 'Number';
+			break;
 	}
 	return ([data.varName2, dataType]);
 },
@@ -183,6 +186,7 @@ html: function(isEvent, data) {
 			<option value="13">Server Channel IDs</option>
 			<option value="14">Server Role IDs</option>
 			<option value="15">Server Member IDs</option>
+                        <option value="18">Server Member Count</option>
 			<option value="16">Server Bot Count</option>
 			<option value="17">Server Human Member Count</option>
 			<option value="12">Total Bots in Servers</option>
@@ -290,6 +294,9 @@ action: function(cache) {
 			break;
 		case 17:
 			result = targetServer.members.filter(m => m.user.bot == false).size;
+			break;
+		case 18:
+			result = targetServer.memberCount; //Added by Lasse in 1.8.7
 			break;
 		default:
 			break;
