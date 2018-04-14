@@ -188,7 +188,7 @@ module.exports = {
             try{
                 if (filePATH){
                     if (fileNAME) { 
-                        fs.writeFileSync(FullFile, inputtext);
+                        fs.writeFileSync(FullFile, inputtext + '\r\n');
                     }else {
                         console.log("File name is missing.");
                     }
