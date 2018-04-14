@@ -37,7 +37,7 @@ subtitle: function(data) {
 	 author: "DBM Mods",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.8.6",
+	 version: "1.8.7",
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
 	 short_description: "Changelog overview",
@@ -86,18 +86,32 @@ html: function(isEvent, data) {
 <div>
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
 	<p>
+		<h2>1.8.7: All your wishes except Await Response</h2>
+		● Google & YouTube Search!<br>
+		● Set the channel category in Edit Channel!<br>
+		● Webhooks!<br>
+		● Store the total amount of commands and events!<br>
+		● Merged "Start & Stop Typing"!<br>
+		● Added "File Control" which includes "Create", "Write", "Append" and "Delete" File!<br>
+		● "Find Text" allows it to find a word in a text!<br>
+		● Convert Timestamp!<br>
+		● Store Weather Informations!<br>
+		● Revise and Replace Mods!<br>
+		● Many bug fixes....
+	</p>
+	<p>
 		<h2>1.8.6: So many small new mods</h2>
-		● Check Variable length
-		● HTML and Json fixes
-		● Generate Random Hex Color
-		● Change images name
-		● Delete File
-		● Cleverbot .io & .com support
-		● Randomize Letters
-		● Slice variable
-		● Translate variable
-		● Store Attachment Info
-		● Convert YouTube Time
+		● Check Variable length<br>
+		● HTML and Json fixes<br>
+		● Generate Random Hex Color<br>
+		● Change images name<br>
+		● Delete File<br>
+		● Cleverbot .io & .com support<br>
+		● Randomize Letters<br>
+		● Slice variable<br>
+		● Translate variable<br>
+		● Store Attachment Info<br>
+		● Convert YouTube Time<br>
 		... and much more!
 	</p>
 	<p>
