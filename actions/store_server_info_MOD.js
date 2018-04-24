@@ -24,7 +24,7 @@ section: "Server Control",
 
 subtitle: function(data) {
 	const servers = ['Current Server', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const info = ['Creation Date', 'Time to AFK', 'Is server available?', 'More than 250 members?', 'Date bot joined server', 'Total Channel Amount', 'Text Channel Amount', 'Voice Channel Amount', 'Emoji amount', 'Embed Links', 'DND Members Count', 'Online Members Count (fixed)', 'Offline Members Count', 'Idle Members Count', 'Total Bots Count in Server', 'Server Channel IDs', 'Server Role IDs', 'Server Member IDs', 'Server Bot Count', 'Server Human Member Count', 'Server Member Count'];
+	const info = ['Creation Date', 'Time to AFK', 'Is server available?', 'More than 250 members?', 'Date bot joined server', 'Total Channel Amount', 'Emoji amount', 'Embed Links', 'DND Members Count', 'Online Members Count (fixed)', 'Offline Members Count', 'Idle Members Count', 'Total Bots Count in Server', 'Server Channel IDs', 'Server Role IDs', 'Server Member IDs', 'Server Bot Count', 'Server Human Member Count', 'Server Member Count', 'Text Channel Amount', 'Voice Channel Amount'];
 	return `${servers[parseInt(data.server)]} - ${info[parseInt(data.info)]}`;
 },
 
