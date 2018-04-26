@@ -318,9 +318,9 @@ action: function(cache) {
 			break;
 		case 21:
 			result = targetServer.channels.findAll('type', 'text');  //Added by Invarion in 1.8.8
-	    break;
+	   		break;
 		case 22:
-	    result = targetServer.channels.findAll('type', 'voice'); //Added by Invarion in 1.8.8
+	   		result = targetServer.channels.findAll('type', 'voice'); //Added by Invarion in 1.8.8
 		default:
 			break;
 	}
