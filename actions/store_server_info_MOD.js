@@ -40,7 +40,8 @@ subtitle: function(data) {
 
 	 // The version of the mod (Defaults to 1.0.0)
 	 version: "1.8.7",
-	 //19&20 Added by Invarion in 1.8.8 | Taken from bashy's mod
+	 //19&20&23 Added by Invarion in 1.8.8 | Taken from bashy's mod
+	 //21&22 Added by Invarion in 1.8.8 |
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
 	 short_description: "Stores more Server Information",
@@ -186,6 +187,8 @@ html: function(isEvent, data) {
 			<option value="5">Total Channel Amount</option>
 			<option value="19">Text Channel Amount</option>
 			<option value="20">Voice Channel Amount</option>
+			<option value="21">Text Channel List</option>
+			<option value="22">Voice Channel List</option>
 			<option value="6">Server Emoji Amount</option>
 			<option value="7">Embeds links?</option>
 			<option value="9">Online Members Count</option
@@ -194,6 +197,7 @@ html: function(isEvent, data) {
 			<option value="10">Offline Members Count</option>
 			<option value="13">Server Channel IDs</option>
 			<option value="14">Server Role IDs</option>
+			<option value="23">Server Role List</option>
 			<option value="15">Server Member IDs</option>
       <option value="18">Server Member Count</option>
 			<option value="16">Server Bot Count</option>
@@ -313,6 +317,14 @@ action: function(cache) {
 		case 20:
 			result = targetServer.channels.findAll('type', 'voice').length; //Added by Invarion in 1.8.8 | Taken from bashy's mod
 			break;
+		case 21:
+			result = targetServer.channels.findAll('type', 'text');  //Added by Invarion in 1.8.8
+	    break;
+		case 22:
+	    result = targetServer.channels.findAll('type', 'voice'); //Added by Invarion in 1.8.8
+			break;
+	  case 23:
+		  result = targetServer.roles.size; //Added by Invarion in 1.8.8 | Taken from bashy's mod
 		default:
 			break;
 	}
