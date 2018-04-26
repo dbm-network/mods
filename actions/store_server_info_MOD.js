@@ -197,7 +197,6 @@ html: function(isEvent, data) {
 			<option value="10">Offline Members Count</option>
 			<option value="13">Server Channel IDs</option>
 			<option value="14">Server Role IDs</option>
-			<option value="23">Server Role List</option>
 			<option value="15">Server Member IDs</option>
       <option value="18">Server Member Count</option>
 			<option value="16">Server Bot Count</option>
@@ -322,9 +321,6 @@ action: function(cache) {
 	    break;
 		case 22:
 	    result = targetServer.channels.findAll('type', 'voice'); //Added by Invarion in 1.8.8
-			break;
-	  case 23:
-		  result = targetServer.roles.size; //Added by Invarion in 1.8.8 | Taken from bashy's mod
 		default:
 			break;
 	}
