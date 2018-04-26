@@ -40,7 +40,7 @@ subtitle: function(data) {
 
 	 // The version of the mod (Defaults to 1.0.0)
 	 version: "1.8.7",
-	 //19&20&23 Added by Invarion in 1.8.8 | Taken from bashy's mod
+	 //19&20 Added by Invarion in 1.8.8 | Taken from bashy's mod
 	 //21&22 Added by Invarion in 1.8.8 |
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
