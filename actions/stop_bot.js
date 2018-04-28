@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Stop Typing",
+name: "Stop Bot",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -14,7 +14,7 @@ name: "Stop Typing",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Deprecated",
+section: "Bot Client Control",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -23,10 +23,37 @@ section: "Deprecated",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const names = ['Same Channel', 'Mentioned Channel', 'Default Channel', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const index = parseInt(data.storage);
-	return index < 3 ? `${names[index]}` : `${names[index]} - ${data.varName}`;
+	return `Stops bot`;
 },
+
+//---------------------------------------------------------------------
+// DBM Mods Manager Variables (Optional but nice to have!)
+//
+// These are variables that DBM Mods Manager uses to show information
+// about the mods for people to see in the list.
+//---------------------------------------------------------------------
+
+// Who made the mod (If not set, defaults to "DBM Mods")
+author: "Lasse",
+
+// The version of the mod (Defaults to 1.0.0)
+version: "1.8.2",
+
+// A short description to show on the mod line for this mod (Must be on a single line)
+short_description: "Stops the bot completly",
+
+// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
+
+
+//---------------------------------------------------------------------
+
+//---------------------------------------------------------------------
+// Action Storage Function
+//
+// Stores the relevant variable info for the editor.
+//---------------------------------------------------------------------
+
+//variableStorage: function(data, varType) {},
 
 //---------------------------------------------------------------------
 // Action Fields
@@ -36,7 +63,7 @@ subtitle: function(data) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["storage", "varName"],
+fields: [],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -56,30 +83,14 @@ fields: ["storage", "varName"],
 
 html: function(isEvent, data) {
 	return `
-	<div>
-		<p>
-			<u>Mod Info:</u><br>
-			Created by Lasse!<br>
-			- Deprecated! Use "Bot Typing" instead.
-		</p>
-	</div><br>
-<div>
-	<div style="float: left; width: 35%;">
-		Channel to stop typing in:<br>
-		<select id="storage" class="round" onchange="glob.channelChange(this, 'varNameContainer')">
-			${data.channels[isEvent ? 1 : 0]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="display: none; float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList"><br>
-	</div>
-</div><br><br><br>
+<div><p><u>Mod Info:</u><br>Created by Lasse!</p></div><br><br>
 <div>
 	<p>
-		It takes a few moments before the bot really stops typing.
+		<u>Warning:</u><br>
+		This action stops the bot. You cannot restart it with a command!<br>
+		Choose the permissions for this command/event carefully!
 	</p>
-</div><br>`
+</div>`
 },
 
 //---------------------------------------------------------------------
@@ -90,11 +101,7 @@ html: function(isEvent, data) {
 // functions for the DOM elements.
 //---------------------------------------------------------------------
 
-init: function() {
-	const {glob, document} = this;
-
-	glob.channelChange(document.getElementById('storage'), 'varNameContainer');
-},
+init: function() {},
 
 //---------------------------------------------------------------------
 // Action Bot Function
@@ -106,12 +113,8 @@ init: function() {
 
 action: function(cache) {
 	const data = cache.actions[cache.index];
-	const storage = parseInt(data.storage);
-	const varName = this.evalMessage(data.VarName, cache);
-	const time = parseInt(this.evalMessage(data.time, cache));
-	const channel = this.getChannel(storage, varName, cache);
-	channel.stopTyping(true);
-	this.callNextAction(cache);
+	console.log('Stopped bot!');
+	this.getDBM().Bot.bot.destroy();
 },
 
 //---------------------------------------------------------------------
