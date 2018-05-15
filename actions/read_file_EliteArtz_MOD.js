@@ -14,7 +14,7 @@ name: "Read File",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Other Stuff",
+section: "File Stuff",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -38,10 +38,10 @@ subtitle: function(data) {
     author: "EliteArtz",
 
     // The version of the mod (Defaults to 1.0.0)
-    version: "1.8.7", //Added in 1.8.6
+    version: "1.8.8", //Added in 1.8.6
 
     // A short description to show on the mod line for this mod (Must be on a single line)
-    short_description: "Reads a File you wan't",
+    short_description: "Reads a file you wan't",
 
     // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
@@ -140,8 +140,8 @@ init: function() {},
 action: function (cache) {
     const
         data = cache.actions[cache.index],
-        fs = require('fs');
-        FILENAME = this.evalMessage(data.filename, cache)
+        fs = require('fs'),
+        FILENAME = this.evalMessage(data.filename, cache);
     var output = {};
     try {
         if (FILENAME) {
