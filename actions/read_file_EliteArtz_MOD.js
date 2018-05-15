@@ -140,8 +140,8 @@ init: function() {},
 action: function (cache) {
     const
         data = cache.actions[cache.index],
-        fs = require('fs');
-        FILENAME = this.evalMessage(data.filename, cache)
+        fs = require('fs'),
+        FILENAME = this.evalMessage(data.filename, cache);
     var output = {};
     try {
         if (FILENAME) {
