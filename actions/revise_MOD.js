@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Youtube Time Converter",
+name: "Revise", //What is that?
 
 //---------------------------------------------------------------------
 // Action Section
@@ -14,8 +14,7 @@ name: "Youtube Time Converter",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Audio Control",
-
+section: "Other Stuff",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -24,42 +23,41 @@ section: "Audio Control",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-return `Convert into ${data.varName}`;
+	return `Revise: "${data.reviser}"`;
 },
 
 //---------------------------------------------------------------------
-	 // DBM Mods Manager Variables (Optional but nice to have!)
-	 //
-	 // These are variables that DBM Mods Manager uses to show information
-	 // about the mods for people to see in the list.
-	 //---------------------------------------------------------------------
+    // DBM Mods Manager Variables (Optional but nice to have!)
+    //
+    // These are variables that DBM Mods Manager uses to show information
+    // about the mods for people to see in the list.
+    //---------------------------------------------------------------------
 
-	 // Who made the mod (If not set, defaults to "DBM Mods")
-	 author: "General Wrex", //Idea by Tresmos
+    // Who made the mod (If not set, defaults to "DBM Mods")
+    author: "EliteArtz",
 
-	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.8.6", //Added in 1.8.6
+    // The version of the mod (Defaults to 1.0.0)
+    version: "1.8.7", //Added in 1.8.7
 
-	 // A short description to show on the mod line for this mod (Must be on a single line)
-	 short_description: "Converts YouTube Time Code into numeric time.",
+    // A short description to show on the mod line for this mod (Must be on a single line)
+    short_description: "Revises a Message that you wan't.",
 
 	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
 
 	 //---------------------------------------------------------------------
+	//---------------------------------------------------------------------
+	// Action Storage Function
+	//
+	// Stores the relevant variable info for the editor.
+	//---------------------------------------------------------------------
 
-//---------------------------------------------------------------------
-// Action Storage Function
-//
-// Stores the relevant variable info for the editor.
-//---------------------------------------------------------------------
-
-variableStorage: function(data, varType) {
+	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage);
-		if(type !== varType) return;
-		return ([data.varName, 'Time']);
+		if (type !== varType) return;
+		let dataType = 'Revised Result';
+		return ([data.varName2, dataType]);
 	},
-
 
 //---------------------------------------------------------------------
 // Action Fields
@@ -69,7 +67,7 @@ variableStorage: function(data, varType) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["ytTime", "storage", "varName"],
+fields: ["reviser", "storage", "varName2"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -90,26 +88,25 @@ fields: ["ytTime", "storage", "varName"],
 html: function(isEvent, data) {
 	return `
 <div>
-		<p>
-			<u>Mod Info:</u><br>
-			Created by General Wrex!
-		</p>
-</div><br>
-<div>
-<br>
-    Youtube Time:<br>
-	<textarea id="ytTime" class="round" style="width: 35%; resize: none;" type="textarea" rows="1" cols="20"></textarea><br>
-	<div style="float: left; width: 35%;">
-		Store In:<br>
-		<select id="storage" class="round">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text"><br>
-	</div>
-</div>`;
+    <p>
+        <u>Mod Info:</u><br>
+        Made by EliteArtz<br>
+    </p>
+    <div style="width: 70%;">
+        Message to Revise:<br>
+        <input id="reviser" type="text" class="round">
+    </div><br>
+    <div style="float: left; width: 35%;">
+        Store In:<br>
+        <select id="storage" class="round">
+            ${data.variables[1]}
+        </select>
+    </div>
+    <div id="varNameContainer2" style="float: right; width: 60%;">
+        Variable Name:<br>
+        <input id="varName2" class="round" type="text"><br>
+    </div>
+</div>`
 },
 
 //---------------------------------------------------------------------
@@ -131,73 +128,22 @@ init: function() {},
 //---------------------------------------------------------------------
 
 action: function (cache) {
+    const data = cache.actions[cache.index];
+    const reviseText = this.evalMessage(data.reviser, cache)
+    try {
+        let array = reviseText.split(" ");
 
-	const data = cache.actions[cache.index];
-	const storage = parseInt(data.storage);
-	const varName = this.evalMessage(data.varName, cache);
-
-	const ytTime = this.evalMessage(data.ytTime, cache);
-
-	// Taken from https://www.npmjs.com/package/youtube-duration-format
-	function parseDuration(PT, format) {
-		var output = [];
-		var durationInSec = 0;
-		var matches = PT.match(/P(?:(\d*)Y)?(?:(\d*)M)?(?:(\d*)W)?(?:(\d*)D)?T?(?:(\d*)H)?(?:(\d*)M)?(?:(\d*)S)?/i);
-		var parts = [
-		  { // years
-			pos: 1,
-			multiplier: 86400 * 365
-		  },
-		  { // months
-			pos: 2,
-			multiplier: 86400 * 30
-		  },
-		  { // weeks
-			pos: 3,
-			multiplier: 604800
-		  },
-		  { // days
-			pos: 4,
-			multiplier: 86400
-		  },
-		  { // hours
-			pos: 5,
-			multiplier: 3600
-		  },
-		  { // minutes
-			pos: 6,
-			multiplier: 60
-		  },
-		  { // seconds
-			pos: 7,
-			multiplier: 1
-		  }
-		];
-
-		for (var i = 0; i < parts.length; i++) {
-		  if (typeof matches[parts[i].pos] != 'undefined') {
-			durationInSec += parseInt(matches[parts[i].pos]) * parts[i].multiplier;
-		  }
-		}
-		var totalSec = durationInSec;
-		// Hours extraction
-		if (durationInSec > 3599) {
-		  output.push(parseInt(durationInSec / 3600));
-		  durationInSec %= 3600;
-		}
-		// Minutes extraction with leading zero
-		output.push(('0' + parseInt(durationInSec / 60)).slice(-2));
-		// Seconds extraction with leading zero
-		output.push(('0' + durationInSec % 60).slice(-2));
-		if (format === undefined)
-		  return output.join(':');
-		else if (format === 'sec')
-		  return totalSec;
-	};
-
-
-	this.storeValue(parseDuration(ytTime), storage, varName, cache);
-
+        for (let i = array.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        const storage = parseInt(data.storage);
+        const varName2 = this.evalMessage(data.varName2, cache);
+        var out = array.join(" ").trim();
+        this.storeValue(out.substr(0, 1).toUpperCase() + out.substr(1), storage, varName2, cache)
+    } catch (err) {
+        console.log("ERROR!" + err.stack ? err.stack : err);
+    }
     this.callNextAction(cache);
 },
 

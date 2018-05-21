@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Store Channel Info Things",
+name: "Replace",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -14,7 +14,7 @@ name: "Store Channel Info Things",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Channel Control",
+section: "Other Stuff",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -23,31 +23,26 @@ section: "Channel Control",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const channels = ['Same Channel', 'Mentioned Channel', '1st Server Channel', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const info = ['Channel Creation Date', 'On which Server is Channel?', 'Channel Is Deleteable?', 'Channel Category'];
-	return `${channels[parseInt(data.channel)]} - ${info[parseInt(data.info)]}`;
+	return `Replaces Text`;
 },
 
 //---------------------------------------------------------------------
-	 // DBM Mods Manager Variables (Optional but nice to have!)
-	 //
-	 // These are variables that DBM Mods Manager uses to show information
-	 // about the mods for people to see in the list.
-	 //---------------------------------------------------------------------
+	// DBM Mods Manager Variables (Optional but nice to have!)
+	//
+	// These are variables that DBM Mods Manager uses to show information
+	// about the mods for people to see in the list.
+	//---------------------------------------------------------------------
 
-	 // Who made the mod (If not set, defaults to "DBM Mods")
-	 author: "EliteArtz & Lasse",
+	// Who made the mod (If not set, defaults to "DBM Mods")
+	author: "EliteArtz",
 
-	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.8.7", //Added in 1.8.3
+	// The version of the mod (Defaults to 1.0.0)
+	version: "1.8.7", //Added in 1.8.7
 
-	 // A short description to show on the mod line for this mod (Must be on a single line)
-	 short_description: "Stores Channels Information",
+	// A short description to show on the mod line for this mod (Must be on a single line)
+	short_description: "Replaces your message what you wan't.",
 
-	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-
-
-	 //---------------------------------------------------------------------
+	// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
 //---------------------------------------------------------------------
 // Action Storage Function
@@ -58,25 +53,9 @@ subtitle: function(data) {
 variableStorage: function(data, varType) {
 	const type = parseInt(data.storage);
 	if(type !== varType) return;
-	const info = parseInt(data.info);
-	let dataType = 'Unknown Type';
-	switch(info) {
-		case 0:
-			dataType = "Date";
-			break;
-		case 1:
-			dataType = "Guild";
-			break;
-		case 2:
-			dataType = "Boolean";
-			break;
-		case 3:
-			dataType = "Category";
-			break;
-	}
-	return ([data.varName2, dataType]);
+	let dataType = 'Replaced Text';
+	return ([data.varName, dataType]);
 },
-
 //---------------------------------------------------------------------
 // Action Fields
 //
@@ -85,7 +64,7 @@ variableStorage: function(data, varType) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["channel", "varName", "info", "storage", "varName2"],
+fields: ["replacemsg", "replaceto", "storage", "varName", "ifEach"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -105,46 +84,35 @@ fields: ["channel", "varName", "info", "storage", "varName2"],
 
 html: function(isEvent, data) {
 	return `
-	<div>
-		<p>
-			<u>Mod Info:</u><br>
-			Created by EliteArtz and Lasse!
-		</p>
+<div id="modinfo">
+	<p>
+	   <u>Mod Info:</u><br>
+	   Made by EliteArtz!<br>
+	</p>
+	<div padding-top: 8px;">
+		Replace Text:<br>
+		<textarea id="replacemsg" rows="2" placeholder="Insert message here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
 	</div><br>
-<div>
-	<div style="float: left; width: 35%;">
-		Source Channel:<br>
-		<select id="channel" class="round" onchange="glob.channelChange(this, 'varNameContainer')">
-			${data.channels[isEvent ? 1 : 0]}
+	<div style="float: left; width: 50%; padding-top: 8px;">
+	   Replace to:<br>
+	   <input id="replaceto" class="round" type="text">
+    </div><br>
+    <div style="padding-top: 8px;">
+        <select id="ifEach" class="round" style="float: right; width: 45%;">
+            <option value="1">Hole content</option>
+            <option value="0" selected>For Each Word</option>
+        </select>
+    </div><br><br>
+	<div style="float: left; width: 35%; padding-top: 8px;">
+		Store Result In:<br>
+		<select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
+			${data.variables[0]}
 		</select>
 	</div>
-	<div id="varNameContainer" style="display: none; float: right; width: 60%;">
+	<div id="varNameContainer" style="float: right; display: none; width: 60%; padding-top: 8px;">
 		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList"><br>
-	</div>
-</div><br><br><br>
-<div>
-	<div style="padding-top: 8px; width: 70%;">
-		Source Info:<br>
-		<select id="info" class="round">
-			<option value="0" selected>Channel Creation Date</option>
-			<option value="1">On which Server is Channel?</option>
-			<option value="2">Channel Is Deleteable?</option>
-			<option value="3">Channel Category</option>
-		</select>
-	</div>
-</div><br>
-<div>
-	<div style="float: left; width: 35%;">
-		Store In:<br>
-		<select id="storage" class="round">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer2" style="float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName2" class="round" type="text"><br>
-	</div>
+		<input id="varName" class="round" type="text">
+	</div><br><br><br><br>
 </div>`
 },
 
@@ -159,7 +127,7 @@ html: function(isEvent, data) {
 init: function() {
 	const {glob, document} = this;
 
-	glob.channelChange(document.getElementById('channel'), 'varNameContainer');
+	glob.variableChange(document.getElementById('storage'), 'varNameContainer');
 },
 
 //---------------------------------------------------------------------
@@ -171,37 +139,42 @@ init: function() {
 //---------------------------------------------------------------------
 
 action: function(cache) {
+	//Global Variable's
 	const data = cache.actions[cache.index];
-	const channel = parseInt(data.channel);
-	const varName = this.evalMessage(data.varName, cache);
-	const info = parseInt(data.info);
-	const targetChannel = this.getChannel(channel, varName, cache);
-	if(!targetChannel) {
-		this.callNextAction(cache);
-		return;
+	var result = {};
+
+    // Code
+	try {
+		const replaceTEXT = this.evalMessage(data.replacemsg, cache);
+		const replaceTO = this.evalMessage(data.replaceto, cache);
+		if (replaceTEXT) {
+			if (replaceTO) {
+                if (data.ifEach === "1") {
+
+                    result = replaceTEXT.replace(replaceTEXT, replaceTO); //This is the action that we're running if everything is Okay.
+
+                    const storage = parseInt(data.storage);
+                    const varName = this.evalMessage(data.varName, cache);
+                    this.storeValue(result, storage, varName, cache);
+
+                } else if (data.ifEach === "0") {
+
+                    result = replaceTEXT.replace(/(\w+)/g, replaceTO); //This is the action that we're running if everything is Okay.
+
+					const storage = parseInt(data.storage);
+                    const varName = this.evalMessage(data.varName, cache);
+                    this.storeValue(result, storage, varName, cache);
+                }
+			} else {
+				console.log('No insert in "Replace To"...'); //logs it in the console if nothing were inserted...
+            }
+		} else {
+		    console.log(`No insert in "Replace Message"...`); //logs it in the console if nothing were inserted...
+		}
+	} catch (e) {
+		console.error("ERROR!" + e + e.stack); //logs if there was an error
 	}
-	let result;
-	switch(info) {
-		case 0:
-			result = targetChannel.createdAt;
-			break;
-		case 1:
-			result = targetChannel.guild;
-			break;
-		case 2:
-			result = targetChannel.deletable;
-			break;
-		case 3:
-			result = targetChannel.parent;
-			break;
-		default:
-			break;
-	}
-	if(result !== undefined) {
-		const storage = parseInt(data.storage);
-		const varName2 = this.evalMessage(data.varName2, cache);
-		this.storeValue(result, storage, varName2, cache);
-	}
+
 	this.callNextAction(cache);
 },
 

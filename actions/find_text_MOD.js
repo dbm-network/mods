@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Store Voice channel things",
+name: "Find Text",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -14,7 +14,7 @@ name: "Store Voice channel things",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Channel Control",
+section: "Other Stuff",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -23,33 +23,26 @@ section: "Channel Control",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const channels = ['Command Author\'s Voice Ch.', 'Mentioned User\'s Voice Ch.', 'Default Voice Channel', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const info = ['Bot can speak?', 'Bot can join?', 'Bot can delete VC?', 'VCs position in VC list', 'Members connected'];
-	return `${channels[parseInt(data.channel)]} - ${info[parseInt(data.info)]}`;
+	return `Find "${data.wordtoFind}"`;
 },
 
 //---------------------------------------------------------------------
-// DBM Mods Manager Variables (Optional but nice to have!)
-//
-// These are variables that DBM Mods Manager uses to show information
-// about the mods for people to see in the list.
-//---------------------------------------------------------------------
+	// DBM Mods Manager Variables (Optional but nice to have!)
+	//
+	// These are variables that DBM Mods Manager uses to show information
+	// about the mods for people to see in the list.
+	//---------------------------------------------------------------------
 
-// Who made the mod (If not set, defaults to "DBM Mods")
-author: "Lasse",
+	// Who made the mod (If not set, defaults to "DBM Mods")
+	author: "iAmaury",
 
-// The version of the mod (Defaults to 1.0.0)
-version: "1.8.7", //Added in 1.8.2
+	// The version of the mod (Defaults to 1.0.0)
+	version: "1.8.7", //Added in 1.8.7
 
-//1.8.7: Changed dropdown texts!
+	// A short description to show on the mod line for this mod (Must be on a single line)
+	short_description: "Find text",
 
-// A short description to show on the mod line for this mod (Must be on a single line)
-short_description: "Stores Voice Channels Information",
-
-// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-
-
-//---------------------------------------------------------------------
+	// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
 //---------------------------------------------------------------------
 // Action Storage Function
@@ -60,28 +53,9 @@ short_description: "Stores Voice Channels Information",
 variableStorage: function(data, varType) {
 	const type = parseInt(data.storage);
 	if(type !== varType) return;
-	const info = parseInt(data.info);
-	let dataType = 'Unknown Type';
-	switch(info) {
-		case 0:
-			dataType = "Boolean";
-			break;
-		case 1:
-			dataType = "Boolean";
-			break;
-		case 2:
-			dataType = "Boolean";
-			break;
-		case 3:
-			dataType = "Number";
-			break;
-		case 4:
-			dataTyple = "Array";
-			break;
-	}
-	return ([data.varName2, dataType]);
+	let dataType = 'Number';
+	return ([data.varName, dataType]);
 },
-
 //---------------------------------------------------------------------
 // Action Fields
 //
@@ -90,7 +64,7 @@ variableStorage: function(data, varType) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["channel", "varName", "info", "storage", "varName2"],
+fields: ["text", "wordtoFind", "position", "storage", "varName"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -110,48 +84,45 @@ fields: ["channel", "varName", "info", "storage", "varName2"],
 
 html: function(isEvent, data) {
 	return `
-	<div>
-		<p>
-			<u>Mod Info:</u><br>
-			Created by Lasse!
-		</p>
+    <div id="modinfo">
+	<p>
+	   <u>Mod Info:</u><br>
+	   Made by <b>iAmaury</b> !<br>
+	</p>
 	</div><br>
-<div>
-	<div style="float: left; width: 35%;">
-		Source Channel:<br>
-		<select id="channel" class="round" onchange="glob.voiceChannelChange(this, 'varNameContainer')">
-			${data.voiceChannels[isEvent ? 1 : 0]}
+	<div style="float: left; width: 65%; padding-top: 8px;">
+		Text to Find:
+		<input id="wordtoFind" class="round" type="text">
+	</div>
+	<div style="float: left; width: 29%; padding-top: 8px;">
+		Position:<br>
+		<select id="position" class="round">
+			<option value="0" selected>Position at Start</option>
+			<option value="1">Position at End</option>
+	</select>
+	</div>
+	<div style="float: left; width: 99%; padding-top: 8px;">
+		Find text in:
+        <textarea id="text" rows="3" placeholder="Insert text here..." style="width: 95%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+	</div>
+	<div style="float: left; width: 35%; padding-top: 8px;">
+		Store Result In:<br>
+		<select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
+			${data.variables[0]}
 		</select>
 	</div>
-	<div id="varNameContainer" style="display: none; float: right; width: 60%;">
+	<div id="varNameContainer" style="float: right; display: none; width: 60%; padding-top: 8px;">
 		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList"><br>
+		<input id="varName" class="round" type="text" >
 	</div>
-</div><br><br><br>
-<div>
-	<div style="padding-top: 8px; width: 70%;">
-		Source Info:<br>
-		<select id="info" class="round">
-			<option value="0" selected>Can Bot Speak?</option>
-			<option value="1">Can Bot Join VC?</option>
-			<option value="2">Can Bot Delete VC?</option>
-			<option value="3">Position In VC List</option>
-			<option value="4">Connected Members</option>
-		</select>
-	</div>
-</div><br>
-<div>
-	<div style="float: left; width: 35%;">
-		Store In:<br>
-		<select id="storage" class="round">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer2" style="float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName2" class="round" type="text"><br>
-	</div>
-</div>`
+	<div style="float: left; width: 99%; padding-top: 8px;">
+	    <p>
+	    This action will output the position of the text depending of your choice.<br>
+		If you choose <b>Position at End</b>, it will find the position of the last character of your text.<br>
+		If you choose <b>Position at Start</b>, it will find the position of the first character of your text.
+		<b>Example</b>: We search word "a" | <u>This is<b> *</b>a<b>- </b>test</u> | * is the start (8) | - is the end (9)
+		</p>
+	</div>`
 },
 
 //---------------------------------------------------------------------
@@ -165,7 +136,7 @@ html: function(isEvent, data) {
 init: function() {
 	const {glob, document} = this;
 
-	glob.voiceChannelChange(document.getElementById('channel'), 'varNameContainer');
+	glob.variableChange(document.getElementById('storage'), 'varNameContainer');
 },
 
 //---------------------------------------------------------------------
@@ -177,43 +148,33 @@ init: function() {
 //---------------------------------------------------------------------
 
 action: function(cache) {
+
 	const data = cache.actions[cache.index];
-	const channel = parseInt(data.channel);
-	const varName = this.evalMessage(data.varName, cache);
-	const info = parseInt(data.info);
-	const targetChannel = this.getVoiceChannel(channel, varName, cache);
-	if(!targetChannel) {
-		this.callNextAction(cache);
-		return;
-	}
+	const text = this.evalMessage(data.text, cache);
+	const wordtoFind = this.evalMessage(data.wordtoFind, cache);
+	const position = parseInt(data.position);
+	// Check if everything is ok
+	if(!wordtoFind) return console.log("Please enter the word to find.")
+	if(!text) return console.log("Please enter some text.")
+
+	// Main code
 	let result;
-	switch(info) {
+	switch(position) {
 		case 0:
-			result = targetChannel.speakable;
+			result = `${data.text}`.indexOf(`${data.wordtoFind}`)
 			break;
 		case 1:
-			result = targetChannel.joinable;
-			break;
-		case 2:
-			result = targetChannel.deletable;
-			break;
-		case 3:
-			result = targetChannel.position;
-			break;
-		case 4:
-			result = targetChannel.members.array();
+			result = `${data.wordtoFind}`.length + `${data.text}`.indexOf(`${data.wordtoFind}`)
 			break;
 		default:
 			break;
 	}
-	if(result !== undefined) {
-		const storage = parseInt(data.storage);
-		const varName2 = this.evalMessage(data.varName2, cache);
-		this.storeValue(result, storage, varName2, cache);
-		this.callNextAction(cache);
-	} else {
-		this.callNextAction(cache);
-	}
+	// Storing
+	const storage = parseInt(data.storage);
+	const varName = this.evalMessage(data.varName, cache);
+	this.storeValue(result, storage, varName, cache);
+
+	this.callNextAction(cache);
 },
 
 //---------------------------------------------------------------------

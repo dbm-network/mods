@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Stop Typing",
+name: "Find Webhook",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -14,7 +14,31 @@ name: "Stop Typing",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Bot Client Control",
+section: "Webhook Control",
+
+//---------------------------------------------------------------------
+// DBM Mods Manager Variables (Optional but nice to have!)
+//
+// These are variables that DBM Mods Manager uses to show information
+// about the mods for people to see in the list.
+//---------------------------------------------------------------------
+
+// Who made the mod (If not set, defaults to "DBM Mods")
+author: "Lasse",
+
+// The version of the mod (Defaults to 1.0.0)
+version: "1.8.7", //Added in 1.8.7
+
+//1.8.7: Changed dropdown texts!
+
+// A short description to show on the mod line for this mod (Must be on a single line)
+short_description: "Finds a Webhook and Stores it.",
+
+// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
+
+
+//---------------------------------------------------------------------
+
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -23,9 +47,19 @@ section: "Bot Client Control",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const names = ['Same Channel', 'Mentioned Channel', 'Default Channel', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const index = parseInt(data.storage);
-	return index < 3 ? `${names[index]}` : `${names[index]} - ${data.varName}`;
+	return `${data.id}`;
+},
+
+//---------------------------------------------------------------------
+// Action Storage Function
+//
+// Stores the relevant variable info for the editor.
+//---------------------------------------------------------------------
+
+variableStorage: function(data, varType) {
+	const type = parseInt(data.storage);
+	if(type !== varType) return;
+	return ([data.varName, 'Webhook']);
 },
 
 //---------------------------------------------------------------------
@@ -36,7 +70,7 @@ subtitle: function(data) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["storage", "varName"],
+fields: ["id", "token", "storage", "varName"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -56,29 +90,29 @@ fields: ["storage", "varName"],
 
 html: function(isEvent, data) {
 	return `
-	<div>
-		<p>
-			<u>Mod Info:</u><br>
-			Created by Lasse!
-		</p>
-	</div><br>
+<div><p><u>Mod Info:</u><br>Created by Lasse!</p></div><br><br>
 <div>
-	<div style="float: left; width: 35%;">
-		Channel to stop typing in:<br>
-		<select id="storage" class="round" onchange="glob.channelChange(this, 'varNameContainer')">
-			${data.channels[isEvent ? 1 : 0]}
-		</select>
+	<div style="float: left; width: 40%;">
+		Webhook ID:<br>
+		<input id="id" class="round" type="text">
 	</div>
-	<div id="varNameContainer" style="display: none; float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList"><br>
+	<div style="float: right; width: 55%;">
+		Webhook Token:<br>
+		<input id="token" class="round" type="text">
 	</div>
 </div><br><br><br>
-<div>
-	<p>
-		It takes a few moments before the bot really stops typing.
-	</p>
-</div><br>`
+<div style="padding-top: 8px;">
+	<div style="float: left; width: 35%;">
+		Store In:<br>
+		<select id="storage" class="round">
+			${data.variables[1]}
+		</select>
+	</div>
+	<div id="varNameContainer" style="float: right; width: 60%;">
+		Variable Name:<br>
+		<input id="varName" class="round" type="text">
+	</div>
+</div>`
 },
 
 //---------------------------------------------------------------------
@@ -90,9 +124,6 @@ html: function(isEvent, data) {
 //---------------------------------------------------------------------
 
 init: function() {
-	const {glob, document} = this;
-
-	glob.channelChange(document.getElementById('storage'), 'varNameContainer');
 },
 
 //---------------------------------------------------------------------
@@ -104,13 +135,21 @@ init: function() {
 //---------------------------------------------------------------------
 
 action: function(cache) {
+	const Discord = require('discord.js');
 	const data = cache.actions[cache.index];
-	const storage = parseInt(data.storage);
-	const varName = this.evalMessage(data.VarName, cache);
-	const time = parseInt(this.evalMessage(data.time, cache));
-	const channel = this.getChannel(storage, varName, cache);
-	channel.stopTyping(true);
-	this.callNextAction(cache);
+	const id = this.evalMessage(data.id, cache);
+	const token = this.evalMessage(data.token, cache);
+
+	var result = new Discord.WebhookClient(id, token);
+
+	if(result !== undefined) {
+		const storage = parseInt(data.storage);
+		const varName = this.evalMessage(data.varName, cache);
+		this.storeValue(result, storage, varName, cache);
+		this.callNextAction(cache);
+	} else {
+		this.callNextAction(cache);
+	}
 },
 
 //---------------------------------------------------------------------
