@@ -14,7 +14,7 @@ name: "Read File",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Other Stuff",
+section: "File Stuff",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -23,7 +23,8 @@ section: "Other Stuff",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-    return `${data.filename} - ${data.input.replace(/[\n\r]+/, '')}`;
+    const info1 = data.filename;
+    return `Read File "${data.filename}"`;
 },
 
     //---------------------------------------------------------------------
@@ -37,10 +38,10 @@ subtitle: function(data) {
     author: "EliteArtz",
 
     // The version of the mod (Defaults to 1.0.0)
-    version: "1.8.6",
+    version: "1.8.8", //Added in 1.8.6
 
     // A short description to show on the mod line for this mod (Must be on a single line)
-    short_description: "Reads a File you wan't",
+    short_description: "Reads a file you wan't",
 
     // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
@@ -69,7 +70,7 @@ variableStorage: function(data, varType) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["input", "filename", "turn", "storage", "varName2"],
+fields: ["filename", "storage", "varName2"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -97,6 +98,7 @@ html: function(isEvent, data) {
         <u>Notice:</u><br>
         - Use currently "Parse from Stored Json" Mod by General Wrex. for getting Json object's etc<br>
         - Find Json Object's etc will added soon!<br>
+        - The Files can only be read when they are in the bot files. e.g. "./data/commands.json"<br>
     </p>
     <div style="float: left; width: 60%">
         Path:
@@ -138,13 +140,13 @@ init: function() {},
 action: function (cache) {
     const
         data = cache.actions[cache.index],
-        fs = require('fs');
+        fs = require('fs'),
+        FILENAME = this.evalMessage(data.filename, cache);
     var output = {};
     try {
-        if (data.filename) {
-            output = fs.readFileSync(data.filename, 'utf8');
+        if (FILENAME) {
+            output = fs.readFileSync(FILENAME, 'utf8');
             this.storeValue(output, parseInt(data.storage), this.evalMessage(data.varName2, cache), cache);
-            this.callNextAction(cache);
         } else {
             console.log(`Path is missing.`);
          }
@@ -161,36 +163,6 @@ action: function (cache) {
 // DBM namespace, one can add/modify existing functions if necessary.
 // In order to reduce conflictions between mods, be sure to alias
 // functions you wish to overwrite.
-//---------------------------------------------------------------------
-
-//---------------------------------------------------------------------
-//Add in the Future (HTML)
-//
-//
-// 	<div style="float: right; width: 35%;">
-//		Turn Find Json path's: 
-//    	<select id="turn" name="second-list" class="round" onchange="glob.variableChange(this, 'CHANGER')">
-//            <option value="0" selected>Find Json Path (Off)</option>
-//			<option value="1">Find Json Path (On)</option>
-//    	</select>
-//	</div><br>
-//</div><br>
-//<div>
-//	<div id="CHANGER" style="display: none; width: 50%;"><br>
-//		Read json's Path:<br>
-//		<input id="input" class="round" type="text">
-//	</div>
-//</div><br>
-//, INIT
-//
-//    const {
-//    glob,
-//    document
-//} = this;
-//
-//glob.variableChange(document.getElementById('turn'), 'CHANGER')
-//, FIELDS
-//"input", "turn" 
 //---------------------------------------------------------------------
 
 mod: function(DBM) {}

@@ -24,7 +24,7 @@ section: "Server Control",
 
 subtitle: function(data) {
 	const servers = ['Current Server', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const info = ['Creation Date', 'Time to AFK', 'Is server available?', 'More than 250 members?', 'Date bot joined server', 'Channel amount', 'Emoji amount', 'Embed Links', 'DND Members Count', 'Online Members Count (fixed)', 'Offline Members Count', 'Idle Members Count', 'Total Bots Count in Server', 'Server Channel IDs', 'Server Role IDs', 'Server Member IDs', 'Server Bot Count', 'Server Human Member Count'];
+	const info = ['Creation Date', 'Time to AFK', 'Is server available?', 'More than 250 members?', 'Date bot joined server', 'Total Channel Amount', 'Emoji amount', 'Embed Links', 'DND Members Count', 'Online Members Count (fixed)', 'Offline Members Count', 'Idle Members Count', 'Total Bots Count in Server', 'Server Channel IDs', 'Server Role IDs', 'Server Member IDs', 'Server Bot Count', 'Server Human Member Count', 'Server Member Count', 'Text Channel Amount', 'Voice Channel Amount'];
 	return `${servers[parseInt(data.server)]} - ${info[parseInt(data.info)]}`;
 },
 
@@ -39,7 +39,9 @@ subtitle: function(data) {
 	 author: "Lasse, EGGSY & EliteArtz",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.8.5",
+	 version: "1.8.7",
+	 //19&20 Added by Invarion in 1.8.8 | Taken from bashy's mod
+	 //21&22 Added by Invarion in 1.8.8 |
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
 	 short_description: "Stores more Server Information",
@@ -115,6 +117,15 @@ variableStorage: function(data, varType) {
 		case 17:
 			dataType = 'Number';
 			break;
+		case 18:
+			dataType = 'Number';
+			break;
+		case 19:
+			dataType = 'Number';
+			break;
+		case 20:
+			dataType = 'Number';
+			break;
 	}
 	return ([data.varName2, dataType]);
 },
@@ -150,7 +161,7 @@ html: function(isEvent, data) {
 	<div>
 		<p>
 			<u>Mod Info:</u><br>
-			Created by EGGSY, EliteArtz & Lasse!
+			Created by EGGSY, EliteArtz, Invarion & Lasse!
 		</p>
 	</div><br>
 <div>
@@ -173,8 +184,12 @@ html: function(isEvent, data) {
 			<option value="1">Time User gets AFK</option>
 			<option value="2">Is Server available?</option>
 			<option value="4">Date Bot Joined</option>
-			<option value="5">Channel Amount</option>
-			<option value="6">Emoji Amount</option>
+			<option value="5">Total Channel Amount</option>
+			<option value="19">Text Channel Amount</option>
+			<option value="20">Voice Channel Amount</option>
+			<option value="21">Text Channel List</option>
+			<option value="22">Voice Channel List</option>
+			<option value="6">Server Emoji Amount</option>
 			<option value="7">Embeds links?</option>
 			<option value="9">Online Members Count</option
 			<option value="11">Idle Members Count</option>
@@ -183,6 +198,7 @@ html: function(isEvent, data) {
 			<option value="13">Server Channel IDs</option>
 			<option value="14">Server Role IDs</option>
 			<option value="15">Server Member IDs</option>
+      <option value="18">Server Member Count</option>
 			<option value="16">Server Bot Count</option>
 			<option value="17">Server Human Member Count</option>
 			<option value="12">Total Bots in Servers</option>
@@ -291,6 +307,20 @@ action: function(cache) {
 		case 17:
 			result = targetServer.members.filter(m => m.user.bot == false).size;
 			break;
+		case 18:
+			result = targetServer.memberCount; //Added by Lasse in 1.8.7
+			break;
+		case 19:
+			result = targetServer.channels.findAll('type', 'text').length; //Added by Invarion in 1.8.8 | Taken from bashy's mod
+			break;
+		case 20:
+			result = targetServer.channels.findAll('type', 'voice').length; //Added by Invarion in 1.8.8 | Taken from bashy's mod
+			break;
+		case 21:
+			result = targetServer.channels.findAll('type', 'text');  //Added by Invarion in 1.8.8
+	   		break;
+		case 22:
+	   		result = targetServer.channels.findAll('type', 'voice'); //Added by Invarion in 1.8.8
 		default:
 			break;
 	}

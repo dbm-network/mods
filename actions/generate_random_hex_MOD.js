@@ -20,8 +20,7 @@ name: "Generate Random Hex Color",
 	 author: "Jakob",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.8.6",
-	 // Added in 1.8.6
+	 version: "1.8.6", // Added in 1.8.6
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
 	 short_description: "Generates a random hex color code",
