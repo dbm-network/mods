@@ -39,7 +39,7 @@ subtitle: function(data) {
 	 author: "Lasse",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.8.5",
+	 version: "1.8.8", //Added in 1.8.5
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
 	 short_description: "Stores Members Information",
@@ -142,12 +142,10 @@ html: function(isEvent, data) {
 			<option value="0" selected>Join Date</option>
 			<option value="1">Voice Channel</option>
 			<option value="2">Last Message</option>
-			<option value="3">Is kickable?</option>
-			<option value="4">Is bot?</option>
 			<option value="6">Account Creation Date</option>
 			<option value="5">Discriminator (#0001)</option>
 			<option value="7">Tag (Lasse#0001)</option>
-			</select>
+		</select>
 	</div>
 </div><br>
 <div>
@@ -209,10 +207,10 @@ action: function(cache) {
 		case 2:
 			result = mem.lastMessage;
 			break;
-		case 3:
+		case 3: //Deprecated in 1.8.8 by Lasse because of the new "Check If Member" action
 			result = mem.kickable;
 			break;
-		case 4:
+		case 4: //Deprecated in 1.8.8 by Lasse because of the new "Check If Member" action
 			if(mem.user) {
 				result = mem.user.bot;
 			}

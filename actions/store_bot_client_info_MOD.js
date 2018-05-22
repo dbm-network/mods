@@ -200,7 +200,7 @@ module.exports = {
 				Created by EliteArtz, EGGSY and Lasse!
 			</p>
 		</div><br>
-	<div style="float: left; width: 80%;">
+	<div style="float: left; width: 80%; padding-top: 8px;">
 		Source Info:<br>
 		<select id="info" class="round">
 			<option value="23">Refreshing Uptime in Days</option>
@@ -212,7 +212,6 @@ module.exports = {
 			<option value="5">Ping Rounded</option>
 			<option value="12">Bots Previous Pings</option>
 			<option value="9">Total Voice Connections</option>
-			<option value="15">Memory (RAM) Usage</option>
 			<option value="27">Memory (RAM) Usage in MB</option>
 			<option value="21">Discord JS Version</option>
 			<option value="29">CPU Usage in MB</option>
@@ -220,8 +219,8 @@ module.exports = {
 			<option value="4">Total Amount of Users</option>
 			<option value="10">Total Amount of Channels</option>
 			<option value="11">Total Amount of Emojis</option>
-                        <option value="32">Total Amount of Commands</option>
-                        <option value="33">Total Amount of Events</option>
+            <option value="32">Total Amount of Commands</option>
+            <option value="33">Total Amount of Events</option>
 			<option value="16">Bot Guilds Objects</option>
 			<option value="17">Bot Guilds Names</option>
 			<option value="18">Bot Guilds IDs</option>
@@ -232,15 +231,15 @@ module.exports = {
 			<option value="8">Bot Token</option>
 			<option value="31">Node JS Version</option>
 		</select>
-	</div>
+	</div><br><br><br>
 	<div>
-		<div style="float: left; width: 35%;">
+		<div style="float: left; width: 35%; padding-top: 8px;">
 			Store In:<br>
 			<select id="storage" class="round">
 				${data.variables[1]}
 			</select>
 		</div>
-		<div id="varNameContainer2" style="float: right; width: 60%;">
+		<div id="varNameContainer2" style="float: right; width: 60%; padding-top: 8px;">
 			Variable Name:<br>
 			<input id="varName2" class="round" type="text"><br>
 		</div>
@@ -255,7 +254,7 @@ module.exports = {
 	// functions for the DOM elements.
 	//---------------------------------------------------------------------
 
-	init: function () {},
+	init: function () { },
 
 	//---------------------------------------------------------------------
 	// Action Bot Function
@@ -271,8 +270,6 @@ module.exports = {
 		const data = cache.actions[cache.index];
 		const info = parseInt(data.info);
 		const msToDay = (1000 * 60 * 60 * 24); // Really? Lasse? Did you really forget this? - :blobshh:
-		const usedMEMORY = process.memoryUsage().heapUsed / 1024 / 1024; // Sorry about all const things but this is needed, you know.
-		const usedCPU = process.cpuUsage().user / 1024 / 1024;
 		if (!botClient) {
 			this.callNextAction(cache);
 			return;
@@ -306,7 +303,7 @@ module.exports = {
 				result = botClient.token;
 				break;
 			case 9:
-				result = botClient.voiceConnections.array().length;
+				result = botClient.voiceConnections.size;
 				break;
 			case 10:
 				result = botClient.channels.size;
@@ -324,7 +321,7 @@ module.exports = {
 				result = Math.floor(botClient.uptime / msToDay); //Deprecated in 1.8.5
 				break;
 			case 15:
-				result = ((process.memoryUsage().heapUsed / 1024) / 1024).toFixed(2) + "%";
+				result = ((process.memoryUsage().heapUsed / 1024) / 1024).toFixed(2) + "%"; //Deprecated in 1.8.8
 				break;
 			case 16:
 				result = botClient.guilds;
@@ -360,7 +357,7 @@ module.exports = {
 				result = Math.round(process.uptime() % 60);
 				break;
 			case 27:
-				result = Math.round((usedMEMORY * 100) / 100) + " MB";
+				result = (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2);
 				break;
 			case 28:
 				if (process.platform) {
@@ -375,7 +372,7 @@ module.exports = {
 				}
 				break;
 			case 29:
-				result = Math.round((usedCPU * 100) / 100) + " MB";
+				result = (process.cpuUsage().user / 1024 / 1024).toFixed(2);
 				break;
 			case 30:
 				result = process.cwd();
@@ -384,12 +381,10 @@ module.exports = {
 				result = process.versions.node;
 				break;
 			case 32:
-				const commands = dibiem.Files.data.commands;
-				result = commands.length;
+				result = dibiem.Files.data.commands.length;
 				break;
 			case 33:
-				const events = dibiem.Files.data.events;
-				result = events.length;
+				result = dibiem.Files.data.events.length;
 				break;
 			default:
 				break;
@@ -411,6 +406,6 @@ module.exports = {
 	// functions you wish to overwrite.
 	//---------------------------------------------------------------------
 
-	mod: function (DBM) {}
+	mod: function (DBM) { }
 
 }; // End of module
