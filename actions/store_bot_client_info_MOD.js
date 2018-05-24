@@ -206,34 +206,45 @@ module.exports = {
 	<div style="float: left; width: 80%; padding-top: 8px;">
 		Source Info:<br>
 		<select id="info" class="round">
-			<option value="23">Refreshing Uptime in Days</option>
-			<option value="24">Refreshing Uptime in Hours</option>
-			<option value="25">Refreshing Uptime in Minutes</option>
-			<option value="26">Refreshing Uptime in Seconds</option>
-			<option value="1">Ready at</option>
-			<option value="34">Ready at [unix timestamp]</option>
-			<option value="2">Ping</option>
-			<option value="5">Ping Rounded</option>
-			<option value="12">Bots Previous Pings</option>
-			<option value="9">Total Voice Connections</option>
-			<option value="27">Memory (RAM) Usage in MB</option>
-			<option value="21">Discord JS Version</option>
-			<option value="29">CPU Usage in MB</option>
-			<option value="3">Total Amount of Guilds</option>
-			<option value="4">Total Amount of Users</option>
-			<option value="10">Total Amount of Channels</option>
-			<option value="11">Total Amount of Emojis</option>
-            <option value="32">Total Amount of Commands</option>
-            <option value="33">Total Amount of Events</option>
-			<option value="16">Bot Guilds Objects</option>
-			<option value="17">Bot Guilds Names</option>
-			<option value="18">Bot Guilds IDs</option>
-			<option value="19">Bot Current Prefix</option>
-			<option value="20">Bot Client ID</option>
-			<option value="28">Bot OS (Process Platform)</option>
-			<option value="30">Bot Directory</option>
-			<option value="8">Bot Token</option>
-			<option value="31">Node JS Version</option>
+			<optgroup label="Uptimes">
+				<option value="23">Refreshing Uptime in Days</option>
+				<option value="24">Refreshing Uptime in Hours</option>
+				<option value="25">Refreshing Uptime in Minutes</option>
+				<option value="26">Refreshing Uptime in Seconds</option>
+			</optgroup>
+			<optgroup label="Values">
+				<option value="3">Total Amount of Guilds</option>
+				<option value="4">Total Amount of Users</option>
+				<option value="10">Total Amount of Channels</option>
+				<option value="11">Total Amount of Emojis</option>
+            	<option value="32">Total Amount of Commands</option>
+            	<option value="33">Total Amount of Events</option>
+				<option value="9">Total Voice Connections</option>
+            </optgroup>
+            <optgroup label="Guilds Arrays">
+				<option value="16">Bot Guilds Objects</option>
+				<option value="17">Bot Guilds Names</option>
+				<option value="18">Bot Guilds IDs</option>
+			<optgroup label="Bot Informations">
+				<option value="19">Bot Current Prefix</option>
+				<option value="20">Bot Client ID</option>
+				<option value="28">Bot OS (Process Platform)</option>
+				<option value="30">Bot Directory</option>
+				<option value="8">Bot Token (be careful)</option>
+			</optgroup>
+			<optgroup label="Bot Measurements">
+				<option value="27">Memory (RAM) Usage in MB</option>
+				<option value="29">CPU Usage in MB</option>
+				<option value="2">Ping</option>
+				<option value="5">Ping Rounded</option>
+				<option value="1">Ready at</option>
+				<option value="34">Ready at [unix timestamp]</option>
+				<option value="12">Bots Previous Pings</option>
+			</optgroup>
+			<optgroup label="Versions">
+				<option value="21">Discord JS Version</option>
+				<option value="31">Node JS Version</option>
+			</optgroup>
 		</select>
 	</div><br><br><br>
 	<div>
