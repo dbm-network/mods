@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Write File",
+name: "Skip Actions",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -14,7 +14,7 @@ name: "Write File",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Deprecated",
+section: "Other Stuff",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -23,29 +23,8 @@ section: "Deprecated",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	return `${data.filename}${data.format}`;
+	return `Skip ${data.count}`;
 },
-
-//---------------------------------------------------------------------
-    // DBM Mods Manager Variables (Optional but nice to have!)
-    //
-    // These are variables that DBM Mods Manager uses to show information
-    // about the mods for people to see in the list.
-    //---------------------------------------------------------------------
-
-    // Who made the mod (If not set, defaults to "DBM Mods")
-    author: "EliteArtz",
-
-    // The version of the mod (Defaults to 1.0.0)
-    version: "1.8.4",
-
-    // A short description to show on the mod line for this mod (Must be on a single line)
-    short_description: "Creates a File with your File name and File format + including your Text you wan't to.",
-
-	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-
-
-	 //---------------------------------------------------------------------
 
 //---------------------------------------------------------------------
 // Action Fields
@@ -55,7 +34,7 @@ subtitle: function(data) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["input", "format", "filename"],
+fields: ["count"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -76,27 +55,17 @@ fields: ["input", "format", "filename"],
 html: function(isEvent, data) {
 	return `
 <div>
-    <p>
-        <u>Mod Info:</u><br>
-        Made by EliteArtz<br>
-    </p>
-	<div style="float: left; width: 30%;">
-		File Format:<br>
-		<select id="format" class="round">
-			<option value=".json">json File</option>
-			<option value=".txt" selected>txt File</option>
-			<option value=".js">js File</option>
-		</select>
-	</div><br>
-    <div style="float: left; width: 99%">
-        File name:<br>
-        <textarea id="filename" class="round" style="width 50%; resize: none;" type="textarea" rows="1" cols="30"></textarea><br>
-    </div>
-	<div style="float: left; width: 99%;">
-		Input Text:<br>
-		<textarea id="input" class="round" style="width: 99%; resize: none;" type="textarea" rows="5" cols="35"></textarea><br>
+	<p>
+		<u>Mod Info:</u><br>
+		Created by Lasse!
+	</p>
+</div><br>
+<div>
+	<div id="varNameContainer" style="float: left; width: 60%;">
+		Actions To Skip:<br>
+		<input id="count" class="round" type="number">
 	</div>
-</div>`
+</div><br><br><br>`
 },
 
 //---------------------------------------------------------------------
@@ -117,22 +86,22 @@ init: function() {},
 // so be sure to provide checks for variable existance.
 //---------------------------------------------------------------------
 
-action: function (cache) {
-    const data = cache.actions[cache.index];
+action: function(cache) {
+	const data = cache.actions[cache.index];
+	// const val = parseInt(this.evalMessage(data.call, cache));
+	// const index = Math.max(val - 1, 0);
+	// if(cache.actions[index]) {
+	// 	cache.index = index - 1;
+	// 	this.callNextAction(cache);
+	// }
 
-    try {
-        const fileNAME = this.evalMessage(data.filename, cache);
-        const fs = require('fs');
-        if (fileNAME) {
-            const inputtext = this.evalMessage(data.input, cache);
-            fs.writeFileSync(fileNAME + `${data.format}`, inputtext, console.log(`${data.filename}${data.format} File was written.`));
-        } else {
-        console.log(`File name is missing.`);
-        }
-    } catch (err) {
-        console.log("ERROR!" + err.stack ? err.stack : err);
-    }
-    this.callNextAction(cache);
+	const amnt = parseInt(this.evalMessage(data.count, cache));
+	const index2 = cache.index + amnt + 1;
+
+	if(cache.actions[index2]) {
+		cache.index = index2 - 1;
+		this.callNextAction(cache);
+	}
 },
 
 //---------------------------------------------------------------------
