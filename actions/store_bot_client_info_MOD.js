@@ -23,7 +23,7 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	subtitle: function (data) {
-		const info = ['Uptime in Milliseconds', 'Ready At?', 'Ping', 'Guild Amount', 'User Amount', 'Rounded Ping', 'Uptime in Seconds', 'Uptime in Minutes', 'Bot\'s Token', 'Voice Connections Amount', 'Total Amount of Channels', 'Total Amount of Emojis', 'Bot\'s Previous Pings', 'Uptime in Days', 'Uptime in Days (Rounded)', 'Memory (RAM) Usage', 'Bot Guilds Objects', 'Bot Guilds Names', 'Bot Guilds IDs', 'Bot Current Prefix', 'Bot Client ID', 'Discord JS Version', 'Uptime in Hours', 'Refreshing Uptime in Days', 'Refreshing Uptime in Hours', 'Refreshing Uptime in Minutes', 'Refreshing Uptime in Seconds', 'Memory (RAM) Usage in MB', 'Bot\'s OS (Process Platform)', 'CPU Usage in MB', 'Bot\'s Directory', 'Node JS Version', 'Amount of Commands', 'Amount of Events'];
+		const info = ['Uptime in Milliseconds', 'Ready At?', 'Ping', 'Guild Amount', 'User Amount', 'Rounded Ping', 'Uptime in Seconds', 'Uptime in Minutes', 'Bot\'s Token', 'Voice Connections Amount', 'Total Amount of Channels', 'Total Amount of Emojis', 'Bot\'s Previous Pings', 'Uptime in Days', 'Uptime in Days (Rounded)', 'Memory (RAM) Usage', 'Bot Guilds Objects', 'Bot Guilds Names', 'Bot Guilds IDs', 'Bot Current Prefix', 'Bot Client ID', 'Discord JS Version', 'Uptime in Hours', 'Refreshing Uptime in Days', 'Refreshing Uptime in Hours', 'Refreshing Uptime in Minutes', 'Refreshing Uptime in Seconds', 'Memory (RAM) Usage in MB', 'Bot\'s OS (Process Platform)', 'CPU Usage in MB', 'Bot\'s Directory', 'Node JS Version', 'Amount of Commands', 'Amount of Events', 'Ready At ? [timestamp]'];
 		return `Bot Client - ${info[parseInt(data.info)]}`;
 	},
 
@@ -162,6 +162,9 @@ module.exports = {
 			case 33:
 				dataType = "Number";
 				break;
+			case 34:
+				dataType = "Number";
+				break;
 		}
 		return ([data.varName2, dataType]);
 	},
@@ -200,47 +203,58 @@ module.exports = {
 				Created by EliteArtz, EGGSY and Lasse!
 			</p>
 		</div><br>
-	<div style="float: left; width: 80%;">
+	<div style="float: left; width: 80%; padding-top: 8px;">
 		Source Info:<br>
 		<select id="info" class="round">
-			<option value="23">Refreshing Uptime in Days</option>
-			<option value="24">Refreshing Uptime in Hours</option>
-			<option value="25">Refreshing Uptime in Minutes</option>
-			<option value="26">Refreshing Uptime in Seconds</option>
-			<option value="1">Ready at</option>
-			<option value="2">Ping</option>
-			<option value="5">Ping Rounded</option>
-			<option value="12">Bots Previous Pings</option>
-			<option value="9">Total Voice Connections</option>
-			<option value="15">Memory (RAM) Usage</option>
-			<option value="27">Memory (RAM) Usage in MB</option>
-			<option value="21">Discord JS Version</option>
-			<option value="29">CPU Usage in MB</option>
-			<option value="3">Total Amount of Guilds</option>
-			<option value="4">Total Amount of Users</option>
-			<option value="10">Total Amount of Channels</option>
-			<option value="11">Total Amount of Emojis</option>
-                        <option value="32">Total Amount of Commands</option>
-                        <option value="33">Total Amount of Events</option>
-			<option value="16">Bot Guilds Objects</option>
-			<option value="17">Bot Guilds Names</option>
-			<option value="18">Bot Guilds IDs</option>
-			<option value="19">Bot Current Prefix</option>
-			<option value="20">Bot Client ID</option>
-			<option value="28">Bot OS (Process Platform)</option>
-			<option value="30">Bot Directory</option>
-			<option value="8">Bot Token</option>
-			<option value="31">Node JS Version</option>
+			<optgroup label="Uptimes">
+				<option value="23">Refreshing Uptime in Days</option>
+				<option value="24">Refreshing Uptime in Hours</option>
+				<option value="25">Refreshing Uptime in Minutes</option>
+				<option value="26">Refreshing Uptime in Seconds</option>
+			</optgroup>
+			<optgroup label="Values">
+				<option value="3">Total Amount of Guilds</option>
+				<option value="4">Total Amount of Users</option>
+				<option value="10">Total Amount of Channels</option>
+				<option value="11">Total Amount of Emojis</option>
+            	<option value="32">Total Amount of Commands</option>
+            	<option value="33">Total Amount of Events</option>
+				<option value="9">Total Voice Connections</option>
+            </optgroup>
+            <optgroup label="Guilds Arrays">
+				<option value="16">Bot Guilds Objects</option>
+				<option value="17">Bot Guilds Names</option>
+				<option value="18">Bot Guilds IDs</option>
+			<optgroup label="Bot Informations">
+				<option value="19">Bot Current Prefix</option>
+				<option value="20">Bot Client ID</option>
+				<option value="28">Bot OS (Process Platform)</option>
+				<option value="30">Bot Directory</option>
+				<option value="8">Bot Token (be careful)</option>
+			</optgroup>
+			<optgroup label="Bot Measurements">
+				<option value="27">Memory (RAM) Usage in MB</option>
+				<option value="29">CPU Usage in MB</option>
+				<option value="2">Ping</option>
+				<option value="5">Ping Rounded</option>
+				<option value="1">Ready at</option>
+				<option value="34">Ready at [unix timestamp]</option>
+				<option value="12">Bots Previous Pings</option>
+			</optgroup>
+			<optgroup label="Versions">
+				<option value="21">Discord JS Version</option>
+				<option value="31">Node JS Version</option>
+			</optgroup>
 		</select>
-	</div>
+	</div><br><br><br>
 	<div>
-		<div style="float: left; width: 35%;">
+		<div style="float: left; width: 35%; padding-top: 8px;">
 			Store In:<br>
 			<select id="storage" class="round">
 				${data.variables[1]}
 			</select>
 		</div>
-		<div id="varNameContainer2" style="float: right; width: 60%;">
+		<div id="varNameContainer2" style="float: right; width: 60%; padding-top: 8px;">
 			Variable Name:<br>
 			<input id="varName2" class="round" type="text"><br>
 		</div>
@@ -255,7 +269,7 @@ module.exports = {
 	// functions for the DOM elements.
 	//---------------------------------------------------------------------
 
-	init: function () {},
+	init: function () { },
 
 	//---------------------------------------------------------------------
 	// Action Bot Function
@@ -271,8 +285,6 @@ module.exports = {
 		const data = cache.actions[cache.index];
 		const info = parseInt(data.info);
 		const msToDay = (1000 * 60 * 60 * 24); // Really? Lasse? Did you really forget this? - :blobshh:
-		const usedMEMORY = process.memoryUsage().heapUsed / 1024 / 1024; // Sorry about all const things but this is needed, you know.
-		const usedCPU = process.cpuUsage().user / 1024 / 1024;
 		if (!botClient) {
 			this.callNextAction(cache);
 			return;
@@ -306,7 +318,7 @@ module.exports = {
 				result = botClient.token;
 				break;
 			case 9:
-				result = botClient.voiceConnections.array().length;
+				result = botClient.voiceConnections.size;
 				break;
 			case 10:
 				result = botClient.channels.size;
@@ -324,7 +336,7 @@ module.exports = {
 				result = Math.floor(botClient.uptime / msToDay); //Deprecated in 1.8.5
 				break;
 			case 15:
-				result = ((process.memoryUsage().heapUsed / 1024) / 1024).toFixed(2) + "%";
+				result = ((process.memoryUsage().heapUsed / 1024) / 1024).toFixed(2) + "%"; //Deprecated in 1.8.8
 				break;
 			case 16:
 				result = botClient.guilds;
@@ -360,7 +372,7 @@ module.exports = {
 				result = Math.round(process.uptime() % 60);
 				break;
 			case 27:
-				result = Math.round((usedMEMORY * 100) / 100) + " MB";
+				result = (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2);
 				break;
 			case 28:
 				if (process.platform) {
@@ -375,7 +387,7 @@ module.exports = {
 				}
 				break;
 			case 29:
-				result = Math.round((usedCPU * 100) / 100) + " MB";
+				result = (process.cpuUsage().user / 1024 / 1024).toFixed(2);
 				break;
 			case 30:
 				result = process.cwd();
@@ -384,12 +396,13 @@ module.exports = {
 				result = process.versions.node;
 				break;
 			case 32:
-				const commands = dibiem.Files.data.commands;
-				result = commands.length;
+				result = dibiem.Files.data.commands.length;
 				break;
 			case 33:
-				const events = dibiem.Files.data.events;
-				result = events.length;
+				result = dibiem.Files.data.events.length;
+				break;
+			case 34:
+				result = botClient.readyTimestamp;
 				break;
 			default:
 				break;
@@ -411,6 +424,6 @@ module.exports = {
 	// functions you wish to overwrite.
 	//---------------------------------------------------------------------
 
-	mod: function (DBM) {}
+	mod: function (DBM) { }
 
 }; // End of module

@@ -37,7 +37,7 @@ subtitle: function(data) {
 	 author: "DBM Mods",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.8.7",
+	 version: "1.8.8",
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
 	 short_description: "Changelog overview",
@@ -85,6 +85,15 @@ html: function(isEvent, data) {
 	return `
 <div>
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
+	<p>
+		<h2>1.8.8: Store Reaction Info is now available!<h2>
+		● Added Check If Member (is bot/is kickable/is banable/is in voice channel)<br>
+		● Added Skip Actions<br>
+		● Added Store Reaction Info<br>
+		● Added Urban Dictionary Search modification<br>
+		● Redesigned a few modifications UI<br>
+		● MANY bug fixes!
+	</p>
 	<p>
 		<h2>1.8.7: All your wishes except Await Response</h2>
 		● Google & YouTube Search!<br>
