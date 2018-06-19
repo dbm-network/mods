@@ -99,7 +99,7 @@ html: function(isEvent, data) {
     </div><br>
     <div style="padding-top: 8px;">
         <select id="ifEach" class="round" style="float: right; width: 45%;">
-            <option value="1">Hole content</option>
+            <option value="1">Whole content</option>
             <option value="0" selected>For Each Word</option>
         </select>
     </div><br><br>
