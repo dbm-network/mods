@@ -35,7 +35,7 @@ subtitle: function(data) {
 //---------------------------------------------------------------------
 
 // Who made the mod (If not set, defaults to "DBM Mods")
-author: "iAmaury",
+author: "iAmaury & EliteArtz",
 
 // The version of the mod (Defaults to 1.0.0)
 version: "1.8.9",
@@ -88,7 +88,7 @@ html: function(isEvent, data) {
 	return `
 <div style="padding-top: 8px;">
 		<p><u>Mod Info:</u><br>
-		Made by <b>iAmaury</b> !</p>
+		Made by <b>iAmaury</b> & <b>EliteArtz</b>!</p>
 </div><br>
 <div style="padding-top: 8px;">
 	Source Text:
