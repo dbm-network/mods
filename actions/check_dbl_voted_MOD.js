@@ -1,7 +1,3 @@
-//---------------------------------------------------------------------
-// Made by CmdData#0101
-//---------------------------------------------------------------------
-
 module.exports = {
 
 //---------------------------------------------------------------------
@@ -139,7 +135,6 @@ action: function(cache) {
 		console.log('ERROR! Please provide an API token for DBL!');
 	}
 
-	let result = false;
 	dbl.hasVoted(member.user.id).then(voted => {
 		this.executeResults(voted, data, cache);
 	});
