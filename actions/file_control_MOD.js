@@ -27,7 +27,7 @@ module.exports = {
         author: "Danno3187", //Original Idea by EliteArtz
 
         // The version of the mod (Defaults to 1.0.0)
-        version: "1.8.7", //Added in 1.8.7
+        version: "1.8.9", //Added in 1.8.7
 
         // A short description to show on the mod line for this mod (Must be on a single line)
         short_description: "Allows a user to interact with 'Files'",
@@ -76,64 +76,59 @@ module.exports = {
 
     html: function(isEvent, data) {
         return `
-<div id="scroll"style="width: 550px; height: 350px; overflow-y: scroll;">
-    <div >
-        <p>
-        <u>Mod Info</u><br>
-        Made by Danno3817, EliteArtz & EGGSY</p><br>
+        <div id="scroll"style="width: 550px; height: 350px; overflow-y: scroll;">
         <div>
-            <div style="float: left; padding-right: 10px; width: 20%;">
-                File Format:<br>
-                <select id="format" class="round">
-                <option value=".json">JSON</option>
-                <option value=".txt">TXT</option>
-                <option value=".js">JS</option>
-                <option value=".log" selected>LOG</option>
-                </select>
-            </div>
-
-            <div style="float: left; padding-right: 10px; width: 20%;">
-                File Task:<br>
-                <select id="filetask" class="round">
-                <option value="0" selected>Create</option>
-                <option value="1">Write</option>
-                <option value="2">Append</option>
-                <option value="3">Delete</option>
-                </select>
-            </div>
-
-            <div style="float: right; width: 50%">
-                File Name:<br>
-                <textarea id="filename" placeholder="Insert File Name Here..." class="round" style="width 50%; resize: none; padding: 4px 0px;" type="textarea" rows="1" cols="25";></textarea><br>
-            </div><br>
-        </div>
-    </div>
-    <div>
-        <div>
-            <div style="float: left; width: 99%">
-                File Path:<br>
-                <textarea id="filepath" placeholder="Insert Path Here... Example Below" class="round" style="width99%; resize: none;" type="textarea" rows="1" cols="60"></textarea><br>
-            </div><br>
-
-            <div style="float: left; width: 99%;">
-            Input Text:<br>
-            <textarea id="input" placeholder="Leave Blank For None." class="round" style="width: 99%; resize: 1;" type="textarea" rows="8" cols="35"></textarea><br>
-            </div><br>
-    </div><br>
-    <div>
-        <div>
-            <p>Important info:<br>
-            You'll need a '/' at the end of the Path '\\\' for windows users.<br>
-            If you want to delete something in current directory, you can add '.' (dot) before '/':<br>
-            e.g:<br>
-            My bot directory is: "<b>/root/myBot/</b>"<br>
-            I want to delete: "<b>/root/myBot/delete.txt</b>"<br>
-            Then I need to write "<b>./delete.txt</b>" in the field.<br><br>
-            <i>Please be careful while using this mod. Don't forget there is no turning back after deleting the file.</i><br>
+          <div>
+            <p><u>Mod Info:</u><br>
+              Made By: Danno3817, EliteArtz & Eggsy</p>
+          </div><br>
+          <div>
+            <p><u>Important Info:</u><br>
+              You'll need a '/' at the end of the Path.<br>
+              If you want to delete something in current directory, you can add '.' (dot) before '/':<br>
+              e.g:<br>
+              My bot directory is: "<b>/root/myBot/</b>"<br>
+              I want to delete: "<b>/root/myBot/delete.txt</b>"<br>
+              Then I need to write "<b>./</b>" in the file path field.<br><br>      
+              <i>Please be careful while using the delete function, there is no turning back after deleting the file.</i><br>
             </p>
+          </div>
         </div>
-    </div>
-</div>`
+        <div>
+          <div style="float: left; padding-right: 1% ">
+            Format:<br>
+            <select id="format" class="round">
+              <option value=".json">JSON</option>
+              <option value=".txt">txt</option>
+              <option value=".js">Java Script</option>
+              <option value=".log" selected>Log</option>
+            </select>
+          </div>
+          <div style="float: left; padding-right: 1%;">
+            Task:<br>
+            <select id="filetask" class="round">
+              <option value="0" selected>Create</option>
+              <option value="1">Write</option>
+              <option value="2">Append</option>
+              <option value="3">Delete</option>
+            </select>
+          </div>
+          <div style="float: left; width: 64%;">
+            File Name:<br>
+            <textarea id="filename" placeholder=" Insert File Name Here..." class="round" style="width: 100%; resize: none; padding: 4px 0px;" type="textarea" rows="1";></textarea><br>
+          </div><br>
+        </div>
+        <div>
+          <div style="float: left; width: 100%">
+            File Path:<br>
+            <textarea id="filepath" placeholder=" Example Path = ./logs/date/example-date/" class="round" style="width: 99%; resize: none; padding: 4px 0px;" type="textarea" rows="1" cols="60"></textarea><br>
+          </div><br>
+          <div style="float: left; width: 100%;">
+            Input Text:<br>
+            <textarea id="input" placeholder=" Leave Blank For None." class="round" style="width: 99%; resize: 1; padding: 4px 0px;" type="textarea" rows="8" cols="35"></textarea><br>
+          </div><br>
+        </div>
+      </div>`
     },
 
     //---------------------------------------------------------------------
