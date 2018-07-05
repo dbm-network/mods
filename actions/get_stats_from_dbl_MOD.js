@@ -23,7 +23,7 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	subtitle: function (data) {
-		const info = ['Invite URL', 'GitHub Repository URL', 'Website URL', 'Long Description', 'Short Description', 'Prefix', 'Library', 'Avatar URL', 'Approved On', 'Support Server Invite URL', 'Server Count', 'Shard Count', 'Vanity URL', 'Guild ID(s)', 'Servers on Shards', 'Monthly Votes', 'Owner ID(s)', 'Tag(s)', 'Username', 'Discriminator'];
+		const info = ['Invite URL', 'GitHub Repository URL', 'Website URL', 'Long Description', 'Short Description', 'Prefix', 'Library', 'Avatar URL', 'Approved On', 'Support Server Invite URL', 'Server Count', 'Shard Count', 'Vanity URL', 'Guild ID(s)', 'Servers on Shards', 'Monthly Vote Count', 'Total Vote Count','Owner ID(s)', 'Tag(s)', 'Username', 'Discriminator'];
 		return `Get Bot's ${info[parseInt(data.info)]}`;
 	},
 
