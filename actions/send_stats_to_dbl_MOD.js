@@ -128,6 +128,7 @@ module.exports = {
 		const data = cache.actions[cache.index];
 		const token = this.evalMessage(data.dblToken, cache);
 		const info = parseInt(data.info);
+		var client = this.getDBM().Bot.bot;
 
 		const WrexMODS = this.getWrexMods(); // still, as always <3
 		const DBL = WrexMODS.require('dblapi.js'); // what a great module!
