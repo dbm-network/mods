@@ -128,19 +128,19 @@ module.exports = {
 		const data = cache.actions[cache.index];
 		const token = this.evalMessage(data.dblToken, cache);
 		const info = parseInt(data.info);
-		var client = this.getDBM().Bot.bot;
+		// Commented due errors => var client = this.getDBM().Bot.bot; 
 
 		const WrexMODS = this.getWrexMods(); // still, as always <3
 		const DBL = WrexMODS.require('dblapi.js'); // what a great module!
 		const dbl = new DBL(token);
 
 		if (info == 0) {
-			dbl.postStats(client.guilds.size)
+			dbl.postStats(this.getDBM().Bot.bot.guilds.size)
 				.then(console.log("Successfully updated DBL stats! Thank you EGGSY!"))
 				.catch(e => console.log(e))
 		}
 		else if (info == 1) {
-			dbl.postStats(client.guilds.size, client.shards.Id, client.shards.total)
+			dbl.postStats(this.getDBM().Bot.bot.guilds.size, this.getDBM().Bot.bot.shard.id, this.getDBM().Bot.bot.shards.total)
 				.then(console.log("Successfully updated DBL stats! Thank you EGGSY!"))
 				.catch(e => console.log(e))
 		}
