@@ -140,7 +140,7 @@ module.exports = {
 				.catch(e => console.log(e))
 		}
 		else if (info == 1) {
-			dbl.postStats(this.getDBM().Bot.bot.guilds.size, this.getDBM().Bot.bot.shard.id, this.getDBM().Bot.bot.shards.total)
+			dbl.postStats(this.getDBM().Bot.bot.guilds.size, this.getDBM().Bot.bot.shard.id, this.getDBM().Bot.bot.shard.count)
 				.then(console.log("Successfully updated DBL stats! Thank you EGGSY!"))
 				.catch(e => console.log(e))
 		}
