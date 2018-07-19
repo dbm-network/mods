@@ -4,6 +4,9 @@ module.exports = {
 //
 // More Than 250 Members is deprecated please keep in mind its the #3 vaule. (do NOT remove)
 // given the large amount of Infos here PLEASE document everything properly so the next person that adds onto it will know whats going on. thanks
+
+// 1.8.9:
+// - Added fetchMembers to probably fix the membercount cause users weren't cached ~ Lasse
 //---------------------------------------------------------------------
 
 //---------------------------------------------------------------------
@@ -45,7 +48,7 @@ subtitle: function(data) {
 	 author: "Lasse, EGGSY, EliteArtz & Danno3817",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.8.7",
+	 version: "1.8.9",
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
 	 short_description: "Stores more Server Information",
@@ -301,18 +304,33 @@ action: function(cache) {
 			result = targetServer.embedEnabled; // Embed Links.
 			break;
 		case 8:
+			if(targetServer.large == true) {
+				targetServer.fetchMembers();
+			}
 			result = targetServer.members.filter(m => m.user.presence.status == "dnd").size; // DND Members Count.
 			break;
 		case 9:
+			if(targetServer.large == true) {
+				targetServer.fetchMembers();
+			}
 			result = targetServer.members.filter(m => m.user.presence.status == "online").size; // Online Members Count.
 			break;
 		case 10:
+			if(targetServer.large == true) {
+				targetServer.fetchMembers();
+			}
 			result = targetServer.members.filter(m => m.user.presence.status == "offline").size; // Offline Members Count.
 			break;
 		case 11:
+			if(targetServer.large == true) {
+				targetServer.fetchMembers();
+			}
 			result = targetServer.members.filter(m => m.user.presence.status == "idle").size; // Idle Members Count.
 			break;
 		case 12:
+			if(targetServer.large == true) {
+				targetServer.fetchMembers();
+			}
 			result = targetServer.members.filter(m => m.user.bot).size; // Total Bots Count In Server.
 			break;
 		case 13:
@@ -322,15 +340,27 @@ action: function(cache) {
 			result = targetServer.roles.map(roles => roles.id); // Server Roles IDs.
 			break;
 		case 15:
+			if(targetServer.large == true) {
+				targetServer.fetchMembers();
+			}
 			result = targetServer.members.map(members => members.id); // Server Member IDs.
 			break;
 		case 16:
+			if(targetServer.large == true) {
+				targetServer.fetchMembers();
+			}
 			result = targetServer.members.filter(m => m.user.bot == true).size; // Server Bot Member Count.
 			break;
 		case 17:
+			if(targetServer.large == true) {
+				targetServer.fetchMembers();
+			}
 			result = targetServer.members.filter(m => m.user.bot == false).size; // Server Human Member Count.
 			break;
 		case 18:
+			if(targetServer.large == true) {
+				targetServer.fetchMembers();
+			}
 			result = targetServer.memberCount; // Server Member Count. //Added by Lasse in 1.8.7
 			break;
 		case 19:
