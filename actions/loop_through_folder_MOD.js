@@ -92,7 +92,7 @@ html: function(isEvent, data) {
 <div>
     <p>
         <u>Mod Info:</u><br>
-        Created by Jakob<br><br>
+        Created by Jakob, original code by EliteArtz<br><br>
 
         <u>Notice:</u><br>
         -The folder needs to be in the bot folder!<br>
