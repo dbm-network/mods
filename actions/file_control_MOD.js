@@ -25,7 +25,6 @@ module.exports = {
 
     // Who made the mod (If not set, defaults to "DBM Mods")
     author: "Danno3817", //Original Idea by EliteArtz
-    // disregard > V3 < Author note
 
     // The version of the mod (Defaults to 1.0.0)
     version: "1.8.9", //Added in 1.8.7
@@ -97,10 +96,12 @@ module.exports = {
         <div style="float: left; padding-right: 1% ">
           Format:<br>
           <select id="format" class="round">
-            <option value=".json">JSON</option>
+            <option value="" selected>Other</option>
+            <option value=".log">Log</option>
             <option value=".txt">txt</option>
+            <option value=".json">JSON</option>
             <option value=".js">Java Script</option>
-            <option value=".log" selected>Log</option>
+            
           </select>
         </div>
         <div style="float: left; padding-right: 1%;">
@@ -180,7 +181,7 @@ module.exports = {
           if (err) return console.log(`Something went wrong while creating: [${err}]`);
         });
         break;
-          
+        
       case 1: // Write File
         result = () => fs.writeFileSync(fpath, itext, (err) => {
           if (err) return console.log(`Something went wrong while writing: [${err}]`);
