@@ -10,66 +10,87 @@ WrexMODS.API = {};
 
 WrexMODS.DBM = null;
 
-WrexMODS.Version = "2.0.0";
+WrexMODS.Version = "2.0.1";
+
+WrexMODS.latest_changes = "3rd attempt with the module installer. It now logs module installs";
 
 
 
 // Module Installer
 //{name:"modulename", attempts:0, installed: false}
 WrexMODS.modules = [];
-WrexMODS.MaxInstallAttemptsPerModule = 2;
+WrexMODS.MaxInstallAttemptsPerModule = 3;
 WrexMODS.CheckAndInstallNodeModule = function(moduleName, isGlobal = false){
 	return new Promise((resolve, reject) => {
-	
+
+		let module = this.modules.find(x => x.name == moduleName);
+
 		try {
+			
 			require.resolve(moduleName);
-
-			let module = this.modules.find(x => x.name == moduleName);
-
+		
+			if(!module){
+				module = { name: moduleName, attempts:1, installed: true, errored: false  };	
+				WrexMODS.modules.push(module);		
+			}else{
+				module.installed = true;
+			}
+			
 			resolve(module);
 
 		} catch (e) { // not installed
 
-			let module = this.modules.find(x => x.name == moduleName);
-
 			if(module){
 				module.attempts += 1;				
 			}else{
-				module = { name: moduleName, attempts:1, installed: false };
-				this.modules.push(module);
+				module = { name: moduleName, attempts:1, installed: false, errored: false };
+				WrexMODS.modules.push(module);
 			}
 
-			if(module.attempts > this.MaxInstallAttemptsPerModule){
-				console.error("DBM MODS (Node Module Installer v2): Could not automatically install " + moduleName + ". \n\n (Install attempt limit reached) \n Please try to run your bot CMD/Terminal (Ctrl + Shift + Right Click [In Windows] To Open a CMD Window) and do 'node bot.js' at least once to allow the installer to run. \n If that still fails please do 'npm install --save " + moduleName + "' before you continue in the Terminal!!");
-				
+			if(module.errored){
+				module.errored = true;
+				reject(module);
+			}
+
+			if(module.attempts >= this.MaxInstallAttemptsPerModule){
+				console.error("DBM MODS (Node Module Installer v2.1): Could not automatically install " + moduleName + ". \n\n (Install attempt limit reached) \n Please try to run your bot CMD/Terminal (Ctrl + Shift + Right Click [In Windows] To Open a CMD Window) and do 'node bot.js' at least once to allow the installer to run. \n If that still fails please do 'npm install --save " + moduleName + "' and restart your bot before you continue.");
+				module.errored = true;
 				reject(module);
 			}else{
 
 				try {			
-					console.log("DBM MODS (Node Module Installer v2) Attempting To Install Node Module: '" + moduleName + "'. Please wait...\n");	
+					console.log("DBM MODS (Node Module Installer v2.1) Attempting To Install Node Module: '" + moduleName + "'. Please wait...\n");	
 
 					const child = require('child_process');
 					let cliCommand = 'npm install ' + moduleName + " --loglevel=error " + (isGlobal ? "-g" : "--save");
 					child.execSync(cliCommand,{cwd: require('path').dirname(process.argv[1]),stdio:[0,1,2]});
 
-
 					try {
 						require.resolve(moduleName); // checking again 
 						module.installed = true;
 
-						console.log("DBM MODS (Node Module Installer v2) Node Module '" + moduleName + "' has been Installed. You MAY need to restart your bot.");	
+						console.log("DBM MODS (Node Module Installer v2.1) Node Module '" + moduleName + "' has been Installed. You MAY need to restart your bot.");	
 						resolve(module)	;	
 
 					} catch (error) {
-
-						console.error("DBM MODS (Node Module Installer v2): Node Module  '" + moduleName + "' failed to install. Attempt Number: " + module.attempts + " out of " + this.MaxInstallAttemptsPerModule);
+						console.error("DBM MODS (Node Module Installer v2.1): Node Module  '" + moduleName + "' failed to install. Attempt Number: " + module.attempts + " out of " + this.MaxInstallAttemptsPerModule);
 						if(module) WrexMODS.CheckAndInstallNodeModule(module.name);
 					}
 	
 				} catch (error) {
-					console.error("DBM MODS (Node Module Installer v2): MAIN ERROR. Report the error below to DBM Mods Support!");
-					console.dir(this.modules)
-					console.error(error);
+
+					module.errored = true;
+
+					if(error.message.includes("Command failed")){
+						console.log("DBM MODS (Node Module Installer v2.1): Node Module  '" + moduleName + "' does not exist!");
+						console.error(error.message);
+					}else{
+						console.error("DBM MODS (Node Module Installer v2.1): MAIN ERROR. Report the information below to DBM Mods Support!");
+						console.dir(this.modules);
+						console.error(error.message);
+						console.log("----------------------------------------");
+					}
+					
 				}
 				
 			}		
