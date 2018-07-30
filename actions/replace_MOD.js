@@ -14,7 +14,7 @@ name: "Replace",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Other Stuff",
+section: "Deprecated",
 
 //---------------------------------------------------------------------
 // Action Subtitle

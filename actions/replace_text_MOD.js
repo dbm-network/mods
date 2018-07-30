@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Create Webhook",
+name: "Replace Text",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -14,7 +14,7 @@ name: "Create Webhook",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Webhook Control",
+section: "Other Stuff",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -23,9 +23,10 @@ section: "Webhook Control",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	return `${data.username}`;
+	const info = ['Replace the first result', 'Replace all results']
+	return `${info[data.info]}`;
 },
-
+	
 //---------------------------------------------------------------------
 // DBM Mods Manager Variables (Optional but nice to have!)
 //
@@ -34,18 +35,15 @@ subtitle: function(data) {
 //---------------------------------------------------------------------
 
 // Who made the mod (If not set, defaults to "DBM Mods")
-author: "Lasse",
+author: "iAmaury & EliteArtz",
 
 // The version of the mod (Defaults to 1.0.0)
-version: "1.8.7", //Added in 1.8.7
+version: "1.8.9",
 
 // A short description to show on the mod line for this mod (Must be on a single line)
-short_description: "Creates a Webhook and stores it.",
+short_description: "Replace text with another text",
 
 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-
-
-//---------------------------------------------------------------------
 
 //---------------------------------------------------------------------
 // Action Storage Function
@@ -53,10 +51,11 @@ short_description: "Creates a Webhook and stores it.",
 // Stores the relevant variable info for the editor.
 //---------------------------------------------------------------------
 
-variableStorage: function(data, varType) {
+variableStorage: function (data, varType) {
 	const type = parseInt(data.storage);
-	if(type !== varType) return;
-	return ([data.varName2, 'Webhook Object']);
+	if (type !== varType) return;
+	let dataType = 'String';
+	return ([data.varName, dataType]);
 },
 
 //---------------------------------------------------------------------
@@ -67,60 +66,64 @@ variableStorage: function(data, varType) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["channel", "varName", "username", "avatarurl", "storage", "varName2"],
+fields: ["text", "text2", "text3", "info", "storage", "varName"],
 
 //---------------------------------------------------------------------
 // Command HTML
 //
 // This function returns a string containing the HTML used for
-// editting actions.
+// editting actions. 
 //
 // The "isEvent" parameter will be true if this action is being used
-// for an event. Due to their nature, events lack certain information,
+// for an event. Due to their nature, events lack certain information, 
 // so edit the HTML to reflect this.
 //
-// The "data" parameter stores constants for select elements to use.
+// The "data" parameter stores constants for select elements to use. 
 // Each is an array: index 0 for commands, index 1 for events.
-// The names are: sendTargets, members, roles, channels,
+// The names are: sendTargets, members, roles, channels, 
 //                messages, servers, variables
 //---------------------------------------------------------------------
 
 html: function(isEvent, data) {
 	return `
-<div><p><u>Mod Info:</u><br>Created by Lasse!</p></div>
-	<div>
-		<div style="float: left; width: 35%;">
-			Source Channel:<br>
-			<select id="channel" class="round" onchange="glob.channelChange(this, 'varNameContainer')">
-				${data.channels[isEvent ? 1 : 0]}
-			</select>
-		</div>
-		<div id="varNameContainer" style="display: none; float: right; width: 60%;">
-			Variable Name:<br>
-			<input id="varName" class="round" type="text" list="variableList"><br>
-		</div>
-	</div><br><br><br>
-<div style="float: left; width: 50%;">
-	Name:<br>
-	<input id="username" class="round" type="text"><br>
-</div>
-<div style="float: right; width: 50%;">
-	Avatar URL:<br>
-	<input id="avatarurl" class="round" type="text" placeholder="Leave blank for default!"><br>
+<div style="padding-top: 8px;">
+		<p><u>Mod Info:</u><br>
+		Made by <b>iAmaury</b> & <b>EliteArtz</b>!</p>
+</div><br>
+<div style="padding-top: 8px;">
+	Source Text:
+	<textarea id="text" rows="3" placeholder="Insert source text here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
 </div>
 <div>
+	<div style="float: left; padding-top: 8px; width: 50%;">
+		Replace this:<br>
+		<input id="text2" class="round" type="text">
+	</div>
+	<div style="float: right; padding-top: 8px; width: 50%;">
+		To this:<br>
+		<input id="text3" class="round" type="text">
+	</div><br><br><br><br>
+</div>
+<div style="width: 40%;">	
+	Type:<br>
+<select id="info" class="round">
+	<option value="0" selected>Replace the first result</option>
+	<option value="1">Replace all results</option>
+</select>
+</div><br>
+<div style="padding-top: 8px;">
 	<div style="float: left; width: 35%;">
 		Store In:<br>
 		<select id="storage" class="round">
 			${data.variables[1]}
 		</select>
 	</div>
-	<div id="varNameContainer2" style="float: right; width: 60%;">
+	<div id="varNameContainer" style="float: right; width: 60%;">
 		Variable Name:<br>
-		<input id="varName2" class="round" type="text"><br>
+		<input id="varName" class="round" type="text">
 	</div>
 </div>
-<div><u>Note:</u><br>You need to use a wait action before you store anything of this webhook. Discord needs some time to create the webhook...</div>`
+	`
 },
 
 //---------------------------------------------------------------------
@@ -132,33 +135,43 @@ html: function(isEvent, data) {
 //---------------------------------------------------------------------
 
 init: function() {
-},
+	},
 
 //---------------------------------------------------------------------
 // Action Bot Function
 //
 // This is the function for the action within the Bot's Action class.
-// Keep in mind event calls won't have access to the "msg" parameter,
+// Keep in mind event calls won't have access to the "msg" parameter, 
 // so be sure to provide checks for variable existance.
 //---------------------------------------------------------------------
 
 action: function(cache) {
 	const data = cache.actions[cache.index];
-	const channel = parseInt(data.channel);
-	const varName = this.evalMessage(data.varName, cache);
-	const targetChannel = this.getChannel(channel, varName, cache);
-
-	const usname = this.evalMessage(data.username, cache);
-	const picurl = this.evalMessage(data.avatarurl, cache);
-
 	const storage = parseInt(data.storage);
-	const varName2 = this.evalMessage(data.varName2, cache);
+	const varName = this.evalMessage(data.varName, cache);
+	const text = this.evalMessage(data.text, cache);
+	const text2 = this.evalMessage(data.text2, cache);
+	const text3 = this.evalMessage(data.text3, cache);
+	const info = parseInt(data.info);
 
-	targetChannel.createWebhook(usname, picurl, cache)
-		.await(webhook => )
-		.catch(console.error)
-	var result = new Discord.WebhookClient(webhook.id, webhook.token);
-	this.storeValue(result, storage, varName2, cache));
+	let result;
+	switch(info) {
+		case 0:
+			result = text.replace(text2, text3);
+			break;
+		case 1:
+			const WrexMODS = this.getWrexMods();
+			const replacestr = WrexMODS.require('replace-string');
+			result = replacestr(text, text2, text3);
+			break;
+		default:
+			break;
+	}
+	if (result !== undefined) {
+		const storage = parseInt(data.storage);
+		const varName = this.evalMessage(data.varName, cache);
+		this.storeValue(result, storage, varName, cache);
+	}
 	this.callNextAction(cache);
 },
 
