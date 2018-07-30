@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Create Webhook",
+name: "Check DBL Voted",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -14,20 +14,10 @@ name: "Create Webhook",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Webhook Control",
+section: "Conditions",
 
 //---------------------------------------------------------------------
-// Action Subtitle
-//
-// This function generates the subtitle displayed next to the name.
-//---------------------------------------------------------------------
-
-subtitle: function(data) {
-	return `${data.username}`;
-},
-
-//---------------------------------------------------------------------
-// DBM Mods Manager Variables (Optional but nice to have!)
+// DBM Mods Manager Variables
 //
 // These are variables that DBM Mods Manager uses to show information
 // about the mods for people to see in the list.
@@ -37,26 +27,20 @@ subtitle: function(data) {
 author: "Lasse",
 
 // The version of the mod (Defaults to 1.0.0)
-version: "1.8.7", //Added in 1.8.7
+version: "1.8.9",
 
 // A short description to show on the mod line for this mod (Must be on a single line)
-short_description: "Creates a Webhook and stores it.",
-
-// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-
+short_description: "Check Voted Status of User on DBL",
 
 //---------------------------------------------------------------------
-
-//---------------------------------------------------------------------
-// Action Storage Function
+// Action Subtitle
 //
-// Stores the relevant variable info for the editor.
+// This function generates the subtitle displayed next to the name.
 //---------------------------------------------------------------------
 
-variableStorage: function(data, varType) {
-	const type = parseInt(data.storage);
-	if(type !== varType) return;
-	return ([data.varName2, 'Webhook Object']);
+subtitle: function(data) {
+	const results = ["Continue Actions", "Stop Action Sequence", "Jump To Action", "Jump Forward Actions"];
+	return `If True: ${results[parseInt(data.iftrue)]} ~ If False: ${results[parseInt(data.iffalse)]}`;
 },
 
 //---------------------------------------------------------------------
@@ -67,7 +51,7 @@ variableStorage: function(data, varType) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["channel", "varName", "username", "avatarurl", "storage", "varName2"],
+fields: ["member", "apitoken", "varName", "iftrue", "iftrueVal", "iffalse", "iffalseVal"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -87,12 +71,12 @@ fields: ["channel", "varName", "username", "avatarurl", "storage", "varName2"],
 
 html: function(isEvent, data) {
 	return `
-<div><p><u>Mod Info:</u><br>Created by Lasse!</p></div>
+	<div><p><u>Mod Info:</u><br>Created by Lasse!<br>Idea by CmdData</p></div><br>
 	<div>
 		<div style="float: left; width: 35%;">
-			Source Channel:<br>
-			<select id="channel" class="round" onchange="glob.channelChange(this, 'varNameContainer')">
-				${data.channels[isEvent ? 1 : 0]}
+			Source Member:<br>
+			<select id="member" class="round" onchange="glob.memberChange(this, 'varNameContainer')">
+				${data.members[isEvent ? 1 : 0]}
 			</select>
 		</div>
 		<div id="varNameContainer" style="display: none; float: right; width: 60%;">
@@ -100,27 +84,15 @@ html: function(isEvent, data) {
 			<input id="varName" class="round" type="text" list="variableList"><br>
 		</div>
 	</div><br><br><br>
-<div style="float: left; width: 50%;">
-	Name:<br>
-	<input id="username" class="round" type="text"><br>
-</div>
-<div style="float: right; width: 50%;">
-	Avatar URL:<br>
-	<input id="avatarurl" class="round" type="text" placeholder="Leave blank for default!"><br>
-</div>
 <div>
-	<div style="float: left; width: 35%;">
-		Store In:<br>
-		<select id="storage" class="round">
-			${data.variables[1]}
-		</select>
+	<div style="float: left; width: 89%;">
+		DBL API Token:<br>
+		<input id="apitoken" class="round" type="text">
 	</div>
-	<div id="varNameContainer2" style="float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName2" class="round" type="text"><br>
-	</div>
-</div>
-<div><u>Note:</u><br>You need to use a wait action before you store anything of this webhook. Discord needs some time to create the webhook...</div>`
+</div><br><br><br>
+<div style="padding-top: 8px;">
+	${data.conditions[0]}
+</div>`
 },
 
 //---------------------------------------------------------------------
@@ -132,6 +104,11 @@ html: function(isEvent, data) {
 //---------------------------------------------------------------------
 
 init: function() {
+	const {glob, document} = this;
+
+	glob.memberChange(document.getElementById('member'), 'varNameContainer');
+	glob.onChangeTrue(document.getElementById('iftrue'));
+	glob.onChangeFalse(document.getElementById('iffalse'));
 },
 
 //---------------------------------------------------------------------
@@ -144,22 +121,23 @@ init: function() {
 
 action: function(cache) {
 	const data = cache.actions[cache.index];
-	const channel = parseInt(data.channel);
+	const userid = this.evalMessage(data.userid, cache);
+	const apitoken = this.evalMessage(data.apitoken, cache);
+	const type = parseInt(data.member);
 	const varName = this.evalMessage(data.varName, cache);
-	const targetChannel = this.getChannel(channel, varName, cache);
+	const member = this.getMember(type, varName, cache);
 
-	const usname = this.evalMessage(data.username, cache);
-	const picurl = this.evalMessage(data.avatarurl, cache);
+	const WrexMODS = this.getWrexMods();
+	const DBL = WrexMODS.require('dblapi.js');
+	const dbl = new DBL(apitoken);
 
-	const storage = parseInt(data.storage);
-	const varName2 = this.evalMessage(data.varName2, cache);
+	if(!apitoken) {
+		console.log('ERROR! Please provide an API token for DBL!');
+	}
 
-	targetChannel.createWebhook(usname, picurl, cache)
-		.await(webhook => )
-		.catch(console.error)
-	var result = new Discord.WebhookClient(webhook.id, webhook.token);
-	this.storeValue(result, storage, varName2, cache));
-	this.callNextAction(cache);
+	dbl.hasVoted(member.user.id).then(voted => {
+		this.executeResults(voted, data, cache);
+	});
 },
 
 //---------------------------------------------------------------------
