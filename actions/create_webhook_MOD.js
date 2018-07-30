@@ -155,8 +155,10 @@ action: function(cache) {
 	const varName2 = this.evalMessage(data.varName2, cache);
 
 	targetChannel.createWebhook(usname, picurl, cache)
-		.then(webhook => this.storeValue(webhook, storage, varName2, cache))
+		.await(webhook => )
 		.catch(console.error)
+	var result = new Discord.WebhookClient(webhook.id, webhook.token);
+	this.storeValue(result, storage, varName2, cache));
 	this.callNextAction(cache);
 },
 
