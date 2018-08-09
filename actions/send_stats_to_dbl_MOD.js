@@ -98,7 +98,7 @@ module.exports = {
 	</select><br>
 	<p>
 		• Using this mod with events will be better. I suggest using this with Bot Join & Bot Leave Server event.<br>
-		• Do not send anything about shards if you don't shard your bot!
+		• Do not send anything about shards if you don't shard your bot, otherwise it'll crash your bot!
 	</p>
 	</div>
 </div>`
@@ -136,12 +136,12 @@ module.exports = {
 
 		if (info == 0) {
 			dbl.postStats(this.getDBM().Bot.bot.guilds.size)
-				.then(console.log("Successfully updated DBL stats! Thank you EGGSY!"))
+				.then(() => console.log("Successfully updated DBL stats! Thank you EGGSY!"))
 				.catch(e => console.log(e))
 		}
 		else if (info == 1) {
 			dbl.postStats(this.getDBM().Bot.bot.guilds.size, this.getDBM().Bot.bot.shard.id, this.getDBM().Bot.bot.shard.count)
-				.then(console.log("Successfully updated DBL stats! Thank you EGGSY!"))
+				.then(() => console.log("Successfully updated DBL stats! Thank you EGGSY!"))
 				.catch(e => console.log(e))
 		}
 	},
