@@ -23,7 +23,7 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	subtitle: function (data) {
-		const info = ['Uptime in Milliseconds', 'Ready At?', 'Ping', 'Guild Amount', 'User Amount', 'Rounded Ping', 'Uptime in Seconds', 'Uptime in Minutes', 'Bot\'s Token', 'Voice Connections Amount', 'Total Amount of Channels', 'Total Amount of Emojis', 'Bot\'s Previous Pings', 'Uptime in Days', 'Uptime in Days (Rounded)', 'Memory (RAM) Usage', 'Bot Guilds Objects', 'Bot Guilds Names', 'Bot Guilds IDs', 'Bot Current Prefix', 'Bot Client ID', 'Discord JS Version', 'Uptime in Hours', 'Refreshing Uptime in Days', 'Refreshing Uptime in Hours', 'Refreshing Uptime in Minutes', 'Refreshing Uptime in Seconds', 'Memory (RAM) Usage in MB', 'Bot\'s OS (Process Platform)', 'CPU Usage in MB', 'Bot\'s Directory', 'Node JS Version', 'Amount of Commands', 'Amount of Events', 'Ready At ? [timestamp]'];
+		const info = ['Uptime in Milliseconds', 'Ready At?', 'Ping', 'Guild Amount', 'User Amount', 'Rounded Ping', 'Uptime in Seconds', 'Uptime in Minutes', 'Voice Connections Amount', 'Total Amount of Channels', 'Total Amount of Emojis', 'Bot\'s Previous Pings', 'Uptime in Days', 'Uptime in Days (Rounded)', 'Memory (RAM) Usage', 'Bot Guilds Objects', 'Bot Guilds Names', 'Bot Guilds IDs', 'Bot Current Prefix', 'Bot Client ID', 'Discord JS Version', 'Uptime in Hours', 'Refreshing Uptime in Days', 'Refreshing Uptime in Hours', 'Refreshing Uptime in Minutes', 'Refreshing Uptime in Seconds', 'Memory (RAM) Usage in MB', 'Bot\'s OS (Process Platform)', 'CPU Usage in Percent', 'Bot\'s Directory', 'Node JS Version', 'Amount of Commands', 'Amount of Events', 'Ready At ? [timestamp]'];
 		return `Bot Client - ${info[parseInt(data.info)]}`;
 	},
 
@@ -38,7 +38,7 @@ module.exports = {
 	author: "Lasse, EliteArtz and EGGSY",
 
 	// The version of the mod (Defaults to 1.0.0)
-	version: "1.8.7",
+	version: "1.9", //Added in 1.8.7 (?)
 
 	// A short description to show on the mod line for this mod (Must be on a single line)
 	short_description: "Stores Bot Information like Ping, Total Members or Guilds...",
@@ -85,7 +85,7 @@ module.exports = {
 				dataType = "Number";
 				break;
 			case 8:
-				dataType = "Token";
+				dataType = "Token"; //Deprecated in 1.9
 				break;
 			case 9:
 				dataType = "Number";
@@ -230,11 +230,10 @@ module.exports = {
 				<option value="20">Bot Client ID</option>
 				<option value="28">Bot OS (Process Platform)</option>
 				<option value="30">Bot Directory</option>
-				<option value="8">Bot Token (be careful)</option>
 			</optgroup>
 			<optgroup label="Bot Measurements">
 				<option value="27">Memory (RAM) Usage in MB</option>
-				<option value="29">CPU Usage in MB</option>
+				<option value="29">CPU Usage in Percent</option>
 				<option value="2">Ping</option>
 				<option value="5">Ping Rounded</option>
 				<option value="1">Ready at</option>
@@ -315,7 +314,7 @@ module.exports = {
 				result = Math.floor(botClient.uptime / 1000 / 60); //Deprecated in 1.8.5
 				break;
 			case 8:
-				result = botClient.token;
+				result = botClient.token; //Deprecated in 1.9
 				break;
 			case 9:
 				result = botClient.voiceConnections.size;

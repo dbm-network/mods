@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Create Webhook",
+name: "Loop through Folder",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -14,7 +14,7 @@ name: "Create Webhook",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Webhook Control",
+section: "Lists and Loops",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -23,29 +23,29 @@ section: "Webhook Control",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	return `${data.username}`;
+    return `Loops through folder, and turns filenames into array`;
 },
 
-//---------------------------------------------------------------------
-// DBM Mods Manager Variables (Optional but nice to have!)
-//
-// These are variables that DBM Mods Manager uses to show information
-// about the mods for people to see in the list.
-//---------------------------------------------------------------------
+    //---------------------------------------------------------------------
+    // DBM Mods Manager Variables (Optional but nice to have!)
+    //
+    // These are variables that DBM Mods Manager uses to show information
+    // about the mods for people to see in the list.
+    //---------------------------------------------------------------------
 
-// Who made the mod (If not set, defaults to "DBM Mods")
-author: "Lasse",
+    // Who made the mod (If not set, defaults to "DBM Mods")
+    author: "Jakob",
 
-// The version of the mod (Defaults to 1.0.0)
-version: "1.8.7", //Added in 1.8.7
+    // The version of the mod (Defaults to 1.0.0)
+    version: "1.0", //Added in 1.8.9
 
-// A short description to show on the mod line for this mod (Must be on a single line)
-short_description: "Creates a Webhook and stores it.",
+    // A short description to show on the mod line for this mod (Must be on a single line)
+    short_description: "Loops through a folder and puts the items in an array",
 
-// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
+    // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
 
-//---------------------------------------------------------------------
+    //---------------------------------------------------------------------
 
 //---------------------------------------------------------------------
 // Action Storage Function
@@ -54,9 +54,11 @@ short_description: "Creates a Webhook and stores it.",
 //---------------------------------------------------------------------
 
 variableStorage: function(data, varType) {
-	const type = parseInt(data.storage);
-	if(type !== varType) return;
-	return ([data.varName2, 'Webhook Object']);
+    const type = parseInt(data.storage);
+    if (type !== varType) return;
+    const filename = parseInt(data.filename);
+    let dataType = 'Array';
+    return ([data.varName2, dataType]);
 },
 
 //---------------------------------------------------------------------
@@ -67,7 +69,7 @@ variableStorage: function(data, varType) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["channel", "varName", "username", "avatarurl", "storage", "varName2"],
+fields: ["filename", "storage", "varName2"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -86,42 +88,35 @@ fields: ["channel", "varName", "username", "avatarurl", "storage", "varName2"],
 //---------------------------------------------------------------------
 
 html: function(isEvent, data) {
-	return `
-<div><p><u>Mod Info:</u><br>Created by Lasse!</p></div>
-	<div>
-		<div style="float: left; width: 35%;">
-			Source Channel:<br>
-			<select id="channel" class="round" onchange="glob.channelChange(this, 'varNameContainer')">
-				${data.channels[isEvent ? 1 : 0]}
-			</select>
-		</div>
-		<div id="varNameContainer" style="display: none; float: right; width: 60%;">
-			Variable Name:<br>
-			<input id="varName" class="round" type="text" list="variableList"><br>
-		</div>
-	</div><br><br><br>
-<div style="float: left; width: 50%;">
-	Name:<br>
-	<input id="username" class="round" type="text"><br>
-</div>
-<div style="float: right; width: 50%;">
-	Avatar URL:<br>
-	<input id="avatarurl" class="round" type="text" placeholder="Leave blank for default!"><br>
-</div>
+    return `
 <div>
-	<div style="float: left; width: 35%;">
-		Store In:<br>
-		<select id="storage" class="round">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer2" style="float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName2" class="round" type="text"><br>
-	</div>
-</div>
-<div><u>Note:</u><br>You need to use a wait action before you store anything of this webhook. Discord needs some time to create the webhook...</div>`
-},
+    <p>
+        <u>Mod Info:</u><br>
+        Created by Jakob, original code by EliteArtz<br><br>
+
+        <u>Notice:</u><br>
+        -The folder needs to be in the bot folder!<br>
+        -This is a good path: ./resources/images<br>
+        -This will turn all filenames in the folder into an array.<br>
+    </p>
+    <div style="float: left; width: 60%">
+        Folder Path:
+        <input id="filename" class="round" type="text">
+    </div><br>
+</div><br><br><br>
+<div>
+    <div style="float: left; width: 35%;">
+        Store In:<br>
+        <select id="storage" class="round">
+            ${data.variables[1]}
+        </select>
+    </div>
+    <div id="varNameContainer2" style="float: right; width: 60%;">
+        Variable Name:<br>
+        <input id="varName2" class="round" type="text"><br>
+    </div>
+</div>`
+    },
 
 //---------------------------------------------------------------------
 // Action Editor Init Code
@@ -131,8 +126,7 @@ html: function(isEvent, data) {
 // functions for the DOM elements.
 //---------------------------------------------------------------------
 
-init: function() {
-},
+init: function() {},
 
 //---------------------------------------------------------------------
 // Action Bot Function
@@ -142,22 +136,23 @@ init: function() {
 // so be sure to provide checks for variable existance.
 //---------------------------------------------------------------------
 
-action: function(cache) {
-	const data = cache.actions[cache.index];
-	const channel = parseInt(data.channel);
-	const varName = this.evalMessage(data.varName, cache);
-	const targetChannel = this.getChannel(channel, varName, cache);
-
-	const usname = this.evalMessage(data.username, cache);
-	const picurl = this.evalMessage(data.avatarurl, cache);
-
-	const storage = parseInt(data.storage);
-	const varName2 = this.evalMessage(data.varName2, cache);
-
-	targetChannel.createWebhook(usname, picurl, cache)
-		.then(webhook => this.storeValue(webhook, storage, varName2, cache))
-		.catch(console.error)
-	this.callNextAction(cache);
+action: function (cache) {
+    const
+        data = cache.actions[cache.index],
+        fs = require('fs');
+        FOLDERPATH = this.evalMessage(data.filename, cache)
+    var output = {};
+    try {
+        if (FOLDERPATH) {
+            output = fs.readdirSync(FOLDERPATH);
+            this.storeValue(output, parseInt(data.storage), this.evalMessage(data.varName2, cache), cache);
+        } else {
+            console.log(`Path is missing.`);
+         }
+    } catch (err) {
+        console.error("ERROR!" + err.stack ? err.stack : err);
+    }
+    this.callNextAction(cache);
 },
 
 //---------------------------------------------------------------------
@@ -169,7 +164,6 @@ action: function(cache) {
 // functions you wish to overwrite.
 //---------------------------------------------------------------------
 
-mod: function(DBM) {
-}
+mod: function(DBM) {}
 
 }; // End of module
