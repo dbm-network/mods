@@ -23,7 +23,7 @@ section: "Other Stuff",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const time = ['Year', 'Month', 'Day of the Month', 'Hour', 'Minute', 'Second', 'Milisecond', 'Month (text)'];
+	const time = ['Year', 'Month (Number)', 'Day of the Month', 'Hour', 'Minute', 'Second', 'Milisecond', 'Month (text)'];
 	return `${time[parseInt(data.type)]}`;
 },
 
