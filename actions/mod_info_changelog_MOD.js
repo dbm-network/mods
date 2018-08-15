@@ -86,7 +86,22 @@ html: function(isEvent, data) {
 <div>
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
 	<p>
-		<h2>1.8.8: Store Reaction Info is now available!<h2>
+		<h2>1.8.9: HUGE fixes for everyone!</h2>
+		● Added Math Operation mod! ~iAmaury<br>
+		● Added Convert A Variable (to fix the "Add to member data" problem)! ~EliteArtz<br>
+		● Added a new version of Replace Text! ~iAmaury<br>
+		● Added Check if Member has voted on DBL! ~Lasse<br>
+		● Added Get Stats from DBL! ~EGGS><br>
+		● Added Send Stats to DBL! ~EGGSY<br>
+		● Added Store Date Info! ~iAmaury<br>
+		● Added Loop Through Folder! ~Jakob<br>
+		● Fixed DBMs problem with find offline members! ~Lasse<br>
+		● Added A new Run Script mod with a better UI! ~General Wrex<br>
+		● Added Send Embed Message mod which allows you to store the message object! ~General Wrex<br>
+		● Multiple UI updates and bug fixes!
+	</p>
+	<p>
+		<h2>1.8.8: Store Reaction Info is now available!</h2>
 		● Added Check If Member (is bot/is kickable/is banable/is in voice channel)<br>
 		● Added Skip Actions<br>
 		● Added Store Reaction Info<br>
