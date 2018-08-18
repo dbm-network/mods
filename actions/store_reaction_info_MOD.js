@@ -184,10 +184,9 @@ action: function(cache) {
 	const reaction = parseInt(data.reaction);
 	const varName = this.evalMessage(data.varName, cache);
 	const info = parseInt(data.info);
-	var custommethods = this.getcustommethods(); //Find abb_custom_methods_MOD
-	const rea = custommethods.getReaction(reaction, varName, cache); //Get Reaction
-	if(!custommethods) console.log('Store Reaction Info ERROR: You need abb_custom_methods_MOD.js to use this modification'); //If abb_custom_methods_MOD.js file is missing -> Error
-	if(custommethods.Version < "1.0.1") console.log('Store Reaction Info ERROR: Please update abb_custom_methods_MOD.js to 1.0.1 or newer to use this modification'); //If custommethods are too old -> Error
+	var WrexMods = this.getWrexMods(); //Find abb_custom_methods_MOD
+	const rea = WrexMods.getReaction(reaction, varName, cache); //Get Reaction
+	if(!WrexMods) return;
 	if(!rea) {
 		console.log('This is not a reaction'); //Variable is not a reaction -> Error
 		this.callNextAction(cache);
