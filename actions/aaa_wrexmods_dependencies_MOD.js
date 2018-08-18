@@ -14,6 +14,10 @@ WrexMODS.Version = "2.0.1";
 
 WrexMODS.latest_changes = "3rd attempt with the module installer. It now logs module installs";
 
+// Changelog
+// Lasse - 1.9:
+// Merged custom_methods into wrexmods
+
 
 
 // Module Installer
@@ -562,6 +566,46 @@ WrexMODS.validUrl = function() {
    return module.exports
 };
 
+
+WrexMODS.getWebhook = function(type, varName, cache) {
+    const server = cache.server;
+    switch(type) {
+        case 1:
+            return cache.temp[varName];
+            break;
+        case 2:
+            if(server && this.server[server.id]) {
+                return this.server[server.id][varName];
+            }
+            break;
+        case 3:
+            return this.global[varName];
+            break;
+        default:
+            break;
+    }
+    return false;
+};
+
+WrexMODS.getReaction = function(type, varName, cache) {
+    const server = cache.server;
+    switch(type) {
+        case 1:
+            return cache.temp[varName];
+            break;
+        case 2:
+            if(server && this.server[server.id]) {
+                return this.server[server.id][varName];
+            }
+            break;
+        case 3:
+            return this.global[varName];
+            break;
+        default:
+            break;
+    }
+    return false;
+};
 
 
  

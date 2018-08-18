@@ -182,8 +182,8 @@ module.exports = {
 			const webhook = parseInt(data.webhook);
 			const varName = this.evalMessage(data.varName, cache);
 			const info = parseInt(data.info);
-			var custommethods = this.getcustommethods();
-			const wh = custommethods.getWebhook(webhook, varName, cache);
+			var WrexMods = this.getWrexMods();
+			const wh = WrexMods.getWebhook(webhook, varName, cache);
 			let result;
 			switch(info) {
 				case 0:
