@@ -109,7 +109,7 @@ init: function() {},
 action: function(cache) {
 	const data = cache.actions[cache.index];
 	const send = this.evalMessage(data.tosend, cache);
-	console.log([send]);
+	console.log(send);
 	this.callNextAction(cache);
 },
 
