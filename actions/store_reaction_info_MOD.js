@@ -210,7 +210,7 @@ action: function(cache) {
 			break;
 		case 5:
 			const lastid = rea.users.lastKey(); //Stores last user ID reacted
-			result = cache.server.members.find('id', lastid);
+			result = cache.server.members.find(element => element.id === lastid);
 			break;
 		default:
 			break;
