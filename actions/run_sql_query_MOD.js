@@ -606,7 +606,7 @@ module.exports = {
                         }
 
                         const out = jsonOut || results;
-                        this.storeValue(stringifyOutput || results.length == 1 ? JSON.stringify(out) : out, storage, varName, cache);                 
+                        this.storeValue(stringifyOutput ? JSON.stringify(out) : out, storage, varName, cache);                 
                         this.callNextAction(cache);
              
                     }.bind(this))
