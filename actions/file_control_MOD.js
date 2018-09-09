@@ -155,7 +155,7 @@ module.exports = {
     const fs = require('fs');
     const path = require('path');
 
-    const WrexMODS = _this.getWrexMods();
+    const WrexMODS = this.getWrexMods();
     const mkdirp = WrexMODS.require('mkdirp');
     
     var dirName = path.normalize(this.evalMessage(data.filepath, cache));
