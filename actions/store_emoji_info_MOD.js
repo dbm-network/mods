@@ -153,8 +153,11 @@ module.exports = {
 		<div id="varNameContainer2" style="float: right; width: 60%;">
 			Variable Name:<br>
 			<input id="varName2" class="round" type="text"><br>
-			<p>	Only works with custom emojis.</a>
-		</p>
+			</div>
+			<br><br><br><br><br>
+			<div id="comment" style="padding-top: 30px; padding-top: 8px;">
+				<p>
+				Only works with custom emojis.<br>
 		</div>
 	</div>`
 	},
