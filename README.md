@@ -19,5 +19,7 @@ How to install mods:
 8. Paste them into your folder you opened
 9. Please overwrite existing ones
 
-If you don't run your bot with DBM make sure to copy this actions to your bot directory too!
+If you don't run your bot with DBM make sure to copy this actions to your bot directory too! Same for hosted bots!
 And if you have any more questions: Join the Discord!
+
+Missing actions will appear as "XYZ is not an Action" in your console.
