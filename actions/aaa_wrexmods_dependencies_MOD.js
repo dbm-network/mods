@@ -607,8 +607,27 @@ WrexMODS.getReaction = function(type, varName, cache) {
     return false;
 };
 
+WrexMODS.getEmoji = function(type, varName, cache) {
+    const server = cache.server;
+    switch(type) {
+        case 1:
+            return cache.temp[varName];
+            break;
+        case 2:
+            if(server && this.server[server.id]) {
+                return this.server[server.id][varName];
+            }
+            break;
+        case 3:
+            return this.global[varName];
+            break;
+        default:
+            break;
+    }
+    return false;
+};
 
- 
+
 // This function is called by DBM when the bot is started
 var customaction = {};
 customaction.name = "WrexMODS";
@@ -645,5 +664,4 @@ customaction.mod = function(DBM) {
 		return WrexMODS;
 	}
 };		
-module.exports = customaction; 
- 
+module.exports = customaction;
