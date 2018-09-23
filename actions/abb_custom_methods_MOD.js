@@ -5,6 +5,9 @@
 // Stolen from Wrex :troll: ~ Lasse
 //---------------------------------------------------------------------
 // Changelog:
+// 1.0.2 - NetLuis
+//   - Added getEmoji()
+//
 // 1.0.1 - Lasse
 //   - Added getReaction()
 //
@@ -19,7 +22,7 @@ custommethods.API = {};
 
 custommethods.DBM = null;
 
-custommethods.Version = "1.0.1";
+custommethods.Version = "1.0.2";
 
 // Methods:
 
@@ -44,6 +47,26 @@ custommethods.getWebhook = function(type, varName, cache) {
 };
 
 custommethods.getReaction = function(type, varName, cache) {
+    const server = cache.server;
+    switch(type) {
+        case 1:
+            return cache.temp[varName];
+            break;
+        case 2:
+            if(server && this.server[server.id]) {
+                return this.server[server.id][varName];
+            }
+            break;
+        case 3:
+            return this.global[varName];
+            break;
+        default:
+            break;
+    }
+    return false;
+};
+
+custommethods.getEmoji = function(type, varName, cache) {
     const server = cache.server;
     switch(type) {
         case 1:
