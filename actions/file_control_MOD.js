@@ -152,9 +152,11 @@ module.exports = {
   action: function (cache) {
     const data = cache.actions[cache.index];
     
-    var fs = require('fs');
-    var path = require('path');
-    var mkdirp = require('mkdirp');
+    const fs = require('fs');
+    const path = require('path');
+
+    const WrexMODS = this.getWrexMods();
+    const mkdirp = WrexMODS.require('mkdirp');
     
     var dirName = path.normalize(this.evalMessage(data.filepath, cache));
     var fileName = path.normalize(this.evalMessage(data.filename, cache));

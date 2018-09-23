@@ -28,6 +28,18 @@ module.exports = {
     },
 
     //---------------------------------------------------------------------
+    // Action Storage Function
+    //
+    // Stores the relevant variable info for the editor.
+    //---------------------------------------------------------------------
+
+    variableStorage: function(data, varType) {
+        const type = parseInt(data.storage3);
+        if(type !== varType) return;
+        return ([data.varName3, 'Message']);
+    },
+
+    //---------------------------------------------------------------------
     // DBM Mods Manager Variables (Optional but nice to have!)
     //
     // These are variables that DBM Mods Manager uses to show information
