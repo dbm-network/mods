@@ -89,13 +89,14 @@ html: function(isEvent, data) {
 <div>
 	<div style="float: left; width: 30%; padding-top: 8px;">
 		<p><u>Mod Info:</u><br>
-		Made by <b>iAmaury</b> !</p>
+		Made by <b>iAmaury</b> !<br>
+		Edited by MrGold</p>
 	</div>
 	<div style="float: right; width: 60%; padding-top: 8px;">
 		<p><u>Note:</u><br>
 		Get more informations <a href="https://www.w3schools.com/js/js_math.asp">here</a>.
 	</div><br>
-</div><br><br>
+</div><br><br><br>
 <div style="padding-top: 8px;">
 	Source Number:
 	<textarea id="math" rows="2" placeholder="Insert number(s) here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
@@ -153,7 +154,7 @@ action: function(cache) {
 	const data = cache.actions[cache.index];
 	const storage = parseInt(data.storage);
 	const varName = this.evalMessage(data.varName, cache);
-	const math = parseInt(this.evalMessage(data.math, cache));
+	const math = parseFloat(this.evalMessage(data.math, cache).replace(/,/g, ''));
 	const info = parseInt(data.info);
 
 	if(!math) {
