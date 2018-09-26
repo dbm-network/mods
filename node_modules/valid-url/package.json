@@ -1,0 +1,54 @@
+{
+  "_from": "valid-url",
+  "_id": "valid-url@1.0.9",
+  "_inBundle": false,
+  "_integrity": "sha1-HBRHm0DxOXp1eC8RXkCGRHQzogA=",
+  "_location": "/valid-url",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "valid-url",
+    "name": "valid-url",
+    "escapedName": "valid-url",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/valid-url/-/valid-url-1.0.9.tgz",
+  "_shasum": "1c14479b40f1397a75782f115e4086447433a200",
+  "_spec": "valid-url",
+  "_where": "C:\\Users\\SeikiMat\\Desktop\\Git\\DBM-Mods",
+  "bugs": {
+    "url": "https://github.com/ogt/valid-url/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {},
+  "deprecated": false,
+  "description": "URI validation functions",
+  "devDependencies": {
+    "jshint": "~2.1.4",
+    "tap": "~0.4.3"
+  },
+  "homepage": "https://github.com/ogt/valid-url#readme",
+  "keywords": [
+    "url",
+    "validation",
+    "check",
+    "checker",
+    "pattern"
+  ],
+  "main": "index.js",
+  "name": "valid-url",
+  "repository": {
+    "url": "git://github.com/ogt/valid-url.git"
+  },
+  "scripts": {
+    "test": "make test"
+  },
+  "version": "1.0.9"
+}
