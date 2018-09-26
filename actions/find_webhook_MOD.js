@@ -93,7 +93,7 @@ html: function(isEvent, data) {
 	<div>
 		<p>
 			<u>Mod Info:</u><br>
-			Created by Lasse!
+			Created by Lasse!<br>
 			Fixed by MrGold
 		</p>
 	</div><br>
