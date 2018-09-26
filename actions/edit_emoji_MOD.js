@@ -38,10 +38,10 @@ subtitle: function(data) {
 	 author: "Quinten & MrGold",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.X.X", //Added in 1.X.X
+	 version: "1.9", //Added in 1.9
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
-	 short_description: "Edits a Specific Emoji",
+	 short_description: "Edits a specific Emoji",
 
 	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 	 depends_on_mods: [
