@@ -27,7 +27,7 @@ section: "Webhook Control",
 author: "Lasse",
 
 // The version of the mod (Defaults to 1.0.0)
-version: "1.X.X", //Added in 1.8.7
+version: "1.9", //Added in 1.8.7
 
 //1.8.7: Changed dropdown texts!
 
