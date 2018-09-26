@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Find Webhook",
+name: "Edit Embed",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -14,31 +14,7 @@ name: "Find Webhook",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Webhook Control",
-
-//---------------------------------------------------------------------
-// DBM Mods Manager Variables (Optional but nice to have!)
-//
-// These are variables that DBM Mods Manager uses to show information
-// about the mods for people to see in the list.
-//---------------------------------------------------------------------
-
-// Who made the mod (If not set, defaults to "DBM Mods")
-author: "Lasse",
-
-// The version of the mod (Defaults to 1.0.0)
-version: "1.9", //Added in 1.8.7
-
-//1.8.7: Changed dropdown texts!
-
-// A short description to show on the mod line for this mod (Must be on a single line)
-short_description: "Finds a Webhook and Stores it.",
-
-// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-
-
-//---------------------------------------------------------------------
-
+section: "Embed Message",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -47,20 +23,29 @@ short_description: "Finds a Webhook and Stores it.",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	return `${data.id}`;
+	return `${data.varName} - ${data.varName2}`;
 },
 
 //---------------------------------------------------------------------
-// Action Storage Function
-//
-// Stores the relevant variable info for the editor.
-//---------------------------------------------------------------------
+	 // DBM Mods Manager Variables (Optional but nice to have!)
+	 //
+	 // These are variables that DBM Mods Manager uses to show information
+	 // about the mods for people to see in the list.
+	 //---------------------------------------------------------------------
 
-variableStorage: function(data, varType) {
-	const type = parseInt(data.storage);
-	if(type !== varType) return;
-	return ([data.varName, 'Webhook']);
-},
+	 // Who made the mod (If not set, defaults to "DBM Mods")
+	 author: "MrGold",
+
+	 // The version of the mod (Defaults to 1.0.0)
+	 version: "1.9", //Added in 1.9
+
+	 // A short description to show on the mod line for this mod (Must be on a single line)
+	 short_description: "Edits a Specific Embed",
+
+	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
+
+
+	 //---------------------------------------------------------------------
 
 //---------------------------------------------------------------------
 // Action Fields
@@ -70,7 +55,7 @@ variableStorage: function(data, varType) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["id", "token", "storage", "varName"],
+fields: ["storage", "varName", "storage2", "varName2"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -93,31 +78,36 @@ html: function(isEvent, data) {
 	<div>
 		<p>
 			<u>Mod Info:</u><br>
-			Created by Lasse!
-			Fixed by MrGold
+			Created by MrGold
 		</p>
 	</div><br>
 <div>
-	<div style="float: left; width: 40%;">
-		Webhook ID:<br>
-		<input id="id" class="round" type="text">
-	</div>
-	<div style="float: right; width: 55%;">
-		Webhook Token:<br>
-		<input id="token" class="round" type="text">
-	</div>
-</div><br><br><br>
-<div style="padding-top: 8px;">
 	<div style="float: left; width: 35%;">
-		Store In:<br>
-		<select id="storage" class="round">
+		Source Message Object:<br>
+		<select id="storage" class="round" onchange="glob.refreshVariableList(this, 'varNameContainer')">
 			${data.variables[1]}
 		</select>
 	</div>
 	<div id="varNameContainer" style="float: right; width: 60%;">
 		Variable Name:<br>
-		<input id="varName" class="round" type="text">
+		<input id="varName" class="round" type="text" list="variableList"><br>
 	</div>
+</div><br><br><br><br>
+	<div style="float: left; width: 35%;">
+		Source New Embed Object:<br>
+		<select id="storage2" class="round" onchange="glob.refreshVariableList(this, 'varNameContainer2')">
+			${data.variables[1]}
+		</select>
+	</div>
+	<div id="varNameContainer2" style="float: right; width: 60%;">
+		Variable Name:<br>
+		<input id="varName2" class="round" type="text" list="variableList"><br>
+</div>
+<div style="float: left; width: 88%; padding-top: 8px;">
+	<p>
+		<b>NOTE:</b> In the "Source Message Object" you can insert a normal message or an embed message (use "Send Embed Message MOD").
+	</p>
+<div>
 </div>`
 },
 
@@ -130,6 +120,10 @@ html: function(isEvent, data) {
 //---------------------------------------------------------------------
 
 init: function() {
+	const {glob, document} = this;
+
+	glob.refreshVariableList(document.getElementById('storage'), 'varNameContainer');
+	glob.refreshVariableList(document.getElementById('storage2'), 'varNameContainer2');
 },
 
 //---------------------------------------------------------------------
@@ -141,21 +135,17 @@ init: function() {
 //---------------------------------------------------------------------
 
 action: function(cache) {
-	const DiscordJS = this.getDBM().DiscordJS;
 	const data = cache.actions[cache.index];
-	const id = this.evalMessage(data.id, cache);
-	const token = this.evalMessage(data.token, cache);
-
-	var result = new DiscordJS.WebhookClient(id, token);
-
-	if(result !== undefined) {
-		const storage = parseInt(data.storage);
-		const varName = this.evalMessage(data.varName, cache);
-		this.storeValue(result, storage, varName, cache);
-		this.callNextAction(cache);
-	} else {
-		this.callNextAction(cache);
+	const storage = parseInt(data.storage);
+	const varName = this.evalMessage(data.varName, cache);
+	const embed = this.getVariable(storage, varName, cache);
+	const storage2 = parseInt(data.storage2);
+	const varName2 = this.evalMessage(data.varName2, cache);
+	const embed2 = this.getVariable(storage2, varName2, cache);
+	if(embed && embed.edit) {
+		embed.edit({embed: embed2})
 	}
+	this.callNextAction(cache);
 },
 
 //---------------------------------------------------------------------
