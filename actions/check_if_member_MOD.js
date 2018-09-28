@@ -27,7 +27,7 @@ section: "Conditions",
 author: "Lasse",
 
 // The version of the mod (Defaults to 1.0.0)
-version: "1.8.8", //Added in 1.8.8
+version: "1.9", //Added in 1.8.8
 
 // A short description to show on the mod line for this mod (Must be on a single line)
 short_description: "Check if a member meets the conditions.",
@@ -91,6 +91,7 @@ html: function(isEvent, data) {
 			<option value="2">Is Kickable</option>
 			<option value="1">Is Bannable</option>
 			<option value="4">Is In Voice Channel</option>
+			<option value="5">Is User Manageable?</option>
 		</select>
 	</div>
 	<div id="varNameContainer2" style="display: none; float: right; width: 60%;">
@@ -158,6 +159,9 @@ action: function(cache) {
 			} else {
 				result = false;
 			}
+			break;
+		case 5:
+			result = member.manageable;
 			break;
 		default:
 			break;
