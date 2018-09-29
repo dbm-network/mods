@@ -38,7 +38,7 @@ module.exports = {
 	author: "Lasse, EliteArtz, EGGSY, Danno3817 & MrGold",
 
 	// The version of the mod (Defaults to 1.0.0)
-	version: "1.X.X", //Added in 1.8.7 (?)
+	version: "1.9", //Added in 1.8.7
 
 	// A short description to show on the mod line for this mod (Must be on a single line)
 	short_description: "Stores Bot Information like Ping, Total Members or Guilds...",
