@@ -195,6 +195,7 @@ action: function(cache) {
 			if (!ioAPIuser) return console.log("Please enter a valid API User key from cleverbot.io!");
 			if (!ioAPIkey) return console.log("Please enter a valid API Key from cleverbot.io!");
 
+			WrexMODS.CheckAndInstallNodeModule('cleverbot.io');
 			const cleverbotio = WrexMODS.require("cleverbot.io");
 			CLEVERBOT = new cleverbotio(ioAPIuser, ioAPIkey);
 			const session = CLEVERBOT.setNick("DBM Bot");
@@ -213,6 +214,7 @@ action: function(cache) {
 
 			break;
 		case 1:
+			WrexMODS.CheckAndInstallNodeModule('cleverbot-node');
 			const cleverbotcom = WrexMODS.require("cleverbot-node");
 			const clbot = new cleverbotcom;
 			const comAPIkey = this.evalMessage(data.APIkey, cache);
