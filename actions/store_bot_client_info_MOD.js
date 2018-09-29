@@ -23,7 +23,7 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	subtitle: function (data) {
-		const info = ['Uptime in Milliseconds', 'Ready At?', 'Ping', 'Guild Amount', 'User Amount', 'Rounded Ping', 'Uptime in Seconds', 'Uptime in Minutes', 'Bot\'s Token', 'Voice Connections Amount', 'Total Amount of Channels', 'Total Amount of Emojis', 'Bot\'s Previous Pings', 'Uptime in Days', 'Uptime in Days (Rounded)', 'Memory (RAM) Usage', 'Bot Guilds Objects', 'Bot Guilds Names', 'Bot Guilds IDs', 'Bot Current Prefix', 'Bot Client ID', 'Discord JS Version', 'Uptime in Hours', 'Refreshing Uptime in Days', 'Refreshing Uptime in Hours', 'Refreshing Uptime in Minutes', 'Refreshing Uptime in Seconds', 'Memory (RAM) Usage in MB', 'Bot\'s OS (Process Platform)', 'CPU Usage in MB', 'Bot\'s Directory', 'Node JS Version', 'Amount of Commands', 'Amount of Events', 'Ready At ? [timestamp]', 'CPU Core Count', 'Total Memory (GB)', 'Total Memory (MB)', 'Available Memory (GB)', 'Available Memory (MB)', 'Available Memory (%)', 'Used Memory (GB)', 'Used Memory (MB)', 'Used Memory (%)'];
+		const info = ['Uptime in Milliseconds', 'Ready At?', 'Ping', 'Guild Amount', 'User Amount', 'Rounded Ping', 'Uptime in Seconds', 'Uptime in Minutes', 'Bot\'s Token', 'Voice Connections Amount', 'Total Amount of Channels', 'Total Amount of Emojis', 'Bot\'s Previous Pings', 'Uptime in Days', 'Uptime in Days (Rounded)', 'Memory (RAM) Usage', 'Bot Guilds Objects', 'Bot Guilds Names', 'Bot Guilds IDs', 'Bot Current Prefix', 'Bot Client ID', 'Discord JS Version', 'Uptime in Hours', 'Refreshing Uptime in Days', 'Refreshing Uptime in Hours', 'Refreshing Uptime in Minutes', 'Refreshing Uptime in Seconds', 'Memory (RAM) Usage in MB', 'Bot\'s OS (Process Platform)', 'CPU Usage in MB', 'Bot\'s Directory', 'Node JS Version', 'Amount of Commands', 'Amount of Events', 'Ready At ? [timestamp]', 'CPU Core Count', 'Total Memory (GB)', 'Total Memory (MB)', 'Available Memory (GB)', 'Available Memory (MB)', 'Available Memory (%)', 'Used Memory (GB)', 'Used Memory (MB)', 'Used Memory (%)', 'Bot Owner ID'];
 		return `Bot Client - ${info[parseInt(data.info)]}`;
 	},
 
@@ -35,10 +35,10 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "Lasse, EliteArtz and EGGSY",
+	author: "Lasse, EliteArtz, EGGSY, Danno3817 & MrGold",
 
 	// The version of the mod (Defaults to 1.0.0)
-	version: "1.9", //Added in 1.8.7 (?)
+	version: "1.X.X", //Added in 1.8.7 (?)
 
 	// A short description to show on the mod line for this mod (Must be on a single line)
 	short_description: "Stores Bot Information like Ping, Total Members or Guilds...",
@@ -176,6 +176,9 @@ module.exports = {
 			case 43: // Used Memory (%)
 				dataType = "Number";
 				break;
+			case 44: // Bot Owner ID
+				dataType = "Bot Owner ID";
+				break;
 
 		}
 		return ([data.varName2, dataType]);
@@ -213,7 +216,7 @@ module.exports = {
 		<div>
 			<p>
 				<u>Mod Info:</u><br>
-				Created by EliteArtz, EGGSY, Lasse and Danno3817!
+				Created by EliteArtz, EGGSY, Lasse, Danno3817 & MrGold!
 			</p>
 		</div><br>
 	<div style="float: left; width: 80%; padding-top: 8px;">
@@ -241,6 +244,7 @@ module.exports = {
 			<optgroup label="Bot Informations">
 				<option value="19">Bot Current Prefix</option>
 				<option value="20">Bot Client ID</option>
+				<option value="44">Bot Owner ID</option>
 				<option value="28">Bot OS (Process Platform)</option>
 				<option value="30">Bot Directory</option>
 				<option value="8">Bot Token (be careful)</option>
@@ -377,6 +381,9 @@ module.exports = {
 				break;
 			case 20: // Bot Client ID
 				result = dibiem.Files.data.settings.client;
+				break;
+			case 44: // Bot Owner ID
+				result = dibiem.Files.data.settings.ownerId;
 				break;
 			case 21: // Discord JS Version
 				result = dibiem.DiscordJS.version;
