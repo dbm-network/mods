@@ -24,7 +24,7 @@ section: "Conditions",
 //---------------------------------------------------------------------
 
 // Who made the mod (If not set, defaults to "DBM Mods")
-author: "Lasse",
+author: "Lasse & MrGold",
 
 // The version of the mod (Defaults to 1.0.0)
 version: "1.9", //Added in 1.8.8
@@ -92,6 +92,7 @@ html: function(isEvent, data) {
 			<option value="1">Is Bannable</option>
 			<option value="4">Is In Voice Channel</option>
 			<option value="5">Is User Manageable?</option>
+      <option value="6">Is Bot Owner?</option>
 		</select>
 	</div>
 	<div id="varNameContainer2" style="display: none; float: right; width: 60%;">
@@ -138,6 +139,8 @@ action: function(cache) {
 	const type2 = parseInt(data.role);
 	const varName2 = this.evalMessage(data.varName2, cache);
 	const info = parseInt(data.info);
+	
+	const dibiem = this.getDBM();
 
 	let result = false;
 	switch(info) {
@@ -162,6 +165,13 @@ action: function(cache) {
 			break;
 		case 5:
 			result = member.manageable;
+			break;
+		case 6:
+			if(member.id == dibiem.Files.data.settings.ownerId) {
+				result = true;
+			} else {
+				result = false;
+			}
 			break;
 		default:
 			break;
