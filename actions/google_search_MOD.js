@@ -178,6 +178,7 @@ module.exports = {
 
 		// Main code:
 		const WrexMODS = this.getWrexMods(); // as always.
+		WrexMODS.CheckAndInstallNodeModule('google-it');
 		const googleIt = WrexMODS.require('google-it');
 
 		googleIt({ 'query': `${string}`, 'no-display': 1, 'limit': 10 }).then(results => {

@@ -38,7 +38,7 @@ module.exports = {
 	author: "EGGSY",
 
 	// The version of the mod (Defaults to 1.0.0)
-	version: "1.8.7", //Added in 1.8.7
+	version: "1.8.9", //Added in 1.8.7
 
 	// A short description to show on the mod line for this mod (Must be on a single line)
 	short_description: "Searches video informations on YouTube.",
@@ -223,12 +223,14 @@ module.exports = {
 		// Main code:
 		var _this = this; // this is needed sometimes.
 		const WrexMODS = _this.getWrexMods(); // as always.
+		WrexMODS.CheckAndInstallNodeModule('youtube-search');
 		const search = WrexMODS.require('youtube-search'); // WrexMODS'll automatically try to install the module if you run it with CMD/PowerShell.
 
 		var opts = {
 			maxResults: 10,
-			key: `${key}`
-		};
+			key: `${key}`,
+			type: "video"
+		}; //Added only video support in 1.9
 
 		search(`${video}`, opts, function (err, results) {
 			if (err) return console.log(err);
