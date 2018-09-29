@@ -27,7 +27,7 @@ section: "Webhook Control",
 author: "Lasse",
 
 // The version of the mod (Defaults to 1.0.0)
-version: "1.8.7", //Added in 1.8.7
+version: "1.9", //Added in 1.8.7
 
 //1.8.7: Changed dropdown texts!
 
@@ -90,7 +90,13 @@ fields: ["id", "token", "storage", "varName"],
 
 html: function(isEvent, data) {
 	return `
-<div><p><u>Mod Info:</u><br>Created by Lasse!</p></div><br><br>
+	<div>
+		<p>
+			<u>Mod Info:</u><br>
+			Created by Lasse!<br>
+			Fixed by MrGold
+		</p>
+	</div><br>
 <div>
 	<div style="float: left; width: 40%;">
 		Webhook ID:<br>
@@ -135,12 +141,12 @@ init: function() {
 //---------------------------------------------------------------------
 
 action: function(cache) {
-	const Discord = require('discord.js');
+	const DiscordJS = this.getDBM().DiscordJS;
 	const data = cache.actions[cache.index];
 	const id = this.evalMessage(data.id, cache);
 	const token = this.evalMessage(data.token, cache);
 
-	var result = new Discord.WebhookClient(id, token);
+	var result = new DiscordJS.WebhookClient(id, token);
 
 	if(result !== undefined) {
 		const storage = parseInt(data.storage);

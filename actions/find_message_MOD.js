@@ -97,6 +97,7 @@ html: function(isEvent, data) {
 	<p>
 		<u>Mod Info:</u><br>
 		Created by Lasse!
+		Modified by General Wrex!
 	</p>
 </div><br>
 <div>
@@ -139,9 +140,9 @@ html: function(isEvent, data) {
 <div>
 	<p>
 	<u>Note:</u><br>
-	This mod can only find messages which have been sent <b>after</b> the bot started.<br>
+	This mod can only find messages by <b>content</b> within the last 100 messages.<br>
 	If there are multiple messages with the same content, the bot is always using the oldest message (after start).
-</div>`
+</div>`;
 },
 
 //---------------------------------------------------------------------
@@ -177,23 +178,38 @@ action: function(cache) {
 		this.callNextAction(cache);
 		return;
 	}
+
+	const storage = parseInt(data.storage);
+	const varName2 = this.evalMessage(data.varName2, cache);
+
 	let result;
 	switch(info) {
 		case 0:
-			result = targetChannel.messages.find("content", search);
+			targetChannel.fetchMessages({ limit: 100 }).then(messages =>{
+				const message = messages.find(el => el.content.includes(search));			
+				if(message !== undefined){
+					this.storeValue(message, storage, varName2, cache);						
+				}
+				this.callNextAction(cache);
+			}).catch(err=>{
+				console.error(err); 
+				this.callNextAction(cache);
+			});	
 			break;
 		case 1:
-			result = targetChannel.messages.find("id", search);
+			targetChannel.fetchMessage(search).then(message =>{			
+				if(message !== undefined){
+					this.storeValue(message, storage, varName2, cache);
+				}						
+				this.callNextAction(cache);
+			}).catch(err=>{
+				console.error(err); 
+				this.callNextAction(cache);
+			});	
 			break;
 		default:
 			break;
 	}
-	if(result !== undefined) {
-		const storage = parseInt(data.storage);
-		const varName2 = this.evalMessage(data.varName2, cache);
-		this.storeValue(result, storage, varName2, cache);
-	}
-	this.callNextAction(cache);
 },
 
 //---------------------------------------------------------------------

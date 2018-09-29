@@ -86,7 +86,8 @@ html: function(isEvent, data) {
 </div>
 		<p>
 			<u>Mod Info:</u><br>
-			Created by Jakob!
+			Created by Jakob!<br>
+			For Embed Messages colors you can also insert RANDOM into the color field.
 		</p>
 	</div><br>
 <div>
