@@ -223,6 +223,7 @@ module.exports = {
 		// Main code:
 		var _this = this; // this is needed sometimes.
 		const WrexMODS = _this.getWrexMods(); // as always.
+		WrexMODS.CheckAndInstallNodeModule('youtube-search');
 		const search = WrexMODS.require('youtube-search'); // WrexMODS'll automatically try to install the module if you run it with CMD/PowerShell.
 
 		var opts = {
