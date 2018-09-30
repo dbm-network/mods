@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Store Voice channel things",
+name: "Store Voice Channel Things",
 
 //---------------------------------------------------------------------
 // Action Section
