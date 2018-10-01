@@ -37,7 +37,7 @@ subtitle: function(data) {
 author: "DBM Mods",
 
 // The version of the mod (Defaults to 1.0.0)
-version: "1.9.0 ~ beta",
+version: "1.9.1 ~ beta",
 
 // A short description to show on the mod line for this mod.
 short_description: "Information about the Mod Collection.",
@@ -126,7 +126,7 @@ tbody { border-top: 2px solid white; }
 
 		<h3>Discord:</h3>
 		Join the Discord Guild to stay updated and be able to suggest things.<br>
-		https://discord.gg/Y4fPBnZ
+		https://dbm-network.com/
 
 		<h3>Your version:</h3>
 		${this.version}
@@ -149,23 +149,6 @@ tbody { border-top: 2px solid white; }
 			<tbody id="mods">
 			</tbody>
 	</table><br><br>
-	<p>
-		<h3>Patreon:</h3>
-		You can support us on Patreon!
-		Patreon is a website where you can support creators with a small donation
-		per month. And you will get also some things like a Discord Patron role and a mention here:<br>
-		<u>Patrons:</u><br>
-		- MitchDaGamer (5$)<br>
-		- Aamon (5$)<br>
-		- cryptomoon (3$)<br>
-		- Cipher The Universe (1$)<br>
-		- General Wrex (1$)<br>
-		- EGGSY (1$)<br>
-		- Proximity (1$)<br>
-		- William286 (1$)<br><br>
-		Become a patron today!<br>
-		https://www.patreon.com/dbmnetwork
-	</p>
 </div>`
 },
 
