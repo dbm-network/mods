@@ -26,7 +26,7 @@ module.exports = {
 	author: "Lasse",
 
 	// The version of the mod (Defaults to 1.0.0)
-	version: "1.9", //Added in 1.8.9
+	version: "1.9.1", //Added in 1.8.9
 
 	// A short description to show on the mod line for this mod (Must be on a single line)
 	short_description: "Set activity and status for our bot!!",
@@ -51,15 +51,7 @@ module.exports = {
 
     const stats = ["Online", "Idle", "Invisible", "Do Not Disturb"];
 
-    if (activities[data.activity] !== "Streaming Twitch") {
-      return `${stats[data.stat]}, ${activities[data.activity]} ${
-        data.nameText
-      }`;
-    } else {
-      return `${stats[data.stat]}, ${activities[data.activity]} ${
-        data.nameText
-      } (${data.url})`;
-    }
+    return `${stats[data.stat]}, ${activities[data.activity]} ${data.nameText}`;
   },
 
   //---------------------------------------------------------------------
@@ -104,7 +96,7 @@ module.exports = {
 								Activity:<br>
 								<select id="activity" class="round" style="width: 100%;">
 									<option value="0">Playing</option>
-									<option value="1">Listening</option>
+									<option value="1">Listening to</option>
 									<option value="2">Watching</option>
 									<option value="3">Streaming Twitch</option>
 								</select>
