@@ -111,7 +111,7 @@ html: function(isEvent, data) {
 	<div style="float: left; width: 45%;">
 		Permission:<br>
 		<select id="permission" class="round">
-			${data.permissions[newFunction_1()]}
+			${data.permissions[1]}
 		</select>
 	</div>
 	<div style="padding-left: 5%; float: left; width: 55%;">
