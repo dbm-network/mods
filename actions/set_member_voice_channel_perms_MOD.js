@@ -190,7 +190,3 @@ mod: function(DBM) {
 }
 
 }; // End of module
-
-function newFunction_1() {
-    return 1;
-}
