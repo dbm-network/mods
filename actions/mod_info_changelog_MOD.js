@@ -37,7 +37,7 @@ subtitle: function(data) {
 	 author: "DBM Mods",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.8.8",
+	 version: "1.9",
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
 	 short_description: "Changelog overview",
@@ -85,6 +85,26 @@ html: function(isEvent, data) {
 	return `
 <div>
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
+	<p>
+		<h2>1.9: New Mods, Bug fixes and general quality of life improvements!</h2>
+		● Added Store Invite Info<br>
+		● Added Store Emoji Info<br>
+		● Added Basic Math Operation<br>
+		● Added Edit Embed Message<br>
+		● Better YouTube Search<br>
+		● Fixes for Parse From Stored JSON<br>
+		● Fixes for Store Bot Client Info<br>
+		● Fixes for Set Bot Activity<br>
+		● Fixes for Store Reaction Info<br>
+		● Fixes for Run SQL Query<br>
+		● Fixes for Webhook actions<br>
+		● Fixes for Get Item from List<br>
+		● Updated Check If Member<br>
+		● Merged Send Embed Message MOD with Send Embed Message<br>
+		● Merged Store Channel Things with Store Channel Info<br>
+		● Added Await Response (probably not what you are looking for...)<br>
+		● Many little bug fixes
+	</p>
 	<p>
 		<h2>1.8.9: HUGE fixes for everyone!</h2>
 		● Added Math Operation mod! ~iAmaury<br>
