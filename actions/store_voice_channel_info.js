@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Store Voice channel things",
+name: "Store Voice Channel Info",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -24,9 +24,10 @@ section: "Channel Control",
 
 subtitle: function(data) {
 	const channels = ['Command Author\'s Voice Ch.', 'Mentioned User\'s Voice Ch.', 'Default Voice Channel', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const info = ['Bot can speak?', 'Bot can join?', 'Bot can delete VC?', 'VCs position in VC list', 'Members connected'];
+	const info = ["Voice Channel Object", "Voice Channel ID", "Voice Channel Name", "Voice Channel Position", "Voice Channel User Limit", "Voice Channel Bitrate", "Voice Channel Joinable?", "Voice Channel Deleteable?", "Voice Channel Members"];
 	return `${channels[parseInt(data.channel)]} - ${info[parseInt(data.info)]}`;
 },
+
 
 //---------------------------------------------------------------------
 // DBM Mods Manager Variables (Optional but nice to have!)
@@ -36,20 +37,19 @@ subtitle: function(data) {
 //---------------------------------------------------------------------
 
 // Who made the mod (If not set, defaults to "DBM Mods")
-author: "Lasse",
+author: "DBM & DBM Mods",
 
 // The version of the mod (Defaults to 1.0.0)
-version: "1.8.7", //Added in 1.8.2
-
-//1.8.7: Changed dropdown texts!
+version: "1.9.1", //Added in 1.9.1
 
 // A short description to show on the mod line for this mod (Must be on a single line)
-short_description: "Stores Voice Channels Information",
+short_description: "Added more options to default action.",
 
 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
 
 //---------------------------------------------------------------------
+
 
 //---------------------------------------------------------------------
 // Action Storage Function
@@ -64,19 +64,25 @@ variableStorage: function(data, varType) {
 	let dataType = 'Unknown Type';
 	switch(info) {
 		case 0:
-			dataType = "Boolean";
+			dataType = "Voice Channel";
 			break;
 		case 1:
-			dataType = "Boolean";
+			dataType = "Voice Channel ID";
 			break;
 		case 2:
-			dataType = "Boolean";
+			dataType = "Text";
 			break;
 		case 3:
+		case 4:
+		case 5:
 			dataType = "Number";
 			break;
-		case 4:
-			dataTyple = "Array";
+		case 6:
+		case 7:
+			dataType = "Boolean";
+			break;
+		case 8:
+			dataType = "List";
 			break;
 	}
 	return ([data.varName2, dataType]);
@@ -96,26 +102,21 @@ fields: ["channel", "varName", "info", "storage", "varName2"],
 // Command HTML
 //
 // This function returns a string containing the HTML used for
-// editting actions.
+// editting actions. 
 //
 // The "isEvent" parameter will be true if this action is being used
-// for an event. Due to their nature, events lack certain information,
+// for an event. Due to their nature, events lack certain information, 
 // so edit the HTML to reflect this.
 //
-// The "data" parameter stores constants for select elements to use.
+// The "data" parameter stores constants for select elements to use. 
 // Each is an array: index 0 for commands, index 1 for events.
-// The names are: sendTargets, members, roles, channels,
+// The names are: sendTargets, members, roles, channels, 
 //                messages, servers, variables
 //---------------------------------------------------------------------
 
 html: function(isEvent, data) {
 	return `
-	<div>
-		<p>
-			<u>Mod Info:</u><br>
-			Created by Lasse!
-		</p>
-	</div><br>
+	<div><p>This action has been modified by DBM Mods.</p></div><br>
 <div>
 	<div style="float: left; width: 35%;">
 		Source Channel:<br>
@@ -132,11 +133,15 @@ html: function(isEvent, data) {
 	<div style="padding-top: 8px; width: 70%;">
 		Source Info:<br>
 		<select id="info" class="round">
-			<option value="0" selected>Can Bot Speak?</option>
-			<option value="1">Can Bot Join VC?</option>
-			<option value="2">Can Bot Delete VC?</option>
-			<option value="3">Position In VC List</option>
-			<option value="4">Connected Members</option>
+			<option value="0" selected>Voice Channel Object</option>
+			<option value="1">Voice Channel ID</option>
+			<option value="2">Voice Channel Name</option>
+			<option value="3">Voice Channel Position</option>
+			<option value="4">Voice Channel User Limit</option>
+			<option value="5">Voice Channel Bitrate</option>
+			<option value="6">Voice Channel Joinable?</option>
+			<option value="7">Voice Channel Deleteable?</option>
+			<option value="8">Voice Channel Connected Members List</option>
 		</select>
 	</div>
 </div><br>
@@ -172,7 +177,7 @@ init: function() {
 // Action Bot Function
 //
 // This is the function for the action within the Bot's Action class.
-// Keep in mind event calls won't have access to the "msg" parameter,
+// Keep in mind event calls won't have access to the "msg" parameter, 
 // so be sure to provide checks for variable existance.
 //---------------------------------------------------------------------
 
@@ -189,18 +194,30 @@ action: function(cache) {
 	let result;
 	switch(info) {
 		case 0:
-			result = targetChannel.speakable;
+			result = targetChannel;
 			break;
 		case 1:
-			result = targetChannel.joinable;
+			result = targetChannel.id;
 			break;
 		case 2:
-			result = targetChannel.deletable;
+			result = targetChannel.name;
 			break;
 		case 3:
 			result = targetChannel.position;
 			break;
 		case 4:
+			result = targetChannel.userLimit;
+			break;
+		case 5:
+			result = targetChannel.bitrate;
+			break;
+		case 6:
+			result = targetChannel.joinable;
+			break;
+		case 7:
+			result = targetChannel.deleteable;
+			break;
+		case 8:
 			result = targetChannel.members.array();
 			break;
 		default:
