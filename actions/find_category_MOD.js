@@ -117,7 +117,8 @@ html: function(isEvent, data) {
 		Variable Name:<br>
 		<input id="varName" class="round" type="text">
 	</div>
-</div>
+</div><br><br><br>
+<p>You can store and edit a category using the channel actions "Store Channel Info", "Edit Channel" or "Set Channel Permission".</p>
 
 <!-- Don't forget to copy the style below with the html above! 
 This was made by EliteArtz!-->    
