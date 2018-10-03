@@ -49,6 +49,18 @@ short_description: "Changed Category and added Store Message Object option.",
 //---------------------------------------------------------------------
 
 //---------------------------------------------------------------------
+// Action Storage Function
+//
+// Stores the relevant variable info for the editor.
+//---------------------------------------------------------------------
+
+variableStorage: function(data, varType) {
+	const type = parseInt(data.storage3);
+	if(type !== varType) return;
+	return ([data.varName3, 'Message']);
+},
+
+//---------------------------------------------------------------------
 // Action Fields
 //
 // These are the fields for the action. These fields are customized
