@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Store Message Things",
+name: "Store Message Info",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -24,7 +24,7 @@ section: "Messaging",
 
 subtitle: function(data) {
 	const message = ['Command Message', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const info = ['Message edited at', 'Message edits history', 'Message is pinnable?', 'Message includes @everyone mention?', 'Messages different reactions count', 'Mentioned users list', 'Mentioned users count'];
+	const info = ['Message Object', 'Message ID', 'Message Text', 'Message Author', 'Message Channel', 'Message Timestamp', 'Message Is Pinned?', 'Message Is TTS?', 'Message edited at', 'Message edits history', 'Message is pinnable?', 'Message includes @everyone mention?', 'Messages different reactions count', 'Mentioned users list', 'Mentioned users count'];
 	return `${message[parseInt(data.message)]} - ${info[parseInt(data.info)]}`;
 },
 
@@ -36,13 +36,13 @@ subtitle: function(data) {
 	 //---------------------------------------------------------------------
 
 	 // Who made the mod (If not set, defaults to "DBM Mods")
-	 author: "Lasse",
+	 author: "DBM Mods & Lasse",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.8.2",
+	 version: "1.9.1",
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
-	 short_description: "Stores Messages Information",
+	 short_description: "Added more options to default action.",
 
 	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
@@ -62,24 +62,46 @@ variableStorage: function(data, varType) {
 	let dataType = 'Unknown Type';
 	switch(info) {
 		case 0:
-			dataType = "Date";
+			dataType = 'Message';
 			break;
 		case 1:
-			dataType = "Array";
+			dataType = 'Message ID';
 			break;
 		case 2:
-			dataType = "Boolean";
+			dataType = 'Text';
 			break;
 		case 3:
-			dataType = "Boolean";
+			dataType = 'Server Member';
 			break;
 		case 4:
-			dataType = "Number";
+			dataType = 'Channel';
 			break;
 		case 5:
-			dataType = "Array";
+			dataType = 'Text';
 			break;
 		case 6:
+		case 7:
+			dataType = 'Boolean';
+			break;
+		case 8:
+			dataType = "Date";
+			break;
+		case 9:
+			dataType = "Array";
+			break;
+		case 10:
+			dataType = "Boolean";
+			break;
+		case 11:
+			dataType = "Boolean";
+			break;
+		case 12:
+			dataType = "Number";
+			break;
+		case 13:
+			dataType = "Array";
+			break;
+		case 14:
 			dataType = "Number";
 			break;
 	}
@@ -100,26 +122,21 @@ fields: ["message", "varName", "info", "storage", "varName2"],
 // Command HTML
 //
 // This function returns a string containing the HTML used for
-// editting actions.
+// editting actions. 
 //
 // The "isEvent" parameter will be true if this action is being used
-// for an event. Due to their nature, events lack certain information,
+// for an event. Due to their nature, events lack certain information, 
 // so edit the HTML to reflect this.
 //
-// The "data" parameter stores constants for select elements to use.
+// The "data" parameter stores constants for select elements to use. 
 // Each is an array: index 0 for commands, index 1 for events.
-// The names are: sendTargets, members, roles, channels,
+// The names are: sendTargets, members, roles, channels, 
 //                messages, servers, variables
 //---------------------------------------------------------------------
 
 html: function(isEvent, data) {
 	return `
-	<div>
-		<p>
-			<u>Mod Info:</u><br>
-			Created by Lasse!
-		</p>
-	</div><br>
+	<div><p>This action has been modified by DBM Mods.</p></div><br>
 <div>
 	<div style="float: left; width: 35%;">
 		Source Message:<br>
@@ -136,13 +153,21 @@ html: function(isEvent, data) {
 	<div style="padding-top: 8px; width: 70%;">
 		Source Info:<br>
 		<select id="info" class="round">
-			<option value="0" selected>Message edited at</option>
-			<option value="1">Message edit history</option>
-			<option value="2">Message is pinnable?</option>
-			<option value="3">Message includes @everyone mention?</option>
-			<option value="4">Messages different reactions count</option>
-			<option value="5">Messages mentioned users list</option>
-			<option value="6">Messages mentioned users count</option>
+			<option value="0" selected>Message Object</option>
+			<option value="1">Message ID</option>
+			<option value="2">Message Text</option>
+			<option value="3">Message Author</option>
+			<option value="4">Message Channel</option>
+			<option value="5">Message Timestamp</option>
+			<option value="6">Message Is Pinned?</option>
+			<option value="7">Message Is TTS?</option>
+			<option value="8">Message edited at</option>
+			<option value="9">Message edit history</option>
+			<option value="10">Message is pinnable?</option>
+			<option value="11">Message includes @everyone mention?</option>
+			<option value="12">Messages different reactions count</option>
+			<option value="13">Messages mentioned users list</option>
+			<option value="14">Messages mentioned users count</option>
 		</select>
 	</div>
 </div><br>
@@ -178,7 +203,7 @@ init: function() {
 // Action Bot Function
 //
 // This is the function for the action within the Bot's Action class.
-// Keep in mind event calls won't have access to the "msg" parameter,
+// Keep in mind event calls won't have access to the "msg" parameter, 
 // so be sure to provide checks for variable existance.
 //---------------------------------------------------------------------
 
@@ -195,24 +220,49 @@ action: function(cache) {
 	let result;
 	switch(info) {
 		case 0:
-			result = msg.editedAt;
+			result = msg;
 			break;
 		case 1:
-			result = msg.edits;
+			result = msg.id;
 			break;
 		case 2:
-			result = msg.pinnable;
+			result = msg.content;
 			break;
 		case 3:
-			result = msg.mentions.everyone;
+			if(msg.member) {
+				result = msg.member;
+			}
 			break;
 		case 4:
-			result = msg.reactions.array().length;
+			result = msg.channel;
 			break;
 		case 5:
-			result = msg.mentions.users.array();
+			result = msg.createdTimestamp;
 			break;
 		case 6:
+			result = msg.pinned;
+			break;
+		case 7:
+			result = msg.tts;
+		case 8:
+			result = msg.editedAt;
+			break;
+		case 9:
+			result = msg.edits;
+			break;
+		case 10:
+			result = msg.pinnable;
+			break;
+		case 11:
+			result = msg.mentions.everyone;
+			break;
+		case 12:
+			result = msg.reactions.array().length;
+			break;
+		case 13:
+			result = msg.mentions.users.array();
+			break;
+		case 14:
 			result = msg.mentions.users.array().length;
 			break;
 		default:
