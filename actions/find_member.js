@@ -23,7 +23,7 @@ section: "Member Control",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const info = ['Member ID', 'Member Username', 'Member Display Name', 'Member Color'];
+	const info = ['Member ID', 'Member Username', 'Member Display Name', 'Member Tag', 'Member Color'];
 	return `Find Member by ${info[parseInt(data.info)]}`;
 },
 
@@ -36,13 +36,13 @@ subtitle: function(data) {
 	 //---------------------------------------------------------------------
 
 	 // Who made the mod (If not set, defaults to "DBM Mods")
-	 author: "DBM & Lasse",
+	 author: "DBM, Lasse & MrGold",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.8.9", //Added in 1.8.9
+	 version: "1.9.1", //Added in 1.8.9
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
-	 short_description: "Fixed.",
+	 short_description: "Fixed multiple issues with this default DBM action.",
 
 	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
@@ -92,6 +92,7 @@ fields: ["info", "find", "storage", "varName"],
 
 html: function(isEvent, data) {
 	return `
+<div><p>This action has been modified by DBM Mods.</p></div><br>
 <div>
 	<div style="float: left; width: 40%;">
 		Source Field:<br>
@@ -99,7 +100,8 @@ html: function(isEvent, data) {
 			<option value="0" selected>Member ID</option>
 			<option value="1">Member Username</option>
 			<option value="2">Member Display Name</option>
-			<option value="3">Member Color</option>
+			<option value="3">Member Tag</option>
+			<option value="4">Member Color</option>
 		</select>
 	</div>
 	<div style="float: right; width: 55%;">
@@ -171,6 +173,11 @@ action: function(cache) {
 			result = server.members.find('displayName', find);
 			break;
 		case 3:
+			result = server.members.find(function(mem) {
+				return mem.user ? mem.user.tag === find : false;
+			});
+			break;
+		case 4:
 			result = server.members.find('displayColor', find);
 			break;
 		default:
