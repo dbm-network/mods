@@ -54,7 +54,7 @@ module.exports = {
 	author: "Lasse, EGGSY, EliteArtz & Danno3817",
 
 	// The version of the mod (Defaults to 1.0.0)
-	version: "1.8.9", // added in 1.9.1
+	version: "1.9.1", // added in 1.9.1
 
 	// A short description to show on the mod line for this mod (Must be on a single line)
 	short_description: "Stores Server Information",
