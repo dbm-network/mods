@@ -42,7 +42,7 @@ subtitle: function(data) {
 	 version: "1.9.1", //Added in 1.8.9
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
-	 short_description: "Fixed.",
+	 short_description: "Fixed multiple issues with this default DBM action.",
 
 	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
@@ -92,6 +92,7 @@ fields: ["info", "find", "storage", "varName"],
 
 html: function(isEvent, data) {
 	return `
+<div><p>This action has been modified by DBM Mods.</p></div><br>
 <div>
 	<div style="float: left; width: 40%;">
 		Source Field:<br>
