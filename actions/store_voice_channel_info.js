@@ -1,4 +1,12 @@
 module.exports = {
+//---------------------------------------------------------------------
+// Notes Section:
+//
+// 1.9.1: Change Log: ~ Danno3817 10/04/2018 
+// - Scraped store_Voice_Channel_info_MOD, every thing is moved here store_Voice_Channel_info
+// - Added 'Is Vc Full', 'Guild', 'Manageable' , 'Parent' ~ Danno3817
+//
+//---------------------------------------------------------------------
 
 //---------------------------------------------------------------------
 // Action Name
@@ -24,10 +32,9 @@ section: "Channel Control",
 
 subtitle: function(data) {
 	const channels = ['Command Author\'s Voice Ch.', 'Mentioned User\'s Voice Ch.', 'Default Voice Channel', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const info = ["Voice Channel Object", "Voice Channel ID", "Voice Channel Name", "Voice Channel Position", "Voice Channel User Limit", "Voice Channel Bitrate", "Voice Channel Joinable?", "Voice Channel Deleteable?", "Voice Channel Members"];
+	const info = ["Voice Channel Object", "Voice Channel ID", "Voice Channel Name", "Voice Channel Position", "Voice Channel User Limit", "Voice Channel Bitrate", "Bot can speak?", "Bot can join?", "Bot can delete VC?", "Members connected", "Is VC Full", "VC Guild", "Can Bot Manage", "VC Parent"];
 	return `${channels[parseInt(data.channel)]} - ${info[parseInt(data.info)]}`;
 },
-
 
 //---------------------------------------------------------------------
 // DBM Mods Manager Variables (Optional but nice to have!)
@@ -37,19 +44,18 @@ subtitle: function(data) {
 //---------------------------------------------------------------------
 
 // Who made the mod (If not set, defaults to "DBM Mods")
-author: "DBM & DBM Mods",
-
+  author: "Lasse", // Edited By Danno3817 (See Notes 1.9.1)
+//
 // The version of the mod (Defaults to 1.0.0)
-version: "1.9.1", //Added in 1.9.1
-
+  version: "1.9.1", //Added in 1.8.2
+//
+//1.8.7: Changed dropdown texts!
+//
 // A short description to show on the mod line for this mod (Must be on a single line)
-short_description: "Added more options to default action.",
-
+  short_description: "Stores Voice Channels Information",
+//
 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-
-
 //---------------------------------------------------------------------
-
 
 //---------------------------------------------------------------------
 // Action Storage Function
@@ -77,13 +83,22 @@ variableStorage: function(data, varType) {
 		case 5:
 			dataType = "Number";
 			break;
-		case 6:
-		case 7:
-			dataType = "Boolean";
-			break;
-		case 8:
-			dataType = "List";
-			break;
+    case 6:
+    case 7:
+    case 8:
+    case 10:
+    case 12:
+      dataType = "Boolean";
+      break;
+    case 9:
+      dataType = "Array";
+      break;
+    case 11:
+      dataType = "Guild Object";
+      break;
+    case 12:
+      dataType = "Category Channel Object";
+      break;
 	}
 	return ([data.varName2, dataType]);
 },
@@ -116,7 +131,7 @@ fields: ["channel", "varName", "info", "storage", "varName2"],
 
 html: function(isEvent, data) {
 	return `
-	<div><p>This action has been modified by DBM Mods.</p></div><br>
+<div><p>This action has been modified by DBM Mods.</p></div><br>
 <div>
 	<div style="float: left; width: 35%;">
 		Source Channel:<br>
@@ -133,15 +148,20 @@ html: function(isEvent, data) {
 	<div style="padding-top: 8px; width: 70%;">
 		Source Info:<br>
 		<select id="info" class="round">
-			<option value="0" selected>Voice Channel Object</option>
-			<option value="1">Voice Channel ID</option>
-			<option value="2">Voice Channel Name</option>
-			<option value="3">Voice Channel Position</option>
-			<option value="4">Voice Channel User Limit</option>
-			<option value="5">Voice Channel Bitrate</option>
-			<option value="6">Voice Channel Joinable?</option>
-			<option value="7">Voice Channel Deleteable?</option>
-			<option value="8">Voice Channel Connected Members List</option>
+			<option value="0" title="VC as a object" selected>Object</option>
+			<option value="1" title="The ID of a VC">ID</option>
+			<option value="2" title="The name of the VC">Name</option>
+			<option value="3" title="The position of the VC in the list">Position</option>
+			<option value="4" title="The maximum amount of members allowed in the VC (0 means unlimited)">User Limit</option>
+			<option value="5" title="The bitrate of the VC">Voice Channel Bitrate</option>
+      <option value="11" title="Gets the VC's guild">Guild (object)</option>
+			<option value="9" title="The members in the VC">Connected Members</option>
+      <option value="13" title="The category this VC's in">Parent (object)</option>
+      <option value="6" title="Checks if the Bot has permission to send audio to the VC">Can Bot Speak?</option>
+      <option value="7" title="checks if the Bot has permission to join the VC">Can Bot Join VC?</option>
+			<option value="8" title="checks if the Bot has permission to delete the VC">Can Bot Delete VC?</option>
+      <option value="12" title="checks if the Bot has permission to manage the VC">Can Bot Manage?</option>
+      <option value="10" title="Checks if the VC is full">Is VC Full?</option>      
 		</select>
 	</div>
 </div><br>
@@ -211,15 +231,30 @@ action: function(cache) {
 		case 5:
 			result = targetChannel.bitrate;
 			break;
-		case 6:
-			result = targetChannel.joinable;
+    case 6:
+			result = targetChannel.speakable;
 			break;
 		case 7:
-			result = targetChannel.deleteable;
+			result = targetChannel.joinable;
 			break;
 		case 8:
+			result = targetChannel.deletable;
+			break;
+		case 9:
 			result = targetChannel.members.array();
 			break;
+		case 10:
+      result = targetChannel.full;
+			break;
+    case 11: 
+      result = targetChannel.guild;
+      break;
+    case 12:
+      result = targetChannel.manageable;
+      break;
+    case 13:
+      result = targetChannel.parent;
+      break;
 		default:
 			break;
 	}
