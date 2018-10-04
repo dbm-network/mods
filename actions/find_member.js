@@ -162,7 +162,7 @@ action: function(cache) {
 	let result;
 	switch(info) {
 		case 0:
-			result = server.members.find('id', find);
+			result = server.members.find(element => element.id === find);
 			break;
 		case 1:
 			result = server.members.find(function(mem) {
@@ -170,16 +170,16 @@ action: function(cache) {
 			});
 			break;
 		case 2:
-			result = server.members.find('displayName', find);
-			break;
+			result = server.members.find(element => element.displayName === find);
+			break
 		case 3:
 			result = server.members.find(function(mem) {
 				return mem.user ? mem.user.tag === find : false;
 			});
 			break;
 		case 4:
-			result = server.members.find('displayColor', find);
-			break;
+			result = server.members.find(element => element.displayColor === find);
+			break;;
 		default:
 			break;
 	}
