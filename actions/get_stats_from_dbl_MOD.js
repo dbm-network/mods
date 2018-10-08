@@ -23,7 +23,7 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	subtitle: function (data) {
-		const info = ['Invite URL', 'GitHub Repository URL', 'Website URL', 'Long Description', 'Short Description', 'Prefix', 'Library', 'Avatar URL', 'Approved On', 'Support Server Invite URL', 'Server Count', 'Shard Count', 'Vanity URL', 'Guild ID(s)', 'Servers on Shards', 'Monthly Vote Count', 'Total Vote Count','Owner ID(s)', 'Tag(s)', 'Username', 'Discriminator'];
+		const info = ['Invite URL', 'GitHub Repository URL', 'Website URL', 'Long Description', 'Short Description', 'Prefix', 'Library', 'Avatar URL', 'Approved On', 'Support Server Invite URL', 'Server Count', 'Shard Count', 'Vanity URL', 'Guild ID(s)', 'Servers on Shards', 'Monthly Vote Count', 'Total Vote Count', 'Owner ID(s)', 'Tag(s)', 'Username', 'Discriminator'];
 		return `Get Bot's ${info[parseInt(data.info)]}`;
 	},
 
@@ -131,7 +131,7 @@ module.exports = {
 	// are also the names of the fields stored in the action's JSON data.
 	//---------------------------------------------------------------------
 
-	fields: ["botID", "info", "storage", "varName"],
+	fields: ["botID", "token", "info", "storage", "varName"],
 
 	//---------------------------------------------------------------------
 	// Command HTML
@@ -159,6 +159,10 @@ module.exports = {
 	<div style="float: left; width: 99%; padding-top: 8px;">
 	   Bot's ID (Must be ID):<br>
 	   <input id="botID" class="round" type="text">
+	</div><br>
+	<div style="float: left; width: 99%; padding-top: 8px;">
+	   Your DBL Token:<br>
+	   <input id="token" class="round" type="text">
 	</div><br>
 	<div style="float: left; width: 90%; padding-top: 8px;">
 	   Source Info:<br>
@@ -191,14 +195,15 @@ module.exports = {
 		<select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
 			${data.variables[0]}
 		</select>
-	</div><br><br><br>
+	</div><br><br><br><br><br>
 	<div id="varNameContainer" style="float: right; display: none; width: 60%; padding-top: 8px;">
 		Variable Name:<br>
 		<input id="varName" class="round" type="text">
 	</div><br><br><br><br>
 	<div id="commentSection" style="padding-top: 8px;">
 		<p>
-		Some options will only work for certified or special bots. You better use some check variables to check if they exist.
+			Some options will only work for certified or special bots. You better use some check variables to check if they exist.
+			<b>Note:</b> DBL is going to update the API and you'll need a token after the update!
 		</p>
 	</div>
 </div>`
@@ -231,73 +236,156 @@ module.exports = {
 		const data = cache.actions[cache.index];
 		const botID = this.evalMessage(data.botID, cache);
 		const info = parseInt(data.info);
-		var sf = require("snekfetch")
+		const dblToken = this.evalMessage(data.token, cache);
 
+		var fetch = require("node-fetch")
+		fetch('https://discordbots.org/api/bots/' + botID, {
+			method: 'GET',
+			headers: { 'Authorization': dblToken ? dblToken : "" },
+		})
+			.then(res => res.json())
+			.then(r => {
+				switch (info) {
+					case 0:
+						result = r.invite;
+						break;
+					case 1:
+						result = r.github;
+						break;
+					case 2:
+						result = r.website;
+						break;
+					case 3:
+						result = r.longdesc;
+						break;
+					case 4:
+						result = r.shortdesc;
+						break;
+					case 5:
+						result = r.prefix;
+						break;
+					case 6:
+						result = r.lib;
+						break;
+					case 7:
+						result = "https://cdn.discordapp.com/avatars/" + botID + "/" + r.avatar + ".png";
+						break;
+					case 8:
+						result = r.date;
+						break;
+					case 9:
+						result = r.support;
+						break;
+					case 10:
+						result = r.server_count;
+						break;
+					case 11:
+						result = r.shard_count;
+						break;
+					case 12:
+						result = r.vanity;
+						break;
+					case 13:
+						result = r.guilds;
+						break;
+					case 14:
+						result = r.shards;
+						break;
+					case 15:
+						result = r.monthlyPoints;
+						break;
+					case 16:
+						result = r.points;
+						break;
+					case 17:
+						result = r.owners;
+						break;
+					case 18:
+						result = r.tags;
+						break;
+					case 19:
+						result = r.username;
+						break;
+					case 20:
+						result = r.discriminator;
+						break;
+				}
+
+				// Storing
+				const storage = parseInt(data.storage);
+				const varName = this.evalMessage(data.varName, cache);
+				this.storeValue(result, storage, varName, cache);
+
+				this.callNextAction(cache);
+			});
+
+		/*
+		var sf = require("snekfetch")
 		sf.get('https://discordbots.org/api/bots/' + botID)
 			.then(r => {
 				switch (info) {
 					case 0:
-						result = r.body.invite;
+						result = r.invite;
 						break;
 					case 1:
-						result = r.body.github;
+						result = r.github;
 						break;
 					case 2:
-						result = r.body.website;
+						result = r.website;
 						break;
 					case 3:
-						result = r.body.longdesc;
+						result = r.longdesc;
 						break;
 					case 4:
-						result = r.body.shortdesc;
+						result = r.shortdesc;
 						break;
 					case 5:
-						result = r.body.prefix;
+						result = r.prefix;
 						break;
 					case 6:
-						result = r.body.lib;
+						result = r.lib;
 						break;
 					case 7:
-						result = "https://cdn.discordapp.com/avatars/" + botID + "/" + r.body.avatar + ".png";
+						result = "https://cdn.discordapp.com/avatars/" + botID + "/" + r.avatar + ".png";
 						break;
 					case 8:
-						result = r.body.date;
+						result = r.date;
 						break;
 					case 9:
-						result = r.body.support;
+						result = r.support;
 						break;
 					case 10:
-						result = r.body.server_count;
+						result = r.server_count;
 						break;
 					case 11:
-						result = r.body.shard_count;
+						result = r.shard_count;
 						break;
 					case 12:
-						result = r.body.vanity;
+						result = r.vanity;
 						break;
 					case 13:
-						result = r.body.guilds;
+						result = r.guilds;
 						break;
 					case 14:
-						result = r.body.shards;
+						result = r.shards;
 						break;
 					case 15:
-						result = r.body.monthlyPoints;
+						result = r.monthlyPoints;
 						break;
 					case 16:
-						result = r.body.points;
+						result = r.points;
 						break;
 					case 17:
-						result = r.body.owners;
+						result = r.owners;
 						break;
 					case 18:
-						result = r.body.tags;
+						result = r.tags;
 						break;
 					case 19:
-						result = r.body.username;
+						result = r.username;
 						break;
 					case 20:
-						result = r.body.discriminator;
+						result = r.discriminator;
 						break;
 				}
 
@@ -311,6 +399,7 @@ module.exports = {
 			.catch(e => {
 				this.callNextAction(cache);
 			});
+		*/
 	},
 
 	//---------------------------------------------------------------------
