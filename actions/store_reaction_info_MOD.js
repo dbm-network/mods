@@ -217,11 +217,11 @@ action: function(cache) {
 			result = rea.count; //Number (user+bots) who reacted like this
 			break;
 		case 5:
-			const lastid = rea.users.firstKey(); //Stores last user ID reacted
+			const lastid = rea.users.firstKey(); //Stores first user ID reacted
 			result = cache.server.members.find(element => element.id === lastid);
 			break;
 		case 6:
-			const lastid2 = rea.users.randomKey(); //Stores last user ID reacted
+			const lastid2 = rea.users.randomKey(); //Stores random user ID reacted
 			result = cache.server.members.find(element => element.id === lastid2);
 			break;
 		case 7:
