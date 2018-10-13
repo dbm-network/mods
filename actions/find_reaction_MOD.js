@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Clear reactions from message",
+name: "Find Reaction",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -23,9 +23,7 @@ section: "Reaction Control",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const names = ['Command Message', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const index = parseInt(data.storage);
-	return `Remove reactions from Message`;
+	return `${data.find}`;
 },
 
 //---------------------------------------------------------------------
@@ -36,18 +34,30 @@ subtitle: function(data) {
 	 //---------------------------------------------------------------------
 
 	 // Who made the mod (If not set, defaults to "DBM Mods")
-	 author: "Lasse",
+	 author: "MrGold",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.8.2",
+	 version: "1.9.1", //Added in 1.9.1
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
-	 short_description: "Removes all reactions from a message",
+	 short_description: "Finds a reaction",
 
 	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
 
 	 //---------------------------------------------------------------------
+
+//---------------------------------------------------------------------
+// Action Storage Function
+//
+// Stores the relevant variable info for the editor.
+//---------------------------------------------------------------------
+
+variableStorage: function(data, varType) {
+	const type = parseInt(data.storage);
+	if(type !== varType) return;
+	return ([data.varName2, 'Reaction']);
+},
 
 //---------------------------------------------------------------------
 // Action Fields
@@ -57,21 +67,21 @@ subtitle: function(data) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["storage", "varName"],
+fields: ["message", "varName", "info", "find", "storage", "varName2"],
 
 //---------------------------------------------------------------------
 // Command HTML
 //
 // This function returns a string containing the HTML used for
-// editting actions.
+// editting actions. 
 //
 // The "isEvent" parameter will be true if this action is being used
-// for an event. Due to their nature, events lack certain information,
+// for an event. Due to their nature, events lack certain information, 
 // so edit the HTML to reflect this.
 //
-// The "data" parameter stores constants for select elements to use.
+// The "data" parameter stores constants for select elements to use. 
 // Each is an array: index 0 for commands, index 1 for events.
-// The names are: sendTargets, members, roles, channels,
+// The names are: sendTargets, members, roles, channels, 
 //                messages, servers, variables
 //---------------------------------------------------------------------
 
@@ -80,13 +90,13 @@ html: function(isEvent, data) {
 	<div>
 		<p>
 			<u>Mod Info:</u><br>
-			Created by Lasse!
+			Created by MrGold
 		</p>
 	</div><br>
 <div>
 	<div style="float: left; width: 35%;">
 		Source Message:<br>
-		<select id="storage" class="round" onchange="glob.messageChange(this, 'varNameContainer')">
+		<select id="message" class="round" onchange="glob.messageChange(this, 'varNameContainer')">
 			${data.messages[isEvent ? 1 : 0]}
 		</select>
 	</div>
@@ -94,7 +104,31 @@ html: function(isEvent, data) {
 		Variable Name:<br>
 		<input id="varName" class="round" type="text" list="variableList"><br>
 	</div>
-</div>`
+</div><br><br><br><br>
+<div>
+	<div style="float: left; width: 40%;">
+		Source Emoji:<br>
+		<select id="info" class="round">
+			<option value="0" selected>Emoji ID</option>
+			<option value="1">Emoji Name</option>
+		</select>
+	</div>
+	<div style="float: right; width: 55%;">
+		Search Value:<br>
+		<input id="find" class="round" type="text">
+	</div>
+</div><br><br><br><br>
+<div style="padding-top: 8px;">
+	<div style="float: left; width: 35%;">
+		Store In:<br>
+		<select id="storage" class="round">
+			${data.variables[1]}
+		</select>
+	</div>
+	<div id="varNameContainer2" style="float: right; width: 60%;">
+		Variable Name:<br>
+		<input id="varName2" class="round" type="text">
+	</div>`
 },
 
 //---------------------------------------------------------------------
@@ -108,33 +142,43 @@ html: function(isEvent, data) {
 init: function() {
 	const {glob, document} = this;
 
-	glob.messageChange(document.getElementById('storage'), 'varNameContainer');
+	glob.messageChange(document.getElementById('message'), 'varNameContainer')
 },
 
 //---------------------------------------------------------------------
 // Action Bot Function
 //
 // This is the function for the action within the Bot's Action class.
-// Keep in mind event calls won't have access to the "msg" parameter,
+// Keep in mind event calls won't have access to the "msg" parameter, 
 // so be sure to provide checks for variable existance.
 //---------------------------------------------------------------------
 
 action: function(cache) {
 	const data = cache.actions[cache.index];
-	const storage = parseInt(data.storage);
+	const message = parseInt(data.message);
 	const varName = this.evalMessage(data.varName, cache);
-	const message = this.getMessage(storage, varName, cache);
-	if(Array.isArray(message)) {
-		this.callListFunc(message, 'clearReactions', []).then(function() {
-			this.callNextAction(cache);
-		}.bind(this));
-	} else if(message && message.clearReactions) {
-		message.clearReactions().then(function() {
-			this.callNextAction(cache);
-		}.bind(this)).catch(this.displayError.bind(this, data, cache));
-	} else {
-		this.callNextAction(cache);
+	const msg = this.getMessage(message, varName, cache);
+	const info = parseInt(data.info);
+	const emoji = this.evalMessage(data.find, cache);
+	
+	let result;
+	switch(info) {
+		case 0:
+			result = msg.reactions.find(reaction => reaction.emoji.id == emoji);
+			break;
+		case 1:
+			result = msg.reactions.find(reaction => reaction.emoji.name == emoji);
+			break;
+		default:
+			break;
 	}
+	
+	if(result !== undefined) {
+		const storage = parseInt(data.storage);
+		const varName2 = this.evalMessage(data.varName2, cache);
+		this.storeValue(result, storage, varName2, cache);
+	}
+	this.callNextAction(cache);
 },
 
 //---------------------------------------------------------------------
