@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Clear reactions from message",
+name: "Remove Reaction",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -23,9 +23,8 @@ section: "Reaction Control",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const names = ['Command Message', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const index = parseInt(data.storage);
-	return `Remove reactions from Message`;
+	const names = ['Mentioned User', 'Command Author', 'Temp Variable', 'Server Variable', 'Global Variable'];
+	return `${names[parseInt(data.member)]}`;
 },
 
 //---------------------------------------------------------------------
@@ -36,16 +35,18 @@ subtitle: function(data) {
 	 //---------------------------------------------------------------------
 
 	 // Who made the mod (If not set, defaults to "DBM Mods")
-	 author: "Lasse",
+	 author: "MrGold",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.8.2",
+	 version: "1.9.1", //Added in 1.9.1
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
-	 short_description: "Removes all reactions from a message",
+	 short_description: "Removes a reaction from a message",
 
 	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-
+     depends_on_mods: [
+	 {name:'WrexMods',path:'aaa_wrexmods_dependencies_MOD.js'}
+	 ],
 
 	 //---------------------------------------------------------------------
 
@@ -57,42 +58,54 @@ subtitle: function(data) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["storage", "varName"],
+fields: ["reaction", "varName", "member", "varName2"],
 
 //---------------------------------------------------------------------
 // Command HTML
 //
 // This function returns a string containing the HTML used for
-// editting actions.
+// editting actions. 
 //
 // The "isEvent" parameter will be true if this action is being used
-// for an event. Due to their nature, events lack certain information,
+// for an event. Due to their nature, events lack certain information, 
 // so edit the HTML to reflect this.
 //
-// The "data" parameter stores constants for select elements to use.
+// The "data" parameter stores constants for select elements to use. 
 // Each is an array: index 0 for commands, index 1 for events.
-// The names are: sendTargets, members, roles, channels,
+// The names are: sendTargets, members, roles, channels, 
 //                messages, servers, variables
 //---------------------------------------------------------------------
 
 html: function(isEvent, data) {
 	return `
-	<div>
-		<p>
-			<u>Mod Info:</u><br>
-			Created by Lasse!
-		</p>
-	</div><br>
+<div>
+    <p>
+        <u>Mod Info:</u><br>
+	Created by MrGold
+    </p>
+</div><br>
 <div>
 	<div style="float: left; width: 35%;">
-		Source Message:<br>
-		<select id="storage" class="round" onchange="glob.messageChange(this, 'varNameContainer')">
-			${data.messages[isEvent ? 1 : 0]}
+		Source Reaction:<br>
+		<select id="reaction" class="round" onchange="glob.refreshVariableList(this)">
+			${data.variables[1]}
 		</select>
 	</div>
-	<div id="varNameContainer" style="display: none; float: right; width: 60%;">
+	<div id="varNameContainer" style="float: right; width: 60%;">
 		Variable Name:<br>
 		<input id="varName" class="round" type="text" list="variableList"><br>
+	</div>
+</div><br><br><br><br>
+<div>
+	<div style="float: left; width: 35%;">
+		Source Member:<br>
+		<select id="member" class="round" onchange="glob.memberChange(this, 'varNameContainer2')">
+			${data.members[isEvent ? 1 : 0]}
+		</select>
+	</div>
+	<div id="varNameContainer2" style="display: none; float: right; width: 60%;">
+		Variable Name:<br>
+		<input id="varName2" class="round" type="text" list="variableList"><br>
 	</div>
 </div>`
 },
@@ -108,33 +121,40 @@ html: function(isEvent, data) {
 init: function() {
 	const {glob, document} = this;
 
-	glob.messageChange(document.getElementById('storage'), 'varNameContainer');
+	glob.refreshVariableList(document.getElementById('reaction'));
+	glob.memberChange(document.getElementById('member'), 'varNameContainer2');
 },
 
 //---------------------------------------------------------------------
 // Action Bot Function
 //
 // This is the function for the action within the Bot's Action class.
-// Keep in mind event calls won't have access to the "msg" parameter,
+// Keep in mind event calls won't have access to the "msg" parameter, 
 // so be sure to provide checks for variable existance.
 //---------------------------------------------------------------------
 
 action: function(cache) {
 	const data = cache.actions[cache.index];
-	const storage = parseInt(data.storage);
+    
+	const reaction = parseInt(data.reaction);
 	const varName = this.evalMessage(data.varName, cache);
-	const message = this.getMessage(storage, varName, cache);
-	if(Array.isArray(message)) {
-		this.callListFunc(message, 'clearReactions', []).then(function() {
-			this.callNextAction(cache);
-		}.bind(this));
-	} else if(message && message.clearReactions) {
-		message.clearReactions().then(function() {
-			this.callNextAction(cache);
-		}.bind(this)).catch(this.displayError.bind(this, data, cache));
-	} else {
+	var WrexMods = this.getWrexMods();
+	const rea = WrexMods.getReaction(reaction, varName, cache);
+	
+	const type = parseInt(data.member);
+	const varName2 = this.evalMessage(data.varName2, cache);
+	const member = this.getMember(type, varName2, cache);
+	
+	if(!WrexMods) return;
+	if(!rea) {
+		console.log('This is not a reaction'); //Variable is not a reaction -> Error
 		this.callNextAction(cache);
 	}
+    
+    if(member) {
+	    rea.remove(member);
+	}
+	this.callNextAction(cache);
 },
 
 //---------------------------------------------------------------------
