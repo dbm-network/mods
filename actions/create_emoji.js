@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Send Image",
+name: "Create Emoji",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -14,7 +14,7 @@ name: "Send Image",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Image Editing",
+section: "Emoji Control",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -23,30 +23,20 @@ section: "Image Editing",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const channels = ['Same Channel', 'Command Author', 'Mentioned User', 'Mentioned Channel', 'Default Channel', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	return `${channels[parseInt(data.channel)]}`;
+	return `${data.emojiName}`;
 },
 
 //---------------------------------------------------------------------
-	// DBM Mods Manager Variables (Optional but nice to have!)
-	//
-	// These are variables that DBM Mods Manager uses to show information
-	// about the mods for people to see in the list.
-	//---------------------------------------------------------------------
-		
-	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "Eggsy - Edited by Two :p",
-		
-	// The version of the mod (Defaults to 1.0.0)
-	version: "1.8.6",
-		
-	// A short description to show on the mod line for this mod (Must be on a single line)
-	short_description: "You can rename DBM image names and image formats!",
-	
-// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-	
-	
+// Action Storage Function
+//
+// Stores the relevant variable info for the editor.
 //---------------------------------------------------------------------
+
+variableStorage: function(data, varType) {
+	const type = parseInt(data.storage2);
+	if(type !== varType) return;
+	return ([data.varName2, 'Emoji']);
+},
 
 //---------------------------------------------------------------------
 // Action Fields
@@ -56,7 +46,7 @@ subtitle: function(data) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["storage", "varName", "channel", "varName2", "message"],
+fields: ["emojiName", "storage", "varName", "storage2", "varName2"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -76,6 +66,10 @@ fields: ["storage", "varName", "channel", "varName2", "message"],
 
 html: function(isEvent, data) {
 	return `
+<div style="width: 90%;">
+	Emoji Name:<br>
+	<input id="emojiName" class="round" type="text">
+</div><br>
 <div>
 	<div style="float: left; width: 35%;">
 		Source Image:<br>
@@ -85,26 +79,21 @@ html: function(isEvent, data) {
 	</div>
 	<div id="varNameContainer" style="float: right; width: 60%;">
 		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList"><br>
+		<input id="varName" class="round" type="text" list="variableList">
 	</div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
 	<div style="float: left; width: 35%;">
-		Send To:<br>
-		<select id="channel" class="round" onchange="glob.sendTargetChange(this, 'varNameContainer2')">
-			${data.sendTargets[isEvent ? 1 : 0]}
+		Store In:<br>
+		<select id="storage2" class="round" onchange="glob.onChange1(this)">
+			${data.variables[0]}
 		</select>
 	</div>
 	<div id="varNameContainer2" style="display: none; float: right; width: 60%;">
 		Variable Name:<br>
-		<input id="varName2" class="round" type="text"><br>
+		<input id="varName2" class="round" type="text">
 	</div>
-</div><br><br><br>
-<div style="padding-top: 8px;">
-	Message: <div style="float:right"><u>Mod Info:</u> Created by EGGSY - Edited by Two!</div><br>
-	<textarea id="message" rows="6" placeholder="Insert message here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
-</div>
-	`
+</div>`
 },
 
 //---------------------------------------------------------------------
@@ -118,8 +107,18 @@ html: function(isEvent, data) {
 init: function() {
 	const {glob, document} = this;
 
+	glob.onChange1 = function(event) {
+		const value = parseInt(event.value);
+		const varNameInput = document.getElementById("varNameContainer2");
+		if(value === 0) {
+			varNameInput.style.display = "none";
+		} else {
+			varNameInput.style.display = null;
+		}
+	};
+
 	glob.refreshVariableList(document.getElementById('storage'));
-	glob.sendTargetChange(document.getElementById('channel'), 'varNameContainer2');
+	glob.onChange1(document.getElementById('storage2'));
 },
 
 //---------------------------------------------------------------------
@@ -132,34 +131,18 @@ init: function() {
 
 action: function(cache) {
 	const data = cache.actions[cache.index];
-	const storage = parseInt(data.storage);
-	const varName = this.evalMessage(data.varName, cache);
-		const message = this.evalMessage(data.message, cache);
-	const image = this.getVariable(storage, varName, cache);
-	console.log(image);
-	if(!image) {
-		this.callNextAction(cache);
-		return;
-	}
-	const channel = parseInt(data.channel);
-	const varName2 = this.evalMessage(data.varName2, cache);
-	const target = this.getSendTarget(channel, varName2, cache);
-	if(Array.isArray(target)) {
-			this.callListFunc(target, 'send', (message, {
-    file: image // Or replace with FileOptions object
-			})).then(function() {
-				this.callNextAction(cache);
-			}.bind(this));
-
-	} else if(target && target.send) {
-
-			target.send(message, {
-    file: image // Or replace with FileOptions object
-
-			}).then(function() {
+	const server = cache.server;
+	if(server && server.createEmoji) {
+		const type = parseInt(data.storage);
+		const varName = this.evalMessage(data.varName, cache);
+		const image = this.getVariable(type, varName, cache);
+			const name = this.evalMessage(data.emojiName, cache);
+			server.createEmoji(image, name).then(function(emoji) {
+				const varName2 = this.evalMessage(data.varName2, cache);
+				const storage = parseInt(data.storage);
+				this.storeValue(emoji, storage, varName2, cache);
 				this.callNextAction(cache);
 			}.bind(this)).catch(this.displayError.bind(this, data, cache));
-
 	} else {
 		this.callNextAction(cache);
 	}
