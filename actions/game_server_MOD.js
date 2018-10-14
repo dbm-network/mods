@@ -218,14 +218,14 @@ module.exports = {
 	//---------------------------------------------------------------------
 	
 	action: function(cache) {
-		const fukerror = this // To fix error
+		const _this = this // To fix error
         const data = cache.actions[cache.index];
 		const info = parseInt(data.info);
-		const gametype = fukerror.evalMessage(data.gametype, cache);
-		const host = fukerror.evalMessage(data.serverip, cache)
+		const gametype = _this.evalMessage(data.gametype, cache);
+		const host = _this.evalMessage(data.serverip, cache)
 
         // Main code:
-		const WrexMODS = fukerror.getWrexMods(); // as always.
+		const WrexMODS = _this.getWrexMods(); // as always.
 		WrexMODS.CheckAndInstallNodeModule('game-server-query');
 		const query = WrexMODS.require('game-server-query');
 
@@ -264,11 +264,11 @@ module.exports = {
             }
             if (result !== undefined) {
 				const storage = parseInt(data.storage);
-				const varName2 = fukerror.evalMessage(data.varName, cache);
-				fukerror.storeValue(result, storage, varName2, cache);
-				fukerror.callNextAction(cache);
+				const varName2 = _this.evalMessage(data.varName, cache);
+				_this.storeValue(result, storage, varName2, cache);
+				_this.callNextAction(cache);
 			} else {
-				fukerror.callNextAction(cache);
+				_this.callNextAction(cache);
 			}
 		}
         )
