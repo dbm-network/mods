@@ -236,7 +236,7 @@ module.exports = {
             },
             function(state) {
                 if(state.error){
-              console.log("Server is offline");
+              console.log("[Store Game Server Info Mod] Server is offline.");
             }
                 else {
                     switch (info) {
@@ -261,7 +261,7 @@ module.exports = {
                         default:
                             break;   
                     }
-            }
+            
             if (result !== undefined) {
 				const storage = parseInt(data.storage);
 				const varName2 = _this.evalMessage(data.varName, cache);
@@ -270,6 +270,7 @@ module.exports = {
 			} else {
 				_this.callNextAction(cache);
 			}
+		}
 		}
         )
 	},
