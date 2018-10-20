@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Find Member",
+name: "Check Variable",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -14,7 +14,7 @@ name: "Find Member",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Member Control",
+section: "Conditions",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -23,12 +23,11 @@ section: "Member Control",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const info = ['Member ID', 'Member Username', 'Member Display Name', 'Member Tag', 'Member Color'];
-	return `Find Member by ${info[parseInt(data.info)]}`;
+	const results = ["Continue Actions", "Stop Action Sequence", "Jump To Action", "Jump Forward Actions"];
+	return `If True: ${results[parseInt(data.iftrue)]} ~ If False: ${results[parseInt(data.iffalse)]}`;
 },
 
-
-	//---------------------------------------------------------------------
+//---------------------------------------------------------------------
 	 // DBM Mods Manager Variables (Optional but nice to have!)
 	 //
 	 // These are variables that DBM Mods Manager uses to show information
@@ -36,33 +35,18 @@ subtitle: function(data) {
 	 //---------------------------------------------------------------------
 
 	 // Who made the mod (If not set, defaults to "DBM Mods")
-	 author: "DBM, Lasse & MrGold",
+	 author: "DBM Mods & EGGSY",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.9.1", //Added in 1.8.9
+	 version: "1.9.1",
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
-	 short_description: "Fixed multiple issues with this default DBM action.",
+	 short_description: "Added more options to default action.",
 
 	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
 
 	 //---------------------------------------------------------------------
-
-
-	 
-	 
-//---------------------------------------------------------------------
-// Action Storage Function
-//
-// Stores the relevant variable info for the editor.
-//---------------------------------------------------------------------
-
-variableStorage: function(data, varType) {
-	const type = parseInt(data.storage);
-	if(type !== varType) return;
-	return ([data.varName, 'Server Member']);
-},
 
 //---------------------------------------------------------------------
 // Action Fields
@@ -72,7 +56,7 @@ variableStorage: function(data, varType) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["info", "find", "storage", "varName"],
+fields: ["storage", "varName", "comparison", "value", "iftrue", "iftrueVal", "iffalse", "iffalseVal"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -92,34 +76,42 @@ fields: ["info", "find", "storage", "varName"],
 
 html: function(isEvent, data) {
 	return `
-<div><p>This action has been modified by DBM Mods.</p></div><br>
+	<div><p>This action has been modified by DBM Mods.</p></div><br>
 <div>
-	<div style="float: left; width: 40%;">
-		Source Field:<br>
-		<select id="info" class="round">
-			<option value="0" selected>Member ID</option>
-			<option value="1">Member Username</option>
-			<option value="2">Member Display Name</option>
-			<option value="3">Member Tag</option>
-			<option value="4">Member Color</option>
-		</select>
-	</div>
-	<div style="float: right; width: 55%;">
-		Search Value:<br>
-		<input id="find" class="round" type="text">
-	</div>
-</div><br><br><br>
-<div style="padding-top: 8px;">
 	<div style="float: left; width: 35%;">
-		Store In:<br>
-		<select id="storage" class="round">
+		Variable:<br>
+		<select id="storage" class="round" onchange="glob.refreshVariableList(this)">
 			${data.variables[1]}
 		</select>
 	</div>
 	<div id="varNameContainer" style="float: right; width: 60%;">
 		Variable Name:<br>
-		<input id="varName" class="round" type="text">
+		<input id="varName" class="round" type="text" list="variableList">
 	</div>
+</div><br><br><br>
+<div style="padding-top: 8px;">
+	<div style="float: left; width: 45%;">
+		Comparison Type:<br>
+		<select id="comparison" class="round" onchange="glob.onChange1(this)">
+			<option value="0">Exists</option>
+			<option value="1" selected>Equals</option>
+			<option value="2">Equals Exactly</option>
+			<option value="3">Less Than</option>
+			<option value="4">Greater Than</option>
+			<option value="5">Includes</option>
+			<option value="6">Matches Regex</option>
+			<option value="7">Length is Bigger Than</option>
+			<option value="8">Length is Smaller Than</option>
+			<option value="9">Length Equals</option>
+		</select>
+	</div>
+	<div style="float: right; width: 50%;" id="directValue">
+		Value to Compare to:<br>
+		<input id="value" class="round" type="text" name="is-eval">
+	</div>
+</div><br><br><br>
+<div style="padding-top: 8px;">
+	${data.conditions[0]}
 </div>`
 },
 
@@ -132,6 +124,19 @@ html: function(isEvent, data) {
 //---------------------------------------------------------------------
 
 init: function() {
+	const {glob, document} = this;
+
+	glob.onChange1 = function(event) {
+		if(event.value === "0") {
+			document.getElementById("directValue").style.display = 'none';
+		} else {
+			document.getElementById("directValue").style.display = null;
+		}
+	};
+
+	glob.refreshVariableList(document.getElementById('storage'));
+	glob.onChangeTrue(document.getElementById('iftrue'));
+	glob.onChangeFalse(document.getElementById('iffalse'));
 },
 
 //---------------------------------------------------------------------
@@ -143,55 +148,53 @@ init: function() {
 //---------------------------------------------------------------------
 
 action: function(cache) {
-	const server = cache.server;
-	if(!server || !server.members) {
-		this.callNextAction(cache);
-		return;
-	}
 	const data = cache.actions[cache.index];
-	const info = parseInt(data.info);
-	const find = this.evalMessage(data.find, cache);
-	
-	//DBM Mods ~ Lasse
-	//Checks if server is large and caches all users to verify that offline users are tracked.
-	if(server.large == true) {
-		server.fetchMembers();
+	const type = parseInt(data.storage);
+	const varName = this.evalMessage(data.varName, cache);
+	const variable = this.getVariable(type, varName, cache);
+	let result = false;
+	if(variable) {
+		const val1 = variable;
+		const compare = parseInt(data.comparison);
+		let val2 = this.evalMessage(data.value, cache);
+		if(compare !== 6) val2 = this.eval(val2, cache);
+		if(val2 === false) val2 = this.evalMessage(data.value, cache);
+		switch(compare) {
+			case 0:
+				result = Boolean(val1 !== undefined);
+				break;
+			case 1:
+				result = Boolean(val1 == val2);
+				break;
+			case 2:
+				result = Boolean(val1 === val2);
+				break;
+			case 3:
+				result = Boolean(val1 < val2);
+				break;
+			case 4:
+				result = Boolean(val1 > val2);
+				break;
+			case 5:
+				if(typeof(val1.includes) === 'function') {
+					result = Boolean(val1.includes(val2));
+				}
+				break;
+			case 6:
+				result = Boolean(val1.match(new RegExp('^' + val2 + '$', 'i')));
+				break;
+			case 7:
+				result = Boolean(val1.length > val2);
+				break;
+			case 8:
+				result = Boolean(val1.length < val2);
+				break;
+			case 9: //Added by Lasse
+			  result = Boolean(val1.length == val2);
+			  break;
+		}
 	}
-	//End
-	
-	let result;
-	switch(info) {
-		case 0:
-			result = server.members.find(element => element.id === find);
-			break;
-		case 1:
-			result = server.members.find(function(mem) {
-				return mem.user ? mem.user.username === find : false;
-			});
-			break;
-		case 2:
-			result = server.members.find(element => element.displayName === find);
-			break
-		case 3:
-			result = server.members.find(function(mem) {
-				return mem.user ? mem.user.tag === find : false;
-			});
-			break;
-		case 4:
-			result = server.members.find(element => element.displayColor === find);
-			break;;
-		default:
-			break;
-	}
-	
-	if(result !== undefined) {
-		const storage = parseInt(data.storage);
-		const varName = this.evalMessage(data.varName, cache);
-		this.storeValue(result, storage, varName, cache);
-		this.callNextAction(cache);
-	} else {
-		this.callNextAction(cache);
-	}
+	this.executeResults(result, data, cache);
 },
 
 //---------------------------------------------------------------------

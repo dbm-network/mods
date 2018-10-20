@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Find Member",
+name: "Set Member Voice Channel Perms",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -14,7 +14,7 @@ name: "Find Member",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Member Control",
+section: "Channel Control",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -23,12 +23,12 @@ section: "Member Control",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const info = ['Member ID', 'Member Username', 'Member Display Name', 'Member Tag', 'Member Color'];
-	return `Find Member by ${info[parseInt(data.info)]}`;
+	const names = ['Command Author\'s Voice Ch.', 'Mentioned User\'s Voice Ch.', 'Default Voice Channel', 'Temp Variable', 'Server Variable', 'Global Variable'];
+	const index = parseInt(data.vchannel);
+	return index < 3 ? `${names[index]}` : `${names[index]} - ${data.varName}`;
 },
 
-
-	//---------------------------------------------------------------------
+//---------------------------------------------------------------------
 	 // DBM Mods Manager Variables (Optional but nice to have!)
 	 //
 	 // These are variables that DBM Mods Manager uses to show information
@@ -36,33 +36,18 @@ subtitle: function(data) {
 	 //---------------------------------------------------------------------
 
 	 // Who made the mod (If not set, defaults to "DBM Mods")
-	 author: "DBM, Lasse & MrGold",
+	 author: "MrGold",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.9.1", //Added in 1.8.9
+	 version: "1.9.1", //Added in 1.9.1
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
-	 short_description: "Fixed multiple issues with this default DBM action.",
+	 short_description: "Sets the Permission of a Member in a Voice Channel",
 
 	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-
+     
 
 	 //---------------------------------------------------------------------
-
-
-	 
-	 
-//---------------------------------------------------------------------
-// Action Storage Function
-//
-// Stores the relevant variable info for the editor.
-//---------------------------------------------------------------------
-
-variableStorage: function(data, varType) {
-	const type = parseInt(data.storage);
-	if(type !== varType) return;
-	return ([data.varName, 'Server Member']);
-},
 
 //---------------------------------------------------------------------
 // Action Fields
@@ -72,7 +57,7 @@ variableStorage: function(data, varType) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["info", "find", "storage", "varName"],
+fields: ["vchannel", "varName", "member", "varName2", "permission", "state"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -92,33 +77,50 @@ fields: ["info", "find", "storage", "varName"],
 
 html: function(isEvent, data) {
 	return `
-<div><p>This action has been modified by DBM Mods.</p></div><br>
 <div>
-	<div style="float: left; width: 40%;">
-		Source Field:<br>
-		<select id="info" class="round">
-			<option value="0" selected>Member ID</option>
-			<option value="1">Member Username</option>
-			<option value="2">Member Display Name</option>
-			<option value="3">Member Tag</option>
-			<option value="4">Member Color</option>
+    <p>
+        <u>Mod Info:</u><br>
+	 Created by MrGold!
+    </p>
+</div><br>
+<div>
+	<div style="float: left; width: 35%;">
+		Source Voice Channel:<br>
+		<select id="vchannel" class="round" onchange="glob.voiceChannelChange(this, 'varNameContainer')">
+			${data.voiceChannels[isEvent ? 1 : 0]}
 		</select>
 	</div>
-	<div style="float: right; width: 55%;">
-		Search Value:<br>
-		<input id="find" class="round" type="text">
+	<div id="varNameContainer" style="display: none; float: right; width: 60%;">
+		Variable Name:<br>
+		<input id="varName" class="round" type="text" list="variableList"><br>
 	</div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
 	<div style="float: left; width: 35%;">
-		Store In:<br>
-		<select id="storage" class="round">
-			${data.variables[1]}
+		Source Member:<br>
+		<select id="member" name="second-list" class="round" onchange="glob.memberChange(this, 'varNameContainer2')">
+			${data.members[isEvent ? 1 : 0]}
 		</select>
 	</div>
-	<div id="varNameContainer" style="float: right; width: 60%;">
+	<div id="varNameContainer2" style="display: none; float: right; width: 60%;">
 		Variable Name:<br>
-		<input id="varName" class="round" type="text">
+		<input id="varName2" class="round" type="text" list="variableList2"><br>
+	</div>
+</div><br><br><br>
+<div style="padding-top: 8px;">
+	<div style="float: left; width: 45%;">
+		Permission:<br>
+		<select id="permission" class="round">
+			${data.permissions[1]}
+		</select>
+	</div>
+	<div style="padding-left: 5%; float: left; width: 55%;">
+		Change To:<br>
+		<select id="state" class="round">
+			<option value="0" selected>Allow</option>
+			<option value="1">Inherit</option>
+			<option value="2">Disallow</option>
+		</select>
 	</div>
 </div>`
 },
@@ -132,6 +134,10 @@ html: function(isEvent, data) {
 //---------------------------------------------------------------------
 
 init: function() {
+	const {glob, document} = this;
+
+	glob.voiceChannelChange(document.getElementById('vchannel'), 'varNameContainer');
+	glob.memberChange(document.getElementById('member'), 'varNameContainer2');
 },
 
 //---------------------------------------------------------------------
@@ -143,52 +149,29 @@ init: function() {
 //---------------------------------------------------------------------
 
 action: function(cache) {
-	const server = cache.server;
-	if(!server || !server.members) {
-		this.callNextAction(cache);
-		return;
-	}
 	const data = cache.actions[cache.index];
-	const info = parseInt(data.info);
-	const find = this.evalMessage(data.find, cache);
-	
-	//DBM Mods ~ Lasse
-	//Checks if server is large and caches all users to verify that offline users are tracked.
-	if(server.large == true) {
-		server.fetchMembers();
-	}
-	//End
-	
-	let result;
-	switch(info) {
-		case 0:
-			result = server.members.find(element => element.id === find);
-			break;
-		case 1:
-			result = server.members.find(function(mem) {
-				return mem.user ? mem.user.username === find : false;
-			});
-			break;
-		case 2:
-			result = server.members.find(element => element.displayName === find);
-			break
-		case 3:
-			result = server.members.find(function(mem) {
-				return mem.user ? mem.user.tag === find : false;
-			});
-			break;
-		case 4:
-			result = server.members.find(element => element.displayColor === find);
-			break;;
-		default:
-			break;
-	}
-	
-	if(result !== undefined) {
-		const storage = parseInt(data.storage);
-		const varName = this.evalMessage(data.varName, cache);
-		this.storeValue(result, storage, varName, cache);
-		this.callNextAction(cache);
+	const storage = parseInt(data.vchannel);
+	const varName = this.evalMessage(data.varName, cache);
+	const channel = this.getChannel(storage, varName, cache);
+
+	const storage2 = parseInt(data.member);
+	const varName2 = this.evalMessage(data.varName2, cache);
+	const member = this.getMember(storage2, varName2, cache);
+
+	const options = {};
+	options[data.permission] = data.state === "0" ? true : (data.state === "2" ? false : null);
+	if(member && member.id) {
+		if(Array.isArray(channel)) {
+			this.callListFunc(channel, 'overwritePermissions', [member.id, options]).then(function() {
+				this.callNextAction(cache);
+			}.bind(this));
+		} else if(channel && channel.overwritePermissions) {
+			channel.overwritePermissions(member.id, options).then(function() {
+				this.callNextAction(cache);
+			}.bind(this)).catch(this.displayError.bind(this, data, cache));
+		} else {
+			this.callNextAction(cache);
+		}
 	} else {
 		this.callNextAction(cache);
 	}
