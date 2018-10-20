@@ -136,7 +136,7 @@ action: function(cache) {
 	const varName = this.evalMessage(data.varName, cache);
 		const message = this.evalMessage(data.message, cache);
 	const image = this.getVariable(storage, varName, cache);
-	console.log(image);
+	
 	if(!image) {
 		this.callNextAction(cache);
 		return;
