@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Find Member",
+name: "Check If User Reacted",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -14,7 +14,7 @@ name: "Find Member",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Member Control",
+section: "Conditions",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -23,12 +23,11 @@ section: "Member Control",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const info = ['Member ID', 'Member Username', 'Member Display Name', 'Member Tag', 'Member Color'];
-	return `Find Member by ${info[parseInt(data.info)]}`;
+	const results = ["Continue Actions", "Stop Action Sequence", "Jump To Action", "Jump Forward Actions"];
+	return `If True: ${results[parseInt(data.iftrue)]} ~ If False: ${results[parseInt(data.iffalse)]}`;
 },
 
-
-	//---------------------------------------------------------------------
+//---------------------------------------------------------------------
 	 // DBM Mods Manager Variables (Optional but nice to have!)
 	 //
 	 // These are variables that DBM Mods Manager uses to show information
@@ -36,33 +35,20 @@ subtitle: function(data) {
 	 //---------------------------------------------------------------------
 
 	 // Who made the mod (If not set, defaults to "DBM Mods")
-	 author: "DBM, Lasse & MrGold",
+	 author: "MrGold",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.9.1", //Added in 1.8.9
+	 version: "1.9.1", //Added in 1.9.1
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
-	 short_description: "Fixed multiple issues with this default DBM action.",
+	 short_description: "Check if a member reacted to specified reaction",
 
 	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-
+     depends_on_mods: [
+	 {name:'WrexMods',path:'aaa_wrexmods_dependencies_MOD.js'}
+	 ],
 
 	 //---------------------------------------------------------------------
-
-
-	 
-	 
-//---------------------------------------------------------------------
-// Action Storage Function
-//
-// Stores the relevant variable info for the editor.
-//---------------------------------------------------------------------
-
-variableStorage: function(data, varType) {
-	const type = parseInt(data.storage);
-	if(type !== varType) return;
-	return ([data.varName, 'Server Member']);
-},
 
 //---------------------------------------------------------------------
 // Action Fields
@@ -72,7 +58,7 @@ variableStorage: function(data, varType) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["info", "find", "storage", "varName"],
+fields: ["member", "varName", "reaction", "varName2", "iftrue", "iftrueVal", "iffalse", "iffalseVal"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -92,34 +78,38 @@ fields: ["info", "find", "storage", "varName"],
 
 html: function(isEvent, data) {
 	return `
-<div><p>This action has been modified by DBM Mods.</p></div><br>
 <div>
-	<div style="float: left; width: 40%;">
-		Source Field:<br>
-		<select id="info" class="round">
-			<option value="0" selected>Member ID</option>
-			<option value="1">Member Username</option>
-			<option value="2">Member Display Name</option>
-			<option value="3">Member Tag</option>
-			<option value="4">Member Color</option>
+    <p>
+        <u>Mod Info:</u><br>
+	Created by MrGold
+    </p>
+</div><br>
+<div>
+	<div style="float: left; width: 35%;">
+		Source Member:<br>
+		<select id="member" class="round" onchange="glob.memberChange(this, 'varNameContainer')">
+			${data.members[isEvent ? 1 : 0]}
 		</select>
 	</div>
-	<div style="float: right; width: 55%;">
-		Search Value:<br>
-		<input id="find" class="round" type="text">
+	<div id="varNameContainer" style="display: none; float: right; width: 60%;">
+		Variable Name:<br>
+		<input id="varName" class="round" type="text" list="variableList"><br>
 	</div>
-</div><br><br><br>
-<div style="padding-top: 8px;">
+</div><br><br><br><br>
+<div>
 	<div style="float: left; width: 35%;">
-		Store In:<br>
-		<select id="storage" class="round">
+		Source Reaction:<br>
+		<select id="reaction" class="round" onchange="glob.refreshVariableList(this)">
 			${data.variables[1]}
 		</select>
 	</div>
-	<div id="varNameContainer" style="float: right; width: 60%;">
+	<div id="varNameContainer2" style="float: right; width: 60%;">
 		Variable Name:<br>
-		<input id="varName" class="round" type="text">
+		<input id="varName2" class="round" type="text" list="variableList"><br>
 	</div>
+</div><br><br><br>
+<div style="padding-top: 8px;">
+	${data.conditions[0]}
 </div>`
 },
 
@@ -132,6 +122,12 @@ html: function(isEvent, data) {
 //---------------------------------------------------------------------
 
 init: function() {
+	const {glob, document} = this;
+
+	glob.memberChange(document.getElementById('member'), 'varNameContainer');
+	glob.refreshVariableList(document.getElementById('reaction'));
+	glob.onChangeTrue(document.getElementById('iftrue'));
+	glob.onChangeFalse(document.getElementById('iffalse'));
 },
 
 //---------------------------------------------------------------------
@@ -143,55 +139,46 @@ init: function() {
 //---------------------------------------------------------------------
 
 action: function(cache) {
-	const server = cache.server;
-	if(!server || !server.members) {
-		this.callNextAction(cache);
-		return;
-	}
 	const data = cache.actions[cache.index];
-	const info = parseInt(data.info);
-	const find = this.evalMessage(data.find, cache);
 	
-	//DBM Mods ~ Lasse
-	//Checks if server is large and caches all users to verify that offline users are tracked.
-	if(server.large == true) {
-		server.fetchMembers();
+	const type = parseInt(data.member);
+	const varName = this.evalMessage(data.varName, cache);
+	const member = this.getMember(type, varName, cache);
+	
+	const type2 = parseInt(data.reaction);
+	const varName2 = this.evalMessage(data.varName2, cache);
+	var WrexMods = this.getWrexMods();
+	const reaction = WrexMods.getReaction(type2, varName2, cache);
+	
+	let result = false;
+	if(member && reaction.users) {
+		const member22 = String(member).replace(/!/g, '');
+		const ar = reaction.users.array();
+		const ar22 = String(ar);
+		result = ar22.includes(member22);
 	}
-	//End
 	
-	let result;
-	switch(info) {
-		case 0:
-			result = server.members.find(element => element.id === find);
-			break;
-		case 1:
-			result = server.members.find(function(mem) {
-				return mem.user ? mem.user.username === find : false;
+	if(reaction) {
+		if(Array.isArray(member)) {
+			result = member.every(function(mem) {
+				if(mem && reaction.users) {
+					const member2 = String(mem).replace(/!/g, '');
+					const ar1 = reaction.users.array();
+					const ar12 = String(ar1);
+					return ar12.includes(member2);
+				} else {
+					return false;
+				}
 			});
-			break;
-		case 2:
-			result = server.members.find(element => element.displayName === find);
-			break
-		case 3:
-			result = server.members.find(function(mem) {
-				return mem.user ? mem.user.tag === find : false;
-			});
-			break;
-		case 4:
-			result = server.members.find(element => element.displayColor === find);
-			break;;
-		default:
-			break;
+		} else if(member && reaction.users) {
+			const member22 = String(member).replace(/!/g, '');
+		    const ar2 = reaction.users.array();
+		    const ar22 = String(ar2);
+		    result = ar22.includes(member22);
+		}
 	}
 	
-	if(result !== undefined) {
-		const storage = parseInt(data.storage);
-		const varName = this.evalMessage(data.varName, cache);
-		this.storeValue(result, storage, varName, cache);
-		this.callNextAction(cache);
-	} else {
-		this.callNextAction(cache);
-	}
+	this.executeResults(result, data, cache);
 },
 
 //---------------------------------------------------------------------

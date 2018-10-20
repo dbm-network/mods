@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Store Voice channel things",
+name: "Split",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -14,7 +14,7 @@ name: "Store Voice channel things",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Channel Control",
+section: "Other Stuff",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -23,33 +23,26 @@ section: "Channel Control",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const channels = ['Command Author\'s Voice Ch.', 'Mentioned User\'s Voice Ch.', 'Default Voice Channel', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const info = ['Bot can speak?', 'Bot can join?', 'Bot can delete VC?', 'VCs position in VC list', 'Members connected'];
-	return `${channels[parseInt(data.channel)]} - ${info[parseInt(data.info)]}`;
+	return `Split anything!`;
 },
 
 //---------------------------------------------------------------------
-// DBM Mods Manager Variables (Optional but nice to have!)
-//
-// These are variables that DBM Mods Manager uses to show information
-// about the mods for people to see in the list.
-//---------------------------------------------------------------------
+	// DBM Mods Manager Variables (Optional but nice to have!)
+	//
+	// These are variables that DBM Mods Manager uses to show information
+	// about the mods for people to see in the list.
+	//---------------------------------------------------------------------
 
-// Who made the mod (If not set, defaults to "DBM Mods")
-author: "Lasse",
+	// Who made the mod (If not set, defaults to "DBM Mods")
+	author: "Sopy",
 
-// The version of the mod (Defaults to 1.0.0)
-version: "1.8.7", //Added in 1.8.2
+	// The version of the mod (Defaults to 1.0.0)
+	version: "1.9", //Added in 1.9
 
-//1.8.7: Changed dropdown texts!
+	// A short description to show on the mod line for this mod (Must be on a single line)
+	short_description: "Split anything!",
 
-// A short description to show on the mod line for this mod (Must be on a single line)
-short_description: "Stores Voice Channels Information",
-
-// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-
-
-//---------------------------------------------------------------------
+	// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
 //---------------------------------------------------------------------
 // Action Storage Function
@@ -60,28 +53,9 @@ short_description: "Stores Voice Channels Information",
 variableStorage: function(data, varType) {
 	const type = parseInt(data.storage);
 	if(type !== varType) return;
-	const info = parseInt(data.info);
-	let dataType = 'Unknown Type';
-	switch(info) {
-		case 0:
-			dataType = "Boolean";
-			break;
-		case 1:
-			dataType = "Boolean";
-			break;
-		case 2:
-			dataType = "Boolean";
-			break;
-		case 3:
-			dataType = "Number";
-			break;
-		case 4:
-			dataTyple = "Array";
-			break;
-	}
-	return ([data.varName2, dataType]);
+	let dataType = 'Sliced Result';
+	return ([data.varName, dataType]);
 },
-
 //---------------------------------------------------------------------
 // Action Fields
 //
@@ -90,7 +64,7 @@ variableStorage: function(data, varType) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["channel", "varName", "info", "storage", "varName2"],
+fields: ["split", "spliton", "storage", "varName"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -110,46 +84,29 @@ fields: ["channel", "varName", "info", "storage", "varName2"],
 
 html: function(isEvent, data) {
 	return `
-	<div>
-		<p>
-			<u>Mod Info:</u><br>
-			Created by Lasse!
-		</p>
-	</div><br>
-<div>
-	<div style="float: left; width: 35%;">
-		Source Channel:<br>
-		<select id="channel" class="round" onchange="glob.voiceChannelChange(this, 'varNameContainer')">
-			${data.voiceChannels[isEvent ? 1 : 0]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="display: none; float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList"><br>
-	</div>
-</div><br><br><br>
-<div>
-	<div style="padding-top: 8px; width: 70%;">
-		Source Info:<br>
-		<select id="info" class="round">
-			<option value="0" selected>Can Bot Speak?</option>
-			<option value="1">Can Bot Join VC?</option>
-			<option value="2">Can Bot Delete VC?</option>
-			<option value="3">Position In VC List</option>
-			<option value="4">Connected Members</option>
-		</select>
-	</div>
+<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
+<div id="modinfo">
+	<p>
+	   <u>Mod Info:</u><br>
+Made by Sopy<br>Fixed and Edited by MrGold & NetLuis<br><br><u>How to use:</u><br>After you split and save (ex. \${tempVars("splited")}\) in order to use the a chunk somewhere you shoud place [Chunk number] after the variable name (ex. \${tempVars("splited")[0]}\)<br> Counting starts from 0 not from 1!
+	</p></div><br>
+	<div padding-top: 8px;">
+		Split Text:<br>
+		<textarea id="split" rows="2" placeholder="Insert text here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
 </div><br>
-<div>
+	<div style="float: left; width: 45%; padding-top: 8px;">
+	   Split on:<br>
+	   <input id="spliton" class="round" type="text">
+</div><br><br><br><br>
 	<div style="float: left; width: 35%;">
 		Store In:<br>
 		<select id="storage" class="round">
 			${data.variables[1]}
 		</select>
 	</div>
-	<div id="varNameContainer2" style="float: right; width: 60%;">
+	<div id="varNameContainer" style="float: right; width: 60%;">
 		Variable Name:<br>
-		<input id="varName2" class="round" type="text"><br>
+		<input id="varName" class="round" type="text"><br>
 	</div>
 </div>`
 },
@@ -165,7 +122,7 @@ html: function(isEvent, data) {
 init: function() {
 	const {glob, document} = this;
 
-	glob.voiceChannelChange(document.getElementById('channel'), 'varNameContainer');
+	glob.variableChange(document.getElementById('storage'), 'varNameContainer');
 },
 
 //---------------------------------------------------------------------
@@ -177,43 +134,18 @@ init: function() {
 //---------------------------------------------------------------------
 
 action: function(cache) {
+
 	const data = cache.actions[cache.index];
-	const channel = parseInt(data.channel);
+	const texttosplit = this.evalMessage(data.split, cache);
+	const spliton = this.evalMessage(data.spliton, cache);
+	if(!texttosplit) return console.log("No text has been given for getting split.");
+	if(!spliton) return console.log("Something is missing...");
+	result = `${texttosplit}`.split(`${spliton}`);
+	const storage = parseInt(data.storage);
 	const varName = this.evalMessage(data.varName, cache);
-	const info = parseInt(data.info);
-	const targetChannel = this.getVoiceChannel(channel, varName, cache);
-	if(!targetChannel) {
-		this.callNextAction(cache);
-		return;
-	}
-	let result;
-	switch(info) {
-		case 0:
-			result = targetChannel.speakable;
-			break;
-		case 1:
-			result = targetChannel.joinable;
-			break;
-		case 2:
-			result = targetChannel.deletable;
-			break;
-		case 3:
-			result = targetChannel.position;
-			break;
-		case 4:
-			result = targetChannel.members.array();
-			break;
-		default:
-			break;
-	}
-	if(result !== undefined) {
-		const storage = parseInt(data.storage);
-		const varName2 = this.evalMessage(data.varName2, cache);
-		this.storeValue(result, storage, varName2, cache);
-		this.callNextAction(cache);
-	} else {
-		this.callNextAction(cache);
-	}
+	this.storeValue(result, storage, varName, cache);
+
+	this.callNextAction(cache);
 },
 
 //---------------------------------------------------------------------
