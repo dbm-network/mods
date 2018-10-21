@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Remove Item from List - Edited",
+name: "Remove Item from List",
 
 //---------------------------------------------------------------------
 // Action Section
