@@ -39,7 +39,7 @@ subtitle: function(data) {
 	 author: "Lasse",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.8.2",
+	 version: "1.9.2", //Added in 1.8.2
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
 	 short_description: "Adds image effects with a custom Intensity",
@@ -133,28 +133,44 @@ init: function() {
 //---------------------------------------------------------------------
 
 action: function(cache) {
+	var _this = this;
 	const data = cache.actions[cache.index];
-	const storage = parseInt(data.storage);
-	const varName = this.evalMessage(data.varName, cache);
+	
+	var storage = parseInt(data.storage);
+	var varName = this.evalMessage(data.varName, cache);
 	const image = this.getVariable(storage, varName, cache);
 	const intensity= parseInt(data.intensity);
-	var gm = require("gm");
+	
+	var Jimp = require("jimp");
+	
+	
 	if(!image) {
 		this.callNextAction(cache);
 		return;
 	}
+	Jimp.read(image, function (err, image1) {
 	const effect = parseInt(data.effect);
 	switch(effect) {
 		case 0:
-			image.blur(intensity);
+			image1.blur(intensity);
+			
+			image1.getBuffer(Jimp.MIME_PNG, (error, image2) => {
+			_this.storeValue(image2, storage, varName, cache)
+			_this.callNextAction(cache);
+			})
+			
 			break;
 		case 1:
-			image.pixelate(intensity);
+			image1.pixelate(intensity);
+            			image1.getBuffer(Jimp.MIME_PNG, (error, image2) => {
+			_this.storeValue(image2, storage, varName, cache)
+			_this.callNextAction(cache);
+			})
 			break;
 	}
-	this.callNextAction(cache);
+
+	})
 },
-//npm install gm
 
 
 //---------------------------------------------------------------------
