@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Set Member Voice Channel Perms",
+name: "Check Variable",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -14,7 +14,7 @@ name: "Set Member Voice Channel Perms",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Channel Control",
+section: "Conditions",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -23,9 +23,8 @@ section: "Channel Control",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const names = ['Command Author\'s Voice Ch.', 'Mentioned User\'s Voice Ch.', 'Default Voice Channel', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const index = parseInt(data.vchannel);
-	return index < 3 ? `${names[index]}` : `${names[index]} - ${data.varName}`;
+	const results = ["Continue Actions", "Stop Action Sequence", "Jump To Action", "Jump Forward Actions"];
+	return `If True: ${results[parseInt(data.iftrue)]} ~ If False: ${results[parseInt(data.iffalse)]}`;
 },
 
 //---------------------------------------------------------------------
@@ -36,16 +35,16 @@ subtitle: function(data) {
 	 //---------------------------------------------------------------------
 
 	 // Who made the mod (If not set, defaults to "DBM Mods")
-	 author: "MrGold",
+	 author: "DBM Mods & EGGSY",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.9.1", //Added in 1.9.1
+	 version: "1.9.1",
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
-	 short_description: "Sets the Permission of a Member in a Voice Channel",
+	 short_description: "Added more options to default action.",
 
 	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-     
+
 
 	 //---------------------------------------------------------------------
 
@@ -57,7 +56,7 @@ subtitle: function(data) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["vchannel", "varName", "member", "varName2", "permission", "state"],
+fields: ["storage", "varName", "comparison", "value", "iftrue", "iftrueVal", "iffalse", "iffalseVal"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -77,51 +76,42 @@ fields: ["vchannel", "varName", "member", "varName2", "permission", "state"],
 
 html: function(isEvent, data) {
 	return `
-<div>
-    <p>
-        <u>Mod Info:</u><br>
-	 Created by MrGold!
-    </p>
-</div><br>
+	<div><p>This action has been modified by DBM Mods.</p></div><br>
 <div>
 	<div style="float: left; width: 35%;">
-		Source Voice Channel:<br>
-		<select id="vchannel" class="round" onchange="glob.voiceChannelChange(this, 'varNameContainer')">
-			${data.voiceChannels[isEvent ? 1 : 0]}
+		Variable:<br>
+		<select id="storage" class="round" onchange="glob.refreshVariableList(this)">
+			${data.variables[1]}
 		</select>
 	</div>
-	<div id="varNameContainer" style="display: none; float: right; width: 60%;">
+	<div id="varNameContainer" style="float: right; width: 60%;">
 		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList"><br>
-	</div>
-</div><br><br><br>
-<div style="padding-top: 8px;">
-	<div style="float: left; width: 35%;">
-		Source Member:<br>
-		<select id="member" name="second-list" class="round" onchange="glob.memberChange(this, 'varNameContainer2')">
-			${data.members[isEvent ? 1 : 0]}
-		</select>
-	</div>
-	<div id="varNameContainer2" style="display: none; float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName2" class="round" type="text" list="variableList2"><br>
+		<input id="varName" class="round" type="text" list="variableList">
 	</div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
 	<div style="float: left; width: 45%;">
-		Permission:<br>
-		<select id="permission" class="round">
-			${data.permissions[1]}
+		Comparison Type:<br>
+		<select id="comparison" class="round" onchange="glob.onChange1(this)">
+			<option value="0">Exists</option>
+			<option value="1" selected>Equals</option>
+			<option value="2">Equals Exactly</option>
+			<option value="3">Less Than</option>
+			<option value="4">Greater Than</option>
+			<option value="5">Includes</option>
+			<option value="6">Matches Regex</option>
+			<option value="7">Length is Bigger Than</option>
+			<option value="8">Length is Smaller Than</option>
+			<option value="9">Length Equals</option>
 		</select>
 	</div>
-	<div style="padding-left: 5%; float: left; width: 55%;">
-		Change To:<br>
-		<select id="state" class="round">
-			<option value="0" selected>Allow</option>
-			<option value="1">Inherit</option>
-			<option value="2">Disallow</option>
-		</select>
+	<div style="float: right; width: 50%;" id="directValue">
+		Value to Compare to:<br>
+		<input id="value" class="round" type="text" name="is-eval">
 	</div>
+</div><br><br><br>
+<div style="padding-top: 8px;">
+	${data.conditions[0]}
 </div>`
 },
 
@@ -136,8 +126,17 @@ html: function(isEvent, data) {
 init: function() {
 	const {glob, document} = this;
 
-	glob.voiceChannelChange(document.getElementById('vchannel'), 'varNameContainer');
-	glob.memberChange(document.getElementById('member'), 'varNameContainer2');
+	glob.onChange1 = function(event) {
+		if(event.value === "0") {
+			document.getElementById("directValue").style.display = 'none';
+		} else {
+			document.getElementById("directValue").style.display = null;
+		}
+	};
+
+	glob.refreshVariableList(document.getElementById('storage'));
+	glob.onChangeTrue(document.getElementById('iftrue'));
+	glob.onChangeFalse(document.getElementById('iffalse'));
 },
 
 //---------------------------------------------------------------------
@@ -150,31 +149,52 @@ init: function() {
 
 action: function(cache) {
 	const data = cache.actions[cache.index];
-	const storage = parseInt(data.vchannel);
+	const type = parseInt(data.storage);
 	const varName = this.evalMessage(data.varName, cache);
-	const channel = this.getChannel(storage, varName, cache);
-
-	const storage2 = parseInt(data.member);
-	const varName2 = this.evalMessage(data.varName2, cache);
-	const member = this.getMember(storage2, varName2, cache);
-
-	const options = {};
-	options[data.permission] = data.state === "0" ? true : (data.state === "2" ? false : null);
-	if(member && member.id) {
-		if(Array.isArray(channel)) {
-			this.callListFunc(channel, 'overwritePermissions', [member.id, options]).then(function() {
-				this.callNextAction(cache);
-			}.bind(this));
-		} else if(channel && channel.overwritePermissions) {
-			channel.overwritePermissions(member.id, options).then(function() {
-				this.callNextAction(cache);
-			}.bind(this)).catch(this.displayError.bind(this, data, cache));
-		} else {
-			this.callNextAction(cache);
+	const variable = this.getVariable(type, varName, cache);
+	let result = false;
+	if(variable) {
+		const val1 = variable;
+		const compare = parseInt(data.comparison);
+		let val2 = this.evalMessage(data.value, cache);
+		if(compare !== 6) val2 = this.eval(val2, cache);
+		if(val2 === false) val2 = this.evalMessage(data.value, cache);
+		switch(compare) {
+			case 0:
+				result = Boolean(val1 !== undefined);
+				break;
+			case 1:
+				result = Boolean(val1 == val2);
+				break;
+			case 2:
+				result = Boolean(val1 === val2);
+				break;
+			case 3:
+				result = Boolean(val1 < val2);
+				break;
+			case 4:
+				result = Boolean(val1 > val2);
+				break;
+			case 5:
+				if(typeof(val1.includes) === 'function') {
+					result = Boolean(val1.includes(val2));
+				}
+				break;
+			case 6:
+				result = Boolean(val1.match(new RegExp('^' + val2 + '$', 'i')));
+				break;
+			case 7:
+				result = Boolean(val1.length > val2);
+				break;
+			case 8:
+				result = Boolean(val1.length < val2);
+				break;
+			case 9: //Added by Lasse
+			  result = Boolean(val1.length == val2);
+			  break;
 		}
-	} else {
-		this.callNextAction(cache);
 	}
+	this.executeResults(result, data, cache);
 },
 
 //---------------------------------------------------------------------
