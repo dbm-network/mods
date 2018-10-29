@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Store Role Things",
+name: "Store Role Info",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -24,30 +24,31 @@ section: "Role Control",
 
 subtitle: function(data) {
 	const roles = ['Mentioned Role', '1st Author Role', '1st Server Role', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const info = ['Position role list', 'Creation Date', 'Managed bot role?', 'Role Members', 'Role Members Amount', 'Can bot edit role?', 'Role Members Object', 'Role Members IDs']
+	const info = ['Role Object', 'Role ID', 'Role Name', 'Role Color', 'Role Position', 'Role Timestamp', 'Role Is Mentionable?', 'Role Is Separate From Others?', 'Role Is Managed?', 'Role Member List']
 	return `${roles[parseInt(data.role)]} - ${info[parseInt(data.info)]}`;
 },
 
+
 //---------------------------------------------------------------------
-	 // DBM Mods Manager Variables (Optional but nice to have!)
-	 //
-	 // These are variables that DBM Mods Manager uses to show information
-	 // about the mods for people to see in the list.
-	 //---------------------------------------------------------------------
+// DBM Mods Manager Variables (Optional but nice to have!)
+//
+// These are variables that DBM Mods Manager uses to show information
+// about the mods for people to see in the list.
+//---------------------------------------------------------------------
 
-	 // Who made the mod (If not set, defaults to "DBM Mods")
-	 author: "Lasse, EliteArtz",
+// Who made the mod (If not set, defaults to "DBM Mods")
+author: "DBM & Lasse",
 
-	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.8.2",
+// The version of the mod (Defaults to 1.0.0)
+version: "1.9.2", //Added in 1.9.2
 
-	 // A short description to show on the mod line for this mod (Must be on a single line)
-	 short_description: "Stores Roles Information",
+// A short description to show on the mod line for this mod (Must be on a single line)
+short_description: "More options for default DBM action.",
 
-	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
+// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
 
-	 //---------------------------------------------------------------------
+//---------------------------------------------------------------------
 
 //---------------------------------------------------------------------
 // Action Storage Function
@@ -62,22 +63,28 @@ variableStorage: function(data, varType) {
 	let dataType = 'Unknown Type';
 	switch(info) {
 		case 0:
-			dataType = 'Number';
+			dataType = 'Role';
 			break;
 		case 1:
-			dataType = 'Date';
+			dataType = 'Role ID';
 			break;
 		case 2:
-			dataType = 'Boolean';
+			dataType = 'Text';
 			break;
 		case 3:
-			dataType = 'Text';
+			dataType = 'Color';
 			break;
 		case 4:
-			dataType = 'Number';
-			break;
 		case 5:
 			dataType = 'Text';
+			break;
+		case 6:
+		case 7:
+		case 8:
+			dataType = 'Boolean';
+			break;
+		case 9:
+			dataType = 'Member List';
 			break;
 	}
 	return ([data.varName2, dataType]);
@@ -97,26 +104,21 @@ fields: ["role", "varName", "info", "storage", "varName2"],
 // Command HTML
 //
 // This function returns a string containing the HTML used for
-// editting actions.
+// editting actions. 
 //
 // The "isEvent" parameter will be true if this action is being used
-// for an event. Due to their nature, events lack certain information,
+// for an event. Due to their nature, events lack certain information, 
 // so edit the HTML to reflect this.
 //
-// The "data" parameter stores constants for select elements to use.
+// The "data" parameter stores constants for select elements to use. 
 // Each is an array: index 0 for commands, index 1 for events.
-// The names are: sendTargets, members, roles, channels,
+// The names are: sendTargets, members, roles, channels, 
 //                messages, servers, variables
 //---------------------------------------------------------------------
 
 html: function(isEvent, data) {
 	return `
-	<div>
-		<p>
-			<u>Mod Info:</u><br>
-			Created by EliteArtz & Lasse!
-		</p>
-	</div><br>
+	<div><p>This action has been modified by DBM Mods.</p></div><br>
 <div>
 	<div style="float: left; width: 35%;">
 		Source Role:<br>
@@ -133,14 +135,16 @@ html: function(isEvent, data) {
 	<div style="padding-top: 8px; width: 70%;">
 		Source Info:<br>
 		<select id="info" class="round">
-			<option value="0" selected>Postion in Role list</option>
-			<option value="1">Creation date</option>
-			<option value="2">Managed bot Role</option>
-			<option value="5">Can bot edit this role?</option>
-			<option value="3">Role Members</option>
-			<option value="4">Role Members Amount</option>
-			<option value="6">Role Members Objects</option>
-			<option value="7">Role Members IDs</option>
+			<option value="0" selected>Role Object</option>
+			<option value="1">Role ID</option>
+			<option value="2">Role Name</option>
+			<option value="3">Role Color</option>
+			<option value="4">Role Position</option>
+			<option value="5">Role Timestamp</option>
+			<option value="9">Role Members</option>
+			<option value="6">Role Is Mentionable?</option>
+			<option value="7">Role Is Separate From Others?</option>
+			<option value="8">Role Is Managed By Bot/Integration</option>
 		</select>
 	</div>
 </div><br>
@@ -176,7 +180,7 @@ init: function() {
 // Action Bot Function
 //
 // This is the function for the action within the Bot's Action class.
-// Keep in mind event calls won't have access to the "msg" parameter,
+// Keep in mind event calls won't have access to the "msg" parameter, 
 // so be sure to provide checks for variable existance.
 //---------------------------------------------------------------------
 
@@ -193,28 +197,34 @@ action: function(cache) {
 	let result;
 	switch(info) {
 		case 0:
-			result = targetRole.calculatedPosition;
+			result = targetRole;
 			break;
 		case 1:
-			result = targetRole.createdAt;
+			result = targetRole.id;
 			break;
 		case 2:
-			result = targetRole.managed;
+			result = targetRole.name;
 			break;
 		case 3:
-			result = targetRole.members.array();
+			result = targetRole.hexColor;
 			break;
 		case 4:
-			result = targetRole.members.array().length;
+			result = targetRole.position;
 			break;
 		case 5:
-			result = targetRole.editable;
+			result = targetRole.createdTimestamp;
 			break;
 		case 6:
-			result = targetRole.members.id; //Are that really objects @EliteArtz? lul
+			result = targetRole.mentionable;
 			break;
 		case 7:
-			result = targetRole.members.map(member => member.id);
+			result = targetRole.hoist;
+			break;
+		case 8:
+			result = targetRole.managed;
+			break;
+		case 9:
+			result = targetRole.members.array();
 			break;
 		default:
 			break;

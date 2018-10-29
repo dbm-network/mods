@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Store Reaction Info",
+name: "Store Member Info",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -14,7 +14,7 @@ name: "Store Reaction Info",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Reaction Control",
+section: "Member Control",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -23,9 +23,9 @@ section: "Reaction Control",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const reaction = ['You cheater!', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const info = ['Message Object', 'Bot reacted?', 'Users Who Reacted List', 'Emoji Name', 'Reaction Count', 'First User to React', 'Random User to React', 'Last User to React'];
-	return `${reaction[parseInt(data.reaction)]} - ${info[parseInt(data.info)]}`;
+	const members = ['Mentioned User', 'Command Author', 'Temp Variable', 'Server Variable', 'Global Variable'];
+	const info = ['Member Object', 'Member ID', 'Member Username', 'Member Display Name', 'Member Color', 'Member Server', 'Member Last Message', 'Member Highest Role', 'Member Hoist Role', 'Member Color Role', 'Member Is Owner?', 'Member Is Muted?', 'Member Is Deafened?', 'Member Is Bannable?', 'Member Game', 'Member Status', 'Member Avatar URL', 'Member Role List', 'Member Join Date', 'Member Voice Channel', 'Member Discrim', 'Member Account Creation Date', 'Member Tag'];
+	return `${members[parseInt(data.member)]} - ${info[parseInt(data.info)]}`;
 },
 
 //---------------------------------------------------------------------
@@ -36,19 +36,18 @@ subtitle: function(data) {
 //---------------------------------------------------------------------
 
 // Who made the mod (If not set, defaults to "DBM Mods")
-author: "Lasse & MrGold",
+author: "DBM & Lasse",
 
 // The version of the mod (Defaults to 1.0.0)
-version: "1.9.1", //Added in 1.8.8
+version: "1.9.2", //Added in 1.9.2
 
 // A short description to show on the mod line for this mod (Must be on a single line)
-short_description: "Stores Messages Reaction information",
+short_description: "Added more options to default action.",
 
 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-depends_on_mods: [
-{name:'WrexMods',path:'aaa_wrexmods_dependencies_MOD.js'}
-],
 
+
+//---------------------------------------------------------------------
 
 //---------------------------------------------------------------------
 // Action Storage Function
@@ -63,28 +62,53 @@ variableStorage: function(data, varType) {
 	let dataType = 'Unknown Type';
 	switch(info) {
 		case 0:
-			dataType = "Message";
+			dataType = "Server Member";
 			break;
 		case 1:
-			dataType = "Boolean";
+			dataType = "Server Member ID";
 			break;
 		case 2:
-			dataType = "List";
-			break;
 		case 3:
-			dataType = "String";
+		case 20:
+		case 22:
+			dataType = "Text";
 			break;
 		case 4:
-			dataType = "Number";
+			dataType = "Color";
 			break;
 		case 5:
-			dataType = "User";
+			dataType = "Server";
 			break;
 		case 6:
-			dataType = "User";
+			dataType = "Message";
 			break;
 		case 7:
-			dataType = "User";
+		case 8:
+		case 9:
+			dataType = "Role";
+			break;
+		case 10:
+		case 11:
+		case 12:
+		case 13:
+			dataType = "Boolean";
+			break;
+		case 14:
+		case 15:
+			dataType = "Text";
+			break;
+		case 16:
+			dataType = "Image URL";
+			break;
+		case 17:
+			dataType = "List";
+			break;
+		case 21:
+		case 18:
+			dataType = "Date";
+			break;
+		case 19:
+			dataType = "Voice Channel";
 			break;
 	}
 	return ([data.varName2, dataType]);
@@ -98,40 +122,35 @@ variableStorage: function(data, varType) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["reaction", "varName", "info", "storage", "varName2"],
+fields: ["member", "varName", "info", "storage", "varName2"],
 
 //---------------------------------------------------------------------
 // Command HTML
 //
 // This function returns a string containing the HTML used for
-// editting actions.
+// editting actions. 
 //
 // The "isEvent" parameter will be true if this action is being used
-// for an event. Due to their nature, events lack certain information,
+// for an event. Due to their nature, events lack certain information, 
 // so edit the HTML to reflect this.
 //
-// The "data" parameter stores constants for select elements to use.
+// The "data" parameter stores constants for select elements to use. 
 // Each is an array: index 0 for commands, index 1 for events.
-// The names are: sendTargets, members, roles, channels,
+// The names are: sendTargets, members, roles, channels, 
 //                messages, servers, variables
 //---------------------------------------------------------------------
 
 html: function(isEvent, data) {
 	return `
-	<div>
-		<p>
-			<u>Mod Info:</u><br>
-			Created by Lasse & MrGold!
-		</p>
-	</div><br>
+	<div><p>This action has been modified by DBM Mods.</p></div><br>
 <div>
 	<div style="float: left; width: 35%;">
-		Source Reaction:<br>
-		<select id="reaction" class="round" onchange="glob.refreshVariableList(this)">
-			${data.variables[1]}
+		Source Member:<br>
+		<select id="member" class="round" onchange="glob.memberChange(this, 'varNameContainer')">
+			${data.members[isEvent ? 1 : 0]}
 		</select>
 	</div>
-	<div id="varNameContainer" style="float: right; width: 60%;">
+	<div id="varNameContainer" style="display: none; float: right; width: 60%;">
 		Variable Name:<br>
 		<input id="varName" class="round" type="text" list="variableList"><br>
 	</div>
@@ -140,14 +159,29 @@ html: function(isEvent, data) {
 	<div style="padding-top: 8px; width: 70%;">
 		Source Info:<br>
 		<select id="info" class="round">
-			<option value="0" selected>Message Object</option>
-			<option value="5">First User to React</option>
-			<option value="6">Random User to React</option>
-			<option value="7">Last User to React</option>
-			<option value="1">Bot Reacted?</option>
-			<option value="2">User Who Reacted List</option>
-			<option value="3">Emoji Name</option>
-			<option value="4">Reaction Count</option>
+			<option value="0" selected>Member Object</option>
+			<option value="1">Member ID</option>
+			<option value="2">Member Username</option>
+			<option value="3">Member Display Name</option>
+			<option value="20">Member Discrim (#XXXX)</option>
+			<option value="22">Member Tag (User#XXXX)</option>
+			<option value="4">Member Color</option>
+			<option value="14">Member Game</option>
+			<option value="15">Member Status</option>
+			<option value="16">Member Avatar URL</option>
+			<option value="5">Member Server</option>
+			<option value="18">Member Join Date</option>
+			<option value="21">Member Account Creation Date</option>
+			<option value="19">Member Voice Channel</option>
+			<option value="6">Member Last Message</option>
+			<option value="17">Member Role List</option>
+			<option value="7">Member Highest Role</option>
+			<option value="8">Member Hoist Role</option>
+			<option value="9">Member Color Role</option>
+			<option value="10">Member Is Owner?</option>
+			<option value="11">Member Is Muted?</option>
+			<option value="12">Member Is Deafened?</option>
+			<option value="13">Member Is Bannable?</option>
 		</select>
 	</div>
 </div><br>
@@ -164,7 +198,7 @@ html: function(isEvent, data) {
 	</div>
 </div>`
 },
-//display: none;
+
 //---------------------------------------------------------------------
 // Action Editor Init Code
 //
@@ -176,57 +210,120 @@ html: function(isEvent, data) {
 init: function() {
 	const {glob, document} = this;
 
-	glob.refreshVariableList(document.getElementById('reaction'));
+	glob.memberChange(document.getElementById('member'), 'varNameContainer');
 },
 
 //---------------------------------------------------------------------
 // Action Bot Function
 //
 // This is the function for the action within the Bot's Action class.
-// Keep in mind event calls won't have access to the "msg" parameter,
+// Keep in mind event calls won't have access to the "msg" parameter, 
 // so be sure to provide checks for variable existance.
 //---------------------------------------------------------------------
 
 action: function(cache) {
 	const data = cache.actions[cache.index];
-	const reaction = parseInt(data.reaction);
+	const member = parseInt(data.member);
 	const varName = this.evalMessage(data.varName, cache);
 	const info = parseInt(data.info);
-	var WrexMods = this.getWrexMods(); //Find aaa_wrexmods_dependencies_MOD
-	const rea = WrexMods.getReaction(reaction, varName, cache); //Get Reaction
-	if(!WrexMods) return;
-	if(!rea) {
-		console.log('This is not a reaction'); //Variable is not a reaction -> Error
+	const mem = this.getMember(member, varName, cache);
+	if(!mem) {
 		this.callNextAction(cache);
+		return;
 	}
+	const server = cache.server;
 	let result;
 	switch(info) {
 		case 0:
-			result = rea.message; //Message Object
+			result = mem;
 			break;
 		case 1:
-			result = rea.me; //This bot reacted?
+			result = mem.id;
 			break;
 		case 2:
-			result = rea.users.array(); //All users who reacted list
+			if(mem.user) {
+				result = mem.user.username;
+			}
 			break;
 		case 3:
-			result = rea.emoji.name; //Emoji (/Reaction) name
+			result = mem.displayName;
 			break;
 		case 4:
-			result = rea.count; //Number (user+bots) who reacted like this
+			result = mem.displayHexColor;
 			break;
 		case 5:
-			const firstid = rea.users.firstKey(); //Stores first user ID reacted
-			result = cache.server.members.find(element => element.id === firstid);
+			result = mem.guild;
 			break;
 		case 6:
-			const randomid = rea.users.randomKey(); //Stores random user ID reacted
-			result = cache.server.members.find(element => element.id === randomid);
+			result = mem.lastMessage;
 			break;
 		case 7:
-			const lastid = rea.users.lastKey(); //Stores last user ID reacted
-			result = cache.server.members.find(element => element.id === lastid);
+			result = mem.highestRole;
+			break;
+		case 8:
+			result = mem.hoistRole;
+			break;
+		case 9:
+			result = mem.colorRole;
+			break;
+		case 10:
+			if(mem.guild && mem.guild.owner) {
+				result = Boolean(mem.id === mem.guild.owner.id);
+			}
+			break;
+		case 11:
+			result = Boolean(mem.mute);
+			break;
+		case 12:
+			result = Boolean(mem.deaf);
+			break;
+		case 13:
+			result = Boolean(mem.bannable);
+			break;
+		case 14:
+			if(mem.presence && mem.presence.game) {
+				result = mem.presence.game.name;
+			}
+			break;
+		case 15:
+			if(mem.presence) {
+				const status = mem.presence.status;
+				if(status === 'online') result = 'Online';
+				else if(status === 'offline') result = 'Offline';
+				else if(status === 'idle') result = 'Idle';
+				else if(status === 'dnd') result = 'Do Not Disturb';
+			}
+			break;
+		case 16:
+			if(mem.user) {
+				result = mem.user.displayAvatarURL;
+			}
+			break;
+		case 17:
+			if(mem.roles) {
+				result = mem.roles.array();
+			}
+			break;
+		case 18:
+			result = mem.joinedAt;
+			break;
+		case 19:
+			result = mem.voiceChannel;
+			break;
+		case 20:
+			if(mem.user) {
+				result = mem.user.discriminator;
+			}
+			break;
+		case 21:
+			if (mem.user) {
+				result = mem.user.createdAt;
+			}
+			break;
+		case 22:
+			if (mem.user) {
+				result = mem.user.tag;
+			}
 			break;
 		default:
 			break;
