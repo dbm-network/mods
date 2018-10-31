@@ -23,7 +23,7 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	subtitle: function (data) {
-		const info = ['Title', 'Artist', 'Lyrics', "URL"];
+		const info = ['Title', 'Artist', 'Lyrics', 'URL'];
 		return `Get Lyrics - ${info[parseInt(data.info)]}`;
 	},
 
@@ -231,8 +231,8 @@ module.exports = {
 					result = song.lyrics;
                     break;
                 case 3:
-                    result = song.url
-                    break;
+                    result = song.url;
+					break;
 				default:
 					break;
 			}
