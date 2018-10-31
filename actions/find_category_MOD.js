@@ -196,10 +196,10 @@ action: function(cache) {
 	let result;
 	switch(info) {
 		case 0:
-			result = channels.find('id', find);
+			result = channels.find(e => e.id === find);
 			break;
 		case 1:
-			result = channels.find('name', find);
+			result = channels.find(e => e.name === find);
 			break;
 		default:
 			break;

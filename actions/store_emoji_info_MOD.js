@@ -24,7 +24,7 @@ module.exports = {
 	
 	subtitle: function(data) {
 		const emoji = ['You cheater!', 'Temp Variable', 'Server Variable', 'Global Variable'];
-		const info = ['Emoji Object', 'Emoji Is Animated?', 'Emoji Create Date', 'Emoji Name', 'Emoji URL', 'Emoji ID'];
+		const info = ['Emoji Object', 'Emoji Is Animated?', 'Emoji Creation Date', 'Emoji Name', 'Emoji URL', 'Emoji ID', 'Emoji Timestamp', 'Emoji Is Deletable?', 'Emoji Has Been Deleted?', 'Emoji Server', 'Emoji Identifier', 'Emoji Is Managed By An External Service?', 'Emoji Requires Colons Surrounding It?'];
 		return `${emoji[parseInt(data.emoji)]} - ${info[parseInt(data.info)]}`;
 	},
 	
@@ -36,10 +36,10 @@ module.exports = {
 	//---------------------------------------------------------------------
 	
 	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "NetLuis",
+	author: "NetLuis & MrGold",
 	
 	// The version of the mod (Defaults to 1.0.0)
-	version: "1.9.0", //Added in 1.9.0
+	version: "1.9.1", //Added in 1.9.0
 	
 	// A short description to show on the mod line for this mod (Must be on a single line)
 	short_description: "Stores Emojis information",
@@ -80,6 +80,27 @@ module.exports = {
 		case 5:
 			dataType = "Emoji ID";
 			break;
+		case 6:
+			dataType = "Number";
+			break;
+		case 7:
+			dataType = "Boolean";
+			break;
+		case 8:
+			dataType = "Boolean";
+			break;
+		case 9:
+			dataType = "Server";
+			break;
+		case 10:
+			dataType = "String";
+			break;
+		case 11:
+			dataType = "Boolean";
+			break;
+		case 12:
+			dataType = "Boolean";
+			break;
 		}
 		return ([data.varName2, dataType]);
 	},
@@ -115,7 +136,7 @@ module.exports = {
 		<div>
 			<p>
 				<u>Mod Info:</u><br>
-				Created by NetLuis!
+				Created by NetLuis & MrGold!
 			</p>
 		</div><br>
 	<div>
@@ -136,10 +157,17 @@ module.exports = {
 			<select id="info" class="round">
 			<option value="0" selected>Emoji Object</option>
 			<option value="1">Emoji Is Animated?</option>
-			<option value="2">Emoji Create Date</option>
+			<option value="2">Emoji Creation Date</option>
+			<option value="6">Emoji Timestamp</option>
 			<option value="3">Emoji Name</option>
 			<option value="4">Emoji URL</option>
 			<option value="5">Emoji ID</option>
+			<option value="7">Emoji Is Deletable?</option>
+			<option value="8">Emoji Has Been Deleted?</option>
+			<option value="9">Emoji Server</option>
+			<option value="10">Emoji Identifier</option>
+			<option value="11">Emoji Is Managed By An External Service?</option>
+			<option value="12">Emoji Requires Colons Surrounding It?</option>
 			</select>
 		</div>
 	</div><br>
@@ -199,22 +227,43 @@ module.exports = {
 		let result;
 		switch(info) {
 			case 0:
-			result = emo; // Object
+			result = emo;
 			break;
 		case 1:
-			result = emo.animated; //Emoji animated?
+			result = emo.animated;
 			break;
 		case 2:
-			result = emo.createdAt; //Emoji create date
+			result = emo.createdAt;
 			break;
 		case 3:
-			result = emo.name; //Emoji name
+			result = emo.name;
 			break;
 		case 4:
-			result = emo.url; //Url of emoji
+			result = emo.url;
 			break;
 		case 5:
-			result = emo.id; //ID of emoji
+			result = emo.id;
+			break;
+		case 6:
+			result = emo.createdTimestamp;
+			break;
+		case 7:
+			result = emo.deletable;
+			break;
+		case 8:
+			result = emo.deleted;
+			break;
+		case 9:
+			result = emo.guild;
+			break;
+		case 10:
+			result = emo.identifier;
+			break;
+		case 11:
+			result = emo.managed;
+			break;
+		case 12:
+			result = emo.requiresColons;
 			break;
 		default:
 			break;
