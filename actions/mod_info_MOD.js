@@ -23,7 +23,7 @@ section: "#Mod Information",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	return `Does nothing - Click "Edit" for more information`;
+	return `Put this into a Bot Initalization event for music!`;
 },
 
 //---------------------------------------------------------------------
@@ -40,7 +40,7 @@ author: "DBM Mods",
 version: "1.9.2 ~ beta",
 
 // A short description to show on the mod line for this mod.
-short_description: "Information about the Mod Collection.",
+short_description: "Information about the Mod Collection & Overwrites Bot.js",
 
 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
@@ -211,7 +211,9 @@ init: function() {
 //---------------------------------------------------------------------
 
 action: function(cache) {
-	this.callNextAction(cache);
+
+	console.log('Music function successfully overwritten.');
+
 },
 
 //---------------------------------------------------------------------
@@ -224,6 +226,15 @@ action: function(cache) {
 //---------------------------------------------------------------------
 
 mod: function(DBM) {
+	DBM.Audio.playingnow = [];
+
+    var oldFunc = DBM.Audio.playItem;
+    DBM.Audio.playItem = function(item, id) {
+        oldFunc.apply(this, arguments);
+        if(item[0] === "yt") {
+            this.playingnow[id] = item;
+        }
+	};
 }
 
 }; // End of module
