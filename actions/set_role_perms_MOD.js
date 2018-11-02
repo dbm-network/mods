@@ -87,7 +87,7 @@ html: function(isEvent, data) {
 <div style="padding-top: 8px;">
 	<div style="float: left; width: 35%;">
 		Source Role:<br>
-		<select id="role" name="second-list" class="round" onchange="glob.roleChange(this, 'varNameContainer')">
+		<select id="role" class="round" onchange="glob.roleChange(this, 'varNameContainer')">
 			${data.roles[isEvent ? 1 : 0]}
 		</select>
 	</div>
