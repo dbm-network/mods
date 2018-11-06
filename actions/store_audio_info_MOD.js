@@ -68,7 +68,42 @@ module.exports = {
 	//---------------------------------------------------------------------
 	
 	html: function(isEvent, data) {
-		return `
+        return `
+        <style>
+        table.scroll {
+            width: 525px; /* 140px * 5 column + 16px scrollbar width */
+            border-spacing: 0;
+            border: 2px solid white;
+        }
+        
+        table.scroll tbody,
+        table.scroll thead tr { display: block; }
+        
+        table.scroll tbody {
+            height: 100px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        
+        table.scroll tbody td,
+        table.scroll thead th {
+            width: 176px;
+        }
+        
+        table.scroll thead th:last-child {
+            width: 180px; /* 140px + 16px scrollbar width */
+        }
+        
+        thead tr th {
+            height: 30px;
+            line-height: 30px;
+            /*text-align: left;*/
+        }
+        
+        tbody { border-top: 2px solid white; }
+        
+        </style>
+        <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
 <div class="embed">
     <embedleftline style="background-color: #2b9696;"></embedleftline>
     <div class="embedinfo">
