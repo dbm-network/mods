@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Find Category",
+name: "Find Server",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -14,7 +14,7 @@ name: "Find Category",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Channel Control",
+section: "Server Control",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -23,28 +23,9 @@ section: "Channel Control",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const info = ['Category ID', 'Category Name', 'Category Topic'];
-	return `Find Category by ${info[parseInt(data.info)]}`;
+	const info = ['Server ID', 'Server Name', 'Server Name Acronym', 'Server Member Count', 'Server Region', 'Server Owner ID', 'Server Verification Level', 'Server Is Available'];
+	return `Find Server by ${info[parseInt(data.info)]}`;
 },
-
-//---------------------------------------------------------------------
-// DBM Mods Manager Variables (Optional but nice to have!)
-//
-// These are variables that DBM Mods Manager uses to show information
-// about the mods for people to see in the list.
-//---------------------------------------------------------------------
-
-// Who made the mod (If not set, defaults to "DBM Mods")
-author: "NetLuis",
-
-// The version of the mod (Defaults to 1.0.0)
-version: "1.9.1", //Added in 1.9.1
-
-// A short description to show on the mod line for this mod (Must be on a single line)
-short_description: "Finds category with ID or name.",
-
-// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-
 
 //---------------------------------------------------------------------
 // Action Storage Function
@@ -55,7 +36,7 @@ short_description: "Finds category with ID or name.",
 variableStorage: function(data, varType) {
 	const type = parseInt(data.storage);
 	if(type !== varType) return;
-	return ([data.varName, 'Category']);
+	return ([data.varName, 'Server']);
 },
 
 //---------------------------------------------------------------------
@@ -86,19 +67,18 @@ fields: ["info", "find", "storage", "varName"],
 
 html: function(isEvent, data) {
 	return `
-	<div>
-	<p>
-		<u>Mod Info:</u><br>
-		Created by NetLuis!<br>
-		Idea from SAFAxSNIPER
-	</p>
-</div><br>
 <div>
 	<div style="float: left; width: 40%;">
 		Source Field:<br>
 		<select id="info" class="round">
-			<option value="0" selected>Category ID</option>
-			<option value="1">Category Name</option>
+			<option value="0" selected>Server ID</option>
+			<option value="1">Server Name</option>
+			<option value="2">Server Name Acronym</option>
+			<option value="3">Server Member Count</option>
+			<option value="4">Server Region</option>
+			<option value="5">Server Owner ID</option>
+			<option value="6">Server Verification Level</option>
+			<option value="7">Server Is Available</option>
 		</select>
 	</div>
 	<div style="float: right; width: 55%;">
@@ -117,51 +97,7 @@ html: function(isEvent, data) {
 		Variable Name:<br>
 		<input id="varName" class="round" type="text">
 	</div>
-</div><br><br><br>
-<p>You can store and edit a category using the channel actions "Store Channel Info", "Edit Channel" or "Set Channel Permission".</p>
-
-<!-- Don't forget to copy the style below with the html above! 
-This was made by EliteArtz!-->    
-<style>  
-  /* EliteArtz Embed CSS code */
-  .embed {
-	  position: relative;
-  }
-  .embedinfo {
-	  background: rgba(46,48,54,.45) fixed;
-	  border: 1px solid hsla(0,0%,80%,.3);
-	  padding: 10px;
-	  margin:0 4px 0 7px;
-	  border-radius: 0 3px 3px 0;
-  }
-  embedleftline {
-	  background-color: #eee;
-	  width: 4px;
-	  border-radius: 3px 0 0 3px;
-	  border: 0;
-	  height: 100%;
-	  margin-left: 4px;
-	  position: absolute;
-  }
-  span {
-	  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  }
-  span.embed-auth {
-	  color: rgb(255, 255, 255);
-  
-  }
-  span.embed-desc {
-	  color: rgb(128, 128, 128);
-  } 
-	span.wrexlink {
-	color: #99b3ff;
-	text-decoration:underline;
-	cursor:pointer;
-	}
-	span.wrexlink:hover { 
-	color:#4676b9; 
-	}
-</style>`
+</div>`
 },
 
 //---------------------------------------------------------------------
@@ -184,22 +120,36 @@ init: function() {
 //---------------------------------------------------------------------
 
 action: function(cache) {
-	const server = cache.server;
-	if(!server || !server.channels) {
-		this.callNextAction(cache);
-		return;
-	}
+	const bot = this.getDBM().Bot.bot;
+	const servers = bot.guilds;
 	const data = cache.actions[cache.index];
 	const info = parseInt(data.info);
 	const find = this.evalMessage(data.find, cache);
-	const channels = server.channels.filter(s=>s.type==="category")
 	let result;
 	switch(info) {
 		case 0:
-			result = channels.find(e => e.id === find);
+			result = servers.find(element => element.id === find);
 			break;
 		case 1:
-			result = channels.find(e => e.name === find);
+			result = servers.find(element => element.name === find);
+			break;
+		case 2:
+			result = servers.find(element => element.nameAcronym === find);
+			break;
+		case 3:
+			result = servers.find(element => element.memberCount === parseInt(find));
+			break;
+		case 4:
+			result = servers.find(element => element.region === find);
+			break;
+		case 5:
+			result = servers.find(element => element.ownerID === find);
+			break;
+		case 6:
+			result = servers.find(element => element.verificationLevel === parseInt(find));
+			break;
+		case 7:
+			result = servers.find(element => element.available === Boolean(find === 'true'));
 			break;
 		default:
 			break;
