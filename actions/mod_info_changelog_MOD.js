@@ -87,7 +87,7 @@ html: function(isEvent, data) {
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
 	<p>
 	<h2>1.9.2: Update Update</h2>
-		● Updated "Send Stats to DBL" - Removed autmated success message from console<br>
+		● Updated "Send Stats to DBL" - Removed automated success message from the console<br>
 		● Updated "Convert List To Text" - Added sort option<br>
 		● Updated "Store Audio Info" - Added current song URL<br>
 		● Updated "Custom Image Effect"<br>
