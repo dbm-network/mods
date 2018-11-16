@@ -38,7 +38,7 @@ module.exports = {
 	author: "EGGSY",
 
 	// The version of the mod (Defaults to 1.0.0)
-	version: "1.8.9",
+	version: "1.9.2", //Added in 1.8.9
 
 	// A short description to show on the mod line for this mod (Must be on a single line)
 	short_description: "Send bot stats to Discord Bot List!",
@@ -136,12 +136,10 @@ module.exports = {
 
 		if (info == 0) {
 			dbl.postStats(this.getDBM().Bot.bot.guilds.size)
-				.then(() => console.log("Successfully updated DBL stats! Thank you EGGSY!"))
 				.catch(e => console.log(e))
 		}
 		else if (info == 1) {
 			dbl.postStats(this.getDBM().Bot.bot.guilds.size, this.getDBM().Bot.bot.shard.id, this.getDBM().Bot.bot.shard.count)
-				.then(() => console.log("Successfully updated DBL stats! Thank you EGGSY!"))
 				.catch(e => console.log(e))
 		}
 	},

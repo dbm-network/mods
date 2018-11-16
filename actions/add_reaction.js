@@ -40,7 +40,7 @@ subtitle: function(data) {
 author: "DBM",
 
 // The version of the mod (Defaults to 1.0.0)
-version: "1.9.1", //Added in 1.9.1
+version: "1.9.2", //Added in 1.9.1
 
 // A short description to show on the mod line for this mod (Must be on a single line)
 short_description: "Changed Category.",
@@ -166,7 +166,7 @@ action: function(cache) {
 	if(type === 4) {
 		emoji = this.evalMessage(data.varName2, cache);
 	} else if(type === 0) {
-		emoji = this.getDBM().Bot.bot.emojis.find('name', this.evalMessage(data.varName2, cache));
+		emoji = this.getDBM().Bot.bot.emojis.find(element => element.name === this.evalMessage(data.varName2, cache));
 	} else {
 		emoji = this.getVariable(type, this.evalMessage(data.varName3, cache), cache);
 	}

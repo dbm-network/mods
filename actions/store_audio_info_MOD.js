@@ -24,19 +24,16 @@ module.exports = {
 	 //---------------------------------------------------------------------
 
 	 // Who made the mod (If not set, defaults to "DBM Mods")
- 	author: "General Wrex",
+ 	author: "General Wrex & Lasse",
 
     // [NEW] If you have a donation link you want to share.
     donation_link: "https://www.patreon.com/generalwrex",
      
  	// The version of the mod pack it was added into
- 	version: "1.9.0", //Added in 1.9.0 
-
- 	// The version of the mod (Defaults to 1.0.0)
- 	mod_version: "1.0.0", //Added in 1.9.0 
+ 	version: "1.9.2", //Added in 1.9.0 
 
  	// A short description to show on the mod line for this mod (Must be on a single line)
- 	short_description: "Stores information of current audio source.  <b style='color:red'>Something must be playing in a voice channel for this to return most data!</b>",
+ 	short_description: "Stores information of current audio source.  <b style='color:red'>Something must be playing in a voice channel for this to return most data!</b><br>Please put the Welcome action into a Bot Initalization event to be able to store the current song!",
 
  	// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
@@ -71,13 +68,48 @@ module.exports = {
 	//---------------------------------------------------------------------
 	
 	html: function(isEvent, data) {
-		return `
+        return `
+        <style>
+        table.scroll {
+            width: 525px; /* 140px * 5 column + 16px scrollbar width */
+            border-spacing: 0;
+            border: 2px solid white;
+        }
+        
+        table.scroll tbody,
+        table.scroll thead tr { display: block; }
+        
+        table.scroll tbody {
+            height: 100px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        
+        table.scroll tbody td,
+        table.scroll thead th {
+            width: 176px;
+        }
+        
+        table.scroll thead th:last-child {
+            width: 180px; /* 140px + 16px scrollbar width */
+        }
+        
+        thead tr th {
+            height: 30px;
+            line-height: 30px;
+            /*text-align: left;*/
+        }
+        
+        tbody { border-top: 2px solid white; }
+        
+        </style>
+        <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
 <div class="embed">
     <embedleftline style="background-color: #2b9696;"></embedleftline>
     <div class="embedinfo">
         <span class="embed-auth"><u>Mod Info:</u><br>Made by <b>${this.author}</b><br>
         <u><span class="wrexlink" data-url="${this.donation_link}">Donate!</span></u></span><br>
-        <span class="embed-desc">${this.short_description}<br>Version: ${this.version}<br></span>
+        <span class="embed-desc">${this.short_description}<br></span>
     </div>
 </div><br>
     <div>
@@ -162,7 +194,8 @@ div.embed { /* <div class="embed"></div> */
         { name:'Queue Length', type: "Number"},
         { name:'Bitrate', type: "Number"},
         { name:'Passes', type: "Number"},
-        { name:'Current Seek Position (Seconds)', type: "Seconds"}
+        { name:'Current Seek Position (Seconds)', type: "Seconds"},
+        { name:'Current Song URL (YT only)', type: "Url"}
     ],
 
     // itemlist is set from above
@@ -278,6 +311,9 @@ div.embed { /* <div class="embed"></div> */
                 break;
             case 8:
                 result = audio.dispatchers[targetServer.id] && audio.dispatchers[targetServer.id].streamingData.timestamp || 0; // seek position
+                break;
+            case 9:
+                result = audio.playingnow[targetServer.id][2];
                 break;
             default:
                 break;
