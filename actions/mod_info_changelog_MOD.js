@@ -37,7 +37,7 @@ subtitle: function(data) {
 	 author: "DBM Mods",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.9.1",
+	 version: "1.9.2",
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
 	 short_description: "Changelog overview",
@@ -85,6 +85,23 @@ html: function(isEvent, data) {
 	return `
 <div>
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
+	<p>
+	<h2>1.9.2: Update Update</h2>
+		● Updated "Send Stats to DBL" - Removed autmated success message from console<br>
+		● Updated "Convert List To Text" - Added sort option<br>
+		● Updated "Store Audio Info" - Added current song URL<br>
+		● Updated "Custom Image Effect"<br>
+		● Fixed "Find Custom Emoji in Server"<br>
+		● Fixed "Find Category"<br>
+		● Fixed "Add Reaction"<br>
+		● Fixed "Set Role Permissions"<br>
+		● Fixed "Create Channel" - Set Category ID<br>
+		● Merged "Store Role Info Things" with "Store Role Info"<br>
+		● Merged "Store Member Things" with "Store Member Info"<br>
+		● Added "Set AFK Channel"<br>
+		● Added "Math Operation Plus"<br>
+		● Added Donators to the "Welcome" action<br>
+	</p>
 	<p>
 	<h2>1.9.1: Bunch of new mods, and yes, we now have the reaction stuff</h2>
 		● Added Set Role Voice Channel Perms<br>
