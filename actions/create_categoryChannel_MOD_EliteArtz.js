@@ -88,32 +88,25 @@ fields: ["channelName", "position", "storage", "varName"],
 
 html: function(isEvent, data) {
 	return `
-	<div>
-		<p>
-			<u>Mod Info:</u><br>
-			Created by EliteArtz!
-		</p><br>
-		<p>
-			<u>Notices:</u><br>
-			- Requires Discord Bot Maker <b>BETA</b>
-		</p>
+	<div><p><u>Mod Info:</u><br>Created by EliteArtz!</p><br>
+		<p><u>Notices:</u><br>- Requires Discord Bot Maker <b>BETA</b></p>
 	</div><br>
-Name:<br>
-<input id="channelName" class="round" type="text"><br>
-<div style="float: left; width: 50%;">
-	Position:<br>
-	<input id="position" class="round" type="text" placeholder="Leave blank for default!" style="width: 90%;"><br>
-</div>
+	Name:<br>
+	<input id="channelName" class="round" type="text"><br>
+	<div style="float: left; width: 50%;">
+		Position:<br>
+		<input id="position" class="round" type="text" placeholder="Leave blank for default!" style="width: 90%;"><br>
+	</div><br><br><br><br>
 <div>
-	<div style="float: left; width: 35%;">
+<div style="float: left; width: 45%;">
 		Store In:<br>
 		<select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
 			${data.variables[0]}
 		</select>
 	</div>
-	<div id="varNameContainer" style="display: none; float: right; width: 60%;">
+	<div id="varNameContainer" style="display: none; float: right; width: 50%;">
 		Variable Name:<br>
-		<input id="varName" class="round" type="text"><br>
+		<input id="varName" class="round" type="text" style="width: 90%"><br>
 	</div>
 </div>`
 },
@@ -170,7 +163,6 @@ action: function(cache) {
 // functions you wish to overwrite.
 //---------------------------------------------------------------------
 
-mod: function(DBM) {
-}
+mod: function(DBM) {}
 
 }; // End of module
