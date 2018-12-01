@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Convert a Variable",
+name: "Convert Variable",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -14,7 +14,7 @@ name: "Convert a Variable",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Other Stuff",
+section: "Variable Things",
 
 //---------------------------------------------------------------------
 // DBM Mods Manager Variables (Optional but nice to have!)
@@ -27,7 +27,7 @@ section: "Other Stuff",
 author: "EliteArtz",
 
 // The version of the mod (Defaults to 1.0.0)
-version: "1.8.9",
+version: "1.9.3", //Added in 1.8.9
 
 // A short description to show on the mod line for this mod (Must be on a single line)
 short_description: "This allows you to convert a Variable e.g. into a String or Number(Int)",
