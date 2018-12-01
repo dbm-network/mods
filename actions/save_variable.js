@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Control Variable",
+name: "Save Variable",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -23,20 +23,8 @@ section: "Variable Things",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const storage = ['', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	return `${storage[parseInt(data.storage)]} (${data.varName}) ${data.changeType === "1" ? "+=" : "="} ${data.value}`;
-},
-
-//---------------------------------------------------------------------
-// Action Storage Function
-//
-// Stores the relevant variable info for the editor.
-//---------------------------------------------------------------------
-
-variableStorage: function(data, varType) {
-	const type = parseInt(data.storage);
-	if(type !== varType) return;
-	return ([data.varName, 'Unknown Type']);
+	const storage = ['', '', 'Server Variable', 'Global Variable'];
+	return `${storage[parseInt(data.storage)]} (${data.varName})`;
 },
 
 //---------------------------------------------------------------------
@@ -47,7 +35,7 @@ variableStorage: function(data, varType) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["storage", "varName", "changeType", "value"],
+fields: ["storage", "varName"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -69,27 +57,15 @@ html: function(isEvent, data) {
 	return `
 <div>
 	<div style="float: left; width: 35%;">
-		Store In:<br>
-		<select id="storage" class="round">
-			${data.variables[1]}
+		Source Variable:<br>
+		<select id="storage" class="round" onchange="glob.refreshVariableList(this)">
+			<option value="2" selected>Server Variable</option>
+			<option value="3">Global Variable</option>
 		</select>
 	</div>
 	<div id="varNameContainer" style="float: right; width: 60%;">
 		Variable Name:<br>
-		<input id="varName" class="round" type="text">
-	</div>
-</div><br><br><br>
-<div style="padding-top: 8px;">
-	<div style="float: left; width: 45%;">
-		Control Type:<br>
-		<select id="changeType" class="round">
-			<option value="0" selected>Set Value</option>
-			<option value="1">Add Value</option>
-		</select>
-	</div>
-	<div style="float: right; width: 50%;">
-		Value:<br>
-		<input id="value" class="round" type="text" name="is-eval"><br>
+		<input id="varName" class="round" type="text" list="variableList">
 	</div>
 </div>`
 },
@@ -103,6 +79,9 @@ html: function(isEvent, data) {
 //---------------------------------------------------------------------
 
 init: function() {
+	const {glob, document} = this;
+
+	glob.refreshVariableList(document.getElementById('storage'));
 },
 
 //---------------------------------------------------------------------
@@ -115,28 +94,14 @@ init: function() {
 
 action: function(cache) {
 	const data = cache.actions[cache.index];
+	const Files = this.getDBM().Files;
 	const type = parseInt(data.storage);
 	const varName = this.evalMessage(data.varName, cache);
-	const storage = this.getVariable(type, varName, cache);
-	const isAdd = Boolean(data.changeType === "1");
-	let val = this.evalMessage(data.value, cache);
-	try {
-		val = this.eval(val, cache);
-	} catch(e) {
-		this.displayError(data, cache, e);
-	}
-	if(val !== undefined) {
-		if(isAdd) {
-			let result;
-			if(storage === undefined) {
-				result = val;
-			} else {
-				result = storage + val;
-			}
-			this.storeValue(result, type, varName, cache);
-		} else {
-			this.storeValue(val, type, varName, cache);
-		}
+	const item = this.getVariable(type, varName, cache);
+	if(data.storage === '3') {
+		Files.saveGlobalVariable(varName, item);
+	} else if(cache.server) {
+		Files.saveServerVariable(cache.server.id, varName, item);
 	}
 	this.callNextAction(cache);
 },

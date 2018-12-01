@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Control Variable",
+name: "Transfer Variable",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -23,8 +23,8 @@ section: "Variable Things",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const storage = ['', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	return `${storage[parseInt(data.storage)]} (${data.varName}) ${data.changeType === "1" ? "+=" : "="} ${data.value}`;
+	const storeTypes = ["", "Temp Variable", "Server Variable", "Global Variable"];
+	return `${storeTypes[parseInt(data.storage)]} (${data.varName}) -> ${storeTypes[parseInt(data.storage2)]} (${data.varName2})`;
 },
 
 //---------------------------------------------------------------------
@@ -34,9 +34,17 @@ subtitle: function(data) {
 //---------------------------------------------------------------------
 
 variableStorage: function(data, varType) {
-	const type = parseInt(data.storage);
+	const type = parseInt(data.storage2);
 	if(type !== varType) return;
-	return ([data.varName, 'Unknown Type']);
+	let assumeType = 'Unknown Type';
+	if(type === parseInt(data.storage)) {
+		for(let i = 0; i < tracker.length; i++) {
+			if(tracker[i] && tracker[i][0] === data.varName) {
+				assumeType = tracker[i][1];
+			}
+		}
+	}
+	return ([data.varName2, assumeType]);
 },
 
 //---------------------------------------------------------------------
@@ -47,7 +55,7 @@ variableStorage: function(data, varType) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["storage", "varName", "changeType", "value"],
+fields: ["storage", "varName", "storage2", "varName2"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -69,27 +77,26 @@ html: function(isEvent, data) {
 	return `
 <div>
 	<div style="float: left; width: 35%;">
-		Store In:<br>
-		<select id="storage" class="round">
+		Transfer Value From:<br>
+		<select id="storage" class="round" onchange="glob.refreshVariableList(this)">
 			${data.variables[1]}
 		</select>
 	</div>
 	<div id="varNameContainer" style="float: right; width: 60%;">
 		Variable Name:<br>
-		<input id="varName" class="round" type="text">
+		<input id="varName" class="round" type="text" list="variableList"><br>
 	</div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
-	<div style="float: left; width: 45%;">
-		Control Type:<br>
-		<select id="changeType" class="round">
-			<option value="0" selected>Set Value</option>
-			<option value="1">Add Value</option>
+	<div style="float: left; width: 35%;">
+		Transfer Value To:<br>
+		<select id="storage2" class="round">
+			${data.variables[1]}
 		</select>
 	</div>
-	<div style="float: right; width: 50%;">
-		Value:<br>
-		<input id="value" class="round" type="text" name="is-eval"><br>
+	<div id="varNameContainer2" style="float: right; width: 60%;">
+		Variable Name:<br>
+		<input id="varName2" class="round" type="text"><br>
 	</div>
 </div>`
 },
@@ -103,6 +110,9 @@ html: function(isEvent, data) {
 //---------------------------------------------------------------------
 
 init: function() {
+	const {glob, document} = this;
+
+	glob.refreshVariableList(document.getElementById('storage'));
 },
 
 //---------------------------------------------------------------------
@@ -115,29 +125,21 @@ init: function() {
 
 action: function(cache) {
 	const data = cache.actions[cache.index];
-	const type = parseInt(data.storage);
+	const storage = parseInt(data.storage);
 	const varName = this.evalMessage(data.varName, cache);
-	const storage = this.getVariable(type, varName, cache);
-	const isAdd = Boolean(data.changeType === "1");
-	let val = this.evalMessage(data.value, cache);
-	try {
-		val = this.eval(val, cache);
-	} catch(e) {
-		this.displayError(data, cache, e);
+	const var1 = this.getVariable(storage, varName, cache);
+	if(!var1) {
+		this.callNextAction(cache);
+		return;
 	}
-	if(val !== undefined) {
-		if(isAdd) {
-			let result;
-			if(storage === undefined) {
-				result = val;
-			} else {
-				result = storage + val;
-			}
-			this.storeValue(result, type, varName, cache);
-		} else {
-			this.storeValue(val, type, varName, cache);
-		}
+	const storage2 = parseInt(data.storage2);
+	const varName2 = this.evalMessage(data.varName2, cache);
+	const var2 = this.getVariable(storage2, varName2, cache);
+	if(!var2) {
+		this.callNextAction(cache);
+		return;
 	}
+	this.storeValue(var2, storage, varName, cache);
 	this.callNextAction(cache);
 },
 
