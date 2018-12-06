@@ -24,9 +24,9 @@ section: "Role Control",
 
 subtitle: function(data) {
 	const roles = ['Mentioned Role', '1st Author Role', '1st Server Role', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const index = ['Yes', 'No']
-	const perm = ['Administrator', 'Manage Guild', 'Manage Nicknames', 'Manage Roles', 'Manage Emojis', 'Kick Members', 'Ban Members', 'View Audit Log', 'Change Nickname', 'Create Instant Invite', 'Priority Speaker', 'Manage Channel', 'Manage Webhooks', 'Read Messages', 'Send Messages', 'Send TTS Messages', 'Manage Messages', 'Embed Links', 'Attach Files', 'Read Message History', 'Mention Everyone', 'Use External Emojis', 'Add Reactions', 'Connect to Voice', 'Speak in Voice', 'Mute Members', 'Deafen Members', 'Move Members', 'Use Voice Activity']
-  return `${roles[data.role]} - ${perm[data.permission]} - ${index[data.state]}`;
+	const index = ['Granted', 'Denied']
+	const perm = ['Administrator', 'Manage Guild', 'Manage Nicknames', 'Manage Roles', 'Manage Emojis', 'Kick Members', 'Ban Members', 'View Audit Log', 'Change Nickname', 'Create Instant Invite', 'Priority Speaker', 'Manage Channel', 'Manage Webhooks', 'Read Messages', 'Send Messages', 'Send TTS Messages', 'Manage Messages', 'Embed Links', 'Attach Files', 'Read Message History', 'Mention Everyone', 'Use External Emojis', 'Add Reactions', 'Connect to Voice', 'Speak in Voice', 'Mute Members', 'Deafen Members', 'Move Members', 'Use Voice Activity', 'All Permissions']
+  return `${roles[data.role]} - ${perm[data.permission]} - ${index[data.state]} ${!data.reason ? "" : `with Reason: <i>${data.reason}<i>`}`;
 },
 
 //---------------------------------------------------------------------
@@ -40,7 +40,7 @@ subtitle: function(data) {
 author: "MrGold & EliteArtz",
 
 // The version of the mod (Defaults to 1.0.0)
-version: "1.9.1", //Added in 1.8.2
+version: "1.9.3", //Added in 1.8.3
 
 // A short description to show on the mod line for this mod (Must be on a single line)
 short_description: "Allows it to edit a roles permissions",
@@ -58,7 +58,7 @@ short_description: "Allows it to edit a roles permissions",
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["role", "varName", "permission", "state"],
+fields: ["role", "varName", "permission", "state", "reason"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -129,15 +129,20 @@ html: function(isEvent, data) {
 			<option value="26">Deafen Members</option>
 			<option value="27">Move Members</option>
 			<option value="28">Use Voice Activity</option>
+			<option value="29">All Permissions</option>
 		</select>
 	</div>
 	<div style="padding-left: 5%; float: left; width: 55%;">
 		Change To:<br>
   		<select id="state" class="round">
-	  	<option value="0" selected>Yes</option>
-	   	<option value="1">No</option>
+	  	<option value="0" selected>Granted</option>
+	   	<option value="1">Denied</option>
 		</select>
 	</div>
+</div><br><br><br>
+<div style="padding-top: 8px;">
+	Reason:<br>
+	<textarea id="reason" rows="2" placeholder="Insert reason here... (optional)" style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
 </div>`
 },
 
@@ -169,7 +174,33 @@ action: function(cache) {
 	const varName = this.evalMessage(data.varName, cache);
 	const role = this.getRole(storage, varName, cache);
 	const info = parseInt(data.permission);
+	const reason = this.evalMessage(data.reason, cache);
 	
+	if(data.permission == "29") {
+	const options = {};
+	options[data.permission] = data.state === "0" ? true : (data.state === "1" ? false : null);
+	if(role && role.id) {
+		if(Array.isArray(role)) {
+			this.callListFunc(role, 'setPermissions', [role.id, options]).then(function() {
+				this.callNextAction(cache);
+			}.bind(this));
+		} else if(role && role.setPermissions) {
+			} if(data.state === "0") {
+			    role.setPermissions(2146958847, reason).then(function() {
+				    this.callNextAction(cache);
+			    }.bind(this)).catch(this.displayError.bind(this, data, cache));
+			} else if(data.state === "1") {
+			    role.setPermissions([0], reason).then(function() {
+				    this.callNextAction(cache);
+			    }.bind(this)).catch(this.displayError.bind(this, data, cache));
+		} else {
+			this.callNextAction(cache);
+		}
+	} else {
+		this.callNextAction(cache);
+	}
+    }
+
 	let result;
 	switch(info) {
 		case 0:
@@ -273,12 +304,12 @@ action: function(cache) {
 		} else if(role && role.setPermissions) {
 			} if(data.state === "0") {
 			    const perms = role.permissions
-			    role.setPermissions([perms, result]).then(function() {
+			    role.setPermissions([perms, result], reason).then(function() {
 				    this.callNextAction(cache);
 			    }.bind(this)).catch(this.displayError.bind(this, data, cache));
 			} else if(data.state === "1") {
 			    const perms2 = role.permissions - result
-			    role.setPermissions([perms2]).then(function() {
+			    role.setPermissions([perms2], reason).then(function() {
 				    this.callNextAction(cache);
 			    }.bind(this)).catch(this.displayError.bind(this, data, cache));
 		} else {
