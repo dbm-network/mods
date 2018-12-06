@@ -40,7 +40,7 @@ subtitle: function(data) {
 author: "MrGold & EliteArtz",
 
 // The version of the mod (Defaults to 1.0.0)
-version: "1.9.3", //Added in 1.8.3
+version: "1.9.3", //Added in 1.8.2
 
 // A short description to show on the mod line for this mod (Must be on a single line)
 short_description: "Allows it to edit a roles permissions",
