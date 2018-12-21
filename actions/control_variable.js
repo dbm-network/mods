@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Create Voice Channel",
+name: "Control Variable",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -14,7 +14,7 @@ name: "Create Voice Channel",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Channel Control",
+section: "Other Stuff",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -23,7 +23,8 @@ section: "Channel Control",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	return `${data.channelName}`;
+	const storage = ['', 'Temp Variable', 'Server Variable', 'Global Variable'];
+	return `${storage[parseInt(data.storage)]} (${data.varName}) ${data.changeType === "1" ? "+=" : "="} ${data.value}`;
 },
 
 //---------------------------------------------------------------------
@@ -35,7 +36,7 @@ subtitle: function(data) {
 variableStorage: function(data, varType) {
 	const type = parseInt(data.storage);
 	if(type !== varType) return;
-	return ([data.varName, 'Voice Channel']);
+	return ([data.varName, 'Unknown Type']);
 },
 
 //---------------------------------------------------------------------
@@ -46,7 +47,7 @@ variableStorage: function(data, varType) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["channelName", "categoryID", "bitrate", "userLimit", "storage", "varName"],
+fields: ["storage", "varName", "changeType", "value"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -66,32 +67,29 @@ fields: ["channelName", "categoryID", "bitrate", "userLimit", "storage", "varNam
 
 html: function(isEvent, data) {
 	return `
-Name:<br>
-<input id="channelName" class="round" type="text" style="width: 95%"><br>
-
-Category ID:<br>
-<input id= "categoryID" class="round" type="text" placeholder="Keep this empty if you don't want to put it into a category" style="width: 95%"><br>
-
-<div style="float: left; width: 50%;">
-	Bitrate:<br>
-	<input id="bitrate" class="round" type="text" placeholder="Leave blank for default!" style="width: 90%;"><br>
-</div>
-
-<div style="float: right; width: 50%;">
-	User Limit:<br>
-	<input id="userLimit" class="round" type="text" placeholder="Leave blank for default!" style="width: 90%;"><br>
-</div>
-
 <div>
-	<div style="float: left; width: 45%;">
+	<div style="float: left; width: 35%;">
 		Store In:<br>
-		<select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-			${data.variables[0]}
+		<select id="storage" class="round">
+			${data.variables[1]}
 		</select>
 	</div>
-	<div id="varNameContainer" style="display: none; float: right; width: 50%;">
+	<div id="varNameContainer" style="float: right; width: 60%;">
 		Variable Name:<br>
-		<input id="varName" class="round" type="text" style="width: 90%"><br>
+		<input id="varName" class="round" type="text">
+	</div>
+</div><br><br><br>
+<div style="padding-top: 8px;">
+	<div style="float: left; width: 35%;">
+		Control Type:<br>
+		<select id="changeType" class="round">
+			<option value="0" selected>Set Value</option>
+			<option value="1">Add Value</option>
+		</select>
+	</div>
+	<div style="float: right; width: 60%;">
+		Value:<br>
+		<input id="value" class="round" type="text" name="is-eval"><br>
 	</div>
 </div>`
 },
@@ -105,9 +103,6 @@ Category ID:<br>
 //---------------------------------------------------------------------
 
 init: function() {
-	const {glob, document} = this;
-
-	glob.variableChange(document.getElementById('storage'), 'varNameContainer');
 },
 
 //---------------------------------------------------------------------
@@ -120,30 +115,30 @@ init: function() {
 
 action: function(cache) {
 	const data = cache.actions[cache.index];
-	const server = cache.server;
-	const catid = this.evalMessage(data.categoryID, cache);
-	if(server && server.createChannel) {
-		const name = this.evalMessage(data.channelName, cache);
-		const storage = parseInt(data.storage);
-		server.createChannel(name, 'voice').then(function(channel) {
-			const channelData = {};
-			if(data.bitrate) {
-				channelData.bitrate = parseInt(this.evalMessage(data.bitrate, cache));
-			}
-			if(data.userLimit) {
-				channelData.userLimit = parseInt(this.evalMessage(data.userLimit, cache));
-			}
-			channel.edit(channelData);
-			if(catid) {
-				channel.setParent(catid);
-			}
-			const varName = this.evalMessage(data.varName, cache);
-			this.storeValue(channel, storage, varName, cache);
-			this.callNextAction(cache);
-		}.bind(this)).catch(this.displayError.bind(this, data, cache));
-	} else {
-		this.callNextAction(cache);
+	const type = parseInt(data.storage);
+	const varName = this.evalMessage(data.varName, cache);
+	const storage = this.getVariable(type, varName, cache);
+	const isAdd = Boolean(data.changeType === "1");
+	let val = this.evalMessage(data.value, cache);
+	try {
+		val = this.eval(val, cache);
+	} catch(e) {
+		this.displayError(data, cache, e);
 	}
+	if(val !== undefined) {
+		if(isAdd) {
+			let result;
+			if(storage === undefined) {
+				result = val;
+			} else {
+				result = storage + val;
+			}
+			this.storeValue(result, type, varName, cache);
+		} else {
+			this.storeValue(val, type, varName, cache);
+		}
+	}
+	this.callNextAction(cache);
 },
 
 //---------------------------------------------------------------------

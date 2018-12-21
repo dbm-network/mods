@@ -37,7 +37,7 @@ subtitle: function(data) {
 	 author: "DBM Mods",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.9.2",
+	 version: "1.9.3",
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
 	 short_description: "Changelog overview",
@@ -85,6 +85,22 @@ html: function(isEvent, data) {
 	return `
 <div>
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
+	<p>
+	<h2>1.9.3: Yet another update</h2>
+		● Added RSS actions<br>
+		● Added Speedtest action<br>
+		● Added Message URL to Store Message Info<br>
+		● Added Send Embed to Webhook<br>
+		● Added Restart Bot<br>
+		● Added Create Webhook<br>
+		● Removed Set AFK Timeout<br>
+		● Fixed Set Category using ID<br>
+		● Fixed _id of Loop Through List<br>
+		● Updated Convert Variable<br>
+		● Updated Set Role Permissions<br>
+		● Updated Control Variable<br>
+		● Moved smaller, not always needed mods, to a separated folder<br>
+	</p>
 	<p>
 	<h2>1.9.2: Update Update</h2>
 		● Updated "Send Stats to DBL" - Removed automated success message from the console<br>
