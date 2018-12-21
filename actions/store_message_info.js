@@ -24,7 +24,7 @@ section: "Messaging",
 
 subtitle: function(data) {
 	const message = ['Command Message', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const info = ['Message Object', 'Message ID', 'Message Text', 'Message Author', 'Message Channel', 'Message Timestamp', 'Message Is Pinned?', 'Message Is TTS?', 'Message edited at', 'Message edits history', 'Message is pinnable?', 'Message includes @everyone mention?', 'Messages different reactions count', 'Mentioned users list', 'Mentioned users count'];
+	const info = ['Message Object', 'Message ID', 'Message Text', 'Message Author', 'Message Channel', 'Message Timestamp', 'Message Is Pinned?', 'Message Is TTS?', 'Message edited at', 'Message edits history', 'Message is pinnable?', 'Message includes @everyone mention?', 'Messages different reactions count', 'Mentioned users list', 'Mentioned users count', 'Message URL'];
 	return `${message[parseInt(data.message)]} - ${info[parseInt(data.info)]}`;
 },
 
@@ -36,10 +36,10 @@ subtitle: function(data) {
 	 //---------------------------------------------------------------------
 
 	 // Who made the mod (If not set, defaults to "DBM Mods")
-	 author: "DBM Mods & Lasse",
+	 author: "DBM Mods, Lasse & NetLuis",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.9.1",
+	 version: "1.9.3",
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
 	 short_description: "Added more options to default action.",
@@ -103,6 +103,9 @@ variableStorage: function(data, varType) {
 			break;
 		case 14:
 			dataType = "Number";
+			break;
+		case 15: 
+			dataType = "URL";
 			break;
 	}
 	return ([data.varName2, dataType]);
@@ -168,6 +171,7 @@ html: function(isEvent, data) {
 			<option value="12">Messages different reactions count</option>
 			<option value="13">Messages mentioned users list</option>
 			<option value="14">Messages mentioned users count</option>
+			<option value="15">Message URL</option>
 		</select>
 	</div>
 </div><br>
@@ -264,6 +268,9 @@ action: function(cache) {
 			break;
 		case 14:
 			result = msg.mentions.users.array().length;
+			break;
+		case 15:
+			result = msg.url;
 			break;
 		default:
 			break;
