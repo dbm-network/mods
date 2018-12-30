@@ -27,7 +27,7 @@ module.exports = {
 	author: "Two",
 
 	// The version of the mod (Defaults to 1.0.0)
-	version: "1.9.2",
+	version: "1.9.4", //Added in 1.9.4
 
 	// A short description to show on the mod line for this mod (Must be on a single line)
 	short_description: "This mod allows you to grab the members from a dataname then sort/dont sort it and/or use a result limit.",
