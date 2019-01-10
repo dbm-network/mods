@@ -17,7 +17,7 @@ name: "Send Message",
 section: "Messaging",
 
 // Who made the mod (If not set, defaults to "DBM Mods")
-author: "DBM & NetLuis",
+author: "DBM, Lasse & NetLuis",
 
 // The version of the mod (Defaults to 1.0.0)
 version: "1.9.4", //Added in 1.9.4
