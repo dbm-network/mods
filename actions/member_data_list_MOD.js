@@ -313,7 +313,7 @@ Char after Number:<br>
 							result = list
 							break;
 					}
-                   console.log(result)
+                 
 					var result2 = JSON.stringify(result)
 
 					var getres = parseInt(this.evalMessage(data.getresults, cache));
