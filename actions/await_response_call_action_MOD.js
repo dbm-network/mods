@@ -17,6 +17,16 @@ name: "Await Response Call Action",
 section: "Messaging",
 
 //---------------------------------------------------------------------
+// Action Subtitle
+//
+// This function generates the subtitle displayed next to the name.
+//---------------------------------------------------------------------
+
+subtitle: function(data) {
+	return `Await ${data.max} ${data.max === "1" ? `message` : `messages`} for ${data.time} ${data.time === "1" ? `milisecond` : `miliseconds`}`;
+},
+
+//---------------------------------------------------------------------
 // DBM Mods Manager Variables (Optional but nice to have!)
 //
 // These are variables that DBM Mods Manager uses to show information
@@ -24,29 +34,18 @@ section: "Messaging",
 //---------------------------------------------------------------------
 
 // Who made the mod (If not set, defaults to "DBM Mods")
-author: "General Wrex(Code), EliteArtz(Style)",
+author: "MrGold, General Wrex & EliteArtz", // Code: General Wrex, Style: EliteArtz, New Design and Code: MrGold
 
 // The version of the mod (Defaults to 1.0.0)
-version: "1.8.8",
+version: "1.9.4", // Added in 1.8.8
 
 // A short description to show on the mod line for this mod (Must be on a single line)
-short_description: "The broken Await thats not broken anymore!",
+short_description: "Awaits Message",
 
 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
 
 //---------------------------------------------------------------------
-
-
-//---------------------------------------------------------------------
-// Action Subtitle
-//
-// This function generates the subtitle displayed next to the name.
-//---------------------------------------------------------------------
-
-subtitle: function(data) {
-	return `Await ${data.max} responses for ${data.time} miliseconds."`;
-},
 
 //---------------------------------------------------------------------
 // Action Storage Function
@@ -57,7 +56,7 @@ subtitle: function(data) {
 variableStorage: function(data, varType) {
 	const type = parseInt(data.storage2);
 	if(type !== varType) return;
-	return ([data.varName2, 'Response']);
+	return ([data.varName2, 'Message List']);
 },
 
 
@@ -69,7 +68,7 @@ variableStorage: function(data, varType) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["storage", "varName", "filter", "max", "time", "storage2", "varName2", "iftrue", "iftrueVal", "iffalse", "iffalseVal"],
+fields: ["storage", "varName", "filter", "max", "time", "iftrue", "iftrueVal", "iffalse", "iffalseVal", "storage2", "varName2"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -89,53 +88,54 @@ fields: ["storage", "varName", "filter", "max", "time", "storage2", "varName2", 
 
 html: function(isEvent, data) {
 	return `
-	<div id="wrexdiv2" style="width: 550px; height: 350px; overflow-y: scroll;">
-    <div class="codeblock" style="width:75%;">
-        <p>
-            <u>Mod Info:</u><br>
-            <i>Made by ${this.author}</i><br>
-		</p>
-		
-	</div>
-	<div class="help">
-
-		Common Filters:<br>
-		<pre>
-		If message IS the response: content === 'response'
-		if message HAS the word:  content.includes('response')
-		if message BEGINS wth the word: content.startsWith('response')
-		if message ENDS wth the word: content.endsWith('response')
-		To use regex: content.match(/response/)	
-		</pre>
-		Can use most of these string functions: <u><span class="wrexlink" data-url="https://www.w3schools.com/Jsref/jsref_obj_string.asp">Located Here</span></u>
-	</div>
-    <div>
+	<div id="wrexdiv2" style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
+	<div>
+	<p>
+		<u>Mod Info:</u><br>
+		Created by MrGold, General Wrex & EliteArtz
+	</p>
+</div><br>
+<div class="codeblock" style="float: left; width: 88%; padding-top: 8px;">
+	<p>
+	<span style="color:white"><b>Filters Examples:</b><br><span style="color:#9b9b9b">
+	content.equals('I accept')<br>
+	content.includes('DBM is')<br>
+	content.startsWith('Hello')<br>
+	content.endsWith('bye')<br>
+	content.match(/response/)<br>
+	<u><span class="wrexlink" data-url="https://www.w3schools.com/Jsref/jsref_obj_string.asp">JavaScript String Reference</span></u><br>
+	<br>
+	author.id === '1234567890'<br>
+	author.name === 'Mr.Gold'<br>
+	author.tag === 'Mr.Gold#9003'<br>
+	<br>
+	<u><span class="wrexlink2" data-url2="https://www.w3schools.com/js/js_comparisons.asp">JavaScript Comparison and Logical Operators</span></u>
+	</p>
+</div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<div>
         <div style="float: left; width: 35%;">
-            Source Channel:<br>
+		    Source Channel:<br>
             <select id="storage" class="round" onchange="glob.channelChange(this, 'varNameContainer')">
-				${data.channels[isEvent ? 1 : 0]}
+			    ${data.channels[isEvent ? 1 : 0]}
 			</select>
         </div>
         <div id="varNameContainer" style="display: none; float: right; width: 60%;">
             Variable Name:<br>
-            <input id="varName" class="round" type="text" list="variableList"><br>
+            <input id="varName" class="round" type="text" list="variableList">
         </div>
-    </div>
-	<br><br><br>
-    <div style="width: 75%; margin-top: 8px;">
-        Javascript Filter Eval: (Javascript Strings)<br>
-		<input id="filter" class="round" type="text" value="content.equals('response')" placeholder="e.g. content == 'YourAwaitAnswer' or content"><br>
-    </div>
-    <br>
-    <div style="float: left; width: 50%;">
-        Max Responses:<br>
-        <input id="max" class="round" type="text" value="1"><br>
-    </div>
-    <div style="float: right; width: 50%;">
-        Max Time (miliseconds):<br>
-        <input id="time" class="round" type="text" value="60000"><br>
-    </div>
-    <br><br><br>
+    </div><br><br><br>
+<div style="width: 567px; margin-top: 8px;">
+JavaScript Filter Eval: <span style="opacity: 0.5;">(JavaScript Strings)<br>
+<input id="filter" class="round" type="text" value="content.equals('I like it') && author.id === 'someID'">
+</div><br>
+<div style="float: left; width: 50%;">
+Max Messages:<br>
+<input id="max" class="round" type="text" value="1" placeholder="Optional"><br>
+</div>
+<div style="float: left; width: 49%;">
+Max Time (miliseconds):<br>
+<input id="time" class="round" type="text" value="60000" placeholder="Optional"><br>
+</div><br><br><br>
     <div style="padding-top: 8px;">
         <div style="float: left; width: 35%;">
             On Respond:<br>
@@ -161,41 +161,37 @@ html: function(isEvent, data) {
 		 </select>
         </div>
         <div id="iffalseContainer" style="display: none; float: right; width: 60%;"><span id="iffalseName">Action Number</span>:<br><input id="iffalseVal" class="round" type="text"></div>
-	</div><br><br><br><br><br><br><br>
-	
-    <div>
+	</div><br><br><br>
+	<div style="padding-top: 10px;">
         <div style="float: left; width: 35%;">
-            Store Response To:<br>
+            Store Message List To:<br>
             <select id="storage2" class="round" onchange="glob.variableChange(this, 'varNameContainer2')">
 		${data.variables[0]}
 	</select>
         </div>
         <div id="varNameContainer2" style="display: none; float: right; width: 60%;">
-            Latest Response Variable Name: <br>
-            <input id="varName2" class="round" type="text"><br>
+		    Variable Name:<br>
+            <input id="varName2" class="round" type="text">
         </div>
-    </div><br><br><br><br><br>
-</div>
+    </div><br><br><br><br>
 <style>
     .codeblock {
     		margin: 4px; background-color: rgba(0,0,0,0.20); border-radius: 3.5px; border: 1px solid rgba(255,255,255,0.15); padding: 4px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; transition: border 175ms ease;
     	}
-    	.codeblock:hover {
-    		border: 1px solid rgba(255,255,255,0.45);
-    	}
-    	.text {
-    		color: cyan;
-		}
-		
-		.help { 
-			font-size: smaller;
-		}
 		span.wrexlink {
 			color: #99b3ff;
 			text-decoration:underline;
 			cursor:pointer;
 		  }
 		span.wrexlink:hover { 
+			color:#4676b9; 
+		}
+		span.wrexlink2 {
+			color: #99b3ff;
+			text-decoration:underline;
+			cursor:pointer;
+		  }
+		span.wrexlink2:hover { 
 			color:#4676b9; 
 		}
 </style>`
@@ -234,6 +230,21 @@ init: function() {
 		});
 	  }   
 	}  
+
+	var wrexlinks2 = document.getElementsByClassName("wrexlink2")
+	for(var x2 = 0; x2 < wrexlinks2.length; x2++) {
+	  
+	  var wrexlink2 = wrexlinks2[x2];
+	  var url2 = wrexlink2.getAttribute('data-url2');   
+	  if(url2){
+		wrexlink2.setAttribute("title", url2);
+		wrexlink2.addEventListener("click", function(e2){
+		  e2.stopImmediatePropagation();
+		  console.log("Launching URL: [" + url2 + "] in your default browser.")
+		  require('child_process').execSync('start ' + url2);
+		});
+	  }   
+	}  
 },
 
 //---------------------------------------------------------------------
@@ -246,21 +257,19 @@ init: function() {
 
 action: function(cache) {
 	const data = cache.actions[cache.index];
-	
-	const storage = parseInt(data.storage);
+
+	const ch = parseInt(data.storage);
 	const varName = this.evalMessage(data.varName, cache);
-	const channel = this.getChannel(storage, varName, cache);
+	const channel = this.getChannel(ch, varName, cache);
 
-
-	const responseStorage = parseInt(data.storage2);
-	const responseVar = this.evalMessage(data.varName2, cache);
+	const storage = parseInt(data.storage2);
+	const varName2 = this.evalMessage(data.varName2, cache);
 
 	if(channel) {
-		const js = String(data.filter);
+		const js = String(this.evalMessage(data.filter, cache));
+		
 		const max = parseInt(this.evalMessage(data.max, cache));
 		const time = parseInt(this.evalMessage(data.time, cache));
-
-		const saved_index = cache.index;
 
 		channel.awaitMessages(function(msg) {
 			const content = msg.content;
@@ -276,13 +285,12 @@ action: function(cache) {
 			time: time,
 			errors: ['time']
 		}).then(function(collected) { 
-			this.storeValue(collected.last(), responseStorage, responseVar, cache);
-			this.executeResults(true, data, cache);		
-		}.bind(this)).catch(function(collected) {
-			this.executeResults(false, data, cache);					
+			this.storeValue(collected, storage, varName2, cache);
+			this.executeResults(true, data, cache);
+		}.bind(this)).catch(function() {
+			this.executeResults(false, data, cache);
 		}.bind(this)).catch(function(err) {console.error(err.stack ? err.stack : err)});
-
-	} 
+	}
 },
 
 //---------------------------------------------------------------------
