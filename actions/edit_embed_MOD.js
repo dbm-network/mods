@@ -105,7 +105,7 @@ html: function(isEvent, data) {
 </div>
 <div style="float: left; width: 88%; padding-top: 8px;">
 	<p>
-		<b>NOTE:</b> In the "Source Message Object" you can insert a normal message or an embed message (use "Send Embed Message MOD").
+		<b>NOTE:</b> In the "Source Message Object" you can insert a normal message or an embed message (use "Send Embed Message").
 	</p>
 <div>
 </div>`
