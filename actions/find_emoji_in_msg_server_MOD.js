@@ -28,6 +28,26 @@ module.exports = {
 	},
 	
 	//---------------------------------------------------------------------
+        // DBM Mods Manager Variables (Optional but nice to have!)
+        //
+        // These are variables that DBM Mods Manager uses to show information
+        // about the mods for people to see in the list.
+        //---------------------------------------------------------------------
+
+        // Who made the mod (If not set, defaults to "DBM Mods")
+        author: "Quinten",
+
+        // The version of the mod (Defaults to 1.0.0)
+        version: "1.9.2", //Added in 1.9.1
+
+        // A short description to show on the mod line for this mod (Must be on a single line)
+        short_description: "Finds a Custom Emoji in Server",
+
+        // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
+
+        //---------------------------------------------------------------------
+	
+	//---------------------------------------------------------------------
 	// Action Storage Function
 	//
 	// Stores the relevant variable info for the editor.
@@ -68,6 +88,12 @@ module.exports = {
 	html: function(isEvent, data) {
 		return `
 	<div>
+	        <p>
+	                <u>Mod Info:</u><br>
+		        Created by Quinten
+	        </p>
+	</div><br>
+	<div>
 		<div style="float: left; width: 40%;">
 			Source Field:<br>
 			<select id="info" class="round">
@@ -91,7 +117,6 @@ module.exports = {
 			Variable Name:<br>
 			<input id="varName" class="round" type="text">
 		</div>
-		MODIFIED BY QUINTEN
 	</div>`
 	},
 	
