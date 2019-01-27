@@ -203,7 +203,7 @@ Join the Discord Guild to stay updated and be able to suggest things.<br>
 <span class="discord_code_blocks">${this.version}</span>
 
 <h3 style="color: #fff">Our Donators:</h3>
-<div class="embed" style="width:30%;">
+<div class="embed" style="width:35%;">
         <embedleftline></embedleftline>
         <div class="embedinfo">
             <span class="embed-auth">
