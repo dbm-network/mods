@@ -20,7 +20,7 @@ name: "Save Image",
 	author: "Aamon", //Original Idea by EliteArtz, hei eliteartz
 
 	// The version of the mod (Defaults to 1.0.0)
-	version: "1.0.0", //Not added yet
+	version: "1.9.4", 
 
 	// A short description to show on the mod line for this mod (Must be on a single line)
 	short_description: "Allows a user to save image out of URLs",
