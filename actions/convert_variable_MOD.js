@@ -24,13 +24,13 @@ section: "Variable Things",
 //---------------------------------------------------------------------
 
 // Who made the mod (If not set, defaults to "DBM Mods")
-author: "EliteArtz",
+author: "EliteArtz, ZockerNico",
 
 // The version of the mod (Defaults to 1.0.0)
-version: "1.9.3", //Added in 1.8.9
+version: "1.10.0", //Added in 1.8.9
 
 // A short description to show on the mod line for this mod (Must be on a single line)
-short_description: "This allows you to convert a Variable e.g. into a String or Number(Int)",
+short_description: "This allows you to convert a variable or any other input into a string or number.\nThis version also allows to convert strings to uppercase or lowercase.",
 long_description: "INFO (What it does):\nBasically, it Converts your input or Variable into a Number or String.\nString is normally those with \"\"/''/ `` \nNumbers are as expected Numbers but without those \"\" things.\nThese Numbers will be saved if the input was a word as \"NaN\" (Not available Now) because the Input weren't a Number (Convert: To Number).\nStrings are mostly saved as \"Hello\". Strings aren't affected by anything so the input will be the same as before, but if it were a Number before, it Convert's into a String. Useful to Convert a saved json from webapi which it was a number before.\nMore Information  for Strings in  Javascript(Programming language.): ( https://www.w3schools.com/jsref/jsref_obj_string.asp ),\nMore Information for Numbers(Int) in Javascript(Programming lanquage.): ( https://www.w3schools.com/js/js_numbers.asp )",
 
 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
@@ -46,7 +46,7 @@ long_description: "INFO (What it does):\nBasically, it Converts your input or Va
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const info = ['To Number(Int)', 'To String'];
+	const info = ['To Number(Int)', 'To Number(Float)', 'To String', 'To UpperCase', 'To LowerCase'];
 	const prse = parseInt(data.into);
 	return `Convert: ${info[prse]}`;
 },
@@ -60,7 +60,7 @@ subtitle: function(data) {
 variableStorage: function(data, varType) {
 	const type = parseInt(data.storage);
 	const prse2 = parseInt(data.into);
-	const info2 = ['Number', 'String'];
+	const info2 = ['Number(Int)', 'Number(Float)', 'String', 'UpperCase', 'LowerCase'];
 	if(type !== varType) return;
 	return ([data.varName2, info2[prse2]]);
 },
@@ -99,7 +99,7 @@ html: function(isEvent, data) {
 		<div class="embed" style="width:98%;">
 			<embedleftline></embedleftline><div class="embedinfo">
 				<span class="embed-auth"><u>Mod Info</u><br>Made by ${this.author}</span><br>
-				<span class="embed-desc">${this.short_description}<br>Added in: ${this.version}</span>
+				<span class="embed-desc">${this.short_description}<br>Current Version: ${this.version}</span>
 			</div>
 		</div>
 	</div>
@@ -112,8 +112,11 @@ html: function(isEvent, data) {
 		Convert:<br>
         <select id="into" class="round">
             <optgroup label="Basic's">
-                <option value="0" selected>To Number(Int)</option>
-                <option value="1">To String</option>
+				<option value="0" selected>To Number(Int)</option>
+				<option value="1">To Number(Float)</option>
+				<option value="2">To String</option>
+				<option value="3">To UpperCase</option>
+				<option value="4">To LowerCase</option>
             </optgroup>
 		</select>
 	</div><br>
@@ -216,7 +219,16 @@ action: function(cache) {
 			result = parseInt(theVar);
 			break;
 		case 1:
+			result = parseFloat(theVar);
+			break;
+		case 2:
 			result = theVar.toString();
+			break;
+		case 3:
+			result = theVar.toUpperCase();
+			break;
+		case 4:
+			result = theVar.toLowerCase();
 			break;
 	}
 	if(result !== undefined) {
