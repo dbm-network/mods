@@ -38,7 +38,7 @@ return `Convert ${data.time}`;
  author: "Aamon", //Idea by Tresmos    // I don't know who Tremos is but 'heya' =]]]
 
  // The version of the mod (Defaults to 1.0.0)
- version: "1.0.0", //not added yet....
+ version: "1.9.4", //not added yet....
 
  // A short description to show on the mod line for this mod (Must be on a single line)
  short_description: "Convert Seconds to Days, Hours, Minutes and Seconds.",
