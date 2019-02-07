@@ -38,7 +38,7 @@ module.exports = {
 	author: "Aamon",
 
 	// The version of the mod (Defaults to 1.0.0)
-	version: "1.0.0", //Added in 0.00.00 not yet....
+	version: "1.9.4", //Added in 0.00.00 not yet....
 
 	// A short description to show on the mod line for this mod (Must be on a single line)
 	short_description: "Gets extra video information on YouTube based on video ID. Works with Discord Bot Maker (beta) and WrexMods.",
