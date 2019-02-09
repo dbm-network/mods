@@ -5,7 +5,7 @@ Feel free to use them in your bots. But please, if you want to share this files 
 Then everyone can have the latest update!
 
 
-Make sure to join the DBM MODS DISCORD SERVER. To stay updated and be able to suggest things! https://dbm-network.com/
+Make sure to join the DBM MODS DISCORD SERVER. To stay updated and be able to suggest things! https://dbm-network.org/
 
 ## Install Mods:
 How to install mods:

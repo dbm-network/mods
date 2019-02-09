@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Check Variable",
+name: "Create GIF",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -14,7 +14,7 @@ name: "Check Variable",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Conditions",
+section: "Image Editing",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -23,8 +23,7 @@ section: "Conditions",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const results = ["Continue Actions", "Stop Action Sequence", "Jump To Action", "Jump Forward Actions"];
-	return `If True: ${results[parseInt(data.iftrue)]} ~ If False: ${results[parseInt(data.iffalse)]}`;
+	return `${data.url}`;
 },
 
 //---------------------------------------------------------------------
@@ -35,18 +34,30 @@ subtitle: function(data) {
 	 //---------------------------------------------------------------------
 
 	 // Who made the mod (If not set, defaults to "DBM Mods")
-	 author: "DBM, EGGSY & MrGold", //UI fixed by MrGold
+	 author: "MrGold",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.9.4", //Added in 1.9.1
+	 version: "1.9.4", //Added in 1.9.4
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
-	 short_description: "Added more options to default action.",
+	 short_description: "Creates a GIF",
 
 	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-
+     
 
 	 //---------------------------------------------------------------------
+
+//---------------------------------------------------------------------
+// Action Storage Function
+//
+// Stores the relevant variable info for the editor.
+//---------------------------------------------------------------------
+
+variableStorage: function(data, varType) {
+	const type = parseInt(data.storage);
+	if(type !== varType) return;
+	return ([data.varName, 'GIF']);
+},
 
 //---------------------------------------------------------------------
 // Action Fields
@@ -56,7 +67,7 @@ subtitle: function(data) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["storage", "varName", "comparison", "value", "iftrue", "iftrueVal", "iffalse", "iffalseVal"],
+fields: ["url", "storage", "varName"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -76,44 +87,27 @@ fields: ["storage", "varName", "comparison", "value", "iftrue", "iftrueVal", "if
 
 html: function(isEvent, data) {
 	return `
-	<div><p>This action has been modified by DBM Mods.</p></div><br>
 <div>
+    <p>
+        <u>Mod Info:</u><br>
+	    Created by MrGold
+    </p>
+</div><br>
+<div>
+	Local/Web URL:<br>
+	<input id="url" class="round" type="text" value="resources/" style="float: left; width: 504px;">
+</div><br><br>
+<div style="padding-top: 10px;">
 	<div style="float: left; width: 35%;">
-		Source Variable:<br>
-		<select id="storage" class="round" onchange="glob.refreshVariableList(this)">
+		Store In:<br>
+		<select id="storage" class="round">
 			${data.variables[1]}
 		</select>
 	</div>
 	<div id="varNameContainer" style="float: right; width: 60%;">
 		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList">
+		<input id="varName" class="round" type="text"><br>
 	</div>
-</div><br><br><br>
-<div style="padding-top: 8px;">
-	<div style="float: left; width: 35%;">
-		Comparison Type:<br>
-		<select id="comparison" class="round" onchange="glob.onChange1(this)">
-			<option value="0" selected>Exists</option>
-			<option value="1">Equals</option>
-			<option value="2">Equals Exactly</option>
-			<option value="3">Less Than</option>
-			<option value="4">Greater Than</option>
-			<option value="5">Includes</option>
-			<option value="6">Matches Regex</option>
-			<option value="7">Length is Bigger Than</option>
-			<option value="8">Length is Smaller Than</option>
-			<option value="9">Length Equals</option>
-			<option value="10">Starts With</option>
-			<option value="11">Ends With</option>
-		</select>
-	</div>
-	<div style="float: right; width: 60%; display: none;" id="directValue">
-		Value to Compare to:<br>
-		<input id="value" class="round" type="text" name="is-eval">
-	</div>
-</div><br><br><br>
-<div style="padding-top: 8px;">
-	${data.conditions[0]}
 </div>`
 },
 
@@ -126,20 +120,6 @@ html: function(isEvent, data) {
 //---------------------------------------------------------------------
 
 init: function() {
-	const {glob, document} = this;
-
-	glob.onChange1 = function(event) {
-		if(event.value === "0") {
-			document.getElementById("directValue").style.display = 'none';
-		} else {
-			document.getElementById("directValue").style.display = null;
-		}
-	};
-
-	glob.onChange1(document.getElementById('comparison'));
-	glob.refreshVariableList(document.getElementById('storage'));
-	glob.onChangeTrue(document.getElementById('iftrue'));
-	glob.onChangeFalse(document.getElementById('iffalse'));
 },
 
 //---------------------------------------------------------------------
@@ -152,58 +132,24 @@ init: function() {
 
 action: function(cache) {
 	const data = cache.actions[cache.index];
-	const type = parseInt(data.storage);
-	const varName = this.evalMessage(data.varName, cache);
-	const variable = this.getVariable(type, varName, cache);
-	let result = false;
-	if(variable) {
-		const val1 = variable;
-		const compare = parseInt(data.comparison);
-		let val2 = this.evalMessage(data.value, cache);
-		if(compare !== 6) val2 = this.eval(val2, cache);
-		if(val2 === false) val2 = this.evalMessage(data.value, cache);
-		switch(compare) {
-			case 0:
-				result = Boolean(val1 !== undefined);
-				break;
-			case 1:
-				result = Boolean(val1 == val2);
-				break;
-			case 2:
-				result = Boolean(val1 === val2);
-				break;
-			case 3:
-				result = Boolean(val1 < val2);
-				break;
-			case 4:
-				result = Boolean(val1 > val2);
-				break;
-			case 5:
-				if(typeof(val1.includes) === 'function') {
-					result = Boolean(val1.includes(val2));
-				}
-				break;
-			case 6:
-				result = Boolean(val1.match(new RegExp('^' + val2 + '$', 'i')));
-				break;
-			case 7:
-				result = Boolean(val1.length > val2);
-				break;
-			case 8:
-				result = Boolean(val1.length < val2);
-				break;
-			case 9: //Added by Lasse
-			  result = Boolean(val1.length == val2);
-			  break;
-			case 10: //Added by MrGold
-			  result = val1.startsWith(val2);
-			  break;
-			case 11: //Added by MrGold
-			  result = val1.endsWith(val2);
-			  break;
-		}
+	const obj = this.evalMessage(data.url, cache)
+	
+	let gif;
+	if(!obj.startsWith('http')) {
+		gif = this.getLocalFile(obj);
+    } else {
+		gif = obj;
 	}
-	this.executeResults(result, data, cache);
+
+	if(!gif.includes('.gif')) {
+	    console.log('This isn\'t a GIF')
+		this.callNextAction(cache);
+    }
+	
+	const varName = this.evalMessage(data.varName, cache);
+	const storage = parseInt(data.storage);
+	this.storeValue(gif, storage, varName, cache);
+	this.callNextAction(cache);
 },
 
 //---------------------------------------------------------------------

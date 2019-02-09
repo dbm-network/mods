@@ -23,7 +23,7 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	subtitle: function (data) {
-		const info = ['Temperature', 'Weather Text', 'Date', 'City', 'Country', 'Region', 'Wind Speed', 'Wind Chill', 'Wind Direction', 'Humidity', 'Pressure', 'Atmosphere Visibility', 'Sunrise Time', 'Sunset Time'];
+		const info = ['Temperature', 'Weather Text', 'Date', 'City', 'Country', 'Region', 'Wind Speed', 'Wind Chill', 'Wind Direction', 'Humidity', 'Pressure', 'Atmosphere Visibility', 'Sunrise Time', 'Sunset Time', 'Feelslike', 'Image URL', 'Current Day'];
 		return `${info[parseInt(data.info)]}`;
 	},
 
@@ -75,13 +75,13 @@ module.exports = {
 			case 4:
 				dataType = "Weather - Country";
 				break;
-			case 5:
+			case 5: // Deprecated...
 				dataType = "Weather - Region";
 				break;
 			case 6:
 				dataType = "Wind Speed";
 				break;
-			case 7:
+			case 7: // Deprecated...
 				dataType = "Wind Chill";
 				break;
 			case 8:
@@ -90,17 +90,26 @@ module.exports = {
 			case 9:
 				dataType = "Atmosphere Humidity";
 				break;
-			case 10:
+			case 10: // Deprecated...
 				dataType = "Atmosphere Pressure";
 				break;
-			case 11:
+			case 11: // Deprecated...
 				dataType = "Atmosphere Visibility";
 				break;
-			case 12:
+			case 12: // Deprecated...
 				dataType = "Weather - Sunrise";
 				break;
-			case 13:
+			case 13: // Deprecated...
 				dataType = "Weather - Sunset";
+				break;
+			case 14:
+				dataType = "Feelslike";
+				break;
+			case 15:
+				dataType = "Image URL";
+				break;
+			case 16:
+				dataType = "Current Day";
 				break;
 		}
 		return ([data.varName, dataType]);
@@ -155,19 +164,16 @@ module.exports = {
 		Source Info:<br>
 		<select id="info" class="round">
 			<option value="0">Temperature</option>
+			<option value="14">Feelslike</option>
 			<option value="1">Weather Text</option>
 			<option value="2">Date</option>
 			<option value="3">City</option>
 			<option value="4">Country</option>
-			<option value="5">Region</option>
 			<option value="6">Wind Speed</option>
-			<option value="7">Wind Chill</option>
 			<option value="8">Wind Direction</option>
 			<option value="9">Humidity</option>
-			<option value="10">Pressure</option>
-			<option value="11">Atmosphere Visibility</option>
-			<option value="12">Sunrise Time</option>
-			<option value="13">Sunset Time</option>
+			<option value="15">Image URL</option>
+			<option value="16">Current Day</option>
 		</select>
 	</div><br>
 	<div>
@@ -206,74 +212,88 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	action: function (cache) {
-		const data = cache.actions[cache.index];
-		const info = parseInt(data.info);
-		const city = this.evalMessage(data.city, cache);
-		const degreeType2 = this.evalMessage(data.degreeType, cache);
+		const data = cache.actions[cache.index],
+			info = parseInt(data.info),
+			city = this.evalMessage(data.city, cache),
+			degreeType2 = this.evalMessage(data.degreeType, cache),
+			_this = this;
 
 		// Check if everything is ok:
 		if (!city) return console.log("Please specify a city to get weather informations.");
 
 		// Main code:
-		const WrexMODS = this.getWrexMods(); // as always.
-		const weather = WrexMODS.require('yahoo-weather'); // WrexMODS'll automatically try to install the module if you run it with CMD/PowerShell.
+		const WrexMODS = this.getWrexMods(), // as always.
+			weather = WrexMODS.require('weather-js'); // WrexMODS'll automatically try to install the module if you run it with CMD/PowerShell.
 
-		weather(`${city}`, `${degreeType2}`).then(response => {
-			switch (info) {
-				case 0:
-					result = response.item.condition.temp;
-					break;
-				case 1:
-					result = response.item.condition.text;
-					break;
-				case 2:
-					result = response.item.condition.date;
-					break;
-				case 3:
-					result = response.location.city;
-					break;
-				case 4:
-					result = response.location.country;
-					break;
-				case 5:
-					result = response.location.region;
-					break;
-				case 6:
-					result = response.wind.speed;
-					break;
-				case 7:
-					result = response.wind.chill;
-					break;
-				case 8:
-					result = response.wind.direction;
-					break;
-				case 9:
-					result = response.atmosphere.humidity;
-					break;
-				case 10:
-					result = response.atmosphere.pressure;
-					break;
-				case 11:
-					result = response.atmosphere.visibility;
-					break;
-				case 12:
-					result = response.astronomy.sunrise;
-					break;
-				case 13:
-					result = response.astronomy.sunset;
-					break;
-				default:
-					break;
+		weather.find({ search: `${city}`, degreeType: `${degreeType2}` }, function (err, response) {
+			if (err || !response || response.length < 1) {
+				const storage = parseInt(data.storage),
+					varName2 = _this.evalMessage(data.varName, cache);
+				_this.storeValue(undefined, storage, varName2, cache); // Store as "undefined" because the result was empty.
+				_this.callNextAction(cache);
+			} else {
+				switch (info) { // Never use deprecated results. Current API doesn't support any of them. RIP old module...
+					case 0:
+						result = response[0].current.temperature;
+						break;
+					case 1:
+						result = response[0].current.skytext;
+						break;
+					case 2:
+						result = response[0].current.date;
+						break;
+					case 3:
+						result = response[0].location.name;
+						break;
+					case 4:
+						result = response[0].current.observationpoint;
+						break;
+					case 5: // Deprecated...
+						result = response[0].location.region;
+						break;
+					case 6:
+						result = response[0].current.windspeed;
+						break;
+					case 7: // Deperecated...
+						result = response[0].wind.chill;
+						break;
+					case 8:
+						result = response[0].current.winddisplay;
+						break;
+					case 9:
+						result = response[0].current.humidity;
+						break;
+					case 10: // Deprecated...
+						result = response[0].atmosphere.pressure;
+						break;
+					case 11: // Deprecated...
+						result = response[0].atmosphere.visibility;
+						break;
+					case 12: // Deprecated...
+						result = response[0].astronomy.sunrise;
+						break;
+					case 13: // Deprecated...
+						result = response[0].astronomy.sunset;
+						break;
+					case 14:
+						result = response[0].current.feelslike;
+						break;
+					case 15:
+						result = response[0].current.imageUrl;
+						break;
+					case 16:
+						result = response[0].current.day;
+						break;
+					default:
+						break;
+				}
+				if (result !== undefined) {
+					const storage = parseInt(data.storage),
+						varName2 = _this.evalMessage(data.varName, cache);
+					_this.storeValue(result, storage, varName2, cache);
+				}
+				_this.callNextAction(cache);
 			}
-			if (result !== undefined) {
-				const storage = parseInt(data.storage);
-				const varName2 = this.evalMessage(data.varName, cache);
-				this.storeValue(result, storage, varName2, cache);
-			}
-			this.callNextAction(cache);
-		}).catch(err => {
-			console.log("ERROR:", err)
-			this.callNextAction(cache)
 		});
 	},
 

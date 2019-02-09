@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Check Variable",
+name: "Create Animated Emoji",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -14,7 +14,7 @@ name: "Check Variable",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Conditions",
+section: "Emoji Control",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -23,8 +23,7 @@ section: "Conditions",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const results = ["Continue Actions", "Stop Action Sequence", "Jump To Action", "Jump Forward Actions"];
-	return `If True: ${results[parseInt(data.iftrue)]} ~ If False: ${results[parseInt(data.iffalse)]}`;
+	return `${data.emojiName}`;
 },
 
 //---------------------------------------------------------------------
@@ -35,18 +34,30 @@ subtitle: function(data) {
 	 //---------------------------------------------------------------------
 
 	 // Who made the mod (If not set, defaults to "DBM Mods")
-	 author: "DBM, EGGSY & MrGold", //UI fixed by MrGold
+	 author: "MrGold",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.9.4", //Added in 1.9.1
+	 version: "1.9.4", //Added in 1.9.4
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
-	 short_description: "Added more options to default action.",
+	 short_description: "Creates an Animated Emoji",
 
 	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-
+     
 
 	 //---------------------------------------------------------------------
+
+//---------------------------------------------------------------------
+// Action Storage Function
+//
+// Stores the relevant variable info for the editor.
+//---------------------------------------------------------------------
+
+variableStorage: function(data, varType) {
+	const type = parseInt(data.storage2);
+	if(type !== varType) return;
+	return ([data.varName2, 'Animated Emoji']);
+},
 
 //---------------------------------------------------------------------
 // Action Fields
@@ -56,7 +67,7 @@ subtitle: function(data) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["storage", "varName", "comparison", "value", "iftrue", "iftrueVal", "iffalse", "iffalseVal"],
+fields: ["emojiName", "storage", "varName", "storage2", "varName2"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -76,10 +87,19 @@ fields: ["storage", "varName", "comparison", "value", "iftrue", "iftrueVal", "if
 
 html: function(isEvent, data) {
 	return `
-	<div><p>This action has been modified by DBM Mods.</p></div><br>
+<div>
+    <p>
+        <u>Mod Info:</u><br>
+	    Created by MrGold
+    </p>
+</div><br>
+<div style="width: 90%;">
+	Animated Emoji Name:<br>
+	<input id="emojiName" class="round" type="text">
+</div><br>
 <div>
 	<div style="float: left; width: 35%;">
-		Source Variable:<br>
+		Source GIF:<br>
 		<select id="storage" class="round" onchange="glob.refreshVariableList(this)">
 			${data.variables[1]}
 		</select>
@@ -91,29 +111,15 @@ html: function(isEvent, data) {
 </div><br><br><br>
 <div style="padding-top: 8px;">
 	<div style="float: left; width: 35%;">
-		Comparison Type:<br>
-		<select id="comparison" class="round" onchange="glob.onChange1(this)">
-			<option value="0" selected>Exists</option>
-			<option value="1">Equals</option>
-			<option value="2">Equals Exactly</option>
-			<option value="3">Less Than</option>
-			<option value="4">Greater Than</option>
-			<option value="5">Includes</option>
-			<option value="6">Matches Regex</option>
-			<option value="7">Length is Bigger Than</option>
-			<option value="8">Length is Smaller Than</option>
-			<option value="9">Length Equals</option>
-			<option value="10">Starts With</option>
-			<option value="11">Ends With</option>
+		Store In:<br>
+		<select id="storage2" class="round" onchange="glob.onChange1(this)">
+			${data.variables[0]}
 		</select>
 	</div>
-	<div style="float: right; width: 60%; display: none;" id="directValue">
-		Value to Compare to:<br>
-		<input id="value" class="round" type="text" name="is-eval">
+	<div id="varNameContainer2" style="display: none; float: right; width: 60%;">
+		Variable Name:<br>
+		<input id="varName2" class="round" type="text">
 	</div>
-</div><br><br><br>
-<div style="padding-top: 8px;">
-	${data.conditions[0]}
 </div>`
 },
 
@@ -129,17 +135,17 @@ init: function() {
 	const {glob, document} = this;
 
 	glob.onChange1 = function(event) {
-		if(event.value === "0") {
-			document.getElementById("directValue").style.display = 'none';
+		const value = parseInt(event.value);
+		const varNameInput = document.getElementById("varNameContainer2");
+		if(value === 0) {
+			varNameInput.style.display = "none";
 		} else {
-			document.getElementById("directValue").style.display = null;
+			varNameInput.style.display = null;
 		}
 	};
 
-	glob.onChange1(document.getElementById('comparison'));
 	glob.refreshVariableList(document.getElementById('storage'));
-	glob.onChangeTrue(document.getElementById('iftrue'));
-	glob.onChangeFalse(document.getElementById('iffalse'));
+	glob.onChange1(document.getElementById('storage2'));
 },
 
 //---------------------------------------------------------------------
@@ -152,58 +158,21 @@ init: function() {
 
 action: function(cache) {
 	const data = cache.actions[cache.index];
-	const type = parseInt(data.storage);
-	const varName = this.evalMessage(data.varName, cache);
-	const variable = this.getVariable(type, varName, cache);
-	let result = false;
-	if(variable) {
-		const val1 = variable;
-		const compare = parseInt(data.comparison);
-		let val2 = this.evalMessage(data.value, cache);
-		if(compare !== 6) val2 = this.eval(val2, cache);
-		if(val2 === false) val2 = this.evalMessage(data.value, cache);
-		switch(compare) {
-			case 0:
-				result = Boolean(val1 !== undefined);
-				break;
-			case 1:
-				result = Boolean(val1 == val2);
-				break;
-			case 2:
-				result = Boolean(val1 === val2);
-				break;
-			case 3:
-				result = Boolean(val1 < val2);
-				break;
-			case 4:
-				result = Boolean(val1 > val2);
-				break;
-			case 5:
-				if(typeof(val1.includes) === 'function') {
-					result = Boolean(val1.includes(val2));
-				}
-				break;
-			case 6:
-				result = Boolean(val1.match(new RegExp('^' + val2 + '$', 'i')));
-				break;
-			case 7:
-				result = Boolean(val1.length > val2);
-				break;
-			case 8:
-				result = Boolean(val1.length < val2);
-				break;
-			case 9: //Added by Lasse
-			  result = Boolean(val1.length == val2);
-			  break;
-			case 10: //Added by MrGold
-			  result = val1.startsWith(val2);
-			  break;
-			case 11: //Added by MrGold
-			  result = val1.endsWith(val2);
-			  break;
-		}
+	const server = cache.server;
+	if(server && server.createEmoji) {
+		const type = parseInt(data.storage);
+		const varName = this.evalMessage(data.varName, cache);
+		const gif = this.getVariable(type, varName, cache);
+		const name = this.evalMessage(data.emojiName, cache);
+		server.createEmoji(gif, name).then(function(emoji) {
+			const varName2 = this.evalMessage(data.varName2, cache);
+			const storage = parseInt(data.storage2);
+			this.storeValue(emoji, storage, varName2, cache);
+			this.callNextAction(cache);
+		}.bind(this)).catch(this.displayError.bind(this, data, cache));
+	} else {
+		this.callNextAction(cache);
 	}
-	this.executeResults(result, data, cache);
 },
 
 //---------------------------------------------------------------------
