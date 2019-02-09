@@ -37,7 +37,7 @@ subtitle: function(data) {
 	 author: "DBM Mods",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.9.3",
+	 version: "1.9.4",
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
 	 short_description: "Changelog overview",
@@ -85,6 +85,24 @@ html: function(isEvent, data) {
 	return `
 <div>
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
+	<p>
+	<h2>1.9.4: owo Is this a release I see? A lot of revised mods.</h2>
+		● Added Convert Seconds to Days
+		● Added Download File
+		● Renamed Convert a Variable
+		● Revised Add Embed Field
+		● Revised Await Response Call Action
+		● Revised Check Member Data
+		● Revised Check Server Data
+		● Revised Check Variable
+		● Revised Edit Channel
+		● Revised Edit Message
+		● Revised Find Emoji in Message
+		● Revised Member Data List
+		● Revised Store Category Info
+		● Revised Store Message Info
+		● Revised Youtube Info
+	</p>
 	<p>
 	<h2>1.9.3: Yet another update</h2>
 		● Added RSS actions<br>
