@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Await Response Call Action",
+name: "Await Reaction Call Action",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -23,7 +23,7 @@ section: "Messaging",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	return `Await ${data.max} ${data.max === "1" ? `message` : `messages`} for ${data.time} ${data.time === "1" ? `milisecond` : `miliseconds`}`;
+	return `Await ${data.max} ${data.max === "1" ? `reaction` : `reactions`} for ${data.time} ${data.time === "1" ? `milisecond` : `miliseconds`}`;
 },
 
 //---------------------------------------------------------------------
@@ -34,13 +34,13 @@ subtitle: function(data) {
 //---------------------------------------------------------------------
 
 // Who made the mod (If not set, defaults to "DBM Mods")
-author: "MrGold, General Wrex & EliteArtz", // Code: General Wrex, Style: EliteArtz, New Design and Code: MrGold
+author: "MrGold",
 
 // The version of the mod (Defaults to 1.0.0)
-version: "1.9.4", // Added in 1.8.8
+version: "1.9.4", //Added in 1.9.4
 
 // A short description to show on the mod line for this mod (Must be on a single line)
-short_description: "Awaits Message",
+short_description: "Awaits Reaction",
 
 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
@@ -56,7 +56,7 @@ short_description: "Awaits Message",
 variableStorage: function(data, varType) {
 	const type = parseInt(data.storage2);
 	if(type !== varType) return;
-	return ([data.varName2, 'Message List']);
+	return ([data.varName2, 'Reaction List']);
 },
 
 
@@ -68,7 +68,7 @@ variableStorage: function(data, varType) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["storage", "varName", "filter", "max", "time", "iftrue", "iftrueVal", "iffalse", "iffalseVal", "storage2", "varName2"],
+fields: ["storage", "varName", "filter", "max", "time", "maxEmojis", "maxUsers", "iftrue", "iftrueVal", "iffalse", "iffalseVal", "storage2", "varName2"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -92,31 +92,27 @@ html: function(isEvent, data) {
 	<div>
 	<p>
 		<u>Mod Info:</u><br>
-		Created by MrGold, General Wrex & EliteArtz
+		Created by MrGold
 	</p>
 </div><br>
 <div class="codeblock" style="float: left; width: 88%; padding-top: 8px;">
 	<p>
 	<span style="color:white"><b>Filters Examples:</b><br><span style="color:#9b9b9b">
-	content.equals('I accept')<br>
-	content.includes('DBM is')<br>
-	content.startsWith('Hello')<br>
-	content.endsWith('bye')<br>
-	content.match(/response/)<br>
-	<u><span class="wrexlink" data-url="https://www.w3schools.com/Jsref/jsref_obj_string.asp">JavaScript String Reference</span></u><br>
+	reaction.emoji.name === '😎'<br>
+	reaction.emoji.id === '1234567890'<br>
 	<br>
-	author.id === '1234567890'<br>
-	author.name === 'Mr.Gold'<br>
-	author.tag === 'Mr.Gold#9003'<br>
-	<br>
-	<u><span class="wrexlink2" data-url2="https://www.w3schools.com/js/js_comparisons.asp">JavaScript Comparison and Logical Operators</span></u>
+	user.id === '1234567890'<br>
+	user.name === 'Mr.Gold'<br>
+	user.tag === 'Mr.Gold#9003'<br>
+    <br>
+    <u><span class="wrexlink" data-url="https://www.w3schools.com/js/js_comparisons.asp">JavaScript Comparison and Logical Operators</span></u>
 	</p>
-</div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+</div><br><br><br><br><br><br><br><br><br><br><br>
 <div>
         <div style="float: left; width: 35%;">
-		    Source Channel:<br>
-            <select id="storage" class="round" onchange="glob.channelChange(this, 'varNameContainer')">
-			    ${data.channels[isEvent ? 1 : 0]}
+		    Source Message:<br>
+            <select id="storage" class="round" onchange="glob.messageChange(this, 'varNameContainer')">
+				${data.messages[isEvent ? 1 : 0]}
 			</select>
         </div>
         <div id="varNameContainer" style="display: none; float: right; width: 60%;">
@@ -126,15 +122,23 @@ html: function(isEvent, data) {
     </div><br><br><br>
 <div style="width: 567px; margin-top: 8px;">
 JavaScript Filter Eval: <span style="opacity: 0.5;">(JavaScript Strings)<br>
-<input id="filter" class="round" type="text" value="content.equals('I like it') && author.id === 'someID'">
+<input id="filter" class="round" type="text" value="reaction.emoji.name === '👌' && user.id === 'someID'">
 </div><br>
 <div style="float: left; width: 50%;">
-Max Messages:<br>
+Max Reactions:<br>
 <input id="max" class="round" type="text" value="1" placeholder="Optional"><br>
 </div>
 <div style="float: left; width: 49%;">
 Max Time (miliseconds):<br>
 <input id="time" class="round" type="text" value="60000" placeholder="Optional"><br>
+</div><br><br><br>
+<div style="float: left; width: 50%;">
+Max Emojis:<br>
+<input id="maxEmojis" class="round" type="text" placeholder="Optional"><br>
+</div>
+<div style="float: left; width: 49%;">
+Max Users:<br>
+<input id="maxUsers" class="round" type="text" placeholder="Optional"><br>
 </div><br><br><br>
     <div style="padding-top: 8px;">
         <div style="float: left; width: 35%;">
@@ -150,7 +154,7 @@ Max Time (miliseconds):<br>
         </div>
     </div>
     <br><br><br>
-    <div style="padding-top: 8px;">
+    <div style="padding-top: 18px;">
         <div style="float: left; width: 35%;">
             On Timeout:<br>
             <select id="iffalse" class="round" onchange="glob.onChangeFalse(this)">
@@ -164,7 +168,7 @@ Max Time (miliseconds):<br>
 	</div><br><br><br>
 	<div style="padding-top: 10px;">
         <div style="float: left; width: 35%;">
-            Store Message List To:<br>
+            Store Reaction List To:<br>
             <select id="storage2" class="round" onchange="glob.variableChange(this, 'varNameContainer2')">
 		${data.variables[0]}
 	</select>
@@ -186,14 +190,6 @@ Max Time (miliseconds):<br>
 		span.wrexlink:hover { 
 			color:#4676b9; 
 		}
-		span.wrexlink2 {
-			color: #99b3ff;
-			text-decoration:underline;
-			cursor:pointer;
-		  }
-		span.wrexlink2:hover { 
-			color:#4676b9; 
-		}
 </style>`
 },
 
@@ -208,7 +204,7 @@ Max Time (miliseconds):<br>
 init: function() {
 	const {glob, document} = this;
 
-	glob.channelChange(document.getElementById('storage'), 'varNameContainer');
+	glob.messageChange(document.getElementById('storage'), 'varNameContainer');
 
 	glob.variableChange(document.getElementById('storage2'), 'varNameContainer2');
 
@@ -230,21 +226,6 @@ init: function() {
 		});
 	  }   
 	}  
-
-	var wrexlinks2 = document.getElementsByClassName("wrexlink2")
-	for(var x2 = 0; x2 < wrexlinks2.length; x2++) {
-	  
-	  var wrexlink2 = wrexlinks2[x2];
-	  var url2 = wrexlink2.getAttribute('data-url2');   
-	  if(url2){
-		wrexlink2.setAttribute("title", url2);
-		wrexlink2.addEventListener("click", function(e2){
-		  e2.stopImmediatePropagation();
-		  console.log("Launching URL: [" + url2 + "] in your default browser.")
-		  require('child_process').execSync('start ' + url2);
-		});
-	  }   
-	}  
 },
 
 //---------------------------------------------------------------------
@@ -258,23 +239,22 @@ init: function() {
 action: function(cache) {
 	const data = cache.actions[cache.index];
 
-	const ch = parseInt(data.storage);
+	const message = parseInt(data.storage);
 	const varName = this.evalMessage(data.varName, cache);
-	const channel = this.getChannel(ch, varName, cache);
+	const msg = this.getMessage(message, varName, cache);
 
 	const storage = parseInt(data.storage2);
 	const varName2 = this.evalMessage(data.varName2, cache);
 
-	if(channel) {
+	if(msg) {
 		const js = String(this.evalMessage(data.filter, cache));
 		
 		const max = parseInt(this.evalMessage(data.max, cache));
+		const maxEmojis = parseInt(this.evalMessage(data.maxEmojis, cache));
+		const maxUsers = parseInt(this.evalMessage(data.maxUsers, cache));
 		const time = parseInt(this.evalMessage(data.time, cache));
 
-		channel.awaitMessages(function(msg) {
-			const content = msg.content;
-			const author = msg.member || msg.author;
-
+		msg.awaitReactions(function(reaction, user) {
 			try {
 				return !!eval(js);
 			} catch(e) {
@@ -282,6 +262,8 @@ action: function(cache) {
 			}
 		}, {
 			max: max,
+			maxEmojis: maxEmojis,
+			maxUsers: maxUsers,
 			time: time,
 			errors: ['time']
 		}).then(function(collected) { 
