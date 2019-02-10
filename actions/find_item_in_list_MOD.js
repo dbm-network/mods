@@ -27,7 +27,7 @@ section: "Lists and Loops",
 author: "ZockerNico",
 
 // The version of the mod (Defaults to 1.0.0)
-version: "1.1.0",
+version: "1.9.5", //Added in 1.9.5
 
 // A short description to show on the mod line for this mod (Must be on a single line)
 short_description: "This action searches for an item in a list and returns the position.",
