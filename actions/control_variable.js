@@ -14,7 +14,7 @@ name: "Control Variable",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Other Stuff",
+section: "Variable Things",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -47,7 +47,7 @@ variableStorage: function(data, varType) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["storage", "varName", "changeType", "value"],
+fields: ["changeType", "value", "storage", "varName"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -67,6 +67,20 @@ fields: ["storage", "varName", "changeType", "value"],
 
 html: function(isEvent, data) {
 	return `
+<div><p>This action has been modified by DBM Mods</p></div>
+<div>
+	<div style="padding-top: 12px; width: 35%;">
+		Control Type:<br>
+		<select id="changeType" class="round">
+			<option value="0" selected>Set Value</option>
+			<option value="1">Add Value</option>
+		</select>
+	</div>
+</div><br>
+<div>
+	Value:<br>
+	<textarea id="value" rows="7" placeholder="Insert what you want here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+</div><br>
 <div>
 	<div style="float: left; width: 35%;">
 		Store In:<br>
@@ -77,19 +91,6 @@ html: function(isEvent, data) {
 	<div id="varNameContainer" style="float: right; width: 60%;">
 		Variable Name:<br>
 		<input id="varName" class="round" type="text">
-	</div>
-</div><br><br><br>
-<div style="padding-top: 8px;">
-	<div style="float: left; width: 35%;">
-		Control Type:<br>
-		<select id="changeType" class="round">
-			<option value="0" selected>Set Value</option>
-			<option value="1">Add Value</option>
-		</select>
-	</div>
-	<div style="float: right; width: 60%;">
-		Value:<br>
-		<input id="value" class="round" type="text" name="is-eval"><br>
 	</div>
 </div>`
 },
@@ -102,8 +103,7 @@ html: function(isEvent, data) {
 // functions for the DOM elements.
 //---------------------------------------------------------------------
 
-init: function() {
-},
+init: function() {},
 
 //---------------------------------------------------------------------
 // Action Bot Function
