@@ -45,9 +45,7 @@ version: "1.9.4", //Added in 1.9.4
 short_description: "Stores information about specific category.",
 
 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-depends_on_mods: [
-	{name:'WrexMods', path:'aaa_wrexmods_dependencies_MOD.js'}
-	],
+depends_on_mods: [],
 
 //---------------------------------------------------------------------
 
@@ -64,41 +62,32 @@ variableStorage: function(data, varType) {
 	let dataType = 'Unknown Type';
 	switch(info) {
 		case 0:
-			dataType = "Category";
-			break;
-		case 1:
 			dataType = "Category ID";
 			break;
-		case 2:
+		case 1:
 			dataType = "Text";
 			break;
-		case 3:
+		case 2:
 			dataType = "Server";
 			break;
-		case 4:
+		case 3:
+		case 7:
+		case 9:
+		case 11:
 			dataType = "Number";
 			break;
+		case 4:
 		case 5:
-		case 6:
 			dataType = "Boolean";
 			break;
-		case 7:
+		case 6:
 			dataType = "Channel List"
 			break;
 		case 8:
-			dataType = "Number";
-			break;
-		case 9:
 			dataType = "Text Channel List";
 			break;
 		case 10:
-			dataType = "Number";
-			break;
-		case 11:
 			dataType = "Voice Channel List";
-			break;
-		case 12:
-			dataType = "Number";
 			break;
 	}
 	return ([data.varName2, dataType]);
@@ -244,11 +233,10 @@ init: function() {
 
 action: function(cache) {
 	const data = cache.actions[cache.index];
-	var WrexMods = this.getWrexMods(); //Find aaa_wrexmods_dependencies_MOD.js
-	const category = parseInt(data.category);
-	const varName = this.evalMessage(data.varName, cache);
-	const info = parseInt(data.info);
-	const targetCategory = WrexMods.getReaction(category, varName, cache); //getReaction, getWebhook, getEmoji can get category, so i don't need to modify WrexMods
+	      category = parseInt(data.category);
+	      varName = this.evalMessage(data.varName, cache);
+	      info = parseInt(data.info);
+	      targetCategory = this.getVariable(category, varName, cache);
 	if(!targetCategory) {
 		this.callNextAction(cache);
 		return;
@@ -298,10 +286,8 @@ action: function(cache) {
 			const storage = parseInt(data.storage);
 			const varName2 = this.evalMessage(data.varName2, cache);
 			this.storeValue(result, storage, varName2, cache);
+		} 
 			this.callNextAction(cache);
-		} else {
-			this.callNextAction(cache);
-		}
 },
 
 //---------------------------------------------------------------------
@@ -313,7 +299,6 @@ action: function(cache) {
 // functions you wish to overwrite.
 //---------------------------------------------------------------------
 
-mod: function(DBM) {
-}
+mod: function(DBM) {}
 
 }; // End of module
