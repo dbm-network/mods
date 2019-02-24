@@ -40,7 +40,7 @@ module.exports = {
 		 author: "Lasse, MrGold & NetLuis", // UI fixed by MrGold
 	
 		 // The version of the mod (Defaults to 1.0.0)
-		 version: "1.9.4", //Added in 1.8.2
+		 version: "1.9.5", //Added in 1.8.2
 	
 		 // A short description to show on the mod line for this mod (Must be on a single line)
 		 short_description: "Edits a specific channel",
@@ -146,19 +146,20 @@ module.exports = {
 		const varName = this.evalMessage(data.varName, cache);
 		const channel = this.getChannel(storage, varName, cache);
 		const newState = this.evalMessage(data.newState, cache);
-		if(data.toChange === 1) {
+		const toChange = parseInt(data.toChange, cache);
+		if(toChange === 1) {
 			channel.edit({topic: newState});
-		} else if(data.toChange === 0) {
+		} else if(toChange === 0) {
 			channel.edit({name: newState});
-		} else if(data.toChange === 2) {
+		} else if(toChange === 2) {
 			channel.edit({position: newState});
-		} else if(data.toChange === 3) {
+		} else if(toChange === 3) {
 			channel.edit({bitrate: newState});
-		} else if(data.toChange === 4) {
+		} else if(toChange === 4) {
 			channel.edit({userLimit: newState});
-		} else if(data.toChange === 5) {
+		} else if(toChange === 5) {
 			channel.setParent(newState); // Added by Lasse in 1.8.7
-		} else if(data.toChange === 6) {
+		} else if(toChange === 6) {
 			if(newState >= 0 && newState <= 120) {
 			
 			new Promise((resolve, _reject) => {
