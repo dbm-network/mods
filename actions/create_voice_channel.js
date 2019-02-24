@@ -26,6 +26,26 @@ subtitle: function(data) {
 	return `${data.channelName}`;
 },
 
+	//---------------------------------------------------------------------
+	// DBM Mods Manager Variables (Optional but nice to have!)
+	//
+	// These are variables that DBM Mods Manager uses to show information
+	// about the mods for people to see in the list.
+	//---------------------------------------------------------------------
+
+	// Who made the mod (If not set, defaults to "DBM Mods")
+	author: "Jakob, Two & NetLuis",
+
+	// The version of the mod (Defaults to 1.0.0)
+	version: "1.9.5", // added in 1.9.1
+
+	// A short description to show on the mod line for this mod (Must be on a single line)
+	short_description: "Creates voice channel to specific server.",
+
+	// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
+
+	//---------------------------------------------------------------------
+	
 //---------------------------------------------------------------------
 // Action Storage Function
 //
@@ -46,7 +66,7 @@ variableStorage: function(data, varType) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["channelName", "categoryID", "bitrate", "userLimit", "storage", "varName"],
+fields: ["server", "channelName", "categoryID", "bitrate", "userLimit", "storage", "varName"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -66,6 +86,14 @@ fields: ["channelName", "categoryID", "bitrate", "userLimit", "storage", "varNam
 
 html: function(isEvent, data) {
 	return `
+	<div>
+	<div style="float: left; width: 35%;">
+		Source Server:<br>
+		<select id="server" class="round" onchange="glob.serverChange(this, 'varNameContainerr')">
+			${data.servers[isEvent ? 1 : 0]}
+		</select>
+	</div>
+
 Name:<br>
 <input id="channelName" class="round" type="text" style="width: 95%"><br>
 
@@ -108,6 +136,7 @@ init: function() {
 	const {glob, document} = this;
 
 	glob.variableChange(document.getElementById('storage'), 'varNameContainer');
+	glob.serverChange(document.getElementById('server'), 'varNameContainerr')
 },
 
 //---------------------------------------------------------------------
@@ -120,7 +149,7 @@ init: function() {
 
 action: function(cache) {
 	const data = cache.actions[cache.index];
-	const server = cache.server;
+	const server = this.getServer(server, varName, cache);
 	const catid = this.evalMessage(data.categoryID, cache);
 	if(server && server.createChannel) {
 		const name = this.evalMessage(data.channelName, cache);
