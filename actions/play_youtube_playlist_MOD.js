@@ -45,10 +45,10 @@ subtitle: function(data) {
 author: "ZockerNico",
 
 // The version of the mod (Defaults to 1.0.0)
-version: "1.0.0",
+version: "1.9.5", //Added in 1.9.5
 
 // A short description to show on the mod line for this mod (Must be on a single line)
-short_description: "This action is able to add every video in a youtube playlist to the queue.",
+short_description: "This action will add every video from a youtube playlist to the queue.",
 
 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 depends_on_mods: [
@@ -85,7 +85,7 @@ html: function(isEvent, data) {
 	return `
 <div>
 <p>
-	Made by ZockerNico
+	Made by ZockerNico.
 </p>
 </div><br>
 <div style="float: left; width: 105%;">
