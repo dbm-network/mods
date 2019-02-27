@@ -6,7 +6,7 @@ module.exports = {
 	// This is the name of the action displayed in the editor.
 	//---------------------------------------------------------------------
 
-	name: "YouTube Search",
+	name: "Store YouTube Info",
 
 	//---------------------------------------------------------------------
 	// Action Section
@@ -23,8 +23,8 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	subtitle: function (data) {
-		const videoInfo = ['ID', 'URL', 'Title', 'Description', 'Owner', 'Channel ID', 'Thumbnail URL', 'Embed URL', 'Genre', 'Paid', 'Unlisted', 'is Family Friendly', 'Duration', 'Views', 'regions Allowed', 'comment Count', 'like Count', 'dislike Count',  'channel Thumbnail URL' ];
-		const playlistInfo = ['Video IDs', 'Video URLs', 'Video Titles', 'Channel IDs', 'Channel URLs', 'Channel Names', 'Video Positons', 'Video Publish Dates', 'Thumbnail (Default)', 'Thumbnail (Medium)', 'Thumbnail (High)', 'Thumbnail (Standard)', 'Thumbnail (Maxres)'];
+		const videoInfo = ['ID', 'URL', 'Title', 'Description', 'Owner', 'Channel ID', 'Thumbnail URL', 'Embed URL', 'Genre', 'Paid', 'Unlisted', 'is Family Friendly', 'Duration', 'Views', 'Regions Allowed', 'Comment Count', 'Like Count', 'Dislike Count',  'Channel Thumbnail URL' ];
+		const playlistInfo = ['Video IDs', 'Video URLs', 'Video Titles', 'Channel IDs', 'Channel URLs', 'Channel Names', 'Video Positons', 'Video Publish Dates', 'Thumbnail (Default)', 'Thumbnail (Medium)', 'Thumbnail (High)', 'Thumbnail (Standard)', 'Thumbnail (Max)'];
 		if(parseInt(data.type) == 1) {
 			return `YouTube Playlist ${playlistInfo[parseInt(data.info1)]}`;
 		} else {
@@ -40,13 +40,13 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "Aamon & ZockerNico",
+	author: "EGGSY, Aamon & ZockerNico",
 
 	// The version of the mod (Defaults to 1.0.0)
-	version: "1.9.5", //Added in 1.9.5
+	version: "1.9.5", //Added in 1.8.7
 
 	// A short description to show on the mod line for this mod (Must be on a single line)
-	short_description: "If selected 'Video': Gets extra video information on YouTube based on video ID. | If selected 'Playlist': It will add every video info from a youtube playlist to a list in DBM. | Works with Discord Bot Maker (Beta) and WrexMods.",
+	short_description: "Searches video informations on YouTube",
 
 	// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
@@ -111,7 +111,7 @@ module.exports = {
 	// are also the names of the fields stored in the action's JSON data.
 	//---------------------------------------------------------------------
 
-	fields: ["type", "position", "url", "divinfo0", "info0", "divinfo0", "info1", "apikey", "divapikey", "results", "divresults", "storage", "varName"],
+	fields: ["type", "position", "url", "info0", "info1", "apikey", "results", "storage", "varName"],
 
 	//---------------------------------------------------------------------
 	// Command HTML
@@ -135,7 +135,7 @@ module.exports = {
 	<div>
 		<p>
 			<u>Mod Info:</u><br>
-			Created by <b>Aamon</b> and <b>ZockerNico</b>!
+			Created by <b>EGGSY</b>, <b>Aamon</b> and <b>ZockerNico</b>!
 		</p>
 	</div>
 	<div style="width: 30%; padding-top: 8px;">
@@ -192,7 +192,7 @@ module.exports = {
 			<option value="9">Thumbnails (Medium)</option>
 			<option value="10">Thumbnails (High)</option>
 			<option value="11">Thumbnails (Standard)</option>
-			<option value="12">Thumbnails (Maxres)</option>
+			<option value="12">Thumbnails (Max)</option>
 		</select>
 	</div>
 	<div id="divapikey" style="float: left; width: 95%; padding-top: 8px;">
@@ -371,7 +371,7 @@ module.exports = {
 					case 10://Thumbnail (High)
 						items.forEach(item=> {
 							urlList.push(item.thumbnails.high);
-						});
+					});
 						break;
 					case 11://Thumbnail (Standard)
 						items.forEach(item=> {
@@ -386,14 +386,15 @@ module.exports = {
 					default:
 						break;
 				};
-				//Store list
-				const varName = _this.evalMessage(data.varName, cache);
+				//Store Output
 				const storage = parseInt(data.storage);
+				const varName = _this.evalMessage(data.varName, cache);
 				_this.storeValue(urlList, storage, varName, cache);
-				_this.callNextAction(cache);
-				
+
 			}).catch(console.error);
-	
+
+			setTimeout(function(){ _this.callNextAction(cache); }, 1000);
+
 
 
 		} else {//Video section (by Aamon)
@@ -498,5 +499,4 @@ module.exports = {
 
 	mod: function (DBM) { }
 
-}; // End of module   <-- as he says
-
+}; // End of module
