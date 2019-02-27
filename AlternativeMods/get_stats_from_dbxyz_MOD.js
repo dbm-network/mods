@@ -6,7 +6,7 @@ module.exports = {
 	// This is the name of the action displayed in the editor.
 	//---------------------------------------------------------------------
 
-	name: "Get Bot Stats From DBXYZ",
+	name: "Get Bot Stats From D.B",
 
 	//---------------------------------------------------------------------
 	// Action Section
@@ -35,10 +35,10 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "Ohhlookitsrazorr",
+	author: "Ohhlookitsrazorr and MrSheldon",
 
 	// The version of the mod (Defaults to 1.0.0)
-	version: "1.9.1", //Added in 1.9.1
+	version: "2.0.0", //Added in 2.0.0
 
 	// A short description to show on the mod line for this mod (Must be on a single line)
 	short_description: "Get any bot stats from Discord Boats!",
@@ -54,7 +54,7 @@ module.exports = {
 	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
-		let dataType = 'A DBXYZ Stat';
+		let dataType = 'A DB Stat';
 		const info = parseInt(data.info);
 		switch (info) {
 			case 0:
@@ -213,7 +213,7 @@ module.exports = {
 		const info = parseInt(data.info);
 		var sf = require("snekfetch")
 
-		sf.get('https://discordboats.xyz/api/bot/' + botID)
+		sf.get('https://discord.boats/api/bot/' + botID)
 			.then(r => {
 				switch (info) {
 					case 0:
@@ -275,7 +275,7 @@ module.exports = {
 				this.callNextAction(cache);
 			})
 			.catch(e => {
-				console.log('Get Stats From DBXYZ Error:'+ '\n' + e.stack)
+				console.log('Get Stats From D.B Error:'+ '\n' + e.stack)
 			});
 	},
 
