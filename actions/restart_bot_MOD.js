@@ -23,7 +23,7 @@ section: "Bot Client Control",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	return `Restarts bot`
+	return `Restarts ${data.filename}`
 },
 
 //---------------------------------------------------------------------
@@ -34,10 +34,10 @@ subtitle: function(data) {
 	 //---------------------------------------------------------------------
 
 	 // Who made the mod (If not set, defaults to "DBM Mods")
-	 author: "MrGold & NetLuis",
+	 author: "MrGold, NetLuis & ZockerNico",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.9.3", //Added in 1.9.3
+	 version: "1.9.5", //Added in 1.9.3
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
 	 short_description: "Restarts the bot",
@@ -64,7 +64,7 @@ subtitle: function(data) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: [],
+fields: ["filename"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -86,7 +86,11 @@ html: function(isEvent, data) {
 	return `
 <div>
 	<p><u>Mod Info:</u><br>
-	Created by MrGold<br> Fixed by NetLuis</p>
+	Created by MrGold<br> Fixed by NetLuis<br> Modified by ZockerNico</p>
+</div><br>
+<div style="float: left; width: 105%;">
+	Your main bot file:<br>
+	<input id="filename" class="round" type="text" value="bot.js"><br>
 </div>
 <div><br>
 	<p><u>NOTE:</u><br>
@@ -112,10 +116,12 @@ init: function() {},
 // so be sure to provide checks for variable existance.
 //---------------------------------------------------------------------
 
-action: function() {
-	this.getDBM().Bot.bot.destroy().then(console.log('Restarting bot...'))
+action: function(cache) {
+	const data = cache.actions[cache.index];
+	const filename = this.evalMessage(data.filename, cache);
+	this.getDBM().Bot.bot.destroy().then(console.log(`Restarting ${filename}...`))
 	const child = require('child_process')
-	child.execSync('node bot.js',{cwd: require('path').dirname(process.argv[1]),stdio:[0,1,2]}).catch(e => console.log('An error in Restart Bot MOD: ' + e))
+	child.execSync(`node ${filename}`,{cwd: require('path').dirname(process.argv[1]),stdio:[0,1,2]}).catch(e => console.log('An error in Restart Bot MOD: ' + e))
 	//very long code lul
 },
 

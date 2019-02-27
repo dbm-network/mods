@@ -57,7 +57,7 @@ subtitle: function(data) {
 variableStorage: function(data, varType) {
 	const type = parseInt(data.storage);
 	if(type !== varType) return;
-	return ([data.varName, 'Number']);
+	return ([data.varName2, 'Number']);
 },
 
 //---------------------------------------------------------------------
