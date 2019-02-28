@@ -183,19 +183,22 @@ module.exports = {
 	<div id="divinfo1"; style="float: left; width: 85%; padding-top: 8px;">
 		Source Playlist Info:<br>
 		<select id="info1" class="round">
-			<option value="0">Video IDs</option>
-			<option value="1" selected>Video URLs</option>
-			<option value="2">Video Titles</option>
-			<option value="3">Channel IDs</option>
-			<option value="4">Channel URLs</option>
-			<option value="5">Channel Names</option>
-			<option value="6">Video Positions</option>
-			<option value="7">Video Publish Dates</option>
-			<option value="8">Thumbnails (Default)</option>
-			<option value="9">Thumbnails (Medium)</option>
-			<option value="10">Thumbnails (High)</option>
-			<option value="11">Thumbnails (Standard)</option>
-			<option value="12">Thumbnails (Max)</option>
+			<option value="0">Playlist ID</option>
+			<option value="1" selected>Playlist URL</option>
+			<option value="2">Playlist Name</option>
+			<option value="3">Video IDs</option>
+			<option value="4">Video URLs</option>
+			<option value="5">Video Titles</option>
+			<option value="6">Channel IDs</option>
+			<option value="7">Channel URLs</option>
+			<option value="8">Channel Names</option>
+			<option value="9">Video Positions</option>
+			<option value="10">Video Publish Dates</option>
+			<option value="11">Thumbnails (Default)</option>
+			<option value="12">Thumbnails (Medium)</option>
+			<option value="13">Thumbnails (High)</option>
+			<option value="14">Thumbnails (Standard)</option>
+			<option value="15">Thumbnails (Max)</option>
 		</select>
 	</div>
 	<div id="divresultNumber" style="float: left; width: 85%; padding-top: 8px;">
@@ -319,7 +322,7 @@ module.exports = {
 			//Load playlist
 			var apikey = "";
 			if(data.apikey) {
-				apikey = this.evalMessage(data.apikey, cache);
+				apikey = _this.evalMessage(data.apikey, cache);
 			};
 
 			var searchOptions = {
@@ -337,73 +340,82 @@ module.exports = {
 				if(data.results) {
 					playlistResults = parseInt(_this.evalMessage(data.results, cache));
 				};
-				const options = {
-					maxResults: playlistResults
+				const ypiOptions = {
+					maxResults: `${playlistResults}`
 				};
-				ypi(apikey, playlist, options).then(items => {
+				ypi(apikey, playlist, ypiOptions).then(items => {
 					var urlList = [];
 					switch(info) {
-						case 0://Video ID
+						case 0://Playlist ID
+							urlList.push(results[resultNumber].id);
+							break;
+						case 1://Playlist URL
+							urlList.push(results[resultNumber].link);
+							break;
+						case 2://Playlist Name
+							urlList.push(results[resultNumber].title);
+							break;
+						case 3://Video ID
 							items.forEach(item=> {
 								urlList.push(item.resourceId.videoId);
 							});
 							break;
-						case 1://Video URL
+						case 4://Video URL
 							items.forEach(item=> {
 								urlList.push(`https://www.youtube.com/watch?v=${item.resourceId.videoId}`);
 							});
 							break;
-						case 2://Video Title
+						case 5://Video Title
 							items.forEach(item=> {
 								urlList.push(item.title);
 							});
 							break;
-						case 3://Channel ID
+						case 6://Channel ID
 							items.forEach(item=> {
 								urlList.push(item.channelId);
 							});
 							break;
-						case 4://Channel URL
+						case 7://Channel URL
 							items.forEach(item=> {
 								urlList.push(`https://www.youtube.com/channel/${item.channelId}`);
 							});
 							break;
-						case 5://Channel Name
+						case 8://Channel Name
 							items.forEach(item=> {
 								urlList.push(item.channelTitle);
 							});
 							break;
-						case 6://Video Position
+						case 9://Video Position
 							items.forEach(item=> {
 								urlList.push(item.position);
 							});
 							break;
-						case 7://Video Publish Date
+						case 10://Video Publish Date
 							items.forEach(item=> {
 								urlList.push(item.publishedAt);
 							});
 							break;
-						case 8://Thumbnail (Default)
+						case 11://Thumbnail (Default)
 							items.forEach(item=> {
 								urlList.push(item.thumbnails.default);
 							});
 							break;
-						case 9://Thumbnail (Medium)
+						case 12://Thumbnail (Medium)
 							items.forEach(item=> {
 								urlList.push(item.thumbnails.medium);
 							});
 							break;
-						case 10://Thumbnail (High)
+						case 13://Thumbnail (High)
 							items.forEach(item=> {
 								urlList.push(item.thumbnails.high);
 							});
 							break;
-						case 11://Thumbnail (Standard)
+						case 14://Thumbnail (Standard)
 							items.forEach(item=> {
 								urlList.push(item.thumbnails.standard);
 							});
 							break;
-						case 12://Thumbnail (Maxres)
+						case 15://Thumbnail (Maxres)
 							items.forEach(item=> {
 								urlList.push(item.thumbnails.maxres);
 							});
@@ -414,7 +426,12 @@ module.exports = {
 					//Store list
 					const varName = _this.evalMessage(data.varName, cache);
 					const storage = parseInt(data.storage);
-					_this.storeValue(urlList, storage, varName, cache);
+					if(info > 3) {
+						_this.storeValue(urlList, storage, varName, cache);
+					} else {
+						var listInfo = urlList[0];
+						_this.storeValue(listInfo, storage, varName, cache);
+					};
 					_this.callNextAction(cache);
 				}).catch(console.error);
 			});
