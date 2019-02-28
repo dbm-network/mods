@@ -317,7 +317,7 @@ module.exports = {
 
 	action: function (cache) {
 		const data = cache.actions[cache.index];
-		const input = this.evalMessage(data.input);
+		const input = this.evalMessage(data.input, cache);
 		const WrexMODS = this.getWrexMods(); // as always.
 
 
