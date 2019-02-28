@@ -68,11 +68,9 @@ module.exports = {
 		if(parseInt(data.type) == 1) {
 			switch(info1) {
 				case 0:
+				case 1:
 				case 2:
 					dataType = "Text";
-					break;
-				case 1:
-					dataType = "URL";
 					break;
 				case 3:
 				case 4:
