@@ -24,7 +24,7 @@ module.exports = {
 
 	subtitle: function (data) {
 		const videoInfo = ['ID', 'URL', 'Title', 'Description', 'Owner', 'Channel ID', 'Thumbnail URL', 'Embed URL', 'Genre', 'Paid', 'Unlisted', 'is Family Friendly', 'Duration', 'Views', 'Regions Allowed', 'Comment Count', 'Like Count', 'Dislike Count',  'Channel Thumbnail URL' ];
-		const playlistInfo = ['Video IDs', 'Video URLs', 'Video Titles', 'Channel IDs', 'Channel URLs', 'Channel Names', 'Video Positons', 'Video Publish Dates', 'Thumbnail (Default)', 'Thumbnail (Medium)', 'Thumbnail (High)', 'Thumbnail (Standard)', 'Thumbnail (Max)'];
+		const playlistInfo = ['ID', 'URL', 'Name', 'Video IDs', 'Video URLs', 'Video Titles', 'Channel IDs', 'Channel URLs', 'Channel Names', 'Video Positons', 'Video Publish Dates', 'Thumbnail (Default)', 'Thumbnail (Medium)', 'Thumbnail (High)', 'Thumbnail (Standard)', 'Thumbnail (Max)'];
 		if(parseInt(data.type) == 1) {
 			return `YouTube Playlist ${playlistInfo[parseInt(data.info1)]}`;
 		} else {
@@ -66,7 +66,30 @@ module.exports = {
 		const info1 = parseInt(data.info1);
 		let dataType = 'Unknown Type';
 		if(parseInt(data.type) == 1) {
-			dataType = "List";
+			switch(info1) {
+				case 0:
+				case 2:
+					dataType = "Text";
+					break;
+				case 1:
+					dataType = "URL";
+					break;
+				case 3:
+				case 4:
+				case 5:
+				case 6:
+				case 7:
+				case 8:
+				case 9:
+				case 10:
+				case 11:
+				case 12:
+				case 13:
+				case 14:
+				case 15:
+					dataType = "List";
+					break;
+			}
 		} else {
 			switch (info0) {
 				case 0:
