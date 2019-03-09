@@ -68,7 +68,7 @@ variableStorage: function(data, varType) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["storage", "varName", "channel", "varName2", "storage3", "varName3"],
+fields: ["storage", "varName", "channel", "varName2", "storage3", "varName3", "iffalse", "iffalseVal"],
 
 //---------------------------------------------------------------------
 // Command HTML
