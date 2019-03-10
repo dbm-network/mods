@@ -173,7 +173,7 @@ action: function(cache) {
 	const Files = this.getDBM().Files;
 	
 	let id;
-	if(parseInt(data.sourcetype) == 0) {id = data.source} else {id = data.source2};
+	if(parseInt(data.sourcetype) == 0) {id = data.source} else {id = this.evalMessage(data.source2, cache)};
 	if(!id) {return console.log('Please insert a Command/Event ID!')};
 
 	let actions;
