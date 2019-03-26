@@ -156,26 +156,26 @@ action: function(cache) {
     const data = cache.actions[cache.index];
     const storage = parseInt(data.list);
     const varName = this.evalMessage(data.varName, cache);
-	const list = this.getList(storage, varName, cache);
-	const item = this.evalMessage(data.item, cache);
+		const list = this.getList(storage, varName, cache);
+		const item = this.evalMessage(data.item, cache);
 
-	let result;
-	var loop = 0;
+		let result;
+		var loop = 0;
 
-    while(loop <= list.length) {
-		if(list[loop] == item) {
-			result = loop;
-			break;
-		} else {
-			++loop;
-		}
-	};
+    while(loop < list.length) {
+			if(list[loop] == item) {
+				result = loop;
+				break;
+			} else {
+				++loop;
+			}
+		};
 
-    if (result) {
+    if (result !== undefined) {
       const varName2 = this.evalMessage(data.varName2, cache);
       const storage2 = parseInt(data.storage);
       this.storeValue(result, storage2, varName2, cache);
-    }
+    };
 
     this.callNextAction(cache);
   },
