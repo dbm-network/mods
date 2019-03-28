@@ -40,8 +40,8 @@ subtitle: function(data) {
 // Who made the mod (If not set, defaults to "DBM Mods")
 author: "YOUR NAME",
 
-// The version of the mod (Defaults to 1.0.0)
-version: "1.0.0",
+// The version of the mod (Last edited version number of DBM Mods)
+version: "1.0.0", //Added in 1.0.0
 
 // A short description to show on the mod line for this mod (Must be on a single line)
 short_description: "A short description of the mod.",
