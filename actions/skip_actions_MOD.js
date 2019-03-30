@@ -17,6 +17,22 @@ name: "Skip Actions",
 section: "Other Stuff",
 
 //---------------------------------------------------------------------
+// DBM Mods Manager Variables (Optional but nice to have!)
+//
+// These are variables that DBM Mods Manager uses to show information
+// about the mods for people to see in the list.
+//---------------------------------------------------------------------
+
+// Who made the mod (If not set, defaults to "DBM Mods")
+author: "Lasse",
+
+// The version of the mod (Defaults to 1.0.0)
+version: "1.9.5", //Added in 1.8.8
+
+// A short description to show on the mod line for this mod.
+short_description: "Skip a specific amount of actions",
+
+//---------------------------------------------------------------------
 // Action Subtitle
 //
 // This function generates the subtitle displayed next to the name.
