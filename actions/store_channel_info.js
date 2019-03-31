@@ -24,7 +24,7 @@ section: "Channel Control",
 
 subtitle: function(data) {
 	const channels = ['Same Channel', 'Mentioned Channel', '1st Server Channel', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const info = ['Channel Object', 'Channel ID', 'Channel Name', 'Channel Topic', 'Channel Last Message', 'Channel Position', 'Channel Is NSFW?', 'Channel Is Deleteable?', 'Channel Creation Date', 'Channel Category Name'];
+	const info = ['Channel Object', 'Channel ID', 'Channel Name', 'Channel Topic', 'Channel Last Message', 'Channel Position', 'Channel Is NSFW?', 'Channel Is DM?', 'Channel Is Deleteable?', 'Channel Creation Date', 'Channel Category Name'];
 	return `${channels[parseInt(data.channel)]} - ${info[parseInt(data.info)]}`;
 },
 
@@ -39,7 +39,7 @@ subtitle: function(data) {
 author: "DBM & Lasse",
 
 // The version of the mod (Defaults to 1.0.0)
-version: "1.9.1", //Added in 1.9.1
+version: "1.9.5", //Added in 1.9.1
 
 // A short description to show on the mod line for this mod (Must be on a single line)
 short_description: "Added more options to default action.",
@@ -227,7 +227,7 @@ action: function(cache) {
 		case 9:
 			result = targetChannel.createdAt;
 			break;
-		case 9:
+		case 10:
 			result = targetChannel.parent.name;
 			break;
 		default:
