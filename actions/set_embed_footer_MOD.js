@@ -37,10 +37,10 @@ subtitle: function(data) {
 	 author: "Lasse",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.8.2",
+	 version: "1.9.5",//Added in 1.8.2 //UI Fix by ZockerNico
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
-	 short_description: "You can add a footer with text and an image to an embed message",
+	 short_description: "You can add a footer with text and an image to an embed message.",
 
 	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
@@ -95,9 +95,9 @@ html: function(isEvent, data) {
 </div><br><br><br>
 <div style="padding-top: 8px;">
 	Footer:<br>
-	<textarea id="message" rows="3" placeholder="Insert footer here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+	<textarea id="message" rows="3" placeholder="Insert footer here..." style="width: 93.6%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
 </div><br>
-<div style="float: left; width: 99%;">
+<div style="float: left; width: 104.1%;">
 	Footer Icon URL:<br>
 	<input id="footerIcon" class="round" type="text" placeholder="Leave blank for none!"><br>
 </div>`
