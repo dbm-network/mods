@@ -37,10 +37,10 @@ subtitle: function(data) {
 	 author: "DBM",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.8.2",
+	 version: "1.9.5",//Added in 1.8.2
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
-	 short_description: "Changed Category",
+	 short_description: "Changed Category & UI",
 
 	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
@@ -89,7 +89,7 @@ html: function(isEvent, data) {
 </div><br><br><br>
 <div style="padding-top: 8px;">
 	Description:<br>
-	<textarea id="message" rows="10" placeholder="Insert message here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+	<textarea id="message" rows="12" placeholder="Insert message here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
 </div>`
 },
 
