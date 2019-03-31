@@ -32,11 +32,11 @@ subtitle: function(data) {
 	if(data.second) {var second = data.second} else {var second = ''};
 	var retult;
 	switch(parseInt(data.type)) {
-		case 0: retult = 'Current Timestamp';
-		case 1: retult = `String Timestamp: "${text}"`;
-		case 2: retult = `Custom Timestamp: "${year} ${month} ${day} ${hour} ${minute} ${second}"`;
+		case 0: result = 'Current Timestamp';
+		case 1: result = `String Timestamp: "${text}"`;
+		case 2: result = `Custom Timestamp: "${year} ${month} ${day} ${hour} ${minute} ${second}"`;
 	};
-	return retult;
+	return result;
 },
 
 //---------------------------------------------------------------------
@@ -53,7 +53,7 @@ subtitle: function(data) {
 	 version: "1.9.5",//Added in 1.9.5
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
-	 short_description: "You can add a timestamp with the current or a custom utc timecode",
+	 short_description: "You can add a timestamp with the current or a custom UTC timecode",
 
 	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
