@@ -156,7 +156,7 @@ action: function(cache) {
 		if(data.authorIcon && data.authorUrl) {
 			embed.setAuthor(this.evalMessage(data.author, cache), this.evalMessage(data.authorIcon, cache), this.evalMessage(data.authorUrl, cache));
 		} else if(data.authorIcon && !data.authorUrl) {
-			embed.setAuthor(this.evalMessage(data.author, cache), this.evalMessage(data.authorIcon));
+			embed.setAuthor(this.evalMessage(data.author, cache), this.evalMessage(data.authorIcon, cache));
 		} else if(!data.authorIcon && data.authorUrl) {
 			embed.setAuthor(this.evalMessage(data.author, cache), '', this.evalMessage(data.authorUrl, cache));
 		} else {
