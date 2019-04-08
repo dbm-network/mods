@@ -24,13 +24,13 @@ module.exports = {
 	 //---------------------------------------------------------------------
 
 	 // Who made the mod (If not set, defaults to "DBM Mods")
- 	author: "General Wrex & Lasse",
+ 	author: "General Wrex, Lasse & ZockerNico",
 
     // [NEW] If you have a donation link you want to share.
     donation_link: "https://www.patreon.com/generalwrex",
      
  	// The version of the mod pack it was added into
- 	version: "1.9.2", //Added in 1.9.0 
+ 	version: "1.9.5", //Added in 1.9.0 
 
  	// A short description to show on the mod line for this mod (Must be on a single line)
  	short_description: "Stores information of current audio source.  <b style='color:red'>Something must be playing in a voice channel for this to return most data!</b><br>Please put the Welcome action into a Bot Initalization event to be able to store the current song!",
@@ -195,7 +195,7 @@ div.embed { /* <div class="embed"></div> */
         { name:'Bitrate', type: "Number"},
         { name:'Passes', type: "Number"},
         { name:'Current Seek Position (Seconds)', type: "Seconds"},
-        { name:'Current Song URL (YT only)', type: "Url"}
+        { name:'Current Song URL', type: "Url"}
     ],
 
     // itemlist is set from above
