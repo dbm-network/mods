@@ -789,7 +789,7 @@ module.exports = {
 			function callback(error, response, body) {
 				if (!error && response.statusCode == 200) {
 					var info = JSON.parse(body);
-					let result;
+					let result = '';
 					let result2 = false;
 					if(!info.data[0]) {
 						if(infoType == 5) {
