@@ -707,11 +707,6 @@ module.exports = {
 					  	var info = JSON.parse(body);
 					  	let result = '';
 						if(!info.data[0]) {
-							if (result !== '') {
-								const storage = parseInt(data.storage);
-								const varName = _this.evalMessage(data.varName, cache);
-								_this.storeValue(result, storage, varName, cache);
-							};
 							console.log(`No results for ${input}.`);
 							return _this.callNextAction(cache);
 						};
@@ -752,11 +747,6 @@ module.exports = {
 					  	var info = JSON.parse(body);
 					  	let result = '';
 						if(!info.data[0]) {
-							if (result !== '') {
-								const storage = parseInt(data.storage);
-								const varName = _this.evalMessage(data.varName, cache);
-								_this.storeValue(result, storage, varName, cache);
-							};
 							console.log(`No results for ${input}.`);
 							return _this.callNextAction(cache);
 						};
@@ -799,19 +789,16 @@ module.exports = {
 			function callback(error, response, body) {
 				if (!error && response.statusCode == 200) {
 					var info = JSON.parse(body);
-					let result = '';
+					let result;
 					let result2 = false;
 					if(!info.data[0]) {
-						if (result !== '') {
-							const storage = parseInt(data.storage);
-							const varName = _this.evalMessage(data.varName, cache);
-							_this.storeValue(result, storage, varName, cache);
-						} else {
+						if(infoType == 5) {
 							const storage = parseInt(data.storage);
 							const varName = _this.evalMessage(data.varName, cache);
 							_this.storeValue(result2, storage, varName, cache);
+						} else {
+							console.log(`No results for ${input}.`);
 						};
-						console.log(`No results for ${input}.`);
 						return _this.callNextAction(cache);
 					};
 					switch(infoType) {
@@ -820,7 +807,7 @@ module.exports = {
 						case 2: result = info.data[0].user_name; break;//Same as "Display Name"
 						case 3: result = info.data[0].game_id; break;
 						case 4: result = info.data[0].community_ids; break;
-						case 5: if(info.data[0].type == 'live') {result2 = true}; break;//"live" or ""
+						case 5: result2 = true; break;//"live" or ""
 						case 6: result = info.data[0].title; break;
 						case 7: result = info.data[0].viewer_count; break;
 						case 8: result = info.data[0].started_at; break;
@@ -833,7 +820,7 @@ module.exports = {
 						const varName = _this.evalMessage(data.varName, cache);
 						_this.storeValue(result, storage, varName, cache);
 						_this.callNextAction(cache);
-					} else if (result2 !== undefined) {
+					} else if (result2 !== undefined || result2 === false || result2 === true) {
 						const storage = parseInt(data.storage);
 						const varName = _this.evalMessage(data.varName, cache);
 						_this.storeValue(result2, storage, varName, cache);
@@ -856,17 +843,12 @@ module.exports = {
 			};
 			function callback(error, response, body) {
 				if (!error && response.statusCode == 200) {
-						var info = JSON.parse(body);
-						let result = [];
-						if(!info.data[0]) {
-							if (result.length !== 0) {
-								const storage = parseInt(data.storage);
-								const varName = _this.evalMessage(data.varName, cache);
-								_this.storeValue(result, storage, varName, cache);
-							};
-							console.log(`No results for ${input}.`);
-							return _this.callNextAction(cache);
-						};
+					var info = JSON.parse(body);
+					let result = [];
+					if(!info.data[0]) {
+						console.log(`No results for ${input}.`);
+						return _this.callNextAction(cache);
+					};
 					switch(infoType) {
 						case 0: info.data.forEach(video => result.push(video.id)); break;
 						case 1: info.data.forEach(video => result.push(video.user_id)); break;
@@ -916,22 +898,13 @@ module.exports = {
 				};
 				function callback(error, response, body) {
 					if (!error && response.statusCode == 200) {
-						  var info = JSON.parse(body);
-						  let result;
-						  let result2 = [];
-						  if(!info.data[0]) {
-							if (result !== undefined) {
-								const storage = parseInt(data.storage);
-								const varName = _this.evalMessage(data.varName, cache);
-								_this.storeValue(result, storage, varName, cache);
-							} else if (result2.length !== 0) {
-								const storage = parseInt(data.storage);
-								const varName = _this.evalMessage(data.varName, cache);
-								_this.storeValue(result2, storage, varName, cache);
-							};
-							  console.log(`No results for ${input}.`);
-							  return _this.callNextAction(cache);
-							};
+						var info = JSON.parse(body);
+						let result;
+						let result2 = [];
+						if(!info.data[0]) {
+							console.log(`No results for ${input}.`);
+							return _this.callNextAction(cache);
+						};
 						switch(infoType) {
 							case 0: result = info.data[0].id.toString(); break;
 							case 1: result = info.data[0].name.toString(); break;
@@ -976,22 +949,13 @@ module.exports = {
 				};
 				function callback(error, response, body) {
 					if (!error && response.statusCode == 200) {
-						  	var info = JSON.parse(body);
-						  	let result;
-						  	let result2 = [];
-						  	if(!info.data[0]) {
-								if (result !== undefined) {
-									const storage = parseInt(data.storage);
-									const varName = _this.evalMessage(data.varName, cache);
-									_this.storeValue(result, storage, varName, cache);
-								} else if (result2.length !== 0) {
-									const storage = parseInt(data.storage);
-									const varName = _this.evalMessage(data.varName, cache);
-									_this.storeValue(result2, storage, varName, cache);
-								};
-								console.log(`No results for ${input}.`);
-								return _this.callNextAction(cache);
-								};
+						var info = JSON.parse(body);
+						let result;
+						let result2 = [];
+						if(!info.data[0]) {
+							console.log(`No results for ${input}.`);
+							return _this.callNextAction(cache);
+						};
 						switch(infoType) {
 							case 0: result = info.data[0].id.toString(); break;
 							case 1: result = info.data[0].name.toString(); break;
