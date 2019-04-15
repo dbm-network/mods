@@ -249,6 +249,7 @@ action: function(cache) {
 	const hour = parseInt(this.evalMessage(data.hour, cache));
 	const minute = parseInt(this.evalMessage(data.minute, cache));
 	const second = parseInt(this.evalMessage(data.second, cache));
+	const timestamp = this.evalMessage(data.timestamp, cache);
 
 	//Title
 	embed.setTitle(this.evalMessage(data.title, cache));
@@ -287,11 +288,13 @@ action: function(cache) {
 	};
 
 	//Timestamp
-	switch(parseInt(data.timestamp)) {
-		case 0:
+	switch(timestamp) {
+		case "false":
+			break;
+		case "true":
 			embed.setTimestamp(new Date());
 			break;
-		case 1:
+		case "string":
 			if(text.length > 0) {
 				embed.setTimestamp(new Date(`${text}`));
 			} else {
@@ -299,7 +302,7 @@ action: function(cache) {
 				console.log('Invaild utc timestamp! Changed from [String Timestamp] to [Current Timestamp].');
 			};
 			break;
-		case 2:
+		case "custom":
 			if(year >= 1000 && year !== undefined && month >= 0 && month !== undefined && day >= 0 && day !== undefined && hour >= 0 && hour !== undefined && minute >= 0 && minute !== undefined && second >= 0 && second !== undefined) {
 				if(year !== undefined && month !== undefined && day !== undefined && hour !== undefined && minute !== undefined && second !== undefined) {
 					embed.setTimestamp(new Date(year, month, day, hour, minute, second));
