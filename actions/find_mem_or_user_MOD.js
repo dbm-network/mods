@@ -61,8 +61,9 @@ module.exports = {
 	
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
+		const op1 = ['Member', 'User']
 		if(type !== varType) return;
-		return ([data.varName, 'Server Member']);
+		return ([data.varName, `Server ${op1[parseInt(data.find2)]}`]);
 	},
 	
 	//---------------------------------------------------------------------
