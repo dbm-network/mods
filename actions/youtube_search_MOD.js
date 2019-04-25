@@ -23,12 +23,12 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	subtitle: function (data) {
-		const videoInfo = ['ID', 'URL', 'Title', 'Description', 'Owner', 'Channel ID', 'Thumbnail URL', 'Embed URL', 'Genre', 'Paid', 'Unlisted', 'is Family Friendly', 'Duration', 'Views', 'Regions Allowed', 'Comment Count', 'Like Count', 'Dislike Count',  'Channel Thumbnail URL' ];
-		const playlistInfo = ['ID', 'URL', 'Name', 'Video IDs', 'Video URLs', 'Video Titles', 'Channel IDs', 'Channel URLs', 'Channel Names', 'Video Positons', 'Video Publish Dates', 'Thumbnail (Default)', 'Thumbnail (Medium)', 'Thumbnail (High)', 'Thumbnail (Standard)', 'Thumbnail (Max)'];
+		const videoInfo = ['Video ID', 'Video URL', 'Video Title', 'Video Description', 'Video Channel ID', 'Video Channel URL', 'Video Channel Name', 'Video Channel Thumbnail URL (Default)', 'Video Channel Thumbnail URL (Medium)', 'Video Channel Thumbnail URL (High)', 'Video Thumbnail URL (Default)', 'Video Thumbnail URL (Medium)', 'Video Thumbnail URL (High)', 'Video Genre', 'Paid Video?', 'Unlisted Video?', 'Is Video Family Friendly?', 'Video Duration', 'Video Publish Data', 'Video Views', 'Allowed Video Regions', 'Video Comment Count', 'Video Like Count', 'Video Dislike Count'];
+		const playlistInfo = ['Playlist ID', 'Playlist URL', 'Playlist Name', 'Playlist Description', 'Playlist Thumbnail URL (Default)', 'Playlist Thumbnail URL (Medium)', 'Playlist Thumbnail URL (High)', 'Playlist Channel ID', 'Playlist Channel URL', 'Playlist Channel Name', 'Playlist Channel Thumbnail URL (Default)', 'Playlist Channel Thumbnail URL (Medium)', 'Playlist Channel Thumbnail URL (High)', 'Video IDs', 'Video URLs', 'Video Titles', 'Video Descriptions', 'Video Channel IDs', 'Video Channel URls', 'Video Channel Names', 'Video Channel Thumbnail URLs (Default)', 'Video Channel Thumbnail URLs (Medium)', 'Video Channel Thumbnail URLs (High)', 'Video Thumbnail URLs (Default)', 'Video Thumbnail URLs (Medium)', 'Video Thumbnail URLs (High)', 'Video Positions', 'Video Publish Dates'];
 		if(parseInt(data.type) == 1) {
-			return `YouTube Playlist ${playlistInfo[parseInt(data.info1)]}`;
+			return `${playlistInfo[parseInt(data.info1)]}`;
 		} else {
-			return `YouTube Video ${videoInfo[parseInt(data.info0)]}`;
+			return `${videoInfo[parseInt(data.info0)]}`;
 		};
 	},
 
@@ -40,7 +40,7 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "EGGSY, Aamon & ZockerNico",
+	author: "ZockerNico, Aamon & EGGSY",
 
 	// The version of the mod (Defaults to 1.0.0)
 	version: "1.9.5", //Added in 1.8.7
@@ -62,64 +62,89 @@ module.exports = {
 	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
-		const info0 = parseInt(data.info0);
-		const info1 = parseInt(data.info1);
 		let dataType = 'Unknown Type';
-		if(parseInt(data.type) == 1) {
-			switch(info1) {
-				case 0:
-				case 1:
-				case 2:
-					dataType = "Text";
-					break;
-				case 3:
-				case 4:
-				case 5:
-				case 6:
-				case 7:
-				case 8:
-				case 9:
-				case 10:
-				case 11:
-				case 12:
-				case 13:
-				case 14:
-				case 15:
-					dataType = "List";
-					break;
-			}
-		} else {
-			switch (info0) {
-				case 0:
-				case 1:
-				case 2:
-				case 3:
-				case 4:
-				case 5:
-				case 8:
-					dataType = "Text";
-					break;
-				case 6:
-				case 7:
-				case 18:
-					dataType = "Image URL";
-					break;
-				case 9:
-				case 10:
-				case 11:
-					dataType = "Boolean";
-					break;
-				case 12:
-				case 13:
-				case 15:
-				case 16:
-				case 17:
-					dataType = "Number";
-					break;
-				case 14:
-					dataType = "List";
-					break;
-			};
+		switch(parseInt(data.type)) {
+			case 0://Video
+				//----------------------------
+				switch(parseInt(data.info0)) {
+					case 0://Video ID
+					case 2://Video Title
+					case 3://Video Description
+					case 4://Video Channel ID
+					case 6://Video Channel Name
+					case 13://Video Genre
+					case 17://Video Duration
+					case 18://Video Publish Date
+						dataType = 'Text';
+						break;
+					case 1://Video URL
+					case 5://Video Channel URL
+						dataType = 'URL';
+						break;
+					case 7://Video Channel Thumbnail URL (Default)
+					case 8://Video Channel Thumbnail URL (Medium)
+					case 9://Video Channel Thumbnail URL (High)
+					case 10://Video Thumbnail URL (Default)
+					case 11://Video Thumbnail URL (Medium)
+					case 12://Video Thumbnail URL (High)
+						dataType = 'Image URL';
+						break;
+					case 14://Paid Video?
+					case 15://Unlisted Video?
+					case 16://Is Video Family Friendly?
+						dataType = 'Boolean';
+						break;
+					case 19://Video Views
+					case 21://Video Comment Count
+					case 22://Video Like Count
+					case 23://Video Dislike Count
+						dataType = 'Number';
+						break;
+					case 20://Allowed Video Regions
+						dataType = 'List';
+				};
+				break;
+			case 1://Playlist
+				//----------------------------
+				switch(parseInt(data.info1)) {
+					case 0://Playlist ID
+					case 2://Playlist Name
+					case 3://Playlist Description
+					case 7://Playlist Channel ID
+					case 9://Playlist Channel Name
+						dataType = 'Text';
+						break;
+					case 1://Playlist URL
+					case 8://Playlist Channel URL
+						dataType = 'URL';
+						break;
+					case 4://Playlist Thumbnail URL (Default)
+					case 5://Playlist Thumbnail URL (Medium)
+					case 6://Playlist Thumbnail URL (High)
+					case 10://Playlist Channel Thumbnail URL (Default)
+					case 11://Playlist Channel Thumbnail URL (Medium)
+					case 12://Playlist Channel Thumbnail URL (High)
+						dataType = 'Image URL';
+						break;
+					case 13://Video IDs
+					case 14://Video URLs
+					case 15://Video Titles
+					case 16://Video Descriptions
+					case 17://Video Channel IDs
+					case 18://Video Channel URLs
+					case 19://Video Channel Names
+					case 20://Video Channel Thumbnail URLs (Default)
+					case 21://Video Channel Thumbnail URLs (Medium)
+					case 22://Video Channel Thumbnail URLs (High)
+					case 23://Video Thumbnail URLs (Default)
+					case 24://Video Thumbnail URLs (Medium)
+					case 25://Video Thumbnail URLs (High)
+					case 26://Video Positions
+					case 27://Video Publish Dates
+						dataType = 'List';
+						break;
+				};
+				break;
 		};
 		return ([data.varName, dataType]);
 	},
@@ -132,7 +157,7 @@ module.exports = {
 	// are also the names of the fields stored in the action's JSON data.
 	//---------------------------------------------------------------------
 
-	fields: ["type", "position", "input", "info0", "info1", "apikey", "results", "resultNumber", "storage", "varName"],
+	fields: ["type", "input", "info0", "info1", "apikey", "results", "storage", "varName"],
 
 	//---------------------------------------------------------------------
 	// Command HTML
@@ -152,98 +177,114 @@ module.exports = {
 
 	html: function (isEvent, data) {
 		return `
-<div style="width: 550px; height: 350px; overflow-y: scroll;">
+	<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
 	<div>
 		<p>
 			<u>Mod Info:</u><br>
-			Created by <b>EGGSY</b>, <b>Aamon</b> and <b>ZockerNico</b>!
+			Created by <b>ZockerNico</b>, <b>Aamon</b> and <b>EGGSY</b>!
 		</p>
 	</div>
-	<div style="width: 30%; padding-top: 8px;">
+	<div style="float: left; width: 30%; padding-top: 8px;">
 		Source Type:<br>
 		<select id="type" class="round" onchange="glob.onChange1(this)">
 			<option value="0" selected>YouTube Video</option>
 			<option value="1">YouTube Playlist</option>
 		</select>
 	</div>
-	<div id="positionHolder" style="float: right; width: 50%; display: none;">
-		Position:<br>
-		<select id="position" class="round">
-			<option value="0">PositionHolder</option>
-			<option value="1">PositionHolder</option>
-		</select><br>
-	</div>
-	<div style="float: left; width: 90%; padding-top: 8px;">
+	<div style="float: left; width: 99%; padding-top: 8px;">
 		<span id="tempName">Video</span> to search:<br>
 		<textarea id="input" rows="2" placeholder="Insert your url or keywords in here..." style="width: 95%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
 	</div>
-	<div id="divinfo0"; style="float: left; width: 85%; padding-top: 8px;">
+	<div id="divinfo0"; style="float: left; width: 94%; padding-top: 8px;">
 		Source Video Info:<br>
 		<select id="info0" class="round">
 			<option value="0">Video ID</option>
 			<option value="1" selected>Video URL</option>
 			<option value="2">Video Title</option>
 			<option value="3">Video Description</option>
-			<option value="4">Video Owner</option>
-			<option value="5">Video Channel ID</option>
-			<option value="6">Video Thumbnail URL</option>
-			<option value="7">Video Embed URL</option>
-			<option value="8">Video Genre</option>
-			<option value="9">Paid Video?</option>
-			<option value="10">Unlisted Video?</option>
-			<option value="11">Is Video Family Friendly?</option>
-			<option value="12">Video Duration</option>
-			<option value="13">Video Views</option>
-			<option value="14">Video Allowed Regions</option>
-			<option value="15">Video Comment Count</option>
-			<option value="16">Video Like Count</option>
-			<option value="17">Video Dislike Count</option>
-			<option value="18">Video Channel Thumbnail URL</option>
+			<option value="4">Video Channel ID</option>
+			<option value="5">Video Channel URL</option>
+			<option value="6">Video Channel Name</option>
+			<option value="7">Video Channel Thumbnail URL (Default)</option>
+			<option value="8">Video Channel Thumbnail URL (Medium)</option>
+			<option value="9">Video Channel Thumbnail URL (High)</option>
+			<option value="10">Video Thumbnail URL (Default)</option>
+			<option value="11">Video Thumbnail URL (Medium)</option>
+			<option value="12">Video Thumbnail URL (High)</option>
+			<option value="13">Video Genre</option>
+			<option value="14">Paid Video?</option>
+			<option value="15">Unlisted Video?</option>
+			<option value="16">Is Video Family Friendly?</option>
+			<option value="17">Video Duration</option>
+			<option value="18">Video Publish Date</option>
+			<option value="19">Video Views</option>
+			<option value="20">Allowed Video Regions</option>
+			<option value="21">Video Comment Count</option>
+			<option value="22">Video Like Count</option>
+			<option value="23">Video Dislike Count</option>
 		</select>
 	</div>
-	<div id="divinfo1"; style="float: left; width: 85%; padding-top: 8px;">
+	<div id="divinfo1"; style="float: left; width: 94%; padding-top: 8px;">
 		Source Playlist Info:<br>
 		<select id="info1" class="round">
 			<option value="0">Playlist ID</option>
 			<option value="1" selected>Playlist URL</option>
 			<option value="2">Playlist Name</option>
-			<option value="3">Video IDs</option>
-			<option value="4">Video URLs</option>
-			<option value="5">Video Titles</option>
-			<option value="6">Channel IDs</option>
-			<option value="7">Channel URLs</option>
-			<option value="8">Channel Names</option>
-			<option value="9">Video Positions</option>
-			<option value="10">Video Publish Dates</option>
-			<option value="11">Thumbnails (Default)</option>
-			<option value="12">Thumbnails (Medium)</option>
-			<option value="13">Thumbnails (High)</option>
-			<option value="14">Thumbnails (Standard)</option>
-			<option value="15">Thumbnails (Max)</option>
+			<option value="3">Playlist Description</option>
+			<option value="4">Playlist Thumbnail URL (Default)</option>
+			<option value="5">Playlist Thumbnail URL (Medium)</option>
+			<option value="6">Playlist Thumbnail URL (High)</option>
+			<option value="7">Playlist Channel ID</option>
+			<option value="8">Playlist Channel URL</option>
+			<option value="9">Playlist Channel Name</option>
+			<option value="10">Playlist Channel Thumbnail URL (Default)</option>
+			<option value="11">Playlist Channel Thumbnail URL (Medium)</option>
+			<option value="12">Playlist Channel Thumbnail URL (High)</option>
+			<option value="13">Video IDs</option>
+			<option value="14">Video URLs</option>
+			<option value="15">Video Titles</option>
+			<option value="16">Video Descriptions</option>
+			<option value="17">Video Channel IDs</option>
+			<option value="18">Video Channel URLs</option>
+			<option value="19">Video Channel Names</option>
+			<option value="20">Video Channel Thumbnail URLs (Default)</option>
+			<option value="21">Video Channel Thumbnail URLs (Medium)</option>
+			<option value="22">Video Channel Thumbnail URLs (High)</option>
+			<option value="23">Video Thumbnail URLs (Default)</option>
+			<option value="24">Video Thumbnail URLs (Medium)</option>
+			<option value="25">Video Thumbnail URLs (High)</option>
+			<option value="26">Video Positions</option>
+			<option value="27">Video Publish Dates</option>
 		</select>
 	</div>
-	<div id="divresultNumber" style="float: left; width: 85%; padding-top: 8px;">
+	<div id="divresults" style="float: left; width: 94%; padding-top: 8px;">
 		Result Number:<br>
-		<select id="resultNumber" class="round">
-			<option value="0">1st Result</option>
-			<option value="1">2nd Result</option>
-			<option value="2">3rd Result</option>
-			<option value="3">4th Result</option>
-			<option value="4">5th Result</option>
-			<option value="5">6th Result</option>
-			<option value="6">7th Result</option>
-			<option value="7">8th Result</option>
-			<option value="8">9th Result</option>
-			<option value="9">10th Result</option>
+		<select id="results" class="round">
+			<option value="1">1st Result</option>
+			<option value="2">2nd Result</option>
+			<option value="3">3rd Result</option>
+			<option value="4">4th Result</option>
+			<option value="5">5th Result</option>
+			<option value="6">6th Result</option>
+			<option value="7">7th Result</option>
+			<option value="8">8th Result</option>
+			<option value="9">9th Result</option>
+			<option value="10">10th Result</option>
+			<option value="11">11th Result</option>
+			<option value="12">12th Result</option>
+			<option value="13">13th Result</option>
+			<option value="14">14th Result</option>
+			<option value="15">15th Result</option>
+			<option value="16">16th Result</option>
+			<option value="17">17th Result</option>
+			<option value="18">18th Result</option>
+			<option value="19">19th Result</option>
+			<option value="20">20th Result</option>
 		</select>
 	</div>
-	<div id="divapikey" style="float: left; width: 95%; padding-top: 8px;">
+	<div id="divapikey" style="float: left; width: 104%; padding-top: 8px;">
 		API Key:<br>
 		<input id="apikey" class="round" type="text" placeholder="Insert your YouTube Data V3 API Key...">
-	</div>
-	<div id="divresults" style="float: left; width: 95%; padding-top: 8px;">
-		Playlist Video Results:<br>
-		<input id="results" class="round" type="text" placeholder="Leave blank for max. 100">
 	</div>
 	<div>
 		<div style="float: left; width: 35%;  padding-top: 8px;">
@@ -278,8 +319,6 @@ module.exports = {
 			const video = document.getElementById('info0');
 			const playlistDiv = document.getElementById('divinfo1');
 			const playlist = document.getElementById('info1');
-			const results = document.getElementById('results');
-			const resultsDiv = document.getElementById('divresults');
 			let result = '';
 			switch(id) {//Show: [Source Video Info] Hide: [Source Playlist Info], [Max Results]
 				case 0:
@@ -288,8 +327,6 @@ module.exports = {
 					videoDiv.style.display = null;
 					playlist.style.display = 'none';
 					playlistDiv.style.display = 'none';
-					results.style.display = 'none';
-					resultsDiv.style.display = 'none';
 					break;
 				case 1://Show: [Source Playlist Info], [Max Results] Hide: [Source Video Info]
 					result = 'Playlist';
@@ -297,8 +334,6 @@ module.exports = {
 					videoDiv.style.display = 'none';
 					playlist.style.display = null;
 					playlistDiv.style.display = null;
-					results.style.display = null;
-					resultsDiv.style.display = null;
 					break;
 			};
 			//Replace text with [Video/Playlist]
@@ -317,256 +352,247 @@ module.exports = {
 
 	action: function (cache) {
 		const data = cache.actions[cache.index];
-		const input = this.evalMessage(data.input, cache);
-		const WrexMODS = this.getWrexMods(); // as always.
+		const _this = this; //This is needed sometimes.
+		const WrexMods = this.getWrexMods(); //As always.
+		const input = this.evalMessage(data.input, cache);//URL or Keywords
+		const apikey = this.evalMessage(data.apikey, cache);//Api Key
+		const type = parseInt(data.type);//0: Video | 1: Playlist
+		const info0 = parseInt(data.info0);//Video
+		const info1 = parseInt(data.info1);//Playlist
+		const results = parseInt(data.results);//Number within 1 to 10
+		const ytapi = WrexMods.require('simple-youtube-api');
+		const ytinfo = WrexMods.require('youtube-info');
+		const TimeFormat = WrexMods.require('hh-mm-ss');
 
+		if(input === undefined || input === '') {
+			return console.log('Please provide a url or some keywords to search for.');
+		};
+		if(apikey === undefined || apikey === '') {
+			return console.log('Please provide a valid api key.');
+		};
 
-		
-		if(parseInt(data.type) == 1) {//Playlist section (by ZockerNico)
+		const YouTube = new ytapi(`${apikey}`);
 
-
-
-			const info = parseInt(data.info1);
-			const ypi = WrexMODS.require('youtube-playlist-info');
-			const search = WrexMODS.require('youtube-search');
-			var _this = this; //This is needed sometimes.
-			const resultNumber = _this.evalMessage(data.resultNumber);
-
-			//Check input
-			if(!input) {
-				return console.log('Please insert a playlist url or keywords to search for!');
-			};
-			if(!data.apikey) {
-				return console.log('Please insert a api key!');
-			};
-			
-			//Load playlist
-			var apikey = "";
-			if(data.apikey) {
-				apikey = _this.evalMessage(data.apikey, cache);
-			};
-
-			var searchOptions = {
-				maxResults: 10,
-				key: apikey,
-				type: "playlist"
-			};
-			
-			search(`${input}`, searchOptions, function (err, results) {
-				if (err) return console.log(err);
-				var result = results[resultNumber].link;
-				var playlist = result.slice(38);
-				
-				var playlistResults = 100;
-				if(data.results) {
-					playlistResults = parseInt(_this.evalMessage(data.results, cache));
-				};
-				const ypiOptions = {
-					maxResults: `${playlistResults}`
-				};
-				ypi(apikey, playlist, ypiOptions).then(items => {
-					var urlList = [];
-					switch(info) {
-						case 0://Playlist ID
-							urlList.push(results[resultNumber].id);
+		switch(type) {
+			case 0://Video
+				YouTube.searchVideos(`${input}`, results).then(videos => {
+					var result;
+					var video = videos[results-1];
+					switch(info0) {
+						case 0://Video ID
+							result = video.id;
 							break;
-						case 1://Playlist URL
-							urlList.push(results[resultNumber].link);
+						case 1://Video URL
+							result = `https://www.youtube.com/watch?v=${video.id}`;
 							break;
-						case 2://Playlist Name
-							urlList.push(results[resultNumber].title);
+						case 2://Video Title
+							result = video.title.replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&#39;/g, '\'');
 							break;
-						case 3://Video ID
-							items.forEach(item=> {
-								urlList.push(item.resourceId.videoId);
-							});
+						case 3://Video Description
+							result = video.description.replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&#39;/g, '\'');
 							break;
-						case 4://Video URL
-							items.forEach(item=> {
-								urlList.push(`https://www.youtube.com/watch?v=${item.resourceId.videoId}`);
-							});
+						case 4://Video Channel ID
+							result = video.channel.id;
 							break;
-						case 5://Video Title
-							items.forEach(item=> {
-								urlList.push(item.title);
-							});
+						case 5://Video Channel URL
+							result = `https://www.youtube.com/channel/${video.channel.id}`;
 							break;
-						case 6://Channel ID
-							items.forEach(item=> {
-								urlList.push(item.channelId);
-							});
+						case 6://Video Channel Name
+							result = video.channel.title;
 							break;
-						case 7://Channel URL
-							items.forEach(item=> {
-								urlList.push(`https://www.youtube.com/channel/${item.channelId}`);
-							});
+						case 7://Video Channel Thumbnail URL (Default)
+							result = video.channel.raw.snippet.thumbnails.default.url;
 							break;
-						case 8://Channel Name
-							items.forEach(item=> {
-								urlList.push(item.channelTitle);
-							});
+						case 8://Video Channel Thumbnail URL (Medium)
+							result = video.channel.raw.snippet.thumbnails.medium.url;
 							break;
-						case 9://Video Position
-							items.forEach(item=> {
-								urlList.push(item.position);
-							});
+						case 9://Video Channel Thumbnail URL (High)
+							result = video.channel.raw.snippet.thumbnails.high.url;
 							break;
-						case 10://Video Publish Date
-							items.forEach(item=> {
-								urlList.push(item.publishedAt);
-							});
+						case 10://Thumbnail URL (Default)
+							result = video.thumbnails.default.url;
 							break;
-						case 11://Thumbnail (Default)
-							items.forEach(item=> {
-								urlList.push(item.thumbnails.default);
-							});
+						case 11://Thumbnail URL (Medium)
+							result = video.thumbnails.medium.url;
 							break;
-						case 12://Thumbnail (Medium)
-							items.forEach(item=> {
-								urlList.push(item.thumbnails.medium);
-							});
+						case 12://Thumbnail URL (High)
+							result = video.thumbnails.high.url;
 							break;
-						case 13://Thumbnail (High)
-							items.forEach(item=> {
-								urlList.push(item.thumbnails.high);
-							});
-							break;
-						case 14://Thumbnail (Standard)
-							items.forEach(item=> {
-								urlList.push(item.thumbnails.standard);
-							});
-							break;
-						case 15://Thumbnail (Maxres)
-							items.forEach(item=> {
-								urlList.push(item.thumbnails.maxres);
-							});
+						case 18://Video Publish Date
+							result = video.publishedAt;
 							break;
 						default:
+							ytinfo(`${video.id}`, function(error, videoInfo) {
+								var result2;
+								if(error) {console.error(error)};
+								switch(info0) {
+									case 13://Video Genre
+										result2 = videoInfo.genre;
+										break;
+									case 14://Paid Video?
+										result2 = videoInfo.paid;
+										break;
+									case 15://Unlisted Video?
+										result2 = videoInfo.unlisted;
+										break;
+									case 16://Is Video Family Friendly?
+										result2 = videoInfo.isFamilyFriendly;
+										break;
+									case 17://Video Duration
+										result2 = TimeFormat.fromS(parseInt(videoInfo.duration));
+										break;
+									case 19://Video Views
+										result2 = parseInt(videoInfo.views);
+										break;
+									case 20://Allowed Video Regions
+										result2 = videoInfo.regionsAllowed;
+										break;
+									case 21://Video Comment Count
+										result2 = parseInt(videoInfo.commentCount);
+										break;
+									case 22://Video Like Count
+										result2 = parseInt(videoInfo.likeCount);
+										break;
+									case 23://Video Dislike Count
+										result2 = parseInt(videoInfo.dislikeCount);
+										break;
+									default:
+										return console.log('Please check your YouTube Search action... There is something wrong.');
+								};
+								if(result2 !== undefined) {
+									const storage = parseInt(data.storage);
+									const varName = _this.evalMessage(data.varName, cache);
+									_this.storeValue(result2, storage, varName, cache);
+									_this.callNextAction(cache);
+								};
+							});
 							break;
 					};
-					//Store list
-					const varName = _this.evalMessage(data.varName, cache);
-					const storage = parseInt(data.storage);
-					if(info > 3) {
-						_this.storeValue(urlList, storage, varName, cache);
-					} else {
-						var listInfo = urlList[0];
-						_this.storeValue(listInfo, storage, varName, cache);
-					};
-					_this.callNextAction(cache);
-				}).catch(console.error);
-			});
-
-
-
-
-		} else {//Video section (by Aamon)
-
-
-
-			var _this = this; //This is needed sometimes.
-			const info = parseInt(data.info0);
-			const resultNumber = _this.evalMessage(data.resultNumber);
-			const fetchVideoInfo = WrexMODS.require('youtube-info');
-			const TimeFormat = WrexMODS.require("hh-mm-ss");
-			const search = WrexMODS.require('youtube-search');
-
-			//Check input
-			if (!input) return console.log('Please insert a video url or keywords to search for!');
-
-			var apikey = "";
-			if(data.apikey) {
-				apikey = this.evalMessage(data.apikey, cache);
-			};
-
-			var searchOptions = {
-				maxResults: 10,
-				key: `${apikey}`,
-				type: "video"
-			};
-			
-			//Load Video Info
-			search(`${input}`, searchOptions, function (err, results) {
-				if (err) return console.log(err);
-				var result = results[resultNumber].link;
-				var video = result.slice(32);
-				
-			fetchVideoInfo(`${video}`, function (err, videoInfo) {
-				if (err) throw new Error(err);
-  
-			   	switch (info) {
-					case 0:
-					  	result = videoInfo.videoId;
-					  	break;
-				  	case 1:
-					  	result = videoInfo.url;
-					  	break;
-				  	case 2:
-					  	result = videoInfo.title;
-					  	break;
-				 	case 3:
-					  	result = videoInfo.description;
-					  	break;
-				  	case 4:
-					  	result = videoInfo.owner;
-					  	break;
-				  	case 5:
-					  	result = videoInfo.channelId;
-					  	break;	
-				  	case 6:
-					  	result = videoInfo.thumbnailUrl;
-					  	break;
-				  	case 7:
-					  	result = videoInfo.embedURL;
-					  	break;
-				  	case 8:
-					  	result = videoInfo.genre;
-					  	break;
-				  	case 9:
-					  	result = videoInfo.paid;
-					  	break;
-				  	case 10:
-					  	result = videoInfo.unlisted;
-					  	break;
-				  	case 11:
-					  	result = videoInfo.isFamilyFriendly;
-					  	break;
-				  	case 12:
-					  	{
-						  	result = TimeFormat.fromS(videoInfo.duration); // check documentation/parameters ==> https://www.npmjs.com/package/hh-mm-ss
-						  	//result = videoInfo.duration; just seconds =]]
-					  	}
-					  	break;
-				  	case 13:
-					  	result = videoInfo.views;
-					  	break;
-				  	case 14:
-					  	result = videoInfo.regionsAllowed;
-					  	break;
-				  	case 15:
-					  	result = videoInfo.commentCount;
-					  	break;
-				  	case 16:
-					  	result = videoInfo.likeCount;
-					  	break;
-				  	case 17:
-					  	result = videoInfo.dislikeCount;
-					  	break;
-				  	case 18:
-					  	result = videoInfo.channelThumbnailUrl;
-					  	break;
-				  	default:
-					  	break;
-				  	};
-				  	//Store Output
-				  	if (result !== undefined) {
-					 	const storage = parseInt(data.storage);
+					if(result !== undefined) {
+						const storage = parseInt(data.storage);
 						const varName = _this.evalMessage(data.varName, cache);
 						_this.storeValue(result, storage, varName, cache);
 						_this.callNextAction(cache);
-				  	};
-			  	});
-			});
+					};
+				});
+				break;
+			case 1://Playlist
+				YouTube.searchPlaylists(`${input}`, results).then(playlists => {
+					var result;
+					var playlist = playlists[results-1];
+					switch(info1) {
+						case 0://Playlist ID
+							result = playlist.id;
+							break;
+						case 1://Playlist URL
+							result = `https://www.youtube.com/playlist?list=${playlist.id}`;
+							break;
+						case 2://Playlist Name
+							result = playlist.title.replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&#39;/g, '\'');
+							break;
+						case 3://Playlist Description
+							result = playlist.description.replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&#39;/g, '\'');
+							break;
+						case 4://Playlist Thumbnail URL (Default)
+							result = playlist.thumbnails.default.url;
+							break;
+						case 5://Playlist Thumbnail URL (Medium)
+							result = playlist.thumbnails.default.medium;
+							break;
+						case 6://Playlist Thumbnail URL (High)
+							result = playlist.thumbnails.default.high;
+							break;
+						case 7://Playlist Channel ID
+							result = playlist.channel.id;
+							break;
+						case 8://Playlist Channel URL
+							result = `https://www.youtube.com/channel/${playlist.channel.id}`;
+							break;
+						case 9://Playlist Channel Name
+							result = playlist.channel.title;
+							break;
+						case 10://Playlist Channel Thumbnail URL (Default)
+							result = playlist.channel.raw.snippet.thumbnails.default.url;
+							break;
+						case 11://Playlist Channel Thumbnail URL (Medium)
+							result = playlist.channel.raw.snippet.thumbnails.medium.url;
+							break;
+						case 12://Playlist Channel Thumbnail URL (High)
+							result = playlist.channel.raw.snippet.thumbnails.high.url;
+							break;
+						default:
+							playlist.getVideos().then(videos => {
+								var result2 = [];
+								videos.forEach((video, pos) => {
+									switch(info1) {
+										case 13://Video IDs
+											result2.push(video.id);
+											break;
+										case 14://Video URLs
+											result2.push(`https://www.youtube.com/watch?v=${video.id}`);
+											break;
+										case 15://Video Titles
+											result2.push(video.title.replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&#39;/g, '\''));
+											break;
+										case 16://Video Descriptions
+											result2.push(video.description.replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&#39;/g, '\''));
+											break;
+										case 17://Video Channel IDs
+											result2.push(video.channel.id);
+											break;
+										case 18://Video Channel URLs
+											result2.push(`https://www.youtube.com/channel/${video.channel.id}`);
+											break;
+										case 19://Video Channel Names
+											result2.push(video.channel.title);
+											break;
+										case 20://Video Channel Thumbnail URLs (Default)
+											result2.push(video.channel.raw.snippet.thumbnails.default.url);
+											break;
+										case 21://Video Channel Thumbnail URLs (Medium)
+											result2.push(video.channel.raw.snippet.thumbnails.medium.url);
+											break;
+										case 22://Video Channel Thumbnail URLs (High)
+											result2.push(video.channel.raw.snippet.thumbnails.high.url);
+											break;
+										case 23://Video Thumbnail URLs (Default)
+											result2.push(video.thumbnails.default.url);
+											break;
+										case 24://Video Thumbnail URLs (Medium)
+											result2.push(video.thumbnails.medium.url);
+											break;
+										case 25://Video Thumbnail URLs (High)
+											result2.push(video.thumbnails.high.url);
+											break;
+										case 26://Video Positions
+											result2.push(pos+1);
+											break;
+										case 27://Video Publish Dates
+											result2.push(video.publishedAt);
+											break;
+										default:
+											return console.log('Please check your YouTube Search action... There is something wrong.');
+										};
+								});
+								if(result2.length > 0) {
+									const storage = parseInt(data.storage);
+									const varName = _this.evalMessage(data.varName, cache);
+									_this.storeValue(result2, storage, varName, cache);
+									_this.callNextAction(cache);
+								};
+							});
+							break;
+					};
+					if(result !== undefined) {
+						const storage = parseInt(data.storage);
+						const varName = _this.evalMessage(data.varName, cache);
+						_this.storeValue(result, storage, varName, cache);
+						_this.callNextAction(cache);
+					};
+				});
+				break;
+			default:
+				return console.log('Please check your YouTube Search action... There is something wrong.');
 		};
 	},
 
@@ -579,6 +605,7 @@ module.exports = {
 	// functions you wish to overwrite.
 	//---------------------------------------------------------------------
 
-	mod: function (DBM) { }
+	mod: function (DBM) {
+	}
 
 }; // End of module
