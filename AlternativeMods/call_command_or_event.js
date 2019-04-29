@@ -24,10 +24,10 @@ section: "Other Stuff",
 
 subtitle: function(data) {
 	let source;
-	if(parseInt(data.sourcetype) == 0) {
-		source = data.source.toString();
-	} else {
+	if(parseInt(data.sourcetype) == 1) {
 		source = data.source2.toString();
+	} else {
+		source = data.source.toString();
 	};
 	return `Call Command/Event ID "${source}"`;
 },
@@ -173,7 +173,7 @@ action: function(cache) {
 	const Files = this.getDBM().Files;
 	
 	let id;
-	if(parseInt(data.sourcetype) == 0) {id = data.source} else {id = this.evalMessage(data.source2, cache)};
+	if(parseInt(data.sourcetype) == 1) {id = this.evalMessage(data.source2, cache)} else {id = data.source};
 	if(!id) {return console.log('Please insert a Command/Event ID!')};
 
 	let actions;
