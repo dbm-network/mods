@@ -39,7 +39,7 @@ module.exports = {
 		const servers = [
 			'Current Server', 'Temp Variable', 'Server Variable', 'Global Variable'
 		];
-		const info = ['Server Object', 'Server ID', 'Server Name', 'Server Name Acronym', 'Server Region', 'Server Icon URL', 'Server Verification Level', 'Server Default Channel', 'Server AFK Channel', 'Server System Channel', 'Server Default Role', 'Server Owner Member', 'Server Bot Member Object', 'Server Channel List', 'Server Role List', 'Server Member List', 'Server Emoji List', 'Server Member Count', 'Creation Date', 'Time To AFK', 'Is Server Available?', 'More than 250 members?', 'Date Bot Joined Server', 'Channel Amount', 'Emoji Amount', 'Embed Links', 'DND Members Count', 'Online Members Count (fixed)', 'Offline Members Count', 'Idle Members Count', 'Total Bots Count In Server', 'Server Channel IDs', 'Server Role IDs', 'Server Member IDs', 'Server Bot Member Count', 'Server Human Member Count', 'Server Member Count', 'Role Count', 'Text Channel Count', 'Voice Channel Count', 'Is Server Verified?', 'Banned Users List'];
+		const info = ['Server Object', 'Server ID', 'Server Name', 'Server Name Acronym', 'Server Region', 'Server Icon URL', 'Server Verification Level', 'Server Default Channel', 'Server AFK Channel', 'Server System Channel', 'Server Default Role', 'Server Owner Member', 'Server Bot Member Object', 'Server Channel List', 'Server Role List', 'Server Member List', 'Server Emoji List', 'Server Member Count', 'Creation Date', 'Time To AFK', 'Is Server Available?', 'More than 250 members?', 'Date Bot Joined Server', 'Channel Amount', 'Emoji Amount', 'Embed Links', 'DND Members Count', 'Online Members Count (fixed)', 'Offline Members Count', 'Idle Members Count', 'Total Bots Count In Server', 'Server Channel IDs', 'Server Role IDs', 'Server Member IDs', 'Server Bot Member Count', 'Server Human Member Count', 'Server Member Count', 'Role Count', 'Text Channel Count', 'Voice Channel Count', 'Is Server Verified?', 'Banned Users List', 'Invite List'];
 		return `${servers[parseInt(data.server)]} - ${info[parseInt(data.info)]}`;
 	},
 
@@ -51,7 +51,7 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "Lasse, EGGSY, EliteArtz & Danno3817",
+	author: "Lasse, EGGSY, EliteArtz, Danno3817 & ZockerNico",
 
 	// The version of the mod (Defaults to 1.0.0)
 	version: "1.9.5", // added in 1.9.1
@@ -152,7 +152,8 @@ module.exports = {
 			case 40: // Verified?
 				dataType = 'Boolean';
 				break;
-			case 41: //	collection of banned users
+			case 41: //	Collection of banned users
+			case 42: //	Collection of guild invites
 				dataType = 'List';
 				break;
 		}
@@ -233,6 +234,7 @@ module.exports = {
 						<option value="34">Bot Count (Same as Total Bots In Servers)</option>
 						<option value="35">Human Member Count</option>
 						<option value="36">Member Count</option>
+						<option value="41">Banned Member List</option>
 					</optgroup>
 					<optgroup label="Member Status Infos">
 						<option value="27">Online Members Count</option>
@@ -244,7 +246,6 @@ module.exports = {
 						<option value="31">Server Channel IDs</option>
 						<option value="32">Server Role IDs</option>
 						<option value="33">Server Member IDs</option>
-						<option value="41">Banned Member List</option>		
 					</optgroup>
 					<optgroup label="Channel Infos">
 						<option value="23">Channel Amount</option>
@@ -258,6 +259,7 @@ module.exports = {
 						<option value="24">Emoji Amount</option>
 						<option value="25">Embeds links?</option>
 						<option value="37">Role Count</option>
+						<option value="42">Invite List</option>
 					</optgroup>				
 					<!--<option value="21">More Than 250 Members?</option>-->				
 				</select>
@@ -461,7 +463,7 @@ module.exports = {
 			case 40: // Is Server Verified?
 				result = targetServer.verified;
 				break;
-			case 41:
+			case 41://	Collection of banned users
 				targetServer.fetchBans()
 				.then(bans => {
 					result = bans.array();
@@ -469,14 +471,24 @@ module.exports = {
 					const varName2 = this.evalMessage(data.varName2, cache);
 					this.storeValue(result, storage, varName2, cache);
 				});
+				break;
+			case 42://	Collection of guild invites
+				targetServer.fetchInvites()
+				.then(invites => {
+					result = invites.array();
+					const storage = parseInt(data.storage);
+					const varName2 = this.evalMessage(data.varName2, cache);
+					this.storeValue(result, storage, varName2, cache);
+				});
+				break;
 			default:
 				break;
-		}
+		};
 		if (result !== undefined) {
 			const storage = parseInt(data.storage);
 			const varName2 = this.evalMessage(data.varName2, cache);
 			this.storeValue(result, storage, varName2, cache);
-		}
+		};
 		this.callNextAction(cache);
 	},
 
