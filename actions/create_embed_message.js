@@ -40,7 +40,7 @@ subtitle: function(data) {
 	 version: "1.9.5",//Added in 1.8.2
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
-	 short_description: "Changed category, added author url and the ability to customize the timestamp.",
+	 short_description: "Changed category, added author url, the ability to customize the timestamp and a debug button.",
 
 	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
@@ -67,7 +67,7 @@ variableStorage: function(data, varType) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["title", "author", "color", "url", "authorIcon", "authorUrl", "imageUrl", "thumbUrl", "timestamp", "timestamp1", "timestamp2", "text", "year", "month", "day", "hour", "minute", "second", "note1", "note2", "storage", "varName"],
+fields: ["title", "author", "color", "url", "authorIcon", "authorUrl", "imageUrl", "thumbUrl", "timestamp", "debug", "timestamp1", "timestamp2", "text", "year", "month", "day", "hour", "minute", "second", "note1", "note2", "storage", "varName"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -113,13 +113,27 @@ html: function(isEvent, data) {
 	Thumbnail URL:<br>
 	<input id="thumbUrl" class="round" type="text" placeholder="Leave blank for none!"><br>
 </div>
-<div style="float: left; width: 94%;">
+<div id="timestampDiv" style="float: left; width: 45%; display: none;">
 	Timestamp:<br>
-	<select id="timestamp" class="round" onchange="glob.onChange(this)">
+	<select id="timestamp" class="round" onchange="glob.onChange1(this)">
 		<option value="false" selected>No Timestamp</option>
 		<option value="true">Current Timestamp</option>
 		<option value="string">String Timestamp</option>
 		<option value="custom">Custom Timestamp</option>
+	</select>
+</div>
+<div id="timestampDivDebug" style="float: left; width: 45%; display: none;">
+	Timestamp:<br>
+	<select id="timestampDebug" class="round" onchange="glob.onChange1(this)">
+		<option value="false" selected>No Timestamp</option>
+		<option value="true">Current Timestamp</option>
+	</select>
+</div>
+<div style="float: right; width: 50%; padding-right: 26px;">
+	Debug:<br>
+	<select id="debug" class="round" onchange="glob.onChange2(this)">
+		<option value="false" selected>No - More options</option>
+		<option value="true">Yes - More stable</option>
 	</select>
 </div>
 <div id="timestamp1" class="round" style="float: left; width: 104.6%; padding-top: 16px; display: none;">
@@ -196,39 +210,69 @@ html: function(isEvent, data) {
 
 init: function() {
 	const {glob, document} = this;
-	const timestamp = document.getElementById('timestamp1');
+	const timestampDiv = document.getElementById('timestampDiv');
+	const timestamp = document.getElementById('timestamp');
+	const timestampDivDebug = document.getElementById('timestampDivDebug');
+	const timestampDebug = document.getElementById('timestampDebug');
+	const debug = document.getElementById('debug');
+	const timestamp1 = document.getElementById('timestamp1');
 	const timestamp2 = document.getElementById('timestamp2');
 	const note = document.getElementById('note1');
 	const note2 = document.getElementById('note2');
+	const authorUrl = document.getElementById('authorUrl');
 
-	glob.onChange = function() {
-		switch(document.getElementById('timestamp').value) {
-			case "false":
-			case "true":
-				timestamp.style.display = 'none';
-				timestamp2.style.display = 'none';
-				note.style.display = 'none';
-				note2.style.display = 'none';
-				break;
-			case "string":
-				timestamp.style.display = 'table';
-				timestamp2.style.display = 'none';
-				note.style.display = null;
-				note2.style.display = 'none';
-				break;
-			case "custom":
-				timestamp.style.display = 'none';
-				timestamp2.style.display = 'table';
-				note.style.display = 'none';
-				note2.style.display = null;
-				break;
-
+	glob.onChange1 = function() {
+		if(debug.value == "false") {
+			authorUrl.placeholder = 'Leave blank for none!';
+			switch(timestamp.value) {
+				case "false":
+				case "true":
+					timestamp1.style.display = 'none';
+					timestamp2.style.display = 'none';
+					note.style.display = 'none';
+					note2.style.display = 'none';
+					break;
+				case "string":
+					timestamp1.style.display = 'table';
+					timestamp2.style.display = 'none';
+					note.style.display = null;
+					note2.style.display = 'none';
+					break;
+				case "custom":
+					timestamp1.style.display = 'none';
+					timestamp2.style.display = 'table';
+					note.style.display = 'none';
+					note2.style.display = null;
+					break;
+	
+			};
 		};
 	};
 
-	document.getElementById('timestamp');
+	glob.onChange2 = function() {
+		switch(debug.value) {
+			case "false":
+				timestampDiv.style.display = null;
+				timestampDivDebug.style.display = 'none';
+				break;
+			case "true":
+				timestampDiv.style.display = 'none';
+				timestampDivDebug.style.display = null;
+				timestamp1.style.display = 'none';
+				timestamp2.style.display = 'none';
+				note.style.display = 'none';
+				note2.style.display = 'none';
+				authorUrl.placeholder = 'Unavaible!';
+				break;
+		};
+		glob.onChange1();
+	};
 
-	glob.onChange(document.getElementById('timestamp'));
+	document.getElementById('timestamp');
+	document.getElementById('debug');
+
+	glob.onChange1(document.getElementById('timestamp'));
+	glob.onChange2(document.getElementById('debug'));
 },
 
 //---------------------------------------------------------------------
@@ -250,90 +294,120 @@ action: function(cache) {
 	const minute = parseInt(this.evalMessage(data.minute, cache));
 	const second = parseInt(this.evalMessage(data.second, cache));
 	const timestamp = this.evalMessage(data.timestamp, cache);
+	const timestampDebug = this.evalMessage(data.timestampDebug, cache);
+	const debug = this.evalMessage(data.debug);
 
-	//Title
-	embed.setTitle(this.evalMessage(data.title, cache));
-
-	//URL
-	if(data.url) {
-		embed.setURL(this.evalMessage(data.url, cache));
-	};
-
-	//Author Name
-	if(data.author) {
-		if(data.authorIcon && data.authorUrl) {
-			embed.setAuthor(this.evalMessage(data.author, cache), this.evalMessage(data.authorIcon, cache), this.evalMessage(data.authorUrl, cache));
-		} else if(data.authorIcon && !data.authorUrl) {
-			embed.setAuthor(this.evalMessage(data.author, cache), this.evalMessage(data.authorIcon, cache));
-		} else if(!data.authorIcon && data.authorUrl) {
-			embed.setAuthor(this.evalMessage(data.author, cache), '', this.evalMessage(data.authorUrl, cache));
-		} else {
-			embed.setAuthor(this.evalMessage(data.author, cache));
+	if(debug != "true") {
+		//Title
+		embed.setTitle(this.evalMessage(data.title, cache));
+	
+		//URL
+		if(data.url) {
+			embed.setURL(this.evalMessage(data.url, cache));
 		};
-	};
-
-	//Color
-	if(data.color) {
-		embed.setColor(this.evalMessage(data.color, cache));
-	};
-
-	//Image URL
-	if(data.imageUrl) {
-		embed.setImage(this.evalMessage(data.imageUrl, cache));
-	};
-
-	//Thumbnail URL
-	if(data.thumbUrl) {
-		embed.setThumbnail(this.evalMessage(data.thumbUrl, cache));
-	};
-
-	//Timestamp
-	switch(timestamp) {
-		case "false":
-			break;
-		case "true":
-			embed.setTimestamp(new Date());
-			break;
-		case "string":
-			if(text.length > 0) {
-				embed.setTimestamp(new Date(`${text}`));
+	
+		//Author Name
+		if(data.author) {
+			if(data.authorIcon && data.authorUrl) {
+				embed.setAuthor(this.evalMessage(data.author, cache), this.evalMessage(data.authorIcon, cache), this.evalMessage(data.authorUrl, cache));
+			} else if(data.authorIcon && !data.authorUrl) {
+				embed.setAuthor(this.evalMessage(data.author, cache), this.evalMessage(data.authorIcon, cache));
+			} else if(!data.authorIcon && data.authorUrl) {
+				embed.setAuthor(this.evalMessage(data.author, cache), '', this.evalMessage(data.authorUrl, cache));
 			} else {
-				embed.setTimestamp(new Date());
-				console.log('Invaild utc timestamp! Changed from [String Timestamp] to [Current Timestamp].');
+				embed.setAuthor(this.evalMessage(data.author, cache));
 			};
-			break;
-		case "custom":
-			if(year >= 1000 && year !== undefined && month >= 0 && month !== undefined && day >= 0 && day !== undefined && hour >= 0 && hour !== undefined && minute >= 0 && minute !== undefined && second >= 0 && second !== undefined) {
-				if(year !== undefined && month !== undefined && day !== undefined && hour !== undefined && minute !== undefined && second !== undefined) {
-					embed.setTimestamp(new Date(year, month, day, hour, minute, second));
-				} else if(year !== undefined && month !== undefined && day !== undefined && hour !== undefined && minute !== undefined && second == undefined) {
-					embed.setTimestamp(new Date(year, month, day, hour, minute));
-				} else if(year !== undefined && month !== undefined && day !== undefined && hour !== undefined && minute == undefined && second == undefined) {
-					embed.setTimestamp(new Date(year, month, day, hour));
-				} else if(year !== undefined && month !== undefined && day !== undefined && hour == undefined && minute == undefined && second == undefined) {
-					embed.setTimestamp(new Date(year, month, day));
-				} else if(year !== undefined && month !== undefined && day == undefined && hour == undefined && minute == undefined && second == undefined) {
-					embed.setTimestamp(new Date(year, month));
-				} else if(year !== undefined && month == undefined && day == undefined && hour == undefined && minute == undefined && second == undefined) {
-					embed.setTimestamp(new Date(year));
+		};
+	
+		//Color
+		if(data.color) {
+			embed.setColor(this.evalMessage(data.color, cache));
+		};
+	
+		//Image URL
+		if(data.imageUrl) {
+			embed.setImage(this.evalMessage(data.imageUrl, cache));
+		};
+	
+		//Thumbnail URL
+		if(data.thumbUrl) {
+			embed.setThumbnail(this.evalMessage(data.thumbUrl, cache));
+		};
+	
+		//Timestamp
+		switch(timestamp) {
+			case "false":
+				break;
+			case "true":
+				embed.setTimestamp(new Date());
+				break;
+			case "string":
+				if(text.length > 0) {
+					embed.setTimestamp(new Date(`${text}`));
 				} else {
 					embed.setTimestamp(new Date());
-					console.log('Invaild utc timestamp! Changed from [Custom Timestamp] to [Current Timestamp].');
+					console.log('Invaild utc timestamp! Changed from [String Timestamp] to [Current Timestamp].');
 				};
-			} else {
+				break;
+			case "custom":
+				if(year >= 1000 && year !== undefined && month >= 0 && month !== undefined && day >= 0 && day !== undefined && hour >= 0 && hour !== undefined && minute >= 0 && minute !== undefined && second >= 0 && second !== undefined) {
+					if(year !== undefined && month !== undefined && day !== undefined && hour !== undefined && minute !== undefined && second !== undefined) {
+						embed.setTimestamp(new Date(year, month, day, hour, minute, second));
+					} else if(year !== undefined && month !== undefined && day !== undefined && hour !== undefined && minute !== undefined && second == undefined) {
+						embed.setTimestamp(new Date(year, month, day, hour, minute));
+					} else if(year !== undefined && month !== undefined && day !== undefined && hour !== undefined && minute == undefined && second == undefined) {
+						embed.setTimestamp(new Date(year, month, day, hour));
+					} else if(year !== undefined && month !== undefined && day !== undefined && hour == undefined && minute == undefined && second == undefined) {
+						embed.setTimestamp(new Date(year, month, day));
+					} else if(year !== undefined && month !== undefined && day == undefined && hour == undefined && minute == undefined && second == undefined) {
+						embed.setTimestamp(new Date(year, month));
+					} else if(year !== undefined && month == undefined && day == undefined && hour == undefined && minute == undefined && second == undefined) {
+						embed.setTimestamp(new Date(year));
+					} else {
+						embed.setTimestamp(new Date());
+						console.log('Invaild utc timestamp! Changed from [Custom Timestamp] to [Current Timestamp].');
+					};
+				} else {
+					embed.setTimestamp(new Date());
+					console.log('Invaild utc timestamp! from [Custom Timestamp] Changed to [Current Timestamp].');
+				};
+				break;
+			default:
 				embed.setTimestamp(new Date());
-				console.log('Invaild utc timestamp! from [Custom Timestamp] Changed to [Current Timestamp].');
-			};
-			break;
-		default:
+				break;
+		};
+	
+		const storage = parseInt(data.storage);
+		const varName = this.evalMessage(data.varName, cache);
+		this.storeValue(embed, storage, varName, cache);
+		this.callNextAction(cache);
+	} else {
+		const data = cache.actions[cache.index];
+		const embed = this.createEmbed();
+		embed.setTitle(this.evalMessage(data.title, cache));
+		if(data.url) {
+			embed.setURL(this.evalMessage(data.url, cache));
+		};
+		if(data.author && data.authorIcon) {
+			embed.setAuthor(this.evalMessage(data.author, cache), this.evalMessage(data.authorIcon, cache));
+		};
+		if(data.color) {
+			embed.setColor(this.evalMessage(data.color, cache));
+		};
+		if(data.imageUrl) {
+			embed.setImage(this.evalMessage(data.imageUrl, cache));
+		};
+		if(data.thumbUrl) {
+			embed.setThumbnail(this.evalMessage(data.thumbUrl, cache));
+		};
+		if(timestampDebug === "true") {
 			embed.setTimestamp(new Date());
-			break;
+		};
+		const storage = parseInt(data.storage);
+		const varName = this.evalMessage(data.varName, cache);
+		this.storeValue(embed, storage, varName, cache);
+		this.callNextAction(cache);
 	};
-
-	const storage = parseInt(data.storage);
-	const varName = this.evalMessage(data.varName, cache);
-	this.storeValue(embed, storage, varName, cache);
-	this.callNextAction(cache);
 },
 
 //---------------------------------------------------------------------
