@@ -74,19 +74,10 @@ fields: ["storage", "varName", "fieldName", "message", "inline"],
 //                messages, servers, variables
 //---------------------------------------------------------------------
 
-html: function(isEvent, data) {
-	return `
-<div>
-	<p>
-		<u>Note:</u><br>
-		Use [Title](Link) to mask links.<br>
-	</p>
-</div>`;
-}
 	
 html: function(isEvent, data) {
 	return `
-<div><p>This action has been modified by DBM Mods</p></div><br>
+<div><p>This action has been modified by DBM Mods. Use [Title](Link) to mask links here.</p></div><br>
 <div>
 	<div style="float: left; width: 35%;">
 		Source Embed Object:<br>
