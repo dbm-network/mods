@@ -27,25 +27,25 @@ subtitle: function(data) {
 },
 
 //---------------------------------------------------------------------
-	 // DBM Mods Manager Variables (Optional but nice to have!)
-	 //
-	 // These are variables that DBM Mods Manager uses to show information
-	 // about the mods for people to see in the list.
-	 //---------------------------------------------------------------------
+// DBM Mods Manager Variables (Optional but nice to have!)
+//
+// These are variables that DBM Mods Manager uses to show information
+// about the mods for people to see in the list.
+//---------------------------------------------------------------------
 
-	 // Who made the mod (If not set, defaults to "DBM Mods")
-	 author: "DBM Mods",
+// Who made the mod (If not set, defaults to "DBM Mods")
+author: "DBM Mods",
 
-	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.9.4",
+// The version of the mod (Defaults to 1.0.0)
+version: "1.9.5",
 
-	 // A short description to show on the mod line for this mod (Must be on a single line)
-	 short_description: "Changelog overview",
+// A short description to show on the mod line for this mod (Must be on a single line)
+short_description: "Changelog overview",
 
-	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
+// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
 
-	 //---------------------------------------------------------------------
+//---------------------------------------------------------------------
 
 //---------------------------------------------------------------------
 // Action Storage Function
@@ -86,22 +86,48 @@ html: function(isEvent, data) {
 <div>
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
 	<p>
+	<h2>1.9.5: We fixed it all and YouTube Playlists are around now!</h2>
+		● Added Store Game Info<br>
+		● Added Find Item in List<br>
+		● Added Play YouTube Playlist<br>
+		● Added Store Twitch Info<br>
+		● Added Set Time Restriction<br>
+		● Added Global Data actions<br>
+		● Revised Store Category Info<br>
+		● Revised Control Variable<br>
+		● Revised Store Server Info<br>
+		● Revised YouTube Search<br>
+		● Revised Call Command/Event<br>
+		● Revised Remove Item From List<br>
+		● Revised Find Member<br>
+		● Revised Check If Member<br>
+		● Revised Set Member Voice Channel<br>
+		● Revised Embed Messaging actions<br>
+		● Revised Music System actions<br>
+		● Fixed Transfer Variable<br>
+		● Fixed Send Embed Message<br>
+		● Fixed Await Response Call Action<br>
+		● Fixed Await Reaction Call Action<br>
+		● Fixed Edit Channel<br>
+		● Fixed Store Channel Info<br>
+	</p>
+	<p>
 	<h2>1.9.4: owo Is this a release I see? A lot of revised mods.</h2>
-		● Added Convert Seconds to Days
-		● Added Download File
-		● Renamed Convert a Variable
-		● Revised Add Embed Field
-		● Revised Await Response Call Action
-		● Revised Check Member Data
-		● Revised Check Server Data
-		● Revised Check Variable
-		● Revised Edit Channel
-		● Revised Edit Message
-		● Revised Find Emoji in Message
-		● Revised Member Data List
-		● Revised Store Category Info
-		● Revised Store Message Info
-		● Revised Youtube Info
+		● Added Convert Seconds to Days<br>
+		● Added Download File<br>
+		● Renamed Convert a Variable<br>
+		● Revised Add Embed Field<br>
+		● Revised Await Response Call Action<br>
+		● Revised Check Member Data<br>
+		● Revised Check Server Data<br>
+		● Revised Check Variable<br>
+		● Revised Edit Channel<br>
+		● Revised Edit Message<br>
+		● Revised Find Emoji in Message<br>
+		● Revised Member Data List<br>
+		● Revised Store Category Info<br>
+		● Revised Store Message Info<br>
+		● Revised Youtube Info<br>
 	</p>
 	<p>
 	<h2>1.9.3: Yet another update</h2>

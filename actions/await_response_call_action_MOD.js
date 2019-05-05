@@ -285,7 +285,7 @@ action: function(cache) {
 			time: time,
 			errors: ['time']
 		}).then(function(collected) { 
-			this.storeValue(collected, storage, varName2, cache);
+			this.storeValue(collected.array(), storage, varName2, cache);
 			this.executeResults(true, data, cache);
 		}.bind(this)).catch(function() {
 			this.executeResults(false, data, cache);
