@@ -38,7 +38,7 @@ subtitle: function(data) {
 author: "DBM, General Wrex, Lasse & NetLuis",
 
 // The version of the mod (Defaults to 1.0.0)
-version: "1.9.4", //Added in 1.9.4
+version: "1.9.5", //Added in 1.9.4
 
 // A short description to show on the mod line for this mod (Must be on a single line)
 short_description: "Added If Message Delivery Fails option.",
@@ -68,7 +68,7 @@ variableStorage: function(data, varType) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["storage", "varName", "channel", "varName2", "storage3", "varName3"],
+fields: ["storage", "varName", "channel", "varName2", "storage3", "varName3", "iffalse", "iffalseVal"],
 
 //---------------------------------------------------------------------
 // Command HTML

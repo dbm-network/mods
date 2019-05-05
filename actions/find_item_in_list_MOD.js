@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Control Variable",
+name: "Find Item in List",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -14,7 +14,28 @@ name: "Control Variable",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Variable Things",
+section: "Lists and Loops",
+
+//---------------------------------------------------------------------
+// DBM Mods Manager Variables (Optional but nice to have!)
+//
+// These are variables that DBM Mods Manager uses to show information
+// about the mods for people to see in the list.
+//---------------------------------------------------------------------
+
+// Who made the mod (If not set, defaults to "DBM Mods")
+author: "ZockerNico",
+
+// The version of the mod (Defaults to 1.0.0)
+version: "1.9.5", //Added in 1.9.5
+
+// A short description to show on the mod line for this mod (Must be on a single line)
+short_description: "This action searches for an item in a list and returns the position.",
+
+// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
+
+
+//---------------------------------------------------------------------
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -23,8 +44,8 @@ section: "Variable Things",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const storage = ['', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	return `${storage[parseInt(data.storage)]} (${data.varName}) ${data.changeType === "1" ? "+=" : "="} ${data.value}`;
+	const list = ['Server Members', 'Server Channels', 'Server Roles', 'Server Emojis', 'All Bot Servers', 'Mentioned User Roles', 'Command Author Roles', 'Temp Variable', 'Server Variable', 'Global Variable'];
+	return `Find "${data.item}" in ${list[parseInt(data.list)]}`;
 },
 
 //---------------------------------------------------------------------
@@ -36,28 +57,8 @@ subtitle: function(data) {
 variableStorage: function(data, varType) {
 	const type = parseInt(data.storage);
 	if(type !== varType) return;
-	return ([data.varName, 'Unknown Type']);
+	return ([data.varName2, 'Number']);
 },
-
-//---------------------------------------------------------------------
-// DBM Mods Manager Variables (Optional but nice to have!)
-//
-// These are variables that DBM Mods Manager uses to show information
-// about the mods for people to see in the list.
-//---------------------------------------------------------------------
-
-// Who made the mod (If not set, defaults to "DBM Mods")
-author: "DBM & MrGold",
-
-// The version of the mod (Defaults to 1.0.0)
-version: "1.9.5", //Added in 1.9.5
-
-// A short description to show on the mod line for this mod (Must be on a single line)
-short_description: "Controls the value for an Existing Variable or a New Variable",
-
-// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-
-//---------------------------------------------------------------------
 
 //---------------------------------------------------------------------
 // Action Fields
@@ -67,7 +68,7 @@ short_description: "Controls the value for an Existing Variable or a New Variabl
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["changeType", "value", "storage", "varName"],
+fields: ["list", "varName", "item", "storage", "varName2"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -87,32 +88,36 @@ fields: ["changeType", "value", "storage", "varName"],
 
 html: function(isEvent, data) {
 	return `
-<div><p>This action has been modified by DBM Mods</p></div>
-<div>
-	<div style="padding-top: 12px; width: 35%;">
-		Control Type:<br>
-		<select id="changeType" class="round">
-			<option value="0" selected>Set Value</option>
-			<option value="1">Add Value</option>
+	<div><p>Made by ZockerNico.</p></div><br>
+<div><b></b>
+	<div style="float: left; width: 35%;">
+		Source List:<br>
+		<select id="list" class="round" onchange="glob.listChange(this, 'varNameContainer')">
+			${data.lists[isEvent ? 1 : 0]}
 		</select>
 	</div>
+	<div id="varNameContainer" style="display: none; float: right; width: 60%;">
+		Variable Name:<br>
+		<input id="varName" class="round" type="text" list="variableList"><br>
+	</div>
+</div><br><br><br>
+<div style="padding-top: 8px;">
+	Item to find:<br>
+	<textarea id="item" rows="4" placeholder="Insert a variable or some text. Those '' are not needed!" style="width: 94%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
 </div><br>
-<div>
-	Value:<br>
-	<textarea id="value" rows="7" placeholder="Insert what you want here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
-</div><br>
-<div>
+<div style="padding-top: 8px;">
 	<div style="float: left; width: 35%;">
 		Store In:<br>
 		<select id="storage" class="round">
 			${data.variables[1]}
 		</select>
 	</div>
-	<div id="varNameContainer" style="float: right; width: 60%;">
+	<div id="varNameContainer2" style="float: right; width: 60%;">
 		Variable Name:<br>
-		<input id="varName" class="round" type="text">
+		<input id="varName2" class="round" type="text">
 	</div>
-</div>`
+</div><br><br><br>
+<div><p>This action searches for an item in a list and returns the position.<br>Note that every list in JavaScript starts from 0!</p></div><br>`
 },
 
 //---------------------------------------------------------------------
@@ -123,7 +128,21 @@ html: function(isEvent, data) {
 // functions for the DOM elements.
 //---------------------------------------------------------------------
 
-init: function() {},
+init: function() {
+	const {glob, document} = this;
+
+	glob.onChange1 = function(event) {
+		const value = parseInt(event.value);
+		const dom = document.getElementById('positionHolder');
+		if(value < 3) {
+			dom.style.display = 'none';
+		} else {
+			dom.style.display = null;
+		}
+	};
+
+	glob.listChange(document.getElementById('list'), 'varNameContainer');
+},
 
 //---------------------------------------------------------------------
 // Action Bot Function
@@ -134,32 +153,32 @@ init: function() {},
 //---------------------------------------------------------------------
 
 action: function(cache) {
-	const data = cache.actions[cache.index];
-	const type = parseInt(data.storage);
-	const varName = this.evalMessage(data.varName, cache);
-	const storage = this.getVariable(type, varName, cache);
-	const isAdd = Boolean(data.changeType === "1");
-	let val = this.evalMessage(data.value, cache);
-	try {
-		val = this.eval(val, cache);
-	} catch(e) {
-		this.displayError(data, cache, e);
-	}
-	if(val !== undefined) {
-		if(isAdd) {
-			let result;
-			if(storage === undefined) {
-				result = val;
+    const data = cache.actions[cache.index];
+    const storage = parseInt(data.list);
+    const varName = this.evalMessage(data.varName, cache);
+		const list = this.getList(storage, varName, cache);
+		const item = this.evalMessage(data.item, cache);
+
+		let result;
+		var loop = 0;
+
+    while(loop < list.length) {
+			if(list[loop] == item) {
+				result = loop;
+				break;
 			} else {
-				result = storage + val;
+				++loop;
 			}
-			this.storeValue(result, type, varName, cache);
-		} else {
-			this.storeValue(val, type, varName, cache);
-		}
-	}
-	this.callNextAction(cache);
-},
+		};
+
+    if (result !== undefined) {
+      const varName2 = this.evalMessage(data.varName2, cache);
+      const storage2 = parseInt(data.storage);
+      this.storeValue(result, storage2, varName2, cache);
+    };
+
+    this.callNextAction(cache);
+  },
 
 //---------------------------------------------------------------------
 // Action Bot Mod
