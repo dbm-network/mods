@@ -76,6 +76,17 @@ fields: ["storage", "varName", "message"],
 html: function(isEvent, data) {
 	return `
 <div>
+	<p>
+		<u>Note:</u><br>
+		Use [Title](Link) to mask links.<br>
+	</p>
+</div>`;
+}
+
+	
+	html: function(isEvent, data) {
+	return `
+<div>
 	<div style="float: left; width: 35%;">
 		Source Embed Object:<br>
 		<select id="storage" class="round" onchange="glob.refreshVariableList(this)">
