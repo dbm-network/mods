@@ -76,6 +76,16 @@ fields: ["storage", "varName", "fieldName", "message", "inline"],
 
 html: function(isEvent, data) {
 	return `
+<div>
+	<p>
+		<u>Note:</u><br>
+		Use [Title](Link) to mask links.<br>
+	</p>
+</div>`;
+}
+	
+html: function(isEvent, data) {
+	return `
 <div><p>This action has been modified by DBM Mods</p></div><br>
 <div>
 	<div style="float: left; width: 35%;">
