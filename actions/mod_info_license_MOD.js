@@ -37,7 +37,7 @@ subtitle: function(data) {
 author: "DBM Network",
 
 // The version of the mod (Defaults to 1.0.0)
-version: "1.9.4", //Added in 1.8.5
+version: "1.9.5", //Added in 1.8.5
 
 // A short description to show on the mod line for this mod (Must be on a single line)
 short_description: "MIT License",
@@ -88,7 +88,8 @@ html: function(isEvent, data) {
 DBM Mods has no official affiliation with Discord or Discord Bot Maker.<br>
 <h2>MIT License</h2><br>
 
-Copyright (c) 2017-2019 DBM Network<br><br>
+Copyright (c) 2017-2018 Lasse Niermann<br>
+Copyright (c) 2019 DBM Network<br><br>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:<br><br>
 
