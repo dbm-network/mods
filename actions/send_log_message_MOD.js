@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Send Message to Console",
+name: "Send Message to Console (Logs)",
 
 //---------------------------------------------------------------------
 // Action Section
