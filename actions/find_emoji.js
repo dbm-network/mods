@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Find Custom Emoji",
+name: "Find Custom Emoji in Specified Server",
 
 //---------------------------------------------------------------------
 // Action Section
