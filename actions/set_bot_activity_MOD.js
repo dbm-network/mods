@@ -26,7 +26,7 @@ module.exports = {
 	author: "Lasse",
 
 	// The version of the mod (Defaults to 1.0.0)
-	version: "1.9.1", //Added in 1.8.9
+	version: "1.9.5", //Added in 1.8.9
 
 	// A short description to show on the mod line for this mod (Must be on a single line)
 	short_description: "Set activity and status for our bot!!",
@@ -120,8 +120,7 @@ module.exports = {
 							 style="width: 100%;">
 						</div>
 						<br>
-						This mod requires the latest version of Discord.js<br>
-						Installation tutorial: https://youtu.be/mrrtj5nlV58<br>
+						This mod requires the DBM Beta!
 					</div>
 
 				</div>

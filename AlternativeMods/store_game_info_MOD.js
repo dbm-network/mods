@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Store Channel Info",
+name: "Store Game Info",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -14,7 +14,7 @@ name: "Store Channel Info",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Channel Control",
+section: "Member Control",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -23,9 +23,9 @@ section: "Channel Control",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const channels = ['Same Channel', 'Mentioned Channel', '1st Server Channel', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const info = ['Channel Object', 'Channel ID', 'Channel Name', 'Channel Topic', 'Channel Last Message', 'Channel Position', 'Channel Is NSFW?', 'Channel Is DM?', 'Channel Is Deleteable?', 'Channel Creation Date', 'Channel Category Name'];
-	return `${channels[parseInt(data.channel)]} - ${info[parseInt(data.info)]}`;
+	const members = ['Mentioned User', 'Command Author', 'Temp Variable', 'Server Variable', 'Global Variable'];
+	const info = ['Game Application ID', 'Game Details', 'Game Name', 'Game State', 'Game Is Being Streamed?', 'Game Stream URL', 'Game Status Type', 'Game Large Image ID', 'Game Large Image URL', 'Game Large Image Text', 'Game Small Image ID', 'Game Small Image URL', 'Game Small Image Text', 'Game Timestamp Start', 'Game Party ID', 'Game Timestamp End', 'Game Party Size'];
+	return `${members[parseInt(data.member)]} - ${info[parseInt(data.info)]}`;
 },
 
 //---------------------------------------------------------------------
@@ -36,16 +36,15 @@ subtitle: function(data) {
 //---------------------------------------------------------------------
 
 // Who made the mod (If not set, defaults to "DBM Mods")
-author: "DBM & Lasse",
+author: "MrGold",
 
 // The version of the mod (Defaults to 1.0.0)
-version: "1.9.5", //Added in 1.9.1
+version: "1.9.5", //Added in 1.9.5
 
 // A short description to show on the mod line for this mod (Must be on a single line)
-short_description: "Added more options to default action.",
+short_description: "Stores Games information",
 
 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-
 
 //---------------------------------------------------------------------
 
@@ -62,31 +61,55 @@ variableStorage: function(data, varType) {
 	let dataType = 'Unknown Type';
 	switch(info) {
 		case 0:
-			dataType = "Channel";
+			dataType = "Application ID";
 			break;
 		case 1:
-			dataType = "Channel ID";
+			dataType = "Text";
 			break;
 		case 2:
+			dataType = "Text";
+			break;
 		case 3:
 			dataType = "Text";
 			break;
 		case 4:
-			dataType = "Message";
-			break;
-		case 5:
-			dataType = "Number";
-			break;
-		case 6:
-		case 7:
-		case 8:
 			dataType = "Boolean";
 			break;
+		case 5:
+			dataType = "Stream URL";
+			break;
+		case 6:
+			dataType = "Number";
+			break;
+		case 7:
+			dataType = "Large Image ID";
+			break;
+		case 8:
+			dataType = "Large Image URL";
+			break;
 		case 9:
-			dataType = "Date";
+			dataType = "Large Image Text";
 			break;
 		case 10:
-			dataType = "Text";
+			dataType = "Small Image ID";
+			break;
+		case 11:
+			dataType = "Small Image URL";
+			break;
+		case 12:
+			dataType = "Small Image Text";
+			break;
+		case 13:
+			dataType = "Date";
+			break;
+		case 14:
+			dataType = "Party ID";
+			break;
+		case 15:
+			dataType = "Date";
+			break;
+		case 16:
+			dataType = "Number";
 			break;
 	}
 	return ([data.varName2, dataType]);
@@ -100,7 +123,7 @@ variableStorage: function(data, varType) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["channel", "varName", "info", "storage", "varName2"],
+fields: ["member", "varName", "info", "storage", "varName2"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -120,12 +143,17 @@ fields: ["channel", "varName", "info", "storage", "varName2"],
 
 html: function(isEvent, data) {
 	return `
-<div><p>This action has been modified by DBM Mods.</p></div><br>
+<div>
+    <p>
+        <u>Mod Info:</u><br>
+	Created by MrGold
+    </p>
+</div><br>
 <div>
 	<div style="float: left; width: 35%;">
-		Source Channel:<br>
-		<select id="channel" class="round" onchange="glob.channelChange(this, 'varNameContainer')">
-			${data.channels[isEvent ? 1 : 0]}
+		Source Member:<br>
+		<select id="member" class="round" onchange="glob.memberChange(this, 'varNameContainer')">
+			${data.members[isEvent ? 1 : 0]}
 		</select>
 	</div>
 	<div id="varNameContainer" style="display: none; float: right; width: 60%;">
@@ -137,17 +165,27 @@ html: function(isEvent, data) {
 	<div style="padding-top: 8px; width: 70%;">
 		Source Info:<br>
 		<select id="info" class="round">
-			<option value="0" selected>Channel Object</option>
-			<option value="1">Channel ID</option>
-			<option value="2">Channel Name</option>
-			<option value="3">Channel Topic</option>
-			<option value="4">Channel Last Message</option>
-			<option value="5">Channel Position</option>
-			<option value="6">Channel Is NSFW?</option>
-			<option value="7">Channel Is DM?</option>
-			<option value="8">Channel Is Deleteable?</option>
-			<option value="9">Channel Creation Date</option>
-			<option value="10">Channel Category Name</option>
+			<option value="0" selected>Game Application ID</option>
+			<option value="1">Game Details</option>
+			<option value="2">Game Name</option>
+			<option value="3">Game State</option>
+			<option value="4">Game Is Being Streamed?</option>
+			<option value="5">Game Stream URL</option>
+			<option value="6">Game Status Type</option>
+			<option value="13">Game Timestamp Start</option>
+			<option value="15">Game Timestamp End</option>
+			<option value="14">Game Party ID</option>
+			<option value="16">Game Party Size</option>
+			<optgroup label="Assets Large Image">
+			<option value="7">Game Large Image ID</option>
+			<option value="8">Game Large Image URL</option>
+			<option value="9">Game Large Image Text</option>
+			</optgroup>
+			<optgroup label="Assets Small Image">
+			<option value="10">Game Small Image ID</option>
+			<option value="11">Game Small Image URL</option>
+			<option value="12">Game Small Image Text</option>
+			</optgroup>
 		</select>
 	</div>
 </div><br>
@@ -176,7 +214,7 @@ html: function(isEvent, data) {
 init: function() {
 	const {glob, document} = this;
 
-	glob.channelChange(document.getElementById('channel'), 'varNameContainer');
+	glob.memberChange(document.getElementById('member'), 'varNameContainer');
 },
 
 //---------------------------------------------------------------------
@@ -189,65 +227,168 @@ init: function() {
 
 action: function(cache) {
 	const data = cache.actions[cache.index];
-	const DiscordJS = this.getDBM().DiscordJS;
-	const channel = parseInt(data.channel);
-	const varName = this.evalMessage(data.varName, cache);
 	const info = parseInt(data.info);
-	const targetChannel = this.getChannel(channel, varName, cache);
-	if(!targetChannel) {
+	
+	const member = parseInt(data.member);
+	const varName = this.evalMessage(data.varName, cache);
+	const mem = this.getMember(member, varName, cache);
+	
+	if(!mem) {
 		this.callNextAction(cache);
 		return;
 	}
+	
 	let result;
 	switch(info) {
 		case 0:
-			result = targetChannel;
+		    if(!mem.presence.game) {
+			    result = "null";
+			} else {
+				result = mem.presence.game.applicationID;
+			}
 			break;
 		case 1:
-			result = targetChannel.id;
+			if(!mem.presence.game) {
+			    result = "null";
+			} else {
+				result = mem.presence.game.details;
+			}
 			break;
 		case 2:
-			result = targetChannel.name;
+		    if(!mem.presence.game) {
+			    result = "null";
+			} else {
+				result = mem.presence.game.name;
+			}
 			break;
 		case 3:
-			result = targetChannel.topic;
+		    if(!mem.presence.game) {
+			    result = "null";
+			} else {
+				result = mem.presence.game.state;
+			}
+			break;
+		case 4:
+		    if(!mem.presence.game) {
+			    result = "null";
+			} else {
+				result = mem.presence.game.streaming;
+			}
 			break;
 		case 5:
-			result = targetChannel.position;
+		    if(!mem.presence.game) {
+			    result = "null";
+			} else {
+				result = mem.presence.game.url;
+			}
 			break;
 		case 6:
-			result = targetChannel.nsfw;
+		    if(!mem.presence.game) {
+			    result = "null";
+			} else {
+				result = mem.presence.game.type;
+			}
 			break;
 		case 7:
-			result = (targetChannel instanceof DiscordJS.GroupDMChannel || targetChannel instanceof DiscordJS.DMChannel);
+		    if(!mem.presence.game) {
+			    result = "null";
+			} else if(!mem.presence.game.assets) {
+				result = "null";
+			} else {
+				result = mem.presence.game.assets.largeImage;
+			}
 			break;
 		case 8:
-			result = targetChannel.deletable;
+		    if(!mem.presence.game) {
+			    result = "null";
+			} else if(!mem.presence.game.assets) {
+				result = "null";
+			} else {
+				result = mem.presence.game.assets.largeImageURL;
+			}
 			break;
 		case 9:
-			result = targetChannel.createdAt;
+		    if(!mem.presence.game) {
+			    result = "null";
+			} else if(!mem.presence.game.assets) {
+				result = "null";
+			} else {
+				result = mem.presence.game.assets.largeText;
+			}
 			break;
 		case 10:
-			result = targetChannel.parent.name;
+		    if(!mem.presence.game) {
+			    result = "null";
+			} else if(!mem.presence.game.assets) {
+				result = "null";
+			} else {
+				result = mem.presence.game.assets.smallImage;
+			}
+			break;
+		case 11:
+		    if(!mem.presence.game) {
+			    result = "null";
+			} else if(!mem.presence.game.assets) {
+				result = "null";
+			} else {
+				result = mem.presence.game.assets.smallImageURL;
+			}
+			break;
+		case 12:
+		    if(!mem.presence.game) {
+			    result = "null";
+			} else if(!mem.presence.game.assets) {
+				result = "null";
+			} else {
+				result = mem.presence.game.assets.smallText;
+			}
+			break;
+		case 13:
+		    if(!mem.presence.game) {
+			    result = "null";
+			} else if(!mem.presence.game.timestamps) {
+				result = "null";
+			} else {
+				result = mem.presence.game.timestamps.start;
+			}
+			break;
+		case 14:
+		    if(!mem.presence.game) {
+			    result = "null";
+			} else if(!mem.presence.game.party) {
+				result = "null";
+			} else {
+				result = mem.presence.game.party.id;
+			}
+			break;
+		case 15:
+		    if(!mem.presence.game) {
+			    result = "null";
+			} else if(!mem.presence.game.timestamps) {
+				result = "null";
+			} else {
+				result = mem.presence.game.timestamps.end;
+			}
+			break;
+		case 16:
+		    if(!mem.presence.game) {
+			    result = "null";
+			} else if(!mem.presence.game.party) {
+				result = "null";
+			} else {
+				result = mem.presence.game.party.size;
+			}
 			break;
 		default:
 			break;
 	}
-	if(info === 4) {
-		targetChannel.fetchMessage(targetChannel.lastMessageID).then(function(resultMessage) {
-			const storage = parseInt(data.storage);
-			const varName2 = this.evalMessage(data.varName2, cache);
-			this.storeValue(resultMessage, storage, varName2, cache);
-			this.callNextAction(cache);
-		}.bind(this)).catch(this.displayError.bind(this, data, cache));
-	} else if(result !== undefined) {
+	
+	if(result !== undefined) {
 		const storage = parseInt(data.storage);
 		const varName2 = this.evalMessage(data.varName2, cache);
 		this.storeValue(result, storage, varName2, cache);
-		this.callNextAction(cache);
-	} else {
-		this.callNextAction(cache);
 	}
+	this.callNextAction(cache);
 },
 
 //---------------------------------------------------------------------

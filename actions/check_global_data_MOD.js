@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Control Variable",
+name: "Check Global Data",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -14,7 +14,7 @@ name: "Control Variable",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Variable Things",
+section: "Deprecated",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -23,20 +23,8 @@ section: "Variable Things",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const storage = ['', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	return `${storage[parseInt(data.storage)]} (${data.varName}) ${data.changeType === "1" ? "+=" : "="} ${data.value}`;
-},
-
-//---------------------------------------------------------------------
-// Action Storage Function
-//
-// Stores the relevant variable info for the editor.
-//---------------------------------------------------------------------
-
-variableStorage: function(data, varType) {
-	const type = parseInt(data.storage);
-	if(type !== varType) return;
-	return ([data.varName, 'Unknown Type']);
+	const results = ["Continue Actions", "Stop Action Sequence", "Jump To Action", "Jump Forward Actions"];
+	return `If True: ${results[parseInt(data.iftrue)]} ~ If False: ${results[parseInt(data.iffalse)]}`;
 },
 
 //---------------------------------------------------------------------
@@ -47,13 +35,13 @@ variableStorage: function(data, varType) {
 //---------------------------------------------------------------------
 
 // Who made the mod (If not set, defaults to "DBM Mods")
-author: "DBM & MrGold",
+author: "MrGold",
 
 // The version of the mod (Defaults to 1.0.0)
 version: "1.9.5", //Added in 1.9.5
 
 // A short description to show on the mod line for this mod (Must be on a single line)
-short_description: "Controls the value for an Existing Variable or a New Variable",
+short_description: "Check if a Global Data Value meets the conditions",
 
 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
@@ -67,7 +55,7 @@ short_description: "Controls the value for an Existing Variable or a New Variabl
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["changeType", "value", "storage", "varName"],
+fields: ["dataName", "comparison", "value", "iftrue", "iftrueVal", "iffalse", "iffalseVal"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -87,31 +75,30 @@ fields: ["changeType", "value", "storage", "varName"],
 
 html: function(isEvent, data) {
 	return `
-<div><p>This action has been modified by DBM Mods</p></div>
-<div>
-	<div style="padding-top: 12px; width: 35%;">
-		Control Type:<br>
-		<select id="changeType" class="round">
-			<option value="0" selected>Set Value</option>
-			<option value="1">Add Value</option>
+<div style="padding-top: 8px;">
+	<div style="float: left; width: 50%;">
+		Data Name:<br>
+		<input id="dataName" class="round" type="text">
+	</div>
+	<div style="float: left; width: 45%;">
+		Comparison Type:<br>
+		<select id="comparison" class="round">
+			<option value="0">Exists</option>
+			<option value="1" selected>Equals</option>
+			<option value="2">Equals Exactly</option>
+			<option value="3">Less Than</option>
+			<option value="4">Greater Than</option>
+			<option value="5">Includes</option>
+			<option value="6">Matches Regex</option>
 		</select>
 	</div>
-</div><br>
-<div>
-	Value:<br>
-	<textarea id="value" rows="7" placeholder="Insert what you want here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
-</div><br>
-<div>
-	<div style="float: left; width: 35%;">
-		Store In:<br>
-		<select id="storage" class="round">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text">
-	</div>
+</div><br><br><br>
+<div style="padding-top: 8px;">
+	Value to Compare to:<br>
+	<input id="value" class="round" type="text" name="is-eval">
+</div>
+<div style="padding-top: 16px;">
+	${data.conditions[0]}
 </div>`
 },
 
@@ -123,7 +110,12 @@ html: function(isEvent, data) {
 // functions for the DOM elements.
 //---------------------------------------------------------------------
 
-init: function() {},
+init: function() {
+	const {glob, document} = this;
+
+	glob.onChangeTrue(document.getElementById('iftrue'));
+	glob.onChangeFalse(document.getElementById('iffalse'));
+},
 
 //---------------------------------------------------------------------
 // Action Bot Function
@@ -135,30 +127,57 @@ init: function() {},
 
 action: function(cache) {
 	const data = cache.actions[cache.index];
-	const type = parseInt(data.storage);
-	const varName = this.evalMessage(data.varName, cache);
-	const storage = this.getVariable(type, varName, cache);
-	const isAdd = Boolean(data.changeType === "1");
-	let val = this.evalMessage(data.value, cache);
-	try {
-		val = this.eval(val, cache);
-	} catch(e) {
-		this.displayError(data, cache, e);
+
+	let result = false;
+
+	const dataName = this.evalMessage(data.dataName, cache);
+	const compare = parseInt(data.comparison);
+
+	const fs = require("fs");
+	const path = require("path");
+
+	const filePath = path.join(process.cwd(), "data", "globals.json");
+
+	if(!fs.existsSync(filePath)) {
+		console.log("ERROR: Globals JSON file does not exist!");
+		this.callNextAction(cache);
+		return;
 	}
-	if(val !== undefined) {
-		if(isAdd) {
-			let result;
-			if(storage === undefined) {
-				result = val;
-			} else {
-				result = storage + val;
+
+	const obj = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+
+	const val1 = obj[dataName];
+
+	let val2 = this.evalMessage(data.value, cache);
+	if(compare !== 6) val2 = this.eval(val2, cache);
+	if(val2 === false) val2 = this.evalMessage(data.value, cache);
+	
+	switch(compare) {
+		case 0:
+			result = Boolean(val1 !== undefined);
+			break;
+		case 1:
+			result = Boolean(val1 == val2);
+			break;
+		case 2:
+			result = Boolean(val1 === val2);
+			break;
+		case 3:
+			result = Boolean(val1 < val2);
+			break;
+		case 4:
+			result = Boolean(val1 > val2);
+			break;
+		case 5:
+			if(typeof(val1.includes) === 'function') {
+				result = Boolean(val1.includes(val2));
 			}
-			this.storeValue(result, type, varName, cache);
-		} else {
-			this.storeValue(val, type, varName, cache);
-		}
+			break;
+		case 6:
+			result = Boolean(val1.match(new RegExp('^' + val2 + '$', 'i')));
+			break;
 	}
-	this.callNextAction(cache);
+	this.executeResults(result, data, cache);
 },
 
 //---------------------------------------------------------------------

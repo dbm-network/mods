@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Restart Bot",
+name: "Skip Queue",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -14,7 +14,7 @@ name: "Restart Bot",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Bot Client Control",
+section: "Audio Control",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -23,38 +23,29 @@ section: "Bot Client Control",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	return `Restarts ${data.filename}`
+	return `Skip ${data.amount} Items`;
 },
 
 //---------------------------------------------------------------------
-	 // DBM Mods Manager Variables (Optional but nice to have!)
-	 //
-	 // These are variables that DBM Mods Manager uses to show information
-	 // about the mods for people to see in the list.
-	 //---------------------------------------------------------------------
+	// DBM Mods Manager Variables (Optional but nice to have!)
+	//
+	// These are variables that DBM Mods Manager uses to show information
+	// about the mods for people to see in the list.
+	//---------------------------------------------------------------------
 
-	 // Who made the mod (If not set, defaults to "DBM Mods")
-	 author: "MrGold, NetLuis & ZockerNico",
+	// Who made the mod (If not set, defaults to "DBM Mods")
+	author: "DBM & ZockerNico",
 
-	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.9.5", //Added in 1.9.3
+	// The version of the mod (Defaults to 1.0.0)
+	version: "1.9.5", //Added in 1.9.5
 
-	 // A short description to show on the mod line for this mod (Must be on a single line)
-	 short_description: "Restarts the bot",
+	// A short description to show on the mod line for this mod (Must be on a single line)
+	short_description: "Skip Queue is now compatible with the Loop Queue mod.",
 
-	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-     
-
-	 //---------------------------------------------------------------------
+	// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
 
 //---------------------------------------------------------------------
-// Action Storage Function
-//
-// Stores the relevant variable info for the editor.
-//---------------------------------------------------------------------
-
-//variableStorage: function(data, varType) {},
 
 //---------------------------------------------------------------------
 // Action Fields
@@ -64,7 +55,7 @@ subtitle: function(data) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["filename"],
+fields: ["amount"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -85,17 +76,20 @@ fields: ["filename"],
 html: function(isEvent, data) {
 	return `
 <div>
-	<p><u>Mod Info:</u><br>
-	Created by MrGold<br> Fixed by NetLuis<br> Modified by ZockerNico</p>
-</div><br>
-<div style="float: left; width: 105%;">
-	Your main bot file:<br>
-	<input id="filename" class="round" type="text" value="bot.js"><br>
+	<p>
+		This action has been modified by DBM Mods.
+	</p>
 </div>
-<div><br>
-	<p><u>NOTE:</u><br>
-		Any action that is below this mod will not be executed!</p>
-</div>`
+<div style="float: left; width: 95%;">
+	<br>Amount to Skip:<br>
+	<input id="amount" class="round" value="1">
+</div>
+<div style="width: 100%;">
+	<p>
+		<br><br><br><br><br>Please put the Welcome action into a Bot Initalization event to be able to store the current song!
+	</p>
+</div>
+`
 },
 
 //---------------------------------------------------------------------
@@ -106,7 +100,8 @@ html: function(isEvent, data) {
 // functions for the DOM elements.
 //---------------------------------------------------------------------
 
-init: function() {},
+init: function() {
+},
 
 //---------------------------------------------------------------------
 // Action Bot Function
@@ -118,11 +113,36 @@ init: function() {},
 
 action: function(cache) {
 	const data = cache.actions[cache.index];
-	const filename = this.evalMessage(data.filename, cache);
-	this.getDBM().Bot.bot.destroy().then(console.log(`Restarting ${filename}...`))
-	const child = require('child_process')
-	child.execSync(`node ${filename}`,{cwd: require('path').dirname(process.argv[1]),stdio:[0,1,2]}).catch(e => console.log('An error in Restart Bot MOD: ' + e))
-	//very long code lul
+	const Audio = this.getDBM().Audio;
+	const server = cache.server;
+	let queue;
+	let playingnow;
+	let loopQueue;
+	if(server) {
+		queue = Audio.queue[server.id];
+		if(Audio.playingnow !== undefined) {
+			playingnow = Audio.playingnow[server.id];
+			loopQueue = Audio.loopQueue[server.id] || false;
+		};
+	};
+	if(queue) {
+		const amount = parseInt(this.evalMessage(data.amount, cache));
+		let lastItem = playingnow;
+		let finalItem;
+		for(let i = 0; i < amount; i++) {
+			if(queue.length > 0) {
+				finalItem = queue.shift();
+				if(loopQueue === true) {
+					queue.push(lastItem);
+					lastItem = finalItem;
+				};
+			};
+		};
+		if(finalItem) {
+			Audio.playItem(finalItem, server.id);
+		};
+	};
+	this.callNextAction(cache);
 },
 
 //---------------------------------------------------------------------
@@ -134,6 +154,7 @@ action: function(cache) {
 // functions you wish to overwrite.
 //---------------------------------------------------------------------
 
-mod: function(DBM) {}
+mod: function(DBM) {
+}
 
 }; // End of module

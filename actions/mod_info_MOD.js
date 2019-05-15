@@ -37,7 +37,7 @@ return `Put this into a Bot Initalization event for music!`;
 author: "DBM Mods",
 
 // The version of the mod (Defaults to 1.0.0)
-version: "1.9.4 ~ beta",
+version: "1.9.5",
 
 // A short description to show on the mod line for this mod.
 short_description: "Information about the Mod Collection & Overwrites Bot.js",
@@ -376,15 +376,92 @@ console.log('Music function successfully overwritten.');
 //---------------------------------------------------------------------
 
 mod: function(DBM) {
-DBM.Audio.playingnow = [];
+	//Check for PlayingNow Data Object
+	if(DBM.Audio.playingnow === undefined) {
+		DBM.Audio.playingnow = [];
+	};
 
-var oldFunc = DBM.Audio.playItem;
-DBM.Audio.playItem = function(item, id) {
-	oldFunc.apply(this, arguments);
-	if(item[0] === "yt") {
-		this.playingnow[id] = item;
-	}
-};
+	//Check for Loop Data Objects
+	if(DBM.Audio.loopQueue === undefined) {
+		DBM.Audio.loopQueue = {};
+	};
+	if(DBM.Audio.loopItem === undefined) {
+		DBM.Audio.loopItem = {};
+	};
+
+	DBM.Audio.addToQueue = function(item, cache) {
+		if(!cache.server) return;
+		const id = cache.server.id;
+		if(!this.queue[id]) {
+			this.queue[id] = [];
+			DBM.Audio.loopQueue[id] = false;//Reset loop status
+			DBM.Audio.loopItem[id] = false;
+		};
+		this.queue[id].push(item);
+		this.playNext(id);
+	};
+
+	DBM.Audio.playNext = function(id, forceSkip) {
+		if(!this.connections[id]) {
+			DBM.Audio.loopQueue[id] = false;//Reset loop status
+			DBM.Audio.loopItem[id] = false;
+			return;
+		};
+		if(!this.dispatchers[id] || !!forceSkip) {
+			if(DBM.Audio.loopItem[id] == true) {//Check if Item Loop is active
+				const item = this.playingnow[id];
+				this.playItem(item, id);
+			} else if(DBM.Audio.loopQueue[id] == true) {//Check if Queue Loop is active
+				const currentItem = this.playingnow[id];
+				this.queue[id].push(currentItem);
+				const nextItem = this.queue[id].shift();
+				this.playItem(nextItem, id);
+			} else {//Basic DBM function (No Loops are active)
+				if(this.queue[id].length > 0) {
+					const item = this.queue[id].shift();
+					this.playItem(item, id);
+				} else {
+					DBM.Audio.loopQueue[id] = false;//Reset loop status
+					DBM.Audio.loopItem[id] = false;
+					this.connections[id].disconnect();
+				};
+			};
+		};
+	};
+	
+	DBM.Audio.playItem = function(item, id) {
+		if(!this.connections[id]) return;
+		if(this.dispatchers[id]) {
+			this.dispatchers[id]._forceEnd = true;
+			this.dispatchers[id].end();
+		};
+		const type = item[0];
+		let setupDispatcher = false;
+		switch(type) {
+			case 'file':
+				setupDispatcher = this.playFile(item[2], item[1], id);
+				this.playingnow[id] = item;
+				break;
+			case 'url':
+				setupDispatcher = this.playUrl(item[2], item[1], id);
+				this.playingnow[id] = item;
+				break;
+			case 'yt':
+				setupDispatcher = this.playYt(item[2], item[1], id);
+				this.playingnow[id] = item;
+				break;
+		};
+		if(setupDispatcher && !this.dispatchers[id]._eventSetup) {
+			this.dispatchers[id].on('end', function() {
+				const isForced = this.dispatchers[id]._forceEnd;
+				this.dispatchers[id] = null;
+				if(!isForced) {
+					this.playNext(id);
+				}
+			}.bind(this));
+			this.dispatchers[id]._eventSetup = true;
+		};
+	};
 }
 
 }; // End of module
