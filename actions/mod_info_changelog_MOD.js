@@ -86,6 +86,32 @@ html: function(isEvent, data) {
 <div>
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
 	<p>
+	<h2>1.9.5: We fixed it all and YouTube Playlists are around now!</h2>
+		● Added Store Game Info<br>
+		● Added Find Item in List<br>
+		● Added Play YouTube Playlist<br>
+		● Added Store Twitch Info<br>
+		● Added Set Time Restriction<br>
+		● Added Global Data actions<br>
+		● Revised Store Category Info<br>
+		● Revised Control Variable<br>
+		● Revised Store Server Info<br>
+		● Revised YouTube Search<br>
+		● Revised Call Command/Event<br>
+		● Revised Remove Item From List<br>
+		● Revised Find Member<br>
+		● Revised Check If Member<br>
+		● Revised Set Member Voice Channel<br>
+		● Revised Embed Messaging actions<br>
+		● Revised Music System actions<br>
+		● Fixed Transfer Variable<br>
+		● Fixed Send Embed Message<br>
+		● Fixed Await Response Call Action<br>
+		● Fixed Await Reaction Call Action<br>
+		● Fixed Edit Channel<br>
+		● Fixed Store Channel Info<br>
+	</p>
+	<p>
 	<h2>1.9.4: owo Is this a release I see? A lot of revised mods.</h2>
 		● Added Convert Seconds to Days<br>
 		● Added Download File<br>

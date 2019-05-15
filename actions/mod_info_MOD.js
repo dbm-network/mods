@@ -37,7 +37,7 @@ return `Put this into a Bot Initalization event for music!`;
 author: "DBM Mods",
 
 // The version of the mod (Defaults to 1.0.0)
-version: "1.9.5 ~ beta",
+version: "1.9.6 ~ beta",
 
 // A short description to show on the mod line for this mod.
 short_description: "Information about the Mod Collection & Overwrites Bot.js",
