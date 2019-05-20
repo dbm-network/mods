@@ -106,7 +106,7 @@ html: function(isEvent, data) {
 </div><br><br><br>
 <div style="padding-top: 8px;">
 	Message:<br>
-	<textarea id="message" rows="6" placeholder="Insert message here1231213..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+	<textarea id="message" rows="6" placeholder="Insert message here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
 </div><br>
 <div>
 	<div style="float: left; width: 35%;">
