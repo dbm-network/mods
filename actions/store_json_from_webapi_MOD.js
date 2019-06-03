@@ -250,6 +250,8 @@ module.exports = {
 						if(path){
 							var outData = WrexMODS.jsonPath(jsonData, path);
 
+							console.error("WebAPI: Error: " + errorJson + " NO JSON data returned. Check the URL: "+ url);
+
 							if(_DEBUG) console.dir(outData);
 
 							try {
@@ -262,15 +264,15 @@ module.exports = {
 
 							var outValue = eval(JSON.stringify(outData), cache);
 
-							if(outData.success != null){
+							if(!outData && outData.success != null){
 								var errorJson = JSON.stringify({error: error, statusCode: statusCode, success: false})
 								_this.storeValue(errorJson, storage, varName, cache);
-								console.log("WebAPI: Error Invalid JSON, is the Path set correctly? [" + path + "]");
+								console.log("WebAPI: Error Invalid JSON, is the Path and/or URL set correctly? [" + path + "]");
 							}else{
 								if(outValue.success != null || !outValue){
 									var errorJson = JSON.stringify({error: error, statusCode: statusCode, success: false})
 									_this.storeValue(errorJson, storage, varName, cache);
-									console.log("WebAPI: Error Invalid JSON, is the Path set correctly? [" + path + "]");
+									console.log("WebAPI: Error Invalid JSON, is the Path and/or URL set correctly? [" + path + "]");
 								}else{
 									_this.storeValue(outValue, storage, varName, cache);
 									_this.storeValue(jsonData, 1, url, cache);
