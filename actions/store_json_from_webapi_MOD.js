@@ -27,7 +27,7 @@ module.exports = {
 	author: "General Wrex",
 
 	// The version of the mod (Defaults to 1.0.0)
-	version: "1.0.3",
+	version: "1.0.4",
 
     // A short description to show on the mod line for this mod (Must be on a single line)
 	short_description: "Stores JSON from a webapi into a variable.",
@@ -109,7 +109,7 @@ module.exports = {
 		   <p>
 			  <u>Mod Info:</u><br>
 			  Created by General Wrex!<br> 
-			  Updated: Feb 18th, 2018<br>			 
+			  Updated: June 3rd, 2019 (v1.0.4)<br>			 
 			  If you dont want to see all that data in the console, scroll down to the options!<br><br> 
 		   </p>
 		</div>
@@ -250,8 +250,7 @@ module.exports = {
 						if(path){
 							var outData = WrexMODS.jsonPath(jsonData, path);
 
-							console.error("WebAPI: Error: " + errorJson + " NO JSON data returned. Check the URL: "+ url);
-
+							
 							if(_DEBUG) console.dir(outData);
 
 							try {
@@ -264,7 +263,12 @@ module.exports = {
 
 							var outValue = eval(JSON.stringify(outData), cache);
 
-							if(!outData && outData.success != null){
+							if(!outData){				
+								console.error("WebAPI: Error: " + errorJson + " NO JSON data returned. Check the URL: "+ url);
+								var errorJson = JSON.stringify({error:"No JSON Data Returned", statusCode: 0})
+								_this.storeValue(errorJson, storage, varName, cache);
+
+							}else if(outData.success != null){
 								var errorJson = JSON.stringify({error: error, statusCode: statusCode, success: false})
 								_this.storeValue(errorJson, storage, varName, cache);
 								console.log("WebAPI: Error Invalid JSON, is the Path and/or URL set correctly? [" + path + "]");
