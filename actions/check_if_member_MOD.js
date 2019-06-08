@@ -24,7 +24,7 @@ section: "Conditions",
 //---------------------------------------------------------------------
 
 // Who made the mod (If not set, defaults to "DBM Mods")
-author: "Lasse, MrGold & ZockerNico",
+author: "Lasse, MrGold, ZockerNico & TheMonDon",
 
 // The version of the mod (Defaults to 1.0.0)
 version: "1.9.5", //Added in 1.8.8
@@ -91,14 +91,15 @@ html: function(isEvent, data) {
 		Check if Member:<br>
 		<select id="info" class="round">
 			<option value="0" selected>Is Bot?</option>
-			<option value="2">Is Kickable?</option>
 			<option value="1">Is Bannable?</option>
-			<option value="5">Is User Manageable?</option>
+			<option value="2">Is Kickable?</option>
 			<!-- option value="3">Is Speaking?</option --!>
+			<option value="4">Is In Voice Channel?</option>
+			<option value="5">Is User Manageable?</option>
+      		<option value="6">Is Bot Owner?</option>
 			<option value="7">Is Muted?</option>
 			<option value="8">Is Deafened?</option>
-			<option value="4">Is In Voice Channel?</option>
-      		<option value="6">Is Bot Owner?</option>
+			${ !isEvent && '<option value="9">Is Command Author?</option>' }
 		</select>
 	</div>
 	<div id="varNameContainer2" style="display: none; float: right; width: 60%;">
@@ -144,6 +145,7 @@ action: function(cache) {
 	const member = this.getMember(type, varName, cache);
 	const info = parseInt(data.info);
 	const Files = this.getDBM().Files;
+	const msg = cache.msg;
 
 	let result = false;
 	switch(info) {
@@ -185,6 +187,13 @@ action: function(cache) {
 			break;
 		case 8:
 			result = Boolean(member.deaf);
+			break;
+		case 9:
+			if(member.user == msg.author) {
+				result = true;
+			} else {
+				result = false;
+			};
 			break;
 		default:
 			console.log('Please check your "Check if Member" action! There is something wrong...');
