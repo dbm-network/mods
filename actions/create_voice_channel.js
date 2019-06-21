@@ -125,7 +125,7 @@ action: function(cache) {
 	if(server && server.createChannel) {
 		const name = this.evalMessage(data.channelName, cache);
 		const storage = parseInt(data.storage);
-		server.createChannel(name, 'voice').then(function(channel) {
+		server.createChannel(name, {type: 'voice'}).then(function(channel) {
 			const channelData = {};
 			if(data.bitrate) {
 				channelData.bitrate = parseInt(this.evalMessage(data.bitrate, cache));
