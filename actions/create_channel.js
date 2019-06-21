@@ -125,7 +125,7 @@ action: function(cache) {
 		const name = this.evalMessage(data.channelName, cache);
 		const catid = this.evalMessage(data.categoryID, cache);
 		const storage = parseInt(data.storage);
-		server.createChannel(name, 'text').then(function(channel) {
+		server.createChannel('name', {type: 'text'}).then(function(channel) {
 			const channelData = {};
 			if(data.position) {
 				channelData.position = parseInt(data.position);
