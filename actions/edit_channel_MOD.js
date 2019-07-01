@@ -186,11 +186,12 @@ module.exports = {
 			if(newState >= 0 && newState <= 120) {
 			
 			new Promise((resolve, _reject) => {
-				WrexMODS.require('snekfetch').patch('https://discordapp.com/api/channels/' + channel.id)
+				this.getWrexMods().require('snekfetch').patch('https://discordapp.com/api/channels/' + channel.id)
 					.set('Authorization', `Bot ${this.getDBM().Files.data.settings.token}`)
 					.send({rate_limit_per_user: newState})
 					.catch();
-			}); 
+					
+			}).catch(console.error);
 			// First Version by Lasse in 1.9 // Second Version by MrGold with help by NetLuis in 1.9.4
 
 		    } else {
