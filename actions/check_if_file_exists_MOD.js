@@ -39,7 +39,7 @@ subtitle: function(data) {
 author: "TheMonDon",
 
 // The version of the mod (Last edited version number of DBM Mods)
-version: "1.0.0", //Added in 1.0.0
+version: "1.9.5", //Added in 1.9.5
 
 // A short description to show on the mod line for this mod (Must be on a single line)
 short_description: "Directly check if file exists",
@@ -80,7 +80,7 @@ html: function(isEvent, data) {
 	<div>
 		<p>
 			<u>Mod Info:</u><br>
-			Created by TheMonDon
+			Created by ${this.author}
 		</p>
 	</div><br>
     <div style="float: left; width: 60%">
