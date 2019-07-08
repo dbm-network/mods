@@ -89,7 +89,7 @@ html: function(isEvent, data) {
 		<div>
 			<p>
 				<u>Mod Info:</u><br>
-				Created by TheMonDon<br>
+				Created by ${this.author}<br>
 			</p>
 		</div><br>
 	<div style="float: left; width: 45%;">
