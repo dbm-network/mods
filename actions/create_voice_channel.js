@@ -127,11 +127,19 @@ action: function(cache) {
 	if(server && server.createChannel) {
 		const name = this.evalMessage(data.channelName, cache);
 		const storage = parseInt(data.storage);
-		server.createChannel(name, {type: 'voice', bitrate: bitrate, userLimit: userLimit, parent: catid}).then(function(channel) {
-			const varName = this.evalMessage(data.varName, cache);
-			this.storeValue(channel, storage, varName, cache);
-			this.callNextAction(cache);
-		}.bind(this)).catch(this.displayError.bind(this, data, cache));
+		if (!catid) {
+			server.createChannel(name, {type: 'voice', bitrate: bitrate, userLimit: userLimit}).then(function(channel) {
+				const varName = this.evalMessage(data.varName, cache);
+				this.storeValue(channel, storage, varName, cache);
+				this.callNextAction(cache);
+			}.bind(this)).catch(this.displayError.bind(this, data, cache));
+		} else {
+			server.createChannel(name, {type: 'voice', bitrate: bitrate, userLimit: userLimit, parent: catid}).then(function(channel) {
+				const varName = this.evalMessage(data.varName, cache);
+				this.storeValue(channel, storage, varName, cache);
+				this.callNextAction(cache);
+			}.bind(this)).catch(this.displayError.bind(this, data, cache));
+		}
 	} else {
 		this.callNextAction(cache);
 	}
