@@ -138,13 +138,9 @@ action: function(cache) {
 	const server = cache.server;
 	if(server && server.createChannel) {
 		const name = this.evalMessage(data.channelName, cache);
+		const position = parseInt(data.position);
 		const storage = parseInt(data.storage);
-		server.createChannel(name, 'category').then(function(channel) {
-			const channelData = {};
-			if(data.position) {
-				channelData.position = parseInt(data.position);
-			}
-			channel.edit(channelData);
+		server.createChannel(name, {type: 'category', position: position}).then(function(channel) {
 			const varName = this.evalMessage(data.varName, cache);
 			this.storeValue(channel, storage, varName, cache);
 			this.callNextAction(cache);

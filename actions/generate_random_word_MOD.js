@@ -6,15 +6,31 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Create Voice Channel",
+name: "Generate Random Word(s)",
 
+//---------------------------------------------------------------------
+// DBM Mods Manager Variables (Optional but nice to have!)
+//
+// These are variables that DBM Mods Manager uses to show information
+// about the mods for people to see in the list.
+//---------------------------------------------------------------------
+
+// Who made the mod (If not set, defaults to "DBM Mods")
+author: "TheMonDon",
+
+// The version of the mod (Last edited version number of DBM Mods)
+version: "1.9.5", //added in 1.9.5
+
+// A short description to show on the mod line for this mod (Must be on a single line)
+short_description: "Generates random words based on min/max input",
+	 
 //---------------------------------------------------------------------
 // Action Section
 //
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Channel Control",
+section: "Other Stuff",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -23,8 +39,11 @@ section: "Channel Control",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	return `${data.channelName}`;
+	const storage = ['', 'Temp Variable', 'Server Variable', 'Global Variable'];
+	return `Generate Random Word(s)`;
 },
+
+depends_on_mods: ["WrexMODS"],
 
 //---------------------------------------------------------------------
 // Action Storage Function
@@ -35,7 +54,7 @@ subtitle: function(data) {
 variableStorage: function(data, varType) {
 	const type = parseInt(data.storage);
 	if(type !== varType) return;
-	return ([data.varName, 'Voice Channel']);
+	return ([data.varName, 'Text']);
 },
 
 //---------------------------------------------------------------------
@@ -46,7 +65,7 @@ variableStorage: function(data, varType) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["channelName", "categoryID", "bitrate", "userLimit", "storage", "varName"],
+fields: ["storage", "varName", "min", "max", "wps"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -66,32 +85,36 @@ fields: ["channelName", "categoryID", "bitrate", "userLimit", "storage", "varNam
 
 html: function(isEvent, data) {
 	return `
-Name:<br>
-<input id="channelName" class="round" type="text" style="width: 95%"><br>
-
-Category ID:<br>
-<input id= "categoryID" class="round" type="text" placeholder="Keep this empty if you don't want to put it into a category" style="width: 95%"><br>
-
-<div style="float: left; width: 50%;">
-	Bitrate:<br>
-	<input id="bitrate" class="round" type="text" placeholder="Leave blank for default!" style="width: 90%;"><br>
-</div>
-
-<div style="float: right; width: 50%;">
-	User Limit:<br>
-	<input id="userLimit" class="round" type="text" placeholder="Leave blank for default!" style="width: 90%;"><br>
-</div>
-
 <div>
+		<div>
+			<p>
+				<u>Mod Info:</u><br>
+				Created by ${this.author}<br>
+			</p>
+		</div><br>
 	<div style="float: left; width: 45%;">
+		Minimum Range:<br>
+		<input id="min" class="round" type="text"><br>
+	</div>
+	<div style="padding-left: 5%; float: left; width: 50%;">
+		Maximum Range:<br>
+		<input id="max" class="round" type="text"><br>
+	</div><br>
+	<div style="float: left; width: 45%;">
+		Words Per String:<br>
+		<input id="wps" class="round" type="text"><br>
+	</div><br><br><br>
+</div><br><br><br>
+<div style="padding-top: 8px;">
+	<div style="float: left; width: 35%;">
 		Store In:<br>
-		<select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-			${data.variables[0]}
+		<select id="storage" class="round">
+			${data.variables[1]}
 		</select>
 	</div>
-	<div id="varNameContainer" style="display: none; float: right; width: 50%;">
+	<div id="varNameContainer" style="float: right; width: 60%;">
 		Variable Name:<br>
-		<input id="varName" class="round" type="text" style="width: 90%"><br>
+		<input id="varName" class="round" type="text">
 	</div>
 </div>`
 },
@@ -105,9 +128,6 @@ Category ID:<br>
 //---------------------------------------------------------------------
 
 init: function() {
-	const {glob, document} = this;
-
-	glob.variableChange(document.getElementById('storage'), 'varNameContainer');
 },
 
 //---------------------------------------------------------------------
@@ -119,29 +139,27 @@ init: function() {
 //---------------------------------------------------------------------
 
 action: function(cache) {
+	const WrexMODS = this.getWrexMods();
+	const randomWords = WrexMODS.require('random-words');
 	const data = cache.actions[cache.index];
-	const server = cache.server;
-	const catid = this.evalMessage(data.categoryID, cache);
-	const bitrate = parseInt(this.evalMessage(data.bitrate, cache));
-	const userLimit = parseInt(this.evalMessage(data.userLimit, cache));
-	if(server && server.createChannel) {
-		const name = this.evalMessage(data.channelName, cache);
-		const storage = parseInt(data.storage);
-		if (!catid) {
-			server.createChannel(name, {type: 'voice', bitrate: bitrate, userLimit: userLimit}).then(function(channel) {
-				const varName = this.evalMessage(data.varName, cache);
-				this.storeValue(channel, storage, varName, cache);
-				this.callNextAction(cache);
-			}.bind(this)).catch(this.displayError.bind(this, data, cache));
-		} else {
-			server.createChannel(name, {type: 'voice', bitrate: bitrate, userLimit: userLimit, parent: catid}).then(function(channel) {
-				const varName = this.evalMessage(data.varName, cache);
-				this.storeValue(channel, storage, varName, cache);
-				this.callNextAction(cache);
-			}.bind(this)).catch(this.displayError.bind(this, data, cache));
-		}
-	} else {
+	const type = parseInt(data.storage);
+	const varName = this.evalMessage(data.varName, cache);
+	const wps = parseInt(this.evalMessage(data.wps, cache));
+	const min = parseInt(this.evalMessage(data.min, cache));
+	const max = parseInt(this.evalMessage(data.max, cache)) + 1;
+	if (isNaN(min)) {
+		console.log('Error with Generate Random Word(s), Action #' + cache.index + ': min is not a number');
 		this.callNextAction(cache);
+	} else if (isNaN(max)) {
+		console.log('Error with Generate Random Word(s), Action #' + cache.index + ': max is not a number');
+		this.callNextAction(cache);
+	} else if (isNaN(wps)) {
+		console.log('Error with Generate Random Word(s), Action #' + cache.index + ': Words Per Sentence is not a number');
+		this.callNextAction(cache);
+	} else {
+	const words = randomWords({ min: min, max: max, wordsPerString: wps})
+	this.storeValue(words, type, varName, cache);
+	this.callNextAction(cache);
 	}
 },
 

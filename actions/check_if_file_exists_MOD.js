@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Create Voice Channel",
+name: "Check if File Exists",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -14,7 +14,15 @@ name: "Create Voice Channel",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Channel Control",
+section: "File Stuff",
+
+	
+//---------------------------------------------------------------------
+// DBM Mods Manager Variables (Optional but nice to have!)
+//
+// These are variables that DBM Mods Manager uses to show information
+// about the mods for people to see in the list.
+//---------------------------------------------------------------------
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -23,20 +31,22 @@ section: "Channel Control",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	return `${data.channelName}`;
+	const results = ["Continue Actions", "Stop Action Sequence", "Jump To Action", "Jump Forward Actions"];
+	return `If True: ${results[parseInt(data.iftrue)]} ~ If False: ${results[parseInt(data.iffalse)]}`;
 },
 
-//---------------------------------------------------------------------
-// Action Storage Function
-//
-// Stores the relevant variable info for the editor.
-//---------------------------------------------------------------------
+// Who made the mod (If not set, defaults to "DBM Mods")
+author: "TheMonDon",
 
-variableStorage: function(data, varType) {
-	const type = parseInt(data.storage);
-	if(type !== varType) return;
-	return ([data.varName, 'Voice Channel']);
-},
+// The version of the mod (Last edited version number of DBM Mods)
+version: "1.9.5", //Added in 1.9.5
+
+// A short description to show on the mod line for this mod (Must be on a single line)
+short_description: "Directly check if file exists",
+
+// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
+// Uncomment if you need this. Also, replace WrexMODS if needed.
+depends_on_mods: ["WrexMODS"],
 
 //---------------------------------------------------------------------
 // Action Fields
@@ -46,7 +56,8 @@ variableStorage: function(data, varType) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["channelName", "categoryID", "bitrate", "userLimit", "storage", "varName"],
+// 1 item for each HTML element.
+fields: ["filename", "iftrue", "iftrueVal", "iffalse", "iffalseVal"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -66,33 +77,19 @@ fields: ["channelName", "categoryID", "bitrate", "userLimit", "storage", "varNam
 
 html: function(isEvent, data) {
 	return `
-Name:<br>
-<input id="channelName" class="round" type="text" style="width: 95%"><br>
-
-Category ID:<br>
-<input id= "categoryID" class="round" type="text" placeholder="Keep this empty if you don't want to put it into a category" style="width: 95%"><br>
-
-<div style="float: left; width: 50%;">
-	Bitrate:<br>
-	<input id="bitrate" class="round" type="text" placeholder="Leave blank for default!" style="width: 90%;"><br>
-</div>
-
-<div style="float: right; width: 50%;">
-	User Limit:<br>
-	<input id="userLimit" class="round" type="text" placeholder="Leave blank for default!" style="width: 90%;"><br>
-</div>
-
-<div>
-	<div style="float: left; width: 45%;">
-		Store In:<br>
-		<select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-			${data.variables[0]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="display: none; float: right; width: 50%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text" style="width: 90%"><br>
-	</div>
+	<div>
+		<p>
+			<u>Mod Info:</u><br>
+			Created by ${this.author}
+		</p>
+	</div><br>
+    <div style="float: left; width: 60%">
+        Path:
+        <input id="filename" class="round" type="text">
+    </div><br>
+</div><br><br><br>
+<div style="padding-top: 8px;">
+	${data.conditions[0]};
 </div>`
 },
 
@@ -106,8 +103,8 @@ Category ID:<br>
 
 init: function() {
 	const {glob, document} = this;
-
-	glob.variableChange(document.getElementById('storage'), 'varNameContainer');
+	glob.onChangeTrue(document.getElementById('iftrue'));
+	glob.onChangeFalse(document.getElementById('iffalse'));
 },
 
 //---------------------------------------------------------------------
@@ -119,30 +116,16 @@ init: function() {
 //---------------------------------------------------------------------
 
 action: function(cache) {
-	const data = cache.actions[cache.index];
-	const server = cache.server;
-	const catid = this.evalMessage(data.categoryID, cache);
-	const bitrate = parseInt(this.evalMessage(data.bitrate, cache));
-	const userLimit = parseInt(this.evalMessage(data.userLimit, cache));
-	if(server && server.createChannel) {
-		const name = this.evalMessage(data.channelName, cache);
-		const storage = parseInt(data.storage);
-		if (!catid) {
-			server.createChannel(name, {type: 'voice', bitrate: bitrate, userLimit: userLimit}).then(function(channel) {
-				const varName = this.evalMessage(data.varName, cache);
-				this.storeValue(channel, storage, varName, cache);
-				this.callNextAction(cache);
-			}.bind(this)).catch(this.displayError.bind(this, data, cache));
-		} else {
-			server.createChannel(name, {type: 'voice', bitrate: bitrate, userLimit: userLimit, parent: catid}).then(function(channel) {
-				const varName = this.evalMessage(data.varName, cache);
-				this.storeValue(channel, storage, varName, cache);
-				this.callNextAction(cache);
-			}.bind(this)).catch(this.displayError.bind(this, data, cache));
-		}
-	} else {
-		this.callNextAction(cache);
-	}
+    const data = cache.actions[cache.index];
+    const fs = require('fs');
+    const path = this.evalMessage(data.filename, cache);
+    let result;
+    if (path) {
+        result = Boolean(fs.existsSync(path));
+    } else {
+	    console.log(`Path is missing.`);
+    }
+    this.executeResults(result, data, cache);
 },
 
 //---------------------------------------------------------------------
