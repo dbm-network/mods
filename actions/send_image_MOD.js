@@ -157,6 +157,7 @@ init: function() {
 	const {glob, document} = this;
 
 	glob.refreshVariableList(document.getElementById('storage'));
+	glob.variableChange(document.getElementById('storage2'), 'varNameContainer3'); //Fix the varname container poofing ~TheMonDon
 	glob.sendTargetChange(document.getElementById('channel'), 'varNameContainer2');
 },
 
