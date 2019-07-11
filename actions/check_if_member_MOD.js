@@ -27,7 +27,7 @@ section: "Conditions",
 author: "Lasse, MrGold, ZockerNico & TheMonDon",
 
 // The version of the mod (Defaults to 1.0.0)
-version: "1.9.5", //Added in 1.8.8
+version: "1.9.6", //Added in 1.8.8
 
 // A short description to show on the mod line for this mod (Must be on a single line)
 short_description: "Check if a member meets the conditions.",
