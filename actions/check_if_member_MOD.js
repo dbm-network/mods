@@ -27,7 +27,7 @@ section: "Conditions",
 author: "Lasse, MrGold, ZockerNico & TheMonDon",
 
 // The version of the mod (Defaults to 1.0.0)
-version: "1.9.5", //Added in 1.8.8
+version: "1.9.6", //Added in 1.8.8
 
 // A short description to show on the mod line for this mod (Must be on a single line)
 short_description: "Check if a member meets the conditions.",
@@ -100,6 +100,7 @@ html: function(isEvent, data) {
 			<option value="7">Is Muted?</option>
 			<option value="8">Is Deafened?</option>
 			${ !isEvent && '<option value="9">Is Command Author?</option>'}
+			${ !isEvent && '<option value="10">Is Current Server Owner?</option>'}
 		</select>
 	</div>
 	<div id="varNameContainer2" style="display: none; float: right; width: 60%;">
@@ -189,11 +190,10 @@ action: function(cache) {
 			result = Boolean(member.deaf);
 			break;
 		case 9:
-			if(member.user == msg.author) {
-				result = true;
-			} else {
-				result = false;
-			};
+			result = Boolean(member.user.id === msg.author.id);
+			break;
+		case 10:
+			result = Boolean(member.user.id === msg.guild.owner.id);
 			break;
 		default:
 			console.log('Please check your "Check if Member" action! There is something wrong...');
