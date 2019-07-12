@@ -38,10 +38,10 @@ subtitle: function(data) {
     author: "EliteArtz",
 
     // The version of the mod (Defaults to 1.0.0)
-    version: "1.8.8", //Added in 1.8.6
+    version: "1.9.6", //Added in 1.8.6
 
     // A short description to show on the mod line for this mod (Must be on a single line)
-    short_description: "Reads a file you wan't",
+    short_description: "Read any file you want!",
 
     // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
@@ -87,6 +87,7 @@ fields: ["filename", "storage", "varName2"],
 // The names are: sendTargets, members, roles, channels,
 //                messages, servers, variables
 //---------------------------------------------------------------------
+// Removed the "notice" section. ~TheMonDon
 
 html: function(isEvent, data) {
     return `
@@ -94,11 +95,6 @@ html: function(isEvent, data) {
     <p>
         <u>Mod Info:</u><br>
         Created by EliteArtz<br><br>
-
-        <u>Notice:</u><br>
-        - Use currently "Parse from Stored Json" Mod by General Wrex. for getting Json object's etc<br>
-        - Find Json Object's etc will added soon!<br>
-        - The Files can only be read when they are in the bot files. e.g. "./data/commands.json"<br>
     </p>
     <div style="float: left; width: 60%">
         Path:
@@ -142,13 +138,12 @@ action: function (cache) {
         data = cache.actions[cache.index],
         fs = require('fs'),
         FILENAME = this.evalMessage(data.filename, cache);
-    var output = {};
     try {
         if (FILENAME) {
-            output = fs.readFileSync(FILENAME, 'utf8');
+            const output = fs.readFileSync(FILENAME, 'utf8');
             this.storeValue(output, parseInt(data.storage), this.evalMessage(data.varName2, cache), cache);
         } else {
-            console.log(`Path is missing.`);
+            console.log(`File path is missing from read file mod!`); //Better error msg? kinda? ~TheMonDon
          }
     } catch (err) {
         console.error("ERROR!" + err.stack ? err.stack : err);
