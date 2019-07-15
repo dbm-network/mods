@@ -23,7 +23,7 @@ section: "Conditions",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const comparisons = ["Exists", "Equals", "Equals Exactly", "Less Than", "Less Than or Equal to", "Greater Than", "Greater Than or Equal to", "Includes", "Matches Regex", "Length is Bigger Than", "Length is Smaller Than", "Length is Equals", "Starts With", "Ends With", "Matches Full Regex"];
+	const comparisons = ["Exists", "Equals", "Equals Exactly", "Less Than", "Greater Than", "Includes", "Matches Regex", "Length is Bigger Than", "Length is Smaller Than", "Length is Equals", "Starts With", "Ends With", "Matches Full Regex", "Less Than or Equal to", "Greater Than or Equal to"];
 	const results = ["Continue Actions", "Stop Action Sequence", "Jump To Action", "Jump Forward Actions"];
 	return `${comparisons[parseInt(data.comparison)]} | If True: ${results[parseInt(data.iftrue)]} ~ If False: ${results[parseInt(data.iffalse)]}`;
 },
