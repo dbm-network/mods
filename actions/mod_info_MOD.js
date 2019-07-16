@@ -37,7 +37,7 @@ return `Put this into a Bot Initalization event for music!`;
 author: "DBM Mods",
 
 // The version of the mod (Defaults to 1.0.0)
-version: "1.9.6 ~ beta",
+version: "1.9.6",
 
 // A short description to show on the mod line for this mod.
 short_description: "Information about the Mod Collection & Overwrites Bot.js",
@@ -417,7 +417,7 @@ mod: function(DBM) {
 				const nextItem = this.queue[id].shift();
 				this.playItem(nextItem, id);
 			} else {//Basic DBM function (No Loops are active)
-				if(this.queue[id].length > 0) {
+				if(this.queue[id] && this.queue[id].length > 0) { //Add check if this.queue[id] exists ~TheMonDon
 					const item = this.queue[id].shift();
 					this.playItem(item, id);
 				} else {
