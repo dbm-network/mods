@@ -23,7 +23,7 @@ section: "Conditions",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const comparisons = ["Exists", "Equals", "Equals Exactly", "Less Than", "Greater Than", "Includes", "Matches Regex", "Length is Bigger Than", "Length is Smaller Than", "Length is Equals", "Starts With", "Ends With", "Matches Full Regex"];
+	const comparisons = ["Exists", "Equals", "Equals Exactly", "Less Than", "Greater Than", "Includes", "Matches Regex", "Length is Bigger Than", "Length is Smaller Than", "Length is Equals", "Starts With", "Ends With", "Matches Full Regex", "Less Than or Equal to", "Greater Than or Equal to"];
 	const results = ["Continue Actions", "Stop Action Sequence", "Jump To Action", "Jump Forward Actions"];
 	return `${comparisons[parseInt(data.comparison)]} | If True: ${results[parseInt(data.iftrue)]} ~ If False: ${results[parseInt(data.iffalse)]}`;
 },
@@ -36,7 +36,7 @@ subtitle: function(data) {
 	 //---------------------------------------------------------------------
 
 	 // Who made the mod (If not set, defaults to "DBM Mods")
-	 author: "DBM, EGGSY, MrGold, Lasse, ZockerNico", //UI fixed by MrGold
+	 author: "DBM, EGGSY, MrGold, Lasse, ZockerNico, TheMonDon", //UI fixed by MrGold
 
 	 // The version of the mod (Defaults to 1.0.0)
 	 version: "1.9.6", //Added in 1.9.1
@@ -98,7 +98,9 @@ html: function(isEvent, data) {
 			<option value="1">Equals</option>
 			<option value="2">Equals Exactly</option>
 			<option value="3">Less Than</option>
+			<option value="13">Less Than or Equal to</option>
 			<option value="4">Greater Than</option>
+			<option value="14">Greater Than or Equal to</option>
 			<option value="5">Includes</option>
 			<option value="6">Matches Regex</option>
 			<option value="12">Matches Full Regex</option>
@@ -215,6 +217,12 @@ action: function(cache) {
 			  	break;
 			case 12: //Added by ZockerNico
 				result = Boolean(val1.match(new RegExp(val2)));
+				break;
+			case 13: //Added by TheMonDon
+				result = Boolean(val1 <= val2);
+				break;
+			case 14: //Added by TheMonDon
+				result = Boolean(val1 >= val2);
 				break;
 		}
 	}

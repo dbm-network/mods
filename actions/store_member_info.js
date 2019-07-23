@@ -24,7 +24,7 @@ section: "Member Control",
 
 subtitle: function(data) {
 	const members = ['Mentioned User', 'Command Author', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const info = ['Member Object', 'Member ID', 'Member Username', 'Member Display Name', 'Member Color', 'Member Server', 'Member Last Message', 'Member Highest Role', 'Member Hoist Role', 'Member Color Role', 'Member Is Owner?', 'Member Is Muted?', 'Member Is Deafened?', 'Member Is Bannable?', 'Member Game', 'Member Status', 'Member Avatar URL', 'Member Role List', 'Member Join Date', 'Member Voice Channel', 'Member Discrim', 'Member Account Creation Date', 'Member Tag'];
+	const info = ['Member Object', 'Member ID', 'Member Username', 'Member Display Name', 'Member Color', 'Member Server', 'Member Last Message', 'Member Highest Role', 'Member Hoist Role', 'Member Color Role', 'Member Game', 'Member Status', 'Member Avatar URL', 'Member Role List', 'Member Join Date', 'Member Voice Channel', 'Member Discrim', 'Member Account Creation Date', 'Member Tag', 'Member Last Message ID']
 	return `${members[parseInt(data.member)]} - ${info[parseInt(data.info)]}`;
 },
 
@@ -36,13 +36,13 @@ subtitle: function(data) {
 //---------------------------------------------------------------------
 
 // Who made the mod (If not set, defaults to "DBM Mods")
-author: "DBM & Lasse",
+author: "DBM, Lasse & TheMonDon",
 
 // The version of the mod (Defaults to 1.0.0)
-version: "1.9.2", //Added in 1.9.2
+version: "1.9.6", //Added in 1.9.2
 
 // A short description to show on the mod line for this mod (Must be on a single line)
-short_description: "Added more options to default action.",
+short_description: "Store Member Information",
 
 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
@@ -69,8 +69,10 @@ variableStorage: function(data, varType) {
 			break;
 		case 2:
 		case 3:
-		case 20:
-		case 22:
+		case 10:
+		case 11:
+		case 16:
+		case 18:
 			dataType = "Text";
 			break;
 		case 4:
@@ -87,28 +89,21 @@ variableStorage: function(data, varType) {
 		case 9:
 			dataType = "Role";
 			break;
-		case 10:
-		case 11:
 		case 12:
-		case 13:
-			dataType = "Boolean";
-			break;
-		case 14:
-		case 15:
-			dataType = "Text";
-			break;
-		case 16:
 			dataType = "Image URL";
 			break;
-		case 17:
+		case 13:
 			dataType = "List";
 			break;
-		case 21:
-		case 18:
+		case 14:
+		case 17:
 			dataType = "Date";
 			break;
-		case 19:
+		case 15:
 			dataType = "Voice Channel";
+			break;
+		case 19:
+			dataType = "Message ID";
 			break;
 	}
 	return ([data.varName2, dataType]);
@@ -163,25 +158,22 @@ html: function(isEvent, data) {
 			<option value="1">Member ID</option>
 			<option value="2">Member Username</option>
 			<option value="3">Member Display Name</option>
-			<option value="20">Member Discrim (#XXXX)</option>
-			<option value="22">Member Tag (User#XXXX)</option>
+			<option value="16">Member Discrim (#XXXX)</option>
+			<option value="18">Member Tag (User#XXXX)</option>
 			<option value="4">Member Color</option>
-			<option value="14">Member Game</option>
-			<option value="15">Member Status</option>
-			<option value="16">Member Avatar URL</option>
+			<option value="10">Member Game</option>
+			<option value="11">Member Status</option>
+			<option value="12">Member Avatar URL</option>
 			<option value="5">Member Server</option>
-			<option value="18">Member Join Date</option>
-			<option value="21">Member Account Creation Date</option>
-			<option value="19">Member Voice Channel</option>
+			<option value="14">Member Join Date</option>
+			<option value="17">Member Account Creation Date</option>
+			<option value="15">Member Voice Channel</option>
 			<option value="6">Member Last Message</option>
-			<option value="17">Member Role List</option>
+			<option value="19">Member Last Message ID</option>
+			<option value="13">Member Role List</option>
 			<option value="7">Member Highest Role</option>
 			<option value="8">Member Hoist Role</option>
 			<option value="9">Member Color Role</option>
-			<option value="10">Member Is Owner?</option>
-			<option value="11">Member Is Muted?</option>
-			<option value="12">Member Is Deafened?</option>
-			<option value="13">Member Is Bannable?</option>
 		</select>
 	</div>
 </div><br>
@@ -266,26 +258,13 @@ action: function(cache) {
 		case 9:
 			result = mem.colorRole;
 			break;
+			//Removed "Check if member" stuff from here. ~TheMonDon
 		case 10:
-			if(mem.guild && mem.guild.owner) {
-				result = Boolean(mem.id === mem.guild.owner.id);
-			}
-			break;
-		case 11:
-			result = Boolean(mem.mute);
-			break;
-		case 12:
-			result = Boolean(mem.deaf);
-			break;
-		case 13:
-			result = Boolean(mem.bannable);
-			break;
-		case 14:
 			if(mem.presence && mem.presence.game) {
 				result = mem.presence.game.name;
 			}
 			break;
-		case 15:
+		case 11:
 			if(mem.presence) {
 				const status = mem.presence.status;
 				if(status === 'online') result = 'Online';
@@ -294,36 +273,39 @@ action: function(cache) {
 				else if(status === 'dnd') result = 'Do Not Disturb';
 			}
 			break;
-		case 16:
+		case 12:
 			if(mem.user) {
 				result = mem.user.displayAvatarURL;
 			}
 			break;
-		case 17:
+		case 13:
 			if(mem.roles) {
 				result = mem.roles.array();
 			}
 			break;
-		case 18:
+		case 14:
 			result = mem.joinedAt;
 			break;
-		case 19:
+		case 15:
 			result = mem.voiceChannel;
 			break;
-		case 20:
+		case 16:
 			if(mem.user) {
 				result = mem.user.discriminator;
 			}
 			break;
-		case 21:
+		case 17:
 			if (mem.user) {
 				result = mem.user.createdAt;
 			}
 			break;
-		case 22:
+		case 18:
 			if (mem.user) {
 				result = mem.user.tag;
 			}
+			break;
+		case 19:
+			result = mem.lastMessageID;
 			break;
 		default:
 			break;
