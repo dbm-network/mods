@@ -110,38 +110,48 @@ return `
 	</div>
 	<div style="width: 80%;">
 		<div><br>
-			<label for="jsonObjectVarName"><font color="white">Stored JSON Variable Name:</font></label>
+			<label for="jsonObjectVarName">
+				<font color="white">Stored JSON Variable Name:</font>
+			</label>
 			<input id="jsonObjectVarName" class="round" type="text"><br>
 		</div>
 		<div>
 			JSON Path: (supports the usage of <a href="http://goessner.net/articles/JsonPath/index.html#e2" target="_blank">JSON Path (Regex)</a>)<br>
-			<input id="path" class="round";" type="text"><br>
+			<input id="path" class="round" ;" type="text"><br>
 		</div>
 	</div>
 	<div style="width: 80%;">
-		<div style="margin-right: 10px; width: 40%;">
-			<label for="storage"><font color="white">Store In:</font></label>
+		<div style="float: left; width: 30%;">
+			<label for="storage">
+				<font color="white">Store In:</font>
+			</label>
 			<select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-			${data.variables[0]}
+				${data.variables[1]}
 			</select>
 		</div>
-		<div id="varNameContainer" style="margin-left: 10px;">
-			<label for="varName"><font color="white">Variable Name:</font></label>
-			<input id="varName" class="round" type="text" style="width: 100%;">
+		<div id="varNameContainer" style="margin-left: 10px; float: left; width: 65%;">
+			<label for="varName">
+				<font color="white">Variable Name:</font>
+			</label>
+			<input id="varName" class="round" type="text">
 		</div>
 	</div>
 	<div>
 		<div style="float: left;">
 			<br>
-			<label for="behavior"><font color="white">End Behavior:</font></label>
-			<select id="behavior" class="round";>
+			<label for="behavior">
+				<font color="white">End Behavior:</font>
+			</label>
+			<select id="behavior" class="round" ;>
 				<option value="0" selected>Call Next Action Automatically</option>
 				<option value="1">Do Not Call Next Action</option>
 			</select>
 		</div>
-		<div style="float: left; margin-left: 10px">
+		<div style="float: left; margin-left: 10px; width: 30%;">
 			<br>
-			<label for="debugMode"><font color="white">Debug Mode:</font></label>
+			<label for="debugMode">
+				<font color="white">Debug Mode:</font>
+			</label>
 			<select id="debugMode" class="round">
 				<option value="0" selected>Disabled</option>
 				<option value="1">Enabled</option>
