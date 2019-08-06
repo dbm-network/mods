@@ -23,7 +23,7 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	subtitle: function (data) {
-		const info = ['Server Name', 'Map', 'Number of players', 'Max Players', 'Server Tags', 'Does Server Have Password?'];
+		const info = ['Server Name', 'Map', 'Number Of Players', 'Number Of Bots', 'Max Players', 'Server Tags', 'Does Server Have Password?'];
 		return `${info[parseInt(data.info)]}`;
 	},
 
