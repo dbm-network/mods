@@ -22,7 +22,7 @@ module.exports = {
     // This function generates the subtitle displayed next to the name.
     //---------------------------------------------------------------------
 
-    subtitle: function(data) {
+    subtitle: function (data) {
         const storage = ['', 'Temp Variable', 'Server Variable', 'Global Variable'];
         return `Remove Item from ${storage[parseInt(data.storage)]} (${data.varName})`;
     },
@@ -53,7 +53,7 @@ module.exports = {
     // Stores the relevant variable info for the editor.
     //---------------------------------------------------------------------
 
-    variableStorage: function(data, varType) {
+    variableStorage: function (data, varType) {
         const type = parseInt(data.storage2);
         if (type !== varType) return;
         return ([data.varName2, 'Unknown Type']);
@@ -85,7 +85,7 @@ module.exports = {
     //                messages, servers, variables
     //---------------------------------------------------------------------
 
-    html: function(isEvent, data) {
+    html: function (isEvent, data) {
         return `
 	<div>
 		<div style="float: left; width: 35%;">
@@ -135,13 +135,13 @@ module.exports = {
     // functions for the DOM elements.
     //---------------------------------------------------------------------
 
-    init: function() {
+    init: function () {
         const {
             glob,
             document
         } = this;
 
-        glob.onChange1 = function(event) {
+        glob.onChange1 = function (event) {
             const value = parseInt(event.value);
             const dom = document.getElementById('positionHolder');
             if (value < 2) {
@@ -164,7 +164,7 @@ module.exports = {
     // so be sure to provide checks for variable existance.
     //---------------------------------------------------------------------
 
-    action: function(cache) {
+    action: function (cache) {
         const data = cache.actions[cache.index];
         const storage = parseInt(data.storage);
         const varName = this.evalMessage(data.varName, cache);
@@ -174,23 +174,23 @@ module.exports = {
 
         let result = null;
         switch (type) {
-            case 0:
-                result = list.pop();
-                break;
-            case 1:
+        case 0:
+            result = list.pop();
+            break;
+        case 1:
+            result = list.shift();
+            break;
+        case 2:
+            const position = parseInt(this.evalMessage(data.position, cache));
+            if (position < 0) {
                 result = list.shift();
-                break;
-            case 2:
-                const position = parseInt(this.evalMessage(data.position, cache));
-                if (position < 0) {
-                    result = list.shift();
-                } else if (position >= list.length) {
-                    result = list.pop();
-                } else {
-                    result = list[position];
-                    list.splice(position, 1);
-                }
-                break;
+            } else if (position >= list.length) {
+                result = list.pop();
+            } else {
+                result = list[position];
+                list.splice(position, 1);
+            }
+            break;
         }
 
         if (result) {
@@ -212,6 +212,6 @@ module.exports = {
     // functions you wish to overwrite.
     //---------------------------------------------------------------------
 
-    mod: function(DBM) {}
+    mod: function (DBM) {}
 
 }; // End of module
