@@ -126,7 +126,7 @@ module.exports = {
             <span><b>Content && Author Examples:</b></span>
             <li>content.length > 0 && author.id === user.id // Take any response from the command message author</li>
             <li>content.length > 0 && author.id === tempVars('some variable') // Take any response from a member with an ID stored in a temp variable</li>
-            <u><span class="wrexlink2" data-url2="https://www.w3schools.com/js/js_comparisons.asp">JavaScript Comparison and Logical Operators</span></u>
+            <u><span class="wrexlink" data-url="https://www.w3schools.com/js/js_comparisons.asp">JavaScript Comparison and Logical Operators</span></u>
           </span>
         </span>
       </div><br>
@@ -248,20 +248,6 @@ module.exports = {
         addEventListener('click', function ({ stopImmediatePropagation }) {
           stopImmediatePropagation();
           console.log(`Launching URL: [${url}] in your default browser.`);
-          execSync(`start ${url}`);
-        });
-      }
-    }
-
-    const wrexlink2 = document.getElementsByClassName('wrexlink2');
-    for (let i = 0; i < wrexlink2.length; i++) {
-      const { getAttribute, setAttribute, addEventListener } = wrexlinks[i];
-      const url = getAttribute('data-url2');
-      if (url) {
-        setAttribute('title', url2);
-        addEventListener('click', function ({ stopImmediatePropagation }) {
-          stopImmediatePropagation();
-          console.log(`Launching URL: [${url}] in your default browser.`)
           execSync(`start ${url}`);
         });
       }
