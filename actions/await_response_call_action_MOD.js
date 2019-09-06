@@ -211,14 +211,6 @@ module.exports = {
       span.wrexlink:hover {
         color:#4676b9;
       }
-      span.wrexlink2 {
-        color: #99b3ff;
-        text-decoration:underline;
-        cursor:pointer;
-      }
-      span.wrexlink2:hover {
-        color:#4676b9;
-      }
     </style>`
   },
 
