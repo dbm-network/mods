@@ -1,155 +1,155 @@
 module.exports = {
 
-	//---------------------------------------------------------------------
-	// Action Name
-	//
-	// This is the name of the action displayed in the editor.
-	//---------------------------------------------------------------------
+    //---------------------------------------------------------------------
+    // Action Name
+    //
+    // This is the name of the action displayed in the editor.
+    //---------------------------------------------------------------------
 
-	name: "Store YouTube Info",
+    name: "Store YouTube Info",
 
-	//---------------------------------------------------------------------
-	// Action Section
-	//
-	// This is the section the action will fall into.
-	//---------------------------------------------------------------------
+    //---------------------------------------------------------------------
+    // Action Section
+    //
+    // This is the section the action will fall into.
+    //---------------------------------------------------------------------
 
-	section: "Audio Control",
+    section: "Audio Control",
 
-	//---------------------------------------------------------------------
-	// Action Subtitle
-	//
-	// This function generates the subtitle displayed next to the name.
-	//---------------------------------------------------------------------
+    //---------------------------------------------------------------------
+    // Action Subtitle
+    //
+    // This function generates the subtitle displayed next to the name.
+    //---------------------------------------------------------------------
 
-	subtitle: function (data) {
-		const info = ['Video ID', 'Video URL', 'Video Title', 'Video Description', 'Video Owner', 'Video ChannelID', 'Video ThumbnailUrl', 'Video EmbedURL', 'Video Genre', 'Video Paid', 'Video Unlisted', 'Video isFamilyFriendly', 'Video Duration', 'Video Views', 'Video regionsAllowed', 'Video commentCount', 'Video  likeCount', 'Video  dislikeCount',  'Video  channelThumbnailUrl' ];
-		return `YouTube ${info[parseInt(data.info)]}`;
-	},
+    subtitle: function (data) {
+        const info = ['Video ID', 'Video URL', 'Video Title', 'Video Description', 'Video Owner', 'Video ChannelID', 'Video ThumbnailUrl', 'Video EmbedURL', 'Video Genre', 'Video Paid', 'Video Unlisted', 'Video isFamilyFriendly', 'Video Duration', 'Video Views', 'Video regionsAllowed', 'Video commentCount', 'Video  likeCount', 'Video  dislikeCount', 'Video  channelThumbnailUrl'];
+        return `YouTube ${info[parseInt(data.info)]}`;
+    },
 
-	//---------------------------------------------------------------------
-	// DBM Mods Manager Variables (Optional but nice to have!)
-	//
-	// These are variables that DBM Mods Manager uses to show information
-	// about the mods for people to see in the list.
-	//---------------------------------------------------------------------
+    //---------------------------------------------------------------------
+    // DBM Mods Manager Variables (Optional but nice to have!)
+    //
+    // These are variables that DBM Mods Manager uses to show information
+    // about the mods for people to see in the list.
+    //---------------------------------------------------------------------
 
-	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "Aamon",
+    // Who made the mod (If not set, defaults to "DBM Mods")
+    author: "Aamon & TheMonDon",
 
-	// The version of the mod (Defaults to 1.0.0)
-	version: "1.9.4", //Added in 0.00.00 not yet....
+    // The version of the mod (Defaults to 1.0.0)
+    version: "1.9.6", //Added in 1.9.4?
+    version2: "1.0.0", // Just to keep track of this version compared to mod pack version
 
-	// A short description to show on the mod line for this mod (Must be on a single line)
-	short_description: "Gets extra video information on YouTube based on video ID. Works with Discord Bot Maker (beta) and WrexMods.",
+    // A short description to show on the mod line for this mod (Must be on a single line)
+    short_description: "Gets extra video information on YouTube based on video ID.",
 
-	// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
+    // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
+    //---------------------------------------------------------------------
 
-	//---------------------------------------------------------------------
+    //---------------------------------------------------------------------
+    // Action Storage Function
+    //
+    // Stores the relevant variable info for the editor.
+    //---------------------------------------------------------------------
 
-	//---------------------------------------------------------------------
-	// Action Storage Function
-	//
-	// Stores the relevant variable info for the editor.
-	//---------------------------------------------------------------------
+    variableStorage: function (data, varType) {
+        const type = parseInt(data.storage);
+        if (type !== varType) return;
+        const info = parseInt(data.info);
+        let dataType = 'Unknown YouTube Type';
+        switch (info) {
+        case 0:
+            dataType = "YouTube Video ID";
+            break;
+        case 1:
+            dataType = "YouTube Video URL";
+            break;
+        case 2:
+            dataType = "YouTube Video Title";
+            break;
+        case 3:
+            dataType = "YouTube Video Description";
+            break;
+        case 4:
+            dataType = "YouTube Video Owner";
+            break;
+        case 5:
+            dataType = "YouTube Video ChannelID";
+            break;
+        case 6:
+            dataType = "YouTube Video ThumbnailUrl";
+            break;
+        case 7:
+            dataType = "YouTube Video EmbedURL";
+            break;
+        case 8:
+            dataType = "YouTube Video Genre";
+            break;
+        case 9:
+            dataType = "YouTube Video Paid";
+            break;
+        case 10:
+            dataType = "YouTube Video Unlisted";
+            break;
+        case 11:
+            dataType = "YouTube Video isFamilyFriendly";
+            break;
+        case 12:
+            dataType = "YouTube Video Duration";
+            break;
+        case 13:
+            dataType = "YouTube Video Views";
+            break;
+        case 14:
+            dataType = "YouTube Video regionsAllowed";
+            break;
+        case 15:
+            dataType = "YouTube Video commentCount";
+            break;
+        case 16:
+            dataType = "YouTube Video likeCount";
+            break;
+        case 17:
+            dataType = "YouTube Video dislikeCount";
+            break;
+        case 18:
+            dataType = "YouTube Video channelThumbnailUrl";
+            break;
 
-	variableStorage: function (data, varType) {
-		const type = parseInt(data.storage);
-		if (type !== varType) return;
-		const info = parseInt(data.info);
-		let dataType = 'Unknown YouTube Type';
-		switch (info) {
-			case 0:
-				dataType = "YouTube Video ID";
-				break;
-			case 1:
-				dataType = "YouTube Video URL";
-				break;
-			case 2:
-				dataType = "YouTube Video Title";
-				break;
-			case 3:
-				dataType = "YouTube Video Description";
-				break;
-			case 4:
-				dataType = "YouTube Video Owner";
-				break;
-			case 5:
-				dataType = "YouTube Video ChannelID";
-				break;
-			case 6:
-				dataType = "YouTube Video ThumbnailUrl";
-				break;
-			case 7:
-				dataType = "YouTube Video EmbedURL";
-				break;
-			case 8:
-				dataType = "YouTube Video Genre";
-				break;
-			case 9:
-				dataType = "YouTube Video Paid";
-				break;
-			case 10:
-				dataType = "YouTube Video Unlisted";
-				break;
-			case 11:
-				dataType = "YouTube Video isFamilyFriendly";
-				break;
-			case 12:
-				dataType = "YouTube Video Duration";
-				break;
-			case 13:
-				dataType = "YouTube Video Views";
-				break;
-			case 14:
-				dataType = "YouTube Video regionsAllowed";
-				break;
-			case 15:
-				dataType = "YouTube Video commentCount";
-				break;
-			case 16:
-				dataType = "YouTube Video likeCount";
-				break;
-			case 17:
-				dataType = "YouTube Video dislikeCount";
-				break;
-			case 18:
-				dataType = "YouTube Video channelThumbnailUrl";
-				break;
+        }
+        return ([data.varName, dataType]);
+    },
 
-		}
-		return ([data.varName, dataType]);
-	},
+    //---------------------------------------------------------------------
+    // Action Fields
+    //
+    // These are the fields for the action. These fields are customized
+    // by creating elements with corresponding IDs in the HTML. These
+    // are also the names of the fields stored in the action's JSON data.
+    //---------------------------------------------------------------------
 
-	//---------------------------------------------------------------------
-	// Action Fields
-	//
-	// These are the fields for the action. These fields are customized
-	// by creating elements with corresponding IDs in the HTML. These
-	// are also the names of the fields stored in the action's JSON data.
-	//---------------------------------------------------------------------
+    fields: ["video", "info", "storage", "varName"],
 
-	fields: ["video", "info", "storage", "varName"],
+    //---------------------------------------------------------------------
+    // Command HTML
+    //
+    // This function returns a string containing the HTML used for
+    // editting actions.
+    //
+    // The "isEvent" parameter will be true if this action is being used
+    // for an event. Due to their nature, events lack certain information,
+    // so edit the HTML to reflect this.
+    //
+    // The "data" parameter stores constants for select elements to use.
+    // Each is an array: index 0 for commands, index 1 for events.
+    // The names are: sendTargets, members, roles, channels,
+    //                messages, servers, variables
+    //---------------------------------------------------------------------
 
-	//---------------------------------------------------------------------
-	// Command HTML
-	//
-	// This function returns a string containing the HTML used for
-	// editting actions.
-	//
-	// The "isEvent" parameter will be true if this action is being used
-	// for an event. Due to their nature, events lack certain information,
-	// so edit the HTML to reflect this.
-	//
-	// The "data" parameter stores constants for select elements to use.
-	// Each is an array: index 0 for commands, index 1 for events.
-	// The names are: sendTargets, members, roles, channels,
-	//                messages, servers, variables
-	//---------------------------------------------------------------------
-
-	html: function (isEvent, data) {
-		return `
+    html: function (isEvent, data) {
+        return `
 <div style="width: 550px; height: 350px; overflow-y: scroll;">
 		<div>
 			<p>
@@ -159,7 +159,7 @@ module.exports = {
 		</div><br>
 	<div style="width: 95%; padding-top: 8px;">
 		Video to Search:<br>
-		<textarea id="video" rows="2" placeholder="Write a video id here or use variables..." style="width: 95%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+		<textarea id="video" rows="2" placeholder="Video ID or Video URL Goes here!" style="width: 95%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
 	 </div>
 	<div style="width: 95%; padding-top: 8px;">
 		Source Info:<br>
@@ -203,145 +203,143 @@ module.exports = {
 			For aditional information contact <b>Aamon#9130</b> on Discord or <a href ="https://twitter.com/44m0n"><b>@44m0n<b></a> on Twitter. 
 		</p>
 	<div>
-</div>`
-	},
+</div>`;
+    },
 
-	//---------------------------------------------------------------------
-	// Action Editor Init Code
-	//
-	// When the HTML is first applied to the action editor, this code
-	// is also run. This helps add modifications or setup reactionary
-	// functions for the DOM elements.
-	//---------------------------------------------------------------------
+    //---------------------------------------------------------------------
+    // Action Editor Init Code
+    //
+    // When the HTML is first applied to the action editor, this code
+    // is also run. This helps add modifications or setup reactionary
+    // functions for the DOM elements.
+    //---------------------------------------------------------------------
 
-	init: function () {
-		const { glob, document } = this;
-		glob.variableChange(document.getElementById('storage'), 'varNameContainer');
-	},
+    init: function () {
+        const {
+            glob,
+            document
+        } = this;
+        glob.variableChange(document.getElementById('storage'), 'varNameContainer');
+    },
 
-	//---------------------------------------------------------------------
-	// Action Bot Function
-	//
-	// This is the function for the action within the Bot's Action class.
-	// Keep in mind event calls won't have access to the "msg" parameter,
-	// so be sure to provide checks for variable existance.
-	//---------------------------------------------------------------------
+    //---------------------------------------------------------------------
+    // Action Bot Function
+    //
+    // This is the function for the action within the Bot's Action class.
+    // Keep in mind event calls won't have access to the "msg" parameter,
+    // so be sure to provide checks for variable existance.
+    //---------------------------------------------------------------------
 
-	action: function (cache) {
-		const data = cache.actions[cache.index];
-		const info = parseInt(data.info);
-		const video = this.evalMessage(data.video, cache);
-		//const key = this.evalMessage(data.key, cache);
-		//const resultNumber = parseInt(data.resultNo);
+    action: async function (cache) {
+        const data = cache.actions[cache.index];
+        const info = parseInt(data.info);
+        const _this = this;
+        const video = this.evalMessage(data.video, cache);
+        const WrexMods = this.getWrexMods();
+        const fetchVideoInfo = WrexMods.require('youtube-info');
+        const TimeFormat = WrexMods.require('hh-mm-ss');
+        const ytdl = WrexMods.require('ytdl-core');
+        const getInfoAsync = WrexMods.require('util')
+            .promisify(ytdl.getInfo);
+        let result;
 
-		// Check if everything is ok:
-		if (!video) return console.log("Please specify a video id to get video informations.");
-		//if (!key) return console.log("Please get your key from Google and write it in the field.");
+        // Check if everything is ok:
+        if (!video) return console.log("Please specify a video id to get video informations.");
 
-		// Main code:
-		var _this = this; // this is needed sometimes.
-		const WrexMODS = _this.getWrexMods(); // as always.
-		WrexMODS.CheckAndInstallNodeModule('youtube-info');
-		const search = WrexMODS.require('youtube-info'); // WrexMODS'll automatically try to install the module if you run it with CMD/PowerShell.
+        const song = await getInfoAsync(video)
+            .catch((err) => {
+                console.error(err);
+			});
+		
+		if (!song.video_id) return console.log('Could not find song ID in youtube_info_MOD. This is probably due to ytdl-core being outdated.');
+		
+        fetchVideoInfo(song.video_id, function (err, videoInfo) {
+            if (err) return console.error(err);
 
-		const AnotherWrexMODS = _this.getWrexMods(); // "as always" too
-		AnotherWrexMODS.CheckAndInstallNodeModule('hh-mm-ss');
-		const AnotherSearch = WrexMODS.require('hh-mm-ss') //never used and nevermind ==> ask General Wrex (at your own risk)
+            switch (info) {
+            case 0:
+                result = videoInfo.videoId;
+                break;
+            case 1:
+                result = videoInfo.url;
+                break;
+            case 2:
+                result = videoInfo.title;
+                break;
+            case 3:
+                result = videoInfo.description;
+                break;
+            case 4:
+                result = videoInfo.owner;
+                break;
+            case 5:
+                result = videoInfo.channelId;
+                break;
+            case 6:
+                result = videoInfo.thumbnailUrl;
+                break;
+            case 7:
+                result = videoInfo.embedURL;
+                break;
+            case 8:
+                result = videoInfo.genre;
+                break;
+            case 9:
+                result = videoInfo.paid;
+                break;
+            case 10:
+                result = videoInfo.unlisted;
+                break;
+            case 11:
+                result = videoInfo.isFamilyFriendly;
+                break;
+            case 12: {
+                result = TimeFormat.fromS(videoInfo.duration); // check documentation/parameters ==> https://www.npmjs.com/package/hh-mm-ss
+                //result = videoInfo.duration; just seconds =]]
+            }
+            break;
+            case 13:
+                result = videoInfo.views;
+                break;
+            case 14:
+                result = videoInfo.regionsAllowed;
+                break;
+            case 15:
+                result = videoInfo.commentCount;
+                break;
+            case 16:
+                result = videoInfo.likeCount;
+                break;
+            case 17:
+                result = videoInfo.dislikeCount;
+                break;
+            case 18:
+                result = videoInfo.channelThumbnailUrl;
+                break;
+            default:
+                break;
+            }
+            // Storing:
+            if (result !== undefined) {
+                const storage = parseInt(data.storage);
+                const varName2 = _this.evalMessage(data.varName, cache);
+                _this.storeValue(result, storage, varName2, cache);
+            }
+            _this.callNextAction(cache);
 
-		var fetchVideoInfo = require('youtube-info');
-		var TimeFormat = require("hh-mm-ss");
-		fetchVideoInfo(`${video}`, function (err, videoInfo) {
-  		if (err) throw new Error(err);
- 		//console.log(videoInfo);
- 		
+        });
 
- 		switch (info) {
-				case 0:
-					result = videoInfo.videoId;
-					break;
-				case 1:
-					result = videoInfo.url;
-					break;
-				case 2:
-					result = videoInfo.title;
-					break;
-				case 3:
-					result = videoInfo.description;
-					break;
-				case 4:
-					result = videoInfo.owner;
-					break;
-				case 5:
-					result = videoInfo.channelId;
-					break;	
-				case 6:
-					result = videoInfo.thumbnailUrl;
-					break;
-				case 7:
-					result = videoInfo.embedURL;
-					break;
-				case 8:
-					result = videoInfo.genre;
-					break;
-				case 9:
-					result = videoInfo.paid;
-					break;
-				case 10:
-					result = videoInfo.unlisted;
-					break;
-				case 11:
-					result = videoInfo.isFamilyFriendly;
-					break;
-				case 12:
-					{
-						result = TimeFormat.fromS(videoInfo.duration); // check documentation/parameters ==> https://www.npmjs.com/package/hh-mm-ss
-						//result = videoInfo.duration; just seconds =]]
-					}
-					break;
-				case 13:
-					result = videoInfo.views;
-					break;
-				case 14:
-					result = videoInfo.regionsAllowed;
-					break;
-				case 15:
-					result = videoInfo.commentCount;
-					break;
-				case 16:
-					result = videoInfo.likeCount;
-					break;
-				case 17:
-					result = videoInfo.dislikeCount;
-					break;
-				case 18:
-					result = videoInfo.channelThumbnailUrl;
-					break;
-				default:
-				break;
-			}
-			// Storing:
-			if (result !== undefined) {
-				const storage = parseInt(data.storage);
-				const varName2 = _this.evalMessage(data.varName, cache);
-				_this.storeValue(result, storage, varName2, cache);
-			}
-			_this.callNextAction(cache);
+    },
 
+    //---------------------------------------------------------------------
+    // Action Bot Mod
+    //
+    // Upon initialization of the bot, this code is run. Using the bot's
+    // DBM namespace, one can add/modify existing functions if necessary.
+    // In order to reduce conflictions between mods, be sure to alias
+    // functions you wish to overwrite.
+    //---------------------------------------------------------------------
 
-		});
-
-	},
-
-	//---------------------------------------------------------------------
-	// Action Bot Mod
-	//
-	// Upon initialization of the bot, this code is run. Using the bot's
-	// DBM namespace, one can add/modify existing functions if necessary.
-	// In order to reduce conflictions between mods, be sure to alias
-	// functions you wish to overwrite.
-	//---------------------------------------------------------------------
-
-	mod: function (DBM) { }
+    mod: function (DBM) {}
 
 }; // End of module   <-- as he says
-
