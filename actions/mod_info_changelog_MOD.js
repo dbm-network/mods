@@ -37,7 +37,7 @@ subtitle: function(data) {
 author: "DBM Mods",
 
 // The version of the mod (Defaults to 1.0.0)
-version: "1.9.5",
+version: "1.9.6 ~ beta",
 
 // A short description to show on the mod line for this mod (Must be on a single line)
 short_description: "Changelog overview",
@@ -85,6 +85,23 @@ html: function(isEvent, data) {
 	return `
 <div>
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
+	<p>
+	<h2>1.9.6: Almost everything requires beta! WOO!</h2>
+		● Added Check if File Exists<br>
+		● Added Generate Random Word<br>
+		● Revised Check If Member<br>
+		● Revised Parse From Sored JSON<br>
+		● Revised Read File<br>
+		● Revised Store Member Info<br>
+		● Revised Check Variable<br>
+		● Revised Check Parameters<br>
+		● Fixed Create Voice Channel<br>
+		● Fixed Create Channel<br>
+		● Fixed Create Category<br>
+		● Fixed Store Channel Info<br>
+		● Fixed Send Image<br>
+		● Fixed Mod Info<br>
+	</p>
 	<p>
 	<h2>1.9.5: We fixed it all and YouTube Playlists are around now!</h2>
 		● Added Store Game Info<br>
