@@ -83,29 +83,32 @@ module.exports = {
 
     html: function (isEvent, data) {
         return `
-<div>
-	YouTube URL:<br>
-	<input id="url" class="round" type="text" value="https://www.youtube.com/watch?v=2zgcFFvEA9g"><br>
-</div>
-<div style="float: left; width: 50%;">
-	Seek Position:<br>
-	<input id="seek" class="round" type="text" value="0"><br>
-	Passes:<br>
-	<input id="passes" class="round" type="text" value="1">
-</div>
-<div style="float: right; width: 50%;">
-	Volume (0 = min; 100 = max):<br>
-	<input id="volume" class="round" type="text" placeholder="Leave blank for automatic..."><br>
-	Bitrate:<br>
-	<input id="bitrate" class="round" type="text" placeholder="Leave blank for automatic...">
-</div><br><br><br><br><br><br><br>
-<div>
-	Play Type:<br>
-	<select id="type" class="round" style="width: 90%;">
-		<option value="0" selected>Add to Queue</option>
-		<option value="1">Play Immediately</option>
-	</select>
-</div>`;
+        <div>
+            <p>This action has been modified by DBM Mods.</p>
+        </div>
+        <div>
+            YouTube URL:<br>
+            <input id="url" class="round" type="text" value="https://www.youtube.com/watch?v=2zgcFFvEA9g"><br>
+        </div>
+        <div style="float: left; width: 50%;">
+            Seek Position:<br>
+            <input id="seek" class="round" type="text" value="0"><br>
+            Passes:<br>
+            <input id="passes" class="round" type="text" value="1">
+        </div>
+        <div style="float: right; width: 50%;">
+            Volume (0 = min; 100 = max):<br>
+            <input id="volume" class="round" type="text" placeholder="Leave blank for automatic..."><br>
+            Bitrate:<br>
+            <input id="bitrate" class="round" type="text" placeholder="Leave blank for automatic...">
+        </div><br><br><br><br><br><br><br>
+        <div>
+            Play Type:<br>
+            <select id="type" class="round" style="width: 90%;">
+                <option value="0" selected>Add to Queue</option>
+                <option value="1">Play Immediately</option>
+            </select>
+        </div>`;
     },
 
     //---------------------------------------------------------------------
