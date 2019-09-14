@@ -24,7 +24,7 @@ module.exports = {
 	
 	subtitle: function(data) {
 		const roles = ['Mentioned Role', '1st Author Role', '1st Server Role', 'Temp Variable', 'Server Variable', 'Global Variable'];
-		const info = ['Role Object', 'Role ID', 'Role Name', 'Role Color', 'Role Position', 'Role Timestamp', 'Role Is Mentionable?', 'Role Is Separate From Others?', 'Role Is Managed?', 'Role Member List', 'Role Creation Date', 'Role Permissions']
+		const info = ['Role Object', 'Role ID', 'Role Name', 'Role Color', 'Role Position', 'Role Timestamp', 'Role Is Mentionable?', 'Role Is Separate From Others?', 'Role Is Managed?', 'Role Member List', 'Role Creation Date', 'Role Permissions', 'Role Members Amount']
 		return `${roles[parseInt(data.role)]} - ${info[parseInt(data.info)]}`;
 	},
 	
@@ -90,8 +90,10 @@ module.exports = {
 				dataType = 'Date';
 				break;
 			case 11: // Added by Cap in 1.9.6
+			case 12: // Added by Cap in 1.9.6
 			   dataType = 'Number';
 			   break;
+			
 		}
 		return ([data.varName2, dataType]);
 	},
@@ -150,6 +152,7 @@ module.exports = {
 				<option value="5">Role Timestamp</option>
 				<option value="11">Role Permissions</option>
 				<option value="9">Role Members</option>
+				<option value="12">Role Members Amount</option>
 				<option value="6">Role Is Mentionable?</option>
 				<option value="7">Role Is Separate From Others?</option>
 				<option value="8">Role Is Managed By Bot/Integration</option>
@@ -239,6 +242,9 @@ module.exports = {
 				break;
 			case 11: // Added by Cap in 1.9.6
 			   result = targetRole.permissions;
+			   break;
+			case 12: // Added by Cap in 1.9.6
+			   result = targetRole.members.array().length;
 			   break;
 			default:
 				break;
