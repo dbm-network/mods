@@ -24,13 +24,14 @@ module.exports = {
   //---------------------------------------------------------------------
 
     // Who made the mod (If not set, defaults to "DBM Mods")
-    author: "Danno3817", //Original Idea by EliteArtz
+    author: "Danno3817, EliteArtz, Eggsy & General Wrex", //Original Idea by EliteArtz
 
     // The version of the mod (Defaults to 1.0.0)
-    version: "1.8.9", //Added in 1.8.7
+    version: "1.9.6", //Added in 1.8.7
+    // Version 4.0.0
 
     // A short description to show on the mod line for this mod (Must be on a single line)
-    short_description: "Allows a user to interact with 'Files'",
+    short_description: "This mod allows you to interact with files & directories. Please be carefull when using this action. If you delete a file there's no going back",
 
   //---------------------------------------------------------------------
     // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
@@ -75,60 +76,111 @@ module.exports = {
 
   html: function(isEvent, data) {
     return `
-    <div id="scroll"style="width: 550px; height: 350px; overflow-y: scroll;">
-      <div>
-        <div>
-          <p><u>Mod Info:</u><br>
-          Made By: Danno3817, EliteArtz, Eggsy & General Wrex</p>
-        </div><br>
-        <div>
-          <p><u>Important Info:</u><br>
-          If you want to use your bots directory, you can add '.' (dot) before '/':<br>
-          e.g:<br>
-          My bot directory is: "<b>/root/myBot/</b>"<br>
-          I want to delete: "<b>/root/myBot/delete.txt</b>"<br>
-          Then I need to write "<b>./</b>" in the file path field.<br><br>
-          <i>Please be careful while using the delete function, there is no turning back after deleting the file.</i><br>
-          </p>
-        </div>
+    <style>
+    /* Most of this style inspired by EliteArtz & General Wrex */  
+    ::-webkit-scrollbar {
+      width: 10px !important;
+    }
+    ::-webkit-scrollbar-track {
+      background: inherit !important;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #3c4035 !important;
+    }
+    .col-20l {
+      float: left;
+      width: 20%;
+    }
+    .col-17l {
+      float: left;
+      width: 17%;
+    }
+    textarea {
+      float: left;
+      width: 100%;
+      resize: 1; 
+      padding: 4px 8px;
+    }  
+    span.wrexlink {
+      color: #99b3ff;
+      text-decoration:underline;
+      cursor:pointer;
+    }
+    span.wrexlink:hover { 
+      color:#4676b9; 
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+
+  <div id="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
+  <div style="padding-bottom: 100px; padding: 0px 10px 5px 5px">
+    
+    <div style="padding: 12px 15px">
+      <div style="border: 1px solid hsla(0,0%,80%,.3); padding: 15px 12px; border-radius: 5px 5px 5px 5px;width: 98%;">
+        <u><span class="wrexlink" data-url="https://github.com/Discord-Bot-Maker-Mods/DBM-Mods">Mod Info:</span></u><br>
+        <span>Made by: <b>${this.author}</b></span>
       </div>
-      <div>
-        <div style="float: left; padding-right: 1% ">
+    </div>
+  
+    <div style="padding: 5px 10px 5px 5px">
+      <div style="display: flex; flex-direction: row;">
+        <div class="col-20l" style="display: flex; flex-direction: column; flex: 2; padding-right: 1%;">
           Format:<br>
           <select id="format" class="round">
-            <option value="" selected>Other</option>
-            <option value=".log">Log</option>
-            <option value=".txt">txt</option>
+            <option value="" selected>OTHER</option>
+            <option value=".log">LOG</option>
+            <option value=".txt">TXT</option>
             <option value=".json">JSON</option>
-            <option value=".js">Java Script</option>
-            
+            <option value=".js">JS</option>
           </select>
         </div>
-        <div style="float: left; padding-right: 1%;">
+        <div class="col-17l" style="display: flex; flex-direction: column; flex: 2; padding-right: 1%;">
           Task:<br>
-          <select id="filetask" class="round">
-            <option value="0" selected>Create</option>
-            <option value="1">Write</option>
-            <option value="2">Append</option>
-            <option value="3">Delete</option>
+          <select id="filetask" title="99% of the time, you want append" class="round">
+            <option value="0" title="Only makes the file">Create</option>
+            <option value="1" title="Overwrites the files contents with yours">Write</option>
+            <option value="2" title="Add the content to the end of the file" selected>Append</option>
+            <option value="3" title="Deletes a file, Be VERY carefull with this option">Delete</option>
           </select>
         </div>
-        <div style="float: left; width: 64%;">
+        <div style="display: flex; flex-direction: column; flex: 8;">
           File Name:<br>
-          <textarea id="filename" placeholder="Insert File Name Here..." class="round" style="width: 100%; resize: none; padding: 4px 8px;" type="textarea" rows="1"></textarea><br>
-        </div><br>
-      </div>
-      <div>
-        <div style="float: left; width: 100%">
-          File Path:<br>
-          <textarea id="filepath" placeholder="Example Path = ./logs/date/example-date" class="round" style="width: 99%; resize: 1; padding: 4px 8px;" type="textarea" rows="3"></textarea><br>
-        </div><br>
-        <div style="float: left; width: 100%;">
-          Input Text:<br>
-          <textarea id="input" placeholder="Leave Blank For None." class="round" style="width: 99%; resize: 1; padding: 4px 8px;" type="textarea" rows="10"></textarea><br>
+          <textarea id="filename" title="If 'Other' add the file .format to the end of the file name" placeholder="Example file name 'myreallycoollog'" class="round" type="textarea" rows="1"></textarea>
         </div>
       </div>
-    </div>`
+    </div>
+    
+    <div style="padding: 5px 10px 5px 5px">
+        <div style="float: left; width: 100%;">
+          File Path:<br>
+          <textarea class="round col-100" id="filepath" title="./ represents the bots root directory. Use instead of an absolute path > C:/path/to/bot/" placeholder="Example Path = ./logs/date/example-date/" class="round" type="textarea" rows="3"></textarea><br>
+        </div>
+    </div>
+    
+    <div style="padding: 5px 10px 5px 5px">
+      <div>
+        <span>If you would like to create a directory, leave the filename section empty while setting format to 'OTHER' and task to 'Create'.</span>
+      </div>
+    </div>
+
+    <div style="padding: 5px 10px 5px 5px">
+      <div id="inputArea" class="" style="float: left; width: 100%;">
+        Input Text:<br>
+        <textarea id="input" placeholder="Leave Blank For None." class="round" type="textarea" rows="10"></textarea><br><br><br><br><br><br><br><br><br><br><br>
+      </div>
+    </div>
+    
+
+  </div>
+  <div style="padding: 5px 15px">
+    <div style="padding: 15px 12px; border-radius: 5px 5px 5px 5px;width: 98%;">
+      ${this.short_description}<br>
+      <p align=center>Version: ${this.version} | DVN: 4.2.0</p>
+    </div>
+  </div>
+</div>`
   },
 
   //---------------------------------------------------------------------
@@ -139,7 +191,29 @@ module.exports = {
   // functions for the DOM elements.
   //---------------------------------------------------------------------
 
-  init: function() {},
+  init: function() {
+    const { glob, document } = this;
+
+    let selector = document.getElementById('filetask');
+    let targetfield = document.getElementById('inputArea');
+
+    if (selector[selector.selectedIndex].value === "0" || selector[selector.selectedIndex].value === "3") {
+      targetfield.classList.add("hidden");
+    } else {
+      targetfield.classList.remove("hidden");
+    }
+
+    function showInput() {
+      if (selector[selector.selectedIndex].value === "0" || selector[selector.selectedIndex].value === "3") {
+        targetfield.classList.add("hidden");
+      } else {
+        targetfield.classList.remove("hidden");
+      }
+    }
+
+    selector.onclick = () => showInput();
+
+  },
 
   //---------------------------------------------------------------------
   // Action Bot Function
