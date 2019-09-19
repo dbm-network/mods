@@ -24,7 +24,7 @@ module.exports = {
 	
 	subtitle: function(data) {
 		const message = ['Command Message', 'Temp Variable', 'Server Variable', 'Global Variable'];
-		const info = ['Message Object', 'Message ID', 'Message Text', 'Message Author', 'Message Channel', 'Message Timestamp', 'Message Is Pinned?', 'Message Is TTS?', 'Message Edited At', 'Message Edits History', 'Message Is Pinnable?', 'Message Includes @everyone Mention?', 'Messages Different Reactions Count', 'Mentioned Users List', 'Mentioned Users Count', 'Message URL', 'Message Creation Date', 'Message Length', 'Message Attachments Count', 'Message Guild', 'Message Type', 'Message Is Deletable?', 'Message Is Deleted?', 'Message Is Of Discord?', 'Message Webhook ID'];
+		const info = ['Message Object', 'Message ID', 'Message Text', 'Message Author', 'Message Channel', 'Message Timestamp', 'Message Edited At', 'Message Edits History', 'Messages Different Reactions Count', 'Mentioned Users List', 'Mentioned Users Count', 'Message URL', 'Message Creation Date', 'Message Length', 'Message Attachments Count', 'Message Guild', 'Message Type', 'Message Webhook ID'];
 		return `${message[parseInt(data.message)]} - ${info[parseInt(data.info)]}`;
 	},
 	
@@ -78,15 +78,6 @@ module.exports = {
 				break;
 			case 5:
 				dataType = 'Text';
-				break;
-			case 6:
-			case 7:
-			case 10:
-			case 11:
-			case 21: // Added by Cap in 1.9.6
-			case 22: // Added by Cap in 1.9.6
-			case 23: // Added by Cap in 1.9.6
-				dataType = 'Boolean';
 				break;
 			case 8:
 			case 16: // Added by Cap in 1.9.6
@@ -177,15 +168,6 @@ module.exports = {
 				<option value="5">Message Timestamp</option>
 				<option value="15">Message URL</option>
 			</optgroup>
-			<optgroup label="Booleans">
-				<option value="10">Message Is Pinnable?</option>
-				<option value="6">Message Is Pinned?</option>
-				<option value="21">Message Is Deletable?</option>
-				<option value="22">Message Is Deleted?</option>
-				<option value="7">Message Is TTS?</option>
-				<option value="11">Message Includes @everyone Mention?</option>
-				<option value="23">Message Is Of Discord?</option>
-			</optgroup>
 			<optgroup label="Others">
 				<option value="8">Message Edited At</option>
 				<option value="9">Message Edit History</option>
@@ -267,22 +249,11 @@ module.exports = {
 			case 5:
 				result = msg.createdTimestamp;
 				break;
-			case 6:
-				result = msg.pinned;
-				break;
-			case 7:
-				result = msg.tts;
 			case 8:
 				result = msg.editedAt;
 				break;
 			case 9:
 				result = msg.edits;
-				break;
-			case 10:
-				result = msg.pinnable;
-				break;
-			case 11:
-				result = msg.mentions.everyone;
 				break;
 			case 12:
 				result = msg.reactions.array().length;
@@ -310,15 +281,6 @@ module.exports = {
 				break;
 			case 20: // Added by Cap in 1.9.6
 				result = msg.type;
-				break;
-			case 21: // Added by Cap in 1.9.6
-				result = msg.deletable;
-				break;
-			case 22: // Added by Cap in 1.9.6
-				result = msg.deleted;
-				break;
-			case 23: // Added by Cap in 1.9.6
-				result = msg.system;
 				break;
 			case 24: // Added by Cap in 1.9.6
 				result = msg.webhookID;
