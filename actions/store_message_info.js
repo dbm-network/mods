@@ -102,7 +102,7 @@ module.exports = {
 			case 20: // Added by Cap in 1.9.6
 				dataType = "Message Type";
 				break;
-			case 24: // Added by Cap in 1.9.6
+			case 21: // Added by Cap in 1.9.6
 				dataType = "Webhook ID";
 				break;
 		}
@@ -174,7 +174,7 @@ module.exports = {
 				<option value="12">Messages Different Reactions Count</option>
 				<option value="13">Messages Mentioned Users List</option>
 				<option value="14">Messages Mentioned Users Count</option>
-				<option value="24">Message Webhook ID</option>
+				<option value="21">Message Webhook ID</option>
 			</optgroup>
 			</select>
 		</div>
@@ -282,7 +282,7 @@ module.exports = {
 			case 20: // Added by Cap in 1.9.6
 				result = msg.type;
 				break;
-			case 24: // Added by Cap in 1.9.6
+			case 21: // Added by Cap in 1.9.6
 				result = msg.webhookID;
 				break;
 			default:
