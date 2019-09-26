@@ -162,7 +162,6 @@ module.exports = {
 				<option value="3">Message Author</option>
 				<option value="4">Message Channel</option>
 				<option value="19">Message Guild</option>
-				<option value="18">Message Attachments Count</option>
 				<option value="20">Message Type</option>
 				<option value="16">Message Creation Date</option>
 				<option value="5">Message Timestamp</option>
@@ -174,6 +173,7 @@ module.exports = {
 				<option value="12">Messages Different Reactions Count</option>
 				<option value="13">Messages Mentioned Users List</option>
 				<option value="14">Messages Mentioned Users Count</option>
+				<option value="18">Message Attachments Count</option>
 				<option value="21">Message Webhook ID</option>
 			</optgroup>
 			</select>
