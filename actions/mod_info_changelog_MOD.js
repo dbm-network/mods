@@ -89,12 +89,26 @@ html: function(isEvent, data) {
 	<h2>1.9.6: Almost everything requires beta! WOO!</h2>
 		● Added Check if File Exists<br>
 		● Added Generate Random Word<br>
+		● Added Merge Lists Mod<br>
+		● Added Slice Mod<br>
+		● Added Play Youtube (Revised default action)<br>
+		● Added Create Anchor Mod<br>
+		● Added Jump To Anchor Mod<br>
 		● Revised Check If Member<br>
 		● Revised Parse From Sored JSON<br>
 		● Revised Read File<br>
 		● Revised Store Member Info<br>
 		● Revised Check Variable<br>
 		● Revised Check Parameters<br>
+		● Revised Randomize Letters<br>
+		● Revised Remove Item From list<br>
+		● Revised Set Bot Activity<br>
+		● Revised Store Audio Info Mod<br>
+		● Revised Youtube Info Mod<br>
+		● Revised Check If User Reacted Mod<br>
+		● Revised Convert Seconds To Days Mod<br>
+		● Revissed File Control (V4)<br>
+		● Revised Game Server Mod<br>
 		● Fixed Create Voice Channel<br>
 		● Fixed Create Channel<br>
 		● Fixed Create Category<br>
