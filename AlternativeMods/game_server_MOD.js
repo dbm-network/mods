@@ -23,7 +23,7 @@ module.exports = {
 	//---------------------------------------------------------------------
 	
 	subtitle: function(data) {
-		const info = ['Server Name', 'Map', 'Number of players', 'Max Players', 'Server Tags', 'Is server has password?'];
+		const info = ['Server Name', 'Map', 'Number of players', 'Max Players', 'Server Tags', 'Is server has password?', 'Server Player List'];
 		return `${info[parseInt(data.info)]}`;
 	},
 	
@@ -35,10 +35,10 @@ module.exports = {
 		 //---------------------------------------------------------------------
 	
 		 // Who made the mod (If not set, defaults to "DBM Mods")
-		 author: "NetLuis",
+		 author: "NetLuis & updated by Destiny",
 	
 		 // The version of the mod (Defaults to 1.0.0)
-		 version: "1.9.1", //Added in 1.9.1
+		 version: "2.0.0",
 	
 		 // A short description to show on the mod line for this mod (Must be on a single line)
 		 short_description: "Stores Game Server Information.",
@@ -79,6 +79,9 @@ module.exports = {
 				break;
 			case 5:
 				dataType = "Boolean";
+				break;
+			case 6:
+				dataType = "player list";
 				break;
 		}
 		return ([data.varName, dataType]);
@@ -138,6 +141,7 @@ module.exports = {
 			<option value="3">Max Players</option>
 			<option value="4">Server Tags</option>
 			<option value="5">Is server has password?</option>
+			<option value="6">Server Player List</option>
 				</select>
 			</div>
 		</div><br><br><br>
@@ -156,7 +160,7 @@ module.exports = {
 	<div style="float: left; width: 88%; padding-top: 8px;">
 		<br>
 		<p>
-			You can see supported games from <a href="https://www.npmjs.com/package/game-server-query#supported">here</a>.<br>Also you can see what you need to write to "Game Type" by clicking <a href="http://prntscr.com/l5r3lu">here</a>.
+			You can see supported games from <a href="https://www.npmjs.com/package/gamedig#games-list">here</a>.<br>Also you can see what you need to write to "Game Type" by clicking <a href="https://destiny.is-inside.me/BSO0jWgl.png">here</a>.
 		</p>
 	<div>
 </div>
@@ -218,25 +222,23 @@ module.exports = {
 	//---------------------------------------------------------------------
 	
 	action: function(cache) {
-		const _this = this // To fix error
+		const fukerror = this // To fix error
         const data = cache.actions[cache.index];
 		const info = parseInt(data.info);
-		const gametype = _this.evalMessage(data.gametype, cache);
-		const host = _this.evalMessage(data.serverip, cache)
+		const gametype = fukerror.evalMessage(data.gametype, cache);
+		const host = fukerror.evalMessage(data.serverip, cache)
 
         // Main code:
-		const WrexMODS = _this.getWrexMods(); // as always.
-		WrexMODS.CheckAndInstallNodeModule('game-server-query');
-		const query = WrexMODS.require('game-server-query');
+		const WrexMODS = fukerror.getWrexMods(); // as always.
+		WrexMODS.CheckAndInstallNodeModule('gamedig'); // Module and code updated by Destiny
+		const Gamedig = WrexMODS.require('gamedig');
 
-		query (
-            {
+		Gamedig.query ({
             type: `${gametype}`,
             host: `${host}`
-            },
-            function(state) {
+            }).then((state) => {
                 if(state.error){
-              console.log("[Store Game Server Info Mod] Server is offline.");
+              console.log("Server is offline");
             }
                 else {
                     switch (info) {
@@ -247,7 +249,7 @@ module.exports = {
                             result = state.map;
                             break;
                         case 2:
-                            result = state.raw.numplayers;
+                            result = state.players.length;
                             break;
                         case 3:
                             result = state.maxplayers;
@@ -256,21 +258,23 @@ module.exports = {
                             result = state.raw.tags;
                             break;
                         case 5:
-                            result = state.password
-                            break;     
+                            result = state.password;
+							break;
+						case 6:
+							result = state.players.map(a=> a.name);
+							break;       
                         default:
                             break;   
                     }
-            
+            }
             if (result !== undefined) {
 				const storage = parseInt(data.storage);
-				const varName2 = _this.evalMessage(data.varName, cache);
-				_this.storeValue(result, storage, varName2, cache);
-				_this.callNextAction(cache);
+				const varName2 = fukerror.evalMessage(data.varName, cache);
+				fukerror.storeValue(result, storage, varName2, cache);
+				fukerror.callNextAction(cache);
 			} else {
-				_this.callNextAction(cache);
+				fukerror.callNextAction(cache);
 			}
-		}
 		}
         )
 	},
