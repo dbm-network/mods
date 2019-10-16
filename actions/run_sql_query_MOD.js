@@ -381,7 +381,8 @@ module.exports = {
                 var options =  {
                     host: (hostname || 'localhost'),
                     port: (port || "3311"),
-                    dialect: (getType(type) || 'sqlite'),          
+                    dialect: (getType(type) || 'sqlite'),
+                    operatorsAliases: false,                
                     pool: {
                         max: 5,
                         min: 0,
@@ -517,7 +518,8 @@ module.exports = {
             var options =  {
                 host: (hostname || 'localhost'),
                 port: (port || "3311"),
-                dialect: (getType(type) || 'sqlite'),              
+                dialect: (getType(type) || 'sqlite'),
+                operatorsAliases: false,                
                 pool: {
                     max: 5,
                     min: 0,
