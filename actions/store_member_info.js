@@ -24,7 +24,7 @@ section: "Member Control",
 
 subtitle: function(data) {
 	const members = ['Mentioned User', 'Command Author', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const info = ['Member Object', 'Member ID', 'Member Username', 'Member Display Name', 'Member Color', 'Member Server', 'Member Last Message', 'Member Highest Role', 'Member Hoist Role', 'Member Color Role', 'Member Game', 'Member Status', 'Member Avatar URL', 'Member Role List', 'Member Join Date', 'Member Voice Channel', 'Member Discrim', 'Member Account Creation Date', 'Member Tag', 'Member Last Message ID']
+	const info = ['Member Object', 'Member ID', 'Member Username', 'Member Display Name', 'Member Color', 'Member Server', 'Member Last Message', 'Member Highest Role', 'Member Hoist Role', 'Member Color Role', 'Member Game', 'Member Status', 'Member Avatar URL', 'Member Role List', 'Member Join Date', 'Member Voice Channel', 'Member Discrim', 'Member Account Creation Date','Member Tag', 'Member Last Message ID', 'Member Roles Amount', 'Member Permissions List']
 	return `${members[parseInt(data.member)]} - ${info[parseInt(data.info)]}`;
 },
 
@@ -36,7 +36,7 @@ subtitle: function(data) {
 //---------------------------------------------------------------------
 
 // Who made the mod (If not set, defaults to "DBM Mods")
-author: "DBM, Lasse & TheMonDon",
+author: "DBM, Lasse, TheMonDon & Cap",
 
 // The version of the mod (Defaults to 1.0.0)
 version: "1.9.6", //Added in 1.9.2
@@ -93,6 +93,7 @@ variableStorage: function(data, varType) {
 			dataType = "Image URL";
 			break;
 		case 13:
+		case 21: // Added by Cap in 1.9.6
 			dataType = "List";
 			break;
 		case 14:
@@ -104,6 +105,9 @@ variableStorage: function(data, varType) {
 			break;
 		case 19:
 			dataType = "Message ID";
+			break;
+		case 20: // Added by Cap in 1.9.6
+			dataType = "Number";
 			break;
 	}
 	return ([data.varName2, dataType]);
@@ -165,12 +169,14 @@ html: function(isEvent, data) {
 			<option value="11">Member Status</option>
 			<option value="12">Member Avatar URL</option>
 			<option value="5">Member Server</option>
+			<option value="21">Member Permissions List</option>
 			<option value="14">Member Join Date</option>
 			<option value="17">Member Account Creation Date</option>
 			<option value="15">Member Voice Channel</option>
 			<option value="6">Member Last Message</option>
 			<option value="19">Member Last Message ID</option>
 			<option value="13">Member Role List</option>
+			<option value="20">Member Roles Amount</option>
 			<option value="7">Member Highest Role</option>
 			<option value="8">Member Hoist Role</option>
 			<option value="9">Member Color Role</option>
@@ -306,6 +312,12 @@ action: function(cache) {
 			break;
 		case 19:
 			result = mem.lastMessageID;
+			break;
+		case 20: // Added by Cap in 1.9.6
+			result = mem.roles.size;
+			break;
+		case 21: // Added by Cap in 1.9.6
+	        result = mem.permissions.toArray().join(", ").replace(/_/g, " ").toLowerCase();
 			break;
 		default:
 			break;
