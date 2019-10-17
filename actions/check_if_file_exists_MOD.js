@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Send Message to Console (Logs)",
+name: "Check if File Exists",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -14,7 +14,15 @@ name: "Send Message to Console (Logs)",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Other Stuff",
+section: "File Stuff",
+
+	
+//---------------------------------------------------------------------
+// DBM Mods Manager Variables (Optional but nice to have!)
+//
+// These are variables that DBM Mods Manager uses to show information
+// about the mods for people to see in the list.
+//---------------------------------------------------------------------
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -23,30 +31,22 @@ section: "Other Stuff",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	return `${data.tosend}`;
+	const results = ["Continue Actions", "Stop Action Sequence", "Jump To Action", "Jump Forward Actions"];
+	return `If True: ${results[parseInt(data.iftrue)]} ~ If False: ${results[parseInt(data.iffalse)]}`;
 },
 
-
-//---------------------------------------------------------------------
-// DBM Mods Manager Variables (Optional but nice to have!)
-//
-// These are variables that DBM Mods Manager uses to show information
-// about the mods for people to see in the list.
-//---------------------------------------------------------------------
-
 // Who made the mod (If not set, defaults to "DBM Mods")
-author: "Lasse",
+author: "TheMonDon",
 
-// The version of the mod (Defaults to 1.0.0)
-version: "1.8.2",
+// The version of the mod (Last edited version number of DBM Mods)
+version: "1.9.5", //Added in 1.9.5
 
 // A short description to show on the mod line for this mod (Must be on a single line)
-short_description: "Sends a message to the console",
+short_description: "Directly check if file exists",
 
 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-
-
-//---------------------------------------------------------------------
+// Uncomment if you need this. Also, replace WrexMODS if needed.
+depends_on_mods: ["WrexMODS"],
 
 //---------------------------------------------------------------------
 // Action Fields
@@ -56,21 +56,22 @@ short_description: "Sends a message to the console",
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["tosend"],
+// 1 item for each HTML element.
+fields: ["filename", "iftrue", "iftrueVal", "iffalse", "iffalseVal"],
 
 //---------------------------------------------------------------------
 // Command HTML
 //
 // This function returns a string containing the HTML used for
-// editting actions.
+// editting actions. 
 //
 // The "isEvent" parameter will be true if this action is being used
-// for an event. Due to their nature, events lack certain information,
+// for an event. Due to their nature, events lack certain information, 
 // so edit the HTML to reflect this.
 //
-// The "data" parameter stores constants for select elements to use.
+// The "data" parameter stores constants for select elements to use. 
 // Each is an array: index 0 for commands, index 1 for events.
-// The names are: sendTargets, members, roles, channels,
+// The names are: sendTargets, members, roles, channels, 
 //                messages, servers, variables
 //---------------------------------------------------------------------
 
@@ -79,12 +80,16 @@ html: function(isEvent, data) {
 	<div>
 		<p>
 			<u>Mod Info:</u><br>
-			Created by Lasse!
+			Created by ${this.author}
 		</p>
 	</div><br>
+    <div style="float: left; width: 60%">
+        Path:
+        <input id="filename" class="round" type="text">
+    </div><br>
+</div><br><br><br>
 <div style="padding-top: 8px;">
-	Message to send:<br>
-	<textarea id="tosend" rows="4" style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+	${data.conditions[0]};
 </div>`
 },
 
@@ -96,21 +101,31 @@ html: function(isEvent, data) {
 // functions for the DOM elements.
 //---------------------------------------------------------------------
 
-init: function() {},
+init: function() {
+	const {glob, document} = this;
+	glob.onChangeTrue(document.getElementById('iftrue'));
+	glob.onChangeFalse(document.getElementById('iffalse'));
+},
 
 //---------------------------------------------------------------------
 // Action Bot Function
 //
 // This is the function for the action within the Bot's Action class.
-// Keep in mind event calls won't have access to the "msg" parameter,
+// Keep in mind event calls won't have access to the "msg" parameter, 
 // so be sure to provide checks for variable existance.
 //---------------------------------------------------------------------
 
 action: function(cache) {
-	const data = cache.actions[cache.index];
-	const send = this.evalMessage(data.tosend, cache);
-	console.log(send);
-	this.callNextAction(cache);
+    const data = cache.actions[cache.index];
+    const fs = require('fs');
+    const path = this.evalMessage(data.filename, cache);
+    let result;
+    if (path) {
+        result = Boolean(fs.existsSync(path));
+    } else {
+	    console.log(`Path is missing.`);
+    }
+    this.executeResults(result, data, cache);
 },
 
 //---------------------------------------------------------------------

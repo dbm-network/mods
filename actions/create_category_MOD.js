@@ -37,7 +37,7 @@ subtitle: function(data) {
 	 author: "EliteArtz",
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.9.3", //Added in 1.8.3
+	 version: "1.9.6", //Added in 1.8.3
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
 	 short_description: "Creates a Category Channel!",
@@ -89,8 +89,7 @@ fields: ["channelName", "position", "storage", "varName"],
 html: function(isEvent, data) {
 	return `
 	<div><p><u>Mod Info:</u><br>Created by EliteArtz!</p><br>
-		<p><u>Notices:</u><br>- Requires Discord Bot Maker <b>BETA</b></p>
-	</div><br>
+	</div>
 	Name:<br>
 	<input id="channelName" class="round" type="text"><br>
 	<div style="float: left; width: 50%;">
@@ -138,13 +137,9 @@ action: function(cache) {
 	const server = cache.server;
 	if(server && server.createChannel) {
 		const name = this.evalMessage(data.channelName, cache);
+		const position = parseInt(data.position);
 		const storage = parseInt(data.storage);
-		server.createChannel(name, 'category').then(function(channel) {
-			const channelData = {};
-			if(data.position) {
-				channelData.position = parseInt(data.position);
-			}
-			channel.edit(channelData);
+		server.createChannel(name, {type: 'category', position: position}).then(function(channel) {
 			const varName = this.evalMessage(data.varName, cache);
 			this.storeValue(channel, storage, varName, cache);
 			this.callNextAction(cache);

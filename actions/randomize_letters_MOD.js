@@ -154,8 +154,7 @@ action: function(cache) {
 	if(!wordLength) return console.log("Please specify amount of randomized letters.");
 	
 	// Main code
-	var WrexMODS = this.getWrexMods(); // I will always use Wrex' thing so I won't explain this everytime! Go go Wrex!
-	const randomize = WrexMODS.require('randomatic');
+	const randomize = this.getWrexMods().require('randomatic');
 	var random = randomize(Input, wordLength);
 
 	// Storing

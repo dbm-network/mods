@@ -228,7 +228,7 @@ action: function(cache) {
 			result = targetChannel.createdAt;
 			break;
 		case 10:
-			result = targetChannel.parent.name;
+			result = targetChannel.parent && targetChannel.parent.name;
 			break;
 		default:
 			break;

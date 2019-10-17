@@ -23,7 +23,7 @@ section: "Messaging",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const names = ['Command Message', 'Temp Variable', 'Server Variable', 'Global Variable'];
+	const names = ['Temp Variable', 'Server Variable', 'Global Variable'];
 	return data.storage === "0" ? `${names[parseInt(data.storage)]}` : `${names[parseInt(data.storage)]} (${data.varName})`;
 },
 
@@ -60,7 +60,7 @@ html: function(isEvent, data) {
 	<div style="float: left; width: 35%;">
 		Source Message:<br>
 		<select id="storage" class="round" onchange="glob.messageChange(this, 'varNameContainer')">
-			${data.messages[isEvent ? 1 : 0]}
+			${data.messages[1]}
 		</select>
 	</div>
 	<div id="varNameContainer" style="display: none; float: right; width: 60%;">
