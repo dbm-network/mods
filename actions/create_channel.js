@@ -124,23 +124,22 @@ action: function(cache) {
 	if(server && server.createChannel) {
 		const name = this.evalMessage(data.channelName, cache);
 		const catid = this.evalMessage(data.categoryID, cache);
+		const topic = this.evalMessage(data.topic, cache);
+		const position = parseInt(data.position);
 		const storage = parseInt(data.storage);
-		server.createChannel(name, 'text').then(function(channel) {
-			const channelData = {};
-			if(data.position) {
-				channelData.position = parseInt(data.position);
-			}
-			if(data.topic) {
-				channelData.topic = this.evalMessage(data.topic, cache);
-			}
-			channel.edit(channelData);
-			if(catid) {
-				channel.setParent(catid);
-			}
-			const varName = this.evalMessage(data.varName, cache);
-			this.storeValue(channel, storage, varName, cache);
-			this.callNextAction(cache);
-		}.bind(this)).catch(this.displayError.bind(this, data, cache));
+		if (!catid) {
+			server.createChannel(name, {type: 'text', topic: topic, position: position}).then(function(channel) {
+				const varName = this.evalMessage(data.varName, cache);
+				this.storeValue(channel, storage, varName, cache);
+				this.callNextAction(cache);
+			}.bind(this)).catch(this.displayError.bind(this, data, cache));
+		} else {
+			server.createChannel(name, {type: 'text', topic: topic, position: position, parent: catid}).then(function(channel) {
+				const varName = this.evalMessage(data.varName, cache);
+				this.storeValue(channel, storage, varName, cache);
+				this.callNextAction(cache);
+			}.bind(this)).catch(this.displayError.bind(this, data, cache));
+		}
 	} else {
 		this.callNextAction(cache);
 	}

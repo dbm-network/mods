@@ -24,7 +24,7 @@ module.exports = {
 	
 	subtitle: function(data) {
 		const message = ['Command Message', 'Temp Variable', 'Server Variable', 'Global Variable'];
-		const info = ['Message Object', 'Message ID', 'Message Text', 'Message Author', 'Message Channel', 'Message Timestamp', 'Message Is Pinned?', 'Message Is TTS?', 'Message edited at', 'Message edits history', 'Message is pinnable?', 'Message includes @everyone mention?', 'Messages different reactions count', 'Mentioned users list', 'Mentioned users count', 'Message URL'];
+		const info = ['Message Object', 'Message ID', 'Message Text', 'Message Author', 'Message Channel', 'Message Timestamp', 'Message Edited At', 'Message Edits History', 'Messages Different Reactions Count', 'Mentioned Users List', 'Mentioned Users Count', 'Message URL', 'Message Creation Date', 'Message Length', 'Message Attachments Count', 'Message Guild', 'Message Type', 'Message Webhook ID'];
 		return `${message[parseInt(data.message)]} - ${info[parseInt(data.info)]}`;
 	},
 	
@@ -36,13 +36,13 @@ module.exports = {
 		 //---------------------------------------------------------------------
 	
 		 // Who made the mod (If not set, defaults to "DBM Mods")
-		 author: "DBM Mods, Lasse & NetLuis",
+		 author: "DBM Mods, Lasse, NetLuis & Cap",
 	
 		 // The version of the mod (Defaults to 1.0.0)
-		 version: "1.9.4",
+		 version: "1.9.6",
 	
 		 // A short description to show on the mod line for this mod (Must be on a single line)
-		 short_description: "Added more options to default action.",
+		 short_description: "New user interface, fixes, and new default action options added.",
 	
 		 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 	
@@ -79,33 +79,31 @@ module.exports = {
 			case 5:
 				dataType = 'Text';
 				break;
-			case 6:
-			case 7:
-				dataType = 'Boolean';
-				break;
 			case 8:
+			case 16: // Added by Cap in 1.9.6
 				dataType = "Date";
 				break;
 			case 9:
-				dataType = "Array";
-				break;
-			case 10:
-				dataType = "Boolean";
-				break;
-			case 11:
-				dataType = "Boolean";
-				break;
-			case 12:
-				dataType = "Number";
-				break;
 			case 13:
 				dataType = "Array";
 				break;
+			case 12:
 			case 14:
+			case 17: // Added by Cap in 1.9.6
+			case 18: // Added by Cap in 1.9.6
 				dataType = "Number";
 				break;
 			case 15: 
 				dataType = "URL";
+				break;
+			case 19: // Added by Cap in 1.9.6
+				dataType = "Guild";
+				break;
+			case 20: // Added by Cap in 1.9.6
+				dataType = "Message Type";
+				break;
+			case 21: // Added by Cap in 1.9.6
+				dataType = "Webhook ID";
 				break;
 		}
 		return ([data.varName2, dataType]);
@@ -156,22 +154,28 @@ module.exports = {
 		<div style="padding-top: 8px; width: 70%;">
 			Source Info:<br>
 			<select id="info" class="round">
+			<optgroup label="Main">
 				<option value="0" selected>Message Object</option>
 				<option value="1">Message ID</option>
 				<option value="2">Message Text</option>
+				<option value="17">Message Length</option>
 				<option value="3">Message Author</option>
 				<option value="4">Message Channel</option>
+				<option value="19">Message Guild</option>
+				<option value="20">Message Type</option>
+				<option value="16">Message Creation Date</option>
 				<option value="5">Message Timestamp</option>
-				<option value="6">Message Is Pinned?</option>
-				<option value="7">Message Is TTS?</option>
-				<option value="8">Message edited at</option>
-				<option value="9">Message edit history</option>
-				<option value="10">Message is pinnable?</option>
-				<option value="11">Message includes @everyone mention?</option>
-				<option value="12">Messages different reactions count</option>
-				<option value="13">Messages mentioned users list</option>
-				<option value="14">Messages mentioned users count</option>
 				<option value="15">Message URL</option>
+			</optgroup>
+			<optgroup label="Others">
+				<option value="8">Message Edited At</option>
+				<option value="9">Message Edit History</option>
+				<option value="12">Messages Different Reactions Count</option>
+				<option value="13">Messages Mentioned Users List</option>
+				<option value="14">Messages Mentioned Users Count</option>
+				<option value="18">Message Attachments Count</option>
+				<option value="21">Message Webhook ID</option>
+			</optgroup>
 			</select>
 		</div>
 	</div><br>
@@ -245,22 +249,11 @@ module.exports = {
 			case 5:
 				result = msg.createdTimestamp;
 				break;
-			case 6:
-				result = msg.pinned;
-				break;
-			case 7:
-				result = msg.tts;
 			case 8:
 				result = msg.editedAt;
 				break;
 			case 9:
 				result = msg.edits;
-				break;
-			case 10:
-				result = msg.pinnable;
-				break;
-			case 11:
-				result = msg.mentions.everyone;
 				break;
 			case 12:
 				result = msg.reactions.array().length;
@@ -273,6 +266,24 @@ module.exports = {
 				break;
 			case 15:
 				result = msg.url;
+				break;
+			case 16: // Added by Cap in 1.9.6
+				result = msg.createdAt;
+				break;
+			case 17: // Added by Cap in 1.9.6
+				result = msg.content.length;
+				break;
+			case 18: // Added by Cap in 1.9.6
+				result = msg.attachments.array().length;
+				break;
+			case 19: // Added by Cap in 1.9.6
+				result = msg.guild;
+				break;
+			case 20: // Added by Cap in 1.9.6
+				result = msg.type;
+				break;
+			case 21: // Added by Cap in 1.9.6
+				result = msg.webhookID;
 				break;
 			default:
 				break;

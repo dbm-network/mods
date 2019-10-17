@@ -5,54 +5,30 @@ module.exports = {
 	//
 	// This is the name of the action displayed in the editor.
 	//---------------------------------------------------------------------
-
-	name: "Sends Stats to DBL",
-
+	
+	name: "Create Anchor",
+	
 	//---------------------------------------------------------------------
 	// Action Section
 	//
 	// This is the section the action will fall into.
 	//---------------------------------------------------------------------
-
+	
 	section: "Other Stuff",
-
+	
 	//---------------------------------------------------------------------
 	// Action Subtitle
 	//
 	// This function generates the subtitle displayed next to the name.
 	//---------------------------------------------------------------------
-
-	subtitle: function (data) {
-		const info = ['Only Server Count', 'Shard & Server Count'];
-		return `Send ${info[parseInt(data.info)]} to DBL!`;
+	
+	subtitle: function(data) {
+		return !!data.description ? `<font color="${data.color}">${data.description}</font>` : `Create ${!!data.anchor_id ? `the "<font color="${data.color}">${data.anchor_id}</font>" anchor at the current position!` : 'an anchor!'}`;
 	},
-
-	//---------------------------------------------------------------------
-	// DBM Mods Manager Variables (Optional but nice to have!)
-	//
-	// These are variables that DBM Mods Manager uses to show information
-	// about the mods for people to see in the list.
-	//---------------------------------------------------------------------
-
-	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "EGGSY",
-
-	// The version of the mod (Defaults to 1.0.0)
-	version: "1.9.2", //Added in 1.8.9
-
-	// A short description to show on the mod line for this mod (Must be on a single line)
-	short_description: "Send bot stats to Discord Bot List!",
-
-	// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-
-	//---------------------------------------------------------------------
-	// Action Storage Function
-	//
-	// Stores the relevant variable info for the editor.
-	//---------------------------------------------------------------------
-
-	// NOTHING HERE, K, PLS LEAVE NOW.
-
+	
+	author: "Deus Corvi && LeonZ",
+	version: "1.0.0",	// Added in 1.9.6
+	
 	//---------------------------------------------------------------------
 	// Action Fields
 	//
@@ -60,9 +36,9 @@ module.exports = {
 	// by creating elements with corresponding IDs in the HTML. These
 	// are also the names of the fields stored in the action's JSON data.
 	//---------------------------------------------------------------------
-
-	fields: ["dblToken", "info"],
-
+	
+	fields: ["anchor_id", "color", "description"],
+	
 	//---------------------------------------------------------------------
 	// Command HTML
 	//
@@ -78,32 +54,33 @@ module.exports = {
 	// The names are: sendTargets, members, roles, channels, 
 	//                messages, servers, variables
 	//---------------------------------------------------------------------
-
-	html: function (isEvent, data) {
+	
+	html: function(isEvent, data) {
 		return `
-<div id="modinfo">
-	<p>
-	   <u>Mod Info:</u><br>
-	   Made by EGGSY!<br>
-	</p>
-	<div style="float: left; width: 99%; padding-top: 8px;">
-	   Your DBL Token:<br>
-	   <input id="dblToken" class="round" type="text">
-	</div><br>
-	<div style="float: left; width: 90%; padding-top: 8px;">
-	   Info to Send:<br>
-	   <select id="info" class="round">
-		<option value="0">Send Server Count Only</option>
-		<option value="1">Send Shard & Server Count</option>
-	</select><br>
-	<p>
-		• Use this mod inside events or commands<br>
-		• Do not send anything about shards if you don't shard your bot, otherwise it'll crash your bot!
-	</p>
+		<div>
+			<p>
+				<u>Mod Info:</u><br>
+				This mod creates an anchor point for you to jump to without<br>
+				having to edit other jumps or skips.
+			</p>
+		</div><br>
+		<div style="float: left; width: 74%;">
+		  Anchor ID:<br>
+			<input type="text" class="round" id="anchor_id"><br>
+		</div>
+		<div style="float: left; width: 24%;">
+			Anchor Color:<br>
+			<input type="color" id="color"><br>
+		</div>
+		<div>
+		<div style="float: left; width: 98%;">
+			Description:<br>
+			<input type="text" class="round" id="description">
+		</div>
 	</div>
-</div>`
+		`
 	},
-
+	
 	//---------------------------------------------------------------------
 	// Action Editor Init Code
 	//
@@ -111,10 +88,10 @@ module.exports = {
 	// is also run. This helps add modifications or setup reactionary
 	// functions for the DOM elements.
 	//---------------------------------------------------------------------
-
-	init: function () {
+	
+	init: function() {
 	},
-
+	
 	//---------------------------------------------------------------------
 	// Action Bot Function
 	//
@@ -122,31 +99,11 @@ module.exports = {
 	// Keep in mind event calls won't have access to the "msg" parameter, 
 	// so be sure to provide checks for variable existance.
 	//---------------------------------------------------------------------
-
-	action: function (cache) {
-		const data = cache.actions[cache.index],
-			token = this.evalMessage(data.dblToken, cache),
-			info = parseInt(data.info),
-			snek = require("snekfetch");
-
-		switch (info) {
-			case 0:
-				snek.post(`https://discordbots.org/bots/${this.getDBM().Bot.bot.user.id}/stats`)
-					.set("Authorization", token)
-					.send({ server_count: this.getDBM().Bot.bot.guilds.size })
-					.catch(() => { })
-				break;
-			case 1:
-				snek.post(`https://discordbots.org/bots/${this.getDBM().Bot.bot.user.id}/stats`)
-					.set("Authorization", token)
-					.send({ server_count: this.getDBM().Bot.bot.guilds.size, shard_id: this.getDBM().Bot.bot.shard.id })
-					.catch(() => { })
-				break;
-		}
-
+	
+	action: function(cache) {
 		this.callNextAction(cache);
 	},
-
+	
 	//---------------------------------------------------------------------
 	// Action Bot Mod
 	//
@@ -155,8 +112,8 @@ module.exports = {
 	// In order to reduce conflictions between mods, be sure to alias
 	// functions you wish to overwrite.
 	//---------------------------------------------------------------------
-
-	mod: function (DBM) {
+	
+	mod: function(DBM) {
 	}
-
-}; // End of module
+	
+	}; // End of module

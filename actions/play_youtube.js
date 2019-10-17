@@ -6,7 +6,7 @@ module.exports = {
     // This is the name of the action displayed in the editor.
     //---------------------------------------------------------------------
 
-    name: "Check If User Reacted",
+    name: "Play YouTube Video",
 
     //---------------------------------------------------------------------
     // Action Section
@@ -14,7 +14,15 @@ module.exports = {
     // This is the section the action will fall into.
     //---------------------------------------------------------------------
 
-    section: "Conditions",
+    section: "Audio Control",
+
+    //---------------------------------------------------------------------
+    // Requires Audio Libraries
+    //
+    // If 'true', this action requires audio libraries to run.
+    //---------------------------------------------------------------------
+
+    requiresAudioLibraries: true,
 
     //---------------------------------------------------------------------
     // Action Subtitle
@@ -23,8 +31,7 @@ module.exports = {
     //---------------------------------------------------------------------
 
     subtitle: function (data) {
-        const results = ["Continue Actions", "Stop Action Sequence", "Jump To Action", "Jump Forward Actions"];
-        return `If True: ${results[parseInt(data.iftrue)]} ~ If False: ${results[parseInt(data.iffalse)]}`;
+        return `${data.url}`;
     },
 
     //---------------------------------------------------------------------
@@ -35,19 +42,16 @@ module.exports = {
     //---------------------------------------------------------------------
 
     // Who made the mod (If not set, defaults to "DBM Mods")
-    author: "MrGold",
+    author: "DBM, TheMonDon, others?",
 
     // The version of the mod (Defaults to 1.0.0)
-    version: "1.9.6", //Added in 1.9.1
+    version: "1.9.6",
+    version2: "1.0.2", // Just to keep track of this version compared to mod pack version
 
     // A short description to show on the mod line for this mod (Must be on a single line)
-    short_description: "Check if a member reacted to specified reaction",
+    short_description: "Gets extra video information on YouTube based on video ID.",
 
     // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-    depends_on_mods: [{
-        name: 'WrexMods',
-        path: 'aaa_wrexmods_dependencies_MOD.js'
-    }],
 
     //---------------------------------------------------------------------
 
@@ -59,7 +63,7 @@ module.exports = {
     // are also the names of the fields stored in the action's JSON data.
     //---------------------------------------------------------------------
 
-    fields: ["member", "varName", "reaction", "varName2", "iftrue", "iftrueVal", "iffalse", "iffalseVal"],
+    fields: ["url", "seek", "volume", "passes", "bitrate", "type"],
 
     //---------------------------------------------------------------------
     // Command HTML
@@ -79,39 +83,32 @@ module.exports = {
 
     html: function (isEvent, data) {
         return `
-<div>
-    <p>
-        <u>Mod Info:</u><br>
-	Created by MrGold
-    </p>
-</div><br>
-<div>
-	<div style="float: left; width: 35%;">
-		Source Member:<br>
-		<select id="member" class="round" onchange="glob.memberChange(this, 'varNameContainer')">
-			${data.members[isEvent ? 1 : 0]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="display: none; float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList"><br>
-	</div>
-</div><br><br><br><br>
-<div>
-	<div style="float: left; width: 35%;">
-		Source Reaction:<br>
-		<select id="reaction" class="round" onchange="glob.refreshVariableList(this)">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer2" style="float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName2" class="round" type="text" list="variableList"><br>
-	</div>
-</div><br><br><br>
-<div style="padding-top: 8px;">
-	${data.conditions[0]}
-</div>`
+        <div>
+            <p>This action has been modified by DBM Mods.</p>
+        </div>
+        <div>
+            YouTube URL:<br>
+            <input id="url" class="round" type="text" value="https://www.youtube.com/watch?v=2zgcFFvEA9g"><br>
+        </div>
+        <div style="float: left; width: 50%;">
+            Seek Position:<br>
+            <input id="seek" class="round" type="text" value="0"><br>
+            Passes:<br>
+            <input id="passes" class="round" type="text" value="1">
+        </div>
+        <div style="float: right; width: 50%;">
+            Volume (0 = min; 100 = max):<br>
+            <input id="volume" class="round" type="text" placeholder="Leave blank for automatic..."><br>
+            Bitrate:<br>
+            <input id="bitrate" class="round" type="text" placeholder="Leave blank for automatic...">
+        </div><br><br><br><br><br><br><br>
+        <div>
+            Play Type:<br>
+            <select id="type" class="round" style="width: 90%;">
+                <option value="0" selected>Add to Queue</option>
+                <option value="1">Play Immediately</option>
+            </select>
+        </div>`;
     },
 
     //---------------------------------------------------------------------
@@ -122,17 +119,7 @@ module.exports = {
     // functions for the DOM elements.
     //---------------------------------------------------------------------
 
-    init: function () {
-        const {
-            glob,
-            document
-        } = this;
-
-        glob.memberChange(document.getElementById('member'), 'varNameContainer');
-        glob.refreshVariableList(document.getElementById('reaction'));
-        glob.onChangeTrue(document.getElementById('iftrue'));
-        glob.onChangeFalse(document.getElementById('iffalse'));
-    },
+    init: function () {},
 
     //---------------------------------------------------------------------
     // Action Bot Function
@@ -142,50 +129,56 @@ module.exports = {
     // so be sure to provide checks for variable existance.
     //---------------------------------------------------------------------
 
-    action: function (cache) {
+    action: async function (cache) {
         const data = cache.actions[cache.index];
+        const Audio = this.getDBM()
+            .Audio;
+        const WrexMods = this.getWrexMods();
+        const ytdl = WrexMods.require('ytdl-core');
+        const getInfoAsync = WrexMods.require('util')
+            .promisify(ytdl.getInfo);
+        const url = this.evalMessage(data.url, cache);
+        const msg = cache.msg;
+        const options = {};
 
-        const type = parseInt(data.member);
-        const varName = this.evalMessage(data.varName, cache);
-        const member = this.getMember(type, varName, cache);
+        if (url) {
 
-        const type2 = parseInt(data.reaction);
-        const varName2 = this.evalMessage(data.varName2, cache);
-        const reaction = this.getWrexMods()
-            .getReaction(type2, varName2, cache);
+            if (data.seek) {
+                options.seek = parseInt(this.evalMessage(data.seek, cache));
+            }
+            if (data.volume) {
+                options.volume = parseInt(this.evalMessage(data.volume, cache)) / 100;
+            } else if (cache.server) {
+                options.volume = Audio.volumes[cache.server.id] || 0.5;
+            } else {
+                options.volume = 0.5;
+            }
+            if (data.passes) {
+                options.passes = parseInt(this.evalMessage(data.passes, cache));
+            }
+            if (data.bitrate) {
+                options.bitrate = parseInt(this.evalMessage(data.bitrate, cache));
+            } else {
+                options.bitrate = 'auto';
+            }
+            options.requester = msg.author;
 
-        let result = false;
-        if (member && reaction.users) {
-            const member22 = String(member)
-                .replace(/!/g, '');
-            const ar = reaction.users.array();
-            const ar22 = String(ar);
-            result = ar22.includes(member22);
-        }
-
-        if (reaction) {
-            if (Array.isArray(member)) {
-                result = member.every(function (mem) {
-                    if (mem && reaction.users) {
-                        const member2 = String(mem)
-                            .replace(/!/g, '');
-                        const ar1 = reaction.users.array();
-                        const ar12 = String(ar1);
-                        return ar12.includes(member2);
-                    } else {
-                        return false;
-                    }
+            const video = await getInfoAsync(url)
+                .catch((err) => {
+                    console.error(`Error with getInfoAsync in play_youtube: ${err}`);
                 });
-            } else if (member && reaction.users) {
-                const member22 = String(member)
-                    .replace(/!/g, '');
-                const ar2 = reaction.users.array();
-                const ar22 = String(ar2);
-                result = ar22.includes(member22);
+            options.title = video.title;
+            options.duration = parseInt(video.length_seconds);
+            options.thumbnail = video.player_response.videoDetails.thumbnail.thumbnails[3].url;
+
+            const info = ['yt', options, url];
+            if (data.type === "0") {
+                Audio.addToQueue(info, cache);
+            } else if (cache.server && cache.server.id !== undefined) {
+                Audio.playItem(info, cache.server.id);
             }
         }
-
-        this.executeResults(result, data, cache);
+        this.callNextAction(cache);
     },
 
     //---------------------------------------------------------------------

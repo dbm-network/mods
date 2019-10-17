@@ -23,9 +23,22 @@ section: "Image Editing",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const channels = ['Same Channel', 'Command Author', 'Mentioned User', 'Mentioned Channel', 'Default Channel', 'Temp Variable', 'Server Variable', 'Global Variable'];
+	const channels = ['Same Channel', 'Command Author', 'Mentioned User', 'Mentioned Channel', 'Default Channel (Top Channel)', 'Temp Variable', 'Server Variable', 'Global Variable'];
 	return `${channels[parseInt(data.channel)]}`;
 },
+
+//---------------------------------------------------------------------
+// Action Storage Function << added
+//
+// Stores the relevant variable info for the editor.
+//---------------------------------------------------------------------
+
+variableStorage: function(data, varType) {
+	const type = parseInt(data.storage2);
+	if(type !== varType) return;
+	return ([data.varName3, 'Message']);
+},
+
 
 //---------------------------------------------------------------------
 	// DBM Mods Manager Variables (Optional but nice to have!)
@@ -35,13 +48,13 @@ subtitle: function(data) {
 	//---------------------------------------------------------------------
 		
 	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "EGGSY",
+	author: "EGGSY & Tindus",
 		
 	// The version of the mod (Defaults to 1.0.0)
-	version: "1.8.6",
+	version: "1.9.5",
 		
 	// A short description to show on the mod line for this mod (Must be on a single line)
-	short_description: "You can rename DBM image names and image formats!",
+	short_description: "You can rename DBM image names and image formats, and Store!",
 	
 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 	
@@ -56,7 +69,7 @@ subtitle: function(data) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["storage", "varName", "channel", "varName2", "message", "imageName", "imageFormat"],
+fields: ["storage", "varName", "channel", "varName2", "message", "imageName", "imageFormat", "storage2", "varName3"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -101,8 +114,8 @@ html: function(isEvent, data) {
 	</div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
-	Message: <div style="float:right"><u>Mod Info:</u> Created by EGGSY</div><br>
-	<textarea id="message" rows="6" placeholder="Insert message here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+	Message: 
+	<textarea id="message" rows="3" placeholder="Insert message here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
 </div><br>
 	<div id="imageFormatField" style="float: left; width: 35%;">
 		Image Format:<br>
@@ -113,8 +126,22 @@ html: function(isEvent, data) {
 	</div>
 	<div id="imageNameField" style="float: right; width: 60%;">
 		Image Name:<br>
-		<input id="imageName" class="round" type="text"><br>
+		<input id="imageName" class="round" type="text">
+	</div><br><br><br>
+	
+	
+<div>
+	<div style="float: left; width: 35%;">
+		Store In:<br>
+		<select id="storage2" class="round" onchange="glob.variableChange(this, 'varNameContainer3')">
+			${data.variables[0]}
+		</select>
 	</div>
+	<div id="varNameContainer3" style="display: none; float: right; width: 60%;">
+		Variable Name:<br>
+		<input id="varName3" class="round" type="text">
+	</div>
+</div>
 	`
 },
 
@@ -130,6 +157,7 @@ init: function() {
 	const {glob, document} = this;
 
 	glob.refreshVariableList(document.getElementById('storage'));
+	glob.variableChange(document.getElementById('storage2'), 'varNameContainer3'); //Fix the varname container poofing ~TheMonDon
 	glob.sendTargetChange(document.getElementById('channel'), 'varNameContainer2');
 },
 
@@ -143,6 +171,8 @@ init: function() {
 
 action: function(cache) {
 	const data = cache.actions[cache.index];
+	const server = cache.server;
+	const msg = cache.msg;
 	const storage = parseInt(data.storage);
 	const varName = this.evalMessage(data.varName, cache);
 	const image = this.getVariable(storage, varName, cache);
@@ -164,13 +194,18 @@ action: function(cache) {
 						name: `${fileName}${data.imageFormat}`
 					}
 				]
-			}]).then(function() {
+			}]).then(function(resultMsg) {
+			const varName3 = this.evalMessage(data.varName3, cache);
+			const storage2 = parseInt(data.storage2);
+			this.storeValue(resultMsg, storage2, varName3, cache);
 				this.callNextAction(cache);
 			}.bind(this));
 		}.bind(this)).catch(this.displayError.bind(this, data, cache));
 	} else if(target && target.send) {
 		const Images = this.getDBM().Images;
 		Images.createBuffer(image).then(function(buffer) {
+			const varName3 = this.evalMessage(data.varName3, cache);
+			const storage2 = parseInt(data.storage2);
 			target.send(this.evalMessage(data.message, cache), {
 				files: [
 					{
@@ -178,7 +213,8 @@ action: function(cache) {
 						name: `${fileName}${data.imageFormat}`
 					}
 				]
-			}).then(function() {
+			}).then(function(resultMsg) {
+				this.storeValue(resultMsg, storage2, varName3, cache);
 				this.callNextAction(cache);
 			}.bind(this)).catch(this.displayError.bind(this, data, cache));
 		}.bind(this)).catch(this.displayError.bind(this, data, cache));
