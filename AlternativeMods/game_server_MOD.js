@@ -23,7 +23,7 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	subtitle: function (data) {
-		const info = ['Server Name', 'Map', 'Number Of Players', 'Number Of Bots', 'Max Players', 'Server Tags', 'Does Server Have Password?'];
+		const info = ['Server Name', 'Map', 'Number Of Players', 'Number Of Bots', 'Max Players', 'Server Tags', 'Does Server Have Password?', 'Server Player List'];
 		return `${info[parseInt(data.info)]}`;
 	},
 
@@ -35,10 +35,10 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "NetLuis & Danno3817",
+	author: "NetLuis, Danno3817 & Destiny",
 
 	// The version of the mod (Defaults to 1.0.0)
-	version: "1.9.6",
+	version: "2.0.0",
 
 	// A short description to show on the mod line for this mod (Must be on a single line)
 	short_description: "Stores Game Server Information.",
@@ -77,6 +77,9 @@ module.exports = {
 				break;
 			case 5:
 				dataType = "Boolean";
+				break;
+			case 5:
+				dataType = "Player list";
 				break;
 		}
 		return ([data.varName, dataType]);
@@ -396,6 +399,7 @@ module.exports = {
 			<option value="4">Max Players</option>
 			<option value="5">Server Tags</option>
 			<option value="6">Does Server Have Password?</option>
+			<option value="7">Server Player List</option>
 			</select>
 			</div>
 		</div><br><br><br><br><br><br><br>
@@ -521,7 +525,10 @@ module.exports = {
 					result = state.raw.tags;
 					break;
 				case 6:
-					result = state.password
+					result = state.password;
+					break;
+				case 7:
+					result = state.players.map(a=> a.name);
 					break;
 				default:
 					break;
