@@ -24,7 +24,7 @@ section: "Member Control",
 
 subtitle: function(data) {
 	const members = ['Mentioned User', 'Command Author', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const info = ['Member Object', 'Member ID', 'Member Username', 'Member Display Name', 'Member Color', 'Member Server', 'Member Last Message', 'Member Highest Role', 'Member Hoist Role', 'Member Color Role', 'Member Game', 'Member Status', 'Member Avatar URL', 'Member Role List', 'Member Join Date', 'Member Voice Channel', 'Member Discrim', 'Member Account Creation Date','Member Tag', 'Member Last Message ID', 'Member Roles Amount', 'Member Permissions List']
+	const info = ['Member Object', 'Member ID', 'Member Username', 'Member Display Name', 'Member Color', 'Member Server', 'Member Last Message', 'Member Highest Role', 'Member Hoist Role', 'Member Color Role', 'Member Game', 'Member Status', 'Member Avatar URL', 'Member Role List', 'Member Join Date', 'Member Voice Channel', 'Member Discrim', 'Member Account Creation Date','Member Tag', 'Member Last Message ID', 'Member Roles Amount', 'Member Permissions List', 'Member Custom Status']
 	return `${members[parseInt(data.member)]} - ${info[parseInt(data.info)]}`;
 },
 
@@ -73,6 +73,7 @@ variableStorage: function(data, varType) {
 		case 11:
 		case 16:
 		case 18:
+		case 22:
 			dataType = "Text";
 			break;
 		case 4:
@@ -167,6 +168,7 @@ html: function(isEvent, data) {
 			<option value="4">Member Color</option>
 			<option value="10">Member Game</option>
 			<option value="11">Member Status</option>
+			<option value="22">Member Custom Status</option>
 			<option value="12">Member Avatar URL</option>
 			<option value="5">Member Server</option>
 			<option value="21">Member Permissions List</option>
@@ -318,6 +320,11 @@ action: function(cache) {
 			break;
 		case 21: // Added by Cap in 1.9.6
 	        result = mem.permissions.toArray().join(", ").replace(/_/g, " ").toLowerCase();
+			break;
+		case 22: //Added by LeonZ
+			if (mem.presence.game) {
+				result = mem.presence.game.state;
+			}
 			break;
 		default:
 			break;
