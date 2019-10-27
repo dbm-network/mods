@@ -322,7 +322,7 @@ action: function(cache) {
 	        result = mem.permissions.toArray().join(", ").replace(/_/g, " ").toLowerCase();
 			break;
 		case 22: //Added by LeonZ
-			if (mem.presence.game) {
+			if (mem.presence.game && mem.presence.game.type == 4) {
 				result = mem.presence.game.state;
 			}
 			break;
