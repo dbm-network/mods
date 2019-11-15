@@ -34,13 +34,13 @@ module.exports = {
   //---------------------------------------------------------------------
 
   // Who made the mod (If not set, defaults to "DBM Mods")
-  author: "General Wrex",
+  author: "General Wrex, SeikiMatt, TheMonDon",
 
   // The version of the mod (Defaults to 1.0.0)
-  version: "1.8.2",
+  version: "1.9.6",
 
   // A short description to show on the mod line for this mod (Must be on a single line)
-  short_description: "INSERT DESCRIPTION HERE",
+  short_description: "Parse from Stored JSON.", //Added desc ~TheMonDon
 
   // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
   depends_on_mods: ["WrexMODS"],
@@ -99,75 +99,67 @@ module.exports = {
   //                messages, servers, variables
   //---------------------------------------------------------------------
 
-  html: function(isEvent, data) {
-    return `
-	<div id="mod-container">
-	<div id="main-body">
-
-		<div id="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
-			<div>
-				<p>
-					<u>Mod Info:</u><br>
-					Created by General Wrex! Edited and fixed by SeikiMatt!
-				</p>
-			</div>
-			<div>
-				<div><br>
-					Stored JSON Variable Name: <br>
-					<input id="jsonObjectVarName" class="round" style="width: 100%;" type="text"><br>
-				</div><br>
-				JSON Path: (supports the usage of <a href="http://goessner.net/articles/JsonPath/index.html#e2" target="_blank">JSON
-					Path (Regex)</a>))<br>
-				<input id="path" class="round" ; style="width: 100%;" type="text"><br>
-				<div style="display: flex;"><br>
-					<div style="margin-right: 10px; width: 40%;">
-						Store In:<br>
-						<select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-							${data.variables[0]}
-						</select>
-					</div>
-					<div id="varNameContainer" style="margin-left: 10px; width: 60%;">
-						Variable Name:<br>
-						<input id="varName" class="round" type="text" style="width: 100%;">
-					</div>
-				</div>
-				<div>
-					<br>
-					End Behavior:<br>
-					<select id="behavior" class="round">
-						<option value="0" selected>Call Next Action Automatically</option>
-						<option value="1">Do Not Call Next Action</option>
-					</select>
-				</div>
-
-			</div>
-
-		</div>
-		<style>
-			#mod-container {
-				width: 570px;
-				height: 359px;
-				overflow-y: none;
-			}
-
-			#main-body {
-				padding: 15px;
-				overflow-y: none;
-			}
-
-			.action-input {
-				margin: 0 !important;
-				padding: 0 !important;
-			}
-
-			body {
-				margin: 0;
-				overflow-y: none;
-			}
-		</style>
+html: function(isEvent, data) {
+return `
+<div style="margin: 0; overflow-y: none;">
+	<div>
+		<p>
+			<u>Mod Info:</u><br>
+			Authors: ${this.author}
+		</p>
 	</div>
-</div>`;
-  },
+	<div style="width: 80%;">
+		<div><br>
+			<label for="jsonObjectVarName">
+				<font color="white">Stored JSON Variable Name:</font>
+			</label>
+			<input id="jsonObjectVarName" class="round" type="text"><br>
+		</div>
+		<div>
+			JSON Path: (supports the usage of <a href="http://goessner.net/articles/JsonPath/index.html#e2" target="_blank">JSON Path (Regex)</a>)<br>
+			<input id="path" class="round" ;" type="text"><br>
+		</div>
+	</div>
+	<div style="width: 80%;">
+		<div style="float: left; width: 30%;">
+			<label for="storage">
+				<font color="white">Store In:</font>
+			</label>
+			<select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
+				${data.variables[1]}
+			</select>
+		</div>
+		<div id="varNameContainer" style="margin-left: 10px; float: left; width: 65%;">
+			<label for="varName">
+				<font color="white">Variable Name:</font>
+			</label>
+			<input id="varName" class="round" type="text">
+		</div>
+	</div>
+	<div>
+		<div style="float: left;">
+			<br>
+			<label for="behavior">
+				<font color="white">End Behavior:</font>
+			</label>
+			<select id="behavior" class="round" ;>
+				<option value="0" selected>Call Next Action Automatically</option>
+				<option value="1">Do Not Call Next Action</option>
+			</select>
+		</div>
+		<div style="float: left; margin-left: 10px; width: 30%;">
+			<br>
+			<label for="debugMode">
+				<font color="white">Debug Mode:</font>
+			</label>
+			<select id="debugMode" class="round">
+				<option value="0" selected>Disabled</option>
+				<option value="1">Enabled</option>
+			</select>
+		</div>
+	</div>
+</div>
+`;},
 
   //---------------------------------------------------------------------
   // Action Editor Init Code
@@ -191,16 +183,15 @@ module.exports = {
   //---------------------------------------------------------------------
 
   action: function(cache) {
-    var WrexMODS = this.getWrexMods();
-
+    const WrexMODS = this.getWrexMods();
     const data = cache.actions[cache.index];
     let result;
     const varName = this.evalMessage(data.varName, cache);
     const storage = parseInt(data.storage);
     const jsonObjectVarName = this.evalMessage(data.jsonObjectVarName, cache);
     const path = this.evalMessage(data.path, cache);
-
     const jsonRaw = this.getVariable(storage, jsonObjectVarName, cache);
+	const DEBUG = parseInt(data.debugMode);
 
     if (typeof jsonRaw !== "object") {
       var jsonData = JSON.parse(jsonRaw);
@@ -222,7 +213,7 @@ module.exports = {
           outData = WrexMODS.jsonPath(jsonData, "$.." + path);
         }
 
-        console.log(outData);
+        if(DEBUG) console.log(outData);
 
         try {
           var test = JSON.parse(JSON.stringify(outData));
@@ -241,11 +232,7 @@ module.exports = {
             success: false
           });
           this.storeValue(errorJson, storage, varName, cache);
-          console.log(
-            "WebAPI Parser: Error Invalid JSON, is the Path set correctly? [" +
-              path +
-              "]"
-          );
+          console.log("WebAPI Parser: Error Invalid JSON, is the Path set correctly? [" + path + "]");
         } else {
           if (outValue.success != null || !outValue) {
             var errorJson = JSON.stringify({
@@ -254,20 +241,10 @@ module.exports = {
               success: false
             });
             this.storeValue(errorJson, storage, varName, cache);
-            console.log(
-              "WebAPI Parser: Error Invalid JSON, is the Path set correctly? [" +
-                path +
-                "]"
-            );
+            console.log("WebAPI Parser: Error Invalid JSON, is the Path set correctly? [" + path + "]");
           } else {
             this.storeValue(outValue, storage, varName, cache);
-            console.log(
-              "WebAPI Parser: JSON Data values starting from [" +
-                path +
-                "] stored to: [" +
-                varName +
-                "]"
-            );
+            if(DEBUG) console.log("WebAPI Parser: JSON Data values starting from [" + path + "] stored to: [" + varName + "]");
           }
         }
       }
@@ -278,10 +255,7 @@ module.exports = {
         success: false
       });
       this.storeValue(errorJson, storage, varName, cache);
-
-      console.error(
-        "WebAPI Parser: Error: " + errorJson + " stored to: [" + varName + "]"
-      );
+      console.error("WebAPI Parser: Error: " + errorJson + " stored to: [" + varName + "]");
     }
 
     if (data.behavior === "0") {
