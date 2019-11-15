@@ -73,8 +73,10 @@ fields: ["storage", "varName", "message"],
 //                messages, servers, variables
 //---------------------------------------------------------------------
 
-html: function(isEvent, data) {
+	
+	html: function(isEvent, data) {
 	return `
+<div><p>Use [Title](Link) to mask links here.</p></div><br>
 <div>
 	<div style="float: left; width: 35%;">
 		Source Embed Object:<br>
