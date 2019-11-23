@@ -39,7 +39,7 @@ module.exports = {
 
     // The version of the mod (Defaults to 1.0.0)
     version: "1.9.6", //Added in 1.9.4?
-    version2: "1.0.0", // Just to keep track of this version compared to mod pack version
+    version2: "1.1.0", // Just to keep track of this version compared to mod pack version
 
     // A short description to show on the mod line for this mod (Must be on a single line)
     short_description: "Gets extra video information on YouTube based on video ID.",
@@ -239,21 +239,14 @@ module.exports = {
         const fetchVideoInfo = WrexMods.require('youtube-info');
         const TimeFormat = WrexMods.require('hh-mm-ss');
         const ytdl = WrexMods.require('ytdl-core');
-        const getInfoAsync = WrexMods.require('util')
-            .promisify(ytdl.getInfo);
         let result;
 
         // Check if everything is ok:
         if (!video) return console.log("Please specify a video id to get video informations.");
-
-        const song = await getInfoAsync(video)
-            .catch((err) => {
-                console.error(err);
-			});
 		
-		if (!song.video_id) return console.log('Could not find song ID in youtube_info_MOD. This is probably due to ytdl-core being outdated.');
+		const songID = ytdl.getVideoID(video);
 		
-        fetchVideoInfo(song.video_id, function (err, videoInfo) {
+        fetchVideoInfo(songID, function (err, videoInfo) {
             if (err) return console.error(err);
 
             switch (info) {
