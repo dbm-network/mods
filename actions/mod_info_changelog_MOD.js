@@ -37,7 +37,7 @@ subtitle: function(data) {
 author: "DBM Mods",
 
 // The version of the mod (Defaults to 1.0.0)
-version: "1.9.6 ~ beta",
+version: "1.9.7 ~ beta",
 
 // A short description to show on the mod line for this mod (Must be on a single line)
 short_description: "Changelog overview",
@@ -86,14 +86,20 @@ html: function(isEvent, data) {
 <div>
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
 	<p>
+	<h2>1.9.7: Someone come up with a tagline plz</h2>
+		● Revised Youtube Info Mod<br>
+	</p>
+	<p>
 	<h2>1.9.6: Almost everything requires beta! WOO!</h2>
-		● Added Check if File Exists<br>
+		● Added Check if File Exists Mod<br>
 		● Added Generate Random Word<br>
 		● Added Merge Lists Mod<br>
 		● Added Slice Mod<br>
 		● Added Play Youtube (Revised default action)<br>
 		● Added Create Anchor Mod<br>
 		● Added Jump To Anchor Mod<br>
+		● Added Inspect List or Object Mod<br>
+		● Added Filter List or Object Mod<br>
 		● Revised Check If Member<br>
 		● Revised Parse From Sored JSON<br>
 		● Revised Read File<br>
@@ -107,8 +113,17 @@ html: function(isEvent, data) {
 		● Revised Youtube Info Mod<br>
 		● Revised Check If User Reacted Mod<br>
 		● Revised Convert Seconds To Days Mod<br>
-		● Revissed File Control (V4)<br>
+		● Revised File Control (V4) Mod<br>
 		● Revised Game Server Mod<br>
+		● Revised Add Embed Field<br>
+		● Revised Set Embed Description<br>
+		● Revised Send Embed Message<br>
+		● Revised Send Image Mod<br>
+		● Revised Send Gif Mod<br>
+		● Revised Send Log Message<br>
+		● Revised Find Emoji<br>
+		● Revised Find Emoji in MSG Server Mod<br>
+		● Revised Check Variable<br>
 		● Fixed Create Voice Channel<br>
 		● Fixed Create Channel<br>
 		● Fixed Create Category<br>
