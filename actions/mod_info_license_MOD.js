@@ -142,7 +142,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 			'beta1': 'The DBM Network Mods are only meant to run on the',
 			'beta2': 'Beta version of DBM! Please upgrade on steam, then',
-			'beta3': 'try again, you may haveto make a new project and copy',
+			'beta3': 'try again. You may have to create a new project and copy',
 			'beta4': 'your data over!',
 
 			'nwjs1': 'Mods are not guaranteed to work if you are running inside of DBM!',
