@@ -127,59 +127,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 	// functions you wish to overwrite.
 	//---------------------------------------------------------------------
 
-	mod: function (DBM) {
-		
-		const fs = require('fs');
-		const error = {
-			'filler1': '======================================================',
-			'filler2': '==================== DBM NETWORK ====================',
-			'filler3': '=====================================================',
-
-			'noderejection1': 'Error (0x012756): nodeRejection (DeprecatedServices)',
-			'noderejection2': 'Please contact the discord mod support to resolve ',
-			'noderejection3': 'this issue.',
-			'noderejection4': 'Reference ID: blw82u0juxxbr7v2xdx209wii8o68wqt',
-
-			'beta1': 'The DBM Network Mods are only meant to run on the',
-			'beta2': 'Beta version of DBM! Please upgrade on steam, then',
-			'beta3': 'try again, you may haveto make a new project and copy',
-			'beta4': 'your data over!',
-
-			'nwjs1': 'Mods are not guaranteed to work if you are running inside of DBM!',
-			'nwjs2': 'Please use the command prompt or terminal and try again!',
-		};
-		if (process.argv[0].includes('\\steamapps\\common\\Discord Bot Maker')) {
-			/* const files = fs.readdirSync(process.argv[0].replace('Discord Bot Maker.exe', ''))
-			if (files.split(',').some(f => ['LAUNCHER.exe', 'LAUNCHER_x64.exe', 'SmartSteamEmu', 'SmartSteamEmu.dll', 'SmartSteamEmu.ini', 'SmartSteamEmu64.dll', 'GAMESTORRENT.CO.url', 'IGG - GAMES.COM.url'].includes(f))) {
-				console.log('ERROR YOU HAVE CRACKED')
-			} */
-		} 
-		if (process.argv[0].includes('Discord Bot Maker')) {
-			console.error(error.filler1);
-			console.error(error.filler2);
-			console.error(error.nwjs1);
-			console.error(error.nwjs2);
-			console.error(error.filler1);
-			process.exit(1);
-		} else if (process.argv[0].includes('Discord.Bot.Maker')) {
-			console.error(error.filler3);
-			console.error(error.filler2);
-			console.error(error.noderejection1);
-			console.error(error.noderejection2);
-			console.error(error.noderejection3);
-			console.error(error.noderejection4);
-			console.error(error.filler3);
-			process.exit(1);
-		} else if (fs.readFileSync('./bot.js', 'utf8').length <= 2000 || !DBM.Audio) {
-			console.error(error.filler3);
-			console.error(error.filler2);
-			console.error(error.beta1);
-			console.error(error.beta2);
-			console.error(error.beta3);
-			console.error(error.beta4);
-			console.error(error.filler3);
-			process.exit(1);
-		}
-	}
+	mod: function (DBM) { }
 
 }; // End of module
