@@ -201,7 +201,8 @@ div.embed { /* <div class="embed"></div> */
         { name: 'Requester of Current Song URL', type: "User"},
         { name: 'Title of Next Song URL', type: "Title String"},
         { name: 'Title of Current Song URL', type: "Title String"},
-        { name: "Duration of Current Song URL", type: "Duration"}
+        { name: "Duration of Current Song URL", type: "Duration"},
+        { name: "Current Song Thumbnail URL", type: "Url"}
     ],
 
     // itemlist is set from above
@@ -338,6 +339,9 @@ div.embed { /* <div class="embed"></div> */
                 break;
             case 14:
                 result = TimeFormat.fromS(audio.playingnow[targetServer.id] && audio.playingnow[targetServer.id][1].duration); //Current song duration
+                break;
+            case 15:
+                result = audio.playingnow[targetServer.id] && audio.playingnow[targetServer.id][1].thumbnail; // Current Song Thumbnail URL
                 break;
             default:
                 break;
