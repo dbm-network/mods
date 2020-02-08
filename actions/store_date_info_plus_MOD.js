@@ -288,6 +288,7 @@ module.exports = {
               const varName = this.evalMessage(data.varName, cache);
               this.storeValue(result, storage, varName, cache);
           }
+	   
         this.callNextAction(cache);
     },
     
