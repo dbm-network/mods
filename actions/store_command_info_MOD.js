@@ -40,7 +40,7 @@ module.exports = {
     author: "Cap",
     
     // The version of the mod (Last edited version number of DBM Mods)
-    version: "1.9.6", //Added in 1.9.6
+    version: "1.9.7", //Added in 1.9.7
     
     // A short description to show on the mod line for this mod (Must be on a single line)
     short_description: "See information for some command.",
