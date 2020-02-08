@@ -4,7 +4,7 @@ Here you can find some custom event types for Discord Bot Maker! Feel free to us
 Make sure to join the [DBM Network server](https://discord.gg/3QxkZPK) server to stay updated and be able to suggest stuff! More information at: https://dbm-network.org/
 
 ## How to install the Modifications:
-1. Download [this](https://api.github.com/repos/dbm-network/mods/zipball/) ZIP.
+1. Download [this](https://api.github.com/repos/dbm-network/events/zipball/) ZIP.
 1. Open the ZIP and open the *events* folder
 1. Open your Steam Library and open the Softwares tab
 1. Choose Discord Bot Maker &rarr; Local Files &rarr; Browse Local Files
