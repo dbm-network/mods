@@ -99,9 +99,8 @@ html: function(isEvent, data) {
 	<div style="padding-left: 1%; float: left; width: 45%;">
 		Line Cap:<br>
 		<select id="lineCap" class="round">
-			<option value="0" selected>Butt</option>
+			<option value="0" selected>Square</option>
 			<option value="1">Round</option>
-			<option value="1">Square</option>
 		</select><br>
 	</div>
 </div><br><br><br>
@@ -176,13 +175,11 @@ action: function(cache) {
 	let Cap;
 	switch(lineCap) {
 		case 0:
-			Cap = "butt";
+			Cap = "sqaure";
 			break;
 		case 1:
 			Cap = "round";
 			break;
-		case 2:
-			Cap = "sqaure";
 	}
 	const color = this.evalMessage(data.color, cache);
 	let canvas;
@@ -197,18 +194,26 @@ action: function(cache) {
 	} else {
 		ctx.strokeStyle = "#"+color;
 	}
-	ctx.lineCap = Cap;
 	ctx.lineWidth = lineWidth;
 	if (type == 0) {
 		ctx.beginPath();
-		ctx.moveTo(0, height/2);
-		ctx.lineTo(width*percent/100, height/2);
+		switch(lineCap) {
+			case 0:
+				ctx.lineTo(0, height/2);
+				ctx.lineTo(width*percent/100, height/2);
+				break;
+			case 1:
+				ctx.lineTo(height/4, height/2);
+				ctx.lineTo(width*percent/100-height/4, height/2);
+				break;
+		}
 	} else if (type == 1) {
 		ctx.translate(height / 2, height / 2);
 		ctx.rotate(-0.5 * Math.PI);
 		ctx.beginPath();
 		ctx.arc(0, 0, width, 0, Math.PI * 2 * percent / 100, false);
 	}
+	ctx.lineCap = Cap;
 	ctx.stroke();
 	const result = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
 	this.storeValue(result, storage, varName, cache);
