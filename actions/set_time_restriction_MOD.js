@@ -39,7 +39,7 @@ module.exports = {
 	author: "Aamon#9130",
 
 	// The version of the mod (Defaults to 1.0.0)
-	version: "1.9.5", //Added in 1.9.5
+	version: "1.9.6", //Added in 1.9.5
 
 	mod_version: "2",
 
@@ -191,8 +191,8 @@ module.exports = {
 		const data = cache.actions[cache.index];
 
 		const Files = this.getDBM().Files;
-
-		const value = parseInt(data.value);
+		//Allow use of variables to set cooldown - Mindlesscargo
+		const value = parseInt(this.evalMessage(data.value, cache));
 		const message = parseInt(data.message);
 		const varName = this.evalMessage(data.varName, cache);
 		const msg = this.getMessage(message, varName, cache);
