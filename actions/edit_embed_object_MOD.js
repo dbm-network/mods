@@ -680,7 +680,7 @@ action: function(cache) {
 			embed.fields.splice(fieldNum,1);
 			break;
 		case 3:
-			embed.fields = undefined;
+			embed.fields = [];
 			break;
 		case 4:
 			let field = {};
