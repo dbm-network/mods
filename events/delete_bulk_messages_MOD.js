@@ -22,7 +22,7 @@ isEvent: true,
 // The variables associated with this event. Can only have 0, 1, or 2.
 //---------------------------------------------------------------------
 
-fields: ["Temp Variable Name (stores list of messages):", "Temp Variable Name (stores amount of messages)"],
+fields: ["Temp Variable Name (stores list of messages):", "Temp Variable Name (stores amount of messages):"],
 
 //---------------------------------------------------------------------
 // Action Bot Mod
