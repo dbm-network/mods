@@ -24,7 +24,7 @@ module.exports = {
 	
 	subtitle: function(data) {
 		const message = ['Command Message', 'Temp Variable', 'Server Variable', 'Global Variable'];
-		const info = ['Message Object', 'Message ID', 'Message Text', 'Message Author', 'Message Channel', 'Message Timestamp', 'Message Edited At', 'Message Edits History', 'Messages Different Reactions Count', 'Mentioned Users List', 'Mentioned Users Count', 'Message URL', 'Message Creation Date', 'Message Length', 'Message Attachments Count', 'Message Guild', 'Message Type', 'Message Webhook ID'];
+		const info = ['Message Object', 'Message ID', 'Message Text', 'Message Author', 'Message Channel', 'Message Timestamp', 'Message Edited At', 'Message Edits History', 'Messages Different Reactions Count', 'Mentioned Users List', 'Mentioned Users Count', 'Message URL', 'Message Creation Date', 'Message Length', 'Message Attachments Count', 'Message Guild', 'Message Type', 'Message Webhook ID', 'Message Embed Object'];
 		return `${message[parseInt(data.message)]} - ${info[parseInt(data.info)]}`;
 	},
 	
@@ -105,6 +105,9 @@ module.exports = {
 			case 21: // Added by Cap in 1.9.6
 				dataType = "Webhook ID";
 				break;
+			case 22: //Added by LeonZ
+				dataType = "Embed Message";
+				break;
 		}
 		return ([data.varName2, dataType]);
 	},
@@ -166,6 +169,7 @@ module.exports = {
 				<option value="16">Message Creation Date</option>
 				<option value="5">Message Timestamp</option>
 				<option value="15">Message URL</option>
+				<option value="22">Message Embed Object</option>
 			</optgroup>
 			<optgroup label="Others">
 				<option value="8">Message Edited At</option>
@@ -220,6 +224,7 @@ module.exports = {
 	action: function(cache) {
 		const data = cache.actions[cache.index];
 		const message = parseInt(data.message);
+		const DiscordJS = require('discord.js');
 		const varName = this.evalMessage(data.varName, cache);
 		const info = parseInt(data.info);
 		const msg = this.getMessage(message, varName, cache);
@@ -286,6 +291,29 @@ module.exports = {
 				break;
 			case 21: // Added by Cap in 1.9.6
 				result = msg.webhookID;
+				break;
+			case 22:
+				const embed = msg.embeds[0];
+				delete embed.message;
+				let Embeds = [];
+				JSON.stringify(embed, function(key, value) {
+					if (typeof value === 'object' && value !== null) {
+						if (Embeds.indexOf(value) !== -1) {
+							return;
+						}
+						delete value.embed;
+						if (value.createdTimestamp) {
+							value.timestamp = value.createdTimestamp;
+							delete value.createdTimestamp;
+						} else if (value.iconURL) {
+							value.icon_url = value.iconURL;
+							delete value.iconURL;
+						}
+						Embeds.push(value);
+					}
+					return value;
+				});
+				result = new DiscordJS.RichEmbed(Embeds[0]);
 				break;
 			default:
 				break;
