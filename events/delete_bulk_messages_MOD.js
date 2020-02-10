@@ -62,7 +62,7 @@ mod: function(DBM) {
 		const server = messagesList.array()[0].guild;
 		for(let i = 0; i < events.length; i++) {
 			const event = events[i];
-			if(event.temp) temp[event.temp] = messagesList;
+			if(event.temp) temp[event.temp] = messagesList.array();
 			if(event.temp2) temp[event.temp2] = messagesList.size;
 			Actions.invokeEvent(event, server, temp);
 		}
