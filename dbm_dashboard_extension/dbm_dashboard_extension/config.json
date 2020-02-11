@@ -1,0 +1,40 @@
+{
+    "port": "3000",
+    "isBotSharded": false,
+    "tokenSecret": "b9tqc7nn7g",
+    "clientSecret": "",
+    "callbackURL": "http://localhost:3000/dashboard/callback",
+    "owner": "",
+    "inviteLink": "/dashboard/@me",
+    "supportServer": "https://discord.gg/3QxkZPK",
+    "introText": "You can replace this text with whatever you want. After you do that this will automatically show up on your website!",
+    "footerText": "You can replace this text with whatever you want. After you do that this will automatically show up on your website!",
+    "theme": "default",
+    "isGlitch": false,
+    "featureOne": {
+        "name": "Feature One",
+        "description": "You can replace this text with whatever you want. After you do that this will automatically show up on your website!"
+    },
+    "featureTwo": {
+        "name": "Feature Two",
+        "description": "You can replace this text with whatever you want. After you do that this will automatically show up on your website!"
+    },
+    "featureThree": {
+        "name": "Feature Three",
+        "description": "You can replace this text with whatever you want. After you do that this will automatically show up on your website!"
+    },
+    "featureFour": {
+        "name": "Feature Four",
+        "description": "You can replace this text with whatever you want. After you do that this will automatically show up on your website!"
+    },
+    "navItems": [{
+        "name": "Home Page",
+        "link": "/"
+    }, {
+        "name": "Dashboard",
+        "link": "/dashboard/@me"
+    }, {
+        "name": "Admin Panel",
+        "link": "/dashboard/admin"
+    }]
+}
