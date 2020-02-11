@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # DBM Dashboard
 
 > You can find user created mods [here](https://github.com/greatplainsmodding/DBM-Dashboard-Mods).<br>
@@ -54,8 +53,3 @@
 > <b>Creating Mods:</b> Just like DBM you can create mods for DBM Dashboard! Its just like DBM.<br>
 > <b>Dashboard:</b> The dashboard part will be coming soon, for now you are stuck with the admin panel! The dashboard will be just like the admin panel. People can create mods for it and do whatever!<br>
 > <b>Report Bugs:</b> Please don't ping me or dm me! You can report bugs [here](https://github.com/greatplainsmodding/DBM-Dashboard/issues).
-=======
-# extensions
-
-soon™️
->>>>>>> 21d63244a654d21d969e44686e0e0ebed8d203f4
