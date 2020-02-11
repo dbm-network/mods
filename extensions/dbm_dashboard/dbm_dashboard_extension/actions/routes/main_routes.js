@@ -295,9 +295,9 @@ module.exports = {
                 };
             };
         });
-
+  console.log(require("path").join(__dirname, "../../", "config.json"))
         app.post('/api/admin/web', checkAuthOwner, function (req, res) {
-            const dashboardConfigPath = require("path").join(__dirname, "../extensions", "dbm_dashboard_extension", "config.json");
+            const dashboardConfigPath = require("path").join(__dirname, "../extensions", "config.json");
             let config = dashboardConfig();
 
             config.featureOne.name = req.body.featureOneName;
