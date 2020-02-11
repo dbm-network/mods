@@ -4,12 +4,14 @@
 > Want to try out new features? You can install the beta version [here](https://github.com/greatplainsmodding/DBM-Dashboard)<br>
 > If you find any bugs please report them [here](https://github.com/greatplainsmodding/DBM-Dashboard/issues).
 
-| DBM Dashboard Features                                                | Description                         |                                                      |                                    
+| DBM Dashboard Features | Description |                                                      |                                    
 | -------------------------------------------------------------- | ----------------------------------- | ---------------------------------------------------- |
-| Admin Panel                                   | Manage your bot from the admin panel.| [Example](https://sharex.greatplainsmodding.com/x0X8) 
-| Custom Mods             | Anyone that knows JavaScript can create mods for the dashboard.)| [Example]() 
-| Dashboard | People can login to the dashboard and invite your bot.| [Example](https://sharex.greatplainsmodding.com/XyUo)
-| Landing Page   | You need a website to show off your awesome bot!| [Example](https://sharex.greatplainsmodding.com/llvs) 
+| Admin Panel | Manage your bot from the admin panel.| [Example](https://sharex.greatplainsmodding.com/x0X8) 
+| Custom Mods | Anyone that knows javascript can create mods and extensions for the dashboard.)| [Example]() 
+| Custom Routes | With custom routes people can create their own pages for the dashboard.)| [Example]() 
+| Custom Extensions | On the admin panel and the dashboard panel, you can use extensions to add your own sections.)| [Example]() 
+| Dashboard | People can login to the dashboard, invite your bot, and manage their server.| [Example](https://sharex.greatplainsmodding.com/XyUo)
+| Landing Page | You need a website to show off your awesome bot!| [Example](https://sharex.greatplainsmodding.com/llvs) 
 
 ## Links
 > [Developer Portal](https://discordapp.com/developers)<br>
@@ -18,7 +20,7 @@
 > [Glitch Tutorial](https://youtu.be/Ey5R1IdV9FA)
 
 ## Step 1
-> Download the needed files. You can download them through CMD if you have git installed. After you have downloaded the files, unzip them and paste them into your bots extensions folder. <br> <code>git clone https://github.com/greatplainsmodding/DBM-Dashboard.git</code>
+> Download the needed files. You can download them through CMD if you have git installed. After you have downloaded the files, unzip them and paste them into your bots extensions folder. <br> <code>git clone https://github.com/greatplainsmodding/extensions/raw/master/dbm_dashboard/dbm_dashboard_extension.zip</code>
 
 ## Step 2 
 > Open DBM and navigate to <code>Extensions < DBM Dashboard</code> Place your ID in the field where it says <b>Owner ID</b>.
