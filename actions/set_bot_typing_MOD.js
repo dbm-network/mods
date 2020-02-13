@@ -25,7 +25,7 @@ module.exports = {
 	subtitle: function(data) {
 		const names = ['Same Channel', 'Mentioned Channel', 'Default Channel', 'Temp Variable', 'Server Variable', 'Global Variable'];
 		const names2 = ['Starts Typing', 'Stops Typing']
-		const index2 = parseInt(data.EliteArtzIsPro);
+		const index2 = parseInt(data.type);
 		const index = parseInt(data.storage);
 		return index < 3 ? `${names[index]} - ${names2[index2]}` : `${names[index]} - ${data.varName} - ${names2[index2]}`;
 	},
@@ -38,7 +38,7 @@ module.exports = {
 	// are also the names of the fields stored in the action's JSON data.
 	//---------------------------------------------------------------------
 
-	fields: ["storage", "varName", "EliteArtzIsPro"],
+	fields: ["storage", "varName", "type"],
 
 	//---------------------------------------------------------------------
 	// Command HTML
@@ -61,13 +61,13 @@ module.exports = {
 		<div>
 			<p>
 				<u>Mod Info:</u><br>
-				Created by Lasse! (Merged by EliteArtz)
+				Created by Lasse! (merged by EliteArtz and fixed by iAmaury)
 			</p>
 		</div><br>
 	<div>
 		<div style="float: left; width: 35%;">
 			Typing Option:<br>
-			<select id="EliteArtzIsPro" class="round">
+			<select id="type" class="round">
 				<option value="0" selected>Start Typing</option>
 				<option value="1">Stop Typing</option>
 			</select>
@@ -121,7 +121,7 @@ module.exports = {
 		const channel = this.getChannel(storage, varName, cache);
 
 		try { //This "Try and Catch" Function is really useful for when it's coming up an error, it will log it in your logs.
-			if (data.EliteArtzIsPro == "0") { //"If and else" Function is for looking if the result of them equals what you wan't.
+			if (data.type == "0") { //"If and else" Function is for looking if the result of them equals what you wan't.
 				channel.startTyping(); //Starts the Typing
 			} else {
 				channel.stopTyping(true); //Stops the Typing
