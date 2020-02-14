@@ -238,7 +238,10 @@ module.exports = {
 		};
 
 		const express = moduleRequire('express'),
-			{ fs, readdirSync } = require("fs"),
+			{
+				fs,
+				readdirSync
+			} = require("fs"),
 			chalk = moduleRequire('chalk'),
 			bodyParser = moduleRequire('body-parser'),
 			cookieParser = moduleRequire('cookie-parser'),
@@ -284,6 +287,8 @@ module.exports = {
 		})
 
 		// We wait for the bot to be ready so these dmb nerds dont break it
+		DBM.DashboardOnReady = DBM.Bot.onReady || {};
+
 		DBM.Bot.onReady = function () {
 			const client = DBM.Bot.bot;
 			let scopes = ['identify', 'guilds'];
@@ -397,6 +402,7 @@ module.exports = {
 			}
 
 			app.listen(config.port, () => ready());
+			DBM.DashboardOnReady.apply(this, arguments);
 		};
 	}
 };
