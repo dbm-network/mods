@@ -5,6 +5,8 @@ module.exports = {
 	// More Than 250 Members is deprecated please keep in mind its the #20 vaule. (do NOT remove) ~ Danno
 	// given the large amount of Infos here PLEASE document everything properly so the next person that adds onto it will know whats going on. thanks ~ Danno
 	//
+	// Missing 1.8.7 update text by Lasse (stated on Case 36)
+	//
 	// 1.8.9:
 	// - Added fetchMembers to probably fix the membercount cause users weren't cached ~ Lasse
 	//
@@ -12,8 +14,12 @@ module.exports = {
 	// - Scraped store_server_info_MOD, every thing is moved here to store_server_info
 	// - Added Is Server Verified ~ Danno3817
 	//
-	// 1.9.2 ~ CoolGuy 2/16/2020
-	// Store Banned Member List and Store Invite List both take time to complete, and go onto the next action without allowing it to fetch properly. This results in 0 or undefined as the result. Fixed.
+	// Missing 1.9.6 update text by Cap (stated on Case 43)
+	// 
+	// 1.9.7 ~ CoolGuy 02/16/2020:
+	// - converted 'action' function to async to support below. Wouldn't affect other actions in this list.
+	// - Fixed fetchBans() and fetchInvites by awaiting their promise. This way, it will always return the list instead of 0 or undefined.
+	// - Had to rename some of the variables (storage and varName2) in the end sections, as they were already casted variables. Could have cast them with let instead of const, but const is slightly better for resource management as per spec.
 	//---------------------------------------------------------------------
 
 	//---------------------------------------------------------------------
@@ -306,7 +312,7 @@ module.exports = {
 	// so be sure to provide checks for variable existance.
 	//---------------------------------------------------------------------
 
-	action: function (cache) {
+	action: async function (cache) {
 		const data = cache.actions[cache.index];
 		const server = parseInt(data.server);
 		const varName = this.evalMessage(data.varName, cache);
@@ -317,7 +323,6 @@ module.exports = {
 			return;
 		}
 		let result;
-		const sleep = ms => new Promise((resolve, j) => setTimeout(resolve, ms));
 		switch (info) {
 			case 0: // Object
 				result = targetServer;
@@ -469,37 +474,31 @@ module.exports = {
 			case 40: // Is Server Verified?
 				result = targetServer.verified;
 				break;
-			case 41://	Collection of banned users
-				// This does fetch the bans properly, though it takes some time to operate. By that time, other actions may have already tried to call this, resulting in undefined. ~ CoolGuy
-				targetServer.fetchBans()
-				.then(bans => {
-					result = bans.array();
-					const storage = parseInt(data.storage);
-					const varName2 = this.evalMessage(data.varName2, cache);
-					this.storeValue(result, storage, varName2, cache);
-				});
+			case 41: //	Collection of banned users. Fixed by CoolGuy in 1.9.7
+				const bans = await targetServer.fetchBans();
+				result = bans.array();
+				const storage = parseInt(data.storage);
+				const varName2 = this.evalMessage(data.varName2, cache);
+				this.storeValue(result, storage, varName2, cache);
 				break;
-			case 42://	Collection of guild invites
-				// This does fetch the invites properly, though it takes some time to operate. By that time, other actions may have already tried to call this, resulting in 0 or undefined. ~ CoolGuy
-				targetServer.fetchInvites()
-				.then(invites => {
-					result = invites.array();
-					const storage = parseInt(data.storage);
-					const varName2 = this.evalMessage(data.varName2, cache);
-					this.storeValue(result, storage, varName2, cache);
-				});
-				case 43: // Explicit Content Filter. Added by Cap in 1.9.6
-					result = targetServer.explicitContentFilter;
-					break;
-			     default:
-				     break;
+			case 42: //	Collection of guild invites. Fixed by CoolGuy in 1.9.7
+				const invites = await targetServer.fetchInvites();
+				result = invites.array();
+				const storage2 = parseInt(data.storage);
+				const varName3 = this.evalMessage(data.varName2, cache);
+				this.storeValue(result, storage2, varName3, cache);
+			case 43: // Explicit Content Filter. Added by Cap in 1.9.6
+				result = targetServer.explicitContentFilter;
+				break;
+			default: // Fixed Spacing. Fixed by CoolGuy in 1.9.7
+				break;
 		};
 		if (result !== undefined) {
-			const storage = parseInt(data.storage);
-			const varName2 = this.evalMessage(data.varName2, cache);
-			this.storeValue(result, storage, varName2, cache);
+			const storage3 = parseInt(data.storage);
+			const varName4 = this.evalMessage(data.varName2, cache);
+			this.storeValue(result, storage3, varName4, cache);
 		};
-		sleep(300).then(() => this.callNextAction(cache)); // delay used for cases 41 & 42.
+		this.callNextAction(cache);
 	},
 
 	//---------------------------------------------------------------------
@@ -513,5 +512,4 @@ module.exports = {
 
 	mod: function (DBM) {
 	}
-
 }; // End of module
