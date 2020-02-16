@@ -11,6 +11,9 @@ module.exports = {
 	// 1.9.1: Change Log: ~ Danno3817 10/03/2018 - 
 	// - Scraped store_server_info_MOD, every thing is moved here to store_server_info
 	// - Added Is Server Verified ~ Danno3817
+	//
+	// 1.9.2 ~ CoolGuy 2/16/2020
+	// Store Banned Member List and Store Invite List both take time to complete, and go onto the next action without allowing it to fetch properly. This results in 0 or undefined as the result. Fixed.
 	//---------------------------------------------------------------------
 
 	//---------------------------------------------------------------------
@@ -314,6 +317,7 @@ module.exports = {
 			return;
 		}
 		let result;
+		const sleep = ms => new Promise((resolve, j) => setTimeout(resolve, ms));
 		switch (info) {
 			case 0: // Object
 				result = targetServer;
@@ -466,6 +470,7 @@ module.exports = {
 				result = targetServer.verified;
 				break;
 			case 41://	Collection of banned users
+				// This does fetch the bans properly, though it takes some time to operate. By that time, other actions may have already tried to call this, resulting in undefined. ~ CoolGuy
 				targetServer.fetchBans()
 				.then(bans => {
 					result = bans.array();
@@ -475,6 +480,7 @@ module.exports = {
 				});
 				break;
 			case 42://	Collection of guild invites
+				// This does fetch the invites properly, though it takes some time to operate. By that time, other actions may have already tried to call this, resulting in 0 or undefined. ~ CoolGuy
 				targetServer.fetchInvites()
 				.then(invites => {
 					result = invites.array();
@@ -493,7 +499,7 @@ module.exports = {
 			const varName2 = this.evalMessage(data.varName2, cache);
 			this.storeValue(result, storage, varName2, cache);
 		};
-		this.callNextAction(cache);
+		sleep(300).then(() => this.callNextAction(cache)); // delay used for cases 41 & 42.
 	},
 
 	//---------------------------------------------------------------------
