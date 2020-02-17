@@ -14,9 +14,9 @@ mod: function(DBM) {
 		if(!events) return;
 		
 		if (packet.t == "INVITE_CREATE") {
-			const server = Bot.bot.guilds.find(g => g.id == packet.d.guild_id);
+			const server = Bot.bot.guilds.get(packet.d.guild_id);
 			const temp = {};
-			const inviter = server.members.find(m => m.id == packet.d.inviter.id);
+			const inviter = server.members.get(packet.d.inviter.id);
 			for (let i = 0; i < events.length; i++) {
 				const event = events[i];
 				if(event.temp) temp[event.temp] = packet.d.code;

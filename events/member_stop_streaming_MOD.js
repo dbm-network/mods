@@ -14,8 +14,8 @@ mod: function(DBM) {
 		if(!events) return;
 
 		if (packet.t == "VOICE_STATE_UPDATE") {
-			const server = Bot.bot.guilds.find(g => g.id == packet.d.guild_id);
-			const member = server.members.find(m => m.id == packet.d.member.user.id);
+			const server = Bot.bot.guilds.get(packet.d.guild_id);
+			const member = server.members.get(packet.d.member.user.id);
 			if ((!packet.d.self_stream && !!packet.d.channel_id && member.streaming) || (packet.d.self_stream && !packet.d.channel_id && member.streaming)) {
 				member.streaming = false;
 				const temp = {};

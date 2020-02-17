@@ -14,7 +14,7 @@ mod: function(DBM) {
 		if(!events) return;
 		
 		if (packet.t == "INVITE_DELETE") {
-			const server = Bot.bot.guilds.find(g => g.id == packet.d.guild_id);
+			const server = Bot.bot.guilds.get(packet.d.guild_id);
 			const temp = {};
 			for (let i = 0; i < events.length; i++) {
 				const event = events[i];
