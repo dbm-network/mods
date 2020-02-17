@@ -17,9 +17,9 @@ module.exports = {
 	// Missing 1.9.6 update text by Cap (stated on Case 43)
 	// 
 	// 1.9.7 ~ CoolGuy 02/16/2020:
-	// - converted 'action' function to async to support below. Wouldn't affect other actions in this list.
+	// - converted 'action' function to async to support below. Tested to not affect other actions in this list.
+	// - Had to restructure how switch cases were made to avoid already declared reference errors from occuring.
 	// - Fixed fetchBans() and fetchInvites by awaiting their promise. This way, it will always return the list instead of 0 or undefined.
-	// - Had to rename some of the variables (storage and varName2) in the end sections, as they were already casted variables. Could have cast them with let instead of const, but const is slightly better for resource management as per spec.
 	//---------------------------------------------------------------------
 
 	//---------------------------------------------------------------------
@@ -84,88 +84,88 @@ module.exports = {
 		const info = parseInt(data.info);
 		let dataType = 'Unknown Type';
 		switch (info) {
-			case 0: // Object
+			case 0: { // Object
 				dataType = 'Guild Object';
-				break;
-			case 1: // ID
+				break; }
+			case 1: { // ID
 				dataType = 'Guild ID';
-				break;
-			case 2: // Name
-			case 3: // Name Acronym
-			case 4: // Region
+				break; }
+			case 2: {} // Name
+			case 3: {} // Name Acronym
+			case 4: { // Region
 				dataType = 'Text';
-				break;
-			case 5: // Icon URL
+				break; }
+			case 5: { // Icon URL
 				dataType = 'Image URL';
-				break;
-			case 6: // Verification Level
-			case 43: // Explicit Content Filter. Added by Cap in 1.9.6
-			case 17: // Server Member Count
-			case 19: // Time To AFK
-			case 23: // Channel Amount.
-			case 24: // Emoji Amount.
-			case 26: // DND Members Count.
-			case 27: // Online Members Count. (fixed)
-			case 28: // Offline Members Count.
-			case 29: // Idle Members Count.
-			case 30: // Total Bots Count In Server.
-			case 34: // Server Bot Member Count.
-			case 35: // Server Human Member Count.
-			case 36: // Server Member Count. //Added by Lasse in 
-			case 37: // Role Count.
-			case 38: // Text Channel
-			case 39: // Voice Channel
+				break; }
+			case 6: {} // Verification Level
+			case 43: {} // Explicit Content Filter. Added by Cap in 1.9.6
+			case 17: {} // Server Member Count
+			case 19: {} // Time To AFK
+			case 23: {} // Channel Amount.
+			case 24: {} // Emoji Amount.
+			case 26: {} // DND Members Count.
+			case 27: {} // Online Members Count. (fixed)
+			case 28: {} // Offline Members Count.
+			case 29: {} // Idle Members Count.
+			case 30: {} // Total Bots Count In Server.
+			case 34: {} // Server Bot Member Count.
+			case 35: {} // Server Human Member Count.
+			case 36: {} // Server Member Count. //Added by Lasse in 
+			case 37: {} // Role Count.
+			case 38: {} // Text Channel
+			case 39: { // Voice Channel
 				dataType = 'Number';
-				break;
-			case 7: // Default Channel
-			case 8: // AFK Channel
-			case 9: // System Channel
+				break; }
+			case 7: {} // Default Channel
+			case 8: {} // AFK Channel
+			case 9: { // System Channel
 				dataType = 'Channel';
-				break;
-			case 10: // Default Role
+				break; }
+			case 10: { // Default Role
 				dataType = 'Role';
-				break;
-			case 11: // Owner Member
-			case 12: // Bot Member Object
+				break; }
+			case 11: {} // Owner Member
+			case 12: { // Bot Member Object
 				dataType = 'Guild Member';
-				break;
-			case 13: // Channel List
+				break; }
+			case 13: { // Channel List
 				dataType = 'List';
-				break;
-			case 14: // Role List
+				break; }
+			case 14: { // Role List
 				dataType = 'List';
-				break;
-			case 15: // Member List
+				break; }
+			case 15: { // Member List
 				dataType = 'List';
-				break;
-			case 16: // Emoji List
+				break; }
+			case 16: { // Emoji List
 				dataType = 'List';
-				break;
-			case 18: // Creation Date
-			case 22: // Date bot Joined Server.
+				break; }
+			case 18: {} // Creation Date
+			case 22: { // Date bot Joined Server.
 				dataType = "Date";
-				break;
-			case 20: // Is Server Avilable?
-			case 21: // More Than 250 Members? //Deprecated in v1.8.5
-			case 25: // Embed Links.
+				break; }
+			case 20: {} // Is Server Avilable?
+			case 21: {} // More Than 250 Members? //Deprecated in v1.8.5
+			case 25: { // Embed Links.
 				dataType = "Boolean";
-				break;
-			case 31: // Server Channel IDs.
+				break; }
+			case 31: { // Server Channel IDs.
 				dataType = 'List';
-				break;
-			case 32: // Server Roles IDs.
+				break; }
+			case 32: { // Server Roles IDs.
 				dataType = 'List';
-				break;
-			case 33: // Server Member IDs.
+				break; }
+			case 33: { // Server Member IDs.
 				dataType = 'List';
-				break;
-			case 40: // Verified?
+				break; }
+			case 40: { // Verified?
 				dataType = 'Boolean';
-				break;
-			case 41: //	Collection of banned users
-			case 42: //	Collection of guild invites
+				break; }
+			case 41: {} //	Collection of banned users
+			case 42: { //	Collection of guild invites
 				dataType = 'List';
-				break;
+				break; }
 		}
 		return ([data.varName2, dataType]);
 	},
@@ -324,179 +324,180 @@ module.exports = {
 		}
 		let result;
 		switch (info) {
-			case 0: // Object
+			case 0: { // Object
 				result = targetServer;
-				break;
-			case 1: // ID
+				break; }
+			case 1: { // ID
 				result = targetServer.id;
-				break;
-			case 2: // Name
+				break; }
+			case 2: { // Name
 				result = targetServer.name;
-				break;
-			case 3: // Name Acronym
+				break; }
+			case 3: { // Name Acronym
 				result = targetServer.nameAcronym;
-				break;
-			case 4: // Region
+				break; }
+			case 4: { // Region
 				result = targetServer.region;
-				break;
-			case 5: // Icon URL
+				break; }
+			case 5: { // Icon URL
 				result = targetServer.iconURL;
-				break;
-			case 6: // Verification Level
+				break; }
+			case 6: { // Verification Level
 				result = targetServer.verificationLevel;
-				break;
-			case 7: // Default Channel
+				break; }
+			case 7: { // Default Channel
 				result = targetServer.defaultChannel;
-				break;
-			case 8: // AFK Channel
+				break; }
+			case 8: { // AFK Channel
 				result = targetServer.afkChannel;
-				break;
-			case 9: // System Channel
+				break; }
+			case 9: { // System Channel
 				result = targetServer.systemChannel;
-				break;
-			case 10: // Default Role
+				break; }
+			case 10: { // Default Role
 				result = targetServer.defaultRole;
-				break;
-			case 11: // Owner Member
+				break; }
+			case 11: { // Owner Member
 				result = targetServer.owner;
-				break;
-			case 12: // Bot Member
+				break; }
+			case 12: { // Bot Member
 				result = targetServer.me;
-				break;
-			case 13: // Channel List
+				break; }
+			case 13: { // Channel List
 				result = targetServer.channels.array();
-				break;
-			case 14: // Role List
+				break; }
+			case 14: { // Role List
 				result = targetServer.roles.array();
-				break;
-			case 15: // Member List
+				break; }
+			case 15: { // Member List
 				result = targetServer.members.array();
-				break;
-			case 16: // Emoji List
+				break; }
+			case 16: { // Emoji List
 				result = targetServer.emojis.array();
-				break;
-			case 17: // Member Count
+				break; }
+			case 17: { // Member Count
 				result = targetServer.members.size;
-				break;
-			case 18: // Creation Date.
+				break; }
+			case 18: { // Creation Date.
 				result = targetServer.createdAt;
-				break;
-			case 19: // Time To AFK.
+				break; }
+			case 19: { // Time To AFK.
 				result = targetServer.afkTimeout;
-				break;
-			case 20: // Is Server Avilable?
+				break; }
+			case 20: { // Is Server Avilable?
 				result = targetServer.available;
-				break;
-			case 21: // More Than 250 Members? //Deprecated in v1.8.5
+				break; }
+			case 21: { // More Than 250 Members? //Deprecated in v1.8.5
 				result = targetServer.large;
-				break;
-			case 22: // Date bot Joined Server.
+				break; }
+			case 22: { // Date bot Joined Server.
 				result = targetServer.joinedAt;
-				break;
-			case 23: // Channel Amount.
+				break; }
+			case 23: { // Channel Amount.
 				result = targetServer.channels.array().length;
-				break;
-			case 24: // Emoji Amount.
+				break; }
+			case 24: { // Emoji Amount.
 				result = targetServer.emojis.array().length;
-				break;
-			case 25: // Embed Links.
+				break; }
+			case 25: { // Embed Links.
 				result = targetServer.embedEnabled;
-				break;
-			case 26: // DND Members Count.
+				break; }
+			case 26: { // DND Members Count.
 				if (targetServer.large == true) {
 					targetServer.fetchMembers();
 				}
 				result = targetServer.members.filter(m => m.user.presence.status == "dnd").size;
-				break;
-			case 27: // Online Members Count.
+				break; }
+			case 27: { // Online Members Count.
 				if (targetServer.large == true) {
 					targetServer.fetchMembers();
 				}
 				result = targetServer.members.filter(m => m.user.presence.status == "online").size;
-				break;
-			case 28: // Offline Members Count.
+				break; }
+			case 28: { // Offline Members Count.
 				if (targetServer.large == true) {
 					targetServer.fetchMembers();
 				}
 				result = targetServer.members.filter(m => m.user.presence.status == "offline").size;
-				break;
-			case 29: // Idle Members Count.
+				break; }
+			case 29: { // Idle Members Count.
 				if (targetServer.large == true) {
 					targetServer.fetchMembers();
 				}
 				result = targetServer.members.filter(m => m.user.presence.status == "idle").size;
-				break;
-			case 30: // Total Bots Count In Server.
+				break; }
+			case 30: { // Total Bots Count In Server.
 				if (targetServer.large == true) {
 					targetServer.fetchMembers();
 				}
 				result = targetServer.members.filter(m => m.user.bot).size;
-				break;
-			case 31: // Server Channel IDs.
+				break; }
+			case 31: { // Server Channel IDs.
 				result = targetServer.channels.map(channels => channels.id);
-				break;
-			case 32: // Server Roles IDs.
+				break; }
+			case 32: { // Server Roles IDs.
 				result = targetServer.roles.map(roles => roles.id);
-				break;
-			case 33: // Server Member IDs.
+				break; }
+			case 33: { // Server Member IDs.
 				if (targetServer.large == true) {
 					targetServer.fetchMembers();
 				}
 				result = targetServer.members.map(members => members.id);
-				break;
-			case 34: // Server Bot Member Count.
+				break; }
+			case 34: { // Server Bot Member Count.
 				if (targetServer.large == true) {
 					targetServer.fetchMembers();
 				}
 				result = targetServer.members.filter(m => m.user.bot == true).size;
-				break;
-			case 35: // Server Human Member Count.
+				break; }
+			case 35: { // Server Human Member Count.
 				if (targetServer.large == true) {
 					targetServer.fetchMembers();
 				}
 				result = targetServer.members.filter(m => m.user.bot == false).size;
-				break;
-			case 36: // Server Member Count. //Added by Lasse in 1.8.7
+				break; }
+			case 36: { // Server Member Count. //Added by Lasse in 1.8.7
 				if (targetServer.large == true) {
 					targetServer.fetchMembers();
 				}
 				result = targetServer.memberCount;
-				break;
-			case 37: // Role Count.
+				break; }
+			case 37: { // Role Count.
 				result = targetServer.roles.size;
-				break;
-			case 38: // Text Channel Count.
+				break; }
+			case 38: { // Text Channel Count.
 				result = targetServer.channels.filter(c => c.type == "text").size;
-				break;
-			case 39: // Voice Channel Count.
+				break; }
+			case 39: { // Voice Channel Count.
 				result = targetServer.channels.filter(c => c.type == "voice").size;
-				break;
-			case 40: // Is Server Verified?
+				break; }
+			case 40: { // Is Server Verified?
 				result = targetServer.verified;
-				break;
-			case 41: //	Collection of banned users. Fixed by CoolGuy in 1.9.7
+				break; }
+			case 41: { // Collection of banned users. Fixed by CoolGuy in 1.9.7
 				const bans = await targetServer.fetchBans();
 				result = bans.array();
 				const storage = parseInt(data.storage);
 				const varName2 = this.evalMessage(data.varName2, cache);
 				this.storeValue(result, storage, varName2, cache);
-				break;
-			case 42: //	Collection of guild invites. Fixed by CoolGuy in 1.9.7
+				break; }
+			case 42: { // Collection of guild invites. Fixed by CoolGuy in 1.9.7
 				const invites = await targetServer.fetchInvites();
 				result = invites.array();
-				const storage2 = parseInt(data.storage);
-				const varName3 = this.evalMessage(data.varName2, cache);
-				this.storeValue(result, storage2, varName3, cache);
-			case 43: // Explicit Content Filter. Added by Cap in 1.9.6
+				const storage = parseInt(data.storage);
+				const varName2 = this.evalMessage(data.varName2, cache);
+				this.storeValue(result, storage, varName2, cache); 
+				break; }
+			case 43: { // Explicit Content Filter. Added by Cap in 1.9.6
 				result = targetServer.explicitContentFilter;
-				break;
-			default: // Fixed Spacing. Fixed by CoolGuy in 1.9.7
-				break;
+				break; }
+			default: { // Fixed Spacing. Fixed by CoolGuy in 1.9.7
+				break; }
 		};
 		if (result !== undefined) {
-			const storage3 = parseInt(data.storage);
-			const varName4 = this.evalMessage(data.varName2, cache);
-			this.storeValue(result, storage3, varName4, cache);
+			const storage = parseInt(data.storage);
+			const varName2 = this.evalMessage(data.varName2, cache);
+			this.storeValue(result, storage, varName2, cache);
 		};
 		this.callNextAction(cache);
 	},
@@ -512,4 +513,5 @@ module.exports = {
 
 	mod: function (DBM) {
 	}
+
 }; // End of module
