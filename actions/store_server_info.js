@@ -16,10 +16,11 @@ module.exports = {
 	//
 	// Missing 1.9.6 update text by Cap (stated on Case 43)
 	// 
-	// 1.9.7 ~ CoolGuy 02/16/2020:
-	// - converted 'action' function to async to support below. Tested to not affect other actions in this list.
-	// - Had to restructure how switch cases were made to avoid already declared reference errors from occuring.
+	// 1.9.7 ~ CoolGuy 02/17/2020:
+	// - converted 'action' function to async to support below. Wouldn't affect other actions in this list.
+	// - Had to restructure how switch cases were made to avoid already declared errors from occuring.
 	// - Fixed fetchBans() and fetchInvites by awaiting their promise. This way, it will always return the list instead of 0 or undefined.
+	// - Updated all .fetchMembers() methods to await, ensuring the bot can properly fetch all members in the server.
 	//---------------------------------------------------------------------
 
 	//---------------------------------------------------------------------
@@ -60,7 +61,7 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "Lasse, EGGSY, EliteArtz, Danno3817, ZockerNico & Cap",
+	author: "Lasse, EGGSY, EliteArtz, Danno3817, ZockerNico, Cap, & CoolGuy",
 
 	// The version of the mod (Defaults to 1.0.0)
 	version: "1.9.6", // added in 1.9.1
@@ -345,7 +346,7 @@ module.exports = {
 			case 6: { // Verification Level
 				result = targetServer.verificationLevel;
 				break; }
-			case 7: { // Default Channel
+			case 7: { // Default Channel. This is now deprecated.
 				result = targetServer.defaultChannel;
 				break; }
 			case 8: { // AFK Channel
@@ -387,7 +388,7 @@ module.exports = {
 			case 20: { // Is Server Avilable?
 				result = targetServer.available;
 				break; }
-			case 21: { // More Than 250 Members? //Deprecated in v1.8.5
+			case 21: { // More Than 250 Members? // Deprecated in v1.8.5
 				result = targetServer.large;
 				break; }
 			case 22: { // Date bot Joined Server.
@@ -403,32 +404,32 @@ module.exports = {
 				result = targetServer.embedEnabled;
 				break; }
 			case 26: { // DND Members Count.
-				if (targetServer.large == true) {
-					targetServer.fetchMembers();
+				if (server.memberCount !== server.members.size) {
+					await targetServer.fetchMembers(); // ensures it fetches. updated to await in 1.9.7
 				}
 				result = targetServer.members.filter(m => m.user.presence.status == "dnd").size;
 				break; }
 			case 27: { // Online Members Count.
-				if (targetServer.large == true) {
-					targetServer.fetchMembers();
+				if (server.memberCount !== server.members.size) {
+					await targetServer.fetchMembers(); // ensures it fetches. updated to await in 1.9.7
 				}
 				result = targetServer.members.filter(m => m.user.presence.status == "online").size;
 				break; }
 			case 28: { // Offline Members Count.
-				if (targetServer.large == true) {
-					targetServer.fetchMembers();
+				if (server.memberCount !== server.members.size) {
+					await targetServer.fetchMembers(); // ensures it fetches. updated to await in 1.9.7
 				}
 				result = targetServer.members.filter(m => m.user.presence.status == "offline").size;
 				break; }
 			case 29: { // Idle Members Count.
-				if (targetServer.large == true) {
-					targetServer.fetchMembers();
+				if (server.memberCount !== server.members.size) {
+					await targetServer.fetchMembers(); // ensures it fetches. updated to await in 1.9.7
 				}
 				result = targetServer.members.filter(m => m.user.presence.status == "idle").size;
 				break; }
 			case 30: { // Total Bots Count In Server.
-				if (targetServer.large == true) {
-					targetServer.fetchMembers();
+				if (server.memberCount !== server.members.size) {
+					await targetServer.fetchMembers(); // ensures it fetches. updated to await in 1.9.7
 				}
 				result = targetServer.members.filter(m => m.user.bot).size;
 				break; }
@@ -439,26 +440,26 @@ module.exports = {
 				result = targetServer.roles.map(roles => roles.id);
 				break; }
 			case 33: { // Server Member IDs.
-				if (targetServer.large == true) {
-					targetServer.fetchMembers();
+				if (server.memberCount !== server.members.size) {
+					await targetServer.fetchMembers(); // ensures it fetches. updated to await in 1.9.7
 				}
 				result = targetServer.members.map(members => members.id);
 				break; }
 			case 34: { // Server Bot Member Count.
-				if (targetServer.large == true) {
-					targetServer.fetchMembers();
+				if (server.memberCount !== server.members.size) {
+					await targetServer.fetchMembers(); // ensures it fetches. updated to await in 1.9.7
 				}
 				result = targetServer.members.filter(m => m.user.bot == true).size;
 				break; }
 			case 35: { // Server Human Member Count.
-				if (targetServer.large == true) {
-					targetServer.fetchMembers();
+				if (server.memberCount !== server.members.size) {
+					await targetServer.fetchMembers(); // ensures it fetches. updated to await in 1.9.7
 				}
 				result = targetServer.members.filter(m => m.user.bot == false).size;
 				break; }
 			case 36: { // Server Member Count. //Added by Lasse in 1.8.7
-				if (targetServer.large == true) {
-					targetServer.fetchMembers();
+				if (server.memberCount !== server.members.size) {
+					await targetServer.fetchMembers(); // ensures it fetches. updated to await in 1.9.7
 				}
 				result = targetServer.memberCount;
 				break; }
@@ -477,21 +478,15 @@ module.exports = {
 			case 41: { // Collection of banned users. Fixed by CoolGuy in 1.9.7
 				const bans = await targetServer.fetchBans();
 				result = bans.array();
-				const storage = parseInt(data.storage);
-				const varName2 = this.evalMessage(data.varName2, cache);
-				this.storeValue(result, storage, varName2, cache);
 				break; }
 			case 42: { // Collection of guild invites. Fixed by CoolGuy in 1.9.7
 				const invites = await targetServer.fetchInvites();
 				result = invites.array();
-				const storage = parseInt(data.storage);
-				const varName2 = this.evalMessage(data.varName2, cache);
-				this.storeValue(result, storage, varName2, cache); 
 				break; }
 			case 43: { // Explicit Content Filter. Added by Cap in 1.9.6
 				result = targetServer.explicitContentFilter;
 				break; }
-			default: { // Fixed Spacing. Fixed by CoolGuy in 1.9.7
+			default: { // Fixed Spacing. Fixed in 1.9.7
 				break; }
 		};
 		if (result !== undefined) {
@@ -513,5 +508,4 @@ module.exports = {
 
 	mod: function (DBM) {
 	}
-
 }; // End of module
