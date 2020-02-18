@@ -6,7 +6,9 @@ const myEvent = module.exports = {
 // This is the name of the event displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "On Cron Scheduler Tick",
+name: "Cron Scheduler",
+
+displayName: "Scheduled Event",
 
 //---------------------------------------------------------------------
 // Is Event
@@ -23,12 +25,12 @@ isEvent: true,
 //---------------------------------------------------------------------
 
 fields: [`  
-CRON String Input (<a onclick="require('child_process').execSync('start https://crontab.guru/)">https://crontab.guru/</a> | Examples<a onclick="require('child_process').execSync('start https://crontab.guru/examples.html)">https://crontab.guru/examples.html</a>)
+CRON String Input (<a onclick="require('child_process').execSync('start https://crontab.guru/)">https://crontab.guru/</a> | Examples <a onclick="require('child_process').execSync('start https://crontab.guru/examples.html)">https://crontab.guru/examples.html</a>)
 `],
 
 // these variables will be used by a custom installer (Optional, but nice to have)
 authors: ["GeneralWrex"],
-version: "1.0.0",
+version: "1.0.1",
 changeLog: "Initial Release",
 shortDescription: "Adds cron functionality to DBM Bots.",
 longDescription: "",
