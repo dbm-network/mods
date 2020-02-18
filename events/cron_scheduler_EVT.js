@@ -25,12 +25,15 @@ isEvent: true,
 //---------------------------------------------------------------------
 
 fields: [`  
-CRON String Input (<a onclick="require('child_process').execSync('start https://crontab.guru/)">https://crontab.guru/</a> | Examples <a onclick="require('child_process').execSync('start https://crontab.guru/examples.html)">https://crontab.guru/examples.html</a>)
+CRON String Input (<a href='#' onclick="require('child_process').execSync('start https://crontab.guru/')">https://crontab.guru/</a> | <a href='#' onclick="require('child_process').execSync('start https://crontab.guru/examples.html')">Examples</a>)
+`,
+`
+Timezone (<a href='#' onclick="require('child_process').execSync('start https://en.wikipedia.org/wiki/List_of_tz_database_time_zones')">TZ Database names</a>| Example: America/New_York )
 `],
 
 // these variables will be used by a custom installer (Optional, but nice to have)
 authors: ["GeneralWrex"],
-version: "1.0.1",
+version: "1.1.0",
 changeLog: "Initial Release",
 shortDescription: "Adds cron functionality to DBM Bots.",
 longDescription: "",
@@ -61,26 +64,50 @@ mod: function(DBM) {
     DBM.Cron_Scheduler = DBM.Cron_Scheduler || {};
     DBM.Cron_Scheduler.Jobs = {};
 
+    DBM.Cron_Scheduler.isValidTimeZone = function(tz) {
+ 
+        if(!tz) return true;
+
+        if (!Intl || !Intl.DateTimeFormat().resolvedOptions().timeZone) {
+            throw 'Time zones are not available in this environment';
+        }
+
+        try {
+            Intl.DateTimeFormat(undefined, {timeZone: tz});
+            return true;
+        }
+        catch (ex) {
+            return false;
+        }
+    }
+
+
 	DBM.Cron_Scheduler.setupCrons = function() {
 
 		const events = Bot.$evts[myEvent.name];
         if(!events) return;
                
         for (const event of events) {
-            
+
             if(!event.temp) return;
 
+            const eventName  = event.name;
             const cronString = event.temp;
+            const timeZone   = event.temp2 || Intl.DateTimeFormat().resolvedOptions().timeZone;
   
-            if(!cron.validate(cronString)) return console.log(`[Cron Scheduler] Invalid cron string for '${event.name}': '${cronString}'`);
+            if(!cron.validate(cronString)) return console.log(`[Cron Scheduler] Invalid cron string for '${eventName}': '${cronString}'`);
+
+            if(!DBM.Cron_Scheduler.isValidTimeZone(timeZone)) return console.log(`[Cron Scheduler] Invalid Timezone for '${eventName}': '${timeZone}'`);
       
             const job = cron.schedule(cronString, () =>{
                 Actions.invokeEvent(event, null, {});   
+            },{
+                timezone: timeZone
             })
 
-            DBM.Cron_Scheduler.Jobs[event.name] = job
+            DBM.Cron_Scheduler.Jobs[eventName] = job
 
-            console.log(`[Cron Scheduler] Event Name '${event.name}' with the cron of '${cronString}' has been Scheduled.`)
+            console.log(`[Cron Scheduler] Event '${eventName}' has been Scheduled. Timezone:${timeZone}|Cron:${cronString}`)
 
             job.start();
         }
