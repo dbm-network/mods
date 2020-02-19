@@ -28,6 +28,24 @@ subtitle: function(data) {
 },
 
 //---------------------------------------------------------------------
+// DBM Mods Manager Variables (Optional but nice to have!)
+//
+// These are variables that DBM Mods Manager uses to show information
+// about the mods for people to see in the list.
+//---------------------------------------------------------------------
+
+// Who made the mod (If not set, defaults to "DBM Mods")
+author: "Ena",
+
+// The version of the mod (Defaults to 1.0.0)
+version: "1.0.0",
+
+// A short description to show on the mod line for this mod (Must be on a single line)
+short_description: "Gets the dominant color of a image",
+
+// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
+
+//---------------------------------------------------------------------
 // Action Storage Function
 //
 // Stores the relevant variable info for the editor.
@@ -68,6 +86,14 @@ fields: ["info", "find", "storage", "varName"],
 html: function(isEvent, data) {
 	return `
 <div>
+	<div>
+	<div class="embed">
+		<embedleftline style="background-color: #2b9696;"></embedleftline>
+	<div class="embedinfo">
+	<span class="embed-auth"><u>Mod Info:</u><br>Made by <b>${this.author}</b></span><br>
+	<span class="embed-desc">${this.short_description}<br>Version: ${this.version}</span>
+	</div>
+	</div><br>
 	<div style="float: left; width: 40%;">
 		Source Field:<br>
 		<select id="info" class="round">
