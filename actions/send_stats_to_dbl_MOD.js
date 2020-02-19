@@ -131,13 +131,13 @@ module.exports = {
 
 		switch (info) {
 			case 0:
-				snek.post(`https://discordbots.org/bots/${this.getDBM().Bot.bot.user.id}/stats`)
+				snek.post(`https://top.gg/api/bots/${this.getDBM().Bot.bot.user.id}/stats`)
 					.set("Authorization", token)
 					.send({ server_count: this.getDBM().Bot.bot.guilds.size })
 					.catch(() => { })
 				break;
 			case 1:
-				snek.post(`https://discordbots.org/bots/${this.getDBM().Bot.bot.user.id}/stats`)
+				snek.post(`https://top.gg/api/bots/${this.getDBM().Bot.bot.user.id}/stats`)
 					.set("Authorization", token)
 					.send({ server_count: this.getDBM().Bot.bot.guilds.size, shard_id: this.getDBM().Bot.bot.shard.id })
 					.catch(() => { })

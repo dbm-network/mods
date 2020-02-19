@@ -6,7 +6,7 @@ module.exports = {
 // This is the name of the action displayed in the editor.
 //---------------------------------------------------------------------
 
-name: "Color",
+name: "Delete Server Data MOD",
 
 //---------------------------------------------------------------------
 // Action Section
@@ -14,7 +14,7 @@ name: "Color",
 // This is the section the action will fall into.
 //---------------------------------------------------------------------
 
-section: "Tools",
+section: "Deprecated",
 
 //---------------------------------------------------------------------
 // Action Subtitle
@@ -23,41 +23,13 @@ section: "Tools",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	return `${data.color}`;
+	const servers = ['Current Server', 'Temp Variable', 'Server Variable', 'Global Variable'];
+	return `${servers[parseInt(data.server)]} - ${data.dataName}`;
 },
 
-//---------------------------------------------------------------------
-	 // DBM Mods Manager Variables (Optional but nice to have!)
-	 //
-	 // These are variables that DBM Mods Manager uses to show information
-	 // about the mods for people to see in the list.
-	 //---------------------------------------------------------------------
-
-	 // Who made the mod (If not set, defaults to "DBM Mods")
-	 author: "MrGold",
-
-	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.9.4", //Added in 1.9.4
-
-	 // A short description to show on the mod line for this mod (Must be on a single line)
-	 short_description: "Stores Selected Color (Hex Color)",
-
-	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-     
-
-	 //---------------------------------------------------------------------
-
-//---------------------------------------------------------------------
-// Action Storage Function
-//
-// Stores the relevant variable info for the editor.
-//---------------------------------------------------------------------
-
-variableStorage: function(data, varType) {
-	const type = parseInt(data.storage);
-	if(type !== varType) return;
-	return ([data.varName, 'Color']);
-},
+//https://github.com/LeonZ2019/
+author: "LeonZ",
+version: "1.1.0",
 
 //---------------------------------------------------------------------
 // Action Fields
@@ -67,7 +39,7 @@ variableStorage: function(data, varType) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["color", "storage", "varName"],
+fields: ["server", "varName", "dataName"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -88,23 +60,21 @@ fields: ["color", "storage", "varName"],
 html: function(isEvent, data) {
 	return `
 <div>
-    <p>
-        <u>Tool Info:</u><br>
-	Created by MrGold
-    </p>
-</div><br>
-Color:<br>
-<input type="color" id="color"><br><br>
-<div>
 	<div style="float: left; width: 35%;">
-		Store In:<br>
-		<select id="storage" class="round">
-			${data.variables[1]}
+		Server:<br>
+		<select id="server" class="round" onchange="glob.serverChange(this, 'varNameContainer')">
+			${data.servers[isEvent ? 1 : 0]}
 		</select>
 	</div>
-	<div id="varNameContainer" style="float: right; width: 60%;">
+	<div id="varNameContainer" style="display: none; float: right; width: 60%;">
 		Variable Name:<br>
-		<input id="varName" class="round" type="text"><br>
+		<input id="varName" class="round" type="text" list="variableList">
+	</div>
+</div><br><br><br
+<div style="padding-top: 8px;">
+	<div style="float: left; width: 80%;">
+		Data Name:<br>
+		<input id="dataName" class="round" placeholder="Leave it blank to delete all data" type="text">
 	</div>
 </div>`
 },
@@ -117,7 +87,11 @@ Color:<br>
 // functions for the DOM elements.
 //---------------------------------------------------------------------
 
-init: function() {},
+init: function() {
+	const {glob, document} = this;
+
+	glob.serverChange(document.getElementById('server'), 'varNameContainer');
+},
 
 //---------------------------------------------------------------------
 // Action Bot Function
@@ -128,14 +102,22 @@ init: function() {},
 //---------------------------------------------------------------------
 
 action: function(cache) {
+	const Files = this.getDBM().Files;
 	const data = cache.actions[cache.index];
-	
-	const color = this.evalMessage(data.color, cache);
-	
-    if(color !== undefined) {
-	const storage = parseInt(data.storage);
+	const type = parseInt(data.server);
 	const varName = this.evalMessage(data.varName, cache);
-	this.storeValue(color, storage, varName, cache);
+	const server = this.getServer(type, varName, cache);
+	const id = server.id;
+	if(server && server.data) {
+		const dataName = this.evalMessage(data.dataName, cache);
+		if(dataName === undefined) {
+			Files.data.servers[id] = {};
+		} else {
+			const serverData = Files.data.servers[id];
+			delete serverData[dataName];
+			Files.data.servers[id] = serverData; 
+		}
+		Files.saveData("servers");
 	}
 	this.callNextAction(cache);
 },

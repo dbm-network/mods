@@ -6,7 +6,7 @@ module.exports = {
 	// This is the name of the action displayed in the editor.
 	//---------------------------------------------------------------------
 
-	name: "Bot Typing",
+	name: "Translate",
 
 	//---------------------------------------------------------------------
 	// Action Section
@@ -14,7 +14,17 @@ module.exports = {
 	// This is the section the action will fall into.
 	//---------------------------------------------------------------------
 
-	section: "Bot Client Control",
+	section: "Other Stuff",
+
+	//---------------------------------------------------------------------
+	// Action Subtitle
+	//
+	// This function generates the subtitle displayed next to the name.
+	//---------------------------------------------------------------------
+
+	subtitle: function (data) {
+		return `Translate to [${data.translateTo}]`;
+	},
 
 	//---------------------------------------------------------------------
 	// DBM Mods Manager Variables (Optional but nice to have!)
@@ -24,27 +34,27 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "Lasse & EliteArtz",
+	author: "EGGSY",
 
 	// The version of the mod (Defaults to 1.0.0)
-	version: "1.8.7", // Added in 1.8.7
+	version: "1.8.6",
 
 	// A short description to show on the mod line for this mod (Must be on a single line)
-	short_description: "Allows the bot to get the *is typing* status",
+	short_description: "Translate words!",
 
+	// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
 	//---------------------------------------------------------------------
-	// Action Subtitle
+	// Action Storage Function
 	//
-	// This function generates the subtitle displayed next to the name.
+	// Stores the relevant variable info for the editor.
 	//---------------------------------------------------------------------
 
-	subtitle: function(data) {
-		const names = ['Same Channel', 'Mentioned Channel', 'Default Channel', 'Temp Variable', 'Server Variable', 'Global Variable'];
-		const names2 = ['Starts Typing', 'Stops Typing']
-		const index2 = parseInt(data.EliteArtzIsPro);
-		const index = parseInt(data.storage);
-		return index < 3 ? `${names[index]} - ${names2[index2]}` : `${names[index]} - ${data.varName} - ${names2[index2]}`;
+	variableStorage: function (data, varType) {
+		const type = parseInt(data.storage);
+		if (type !== varType) return;
+		let dataType = 'Translated String';
+		return ([data.varName, dataType]);
 	},
 
 	//---------------------------------------------------------------------
@@ -55,58 +65,53 @@ module.exports = {
 	// are also the names of the fields stored in the action's JSON data.
 	//---------------------------------------------------------------------
 
-	fields: ["storage", "varName", "EliteArtzIsPro"],
+	fields: ["translateTo", "translateMessage", "storage", "varName"],
 
 	//---------------------------------------------------------------------
 	// Command HTML
 	//
 	// This function returns a string containing the HTML used for
-	// editting actions.
+	// editting actions. 
 	//
 	// The "isEvent" parameter will be true if this action is being used
-	// for an event. Due to their nature, events lack certain information,
+	// for an event. Due to their nature, events lack certain information, 
 	// so edit the HTML to reflect this.
 	//
-	// The "data" parameter stores constants for select elements to use.
+	// The "data" parameter stores constants for select elements to use. 
 	// Each is an array: index 0 for commands, index 1 for events.
-	// The names are: sendTargets, members, roles, channels,
+	// The names are: sendTargets, members, roles, channels, 
 	//                messages, servers, variables
 	//---------------------------------------------------------------------
 
-	html: function(isEvent, data) {
+	html: function (isEvent, data) {
 		return `
-		<div>
-			<p>
-				<u>Mod Info:</u><br>
-				Created by Lasse! (Merged by EliteArtz)
-			</p>
-		</div><br>
-	<div>
-		<div style="float: left; width: 35%;">
-			Typing Option:<br>
-			<select id="EliteArtzIsPro" class="round">
-				<option value="0" selected>Start Typing</option>
-				<option value="1">Stop Typing</option>
-			</select>
-		</div><br>
-	</div><br><br>
-	<div>
-		<div style="float: left; width: 35%;">
-			Channel to start typing in:<br>
-			<select id="storage" class="round" onchange="glob.channelChange(this, 'varNameContainer')">
-				${data.channels[isEvent ? 1 : 0]}
-			</select>
-		</div>
-		<div id="varNameContainer" style="display: none; float: right; width: 60%;">
-			Variable Name:<br>
-			<input id="varName" class="round" type="text" list="variableList"><br>
-		</div>
-	</div><br><br><br>
-	<div>
-		<p>
-			You can stop the typing with <b>Stop Typing</b>
-		</p>
-	</div><br>`
+<div>
+	<div id="modinfo" style="float: left;">
+	<p>
+	   <u>Mod Info:</u><br>
+	   Made by EGGSY!<br>
+	</p></div>
+	<div style="float: right; width: 60%;">
+		Translate to:<br>
+		<input id="translateTo" placeholder="Should be 2 letters." class="round" type="text" maxlength="2"><br>
+	</div>
+</div><br><br><br>
+<div style="padding-top: 8px;">
+	Translate Message:<br>
+	<textarea id="translateMessage" rows="9" placeholder="Insert message that you want to translate here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+</div><br>
+<div>
+	<div style="float: left; width: 35%;">
+		Store In:<br>
+		<select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
+			${data.variables[0]}
+		</select>
+	</div>
+	<div id="varNameContainer" style="display: none; float: right; width: 60%;">
+		Variable Name:<br>
+		<input id="varName" class="round" type="text">
+	</div>
+</div>`;
 	},
 
 	//---------------------------------------------------------------------
@@ -117,39 +122,46 @@ module.exports = {
 	// functions for the DOM elements.
 	//---------------------------------------------------------------------
 
-	init: function() {
+	init: function () {
 		const {glob, document} = this;
 
-		glob.channelChange(document.getElementById('storage'), 'varNameContainer');
+		glob.variableChange(document.getElementById('storage'), 'varNameContainer');
 	},
 
 	//---------------------------------------------------------------------
 	// Action Bot Function
 	//
 	// This is the function for the action within the Bot's Action class.
-	// Keep in mind event calls won't have access to the "msg" parameter,
+	// Keep in mind event calls won't have access to the "msg" parameter, 
 	// so be sure to provide checks for variable existance.
 	//---------------------------------------------------------------------
 
-	action: function(cache) {
+	action: function (cache) {
+
+		var _this = this;
 		const data = cache.actions[cache.index];
+		const translateTo = this.evalMessage(data.translateTo, cache);
+		const translateMessage = this.evalMessage(data.translateMessage, cache);
 		const storage = parseInt(data.storage);
-		const varName = this.evalMessage(data.VarName, cache);
-		const time = parseInt(this.evalMessage(data.time, cache));
-		const channel = this.getChannel(storage, varName, cache);
+		const varName = this.evalMessage(data.varName, cache);
 
+		// Check if everything is ok
+		if (!translateTo || translateTo.length > 2) return console.log("Translate to can only be 2 letters.");
+		if (!translateMessage) return console.log("You need to write something to translate.");
 
-		try { //This "Try and Catch" Function is really useful for when it's coming up an error, it will log it in your logs.
-			if (data.EliteArtzIsPro === "0") { //"If and else" Function is for looking if the result of them equals what you wan't.
-				channel.startTyping(); //Starts the Typing
-			} else {
-				channel.stopTyping(true); //Stops the Typing
-			}
-		} catch (e) {
-			console.error("ERROR! " + e + e.stack); // Here it's gonna log if an error occured.
-		}
+		// Main code
+		var WrexMODS = this.getWrexMods(); // Using Wrex mods, as always.
+		const translate = WrexMODS.require('node-google-translate-skidz');
 
-		this.callNextAction(cache);
+		translate({
+			text: translateMessage,
+			target: translateTo
+		}, function (result) {
+				if(result.translation !== undefined) {
+					_this.storeValue(result.translation, storage, varName, cache);
+				}
+				_this.callNextAction(cache);
+			});
 	},
 
 	//---------------------------------------------------------------------
@@ -161,7 +173,6 @@ module.exports = {
 	// functions you wish to overwrite.
 	//---------------------------------------------------------------------
 
-	mod: function(DBM) {
-	}
+	mod: function (DBM) {}
 
-	}; // End of module
+}; // End of module

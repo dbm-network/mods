@@ -1,7 +1,9 @@
-const qs       = require('querystring');
-const url      = require('url');
-const Entities = require('html-entities').AllHtmlEntities;
-const util     = require('./util');
+const qs          = require('querystring');
+const url         = require('url');
+const Entities    = require('html-entities').AllHtmlEntities;
+const util        = require('./util');
+const parseTime   = require('m3u8stream/dist/parse-time');
+
 
 
 const VIDEO_URL = 'https://www.youtube.com/watch?v=';
@@ -124,11 +126,46 @@ exports.getPublished = (body) => {
  * @return {Array.<Object>}
  */
 exports.getRelatedVideos = (body) => {
-  let jsonStr = util.between(body, '\'RELATED_PLAYER_ARGS\': {"rvs":', '},');
+  let jsonStr = util.between(body, '\'RELATED_PLAYER_ARGS\': ', ',\n');
+  let watchNextJson, rvsParams, secondaryResults;
   try {
     jsonStr = JSON.parse(jsonStr);
-  } catch (err) {
+    watchNextJson = JSON.parse(jsonStr.watch_next_response);
+    rvsParams = jsonStr.rvs.split(',').map((e) => qs.parse(e));
+    secondaryResults = watchNextJson.contents.twoColumnWatchNextResults.secondaryResults.secondaryResults.results;
+  }
+  catch (err) {
     return [];
   }
-  return jsonStr.split(',').map((link) => qs.parse(link));
+  let videos = [];
+  for (let result of secondaryResults) {
+    let details = result.compactVideoRenderer;
+    if (details) {
+      try {
+        let viewCount = details.viewCountText.simpleText;
+        let shortViewCount = details.shortViewCountText.simpleText;
+        let rvsDetails = rvsParams.find((elem) => elem.id === details.videoId);
+        if (!/^\d/.test(shortViewCount)) {
+          shortViewCount = rvsDetails && rvsDetails.short_view_count_text || '';
+        }
+        viewCount = (/^\d/.test(viewCount) ? viewCount : shortViewCount).split(' ')[0];
+        videos.push({
+          id: details.videoId,
+          title: details.title.simpleText,
+          author: details.shortBylineText.runs[0].text,
+          ucid: details.shortBylineText.runs[0].navigationEndpoint.browseEndpoint.browseId,
+          author_thumbnail: details.channelThumbnail.thumbnails[0].url,
+          short_view_count_text: shortViewCount.split(' ')[0],
+          view_count: viewCount.replace(',', ''),
+          length_seconds:  details.lengthText ?
+            Math.floor(parseTime.humanStr(details.lengthText.simpleText) / 1000) :
+            rvsParams && rvsParams.length_seconds + '',
+          video_thumbnail: details.thumbnail.thumbnails[0].url,
+        });
+      } catch (err) {
+        continue;
+      }
+    }
+  }
+  return videos;
 };
