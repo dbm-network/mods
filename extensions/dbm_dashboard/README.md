@@ -20,7 +20,7 @@
 > [Glitch Tutorial](https://youtu.be/Ey5R1IdV9FA)
 
 ## Step 1
-> Download the needed files. You can download them through CMD if you have git installed. After you have downloaded the files, unzip them and paste them into your bots extensions folder. <br> <code>git clone https://github.com/greatplainsmodding/extensions/raw/master/dbm_dashboard/dbm_dashboard_extension.zip</code>
+> Download the needed files. You can clone them through CMD if you have git installed. After you have downloaded the files, unzip them and paste them into your bots extensions folder.
 
 ## Step 2 
 > Open DBM and navigate to <code>Extensions < DBM Dashboard</code> Place your ID in the field where it says <b>Owner ID</b>.
