@@ -175,7 +175,7 @@ action: function(cache) {
 	let Cap;
 	switch(lineCap) {
 		case 0:
-			Cap = "sqaure";
+			Cap = "square";
 			break;
 		case 1:
 			Cap = "round";
@@ -199,12 +199,25 @@ action: function(cache) {
 		ctx.beginPath();
 		switch(lineCap) {
 			case 0:
-				ctx.lineTo(0, height/2);
+				ctx.moveTo(0, height/2);
 				ctx.lineTo(width*percent/100, height/2);
 				break;
 			case 1:
-				ctx.lineTo(height/4, height/2);
-				ctx.lineTo(width*percent/100-height/4, height/2);
+				let center = lineWidth/2;
+				let top = height/2-center;
+				let bottom = height/2+center;
+				ctx.moveTo(center,top);
+				ctx.lineTo(width-lineWidth,top);
+				ctx.arcTo(width,top,width,height/2,center);
+				ctx.arcTo(width,bottom,top,bottom,center);
+				ctx.lineTo(center,bottom);
+				ctx.arcTo(0,bottom,0,height/2,center);
+				ctx.arcTo(0,top,center,top,center);
+				ctx.closePath();
+				ctx.clip();
+				ctx.beginPath();
+				ctx.moveTo(-center, height/2);
+				ctx.lineTo(width*percent/100-center, height/2);
 				break;
 		}
 	} else if (type == 1) {
