@@ -122,25 +122,24 @@ action: function(cache) {
 	const data = cache.actions[cache.index];
 	const server = cache.server;
 	const catid = this.evalMessage(data.categoryID, cache);
+	const bitrate = parseInt(this.evalMessage(data.bitrate, cache));
+	const userLimit = parseInt(this.evalMessage(data.userLimit, cache));
 	if(server && server.createChannel) {
 		const name = this.evalMessage(data.channelName, cache);
 		const storage = parseInt(data.storage);
-		server.createChannel(name, 'voice').then(function(channel) {
-			const channelData = {};
-			if(data.bitrate) {
-				channelData.bitrate = parseInt(this.evalMessage(data.bitrate, cache));
-			}
-			if(data.userLimit) {
-				channelData.userLimit = parseInt(this.evalMessage(data.userLimit, cache));
-			}
-			channel.edit(channelData);
-			if(catid) {
-				channel.setParent(catid);
-			}
-			const varName = this.evalMessage(data.varName, cache);
-			this.storeValue(channel, storage, varName, cache);
-			this.callNextAction(cache);
-		}.bind(this)).catch(this.displayError.bind(this, data, cache));
+		if (!catid) {
+			server.createChannel(name, {type: 'voice', bitrate: bitrate, userLimit: userLimit}).then(function(channel) {
+				const varName = this.evalMessage(data.varName, cache);
+				this.storeValue(channel, storage, varName, cache);
+				this.callNextAction(cache);
+			}.bind(this)).catch(this.displayError.bind(this, data, cache));
+		} else {
+			server.createChannel(name, {type: 'voice', bitrate: bitrate, userLimit: userLimit, parent: catid}).then(function(channel) {
+				const varName = this.evalMessage(data.varName, cache);
+				this.storeValue(channel, storage, varName, cache);
+				this.callNextAction(cache);
+			}.bind(this)).catch(this.displayError.bind(this, data, cache));
+		}
 	} else {
 		this.callNextAction(cache);
 	}

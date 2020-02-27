@@ -93,11 +93,11 @@ module.exports = {
 	<div style="float: left; width: 90%; padding-top: 8px;">
 	   Info to Send:<br>
 	   <select id="info" class="round">
-		<option value="0">Send Only Server Count</option>
+		<option value="0">Send Server Count Only</option>
 		<option value="1">Send Shard & Server Count</option>
 	</select><br>
 	<p>
-		• Using this mod with events will be better. I suggest using this with Bot Join & Bot Leave Server event.<br>
+		• Use this mod inside events or commands<br>
 		• Do not send anything about shards if you don't shard your bot, otherwise it'll crash your bot!
 	</p>
 	</div>
@@ -124,24 +124,27 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	action: function (cache) {
+		const data = cache.actions[cache.index],
+			token = this.evalMessage(data.dblToken, cache),
+			info = parseInt(data.info),
+			snek = require("snekfetch");
 
-		const data = cache.actions[cache.index];
-		const token = this.evalMessage(data.dblToken, cache);
-		const info = parseInt(data.info);
-		// Commented due errors => var client = this.getDBM().Bot.bot; 
-
-		const WrexMODS = this.getWrexMods(); // still, as always <3
-		const DBL = WrexMODS.require('dblapi.js'); // what a great module!
-		const dbl = new DBL(token);
-
-		if (info == 0) {
-			dbl.postStats(this.getDBM().Bot.bot.guilds.size)
-				.catch(e => console.log(e))
+		switch (info) {
+			case 0:
+				snek.post(`https://discordbots.org/bots/${this.getDBM().Bot.bot.user.id}/stats`)
+					.set("Authorization", token)
+					.send({ server_count: this.getDBM().Bot.bot.guilds.size })
+					.catch(() => { })
+				break;
+			case 1:
+				snek.post(`https://discordbots.org/bots/${this.getDBM().Bot.bot.user.id}/stats`)
+					.set("Authorization", token)
+					.send({ server_count: this.getDBM().Bot.bot.guilds.size, shard_id: this.getDBM().Bot.bot.shard.id })
+					.catch(() => { })
+				break;
 		}
-		else if (info == 1) {
-			dbl.postStats(this.getDBM().Bot.bot.guilds.size, this.getDBM().Bot.bot.shard.id, this.getDBM().Bot.bot.shard.count)
-				.catch(e => console.log(e))
-		}
+
+		this.callNextAction(cache);
 	},
 
 	//---------------------------------------------------------------------

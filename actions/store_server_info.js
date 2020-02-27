@@ -39,7 +39,7 @@ module.exports = {
 		const servers = [
 			'Current Server', 'Temp Variable', 'Server Variable', 'Global Variable'
 		];
-		const info = ['Server Object', 'Server ID', 'Server Name', 'Server Name Acronym', 'Server Region', 'Server Icon URL', 'Server Verification Level', 'Server Default Channel', 'Server AFK Channel', 'Server System Channel', 'Server Default Role', 'Server Owner Member', 'Server Bot Member Object', 'Server Channel List', 'Server Role List', 'Server Member List', 'Server Emoji List', 'Server Member Count', 'Creation Date', 'Time To AFK', 'Is Server Available?', 'More than 250 members?', 'Date Bot Joined Server', 'Channel Amount', 'Emoji Amount', 'Embed Links', 'DND Members Count', 'Online Members Count (fixed)', 'Offline Members Count', 'Idle Members Count', 'Total Bots Count In Server', 'Server Channel IDs', 'Server Role IDs', 'Server Member IDs', 'Server Bot Member Count', 'Server Human Member Count', 'Server Member Count', 'Role Count', 'Text Channel Count', 'Voice Channel Count', 'Is Server Verified?', 'Banned Users List', 'Invite List'];
+		const info = ['Server Object', 'Server ID', 'Server Name', 'Server Name Acronym', 'Server Region', 'Server Icon URL', 'Server Verification Level', 'Server Default Channel', 'Server AFK Channel', 'Server System Channel', 'Server Default Role', 'Server Owner Member', 'Server Bot Member Object', 'Server Channel List', 'Server Role List', 'Server Member List', 'Server Emoji List', 'Server Member Count', 'Creation Date', 'Time To AFK', 'Is Server Available?', 'More than 250 members?', 'Date Bot Joined Server', 'Channel Amount', 'Emoji Amount', 'Embed Links', 'DND Members Count', 'Online Members Count (fixed)', 'Offline Members Count', 'Idle Members Count', 'Total Bots Count In Server', 'Server Channel IDs', 'Server Role IDs', 'Server Member IDs', 'Server Bot Member Count', 'Server Human Member Count', 'Server Member Count', 'Role Count', 'Text Channel Count', 'Voice Channel Count', 'Is Server Verified?', 'Banned Users List', 'Invite List', 'Server Explicit Content Filter'];
 		return `${servers[parseInt(data.server)]} - ${info[parseInt(data.info)]}`;
 	},
 
@@ -51,10 +51,10 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "Lasse, EGGSY, EliteArtz, Danno3817 & ZockerNico",
+	author: "Lasse, EGGSY, EliteArtz, Danno3817, ZockerNico & Cap",
 
 	// The version of the mod (Defaults to 1.0.0)
-	version: "1.9.5", // added in 1.9.1
+	version: "1.9.6", // added in 1.9.1
 
 	// A short description to show on the mod line for this mod (Must be on a single line)
 	short_description: "Stores Server Information",
@@ -90,6 +90,7 @@ module.exports = {
 				dataType = 'Image URL';
 				break;
 			case 6: // Verification Level
+			case 43: // Explicit Content Filter. Added by Cap in 1.9.6
 			case 17: // Server Member Count
 			case 19: // Time To AFK
 			case 23: // Channel Amount.
@@ -213,6 +214,7 @@ module.exports = {
 						<option value="4">Server Region</option>
 						<option value="5">Server Icon URL</option>
 						<option value="6">Server Verification Level</option>
+						<option value="43">Server Explicit Content Filter</option>
 						<!--<option value="7">Server Default Channel</option>-->
 						<option value="8">Server AFK Channel</option>
 						<option value="9">Server System Channel</option>
@@ -480,9 +482,11 @@ module.exports = {
 					const varName2 = this.evalMessage(data.varName2, cache);
 					this.storeValue(result, storage, varName2, cache);
 				});
-				break;
-			default:
-				break;
+				case 43: // Explicit Content Filter. Added by Cap in 1.9.6
+					result = targetServer.explicitContentFilter;
+					break;
+			     default:
+				     break;
 		};
 		if (result !== undefined) {
 			const storage = parseInt(data.storage);

@@ -23,8 +23,9 @@ section: "Conditions",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
+	const comparisons = ["Exists", "Equals", "Equals Exactly", "Less Than", "Greater Than", "Includes", "Matches Regex", "Length is Bigger Than", "Length is Smaller Than", "Length is Equals", "Starts With", "Ends With", "Matches Full Regex", "Less Than or Equal to", "Greater Than or Equal to"];
 	const results = ["Continue Actions", "Stop Action Sequence", "Jump To Action", "Jump Forward Actions"];
-	return `If True: ${results[parseInt(data.iftrue)]} ~ If False: ${results[parseInt(data.iffalse)]}`;
+	return `${comparisons[parseInt(data.comparison)]} | If True: ${results[parseInt(data.iftrue)]} ~ If False: ${results[parseInt(data.iffalse)]}`;
 },
 
 //---------------------------------------------------------------------
@@ -35,10 +36,10 @@ subtitle: function(data) {
 	 //---------------------------------------------------------------------
 
 	 // Who made the mod (If not set, defaults to "DBM Mods")
-	 author: "DBM, EGGSY & MrGold", //UI fixed by MrGold
+	 author: "DBM, EGGSY, MrGold, Lasse, ZockerNico, TheMonDon", //UI fixed by MrGold
 
 	 // The version of the mod (Defaults to 1.0.0)
-	 version: "1.9.4", //Added in 1.9.1
+	 version: "1.9.6", //Added in 1.9.1
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
 	 short_description: "Added more options to default action.",
@@ -97,19 +98,22 @@ html: function(isEvent, data) {
 			<option value="1">Equals</option>
 			<option value="2">Equals Exactly</option>
 			<option value="3">Less Than</option>
+			<option value="13">Less Than or Equal to</option>
 			<option value="4">Greater Than</option>
+			<option value="14">Greater Than or Equal to</option>
 			<option value="5">Includes</option>
 			<option value="6">Matches Regex</option>
+			<option value="12">Matches Full Regex</option>
 			<option value="7">Length is Bigger Than</option>
 			<option value="8">Length is Smaller Than</option>
-			<option value="9">Length Equals</option>
+			<option value="9">Length is Equals</option>
 			<option value="10">Starts With</option>
 			<option value="11">Ends With</option>
 		</select>
 	</div>
 	<div style="float: right; width: 60%; display: none;" id="directValue">
 		Value to Compare to:<br>
-		<input id="value" class="round" type="text" name="is-eval">
+		<input id="value" class="round" type="text" name="is-eval" placeholder="">
 	</div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
@@ -129,11 +133,21 @@ init: function() {
 	const {glob, document} = this;
 
 	glob.onChange1 = function(event) {
-		if(event.value === "0") {
-			document.getElementById("directValue").style.display = 'none';
+		if(parseInt(event.value) == 0) {
+			document.getElementById('directValue').style.display = 'none';
 		} else {
-			document.getElementById("directValue").style.display = null;
-		}
+			document.getElementById('directValue').style.display = null;
+		};
+		switch(parseInt(event.value)) {
+			case 6:
+				document.getElementById('value').placeholder = "('My'|'Regex')";
+				break;
+			case 12:
+				document.getElementById('value').placeholder = "/('My'|'Regex')\\w+/igm";
+				break;
+			default:
+				document.getElementById('value').placeholder = "";
+		};
 	};
 
 	glob.onChange1(document.getElementById('comparison'));
@@ -193,14 +207,23 @@ action: function(cache) {
 				result = Boolean(val1.length < val2);
 				break;
 			case 9: //Added by Lasse
-			  result = Boolean(val1.length == val2);
-			  break;
+			  	result = Boolean(val1.length == val2);
+			  	break;
 			case 10: //Added by MrGold
-			  result = val1.startsWith(val2);
-			  break;
+			  	result = Boolean(val1.startsWith(val2));
+			  	break;
 			case 11: //Added by MrGold
-			  result = val1.endsWith(val2);
-			  break;
+			  	result = Boolean(val1.endsWith(val2));
+			  	break;
+			case 12: //Added by ZockerNico
+				result = Boolean(val1.match(new RegExp(val2)));
+				break;
+			case 13: //Added by TheMonDon
+				result = Boolean(val1 <= val2);
+				break;
+			case 14: //Added by TheMonDon
+				result = Boolean(val1 >= val2);
+				break;
 		}
 	}
 	this.executeResults(result, data, cache);

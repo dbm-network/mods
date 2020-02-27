@@ -24,13 +24,14 @@ module.exports = {
 	 //---------------------------------------------------------------------
 
 	 // Who made the mod (If not set, defaults to "DBM Mods")
- 	author: "General Wrex, Lasse & ZockerNico",
+ 	author: "General Wrex, Lasse, ZockerNico & TheMonDon",
 
     // [NEW] If you have a donation link you want to share.
-    donation_link: "https://www.patreon.com/generalwrex",
+    donation_link: "https://www.patreon.com/generalwrex", //uh wheres my share? ~MonDOn
      
  	// The version of the mod pack it was added into
- 	version: "1.9.5", //Added in 1.9.0 
+    version: "1.9.6", //Added in 1.9.0
+    version2: "1.0.0", // Just to keep track of this version compared to mod pack version
 
  	// A short description to show on the mod line for this mod (Must be on a single line)
  	short_description: "Stores information of current audio source.  <b style='color:red'>Something must be playing in a voice channel for this to return most data!</b><br>Please put the Welcome action into a Bot Initalization event to be able to store the current song!",
@@ -186,16 +187,21 @@ div.embed { /* <div class="embed"></div> */
     
     // this is the list of items used in the subtitle, init, types, and the html    
     itemList:  [
-        { name:'Volume (1-100)', type: "Number"},
-        { name:'Is Playing', type: "Boolean"},
-        { name:'Start Time (Seconds)', type: "Seconds"},
-        { name:'Queue URL List', type: "List"},
-        { name:'Next URL In Queue', type: "Url"},
-        { name:'Queue Length', type: "Number"},
-        { name:'Bitrate', type: "Number"},
-        { name:'Passes', type: "Number"},
-        { name:'Current Seek Position (Seconds)', type: "Seconds"},
-        { name:'Current Song URL', type: "Url"}
+        { name: 'Volume (1-100)', type: "Number"},
+        { name: 'Is Playing', type: "Boolean"},
+        { name: 'Start Time (Seconds)', type: "Seconds"},
+        { name: 'Queue URL List', type: "List"},
+        { name: 'Next Song URL In Queue', type: "Url"},
+        { name: 'Queue Length', type: "Number"},
+        { name: 'Bitrate', type: "Number"},
+        { name: 'Passes', type: "Number"},
+        { name: 'Current Seek Position (Seconds)', type: "Seconds"},
+        { name: 'Current Song URL', type: "Url"},
+        { name: 'Requester of Next Song URL', type: "User"},
+        { name: 'Requester of Current Song URL', type: "User"},
+        { name: 'Title of Next Song URL', type: "Title String"},
+        { name: 'Title of Current Song URL', type: "Title String"},
+        { name: "Duration of Current Song URL", type: "Duration"}
     ],
 
     // itemlist is set from above
@@ -268,6 +274,7 @@ div.embed { /* <div class="embed"></div> */
         const data = cache.actions[cache.index];
         const server = parseInt(data.server);
         const varName2 = this.evalMessage(data.varName2, cache);
+        const TimeFormat = this.getWrexMods().require('hh-mm-ss');
         const info = parseInt(data.info);
 
         const audio = this.getDBM().Audio;
@@ -313,7 +320,22 @@ div.embed { /* <div class="embed"></div> */
                 result = audio.dispatchers[targetServer.id] && audio.dispatchers[targetServer.id].streamingData.timestamp || 0; // seek position
                 break;
             case 9:
-                result = audio.playingnow[targetServer.id][2];
+                result = audio.playingnow[targetServer.id][2]; //Current song url
+                break;
+            case 10:
+                result = audio.queue[targetServer.id] && audio.queue[targetServer.id].map(el => el[1])[0].requester; //Requested person of next song in queue
+                break;
+            case 11:
+                result = audio.playingnow[targetServer.id] && audio.playingnow[targetServer.id][1].requester; // Requested person of current song
+                break;
+            case 12:
+                result = audio.queue[targetServer.id] && audio.queue[targetServer.id].map(el => el[1])[0].title; // Title of next song in queue
+                break;
+            case 13:
+                result = audio.playingnow[targetServer.id] && audio.playingnow[targetServer.id][1].title; // Title of current song
+                break;
+            case 14:
+                result = TimeFormat.fromS(audio.playingnow[targetServer.id] && audio.playingnow[targetServer.id][1].duration); //Current song duration
                 break;
             default:
                 break;
