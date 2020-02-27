@@ -51,7 +51,7 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "Lasse, EGGSY, EliteArtz, Danno3817, ZockerNico & Cap",
+	author: "Lasse, EGGSY, EliteArtz, Danno3817, ACertainCoder & Cap",
 
 	// The version of the mod (Defaults to 1.0.0)
 	version: "1.9.6", // added in 1.9.1

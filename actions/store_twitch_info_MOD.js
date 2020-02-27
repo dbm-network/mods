@@ -36,12 +36,12 @@ module.exports = {
 		const list3 = ["Video IDs", "User IDs", "User Display Names", "Video Titles", "Video Descriptions", "Video Creation Dates", "Video Publish Dates", "Video URLs", "Video Thumbnail URLs", "Videos Viewable?", "Video Viewcounts", "Video Languages", "Video Types", "Video Durations"];//Video Info
 		const list4 = ["Game ID", "Game Name", "Game Box Art URL", "Popular Games List (Game IDs)", "Popular Games List (Game Names)", "Popular Games List (Game Box Art URLs)"];//Game Info
 		
-		let infoNum1 = 0;
-		let infoNum2;
-		let infoList1 = [];
-		let infoList2 = [];
-		let infoName1 = '';
-		let infoName2 = '';
+		var infoNum1 = 0;
+		var infoNum2;
+		var infoList1 = [];
+		var infoList2 = [];
+		var infoName1 = '';
+		var infoName2 = '';
 
 		switch(sourceType) {//"Channel", "Stream", "Video" or "Game"
 			case 0:
@@ -55,7 +55,7 @@ module.exports = {
 					case 1://User Login Name
 						if(sourceType > 0) {
 							infoName1 = 'ID';
-						} else if (info1 < 9) {
+						} else if(info1 < 9) {
 							infoName1 = 'Login Name';
 						} else {
 							infoName1 = 'ID';
@@ -108,10 +108,10 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "ZockerNico",
+	author: "ACertainCoder",
 
 	// The version of the mod (Defaults to 1.0.0)
-	version: "1.9.5", //Added in 1.9.5
+	version: "1.9.6", //Added in 1.9.5
 
 	// A short description to show on the mod line for this mod (Must be on a single line)
 	short_description: "This mod will store a specific information from Twitch.",
@@ -133,8 +133,8 @@ module.exports = {
 		const type = parseInt(data.storage);
 		const sourceType = parseInt(data.type);//"Channel", "Stream", "Video" or "Game"
 		const inputType = parseInt(data.inputtype);//"ID" or "Name"
-		if (type !== varType) return;
-		let dataType = "Unknown Type";
+		if(type !== varType) return;
+		var dataType = "Unknown Type";
 
 		if(sourceType == 0) {//Source Type: Channel
 			var info1 = parseInt(data.info1);
@@ -150,7 +150,7 @@ module.exports = {
 				case 6:
 				case 7: dataType = "Image URL"; break;
 			};
-		} else if (sourceType == 1) {//Source Type: Stream
+		} else if(sourceType == 1) {//Source Type: Stream
 			var info2 = parseInt(data.info2);
 			switch(info2) {
 				case 0:
@@ -166,10 +166,10 @@ module.exports = {
 				case 4:
 				case 11: dataType = "List"; break;
 			}
-		} else if (sourceType == 2) {//Source Type: Video
+		} else if(sourceType == 2) {//Source Type: Video
 			/*var info3 = parseInt(data.info3);*/
 			dataType = "List";
-		} else if (sourceType == 3) {//Source Type: Game
+		} else if(sourceType == 3) {//Source Type: Game
 			var info4 = parseInt(data.info4);
 			switch(info4) {
 				case 0:
@@ -224,7 +224,7 @@ module.exports = {
 	<div>
 		<p>
 			<u>Mod Info:</u><br>
-			Made by ZockerNico<br>
+			Made by ACertainCoder<br>
 			Idea by Ju#0007<br>
 		</p>
 	</div>
@@ -395,7 +395,7 @@ module.exports = {
 					  	require('child_process').execSync('start ' + url);
 					});
 				}
-			};
+			}
 
 			var wrexlinks2 = document.getElementsByClassName("wrexlink2")
 			for(var x2 = 0; x2 < wrexlinks2.length; x2++) {
@@ -410,11 +410,11 @@ module.exports = {
 			  			require('child_process').execSync('start ' + url2);
 					});
 		  		}
-			};
+			}
 
 		} catch (error) {//Write any init errors to errors.txt in dbm's main directory
 			require("fs").appendFile("errors.txt", error.stack ? error.stack : error + "\r\n"); 
-		};
+		}
 
 		glob.onChange1 = function(event) {//"Channel", "Stream", "Video" or "Game"
 			//Load HTML Stuff
@@ -437,8 +437,8 @@ module.exports = {
 			const inputList2 = ['ID', 'Name'];//List for "switch": "case 3"
 
 			//Change HTML Stuff
-			let result1 = '';
-			let result2 = '';
+			var result1 = '';
+			var result2 = '';
 			switch(id1) {
 				case 0://User & Channel
 					result1 = 'User';
@@ -450,7 +450,7 @@ module.exports = {
 						result2 = 'ID';
 						inputType.style.display = 'none';
 						inputTypeDiv.style.display = 'none';
-					};
+					}
 					infoDiv1.style.display = null;
 					info1.style.display = null;
 					infoDiv2.style.display = 'none';
@@ -519,12 +519,12 @@ module.exports = {
 					results.style.display = 'none';
 					resultsDiv.style.display = 'none';
 					break;
-			};
+			}
 
 			//Reload HTML Stuff
 			document.getElementById('tempName1').innerHTML = result1;
 			document.getElementById('tempName2').innerHTML = result2;
-		};
+		}
 
 		glob.onChange2 = function(event) {//"ID" or "Login Name"
 			//Load HTML Stuff
@@ -532,7 +532,7 @@ module.exports = {
 			const id2 = parseInt(document.getElementById('inputtype').value);//Input Type
 
 			//Change HTML Stuff
-			let result = '';
+			var result = '';
 			if(id1 == 0) {
 				switch(id2) {
 					case 0:
@@ -543,25 +543,25 @@ module.exports = {
 							result = 'Login Name';
 						} else {
 							result = 'ID';
-						};
+						}
 						break;
-				};
-			} else if (id1 == 3) {
+				}
+			} else if(id1 == 3) {
 				switch(id2) {
 					case 0:
 						result = 'ID';
 						break;
 					case 1:
 						result = 'Name';
-				};
+				}
 			} else {
 				result = 'ID';
-			};
+			}
 			
 
 			//Reload HTML Stuff
 			document.getElementById('tempName2').innerHTML = result;
-		};
+		}
 
 		glob.onChange3 = function(event) {//Source Channel Info
 			//Load HTML Stuff
@@ -572,7 +572,7 @@ module.exports = {
 
 			//Change HTML Stuff
 
-			let result2 = '';
+			var result2 = '';
 			if(id4 < 9) {
 				inputType.style.display = null;
 				inputTypeDiv.style.display = null;
@@ -581,11 +581,11 @@ module.exports = {
 				inputType.style.display = 'none';
 				inputTypeDiv.style.display = 'none';
 				result2 = 'ID';
-			};
+			}
 
 			//Reload HTML Stuff
 			document.getElementById('tempName2').innerHTML = result2;
-		};
+		}
 
 		glob.onChange4 = function(event) {//Source Game Info
 			//Load HTML Stuff
@@ -602,15 +602,15 @@ module.exports = {
 				} else {
 					inputType.style.display = 'none';
 					inputTypeDiv.style.display = 'none';
-				};
+				}
 			} else if(id1 == 1 || id1 == 2) {
 				inputType.style.display = 'none';
 				inputTypeDiv.style.display = 'none';
 			} else {
 				inputType.style.display = null;
 				inputTypeDiv.style.display = null;
-			};
-		};
+			}
+		}
 
 		//Load HTML Stuff if a user opens the action in DBM
 		document.getElementById('type');
@@ -645,8 +645,8 @@ module.exports = {
 		const clientID = this.evalMessage(data.clientid, cache);
 		const sourceType = parseInt(data.type);//"Channel", "Stream", "Video" or "Game"
 		const inputType = parseInt(data.inputtype);//Channel "ID" or "Name"
-		let searchResults = parseInt(data.results);//Default: 20 | Max: 100 (Because of API limitation!)
-		let infoType = 0;
+		var searchResults = parseInt(data.results);//Default: 20 | Max: 100 (Because of API limitation!)
+		var infoType = 0;
 		const info1 = parseInt(data.info1);
 		const info2 = parseInt(data.info2);
 		const info3 = parseInt(data.info3);
@@ -664,7 +664,7 @@ module.exports = {
 			case 3:
 				infoType = info4;
 				break;
-		};
+		}
 
 
 
@@ -675,10 +675,10 @@ module.exports = {
 		if(searchResults > 0) {
 			if(searchResults > 100) {
 				searchResults = 100;//Max value
-			};
+			}
 		} else {//Default value
 			searchResults = 20;
-		};
+		}
 
 
 
@@ -692,24 +692,24 @@ module.exports = {
 						headers: {
 							'Client-ID': `${clientID}`
 						}
-					};
+					}
 				} else {
 					var options = {
 						url: `https://api.twitch.tv/helix/users/follows?to_id=${input}&first=2`,
 						headers: {
 							'Client-ID': `${clientID}`
 						}
-					};
-				};
+					}
+				}
 				
 				function callback(error, response, body) {
-					if (!error && response.statusCode == 200) {
+					if(!error && response.statusCode == 200) {
 					  	var info = JSON.parse(body);
-					  	let result = '';
+					  	var result = undefined;
 						if(!info.data[0]) {
 							console.log(`No results for ${input}.`);
 							return _this.callNextAction(cache);
-						};
+						}
 						switch(infoType) {
 							case 0: result = info.data[0].id; break;
 							case 1: result = info.data[0].login; break;
@@ -721,20 +721,20 @@ module.exports = {
 							case 7: result = info.data[0].offline_image_url; break;
 							case 8: result = info.data[0].view_count; break;
 							case 9: result = info.total; break;
-						};
-						if (result !== undefined) {
+						}
+						if(result !== undefined) {
 							const storage = parseInt(data.storage);
 							const varName = _this.evalMessage(data.varName, cache);
 							_this.storeValue(result, storage, varName, cache);
 							_this.callNextAction(cache);
-						};
+						}
 					} else {
 						console.error(error);
-					};
-				};
+					}
+				}
 				request(options, callback);
 
-			} else if (inputType == 1 && infoType < 9) {//Input Type: Name
+			} else if(inputType == 1 && infoType < 9) {//Input Type: Name
 
 				var options = {
 					url: `https://api.twitch.tv/helix/users?login=${input}`,
@@ -743,13 +743,13 @@ module.exports = {
 					}
 				};
 				function callback(error, response, body) {
-					if (!error && response.statusCode == 200) {
+					if(!error && response.statusCode == 200) {
 					  	var info = JSON.parse(body);
-					  	let result = '';
+					  	var result = undefined;
 						if(!info.data[0]) {
 							console.log(`No results for ${input}.`);
 							return _this.callNextAction(cache);
-						};
+						}
 						switch(infoType) {
 							case 0: result = info.data[0].id; break;
 							case 1: result = info.data[0].login; break;
@@ -760,24 +760,24 @@ module.exports = {
 							case 6: result = info.data[0].profile_image_url; break;
 							case 7: result = info.data[0].offline_image_url; break;
 							case 8: result = info.data[0].view_count; break;
-						};
-						if (result !== undefined) {
+						}
+						if(result !== undefined) {
 							const storage = parseInt(data.storage);
 							const varName = _this.evalMessage(data.varName, cache);
 							_this.storeValue(result, storage, varName, cache);
 							_this.callNextAction(cache);
-						};
+						}
 					} else {
 						console.error(error);
-					};
+					}
 				};
 				request(options, callback);
 
 			} else {//Input Type: Undefined
 				return console.log('Please select either "User ID" or "User Login Name"!');
-			};
+			}
 
-		} else if (sourceType == 1) {//Source Info: Stream
+		} else if(sourceType == 1) {//Source Info: Stream
 
 			//Input Type: ID
 			var options = {
@@ -787,10 +787,10 @@ module.exports = {
 				}
 			};
 			function callback(error, response, body) {
-				if (!error && response.statusCode == 200) {
+				if(!error && response.statusCode == 200) {
 					var info = JSON.parse(body);
-					let result = '';
-					let result2 = false;
+					var result = undefined;
+					var result2 = false;
 					if(!info.data[0]) {
 						if(infoType == 5) {
 							const storage = parseInt(data.storage);
@@ -798,9 +798,9 @@ module.exports = {
 							_this.storeValue(result2, storage, varName, cache);
 						} else {
 							console.log(`No results for ${input}.`);
-						};
+						}
 						return _this.callNextAction(cache);
-					};
+					}
 					switch(infoType) {
 						case 0: result = info.data[0].id; break;
 						case 1: result = info.data[0].user_id; break;
@@ -814,25 +814,25 @@ module.exports = {
 						case 9: result = info.data[0].language; break;
 						case 10: result = info.data[0].thumbnail_url.replace('{width}', '1920').replace('{height}', '1280'); break;
 						case 11: result = info.data[0].tag_ids; break;
-					};
-					if (result !== undefined) {
+					}
+					if(result !== undefined) {
 						const storage = parseInt(data.storage);
 						const varName = _this.evalMessage(data.varName, cache);
 						_this.storeValue(result, storage, varName, cache);
 						_this.callNextAction(cache);
-					} else if (result2 !== undefined || result2 === false || result2 === true) {
+					} else {
 						const storage = parseInt(data.storage);
 						const varName = _this.evalMessage(data.varName, cache);
 						_this.storeValue(result2, storage, varName, cache);
 						_this.callNextAction(cache);
-					};
+					}
 				} else {
 					console.error(error);
-				};
-			};
+				}
+			}
 			request(options, callback);
 
-		} else if (sourceType == 2) {//Source Info: Video
+		} else if(sourceType == 2) {//Source Info: Video
 
 			//Input Type: ID
 			var options = {
@@ -842,13 +842,13 @@ module.exports = {
 				}
 			};
 			function callback(error, response, body) {
-				if (!error && response.statusCode == 200) {
+				if(!error && response.statusCode == 200) {
 					var info = JSON.parse(body);
-					let result = [];
+					var result = [];
 					if(!info.data[0]) {
 						console.log(`No results for ${input}.`);
 						return _this.callNextAction(cache);
-					};
+					}
 					switch(infoType) {
 						case 0: info.data.forEach(video => result.push(video.id)); break;
 						case 1: info.data.forEach(video => result.push(video.user_id)); break;
@@ -865,19 +865,17 @@ module.exports = {
 						case 12: info.data.forEach(video => result.push(video.type)); break;//"upload", "archive" or "highlight"
 						case 13: info.data.forEach(video => result.push(video.duration)); break;
 					};
-					if (result !== undefined) {
-						const storage = parseInt(data.storage);
-						const varName = _this.evalMessage(data.varName, cache);
-						_this.storeValue(result, storage, varName, cache);
-						_this.callNextAction(cache);
-					};
+					const storage = parseInt(data.storage);
+					const varName = _this.evalMessage(data.varName, cache);
+					_this.storeValue(result, storage, varName, cache);
+					_this.callNextAction(cache);
 				} else {
 					console.error(error);
-				};
-			};
+				}
+			}
 			request(options, callback);
 
-		} else if (sourceType == 3) {//Source Info: Game
+		} else if(sourceType == 3) {//Source Info: Game
 
 			if(inputType == 0) {//Input Type: Game ID
 
@@ -895,16 +893,16 @@ module.exports = {
 							'Client-ID': `${clientID}`
 						}
 					};
-				};
+				}
 				function callback(error, response, body) {
-					if (!error && response.statusCode == 200) {
+					if(!error && response.statusCode == 200) {
 						var info = JSON.parse(body);
-						let result;
-						let result2 = [];
+						var result = undefined;
+						var result2 = [];
 						if(!info.data[0]) {
 							console.log(`No results for ${input}.`);
 							return _this.callNextAction(cache);
-						};
+						}
 						switch(infoType) {
 							case 0: result = info.data[0].id.toString(); break;
 							case 1: result = info.data[0].name.toString(); break;
@@ -912,25 +910,25 @@ module.exports = {
 							case 3: info.data.forEach(game => result2.push(game.id)); break;
 							case 4: info.data.forEach(game => result2.push(game.name)); break;
 							case 5: info.data.forEach(game => result2.push(game.box_art_url.replace('{width}', '1300').replace('{height}', '1730'))); break;
-						};
-						if (result !== undefined) {
+						}
+						if(result !== undefined) {
 							const storage = parseInt(data.storage);
 							const varName = _this.evalMessage(data.varName, cache);
 							_this.storeValue(result, storage, varName, cache);
 							_this.callNextAction(cache);
-						} else if (result2 !== undefined) {
+						} else {
 							const storage = parseInt(data.storage);
 							const varName = _this.evalMessage(data.varName, cache);
 							_this.storeValue(result2, storage, varName, cache);
 							_this.callNextAction(cache);
-						};
+						}
 					} else {
 						console.error(error);
-					};
-				};
+					}
+				}
 				request(options, callback);
 
-			} else if (inputType == 1) {//Input Type: Game Name
+			} else if(inputType == 1) {//Input Type: Game Name
 
 				if(infoType < 3) {
 					var options = {
@@ -946,16 +944,16 @@ module.exports = {
 							'Client-ID': `${clientID}`
 						}
 					};
-				};
+				}
 				function callback(error, response, body) {
-					if (!error && response.statusCode == 200) {
+					if(!error && response.statusCode == 200) {
 						var info = JSON.parse(body);
-						let result;
-						let result2 = [];
+						var result = undefined;
+						var result2 = [];
 						if(!info.data[0]) {
 							console.log(`No results for ${input}.`);
 							return _this.callNextAction(cache);
-						};
+						}
 						switch(infoType) {
 							case 0: result = info.data[0].id.toString(); break;
 							case 1: result = info.data[0].name.toString(); break;
@@ -963,30 +961,30 @@ module.exports = {
 							case 3: info.data.forEach(game => result2.push(game.id)); break;
 							case 4: info.data.forEach(game => result2.push(game.name)); break;
 							case 5: info.data.forEach(game => result2.push(game.box_art_url.replace('{width}', '1300').replace('{height}', '1730'))); break;
-						};
-						if (result !== undefined) {
+						}
+						if(result !== undefined) {
 							const storage = parseInt(data.storage);
 							const varName = _this.evalMessage(data.varName, cache);
 							_this.storeValue(result, storage, varName, cache);
 							_this.callNextAction(cache);
-						} else if (result2 !== undefined) {
+						} else {
 							const storage = parseInt(data.storage);
 							const varName = _this.evalMessage(data.varName, cache);
 							_this.storeValue(result2, storage, varName, cache);
 							_this.callNextAction(cache);
-						};
+						}
 					} else {
 						console.error(error);
-					};
-				};
+					}
+				}
 				request(options, callback);
 
 			} else {//Input Type: Popular Games List
 				return console.log('Please select either "Game ID" or "Game Name"!');
-			};
+			}
 		} else {//Source Type: Undefined
 			return console.log('Please select either "Channel", "Stream", "Video" or "Game"!');//This will only be executed if there is an invaild action setting of the "Source Input".
-		};
+		}
 	},
 
 	//---------------------------------------------------------------------

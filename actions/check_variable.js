@@ -36,7 +36,7 @@ subtitle: function(data) {
 	 //---------------------------------------------------------------------
 
 	 // Who made the mod (If not set, defaults to "DBM Mods")
-	 author: "DBM, EGGSY, MrGold, Lasse, ZockerNico, TheMonDon", //UI fixed by MrGold
+	 author: "DBM, EGGSY, MrGold, Lasse, ACertainCoder, TheMonDon", //UI fixed by MrGold
 
 	 // The version of the mod (Defaults to 1.0.0)
 	 version: "1.9.6", //Added in 1.9.1
@@ -215,7 +215,7 @@ action: function(cache) {
 			case 11: //Added by MrGold
 			  	result = Boolean(val1.endsWith(val2));
 			  	break;
-			case 12: //Added by ZockerNico
+			case 12: //Added by ACertainCoder
 				result = Boolean(val1.match(new RegExp(val2)));
 				break;
 			case 13: //Added by TheMonDon

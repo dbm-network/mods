@@ -24,7 +24,7 @@ module.exports = {
 	 //---------------------------------------------------------------------
 
 	 // Who made the mod (If not set, defaults to "DBM Mods")
- 	author: "General Wrex, Lasse, ZockerNico & TheMonDon",
+ 	author: "General Wrex, Lasse, ACertainCoder & TheMonDon",
 
     // [NEW] If you have a donation link you want to share.
     donation_link: "https://www.patreon.com/generalwrex", //uh wheres my share? ~MonDOn

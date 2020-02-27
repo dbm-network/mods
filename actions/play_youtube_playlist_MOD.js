@@ -42,7 +42,7 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "ZockerNico",
+	author: "ACertainCoder",
 
 	// The version of the mod (Defaults to 1.0.0)
 	version: "1.9.5", //Added in 1.9.5
@@ -85,7 +85,7 @@ module.exports = {
 		return `
 	<div>
 	<p>
-		Made by ZockerNico.
+		Made by ACertainCoder.
 	</p>
 	</div><br>
 	<div style="float: left; width: 105%;">
