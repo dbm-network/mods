@@ -34,7 +34,7 @@ subtitle: function(data) {
 	 //---------------------------------------------------------------------
 
 	 // Who made the mod (If not set, defaults to "DBM Mods")
-	 author: "MrGold, NetLuis & ZockerNico",
+	 author: "MrGold, NetLuis & ACertainCoder",
 
 	 // The version of the mod (Defaults to 1.0.0)
 	 version: "1.9.5", //Added in 1.9.3
@@ -86,7 +86,7 @@ html: function(isEvent, data) {
 	return `
 <div>
 	<p><u>Mod Info:</u><br>
-	Created by MrGold<br> Fixed by NetLuis<br> Modified by ZockerNico</p>
+	Created by MrGold<br> Fixed by NetLuis<br> Modified by ACertainCoder</p>
 </div><br>
 <div style="float: left; width: 105%;">
 	Your main bot file:<br>
