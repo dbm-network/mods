@@ -24,7 +24,7 @@ module.exports = {
 	 //---------------------------------------------------------------------
 
 	 // Who made the mod (If not set, defaults to "DBM Mods")
- 	author: "General Wrex, Lasse, ZockerNico & TheMonDon",
+ 	author: "General Wrex, Lasse, ACertainCoder & TheMonDon",
 
     // [NEW] If you have a donation link you want to share.
     donation_link: "https://www.patreon.com/generalwrex", //uh wheres my share? ~MonDOn
@@ -168,17 +168,14 @@ div.embed { /* <div class="embed"></div> */
         span.embed-desc { /* <span class="embed-desc"></span> (Description thing) */
             color: rgb(128, 128, 128);
         }
-
         span { /* Only making the text look, nice! */
             font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
         }
-
         span.wrexlink {
             color: #99b3ff;
             text-decoration:underline;
             cursor:pointer;
         }
-
         span.wrexlink:hover { 
             color:#4676b9; 
         }

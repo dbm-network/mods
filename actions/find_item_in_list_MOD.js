@@ -24,7 +24,7 @@ section: "Lists and Loops",
 //---------------------------------------------------------------------
 
 // Who made the mod (If not set, defaults to "DBM Mods")
-author: "ZockerNico",
+author: "ACertainCoder",
 
 // The version of the mod (Defaults to 1.0.0)
 version: "1.9.5", //Added in 1.9.5
@@ -88,7 +88,7 @@ fields: ["list", "varName", "item", "storage", "varName2"],
 
 html: function(isEvent, data) {
 	return `
-	<div><p>Made by ZockerNico.</p></div><br>
+	<div><p>Made by ACertainCoder.</p></div><br>
 <div><b></b>
 	<div style="float: left; width: 35%;">
 		Source List:<br>

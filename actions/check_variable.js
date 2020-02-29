@@ -36,7 +36,7 @@ subtitle: function(data) {
 	 //---------------------------------------------------------------------
 
 	 // Who made the mod (If not set, defaults to "DBM Mods")
-	 author: "DBM, EGGSY, MrGold, Lasse, ZockerNico, TheMonDon", //UI fixed by MrGold
+	 author: "DBM, EGGSY, MrGold, Lasse, ACertainCoder, TheMonDon", //UI fixed by MrGold
 
 	 // The version of the mod (Defaults to 1.0.0)
 	 version: "1.9.6", //Added in 1.9.1
