@@ -1,94 +1,91 @@
 module.exports = {
 
-//---------------------------------------------------------------------
-// Action Name
-//
-// This is the name of the action displayed in the editor.
-//---------------------------------------------------------------------
+    //---------------------------------------------------------------------
+    // Action Name
+    //
+    // This is the name of the action displayed in the editor.
+    //---------------------------------------------------------------------
 
-name: "Convert Seconds To D/H/M/S",
+    name: "Convert Seconds To D/H/M/S",
 
-//---------------------------------------------------------------------
-// Action Section
-//
-// This is the section the action will fall into.
-//---------------------------------------------------------------------
+    //---------------------------------------------------------------------
+    // Action Section
+    //
+    // This is the section the action will fall into.
+    //---------------------------------------------------------------------
 
-section: "Other Stuff",
+    section: "Other Stuff",
 
+    //---------------------------------------------------------------------
+    // Action Subtitle
+    //
+    // This function generates the subtitle displayed next to the name.
+    //---------------------------------------------------------------------
 
-//---------------------------------------------------------------------
-// Action Subtitle
-//
-// This function generates the subtitle displayed next to the name.
-//---------------------------------------------------------------------
+    subtitle: function (data) {
+        return `Convert ${data.time}`;
+    },
 
-subtitle: function(data) {
-return `Convert ${data.time}`;
-},
+    //---------------------------------------------------------------------
+    // DBM Mods Manager Variables (Optional but nice to have!)
+    //
+    // These are variables that DBM Mods Manager uses to show information
+    // about the mods for people to see in the list.
+    //---------------------------------------------------------------------
 
-//---------------------------------------------------------------------
-	 // DBM Mods Manager Variables (Optional but nice to have!)
-	 //
-	 // These are variables that DBM Mods Manager uses to show information
-	 // about the mods for people to see in the list.
-	 //---------------------------------------------------------------------
+    // Who made the mod (If not set, defaults to "DBM Mods")
+    author: "Aamon", //Idea by Tresmos    // I don't know who Tremos is but 'heya' =]]]
 
- // Who made the mod (If not set, defaults to "DBM Mods")
- author: "Aamon", //Idea by Tresmos    // I don't know who Tremos is but 'heya' =]]]
+    // The version of the mod (Defaults to 1.0.0)
+    version: "1.9.6", //added in 1.9.4
 
- // The version of the mod (Defaults to 1.0.0)
- version: "1.9.4", //not added yet....
+    // A short description to show on the mod line for this mod (Must be on a single line)
+    short_description: "Convert Seconds to Days, Hours, Minutes and Seconds.",
 
- // A short description to show on the mod line for this mod (Must be on a single line)
- short_description: "Convert Seconds to Days, Hours, Minutes and Seconds.",
+    // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
- // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
+    //---------------------------------------------------------------------
 
+    //---------------------------------------------------------------------
+    // Action Storage Function
+    //
+    // Stores the relevant variable info for the editor.
+    //---------------------------------------------------------------------
 
- //---------------------------------------------------------------------
+    variableStorage: function (data, varType) {
+        const type = parseInt(data.storage);
+        if (type !== varType) return;
+        return ([data.varName, 'Date']);
+    },
 
-//---------------------------------------------------------------------
-// Action Storage Function
-//
-// Stores the relevant variable info for the editor.
-//---------------------------------------------------------------------
+    //---------------------------------------------------------------------
+    // Action Fields
+    //
+    // These are the fields for the action. These fields are customized
+    // by creating elements with corresponding IDs in the HTML. These
+    // are also the names of the fields stored in the action's JSON data.
+    //---------------------------------------------------------------------
 
-variableStorage: function(data, varType) {
-		const type = parseInt(data.storage);
-		if(type !== varType) return;
-		return ([data.varName, 'Date']);
-	},
+    fields: ["time", "storage", "varName"],
 
+    //---------------------------------------------------------------------
+    // Command HTML
+    //
+    // This function returns a string containing the HTML used for
+    // editting actions.
+    //
+    // The "isEvent" parameter will be true if this action is being used
+    // for an event. Due to their nature, events lack certain information,
+    // so edit the HTML to reflect this.
+    //
+    // The "data" parameter stores constants for select elements to use.
+    // Each is an array: index 0 for commands, index 1 for events.
+    // The names are: sendTargets, members, roles, channels,
+    //                messages, servers, variables
+    //---------------------------------------------------------------------
 
-//---------------------------------------------------------------------
-// Action Fields
-//
-// These are the fields for the action. These fields are customized
-// by creating elements with corresponding IDs in the HTML. These
-// are also the names of the fields stored in the action's JSON data.
-//---------------------------------------------------------------------
-
-fields: ["time", "storage", "varName"],
-
-//---------------------------------------------------------------------
-// Command HTML
-//
-// This function returns a string containing the HTML used for
-// editting actions.
-//
-// The "isEvent" parameter will be true if this action is being used
-// for an event. Due to their nature, events lack certain information,
-// so edit the HTML to reflect this.
-//
-// The "data" parameter stores constants for select elements to use.
-// Each is an array: index 0 for commands, index 1 for events.
-// The names are: sendTargets, members, roles, channels,
-//                messages, servers, variables
-//---------------------------------------------------------------------
-
-html: function(isEvent, data) {
-	return `
+    html: function (isEvent, data) {
+        return `
 	<div style="float: left; width: 95%; padding-top: 8px;">
 		<p><u>Mod Info:</u><br>
 		Made by <b>Aamon</b>! <br> Convert seconds to Days Hours Minutes and Seconds.</p>
@@ -114,89 +111,83 @@ html: function(isEvent, data) {
 			For aditional information contact <b>Aamon#9130</b> on Discord or <a href ="https://twitter.com/44m0n"><b>@44m0n<b></a> on Twitter. 
 		</p>
 	</div>`;
-},
+    },
 
-//---------------------------------------------------------------------
-// Action Editor Init Code
-//
-// When the HTML is first applied to the action editor, this code
-// is also run. This helps add modifications or setup reactionary
-// functions for the DOM elements.
-//---------------------------------------------------------------------
+    //---------------------------------------------------------------------
+    // Action Editor Init Code
+    //
+    // When the HTML is first applied to the action editor, this code
+    // is also run. This helps add modifications or setup reactionary
+    // functions for the DOM elements.
+    //---------------------------------------------------------------------
 
-init: function() {
-	const {glob, document} = this;
+    init: function () {
+        const {
+            glob,
+            document
+        } = this;
 
-	glob.variableChange(document.getElementById('storage'), 'varNameContainer');
-},
+        glob.variableChange(document.getElementById('storage'), 'varNameContainer');
+    },
 
-//---------------------------------------------------------------------
-// Action Bot Function
-//
-// This is the function for the action within the Bot's Action class.
-// Keep in mind event calls won't have access to the "msg" parameter,
-// so be sure to provide checks for variable existance.
-//---------------------------------------------------------------------
+    //---------------------------------------------------------------------
+    // Action Bot Function
+    //
+    // This is the function for the action within the Bot's Action class.
+    // Keep in mind event calls won't have access to the "msg" parameter,
+    // so be sure to provide checks for variable existance.
+    //---------------------------------------------------------------------
 
-action: function(cache) {
+    action: function (cache) {
 
-	const data = cache.actions[cache.index];
-	const time = this.evalMessage(data.time, cache);
-	var   _this = this; // this is needed sometimes.
+        const data = cache.actions[cache.index];
+        const time = this.evalMessage(data.time, cache);
+        var _this = this; // this is needed sometimes.
 
-    // Main code.
+        // Main code.
 
+        let d, h, m, s;
+        let result;
 
+        if (isNaN(time)) {
+            result.toString() = "Invalid Date";
+            console.log('Please insert a number');
+        } else {
 
-	
-	let d, h, m, s;
-	let result;
+            s = time;
 
-	if (isNaN(time)) {
-		result.toString() = "Invalid Date";
-		console.log('Please insert a number');
-	}
-	else {
+            m = Math.floor(s / 60);
+            s = s % 60;
+            h = Math.floor(m / 60);
+            m = m % 60;
+            d = Math.floor(h / 24);
+            h = h % 24;
 
-		s = time;
+            result = d + "d " + h + "h " + m + "m " + s + "s";
 
+        }
+        //return { days: d, hours: h, minutes: m, seconds: s }
 
-		m = Math.floor(s / 60);
-		s = s % 60;
-		h = Math.floor(m / 60);
-		m = m % 60;
-		d = Math.floor(h / 24);
-		h = h % 24;
+        if (result.toString() === "Invalid Date") result = undefined;
 
-		result = d + "d " + h + "h " + m + "m " + s + "s";
+        // Storage.
+        if (result !== undefined) {
+            const storage = parseInt(data.storage);
+            const varName = this.evalMessage(data.varName, cache);
+            this.storeValue(result, storage, varName, cache);
+        }
+        this.callNextAction(cache);
+    },
 
-	}
-		//return { days: d, hours: h, minutes: m, seconds: s }
-	
+    //---------------------------------------------------------------------
+    // Action Bot Mod
+    //
+    // Upon initialization of the bot, this code is run. Using the bot's
+    // DBM namespace, one can add/modify existing functions if necessary.
+    // In order to reduce conflictions between mods, be sure to alias
+    // functions you wish to overwrite.
+    //---------------------------------------------------------------------
 
-
-	
-	if (result.toString() === "Invalid Date") result = undefined;
-
-    // Storage.
-	if(result !== undefined) {
-		const storage = parseInt(data.storage);
-		const varName = this.evalMessage(data.varName, cache);
-		this.storeValue(result, storage, varName, cache);
-	}
-    this.callNextAction(cache);
-},
-
-//---------------------------------------------------------------------
-// Action Bot Mod
-//
-// Upon initialization of the bot, this code is run. Using the bot's
-// DBM namespace, one can add/modify existing functions if necessary.
-// In order to reduce conflictions between mods, be sure to alias
-// functions you wish to overwrite.
-//---------------------------------------------------------------------
-
-mod: function(DBM) {
-}
+    mod: function (DBM) {}
 
 }; // End of module

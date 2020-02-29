@@ -474,7 +474,7 @@ module.exports = {
 						_this.storeValue(result, storage, varName, cache);
 						_this.callNextAction(cache);
 					};
-				});
+				}).catch(console.error);
 				break;
 			case 1://Playlist
 				YouTube.searchPlaylists(`${input}`, results).then(playlists => {
@@ -589,7 +589,7 @@ module.exports = {
 						_this.storeValue(result, storage, varName, cache);
 						_this.callNextAction(cache);
 					};
-				});
+				}).catch(console.error);
 				break;
 			default:
 				return console.log('Please check your YouTube Search action... There is something wrong.');
