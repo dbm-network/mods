@@ -23,7 +23,7 @@ module.exports = {
 	//---------------------------------------------------------------------
 	
 	subtitle: function(data) {
-		const info = ['Channel Object', 'Invite Creator', 'Creation Date', 'Expiration Date', 'Guild Object', 'Max. Uses', 'Is Temporary?', 'URL for Invite', 'Times Used']
+		const info = ['Channel Object', 'Invite Creator', 'Creation Date', 'Expiration Date', 'Guild Object', 'Max. Uses', 'Is Temporary?', 'URL for Invite', 'Times Used','Invite server member count', 'Invite code']
 		return `Store ${info[parseInt(data.info)]} from Invite`;
 	},
 
@@ -35,7 +35,7 @@ module.exports = {
 	 //---------------------------------------------------------------------
 
 	 // Who made the mod (If not set, defaults to "DBM Mods")
- 	author: "iAmaury, General Wrex, EliteArtz and Jakob",
+ 	author: "iAmaury, General Wrex, EliteArtz, Jakob and Lurker",
 
  	// The version of the mod (Defaults to 1.0.0)
  	version: "1.9.5", //Added in 1.9.0
@@ -86,6 +86,12 @@ module.exports = {
 			case 8:
 				dataType = 'number';
 				break;
+			case 9:
+				dataType = 'number';
+				break;
+			case 10:
+				dataType = 'number';
+				break;
 		}
 		return ([data.varName, dataType]);
 	},
@@ -121,7 +127,7 @@ module.exports = {
 		<div>
 		   <p>
 			  <u>Mod Info:</u><br>
-			  Created by iAmaury, General Wrex, EliteArtz and Jakob!<br>
+			  Created by iAmaury, General Wrex, EliteArtz, Jakob and Lurker!<br>
 		   </p>
 		</div>
 	<div style="padding-top: 8px;">
@@ -140,6 +146,8 @@ module.exports = {
 			<option value="6">Is temporary?</option>
 			<option value="7">Url for invite</option>
 			<option value="8">Times used</option>
+			<option value="9">Invite server member count</option>
+			<option value=10">Invite Code</option>
 		</select>
 	</div><br>
 	<div style="float: left; width: 35%; padding-top: 8px;">
@@ -220,6 +228,12 @@ module.exports = {
 					break;
 				case 8:
 					result = invite.uses;
+					break;
+				case 9:
+					result = invite.memberCount;
+					break;
+				case 10:
+					result = invite.code;
 					break;
 				default:
 					break;
