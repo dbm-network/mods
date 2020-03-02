@@ -24,7 +24,7 @@ section: "Channel Control",
 
 subtitle: function(data) {
 	const channels = ['Same Channel', 'Mentioned Channel', '1st Server Channel', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const info = ['Channel Object', 'Channel ID', 'Channel Name', 'Channel Topic', 'Channel Last Message', 'Channel Position', 'Channel Is NSFW?', 'Channel Is DM?', 'Channel Is Deleteable?', 'Channel Creation Date', 'Channel Category Name'];
+	const info = ['Channel Object', 'Channel ID', 'Channel Name', 'Channel Topic', 'Channel Last Message', 'Channel Position', 'Channel Is NSFW?', 'Channel Is DM?', 'Channel Is Deleteable?', 'Channel Creation Date', 'Channel Category Name', 'Created At', 'Created At Timestamp'];
 	return `${channels[parseInt(data.channel)]} - ${info[parseInt(data.info)]}`;
 },
 
@@ -36,7 +36,7 @@ subtitle: function(data) {
 //---------------------------------------------------------------------
 
 // Who made the mod (If not set, defaults to "DBM Mods")
-author: "DBM & Lasse",
+author: "DBM, Lurker & Lasse",
 
 // The version of the mod (Defaults to 1.0.0)
 version: "1.9.5", //Added in 1.9.1
@@ -87,6 +87,12 @@ variableStorage: function(data, varType) {
 			break;
 		case 10:
 			dataType = "Text";
+			break;
+			case 11:
+			dataType = "Created At";
+			break;
+			case 12:
+			dataType = "Created At Timestamp";
 			break;
 	}
 	return ([data.varName2, dataType]);
@@ -148,6 +154,8 @@ html: function(isEvent, data) {
 			<option value="8">Channel Is Deleteable?</option>
 			<option value="9">Channel Creation Date</option>
 			<option value="10">Channel Category Name</option>
+			<option value="11">Created At</option>
+			<option value="12">Created At Timestamp</option>
 		</select>
 	</div>
 </div><br>
@@ -228,7 +236,13 @@ action: function(cache) {
 			result = targetChannel.createdAt;
 			break;
 		case 10:
-			result = targetChannel.parent && targetChannel.parent.name;
+			result = targetChannel.parent.name;
+			break;
+		case 11:
+			result = targetChannel.createdAt;
+			break;
+		case 12:
+			result = targetChannel.createdTimestamp;
 			break;
 		default:
 			break;

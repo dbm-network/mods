@@ -36,9 +36,10 @@ module.exports = {
 
 	// Who made the mod (If not set, defaults to "DBM Mods")
 	author: "Aamon#9130",
+	helper: "LeonZ & Jordan",
 
 	// The version of the mod (Defaults to 1.0.0)
-	version: "1.9.5", //Added in 1.9.5
+	version: "1.9.6", //Added in 1.9.5
 
 	mod_version: "3",
 
@@ -88,7 +89,7 @@ module.exports = {
 	html: function (isEvent, data) {
 		return `
 	<div>
-		<div>
+		<div id="modinfo">
 			<p>
 			Made by <b>${this.author}</b> and improved by <b>LeonZ</b>
 			</p>

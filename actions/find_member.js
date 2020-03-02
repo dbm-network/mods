@@ -28,7 +28,6 @@ module.exports = {
 		return `Find ${op1[parseInt(data.find2)]} by ${op1[parseInt(data.find2)]}${info[parseInt(data.info)]}`;
 	},
 	
-	
 		//---------------------------------------------------------------------
 		 // DBM Mods Manager Variables (Optional but nice to have!)
 		 //
@@ -49,9 +48,6 @@ module.exports = {
 	
 	
 		 //---------------------------------------------------------------------
-	
-	
-		 
 		 
 	//---------------------------------------------------------------------
 	// Action Storage Function
@@ -74,7 +70,7 @@ module.exports = {
 	// are also the names of the fields stored in the action's JSON data.
 	//---------------------------------------------------------------------
 	
-	fields: ["info", "find", "storage", "varName", "find2"],
+	fields: ["info", "find", "storage", "varName", "find2", "iffalse", "iffalseVal"],
 	
 	//---------------------------------------------------------------------
 	// Command HTML
@@ -128,6 +124,18 @@ module.exports = {
 				Variable Name:<br>
 				<input id="varName" class="round" type="text">
 			</div>
+			<div style="float: left; width: 35%; padding-top: 10px;">
+            If Member Wasn't Found:<br>
+            <select id="iffalse" class="round" onchange="glob.onChangeFalse(this)">
+				<option value="0" selected>Continue Actions</option>
+				<option value="1">Stop Action Sequence</option>
+				<option value="2">Jump To Action</option>
+				<option value="3">Skip Next Actions</option>
+		 </select>
+		</div>
+        <div id="iffalseContainer" style="display: none; float: right; width: 60%; padding-top: 10px;">
+            <span id="iffalseName">Action Number</span>:<br><input id="iffalseVal" class="round" type="text">
+        </div>
 		</div>
 	`
 	},
@@ -164,6 +172,7 @@ module.exports = {
 		}
 		glob.change(document.getElementById('find'));
 		glob.change()
+		glob.onChangeFalse(document.getElementById('iffalse'));
 	},
 	
 	//---------------------------------------------------------------------
@@ -207,7 +216,7 @@ module.exports = {
 				break;
 			case 2:
 			result = find2 == 0 ? server.members.find(element => element.displayName === find) : this.getDBM().Bot.bot.users.find(element => element.displayName === find)
-				break
+				break;
 			case 3:
 			result = find2 == 0 ? server.members.find(function(mem) {
 					return mem.user ? mem.user.tag === find : false;
@@ -217,18 +226,18 @@ module.exports = {
 				break;
 			case 4:
 			result = find2 == 0 ? server.members.find(element => element.displayColor === find) : this.getDBM().Bot.bot.users.find(element => element.displayColor === find)
-				break;;
+				break;
 			default:
 				break;
 		}
 		
-		if(result !== undefined) {
+		if(result !== null || result !== undefined) {
 			const storage = parseInt(data.storage);
 			const varName = this.evalMessage(data.varName, cache);
 			this.storeValue(result, storage, varName, cache);
 			this.callNextAction(cache);
 		} else {
-			this.callNextAction(cache);
+			this.executeResults(false, data, cache);
 		}
 	},
 	
