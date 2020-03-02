@@ -86,8 +86,62 @@ html: function(isEvent, data) {
 <div>
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
 	<p>
-	<h2>1.9.7: Someone come up with a tagline plz</h2>
-		● Revised Youtube Info Mod<br>
+	<h2>1.9.7: Bunch of bug fixes and new actions!</h2>
+		● Module Installer now functions as intended.<br>
+		● Added Set Bot Typing Mod<br>
+		● Added Get Dominant Color Mod<br>
+		● Added Clone Channel Mod<br>
+		● Added Convert Text To List Mod<br>
+		● Added Delete Member Data Mod<br>
+		● Added Delete Server Data Mod<br>
+		● Added Edit Embed Object Mod<br>
+		● Added Remove From Queue Mod<br>
+		● Added Shuffle Queue Mod<br>
+		● Added Store Data List Mod<br>
+		● Added Store Command Info Mod<br>
+		● Added Store Date Info Plus Mod<br>
+		● Added Delete Bulk Messages Mod<br>
+		● Added Canvas Create Background Mod<br>
+		● Added Canvas Create Image Mod<br>
+		● Added Canvas Crop Image Mod<br>
+		● Added Canvas Draw Image Mod<br>
+		● Added Canvas Draw Text Mod<br>
+		● Added Canvas Edit Image Border Mod<br>
+		● Added Canvas Generate Progress Bar Mod<br>
+		● Added Canvas Image Filter Mod<br>
+		● Added Canvas Image Options Mod<br>
+		● Added Canvas Save Image Mod<br>
+		● Added Canvas Send Image Mod<br>
+		● Added Store Audit Log Info Mod<br>
+		● Added Store Audit Log List Mod<br>
+		● Added Edit Item From List Mod<br>
+		● Added Auto Help Menu Mod<br>
+		● Added Delete WebHook Mod<br>
+		● Added Send Mail Mod<br>
+		● Added Attach Image to Embed Mod<br>
+		● Added Check if Command Exists Mod<br>
+		● Added Check Role Permissions Mod<br>
+		● Added Variable Pattern Mod<br>
+		● Added Repeat String Mod<br>
+		● Added Add Blank Field<br>
+		● Added Set Server Owner Mod<br>
+		● Added Create Server Mod<br>
+		● Added Delete Server Mod<br>
+		● Added Set AFK Timeout Mod<br>
+		● Added Find Invite Mod<br>
+		● Revised Find Member<br>
+		● Revised Store Invite Info<br>
+		● Revised Check Variable<br>
+		● Revised File Control Mod<br>
+		● Revised Await Reaction Call Action Mod<br>
+		● Revised YouTube Info Mod<br>
+		● Revised Find Text Mod<br>
+		● Revised Store Message Embed Object<br>
+		● Revised Set Time Restriction Mod<br>
+		● Revised Store Server Info<br>
+		● Fixed DBL to top.gg transition<br>
+		● Removed AlternativeMods folder<br>
+		● Removed Node_Modules folder<br>
 	</p>
 	<p>
 	<h2>1.9.6: Almost everything requires beta! WOO!</h2>
