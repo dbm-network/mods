@@ -23,7 +23,7 @@ module.exports = {
 	//---------------------------------------------------------------------
 	
 	subtitle: function(data) {
-		const info = ['Channel Object', 'Invite Creator', 'Creation Date', 'Expiration Date', 'Guild Object', 'Max. Uses', 'Is Temporary?', 'URL for Invite', 'Times Used']
+		const info = ['Channel Object', 'Invite Creator', 'Creation Date', 'Expiration Date', 'Guild Object', 'Max. Uses', 'Is Temporary?', 'URL for Invite', 'Times Used','Invite server member count', 'Invite code']
 		return `Store ${info[parseInt(data.info)]} from Invite`;
 	},
 
@@ -35,10 +35,10 @@ module.exports = {
 	 //---------------------------------------------------------------------
 
 	 // Who made the mod (If not set, defaults to "DBM Mods")
- 	author: "iAmaury, General Wrex, EliteArtz and Jakob",
+ 	author: "iAmaury, General Wrex, EliteArtz, Jakob and Lurker",
 
  	// The version of the mod (Defaults to 1.0.0)
- 	version: "1.9.0", //Added in 1.9.0
+ 	version: "1.9.5", //Added in 1.9.0
 
  	// A short description to show on the mod line for this mod (Must be on a single line)
  	short_description: "Stores something from an Invite.",
@@ -84,7 +84,13 @@ module.exports = {
 				dataType = 'string';
 				break;
 			case 8:
-				dataType = '';
+				dataType = 'number';
+				break;
+			case 9:
+				dataType = 'number';
+				break;
+			case 10:
+				dataType = 'number';
 				break;
 		}
 		return ([data.varName, dataType]);
@@ -118,13 +124,12 @@ module.exports = {
 	
 	html: function(isEvent, data) {
 		return `
-<div class="embed">
-    <embedleftline style="background-color: #2b9696;"></embedleftline>
-    <div class="embedinfo">
-        <span class="embed-auth"><u>Mod Info:</u><br>Made by <b>${this.author}</b></span><br>
-        <span class="embed-desc">${this.short_description}<br>Version: ${this.version}<br>NOTE: The only guaranteed properties are Url for invite, guild object and channel object. Other properties can be missing.</span>
-    </div>
-</div><br>
+		<div>
+		   <p>
+			  <u>Mod Info:</u><br>
+			  Created by iAmaury, General Wrex, EliteArtz, Jakob and Lurker!<br>
+		   </p>
+		</div>
 	<div style="padding-top: 8px;">
 		Source Invite:<br>
 		<textarea class="round" id="invite" rows="1" placeholder="Code or URL | e.g abcdef or discord.gg/abcdef" style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
@@ -141,6 +146,8 @@ module.exports = {
 			<option value="6">Is temporary?</option>
 			<option value="7">Url for invite</option>
 			<option value="8">Times used</option>
+			<option value="9">Invite server member count</option>
+			<option value=10">Invite Code</option>
 		</select>
 	</div><br>
 	<div style="float: left; width: 35%; padding-top: 8px;">
@@ -152,39 +159,7 @@ module.exports = {
 	<div id="varNameContainer" style="float: right; display: none; width: 60%; padding-top: 8px;">
 		Variable Name:<br>
 		<input id="varName" class="round" type="text">
-	</div>
-	<style>
-	/* START OF EMBED CSS */
-div.embed { /* <div class="embed"></div> */
-    position: relative;
-}
-    embedleftline { /* <embedleftline></embedleftline> OR if you wan't to change the Color: <embedleftline style="background-color: #HEXCODE;"></embedleftline> */
-        background-color: #eee;
-        width: 4px;
-        border-radius: 3px 0 0 3px;
-        border: 0;
-        height: 100%;
-        margin-left: 4px;
-        position: absolute;
-    }
-    div.embedinfo { /* <div class="embedinfo"></div> */
-        background: rgba(46,48,54,.45) fixed;
-        border: 1px solid hsla(0,0%,80%,.3);
-        padding: 10px;
-        margin:0 4px 0 7px;
-        border-radius: 0 3px 3px 0;
-    }
-        span.embed-auth { /* <span class="embed-auth"></span> (Title thing) */
-            color: rgb(255, 255, 255);
-        }
-        span.embed-desc { /* <span class="embed-desc"></span> (Description thing) */
-            color: rgb(128, 128, 128);
-        }
-
-span { /* Only making the text look, nice! */
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-}
-	</style>`
+	</div>`
 	},
 	
 	//---------------------------------------------------------------------
@@ -253,6 +228,12 @@ span { /* Only making the text look, nice! */
 					break;
 				case 8:
 					result = invite.uses;
+					break;
+				case 9:
+					result = invite.memberCount;
+					break;
+				case 10:
+					result = invite.code;
 					break;
 				default:
 					break;
