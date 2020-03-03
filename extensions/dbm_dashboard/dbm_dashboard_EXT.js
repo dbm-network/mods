@@ -90,13 +90,13 @@ module.exports = {
 						<li><b>Version:</b> 1.0.3</li>
 						<li><b>Created by:</b> Great Plains Modding</li><br>
 					<u><b>Changelog:</b></u>
-						<li>Added a database function</li>
+						<li>Added a database function.</li>
 						<li>Moved must stuff to functions so they can be overwritten inside of mods and extensions.
 						<li>Added on init to mods, extensions, and routes.</li>
-						<li>Re-wrote most of the backend</li>
-						<li>Changed the way logs are handled</li>
-						<li>Redid the startup log</li>
-						<li>Minor improvements to the dashboard system
+						<li>Re-wrote most of the backend.</li>
+						<li>Changed the way logs are handled.</li>
+						<li>Redid the startup log.</li>
+						<li>Minor improvements to the dashboard system.</li>
 				</div><br>
 				<div style="float: left; width: 99%;">
 					Port:<br>
