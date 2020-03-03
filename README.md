@@ -56,4 +56,4 @@ Modifications are meant to be used on the beta version of Discord Bot Maker.
 
 ## License
 
-[MIT](LICENSE)
+[MIT](LICENSE.md)
