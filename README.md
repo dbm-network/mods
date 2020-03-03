@@ -27,15 +27,15 @@
 
 ** **
 
-### Overview
+## Overview
 
 This repository houses user-made modifications for [Discord Bot Maker](https://store.steampowered.com/app/682130/Discord_Bot_Maker/). Feel free to use them in your projects. If you wish to download the modifications, **do not clone/download this repository**, but instead, follow the [installation guide](#installing-mods).
 
-### Downloads
+## Downloads
 
 Modifications are meant to be used on the beta version of Discord Bot Maker.
 
-#### Installing mods
+### Installing mods
 
 1. Close Discord Bot Maker
 2. Open your Steam Library and find Discord Bot Maker on the Software tab
@@ -44,7 +44,7 @@ Modifications are meant to be used on the beta version of Discord Bot Maker.
 5. Download this zip: [here](https://dbm-network.github.io/download-git/#/home?url=https://github.com/dbm-network/mods/tree/master/actions) (**do not clone/download this repository**)
 6. Now copy the files you downloaded out of the zip file into that folder you just opened (*Please overwrite existing ones*)
 
-#### Installing beta
+### Installing beta
 
 **Before starting: if you have encryption enabled, please, disable it before switching to beta and get backup of the *data* folder from your project directory.**
 
@@ -54,6 +54,6 @@ Modifications are meant to be used on the beta version of Discord Bot Maker.
 4. Select beta in the drop-down menu (no key is required)
 5. DBM should update now. Otherwise restart Steam and restart the guide.
 
-### License
+## License
 
 [MIT](LICENSE)
