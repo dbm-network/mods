@@ -296,22 +296,19 @@ module.exports = {
 				if (msg.embeds.length != 0) {
 					const embed = msg.embeds[0];
 					delete embed.message;
-					if (embed) {
-						delete embed.embed;
-						if (embed.author != null) {
-							delete embed.author.embed;
-						}
-						if (embed.image != null) {
-							delete embed.image.embed;
-						}
-						if (embed.thumbnail !== null) {
-							delete embed.thumbnail.embed;
-						}
-						if (embed.footer != null) {
-							delete embed.footer.embed;
-						}
-						result = new DiscordJS.RichEmbed(embed);
-					};
+					if (embed.author != null) {
+						delete embed.author.embed;
+					}
+					if (embed.image != null) {
+						delete embed.image.embed;
+					}
+					if (embed.thumbnail !== null) {
+						delete embed.thumbnail.embed;
+					}
+					if (embed.footer != null) {
+						delete embed.footer.embed;
+					}
+					result = new DiscordJS.RichEmbed(embed);
 				};
 				break;
 			default:
