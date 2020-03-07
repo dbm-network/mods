@@ -43,6 +43,7 @@ This repository houses user-made modifications for [Discord Bot Maker](https://s
 4. Open the actions folder
 5. Download this zip: [here](https://dbm-network.github.io/download-git/#/home?url=https://github.com/dbm-network/mods/tree/beta/actions) (**do not clone/download this repository**)
 6. Now copy the files you downloaded out of the zip file into that folder you just opened (*Please overwrite existing ones*)
+7. And now do the same thing, but on your project directory
 
 ### Installing beta
 
