@@ -36,10 +36,9 @@ module.exports = {
 
 	// Who made the mod (If not set, defaults to "DBM Mods")
 	author: "Aamon#9130",
-	helper: "LeonZ & Jordan",
 
 	// The version of the mod (Defaults to 1.0.0)
-	version: "1.9.6", //Added in 1.9.5
+	version: "1.9.7",
 
 	mod_version: "3",
 
@@ -68,7 +67,7 @@ module.exports = {
 	// are also the names of the fields stored in the action's JSON data.
 	//---------------------------------------------------------------------
 
-	fields: ["measurement", "value", "save", "iftrue", "iftrueVal", "iffalse", "iffalseVal", "storage", "varName"],
+	fields: ["measurement", "value", "save", "restrict", "iftrue", "iftrueVal", "iffalse", "iffalseVal", "storage", "varName"],
 
 	//---------------------------------------------------------------------
 	// Command HTML
@@ -110,11 +109,18 @@ module.exports = {
 			</div>
 		</div><br><br><br>
 		<div style="padding-top: 8px;">
-			<div style="float: left; width: 94%;">
+			<div style="float: left; width: 35%;">
 				Reset After Restart:<br>
 				<select id="save" class="round"><br>
 					<option value="0" selected>false</option>
 					<option value="1">true</option>
+				</select>
+			</div>
+			<div style="padding-left: 5%; float: left; width: 59%;">
+				Restrict By:<br>
+				<select id="restrict" class="round"><br>
+					<option value="0" selected>Global</option>
+					<option value="1">Server</option>
 				</select>
 			</div>
 		<div><br><br><br>
@@ -230,6 +236,7 @@ module.exports = {
 
 			let value = parseInt(this.evalMessage(cache.actions[cache.index].value, cache));
 			let measurement = parseInt(cache.actions[cache.index].measurement);
+			let restrict = parseInt(cache.actions[cache.index].restrict);
 			switch (measurement) {
 				case 1:
 					value = value * 1000;
@@ -256,12 +263,7 @@ module.exports = {
 				Cooldown[cmd.name] = {};
 			}
 			let now = new Date().getTime();
-			let ChannelId;
-			if (typeof msg.channel.guild !== "undefined") {
-				ChannelId = msg.channel.guild.id;
-			} else {
-				ChannelId = msg.channel.id;
-			}
+
 			let Command = Cooldown[cmd.name];
 			let cooldownAmount;
 			if (cmd.cooldown) {
@@ -270,27 +272,51 @@ module.exports = {
 				cooldownAmount = value;
 				cmd.cooldown = value;
 			}
-			if (Command[msg.author.id]) {
-				var Member = Command[msg.author.id];
-				if (Member[ChannelId]) {
-					let expirationTime = Member[ChannelId] + cooldownAmount;
-					if (now < expirationTime) {
-						return Math.ceil((expirationTime - now) / 1000);
+			switch (restrict) {
+				case 0:
+					if (typeof Command[msg.author.id] != "number") {
+						delete Command[msg.author.id];
+					}
+					if (Command[msg.author.id]) {
+						let expirationTime = Command[msg.author.id] + cooldownAmount;
+						if (now < expirationTime) {
+							return Math.ceil((expirationTime - now) / 1000);
+						} else {
+							Command[msg.author.id] = now;
+							if (save == 0) Files.saveGlobalVariable("DBMCooldown", JSON.stringify(Cooldown));
+							return false;
+						}
 					} else {
-						Member[ChannelId] = now;
+						Command[msg.author.id] = now;
 						if (save == 0) Files.saveGlobalVariable("DBMCooldown", JSON.stringify(Cooldown));
 						return false;
 					}
-				} else {
-					Member[ChannelId] = now;
-					if (save == 0) Files.saveGlobalVariable("DBMCooldown", JSON.stringify(Cooldown));
-					return false;
-				}
-			} else {
-				Command[msg.author.id] = {};
-				Command[msg.author.id][ChannelId] = now;
-				if (save == 0) Files.saveGlobalVariable("DBMCooldown", JSON.stringify(Cooldown));
-				return false;
+					brerak;
+				case 1:
+					let channelId;
+					if (typeof msg.channel.guild !== "undefined") {
+						channelId = msg.channel.guild.id;
+					} else {
+						channelId = msg.channel.id;
+					}
+					if (typeof Command[msg.author.id] != "object") {
+						Command[msg.author.id] = {};
+					}
+					if (Command[msg.author.id][channelId]) {
+						let expirationTime = Command[msg.author.id][channelId] + cooldownAmount;
+						if (now < expirationTime) {
+							return Math.ceil((expirationTime - now) / 1000);
+						} else {
+							Command[msg.author.id][channelId] = now;
+							if (save == 0) Files.saveGlobalVariable("DBMCooldown", JSON.stringify(Cooldown));
+							return false;
+						}
+					} else {
+						Command[msg.author.id][channelId] = now;
+						if (save == 0) Files.saveGlobalVariable("DBMCooldown", JSON.stringify(Cooldown));
+						return false;
+					}
+					brerak;
 			};
 		};
 	}
