@@ -1,5 +1,19 @@
 module.exports = {
 
+    /*
+        - Author: Great Plains Modding
+        - Version: 1.0.0
+        - GitHub: https://github.com/greatplainsmodding
+        - Description: Contains multiple stuff needed for my mods / extensions / events.
+    */
+
+   authors: ["Great Plains Modding"],
+   version: "1.0.4",
+   changeLog: "Initial Release",
+   shortDescription: "Discord Bot Maker Dashboard.",
+   longDescription: "",
+   requiredNodeModules: [],
+
 	//---------------------------------------------------------------------
 	// Editor Extension Name
 	//
@@ -87,7 +101,7 @@ module.exports = {
 			<div style="padding-left: 15px; padding-top: 3px; width: 100%">
 				<div>
 					<u><b>Extension Info:</b></u>
-						<li><b>Version:</b> 1.0.3</li>
+						<li><b>Version:</b> 1.0.4</li>
 						<li><b>Created by:</b> Great Plains Modding</li><br>
 					<u><b>Changelog:</b></u>
 						<li>Added a database function.</li>
