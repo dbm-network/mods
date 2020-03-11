@@ -7,6 +7,13 @@ module.exports = {
         - Description: Contains multiple stuff needed for my mods / extensions / events.
     */
 
+    authors: ["Great Plains Modding"],
+    version: "1.0.0",
+    changeLog: "Initial Release",
+    shortDescription: "Allows you to use glitch without having to overwrite your bot.js file.",
+    longDescription: "",
+    requiredNodeModules: ["express"],
+
     //---------------------------------------------------------------------
     // Editor Extension Name
     //
@@ -146,8 +153,7 @@ module.exports = {
     // The "DBM" parameter is the global variable. Store loaded data within it.
     //---------------------------------------------------------------------
 
-    load: function (DBM, projectLoc) {
-    },
+    load: function (DBM, projectLoc) {},
 
     //---------------------------------------------------------------------
     // Extension On Save
@@ -164,8 +170,7 @@ module.exports = {
     // etc...
     //---------------------------------------------------------------------
 
-    save: function (DBM, data, projectLoc) {
-    },
+    save: function (DBM, data, projectLoc) {},
 
     //---------------------------------------------------------------------
     // Editor Extension Bot Mod
