@@ -1,26 +1,10 @@
-const settings = require('../config.json');
-
-// Mini module handler
-requireModule = function (packageName) {
-	const path = require('path')
-
-	if (settings.isGlitch) {
-		const nodeModulesPath = path.join(__dirname, "../../node_modules", packageName);
-		return require(nodeModulesPath)
-	} else {
-		const nodeModulesPath = path.join(__dirname, "../node_modules", packageName);
-		return require(nodeModulesPath)
-	}
-};
-
-const chalk = requireModule('chalk'),
-path = requireModule('path'),
-figlet = requireModule('figlet'),
-fs = require('fs');
-
-
-
 module.exports = function (Dashboard) {
+
+	const chalk = Dashboard.requireModule('chalk'),
+	path = Dashboard.requireModule('path'),
+	figlet = Dashboard.requireModule('figlet'),
+	fs = require('fs');
+
 	Dashboard.onReady = function () {
 		const config = require('../config.json')
 		console.log("-------------------------------------------------------------------------------------------------");
@@ -37,18 +21,6 @@ module.exports = function (Dashboard) {
 		console.log(chalk.white(chalk.green('- Success:'), `Dashboard started on port ${config.port}. http://localhost:${config.port}`));
 		console.log(chalk.green(chalk.white('-'), 'Bot is ready!'));
 	}
-
-	Dashboard.requireModule = function (packageName) {
-        const path = require('path')
-
-        if (settings.isGlitch) {
-            const nodeModulesPath = path.join(__dirname, "../../node_modules", packageName);
-            return require(nodeModulesPath)
-        } else {
-            const nodeModulesPath = path.join(__dirname, "../node_modules", packageName);
-            return require(nodeModulesPath)
-        }
-    };
 
 	Dashboard.dashboardConfig = function () {
 		const dashboardConfigPath = path.join(process.cwd(), "extensions", "dbm_dashboard_EXT", "config.json");

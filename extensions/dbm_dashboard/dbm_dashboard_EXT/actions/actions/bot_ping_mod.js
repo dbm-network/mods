@@ -69,6 +69,13 @@ module.exports = {
     //----------------------------------------------------------------------------------
 
     //----------------------------------------------------------------------------------
+    // Pass data through here to use ejs
+    render: function (data) {
+        return data
+    },
+    //----------------------------------------------------------------------------------
+
+    //----------------------------------------------------------------------------------
     // Here you can add your custom html! 
     // Note if customHtml is set to false this will now show up. 
     // This is also valid bootstrap. Also note that this html code will be placed inside of <form> so if you want to retrieve the data all you need to do is add the fields.
@@ -96,6 +103,8 @@ module.exports = {
     // Whenever the command is executed this is the code that will be ran. 
     // You can use req to get stuff, note this only works if you add custom html. 
     run: async (app, config, DBM, client, req, res, server) => {
+        console.log(DBM.Dashboard)
+        DBM.Dashboard.requireModule("discord.js")
         req.user.log = `Bot Ping: ${client.ping.toFixed(2)}`;
     }
     //----------------------------------------------------------------------------------

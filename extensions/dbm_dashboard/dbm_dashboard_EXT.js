@@ -1,5 +1,19 @@
 module.exports = {
 
+    /*
+        - Author: Great Plains Modding
+        - Version: 1.0.0
+        - GitHub: https://github.com/greatplainsmodding
+        - Description: Contains multiple stuff needed for my mods / extensions / events.
+    */
+
+   authors: ["Great Plains Modding"],
+   version: "1.0.4",
+   changeLog: "Initial Release",
+   shortDescription: "Discord Bot Maker Dashboard.",
+   longDescription: "",
+   requiredNodeModules: [],
+
 	//---------------------------------------------------------------------
 	// Editor Extension Name
 	//
@@ -87,7 +101,7 @@ module.exports = {
 			<div style="padding-left: 15px; padding-top: 3px; width: 100%">
 				<div>
 					<u><b>Extension Info:</b></u>
-						<li><b>Version:</b> 1.0.3</li>
+						<li><b>Version:</b> 1.0.4</li>
 						<li><b>Created by:</b> Great Plains Modding</li><br>
 					<u><b>Changelog:</b></u>
 						<li>Added a database function.</li>
@@ -227,6 +241,33 @@ module.exports = {
 		Dashboard.devMode = false;
 		Dashboard.config = require('./dbm_dashboard_EXT/config.json');
 
+		// Module Handler
+		let botNeedsRestart = false;
+		Dashboard.requireModule = function (packageName) {
+			const path = require('path')
+			try {
+				if (Dashboard.config.isGlitch) {
+					const nodeModulesPath = path.join(__dirname, "../node_modules", packageName);
+					return require(nodeModulesPath)
+				} else {
+					const nodeModulesPath = path.join(__dirname, "dbm_dashboard_EXT/node_modules", packageName);
+					return require(nodeModulesPath)
+				}
+			} catch (e) {
+				if (!Dashboard.config.isGlitch) {
+					console.log("(DBM Dashboard Auto Module Installer) ~ Installing " + packageName)
+					const child = require('child_process');
+					let cliCommand = "npm install " + packageName + " --save";
+					child.execSync(cliCommand, {
+						cwd: require("path").join(__dirname, "dbm_dashboard_EXT"),
+						stdio: [0, 1, 2]
+					});
+					if (DBM.Bot.bot) return console.log("Please restart the bot.");
+					botNeedsRestart = true;
+				}
+			}
+		};
+
 		Dashboard.init = function () {
 			// Pulls everything needed from the bin folder
 			require('./dbm_dashboard_EXT/bin/functions')(Dashboard);
@@ -244,9 +285,9 @@ module.exports = {
 			DBM.DashboardOnReady = DBM.Bot.onReady || {};
 			DBM.Bot.onReady = function () {
 				// Start the express server
+				if (botNeedsRestart) return console.log("Please restart the bot.")
 				require('./dbm_dashboard_EXT/bin/dashboard')(DBM);
 				require('./dbm_dashboard_EXT/bin/express')(DBM);
-
 				DBM.DashboardOnReady.apply(this, arguments);
 			};
 
@@ -298,8 +339,9 @@ module.exports = {
 
 		Dashboard.insertData = function (dataName, data) {
 			try {
-				const path = require("path").join(__dirname, "dbm_dashboard_EXT", "data", "globalVars.json")
-				let database = require('./dbm_dashboard_EXT/data/globalVars.json');
+				const path = require("path").join(__dirname, "dbm_dashboard_EXT", "data", "globalVars.json");
+				console.log(path)
+				let database = require('./dbm_dashboard_EXT/bin/data/globalVars.json');
 				database[dataName] = data;
 				database = JSON.stringify(database);
 				require("fs").writeFileSync(path, database, "utf8");
@@ -311,7 +353,7 @@ module.exports = {
 
 		Dashboard.retrieveData = function (dataName) {
 			try {
-				let database = require('./dbm_dashboard_EXT/data/globalVars.json');
+				let database = require('./dbm_dashboard_EXT/bin/data/globalVars.json');
 				return database[dataName];
 			} catch (error) {
 				console.error(error);
@@ -320,13 +362,13 @@ module.exports = {
 
 		Dashboard.insertDataCustom = function (fileName, dataName, data) {
 			try {
-				const path = require("path").join(__dirname, "dbm_dashboard_EXT", "data", `${fileName}.json`);
+				const path = require("path").join(__dirname, "dbm_dashboard_EXT", "bin", "data", `${fileName}.json`);
 				if (!require("fs").existsSync(path)) {
 					let data = {};
 					data = JSON.stringify(data);
 					require("fs").writeFileSync(path, data);
 				};
-				let database = require(`./dbm_dashboard_EXT/data/${fileName}.json`);
+				let database = require(`./dbm_dashboard_EXT/bin/data/${fileName}.json`);
 				database[dataName] = data;
 				database = JSON.stringify(database);
 				require("fs").writeFileSync(path, database, "utf8");
@@ -338,24 +380,43 @@ module.exports = {
 
 		Dashboard.retrieveDataCustom = function (fileName, dataName) {
 			try {
-				const path = require("path").join(__dirname, "dbm_dashboard_EXT", "data", `${fileName}.json`);
+				const path = require("path").join(__dirname, "dbm_dashboard_EXT", "bin", "data", `${fileName}.json`);
 				if (!require("fs").existsSync(path)) {
 					let data = {};
 					data = JSON.stringify(data);
 					require("fs").writeFileSync(path, data);
 				};
-				let database = require(`./dbm_dashboard_EXT/data/${fileName}.json`);
+				let database = require(`./dbm_dashboard_EXT/bin/data/${fileName}.json`);
 				return database[dataName];
 			} catch (error) {
 				console.error(error);
 			};
 		};
 
+		Dashboard.renderAdminPanel = function (dashboardMods, commandExecuted, customHtml, action, log, client, config, theme, sections, extensions, app, req) {
+			res.render('adminPanel', {
+				dashboardMods: dashboardMods,
+				commandExecuted: false,
+				customHtml: true,
+				action: data,
+				log: req.user.log,
+				client: DBM.Bot.bot,
+				config: Dashboard.config,
+				theme: Dashboard.theme(),
+				sections: section,
+				extensions: extensions,
+				app: Dashboard.app,
+				req: req
+			});
+		}
+
 
 		// Start the dashboard 
 		if (Dashboard.verifyConfig()) {
 			console.log("-------------------------------------------------------------------------------------------------");
-			console.log(require('chalk').yellow(require('figlet').textSync('DBM Dashboard', { horizontalLayout: 'full' })));
+			console.log(require('chalk').yellow(require('figlet').textSync('DBM Dashboard', {
+				horizontalLayout: 'full'
+			})));
 			console.log("-------------------------------------------------------------------------------------------------");
 			console.log(require('chalk').white('-'), require('chalk').red("Creator:"), require('chalk').white('Great Plains Modding'));
 			console.log(require('chalk').white('-'), require('chalk').red("Version:"), require('chalk').white('1.0.0'));
