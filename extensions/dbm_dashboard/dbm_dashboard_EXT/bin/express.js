@@ -17,8 +17,8 @@ module.exports = function (DBM) {
 
     // Define the express server settings
     Dashboard.app.set('view engine', 'ejs');
-    Dashboard.app.use(express.static(path.join(__dirname, '../public')));
-    Dashboard.app.set('views', path.join(__dirname, '../views'));
+    Dashboard.app.use(express.static(path.join(__dirname, 'public')));
+    Dashboard.app.set('views', path.join(__dirname, 'views'));
     Dashboard.app.use(cookieParser(Dashboard.config.tokenSecret));
     Dashboard.app.use(session({
         secret: Dashboard.config.tokenSecret,

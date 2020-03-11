@@ -2,7 +2,7 @@ module.exports = {
     //----------------------------------------------------------------------------------
     // Used to set the name of the mod / extension. 
     // Note if this is an extension it cant have a space or it will not work.
-    name: "Dashboard Logs",
+    name: "Dashboard-Logs",
     //----------------------------------------------------------------------------------
 
     //----------------------------------------------------------------------------------
@@ -34,7 +34,7 @@ module.exports = {
 
     //----------------------------------------------------------------------------------
     // Toggle this if you are creating a extension.
-    extensionMod: true,
+    extensionMod: false,
     //----------------------------------------------------------------------------------
 
     //----------------------------------------------------------------------------------
@@ -70,13 +70,37 @@ module.exports = {
     //----------------------------------------------------------------------------------
 
     //----------------------------------------------------------------------------------
+    // Pass data through here to use ejs
+    render: function (data) {
+        return data
+    },
+    //----------------------------------------------------------------------------------
+
+    //----------------------------------------------------------------------------------
     // Here you can add your custom html! 
     // Note if customHtml is set to false this will now show up. 
     // This is also valid bootstrap. Also note that this html code will be placed inside of <form> so if you want to retrieve the data all you need to do is add the fields.
     // Also if you are using this mod for a custom route you can place your html code here and this is what will show up on the page. 
     // Note this is not inside of form tags if this is a custom route.
     html: function () {
-        return ``
+        return `
+        <table class="table table-striped table-dark">
+            <thead style="background-color: #2C2F33;">
+                <tr style="background-color: #23272A;">
+                    <th>Member</th>
+                    <th>Member ID</th>
+                    <th>Command</th>
+                    <th>Date</th>
+                </tr>
+                <tr> 
+                    <td><%= render.test %></td>
+                    <td>12345678935656</td>
+                    <td>Bot Ping</td>
+                    <td>3/3/2020</td>
+                </tr>
+            </thead>
+        </table>
+        `
     },
     //----------------------------------------------------------------------------------
 
@@ -89,28 +113,29 @@ module.exports = {
     //----------------------------------------------------------------------------------
     // Ran when the dashboard if first started
     init: async (DBM) => {
+        const moment = DBM.Dashboard.requireModule("moment");
         // Create your own functions so other mods can edit them. Note if you overwrite a mod the filename will need to start with zzz
-        
-        /*
         DBM.Dashboard.loggingExtension = function () {
             DBM.Dashboard.loggingExtension = DBM.Dashboard.onCommandExecute || {};
             DBM.Dashboard.onCommandExecute = function (req, command) {
-                console.log(`- ${req.user.username} just ran ${command.name}.`);
+                let data = {
+                        "userID": req.user.id,
+                        "action": command.name,
+                        "date": moment().format('MM/DD/YYYY')
+                    }
+
+                let oldData = DBM.Dashboard.retrieveData("dashboardLogging");
+                if (!oldData) oldData = [];
+                oldData.push(data);
+                DBM.Dashboard.insertData("dashboardLogging", oldData)
                 DBM.Dashboard.loggingExtension.apply(this, arguments);
-            };
-    
-            // On dashboard login
-            DBM.Dashboard.onLoginExtension = DBM.Dashboard.onLogin || {};
-            DBM.Dashboard.onLogin = function (req) {
-                console.log(`- ${req.user.username} just logged into the dashboard.`);
-                DBM.Dashboard.onLoginExtension.apply(this, arguments);
             };
         };
         
 
         // Now we need to run  our function
         DBM.Dashboard.loggingExtension();
-        */
+        
     },
     //----------------------------------------------------------------------------------
 

@@ -137,6 +137,8 @@ module.exports = function (DBM) {
                 };
             });
 
+            let passData = {}
+            console.log(data.render(passData))
             res.render('adminPanel', {
                 dashboardMods: dashboardMods,
                 commandExecuted: false,
@@ -149,7 +151,8 @@ module.exports = function (DBM) {
                 sections: section,
                 extensions: extensions,
                 app: Dashboard.app,
-                req: req
+                req: req,
+                render: data.render(passData)
             });
             Dashboard.commandExecuted(req, false);
         });

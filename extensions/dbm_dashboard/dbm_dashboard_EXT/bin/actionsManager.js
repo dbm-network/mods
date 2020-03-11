@@ -1,8 +1,8 @@
 module.exports = function (DBM) {
     const Dashboard = DBM.Dashboard
     const { fs, readdirSync } = require("fs"),
-        chalk = Dashboard.requireModule('chalk'),
-        path = Dashboard.requireModule('path');
+        chalk = Dashboard.chalk,
+        path = require("path");
 
     Dashboard.loadActions = function () {
         readdirSync('./extensions/dbm_dashboard_EXT/actions').forEach(dir => {
@@ -32,8 +32,8 @@ module.exports = function (DBM) {
 
     // Themes who??
     Dashboard.loadThemes = function () {
-        readdirSync('./extensions/dbm_dashboard_EXT/public/themes').forEach(dir => {
-            const themes = readdirSync(`./extensions/dbm_dashboard_EXT/public/themes/${dir}/`).filter(file => file.endsWith('.css'));
+        readdirSync('./extensions/dbm_dashboard_EXT/bin/public/themes').forEach(dir => {
+            const themes = readdirSync(`./extensions/dbm_dashboard_EXT/bin/public/themes/${dir}/`).filter(file => file.endsWith('.css'));
             for (let file of themes) {
                 Dashboard.themes.set(dir, `/themes/${dir}/${file}`);
                 if (Dashboard.devMode) console.log(chalk.green(`Successfully loaded ${file}`));
