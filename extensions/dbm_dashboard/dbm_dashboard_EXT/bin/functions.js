@@ -67,14 +67,14 @@ module.exports = function (Dashboard) {
 					name: "Feature Four",
 					description: "You can replace this text with whatever you want. After you do that this will automatically show up on your website!"
 				}
-			}
-			let settings = JSON.stringify(configPlate)
-			fs.writeFileSync(dashboardConfigPath, settings)
-			const config = require('../config.json')
-			return config
+			};
+			let settings = JSON.stringify(configPlate);
+			fs.writeFileSync(dashboardConfigPath, settings);
+			const config = require('../config.json');
+			return config;
 		} else {
-			const config = require('../config.json')
-			return config
-		}
-	}
-}
+			const config = require('../config.json');
+			return config;
+		};
+	};
+};

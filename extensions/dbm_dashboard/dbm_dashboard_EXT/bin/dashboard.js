@@ -20,13 +20,13 @@ module.exports = function (DBM) {
             Dashboard.actions.forEach(data => {
                 if (data.dashboardMod == true) {
                     dashboardMods.push(data);
-                }
+                };
             });
             let section = []
             Dashboard.actions.forEach(action => {
                 if (!section.includes(action.section) && action.routeMod == false && action.dashboardMod == true) {
-                    section.push(action.section)
-                }
+                    section.push(action.section);
+                };
             });
             if (!req.user.log) req.user.log = 'Command Executed';
             res.render('dashboardPanel', {
@@ -51,13 +51,13 @@ module.exports = function (DBM) {
             let data = Dashboard.actions.get(action);
             let dashboardMods = [];
             Dashboard.actions.forEach(data => {
-                if (data.dashboardMod == true) dashboardMods.push(data)
+                if (data.dashboardMod == true) dashboardMods.push(data);
             });
             let section = []
             Dashboard.actions.forEach(action => {
                 if (!section.includes(action.section) && action.routeMod == false && action.dashboardMod == true) {
-                    section.push(action.section)
-                }
+                    section.push(action.section);
+                };
             });
             res.render('dashboardPanel', {
                 dashboardMods: dashboardMods,
@@ -79,7 +79,7 @@ module.exports = function (DBM) {
             let config = Dashboard.dashboardConfig();
             let dashboardMods = [];
             Dashboard.actions.forEach(data => {
-                if (data.adminMod == true) dashboardMods.push(data)
+                if (data.adminMod == true) dashboardMods.push(data);
             });
             if (!req.user.log) req.user.log = 'Command Executed';
             let actions = Dashboard.actions;
@@ -120,14 +120,14 @@ module.exports = function (DBM) {
             let dashboardMods = [];
 
             Dashboard.actions.forEach(data => {
-                if (data.adminMod == true) dashboardMods.push(data)
+                if (data.adminMod == true) dashboardMods.push(data);
             });
 
             let section = [];
             let extensions = [];
             Dashboard.actions.forEach(action => {
                 if (!section.includes(action.section) && action.routeMod == false && action.adminMod == true) {
-                    section.push(action.section)
+                    section.push(action.section);
                 }
             });
 
@@ -163,7 +163,7 @@ module.exports = function (DBM) {
             var action = req.params.action;
             let data = Dashboard.actions.get(action);
             let serv;
-            Dashboard.onCommandExecute(req, data)
+            Dashboard.onCommandExecute(req, data);
             if (data.customHtml) {
                 if (next == 'true') {
                     data.run(Dashboard.app, Dashboard.config, DBM, DBM.Bot.bot, req, res, serv);
@@ -189,7 +189,7 @@ module.exports = function (DBM) {
             var action = req.params.action;
             let data = Dashboard.actions.get(action);
             let serv = client.guilds.get(req.params.guildID);
-            Dashboard.onCommandExecute(req, data)
+            Dashboard.onCommandExecute(req, data);
             if (data.customHtml) {
                 if (next == 'true') {
                     data.run(Dashboard.app, Dashboard.config, DBM, DBM.Bot.bot, req, res, serv);
@@ -226,7 +226,7 @@ module.exports = function (DBM) {
     
             let settings = JSON.stringify(config);
             require("fs").writeFileSync(dashboardConfigPath, settings, "utf8");
-            res.redirect('/')
-        })
-    }
-}
+            res.redirect('/');
+        });
+    };
+};

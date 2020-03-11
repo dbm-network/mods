@@ -60,10 +60,10 @@ module.exports = function (DBM) {
             const parsed = url.parse(req.headers.referer);
             if (parsed.hostname === router.locals.domain) {
                 req.session.backURL = parsed.path;
-            }
+            };
         } else {
             req.session.backURL = '/'
-        }
+        };
         next();
     });
 
@@ -72,10 +72,10 @@ module.exports = function (DBM) {
             failureRedirect: '/'
         }),
         function (req, res) {
-            Dashboard.commandExecuted(req, false)
-            Dashboard.commandExecuted(req, false)
+            Dashboard.commandExecuted(req, false);
+            Dashboard.commandExecuted(req, false);
             res.redirect('/dashboard/@me');
-            Dashboard.onLogin(req)
+            Dashboard.onLogin(req);
         }
     );
 

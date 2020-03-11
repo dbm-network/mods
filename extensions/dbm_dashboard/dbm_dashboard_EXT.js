@@ -101,7 +101,7 @@ module.exports = {
 			<div style="padding-left: 15px; padding-top: 3px; width: 100%">
 				<div>
 					<u><b>Extension Info:</b></u>
-						<li><b>Version:</b> 1.0.4</li>
+						<li><b>Version:</b> 1.0.5</li>
 						<li><b>Created by:</b> Great Plains Modding</li><br>
 					<u><b>Changelog:</b></u>
 						<li>Added a database function.</li>
@@ -234,7 +234,7 @@ module.exports = {
 
 	mod: function (DBM) {
 		const Dashboard = DBM.Dashboard = {};
-		Dashboard.version = '1.0.1'
+		Dashboard.version = '1.0.5';
 		Dashboard.lastPage = new Map();
 		Dashboard.actionsExecuted = new Map();
 
@@ -248,14 +248,14 @@ module.exports = {
 			try {
 				if (Dashboard.config.isGlitch) {
 					const nodeModulesPath = path.join(__dirname, "../node_modules", packageName);
-					return require(nodeModulesPath)
+					return require(nodeModulesPath);
 				} else {
 					const nodeModulesPath = path.join(__dirname, "dbm_dashboard_EXT/node_modules", packageName);
-					return require(nodeModulesPath)
+					return require(nodeModulesPath);
 				}
 			} catch (e) {
 				if (!Dashboard.config.isGlitch) {
-					console.log("(DBM Dashboard Auto Module Installer) ~ Installing " + packageName)
+					console.log("(DBM Dashboard Auto Module Installer) ~ Installing " + packageName);
 					const child = require('child_process');
 					let cliCommand = "npm install " + packageName + " --save";
 					child.execSync(cliCommand, {
@@ -264,8 +264,8 @@ module.exports = {
 					});
 					if (DBM.Bot.bot) return console.log("Please restart the bot.");
 					botNeedsRestart = true;
-				}
-			}
+				};
+			};
 		};
 
 		Dashboard.init = function () {
@@ -291,24 +291,24 @@ module.exports = {
 				DBM.DashboardOnReady.apply(this, arguments);
 			};
 
-		}
+		};
 
 		Dashboard.onCommandExecute = function (req, command) {
 			let data = {
 				user: req.user,
 				command: command
-			}
-			return data
+			};
+			return data;
 		};
 
 		Dashboard.onLogin = function (req) {
-			return req
-		}
+			return req;
+		};
 
 		Dashboard.theme = function () {
 			let theme = Dashboard.themes.get(Dashboard.config.theme);
-			return theme
-		}
+			return theme;
+		};
 
 		Dashboard.checkAuthOwner = function (req, res, next) {
 			if (req.isAuthenticated()) {
@@ -316,18 +316,18 @@ module.exports = {
 					next();
 				} else res.redirect('/dashboard/@me');
 			} else res.redirect('/login');
-		}
+		};
 
 		Dashboard.checkAuth = function (req, res, next) {
 			if (req.isAuthenticated()) {
-				return next()
-			}
+				return next();
+			};
 			res.redirect('/login');
-		}
+		};
 
 		Dashboard.commandExecuted = function (req, commandExecuted) {
-			req.user.commandExecuted = commandExecuted
-		}
+			req.user.commandExecuted = commandExecuted;
+		};
 
 		Dashboard.verifyConfig = function () {
 			if (!Dashboard.config.owner) return 'Please enter your user ID in the config.';
@@ -340,7 +340,7 @@ module.exports = {
 		Dashboard.insertData = function (dataName, data) {
 			try {
 				const path = require("path").join(__dirname, "dbm_dashboard_EXT", "data", "globalVars.json");
-				console.log(path)
+				console.log(path);
 				let database = require('./dbm_dashboard_EXT/bin/data/globalVars.json');
 				database[dataName] = data;
 				database = JSON.stringify(database);
@@ -408,7 +408,7 @@ module.exports = {
 				app: Dashboard.app,
 				req: req
 			});
-		}
+		};
 
 
 		// Start the dashboard 
@@ -429,7 +429,7 @@ module.exports = {
 			console.log(require('chalk').white('- Error:'), require('chalk').red(Dashboard.verifyConfig()));
 			console.log("-------------------------------------------------------------------------------------------------");
 			return
-		}
+		};
 		Dashboard.init();
 	}
 };
