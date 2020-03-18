@@ -38,7 +38,7 @@ module.exports = {
 	author: "NetLuis, Danno3817 & Destiny",
 
 	// The version of the mod (Defaults to 1.0.0)
-	version: "2.0.0",
+	version: "2.0.1",
 
 	// A short description to show on the mod line for this mod (Must be on a single line)
 	short_description: "Stores Game Server Information.",
@@ -513,7 +513,7 @@ module.exports = {
 					result = state.map;
 					break;
 				case 2:
-					result = state.raw.numplayers;
+					result = state.raw.numplayers || state.players.length;
 					break;
 				case 3:
 					result = state.raw.numbots;
