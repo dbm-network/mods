@@ -404,31 +404,31 @@ module.exports = {
 				result = targetServer.embedEnabled;
 				break; }
 			case 26: { // DND Members Count.
-				if (server.memberCount !== server.members.size) {
+				if (targetServer.memberCount !== targetServer.members.size) {
 					await targetServer.fetchMembers(); // ensures it fetches. updated to await in 1.9.7
 				}
 				result = targetServer.members.filter(m => m.user.presence.status == "dnd").size;
 				break; }
 			case 27: { // Online Members Count.
-				if (server.memberCount !== server.members.size) {
+				if (targetServer.memberCount !== targetServer.members.size) {
 					await targetServer.fetchMembers(); // ensures it fetches. updated to await in 1.9.7
 				}
 				result = targetServer.members.filter(m => m.user.presence.status == "online").size;
 				break; }
 			case 28: { // Offline Members Count.
-				if (server.memberCount !== server.members.size) {
+				if (targetServer.memberCount !== targetServer.members.size) {
 					await targetServer.fetchMembers(); // ensures it fetches. updated to await in 1.9.7
 				}
 				result = targetServer.members.filter(m => m.user.presence.status == "offline").size;
 				break; }
 			case 29: { // Idle Members Count.
-				if (server.memberCount !== server.members.size) {
+				if (targetServer.memberCount !== targetServer.members.size) {
 					await targetServer.fetchMembers(); // ensures it fetches. updated to await in 1.9.7
 				}
 				result = targetServer.members.filter(m => m.user.presence.status == "idle").size;
 				break; }
 			case 30: { // Total Bots Count In Server.
-				if (server.memberCount !== server.members.size) {
+				if (targetServer.memberCount !== targetServer.members.size) {
 					await targetServer.fetchMembers(); // ensures it fetches. updated to await in 1.9.7
 				}
 				result = targetServer.members.filter(m => m.user.bot).size;
@@ -440,25 +440,25 @@ module.exports = {
 				result = targetServer.roles.map(roles => roles.id);
 				break; }
 			case 33: { // Server Member IDs.
-				if (server.memberCount !== server.members.size) {
+				if (targetServer.memberCount !== targetServer.members.size) {
 					await targetServer.fetchMembers(); // ensures it fetches. updated to await in 1.9.7
 				}
 				result = targetServer.members.map(members => members.id);
 				break; }
 			case 34: { // Server Bot Member Count.
-				if (server.memberCount !== server.members.size) {
+				if (targetServer.memberCount !== targetServer.members.size) {
 					await targetServer.fetchMembers(); // ensures it fetches. updated to await in 1.9.7
 				}
 				result = targetServer.members.filter(m => m.user.bot == true).size;
 				break; }
 			case 35: { // Server Human Member Count.
-				if (server.memberCount !== server.members.size) {
+				if (targetServer.memberCount !== targetServer.members.size) {
 					await targetServer.fetchMembers(); // ensures it fetches. updated to await in 1.9.7
 				}
 				result = targetServer.members.filter(m => m.user.bot == false).size;
 				break; }
 			case 36: { // Server Member Count. //Added by Lasse in 1.8.7
-				if (server.memberCount !== server.members.size) {
+				if (targetServer.memberCount !== targetServer.members.size) {
 					await targetServer.fetchMembers(); // ensures it fetches. updated to await in 1.9.7
 				}
 				result = targetServer.memberCount;
