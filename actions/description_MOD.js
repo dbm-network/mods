@@ -2,7 +2,7 @@ module.exports = {
     name: "Command Description",
     section: "Other Stuff",
     author: "Hazelpy",
-    version: "0.0.1",
+    version: "1.0.0",
     short_description: "Set command description and restrictions. Useful for help/info commands.",
     subtitle: function(data) { return `Command Description`; },
     fields: ["description", "restrictedTo"],
