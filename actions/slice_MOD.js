@@ -146,6 +146,7 @@ init: function() {
 
 action: function(cache) {
 	const data = cache.actions[cache.index];
+	const type = parseInt(data.storage);
 	const varName = this.evalMessage(data.varName, cache);
 	const sliceText = this.evalMessage(data.slice, cache);
 	const startingFrom = parseInt(this.evalMessage(data.startingNumber, cache));
@@ -162,7 +163,7 @@ action: function(cache) {
 	const result = `${sliceText}`.slice(`${startingFrom}`, `${sliceLength + startingFrom}`);
 
 	// Storing
-	this.storeValue(result, data.storage, varName, cache);
+	this.storeValue(result, type, varName, cache);
 	this.callNextAction(cache);
 },
 
