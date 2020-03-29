@@ -23,5 +23,6 @@ module.exports = {
         `;
     },
     action: function(cache) { this.callNextAction(cache); },
+    init: function() { },
     mod: function(DBM) { }
 }
