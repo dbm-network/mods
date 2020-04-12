@@ -87,7 +87,7 @@ html: function(data) {
 			<p>
 				<u>Extention Info:</u> - Created by Silversunset<br>
 				This will add an additional field to your raw data for use in an automatic help command<br>
-				<a href="https://www.silversunset.net/paste/raw/231" target="_blank">This RAW DATA</a> is <b>required</b> to use this extention.<br>
+				<a href="#" onclick="require('child_process').execSync('start https://www.silversunset.net/paste/raw/231')">This RAW DATA</a> is <b>required</b> to use this extention.<br>
 			</p>
 			
 			Category: <input id="category" class="round" type="text" value=${data.category} style="width:99%"><br>
