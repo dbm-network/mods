@@ -211,7 +211,7 @@ module.exports = function (DBM) {
 
         Dashboard.app.post('/api/admin/web', Dashboard.checkAuthOwner, function (req, res) {
             const dashboardConfigPath = require("path").join(__dirname, "../config.json");
-            let config = require('../config.json.js.js');
+            let config = require('../config.json');
     
             config.featureOne.name = req.body.featureOneName;
             config.featureOne.description = req.body.featureOneDescription;
