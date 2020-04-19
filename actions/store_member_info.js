@@ -24,7 +24,7 @@ section: "Member Control",
 
 subtitle: function(data) {
 	const members = ['Mentioned User', 'Command Author', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const info = ['Member Object', 'Member ID', 'Member Username', 'Member Display Name', 'Member Color', 'Member Server', 'Member Last Message', 'Member Highest Role', 'Member Hoist Role', 'Member Color Role', 'Member Game', 'Member Status', 'Member Avatar URL', 'Member Role List', 'Member Join Date', 'Member Voice Channel', 'Member Discrim', 'Member Account Creation Date','Member Tag', 'Member Last Message ID', 'Member Roles Amount', 'Member Permissions List', 'Member Custom Status']
+	const info = ['Member Object', 'Member ID', 'Member Username', 'Member Display Name', 'Member Color', 'Member Server', 'Member Last Message', 'Member Highest Role', 'Member Hoist Role', 'Member Color Role', 'Member Game', 'Member Status', 'Member Avatar URL', 'Member Role List', 'Member Join Date', 'Member Voice Channel', 'Member Discrim', 'Member Account Creation Date','Member Tag', 'Member Last Message ID', 'Member Roles Amount', 'Member Permissions List', 'Member Custom Status', 'Member DM Channel']
 	return `${members[parseInt(data.member)]} - ${info[parseInt(data.info)]}`;
 },
 
@@ -39,7 +39,7 @@ subtitle: function(data) {
 author: "DBM, Lasse, TheMonDon & Cap",
 
 // The version of the mod (Defaults to 1.0.0)
-version: "1.9.6", //Added in 1.9.2
+version: "1.9.7", //Added in 1.9.2
 
 // A short description to show on the mod line for this mod (Must be on a single line)
 short_description: "Store Member Information",
@@ -110,6 +110,9 @@ variableStorage: function(data, varType) {
 		case 20: // Added by Cap in 1.9.6
 			dataType = "Number";
 			break;
+		case 23:
+			dataType = "DM Channel";
+			break;
 	}
 	return ([data.varName2, dataType]);
 },
@@ -171,6 +174,7 @@ html: function(isEvent, data) {
 			<option value="22">Member Custom Status</option>
 			<option value="12">Member Avatar URL</option>
 			<option value="5">Member Server</option>
+			<option value="23">Member DM Channel</option>
 			<option value="21">Member Permissions List</option>
 			<option value="14">Member Join Date</option>
 			<option value="17">Member Account Creation Date</option>
@@ -328,6 +332,8 @@ action: function(cache) {
 				result = mem.presence.game.state;
 			}
 			break;
+		case 23: //It can use for await response action
+			result = mem.dmChannel;
 		default:
 			break;
 	}
