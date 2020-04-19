@@ -17,6 +17,4 @@ Make sure to join the [DBM Network server](https://discord.gg/3QxkZPK
 
 And that's it
 
-If you don't run your bot with DBM make sure to copy this actions to your bot's directory too! Same for hosted bots! If you don't do this, missing actions will appear as **"XYZ is not an Action"** in your console.
-
 If you have any more questions: [Join our Discord](https://discord.gg/3QxkZPK) or make a ticket on the [Support Website](https://dbm-support.site/index.php?a=add&category=5).
