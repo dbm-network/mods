@@ -8,14 +8,16 @@ class FileControl {
    */
   constructor(params) {
     this.name = 'File Control';
-    this.DVN = '4.3.8';
+    this.DVN = '4.3.9';
     this.displayName = `File Control V${this.DVN}`;
     this.section = 'File Stuff';
-    this.author = ['Danno3817', 'EliteArtz', 'Eggsy', 'General Wrex'];
+    this.author = ['Danno3817', 'EliteArtz', 'Eggsy', 'General Wrex', 'RigidStudios'];
     this.version = '1.9.6';
     this.short_description = "This mod allows you to interact with files & directories. Please be careful when using this action. If you delete a file there's no going back";
-    this.fields = ["input", "format", "filename", "filepath", "filetask"];
+    this.fields = ["input", "format", "filename", "filepath", "filetask", "input2"];
   }
+
+
 
   /**
    * Action Subtitle
@@ -25,25 +27,25 @@ class FileControl {
    * @returns
    */
   subtitle(data) {
-    const filetasks = ['Create', 'Write', 'Append', 'Delete'];
+    const filetasks = ['Create', 'Write', 'Append into', 'Insert into', 'Delete'];
     return `${filetasks[parseInt(data.filetask)]} ${data.filename}${data.format}`;
   }
 
   /**
    * Command HTML
-   * 
+   *
    * This function returns a string containing the HTML used for
    * editing actions.
-   * 
+   *
    * The "isEvent" parameter will be true if this action is being used
    * for an event. Due to their nature, events lack certain information,
    * so edit the HTML to reflect this.
-   * 
+   *
    * The "data" parameter stores constants for select elements to use.
-   * 
+   *
    * Each is an array: index 0 for commands, index 1 for events.
-   * 
-   * The names are: sendTargets, members, roles, channels, messages, 
+   *
+   * The names are: sendTargets, members, roles, channels, messages,
    * servers, variables
    * @param {*} isEvent
    * @param {*} data
@@ -52,7 +54,7 @@ class FileControl {
   html(isEvent, data) {
     return `
       <style>
-        /* Most of this style inspired by EliteArtz & General Wrex */  
+        /* Most of this style inspired by EliteArtz & General Wrex */
         ::-webkit-scrollbar {
           width: 10px !important;
         }
@@ -73,16 +75,16 @@ class FileControl {
         textarea {
           float: left;
           width: 100%;
-          resize: 1; 
+          resize: 1;
           padding: 4px 8px;
-        }  
+        }
         span.wrexlink {
           color: #99b3ff;
           text-decoration:underline;
           cursor:pointer;
         }
-        span.wrexlink:hover { 
-          color:#4676b9; 
+        span.wrexlink:hover {
+          color:#4676b9;
         }
         .hidden {
           display: none;
@@ -94,10 +96,10 @@ class FileControl {
         <div class="container">
           <div class="ui teal segment" style="background: inherit;">
             <p>${this.short_description}</p>
-            <p>Made by: <b>${this.author.join(' ')}</b> Version: ${this.version} | DVN ${this.DVN}</p>
+            <p>Made by: <b>${this.author.join(' ')}</b><br>Version: ${this.version} | DVN: ${this.DVN}</p>
           </div>
         </div>
-      
+
         <div style="padding: 5px 10px 5px 5px">
           <div style="display: flex; flex-direction: row;">
             <div class="col-20l" style="display: flex; flex-direction: column; flex: 2; padding-right: 1%;">
@@ -116,7 +118,8 @@ class FileControl {
                 <option value="0" title="Only makes the file">Create</option>
                 <option value="1" title="Overwrites the files contents with yours">Write</option>
                 <option value="2" title="Add the content to the end of the file" selected>Append</option>
-                <option value="3" title="Deletes a file, Be VERY carefull with this option">Delete</option>
+                <option value="3" title="Inserts a line in a specific place in the file">Insert</option>
+                <option value="4" title="Deletes a file, Be VERY carefull with this option">Delete</option>
               </select>
             </div>
             <div style="display: flex; flex-direction: column; flex: 8;">
@@ -125,14 +128,14 @@ class FileControl {
             </div>
           </div>
         </div>
-        
+
         <div style="padding: 5px 10px 5px 5px">
             <div style="float: left; width: 100%;">
               File Path:<br>
               <textarea class="round col-100" id="filepath" title="./ represents the bots root directory. Use instead of an absolute path > C:/path/to/bot/" placeholder="Example Path = ./logs/date/example-date/" class="round" type="textarea" rows="3"></textarea><br>
             </div>
         </div>
-        
+
         <div style="padding: 5px 10px 5px 5px">
           <div>
             <span>If you would like to create a directory, leave the filename section empty while setting format to 'OTHER' and task to 'Create'.</span>
@@ -143,6 +146,10 @@ class FileControl {
           <div id="inputArea" class="" style="float: left; width: 100%;">
             Input Text:<br>
             <textarea id="input" placeholder="Leave Blank For None." class="round" type="textarea" rows="10"></textarea><br><br><br><br><br><br><br><br><br><br><br>
+          </div>
+          <div id="lineInsert" class="" style="float: left; width: 65%;">
+            Line to Insert at:<br>
+            <input id="input2" placeholder="1 Adds content at the first line." class="round"></input>
           </div>
         </div>
       </div>
@@ -161,29 +168,47 @@ class FileControl {
 
     let selector = document.getElementById('filetask');
     let targetfield = document.getElementById('inputArea');
+    let targetfield2 = document.getElementById('lineInsert');
 
-    if (selector[selector.selectedIndex].value === "0" || selector[selector.selectedIndex].value === "3") {
+    if (selector[selector.selectedIndex].value === "0" || selector[selector.selectedIndex].value === "4") {
       targetfield.classList.add("hidden");
     } else {
       targetfield.classList.remove("hidden");
     }
 
     function showInput() {
-      if (selector[selector.selectedIndex].value === "0" || selector[selector.selectedIndex].value === "3") {
+      if (selector[selector.selectedIndex].value === "0" || selector[selector.selectedIndex].value === "4") {
         targetfield.classList.add("hidden");
       } else {
         targetfield.classList.remove("hidden");
       }
     }
 
+    if (selector[selector.selectedIndex].value === "0" || selector[selector.selectedIndex].value === "1" || selector[selector.selectedIndex].value === "2" || selector[selector.selectedIndex].value === "4") {
+      targetfield2.classList.add("hidden");
+    } else {
+      targetfield2.classList.remove("hidden");
+    }
+
+    function showSecondaryInput() {
+      if (selector[selector.selectedIndex].value === "0" || selector[selector.selectedIndex].value === "1" || selector[selector.selectedIndex].value === "2" || selector[selector.selectedIndex].value === "4") {
+        targetfield2.classList.add("hidden");
+      } else {
+        targetfield2.classList.remove("hidden");
+      }
+    }
+
     selector.onclick = () => showInput();
-  }
+    selector.onclick = () => showSecondaryInput();
+
+    }
+
 
   /**
    * Action Bot Function
-   * 
+   *
    * This is the function for the action within the Bots Action class.
-   * 
+   *
    * Keep in mind event calls won't have access to the "msg" parameter,
    * so be sure to provide checks for variable existence.
    * @param {*} cache
@@ -194,11 +219,14 @@ class FileControl {
 
     const WrexMODS = this.getWrexMods();
     const mkdirp = WrexMODS.require('mkdirp');
-    
+    WrexMODS.CheckAndInstallNodeModule('insert-line');
+    const insertLine = WrexMODS.require('insert-line');
+
     const data = cache.actions[cache.index];
     const dirName = path.normalize(this.evalMessage(data.filepath, cache));
     const fileName = this.evalMessage(data.filename, cache);
-    
+    const line = parseInt(this.evalMessage(data.input2, cache));
+
 
     var fpath = path.join (dirName, fileName + data.format);
     var task = parseInt(data.filetask);
@@ -211,9 +239,9 @@ class FileControl {
       case 0: // Create File
         result = async () => {
           if (fileName === '') return this.callNextAction(cache);
-          fs.writeFileSync(fpath, "", (err) => {          
+          fs.writeFileSync(fpath, "", (err) => {
             if (err) return console.log(`${lmg} creating: [${err}]`);
-          });          
+          });
         }
         break;
       case 1: // Write File
@@ -224,7 +252,7 @@ class FileControl {
           });
         }
         break;
-    
+
       case 2: // Append File
         result = () => {
           if (fileName === '') throw new Error('File Name not Provided:');
@@ -233,8 +261,17 @@ class FileControl {
           });
         }
         break;
-          
-      case 3: // Delete File
+
+      case 3: // Insert Line to File
+        result = () => {
+          if (fileName === '') throw new Error('File Name not Provided:');
+          insertLine(fpath).content(itext).at(line).then(function(err) {
+            if (err) return console.log(`${lmg} inserting: [${err}]`);
+          });
+        }
+        break;
+
+      case 4: // Delete File
         result = () => fs.unlink(fpath, (err) => {
           if (!fs.existsSync(dirName)) this.callNextAction(cache);
           if (err) return console.log(`${lmg} deleting: [${err}]`);
@@ -256,8 +293,8 @@ class FileControl {
     try{
       if (dirName) {
         ensureDirExists(dirName, result);
-      } else { 
-        throw new Error('you did not set a file path, please go back and check your work.'); 
+      } else {
+        throw new Error('you did not set a file path, please go back and check your work.');
       }
     } catch (err) {
       return console.error(`ERROR ${err.stack ? err.stack : err}`);
@@ -270,7 +307,7 @@ class FileControl {
    *
    * Upon initialization of the bot, this code is run. Using the bots
    * DBM namespace, one can add/modify existing functions if necessary.
-   * 
+   *
    * In order to reduce conflicts between mods, be sure to alias
    * functions you wish to overwrite.
    * @param {*} DBM
