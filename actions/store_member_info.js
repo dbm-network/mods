@@ -24,7 +24,7 @@ section: "Member Control",
 
 subtitle: function(data) {
 	const members = ['Mentioned User', 'Command Author', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const info = ['Member Object', 'Member ID', 'Member Username', 'Member Display Name', 'Member Color', 'Member Server', 'Member Last Message', 'Member Highest Role', 'Member Hoist Role', 'Member Color Role', 'Member Game', 'Member Status', 'Member Avatar URL', 'Member Role List', 'Member Join Date', 'Member Voice Channel', 'Member Discrim', 'Member Account Creation Date','Member Tag', 'Member Last Message ID', 'Member Roles Amount', 'Member Permissions List', 'Member Custom Status']
+	const info = ['Member Object', 'Member ID', 'Member Username', 'Member Display Name', 'Member Color', 'Member Server', 'Member Last Message', 'Member Highest Role', 'Member Hoist Role', 'Member Color Role', 'Member Game', 'Member Status', 'Member Avatar URL', 'Member Role List', 'Member Join Date', 'Member Voice Channel', 'Member Discrim', 'Member Account Creation Date', 'Member Tag', 'Member Last Message ID', 'Member Roles Amount', 'Member Permissions List', 'Member Custom Status','Member Account Creation Timestamp', 'Member Join Timestamp']
 	return `${members[parseInt(data.member)]} - ${info[parseInt(data.info)]}`;
 },
 
@@ -74,6 +74,8 @@ variableStorage: function(data, varType) {
 		case 16:
 		case 18:
 		case 22:
+		case 23:
+		case 24:
 			dataType = "Text";
 			break;
 		case 4:
@@ -108,6 +110,8 @@ variableStorage: function(data, varType) {
 			dataType = "Message ID";
 			break;
 		case 20: // Added by Cap in 1.9.6
+		case 23: // Added by JasperEdits
+		case 24: // Added by JasperEdits
 			dataType = "Number";
 			break;
 	}
@@ -173,7 +177,9 @@ html: function(isEvent, data) {
 			<option value="5">Member Server</option>
 			<option value="21">Member Permissions List</option>
 			<option value="14">Member Join Date</option>
+			<option value="24">Member Join Timestamp</option>
 			<option value="17">Member Account Creation Date</option>
+			<option value="23">Member Account Creation Timestamp</option>
 			<option value="15">Member Voice Channel</option>
 			<option value="6">Member Last Message</option>
 			<option value="19">Member Last Message ID</option>
@@ -327,6 +333,14 @@ action: function(cache) {
 			if (mem.presence.game && mem.presence.game.type == 4) {
 				result = mem.presence.game.state;
 			}
+			break;
+		case 23: //Added by JasperEdits
+			if (mem.user) {
+				result = mem.user.createdTimestamp;
+			}
+			break;
+		case 24: // Added by JasperEdits
+			result = mem.joinedTimestamp;
 			break;
 		default:
 			break;
