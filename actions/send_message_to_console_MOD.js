@@ -23,7 +23,11 @@ section: "Other Stuff",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	return `${data.tosend}`;
+	if (data.tosend.length > 0) {
+		return `<font color="${data.color}">${data.tosend}</font>`;
+	} else {
+	return `Please enter a message!`;
+}
 },
 
 
@@ -35,7 +39,7 @@ subtitle: function(data) {
 //---------------------------------------------------------------------
 
 // Who made the mod (If not set, defaults to "DBM Mods")
-author: "Lasse",
+author: "Lasse & RigidStudios",
 
 // The version of the mod (Defaults to 1.0.0)
 version: "1.8.2",
@@ -56,7 +60,7 @@ short_description: "Sends a message to the console",
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["tosend"],
+fields: ["tosend","color"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -79,8 +83,10 @@ html: function(isEvent, data) {
 	<div>
 		<p>
 			<u>Mod Info:</u><br>
-			Created by Lasse!
+			Created by Lasse! (Color Support Added by RigidStudios)
 		</p>
+		Color:<br>
+		<input type="color" id="color" value="#f2f2f2">
 	</div><br>
 <div style="padding-top: 8px;">
 	Message to send:<br>
@@ -109,10 +115,20 @@ init: function() {
 //---------------------------------------------------------------------
 
 action: function(cache) {
+	const WrexMODS = this.getWrexMods();                        // WrexMODS Require,
+	WrexMODS.CheckAndInstallNodeModule('chalk');           // To use chalk,
+	const chalk = WrexMODS.require('chalk');               // Because why not.
+
 	const data = cache.actions[cache.index];
 	const send = this.evalMessage(data.tosend, cache);
-	console.log(send);
+		if (send.length > 0) {
+	const color = this.evalMessage(data.color, cache);			// Default to #f2f2f2
+	console.log(chalk.hex(color)(send));										// Logs through Hex code fetched from "color" field.
 	this.callNextAction(cache);
+} else {
+	console.log(chalk.gray(`Please provide something to log: Action #${cache.index + 1}`))
+	this.callNextAction(cache);
+}
 },
 
 //---------------------------------------------------------------------
