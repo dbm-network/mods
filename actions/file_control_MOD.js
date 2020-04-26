@@ -216,17 +216,15 @@ class FileControl {
   action(cache) {
     const fs = require('fs');
     const path = require('path');
-
+    
     const WrexMODS = this.getWrexMods();
     const mkdirp = WrexMODS.require('mkdirp');
-
     const insertLine = WrexMODS.require('insert-line');
 
     const data = cache.actions[cache.index];
     const dirName = path.normalize(this.evalMessage(data.filepath, cache));
     const fileName = this.evalMessage(data.filename, cache);
     const line = parseInt(this.evalMessage(data.input2, cache));
-
 
     var fpath = path.join (dirName, fileName + data.format);
     var task = parseInt(data.filetask);
