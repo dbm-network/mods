@@ -24,7 +24,7 @@ section: "Messaging",
 
 subtitle: function(data) {
 	const names = ['Temp Variable', 'Server Variable', 'Global Variable'];
-	return data.storage === "0" ? `${names[parseInt(data.storage)]}` : `${names[parseInt(data.storage)]} (${data.varName})`;
+	return data.storage === "0" ? `${names[parseInt(data.storage)-1]}` : `${names[parseInt(data.storage)-1]} (${data.varName})`;
 },
 
 //---------------------------------------------------------------------
