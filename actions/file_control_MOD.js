@@ -219,7 +219,7 @@ class FileControl {
 
     const WrexMODS = this.getWrexMods();
     const mkdirp = WrexMODS.require('mkdirp');
-    WrexMODS.CheckAndInstallNodeModule('insert-line');
+
     const insertLine = WrexMODS.require('insert-line');
 
     const data = cache.actions[cache.index];
