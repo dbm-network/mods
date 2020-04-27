@@ -27,7 +27,7 @@ class FileControl {
    * @returns
    */
   subtitle(data) {
-    const filetasks = ['Create', 'Write', 'Append into', 'Insert into', 'Delete'];
+    const filetasks = ['Create', 'Write', 'Append into', 'Delete', 'Insert into'];
     return `${filetasks[parseInt(data.filetask)]} ${data.filename}${data.format}`;
   }
 
@@ -118,8 +118,8 @@ class FileControl {
                 <option value="0" title="Only makes the file">Create</option>
                 <option value="1" title="Overwrites the files contents with yours">Write</option>
                 <option value="2" title="Add the content to the end of the file" selected>Append</option>
-                <option value="3" title="Inserts a line in a specific place in the file">Insert</option>
-                <option value="4" title="Deletes a file, Be VERY carefull with this option">Delete</option>
+                <option value="4" title="Inserts a line in a specific place in the file">Insert</option>
+                <option value="3" title="Deletes a file, Be VERY carefull with this option">Delete</option>
               </select>
             </div>
             <div style="display: flex; flex-direction: column; flex: 8;">
@@ -216,7 +216,7 @@ class FileControl {
   action(cache) {
     const fs = require('fs');
     const path = require('path');
-    
+
     const WrexMODS = this.getWrexMods();
     const mkdirp = WrexMODS.require('mkdirp');
     const insertLine = WrexMODS.require('insert-line');
@@ -225,6 +225,7 @@ class FileControl {
     const dirName = path.normalize(this.evalMessage(data.filepath, cache));
     const fileName = this.evalMessage(data.filename, cache);
     const line = parseInt(this.evalMessage(data.input2, cache));
+
 
     var fpath = path.join (dirName, fileName + data.format);
     var task = parseInt(data.filetask);
@@ -260,7 +261,7 @@ class FileControl {
         }
         break;
 
-      case 3: // Insert Line to File
+      case 4: // Insert Line to File
         result = () => {
           if (fileName === '') throw new Error('File Name not Provided:');
           insertLine(fpath).content(itext).at(line).then(function(err) {
@@ -269,7 +270,7 @@ class FileControl {
         }
         break;
 
-      case 4: // Delete File
+      case 3: // Delete File
         result = () => fs.unlink(fpath, (err) => {
           if (!fs.existsSync(dirName)) this.callNextAction(cache);
           if (err) return console.log(`${lmg} deleting: [${err}]`);
