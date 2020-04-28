@@ -108,12 +108,10 @@ module.exports = {
 
     html: function (isEvent, data) {
         return `
-        <div id="wrexdiv" style=
-        "width: 550px; height: 350px; overflow-y: scroll;">
+        <div id="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
           <div>
             <p>
-              <u><span class="wrexlink" data-url=
-              "https://github.com/Discord-Bot-Maker-Mods/DBM-Mods">Mod
+              <u><span class="wrexlink" data-url="https://github.com/Discord-Bot-Maker-Mods/DBM-Mods">Mod
               Info:</span></u><br />
               Created by <strong>${this.author}</strong><br>
               Mod Version: v${this.version}<br>
@@ -123,12 +121,8 @@ module.exports = {
               postgres, and SQLite.
             </p>
             <p>
-              <u><span class="wrexlink" data-url=
-              "https://www.w3schools.com/sql/">W3 Schools SQL
-              Tutorial</span></u><br />
-              <u><span class="wrexlink" data-url=
-              "https://tutorialzine.com/2016/01/learn-sql-in-20-minutes">Learn
-              SQL In 20 Mins</span></u><br />
+              <u><span class="wrexlink" data-url="https://www.w3schools.com/sql/">W3 Schools SQL Tutorial</span></u><br />
+              <u><span class="wrexlink" data-url="https://tutorialzine.com/2016/01/learn-sql-in-20-minutes">Learn SQL In 20 Mins</span></u><br />
             </p>
           </div><br />
           <div id="getSource">
@@ -483,33 +477,34 @@ module.exports = {
         const DEBUG = parseInt(data.debugMode);
         const stringifyOutput = parseInt(data.stringifyOutput);
 
-        const WrexMODS = this.getWrexMods();    
-        WrexMODS.CheckAndInstallNodeModule('sequelize');
-        WrexMODS.CheckAndInstallNodeModule('mysql2');
-        WrexMODS.CheckAndInstallNodeModule('pg-hstore');
-        WrexMODS.CheckAndInstallNodeModule('tedious');
-        WrexMODS.CheckAndInstallNodeModule('sqlite3');
 
+        const WrexMODS = this.getWrexMods();    
+            
         try {
 
-            const Sequelize = require('sequelize');                
+            const Sequelize = WrexMODS.require('sequelize');                
             function getType(key){
                 let res;
                 switch (key) {
                     case "0":                   
                         res=  "mysql";
+                        WrexMODS.CheckAndInstallNodeModule('mysql2');
                         break;
                     case "1":                 
                         res= "postgres";
+                        WrexMODS.CheckAndInstallNodeModule('pg-hstore');
                         break;
                     case "2":
                         res= "mssql";
+                        WrexMODS.CheckAndInstallNodeModule('tedious');
                         break;
                     case "3":                 
                         res= "sqlite";
+                        WrexMODS.CheckAndInstallNodeModule('sqlite3');
                         break;
                     default:
                         res= "sqlite";
+                        WrexMODS.CheckAndInstallNodeModule('sqlite3');
                         break;
                 }
                 return res;
@@ -559,7 +554,6 @@ module.exports = {
                 }
 
                 if(query){
-                    console.log("query!")
                     let myQuery = sequelize.query(query);
                     myQuery.spread(function(results, metadata) {
       
@@ -643,6 +637,24 @@ module.exports = {
 
     mod: function (DBM) {
 
+
+
+
+  
+
+
+
+
+
+
     }
+
+
+
+
+
+
+
+
 
 }; // End of module
