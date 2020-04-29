@@ -91,7 +91,7 @@ class FileControl {
         }
       </style>
 
-    <div id="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
+    <div id="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;" onload="showInput()">
       <div style="padding-bottom: 100px; padding: 5px 15px 5px 5px">
         <div class="container">
           <div class="ui teal segment" style="background: inherit;">
@@ -170,36 +170,22 @@ class FileControl {
     let targetfield = document.getElementById('inputArea');
     let targetfield2 = document.getElementById('lineInsert');
 
-    if (selector[selector.selectedIndex].value === "0" || selector[selector.selectedIndex].value === "3") {
-      targetfield.classList.add("hidden");
-    } else {
-      targetfield.classList.remove("hidden");
-    }
-
-    if (selector[selector.selectedIndex].value === "0" || selector[selector.selectedIndex].value === "1" || selector[selector.selectedIndex].value === "2" || selector[selector.selectedIndex].value === "3") {
-      targetfield2.classList.add("hidden");
-    } else {
-      targetfield2.classList.remove("hidden");
-    }
+      selector.onclick = () => showInput();
 
     function showInput() {
-      if (selector[selector.selectedIndex].value === "0" || selector[selector.selectedIndex].value === "3") {
+        let selected = selector[selector.selectedIndex].value
+      if (selected === "0" || selected === "3") {     // Hides "Input Text"
         targetfield.classList.add("hidden");
       } else {
         targetfield.classList.remove("hidden");
       }
-      if (selector[selector.selectedIndex].value === "0" || selector[selector.selectedIndex].value === "1" || selector[selector.selectedIndex].value === "2" || selector[selector.selectedIndex].value === "3") {
+      if (selected === "0" || selected === "1" || selected === "2" || selected === "3") {     // Hides "Line to Insert at"
         targetfield2.classList.add("hidden");
       } else {
         targetfield2.classList.remove("hidden");
       }
     }
-
-
-
-    selector.onclick = () => showInput();
-
-    }
+  }
 
 
   /**
