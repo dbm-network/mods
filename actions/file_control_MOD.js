@@ -176,21 +176,18 @@ class FileControl {
       targetfield.classList.remove("hidden");
     }
 
-    function showInput() {
-      if (selector[selector.selectedIndex].value === "0" || selector[selector.selectedIndex].value === "3") {
-        targetfield.classList.add("hidden");
-      } else {
-        targetfield.classList.remove("hidden");
-      }
-    }
-
     if (selector[selector.selectedIndex].value === "0" || selector[selector.selectedIndex].value === "1" || selector[selector.selectedIndex].value === "2" || selector[selector.selectedIndex].value === "3") {
       targetfield2.classList.add("hidden");
     } else {
       targetfield2.classList.remove("hidden");
     }
 
-    function showSecondaryInput() {
+    function showInput() {
+      if (selector[selector.selectedIndex].value === "0" || selector[selector.selectedIndex].value === "3") {
+        targetfield.classList.add("hidden");
+      } else {
+        targetfield.classList.remove("hidden");
+      }
       if (selector[selector.selectedIndex].value === "0" || selector[selector.selectedIndex].value === "1" || selector[selector.selectedIndex].value === "2" || selector[selector.selectedIndex].value === "3") {
         targetfield2.classList.add("hidden");
       } else {
@@ -198,8 +195,9 @@ class FileControl {
       }
     }
 
+
+
     selector.onclick = () => showInput();
-    selector.onclick = () => showSecondaryInput();
 
     }
 
