@@ -23,7 +23,7 @@ module.exports = {
 	//---------------------------------------------------------------------
 	
 	subtitle: function(data) {
-		const info = ['Number (Int)', 'Number (Float)', 'String', 'Uppercased String', 'Lowercased String'];
+		const info = ['Number (Int)', 'Number (Float)', 'String', 'Uppercased String', 'Lowercased String', 'Capitalize'];
 		return `Conversion Type: ${info[parseInt(data.conversion)]}`;
 	},
 	
@@ -35,7 +35,7 @@ module.exports = {
 	//---------------------------------------------------------------------
 	
 	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "EliteArtz, MrGold & ACertainCoder", //UI and Code updated by MrGold
+	author: "EliteArtz, MrGold & ACertainCoder, KweinY", //Code updated by KweinY
 	
 	// The version of the mod (Defaults to 1.0.0)
 	version: "1.9.5", //Added in 1.8.9
@@ -121,6 +121,7 @@ module.exports = {
 				<option value="2">String</option>
 				<option value="3">Uppercased String</option>
 				<option value="4">Lowercased String</option>
+				<option value="5">Capitalize</option>
 			</select>
 		</div>
 	</div><br>
@@ -220,6 +221,8 @@ module.exports = {
 			case 4:
 				result = variable.toString().toLowerCase();
 				break;
+			case 5:
+			    result = variable.charAt(0).toUpperCase() + variable.slice(1)
 		}
 		if(result !== undefined) {
 			const storage2 = parseInt(data.storage2);
