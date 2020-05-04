@@ -26,14 +26,10 @@ module.exports = {
 	subtitle: function(data) {
 		const names = ['Same Channel', 'Mentioned Channel', 'Default Channel', 'Temp Variable', 'Server Variable', 'Global Variable'];
 		const opt = ['Name', 'Topic', 'Position', 'Bitrate', 'User Limit', 'Category ID', 'Rate Limit Per User', 'NSFW'];
-		if (parseInt(data.toChange) != 69) {
 			return `${names[parseInt(data.storage)]} - ${opt[parseInt(data.toChange)]}`;
-		} else {
-			return `${names[parseInt(data.storage)]} - NSFW`
-		}
 	},
 
-	//---------------------------------------------------------------------
+		//---------------------------------------------------------------------
 		 // DBM Mods Manager Variables (Optional but nice to have!)
 		 //
 		 // These are variables that DBM Mods Manager uses to show information
@@ -63,7 +59,7 @@ module.exports = {
 	// are also the names of the fields stored in the action's JSON data.
 	//---------------------------------------------------------------------
 
-	fields: ["storage", "varName", "channelType", "toChange", "newState", "reason", "nsfwBool"],
+	fields: ["storage", "varName", "channelType", "toChange", "newState", "reason"],
 
 	//---------------------------------------------------------------------
 	// Command HTML
@@ -83,11 +79,6 @@ module.exports = {
 
 	html: function(isEvent, data) {
 		return `
-		<style>
-			.hidden {
-				display: none;
-			}
-		</style>
 		<div>
 			<p>
 				<u>Mod Info:</u><br>
@@ -126,7 +117,7 @@ module.exports = {
 				<option value="4">User Limit</option>
 				<option value="5">Category ID</option>
 				<option value="6">Rate Limit Per User</option>
-				<option value="69" title="true/false">NSFW</option>
+				<option value="7" title="true/false">NSFW</option>
 			</select>
 		</div><br><br><br>
 	<div>
@@ -183,10 +174,8 @@ module.exports = {
 			case 1:
 				channel = this.getVoiceChannel(storage, varName, cache);
 				break;
-			default:
-				channel = this.getChannel(storage, varName, cache);
-				break;
-		}
+		} // default case unnecessary, selected is already 0, and 1 is the only other option. even outdated selects 0.
+		
 		switch(toChange) {			// Made into a switch because RigidStudios found the 'else if' disgusting.
 
 			case 0:
@@ -238,7 +227,7 @@ module.exports = {
 				console.log(`Error with Event "Edit Channel", Action #${actionNum}\nCan't edit Rate Limit of a Voice Channel.`)
 			} break;
 
-			case 69:	// RigidStudios
+			case 7:	// RigidStudios
 				if (channelType == 0) {
 						if (newState.toLowerCase() == "true" || newState.toLowerCase() == "false") {
 				channel.setNSFW(newState.toLowerCase(), reason)
@@ -250,7 +239,7 @@ module.exports = {
 			} break;
 
 				default:
-					console.log('Please update your edit_channel_MOD.js in your project\'s actions folder!')
+					console.log('Please update your edit_channel_MOD.js in your project\'s actions folder! An edit you are trying to perform does not exist in this version.')
 					break;
 				}
 
