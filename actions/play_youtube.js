@@ -161,7 +161,11 @@ module.exports = {
             } else {
                 options.bitrate = 'auto';
             }
-            options.requester = msg.author;
+            if (msg) {
+                options.requester = msg.author;
+            } else {
+                options.requester = 'None';
+            }
 
             const video = await getInfoAsync(url)
                 .catch((err) => {
