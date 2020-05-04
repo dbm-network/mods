@@ -141,6 +141,7 @@ action: function(cache) {
 //---------------------------------------------------------------------
 
 mod: function(DBM) {
+	DBM.Actions["Send Message to Console (Logs)"] = DBM.Actions["Send Message to Console"];
 }
 
 }; // End of module
