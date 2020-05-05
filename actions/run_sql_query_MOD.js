@@ -17,7 +17,7 @@ module.exports = {
     section: "Other Stuff",
 
 	//---------------------------------------------------------------------
-	// DBM Mods Manager Variables 
+	// DBM Mods Manager Variables
 	//
 	// These are variables that DBM Mods Manager uses to show information
 	// about the mods for people to see in the list.
@@ -94,15 +94,15 @@ module.exports = {
     // Command HTML
     //
     // This function returns a string containing the HTML used for
-    // editting actions. 
+    // editting actions.
     //
     // The "isEvent" parameter will be true if this action is being used
-    // for an event. Due to their nature, events lack certain information, 
+    // for an event. Due to their nature, events lack certain information,
     // so edit the HTML to reflect this.
     //
-    // The "data" parameter stores constants for select elements to use. 
+    // The "data" parameter stores constants for select elements to use.
     // Each is an array: index 0 for commands, index 1 for events.
-    // The names are: sendTargets, members, roles, channels, 
+    // The names are: sendTargets, members, roles, channels,
     //                messages, servers, variables
     //---------------------------------------------------------------------
 
@@ -212,15 +212,15 @@ module.exports = {
           </div>
           <div>
             <br />
-            <label for="query">Query String</label> 
+            <label for="query">Query String</label>
             <textarea id="query" class="round" placeholder=
             "SELECT * FROM 'users'" style="width: 94%; resize: none;" type=
             "textarea" rows="8" cols="19">
         </textarea><br /><br />
           </div>
-          	 JSON Path: (Leave blank to store everything) Supports the usage of JSON Path<br> 
-             More info here 
-              <u><span class="wrexlink" data-url="http://goessner.net/articles/JsonPath/index.html#e2">JSON Path</span></u><br>           
+          	 JSON Path: (Leave blank to store everything) Supports the usage of JSON Path<br>
+             More info here
+              <u><span class="wrexlink" data-url="http://goessner.net/articles/JsonPath/index.html#e2">JSON Path</span></u><br>
              <input id="path" class="round"; style="width: 94%;" type="text"><br><br><br>
           <div style="float: left; width: 35%;">
             Store Results In:<br />
@@ -237,7 +237,7 @@ module.exports = {
           <br><br><br><br>
           <div id="storeSource">
             <br />
-            Store the connection to a variable to save connections to the database.<br> 
+            Store the connection to a variable to save connections to the database.<br>
             Not used if Source connection is set.<br />
             <div style="float: left; width: 35%;">
               Store Source Connection:<br />
@@ -316,18 +316,18 @@ module.exports = {
 		}
 		span.embed-auth {
 			color: rgb(255, 255, 255);
-		
+
 		}
 		span.embed-desc {
 			color: rgb(128, 128, 128);
-		} 
+		}
 		  span.wrexlink {
 		  color: #99b3ff;
 		  text-decoration:underline;
 		  cursor:pointer;
 		  }
-		  span.wrexlink:hover { 
-		  color:#4676b9; 
+		  span.wrexlink:hover {
+		  color:#4676b9;
 		  }
 </style>`
     },
@@ -351,7 +351,7 @@ module.exports = {
                 case "2":
                     return "mssql";
                 case "3":
-                    return "sqlite";              
+                    return "sqlite";
                 default:
                     return "mysql";
             };
@@ -365,24 +365,24 @@ module.exports = {
             const username = document.getElementById("username").value;
             const password = document.getElementById("password").value;
             const database = document.getElementById("database").value;
-      
+
 
             document.getElementById("checkConnection").onclick = function (evt) {
 
-                const Sequelize = require('sequelize');       
+                const Sequelize = require('sequelize');
                 const path = require("path");
-                
+
                 var options =  {
                     host: (hostname || 'localhost'),
                     port: (port || "3311"),
                     dialect: (getType(type) || 'sqlite'),
-                    operatorsAliases: false,                
+                    operatorsAliases: false,
                     pool: {
                         max: 5,
                         min: 0,
                         acquire: 30000,
                         idle: 10000
-                    },              
+                    },
                 };
 
                 const sequelize = new Sequelize(database || 'database', username || 'username', password || 'password', options );
@@ -404,7 +404,7 @@ module.exports = {
                 });
 
             };
- 
+
             // to show/hide certian connection options if sqllite is selected
             document.getElementById("otype").onchange = function (evt) {
                 var lite = (evt.target.value === "3");
@@ -413,7 +413,7 @@ module.exports = {
                 document.getElementById("database").setAttribute("placeholder", lite ? "./mydb.sql" : "dbm");
             };
             document.getElementById("database").setAttribute("placeholder", document.getElementById("otype").value == "3" ? "./mydb.sql" : "dbm");
-           
+
             // interactive links
             var wrexlinks = document.getElementsByClassName("wrexlink");
             for (var x = 0; x < wrexlinks.length; x++) {
@@ -433,9 +433,9 @@ module.exports = {
         } catch (error) {
             // write any init errors to errors.txt in dbm's main directory
             alert("[Run SQL Query] Error: \n\n " + error.message + "\n\n Check \n ''" + require('path').resolve("dbmmods_dbm_errors.txt") + "' for more details.");
-            require("fs").appendFileSync("dbmmods_dbm_errors.txt", new Date().toUTCString() + " : " + error.stack ? error.stack : error + "\n\n");            
+            require("fs").appendFileSync("dbmmods_dbm_errors.txt", new Date().toUTCString() + " : " + error.stack ? error.stack : error + "\n\n");
         }
-      
+
         glob.variableChange(document.getElementById('storage'), 'varNameContainer');
         glob.variableChange(document.getElementById('source_conn_storage'), 'varNameContainer2');
         glob.variableChange(document.getElementById('store_source_conn_storage'), 'varNameContainer3');
@@ -445,13 +445,13 @@ module.exports = {
     // Action Bot Function
     //
     // This is the function for the action within the Bot's Action class.
-    // Keep in mind event calls won't have access to the "msg" parameter, 
+    // Keep in mind event calls won't have access to the "msg" parameter,
     // so be sure to provide checks for variable existance.
     //---------------------------------------------------------------------
 
     action: function (cache) {
 
-        //fields: ["storage", "varName", "hostname", "port", "username", "password", "database", "query", "otype", 
+        //fields: ["storage", "varName", "hostname", "port", "username", "password", "database", "query", "otype",
         //"source_conn_storage", "storage_conn_varName", "store_source_conn_storage", "store_storage_conn_varName", "debugMode"],
 
         const data = cache.actions[cache.index];
@@ -467,30 +467,30 @@ module.exports = {
         const hostname = this.evalMessage(data.hostname, cache);
         const port = this.evalMessage(data.port, cache);
         const username = this.evalMessage(data.username, cache);
-        const password = this.evalMessage(data.password, cache);   
+        const password = this.evalMessage(data.password, cache);
         const database = this.evalMessage(data.database, cache);
         const query = this.evalMessage(data.query, cache);
-        const path = this.evalMessage(data.path, cache);       
+        const path = this.evalMessage(data.path, cache);
         const varName = this.evalMessage(data.varName, cache);
 
-        const storage = parseInt(data.storage);  
+        const storage = parseInt(data.storage);
         const DEBUG = parseInt(data.debugMode);
         const stringifyOutput = parseInt(data.stringifyOutput);
 
 
-        const WrexMODS = this.getWrexMods();    
-            
+        const WrexMODS = this.getWrexMods();
+
         try {
 
-            const Sequelize = WrexMODS.require('sequelize');                
+            const Sequelize = WrexMODS.require('sequelize');
             function getType(key){
                 let res;
                 switch (key) {
-                    case "0":                   
+                    case "0":
                         res=  "mysql";
                         WrexMODS.CheckAndInstallNodeModule('mysql2');
                         break;
-                    case "1":                 
+                    case "1":
                         res= "postgres";
                         WrexMODS.CheckAndInstallNodeModule('pg-hstore');
                         break;
@@ -498,7 +498,7 @@ module.exports = {
                         res= "mssql";
                         WrexMODS.CheckAndInstallNodeModule('tedious');
                         break;
-                    case "3":                 
+                    case "3":
                         res= "sqlite";
                         WrexMODS.CheckAndInstallNodeModule('sqlite3');
                         break;
@@ -514,13 +514,12 @@ module.exports = {
                 host: (hostname || 'localhost'),
                 port: (port || "3311"),
                 dialect: (getType(type) || 'sqlite'),
-                operatorsAliases: false,                
                 pool: {
                     max: 5,
                     min: 0,
                     acquire: 30000,
                     idle: 10000
-                },              
+                },
             }
 
             if(!DEBUG){
@@ -540,69 +539,69 @@ module.exports = {
                 }
             }else{
                 sequelize = new Sequelize(database || 'database', username || 'username', password || 'password', options);
-            }        
+            }
 
             sequelize.authenticate()
             .then(() => {
-                
-                if(store_source_conn_storage > 0 && store_source_conn_varName && source_conn_storage == 0){                              
+
+                if(store_source_conn_storage > 0 && store_source_conn_varName && source_conn_storage == 0){
                     if(sequelize){
                         const storedConnection = { hostname: hostname, port:port, database: database, sequelize: sequelize }
                         if(DEBUG) console.log(`Storing connection for host '${storedConnection.hostname}:${storedConnection.port}' using database '${storedConnection.database}'`);
-                        this.storeValue(storedConnection, store_source_conn_storage, store_source_conn_varName, cache);    
+                        this.storeValue(storedConnection, store_source_conn_storage, store_source_conn_varName, cache);
                     }
                 }
 
                 if(query){
                     let myQuery = sequelize.query(query);
                     myQuery.spread(function(results, metadata) {
-      
-                        let jsonOut = false;               
+
+                        let jsonOut = false;
                         if(results && path !== undefined){
-                                    
+
                             jsonOut = WrexMODS.jsonPath(results, path)
-        
+
                             // if it failed and if they didn't the required initial object, add it for them
                             if(jsonOut == false){
                                 jsonOut = WrexMODS.jsonPath(results, ("$.").concat(path))
                             }
-        
+
                             // if it failed still, try just pulling the first object
                             if(jsonOut == false){
                                 jsonOut = WrexMODS.jsonPath(results, ("$.[0].").concat(path))
                             }
-                                           
+
                             if(jsonOut){
                                 if(DEBUG) console.log("Run SQL Query: JSON Data values starting from ["+ path +"] stored to: ["+ varName+"]");
-                                if(DEBUG) console.dir(jsonOut);    
+                                if(DEBUG) console.dir(jsonOut);
                             }
-                               
+
                         }
-                            
+
                         if(results && path == undefined && DEBUG){
                             console.log('\nStored value(s);\r\n');
                             console.log('Key =  Json');
                             for (i = 0; i < results.length; i++) {
                                 console.log('[' + i + '] = ' + JSON.stringify(results[i]));
                             }
-                
+
                             console.log('\r\nAppend the key that you want to store that value to the variable.');
-                
+
                             const storageType = ['', 'tempVars', 'serverVars', 'globalVars'];
-                            const output = storageType[storage];          
-            
+                            const output = storageType[storage];
+
                             console.log("If not using the Path textbox in the mod, this is how to get special values.")
                             console.log('Example ${'+output+'("'+ varName +'")} to ${'+output+'("'+ varName +'")[0]["'+ Object.keys(results[0])[0]+'"]}');
                             console.log('Example Run Script '+output+'("'+ varName +'")["'+ Object.keys(results[0])[0]+'"] or a place without ${}.\r\n');
-            
+
                             console.log('Append the path to the end after the key or use the Parse From Stored JSON mod,\nin order to get the value you want');
                             console.log('Example ${'+output+'("'+ varName +'")[key].path} or use the json path box in the mod UI.');
                         }
 
                         const out = jsonOut || results;
-                        this.storeValue(stringifyOutput ? JSON.stringify(out) : out, storage, varName, cache);                 
+                        this.storeValue(stringifyOutput ? JSON.stringify(out) : out, storage, varName, cache);
                         this.callNextAction(cache);
-             
+
                     }.bind(this))
                     .catch(function(err){
                         if(err && err.original){
@@ -611,7 +610,7 @@ module.exports = {
                             this.callNextAction(cache);
                         }
                     }.bind(this));
-                  
+
                 }else{
                     this.callNextAction(cache);
                 }
@@ -623,7 +622,7 @@ module.exports = {
         } catch (error) {
             console.log("SQL Mod Error: " + (error.stack ? error.stack : error));
         }
-      
+
     },
 
     //---------------------------------------------------------------------
@@ -635,26 +634,5 @@ module.exports = {
     // functions you wish to overwrite.
     //---------------------------------------------------------------------
 
-    mod: function (DBM) {
-
-
-
-
-  
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-
-
+    mod: function (DBM) {}
 }; // End of module
