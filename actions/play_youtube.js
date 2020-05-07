@@ -163,8 +163,6 @@ module.exports = {
             }
             if (msg) {
                 options.requester = msg.author;
-            } else {
-                options.requester = 'None';
             }
 
             const video = await getInfoAsync(url)
