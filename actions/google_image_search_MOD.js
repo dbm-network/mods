@@ -132,7 +132,7 @@ module.exports = {
 		<div style="float: left; width: 45%; padding-top: 8px;">Store In:<br /><select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">${data.variables[0]}</select></div>
 		<div id="varNameContainer" style="float: right; padding-right: 0px; width: 53%; padding-top: 8px;">Variable Name:<br /> <input id="varName" class="round" type="text" /></div>
 		<div style="text-align: left;"><br><br><br><br><br><br><br><br><br>
-		<p>This mod relies on Google's CSE. To receive an API Key, head to the <a href="googlechrome://console.developers.google.com/apis/dashboard" target=”_blank”>Google Developers Console</a> and click on <strong>Library</strong> tab and search Custom Search API and enable it. Then go to the <strong>Credentials</strong> tab Copy the API Key into the API Key field.<br /> To receive your CSE Client ID, head to <a href="googlechrome://cse.google.com/cse/all" target=”_blank”>Google CSE</a>, click <strong>New search engine</strong>, Your sites to search will be "google.com" and "images.google.com", set the Language to your desired language. Let the name be whatever. Set the rest up yourself.<br /> You will now go to Edit Search Engine and select your Search Engine, go to "Setup", you will now see <strong>Image Search</strong>, switch it ON, also copy your Search Engine ID into the Client ID field higher in this action.</p>
+		https://github.com/RigidStudios/underground-rd/wiki/Google-Image-Search-Tutorial < Walkthrough
 		</div></div>`
 	},
 
@@ -158,18 +158,18 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	action: function (cache) {
-		const data = cache.actions[cache.index];																									// *shrug*
-		const info = parseInt(data.info);																													// Desired Info
+		const data = cache.actions[cache.index];
+		const info = parseInt(data.info);// Desired Info
 		const string = this.evalMessage(data.string, cache).replace(/[\u{0080}-\u{FFFF}]/gu, ""); // Replace taken from original Google Search Mod, invalid character parser.
-		const resultNumber = parseInt(data.resultNo);																							// The result number.
-		const clientid = this.evalMessage(data.clientid, cache);																	// CSE Client ID
-		const apikey = this.evalMessage(data.apikey, cache);																			// GOOGLE Dev Credentials to access CSE API
-		const index = parseInt(cache.index + 1);																									// Action Number for Quicker manual error logging
+		const resultNumber = parseInt(data.resultNo);// The result number.
+		const clientid = this.evalMessage(data.clientid, cache);// CSE Client ID
+		const apikey = this.evalMessage(data.apikey, cache);// GOOGLE Dev Credentials to access CSE API
+		const index = parseInt(cache.index + 1);// Action Number for Quicker manual error logging
 
 		// Check if everything is ok:
 		if (!string) return console.error(`There was an error in Google Image Search MOD (#${index}): \nPlease write something to Google it!`);	// No Search
-		if (!clientid) return console.error(`There was an error in Google Image Search MOD (#${index}): \nPlease provide a Client ID!`);				// No Client ID
-		if (!apikey) return console.error(`There was an error in Google Image Search MOD (#${index}): \nPlease provide an API Key`);						// No API Key
+		if (!clientid) return console.error(`There was an error in Google Image Search MOD (#${index}): \nPlease provide a Client ID!`);// No Client ID
+		if (!apikey) return console.error(`There was an error in Google Image Search MOD (#${index}): \nPlease provide an API Key`);// No API Key
 
 		// Search Code:
 		const WrexMODS = this.getWrexMods(); // as always.
