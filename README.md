@@ -17,43 +17,49 @@
 
 ** **
 
+
 # Table of Contents
 
 - [Overview](#overview)
 - [Downloads](#downloads)
-  - [Installing mods](#installing-mods)
-  - [Installing beta](#installing-beta)
-- [License](#license)
-
+  - [Installing mods](#installing-dbm-mods)
+  - [Installing beta](#installing-dbm-beta)
 ** **
 
 ## Overview
 
-This repository houses user-made modifications for [Discord Bot Maker](https://store.steampowered.com/app/682130/Discord_Bot_Maker/). Feel free to use them in your projects. If you wish to download the modifications, **do not clone/download this repository**, but instead, follow the [installation guide](#installing-mods).
+DBM Mods is a community driven open source project meant to modify, extend, and improve [Discord Bot Maker](https://store.steampowered.com/app/682130/Discord_Bot_Maker/).
 
-## Downloads
+** **
+# Downloads
 
-Modifications are meant to be used on the beta version of Discord Bot Maker.
+This repository is not meant to be downloaded or cloned. Please follow the installation guide below.
 
-### Installing mods
+## Installing DBM Mods
 
-1. Close Discord Bot Maker
-2. Open your Steam Library and find Discord Bot Maker on the Software tab
-3. Right-click it → Properties → Local Files → Browse Local Files
-4. Open the actions folder
-5. Download this zip: [here](https://dbm-network.github.io/download-git/#/home?url=https://github.com/dbm-network/mods/tree/master/actions) (**do not clone/download this repository**)
-6. Now copy the files you downloaded out of the zip file into that folder you just opened (*Please overwrite existing ones*)
+**DBM Mods** requires **Discord Bot Maker Beta** to work properly ([Installation Guide](#installing-dbm-beta))  
 
-### Installing beta
+1.  Close Discord Bot Maker
+2.  Open your Steam Library and find Discord Bot Maker in the Software section
+3.  Right-click it, then click Properties → Local Files → Browse Local Files
+4.  Open the "actions" folder
+5.  Download the [DBM Mods files](https://dbm-network.github.io/download-git/#/home?url=https://github.com/dbm-network/mods/tree/master/actions)  
+    (There is no need to clone or download the Git repository)
+6.  Extract the contents of the .zip file into Discord Bot Maker's actions folder  
+    (Overwrite existing files if asked)
 
-**Before starting: if you have encryption enabled, please, disable it before switching to beta and get backup of the *data* folder from your project directory.**
+**It's strongly advised to also install the [DBM Mods files](https://dbm-network.github.io/download-git/#/home?url=https://github.com/dbm-network/mods/tree/master/actions) to your bot project's "actions" folder**  
 
-1. Close Discord Bot Maker
-2. Open your Steam Library and find Discord Bot Maker on the Software tab
-3. Right-click it → Properties → Betas
-4. Select beta in the drop-down menu (no key is required)
-5. DBM should update now. Otherwise restart Steam and restart the guide.
+** **
 
-## License
+## Installing DBM Beta
 
-[MIT](LICENSE.md)
+**Before starting:** Switching to Beta with encryption enabled _will_ cause you to lose all of your bot's data. Disable encryption and make backups of your bot project's "data" folder before continuing.
+
+1.  Close Discord Bot Maker
+2.  Open your Steam Library and find Discord Bot Maker in the Software section
+3.  Right-click it, then click Properties → Beta
+4.  Select "beta" in the drop-down menu  
+    (No key is required)
+5.  Steam should now update DBM  
+    (Repeat these steps if it doesn't)
