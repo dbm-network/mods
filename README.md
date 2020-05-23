@@ -36,18 +36,18 @@ This repository is not meant to be downloaded or cloned. Please follow the insta
 
 ## Installing DBM Mods
 
-**DBM Mods** requires **Discord Bot Maker Beta** to work properly ([Installation Guide](#installing-dbm-beta))  
+**DBM Mods** requires **Discord Bot Maker Beta** to work properly ([Installation Guide](#installing-dbm-beta))
 
 1.  Close Discord Bot Maker
 2.  Open your Steam Library and find Discord Bot Maker in the Software section
 3.  Right-click it, then click Properties → Local Files → Browse Local Files
 4.  Open the "actions" folder
-5.  Download the [DBM Mods files](https://dbm-network.github.io/download-git/#/home?url=https://github.com/dbm-network/mods/tree/beta/actions)  
+5.  Download the [DBM Mods files](https://dbm-network.github.io/download-git/#/home?url=https://github.com/dbm-network/mods/tree/beta/actions)
     (There is no need to clone or download the Git repository)
-6.  Extract the contents of the .zip file into Discord Bot Maker's actions folder  
+6.  Extract the contents of the .zip file into Discord Bot Maker's actions folder
     (Overwrite existing files if asked)
 
-**It's strongly advised to also install the [DBM Mods files](https://dbm-network.github.io/download-git/#/home?url=https://github.com/dbm-network/mods/tree/beta/actions) to your bot project's "actions" folder**  
+**It's strongly advised to also install the [DBM Mods files](https://dbm-network.github.io/download-git/#/home?url=https://github.com/dbm-network/mods/tree/beta/actions) to your bot project's "actions" folder**
 
 ** **
 
@@ -58,7 +58,7 @@ This repository is not meant to be downloaded or cloned. Please follow the insta
 1.  Close Discord Bot Maker
 2.  Open your Steam Library and find Discord Bot Maker in the Software section
 3.  Right-click it, then click Properties → Beta
-4.  Select "beta" in the drop-down menu  
+4.  Select "beta" in the drop-down menu
     (No key is required)
-5.  Steam should now update DBM  
+5.  Steam should now update DBM
     (Repeat these steps if it doesn't)
