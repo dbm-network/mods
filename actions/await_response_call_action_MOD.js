@@ -141,8 +141,12 @@ class AwaitResponseCallAction {
        * @return {boolean} Whether or not the message is valid.
        */
       function filter(msg) {
-        const user = cache.msg.author;
-        const member = cache.msg.member;
+        let user, member;
+        if (cache.msg) {
+          user = cache.msg.author;
+          member = cache.msg.member;
+        }
+
         const server = cache.server;
         const content = msg.content;
         const author = msg.author;

@@ -29,7 +29,7 @@ subtitle: function(data) {
 
 //https://github.com/LeonZ2019/
 author: "LeonZ",
-version: "1.1.0",
+version: "1.2.0",
 
 
 //---------------------------------------------------------------------
@@ -52,7 +52,7 @@ variableStorage: function(data, varType) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["storage", "varName", "Edit0", "Edit1", "Edit2", "Edit3", "Edit4", "Edit5", "Edit6", "Edit7", "Edit8", "Edit9", "Edit10", "Edit11", "Edit12", "title", "url", "description", "color", "imageUrl", "thumbUrl", "author", "authorUrl", "authorIcon", "footer", "footerIcon", "timestamp", "fieldNum", "fieldName", "fieldDescription", "fieldInline"],
+fields: ["storage", "varName", "Edit0", "Edit1", "Edit2", "Edit3", "Edit4", "Edit5", "Edit6", "Edit7", "Edit8", "Edit9", "Edit10", "Edit11", "Edit12", "title", "url", "description", "color", "imageUrl", "imageUrl2", "thumbUrl", "thumbUrl2", "author", "authorUrl", "authorIcon", "footer", "footerIcon", "timestamp", "fieldNum", "fieldName", "fieldDescription", "fieldInline"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -148,13 +148,20 @@ html: function(isEvent, data) {
 				<option value=0 selected>Keep Content</option>
 				<option value=1>Edit Content</option>
 				<option value=2>Clear Content</option>
+				<option value=3>Edit Content (Local)</option>
 			</select>
 		</div>
 		<div id="Input4" style="display: none; float: right; width: 60%;">
-			Image URL:<br>
+			<div id="Input4placeholder">Image URL:</div>
 			<input id="imageUrl" class="round" type="text">
 		</div>
 	</div><br><br><br>
+	<div id="Input4a" style="display: none; padding-top: 8px;">
+	<div style="float: left; width: 105%;">
+			Name With Extension:<br>
+			<input id="imageUrl2" class="round" type="text" placeholder="name.extension">
+		</div><br><br><br>
+	</div>
 	<div style="padding-top: 8px;">
 		<div style="float: left; width: 35%;">
 			Edit Thumbnail URL:<br>
@@ -162,13 +169,20 @@ html: function(isEvent, data) {
 				<option value=0 selected>Keep Content</option>
 				<option value=1>Edit Content</option>
 				<option value=2>Clear Content</option>
+				<option value=3>Edit Content (Local)</option>
 			</select>
 		</div>
 		<div id="Input5" style="display: none; float: right; width: 60%;">
-			Thumbnail URL:<br>
+			<div id="Input5placeholder">Thumbnail URL:</div>
 			<input id="thumbUrl" class="round" type="text">
 		</div>
 	</div><br><br><br>
+	<div id="Input5a" style="display: none; padding-top: 8px;">
+		<div style="float: left; width: 105%;">
+			Name With Extension:<br>
+			<input id="thumbUrl2" class="round" type="text" placeholder="name.extension">
+		</div><br><br><br>
+	</div>
 	<div style="padding-top: 8px;">
 		<div style="float: left; width: 35%;">
 			Edit Author Name:<br>
@@ -306,7 +320,11 @@ init: function() {
 	const Input2 = document.getElementById('Input2');
 	const Input3 = document.getElementById('Input3');
 	const Input4 = document.getElementById('Input4');
+	const Input4a = document.getElementById('Input4a');
+	const Input4placeholder = document.getElementById('Input4placeholder');
 	const Input5 = document.getElementById('Input5');
+	const Input5a = document.getElementById('Input5a');
+	const Input5placeholder = document.getElementById('Input5placeholder');
 	const Input6 = document.getElementById('Input6');
 	const Input7 = document.getElementById('Input7');
 	const Input8 = document.getElementById('Input8');
@@ -367,9 +385,19 @@ init: function() {
 			case 0:
 			case 2:
 				Input4.style.display = 'none';
+				Input4a.style.display = 'none';
 				break;
 			case 1:
 				Input4.style.display = null;
+				Input4placeholder.innerHTML = 'Image URL:';
+				document.getElementById('imageUrl').value = '';
+				Input4a.style.display = 'none';
+				break;
+			case 3:
+				Input4.style.display = null;
+				Input4placeholder.innerHTML = 'Local Path:';
+				document.getElementById('imageUrl').value = './resources';
+				Input4a.style.display = null;
 				break;
 		}
 	}
@@ -378,9 +406,19 @@ init: function() {
 			case 0:
 			case 2:
 				Input5.style.display = 'none';
+				Input5a.style.display = 'none';
 				break;
 			case 1:
 				Input5.style.display = null;
+				Input5placeholder.innerHTML = 'Image URL:';
+				document.getElementById('thumbUrl').value = '';
+				Input5a.style.display = 'none';
+				break;
+			case 3:
+				Input5.style.display = null;
+				Input5placeholder.innerHTML = 'Local Path:';
+				document.getElementById('thumbUrl').value = './resources';
+				Input5a.style.display = null;
 				break;
 		}
 	}
@@ -533,7 +571,9 @@ action: function(cache) {
 	const description = this.evalMessage(data.description, cache);
 	const color = this.evalMessage(data.color, cache);
 	const imageUrl = this.evalMessage(data.imageUrl, cache);
+	const imageUrl2 = this.evalMessage(data.imageUrl2, cache);
 	const thumbUrl = this.evalMessage(data.thumbUrl, cache);
+	const thumbUrl2 = this.evalMessage(data.thumbUrl2, cache);
 	const author = this.evalMessage(data.author, cache);
 	const authorUrl = this.evalMessage(data.authorUrl, cache);
 	const authorIcon = this.evalMessage(data.authorIcon, cache);
@@ -583,6 +623,10 @@ action: function(cache) {
 		case 2:
 			embed.image = undefined;
 			break;
+		case 3:
+			embed.attachFile(imageUrl+"/"+imageUrl2);
+			embed.setImage('attachment://'+imageUrl2)
+			break;
 	}
 	switch(Edit5) {
 		case 1:
@@ -590,6 +634,10 @@ action: function(cache) {
 			break;
 		case 2:
 			embed.thumbnail = undefined;
+			break;
+		case 3:
+			embed.attachFile(thumbUrl+"/"+thumbUrl2);
+			embed.setImage('attachment://'+thumbUrl2)
 			break;
 	}
 	if (embed.author === undefined) {
