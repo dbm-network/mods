@@ -21,6 +21,11 @@ module.exports = {
 	// - Had to restructure how switch cases were made to avoid already declared errors from occuring.
 	// - Fixed fetchBans() and fetchInvites by awaiting their promise. This way, it will always return the list instead of 0 or undefined.
 	// - Updated all .fetchMembers() methods to await, ensuring the bot can properly fetch all members in the server.
+	//
+	//  Mindlesscargo 04/25/2020:
+	// - Added server boost count
+	// - Added server premium tier 
+	//
 	//---------------------------------------------------------------------
 
 	//---------------------------------------------------------------------
@@ -49,7 +54,7 @@ module.exports = {
 		const servers = [
 			'Current Server', 'Temp Variable', 'Server Variable', 'Global Variable'
 		];
-		const info = ['Server Object', 'Server ID', 'Server Name', 'Server Name Acronym', 'Server Region', 'Server Icon URL', 'Server Verification Level', 'Server Default Channel', 'Server AFK Channel', 'Server System Channel', 'Server Default Role', 'Server Owner Member', 'Server Bot Member Object', 'Server Channel List', 'Server Role List', 'Server Member List', 'Server Emoji List', 'Server Member Count', 'Creation Date', 'Time To AFK', 'Is Server Available?', 'More than 250 members?', 'Date Bot Joined Server', 'Channel Amount', 'Emoji Amount', 'Embed Links', 'DND Members Count', 'Online Members Count (fixed)', 'Offline Members Count', 'Idle Members Count', 'Total Bots Count In Server', 'Server Channel IDs', 'Server Role IDs', 'Server Member IDs', 'Server Bot Member Count', 'Server Human Member Count', 'Server Member Count', 'Role Count', 'Text Channel Count', 'Voice Channel Count', 'Is Server Verified?', 'Banned Users List', 'Invite List', 'Server Explicit Content Filter'];
+		const info = ['Server Object', 'Server ID', 'Server Name', 'Server Name Acronym', 'Server Region', 'Server Icon URL', 'Server Verification Level', 'Server Default Channel', 'Server AFK Channel', 'Server System Channel', 'Server Default Role', 'Server Owner Member', 'Server Bot Member Object', 'Server Channel List', 'Server Role List', 'Server Member List', 'Server Emoji List', 'Server Member Count', 'Creation Date', 'Time To AFK', 'Is Server Available?', 'More than 250 members?', 'Date Bot Joined Server', 'Channel Amount', 'Emoji Amount', 'Embed Links', 'DND Members Count', 'Online Members Count (fixed)', 'Offline Members Count', 'Idle Members Count', 'Total Bots Count In Server', 'Server Channel IDs', 'Server Role IDs', 'Server Member IDs', 'Server Bot Member Count', 'Server Human Member Count', 'Server Member Count', 'Role Count', 'Text Channel Count', 'Voice Channel Count', 'Is Server Verified?', 'Banned Users List', 'Invite List', 'Server Explicit Content Filter', 'Server Booster Count', 'Server Premium Tier'];
 		return `${servers[parseInt(data.server)]} - ${info[parseInt(data.info)]}`;
 	},
 
@@ -64,7 +69,7 @@ module.exports = {
 	author: "Lasse, EGGSY, EliteArtz, Danno3817, ACertainCoder, Cap, & CoolGuy",
 
 	// The version of the mod (Defaults to 1.0.0)
-	version: "1.9.6", // added in 1.9.1
+	version: "1.9.7", // added in 1.9.1
 
 	// A short description to show on the mod line for this mod (Must be on a single line)
 	short_description: "Stores Server Information",
@@ -166,8 +171,14 @@ module.exports = {
 			case 41: {} //	Collection of banned users
 			case 42: { //	Collection of guild invites
 				dataType = 'List';
-				break; }
-		}
+                		break; }
+            		case 44: { // Server Boost Count
+                		dataType = 'Number';
+                		break; }
+            		case 45: { // Server Premium Tier
+                		dataType = 'Number';
+                		break; } 
+        }
 		return ([data.varName2, dataType]);
 	},
 
@@ -246,7 +257,7 @@ module.exports = {
 						<option value="34">Bot Count (Same as Total Bots In Servers)</option>
 						<option value="35">Human Member Count</option>
 						<option value="36">Member Count</option>
-						<option value="41">Banned Member List</option>
+                        			<option value="41">Banned Member List</option>
 					</optgroup>
 					<optgroup label="Member Status Infos">
 						<option value="27">Online Members Count</option>
@@ -271,7 +282,9 @@ module.exports = {
 						<option value="24">Emoji Amount</option>
 						<option value="25">Embeds links?</option>
 						<option value="37">Role Count</option>
-						<option value="42">Invite List</option>
+                        			<option value="42">Invite List</option>
+                        			<option value="44">Server Boost Count</option>
+                        			<option value="45">Server Boost Tier</option>
 					</optgroup>				
 					<!--<option value="21">More Than 250 Members?</option>-->				
 				</select>
@@ -404,31 +417,31 @@ module.exports = {
 				result = targetServer.embedEnabled;
 				break; }
 			case 26: { // DND Members Count.
-				if (server.memberCount !== server.members.size) {
+				if (targetServer.memberCount !== targetServer.members.size) {
 					await targetServer.fetchMembers(); // ensures it fetches. updated to await in 1.9.7
 				}
 				result = targetServer.members.filter(m => m.user.presence.status == "dnd").size;
 				break; }
 			case 27: { // Online Members Count.
-				if (server.memberCount !== server.members.size) {
+				if (targetServer.memberCount !== targetServer.members.size) {
 					await targetServer.fetchMembers(); // ensures it fetches. updated to await in 1.9.7
 				}
 				result = targetServer.members.filter(m => m.user.presence.status == "online").size;
 				break; }
 			case 28: { // Offline Members Count.
-				if (server.memberCount !== server.members.size) {
+				if (targetServer.memberCount !== targetServer.members.size) {
 					await targetServer.fetchMembers(); // ensures it fetches. updated to await in 1.9.7
 				}
 				result = targetServer.members.filter(m => m.user.presence.status == "offline").size;
 				break; }
 			case 29: { // Idle Members Count.
-				if (server.memberCount !== server.members.size) {
+				if (targetServer.memberCount !== targetServer.members.size) {
 					await targetServer.fetchMembers(); // ensures it fetches. updated to await in 1.9.7
 				}
 				result = targetServer.members.filter(m => m.user.presence.status == "idle").size;
 				break; }
 			case 30: { // Total Bots Count In Server.
-				if (server.memberCount !== server.members.size) {
+				if (targetServer.memberCount !== targetServer.members.size) {
 					await targetServer.fetchMembers(); // ensures it fetches. updated to await in 1.9.7
 				}
 				result = targetServer.members.filter(m => m.user.bot).size;
@@ -440,25 +453,25 @@ module.exports = {
 				result = targetServer.roles.map(roles => roles.id);
 				break; }
 			case 33: { // Server Member IDs.
-				if (server.memberCount !== server.members.size) {
+				if (targetServer.memberCount !== targetServer.members.size) {
 					await targetServer.fetchMembers(); // ensures it fetches. updated to await in 1.9.7
 				}
 				result = targetServer.members.map(members => members.id);
 				break; }
 			case 34: { // Server Bot Member Count.
-				if (server.memberCount !== server.members.size) {
+				if (targetServer.memberCount !== targetServer.members.size) {
 					await targetServer.fetchMembers(); // ensures it fetches. updated to await in 1.9.7
 				}
 				result = targetServer.members.filter(m => m.user.bot == true).size;
 				break; }
 			case 35: { // Server Human Member Count.
-				if (server.memberCount !== server.members.size) {
+				if (targetServer.memberCount !== targetServer.members.size) {
 					await targetServer.fetchMembers(); // ensures it fetches. updated to await in 1.9.7
 				}
 				result = targetServer.members.filter(m => m.user.bot == false).size;
 				break; }
 			case 36: { // Server Member Count. //Added by Lasse in 1.8.7
-				if (server.memberCount !== server.members.size) {
+				if (targetServer.memberCount !== targetServer.members.size) {
 					await targetServer.fetchMembers(); // ensures it fetches. updated to await in 1.9.7
 				}
 				result = targetServer.memberCount;
@@ -485,7 +498,13 @@ module.exports = {
 				break; }
 			case 43: { // Explicit Content Filter. Added by Cap in 1.9.6
 				result = targetServer.explicitContentFilter;
-				break; }
+                		break; }
+            		case 44: {
+                		result = targetServer.premiumSubscriptionCount || 0;
+                		break; }
+            		case 45: {
+                		result = targetServer.premiumTier || 0;
+                		break; }
 			default: { // Fixed Spacing. Fixed in 1.9.7
 				break; }
 		};

@@ -165,7 +165,6 @@ module.exports = {
 
       if (selector[selector.selectedIndex].value === "3") {
           targetfield.classList.remove("hidden");
-          alert("bengis");
       } else {
           targetfield.classList.add("hidden");
       }
