@@ -17,8 +17,8 @@ rules:
   comma-spacing:
     - error
     -
-      after: false
-      before: true
+      after: true
+      before: false
   eol-last:
     - error
     - always
