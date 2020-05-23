@@ -1,6 +1,5 @@
-node_modules/
 .vscode/
-.eslintrc.yml
+node_modules/
 .editorconfig
 package.json
 yarn.lock

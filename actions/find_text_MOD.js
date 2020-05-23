@@ -1,61 +1,61 @@
 module.exports = {
-
 	//---------------------------------------------------------------------
 	// Action Name
 	//
 	// This is the name of the action displayed in the editor.
 	//---------------------------------------------------------------------
-	
-	name: "Find Text",
-	
+
+	name: "Find Text" ,
+
 	//---------------------------------------------------------------------
 	// Action Section
 	//
 	// This is the section the action will fall into.
 	//---------------------------------------------------------------------
-	
-	section: "Other Stuff",
-	
+
+	section: "Other Stuff" ,
+
 	//---------------------------------------------------------------------
 	// Action Subtitle
 	//
 	// This function generates the subtitle displayed next to the name.
 	//---------------------------------------------------------------------
-	
+
 	subtitle: function(data) {
 		return `Find "${data.wordtoFind}"`;
-	},
-	
+	} ,
+
 	//---------------------------------------------------------------------
-		// DBM Mods Manager Variables (Optional but nice to have!)
-		//
-		// These are variables that DBM Mods Manager uses to show information
-		// about the mods for people to see in the list.
-		//---------------------------------------------------------------------
-	
-		// Who made the mod (If not set, defaults to "DBM Mods")
-		author: "iAmaury",
-	
-		// The version of the mod (Defaults to 1.0.0)
-		version: "1.8.7", //Added in 1.8.7
-	
-		// A short description to show on the mod line for this mod (Must be on a single line)
-		short_description: "Find text",
-	
-		// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-	
+	// DBM Mods Manager Variables (Optional but nice to have!)
+	//
+	// These are variables that DBM Mods Manager uses to show information
+	// about the mods for people to see in the list.
+	//---------------------------------------------------------------------
+
+	// Who made the mod (If not set, defaults to "DBM Mods")
+	author: "iAmaury" ,
+
+	// The version of the mod (Defaults to 1.0.0)
+	version: "1.8.7" , //Added in 1.8.7
+
+	// A short description to show on the mod line for this mod (Must be on a single line)
+	short_description: "Find text" ,
+
+	// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
+	// depends_on_mods: ["WrexMODS"],
+
 	//---------------------------------------------------------------------
 	// Action Storage Function
 	//
 	// Stores the relevant variable info for the editor.
 	//---------------------------------------------------------------------
-	
-	variableStorage: function(data, varType) {
+
+	variableStorage: function(data ,varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
-		let dataType = 'Number';
-		return ([data.varName, dataType]);
-	},
+		let dataType = "Number";
+		return ([data.varName ,dataType]);
+	} ,
 	//---------------------------------------------------------------------
 	// Action Fields
 	//
@@ -63,9 +63,9 @@ module.exports = {
 	// by creating elements with corresponding IDs in the HTML. These
 	// are also the names of the fields stored in the action's JSON data.
 	//---------------------------------------------------------------------
-	
-	fields: ["text", "wordtoFind", "position", "storage", "varName"],
-	
+
+	fields: ["text" ,"wordtoFind" ,"position" ,"storage" ,"varName"] ,
+
 	//---------------------------------------------------------------------
 	// Command HTML
 	//
@@ -81,8 +81,8 @@ module.exports = {
 	// The names are: sendTargets, members, roles, channels,
 	//                messages, servers, variables
 	//---------------------------------------------------------------------
-	
-	html: function(isEvent, data) {
+
+	html: function(isEvent ,data) {
 		return `
 		<div id="modinfo">
 		<p>
@@ -122,9 +122,9 @@ module.exports = {
 			If you choose <b>Position at Start</b>, it will find the position of the first character of your text.
 			<b>Example</b>: We search word "a" | <u>This is<b> *</b>a<b>- </b>test</u> | * is the start (8) | - is the end (9)
 			</p>
-		</div>`
-	},
-	
+		</div>`;
+	} ,
+
 	//---------------------------------------------------------------------
 	// Action Editor Init Code
 	//
@@ -132,13 +132,13 @@ module.exports = {
 	// is also run. This helps add modifications or setup reactionary
 	// functions for the DOM elements.
 	//---------------------------------------------------------------------
-	
+
 	init: function() {
-		const {glob, document} = this;
-	
-		glob.variableChange(document.getElementById('storage'), 'varNameContainer');
-	},
-	
+		const { glob ,document } = this;
+
+		glob.variableChange(document.getElementById("storage") ,"varNameContainer");
+	} ,
+
 	//---------------------------------------------------------------------
 	// Action Bot Function
 	//
@@ -146,18 +146,18 @@ module.exports = {
 	// Keep in mind event calls won't have access to the "msg" parameter,
 	// so be sure to provide checks for variable existance.
 	//---------------------------------------------------------------------
-	
+
 	action: function(cache) {
-	
+
 		const data = cache.actions[cache.index];
-		const text = this.evalMessage(data.text, cache);
-		const wordtoFind = this.evalMessage(data.wordtoFind, cache);
+		const text = this.evalMessage(data.text ,cache);
+		const wordtoFind = this.evalMessage(data.wordtoFind ,cache);
 		const position = parseInt(data.position);
 		// Check if everything is ok
 		if(!wordtoFind) return console.log("Find Text MOD: Text to find is missing!");
 		if(!text) return console.log("Find Text MOD: Source text is missing!");
-		if(!text.includes(wordtoFind)) {console.log(`Find Text MOD: The requested text wasn't found in the source text!\n	Source text: ${text}\n	Text to find: ${wordtoFind}`)};
-	
+		if(!text.includes(wordtoFind)) {console.log(`Find Text MOD: The requested text wasn't found in the source text!\n	Source text: ${text}\n	Text to find: ${wordtoFind}`);}
+
 		// Main code
 		let result;
 		switch(position) {
@@ -173,12 +173,12 @@ module.exports = {
 
 		// Storing
 		const storage = parseInt(data.storage);
-		const varName = this.evalMessage(data.varName, cache);
-		this.storeValue(result, storage, varName, cache);
-	
+		const varName = this.evalMessage(data.varName ,cache);
+		this.storeValue(result ,storage ,varName ,cache);
+
 		this.callNextAction(cache);
-	},
-	
+	} ,
+
 	//---------------------------------------------------------------------
 	// Action Bot Mod
 	//
@@ -187,9 +187,7 @@ module.exports = {
 	// In order to reduce conflictions between mods, be sure to alias
 	// functions you wish to overwrite.
 	//---------------------------------------------------------------------
-	
-	mod: function(DBM) {
-	}
-	
-	}; // End of module
-	
+
+	mod: function() {}
+}; // End of module
+

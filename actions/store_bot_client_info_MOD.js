@@ -1,12 +1,11 @@
 module.exports = {
-
 	//---------------------------------------------------------------------
 	// Action Name
 	//
 	// This is the name of the action displayed in the editor.
 	//---------------------------------------------------------------------
 
-	name: "Store Bot Client Info",
+	name: "Store Bot Client Info" ,
 
 	//---------------------------------------------------------------------
 	// Action Section
@@ -14,7 +13,7 @@ module.exports = {
 	// This is the section the action will fall into.
 	//---------------------------------------------------------------------
 
-	section: "Bot Client Control",
+	section: "Bot Client Control" ,
 
 	//---------------------------------------------------------------------
 	// Action Subtitle
@@ -23,9 +22,9 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	subtitle: function (data) {
-		const info = ['Uptime in Milliseconds', 'Ready At?', 'Ping', 'Guild Amount', 'User Amount', 'Rounded Ping', 'Uptime in Seconds', 'Uptime in Minutes', 'Bot\'s Token', 'Voice Connections Amount', 'Total Amount of Channels', 'Total Amount of Emojis', 'Bot\'s Previous Pings', 'Uptime in Days', 'Uptime in Days (Rounded)', 'Memory (RAM) Usage', 'Bot Guilds Objects', 'Bot Guilds Names', 'Bot Guilds IDs', 'Bot Current Prefix', 'Bot Client ID', 'Discord JS Version', 'Uptime in Hours', 'Refreshing Uptime in Days', 'Refreshing Uptime in Hours', 'Refreshing Uptime in Minutes', 'Refreshing Uptime in Seconds', 'Memory (RAM) Usage in MB', 'Bot\'s OS (Process Platform)', 'CPU Usage in MB', 'Bot\'s Directory', 'Node JS Version', 'Amount of Commands', 'Amount of Events', 'Ready At ? [timestamp]', 'CPU Core Count', 'Total Memory (GB)', 'Total Memory (MB)', 'Available Memory (GB)', 'Available Memory (MB)', 'Available Memory (%)', 'Used Memory (GB)', 'Used Memory (MB)', 'Used Memory (%)', 'Bot Owner ID'];
+		const info = ["Uptime in Milliseconds" ,"Ready At?" ,"Ping" ,"Guild Amount" ,"User Amount" ,"Rounded Ping" ,"Uptime in Seconds" ,"Uptime in Minutes" ,"Bot's Token" ,"Voice Connections Amount" ,"Total Amount of Channels" ,"Total Amount of Emojis" ,"Bot's Previous Pings" ,"Uptime in Days" ,"Uptime in Days (Rounded)" ,"Memory (RAM) Usage" ,"Bot Guilds Objects" ,"Bot Guilds Names" ,"Bot Guilds IDs" ,"Bot Current Prefix" ,"Bot Client ID" ,"Discord JS Version" ,"Uptime in Hours" ,"Refreshing Uptime in Days" ,"Refreshing Uptime in Hours" ,"Refreshing Uptime in Minutes" ,"Refreshing Uptime in Seconds" ,"Memory (RAM) Usage in MB" ,"Bot's OS (Process Platform)" ,"CPU Usage in MB" ,"Bot's Directory" ,"Node JS Version" ,"Amount of Commands" ,"Amount of Events" ,"Ready At ? [timestamp]" ,"CPU Core Count" ,"Total Memory (GB)" ,"Total Memory (MB)" ,"Available Memory (GB)" ,"Available Memory (MB)" ,"Available Memory (%)" ,"Used Memory (GB)" ,"Used Memory (MB)" ,"Used Memory (%)" ,"Bot Owner ID"];
 		return `Bot Client - ${info[parseInt(data.info)]}`;
-	},
+	} ,
 
 	//---------------------------------------------------------------------
 	// DBM Mods Manager Variables (Optional but nice to have!)
@@ -35,15 +34,16 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "Lasse, EliteArtz, EGGSY, Danno3817 & MrGold",
+	author: "Lasse, EliteArtz, EGGSY, Danno3817 & MrGold" ,
 
 	// The version of the mod (Defaults to 1.0.0)
-	version: "1.9", //Added in 1.8.7
+	version: "1.9" , //Added in 1.8.7
 
 	// A short description to show on the mod line for this mod (Must be on a single line)
-	short_description: "Stores Bot Information like Ping, Total Members or Guilds...",
+	short_description: "Stores Bot Information like Ping, Total Members or Guilds..." ,
 
 	// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
+	// depends_on_mods: ["WrexMODS"],
 
 
 	//---------------------------------------------------------------------
@@ -54,11 +54,11 @@ module.exports = {
 	// Stores the relevant variable info for the editor.
 	//---------------------------------------------------------------------
 
-	variableStorage: function (data, varType) {
+	variableStorage: function (data ,varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		const info = parseInt(data.info);
-		let dataType = 'Unknown Type';
+		let dataType = "Unknown Type";
 		switch (info) {
 			case 0: // Uptime in Milliseconds
 				dataType = "Number";
@@ -84,7 +84,7 @@ module.exports = {
 			case 7: // Uptime in Minutes
 				dataType = "Number";
 				break;
-			case 8: // Bot's Token 
+			case 8: // Bot's Token
 				dataType = "Token";
 				break;
 			case 9: // Voice Connections Amount
@@ -181,8 +181,8 @@ module.exports = {
 				break;
 
 		}
-		return ([data.varName2, dataType]);
-	},
+		return ([data.varName2 ,dataType]);
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Fields
@@ -192,7 +192,7 @@ module.exports = {
 	// are also the names of the fields stored in the action's JSON data.
 	//---------------------------------------------------------------------
 
-	fields: ["info", "storage", "varName2"],
+	fields: ["info" ,"storage" ,"varName2"] ,
 
 	//---------------------------------------------------------------------
 	// Command HTML
@@ -210,7 +210,7 @@ module.exports = {
 	//                messages, servers, variables
 	//---------------------------------------------------------------------
 
-	html: function (isEvent, data) {
+	html: function (isEvent ,data) {
 	// current 43 items
 		return `
 		<div>
@@ -250,13 +250,13 @@ module.exports = {
 				<option value="8">Bot Token (be careful)</option>
 			</optgroup>
 			<optgroup label="System Measurements">
-				<option value="29">CPU Usage (MB)</option>			
-				<option value="35">CPU Core Count</option>			
+				<option value="29">CPU Usage (MB)</option>
+				<option value="35">CPU Core Count</option>
 				<option value="36">Total Memory (GB)</option>
 				<option value="37">Total Memory (MB)</option>
 				<option value="38">Available Memory (GB)</option>
 				<option value="39">Available Memory (MB)</option>
-				<option value="40">Available Memory (%)</option>				
+				<option value="40">Available Memory (%)</option>
 				<option value="41">Used Memory (GB)</option>
 				<option value="42">Used Memory (MB)</option>
 				<option value="43">Used Memory (%)</option>
@@ -286,8 +286,8 @@ module.exports = {
 			Variable Name:<br>
 			<input id="varName2" class="round" type="text"><br>
 		</div>
-	</div><br><br>`
-	},
+	</div><br><br>`;
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Editor Init Code
@@ -297,7 +297,7 @@ module.exports = {
 	// functions for the DOM elements.
 	//---------------------------------------------------------------------
 
-	init: function () { },
+	init: function () { } ,
 
 	//---------------------------------------------------------------------
 	// Action Bot Function
@@ -309,7 +309,7 @@ module.exports = {
 
 	action: function (cache) {
 		const botClient = this.getDBM().Bot.bot;
-		const os = require('os'); // Added by Danno3817
+		const os = require("os"); // Added by Danno3817
 		const dibiem = this.getDBM(); //EliteArtz... really???? Ugh you guys are meme
 		const data = cache.actions[cache.index];
 		const info = parseInt(data.info);
@@ -319,7 +319,7 @@ module.exports = {
 			return;
 		}
 		switch (info) {
-			case 0: // Uptime in Milliseconds //Deprecated in 1.8.5 
+			case 0: // Uptime in Milliseconds //Deprecated in 1.8.5
 				result = botClient.uptime;
 				break;
 			case 1: // Ready At
@@ -409,13 +409,13 @@ module.exports = {
 			case 28: // Bot's OS (Process Platform)
 				if (process.platform) {
 					const platform = process.platform;
-					if (platform === 'win32') result = 'Windows';
-					else if (platform === 'aix') result = 'Aix';
-					else if (platform === 'linux') result = 'Linux';
-					else if (platform === 'darwin') result = 'Darwin';
-					else if (platform === 'openbsd') result = 'OpenBSD';
-					else if (platform === 'sunos') result = 'Solaris';
-					else if (platform === 'freebsd') result = 'FreeBSD';
+					if (platform === "win32") result = "Windows";
+					else if (platform === "aix") result = "Aix";
+					else if (platform === "linux") result = "Linux";
+					else if (platform === "darwin") result = "Darwin";
+					else if (platform === "openbsd") result = "OpenBSD";
+					else if (platform === "sunos") result = "Solaris";
+					else if (platform === "freebsd") result = "FreeBSD";
 				}
 				break;
 			case 29: // CPU Usage in MB
@@ -466,18 +466,18 @@ module.exports = {
 				var usedMem = os.totalmem() - os.freemem();
 				result = Math.floor((usedMem / os.totalmem()) * 100);
 				break;
-			
+
 
 			default:
 				break;
 		}
 		if (result !== undefined) {
 			const storage = parseInt(data.storage);
-			const varName2 = this.evalMessage(data.varName2, cache);
-			this.storeValue(result, storage, varName2, cache);
+			const varName2 = this.evalMessage(data.varName2 ,cache);
+			this.storeValue(result ,storage ,varName2 ,cache);
 		}
 		this.callNextAction(cache);
-	},
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Bot Mod

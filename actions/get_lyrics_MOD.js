@@ -1,12 +1,11 @@
 module.exports = {
-
 	//---------------------------------------------------------------------
 	// Action Name
 	//
 	// This is the name of the action displayed in the editor.
 	//---------------------------------------------------------------------
 
-	name: "Get Song Lyrics",
+	name: "Get Song Lyrics" ,
 
 	//---------------------------------------------------------------------
 	// Action Section
@@ -14,7 +13,7 @@ module.exports = {
 	// This is the section the action will fall into.
 	//---------------------------------------------------------------------
 
-	section: "Other Stuff",
+	section: "Other Stuff" ,
 
 	//---------------------------------------------------------------------
 	// Action Subtitle
@@ -23,9 +22,9 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	subtitle: function (data) {
-		const info = ['Title', 'Artist', 'Lyrics', 'URL'];
+		const info = ["Title" ,"Artist" ,"Lyrics" ,"URL"];
 		return `Get Lyrics - ${info[parseInt(data.info)]}`;
-	},
+	} ,
 
 	//---------------------------------------------------------------------
 	// DBM Mods Manager Variables (Optional but nice to have!)
@@ -35,15 +34,16 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "NetLuis",
+	author: "NetLuis" ,
 
 	// The version of the mod (Defaults to 1.0.0)
-	version: "1.9.1", //Added in 1.9.1
+	version: "1.9.1" , //Added in 1.9.1
 
 	// A short description to show on the mod line for this mod (Must be on a single line)
-	short_description:  "Gets lyrics of any song.",
+	short_description:  "Gets lyrics of any song." ,
 
 	// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
+	// depends_on_mods: ["WrexMODS"],
 
 
 	//---------------------------------------------------------------------
@@ -54,11 +54,11 @@ module.exports = {
 	// Stores the relevant variable info for the editor.
 	//---------------------------------------------------------------------
 
-	variableStorage: function (data, varType) {
+	variableStorage: function (data ,varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		const info = parseInt(data.info);
-		let dataType = 'Unknown Song Type';
+		let dataType = "Unknown Song Type";
 		switch (info) {
 			case 0:
 				dataType = "Song Name";
@@ -68,13 +68,13 @@ module.exports = {
 				break;
 			case 2:
 				dataType = "Song Lyrics";
-                break;
-            case 3:
+				break;
+			case 3:
 				dataType = "Song URL";
 				break;
 		}
-		return ([data.varName, dataType]);
-	},
+		return ([data.varName ,dataType]);
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Fields
@@ -84,7 +84,7 @@ module.exports = {
 	// are also the names of the fields stored in the action's JSON data.
 	//---------------------------------------------------------------------
 
-	fields: ["song", "key", "info", "storage", "varName"],
+	fields: ["song" ,"key" ,"info" ,"storage" ,"varName"] ,
 
 	//---------------------------------------------------------------------
 	// Command HTML
@@ -102,8 +102,8 @@ module.exports = {
 	//                messages, servers, variables
 	//---------------------------------------------------------------------
 
-	html: function (isEvent, data) {
-        return `
+	html: function (isEvent ,data) {
+		return `
         <div style="width: 550px; height: 350px; overflow-y: scroll;">
         <div>
 		<div class="embed">
@@ -149,7 +149,7 @@ module.exports = {
 		</p>
 	<div>
 </div>
-        
+
         <style>
         /* START OF EMBED CSS */
         div.embed { /* <div class="embed"></div> */
@@ -177,12 +177,12 @@ module.exports = {
                 span.embed-desc { /* <span class="embed-desc"></span> (Description thing) */
                     color: rgb(128, 128, 128);
                 }
-        
+
                 span { /* Only making the text look, nice! */
                     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
                 }
-                </style>`
-	},
+                </style>`;
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Editor Init Code
@@ -193,9 +193,9 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	init: function () {
-		const { glob, document } = this;
-		glob.variableChange(document.getElementById('storage'), 'varNameContainer');
-	},
+		const { glob ,document } = this;
+		glob.variableChange(document.getElementById("storage") ,"varNameContainer");
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Bot Function
@@ -206,20 +206,20 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	action: function (cache) {
-		const _this = this
+		const _this = this;
 		const data = cache.actions[cache.index];
 		const info = parseInt(data.info);
-        const geniustoken = _this.evalMessage(data.key, cache);
-        const songname = _this.evalMessage(data.song, cache)
+		const geniustoken = _this.evalMessage(data.key ,cache);
+		const songname = _this.evalMessage(data.song ,cache);
 
 		// Main code:
 		const WrexMODS = _this.getWrexMods(); // as always.
-		WrexMODS.CheckAndInstallNodeModule('analyrics');
-		const analyrics = WrexMODS.require('analyrics');
-        
-        analyrics.setToken(`${geniustoken}`);
+		WrexMODS.CheckAndInstallNodeModule("analyrics");
+		const analyrics = WrexMODS.require("analyrics");
 
-		analyrics.getSong(`${songname}`, function(song) {
+		analyrics.setToken(`${geniustoken}`);
+
+		analyrics.getSong(`${songname}` ,function(song) {
 			switch (info) {
 				case 0:
 					result = song.title;
@@ -229,21 +229,21 @@ module.exports = {
 					break;
 				case 2:
 					result = song.lyrics;
-                    break;
-                case 3:
-                    result = song.url;
+					break;
+				case 3:
+					result = song.url;
 					break;
 				default:
 					break;
 			}
 			if (result !== undefined) {
 				const storage = parseInt(data.storage);
-				const varName2 = _this.evalMessage(data.varName, cache);
-				_this.storeValue(result, storage, varName2, cache);
+				const varName2 = _this.evalMessage(data.varName ,cache);
+				_this.storeValue(result ,storage ,varName2 ,cache);
 			}
 			_this.callNextAction(cache);
-		})
-	},
+		});
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Bot Mod

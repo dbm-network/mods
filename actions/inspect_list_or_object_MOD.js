@@ -1,12 +1,11 @@
 module.exports = {
-
 	//---------------------------------------------------------------------
 	// Action Name
 	//
 	// This is the name of the action displayed in the editor.
 	//---------------------------------------------------------------------
 
-	name: "Inspect List/Object",
+	name: "Inspect List/Object" ,
 
 	//---------------------------------------------------------------------
 	// Action Section
@@ -14,7 +13,7 @@ module.exports = {
 	// This is the section the action will fall into.
 	//---------------------------------------------------------------------
 
-	section: "Lists and Loops",
+	section: "Lists and Loops" ,
 
 	//---------------------------------------------------------------------
 	// Action Subtitle
@@ -23,9 +22,9 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	subtitle: function (data) {
-		const storages = ['', 'Temp Variable', 'Server Variable', 'Global Variable'];
+		const storages = ["" ,"Temp Variable" ,"Server Variable" ,"Global Variable"];
 		return `Inspect ${storages[parseInt(data.storage)]} "${data.varName}"`;
-	},
+	} ,
 
 	//---------------------------------------------------------------------
 	// DBM Mods Manager Variables (Optional but nice to have!)
@@ -35,20 +34,20 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "ACertainCoder & Almeida",
+	author: "ACertainCoder & Almeida" ,
 
 	// The version of the mod (Defaults to 1.0.0)
-	version: "1.9.6", //Added in 1.9.6
+	version: "1.9.6" , //Added in 1.9.6
 
 	// A short description to show on the mod line for this mod (Must be on a single line)
-	short_description: "This mod will convert a JavaScript list or object to readable text.",
+	short_description: "This mod will convert a JavaScript list or object to readable text." ,
 
-	sample_result: "<b>Client {<br><b style='color: #b58900'>_events</b>: [<b style='color: #dc322f'>Object</b>],<br><b style='color: #b58900'>_eventsCount</b>: <b style='color: #2a978f'>5</b>,<br><b style='color: #b58900'>_maxListeners</b>: <b style='color: #2a978f'>10</b>,<br><b style='color: #b58900'>options</b>: [<b style='color: #dc322f'>Object</b>],<br><b style='color: #b58900'>rest</b>: [RESTManager],<br><b style='color: #b58900'>dataManager</b>: [ClientDataManager],<br><b style='color: #b58900'>manager</b>: [ClientManager],<br><b style='color: #b58900'>ws</b>: [WebSocketManager],<br><b style='color: #b58900'>resolver</b>: [ClientDataResolver],<br><b style='color: #b58900'>actions</b>: [ActionsManager],<br><b style='color: #b58900'>voice</b>: [ClientVoiceManager],<br><b style='color: #b58900'>shard</b>: <b style='color: #2a978f'>null</b>,<br><b style='color: #b58900'>users</b>: [Collection],<br><b style='color: #b58900'>guilds</b>: [Collection],<br><b style='color: #b58900'>channels</b>: [Collection],<br><b style='color: #b58900'>presences</b>: [Collection],<br><b style='color: #b58900'>user</b>: [ClientUser],<br><b style='color: #b58900'>readyAt</b>: <b style='color: #2a978f'>2019-05-11</b>T11:<b style='color: #2a978f'>30</b>:<b style='color: #2a978f'>47.999</b>Z,<br><b style='color: #b58900'>broadcasts</b>: [],<br><b style='color: #b58900'>pings</b>: [<b style='color: #dc322f'>Array</b>],<br><b style='color: #b58900'>_timeouts</b>: [<b style='color: #dc322f'>Set</b>],<br><b style='color: #b58900'>_intervals</b>: [<b style='color: #dc322f'>Set</b>],<br><b style='color: #b58900'>config</b>: [<b style='color: #dc322f'>Object</b>],<br><b style='color: #b58900'>info</b>: [<b style='color: #dc322f'>Object</b>],<br><b style='color: #b58900'>audio</b>: [<b style='color: #dc322f'>Object</b>],<br><b style='color: #b58900'>warnings</b>: [<b style='color: #dc322f'>Object</b>],<br><b style='color: #b58900'>loadCommands</b>: [<b style='color: #dc322f'>Function</b>],<br><b style='color: #b58900'>commands</b>: [<b style='color: #dc322f'>Map</b>] }<b>",
+	sample_result: "<b>Client {<br><b style='color: #b58900'>_events</b>: [<b style='color: #dc322f'>Object</b>],<br><b style='color: #b58900'>_eventsCount</b>: <b style='color: #2a978f'>5</b>,<br><b style='color: #b58900'>_maxListeners</b>: <b style='color: #2a978f'>10</b>,<br><b style='color: #b58900'>options</b>: [<b style='color: #dc322f'>Object</b>],<br><b style='color: #b58900'>rest</b>: [RESTManager],<br><b style='color: #b58900'>dataManager</b>: [ClientDataManager],<br><b style='color: #b58900'>manager</b>: [ClientManager],<br><b style='color: #b58900'>ws</b>: [WebSocketManager],<br><b style='color: #b58900'>resolver</b>: [ClientDataResolver],<br><b style='color: #b58900'>actions</b>: [ActionsManager],<br><b style='color: #b58900'>voice</b>: [ClientVoiceManager],<br><b style='color: #b58900'>shard</b>: <b style='color: #2a978f'>null</b>,<br><b style='color: #b58900'>users</b>: [Collection],<br><b style='color: #b58900'>guilds</b>: [Collection],<br><b style='color: #b58900'>channels</b>: [Collection],<br><b style='color: #b58900'>presences</b>: [Collection],<br><b style='color: #b58900'>user</b>: [ClientUser],<br><b style='color: #b58900'>readyAt</b>: <b style='color: #2a978f'>2019-05-11</b>T11:<b style='color: #2a978f'>30</b>:<b style='color: #2a978f'>47.999</b>Z,<br><b style='color: #b58900'>broadcasts</b>: [],<br><b style='color: #b58900'>pings</b>: [<b style='color: #dc322f'>Array</b>],<br><b style='color: #b58900'>_timeouts</b>: [<b style='color: #dc322f'>Set</b>],<br><b style='color: #b58900'>_intervals</b>: [<b style='color: #dc322f'>Set</b>],<br><b style='color: #b58900'>config</b>: [<b style='color: #dc322f'>Object</b>],<br><b style='color: #b58900'>info</b>: [<b style='color: #dc322f'>Object</b>],<br><b style='color: #b58900'>audio</b>: [<b style='color: #dc322f'>Object</b>],<br><b style='color: #b58900'>warnings</b>: [<b style='color: #dc322f'>Object</b>],<br><b style='color: #b58900'>loadCommands</b>: [<b style='color: #dc322f'>Function</b>],<br><b style='color: #b58900'>commands</b>: [<b style='color: #dc322f'>Map</b>] }<b>" ,
 
 	// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 	depends_on_mods: [
-		{name:'WrexMODS',path:'aaa_wrexmods_dependencies_MOD.js'}
-	],
+		{ name:"WrexMODS" ,path:"aaa_wrexmods_dependencies_MOD.js" }
+	] ,
 
 	//---------------------------------------------------------------------
 
@@ -58,12 +57,12 @@ module.exports = {
 	// Stores the relevant variable info for the editor.
 	//---------------------------------------------------------------------
 
-	variableStorage: function (data, varType) {
+	variableStorage: function (data ,varType) {
 		const type = parseInt(data.storage2);
 		if (type !== varType) return;
-		let dataType = 'Text';
-		return ([data.varName2, dataType]);
-	},
+		let dataType = "Text";
+		return ([data.varName2 ,dataType]);
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Fields
@@ -73,7 +72,7 @@ module.exports = {
 	// are also the names of the fields stored in the action's JSON data.
 	//---------------------------------------------------------------------
 
-	fields: ["storage", "varName", "depth", "storage2", "varName2"],
+	fields: ["storage" ,"varName" ,"depth" ,"storage2" ,"varName2"] ,
 
 	//---------------------------------------------------------------------
 	// Command HTML
@@ -91,7 +90,7 @@ module.exports = {
 	//                messages, servers, variables
 	//---------------------------------------------------------------------
 
-	html: function (isEvent, data) {
+	html: function (isEvent ,data) {
 		return `
 	<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
 	<p>Made by ${this.author}</p><br>
@@ -160,13 +159,13 @@ module.exports = {
 	}
 	span.embed-auth {
 		color: rgb(255, 255, 255);
-	
+
 	}
 	span.embed-desc {
 		color: rgb(128, 128, 128);
 	}
-</style>`
-	},
+</style>`;
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Editor Init Code
@@ -177,10 +176,10 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	init: function () {
-		const { glob, document } = this;
+		const { glob ,document } = this;
 
-		glob.variableChange(document.getElementById('storage'), 'varNameContainer');
-	},
+		glob.variableChange(document.getElementById("storage") ,"varNameContainer");
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Bot Function
@@ -194,31 +193,31 @@ module.exports = {
 		const data = cache.actions[cache.index];
 
 		const WrexMods = this.getWrexMods();//As always.
-		const util = WrexMods.require('util');
+		const util = WrexMods.require("util");
 		const depth = parseInt(data.depth);
 		const storage = parseInt(data.storage);
-		const varName = this.evalMessage(data.varName, cache);
-		const variable = this.getVariable(storage, varName, cache);
+		const varName = this.evalMessage(data.varName ,cache);
+		const variable = this.getVariable(storage ,varName ,cache);
 
-		if(typeof(variable) != 'object') {
-			return console.log('Please choose a valid list or object to inspect!');
-		};
+		if(typeof(variable) != "object") {
+			return console.log("Please choose a valid list or object to inspect!");
+		}
 
 		try {
-			var result = util.inspect(variable,  { depth: (depth > 0 ? depth : 0) });
+			var result = util.inspect(variable ,{ depth: (depth > 0 ? depth : 0) });
 		} catch(error) {
 			if(error) {
-				console.error(error)
-			};
-		};
+				console.error(error);
+			}
+		}
 
 		if (result !== undefined) {
 			const storage2 = parseInt(data.storage2);
-			const varName2 = this.evalMessage(data.varName2, cache);
-			this.storeValue(result, storage2, varName2, cache);
-		};
+			const varName2 = this.evalMessage(data.varName2 ,cache);
+			this.storeValue(result ,storage2 ,varName2 ,cache);
+		}
 		this.callNextAction(cache);
-	},
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Bot Mod

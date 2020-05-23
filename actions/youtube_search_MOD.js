@@ -1,12 +1,11 @@
 module.exports = {
-
 	//---------------------------------------------------------------------
 	// Action Name
 	//
 	// This is the name of the action displayed in the editor.
 	//---------------------------------------------------------------------
 
-	name: "YouTube Search",
+	name: "YouTube Search" ,
 
 	//---------------------------------------------------------------------
 	// Action Section
@@ -14,7 +13,7 @@ module.exports = {
 	// This is the section the action will fall into.
 	//---------------------------------------------------------------------
 
-	section: "Audio Control",
+	section: "Audio Control" ,
 
 	//---------------------------------------------------------------------
 	// Action Subtitle
@@ -23,14 +22,14 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	subtitle: function (data) {
-		const videoInfo = ['Video ID', 'Video URL', 'Video Title', 'Video Description', 'Video Channel ID', 'Video Channel URL', 'Video Channel Name', 'Video Channel Thumbnail URL (Default)', 'Video Channel Thumbnail URL (Medium)', 'Video Channel Thumbnail URL (High)', 'Video Thumbnail URL (Default)', 'Video Thumbnail URL (Medium)', 'Video Thumbnail URL (High)', 'Video Genre', 'Paid Video?', 'Unlisted Video?', 'Is Video Family Friendly?', 'Video Duration', 'Video Publish Data', 'Video Views', 'Allowed Video Regions', 'Video Comment Count', 'Video Like Count', 'Video Dislike Count'];
-		const playlistInfo = ['Playlist ID', 'Playlist URL', 'Playlist Name', 'Playlist Description', 'Playlist Thumbnail URL (Default)', 'Playlist Thumbnail URL (Medium)', 'Playlist Thumbnail URL (High)', 'Playlist Channel ID', 'Playlist Channel URL', 'Playlist Channel Name', 'Playlist Channel Thumbnail URL (Default)', 'Playlist Channel Thumbnail URL (Medium)', 'Playlist Channel Thumbnail URL (High)', 'Video IDs', 'Video URLs', 'Video Titles', 'Video Descriptions', 'Video Channel IDs', 'Video Channel URls', 'Video Channel Names', 'Video Channel Thumbnail URLs (Default)', 'Video Channel Thumbnail URLs (Medium)', 'Video Channel Thumbnail URLs (High)', 'Video Thumbnail URLs (Default)', 'Video Thumbnail URLs (Medium)', 'Video Thumbnail URLs (High)', 'Video Positions', 'Video Publish Dates'];
+		const videoInfo = ["Video ID" ,"Video URL" ,"Video Title" ,"Video Description" ,"Video Channel ID" ,"Video Channel URL" ,"Video Channel Name" ,"Video Channel Thumbnail URL (Default)" ,"Video Channel Thumbnail URL (Medium)" ,"Video Channel Thumbnail URL (High)" ,"Video Thumbnail URL (Default)" ,"Video Thumbnail URL (Medium)" ,"Video Thumbnail URL (High)" ,"Video Genre" ,"Paid Video?" ,"Unlisted Video?" ,"Is Video Family Friendly?" ,"Video Duration" ,"Video Publish Data" ,"Video Views" ,"Allowed Video Regions" ,"Video Comment Count" ,"Video Like Count" ,"Video Dislike Count"];
+		const playlistInfo = ["Playlist ID" ,"Playlist URL" ,"Playlist Name" ,"Playlist Description" ,"Playlist Thumbnail URL (Default)" ,"Playlist Thumbnail URL (Medium)" ,"Playlist Thumbnail URL (High)" ,"Playlist Channel ID" ,"Playlist Channel URL" ,"Playlist Channel Name" ,"Playlist Channel Thumbnail URL (Default)" ,"Playlist Channel Thumbnail URL (Medium)" ,"Playlist Channel Thumbnail URL (High)" ,"Video IDs" ,"Video URLs" ,"Video Titles" ,"Video Descriptions" ,"Video Channel IDs" ,"Video Channel URls" ,"Video Channel Names" ,"Video Channel Thumbnail URLs (Default)" ,"Video Channel Thumbnail URLs (Medium)" ,"Video Channel Thumbnail URLs (High)" ,"Video Thumbnail URLs (Default)" ,"Video Thumbnail URLs (Medium)" ,"Video Thumbnail URLs (High)" ,"Video Positions" ,"Video Publish Dates"];
 		if(parseInt(data.type) == 1) {
 			return `${playlistInfo[parseInt(data.info1)]}`;
 		} else {
 			return `${videoInfo[parseInt(data.info0)]}`;
-		};
-	},
+		}
+	} ,
 
 	//---------------------------------------------------------------------
 	// DBM Mods Manager Variables (Optional but nice to have!)
@@ -40,15 +39,16 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "ACertainCoder, Aamon & EGGSY",
+	author: "ACertainCoder, Aamon & EGGSY" ,
 
 	// The version of the mod (Defaults to 1.0.0)
-	version: "1.9.5", //Added in 1.8.7
+	version: "1.9.5" , //Added in 1.8.7
 
 	// A short description to show on the mod line for this mod (Must be on a single line)
-	short_description: "Searches video informations on YouTube",
+	short_description: "Searches video informations on YouTube" ,
 
 	// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
+	// depends_on_mods: ["WrexMODS"],
 
 
 	//---------------------------------------------------------------------
@@ -59,10 +59,10 @@ module.exports = {
 	// Stores the relevant variable info for the editor.
 	//---------------------------------------------------------------------
 
-	variableStorage: function (data, varType) {
+	variableStorage: function (data ,varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
-		let dataType = 'Unknown Type';
+		let dataType = "Unknown Type";
 		switch(parseInt(data.type)) {
 			case 0://Video
 				//----------------------------
@@ -75,11 +75,11 @@ module.exports = {
 					case 13://Video Genre
 					case 17://Video Duration
 					case 18://Video Publish Date
-						dataType = 'Text';
+						dataType = "Text";
 						break;
 					case 1://Video URL
 					case 5://Video Channel URL
-						dataType = 'URL';
+						dataType = "URL";
 						break;
 					case 7://Video Channel Thumbnail URL (Default)
 					case 8://Video Channel Thumbnail URL (Medium)
@@ -87,22 +87,22 @@ module.exports = {
 					case 10://Video Thumbnail URL (Default)
 					case 11://Video Thumbnail URL (Medium)
 					case 12://Video Thumbnail URL (High)
-						dataType = 'Image URL';
+						dataType = "Image URL";
 						break;
 					case 14://Paid Video?
 					case 15://Unlisted Video?
 					case 16://Is Video Family Friendly?
-						dataType = 'Boolean';
+						dataType = "Boolean";
 						break;
 					case 19://Video Views
 					case 21://Video Comment Count
 					case 22://Video Like Count
 					case 23://Video Dislike Count
-						dataType = 'Number';
+						dataType = "Number";
 						break;
 					case 20://Allowed Video Regions
-						dataType = 'List';
-				};
+						dataType = "List";
+				}
 				break;
 			case 1://Playlist
 				//----------------------------
@@ -112,11 +112,11 @@ module.exports = {
 					case 3://Playlist Description
 					case 7://Playlist Channel ID
 					case 9://Playlist Channel Name
-						dataType = 'Text';
+						dataType = "Text";
 						break;
 					case 1://Playlist URL
 					case 8://Playlist Channel URL
-						dataType = 'URL';
+						dataType = "URL";
 						break;
 					case 4://Playlist Thumbnail URL (Default)
 					case 5://Playlist Thumbnail URL (Medium)
@@ -124,7 +124,7 @@ module.exports = {
 					case 10://Playlist Channel Thumbnail URL (Default)
 					case 11://Playlist Channel Thumbnail URL (Medium)
 					case 12://Playlist Channel Thumbnail URL (High)
-						dataType = 'Image URL';
+						dataType = "Image URL";
 						break;
 					case 13://Video IDs
 					case 14://Video URLs
@@ -141,13 +141,13 @@ module.exports = {
 					case 25://Video Thumbnail URLs (High)
 					case 26://Video Positions
 					case 27://Video Publish Dates
-						dataType = 'List';
+						dataType = "List";
 						break;
-				};
+				}
 				break;
-		};
-		return ([data.varName, dataType]);
-	},
+		}
+		return ([data.varName ,dataType]);
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Fields
@@ -157,7 +157,7 @@ module.exports = {
 	// are also the names of the fields stored in the action's JSON data.
 	//---------------------------------------------------------------------
 
-	fields: ["type", "input", "info0", "info1", "apikey", "results", "storage", "varName"],
+	fields: ["type" ,"input" ,"info0" ,"info1" ,"apikey" ,"results" ,"storage" ,"varName"] ,
 
 	//---------------------------------------------------------------------
 	// Command HTML
@@ -175,7 +175,7 @@ module.exports = {
 	//                messages, servers, variables
 	//---------------------------------------------------------------------
 
-	html: function (isEvent, data) {
+	html: function (isEvent ,data) {
 		return `
 	<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
 	<div>
@@ -298,8 +298,8 @@ module.exports = {
 			<input id="varName" class="round" type="text"><br>
 		</div>
 	</div>
-</div>`
-	},
+</div>`;
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Editor Init Code
@@ -310,37 +310,37 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	init: function () {
-		const { glob, document } = this;
-		glob.variableChange(document.getElementById('storage'), 'varNameContainer');
+		const { glob ,document } = this;
+		glob.variableChange(document.getElementById("storage") ,"varNameContainer");
 		glob.onChange1 = function(event) {
 			const id = parseInt(event.value);
 			//Load [Source Video Info], [Source Playlist Info], [API Key], [Max Results]
-			const videoDiv = document.getElementById('divinfo0');
-			const video = document.getElementById('info0');
-			const playlistDiv = document.getElementById('divinfo1');
-			const playlist = document.getElementById('info1');
-			let result = '';
+			const videoDiv = document.getElementById("divinfo0");
+			const video = document.getElementById("info0");
+			const playlistDiv = document.getElementById("divinfo1");
+			const playlist = document.getElementById("info1");
+			let result = "";
 			switch(id) {//Show: [Source Video Info] Hide: [Source Playlist Info], [Max Results]
 				case 0:
-					result = 'Video';
+					result = "Video";
 					video.style.display = null;
 					videoDiv.style.display = null;
-					playlist.style.display = 'none';
-					playlistDiv.style.display = 'none';
+					playlist.style.display = "none";
+					playlistDiv.style.display = "none";
 					break;
 				case 1://Show: [Source Playlist Info], [Max Results] Hide: [Source Video Info]
-					result = 'Playlist';
-					video.style.display = 'none';
-					videoDiv.style.display = 'none';
+					result = "Playlist";
+					video.style.display = "none";
+					videoDiv.style.display = "none";
 					playlist.style.display = null;
 					playlistDiv.style.display = null;
 					break;
-			};
+			}
 			//Replace text with [Video/Playlist]
-			document.getElementById('tempName').innerHTML = result;
+			document.getElementById("tempName").innerHTML = result;
 		};
-		glob.onChange1(document.getElementById('type'));
-	},
+		glob.onChange1(document.getElementById("type"));
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Bot Function
@@ -354,28 +354,28 @@ module.exports = {
 		const data = cache.actions[cache.index];
 		const _this = this; //This is needed sometimes.
 		const WrexMods = this.getWrexMods(); //As always.
-		const input = this.evalMessage(data.input, cache);//URL or Keywords
-		const apikey = this.evalMessage(data.apikey, cache);//Api Key
+		const input = this.evalMessage(data.input ,cache);//URL or Keywords
+		const apikey = this.evalMessage(data.apikey ,cache);//Api Key
 		const type = parseInt(data.type);//0: Video | 1: Playlist
 		const info0 = parseInt(data.info0);//Video
 		const info1 = parseInt(data.info1);//Playlist
 		const results = parseInt(data.results);//Number within 1 to 10
-		const ytapi = WrexMods.require('simple-youtube-api');
-		const ytinfo = WrexMods.require('youtube-info');
-		const TimeFormat = WrexMods.require('hh-mm-ss');
+		const ytapi = WrexMods.require("simple-youtube-api");
+		const ytinfo = WrexMods.require("youtube-info");
+		const TimeFormat = WrexMods.require("hh-mm-ss");
 
-		if(input === undefined || input === '') {
-			return console.log('Please provide a url or some keywords to search for.');
-		};
-		if(apikey === undefined || apikey === '') {
-			return console.log('Please provide a valid api key.');
-		};
+		if(input === undefined || input === "") {
+			return console.log("Please provide a url or some keywords to search for.");
+		}
+		if(apikey === undefined || apikey === "") {
+			return console.log("Please provide a valid api key.");
+		}
 
 		const YouTube = new ytapi(`${apikey}`);
 
 		switch(type) {
 			case 0://Video
-				YouTube.searchVideos(`${input}`, results).then(videos => {
+				YouTube.searchVideos(`${input}` ,results).then(videos => {
 					var result;
 					var video = videos[results-1];
 					switch(info0) {
@@ -386,10 +386,10 @@ module.exports = {
 							result = `https://www.youtube.com/watch?v=${video.id}`;
 							break;
 						case 2://Video Title
-							result = video.title.replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&#39;/g, '\'');
+							result = video.title.replace(/&quot;/g ,"\"").replace(/&amp;/g ,"&").replace(/&#39;/g ,"'");
 							break;
 						case 3://Video Description
-							result = video.description.replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&#39;/g, '\'');
+							result = video.description.replace(/&quot;/g ,"\"").replace(/&amp;/g ,"&").replace(/&#39;/g ,"'");
 							break;
 						case 4://Video Channel ID
 							result = video.channel.id;
@@ -422,9 +422,9 @@ module.exports = {
 							result = video.publishedAt;
 							break;
 						default:
-							ytinfo(`${video.id}`, function(error, videoInfo) {
+							ytinfo(`${video.id}` ,function(error ,videoInfo) {
 								var result2;
-								if(error) {console.error(error)};
+								if(error) {console.error(error);}
 								switch(info0) {
 									case 13://Video Genre
 										result2 = videoInfo.genre;
@@ -457,27 +457,27 @@ module.exports = {
 										result2 = parseInt(videoInfo.dislikeCount);
 										break;
 									default:
-										return console.log('Please check your YouTube Search action... There is something wrong.');
-								};
+										return console.log("Please check your YouTube Search action... There is something wrong.");
+								}
 								if(result2 !== undefined) {
 									const storage = parseInt(data.storage);
-									const varName = _this.evalMessage(data.varName, cache);
-									_this.storeValue(result2, storage, varName, cache);
+									const varName = _this.evalMessage(data.varName ,cache);
+									_this.storeValue(result2 ,storage ,varName ,cache);
 									_this.callNextAction(cache);
-								};
+								}
 							});
 							break;
-					};
+					}
 					if(result !== undefined) {
 						const storage = parseInt(data.storage);
-						const varName = _this.evalMessage(data.varName, cache);
-						_this.storeValue(result, storage, varName, cache);
+						const varName = _this.evalMessage(data.varName ,cache);
+						_this.storeValue(result ,storage ,varName ,cache);
 						_this.callNextAction(cache);
-					};
+					}
 				}).catch(console.error);
 				break;
 			case 1://Playlist
-				YouTube.searchPlaylists(`${input}`, results).then(playlists => {
+				YouTube.searchPlaylists(`${input}` ,results).then(playlists => {
 					var result;
 					var playlist = playlists[results-1];
 					switch(info1) {
@@ -488,10 +488,10 @@ module.exports = {
 							result = `https://www.youtube.com/playlist?list=${playlist.id}`;
 							break;
 						case 2://Playlist Name
-							result = playlist.title.replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&#39;/g, '\'');
+							result = playlist.title.replace(/&quot;/g ,"\"").replace(/&amp;/g ,"&").replace(/&#39;/g ,"'");
 							break;
 						case 3://Playlist Description
-							result = playlist.description.replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&#39;/g, '\'');
+							result = playlist.description.replace(/&quot;/g ,"\"").replace(/&amp;/g ,"&").replace(/&#39;/g ,"'");
 							break;
 						case 4://Playlist Thumbnail URL (Default)
 							result = playlist.thumbnails.default.url;
@@ -523,7 +523,7 @@ module.exports = {
 						default:
 							playlist.getVideos().then(videos => {
 								var result2 = [];
-								videos.forEach((video, pos) => {
+								videos.forEach((video ,pos) => {
 									switch(info1) {
 										case 13://Video IDs
 											result2.push(video.id);
@@ -532,10 +532,10 @@ module.exports = {
 											result2.push(`https://www.youtube.com/watch?v=${video.id}`);
 											break;
 										case 15://Video Titles
-											result2.push(video.title.replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&#39;/g, '\''));
+											result2.push(video.title.replace(/&quot;/g ,"\"").replace(/&amp;/g ,"&").replace(/&#39;/g ,"'"));
 											break;
 										case 16://Video Descriptions
-											result2.push(video.description.replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&#39;/g, '\''));
+											result2.push(video.description.replace(/&quot;/g ,"\"").replace(/&amp;/g ,"&").replace(/&#39;/g ,"'"));
 											break;
 										case 17://Video Channel IDs
 											result2.push(video.channel.id);
@@ -571,30 +571,30 @@ module.exports = {
 											result2.push(video.publishedAt);
 											break;
 										default:
-											return console.log('Please check your YouTube Search action... There is something wrong.');
-										};
+											return console.log("Please check your YouTube Search action... There is something wrong.");
+									}
 								});
 								if(result2.length > 0) {
 									const storage = parseInt(data.storage);
-									const varName = _this.evalMessage(data.varName, cache);
-									_this.storeValue(result2, storage, varName, cache);
+									const varName = _this.evalMessage(data.varName ,cache);
+									_this.storeValue(result2 ,storage ,varName ,cache);
 									_this.callNextAction(cache);
-								};
+								}
 							});
 							break;
-					};
+					}
 					if(result !== undefined) {
 						const storage = parseInt(data.storage);
-						const varName = _this.evalMessage(data.varName, cache);
-						_this.storeValue(result, storage, varName, cache);
+						const varName = _this.evalMessage(data.varName ,cache);
+						_this.storeValue(result ,storage ,varName ,cache);
 						_this.callNextAction(cache);
-					};
+					}
 				}).catch(console.error);
 				break;
 			default:
-				return console.log('Please check your YouTube Search action... There is something wrong.');
-		};
-	},
+				return console.log("Please check your YouTube Search action... There is something wrong.");
+		}
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Bot Mod
@@ -605,7 +605,6 @@ module.exports = {
 	// functions you wish to overwrite.
 	//---------------------------------------------------------------------
 
-	mod: function (DBM) {
-	}
+	mod: function () {}
 
 }; // End of module

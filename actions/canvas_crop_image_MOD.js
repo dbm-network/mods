@@ -1,64 +1,63 @@
 module.exports = {
+	//---------------------------------------------------------------------
+	// Action Name
+	//
+	// This is the name of the action displayed in the editor.
+	//---------------------------------------------------------------------
 
-//---------------------------------------------------------------------
-// Action Name
-//
-// This is the name of the action displayed in the editor.
-//---------------------------------------------------------------------
+	name: "Canvas Crop Image" ,
 
-name: "Canvas Crop Image",
+	//---------------------------------------------------------------------
+	// Action Section
+	//
+	// This is the section the action will fall into.
+	//---------------------------------------------------------------------
 
-//---------------------------------------------------------------------
-// Action Section
-//
-// This is the section the action will fall into.
-//---------------------------------------------------------------------
+	section: "Image Editing" ,
 
-section: "Image Editing",
+	//---------------------------------------------------------------------
+	// Action Subtitle
+	//
+	// This function generates the subtitle displayed next to the name.
+	//---------------------------------------------------------------------
 
-//---------------------------------------------------------------------
-// Action Subtitle
-//
-// This function generates the subtitle displayed next to the name.
-//---------------------------------------------------------------------
+	subtitle: function(data) {
+		const storeTypes = ["" ,"Temp Variable" ,"Server Variable" ,"Global Variable"];
+		return `${storeTypes[parseInt(data.storage)]} (${data.varName})`;
+	} ,
 
-subtitle: function(data) {
-	const storeTypes = ["", "Temp Variable", "Server Variable", "Global Variable"];
-	return `${storeTypes[parseInt(data.storage)]} (${data.varName})`;
-},
+	//https://github.com/LeonZ2019/
+	author: "LeonZ" ,
+	version: "1.1.0" ,
 
-//https://github.com/LeonZ2019/
-author: "LeonZ",
-version: "1.1.0",
+	//---------------------------------------------------------------------
+	// Action Fields
+	//
+	// These are the fields for the action. These fields are customized
+	// by creating elements with corresponding IDs in the HTML. These
+	// are also the names of the fields stored in the action's JSON data.
+	//---------------------------------------------------------------------
 
-//---------------------------------------------------------------------
-// Action Fields
-//
-// These are the fields for the action. These fields are customized
-// by creating elements with corresponding IDs in the HTML. These
-// are also the names of the fields stored in the action's JSON data.
-//---------------------------------------------------------------------
+	fields: ["storage" ,"varName" ,"align" ,"align2" ,"width" ,"height" ,"positionx" ,"positiony"] ,
 
-fields: ["storage", "varName", "align", "align2", "width", "height", "positionx", "positiony"],
+	//---------------------------------------------------------------------
+	// Command HTML
+	//
+	// This function returns a string containing the HTML used for
+	// editting actions.
+	//
+	// The "isEvent" parameter will be true if this action is being used
+	// for an event. Due to their nature, events lack certain information,
+	// so edit the HTML to reflect this.
+	//
+	// The "data" parameter stores constants for select elements to use.
+	// Each is an array: index 0 for commands, index 1 for events.
+	// The names are: sendTargets, members, roles, channels,
+	//                messages, servers, variables
+	//---------------------------------------------------------------------
 
-//---------------------------------------------------------------------
-// Command HTML
-//
-// This function returns a string containing the HTML used for
-// editting actions. 
-//
-// The "isEvent" parameter will be true if this action is being used
-// for an event. Due to their nature, events lack certain information, 
-// so edit the HTML to reflect this.
-//
-// The "data" parameter stores constants for select elements to use. 
-// Each is an array: index 0 for commands, index 1 for events.
-// The names are: sendTargets, members, roles, channels, 
-//                messages, servers, variables
-//---------------------------------------------------------------------
-
-html: function(isEvent, data) {
-	return `
+	html: function(isEvent ,data) {
+		return `
 <div>
 	<div style="float: left; width: 45%;">
 		Source Image:<br>
@@ -120,171 +119,169 @@ html: function(isEvent, data) {
 		Position Y:<br>
 		<input id="positiony" class="round" type="text" value="0"><br>
 	</div>
-</div>`
-},
+</div>`;
+	} ,
 
-//---------------------------------------------------------------------
-// Action Editor Init Code
-//
-// When the HTML is first applied to the action editor, this code
-// is also run. This helps add modifications or setup reactionary
-// functions for the DOM elements.
-//---------------------------------------------------------------------
+	//---------------------------------------------------------------------
+	// Action Editor Init Code
+	//
+	// When the HTML is first applied to the action editor, this code
+	// is also run. This helps add modifications or setup reactionary
+	// functions for the DOM elements.
+	//---------------------------------------------------------------------
 
-init: function() {
-	const {glob, document} = this;
-	
-	const position = document.getElementById('position');
-	const specific = document.getElementById('specific');
+	init: function() {
+		const { glob ,document } = this;
 
-	glob.onChange0 = function(event) {
-		if(parseInt(event.value) === 9) {
-			position.style.display = null;
-			specific.style.display = null;
-		} else {
-			position.style.display = "none";
-			specific.style.display = "none";
-		}
-	};
-	
-	glob.refreshVariableList(document.getElementById('storage'));
-	glob.onChange0(document.getElementById('align'));
-},
+		const position = document.getElementById("position");
+		const specific = document.getElementById("specific");
 
-//---------------------------------------------------------------------
-// Action Bot Function
-//
-// This is the function for the action within the Bot's Action class.
-// Keep in mind event calls won't have access to the "msg" parameter, 
-// so be sure to provide checks for variable existance.
-//---------------------------------------------------------------------
-
-action: function(cache) {
-	const Canvas = require('canvas');
-	const data = cache.actions[cache.index];
-	const storage = parseInt(data.storage);
-	const varName = this.evalMessage(data.varName, cache);
-	const imagedata = this.getVariable(storage, varName, cache);
-	if(!imagedata) {
-		this.callNextAction(cache);
-		return;
-	}
-	const image = new Canvas.Image();
-	image.src = imagedata;
-	let cropw = this.evalMessage(data.width, cache);
-	let croph = this.evalMessage(data.height, cache);
-	if (cropw.endsWith('%')) {
-		cropw = image.width * parseFloat(cropw) / 100;
-	} else {
-		cropw = parseFloat(cropw)
-	}
-	if (croph.endsWith('%')) {
-		croph = image.height * parseFloat(croph) / 100;
-	} else {
-		croph = parseFloat(croph);
-	}
-	const align = parseInt(data.align);
-	let positionx;
-	let positiony;
-	switch(align) {
-		case 0:
-			positionx = 0;
-			positiony = 0;
-			break;
-		case 1:
-			positionx = (cropw / 2) - (image.width / 2);
-			positiony = 0;
-			break;
-		case 2:
-			positionx = cropw - image.width;
-			positiony = 0;
-			break;
-		case 3:
-			positionx = 0;
-			positiony = (croph / 2) - (image.height / 2);
-			break;
-		case 4:
-			positionx = (cropw / 2) - (image.width / 2);
-			positiony = (croph / 2) - (image.height / 2);
-			break;
-		case 5:
-			positionx = cropw - image.width;
-			positiony = (croph / 2) - (image.height / 2);
-			break;
-		case 6:
-			positionx = 0;
-			positiony = croph - image.height;
-			break;
-		case 7:
-			positionx = (cropw / 2) - (image.width / 2);
-			positiony = croph - image.height;
-			break;
-		case 8:
-			positionx = cropw - image.width;
-			positiony = croph - image.height;
-			break;
-		case 9:
-			const align2 = parseInt(data.align2);
-			const pX = parseFloat(this.evalMessage(data.positionx, cache));
-			const pY = parseFloat(this.evalMessage(data.positiony, cache));
-			switch(align2) {
-				case 0:
-					positionx = -pX;
-					positiony = -pY;
-					break;
-				case 1:
-					positionx = -(pX - (cropw / 2));
-					positiony = -pY;
-					break;
-				case 2:
-					positionx = -(pX - cropw);
-					positiony = -pY;
-					break;
-				case 3:
-					positionx = -pX;
-					positiony = -(pY - (croph / 2));
-					break;
-				case 4:
-					positionx = -(pX - (cropw / 2));
-					positiony = -(pY - (croph / 2));
-					break;
-				case 5:
-					positionx = -(pX - cropw);
-					positiony = -(pY - (croph / 2));
-					break;
-				case 6:
-					positionx = -pX;
-					positiony = -(pY - croph);
-					break;
-				case 7:
-					positionx = -(pX - (cropw / 2));
-					positiony = -(pY - croph);
-					break;
-				case 8:
-					positionx = -(pX - cropw);
-					positiony = -(pY - croph);
-					break;
+		glob.onChange0 = function(event) {
+			if(parseInt(event.value) === 9) {
+				position.style.display = null;
+				specific.style.display = null;
+			} else {
+				position.style.display = "none";
+				specific.style.display = "none";
 			}
-			break;
-	}
-	const canvas = Canvas.createCanvas(cropw,croph);
-	const ctx = canvas.getContext('2d');
-	ctx.drawImage(image, positionx, positiony);
-	const result = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-	this.storeValue(result, storage, varName, cache);
-	this.callNextAction(cache);
-},
+		};
 
-//---------------------------------------------------------------------
-// Action Bot Mod
-//
-// Upon initialization of the bot, this code is run. Using the bot's
-// DBM namespace, one can add/modify existing functions if necessary.
-// In order to reduce conflictions between mods, be sure to alias
-// functions you wish to overwrite.
-//---------------------------------------------------------------------
+		glob.refreshVariableList(document.getElementById("storage"));
+		glob.onChange0(document.getElementById("align"));
+	} ,
 
-mod: function(DBM) {
-}
+	//---------------------------------------------------------------------
+	// Action Bot Function
+	//
+	// This is the function for the action within the Bot's Action class.
+	// Keep in mind event calls won't have access to the "msg" parameter,
+	// so be sure to provide checks for variable existance.
+	//---------------------------------------------------------------------
 
+	action: function(cache) {
+		const Canvas = require("canvas");
+		const data = cache.actions[cache.index];
+		const storage = parseInt(data.storage);
+		const varName = this.evalMessage(data.varName ,cache);
+		const imagedata = this.getVariable(storage ,varName ,cache);
+		if(!imagedata) {
+			this.callNextAction(cache);
+			return;
+		}
+		const image = new Canvas.Image();
+		image.src = imagedata;
+		let cropw = this.evalMessage(data.width ,cache);
+		let croph = this.evalMessage(data.height ,cache);
+		if (cropw.endsWith("%")) {
+			cropw = image.width * parseFloat(cropw) / 100;
+		} else {
+			cropw = parseFloat(cropw);
+		}
+		if (croph.endsWith("%")) {
+			croph = image.height * parseFloat(croph) / 100;
+		} else {
+			croph = parseFloat(croph);
+		}
+		const align = parseInt(data.align);
+		let positionx;
+		let positiony;
+		switch(align) {
+			case 0:
+				positionx = 0;
+				positiony = 0;
+				break;
+			case 1:
+				positionx = (cropw / 2) - (image.width / 2);
+				positiony = 0;
+				break;
+			case 2:
+				positionx = cropw - image.width;
+				positiony = 0;
+				break;
+			case 3:
+				positionx = 0;
+				positiony = (croph / 2) - (image.height / 2);
+				break;
+			case 4:
+				positionx = (cropw / 2) - (image.width / 2);
+				positiony = (croph / 2) - (image.height / 2);
+				break;
+			case 5:
+				positionx = cropw - image.width;
+				positiony = (croph / 2) - (image.height / 2);
+				break;
+			case 6:
+				positionx = 0;
+				positiony = croph - image.height;
+				break;
+			case 7:
+				positionx = (cropw / 2) - (image.width / 2);
+				positiony = croph - image.height;
+				break;
+			case 8:
+				positionx = cropw - image.width;
+				positiony = croph - image.height;
+				break;
+			case 9:
+				const align2 = parseInt(data.align2);
+				const pX = parseFloat(this.evalMessage(data.positionx ,cache));
+				const pY = parseFloat(this.evalMessage(data.positiony ,cache));
+				switch(align2) {
+					case 0:
+						positionx = -pX;
+						positiony = -pY;
+						break;
+					case 1:
+						positionx = -(pX - (cropw / 2));
+						positiony = -pY;
+						break;
+					case 2:
+						positionx = -(pX - cropw);
+						positiony = -pY;
+						break;
+					case 3:
+						positionx = -pX;
+						positiony = -(pY - (croph / 2));
+						break;
+					case 4:
+						positionx = -(pX - (cropw / 2));
+						positiony = -(pY - (croph / 2));
+						break;
+					case 5:
+						positionx = -(pX - cropw);
+						positiony = -(pY - (croph / 2));
+						break;
+					case 6:
+						positionx = -pX;
+						positiony = -(pY - croph);
+						break;
+					case 7:
+						positionx = -(pX - (cropw / 2));
+						positiony = -(pY - croph);
+						break;
+					case 8:
+						positionx = -(pX - cropw);
+						positiony = -(pY - croph);
+						break;
+				}
+				break;
+		}
+		const canvas = Canvas.createCanvas(cropw ,croph);
+		const ctx = canvas.getContext("2d");
+		ctx.drawImage(image ,positionx ,positiony);
+		const result = canvas.toDataURL("image/png").replace("image/png" ,"image/octet-stream");
+		this.storeValue(result ,storage ,varName ,cache);
+		this.callNextAction(cache);
+	} ,
+
+	//---------------------------------------------------------------------
+	// Action Bot Mod
+	//
+	// Upon initialization of the bot, this code is run. Using the bot's
+	// DBM namespace, one can add/modify existing functions if necessary.
+	// In order to reduce conflictions between mods, be sure to alias
+	// functions you wish to overwrite.
+	//---------------------------------------------------------------------
+
+	mod: function() {}
 }; // End of module
