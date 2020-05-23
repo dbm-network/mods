@@ -1,5 +1,4 @@
-module.exports = {
-	//---------------------------------------------------------------------
+module.exports = {	//---------------------------------------------------------------------
 	// Notes Section
 	//
 	// More Than 250 Members is deprecated please keep in mind its the #20 vaule. (do NOT remove) ~ Danno
@@ -10,12 +9,12 @@ module.exports = {
 	// 1.8.9:
 	// - Added fetchMembers to probably fix the membercount cause users weren't cached ~ Lasse
 	//
-	// 1.9.1: Change Log: ~ Danno3817 10/03/2018 - 
+	// 1.9.1: Change Log: ~ Danno3817 10/03/2018 -
 	// - Scraped store_server_info_MOD, every thing is moved here to store_server_info
 	// - Added Is Server Verified ~ Danno3817
 	//
 	// Missing 1.9.6 update text by Cap (stated on Case 43)
-	// 
+	//
 	// 1.9.7 ~ CoolGuy 02/17/2020:
 	// - converted 'action' function to async to support below. Wouldn't affect other actions in this list.
 	// - Had to restructure how switch cases were made to avoid already declared errors from occuring.
@@ -24,7 +23,7 @@ module.exports = {
 	//
 	//  Mindlesscargo 04/25/2020:
 	// - Added server boost count
-	// - Added server premium tier 
+	// - Added server premium tier
 	//
 	//---------------------------------------------------------------------
 
@@ -34,7 +33,7 @@ module.exports = {
 	// This is the name of the action displayed in the editor.
 	//---------------------------------------------------------------------
 
-	name: "Store Server Info",
+	name: "Store Server Info" ,
 
 	//---------------------------------------------------------------------
 	// Action Section
@@ -42,7 +41,7 @@ module.exports = {
 	// This is the section the action will fall into.
 	//---------------------------------------------------------------------
 
-	section: "Server Control",
+	section: "Server Control" ,
 
 	//---------------------------------------------------------------------
 	// Action Subtitle
@@ -52,11 +51,11 @@ module.exports = {
 
 	subtitle: function (data) {
 		const servers = [
-			'Current Server', 'Temp Variable', 'Server Variable', 'Global Variable'
+			"Current Server" ,"Temp Variable" ,"Server Variable" ,"Global Variable"
 		];
-		const info = ['Server Object', 'Server ID', 'Server Name', 'Server Name Acronym', 'Server Region', 'Server Icon URL', 'Server Verification Level', 'Server Default Channel', 'Server AFK Channel', 'Server System Channel', 'Server Default Role', 'Server Owner Member', 'Server Bot Member Object', 'Server Channel List', 'Server Role List', 'Server Member List', 'Server Emoji List', 'Server Member Count', 'Creation Date', 'Time To AFK', 'Is Server Available?', 'More than 250 members?', 'Date Bot Joined Server', 'Channel Amount', 'Emoji Amount', 'Embed Links', 'DND Members Count', 'Online Members Count (fixed)', 'Offline Members Count', 'Idle Members Count', 'Total Bots Count In Server', 'Server Channel IDs', 'Server Role IDs', 'Server Member IDs', 'Server Bot Member Count', 'Server Human Member Count', 'Server Member Count', 'Role Count', 'Text Channel Count', 'Voice Channel Count', 'Is Server Verified?', 'Banned Users List', 'Invite List', 'Server Explicit Content Filter', 'Server Booster Count', 'Server Premium Tier'];
+		const info = ["Server Object" ,"Server ID" ,"Server Name" ,"Server Name Acronym" ,"Server Region" ,"Server Icon URL" ,"Server Verification Level" ,"Server Default Channel" ,"Server AFK Channel" ,"Server System Channel" ,"Server Default Role" ,"Server Owner Member" ,"Server Bot Member Object" ,"Server Channel List" ,"Server Role List" ,"Server Member List" ,"Server Emoji List" ,"Server Member Count" ,"Creation Date" ,"Time To AFK" ,"Is Server Available?" ,"More than 250 members?" ,"Date Bot Joined Server" ,"Channel Amount" ,"Emoji Amount" ,"Embed Links" ,"DND Members Count" ,"Online Members Count (fixed)" ,"Offline Members Count" ,"Idle Members Count" ,"Total Bots Count In Server" ,"Server Channel IDs" ,"Server Role IDs" ,"Server Member IDs" ,"Server Bot Member Count" ,"Server Human Member Count" ,"Server Member Count" ,"Role Count" ,"Text Channel Count" ,"Voice Channel Count" ,"Is Server Verified?" ,"Banned Users List" ,"Invite List" ,"Server Explicit Content Filter" ,"Server Booster Count" ,"Server Premium Tier"];
 		return `${servers[parseInt(data.server)]} - ${info[parseInt(data.info)]}`;
-	},
+	} ,
 
 	//---------------------------------------------------------------------
 	// DBM Mods Manager Variables (Optional but nice to have!)
@@ -66,15 +65,16 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "Lasse, EGGSY, EliteArtz, Danno3817, ACertainCoder, Cap, & CoolGuy",
+	author: "Lasse, EGGSY, EliteArtz, Danno3817, ACertainCoder, Cap, & CoolGuy" ,
 
 	// The version of the mod (Defaults to 1.0.0)
-	version: "1.9.7", // added in 1.9.1
+	version: "1.9.7" , // added in 1.9.1
 
 	// A short description to show on the mod line for this mod (Must be on a single line)
-	short_description: "Stores Server Information",
+	short_description: "Stores Server Information" ,
 
 	// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
+	// depends_on_mods: ["WrexMODS"],
 
 	//---------------------------------------------------------------------
 
@@ -84,103 +84,103 @@ module.exports = {
 	// Stores the relevant variable info for the editor.
 	//---------------------------------------------------------------------
 
-	variableStorage: function (data, varType) {
+	variableStorage: function (data ,varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		const info = parseInt(data.info);
-		let dataType = 'Unknown Type';
+		let dataType = "Unknown Type";
 		switch (info) {
-			case 0: { // Object
-				dataType = 'Guild Object';
-				break; }
-			case 1: { // ID
-				dataType = 'Guild ID';
-				break; }
-			case 2: {} // Name
-			case 3: {} // Name Acronym
-			case 4: { // Region
-				dataType = 'Text';
-				break; }
-			case 5: { // Icon URL
-				dataType = 'Image URL';
-				break; }
-			case 6: {} // Verification Level
-			case 43: {} // Explicit Content Filter. Added by Cap in 1.9.6
-			case 17: {} // Server Member Count
-			case 19: {} // Time To AFK
-			case 23: {} // Channel Amount.
-			case 24: {} // Emoji Amount.
-			case 26: {} // DND Members Count.
-			case 27: {} // Online Members Count. (fixed)
-			case 28: {} // Offline Members Count.
-			case 29: {} // Idle Members Count.
-			case 30: {} // Total Bots Count In Server.
-			case 34: {} // Server Bot Member Count.
-			case 35: {} // Server Human Member Count.
-			case 36: {} // Server Member Count. //Added by Lasse in 
-			case 37: {} // Role Count.
-			case 38: {} // Text Channel
+			case 0: // Object
+				dataType = "Guild Object";
+				break;
+			case 1: // ID
+				dataType = "Guild ID";
+				break;
+			case 2: // Name
+			case 3: // Name Acronym
+			case 4: // Region
+				dataType = "Text";
+				break;
+			case 5: // Icon URL
+				dataType = "Image URL";
+				break;
+			case 6:  // Verification Level
+			case 43: // Explicit Content Filter. Added by Cap in 1.9.6
+			case 17: // Server Member Count
+			case 19: // Time To AFK
+			case 23: // Channel Amount.
+			case 24: // Emoji Amount.
+			case 26: // DND Members Count.
+			case 27: // Online Members Count. (fixed)
+			case 28: // Offline Members Count.
+			case 29: // Idle Members Count.
+			case 30: // Total Bots Count In Server.
+			case 34: // Server Bot Member Count.
+			case 35: // Server Human Member Count.
+			case 36: // Server Member Count. //Added by Lasse in
+			case 37: // Role Count.
+			case 38: // Text Channel
 			case 39: { // Voice Channel
-				dataType = 'Number';
+				dataType = "Number";
 				break; }
-			case 7: {} // Default Channel
-			case 8: {} // AFK Channel
-			case 9: { // System Channel
-				dataType = 'Channel';
-				break; }
-			case 10: { // Default Role
-				dataType = 'Role';
-				break; }
-			case 11: {} // Owner Member
-			case 12: { // Bot Member Object
-				dataType = 'Guild Member';
-				break; }
-			case 13: { // Channel List
-				dataType = 'List';
-				break; }
-			case 14: { // Role List
-				dataType = 'List';
-				break; }
-			case 15: { // Member List
-				dataType = 'List';
-				break; }
-			case 16: { // Emoji List
-				dataType = 'List';
-				break; }
-			case 18: {} // Creation Date
-			case 22: { // Date bot Joined Server.
+			case 7: // Default Channel
+			case 8: // AFK Channel
+			case 9: // System Channel
+				dataType = "Channel";
+				break;
+			case 10: // Default Role
+				dataType = "Role";
+				break;
+			case 11: // Owner Member
+			case 12: // Bot Member Object
+				dataType = "Guild Member";
+				break;
+			case 13: // Channel List
+				dataType = "List";
+				break;
+			case 14: // Role List
+				dataType = "List";
+				break;
+			case 15: // Member List
+				dataType = "List";
+				break;
+			case 16: // Emoji List
+				dataType = "List";
+				break;
+			case 18: // Creation Date
+			case 22: // Date bot Joined Server.
 				dataType = "Date";
-				break; }
-			case 20: {} // Is Server Avilable?
-			case 21: {} // More Than 250 Members? //Deprecated in v1.8.5
-			case 25: { // Embed Links.
+				break;
+			case 20: // Is Server Avilable?
+			case 21: // More Than 250 Members? //Deprecated in v1.8.5
+			case 25: // Embed Links.
 				dataType = "Boolean";
-				break; }
-			case 31: { // Server Channel IDs.
-				dataType = 'List';
-				break; }
-			case 32: { // Server Roles IDs.
-				dataType = 'List';
-				break; }
-			case 33: { // Server Member IDs.
-				dataType = 'List';
-				break; }
-			case 40: { // Verified?
-				dataType = 'Boolean';
-				break; }
-			case 41: {} //	Collection of banned users
-			case 42: { //	Collection of guild invites
-				dataType = 'List';
-                		break; }
-            		case 44: { // Server Boost Count
-                		dataType = 'Number';
-                		break; }
-            		case 45: { // Server Premium Tier
-                		dataType = 'Number';
-                		break; } 
-        }
-		return ([data.varName2, dataType]);
-	},
+				break;
+			case 31: // Server Channel IDs.
+				dataType = "List";
+				break;
+			case 32: // Server Roles IDs.
+				dataType = "List";
+				break;
+			case 33: // Server Member IDs.
+				dataType = "List";
+				break;
+			case 40: // Verified?
+				dataType = "Boolean";
+				break;
+			case 41: // Collection of banned users
+			case 42: //	Collection of guild invites
+				dataType = "List";
+				break;
+			case 44: // Server Boost Count
+				dataType = "Number";
+				break;
+			case 45: // Server Premium Tier
+				dataType = "Number";
+				break;
+		}
+		return ([data.varName2 ,dataType]);
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Fields
@@ -190,25 +190,25 @@ module.exports = {
 	// are also the names of the fields stored in the action's JSON data.
 	//---------------------------------------------------------------------
 
-	fields: ["server", "varName", "info", "storage", "varName2"],
+	fields: ["server" ,"varName" ,"info" ,"storage" ,"varName2"] ,
 
 	//---------------------------------------------------------------------
 	// Command HTML
 	//
 	// This function returns a string containing the HTML used for
-	// editting actions. 
+	// editting actions.
 	//
 	// The "isEvent" parameter will be true if this action is being used
-	// for an event. Due to their nature, events lack certain information, 
+	// for an event. Due to their nature, events lack certain information,
 	// so edit the HTML to reflect this.
 	//
-	// The "data" parameter stores constants for select elements to use. 
+	// The "data" parameter stores constants for select elements to use.
 	// Each is an array: index 0 for commands, index 1 for events.
-	// The names are: sendTargets, members, roles, channels, 
+	// The names are: sendTargets, members, roles, channels,
 	//                messages, servers, variables
 	//---------------------------------------------------------------------
 
-	html: function (isEvent, data) {
+	html: function (isEvent ,data) {
 		return `
 		<div><p>This action has been modified by DBM Mods.</p></div><br>
 		<div>
@@ -274,7 +274,7 @@ module.exports = {
 						<option value="23">Channel Amount</option>
 						<option value="38">Text Channel Count</option>
 						<option value="39">Voice Channel Count</option>
-					</optgroup>			
+					</optgroup>
 					<optgroup label="Other">
 						<option value="40">Is Server Verified?</option>
 						<option value="19">Time User gets AFK</option>
@@ -285,8 +285,8 @@ module.exports = {
                         			<option value="42">Invite List</option>
                         			<option value="44">Server Boost Count</option>
                         			<option value="45">Server Boost Tier</option>
-					</optgroup>				
-					<!--<option value="21">More Than 250 Members?</option>-->				
+					</optgroup>
+					<!--<option value="21">More Than 250 Members?</option>-->
 				</select>
 			</div>
 		</div><br>
@@ -301,8 +301,8 @@ module.exports = {
 				Variable Name:<br>
 				<input id="varName2" class="round" type="text"><br>
 			</div>
-		</div>`
-	},
+		</div>`;
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Editor Init Code
@@ -313,109 +313,109 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	init: function () {
-		const { glob, document } = this;
+		const { glob ,document } = this;
 
-		glob.serverChange(document.getElementById('server'), 'varNameContainer')
-	},
+		glob.serverChange(document.getElementById("server") ,"varNameContainer");
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Bot Function
 	//
 	// This is the function for the action within the Bot's Action class.
-	// Keep in mind event calls won't have access to the "msg" parameter, 
+	// Keep in mind event calls won't have access to the "msg" parameter,
 	// so be sure to provide checks for variable existance.
 	//---------------------------------------------------------------------
 
 	action: async function (cache) {
 		const data = cache.actions[cache.index];
 		const server = parseInt(data.server);
-		const varName = this.evalMessage(data.varName, cache);
+		const varName = this.evalMessage(data.varName ,cache);
 		const info = parseInt(data.info);
-		const targetServer = this.getServer(server, varName, cache);
+		const targetServer = this.getServer(server ,varName ,cache);
 		if (!targetServer) {
 			this.callNextAction(cache);
 			return;
 		}
 		let result;
 		switch (info) {
-			case 0: { // Object
+			case 0: // Object
 				result = targetServer;
-				break; }
-			case 1: { // ID
+				break;
+			case 1: // ID
 				result = targetServer.id;
-				break; }
-			case 2: { // Name
+				break;
+			case 2: // Name
 				result = targetServer.name;
-				break; }
-			case 3: { // Name Acronym
+				break;
+			case 3: // Name Acronym
 				result = targetServer.nameAcronym;
-				break; }
-			case 4: { // Region
+				break;
+			case 4: // Region
 				result = targetServer.region;
-				break; }
-			case 5: { // Icon URL
+				break;
+			case 5: // Icon URL
 				result = targetServer.iconURL;
-				break; }
-			case 6: { // Verification Level
+				break;
+			case 6: // Verification Level
 				result = targetServer.verificationLevel;
-				break; }
-			case 7: { // Default Channel. This is now deprecated.
+				break;
+			case 7: // Default Channel. This is now deprecated.
 				result = targetServer.defaultChannel;
-				break; }
-			case 8: { // AFK Channel
+				break;
+			case 8: // AFK Channel
 				result = targetServer.afkChannel;
-				break; }
-			case 9: { // System Channel
+				break;
+			case 9: // System Channel
 				result = targetServer.systemChannel;
-				break; }
-			case 10: { // Default Role
+				break;
+			case 10: // Default Role
 				result = targetServer.defaultRole;
-				break; }
-			case 11: { // Owner Member
+				break;
+			case 11: // Owner Member
 				result = targetServer.owner;
-				break; }
-			case 12: { // Bot Member
+				break;
+			case 12: // Bot Member
 				result = targetServer.me;
-				break; }
-			case 13: { // Channel List
+				break;
+			case 13: // Channel List
 				result = targetServer.channels.array();
-				break; }
-			case 14: { // Role List
+				break;
+			case 14: // Role List
 				result = targetServer.roles.array();
-				break; }
-			case 15: { // Member List
+				break;
+			case 15: // Member List
 				result = targetServer.members.array();
-				break; }
-			case 16: { // Emoji List
+				break;
+			case 16: // Emoji List
 				result = targetServer.emojis.array();
-				break; }
-			case 17: { // Member Count
+				break;
+			case 17: // Member Count
 				result = targetServer.members.size;
-				break; }
-			case 18: { // Creation Date.
+				break;
+			case 18: // Creation Date.
 				result = targetServer.createdAt;
-				break; }
-			case 19: { // Time To AFK.
+				break;
+			case 19: // Time To AFK.
 				result = targetServer.afkTimeout;
-				break; }
-			case 20: { // Is Server Avilable?
+				break;
+			case 20: // Is Server Avilable?
 				result = targetServer.available;
-				break; }
-			case 21: { // More Than 250 Members? // Deprecated in v1.8.5
+				break;
+			case 21: // More Than 250 Members? // Deprecated in v1.8.5
 				result = targetServer.large;
-				break; }
-			case 22: { // Date bot Joined Server.
+				break;
+			case 22: // Date bot Joined Server.
 				result = targetServer.joinedAt;
-				break; }
-			case 23: { // Channel Amount.
+				break;
+			case 23: // Channel Amount.
 				result = targetServer.channels.array().length;
-				break; }
-			case 24: { // Emoji Amount.
+				break;
+			case 24: // Emoji Amount.
 				result = targetServer.emojis.array().length;
-				break; }
-			case 25: { // Embed Links.
+				break;
+			case 25: // Embed Links.
 				result = targetServer.embedEnabled;
-				break; }
+				break;
 			case 26: { // DND Members Count.
 				if (targetServer.memberCount !== targetServer.members.size) {
 					await targetServer.fetchMembers(); // ensures it fetches. updated to await in 1.9.7
@@ -498,23 +498,23 @@ module.exports = {
 				break; }
 			case 43: { // Explicit Content Filter. Added by Cap in 1.9.6
 				result = targetServer.explicitContentFilter;
-                		break; }
-            		case 44: {
-                		result = targetServer.premiumSubscriptionCount || 0;
-                		break; }
-            		case 45: {
-                		result = targetServer.premiumTier || 0;
-                		break; }
+				break; }
+			case 44: {
+				result = targetServer.premiumSubscriptionCount || 0;
+				break; }
+			case 45: {
+				result = targetServer.premiumTier || 0;
+				break; }
 			default: { // Fixed Spacing. Fixed in 1.9.7
 				break; }
-		};
+		}
 		if (result !== undefined) {
 			const storage = parseInt(data.storage);
-			const varName2 = this.evalMessage(data.varName2, cache);
-			this.storeValue(result, storage, varName2, cache);
-		};
+			const varName2 = this.evalMessage(data.varName2 ,cache);
+			this.storeValue(result ,storage ,varName2 ,cache);
+		}
 		this.callNextAction(cache);
-	},
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Bot Mod
@@ -525,6 +525,5 @@ module.exports = {
 	// functions you wish to overwrite.
 	//---------------------------------------------------------------------
 
-	mod: function (DBM) {
-	}
+	mod: function () {}
 }; // End of module

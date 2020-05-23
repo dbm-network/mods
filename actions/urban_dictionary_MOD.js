@@ -1,12 +1,11 @@
 module.exports = {
-
 	//---------------------------------------------------------------------
 	// Action Name
 	//
 	// This is the name of the action displayed in the editor.
 	//---------------------------------------------------------------------
 
-	name: "Urban Dictionary Search",
+	name: "Urban Dictionary Search" ,
 
 	//---------------------------------------------------------------------
 	// Action Section
@@ -14,7 +13,7 @@ module.exports = {
 	// This is the section the action will fall into.
 	//---------------------------------------------------------------------
 
-	section: "Other Stuff",
+	section: "Other Stuff" ,
 
 	//---------------------------------------------------------------------
 	// Action Subtitle
@@ -23,9 +22,9 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	subtitle: function (data) {
-		const info = ['Definition', 'Result URL', 'Example', 'Thumbs Up Count', 'Thumbs Down Count', 'Author', 'Result ID', 'Tags'];
+		const info = ["Definition" ,"Result URL" ,"Example" ,"Thumbs Up Count" ,"Thumbs Down Count" ,"Author" ,"Result ID" ,"Tags"];
 		return `${info[parseInt(data.info)]}`;
-	},
+	} ,
 
 	//---------------------------------------------------------------------
 	// DBM Mods Manager Variables (Optional but nice to have!)
@@ -35,15 +34,16 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "EGGSY",
+	author: "EGGSY" ,
 
 	// The version of the mod (Defaults to 1.0.0)
-	version: "1.8.8", //Added in 1.8.8
+	version: "1.8.8" , //Added in 1.8.8
 
 	// A short description to show on the mod line for this mod (Must be on a single line)
-	short_description: "Makes a Urban Dictionary search and gets informations.",
+	short_description: "Makes a Urban Dictionary search and gets informations." ,
 
 	// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
+	// depends_on_mods: ["WrexMODS"],
 
 
 	//---------------------------------------------------------------------
@@ -54,11 +54,11 @@ module.exports = {
 	// Stores the relevant variable info for the editor.
 	//---------------------------------------------------------------------
 
-	variableStorage: function (data, varType) {
+	variableStorage: function (data ,varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		const info = parseInt(data.info);
-		let dataType = 'Unknown Urban Dictionary Result';
+		let dataType = "Unknown Urban Dictionary Result";
 		switch (info) {
 			case 0:
 				dataType = "U.D. Definition";
@@ -82,8 +82,8 @@ module.exports = {
 				dataType = "U.D. Result ID";
 				break;
 		}
-		return ([data.varName, dataType]);
-	},
+		return ([data.varName ,dataType]);
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Fields
@@ -93,7 +93,7 @@ module.exports = {
 	// are also the names of the fields stored in the action's JSON data.
 	//---------------------------------------------------------------------
 
-	fields: ["string", "info", "storage", "varName"],
+	fields: ["string" ,"info" ,"storage" ,"varName"] ,
 
 	//---------------------------------------------------------------------
 	// Command HTML
@@ -111,7 +111,7 @@ module.exports = {
 	//                messages, servers, variables
 	//---------------------------------------------------------------------
 
-	html: function (isEvent, data) {
+	html: function (isEvent ,data) {
 		return `
 <div style="width: 550px; height: 350px; overflow-y: scroll;">
 		<div>
@@ -148,8 +148,8 @@ module.exports = {
 			<input id="varName" class="round" type="text"><br>
 		</div>
 	</div>
-</div>`
-	},
+</div>`;
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Editor Init Code
@@ -160,9 +160,9 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	init: function () {
-		const { glob, document } = this;
-		glob.variableChange(document.getElementById('storage'), 'varNameContainer');
-	},
+		const { glob ,document } = this;
+		glob.variableChange(document.getElementById("storage") ,"varNameContainer");
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Bot Function
@@ -175,7 +175,7 @@ module.exports = {
 	action: function (cache) {
 		const data = cache.actions[cache.index];
 		const info = parseInt(data.info);
-		const string = this.evalMessage(data.string, cache);
+		const string = this.evalMessage(data.string ,cache);
 
 		// Check if everything is ok:
 		if (!string) return console.log("Please write something to search on Urban Dictionary.");
@@ -183,7 +183,7 @@ module.exports = {
 		// Main code:
 		var _this = this; // This is needed most of the times; no one knows why!
 		const WrexMODS = this.getWrexMods(); // as always.
-		const urban = WrexMODS.require('urban'); // WrexMODS'll automatically try to install the module if you run it with CMD/PowerShell.
+		const urban = WrexMODS.require("urban"); // WrexMODS'll automatically try to install the module if you run it with CMD/PowerShell.
 
 		urban(`${string}`).first(function (results) {
 			if (!results) return _this.callNextAction(cache); // this will call next action and won't kill your bot process if there is no result.
@@ -215,12 +215,12 @@ module.exports = {
 			// Storing:
 			if (result !== undefined) {
 				const storage = parseInt(data.storage);
-				const varName2 = _this.evalMessage(data.varName, cache);
-				_this.storeValue(result, storage, varName2, cache);
+				const varName2 = _this.evalMessage(data.varName ,cache);
+				_this.storeValue(result ,storage ,varName2 ,cache);
 			}
 			_this.callNextAction(cache);
 		});
-	},
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Bot Mod

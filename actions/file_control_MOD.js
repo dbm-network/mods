@@ -2,36 +2,36 @@
  * @class FileControl
  */
 class FileControl {
-  /**
+	/**
    *Creates an instance of FileControl.
    * @param {*} params
    */
-  constructor(params) {
-    this.name = 'File Control';
-    this.DVN = '4.3.9';
-    this.displayName = `File Control V${this.DVN}`;
-    this.section = 'File Stuff';
-    this.author = ['Danno3817', 'EliteArtz', 'Eggsy', 'General Wrex', 'RigidStudios'];
-    this.version = '1.9.6';
-    this.short_description = "This mod allows you to interact with files & directories. Please be careful when using this action. If you delete a file there's no going back";
-    this.fields = ["input", "format", "filename", "filepath", "filetask", "input2"];
-  }
+	constructor(params) {
+		this.name = "File Control";
+		this.DVN = "4.3.9";
+		this.displayName = `File Control V${this.DVN}`;
+		this.section = "File Stuff";
+		this.author = ["Danno3817" ,"EliteArtz" ,"Eggsy" ,"General Wrex" ,"RigidStudios"];
+		this.version = "1.9.6";
+		this.short_description = "This mod allows you to interact with files & directories. Please be careful when using this action. If you delete a file there's no going back";
+		this.fields = ["input" ,"format" ,"filename" ,"filepath" ,"filetask" ,"input2"];
+	}
 
 
 
-  /**
+	/**
    * Action Subtitle
    *
    * This function generates the subtitle displayed next to the name.
    * @param {*} data
    * @returns
    */
-  subtitle(data) {
-    const filetasks = ['Create', 'Write', 'Append into', 'Delete', 'Insert into'];
-    return `${filetasks[parseInt(data.filetask)]} ${data.filename}${data.format}`;
-  }
+	subtitle(data) {
+		const filetasks = ["Create" ,"Write" ,"Append into" ,"Delete" ,"Insert into"];
+		return `${filetasks[parseInt(data.filetask)]} ${data.filename}${data.format}`;
+	}
 
-  /**
+	/**
    * Command HTML
    *
    * This function returns a string containing the HTML used for
@@ -51,8 +51,8 @@ class FileControl {
    * @param {*} data
    * @returns
    */
-  html(isEvent, data) {
-    return `
+	html(isEvent ,data) {
+		return `
       <style>
         /* Most of this style inspired by EliteArtz & General Wrex */
         ::-webkit-scrollbar {
@@ -96,7 +96,7 @@ class FileControl {
         <div class="container">
           <div class="ui teal segment" style="background: inherit;">
             <p>${this.short_description}</p>
-            <p>Made by: <b>${this.author.join(' ')}</b><br>Version: ${this.version} | DVN: ${this.DVN}</p>
+            <p>Made by: <b>${this.author.join(" ")}</b><br>Version: ${this.version} | DVN: ${this.DVN}</p>
           </div>
         </div>
 
@@ -153,42 +153,42 @@ class FileControl {
           </div>
         </div>
       </div>
-    </div>`
-  }
+    </div>`;
+	}
 
-  /**
+	/**
    * Action Editor Init Code
    *
    * When the HTML is first applied to the action editor, this code
    * is also run. This helps add modifications or setup reactionary
    * functions for the DOM elements.
    */
-  init() {
-    const { glob, document } = this;
+	init() {
+		const { glob ,document } = this;
 
-    let selector = document.getElementById('filetask');
-    let targetfield = document.getElementById('inputArea');
-    let targetfield2 = document.getElementById('lineInsert');
+		let selector = document.getElementById("filetask");
+		let targetfield = document.getElementById("inputArea");
+		let targetfield2 = document.getElementById("lineInsert");
 
-      selector.onclick = () => showInput();
+		selector.onclick = () => showInput();
 
-    function showInput() {
-        let selected = selector[selector.selectedIndex].value
-      if (selected === "0" || selected === "3") {     // Hides "Input Text"
-        targetfield.classList.add("hidden");
-      } else {
-        targetfield.classList.remove("hidden");
-      }
-      if (selected === "0" || selected === "1" || selected === "2" || selected === "3") {     // Hides "Line to Insert at"
-        targetfield2.classList.add("hidden");
-      } else {
-        targetfield2.classList.remove("hidden");
-      }
-    }
-  }
+		function showInput() {
+			let selected = selector[selector.selectedIndex].value;
+			if (selected === "0" || selected === "3") {     // Hides "Input Text"
+				targetfield.classList.add("hidden");
+			} else {
+				targetfield.classList.remove("hidden");
+			}
+			if (selected === "0" || selected === "1" || selected === "2" || selected === "3") {     // Hides "Line to Insert at"
+				targetfield2.classList.add("hidden");
+			} else {
+				targetfield2.classList.remove("hidden");
+			}
+		}
+	}
 
 
-  /**
+	/**
    * Action Bot Function
    *
    * This is the function for the action within the Bots Action class.
@@ -197,95 +197,95 @@ class FileControl {
    * so be sure to provide checks for variable existence.
    * @param {*} cache
    */
-  action(cache) {
-    const fs = require('fs');
-    const path = require('path');
+	action(cache) {
+		const fs = require("fs");
+		const path = require("path");
 
-    const WrexMODS = this.getWrexMods();
-    const mkdirp = WrexMODS.require('mkdirp');
-    const insertLine = WrexMODS.require('insert-line');
+		const WrexMODS = this.getWrexMods();
+		const mkdirp = WrexMODS.require("mkdirp");
+		const insertLine = WrexMODS.require("insert-line");
 
-    const data = cache.actions[cache.index];
-    const dirName = path.normalize(this.evalMessage(data.filepath, cache));
-    const fileName = this.evalMessage(data.filename, cache);
-    const line = parseInt(this.evalMessage(data.input2, cache));
+		const data = cache.actions[cache.index];
+		const dirName = path.normalize(this.evalMessage(data.filepath ,cache));
+		const fileName = this.evalMessage(data.filename ,cache);
+		const line = parseInt(this.evalMessage(data.input2 ,cache));
 
 
-    var fpath = path.join (dirName, fileName + data.format);
-    var task = parseInt(data.filetask);
-    var itext = this.evalMessage(data.input, cache);
+		var fpath = path.join (dirName ,fileName + data.format);
+		var task = parseInt(data.filetask);
+		var itext = this.evalMessage(data.input ,cache);
 
-    const lmg = 'Something went wrong while';
+		const lmg = "Something went wrong while";
 
-    let result
-    switch (task) {
-      case 0: // Create File
-        result = async () => {
-          if (fileName === '') return this.callNextAction(cache);
-          fs.writeFileSync(fpath, "", (err) => {
-            if (err) return console.log(`${lmg} creating: [${err}]`);
-          });
-        }
-        break;
-      case 1: // Write File
-        result = () => {
-          if (fileName === '') throw new Error('File Name not Provided:');
-          fs.writeFileSync(fpath, itext, (err) => {
-            if (err) return console.log(`${lmg} writing: [${err}]`);
-          });
-        }
-        break;
+		let result;
+		switch (task) {
+			case 0: // Create File
+				result = async () => {
+					if (fileName === "") return this.callNextAction(cache);
+					fs.writeFileSync(fpath ,"" ,(err) => {
+						if (err) return console.log(`${lmg} creating: [${err}]`);
+					});
+				};
+				break;
+			case 1: // Write File
+				result = () => {
+					if (fileName === "") throw new Error("File Name not Provided:");
+					fs.writeFileSync(fpath ,itext ,(err) => {
+						if (err) return console.log(`${lmg} writing: [${err}]`);
+					});
+				};
+				break;
 
-      case 2: // Append File
-        result = () => {
-          if (fileName === '') throw new Error('File Name not Provided:');
-          fs.appendFileSync(fpath, itext + '\r\n', (err) => {
-            if (err) return console.log(`${lmg} appending: [${err}]`);
-          });
-        }
-        break;
+			case 2: // Append File
+				result = () => {
+					if (fileName === "") throw new Error("File Name not Provided:");
+					fs.appendFileSync(fpath ,itext + "\r\n" ,(err) => {
+						if (err) return console.log(`${lmg} appending: [${err}]`);
+					});
+				};
+				break;
 
-      case 4: // Insert Line to File
-        result = () => {
-          if (fileName === '') throw new Error('File Name not Provided:');
-          insertLine(fpath).content(itext).at(line).then(function(err) {
-            if (err) return console.log(`${lmg} inserting: [${err}]`);
-          });
-        }
-        break;
+			case 4: // Insert Line to File
+				result = () => {
+					if (fileName === "") throw new Error("File Name not Provided:");
+					insertLine(fpath).content(itext).at(line).then(function(err) {
+						if (err) return console.log(`${lmg} inserting: [${err}]`);
+					});
+				};
+				break;
 
-      case 3: // Delete File
-        result = () => fs.unlink(fpath, (err) => {
-          if (!fs.existsSync(dirName)) this.callNextAction(cache);
-          if (err) return console.log(`${lmg} deleting: [${err}]`);
-        });
-        break;
-    }
+			case 3: // Delete File
+				result = () => fs.unlink(fpath ,(err) => {
+					if (!fs.existsSync(dirName)) this.callNextAction(cache);
+					if (err) return console.log(`${lmg} deleting: [${err}]`);
+				});
+				break;
+		}
 
-    function ensureDirExists(dirPath, cb) {
-      let dirname = path.normalize(dirPath);
-      if (!fs.existsSync(dirname)) {
-        mkdirp(dirname, { recursive: true }, cb);
-        return true;
-      }else {
-        cb(null, "");
-        return false;
-      }
-    }
+		function ensureDirExists(dirPath ,cb) {
+			let dirname = path.normalize(dirPath);
+			if (!fs.existsSync(dirname)) {
+				mkdirp(dirname ,{ recursive: true } ,cb);
+				return true;
+			}else {
+				cb(null ,"");
+				return false;
+			}
+		}
 
-    try{
-      if (dirName) {
-        ensureDirExists(dirName, result);
-      } else {
-        throw new Error('you did not set a file path, please go back and check your work.');
-      }
-    } catch (err) {
-      return console.error(`ERROR ${err.stack ? err.stack : err}`);
-    }
-    this.callNextAction(cache);
-  }
+		try{
+			if (dirName) {
+				ensureDirExists(dirName ,result);
+			} else {
+				throw new Error("you did not set a file path, please go back and check your work.");
+			}
+		} catch (err) {
+			return console.error(`ERROR ${err.stack ? err.stack : err}`);
+		}
+		this.callNextAction(cache);
+	}
 
-  /**
+	/**
    * Action Bot Mod
    *
    * Upon initialization of the bot, this code is run. Using the bots
@@ -295,7 +295,7 @@ class FileControl {
    * functions you wish to overwrite.
    * @param {*} DBM
    */
-  mod(DBM) {
-  }
+	mod(DBM) {
+	}
 }
 module.exports = new FileControl();

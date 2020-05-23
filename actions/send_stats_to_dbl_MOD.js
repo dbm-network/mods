@@ -1,12 +1,11 @@
 module.exports = {
-
 	//---------------------------------------------------------------------
 	// Action Name
 	//
 	// This is the name of the action displayed in the editor.
 	//---------------------------------------------------------------------
 
-	name: "Sends Stats to DBL",
+	name: "Sends Stats to DBL" ,
 
 	//---------------------------------------------------------------------
 	// Action Section
@@ -14,7 +13,7 @@ module.exports = {
 	// This is the section the action will fall into.
 	//---------------------------------------------------------------------
 
-	section: "Other Stuff",
+	section: "Other Stuff" ,
 
 	//---------------------------------------------------------------------
 	// Action Subtitle
@@ -23,9 +22,9 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	subtitle: function (data) {
-		const info = ['Only Server Count', 'Shard & Server Count'];
+		const info = ["Only Server Count" ,"Shard & Server Count"];
 		return `Send ${info[parseInt(data.info)]} to DBL!`;
-	},
+	} ,
 
 	//---------------------------------------------------------------------
 	// DBM Mods Manager Variables (Optional but nice to have!)
@@ -35,15 +34,16 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "EGGSY",
+	author: "EGGSY" ,
 
 	// The version of the mod (Defaults to 1.0.0)
-	version: "1.9.2", //Added in 1.8.9
+	version: "1.9.2" , //Added in 1.8.9
 
 	// A short description to show on the mod line for this mod (Must be on a single line)
-	short_description: "Send bot stats to Discord Bot List!",
+	short_description: "Send bot stats to Discord Bot List!" ,
 
 	// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
+	// depends_on_mods: ["WrexMODS"],
 
 	//---------------------------------------------------------------------
 	// Action Storage Function
@@ -61,25 +61,25 @@ module.exports = {
 	// are also the names of the fields stored in the action's JSON data.
 	//---------------------------------------------------------------------
 
-	fields: ["dblToken", "info"],
+	fields: ["dblToken" ,"info"] ,
 
 	//---------------------------------------------------------------------
 	// Command HTML
 	//
 	// This function returns a string containing the HTML used for
-	// editting actions. 
+	// editting actions.
 	//
 	// The "isEvent" parameter will be true if this action is being used
-	// for an event. Due to their nature, events lack certain information, 
+	// for an event. Due to their nature, events lack certain information,
 	// so edit the HTML to reflect this.
 	//
-	// The "data" parameter stores constants for select elements to use. 
+	// The "data" parameter stores constants for select elements to use.
 	// Each is an array: index 0 for commands, index 1 for events.
-	// The names are: sendTargets, members, roles, channels, 
+	// The names are: sendTargets, members, roles, channels,
 	//                messages, servers, variables
 	//---------------------------------------------------------------------
 
-	html: function (isEvent, data) {
+	html: function (isEvent ,data) {
 		return `
 <div id="modinfo">
 	<p>
@@ -101,8 +101,8 @@ module.exports = {
 		• Do not send anything about shards if you don't shard your bot, otherwise it'll crash your bot!
 	</p>
 	</div>
-</div>`
-	},
+</div>`;
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Editor Init Code
@@ -113,39 +113,39 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	init: function () {
-	},
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Bot Function
 	//
 	// This is the function for the action within the Bot's Action class.
-	// Keep in mind event calls won't have access to the "msg" parameter, 
+	// Keep in mind event calls won't have access to the "msg" parameter,
 	// so be sure to provide checks for variable existance.
 	//---------------------------------------------------------------------
 
 	action: function (cache) {
-		const data = cache.actions[cache.index],
-			token = this.evalMessage(data.dblToken, cache),
-			info = parseInt(data.info),
+		const data = cache.actions[cache.index] ,
+			token = this.evalMessage(data.dblToken ,cache) ,
+			info = parseInt(data.info) ,
 			snek = require("snekfetch");
 
 		switch (info) {
 			case 0:
 				snek.post(`https://top.gg/api/bots/${this.getDBM().Bot.bot.user.id}/stats`)
-					.set("Authorization", token)
+					.set("Authorization" ,token)
 					.send({ server_count: this.getDBM().Bot.bot.guilds.size })
-					.catch(() => { })
+					.catch(() => { });
 				break;
 			case 1:
 				snek.post(`https://top.gg/api/bots/${this.getDBM().Bot.bot.user.id}/stats`)
-					.set("Authorization", token)
-					.send({ server_count: this.getDBM().Bot.bot.guilds.size, shard_id: this.getDBM().Bot.bot.shard.id })
-					.catch(() => { })
+					.set("Authorization" ,token)
+					.send({ server_count: this.getDBM().Bot.bot.guilds.size ,shard_id: this.getDBM().Bot.bot.shard.id })
+					.catch(() => { });
 				break;
 		}
 
 		this.callNextAction(cache);
-	},
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Bot Mod
@@ -156,7 +156,6 @@ module.exports = {
 	// functions you wish to overwrite.
 	//---------------------------------------------------------------------
 
-	mod: function (DBM) {
-	}
+	mod: function () {}
 
 }; // End of module

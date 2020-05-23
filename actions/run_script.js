@@ -1,131 +1,131 @@
 module.exports = {
+	//---------------------------------------------------------------------
+	// Action Name
+	//
+	// This is the name of the action displayed in the editor.
+	//---------------------------------------------------------------------
 
-//---------------------------------------------------------------------
-// Action Name
-//
-// This is the name of the action displayed in the editor.
-//---------------------------------------------------------------------
+	name: "Run Script" ,
 
-name: "Run Script",
+	//---------------------------------------------------------------------
+	// Action Section
+	//
+	// This is the section the action will fall into.
+	//---------------------------------------------------------------------
 
-//---------------------------------------------------------------------
-// Action Section
-//
-// This is the section the action will fall into.
-//---------------------------------------------------------------------
+	section: "Other Stuff" ,
 
-section: "Other Stuff",
+	//---------------------------------------------------------------------
+	// Action Subtitle
+	//
+	// This function generates the subtitle displayed next to the name.
+	//---------------------------------------------------------------------
 
-//---------------------------------------------------------------------
-// Action Subtitle
-//
-// This function generates the subtitle displayed next to the name.
-//---------------------------------------------------------------------
+	subtitle: function(data) {
+		return `${data.code}`;
+	} ,
 
-subtitle: function(data) {
-	return `${data.code}`;
-},
+	//---------------------------------------------------------------------
+	// DBM Mods Manager Variables (Optional but nice to have!)
+	//
+	// These are variables that DBM Mods Manager uses to show information
+	// about the mods for people to see in the list.
+	//---------------------------------------------------------------------
 
-//---------------------------------------------------------------------
-// DBM Mods Manager Variables (Optional but nice to have!)
-//
-// These are variables that DBM Mods Manager uses to show information
-// about the mods for people to see in the list.
-//---------------------------------------------------------------------
+	// Who made the mod (If not set, defaults to "DBM Mods")
+	author: "DBM & MrGold" ,
 
-// Who made the mod (If not set, defaults to "DBM Mods")
-author: "DBM & MrGold",
+	// The version of the mod (Defaults to 1.0.0)
+	version: "1.9.6" , //Added in 1.9.6
 
-// The version of the mod (Defaults to 1.0.0)
-version: "1.9.6", //Added in 1.9.6
+	// A short description to show on the mod line for this mod (Must be on a single line)
+	short_description: "Runs a JavaScript Script" ,
 
-// A short description to show on the mod line for this mod (Must be on a single line)
-short_description: "Runs a JavaScript Script",
+	// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
+	// depends_on_mods: ["WrexMODS"],
 
-// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
+	//---------------------------------------------------------------------
 
-//---------------------------------------------------------------------
+	//---------------------------------------------------------------------
+	// Action Storage Function
+	//
+	// Stores the relevant variable info for the editor.
+	//---------------------------------------------------------------------
 
-//---------------------------------------------------------------------
-// Action Storage Function
-//
-// Stores the relevant variable info for the editor.
-//---------------------------------------------------------------------
+	variableStorage: function(data ,varType) {
+		const type = parseInt(data.storage);
+		if(type !== varType) return;
+		const info = parseInt(data.VTypeSelect);
+		let dataType = "Unknown Type";
+		switch (info) {
+			case 0:
+				dataType = "Unknown Type";
+				break;
+			case 1:
+				dataType = "Number";
+				break;
+			case 2:
+				dataType = "String";
+				break;
+			case 3:
+				dataType = "Image";
+				break;
+			case 4:
+				dataType = "Member";
+				break;
+			case 5:
+				dataType = "Message";
+				break;
+			case 6:
+				dataType = "Text Channel";
+				break;
+			case 7:
+				dataType = "Voice Channel";
+				break;
+			case 8:
+				dataType = "Role";
+				break;
+			case 9:
+				dataType = "Server";
+				break;
+			case 10:
+				dataType = "Emoji";
+				break;
+			case 11:
+				dataType = data.CVTypeValue;
+				break;
+		}
+		return ([data.varName ,dataType]);
+	} ,
 
-variableStorage: function(data, varType) {
-	const type = parseInt(data.storage);
-	if(type !== varType) return;
-	const info = parseInt(data.VTypeSelect);
-	let dataType = 'Unknown Type';
-	switch (info) {
-		case 0:
-			dataType = "Unknown Type";
-			break;
-		case 1:
-			dataType = "Number";
-			break;
-		case 2:
-			dataType = "String";
-			break;
-		case 3:
-			dataType = "Image";
-			break;
-		case 4:
-			dataType = "Member";
-			break;
-		case 5:
-			dataType = "Message";
-			break;
-		case 6:
-			dataType = "Text Channel";
-			break;
-		case 7:
-			dataType = "Voice Channel";
-			break;
-		case 8:
-			dataType = "Role";
-			break;
-		case 9:
-			dataType = "Server";
-			break;
-		case 10:
-			dataType = "Emoji";
-			break;
-		case 11:
-			dataType = data.CVTypeValue;
-			break;
-	}
-	return ([data.varName, dataType]);
-},
+	//---------------------------------------------------------------------
+	// Action Fields
+	//
+	// These are the fields for the action. These fields are customized
+	// by creating elements with corresponding IDs in the HTML. These
+	// are also the names of the fields stored in the action's JSON data.
+	//---------------------------------------------------------------------
 
-//---------------------------------------------------------------------
-// Action Fields
-//
-// These are the fields for the action. These fields are customized
-// by creating elements with corresponding IDs in the HTML. These
-// are also the names of the fields stored in the action's JSON data.
-//---------------------------------------------------------------------
+	fields: ["code" ,"behavior" ,"interpretation" ,"storage" ,"varName" ,"VTypeSelect" ,"CVTypeValue"] ,
 
-fields: ["code", "behavior", "interpretation", "storage", "varName", "VTypeSelect", "CVTypeValue"],
+	//---------------------------------------------------------------------
+	// Command HTML
+	//
+	// This function returns a string containing the HTML used for
+	// editting actions.
+	//
+	// The "isEvent" parameter will be true if this action is being used
+	// for an event. Due to their nature, events lack certain information,
+	// so edit the HTML to reflect this.
+	//
+	// The "data" parameter stores constants for select elements to use.
+	// Each is an array: index 0 for commands, index 1 for events.
+	// The names are: sendTargets, members, roles, channels,
+	//                messages, servers, variables
+	//---------------------------------------------------------------------
 
-//---------------------------------------------------------------------
-// Command HTML
-//
-// This function returns a string containing the HTML used for
-// editting actions. 
-//
-// The "isEvent" parameter will be true if this action is being used
-// for an event. Due to their nature, events lack certain information, 
-// so edit the HTML to reflect this.
-//
-// The "data" parameter stores constants for select elements to use. 
-// Each is an array: index 0 for commands, index 1 for events.
-// The names are: sendTargets, members, roles, channels, 
-//                messages, servers, variables
-//---------------------------------------------------------------------
-
-html: function(isEvent, data) {
-	return `
+	html: function(isEvent ,data) {
+		return `
 	<div id ="wrexdiv" style="width: 570px; height: 359px; overflow-x: hidden;">
 
 		<div style="width: 100%; height: 324px;">
@@ -221,20 +221,20 @@ html: function(isEvent, data) {
         .RS_button:active {
 			background-color: #404142;
 	    }
-	</style>`
-},
+	</style>`;
+	} ,
 
-//---------------------------------------------------------------------
-// JavaScript Editor
-//
-// by: MrGold
-// Powered by Ace
-//---------------------------------------------------------------------
+	//---------------------------------------------------------------------
+	// JavaScript Editor
+	//
+	// by: MrGold
+	// Powered by Ace
+	//---------------------------------------------------------------------
 
-init: function() {
-	const {glob, document} = this;
+	init: function() {
+		const { glob ,document } = this;
 
-	document.getElementById("JSEditor").src = "data:text/html," + `
+		document.getElementById("JSEditor").src = "data:text/html," + `
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.3/ace.js" integrity="sha256-gkWBmkjy/8e1QUz5tv4CCYgEtjR8sRlGiXsMeebVeUo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.3/ext-language_tools.js" integrity="sha256-PAtX04Rk2WBELn+z4CmyvM2E5bhFBNEplF8mrHBvMJc=" crossorigin="anonymous"></script>
 
@@ -246,7 +246,7 @@ init: function() {
 		    mode: "ace/mode/javascript",
 		    theme: "ace/theme/monokai"
 		});
-		
+
 		editor.setOptions({
 			enableBasicAutocompletion: true,
 			enableLiveAutocompletion: true,
@@ -276,126 +276,124 @@ init: function() {
 		::-webkit-scrollbar {
             width: 13px;
         }
-        
+
         ::-webkit-scrollbar-track {
-            background: #38393a; 
+            background: #38393a;
         }
-        
+
         ::-webkit-scrollbar-thumb {
             background: #888;
             border-radius: 15px;
         }
-        
+
         ::-webkit-scrollbar-thumb:hover {
-            background: #555; 
+            background: #555;
         }
 	</style>`;
 
-	document.getElementById("JSEditor").addEventListener("load", function() {
-		if(document.getElementById("code").value) {
-		    this.contentWindow.document.getElementById("hideCode").value = document.getElementById("code").value;
-			this.contentWindow.document.getElementById("hideCode").dispatchEvent(new Event('_load'));
-		}
-		this.style.visibility = "visible";
-	})
-	
-	document.getElementById("code").addEventListener("input", function() {
-		document.getElementById("JSEditor").contentWindow.document.getElementById("hideCode").value = document.getElementById("code").value;
-		document.getElementById("JSEditor").contentWindow.document.getElementById("hideCode").dispatchEvent(new Event('_load'));
-	})
+		document.getElementById("JSEditor").addEventListener("load" ,function() {
+			if(document.getElementById("code").value) {
+				this.contentWindow.document.getElementById("hideCode").value = document.getElementById("code").value;
+				this.contentWindow.document.getElementById("hideCode").dispatchEvent(new Event("_load"));
+			}
+			this.style.visibility = "visible";
+		});
 
-	document.getElementById("createAction").setAttribute("onclick", 'if(document.getElementById("JSEditor").contentWindow.document.getElementById("hideCode").value) document.getElementById("code").value = document.getElementById("JSEditor").contentWindow.document.getElementById("hideCode").value; finish()');
-
-//---------------------------------------------------------------------
-// Action Editor Init Code
-//
-// When the HTML is first applied to the action editor, this code
-// is also run. This helps add modifications or setup reactionary
-// functions for the DOM elements.
-//---------------------------------------------------------------------
-
-	glob.onChangeVTypeSelect1 = function() {
-		if(document.getElementById("storage").value === "0") {
-			document.getElementById("VTypeDiv").style.display = 'none';
-		} else {
-			document.getElementById("VTypeDiv").style.display = null;
-		}
-	};
-
-	glob.onChangeVTypeSelect2 = function(element) {
-		if(element.value === "11") {
-			document.getElementById("CVTypeDiv").style.display = null;
-		} else {
-			document.getElementById("CVTypeDiv").style.display = 'none';
-		}
-	};
-
-	glob.onClickDefault = function(element) {
-		if(document.getElementById("code").style.display == "none") {
-			element.innerHTML = "Back";
-
-			document.getElementById("code").value = document.getElementById("JSEditor").contentWindow.document.getElementById("hideCode").value;
-
-			document.getElementById("code").style.display = "initial"
-			document.getElementById("JSEditor").style.display = "none"
-		} else {
-			element.innerHTML = "Default";
-
+		document.getElementById("code").addEventListener("input" ,function() {
 			document.getElementById("JSEditor").contentWindow.document.getElementById("hideCode").value = document.getElementById("code").value;
-			document.getElementById("JSEditor").contentWindow.document.getElementById("hideCode").dispatchEvent(new Event('_load'));
-			
-			document.getElementById("code").style.display = "none"
-			document.getElementById("JSEditor").style.display = "initial"
+			document.getElementById("JSEditor").contentWindow.document.getElementById("hideCode").dispatchEvent(new Event("_load"));
+		});
+
+		document.getElementById("createAction").setAttribute("onclick" ,"if(document.getElementById(\"JSEditor\").contentWindow.document.getElementById(\"hideCode\").value) document.getElementById(\"code\").value = document.getElementById(\"JSEditor\").contentWindow.document.getElementById(\"hideCode\").value; finish()");
+
+		//---------------------------------------------------------------------
+		// Action Editor Init Code
+		//
+		// When the HTML is first applied to the action editor, this code
+		// is also run. This helps add modifications or setup reactionary
+		// functions for the DOM elements.
+		//---------------------------------------------------------------------
+
+		glob.onChangeVTypeSelect1 = function() {
+			if(document.getElementById("storage").value === "0") {
+				document.getElementById("VTypeDiv").style.display = "none";
+			} else {
+				document.getElementById("VTypeDiv").style.display = null;
+			}
+		};
+
+		glob.onChangeVTypeSelect2 = function(element) {
+			if(element.value === "11") {
+				document.getElementById("CVTypeDiv").style.display = null;
+			} else {
+				document.getElementById("CVTypeDiv").style.display = "none";
+			}
+		};
+
+		glob.onClickDefault = function(element) {
+			if(document.getElementById("code").style.display == "none") {
+				element.innerHTML = "Back";
+
+				document.getElementById("code").value = document.getElementById("JSEditor").contentWindow.document.getElementById("hideCode").value;
+
+				document.getElementById("code").style.display = "initial";
+				document.getElementById("JSEditor").style.display = "none";
+			} else {
+				element.innerHTML = "Default";
+
+				document.getElementById("JSEditor").contentWindow.document.getElementById("hideCode").value = document.getElementById("code").value;
+				document.getElementById("JSEditor").contentWindow.document.getElementById("hideCode").dispatchEvent(new Event("_load"));
+
+				document.getElementById("code").style.display = "none";
+				document.getElementById("JSEditor").style.display = "initial";
+			}
+		};
+
+		glob.onChangeVTypeSelect1();
+		glob.onClickDefault();
+		glob.onChangeVTypeSelect2(document.getElementById("VTypeSelect"));
+		glob.variableChange(document.getElementById("storage") ,"varNameContainer");
+	} ,
+
+	//---------------------------------------------------------------------
+	// Action Bot Function
+	//
+	// This is the function for the action within the Bot's Action class.
+	// Keep in mind event calls won't have access to the "msg" parameter,
+	// so be sure to provide checks for variable existance.
+	//---------------------------------------------------------------------
+
+	action: function(cache) {
+		const data = cache.actions[cache.index];
+
+		let code;
+		if(data.interpretation === "0") {
+			code = this.evalMessage(data.code ,cache);
+		} else {
+			code = data.code;
 		}
-	};
 
-	glob.onChangeVTypeSelect1();
-	glob.onClickDefault();
-	glob.onChangeVTypeSelect2(document.getElementById('VTypeSelect'));
-	glob.variableChange(document.getElementById('storage'), 'varNameContainer');
-},
+		if(data.storage !== "0") {
+			const result = this.eval(code ,cache);
+	    const varName = this.evalMessage(data.varName ,cache);
+			const storage = parseInt(data.storage);
+			this.storeValue(result ,storage ,varName ,cache);
+		} else {
+			this.eval(code ,cache);
+		}
+		if(data.behavior === "0") {
+			this.callNextAction(cache);
+		}
+	} ,
 
-//---------------------------------------------------------------------
-// Action Bot Function
-//
-// This is the function for the action within the Bot's Action class.
-// Keep in mind event calls won't have access to the "msg" parameter, 
-// so be sure to provide checks for variable existance.
-//---------------------------------------------------------------------
+	//---------------------------------------------------------------------
+	// Action Bot Mod
+	//
+	// Upon initialization of the bot, this code is run. Using the bot's
+	// DBM namespace, one can add/modify existing functions if necessary.
+	// In order to reduce conflictions between mods, be sure to alias
+	// functions you wish to overwrite.
+	//---------------------------------------------------------------------
 
-action: function(cache) {
-	const data = cache.actions[cache.index];
-
-	let code;
-	if(data.interpretation === "0") {
-		code = this.evalMessage(data.code, cache);
-	} else {
-		code = data.code;
-	}
-
-	if(data.storage !== "0") {
-		const result = this.eval(code, cache);
-	    const varName = this.evalMessage(data.varName, cache);
-		const storage = parseInt(data.storage);
-		this.storeValue(result, storage, varName, cache);
-	} else {
-		this.eval(code, cache);
-	}
-	if(data.behavior === "0") {
-		this.callNextAction(cache);
-	}
-},
-
-//---------------------------------------------------------------------
-// Action Bot Mod
-//
-// Upon initialization of the bot, this code is run. Using the bot's
-// DBM namespace, one can add/modify existing functions if necessary.
-// In order to reduce conflictions between mods, be sure to alias
-// functions you wish to overwrite.
-//---------------------------------------------------------------------
-
-mod: function(DBM) {
-}
-
+	mod: function() {}
 }; // End of module

@@ -1,12 +1,11 @@
 module.exports = {
-
 	//---------------------------------------------------------------------
 	// Action Name
 	//
 	// This is the name of the action displayed in the editor.
 	//---------------------------------------------------------------------
 
-	name: "Store Game Server Info",
+	name: "Store Game Server Info" ,
 
 	//---------------------------------------------------------------------
 	// Action Section
@@ -14,7 +13,7 @@ module.exports = {
 	// This is the section the action will fall into.
 	//---------------------------------------------------------------------
 
-	section: "Other Stuff",
+	section: "Other Stuff" ,
 
 	//---------------------------------------------------------------------
 	// Action Subtitle
@@ -23,9 +22,9 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	subtitle: function (data) {
-		const info = ['Server Name', 'Map', 'Number Of Players', 'Number Of Bots', 'Max Players', 'Server Tags', 'Does Server Have Password?', 'Server Player List'];
+		const info = ["Server Name" ,"Map" ,"Number Of Players" ,"Number Of Bots" ,"Max Players" ,"Server Tags" ,"Does Server Have Password?" ,"Server Player List"];
 		return `${info[parseInt(data.info)]}`;
-	},
+	} ,
 
 	//---------------------------------------------------------------------
 	// DBM Mods Manager Variables (Optional but nice to have!)
@@ -35,15 +34,16 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "NetLuis, Danno3817 & Destiny",
+	author: "NetLuis, Danno3817 & Destiny" ,
 
 	// The version of the mod (Defaults to 1.0.0)
-	version: "2.0.1",
+	version: "2.0.1" ,
 
 	// A short description to show on the mod line for this mod (Must be on a single line)
-	short_description: "Stores Game Server Information.",
+	short_description: "Stores Game Server Information." ,
 
 	// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
+	// depends_on_mods: ["WrexMODS"],
 
 
 	//---------------------------------------------------------------------
@@ -54,11 +54,11 @@ module.exports = {
 	// Stores the relevant variable info for the editor.
 	//---------------------------------------------------------------------
 
-	variableStorage: function (data, varType) {
+	variableStorage: function (data ,varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		const info = parseInt(data.info);
-		let dataType = 'Unknown Type';
+		let dataType = "Unknown Type";
 		switch (info) {
 			case 0:
 				dataType = "Server Name";
@@ -82,8 +82,8 @@ module.exports = {
 				dataType = "Player list";
 				break;
 		}
-		return ([data.varName, dataType]);
-	},
+		return ([data.varName ,dataType]);
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Fields
@@ -93,7 +93,7 @@ module.exports = {
 	// are also the names of the fields stored in the action's JSON data.
 	//---------------------------------------------------------------------
 
-	fields: ["serverip", "serverport", "game", "info", "storage", "varName"],
+	fields: ["serverip" ,"serverport" ,"game" ,"info" ,"storage" ,"varName"] ,
 
 	//---------------------------------------------------------------------
 	// Command HTML
@@ -111,7 +111,7 @@ module.exports = {
 	//                messages, servers, variables
 	//---------------------------------------------------------------------
 
-	html: function (isEvent, data) {
+	html: function (isEvent ,data) {
 		return `
 		<div style="width: 550px; height: 350px; overflow-y: scroll;">
         <div>
@@ -422,7 +422,7 @@ module.exports = {
 		</p>
 	<div>
 </div>
-        
+
         <style>
         /* START OF EMBED CSS */
         div.embed { /* <div class="embed"></div> */
@@ -450,12 +450,12 @@ module.exports = {
                 span.embed-desc { /* <span class="embed-desc"></span> (Description thing) */
                     color: rgb(128, 128, 128);
                 }
-        
+
                 span { /* Only making the text look, nice! */
                     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
                 }
-                </style>`
-	},
+                </style>`;
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Editor Init Code
@@ -467,12 +467,12 @@ module.exports = {
 
 	init: function () {
 		const {
-			glob,
+			glob ,
 			document
 		} = this;
 
-		glob.variableChange(document.getElementById('storage'), 'varNameContainer');
-	},
+		glob.variableChange(document.getElementById("storage") ,"varNameContainer");
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Bot Function
@@ -483,25 +483,25 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	action: function (cache) {
-		const _this = this // To fix error
+		const _this = this; // To fix error
 		const data = cache.actions[cache.index];
 		const info = parseInt(data.info);
-		const gametype = this.evalMessage(data.game, cache);
-		const ip = this.evalMessage(data.serverip, cache)
-		const port = this.evalMessage(data.serverport, cache)
+		const gametype = this.evalMessage(data.game ,cache);
+		const ip = this.evalMessage(data.serverip ,cache);
+		const port = this.evalMessage(data.serverport ,cache);
 
 		// Main code:
 		const WrexMODS = _this.getWrexMods(); // as always.
-		WrexMODS.CheckAndInstallNodeModule('gamedig');
-		const Gamedig = WrexMODS.require('gamedig');
+		WrexMODS.CheckAndInstallNodeModule("gamedig");
+		const Gamedig = WrexMODS.require("gamedig");
 
 		if (!ip) return console.log("Please provide Server IP & Port.");
 
 		Gamedig.query({
-			type: gametype,
-			host: ip,
-			port: port,
-			maxAttempts: 3,
+			type: gametype ,
+			host: ip ,
+			port: port ,
+			maxAttempts: 3 ,
 			attemptTimeout: 25000
 		}).then((state) => {
 			let result = undefined;
@@ -532,19 +532,19 @@ module.exports = {
 					break;
 				default:
 					break;
-				}
+			}
 
 			if (result !== undefined) {
 				const storage = parseInt(data.storage);
-				const varName2 = _this.evalMessage(data.varName, cache);
-				_this.storeValue(result, storage, varName2, cache);
+				const varName2 = _this.evalMessage(data.varName ,cache);
+				_this.storeValue(result ,storage ,varName2 ,cache);
 			}
-				_this.callNextAction(cache);
-			
+			_this.callNextAction(cache);
+
 		}).catch((error) => {
-			console.log(`Game Server Info: ${error}`)
-		})
-	},
+			console.log(`Game Server Info: ${error}`);
+		});
+	} ,
 	//---------------------------------------------------------------------
 	// Action Bot Mod
 	//

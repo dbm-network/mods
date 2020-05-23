@@ -1,12 +1,11 @@
 module.exports = {
-
 	//---------------------------------------------------------------------
 	// Action Name
 	//
 	// This is the name of the action displayed in the editor.
 	//---------------------------------------------------------------------
 
-	name: "Google Search",
+	name: "Google Search" ,
 
 	//---------------------------------------------------------------------
 	// Action Section
@@ -14,7 +13,7 @@ module.exports = {
 	// This is the section the action will fall into.
 	//---------------------------------------------------------------------
 
-	section: "Other Stuff",
+	section: "Other Stuff" ,
 
 	//---------------------------------------------------------------------
 	// Action Subtitle
@@ -23,9 +22,9 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	subtitle: function (data) {
-		const info = ['Title', 'URL', 'Snippet'];
+		const info = ["Title" ,"URL" ,"Snippet"];
 		return `Google Result ${info[parseInt(data.info)]}`;
-	},
+	} ,
 
 	//---------------------------------------------------------------------
 	// DBM Mods Manager Variables (Optional but nice to have!)
@@ -35,15 +34,16 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "EGGSY",
+	author: "EGGSY" ,
 
 	// The version of the mod (Defaults to 1.0.0)
-	version: "1.8.7", //Added in 1.8.7
+	version: "1.8.7" , //Added in 1.8.7
 
 	// A short description to show on the mod line for this mod (Must be on a single line)
-	short_description: "Googles the given text!.",
+	short_description: "Googles the given text!." ,
 
 	// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
+	// depends_on_mods: ["WrexMODS"],
 
 
 	//---------------------------------------------------------------------
@@ -54,11 +54,11 @@ module.exports = {
 	// Stores the relevant variable info for the editor.
 	//---------------------------------------------------------------------
 
-	variableStorage: function (data, varType) {
+	variableStorage: function (data ,varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		const info = parseInt(data.info);
-		let dataType = 'Unknown Google Type';
+		let dataType = "Unknown Google Type";
 		switch (info) {
 			case 0:
 				dataType = "Google Result Title";
@@ -70,8 +70,8 @@ module.exports = {
 				dataType = "Google Result Snippet";
 				break;
 		}
-		return ([data.varName, dataType]);
-	},
+		return ([data.varName ,dataType]);
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Fields
@@ -81,7 +81,7 @@ module.exports = {
 	// are also the names of the fields stored in the action's JSON data.
 	//---------------------------------------------------------------------
 
-	fields: ["string", "info", "resultNo", "storage", "varName"],
+	fields: ["string" ,"info" ,"resultNo" ,"storage" ,"varName"] ,
 
 	//---------------------------------------------------------------------
 	// Command HTML
@@ -99,7 +99,7 @@ module.exports = {
 	//                messages, servers, variables
 	//---------------------------------------------------------------------
 
-	html: function (isEvent, data) {
+	html: function (isEvent ,data) {
 		return `
 		<div>
 			<p>
@@ -143,8 +143,8 @@ module.exports = {
 		<div id="varNameContainer" style="float: right; width: 53%; padding-top: 8px;">
 			Variable Name:<br>
 			<input id="varName" class="round" type="text"><br>
-		</div>`
-	},
+		</div>`;
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Editor Init Code
@@ -155,9 +155,9 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	init: function () {
-		const { glob, document } = this;
-		glob.variableChange(document.getElementById('storage'), 'varNameContainer');
-	},
+		const { glob ,document } = this;
+		glob.variableChange(document.getElementById("storage") ,"varNameContainer");
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Bot Function
@@ -170,7 +170,7 @@ module.exports = {
 	action: function (cache) {
 		const data = cache.actions[cache.index];
 		const info = parseInt(data.info);
-		const string = this.evalMessage(data.string, cache).replace(/[\u{0080}-\u{FFFF}]/gu, ""); // The replace thing is very new, it's just replacing the invalid characters so command won't stuck when you use other languages.
+		const string = this.evalMessage(data.string ,cache).replace(/[\u{0080}-\u{FFFF}]/gu ,""); // The replace thing is very new, it's just replacing the invalid characters so command won't stuck when you use other languages.
 		const resultNumber = parseInt(data.resultNo);
 
 		// Check if everything is ok:
@@ -178,10 +178,10 @@ module.exports = {
 
 		// Main code:
 		const WrexMODS = this.getWrexMods(); // as always.
-		WrexMODS.CheckAndInstallNodeModule('google-it');
-		const googleIt = WrexMODS.require('google-it');
+		WrexMODS.CheckAndInstallNodeModule("google-it");
+		const googleIt = WrexMODS.require("google-it");
 
-		googleIt({ 'query': `${string}`, 'no-display': 1, 'limit': 10 }).then(results => {
+		googleIt({ "query": `${string}` ,"no-display": 1 ,"limit": 10 }).then(results => {
 			switch (info) {
 				case 0:
 					result = results[resultNumber].title;
@@ -197,8 +197,8 @@ module.exports = {
 			}
 			if (result !== undefined) {
 				const storage = parseInt(data.storage);
-				const varName2 = this.evalMessage(data.varName, cache);
-				this.storeValue(result, storage, varName2, cache);
+				const varName2 = this.evalMessage(data.varName ,cache);
+				this.storeValue(result ,storage ,varName2 ,cache);
 				this.callNextAction(cache);
 			} else {
 				this.callNextAction(cache);
@@ -206,8 +206,8 @@ module.exports = {
 		}).catch(e => {
 			console.log("An error in Google Search MOD: " + e);
 			this.callNextAction(cache);
-		})
-	},
+		});
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Bot Mod

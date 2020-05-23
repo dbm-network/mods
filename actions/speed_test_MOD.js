@@ -1,12 +1,11 @@
 module.exports = {
-
 	//---------------------------------------------------------------------
 	// Action Name
 	//
 	// This is the name of the action displayed in the editor.
 	//---------------------------------------------------------------------
 
-	name: "Speed Test",
+	name: "Speed Test" ,
 
 	//---------------------------------------------------------------------
 	// Action Section
@@ -14,7 +13,7 @@ module.exports = {
 	// This is the section the action will fall into.
 	//---------------------------------------------------------------------
 
-	section: "Other Stuff",
+	section: "Other Stuff" ,
 
 	//---------------------------------------------------------------------
 	// Action Subtitle
@@ -24,13 +23,13 @@ module.exports = {
 
 	subtitle: function (data) {
 		if (data.info === "downloadspeed") {
-			return "Speed Test - Download Speed"
+			return "Speed Test - Download Speed";
 		} else if (data.info === "uploadspeed") {
-			return "Speed Test - Upload Speed"
+			return "Speed Test - Upload Speed";
 		} else {
-			return `Error in subtitles.`
+			return "Error in subtitles.";
 		}
-	},
+	} ,
 
 	//---------------------------------------------------------------------
 	// DBM Mods Manager Variables (Optional but nice to have!)
@@ -40,15 +39,16 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "NetLuis",
+	author: "NetLuis" ,
 
 	// The version of the mod (Defaults to 1.0.0)
-	version: "1.9.3", //Added in 1.9.3
+	version: "1.9.3" , //Added in 1.9.3
 
 	// A short description to show on the mod line for this mod (Must be on a single line)
-	short_description:  "Tests and stores download/upload speed.",
+	short_description:  "Tests and stores download/upload speed." ,
 
 	// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
+	// depends_on_mods: ["WrexMODS"],
 
 
 	//---------------------------------------------------------------------
@@ -59,19 +59,19 @@ module.exports = {
 	// Stores the relevant variable info for the editor.
 	//---------------------------------------------------------------------
 
-	variableStorage: function (data, varType) {
+	variableStorage: function (data ,varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		let dataType;
-		if (data.info === 'downloadspeed') {
-			dataType = 'Download Speed'
-		} else if (data.info === 'uploadspeed') {
-			dataType = 'Upload Speed'
+		if (data.info === "downloadspeed") {
+			dataType = "Download Speed";
+		} else if (data.info === "uploadspeed") {
+			dataType = "Upload Speed";
 		} else {
-			dataType = 'Unknown Data Type'
+			dataType = "Unknown Data Type";
 		}
-		return ([data.varName, dataType]);
-	},
+		return ([data.varName ,dataType]);
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Fields
@@ -81,7 +81,7 @@ module.exports = {
 	// are also the names of the fields stored in the action's JSON data.
 	//---------------------------------------------------------------------
 
-	fields: ["info", "type", "storage", "varName"],
+	fields: ["info" ,"type" ,"storage" ,"varName"] ,
 
 	//---------------------------------------------------------------------
 	// Command HTML
@@ -99,8 +99,8 @@ module.exports = {
 	//                messages, servers, variables
 	//---------------------------------------------------------------------
 
-	html: function (isEvent, data) {
-        return `
+	html: function (isEvent ,data) {
+		return `
 		<div class="embed">
             <embedleftline style="background-color: #2b9696;"></embedleftline>
         <div class="embedinfo">
@@ -134,7 +134,7 @@ module.exports = {
 			<input id="varName" class="round" type="text"><br>
 		</div>
 	</div>
-        
+
         <style>
         /* START OF EMBED CSS */
         div.embed { /* <div class="embed"></div> */
@@ -162,12 +162,12 @@ module.exports = {
                 span.embed-desc { /* <span class="embed-desc"></span> (Description thing) */
                     color: rgb(128, 128, 128);
                 }
-        
+
                 span { /* Only making the text look, nice! */
                     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
                 }
-                </style>`
-	},
+                </style>`;
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Editor Init Code
@@ -178,9 +178,9 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	init: function () {
-		const {glob, document} = this;
-		glob.variableChange(document.getElementById('storage'), 'varNameContainer');
-	},
+		const { glob ,document } = this;
+		glob.variableChange(document.getElementById("storage") ,"varNameContainer");
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Bot Function
@@ -191,44 +191,44 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	action: function (cache) {
-		const _this = this //This is needed sometimes
+		const _this = this; //This is needed sometimes
 		const data = cache.actions[cache.index];
 		const info = _this.evalMessage(data.info);
 		const type = parseInt(data.type);
 
 		// Main code:
 		const WrexMODS = _this.getWrexMods(); // as always.
-		WrexMODS.CheckAndInstallNodeModule('speedtest-net'); //To install module automatically
-		const speedTest = WrexMODS.require('speedtest-net');
-		const test = speedTest({maxTime: 5000});
+		WrexMODS.CheckAndInstallNodeModule("speedtest-net"); //To install module automatically
+		const speedTest = WrexMODS.require("speedtest-net");
+		const test = speedTest({ maxTime: 5000 });
 
 		let result;
-		test.on(`${info}`, speed => {
+		test.on(`${info}` ,speed => {
 			switch (type) {
 				case 0:
-					result = speed
+					result = speed;
 					break;
 				case 1:
-					result = (speed * 125).toFixed(2)
+					result = (speed * 125).toFixed(2);
 					break;
 				default:
 					break;
 			}
-			
-		if (result !== undefined) {
-			const storage = parseInt(data.storage);
-			const varName2 = _this.evalMessage(data.varName, cache);
-			_this.storeValue(result, storage, varName2, cache);
-		}
-		_this.callNextAction(cache);
 
-		})
+			if (result !== undefined) {
+				const storage = parseInt(data.storage);
+				const varName2 = _this.evalMessage(data.varName ,cache);
+				_this.storeValue(result ,storage ,varName2 ,cache);
+			}
+			_this.callNextAction(cache);
 
-		test.on('error', error => {
-			console.log("Error in Speed Test MOD: " + error)
-			_this.callNextAction(cache)
-		})
-	},
+		});
+
+		test.on("error" ,error => {
+			console.log("Error in Speed Test MOD: " + error);
+			_this.callNextAction(cache);
+		});
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Bot Mod

@@ -1,76 +1,75 @@
 module.exports = {
+	//---------------------------------------------------------------------
+	// Action Name
+	//
+	// This is the name of the action displayed in the editor.
+	//---------------------------------------------------------------------
 
-//---------------------------------------------------------------------
-// Action Name
-//
-// This is the name of the action displayed in the editor.
-//---------------------------------------------------------------------
+	name: "Set slowmode MOD" ,
 
-name: "Set slowmode MOD",
+	//---------------------------------------------------------------------
+	// Action Section
+	//
+	// This is the section the action will fall into.
+	//---------------------------------------------------------------------
 
-//---------------------------------------------------------------------
-// Action Section
-//
-// This is the section the action will fall into.
-//---------------------------------------------------------------------
+	section: "Channel Control" ,
 
-section: "Channel Control",
+	//---------------------------------------------------------------------
+	// Action Subtitle
+	//
+	// This function generates the subtitle displayed next to the name.
+	//---------------------------------------------------------------------
 
-//---------------------------------------------------------------------
-// Action Subtitle
-//
-// This function generates the subtitle displayed next to the name.
-//---------------------------------------------------------------------
+	subtitle: function(data) {
+		const names = ["Same Channel" ,"Mentioned Channel" ,"Default Channel" ,"Temp Variable" ,"Server Variable" ,"Global Variable"];
+		const index = parseInt(data.storage);
+		return index < 3 ? `Set slowmode : ${names[index]}` : `Set slowmode : ${names[index]} - ${data.varName}`;
+	} ,
 
-subtitle: function(data) {
-	const names = ['Same Channel', 'Mentioned Channel', 'Default Channel', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const index = parseInt(data.storage);
-	return index < 3 ? `Set slowmode : ${names[index]}` : `Set slowmode : ${names[index]} - ${data.varName}`;
-},
+	author: "JasperEdits" ,
+	version: "1.1.0" ,
 
-author: "JasperEdits",
-version: "1.1.0",
+	//---------------------------------------------------------------------
+	// Action Storage Function
+	//
+	// Stores the relevant variable info for the editor.
+	//---------------------------------------------------------------------
 
-//---------------------------------------------------------------------
-// Action Storage Function
-//
-// Stores the relevant variable info for the editor.
-//---------------------------------------------------------------------
+	variableStorage: function(data ,varType) {
+		const type = parseInt(data.storage2);
+		if(type !== varType) return;
+		return ([data.varName2 ,"Channel"]);
+	} ,
 
-variableStorage: function(data, varType) {
-	const type = parseInt(data.storage2);
-	if(type !== varType) return;
-	return ([data.varName2, 'Channel']);
-},
+	//---------------------------------------------------------------------
+	// Action Fields
+	//
+	// These are the fields for the action. These fields are customized
+	// by creating elements with corresponding IDs in the HTML. These
+	// are also the names of the fields stored in the action's JSON data.
+	//---------------------------------------------------------------------
 
-//---------------------------------------------------------------------
-// Action Fields
-//
-// These are the fields for the action. These fields are customized
-// by creating elements with corresponding IDs in the HTML. These
-// are also the names of the fields stored in the action's JSON data.
-//---------------------------------------------------------------------
+	fields: ["storage" ,"varName" ,"varName2" ,"amount" ,"reason"] ,
 
-fields: ["storage", "varName", "varName2", "amount", "reason"],
+	//---------------------------------------------------------------------
+	// Command HTML
+	//
+	// This function returns a string containing the HTML used for
+	// editting actions.
+	//
+	// The "isEvent" parameter will be true if this action is being used
+	// for an event. Due to their nature, events lack certain information,
+	// so edit the HTML to reflect this.
+	//
+	// The "data" parameter stores constants for select elements to use.
+	// Each is an array: index 0 for commands, index 1 for events.
+	// The names are: sendTargets, members, roles, channels,
+	//                messages, servers, variables
+	//---------------------------------------------------------------------
 
-//---------------------------------------------------------------------
-// Command HTML
-//
-// This function returns a string containing the HTML used for
-// editting actions. 
-//
-// The "isEvent" parameter will be true if this action is being used
-// for an event. Due to their nature, events lack certain information, 
-// so edit the HTML to reflect this.
-//
-// The "data" parameter stores constants for select elements to use. 
-// Each is an array: index 0 for commands, index 1 for events.
-// The names are: sendTargets, members, roles, channels, 
-//                messages, servers, variables
-//---------------------------------------------------------------------
-
-html: function(isEvent, data) {
-	return `
+	html: function(isEvent ,data) {
+		return `
 <div>
 	<p style="font-size:15px">
 		This action has been created by JasperEdits.
@@ -99,53 +98,51 @@ html: function(isEvent, data) {
 	<div id="varNameContainer2" style="display: none; padding-left: 5%; float: left; width: 65%;">
 		Variable Name:<br>
 		<input id="varName2" class="round" type="text">
-	</div>`
-},
+	</div>`;
+	} ,
 
-//---------------------------------------------------------------------
-// Action Bot Function
-//
-// This is the function for the action within the Bot's Action class.
-// Keep in mind event calls won't have access to the "msg" parameter, 
-// so be sure to provide checks for variable existance.
-//---------------------------------------------------------------------
+	//---------------------------------------------------------------------
+	// Action Bot Function
+	//
+	// This is the function for the action within the Bot's Action class.
+	// Keep in mind event calls won't have access to the "msg" parameter,
+	// so be sure to provide checks for variable existance.
+	//---------------------------------------------------------------------
 
-action: function(cache) {
-        const data = cache.actions[cache.index];
-        const server = cache.server;
-        const storage = parseInt(data.storage);
-        const varName = this.evalMessage(data.varName, cache);
-        const channel = this.getChannel(storage, varName, cache);
-        const name = channel.name;
-        const amount = this.evalMessage(data.amount, cache);
-        const reason = this.evalMessage(data.reason, cache);
-        const type = channel.type;
-        if (type == "text") {
-            if (/5|10|15|30|60|120|300|600|900|1800|3600|21600/g.test(amount)) {
-                if (reason !== null) {
-                    channel.setRateLimitPerUser(amount, reason);
-                } else {
-                    channel.setRateLimitPerUser(amount);
-                }
-            } else {
-                console.log("The amount is not valid.");
-            }
-        } else {
-                this.callNextAction(cache);
-                console.log("This channel isn't a channel.");
+	action: function(cache) {
+		const data = cache.actions[cache.index];
+		const server = cache.server;
+		const storage = parseInt(data.storage);
+		const varName = this.evalMessage(data.varName ,cache);
+		const channel = this.getChannel(storage ,varName ,cache);
+		const name = channel.name;
+		const amount = this.evalMessage(data.amount ,cache);
+		const reason = this.evalMessage(data.reason ,cache);
+		const type = channel.type;
+		if (type == "text") {
+			if (/5|10|15|30|60|120|300|600|900|1800|3600|21600/g.test(amount)) {
+				if (reason !== null) {
+					channel.setRateLimitPerUser(amount ,reason);
+				} else {
+					channel.setRateLimitPerUser(amount);
+				}
+			} else {
+				console.log("The amount is not valid.");
+			}
+		} else {
+			this.callNextAction(cache);
+			console.log("This channel isn't a channel.");
 		}
-},
+	} ,
 
-//---------------------------------------------------------------------
-// Action Bot Mod
-//
-// Upon initialization of the bot, this code is run. Using the bot's
-// DBM namespace, one can add/modify existing functions if necessary.
-// In order to reduce conflictions between mods, be sure to alias
-// functions you wish to overwrite.
-//---------------------------------------------------------------------
+	//---------------------------------------------------------------------
+	// Action Bot Mod
+	//
+	// Upon initialization of the bot, this code is run. Using the bot's
+	// DBM namespace, one can add/modify existing functions if necessary.
+	// In order to reduce conflictions between mods, be sure to alias
+	// functions you wish to overwrite.
+	//---------------------------------------------------------------------
 
-mod: function(DBM) {
-}
-
+	mod: function() {}
 }; // End of module

@@ -1,12 +1,11 @@
 module.exports = {
-
 	//---------------------------------------------------------------------
 	// Action Name
 	//
 	// This is the name of the action displayed in the editor.
 	//---------------------------------------------------------------------
 
-	name: "Stop RSS Feed Watcher",
+	name: "Stop RSS Feed Watcher" ,
 
 	//---------------------------------------------------------------------
 	// Action Section
@@ -14,7 +13,7 @@ module.exports = {
 	// This is the section the action will fall into.
 	//---------------------------------------------------------------------
 
-	section: "Other Stuff",
+	section: "Other Stuff" ,
 
 	//---------------------------------------------------------------------
 	// Action Subtitle
@@ -24,7 +23,7 @@ module.exports = {
 
 	subtitle: function (data) {
 		return `${data.url}`;
-	},
+	} ,
 
 	//---------------------------------------------------------------------
 	// DBM Mods Manager Variables (Optional but nice to have!)
@@ -34,13 +33,13 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "Two",
+	author: "Two" ,
 
 	// The version of the mod (Defaults to 1.0.0)
-	version: "1.9.3",
+	version: "1.9.3" ,
 
 	// A short description to show on the mod line for this mod (Must be on a single line)
-	short_description: "This mod allows you to stop a watch rss feed",
+	short_description: "This mod allows you to stop a watch rss feed" ,
 
 
 	//---------------------------------------------------------------------
@@ -49,8 +48,8 @@ module.exports = {
 	// Stores the relevant variable info for the editor.
 	//---------------------------------------------------------------------
 
-	variableStorage: function (data, varType) {
-	},
+	variableStorage: function (data ,varType) {
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Fields
@@ -60,25 +59,25 @@ module.exports = {
 	// are also the names of the fields stored in the action's JSON data.
 	//---------------------------------------------------------------------
 
-	fields: ["storage", "varName"],
+	fields: ["storage" ,"varName"] ,
 
 	//---------------------------------------------------------------------
 	// Command HTML
 	//
 	// This function returns a string containing the HTML used for
-	// editting actions. 
+	// editting actions.
 	//
 	// The "isEvent" parameter will be true if this action is being used
-	// for an event. Due to their nature, events lack certain information, 
+	// for an event. Due to their nature, events lack certain information,
 	// so edit the HTML to reflect this.
 	//
-	// The "data" parameter stores constants for select elements to use. 
+	// The "data" parameter stores constants for select elements to use.
 	// Each is an array: index 0 for commands, index 1 for events.
-	// The names are: sendTargets, members, roles, channels, 
+	// The names are: sendTargets, members, roles, channels,
 	//                messages, servers, variables
 	//---------------------------------------------------------------------
 
-	html: function (isEvent, data) {
+	html: function (isEvent ,data) {
 		return `
 		<div>
 	<div style="float: left; width: 35%;">
@@ -90,8 +89,8 @@ module.exports = {
 	<div id="varNameContainer" style="float: right; width: 60%;">
 		Variable Name:<br>
 		<input id="varName" class="round" type="text" list="variableList"><br>
-	</div>`
-	},
+	</div>`;
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Editor Init Code
@@ -101,33 +100,33 @@ module.exports = {
 	// functions for the DOM elements.
 	//---------------------------------------------------------------------
 
-	init: function () {},
+	init: function () {} ,
 
 	//---------------------------------------------------------------------
 	// Action Bot Function
 	//
 	// This is the function for the action within the Bot's Action class.
-	// Keep in mind event calls won't have access to the "msg" parameter, 
+	// Keep in mind event calls won't have access to the "msg" parameter,
 	// so be sure to provide checks for variable existance.
 	//---------------------------------------------------------------------
 
 	action: function (cache) {
 		const data = cache.actions[cache.index];
-		const varName = this.evalMessage(data.varName, cache);
+		const varName = this.evalMessage(data.varName ,cache);
 		const storage = parseInt(data.storage);
-		var stor = storage + varName
-		const res = this.getVariable(storage, stor, cache);
-      
+		var stor = storage + varName;
+		const res = this.getVariable(storage ,stor ,cache);
+
 
 
 		// Stop watching the feed.
-		
-			res.stop()
-			
-			this.callNextAction(cache);
-		
 
-	},
+		res.stop();
+
+		this.callNextAction(cache);
+
+
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Bot Mod

@@ -1,12 +1,11 @@
 module.exports = {
-
 	//---------------------------------------------------------------------
 	// Action Name
 	//
 	// This is the name of the action displayed in the editor.
 	//---------------------------------------------------------------------
 
-	name: "Bot Typing",
+	name: "Bot Typing" ,
 
 	//---------------------------------------------------------------------
 	// Action Section
@@ -14,7 +13,7 @@ module.exports = {
 	// This is the section the action will fall into.
 	//---------------------------------------------------------------------
 
-	section: "Bot Client Control",
+	section: "Bot Client Control" ,
 
 	//---------------------------------------------------------------------
 	// Action Subtitle
@@ -23,12 +22,12 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	subtitle: function(data) {
-		const names = ['Same Channel', 'Mentioned Channel', 'Default Channel', 'Temp Variable', 'Server Variable', 'Global Variable'];
-		const names2 = ['Starts Typing', 'Stops Typing']
+		const names = ["Same Channel" ,"Mentioned Channel" ,"Default Channel" ,"Temp Variable" ,"Server Variable" ,"Global Variable"];
+		const names2 = ["Starts Typing" ,"Stops Typing"];
 		const index2 = parseInt(data.type);
 		const index = parseInt(data.storage);
 		return index < 3 ? `${names[index]} - ${names2[index2]}` : `${names[index]} - ${data.varName} - ${names2[index2]}`;
-	},
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Fields
@@ -38,7 +37,7 @@ module.exports = {
 	// are also the names of the fields stored in the action's JSON data.
 	//---------------------------------------------------------------------
 
-	fields: ["storage", "varName", "type"],
+	fields: ["storage" ,"varName" ,"type"] ,
 
 	//---------------------------------------------------------------------
 	// Command HTML
@@ -56,7 +55,7 @@ module.exports = {
 	//                messages, servers, variables
 	//---------------------------------------------------------------------
 
-	html: function(isEvent, data) {
+	html: function(isEvent ,data) {
 		return `
 		<div>
 			<p>
@@ -89,8 +88,8 @@ module.exports = {
 		<p>
 			You can stop the typing with <b>Stop Typing</b>
 		</p>
-	</div><br>`
-	},
+	</div><br>`;
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Editor Init Code
@@ -101,10 +100,10 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	init: function() {
-		const {glob, document} = this;
+		const { glob ,document } = this;
 
-		glob.channelChange(document.getElementById('storage'), 'varNameContainer');
-	},
+		glob.channelChange(document.getElementById("storage") ,"varNameContainer");
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Bot Function
@@ -117,8 +116,8 @@ module.exports = {
 	action: function(cache) {
 		const data = cache.actions[cache.index];
 		const storage = parseInt(data.storage);
-		const varName = this.evalMessage(data.varName, cache);
-		const channel = this.getChannel(storage, varName, cache);
+		const varName = this.evalMessage(data.varName ,cache);
+		const channel = this.getChannel(storage ,varName ,cache);
 
 		try { //This "Try and Catch" Function is really useful for when it's coming up an error, it will log it in your logs.
 			if (data.type == "0") { //"If and else" Function is for looking if the result of them equals what you wan't.
@@ -131,7 +130,7 @@ module.exports = {
 		}
 
 		this.callNextAction(cache);
-	},
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Bot Mod
@@ -142,7 +141,5 @@ module.exports = {
 	// functions you wish to overwrite.
 	//---------------------------------------------------------------------
 
-	mod: function(DBM) {
-	}
-
-	}; // End of module
+	mod: function() {}
+}; // End of module

@@ -1,12 +1,11 @@
 module.exports = {
-
 	//---------------------------------------------------------------------
 	// Action Name
 	//
 	// This is the name of the action displayed in the editor.
 	//---------------------------------------------------------------------
 
-	name: "Get Bot Stats From DBL",
+	name: "Get Bot Stats From DBL" ,
 
 	//---------------------------------------------------------------------
 	// Action Section
@@ -14,7 +13,7 @@ module.exports = {
 	// This is the section the action will fall into.
 	//---------------------------------------------------------------------
 
-	section: "Other Stuff",
+	section: "Other Stuff" ,
 
 	//---------------------------------------------------------------------
 	// Action Subtitle
@@ -23,9 +22,9 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	subtitle: function (data) {
-		const info = ['Invite URL', 'GitHub Repository URL', 'Website URL', 'Long Description', 'Short Description', 'Prefix', 'Library', 'Avatar URL', 'Approved On', 'Support Server Invite URL', 'Server Count', 'Shard Count', 'Vanity URL', 'Guild ID(s)', 'Servers on Shards', 'Monthly Vote Count', 'Total Vote Count', 'Owner ID(s)', 'Tag(s)', 'Username', 'Discriminator'];
+		const info = ["Invite URL" ,"GitHub Repository URL" ,"Website URL" ,"Long Description" ,"Short Description" ,"Prefix" ,"Library" ,"Avatar URL" ,"Approved On" ,"Support Server Invite URL" ,"Server Count" ,"Shard Count" ,"Vanity URL" ,"Guild ID(s)" ,"Servers on Shards" ,"Monthly Vote Count" ,"Total Vote Count" ,"Owner ID(s)" ,"Tag(s)" ,"Username" ,"Discriminator"];
 		return `Get Bot's ${info[parseInt(data.info)]}`;
-	},
+	} ,
 
 	//---------------------------------------------------------------------
 	// DBM Mods Manager Variables (Optional but nice to have!)
@@ -35,15 +34,16 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "EGGSY",
+	author: "EGGSY" ,
 
 	// The version of the mod (Defaults to 1.0.0)
-	version: "1.8.9",
+	version: "1.8.9" ,
 
 	// A short description to show on the mod line for this mod (Must be on a single line)
-	short_description: "Get any bot stats from Discord Bot List!",
+	short_description: "Get any bot stats from Discord Bot List!" ,
 
 	// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
+	// depends_on_mods: ["WrexMODS"],
 
 	//---------------------------------------------------------------------
 	// Action Storage Function
@@ -51,10 +51,10 @@ module.exports = {
 	// Stores the relevant variable info for the editor.
 	//---------------------------------------------------------------------
 
-	variableStorage: function (data, varType) {
+	variableStorage: function (data ,varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
-		let dataType = 'A DBL Stat';
+		let dataType = "A DBL Stat";
 		const info = parseInt(data.info);
 		switch (info) {
 			case 0:
@@ -121,8 +121,8 @@ module.exports = {
 				dataType = "Discriminator";
 				break;
 		}
-		return ([data.varName, dataType]);
-	},
+		return ([data.varName ,dataType]);
+	} ,
 	//---------------------------------------------------------------------
 	// Action Fields
 	//
@@ -131,25 +131,25 @@ module.exports = {
 	// are also the names of the fields stored in the action's JSON data.
 	//---------------------------------------------------------------------
 
-	fields: ["botID", "token", "info", "storage", "varName"],
+	fields: ["botID" ,"token" ,"info" ,"storage" ,"varName"] ,
 
 	//---------------------------------------------------------------------
 	// Command HTML
 	//
 	// This function returns a string containing the HTML used for
-	// editting actions. 
+	// editting actions.
 	//
 	// The "isEvent" parameter will be true if this action is being used
-	// for an event. Due to their nature, events lack certain information, 
+	// for an event. Due to their nature, events lack certain information,
 	// so edit the HTML to reflect this.
 	//
-	// The "data" parameter stores constants for select elements to use. 
+	// The "data" parameter stores constants for select elements to use.
 	// Each is an array: index 0 for commands, index 1 for events.
-	// The names are: sendTargets, members, roles, channels, 
+	// The names are: sendTargets, members, roles, channels,
 	//                messages, servers, variables
 	//---------------------------------------------------------------------
 
-	html: function (isEvent, data) {
+	html: function (isEvent ,data) {
 		return `
 <div id="modinfo">
 	<p>
@@ -206,8 +206,8 @@ module.exports = {
 			<b>Note:</b> DBL is going to update the API and you'll need a token after the update!
 		</p>
 	</div>
-</div>`
-	},
+</div>`;
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Editor Init Code
@@ -218,30 +218,30 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	init: function () {
-		const { glob, document } = this;
+		const { glob ,document } = this;
 
-		glob.variableChange(document.getElementById('storage'), 'varNameContainer');
-	},
+		glob.variableChange(document.getElementById("storage") ,"varNameContainer");
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Bot Function
 	//
 	// This is the function for the action within the Bot's Action class.
-	// Keep in mind event calls won't have access to the "msg" parameter, 
+	// Keep in mind event calls won't have access to the "msg" parameter,
 	// so be sure to provide checks for variable existance.
 	//---------------------------------------------------------------------
 
 	action: function (cache) {
 
 		const data = cache.actions[cache.index];
-		const botID = this.evalMessage(data.botID, cache);
+		const botID = this.evalMessage(data.botID ,cache);
 		const info = parseInt(data.info);
-		const dblToken = this.evalMessage(data.token, cache);
+		const dblToken = this.evalMessage(data.token ,cache);
 
-		var fetch = require("node-fetch")
-		fetch('https://discordbots.org/api/bots/' + botID, {
-			method: 'GET',
-			headers: { 'Authorization': dblToken ? dblToken : "" },
+		var fetch = require("node-fetch");
+		fetch("https://discordbots.org/api/bots/" + botID ,{
+			method: "GET" ,
+			headers: { "Authorization": dblToken ? dblToken : "" } ,
 		})
 			.then(res => res.json())
 			.then(r => {
@@ -313,8 +313,8 @@ module.exports = {
 
 				// Storing
 				const storage = parseInt(data.storage);
-				const varName = this.evalMessage(data.varName, cache);
-				this.storeValue(result, storage, varName, cache);
+				const varName = this.evalMessage(data.varName ,cache);
+				this.storeValue(result ,storage ,varName ,cache);
 
 				this.callNextAction(cache);
 			});
@@ -400,7 +400,7 @@ module.exports = {
 				this.callNextAction(cache);
 			});
 		*/
-	},
+	} ,
 
 	//---------------------------------------------------------------------
 	// Action Bot Mod
@@ -411,7 +411,6 @@ module.exports = {
 	// functions you wish to overwrite.
 	//---------------------------------------------------------------------
 
-	mod: function (DBM) {
-	}
+	mod: function () {}
 
 }; // End of module
