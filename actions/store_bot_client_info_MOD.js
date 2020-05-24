@@ -1,60 +1,13 @@
 module.exports = {
-	//---------------------------------------------------------------------
-	// Action Name
-	//
-	// This is the name of the action displayed in the editor.
-	//---------------------------------------------------------------------
-
-	name: "Store Bot Client Info" ,
-
-	//---------------------------------------------------------------------
-	// Action Section
-	//
-	// This is the section the action will fall into.
-	//---------------------------------------------------------------------
-
-	section: "Bot Client Control" ,
-
-	//---------------------------------------------------------------------
-	// Action Subtitle
-	//
-	// This function generates the subtitle displayed next to the name.
-	//---------------------------------------------------------------------
+	name: "Store Bot Client Info",  
+	section: "Bot Client Control",  
 
 	subtitle: function (data) {
-		const info = ["Uptime in Milliseconds" ,"Ready At?" ,"Ping" ,"Guild Amount" ,"User Amount" ,"Rounded Ping" ,"Uptime in Seconds" ,"Uptime in Minutes" ,"Bot's Token" ,"Voice Connections Amount" ,"Total Amount of Channels" ,"Total Amount of Emojis" ,"Bot's Previous Pings" ,"Uptime in Days" ,"Uptime in Days (Rounded)" ,"Memory (RAM) Usage" ,"Bot Guilds Objects" ,"Bot Guilds Names" ,"Bot Guilds IDs" ,"Bot Current Prefix" ,"Bot Client ID" ,"Discord JS Version" ,"Uptime in Hours" ,"Refreshing Uptime in Days" ,"Refreshing Uptime in Hours" ,"Refreshing Uptime in Minutes" ,"Refreshing Uptime in Seconds" ,"Memory (RAM) Usage in MB" ,"Bot's OS (Process Platform)" ,"CPU Usage in MB" ,"Bot's Directory" ,"Node JS Version" ,"Amount of Commands" ,"Amount of Events" ,"Ready At ? [timestamp]" ,"CPU Core Count" ,"Total Memory (GB)" ,"Total Memory (MB)" ,"Available Memory (GB)" ,"Available Memory (MB)" ,"Available Memory (%)" ,"Used Memory (GB)" ,"Used Memory (MB)" ,"Used Memory (%)" ,"Bot Owner ID"];
+		const info = ["Uptime in Milliseconds", "Ready At?", "Ping", "Guild Amount", "User Amount", "Rounded Ping", "Uptime in Seconds", "Uptime in Minutes", "Bot's Token", "Voice Connections Amount", "Total Amount of Channels", "Total Amount of Emojis", "Bot's Previous Pings", "Uptime in Days", "Uptime in Days (Rounded)", "Memory (RAM) Usage", "Bot Guilds Objects", "Bot Guilds Names", "Bot Guilds IDs", "Bot Current Prefix", "Bot Client ID", "Discord JS Version", "Uptime in Hours", "Refreshing Uptime in Days", "Refreshing Uptime in Hours", "Refreshing Uptime in Minutes", "Refreshing Uptime in Seconds", "Memory (RAM) Usage in MB", "Bot's OS (Process Platform)", "CPU Usage in MB", "Bot's Directory", "Node JS Version", "Amount of Commands", "Amount of Events", "Ready At ? [timestamp]", "CPU Core Count", "Total Memory (GB)", "Total Memory (MB)", "Available Memory (GB)", "Available Memory (MB)", "Available Memory (%)", "Used Memory (GB)", "Used Memory (MB)", "Used Memory (%)", "Bot Owner ID"];
 		return `Bot Client - ${info[parseInt(data.info)]}`;
-	} ,
+	},  
 
-	//---------------------------------------------------------------------
-	// DBM Mods Manager Variables (Optional but nice to have!)
-	//
-	// These are variables that DBM Mods Manager uses to show information
-	// about the mods for people to see in the list.
-	//---------------------------------------------------------------------
-
-	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "Lasse, EliteArtz, EGGSY, Danno3817 & MrGold" ,
-
-	// The version of the mod (Defaults to 1.0.0)
-	version: "1.9" , //Added in 1.8.7
-
-	// A short description to show on the mod line for this mod (Must be on a single line)
-	short_description: "Stores Bot Information like Ping, Total Members or Guilds..." ,
-
-	// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-	// depends_on_mods: ["WrexMODS"],
-
-
-	//---------------------------------------------------------------------
-
-	//---------------------------------------------------------------------
-	// Action Storage Function
-	//
-	// Stores the relevant variable info for the editor.
-	//---------------------------------------------------------------------
-
-	variableStorage: function (data ,varType) {
+	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		const info = parseInt(data.info);
@@ -181,44 +134,14 @@ module.exports = {
 				break;
 
 		}
-		return ([data.varName2 ,dataType]);
-	} ,
+		return ([data.varName2, dataType]);
+	},  
 
-	//---------------------------------------------------------------------
-	// Action Fields
-	//
-	// These are the fields for the action. These fields are customized
-	// by creating elements with corresponding IDs in the HTML. These
-	// are also the names of the fields stored in the action's JSON data.
-	//---------------------------------------------------------------------
+	fields: ["info", "storage", "varName2"],  
 
-	fields: ["info" ,"storage" ,"varName2"] ,
-
-	//---------------------------------------------------------------------
-	// Command HTML
-	//
-	// This function returns a string containing the HTML used for
-	// editting actions.
-	//
-	// The "isEvent" parameter will be true if this action is being used
-	// for an event. Due to their nature, events lack certain information,
-	// so edit the HTML to reflect this.
-	//
-	// The "data" parameter stores constants for select elements to use.
-	// Each is an array: index 0 for commands, index 1 for events.
-	// The names are: sendTargets, members, roles, channels,
-	//                messages, servers, variables
-	//---------------------------------------------------------------------
-
-	html: function (isEvent ,data) {
+	html: function (isEvent, data) {
 	// current 43 items
 		return `
-		<div>
-			<p>
-				<u>Mod Info:</u><br>
-				Created by EliteArtz, EGGSY, Lasse, Danno3817 & MrGold!
-			</p>
-		</div><br>
 	<div style="float: left; width: 80%; padding-top: 8px;">
 		Source Info:<br>
 		<select id="info" class="round">
@@ -287,33 +210,17 @@ module.exports = {
 			<input id="varName2" class="round" type="text"><br>
 		</div>
 	</div><br><br>`;
-	} ,
+	},  
 
-	//---------------------------------------------------------------------
-	// Action Editor Init Code
-	//
-	// When the HTML is first applied to the action editor, this code
-	// is also run. This helps add modifications or setup reactionary
-	// functions for the DOM elements.
-	//---------------------------------------------------------------------
-
-	init: function () { } ,
-
-	//---------------------------------------------------------------------
-	// Action Bot Function
-	//
-	// This is the function for the action within the Bot's Action class.
-	// Keep in mind event calls won't have access to the "msg" parameter,
-	// so be sure to provide checks for variable existance.
-	//---------------------------------------------------------------------
+	init: function () { },  
 
 	action: function (cache) {
 		const botClient = this.getDBM().Bot.bot;
-		const os = require("os"); // Added by Danno3817
-		const dibiem = this.getDBM(); //EliteArtz... really???? Ugh you guys are meme
+		const os = require("os");
+		const dibiem = this.getDBM();
 		const data = cache.actions[cache.index];
 		const info = parseInt(data.info);
-		const msToDay = (1000 * 60 * 60 * 24); // Really? Lasse? Did you really forget this? - :blobshh:
+		const msToDay = (1000 * 60 * 60 * 24);
 		if (!botClient) {
 			this.callNextAction(cache);
 			return;
@@ -473,21 +380,12 @@ module.exports = {
 		}
 		if (result !== undefined) {
 			const storage = parseInt(data.storage);
-			const varName2 = this.evalMessage(data.varName2 ,cache);
-			this.storeValue(result ,storage ,varName2 ,cache);
+			const varName2 = this.evalMessage(data.varName2, cache);
+			this.storeValue(result, storage, varName2, cache);
 		}
 		this.callNextAction(cache);
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Bot Mod
-	//
-	// Upon initialization of the bot, this code is run. Using the bot's
-	// DBM namespace, one can add/modify existing functions if necessary.
-	// In order to reduce conflictions between mods, be sure to alias
-	// functions you wish to overwrite.
-	//---------------------------------------------------------------------
+	},  
 
 	mod: function (DBM) { }
 
-}; // End of module
+}; 

@@ -23,7 +23,7 @@ class StoreAttachmentInfo {
      * The authors of the action.
      * @type {string}
      */
-		this.authors = ["EGGSY" ,"Almeida"];
+		this.authors = ["EGGSY", "Almeida"];
 
 		/**
      * The version of the action.
@@ -53,7 +53,7 @@ class StoreAttachmentInfo {
      * The fields used in the actions JSON data and HTML elements.
      * @type {Array<string>}
      */
-		this.fields = ["storage" ,"varName" ,"info" ,"storage2" ,"varName2"];
+		this.fields = ["storage", "varName", "info", "storage2", "varName2"];
 	}
 
 	/**
@@ -71,7 +71,7 @@ class StoreAttachmentInfo {
    * @return {string} The finalized subtitle.
    */
 	subtitle({ info }) {
-		const names = ["Attachment's URL" ,"Attachment File's Name" ,"ttachment's Height" ,"Attachment's Width" ,"Attachment Message's Content" ,"Attachment File's Size" ,"Attachment Message's ID"];
+		const names = ["Attachment's URL", "Attachment File's Name", "ttachment's Height", "Attachment's Width", "Attachment Message's Content", "Attachment File's Size", "Attachment Message's ID"];
 		return `${names[parseInt(info)]}`;
 	}
 
@@ -81,21 +81,21 @@ class StoreAttachmentInfo {
    * @param {string} varType The variable type.
    * @return {Array<string>|void} An array containing the variable types.
    */
-	variableStorage(data ,varType) {
+	variableStorage(data, varType) {
 		const type = parseInt(data.storage2);
 		if (type !== varType) return;
 
 		const info = parseInt(data.info);
 		const dataType = [
-			"URL" ,
-			"File Name" ,
-			"Number" ,
-			"Message Content" ,
-			"File Size" ,
-			"Message ID" ,
+			"URL",  
+			"File Name",  
+			"Number",  
+			"Message Content",  
+			"File Size",  
+			"Message ID",  
 		][info] || "Message Attachment (Unknown) Info";
 
-		return ([data.varName2 ,dataType]);
+		return ([data.varName2, dataType]);
 	}
 
 	/**
@@ -103,10 +103,10 @@ class StoreAttachmentInfo {
    * @return {void}
    */
 	init() {
-		const { document ,glob } = this;
+		const { document, glob } = this;
 
-		glob.messageChange(document.getElementById("storage") ,"varNameContainer");
-		glob.variableChange(document.getElementById("storage2") ,"varNameContainer2");
+		glob.messageChange(document.getElementById("storage"), "varNameContainer");
+		glob.variableChange(document.getElementById("storage2"), "varNameContainer2");
 	}
 
 	/**
@@ -117,8 +117,8 @@ class StoreAttachmentInfo {
 	action(cache) {
 		const data = cache.actions[cache.index];
 		const storage = parseInt(data.storage);
-		const varName = this.evalMessage(data.varName ,cache);
-		const message = this.getMessage(storage ,varName ,cache);
+		const varName = this.evalMessage(data.varName, cache);
+		const message = this.getMessage(storage, varName, cache);
 		const info = parseInt(data.info);
 
 		const attachments = message.attachments.array();
@@ -127,19 +127,19 @@ class StoreAttachmentInfo {
 			const attachment = attachments[0];
 
 			const result = [
-				attachment.url ,
-				attachment.filename ,
-				attachment.height ,
-				attachment.width ,
-				attachment.message.content ,
-				Math.floor(attachment.filesize / 1000) ,
-				attachment.message.id ,
+				attachment.url,  
+				attachment.filename,  
+				attachment.height,  
+				attachment.width,  
+				attachment.message.content,  
+				Math.floor(attachment.filesize / 1000),  
+				attachment.message.id,  
 			][info];
 
 			if (result !== undefined) {
 				const storage2 = parseInt(data.storage2);
-				const varName2 = this.evalMessage(data.varName2 ,cache);
-				this.storeValue(result ,storage2 ,varName2 ,cache);
+				const varName2 = this.evalMessage(data.varName2, cache);
+				this.storeValue(result, storage2, varName2, cache);
 			}
 		}
 
@@ -152,7 +152,7 @@ class StoreAttachmentInfo {
    * @param {Object<*>} data The data for the action.
    * @return {string} The HTML document.
    */
-	html(isEvent ,data) {
+	html(isEvent, data) {
 		return `
       <div style="padding-bottom: 100px; padding: 5px 15px 5px 5px">
         <div class="container">

@@ -1,58 +1,14 @@
 module.exports = {
-	//---------------------------------------------------------------------
-	// Action Name
-	//
-	// This is the name of the action displayed in the editor.
-	//---------------------------------------------------------------------
-
-	name: "Store Message Info" ,
-
-	//---------------------------------------------------------------------
-	// Action Section
-	//
-	// This is the section the action will fall into.
-	//---------------------------------------------------------------------
-
-	section: "Messaging" ,
-
-	//---------------------------------------------------------------------
-	// Action Subtitle
-	//
-	// This function generates the subtitle displayed next to the name.
-	//---------------------------------------------------------------------
+	name: "Store Message Info",  
+	section: "Messaging",  
 
 	subtitle: function(data) {
-		const message = ["Command Message" ,"Temp Variable" ,"Server Variable" ,"Global Variable"];
-		const info = ["Message Object" ,"Message ID" ,"Message Text" ,"Message Author" ,"Message Channel" ,"Message Timestamp" ,"" ,"" ,"Message Edited At" ,"Message Edits History" ,"" ,"" ,"Messages Different Reactions Count" ,"Mentioned Users List" ,"Mentioned Users Count" ,"Message URL" ,"Message Creation Date" ,"Message Length" ,"Message Attachments Count" ,"Message Guild" ,"Message Type" ,"Message Webhook ID" ,"Message Embed Object"];
+		const message = ["Command Message", "Temp Variable", "Server Variable", "Global Variable"];
+		const info = ["Message Object", "Message ID", "Message Text", "Message Author", "Message Channel", "Message Timestamp", "", "", "Message Edited At", "Message Edits History", "", "", "Messages Different Reactions Count", "Mentioned Users List", "Mentioned Users Count", "Message URL", "Message Creation Date", "Message Length", "Message Attachments Count", "Message Guild", "Message Type", "Message Webhook ID", "Message Embed Object"];
 		return `${message[parseInt(data.message)]} - ${info[parseInt(data.info)]}`;
-	} ,
+	},  
 
-	//---------------------------------------------------------------------
-	// DBM Mods Manager Variables (Optional but nice to have!)
-	//
-	// These are variables that DBM Mods Manager uses to show information
-	// about the mods for people to see in the list.
-	//---------------------------------------------------------------------
-
-	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "DBM Mods, Lasse, NetLuis & Cap" ,
-
-	// The version of the mod (Defaults to 1.0.0)
-	version: "1.9.6" ,
-
-	// A short description to show on the mod line for this mod (Must be on a single line)
-	short_description: "New user interface, fixes, and new default action options added." ,
-
-	// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-	// depends_on_mods: ["WrexMODS"],
-
-	//---------------------------------------------------------------------
-	// Action Storage Function
-	//
-	// Stores the relevant variable info for the editor.
-	//---------------------------------------------------------------------
-
-	variableStorage: function(data ,varType) {
+	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
 		const info = parseInt(data.info);
@@ -77,7 +33,7 @@ module.exports = {
 				dataType = "Text";
 				break;
 			case 8:
-			case 16: // Added by Cap in 1.9.6
+			case 16:
 				dataType = "Date";
 				break;
 			case 9:
@@ -86,56 +42,32 @@ module.exports = {
 				break;
 			case 12:
 			case 14:
-			case 17: // Added by Cap in 1.9.6
-			case 18: // Added by Cap in 1.9.6
+			case 17:
+			case 18:
 				dataType = "Number";
 				break;
 			case 15:
 				dataType = "URL";
 				break;
-			case 19: // Added by Cap in 1.9.6
+			case 19:
 				dataType = "Guild";
 				break;
-			case 20: // Added by Cap in 1.9.6
+			case 20:
 				dataType = "Message Type";
 				break;
-			case 21: // Added by Cap in 1.9.6
+			case 21:
 				dataType = "Webhook ID";
 				break;
-			case 22: //Added by LeonZ
+			case 22:
 				dataType = "Embed Message";
 				break;
 		}
-		return ([data.varName2 ,dataType]);
-	} ,
+		return ([data.varName2, dataType]);
+	},  
 
-	//---------------------------------------------------------------------
-	// Action Fields
-	//
-	// These are the fields for the action. These fields are customized
-	// by creating elements with corresponding IDs in the HTML. These
-	// are also the names of the fields stored in the action's JSON data.
-	//---------------------------------------------------------------------
+	fields: ["message", "varName", "info", "storage", "varName2"],  
 
-	fields: ["message" ,"varName" ,"info" ,"storage" ,"varName2"] ,
-
-	//---------------------------------------------------------------------
-	// Command HTML
-	//
-	// This function returns a string containing the HTML used for
-	// editting actions.
-	//
-	// The "isEvent" parameter will be true if this action is being used
-	// for an event. Due to their nature, events lack certain information,
-	// so edit the HTML to reflect this.
-	//
-	// The "data" parameter stores constants for select elements to use.
-	// Each is an array: index 0 for commands, index 1 for events.
-	// The names are: sendTargets, members, roles, channels,
-	//                messages, servers, variables
-	//---------------------------------------------------------------------
-
-	html: function(isEvent ,data) {
+	html: function(isEvent, data) {
 		return `
 		<div><p>This action has been modified by DBM Mods.</p></div><br>
 	<div>
@@ -192,37 +124,21 @@ module.exports = {
 			<input id="varName2" class="round" type="text"><br>
 		</div>
 	</div>`;
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Editor Init Code
-	//
-	// When the HTML is first applied to the action editor, this code
-	// is also run. This helps add modifications or setup reactionary
-	// functions for the DOM elements.
-	//---------------------------------------------------------------------
+	},  
 
 	init: function() {
-		const { glob ,document } = this;
+		const { glob, document } = this;
 
-		glob.messageChange(document.getElementById("message") ,"varNameContainer");
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Bot Function
-	//
-	// This is the function for the action within the Bot's Action class.
-	// Keep in mind event calls won't have access to the "msg" parameter,
-	// so be sure to provide checks for variable existance.
-	//---------------------------------------------------------------------
+		glob.messageChange(document.getElementById("message"), "varNameContainer");
+	},  
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
 		const message = parseInt(data.message);
 		const DiscordJS = require("discord.js");
-		const varName = this.evalMessage(data.varName ,cache);
+		const varName = this.evalMessage(data.varName, cache);
 		const info = parseInt(data.info);
-		const msg = this.getMessage(message ,varName ,cache);
+		const msg = this.getMessage(message, varName, cache);
 		if(!msg) {
 			this.callNextAction(cache);
 			return;
@@ -269,22 +185,22 @@ module.exports = {
 			case 15:
 				result = msg.url;
 				break;
-			case 16: // Added by Cap in 1.9.6
+			case 16:
 				result = msg.createdAt;
 				break;
-			case 17: // Added by Cap in 1.9.6
+			case 17:
 				result = msg.content.length;
 				break;
-			case 18: // Added by Cap in 1.9.6
+			case 18:
 				result = msg.attachments.array().length;
 				break;
-			case 19: // Added by Cap in 1.9.6
+			case 19:
 				result = msg.guild;
 				break;
-			case 20: // Added by Cap in 1.9.6
+			case 20:
 				result = msg.type;
 				break;
-			case 21: // Added by Cap in 1.9.6
+			case 21:
 				result = msg.webhookID;
 				break;
 			case 22:
@@ -311,21 +227,12 @@ module.exports = {
 		}
 		if(result !== undefined) {
 			const storage = parseInt(data.storage);
-			const varName2 = this.evalMessage(data.varName2 ,cache);
-			this.storeValue(result ,storage ,varName2 ,cache);
+			const varName2 = this.evalMessage(data.varName2, cache);
+			this.storeValue(result, storage, varName2, cache);
 		}
 		this.callNextAction(cache);
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Bot Mod
-	//
-	// Upon initialization of the bot, this code is run. Using the bot's
-	// DBM namespace, one can add/modify existing functions if necessary.
-	// In order to reduce conflictions between mods, be sure to alias
-	// functions you wish to overwrite.
-	//---------------------------------------------------------------------
+	},  
 
 	mod: function() {}
-}; // End of module
+}; 
 

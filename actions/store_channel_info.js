@@ -1,61 +1,14 @@
 module.exports = {
-	//---------------------------------------------------------------------
-	// Action Name
-	//
-	// This is the name of the action displayed in the editor.
-	//---------------------------------------------------------------------
-
-	name: "Store Channel Info" ,
-
-	//---------------------------------------------------------------------
-	// Action Section
-	//
-	// This is the section the action will fall into.
-	//---------------------------------------------------------------------
-
-	section: "Channel Control" ,
-
-	//---------------------------------------------------------------------
-	// Action Subtitle
-	//
-	// This function generates the subtitle displayed next to the name.
-	//---------------------------------------------------------------------
+	name: "Store Channel Info",  
+	section: "Channel Control",  
 
 	subtitle: function(data) {
-		const channels = ["Same Channel" ,"Mentioned Channel" ,"1st Server Channel" ,"Temp Variable" ,"Server Variable" ,"Global Variable"];
-		const info = ["Channel Object" ,"Channel ID" ,"Channel Name" ,"Channel Topic" ,"Channel Last Message" ,"Channel Position" ,"Channel Is NSFW?" ,"Channel Is DM?" ,"Channel Is Deleteable?" ,"Channel Creation Date" ,"Channel Category Name" ,"Created At" ,"Created At Timestamp"];
+		const channels = ["Same Channel", "Mentioned Channel", "1st Server Channel", "Temp Variable", "Server Variable", "Global Variable"];
+		const info = ["Channel Object", "Channel ID", "Channel Name", "Channel Topic", "Channel Last Message", "Channel Position", "Channel Is NSFW?", "Channel Is DM?", "Channel Is Deleteable?", "Channel Creation Date", "Channel Category Name", "Created At", "Created At Timestamp"];
 		return `${channels[parseInt(data.channel)]} - ${info[parseInt(data.info)]}`;
-	} ,
+	},  
 
-	//---------------------------------------------------------------------
-	// DBM Mods Manager Variables (Optional but nice to have!)
-	//
-	// These are variables that DBM Mods Manager uses to show information
-	// about the mods for people to see in the list.
-	//---------------------------------------------------------------------
-
-	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "DBM, Lurker & Lasse" ,
-
-	// The version of the mod (Defaults to 1.0.0)
-	version: "1.9.5" , //Added in 1.9.1
-
-	// A short description to show on the mod line for this mod (Must be on a single line)
-	short_description: "Added more options to default action." ,
-
-	// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-	// depends_on_mods: ["WrexMODS"],
-
-
-	//---------------------------------------------------------------------
-
-	//---------------------------------------------------------------------
-	// Action Storage Function
-	//
-	// Stores the relevant variable info for the editor.
-	//---------------------------------------------------------------------
-
-	variableStorage: function(data ,varType) {
+	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
 		const info = parseInt(data.info);
@@ -95,36 +48,12 @@ module.exports = {
 				dataType = "Created At Timestamp";
 				break;
 		}
-		return ([data.varName2 ,dataType]);
-	} ,
+		return ([data.varName2, dataType]);
+	},  
 
-	//---------------------------------------------------------------------
-	// Action Fields
-	//
-	// These are the fields for the action. These fields are customized
-	// by creating elements with corresponding IDs in the HTML. These
-	// are also the names of the fields stored in the action's JSON data.
-	//---------------------------------------------------------------------
+	fields: ["channel", "varName", "info", "storage", "varName2"],  
 
-	fields: ["channel" ,"varName" ,"info" ,"storage" ,"varName2"] ,
-
-	//---------------------------------------------------------------------
-	// Command HTML
-	//
-	// This function returns a string containing the HTML used for
-	// editting actions.
-	//
-	// The "isEvent" parameter will be true if this action is being used
-	// for an event. Due to their nature, events lack certain information,
-	// so edit the HTML to reflect this.
-	//
-	// The "data" parameter stores constants for select elements to use.
-	// Each is an array: index 0 for commands, index 1 for events.
-	// The names are: sendTargets, members, roles, channels,
-	//                messages, servers, variables
-	//---------------------------------------------------------------------
-
-	html: function(isEvent ,data) {
+	html: function(isEvent, data) {
 		return `
 <div><p>This action has been modified by DBM Mods.</p></div><br>
 <div>
@@ -171,37 +100,21 @@ module.exports = {
 		<input id="varName2" class="round" type="text"><br>
 	</div>
 </div>`;
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Editor Init Code
-	//
-	// When the HTML is first applied to the action editor, this code
-	// is also run. This helps add modifications or setup reactionary
-	// functions for the DOM elements.
-	//---------------------------------------------------------------------
+	},  
 
 	init: function() {
-		const { glob ,document } = this;
+		const { glob, document } = this;
 
-		glob.channelChange(document.getElementById("channel") ,"varNameContainer");
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Bot Function
-	//
-	// This is the function for the action within the Bot's Action class.
-	// Keep in mind event calls won't have access to the "msg" parameter,
-	// so be sure to provide checks for variable existance.
-	//---------------------------------------------------------------------
+		glob.channelChange(document.getElementById("channel"), "varNameContainer");
+	},  
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
 		const DiscordJS = this.getDBM().DiscordJS;
 		const channel = parseInt(data.channel);
-		const varName = this.evalMessage(data.varName ,cache);
+		const varName = this.evalMessage(data.varName, cache);
 		const info = parseInt(data.info);
-		const targetChannel = this.getChannel(channel ,varName ,cache);
+		const targetChannel = this.getChannel(channel, varName, cache);
 		if(!targetChannel) {
 			this.callNextAction(cache);
 			return;
@@ -250,28 +163,19 @@ module.exports = {
 		if(info === 4) {
 			targetChannel.fetchMessage(targetChannel.lastMessageID).then(function(resultMessage) {
 				const storage = parseInt(data.storage);
-				const varName2 = this.evalMessage(data.varName2 ,cache);
-				this.storeValue(resultMessage ,storage ,varName2 ,cache);
+				const varName2 = this.evalMessage(data.varName2, cache);
+				this.storeValue(resultMessage, storage, varName2, cache);
 				this.callNextAction(cache);
-			}.bind(this)).catch(this.displayError.bind(this ,data ,cache));
+			}.bind(this)).catch(this.displayError.bind(this, data, cache));
 		} else if(result !== undefined) {
 			const storage = parseInt(data.storage);
-			const varName2 = this.evalMessage(data.varName2 ,cache);
-			this.storeValue(result ,storage ,varName2 ,cache);
+			const varName2 = this.evalMessage(data.varName2, cache);
+			this.storeValue(result, storage, varName2, cache);
 			this.callNextAction(cache);
 		} else {
 			this.callNextAction(cache);
 		}
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Bot Mod
-	//
-	// Upon initialization of the bot, this code is run. Using the bot's
-	// DBM namespace, one can add/modify existing functions if necessary.
-	// In order to reduce conflictions between mods, be sure to alias
-	// functions you wish to overwrite.
-	//---------------------------------------------------------------------
+	},  
 
 	mod: function() {}
-}; // End of module
+}; 

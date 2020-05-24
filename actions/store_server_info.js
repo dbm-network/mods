@@ -1,90 +1,16 @@
-module.exports = {	//---------------------------------------------------------------------
-	// Notes Section
-	//
-	// More Than 250 Members is deprecated please keep in mind its the #20 vaule. (do NOT remove) ~ Danno
-	// given the large amount of Infos here PLEASE document everything properly so the next person that adds onto it will know whats going on. thanks ~ Danno
-	//
-	// Missing 1.8.7 update text by Lasse (stated on Case 36)
-	//
-	// 1.8.9:
-	// - Added fetchMembers to probably fix the membercount cause users weren't cached ~ Lasse
-	//
-	// 1.9.1: Change Log: ~ Danno3817 10/03/2018 -
-	// - Scraped store_server_info_MOD, every thing is moved here to store_server_info
-	// - Added Is Server Verified ~ Danno3817
-	//
-	// Missing 1.9.6 update text by Cap (stated on Case 43)
-	//
-	// 1.9.7 ~ CoolGuy 02/17/2020:
-	// - converted 'action' function to async to support below. Wouldn't affect other actions in this list.
-	// - Had to restructure how switch cases were made to avoid already declared errors from occuring.
-	// - Fixed fetchBans() and fetchInvites by awaiting their promise. This way, it will always return the list instead of 0 or undefined.
-	// - Updated all .fetchMembers() methods to await, ensuring the bot can properly fetch all members in the server.
-	//
-	//  Mindlesscargo 04/25/2020:
-	// - Added server boost count
-	// - Added server premium tier
-	//
-	//---------------------------------------------------------------------
-
-	//---------------------------------------------------------------------
-	// Action Name
-	//
-	// This is the name of the action displayed in the editor.
-	//---------------------------------------------------------------------
-
-	name: "Store Server Info" ,
-
-	//---------------------------------------------------------------------
-	// Action Section
-	//
-	// This is the section the action will fall into.
-	//---------------------------------------------------------------------
-
-	section: "Server Control" ,
-
-	//---------------------------------------------------------------------
-	// Action Subtitle
-	//
-	// This function generates the subtitle displayed next to the name.
-	//---------------------------------------------------------------------
+module.exports = {
+	name: "Store Server Info", 
+	section: "Server Control", 
 
 	subtitle: function (data) {
 		const servers = [
-			"Current Server" ,"Temp Variable" ,"Server Variable" ,"Global Variable"
+			"Current Server", "Temp Variable", "Server Variable", "Global Variable"
 		];
-		const info = ["Server Object" ,"Server ID" ,"Server Name" ,"Server Name Acronym" ,"Server Region" ,"Server Icon URL" ,"Server Verification Level" ,"Server Default Channel" ,"Server AFK Channel" ,"Server System Channel" ,"Server Default Role" ,"Server Owner Member" ,"Server Bot Member Object" ,"Server Channel List" ,"Server Role List" ,"Server Member List" ,"Server Emoji List" ,"Server Member Count" ,"Creation Date" ,"Time To AFK" ,"Is Server Available?" ,"More than 250 members?" ,"Date Bot Joined Server" ,"Channel Amount" ,"Emoji Amount" ,"Embed Links" ,"DND Members Count" ,"Online Members Count (fixed)" ,"Offline Members Count" ,"Idle Members Count" ,"Total Bots Count In Server" ,"Server Channel IDs" ,"Server Role IDs" ,"Server Member IDs" ,"Server Bot Member Count" ,"Server Human Member Count" ,"Server Member Count" ,"Role Count" ,"Text Channel Count" ,"Voice Channel Count" ,"Is Server Verified?" ,"Banned Users List" ,"Invite List" ,"Server Explicit Content Filter" ,"Server Booster Count" ,"Server Premium Tier"];
+		const info = ["Server Object", "Server ID", "Server Name", "Server Name Acronym", "Server Region", "Server Icon URL", "Server Verification Level", "Server Default Channel", "Server AFK Channel", "Server System Channel", "Server Default Role", "Server Owner Member", "Server Bot Member Object", "Server Channel List", "Server Role List", "Server Member List", "Server Emoji List", "Server Member Count", "Creation Date", "Time To AFK", "Is Server Available?", "More than 250 members?", "Date Bot Joined Server", "Channel Amount", "Emoji Amount", "Embed Links", "DND Members Count", "Online Members Count (fixed)", "Offline Members Count", "Idle Members Count", "Total Bots Count In Server", "Server Channel IDs", "Server Role IDs", "Server Member IDs", "Server Bot Member Count", "Server Human Member Count", "Server Member Count", "Role Count", "Text Channel Count", "Voice Channel Count", "Is Server Verified?", "Banned Users List", "Invite List", "Server Explicit Content Filter", "Server Booster Count", "Server Premium Tier"];
 		return `${servers[parseInt(data.server)]} - ${info[parseInt(data.info)]}`;
-	} ,
+	}, 
 
-	//---------------------------------------------------------------------
-	// DBM Mods Manager Variables (Optional but nice to have!)
-	//
-	// These are variables that DBM Mods Manager uses to show information
-	// about the mods for people to see in the list.
-	//---------------------------------------------------------------------
-
-	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "Lasse, EGGSY, EliteArtz, Danno3817, ACertainCoder, Cap, & CoolGuy" ,
-
-	// The version of the mod (Defaults to 1.0.0)
-	version: "1.9.7" , // added in 1.9.1
-
-	// A short description to show on the mod line for this mod (Must be on a single line)
-	short_description: "Stores Server Information" ,
-
-	// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-	// depends_on_mods: ["WrexMODS"],
-
-	//---------------------------------------------------------------------
-
-	//---------------------------------------------------------------------
-	// Action Storage Function
-	//
-	// Stores the relevant variable info for the editor.
-	//---------------------------------------------------------------------
-
-	variableStorage: function (data ,varType) {
+	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		const info = parseInt(data.info);
@@ -179,36 +105,12 @@ module.exports = {	//-----------------------------------------------------------
 				dataType = "Number";
 				break;
 		}
-		return ([data.varName2 ,dataType]);
-	} ,
+		return ([data.varName2, dataType]);
+	}, 
 
-	//---------------------------------------------------------------------
-	// Action Fields
-	//
-	// These are the fields for the action. These fields are customized
-	// by creating elements with corresponding IDs in the HTML. These
-	// are also the names of the fields stored in the action's JSON data.
-	//---------------------------------------------------------------------
+	fields: ["server", "varName", "info", "storage", "varName2"], 
 
-	fields: ["server" ,"varName" ,"info" ,"storage" ,"varName2"] ,
-
-	//---------------------------------------------------------------------
-	// Command HTML
-	//
-	// This function returns a string containing the HTML used for
-	// editting actions.
-	//
-	// The "isEvent" parameter will be true if this action is being used
-	// for an event. Due to their nature, events lack certain information,
-	// so edit the HTML to reflect this.
-	//
-	// The "data" parameter stores constants for select elements to use.
-	// Each is an array: index 0 for commands, index 1 for events.
-	// The names are: sendTargets, members, roles, channels,
-	//                messages, servers, variables
-	//---------------------------------------------------------------------
-
-	html: function (isEvent ,data) {
+	html: function (isEvent, data) {
 		return `
 		<div><p>This action has been modified by DBM Mods.</p></div><br>
 		<div>
@@ -302,36 +204,20 @@ module.exports = {	//-----------------------------------------------------------
 				<input id="varName2" class="round" type="text"><br>
 			</div>
 		</div>`;
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Editor Init Code
-	//
-	// When the HTML is first applied to the action editor, this code
-	// is also run. This helps add modifications or setup reactionary
-	// functions for the DOM elements.
-	//---------------------------------------------------------------------
+	}, 
 
 	init: function () {
-		const { glob ,document } = this;
+		const { glob, document } = this;
 
-		glob.serverChange(document.getElementById("server") ,"varNameContainer");
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Bot Function
-	//
-	// This is the function for the action within the Bot's Action class.
-	// Keep in mind event calls won't have access to the "msg" parameter,
-	// so be sure to provide checks for variable existance.
-	//---------------------------------------------------------------------
+		glob.serverChange(document.getElementById("server"), "varNameContainer");
+	}, 
 
 	action: async function (cache) {
 		const data = cache.actions[cache.index];
 		const server = parseInt(data.server);
-		const varName = this.evalMessage(data.varName ,cache);
+		const varName = this.evalMessage(data.varName, cache);
 		const info = parseInt(data.info);
-		const targetServer = this.getServer(server ,varName ,cache);
+		const targetServer = this.getServer(server, varName, cache);
 		if (!targetServer) {
 			this.callNextAction(cache);
 			return;
@@ -418,31 +304,31 @@ module.exports = {	//-----------------------------------------------------------
 				break;
 			case 26: { // DND Members Count.
 				if (targetServer.memberCount !== targetServer.members.size) {
-					await targetServer.fetchMembers(); // ensures it fetches. updated to await in 1.9.7
+					await targetServer.fetchMembers(); // ensures it fetches. updated to await.
 				}
 				result = targetServer.members.filter(m => m.user.presence.status == "dnd").size;
 				break; }
 			case 27: { // Online Members Count.
 				if (targetServer.memberCount !== targetServer.members.size) {
-					await targetServer.fetchMembers(); // ensures it fetches. updated to await in 1.9.7
+					await targetServer.fetchMembers(); // ensures it fetches. updated to await.
 				}
 				result = targetServer.members.filter(m => m.user.presence.status == "online").size;
 				break; }
 			case 28: { // Offline Members Count.
 				if (targetServer.memberCount !== targetServer.members.size) {
-					await targetServer.fetchMembers(); // ensures it fetches. updated to await in 1.9.7
+					await targetServer.fetchMembers(); // ensures it fetches. updated to await.
 				}
 				result = targetServer.members.filter(m => m.user.presence.status == "offline").size;
 				break; }
 			case 29: { // Idle Members Count.
 				if (targetServer.memberCount !== targetServer.members.size) {
-					await targetServer.fetchMembers(); // ensures it fetches. updated to await in 1.9.7
+					await targetServer.fetchMembers(); // ensures it fetches. updated to await.
 				}
 				result = targetServer.members.filter(m => m.user.presence.status == "idle").size;
 				break; }
 			case 30: { // Total Bots Count In Server.
 				if (targetServer.memberCount !== targetServer.members.size) {
-					await targetServer.fetchMembers(); // ensures it fetches. updated to await in 1.9.7
+					await targetServer.fetchMembers(); // ensures it fetches. updated to await.
 				}
 				result = targetServer.members.filter(m => m.user.bot).size;
 				break; }
@@ -454,25 +340,25 @@ module.exports = {	//-----------------------------------------------------------
 				break; }
 			case 33: { // Server Member IDs.
 				if (targetServer.memberCount !== targetServer.members.size) {
-					await targetServer.fetchMembers(); // ensures it fetches. updated to await in 1.9.7
+					await targetServer.fetchMembers(); // ensures it fetches. updated to await.
 				}
 				result = targetServer.members.map(members => members.id);
 				break; }
 			case 34: { // Server Bot Member Count.
 				if (targetServer.memberCount !== targetServer.members.size) {
-					await targetServer.fetchMembers(); // ensures it fetches. updated to await in 1.9.7
+					await targetServer.fetchMembers(); // ensures it fetches. updated to await.
 				}
 				result = targetServer.members.filter(m => m.user.bot == true).size;
 				break; }
 			case 35: { // Server Human Member Count.
 				if (targetServer.memberCount !== targetServer.members.size) {
-					await targetServer.fetchMembers(); // ensures it fetches. updated to await in 1.9.7
+					await targetServer.fetchMembers(); // ensures it fetches. updated to await.
 				}
 				result = targetServer.members.filter(m => m.user.bot == false).size;
 				break; }
 			case 36: { // Server Member Count. //Added by Lasse in 1.8.7
 				if (targetServer.memberCount !== targetServer.members.size) {
-					await targetServer.fetchMembers(); // ensures it fetches. updated to await in 1.9.7
+					await targetServer.fetchMembers(); // ensures it fetches. updated to await.
 				}
 				result = targetServer.memberCount;
 				break; }
@@ -488,15 +374,15 @@ module.exports = {	//-----------------------------------------------------------
 			case 40: { // Is Server Verified?
 				result = targetServer.verified;
 				break; }
-			case 41: { // Collection of banned users. Fixed by CoolGuy in 1.9.7
+			case 41: { // Collection of banned users.
 				const bans = await targetServer.fetchBans();
 				result = bans.array();
 				break; }
-			case 42: { // Collection of guild invites. Fixed by CoolGuy in 1.9.7
+			case 42: { // Collection of guild invites.
 				const invites = await targetServer.fetchInvites();
 				result = invites.array();
 				break; }
-			case 43: { // Explicit Content Filter. Added by Cap in 1.9.6
+			case 43: { // Explicit Content Filter.
 				result = targetServer.explicitContentFilter;
 				break; }
 			case 44: {
@@ -505,25 +391,16 @@ module.exports = {	//-----------------------------------------------------------
 			case 45: {
 				result = targetServer.premiumTier || 0;
 				break; }
-			default: { // Fixed Spacing. Fixed in 1.9.7
+			default: { // Fixed Spacing.
 				break; }
 		}
 		if (result !== undefined) {
 			const storage = parseInt(data.storage);
-			const varName2 = this.evalMessage(data.varName2 ,cache);
-			this.storeValue(result ,storage ,varName2 ,cache);
+			const varName2 = this.evalMessage(data.varName2, cache);
+			this.storeValue(result, storage, varName2, cache);
 		}
 		this.callNextAction(cache);
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Bot Mod
-	//
-	// Upon initialization of the bot, this code is run. Using the bot's
-	// DBM namespace, one can add/modify existing functions if necessary.
-	// In order to reduce conflictions between mods, be sure to alias
-	// functions you wish to overwrite.
-	//---------------------------------------------------------------------
+	}, 
 
 	mod: function () {}
-}; // End of module
+}; 

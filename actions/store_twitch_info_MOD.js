@@ -1,25 +1,10 @@
 module.exports = {
-	//---------------------------------------------------------------------
-	// Action Name
-	//
-	// This is the name of the action displayed in the editor.
-	//---------------------------------------------------------------------
+	name: "Store Twitch Info",  
+	section: "Other Stuff",  
 
-	name: "Store Twitch Info" ,
-
-	//---------------------------------------------------------------------
-	// Action Section
-	//
-	// This is the section the action will fall into.
-	//---------------------------------------------------------------------
-
-	section: "Other Stuff" ,
-
-	//---------------------------------------------------------------------
-	// Action Subtitle
-	//
-	// This function generates the subtitle displayed next to the name.
-	//---------------------------------------------------------------------
+	depends_on_mods: [
+		{ name:"WrexMODS", path:"aaa_wrexmods_dependencies_MOD.js" }
+	],  
 
 	subtitle: function (data) {
 		const sourceType = parseInt(data.type);//"Channel", "Stream", "Video" or "Game"
@@ -30,10 +15,10 @@ module.exports = {
 		const info3 = parseInt(data.info3);
 		const info4 = parseInt(data.info4);
 
-		const list1 = [ "User ID" ,"User Login Name" ,"User Display Name" ,"User Type" ,"Broadcaster Type" ,"Channel Description" ,"Channel Profile Picture" ,"Channel Offline Picture" ,"Channel View Count" ,"Channel Follower Count"];//User & Channel Info
-		const list2 = ["Stream ID" ,"User ID" ,"User Display Name" ,"Game ID" ,"Community IDs" ,"Live Status" ,"Stream Title" ,"Viewer Count" ,"Started At Time" ,"Language Code" ,"Thumbnail URL" ,"Tag IDs"];//Stream Info
-		const list3 = ["Video IDs" ,"User IDs" ,"User Display Names" ,"Video Titles" ,"Video Descriptions" ,"Video Creation Dates" ,"Video Publish Dates" ,"Video URLs" ,"Video Thumbnail URLs" ,"Videos Viewable?" ,"Video Viewcounts" ,"Video Languages" ,"Video Types" ,"Video Durations"];//Video Info
-		const list4 = ["Game ID" ,"Game Name" ,"Game Box Art URL" ,"Popular Games List (Game IDs)" ,"Popular Games List (Game Names)" ,"Popular Games List (Game Box Art URLs)"];//Game Info
+		const list1 = [ "User ID", "User Login Name", "User Display Name", "User Type", "Broadcaster Type", "Channel Description", "Channel Profile Picture", "Channel Offline Picture", "Channel View Count", "Channel Follower Count"];//User & Channel Info
+		const list2 = ["Stream ID", "User ID", "User Display Name", "Game ID", "Community IDs", "Live Status", "Stream Title", "Viewer Count", "Started At Time", "Language Code", "Thumbnail URL", "Tag IDs"];//Stream Info
+		const list3 = ["Video IDs", "User IDs", "User Display Names", "Video Titles", "Video Descriptions", "Video Creation Dates", "Video Publish Dates", "Video URLs", "Video Thumbnail URLs", "Videos Viewable?", "Video Viewcounts", "Video Languages", "Video Types", "Video Durations"];//Video Info
+		const list4 = ["Game ID", "Game Name", "Game Box Art URL", "Popular Games List (Game IDs)", "Popular Games List (Game Names)", "Popular Games List (Game Box Art URLs)"];//Game Info
 
 		var infoNum1 = 0;
 		var infoNum2;
@@ -97,38 +82,9 @@ module.exports = {
 		}
 
 		return `Get "${infoList1[parseInt(infoNum1)]}" ${infoList2[parseInt(infoNum2)]}`;
-	} ,
+	},  
 
-	//---------------------------------------------------------------------
-	// DBM Mods Manager Variables (Optional but nice to have!)
-	//
-	// These are variables that DBM Mods Manager uses to show information
-	// about the mods for people to see in the list.
-	//---------------------------------------------------------------------
-
-	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "ACertainCoder" ,
-
-	// The version of the mod (Defaults to 1.0.0)
-	version: "1.9.6" , //Added in 1.9.5
-
-	// A short description to show on the mod line for this mod (Must be on a single line)
-	short_description: "This mod will store a specific information from Twitch." ,
-
-	// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-	depends_on_mods: [
-		{ name:"WrexMODS" ,path:"aaa_wrexmods_dependencies_MOD.js" }
-	] ,
-
-	//---------------------------------------------------------------------
-
-	//---------------------------------------------------------------------
-	// Action Storage Function
-	//
-	// Stores the relevant variable info for the editor.
-	//---------------------------------------------------------------------
-
-	variableStorage: function (data ,varType) {
+	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage);
 		const sourceType = parseInt(data.type);//"Channel", "Stream", "Video" or "Game"
 		const inputType = parseInt(data.inputtype);//"ID" or "Name"
@@ -188,45 +144,14 @@ module.exports = {
 			}
 		}
 
-		return ([data.varName ,dataType]);
-	} ,
+		return ([data.varName, dataType]);
+	},  
 
-	//---------------------------------------------------------------------
-	// Action Fields
-	//
-	// These are the fields for the action. These fields are customized
-	// by creating elements with corresponding IDs in the HTML. These
-	// are also the names of the fields stored in the action's JSON data.
-	//---------------------------------------------------------------------
+	fields: ["wrexdiv", "type", "divinputtype", "inputtype", "divinput", "input", "divinfo1", "info1", "divinfo2", "info2", "divinfo3", "info3", "divinfo4", "info4", "clientid", "results", "divresults", "storage", "varName"],  
 
-	fields: ["wrexdiv" ,"type" ,"divinputtype" ,"inputtype" ,"divinput" ,"input" ,"divinfo1" ,"info1" ,"divinfo2" ,"info2" ,"divinfo3" ,"info3" ,"divinfo4" ,"info4" ,"clientid" ,"results" ,"divresults" ,"storage" ,"varName"] ,
-
-	//---------------------------------------------------------------------
-	// Command HTML
-	//
-	// This function returns a string containing the HTML used for
-	// editting actions.
-	//
-	// The "isEvent" parameter will be true if this action is being used
-	// for an event. Due to their nature, events lack certain information,
-	// so edit the HTML to reflect this.
-	//
-	// The "data" parameter stores constants for select elements to use.
-	// Each is an array: index 0 for commands, index 1 for events.
-	// The names are: sendTargets, members, roles, channels,
-	//                messages, servers, variables
-	//---------------------------------------------------------------------
-
-	html: function (isEvent ,data) {
+	html: function (isEvent, data) {
 		return `
 	<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
-	<div>
-		<p>
-			<u>Mod Info:</u><br>
-			Made by ACertainCoder<br>
-			Idea by Ju#0007<br>
-		</p>
-	</div>
 	<div style="float: left; width: 42%;">
 		<br>Source Type:<br>
 		<select id="type" class="round" onchange="glob.onChange1(this)">
@@ -365,21 +290,13 @@ module.exports = {
 		color:#4676b9;
 	  }
 	</style>`;
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Editor Init Code
-	//
-	// When the HTML is first applied to the action editor, this code
-	// is also run. This helps add modifications or setup reactionary
-	// functions for the DOM elements.
-	//---------------------------------------------------------------------
+	},  
 
 	init: function () {
-		const { glob ,document } = this;
+		const { glob, document } = this;
 
 		try {//Used for the Twitch API link | Made by General Wrex
-			var WrexMODS = require(require("path").join(__dirname ,"aaa_wrexmods_dependencies_MOD.js")).getWrexMods();
+			var WrexMODS = require(require("path").join(__dirname, "aaa_wrexmods_dependencies_MOD.js")).getWrexMods();
 
 			var wrexlinks = document.getElementsByClassName("wrexlink");
 			for(var x = 0; x < wrexlinks.length; x++) {
@@ -387,8 +304,8 @@ module.exports = {
 				var wrexlink = wrexlinks[x];
 				var url = wrexlink.getAttribute("data-url");
 				if(url){
-					wrexlink.setAttribute("title" ,url);
-					wrexlink.addEventListener("click" ,function(e){
+					wrexlink.setAttribute("title", url);
+					wrexlink.addEventListener("click", function(e){
 						e.stopImmediatePropagation();
 						console.log("Launching URL: [" + url + "] in your default browser.");
 						require("child_process").execSync("start " + url);
@@ -401,8 +318,8 @@ module.exports = {
 				var wrexlink2 = wrexlinks2[x2];
 				var url2 = wrexlink2.getAttribute("data-url2");
 				if(url2){
-					wrexlink2.setAttribute("title" ,url2);
-					wrexlink2.addEventListener("click" ,function(e2){
+					wrexlink2.setAttribute("title", url2);
+					wrexlink2.addEventListener("click", function(e2){
 						e2.stopImmediatePropagation();
 						console.log("Launching URL: [" + url2 + "] in your default browser.");
 						require("child_process").execSync("start " + url2);
@@ -411,7 +328,7 @@ module.exports = {
 			}
 
 		} catch (error) {//Write any init errors to errors.txt in dbm's main directory
-			require("fs").appendFile("errors.txt" ,error.stack ? error.stack : error + "\r\n");
+			require("fs").appendFile("errors.txt", error.stack ? error.stack : error + "\r\n");
 		}
 
 		glob.onChange1 = function(event) {//"Channel", "Stream", "Video" or "Game"
@@ -431,8 +348,8 @@ module.exports = {
 			const inputTypeDiv = document.getElementById("divinputtype");//Div of InputType
 			const results = document.getElementById("results");//Max Results
 			const resultsDiv = document.getElementById("divresults");//Max Results
-			const inputList1 = ["ID" ,"Login Name"];//List for "switch": "case 0"
-			const inputList2 = ["ID" ,"Name"];//List for "switch": "case 3"
+			const inputList1 = ["ID", "Login Name"];//List for "switch": "case 0"
+			const inputList2 = ["ID", "Name"];//List for "switch": "case 3"
 
 			//Change HTML Stuff
 			var result1 = "";
@@ -566,7 +483,7 @@ module.exports = {
 			const id4 = parseInt(document.getElementById("info1").value);//Source Channel Info
 			const inputType = document.getElementById("inputtype");//InputType: "ID" or "Login Name"
 			const inputTypeDiv = document.getElementById("divinputtype");//Div of InputType
-			const inputList1 = ["ID" ,"Login Name"];//List for "case 0"
+			const inputList1 = ["ID", "Login Name"];//List for "case 0"
 
 			//Change HTML Stuff
 
@@ -622,16 +539,8 @@ module.exports = {
 		glob.onChange2(document.getElementById("inputtype"));//For the "Input Type"
 		glob.onChange3(document.getElementById("info1"));//For Source Info: Channel
 		glob.onChange4(document.getElementById("info4"));//For Source Info: Game
-		glob.variableChange(document.getElementById("storage") ,"varNameContainer");
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Bot Function
-	//
-	// This is the function for the action within the Bot's Action class.
-	// Keep in mind event calls won't have access to the "msg" parameter,
-	// so be sure to provide checks for variable existance.
-	//---------------------------------------------------------------------
+		glob.variableChange(document.getElementById("storage"), "varNameContainer");
+	},  
 
 	action: function (cache) {
 		const data = cache.actions[cache.index];
@@ -639,8 +548,8 @@ module.exports = {
 		const WrexMODS = this.getWrexMods();//As always.
 		const request = WrexMODS.require("request");
 
-		const input = this.evalMessage(data.input ,cache);//The inserted "ID" or "Name"
-		const clientID = this.evalMessage(data.clientid ,cache);
+		const input = this.evalMessage(data.input, cache);//The inserted "ID" or "Name"
+		const clientID = this.evalMessage(data.clientid, cache);
 		const sourceType = parseInt(data.type);//"Channel", "Stream", "Video" or "Game"
 		const inputType = parseInt(data.inputtype);//Channel "ID" or "Name"
 		var searchResults = parseInt(data.results);//Default: 20 | Max: 100 (Because of API limitation!)
@@ -686,17 +595,17 @@ module.exports = {
 
 				if(infoType < 9) {
 					var options = {
-						url: `https://api.twitch.tv/helix/users?id=${input}` ,
+						url: `https://api.twitch.tv/helix/users?id=${input}`,  
 						headers: { "Client-ID": `${clientID}` }
 					};
 				} else {
 					var options = {
-						url: `https://api.twitch.tv/helix/users/follows?to_id=${input}&first=2` ,
+						url: `https://api.twitch.tv/helix/users/follows?to_id=${input}&first=2`,  
 						headers: { "Client-ID": `${clientID}` }
 					};
 				}
 
-				function callback(error ,response ,body) {
+				function callback(error, response, body) {
 					if(!error && response.statusCode == 200) {
 					  	var info = JSON.parse(body);
 					  	var result = undefined;
@@ -718,23 +627,23 @@ module.exports = {
 						}
 						if(result !== undefined) {
 							const storage = parseInt(data.storage);
-							const varName = _this.evalMessage(data.varName ,cache);
-							_this.storeValue(result ,storage ,varName ,cache);
+							const varName = _this.evalMessage(data.varName, cache);
+							_this.storeValue(result, storage, varName, cache);
 							_this.callNextAction(cache);
 						}
 					} else {
 						console.error(error);
 					}
 				}
-				request(options ,callback);
+				request(options, callback);
 
 			} else if(inputType == 1 && infoType < 9) {//Input Type: Name
 
 				var options = {
-					url: `https://api.twitch.tv/helix/users?login=${input}` ,
+					url: `https://api.twitch.tv/helix/users?login=${input}`,  
 					headers: { "Client-ID": `${clientID}` }
 				};
-				function callback(error ,response ,body) {
+				function callback(error, response, body) {
 					if(!error && response.statusCode == 200) {
 					  	var info = JSON.parse(body);
 					  	var result = undefined;
@@ -755,15 +664,15 @@ module.exports = {
 						}
 						if(result !== undefined) {
 							const storage = parseInt(data.storage);
-							const varName = _this.evalMessage(data.varName ,cache);
-							_this.storeValue(result ,storage ,varName ,cache);
+							const varName = _this.evalMessage(data.varName, cache);
+							_this.storeValue(result, storage, varName, cache);
 							_this.callNextAction(cache);
 						}
 					} else {
 						console.error(error);
 					}
 				}
-				request(options ,callback);
+				request(options, callback);
 
 			} else {//Input Type: Undefined
 				return console.log("Please select either \"User ID\" or \"User Login Name\"!");
@@ -773,10 +682,10 @@ module.exports = {
 
 			//Input Type: ID
 			var options = {
-				url: `https://api.twitch.tv/helix/streams?user_id=${input}` ,
+				url: `https://api.twitch.tv/helix/streams?user_id=${input}`,  
 				headers: { "Client-ID": `${clientID}` }
 			};
-			function callback(error ,response ,body) {
+			function callback(error, response, body) {
 				if(!error && response.statusCode == 200) {
 					var info = JSON.parse(body);
 					var result = undefined;
@@ -784,8 +693,8 @@ module.exports = {
 					if(!info.data[0]) {
 						if(infoType == 5) {
 							const storage = parseInt(data.storage);
-							const varName = _this.evalMessage(data.varName ,cache);
-							_this.storeValue(result2 ,storage ,varName ,cache);
+							const varName = _this.evalMessage(data.varName, cache);
+							_this.storeValue(result2, storage, varName, cache);
 						} else {
 							console.log(`No results for ${input}.`);
 						}
@@ -802,34 +711,34 @@ module.exports = {
 						case 7: result = info.data[0].viewer_count; break;
 						case 8: result = info.data[0].started_at; break;
 						case 9: result = info.data[0].language; break;
-						case 10: result = info.data[0].thumbnail_url.replace("{width}" ,"1920").replace("{height}" ,"1280"); break;
+						case 10: result = info.data[0].thumbnail_url.replace("{width}", "1920").replace("{height}", "1280"); break;
 						case 11: result = info.data[0].tag_ids; break;
 					}
 					if(result !== undefined) {
 						const storage = parseInt(data.storage);
-						const varName = _this.evalMessage(data.varName ,cache);
-						_this.storeValue(result ,storage ,varName ,cache);
+						const varName = _this.evalMessage(data.varName, cache);
+						_this.storeValue(result, storage, varName, cache);
 						_this.callNextAction(cache);
 					} else {
 						const storage = parseInt(data.storage);
-						const varName = _this.evalMessage(data.varName ,cache);
-						_this.storeValue(result2 ,storage ,varName ,cache);
+						const varName = _this.evalMessage(data.varName, cache);
+						_this.storeValue(result2, storage, varName, cache);
 						_this.callNextAction(cache);
 					}
 				} else {
 					console.error(error);
 				}
 			}
-			request(options ,callback);
+			request(options, callback);
 
 		} else if(sourceType == 2) {//Source Info: Video
 
 			//Input Type: ID
 			var options = {
-				url: `https://api.twitch.tv/helix/videos?user_id=${input}&first=${searchResults}` ,
+				url: `https://api.twitch.tv/helix/videos?user_id=${input}&first=${searchResults}`,  
 				headers: { "Client-ID": `${clientID}` }
 			};
-			function callback(error ,response ,body) {
+			function callback(error, response, body) {
 				if(!error && response.statusCode == 200) {
 					var info = JSON.parse(body);
 					var result = [];
@@ -846,7 +755,7 @@ module.exports = {
 						case 5: info.data.forEach(video => result.push(video.created_at)); break;
 						case 6: info.data.forEach(video => result.push(video.published_at)); break;
 						case 7: info.data.forEach(video => result.push(video.url)); break;
-						case 8: info.data.forEach(video => result.push(video.thumbnail_url.replace("%{width}" ,"1920").replace("%{height}" ,"1280"))); break;
+						case 8: info.data.forEach(video => result.push(video.thumbnail_url.replace("%{width}", "1920").replace("%{height}", "1280"))); break;
 						case 9: info.data.forEach(video => {if(video.viewable !== "" || video.viewable !== undefined) {if(video.viewable == "public") {result.push(true);} else if(video.viewable == "private") {result.push(false);}}}); break;//"public" or "private"
 						case 10: info.data.forEach(video => result.push(video.view_count)); break;
 						case 11: info.data.forEach(video => result.push(video.language)); break;
@@ -854,14 +763,14 @@ module.exports = {
 						case 13: info.data.forEach(video => result.push(video.duration)); break;
 					}
 					const storage = parseInt(data.storage);
-					const varName = _this.evalMessage(data.varName ,cache);
-					_this.storeValue(result ,storage ,varName ,cache);
+					const varName = _this.evalMessage(data.varName, cache);
+					_this.storeValue(result, storage, varName, cache);
 					_this.callNextAction(cache);
 				} else {
 					console.error(error);
 				}
 			}
-			request(options ,callback);
+			request(options, callback);
 
 		} else if(sourceType == 3) {//Source Info: Game
 
@@ -869,16 +778,16 @@ module.exports = {
 
 				if(infoType < 3) {
 					var options = {
-						url: `https://api.twitch.tv/helix/games?id=${input}` ,
+						url: `https://api.twitch.tv/helix/games?id=${input}`,  
 						headers: { "Client-ID": `${clientID}` }
 					};
 				} else {
 					var options = {
-						url: "https://api.twitch.tv/helix/games/top" ,
+						url: "https://api.twitch.tv/helix/games/top",  
 						headers: { "Client-ID": `${clientID}` }
 					};
 				}
-				function callback(error ,response ,body) {
+				function callback(error, response, body) {
 					if(!error && response.statusCode == 200) {
 						var info = JSON.parse(body);
 						var result = undefined;
@@ -890,42 +799,42 @@ module.exports = {
 						switch(infoType) {
 							case 0: result = info.data[0].id.toString(); break;
 							case 1: result = info.data[0].name.toString(); break;
-							case 2: result = info.data[0].box_art_url.replace("{width}" ,"1300").replace("{height}" ,"1730"); break;
+							case 2: result = info.data[0].box_art_url.replace("{width}", "1300").replace("{height}", "1730"); break;
 							case 3: info.data.forEach(game => result2.push(game.id)); break;
 							case 4: info.data.forEach(game => result2.push(game.name)); break;
-							case 5: info.data.forEach(game => result2.push(game.box_art_url.replace("{width}" ,"1300").replace("{height}" ,"1730"))); break;
+							case 5: info.data.forEach(game => result2.push(game.box_art_url.replace("{width}", "1300").replace("{height}", "1730"))); break;
 						}
 						if(result !== undefined) {
 							const storage = parseInt(data.storage);
-							const varName = _this.evalMessage(data.varName ,cache);
-							_this.storeValue(result ,storage ,varName ,cache);
+							const varName = _this.evalMessage(data.varName, cache);
+							_this.storeValue(result, storage, varName, cache);
 							_this.callNextAction(cache);
 						} else {
 							const storage = parseInt(data.storage);
-							const varName = _this.evalMessage(data.varName ,cache);
-							_this.storeValue(result2 ,storage ,varName ,cache);
+							const varName = _this.evalMessage(data.varName, cache);
+							_this.storeValue(result2, storage, varName, cache);
 							_this.callNextAction(cache);
 						}
 					} else {
 						console.error(error);
 					}
 				}
-				request(options ,callback);
+				request(options, callback);
 
 			} else if(inputType == 1) {//Input Type: Game Name
 
 				if(infoType < 3) {
 					var options = {
-						url: `https://api.twitch.tv/helix/games?id=${input}` ,
+						url: `https://api.twitch.tv/helix/games?id=${input}`,  
 						headers: { "Client-ID": `${clientID}` }
 					};
 				} else {
 					var options = {
-						url: `https://api.twitch.tv/helix/games/top?first=${searchResults}` ,
+						url: `https://api.twitch.tv/helix/games/top?first=${searchResults}`,  
 						headers: { "Client-ID": `${clientID}` }
 					};
 				}
-				function callback(error ,response ,body) {
+				function callback(error, response, body) {
 					if(!error && response.statusCode == 200) {
 						var info = JSON.parse(body);
 						var result = undefined;
@@ -937,27 +846,27 @@ module.exports = {
 						switch(infoType) {
 							case 0: result = info.data[0].id.toString(); break;
 							case 1: result = info.data[0].name.toString(); break;
-							case 2: result = info.data[0].box_art_url.replace("{width}" ,"1300").replace("{height}" ,"1730"); break;
+							case 2: result = info.data[0].box_art_url.replace("{width}", "1300").replace("{height}", "1730"); break;
 							case 3: info.data.forEach(game => result2.push(game.id)); break;
 							case 4: info.data.forEach(game => result2.push(game.name)); break;
-							case 5: info.data.forEach(game => result2.push(game.box_art_url.replace("{width}" ,"1300").replace("{height}" ,"1730"))); break;
+							case 5: info.data.forEach(game => result2.push(game.box_art_url.replace("{width}", "1300").replace("{height}", "1730"))); break;
 						}
 						if(result !== undefined) {
 							const storage = parseInt(data.storage);
-							const varName = _this.evalMessage(data.varName ,cache);
-							_this.storeValue(result ,storage ,varName ,cache);
+							const varName = _this.evalMessage(data.varName, cache);
+							_this.storeValue(result, storage, varName, cache);
 							_this.callNextAction(cache);
 						} else {
 							const storage = parseInt(data.storage);
-							const varName = _this.evalMessage(data.varName ,cache);
-							_this.storeValue(result2 ,storage ,varName ,cache);
+							const varName = _this.evalMessage(data.varName, cache);
+							_this.storeValue(result2, storage, varName, cache);
 							_this.callNextAction(cache);
 						}
 					} else {
 						console.error(error);
 					}
 				}
-				request(options ,callback);
+				request(options, callback);
 
 			} else {//Input Type: Popular Games List
 				return console.log("Please select either \"Game ID\" or \"Game Name\"!");
@@ -965,19 +874,10 @@ module.exports = {
 		} else {//Source Type: Undefined
 			return console.log("Please select either \"Channel\", \"Stream\", \"Video\" or \"Game\"!");//This will only be executed if there is an invaild action setting of the "Source Input".
 		}
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Bot Mod
-	//
-	// Upon initialization of the bot, this code is run. Using the bot's
-	// DBM namespace, one can add/modify existing functions if necessary.
-	// In order to reduce conflictions between mods, be sure to alias
-	// functions you wish to overwrite.
-	//---------------------------------------------------------------------
+	},  
 
 	mod: function (DBM) {
 
 	}
 
-}; // End of module
+}; 

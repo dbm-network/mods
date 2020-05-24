@@ -1,129 +1,44 @@
-//---------------------------------------------------------------------
-// Created by General Wrex
-// My Patreons have made creating this script possible @ https://www.patreon.com/generalwrex
-// At the time of editing this script, they are:
-// - MitchDaGamer
-//
-// Thanks so much guys, you allow me to continue to do what i love!
-//---------------------------------------------------------------------
 
 var dbmMod = {};
-dbmMod.version = "1.0.1";
 dbmMod.requiredDBMVersion = "2.0.0-beta.7";
 
-//---------------------------------------------------------------------
-// Action Name
-//
-// This is the name of the action displayed in the editor.
-//---------------------------------------------------------------------
 dbmMod.name = "Send Json to WebAPI";
 
-//---------------------------------------------------------------------
-// Action Section
-//
-// This is the section the action will fall into.
-//---------------------------------------------------------------------
 
 dbmMod.section = "JSON Things";
 
-//---------------------------------------------------------------------
-// DBM Mods Manager Variables (Optional but nice to have!)
-//
-// These are variables that DBM Mods Manager uses to show information
-// about the mods for people to see in the list.
-//---------------------------------------------------------------------
 
-// Who made the mod (If not set, defaults to "DBM Mods")
-dbmMod.author = "General Wrex";
-
-// The version of the mod (Defaults to 1.0.0)
-dbmMod.version = "2.0.0";
-
-// A short description to show on the mod line for this mod (Must be on a single line)
-dbmMod.short_description = "Allows it to push Json to the Web";
-
-// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 dbmMod.depends_on_mods = ["WrexMODS"];
 
-//---------------------------------------------------------------------
-// Dependencies Section
-//
-// If your action requires any node modules, add them here.
-//---------------------------------------------------------------------
 
-dbmMod.dependencies = ["request" ,"valid-url"];
+dbmMod.dependencies = ["request", "valid-url"];
 
-//---------------------------------------------------------------------
-// Action Subtitle
-//
-// This function generates the subtitle displayed next to the name.
-//---------------------------------------------------------------------
 
 dbmMod.subtitle = function(data) {
 	return `Store: ${data.varName} DebugMode: ${data.debugMode === "1" ? "Enabled" : "Disabled"}`;
 };
 
-//---------------------------------------------------------------------
-// Action Subtitle
-//
-// This function generates the subtitle displayed next to the name.
-//---------------------------------------------------------------------
 
 dbmMod.subtitle = function(data) {
 	return `Store: ${data.varName} DebugMode: ${data.debugMode === "1" ? "Enabled" : "Disabled"}`;
 };
 
-//---------------------------------------------------------------------
-// Action Storage Function
-//
-// Stores the relevant variable info for the editor.
-//---------------------------------------------------------------------
 
-dbmMod.variableStorage = function(data ,varType) {
+dbmMod.variableStorage = function(data, varType) {
 	const type = parseInt(data.storage);
 	if (type !== varType) return;
-	return ([data.varName ,"JSON Object"]);
+	return ([data.varName, "JSON Object"]);
 };
 
-//---------------------------------------------------------------------
-// Action Fields
-//
-// These are the fields for the action. These fields are customized
-// by creating elements with corresponding IDs in the HTML. These
-// are also the names of the fields stored in the action's JSON data.
-//---------------------------------------------------------------------
 
-dbmMod.fields = ["hideUrl" ,"debugMode" ,"postUrl" ,"postJson" ,"storage" ,"varName" ,"token" ,"user" ,"pass" ,"headers" ,"method"];
+dbmMod.fields = ["hideUrl", "debugMode", "postUrl", "postJson", "storage", "varName", "token", "user", "pass", "headers", "method"];
 
-//---------------------------------------------------------------------
-// Command HTML
-//
-// This function returns a string containing the HTML used for
-// editing actions.
-//
-// The "isEvent" parameter will be true if this action is being used
-// for an event. Due to their nature, events lack certain information,
-// so edit the HTML to reflect this.
-//
-// The "data" parameter stores constants for select elements to use.
-// Each is an array: index 0 for commands, index 1 for events.
-// The names are: sendTargets, members, roles, channels,
-//                messages, servers, variables
-//---------------------------------------------------------------------
 
-dbmMod.html = function(isEvent ,data) {
+dbmMod.html = function(isEvent, data) {
 
 	return `
     <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
-    <div class="embed" style="width:98%;">
-        <embedleftline></embedleftline><div class="embedinfo">
-            <span class="embed-auth">
-              <u><span class="wrexlink" data-url="https://github.com/Discord-Bot-Maker-Mods/DBM-Mods">Mod Info:</span></u><br>
-                Made by ${this.author}
-              </span><br>
-            <span class="embed-desc">${this.short_description}<br>Added in: ${this.version}</span>
-        </div>
-    </div>
+
 	<div>
 </div><br>
     <div style="padding: 10px;" class="ui toggle checkbox">
@@ -231,17 +146,9 @@ dbmMod.html = function(isEvent ,data) {
 </style>`;
 };
 
-//---------------------------------------------------------------------
-// Action Editor Init Code
-//
-// When the HTML is first applied to the action editor, this code
-// is also run. This helps add modifications or setup reactionary
-// functions for the DOM elements.
-//---------------------------------------------------------------------
-
 dbmMod.init = function() {
 	const {
-		glob ,
+		glob,  
 		document
 	} = this;
 
@@ -251,8 +158,8 @@ dbmMod.init = function() {
 		var wrexlink = wrexlinks[x];
 		var url = wrexlink.getAttribute("data-url");
 		if(url){
-			wrexlink.setAttribute("title" ,url);
-			wrexlink.addEventListener("click" ,function(e){
+			wrexlink.setAttribute("title", url);
+			wrexlink.addEventListener("click", function(e){
 				e.stopImmediatePropagation();
 				console.log("Launching URL: [" + url + "] in your default browser.");
 				require("child_process").execSync("start " + url);
@@ -260,16 +167,8 @@ dbmMod.init = function() {
 		}
 	}
 
-	glob.variableChange(document.getElementById("storage") ,"varNameContainer");
+	glob.variableChange(document.getElementById("storage"), "varNameContainer");
 };
-
-//---------------------------------------------------------------------
-// Action Bot Function
-//
-// This is the function for the action within the Bot's Action class.
-// Keep in mind event calls won't have access to the "msg" parameter,
-// so be sure to provide checks for variable existance.
-//---------------------------------------------------------------------
 
 dbmMod.action = function(cache) {
 
@@ -280,20 +179,20 @@ dbmMod.action = function(cache) {
 	const request = WrexMODS.require("request");
 	const buffer = WrexMODS.require("buffer");
 
-	const url = this.evalMessage(data.postUrl ,cache);
-	const method = this.evalMessage(data.method ,cache);
-	const token = this.evalMessage(data.token ,cache);
-	const user = this.evalMessage(data.user ,cache);
-	const pass = this.evalMessage(data.pass ,cache);
-	const headers = this.evalMessage(data.headers ,cache);
+	const url = this.evalMessage(data.postUrl, cache);
+	const method = this.evalMessage(data.method, cache);
+	const token = this.evalMessage(data.token, cache);
+	const user = this.evalMessage(data.user, cache);
+	const pass = this.evalMessage(data.pass, cache);
+	const headers = this.evalMessage(data.headers, cache);
 
 
 
-	const varName = this.evalMessage(data.varName ,cache);
+	const varName = this.evalMessage(data.varName, cache);
 	const storage = parseInt(data.storage);
 	const debugMode = parseInt(data.debugMode);
 
-	const postJson = this.evalMessage(data.postJson ,cache);
+	const postJson = this.evalMessage(data.postJson, cache);
 
 	if (!WrexMODS.checkURL(url)) {
 		url = encodeURI(url);
@@ -308,13 +207,13 @@ dbmMod.action = function(cache) {
 				var test = JSON.parse(JSON.stringify(postJson));
 			} catch (error) {
 				var errorJson = JSON.stringify({
-					error: error ,
-					statusCode: statusCode ,
+					error: error,  
+					statusCode: statusCode,  
 					success: false
 				});
 				console.error(error.stack ? error.stack : error);
 
-				return this.storeValue(errorJson ,storage ,varName ,cache);
+				return this.storeValue(errorJson, storage, varName, cache);
 			}
 
 
@@ -352,37 +251,37 @@ dbmMod.action = function(cache) {
 			}
 
 			request({
-				method: method ||"POST" ,
-				url: url ,
-				body: JSON.parse(postJson) ,
-				json: true ,
+				method: method ||"POST",  
+				url: url,  
+				body: JSON.parse(postJson),  
+				json: true,  
 				headers: setHeaders
-			} ,(error ,res ,jsonData) => {
+			}, (error, res, jsonData) => {
 
 				try {
 					if (error) {
 						var errorJson = JSON.stringify({
-							error ,
+							error,  
 							statusCode
 						});
-						Actions.storeValue(errorJson ,storage ,varName ,cache);
+						Actions.storeValue(errorJson, storage, varName, cache);
 
 						console.error("WebAPI: Error: " + errorJson + " stored to: [" + varName + "]");
 					} else {
 						if (jsonData) {
-							Actions.storeValue(jsonData ,storage ,varName ,cache);
+							Actions.storeValue(jsonData, storage, varName, cache);
 
 							if (debugMode) {
 								console.log("WebAPI: JSON Data Response value stored to: [" + varName + "]");
 								console.log("Response (Disable DebugMode to stop printing the response data to the console):\r\n");
-								console.log(JSON.stringify(jsonData ,null ,4));
+								console.log(JSON.stringify(jsonData, null, 4));
 							}
 						} else {
 							var errorJson = JSON.stringify({
-								error ,
+								error,  
 								statusCode
 							});
-							Actions.storeValue(errorJson ,storage ,varName ,cache);
+							Actions.storeValue(errorJson, storage, varName, cache);
 
 							console.error("WebAPI: Error: " + errorJson + " stored to: [" + varName + "]");
 						}
@@ -400,16 +299,6 @@ dbmMod.action = function(cache) {
 		console.error("URL [" + url + "] Is Not Valid");
 	}
 };
-
-
-//---------------------------------------------------------------------
-// Action Bot Mod
-//
-// Upon initialization of the bot, this code is run. Using the bot's
-// DBM namespace, one can add/modify existing functions if necessary.
-// In order to reduce conflictions between mods, be sure to alias
-// functions you wish to overwrite.
-//---------------------------------------------------------------------
 
 dbmMod.mod = function(DBM) {
 

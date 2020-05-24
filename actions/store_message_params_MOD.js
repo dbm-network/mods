@@ -1,60 +1,14 @@
 module.exports = {
-	//---------------------------------------------------------------------
-	// Action Name
-	//
-	// This is the name of the action displayed in the editor.
-	//---------------------------------------------------------------------
-
-	name: "Store Message Params" ,
-
-	//---------------------------------------------------------------------
-	// Action Section
-	//
-	// This is the section the action will fall into.
-	//---------------------------------------------------------------------
-
-	section: "Messaging" ,
-
-	//---------------------------------------------------------------------
-	// Action Subtitle
-	//
-	// This function generates the subtitle displayed next to the name.
-	//---------------------------------------------------------------------
+	name: "Store Message Params",  
+	section: "Messaging",  
 
 	subtitle: function(data) {
-		const message = ["Command Message" ,"Temp Variable" ,"Server Variable" ,"Global Variable"];
-		const info = ["One Parameter" ,"Multiple Parameters" ,"Mentioned User" ,"Mentioned Member" ,"Mentioned Role" ,"Mentioned Channel"];
+		const message = ["Command Message", "Temp Variable", "Server Variable", "Global Variable"];
+		const info = ["One Parameter", "Multiple Parameters", "Mentioned User", "Mentioned Member", "Mentioned Role", "Mentioned Channel"];
 		return `${message[parseInt(data.message)]} - ${info[parseInt(data.info)]} #${data.ParamN}`;
-	} ,
+	},  
 
-	//---------------------------------------------------------------------
-	// DBM Mods Manager Variables (Optional but nice to have!)
-	//
-	// These are variables that DBM Mods Manager uses to show information
-	// about the mods for people to see in the list.
-	//---------------------------------------------------------------------
-
-	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "MrGold" ,
-
-	// The version of the mod (Defaults to 1.0.0)
-	version: "1.9.4" , //Added in 1.9.4
-
-	// A short description to show on the mod line for this mod (Must be on a single line)
-	short_description: "Stores Message Parameters" ,
-
-	// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-	// depends_on_mods: ["WrexMODS"],
-
-	//---------------------------------------------------------------------
-
-	//---------------------------------------------------------------------
-	// Action Storage Function
-	//
-	// Stores the relevant variable info for the editor.
-	//---------------------------------------------------------------------
-
-	variableStorage: function(data ,varType) {
+	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
 		const info = parseInt(data.info);
@@ -77,44 +31,14 @@ module.exports = {
 				dataType = "Channel";
 				break;
 		}
-		return ([data.varName2 ,dataType]);
-	} ,
+		return ([data.varName2, dataType]);
+	},  
 
-	//---------------------------------------------------------------------
-	// Action Fields
-	//
-	// These are the fields for the action. These fields are customized
-	// by creating elements with corresponding IDs in the HTML. These
-	// are also the names of the fields stored in the action's JSON data.
-	//---------------------------------------------------------------------
+	fields: ["message", "varName", "info", "ParamN", "separator", "storage", "varName2"],  
 
-	fields: ["message" ,"varName" ,"info" ,"ParamN" ,"separator" ,"storage" ,"varName2"] ,
-
-	//---------------------------------------------------------------------
-	// Command HTML
-	//
-	// This function returns a string containing the HTML used for
-	// editting actions.
-	//
-	// The "isEvent" parameter will be true if this action is being used
-	// for an event. Due to their nature, events lack certain information,
-	// so edit the HTML to reflect this.
-	//
-	// The "data" parameter stores constants for select elements to use.
-	// Each is an array: index 0 for commands, index 1 for events.
-	// The names are: sendTargets, members, roles, channels,
-	//                messages, servers, variables
-	//---------------------------------------------------------------------
-
-	html: function(isEvent ,data) {
+	html: function(isEvent, data) {
 		return `
 <div id="DiVScroll" style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
-<div>
-    <p>
-        <u>Mod Info:</u><br>
-	    Created by MrGold
-    </p>
-</div><br>
 <div>
 	<div style="float: left; width: 35%;">
 		Source Message:<br>
@@ -169,20 +93,12 @@ module.exports = {
         Custom Parameter Separator supports Regex
         </p>
 </div><br><br><br><br><br><br><br><br><br>`;
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Editor Init Code
-	//
-	// When the HTML is first applied to the action editor, this code
-	// is also run. This helps add modifications or setup reactionary
-	// functions for the DOM elements.
-	//---------------------------------------------------------------------
+	},  
 
 	init: function() {
-		const { glob ,document } = this;
+		const { glob, document } = this;
 
-		document.getElementById("separator").placeholder = "Read the Note below | Default Parameter Separator: " + JSON.parse(require("fs").readFileSync(JSON.parse(require("fs").readFileSync(__dirname.substr(0 ,__dirname.lastIndexOf("\\") + 1) + "settings.json" ,"utf8"))["current-project"] + "\\data\\settings.json" ,"utf8")).separator;
+		document.getElementById("separator").placeholder = "Read the Note below | Default Parameter Separator: " + JSON.parse(require("fs").readFileSync(JSON.parse(require("fs").readFileSync(__dirname.substr(0, __dirname.lastIndexOf("\\") + 1) + "settings.json", "utf8"))["current-project"] + "\\data\\settings.json", "utf8")).separator;
 
 		glob.onChange1 = function(event) {
 			const value = parseInt(event.value);
@@ -225,23 +141,15 @@ module.exports = {
 		};
 
 		glob.onChange1(document.getElementById("info"));
-		glob.messageChange(document.getElementById("message") ,"varNameContainer");
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Bot Function
-	//
-	// This is the function for the action within the Bot's Action class.
-	// Keep in mind event calls won't have access to the "msg" parameter,
-	// so be sure to provide checks for variable existance.
-	//---------------------------------------------------------------------
+		glob.messageChange(document.getElementById("message"), "varNameContainer");
+	},  
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
 
 		const message = parseInt(data.message);
-		const varName = this.evalMessage(data.varName ,cache);
-		const msg = this.getMessage(message ,varName ,cache);
+		const varName = this.evalMessage(data.varName, cache);
+		const msg = this.getMessage(message, varName, cache);
 		if(!msg) {
 			console.log(`Action: #${cache.index + 1} | Store Message Params ERROR: Message doesn't exist`);
 			this.callNextAction(cache);
@@ -250,7 +158,7 @@ module.exports = {
 
 		const infoType = parseInt(data.info);
 
-		const ParamN = this.evalMessage(data.ParamN ,cache);
+		const ParamN = this.evalMessage(data.ParamN, cache);
 		if(ParamN == "") {
 			console.log(`Action: #${cache.index + 1} | Store Message Params ERROR: Parameter Number has nothing`);
 			this.callNextAction(cache);
@@ -263,7 +171,7 @@ module.exports = {
 
 		let separator;
 		if(data.separator) {
-			separator = this.evalMessage(data.separator ,cache);
+			separator = this.evalMessage(data.separator, cache);
 		} else {
 			separator = this.getDBM().Files.data.settings.separator;
 		}
@@ -286,7 +194,7 @@ module.exports = {
 				break;
 			case 1:
 				let arrayy = [];
-				var regex = new RegExp(separator ,"g");
+				var regex = new RegExp(separator, "g");
 				while (rE = regex.exec(msg.content)) {
 					arrayy.push(rE);
 				}
@@ -298,7 +206,7 @@ module.exports = {
 				if(ParamN > arrayy.length || ParamN < 0) {
 					result = undefined;
 				} else if(ParamN == 0) {
-					result = msg.content.substring(0 ,arrayy[ParamN].index);
+					result = msg.content.substring(0, arrayy[ParamN].index);
 				} else {
 					result = msg.content.substring(arrayy[ParamN - 1].index + arrayy[ParamN - 1][0].length);
 				}
@@ -352,20 +260,11 @@ module.exports = {
 		}
 		if(result) {
 			const storage = parseInt(data.storage);
-			const varName2 = this.evalMessage(data.varName2 ,cache);
-			this.storeValue(result ,storage ,varName2 ,cache);
+			const varName2 = this.evalMessage(data.varName2, cache);
+			this.storeValue(result, storage, varName2, cache);
 		}
 		this.callNextAction(cache);
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Bot Mod
-	//
-	// Upon initialization of the bot, this code is run. Using the bot's
-	// DBM namespace, one can add/modify existing functions if necessary.
-	// In order to reduce conflictions between mods, be sure to alias
-	// functions you wish to overwrite.
-	//---------------------------------------------------------------------
+	},  
 
 	mod: function() {}
-}; // End of module
+}; 

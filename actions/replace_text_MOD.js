@@ -1,95 +1,23 @@
 module.exports = {
-	//---------------------------------------------------------------------
-	// Action Name
-	//
-	// This is the name of the action displayed in the editor.
-	//---------------------------------------------------------------------
-
-	name: "Replace Text" ,
-
-	//---------------------------------------------------------------------
-	// Action Section
-	//
-	// This is the section the action will fall into.
-	//---------------------------------------------------------------------
-
-	section: "Other Stuff" ,
-
-	//---------------------------------------------------------------------
-	// Action Subtitle
-	//
-	// This function generates the subtitle displayed next to the name.
-	//---------------------------------------------------------------------
+	name: "Replace Text",  
+	section: "Other Stuff",  
 
 	subtitle: function(data) {
-		const info = ["Replace the first result" ,"Replace all results"];
+		const info = ["Replace the first result", "Replace all results"];
 		return `${info[data.info]}`;
-	} ,
+	},  
 
-	//---------------------------------------------------------------------
-	// DBM Mods Manager Variables (Optional but nice to have!)
-	//
-	// These are variables that DBM Mods Manager uses to show information
-	// about the mods for people to see in the list.
-	//---------------------------------------------------------------------
-
-	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "iAmaury & EliteArtz" ,
-
-	// The version of the mod (Defaults to 1.0.0)
-	version: "1.8.9" ,
-
-	// A short description to show on the mod line for this mod (Must be on a single line)
-	short_description: "Replace text with another text" ,
-
-	// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-	// depends_on_mods: ["WrexMODS"],
-
-	//---------------------------------------------------------------------
-	// Action Storage Function
-	//
-	// Stores the relevant variable info for the editor.
-	//---------------------------------------------------------------------
-
-	variableStorage: function (data ,varType) {
+	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		let dataType = "String";
-		return ([data.varName ,dataType]);
-	} ,
+		return ([data.varName, dataType]);
+	},  
 
-	//---------------------------------------------------------------------
-	// Action Fields
-	//
-	// These are the fields for the action. These fields are customized
-	// by creating elements with corresponding IDs in the HTML. These
-	// are also the names of the fields stored in the action's JSON data.
-	//---------------------------------------------------------------------
+	fields: ["text", "text2", "text3", "info", "storage", "varName"],  
 
-	fields: ["text" ,"text2" ,"text3" ,"info" ,"storage" ,"varName"] ,
-
-	//---------------------------------------------------------------------
-	// Command HTML
-	//
-	// This function returns a string containing the HTML used for
-	// editting actions.
-	//
-	// The "isEvent" parameter will be true if this action is being used
-	// for an event. Due to their nature, events lack certain information,
-	// so edit the HTML to reflect this.
-	//
-	// The "data" parameter stores constants for select elements to use.
-	// Each is an array: index 0 for commands, index 1 for events.
-	// The names are: sendTargets, members, roles, channels,
-	//                messages, servers, variables
-	//---------------------------------------------------------------------
-
-	html: function(isEvent ,data) {
+	html: function(isEvent, data) {
 		return `
-<div style="padding-top: 8px;">
-		<p><u>Mod Info:</u><br>
-		Made by <b>iAmaury</b> & <b>EliteArtz</b>!</p>
-</div><br>
 <div style="padding-top: 8px;">
 	Source Text:
 	<textarea id="text" rows="3" placeholder="Insert source text here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
@@ -124,64 +52,39 @@ module.exports = {
 	</div>
 </div>
 	`;
-	} ,
+	},  
 
-	//---------------------------------------------------------------------
-	// Action Editor Init Code
-	//
-	// When the HTML is first applied to the action editor, this code
-	// is also run. This helps add modifications or setup reactionary
-	// functions for the DOM elements.
-	//---------------------------------------------------------------------
-
-	init: function() {} ,
-
-	//---------------------------------------------------------------------
-	// Action Bot Function
-	//
-	// This is the function for the action within the Bot's Action class.
-	// Keep in mind event calls won't have access to the "msg" parameter,
-	// so be sure to provide checks for variable existance.
-	//---------------------------------------------------------------------
+	init: function() {},  
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
 		const storage = parseInt(data.storage);
-		const varName = this.evalMessage(data.varName ,cache);
-		const text = this.evalMessage(data.text ,cache);
-		const text2 = this.evalMessage(data.text2 ,cache);
-		const text3 = this.evalMessage(data.text3 ,cache);
+		const varName = this.evalMessage(data.varName, cache);
+		const text = this.evalMessage(data.text, cache);
+		const text2 = this.evalMessage(data.text2, cache);
+		const text3 = this.evalMessage(data.text3, cache);
 		const info = parseInt(data.info);
 
 		let result;
 		switch(info) {
 			case 0:
-				result = text.replace(text2 ,text3);
+				result = text.replace(text2, text3);
 				break;
 			case 1:
 				const WrexMODS = this.getWrexMods();
 				const replacestr = WrexMODS.require("replace-string");
-				result = replacestr(text ,text2 ,text3);
+				result = replacestr(text, text2, text3);
 				break;
 			default:
 				break;
 		}
 		if (result !== undefined) {
 			const storage = parseInt(data.storage);
-			const varName = this.evalMessage(data.varName ,cache);
-			this.storeValue(result ,storage ,varName ,cache);
+			const varName = this.evalMessage(data.varName, cache);
+			this.storeValue(result, storage, varName, cache);
 		}
 		this.callNextAction(cache);
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Bot Mod
-	//
-	// Upon initialization of the bot, this code is run. Using the bot's
-	// DBM namespace, one can add/modify existing functions if necessary.
-	// In order to reduce conflictions between mods, be sure to alias
-	// functions you wish to overwrite.
-	//---------------------------------------------------------------------
+	},  
 
 	mod: function() {}
-}; // End of module
+}; 

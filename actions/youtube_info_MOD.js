@@ -1,60 +1,13 @@
 module.exports = {
-	//---------------------------------------------------------------------
-	// Action Name
-	//
-	// This is the name of the action displayed in the editor.
-	//---------------------------------------------------------------------
-
-	name: "Store YouTube Info" ,
-
-	//---------------------------------------------------------------------
-	// Action Section
-	//
-	// This is the section the action will fall into.
-	//---------------------------------------------------------------------
-
-	section: "Audio Control" ,
-
-	//---------------------------------------------------------------------
-	// Action Subtitle
-	//
-	// This function generates the subtitle displayed next to the name.
-	//---------------------------------------------------------------------
+	name: "Store YouTube Info",  
+	section: "Audio Control",  
 
 	subtitle: function (data) {
-		const info = ["Video ID" ,"Video URL" ,"Video Title" ,"Video Description" ,"Video Owner" ,"Video ChannelID" ,"Video ThumbnailUrl" ,"Video EmbedURL" ,"Video Genre" ,"Video Paid" ,"Video Unlisted" ,"Video isFamilyFriendly" ,"Video Duration" ,"Video Views" ,"Video regionsAllowed" ,"Video commentCount" ,"Video  likeCount" ,"Video  dislikeCount" ,"Video  channelThumbnailUrl"];
+		const info = ["Video ID", "Video URL", "Video Title", "Video Description", "Video Owner", "Video ChannelID", "Video ThumbnailUrl", "Video EmbedURL", "Video Genre", "Video Paid", "Video Unlisted", "Video isFamilyFriendly", "Video Duration", "Video Views", "Video regionsAllowed", "Video commentCount", "Video  likeCount", "Video  dislikeCount", "Video  channelThumbnailUrl"];
 		return `YouTube ${info[parseInt(data.info)]}`;
-	} ,
+	},  
 
-	//---------------------------------------------------------------------
-	// DBM Mods Manager Variables (Optional but nice to have!)
-	//
-	// These are variables that DBM Mods Manager uses to show information
-	// about the mods for people to see in the list.
-	//---------------------------------------------------------------------
-
-	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "Aamon & TheMonDon" ,
-
-	// The version of the mod (Defaults to 1.0.0)
-	version: "1.9.6" , //Added in 1.9.4?
-	version2: "1.1.0" , // Just to keep track of this version compared to mod pack version
-
-	// A short description to show on the mod line for this mod (Must be on a single line)
-	short_description: "Gets extra video information on YouTube based on video ID." ,
-
-	// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-	// depends_on_mods: ["WrexMODS"],
-
-	//---------------------------------------------------------------------
-
-	//---------------------------------------------------------------------
-	// Action Storage Function
-	//
-	// Stores the relevant variable info for the editor.
-	//---------------------------------------------------------------------
-
-	variableStorage: function (data ,varType) {
+	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		const info = parseInt(data.info);
@@ -119,44 +72,15 @@ module.exports = {
 				break;
 
 		}
-		return ([data.varName ,dataType]);
-	} ,
+		return ([data.varName, dataType]);
+	},  
 
-	//---------------------------------------------------------------------
-	// Action Fields
-	//
-	// These are the fields for the action. These fields are customized
-	// by creating elements with corresponding IDs in the HTML. These
-	// are also the names of the fields stored in the action's JSON data.
-	//---------------------------------------------------------------------
+	fields: ["video", "info", "storage", "varName"],  
 
-	fields: ["video" ,"info" ,"storage" ,"varName"] ,
-
-	//---------------------------------------------------------------------
-	// Command HTML
-	//
-	// This function returns a string containing the HTML used for
-	// editting actions.
-	//
-	// The "isEvent" parameter will be true if this action is being used
-	// for an event. Due to their nature, events lack certain information,
-	// so edit the HTML to reflect this.
-	//
-	// The "data" parameter stores constants for select elements to use.
-	// Each is an array: index 0 for commands, index 1 for events.
-	// The names are: sendTargets, members, roles, channels,
-	//                messages, servers, variables
-	//---------------------------------------------------------------------
-
-	html: function (isEvent ,data) {
+	html: function (isEvent, data) {
 		return `
 <div style="width: 550px; height: 350px; overflow-y: scroll;">
-		<div>
-			<p>
-				<u>Mod Info:</u><br>
-				Created by <b>Aamon</b>!
-			</p>
-		</div><br>
+
 	<div style="width: 95%; padding-top: 8px;">
 		Video to Search:<br>
 		<textarea id="video" rows="2" placeholder="Video ID or Video URL Goes here!" style="width: 95%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
@@ -204,49 +128,32 @@ module.exports = {
 		</p>
 	<div>
 </div>`;
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Editor Init Code
-	//
-	// When the HTML is first applied to the action editor, this code
-	// is also run. This helps add modifications or setup reactionary
-	// functions for the DOM elements.
-	//---------------------------------------------------------------------
+	},  
 
 	init: function () {
 		const {
-			glob ,
+			glob,  
 			document
 		} = this;
-		glob.variableChange(document.getElementById("storage") ,"varNameContainer");
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Bot Function
-	//
-	// This is the function for the action within the Bot's Action class.
-	// Keep in mind event calls won't have access to the "msg" parameter,
-	// so be sure to provide checks for variable existance.
-	//---------------------------------------------------------------------
+		glob.variableChange(document.getElementById("storage"), "varNameContainer");
+	},  
 
 	action: async function (cache) {
 		const data = cache.actions[cache.index];
 		const info = parseInt(data.info);
 		const _this = this;
-		const video = this.evalMessage(data.video ,cache);
+		const video = this.evalMessage(data.video, cache);
 		const WrexMods = this.getWrexMods();
 		const fetchVideoInfo = WrexMods.require("youtube-info");
 		const TimeFormat = WrexMods.require("hh-mm-ss");
 		const ytdl = WrexMods.require("ytdl-core");
 		let result;
 
-		// Check if everything is ok:
 		if (!video) return console.log("Please specify a video id to get video informations.");
 
 		const songID = ytdl.getVideoID(video);
 
-		fetchVideoInfo(songID ,function (err ,videoInfo) {
+		fetchVideoInfo(songID, function (err, videoInfo) {
 			if (err) return console.error(err);
 
 			switch (info) {
@@ -312,27 +219,18 @@ module.exports = {
 				default:
 					break;
 			}
-			// Storing:
+			
 			if (result !== undefined) {
 				const storage = parseInt(data.storage);
-				const varName2 = _this.evalMessage(data.varName ,cache);
-				_this.storeValue(result ,storage ,varName2 ,cache);
+				const varName2 = _this.evalMessage(data.varName, cache);
+				_this.storeValue(result, storage, varName2, cache);
 			}
 			_this.callNextAction(cache);
 
 		});
 
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Bot Mod
-	//
-	// Upon initialization of the bot, this code is run. Using the bot's
-	// DBM namespace, one can add/modify existing functions if necessary.
-	// In order to reduce conflictions between mods, be sure to alias
-	// functions you wish to overwrite.
-	//---------------------------------------------------------------------
+	},  
 
 	mod: function (DBM) {}
 
-}; // End of module   <-- as he says
+};
