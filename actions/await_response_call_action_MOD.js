@@ -53,7 +53,7 @@ class AwaitResponseCallAction {
      * The fields used in the actions JSON data and HTML elements.
      * @type {Array<string>}
      */
-		this.fields = ["storage" ,"varName" ,"filter" ,"max" ,"time" ,"iftrue" ,"iftrueVal" ,"iffalse" ,"iffalseVal" ,"storage2" ,"varName2"];
+		this.fields = ["storage", "varName", "filter", "max", "time", "iftrue", "iftrueVal", "iffalse", "iffalseVal", "storage2", "varName2"];
 	}
 
 	/**
@@ -70,7 +70,7 @@ class AwaitResponseCallAction {
    * @param {string} data.time The time that the bot will wait.
    * @return {string} The finalized subtitle.
    */
-	subtitle({ max ,time }) {
+	subtitle({ max, time }) {
 		const getPlural = (n) => n !== "1" ? "s" : "";
 		return `Await ${max} message${getPlural(max)} for ${time} millisecond${getPlural(time)}`;
 	}
@@ -81,10 +81,10 @@ class AwaitResponseCallAction {
    * @param {string} varType The variable type.
    * @return {Array<string>|void} An array containing the variable types.
    */
-	variableStorage(data ,varType) {
+	variableStorage(data, varType) {
 		const type = parseInt(data.storage2);
 		if (type !== varType) return;
-		return [data.varName2 ,"Message List"];
+		return [data.varName2, "Message List"];
 	}
 
 	/**
@@ -93,10 +93,10 @@ class AwaitResponseCallAction {
    */
 	init() {
 		const { execSync } = require("child_process");
-		const { glob ,document } = this;
+		const { glob, document } = this;
 
-		glob.channelChange(document.getElementById("storage") ,"varNameContainer");
-		glob.variableChange(document.getElementById("storage2") ,"varNameContainer2");
+		glob.channelChange(document.getElementById("storage"), "varNameContainer");
+		glob.variableChange(document.getElementById("storage2"), "varNameContainer2");
 		glob.onChangeTrue(document.getElementById("iftrue"));
 		glob.onChangeFalse(document.getElementById("iffalse"));
 
@@ -105,8 +105,8 @@ class AwaitResponseCallAction {
 			const wrexlink = wrexlinks[i];
 			const url = wrexlink.getAttribute("data-url2");
 			if (url) {
-				wrexlink.setAttribute("title" ,url);
-				wrexlink.addEventListener("click" ,function(e) {
+				wrexlink.setAttribute("title", url);
+				wrexlink.addEventListener("click", function(e) {
 					e.stopImmediatePropagation();
 					execSync(`start ${url}`);
 				});
@@ -123,17 +123,17 @@ class AwaitResponseCallAction {
 		const data = cache.actions[cache.index];
 
 		const ch = parseInt(data.storage);
-		const varName = this.evalMessage(data.varName ,cache);
-		const channel = this.getChannel(ch ,varName ,cache);
+		const varName = this.evalMessage(data.varName, cache);
+		const channel = this.getChannel(ch, varName, cache);
 
 		const storage = parseInt(data.storage2);
-		const varName2 = this.evalMessage(data.varName2 ,cache);
+		const varName2 = this.evalMessage(data.varName2, cache);
 
 		if (channel) {
-			const js = String(this.evalMessage(data.filter ,cache));
+			const js = String(this.evalMessage(data.filter, cache));
 
-			const max = parseInt(this.evalMessage(data.max ,cache));
-			const time = parseInt(this.evalMessage(data.time ,cache));
+			const max = parseInt(this.evalMessage(data.max, cache));
+			const time = parseInt(this.evalMessage(data.time, cache));
 
 			/**
        * The filter used on the awaitMessages function.
@@ -141,7 +141,7 @@ class AwaitResponseCallAction {
        * @return {boolean} Whether or not the message is valid.
        */
 			function filter(msg) {
-				let user ,member;
+				let user, member;
 				if (cache.msg) {
 					user = cache.msg.author;
 					member = cache.msg.member;
@@ -158,13 +158,13 @@ class AwaitResponseCallAction {
 				}
 			}
 
-			channel.awaitMessages(filter ,{ max ,time ,errors: ["time"] })
+			channel.awaitMessages(filter, { max, time, errors: ["time"] })
 				.then((collected) => {
 					const res = collected.size === 1 ? collected.first() : collected.array();
-					this.storeValue(res ,storage ,varName2 ,cache);
-					this.executeResults(true ,data ,cache);
+					this.storeValue(res, storage, varName2, cache);
+					this.executeResults(true, data, cache);
 				})
-				.catch(() => this.executeResults(false ,data ,cache))
+				.catch(() => this.executeResults(false, data, cache))
 				.catch((err) => console.error(err.stack || err));
 		}
 	}
@@ -175,7 +175,7 @@ class AwaitResponseCallAction {
    * @param {Object<*>} data The data for the action.
    * @return {string} The HTML document.
    */
-	html(isEvent ,data) {
+	html(isEvent, data) {
 		return `
       <div id="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
         <div style="padding-bottom: 100px; padding: 5px 15px 5px 5px">

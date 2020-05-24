@@ -1,75 +1,21 @@
 module.exports = {
-	//---------------------------------------------------------------------
-	// Action Name
-	//
-	// This is the name of the action displayed in the editor.
-	//---------------------------------------------------------------------
-
-	name: "Edit Embed Object MOD" ,
-
-	//---------------------------------------------------------------------
-	// Action Section
-	//
-	// This is the section the action will fall into.
-	//---------------------------------------------------------------------
-
-	section: "Embed Message" ,
-
-	//---------------------------------------------------------------------
-	// Action Subtitle
-	//
-	// This function generates the subtitle displayed next to the name.
-	//---------------------------------------------------------------------
+	name: "Edit Embed Object MOD",  
+	section: "Embed Message",  
 
 	subtitle: function(data) {
-		const storage = ["" ,"Temp Variable" ,"Server Variable" ,"Global Variable"];
+		const storage = ["", "Temp Variable", "Server Variable", "Global Variable"];
 		return `${storage[parseInt(data.storage)]} (${data.varName})`;
-	} ,
+	},  
 
-	//https://github.com/LeonZ2019/
-	author: "LeonZ" ,
-	version: "1.2.0" ,
-
-
-	//---------------------------------------------------------------------
-	// Action Storage Function
-	//
-	// Stores the relevant variable info for the editor.
-	//---------------------------------------------------------------------
-
-	variableStorage: function(data ,varType) {
+	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
-		return ([data.varName ,"Embed Message"]);
-	} ,
+		return ([data.varName, "Embed Message"]);
+	},  
 
-	//---------------------------------------------------------------------
-	// Action Fields
-	//
-	// These are the fields for the action. These fields are customized
-	// by creating elements with corresponding IDs in the HTML. These
-	// are also the names of the fields stored in the action's JSON data.
-	//---------------------------------------------------------------------
+	fields: ["storage", "varName", "Edit0", "Edit1", "Edit2", "Edit3", "Edit4", "Edit5", "Edit6", "Edit7", "Edit8", "Edit9", "Edit10", "Edit11", "Edit12", "title", "url", "description", "color", "imageUrl", "imageUrl2", "thumbUrl", "thumbUrl2", "author", "authorUrl", "authorIcon", "footer", "footerIcon", "timestamp", "fieldNum", "fieldName", "fieldDescription", "fieldInline"],  
 
-	fields: ["storage" ,"varName" ,"Edit0" ,"Edit1" ,"Edit2" ,"Edit3" ,"Edit4" ,"Edit5" ,"Edit6" ,"Edit7" ,"Edit8" ,"Edit9" ,"Edit10" ,"Edit11" ,"Edit12" ,"title" ,"url" ,"description" ,"color" ,"imageUrl" ,"imageUrl2" ,"thumbUrl" ,"thumbUrl2" ,"author" ,"authorUrl" ,"authorIcon" ,"footer" ,"footerIcon" ,"timestamp" ,"fieldNum" ,"fieldName" ,"fieldDescription" ,"fieldInline"] ,
-
-	//---------------------------------------------------------------------
-	// Command HTML
-	//
-	// This function returns a string containing the HTML used for
-	// editting actions.
-	//
-	// The "isEvent" parameter will be true if this action is being used
-	// for an event. Due to their nature, events lack certain information,
-	// so edit the HTML to reflect this.
-	//
-	// The "data" parameter stores constants for select elements to use.
-	// Each is an array: index 0 for commands, index 1 for events.
-	// The names are: sendTargets, members, roles, channels,
-	//                messages, servers, variables
-	//---------------------------------------------------------------------
-
-	html: function(isEvent ,data) {
+	html: function(isEvent, data) {
 		return `
 <div style="width: 550px; height: 350px; overflow-y: scroll;">
 	<div style="padding-top: 8px;">
@@ -302,18 +248,10 @@ module.exports = {
 		</div>
 	</div>
 </div>`;
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Editor Init Code
-	//
-	// When the HTML is first applied to the action editor, this code
-	// is also run. This helps add modifications or setup reactionary
-	// functions for the DOM elements.
-	//---------------------------------------------------------------------
+	},  
 
 	init: function() {
-		const { glob ,document } = this;
+		const { glob, document } = this;
 		const Input0 = document.getElementById("Input0");
 		const Input1 = document.getElementById("Input1");
 		const Input2 = document.getElementById("Input2");
@@ -533,21 +471,13 @@ module.exports = {
 		glob.onChange10(document.getElementById("Edit10"));
 		glob.onChange11(document.getElementById("Edit11"));
 		glob.onChange12(document.getElementById("Edit12"));
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Bot Function
-	//
-	// This is the function for the action within the Bot's Action class.
-	// Keep in mind event calls won't have access to the "msg" parameter,
-	// so be sure to provide checks for variable existance.
-	//---------------------------------------------------------------------
+	},  
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
 		const storage = parseInt(data.storage);
-		const varName = this.evalMessage(data.varName ,cache);
-		const embed = this.getVariable(storage ,varName ,cache);
+		const varName = this.evalMessage(data.varName, cache);
+		const embed = this.getVariable(storage, varName, cache);
 		if(!embed) {
 			this.callNextAction(cache);
 			return;
@@ -565,23 +495,23 @@ module.exports = {
 		const Edit10 = parseInt(data.Edit10);
 		const Edit11 = parseInt(data.Edit11);
 		const Edit12 = parseInt(data.Edit12);
-		const title = this.evalMessage(data.title ,cache);
-		const url = this.evalMessage(data.url ,cache);
-		const description = this.evalMessage(data.description ,cache);
-		const color = this.evalMessage(data.color ,cache);
-		const imageUrl = this.evalMessage(data.imageUrl ,cache);
-		const imageUrl2 = this.evalMessage(data.imageUrl2 ,cache);
-		const thumbUrl = this.evalMessage(data.thumbUrl ,cache);
-		const thumbUrl2 = this.evalMessage(data.thumbUrl2 ,cache);
-		const author = this.evalMessage(data.author ,cache);
-		const authorUrl = this.evalMessage(data.authorUrl ,cache);
-		const authorIcon = this.evalMessage(data.authorIcon ,cache);
-		const footer = this.evalMessage(data.footer ,cache);
-		const footerIcon = this.evalMessage(data.footerIcon ,cache);
-		const timestamp = this.evalMessage(data.timestamp ,cache);
-		const fieldNum = parseInt(this.evalMessage(data.fieldNum ,cache));
-		const fieldName = this.evalMessage(data.fieldName ,cache);
-		const fieldDescription = this.evalMessage(data.fieldDescription ,cache);
+		const title = this.evalMessage(data.title, cache);
+		const url = this.evalMessage(data.url, cache);
+		const description = this.evalMessage(data.description, cache);
+		const color = this.evalMessage(data.color, cache);
+		const imageUrl = this.evalMessage(data.imageUrl, cache);
+		const imageUrl2 = this.evalMessage(data.imageUrl2, cache);
+		const thumbUrl = this.evalMessage(data.thumbUrl, cache);
+		const thumbUrl2 = this.evalMessage(data.thumbUrl2, cache);
+		const author = this.evalMessage(data.author, cache);
+		const authorUrl = this.evalMessage(data.authorUrl, cache);
+		const authorIcon = this.evalMessage(data.authorIcon, cache);
+		const footer = this.evalMessage(data.footer, cache);
+		const footerIcon = this.evalMessage(data.footerIcon, cache);
+		const timestamp = this.evalMessage(data.timestamp, cache);
+		const fieldNum = parseInt(this.evalMessage(data.fieldNum, cache));
+		const fieldName = this.evalMessage(data.fieldName, cache);
+		const fieldDescription = this.evalMessage(data.fieldDescription, cache);
 		const fieldInline = parseInt(data.fieldInline);
 		switch(Edit0) {
 			case 1:
@@ -724,7 +654,7 @@ module.exports = {
 				}
 				break;
 			case 2:
-				embed.fields.splice(fieldNum ,1);
+				embed.fields.splice(fieldNum, 1);
 				break;
 			case 3:
 				embed.fields = [];
@@ -742,21 +672,12 @@ module.exports = {
 						field.inline = false;
 						break;
 				}
-				embed.fields.splice(fieldNum ,0 ,field);
+				embed.fields.splice(fieldNum, 0, field);
 				break;
 		}
-		this.storeValue(embed ,storage ,varName ,cache);
+		this.storeValue(embed, storage, varName, cache);
 		this.callNextAction(cache);
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Bot Mod
-	//
-	// Upon initialization of the bot, this code is run. Using the bot's
-	// DBM namespace, one can add/modify existing functions if necessary.
-	// In order to reduce conflictions between mods, be sure to alias
-	// functions you wish to overwrite.
-	//---------------------------------------------------------------------
+	},  
 
 	mod: function() {}
-}; // End of module
+}; 

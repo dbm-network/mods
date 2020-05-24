@@ -11,10 +11,10 @@ class FileControl {
 		this.DVN = "4.3.9";
 		this.displayName = `File Control V${this.DVN}`;
 		this.section = "File Stuff";
-		this.author = ["Danno3817" ,"EliteArtz" ,"Eggsy" ,"General Wrex" ,"RigidStudios"];
+		this.author = ["Danno3817", "EliteArtz", "Eggsy", "General Wrex", "RigidStudios"];
 		this.version = "1.9.6";
 		this.short_description = "This mod allows you to interact with files & directories. Please be careful when using this action. If you delete a file there's no going back";
-		this.fields = ["input" ,"format" ,"filename" ,"filepath" ,"filetask" ,"input2"];
+		this.fields = ["input", "format", "filename", "filepath", "filetask", "input2"];
 	}
 
 
@@ -27,7 +27,7 @@ class FileControl {
    * @returns
    */
 	subtitle(data) {
-		const filetasks = ["Create" ,"Write" ,"Append into" ,"Delete" ,"Insert into"];
+		const filetasks = ["Create", "Write", "Append into", "Delete", "Insert into"];
 		return `${filetasks[parseInt(data.filetask)]} ${data.filename}${data.format}`;
 	}
 
@@ -51,7 +51,7 @@ class FileControl {
    * @param {*} data
    * @returns
    */
-	html(isEvent ,data) {
+	html(isEvent, data) {
 		return `
       <style>
         /* Most of this style inspired by EliteArtz & General Wrex */
@@ -164,7 +164,7 @@ class FileControl {
    * functions for the DOM elements.
    */
 	init() {
-		const { glob ,document } = this;
+		const { glob, document } = this;
 
 		let selector = document.getElementById("filetask");
 		let targetfield = document.getElementById("inputArea");
@@ -206,14 +206,14 @@ class FileControl {
 		const insertLine = WrexMODS.require("insert-line");
 
 		const data = cache.actions[cache.index];
-		const dirName = path.normalize(this.evalMessage(data.filepath ,cache));
-		const fileName = this.evalMessage(data.filename ,cache);
-		const line = parseInt(this.evalMessage(data.input2 ,cache));
+		const dirName = path.normalize(this.evalMessage(data.filepath, cache));
+		const fileName = this.evalMessage(data.filename, cache);
+		const line = parseInt(this.evalMessage(data.input2, cache));
 
 
-		var fpath = path.join (dirName ,fileName + data.format);
+		var fpath = path.join (dirName, fileName + data.format);
 		var task = parseInt(data.filetask);
-		var itext = this.evalMessage(data.input ,cache);
+		var itext = this.evalMessage(data.input, cache);
 
 		const lmg = "Something went wrong while";
 
@@ -222,7 +222,7 @@ class FileControl {
 			case 0: // Create File
 				result = async () => {
 					if (fileName === "") return this.callNextAction(cache);
-					fs.writeFileSync(fpath ,"" ,(err) => {
+					fs.writeFileSync(fpath, "", (err) => {
 						if (err) return console.log(`${lmg} creating: [${err}]`);
 					});
 				};
@@ -230,7 +230,7 @@ class FileControl {
 			case 1: // Write File
 				result = () => {
 					if (fileName === "") throw new Error("File Name not Provided:");
-					fs.writeFileSync(fpath ,itext ,(err) => {
+					fs.writeFileSync(fpath, itext, (err) => {
 						if (err) return console.log(`${lmg} writing: [${err}]`);
 					});
 				};
@@ -239,7 +239,7 @@ class FileControl {
 			case 2: // Append File
 				result = () => {
 					if (fileName === "") throw new Error("File Name not Provided:");
-					fs.appendFileSync(fpath ,itext + "\r\n" ,(err) => {
+					fs.appendFileSync(fpath, itext + "\r\n", (err) => {
 						if (err) return console.log(`${lmg} appending: [${err}]`);
 					});
 				};
@@ -255,27 +255,27 @@ class FileControl {
 				break;
 
 			case 3: // Delete File
-				result = () => fs.unlink(fpath ,(err) => {
+				result = () => fs.unlink(fpath, (err) => {
 					if (!fs.existsSync(dirName)) this.callNextAction(cache);
 					if (err) return console.log(`${lmg} deleting: [${err}]`);
 				});
 				break;
 		}
 
-		function ensureDirExists(dirPath ,cb) {
+		function ensureDirExists(dirPath, cb) {
 			let dirname = path.normalize(dirPath);
 			if (!fs.existsSync(dirname)) {
-				mkdirp(dirname ,{ recursive: true } ,cb);
+				mkdirp(dirname, { recursive: true }, cb);
 				return true;
 			}else {
-				cb(null ,"");
+				cb(null, "");
 				return false;
 			}
 		}
 
 		try{
 			if (dirName) {
-				ensureDirExists(dirName ,result);
+				ensureDirExists(dirName, result);
 			} else {
 				throw new Error("you did not set a file path, please go back and check your work.");
 			}

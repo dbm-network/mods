@@ -7,14 +7,14 @@ class GetCommandDescription {
 		this.author = "Hazelpy";
 		this.version = "1.0.0";
 		this.short_description = "Get the command description from command name or ID.";
-		this.fields = ["findBy" ,"commandData" ,"saveTo" ,"varName"];
+		this.fields = ["findBy", "commandData", "saveTo", "varName"];
 	}
 
 	subtitle(data) {
 		return "Get Command Description";
 	}
 
-	html(isEvent ,data) {
+	html(isEvent, data) {
 		return `<div width="540" style="height: auto;" overflow-y="scroll">
             <div style="float: left; width: 35%;">
                 Find By:<br>
@@ -69,7 +69,7 @@ class GetCommandDescription {
 						let action = cmd.actions[j];
 						if (action.name == "Command Description") {
 							console.log(saveTo);
-							this.storeValue(action.description ,Number(saveTo) ,saveToName ,cache);
+							this.storeValue(action.description, Number(saveTo), saveToName, cache);
 							this.callNextAction(cache);
 							return;
 						} else {
@@ -79,7 +79,7 @@ class GetCommandDescription {
 				}
 			}
 
-			this.storeValue(null ,varType ,saveToName ,cache);
+			this.storeValue(null, varType, saveToName, cache);
 			this.callNextAction(cache);
 		} else if (findBy == "name") {
 			var cmd;
@@ -92,7 +92,7 @@ class GetCommandDescription {
 						let action = cmd.actions[j];
 						if (action.name == "Command Description") {
 							console.log(saveTo);
-							this.storeValue(action.description ,Number(saveTo) ,saveToName ,cache);
+							this.storeValue(action.description, Number(saveTo), saveToName, cache);
 							this.callNextAction(cache);
 							return;
 						} else {
@@ -102,7 +102,7 @@ class GetCommandDescription {
 				}
 			}
 
-			this.storeValue(null ,varType ,saveToName ,cache);
+			this.storeValue(null, varType, saveToName, cache);
 			this.callNextAction(cache);
 		}
 
