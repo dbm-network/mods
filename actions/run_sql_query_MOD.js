@@ -1,60 +1,16 @@
 module.exports = {
-	//---------------------------------------------------------------------
-	// Action Name
-	//
-	// This is the name of the action displayed in the editor.
-	//---------------------------------------------------------------------
+	name: "Run SQL Query",  
+	section: "Other Stuff",  
 
-	name: "Run SQL Query" ,
-
-	//---------------------------------------------------------------------
-	// Action Section
-	//
-	// This is the section the action will fall into.
-	//---------------------------------------------------------------------
-
-	section: "Other Stuff" ,
-
-	//---------------------------------------------------------------------
-	// DBM Mods Manager Variables
-	//
-	// These are variables that DBM Mods Manager uses to show information
-	// about the mods for people to see in the list.
-	//---------------------------------------------------------------------
-
-	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "General Wrex" ,
-
-	// The version of the mod (Defaults to 1.0.0)
-	version: "1.2.0" ,
-
-	// A short description to show on the mod line for this mod (Must be on a single line)
-	short_description: "Runs SQL Queries" ,
-
-	// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-	// {name:'WrexMods',path:'aaa_wrexmods_dependencies_MOD.js'}
 	depends_on_mods: [
-		{ name:"WrexMODS" ,path:"aaa_wrexmods_dependencies_MOD.js" }
-	] ,
+		{ name:"WrexMODS", path:"aaa_wrexmods_dependencies_MOD.js" }
+	],  
 
-
-	//---------------------------------------------------------------------
-	// Action Storage Function
-	//
-	// Stores the relevant variable info for the editor.
-	//---------------------------------------------------------------------
-
-	variableStorage: function(data ,varType) {
+	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
-		return ([data.varName ,"JSON Object"]);
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Subtitle
-	//
-	// This function generates the subtitle displayed next to the name.
-	//---------------------------------------------------------------------
+		return ([data.varName, "JSON Object"]);
+	},  
 
 	subtitle: function (data) {
 		let sub = "";
@@ -71,41 +27,17 @@ module.exports = {
 		}
 
 		if(data.storage > 0){
-			const storage = ["" ,"Temp" ,"Server" ,"Global"];
+			const storage = ["", "Temp", "Server", "Global"];
 			sub += `${storage[parseInt(data.storage)]} :${data.varName}`;
 		}
 
 
 		return sub;
-	} ,
+	},  
 
-	//---------------------------------------------------------------------
-	// Action Fields
-	//
-	// These are the fields for the action. These fields are customized
-	// by creating elements with corresponding IDs in the HTML. These
-	// are also the names of the fields stored in the action's JSON data.
-	//---------------------------------------------------------------------
+	fields: ["storage", "stringifyOutput", "varName", "hostname", "port", "username", "password", "database", "query", "path", "otype", "source_conn_storage", "source_conn_varName", "store_source_conn_storage", "store_source_conn_varName", "debugMode"],  
 
-	fields: ["storage" ,"stringifyOutput" ,"varName" ,"hostname" ,"port" ,"username" ,"password" ,"database" ,"query" ,"path" ,"otype" ,"source_conn_storage" ,"source_conn_varName" ,"store_source_conn_storage" ,"store_source_conn_varName" ,"debugMode"] ,
-
-	//---------------------------------------------------------------------
-	// Command HTML
-	//
-	// This function returns a string containing the HTML used for
-	// editting actions.
-	//
-	// The "isEvent" parameter will be true if this action is being used
-	// for an event. Due to their nature, events lack certain information,
-	// so edit the HTML to reflect this.
-	//
-	// The "data" parameter stores constants for select elements to use.
-	// Each is an array: index 0 for commands, index 1 for events.
-	// The names are: sendTargets, members, roles, channels,
-	//                messages, servers, variables
-	//---------------------------------------------------------------------
-
-	html: function (isEvent ,data) {
+	html: function (isEvent, data) {
 		return `
         <div id="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
           <div>
@@ -329,17 +261,9 @@ module.exports = {
 		  color:#4676b9;
 		  }
 </style>`;
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Editor Init Code
-	//
-	// When the HTML is first applied to the action editor, this code
-	// is also run. This helps add modifications or setup reactionary
-	// functions for the DOM elements.
-	//---------------------------------------------------------------------
+	},  
 	init: function () {
-		const { glob ,document } = this;
+		const { glob, document } = this;
 
 		function getType(key){
 			switch (key) {
@@ -372,25 +296,25 @@ module.exports = {
 				const path = require("path");
 
 				var options =  {
-					host: (hostname || "localhost") ,
-					port: (port || "3311") ,
-					dialect: (getType(type) || "sqlite") ,
-					operatorsAliases: false ,
+					host: (hostname || "localhost"),  
+					port: (port || "3311"),  
+					dialect: (getType(type) || "sqlite"),  
+					operatorsAliases: false,  
 					pool: {
-						max: 5 ,
-						min: 0 ,
-						acquire: 30000 ,
+						max: 5,  
+						min: 0,  
+						acquire: 30000,  
 						idle: 10000
-					} ,
+					},  
 				};
 
-				const sequelize = new Sequelize(database || "database" ,username || "username" ,password || "password" ,options );
+				const sequelize = new Sequelize(database || "database", username || "username", password || "password", options );
 
-				document.getElementById("checkConnection_lbl").setAttribute("class" ,"ui basic label yellow");
+				document.getElementById("checkConnection_lbl").setAttribute("class", "ui basic label yellow");
 				document.getElementById("checkConnection_lbl").innerHTML = "Checking...";
 
-				function isValid(bool ,message = false){
-					document.getElementById("checkConnection_lbl").setAttribute("class" ,"ui basic label " + (bool ? "green" : "red"));
+				function isValid(bool, message = false){
+					document.getElementById("checkConnection_lbl").setAttribute("class", "ui basic label " + (bool ? "green" : "red"));
 					document.getElementById("checkConnection_lbl").innerHTML = ( (bool ? "Valid" :  "Invalid") + (message ? ": " + message : "") );
 				}
 
@@ -399,7 +323,7 @@ module.exports = {
 						isValid(true);
 					})
 					.catch(err => {
-						isValid(false ,err);
+						isValid(false, err);
 					});
 
 			};
@@ -409,9 +333,9 @@ module.exports = {
 				var lite = (evt.target.value === "3");
 				document.getElementById("auth").style.display = lite ? "none" : "";
 				document.getElementById("showPath").style.display = lite ? "" : "none";
-				document.getElementById("database").setAttribute("placeholder" ,lite ? "./mydb.sql" : "dbm");
+				document.getElementById("database").setAttribute("placeholder", lite ? "./mydb.sql" : "dbm");
 			};
-			document.getElementById("database").setAttribute("placeholder" ,document.getElementById("otype").value == "3" ? "./mydb.sql" : "dbm");
+			document.getElementById("database").setAttribute("placeholder", document.getElementById("otype").value == "3" ? "./mydb.sql" : "dbm");
 
 			// interactive links
 			var wrexlinks = document.getElementsByClassName("wrexlink");
@@ -420,8 +344,8 @@ module.exports = {
 				var wrexlink = wrexlinks[x];
 				var url = wrexlink.getAttribute("data-url");
 				if (url) {
-					wrexlink.setAttribute("title" ,url);
-					wrexlink.addEventListener("click" ,function (e) {
+					wrexlink.setAttribute("title", url);
+					wrexlink.addEventListener("click", function (e) {
 						e.stopImmediatePropagation();
 						console.log("Launching URL: [" + url + "] in your default browser.");
 						require("child_process").execSync("start " + url);
@@ -432,21 +356,13 @@ module.exports = {
 		} catch (error) {
 			// write any init errors to errors.txt in dbm's main directory
 			alert("[Run SQL Query] Error: \n\n " + error.message + "\n\n Check \n ''" + require("path").resolve("dbmmods_dbm_errors.txt") + "' for more details.");
-			require("fs").appendFileSync("dbmmods_dbm_errors.txt" ,new Date().toUTCString() + " : " + error.stack ? error.stack : error + "\n\n");
+			require("fs").appendFileSync("dbmmods_dbm_errors.txt", new Date().toUTCString() + " : " + error.stack ? error.stack : error + "\n\n");
 		}
 
-		glob.variableChange(document.getElementById("storage") ,"varNameContainer");
-		glob.variableChange(document.getElementById("source_conn_storage") ,"varNameContainer2");
-		glob.variableChange(document.getElementById("store_source_conn_storage") ,"varNameContainer3");
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Bot Function
-	//
-	// This is the function for the action within the Bot's Action class.
-	// Keep in mind event calls won't have access to the "msg" parameter,
-	// so be sure to provide checks for variable existance.
-	//---------------------------------------------------------------------
+		glob.variableChange(document.getElementById("storage"), "varNameContainer");
+		glob.variableChange(document.getElementById("source_conn_storage"), "varNameContainer2");
+		glob.variableChange(document.getElementById("store_source_conn_storage"), "varNameContainer3");
+	},  
 
 	action: function (cache) {
 
@@ -456,21 +372,21 @@ module.exports = {
 		const data = cache.actions[cache.index];
 
 		const source_conn_storage = parseInt(data.source_conn_storage);
-		const source_conn_varName = this.evalMessage(data.source_conn_varName ,cache);
+		const source_conn_varName = this.evalMessage(data.source_conn_varName, cache);
 
 		const store_source_conn_storage = parseInt(data.store_source_conn_storage);
-		const store_source_conn_varName = this.evalMessage(data.store_source_conn_varName ,cache);
+		const store_source_conn_varName = this.evalMessage(data.store_source_conn_varName, cache);
 
 		// 0=mysql, 1=postgres, 2=mssql, 3=sqllite
 		const type = data.otype;
-		const hostname = this.evalMessage(data.hostname ,cache);
-		const port = this.evalMessage(data.port ,cache);
-		const username = this.evalMessage(data.username ,cache);
-		const password = this.evalMessage(data.password ,cache);
-		const database = this.evalMessage(data.database ,cache);
-		const query = this.evalMessage(data.query ,cache);
-		const path = this.evalMessage(data.path ,cache);
-		const varName = this.evalMessage(data.varName ,cache);
+		const hostname = this.evalMessage(data.hostname, cache);
+		const port = this.evalMessage(data.port, cache);
+		const username = this.evalMessage(data.username, cache);
+		const password = this.evalMessage(data.password, cache);
+		const database = this.evalMessage(data.database, cache);
+		const query = this.evalMessage(data.query, cache);
+		const path = this.evalMessage(data.path, cache);
+		const varName = this.evalMessage(data.varName, cache);
 
 		const storage = parseInt(data.storage);
 		const DEBUG = parseInt(data.debugMode);
@@ -510,15 +426,15 @@ module.exports = {
 			}
 
 			var options =  {
-				host: (hostname || "localhost") ,
-				port: (port || "3311") ,
-				dialect: (getType(type) || "sqlite") ,
+				host: (hostname || "localhost"),  
+				port: (port || "3311"),  
+				dialect: (getType(type) || "sqlite"),  
 				pool: {
-					max: 5 ,
-					min: 0 ,
-					acquire: 30000 ,
+					max: 5,  
+					min: 0,  
+					acquire: 30000,  
 					idle: 10000
-				} ,
+				},  
 			};
 
 			if(!DEBUG){
@@ -529,15 +445,15 @@ module.exports = {
 
 			let sequelize;
 			if(source_conn_storage > 0 && source_conn_varName && store_source_conn_storage == 0 ){
-				const storedConnection = this.getVariable(source_conn_storage ,source_conn_varName ,cache);
+				const storedConnection = this.getVariable(source_conn_storage, source_conn_varName, cache);
 				sequelize = storedConnection && storedConnection.sequelize;
 				if(sequelize){
 					if(DEBUG) console.log(`Using stored Connection for host '${storedConnection.hostname}:${storedConnection.port}', using database '${storedConnection.database}'`);
 				}else{
-					sequelize = new Sequelize(database || "database" ,username || "username" ,password || "password" ,options);
+					sequelize = new Sequelize(database || "database", username || "username", password || "password", options);
 				}
 			}else{
-				sequelize = new Sequelize(database || "database" ,username || "username" ,password || "password" ,options);
+				sequelize = new Sequelize(database || "database", username || "username", password || "password", options);
 			}
 
 			sequelize.authenticate()
@@ -545,29 +461,29 @@ module.exports = {
 
 					if(store_source_conn_storage > 0 && store_source_conn_varName && source_conn_storage == 0){
 						if(sequelize){
-							const storedConnection = { hostname: hostname ,port:port ,database: database ,sequelize: sequelize };
+							const storedConnection = { hostname: hostname, port:port, database: database, sequelize: sequelize };
 							if(DEBUG) console.log(`Storing connection for host '${storedConnection.hostname}:${storedConnection.port}' using database '${storedConnection.database}'`);
-							this.storeValue(storedConnection ,store_source_conn_storage ,store_source_conn_varName ,cache);
+							this.storeValue(storedConnection, store_source_conn_storage, store_source_conn_varName, cache);
 						}
 					}
 
 					if(query){
 						let myQuery = sequelize.query(query);
-						myQuery.spread(function(results ,metadata) {
+						myQuery.spread(function(results, metadata) {
 
 							let jsonOut = false;
 							if(results && path !== undefined){
 
-								jsonOut = WrexMODS.jsonPath(results ,path);
+								jsonOut = WrexMODS.jsonPath(results, path);
 
 								// if it failed and if they didn't the required initial object, add it for them
 								if(jsonOut == false){
-									jsonOut = WrexMODS.jsonPath(results ,("$.").concat(path));
+									jsonOut = WrexMODS.jsonPath(results, ("$.").concat(path));
 								}
 
 								// if it failed still, try just pulling the first object
 								if(jsonOut == false){
-									jsonOut = WrexMODS.jsonPath(results ,("$.[0].").concat(path));
+									jsonOut = WrexMODS.jsonPath(results, ("$.[0].").concat(path));
 								}
 
 								if(jsonOut){
@@ -586,7 +502,7 @@ module.exports = {
 
 								console.log("\r\nAppend the key that you want to store that value to the variable.");
 
-								const storageType = ["" ,"tempVars" ,"serverVars" ,"globalVars"];
+								const storageType = ["", "tempVars", "serverVars", "globalVars"];
 								const output = storageType[storage];
 
 								console.log("If not using the Path textbox in the mod, this is how to get special values.");
@@ -598,13 +514,13 @@ module.exports = {
 							}
 
 							const out = jsonOut || results;
-							this.storeValue(stringifyOutput ? JSON.stringify(out) : out ,storage ,varName ,cache);
+							this.storeValue(stringifyOutput ? JSON.stringify(out) : out, storage, varName, cache);
 							this.callNextAction(cache);
 
 						}.bind(this))
 							.catch(function(err){
 								if(err && err.original){
-									this.storeValue({ message: err.original ,error:err.original } ,storage ,varName ,cache);
+									this.storeValue({ message: err.original, error:err.original }, storage, varName, cache);
 									console.error(err.original);
 									this.callNextAction(cache);
 								}
@@ -622,16 +538,7 @@ module.exports = {
 			console.log("SQL Mod Error: " + (error.stack ? error.stack : error));
 		}
 
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Bot Mod
-	//
-	// Upon initialization of the bot, this code is run. Using the bot's
-	// DBM namespace, one can add/modify existing functions if necessary.
-	// In order to reduce conflictions between mods, be sure to alias
-	// functions you wish to overwrite.
-	//---------------------------------------------------------------------
+	},  
 
 	mod: function (DBM) {}
-}; // End of module
+}; 

@@ -1,71 +1,10 @@
 module.exports = {
-	//---------------------------------------------------------------------
-	// Action Name
-	//
-	// This is the name of the action displayed in the editor.
-	//---------------------------------------------------------------------
+	name: "Store Audio Info",  
+	section: "Audio Control",  
 
-	name: "Store Audio Info" ,
+	fields: ["server", "info", "storage", "varName", "varName2"],  
 
-	//---------------------------------------------------------------------
-	// Action Section
-	//
-	// This is the section the action will fall into.
-	//---------------------------------------------------------------------
-
-	section: "Audio Control" ,
-
-	//---------------------------------------------------------------------
-	// DBM Network Client Variables (Optional but nice to have!)
-	//
-	// These are variables that DBM Network Client uses to show information
-	// about the mods for people to see in the list.
-	//---------------------------------------------------------------------
-
-	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "General Wrex, Lasse, ACertainCoder & TheMonDon" ,
-
-	// [NEW] If you have a donation link you want to share.
-	donation_link: "https://www.patreon.com/generalwrex" , //uh wheres my share? ~MonDOn
-
-	// The version of the mod pack it was added into
-	version: "1.9.6" , //Added in 1.9.0
-	version2: "1.0.0" , // Just to keep track of this version compared to mod pack version
-
-	// A short description to show on the mod line for this mod (Must be on a single line)
-	short_description: "Stores information of current audio source.  <b style='color:red'>Something must be playing in a voice channel for this to return most data!</b><br>Please put the Welcome action into a Bot Initalization event to be able to store the current song!" ,
-
-	// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-	// depends_on_mods: ["WrexMODS"],
-
-	//---------------------------------------------------------------------
-	// Action Fields
-	//
-	// These are the fields for the action. These fields are customized
-	// by creating elements with corresponding IDs in the HTML. These
-	// are also the names of the fields stored in the action's JSON data.
-	//---------------------------------------------------------------------
-
-	fields: ["server" ,"info" ,"storage" ,"varName" ,"varName2"] ,
-
-
-	//---------------------------------------------------------------------
-	// Command HTML
-	//
-	// This function returns a string containing the HTML used for
-	// editing actions.
-	//
-	// The "isEvent" parameter will be true if this action is being used
-	// for an event. Due to their nature, events lack certain information,
-	// so edit the HTML to reflect this.
-	//
-	// The "data" parameter stores constants for select elements to use.
-	// Each is an array: index 0 for commands, index 1 for events.
-	// The names are: sendTargets, members, roles, channels,
-	//                messages, servers, variables
-	//---------------------------------------------------------------------
-
-	html: function(isEvent ,data) {
+	html: function(isEvent, data) {
 		return `
         <style>
         table.scroll {
@@ -102,14 +41,7 @@ module.exports = {
 
         </style>
         <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
-<div class="embed">
-    <embedleftline style="background-color: #2b9696;"></embedleftline>
-    <div class="embedinfo">
-        <span class="embed-auth"><u>Mod Info:</u><br>Made by <b>${this.author}</b><br>
-        <u><span class="wrexlink" data-url="${this.donation_link}">Donate!</span></u></span><br>
-        <span class="embed-desc">${this.short_description}<br></span>
-    </div>
-</div><br>
+
     <div>
         <div style="float: left; width: 35%;">
             Source Server:<br>
@@ -177,56 +109,56 @@ div.embed { /* <div class="embed"></div> */
             color:#4676b9;
         }
 	</style>`;
-	} ,
+	},  
 
 	// this is the list of items used in the subtitle, init, types, and the html
 	itemList:  [
-		{ name: "Volume (1-100)" ,type: "Number" } ,
-		{ name: "Is Playing" ,type: "Boolean" } ,
-		{ name: "Start Time (Seconds)" ,type: "Seconds" } ,
-		{ name: "Queue URL List" ,type: "List" } ,
-		{ name: "Next Song URL In Queue" ,type: "Url" } ,
-		{ name: "Queue Length" ,type: "Number" } ,
-		{ name: "Bitrate" ,type: "Number" } ,
-		{ name: "Passes" ,type: "Number" } ,
-		{ name: "Current Seek Position (Seconds)" ,type: "Seconds" } ,
-		{ name: "Current Song URL" ,type: "Url" } ,
-		{ name: "Requester of Next Song URL" ,type: "User" } ,
-		{ name: "Requester of Current Song URL" ,type: "User" } ,
-		{ name: "Title of Next Song URL" ,type: "Title String" } ,
-		{ name: "Title of Current Song URL" ,type: "Title String" } ,
-		{ name: "Duration of Current Song URL" ,type: "Duration" } ,
-		{ name: "Current Song Thumbnail URL" ,type: "Url" }
-	] ,
+		{ name: "Volume (1-100)", type: "Number" },  
+		{ name: "Is Playing", type: "Boolean" },  
+		{ name: "Start Time (Seconds)", type: "Seconds" },  
+		{ name: "Queue URL List", type: "List" },  
+		{ name: "Next Song URL In Queue", type: "Url" },  
+		{ name: "Queue Length", type: "Number" },  
+		{ name: "Bitrate", type: "Number" },  
+		{ name: "Passes", type: "Number" },  
+		{ name: "Current Seek Position (Seconds)", type: "Seconds" },  
+		{ name: "Current Song URL", type: "Url" },  
+		{ name: "Requester of Next Song URL", type: "User" },  
+		{ name: "Requester of Current Song URL", type: "User" },  
+		{ name: "Title of Next Song URL", type: "Title String" },  
+		{ name: "Title of Current Song URL", type: "Title String" },  
+		{ name: "Duration of Current Song URL", type: "Duration" },  
+		{ name: "Current Song Thumbnail URL", type: "Url" }
+	],  
 
 	// itemlist is set from above
 	subtitle: function(data) {
 		this.itemList = require("./store_audio_info_MOD.js").itemList;
-		const servers = ["Current Server" ,"Temp Variable" ,"Server Variable" ,"Global Variable"];
+		const servers = ["Current Server", "Temp Variable", "Server Variable", "Global Variable"];
 		return `${servers[parseInt(data.server)]} - ${this.itemList[parseInt(data.info)].name}`;
-	} ,
+	},  
 
 	// itemlist is set from above
-	variableStorage: function(data ,varType) {
+	variableStorage: function(data, varType) {
 		this.itemList = require("./store_audio_info_MOD.js").itemList;
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
 		const dataType = this.itemList[parseInt(data.info)].type || "Unknown Type";
-		return ([data.varName ,dataType]);
-	} ,
+		return ([data.varName, dataType]);
+	},  
 
 	// itemlist is set from above
 	init: function() {
 		try {
-			const { glob ,document } = this;
+			const { glob, document } = this;
 
 			//
 			const wrexlinks = document.getElementsByClassName("wrexlink");
 			for(let x = 0; x < wrexlinks.length; x++) {
-				const wrexlink = wrexlinks[x] ,url = wrexlink.getAttribute("data-url");
+				const wrexlink = wrexlinks[x], url = wrexlink.getAttribute("data-url");
 				if(url){
-					wrexlink.setAttribute("title" ,url);
-					wrexlink.addEventListener("click" ,function(e){
+					wrexlink.setAttribute("title", url);
+					wrexlink.addEventListener("click", function(e){
 						e.stopImmediatePropagation();
 						console.log("Launching URL: [" + url + "] in your default browser.");
 						require("child_process").execSync("start " + url);
@@ -249,32 +181,24 @@ div.embed { /* <div class="embed"></div> */
 				}
 			}
 
-			glob.variableChange(document.getElementById("storage") ,"varNameContainer");
-			glob.serverChange(document.getElementById("server") ,"varNameContainer2");
+			glob.variableChange(document.getElementById("storage"), "varNameContainer");
+			glob.serverChange(document.getElementById("server"), "varNameContainer2");
 		} catch (error) {
 			alert("Store Audio Info Init Error:\n\n" + error);
 		}
-	} ,
+	},  
 
-
-	//---------------------------------------------------------------------
-	// Action Bot Function
-	//
-	// This is the function for the action within the Bot's Action class.
-	// Keep in mind event calls won't have access to the "msg" parameter,
-	// so be sure to provide checks for variable existance.
-	//---------------------------------------------------------------------
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
 		const server = parseInt(data.server);
-		const varName2 = this.evalMessage(data.varName2 ,cache);
+		const varName2 = this.evalMessage(data.varName2, cache);
 		const TimeFormat = this.getWrexMods().require("hh-mm-ss");
 		const info = parseInt(data.info);
 
 		const audio = this.getDBM().Audio;
 
-		const targetServer = this.getServer(server ,varName2 ,cache);
+		const targetServer = this.getServer(server, varName2, cache);
 		if(!targetServer) {
 			this.callNextAction(cache);
 			return;
@@ -340,20 +264,11 @@ div.embed { /* <div class="embed"></div> */
 		}
 		if(result !== undefined) {
 			const storage = parseInt(data.storage);
-			const varName = this.evalMessage(data.varName ,cache);
-			this.storeValue(result ,storage ,varName ,cache);
+			const varName = this.evalMessage(data.varName, cache);
+			this.storeValue(result, storage, varName, cache);
 		}
 		this.callNextAction(cache);
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Bot Mod
-	//
-	// Upon initialization of the bot, this code is run. Using the bot's
-	// DBM namespace, one can add/modify existing functions if necessary.
-	// In order to reduce conflictions between mods, be sure to alias
-	// functions you wish to overwrite.
-	//---------------------------------------------------------------------
+	},  
 
 	mod: function() {}
-}; // End of module
+}; 

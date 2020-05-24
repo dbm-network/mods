@@ -1,97 +1,23 @@
 module.exports = {
-	//---------------------------------------------------------------------
-	// Action Name
-	//
-	// This is the name of the action displayed in the editor.
-	//---------------------------------------------------------------------
-
-	name: "Set Time Restriction" ,
-
-	//---------------------------------------------------------------------
-	// Action Section
-	//
-	// This is the section the action will fall into.
-	//---------------------------------------------------------------------
-
-	section: "Other Stuff" ,
-
-	//---------------------------------------------------------------------
-	// Action Subtitle
-	//
-	// This function generates the subtitle displayed next to the name.
-	//---------------------------------------------------------------------
+	name: "Set Time Restriction",  
+	section: "Other Stuff",  
 
 	subtitle: function (data) {
-		const results = ["Continue Actions" ,"Stop Action Sequence" ,"Jump To Action" ,"Jump Forward Actions" ,"Jump to Anchor"];
+		const results = ["Continue Actions", "Stop Action Sequence", "Jump To Action", "Jump Forward Actions", "Jump to Anchor"];
 		return `Cooldown | If True: ${results[parseInt(data.iftrue)]} ~ If False: ${results[parseInt(data.iffalse)]}`;
-	} ,
+	},  
 
-	//---------------------------------------------------------------------
-	// DBM Mods Manager Variables (Optional but nice to have!)
-	//
-	// These are variables that DBM Mods Manager uses to show information
-	// about the mods for people to see in the list.
-	//---------------------------------------------------------------------
-
-	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "Aamon#9130" ,
-
-	// The version of the mod (Defaults to 1.0.0)
-	version: "1.9.7" ,
-
-	mod_version: "3" ,
-
-	// A short description to show on the mod line for this mod (Must be on a single line)
-	short_description: "This mod will restrict a command" ,
-
-	//---------------------------------------------------------------------
-
-	//---------------------------------------------------------------------
-	// Action Storage Function
-	//
-	// Stores the relevant variable info for the editor.
-	//---------------------------------------------------------------------
-
-	variableStorage: function (data ,varType) {
+	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
-		return ([data.varName ,"Number"]);
-	} ,
+		return ([data.varName, "Number"]);
+	},  
 
-	//---------------------------------------------------------------------
-	// Action Fields
-	//
-	// These are the fields for the action. These fields are customized
-	// by creating elements with corresponding IDs in the HTML. These
-	// are also the names of the fields stored in the action's JSON data.
-	//---------------------------------------------------------------------
+	fields: ["measurement", "value", "save", "restrict", "iftrue", "iftrueVal", "iffalse", "iffalseVal", "storage", "varName"],  
 
-	fields: ["measurement" ,"value" ,"save" ,"restrict" ,"iftrue" ,"iftrueVal" ,"iffalse" ,"iffalseVal" ,"storage" ,"varName"] ,
-
-	//---------------------------------------------------------------------
-	// Command HTML
-	//
-	// This function returns a string containing the HTML used for
-	// editting actions.
-	//
-	// The "isEvent" parameter will be true if this action is being used
-	// for an event. Due to their nature, events lack certain information,
-	// so edit the HTML to reflect this.
-	//
-	// The "data" parameter stores constants for select elements to use.
-	// Each is an array: index 0 for commands, index 1 for events.
-	// The names are: sendTargets, members, roles, channels,
-	//                messages, servers, variables
-	//---------------------------------------------------------------------
-
-	html: function (isEvent ,data) {
+	html: function (isEvent, data) {
 		return `
 	<div>
-		<div id="modinfo">
-			<p>
-			Made by <b>${this.author}</b> and improved by <b>LeonZ</b>
-			</p>
-		</div>
 		<div style="padding-top: 8px;">
 			<div style="float: left; width: 35%;">
 				Time Measurement:<br>
@@ -139,18 +65,10 @@ module.exports = {
 			</div>
 		</div>
 	</div>`;
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Editor Init Code
-	//
-	// When the HTML is first applied to the action editor, this code
-	// is also run. This helps add modifications or setup reactionary
-	// functions for the DOM elements.
-	//---------------------------------------------------------------------
+	},  
 
 	init: function () {
-		const { glob ,document } = this;
+		const { glob, document } = this;
 		const value = document.getElementById("value");
 		glob.onChange = function(Measurement) {
 			switch(parseInt(Measurement.value)) {
@@ -169,25 +87,17 @@ module.exports = {
 			}
 		};
 
-		glob.variableChange(document.getElementById("storage") ,"varNameContainer");
+		glob.variableChange(document.getElementById("storage"), "varNameContainer");
 		glob.onChangeTrue(document.getElementById("iftrue"));
 		glob.onChangeFalse(document.getElementById("iffalse"));
 		glob.onChange(document.getElementById("Measurement"));
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Bot Function
-	//
-	// This is the function for the action within the Bot's Action class.
-	// Keep in mind event calls won't have access to the "msg" parameter,
-	// so be sure to provide checks for variable existance.
-	//---------------------------------------------------------------------
+	},  
 
 	action: function (cache) {
 		const data = cache.actions[cache.index];
 		const Files = this.getDBM().Files;
-		const value = parseInt(this.evalMessage(data.value ,cache));
-		const msg = this.getMessage(0 ,"" ,cache);
+		const value = parseInt(this.evalMessage(data.value, cache));
+		const msg = this.getMessage(0, "", cache);
 		if (isNaN(value)) {
 			console.error(value+" is not a valid number.");
 			return;
@@ -203,36 +113,27 @@ module.exports = {
 				}
 			}
 		});
-		const timeLeft = this.TimeRestriction(msg ,cmd ,cache);
+		const timeLeft = this.TimeRestriction(msg, cmd, cache);
 
 		let result;
 		if (!timeLeft) {
 			result = false;
 		} else {
 			const storage = parseInt(data.storage);
-			const varName2 = this.evalMessage(data.varName ,cache);
-			this.storeValue(timeLeft ,storage ,varName2 ,cache);
+			const varName2 = this.evalMessage(data.varName, cache);
+			this.storeValue(timeLeft, storage, varName2, cache);
 			result = true;
 		}
-		this.executeResults(result ,data ,cache);
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Bot Mod
-	//
-	// Upon initialization of the bot, this code is run. Using the bot's
-	// DBM namespace, one can add/modify existing functions if necessary.
-	// In order to reduce conflictions between mods, be sure to alias
-	// functions you wish to overwrite.
-	//---------------------------------------------------------------------
+		this.executeResults(result, data, cache);
+	},  
 
 	mod: function (DBM) {
 
 		const Files = DBM.Files;
 		let Cooldown;
-		DBM.Actions.TimeRestriction = function (msg ,cmd ,cache) {
+		DBM.Actions.TimeRestriction = function (msg, cmd, cache) {
 
-			let value = parseInt(this.evalMessage(cache.actions[cache.index].value ,cache));
+			let value = parseInt(this.evalMessage(cache.actions[cache.index].value, cache));
 			let measurement = parseInt(cache.actions[cache.index].measurement);
 			let restrict = parseInt(cache.actions[cache.index].restrict);
 			switch (measurement) {
@@ -247,10 +148,10 @@ module.exports = {
 			}
 			let save = cache.actions[cache.index].save;
 			if (typeof Cooldown == "undefined" && save == 0) {
-				Cooldown = DBM.Actions.getVariable(3 ,"DBMCooldown" ,cache);
+				Cooldown = DBM.Actions.getVariable(3, "DBMCooldown", cache);
 			} else if (save == 1) {
-				this.storeValue(undefined ,3 ,"DBMCooldown" ,cache);
-				Files.saveGlobalVariable("DBMCooldown" ,undefined);
+				this.storeValue(undefined, 3, "DBMCooldown", cache);
+				Files.saveGlobalVariable("DBMCooldown", undefined);
 			}
 			if (typeof Cooldown == "undefined") {
 				Cooldown = {};
@@ -281,12 +182,12 @@ module.exports = {
 							return Math.ceil((expirationTime - now) / 1000);
 						} else {
 							Command[msg.author.id] = now;
-							if (save == 0) Files.saveGlobalVariable("DBMCooldown" ,JSON.stringify(Cooldown));
+							if (save == 0) Files.saveGlobalVariable("DBMCooldown", JSON.stringify(Cooldown));
 							return false;
 						}
 					} else {
 						Command[msg.author.id] = now;
-						if (save == 0) Files.saveGlobalVariable("DBMCooldown" ,JSON.stringify(Cooldown));
+						if (save == 0) Files.saveGlobalVariable("DBMCooldown", JSON.stringify(Cooldown));
 						return false;
 					}
 					brerak;
@@ -306,12 +207,12 @@ module.exports = {
 							return Math.ceil((expirationTime - now) / 1000);
 						} else {
 							Command[msg.author.id][channelId] = now;
-							if (save == 0) Files.saveGlobalVariable("DBMCooldown" ,JSON.stringify(Cooldown));
+							if (save == 0) Files.saveGlobalVariable("DBMCooldown", JSON.stringify(Cooldown));
 							return false;
 						}
 					} else {
 						Command[msg.author.id][channelId] = now;
-						if (save == 0) Files.saveGlobalVariable("DBMCooldown" ,JSON.stringify(Cooldown));
+						if (save == 0) Files.saveGlobalVariable("DBMCooldown", JSON.stringify(Cooldown));
 						return false;
 					}
 					brerak;
@@ -319,4 +220,4 @@ module.exports = {
 		};
 	}
 
-}; // End of module
+}; 

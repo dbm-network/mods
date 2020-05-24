@@ -1,86 +1,16 @@
 module.exports = {
-	//---------------------------------------------------------------------
-	// Action Name
-	//
-	// This is the name of the action displayed in the editor.
-	//---------------------------------------------------------------------
-
-	name: "Welcome" ,
-
-	//---------------------------------------------------------------------
-	// Action Section
-	//
-	// This is the section the action will fall into.
-	//---------------------------------------------------------------------
-
-	section: "#Mod Information" ,
-
-	//---------------------------------------------------------------------
-	// Action Subtitle
-	//
-	// This function generates the subtitle displayed next to the name.
-	//---------------------------------------------------------------------
+	name: "Welcome",  
+	section: "#Mod Information",  
 
 	subtitle: function (data) {
 		return "Put this into a Bot Initalization event for music!";
-	} ,
+	},  
 
-	//---------------------------------------------------------------------
-	// DBM Mods Manager Variables (Optional but nice to have!)
-	//
-	// These are variables that DBM Mods Manager uses to show information
-	// about the mods for people to see in the list.
-	//---------------------------------------------------------------------
+	variableStorage: function (data, varType) {},  
 
-	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "DBM Mods" ,
+	fields: ["mods"],  
 
-	// The version of the mod (Defaults to 1.0.0)
-	version: "1.9.6" ,
-
-	// A short description to show on the mod line for this mod.
-	short_description: "Information about the Mod Collection & Overwrites Bot.js" ,
-
-	// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-	// depends_on_mods: ["WrexMODS"],
-
-	//---------------------------------------------------------------------
-
-	//---------------------------------------------------------------------
-	// Action Storage Function
-	//
-	// Stores the relevant variable info for the editor.
-	//---------------------------------------------------------------------
-
-	variableStorage: function (data ,varType) {} ,
-
-	//---------------------------------------------------------------------
-	// Action Fields
-	//
-	// These are the fields for the action. These fields are customized
-	// by creating elements with corresponding IDs in the HTML. These
-	// are also the names of the fields stored in the action's JSON data.
-	//---------------------------------------------------------------------
-
-	fields: ["mods"] ,
-
-	//---------------------------------------------------------------------
-	// Command HTML
-	//
-	// This function returns a string containing the HTML used for
-	// editting actions.
-	//
-	// The "isEvent" parameter will be true if this action is being used
-	// for an event. Due to their nature, events lack certain information,
-	// so edit the HTML to reflect this.
-	//
-	// The "data" parameter stores constants for select elements to use.
-	// Each is an array: index 0 for commands, index 1 for events.
-	// The names are: sendTargets, members, roles, channels,
-	//                messages, servers, variables
-	//---------------------------------------------------------------------
-
-	html: function (isEvent ,data) {
+	html: function (isEvent, data) {
 		return `
 	<style>
 	table.scroll {
@@ -266,19 +196,11 @@ module.exports = {
 			</tbody>
 		</table><br><br>
 	</div>`;
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Editor Init Code
-	//
-	// When the HTML is first applied to the action editor, this code
-	// is also run. This helps add modifications or setup reactionary
-	// functions for the DOM elements.
-	//---------------------------------------------------------------------
+	},  
 
 	init: function () {
 		const {
-			glob ,
+			glob,  
 			document
 		} = this;
 
@@ -291,18 +213,18 @@ module.exports = {
 				.readdirSync(__dirname)
 				.forEach(function (file) {
 					if (file.match(/MOD.js/i)) {
-						var action = require(path.join(__dirname ,file));
+						var action = require(path.join(__dirname, file));
 						if (action.name && action.action !== null) {
 
 							const tr = document.createElement("tr");
-							tr.setAttribute("class" ,"table-dark");
+							tr.setAttribute("class", "table-dark");
 
 							const name = document.createElement("td");
 							const headerText = document.createElement("b");
 							headerText.innerHTML = action.name;
 							name.appendChild(headerText);
 
-							name.setAttribute("scope" ,"row");
+							name.setAttribute("scope", "row");
 							tr.appendChild(name);
 
 							const section = document.createElement("td");
@@ -319,7 +241,7 @@ module.exports = {
 		} catch (error) {
 			// write any init errors to errors.txt in dbm's main directory
 			require("fs")
-				.appendFile("errors.txt" ,error.stack ? error.stack : error + "\r\n");
+				.appendFile("errors.txt", error.stack ? error.stack : error + "\r\n");
 		}
 
 		var wrexlinks = document.getElementsByClassName("wrexlink");
@@ -327,7 +249,7 @@ module.exports = {
 			var wrexlink = wrexlinks[x];
 			var url = wrexlink.getAttribute("data-url");
 			if (url) {
-				wrexlink.addEventListener("click" ,function (e) {
+				wrexlink.addEventListener("click", function (e) {
 					e.stopImmediatePropagation();
 					console.log("Launching URL: [" + url + "] in your default browser.");
 					require("child_process")
@@ -341,8 +263,8 @@ module.exports = {
 			var wrexlink2 = wrexlinks2[x2];
 			var url2 = wrexlink2.getAttribute("data-url2");
 			if (url2) {
-				wrexlink2.setAttribute("title" ,url2);
-				wrexlink2.addEventListener("click" ,function (e2) {
+				wrexlink2.setAttribute("title", url2);
+				wrexlink2.addEventListener("click", function (e2) {
 					e2.stopImmediatePropagation();
 					console.log("Launching URL: [" + url2 + "] in your default browser.");
 					require("child_process")
@@ -356,8 +278,8 @@ module.exports = {
 			var wrexlink3 = wrexlinks3[x3];
 			var url3 = wrexlink3.getAttribute("data-url3");
 			if (url3) {
-				wrexlink3.setAttribute("title" ,url3);
-				wrexlink3.addEventListener("click" ,function (e3) {
+				wrexlink3.setAttribute("title", url3);
+				wrexlink3.addEventListener("click", function (e3) {
 					e3.stopImmediatePropagation();
 					console.log("Launching URL: [" + url3 + "] in your default browser.");
 					require("child_process")
@@ -365,30 +287,13 @@ module.exports = {
 				});
 			}
 		}
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Bot Function
-	//
-	// This is the function for the action within the Bot's Action class.
-	// Keep in mind event calls won't have access to the "msg" parameter,
-	// so be sure to provide checks for variable existance.
-	//---------------------------------------------------------------------
+	},  
 
 	action: function (cache) {
 
 		console.log("Music function successfully overwritten.");
 
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Bot Mod
-	//
-	// Upon initialization of the bot, this code is run. Using the bot's
-	// DBM namespace, one can add/modify existing functions if necessary.
-	// In order to reduce conflictions between mods, be sure to alias
-	// functions you wish to overwrite.
-	//---------------------------------------------------------------------
+	},  
 
 	mod: function (DBM) {
 		//Check for PlayingNow Data Object
@@ -404,7 +309,7 @@ module.exports = {
 			DBM.Audio.loopItem = {};
 		}
 
-		DBM.Audio.addToQueue = function (item ,cache) {
+		DBM.Audio.addToQueue = function (item, cache) {
 			if (!cache.server) return;
 			const id = cache.server.id;
 			if (!this.queue[id]) {
@@ -416,7 +321,7 @@ module.exports = {
 			this.playNext(id);
 		};
 
-		DBM.Audio.playNext = function (id ,forceSkip) {
+		DBM.Audio.playNext = function (id, forceSkip) {
 			if (!this.connections[id]) {
 				DBM.Audio.loopQueue[id] = false; //Reset loop status
 				DBM.Audio.loopItem[id] = false;
@@ -425,16 +330,16 @@ module.exports = {
 			if (!this.dispatchers[id] || !!forceSkip) {
 				if (DBM.Audio.loopItem[id] == true) { //Check if Item Loop is active
 					const item = this.playingnow[id];
-					this.playItem(item ,id);
+					this.playItem(item, id);
 				} else if (DBM.Audio.loopQueue[id] == true) { //Check if Queue Loop is active
 					const currentItem = this.playingnow[id];
 					this.queue[id].push(currentItem);
 					const nextItem = this.queue[id].shift();
-					this.playItem(nextItem ,id);
+					this.playItem(nextItem, id);
 				} else { //Basic DBM function (No Loops are active)
 					if (this.queue[id] && this.queue[id].length > 0) { //Add check if this.queue[id] exists ~TheMonDon
 						const item = this.queue[id].shift();
-						this.playItem(item ,id);
+						this.playItem(item, id);
 					} else {
 						DBM.Audio.loopQueue[id] = false; //Reset loop status
 						DBM.Audio.loopItem[id] = false;
@@ -444,7 +349,7 @@ module.exports = {
 			}
 		};
 
-		DBM.Audio.playItem = function (item ,id) {
+		DBM.Audio.playItem = function (item, id) {
 			if (!this.connections[id]) return;
 			if (this.dispatchers[id]) {
 				this.dispatchers[id]._forceEnd = true;
@@ -454,20 +359,20 @@ module.exports = {
 			let setupDispatcher = false;
 			switch (type) {
 				case "file":
-					setupDispatcher = this.playFile(item[2] ,item[1] ,id);
+					setupDispatcher = this.playFile(item[2], item[1], id);
 					this.playingnow[id] = item;
 					break;
 				case "url":
-					setupDispatcher = this.playUrl(item[2] ,item[1] ,id);
+					setupDispatcher = this.playUrl(item[2], item[1], id);
 					this.playingnow[id] = item;
 					break;
 				case "yt":
-					setupDispatcher = this.playYt(item[2] ,item[1] ,id);
+					setupDispatcher = this.playYt(item[2], item[1], id);
 					this.playingnow[id] = item;
 					break;
 			}
 			if (setupDispatcher && !this.dispatchers[id]._eventSetup) {
-				this.dispatchers[id].on("end" ,function () {
+				this.dispatchers[id].on("end", function () {
 					const isForced = this.dispatchers[id]._forceEnd;
 					this.dispatchers[id] = null;
 					if (!isForced) {
@@ -479,4 +384,4 @@ module.exports = {
 		};
 	}
 
-}; // End of module
+}; 

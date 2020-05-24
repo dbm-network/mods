@@ -1,36 +1,13 @@
 module.exports = {
-	//---------------------------------------------------------------------
-	// Action Name
-	//
-	// This is the name of the action displayed in the editor.
-	//---------------------------------------------------------------------
-
-	name: "Store Data List MOD" ,
-
-	//---------------------------------------------------------------------
-	// Action Section
-	//
-	// This is the section the action will fall into.
-	//---------------------------------------------------------------------
-
-	section: "Other Stuff" ,
-
-	//---------------------------------------------------------------------
-	// Action Subtitle
-	//
-	// This function generates the subtitle displayed next to the name.
-	//---------------------------------------------------------------------
+	name: "Store Data List MOD",  
+	section: "Other Stuff",  
 
 	subtitle: function(data) {
-		const files = ["players.json" ,"servers.json"];
+		const files = ["players.json", "servers.json"];
 		return `${files[parseInt(data.File)]} - ${(data.dataName)}`;
-	} ,
+	},  
 
-	//https://github.com/LeonZ2019/
-	author: "LeonZ" ,
-	version: "1.1.0" ,
-
-	variableStorage: function (data ,varType) {
+	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		const resultInfo = parseInt(data.resultInfo);
@@ -43,36 +20,12 @@ module.exports = {
 				dataType = "Number";
 				break;
 		}
-		return ([data.varName ,dataType]);
-	} ,
+		return ([data.varName, dataType]);
+	},  
 
-	//---------------------------------------------------------------------
-	// Action Fields
-	//
-	// These are the fields for the action. These fields are customized
-	// by creating elements with corresponding IDs in the HTML. These
-	// are also the names of the fields stored in the action's JSON data.
-	//---------------------------------------------------------------------
+	fields: ["File", "serverType", "dataName", "sort", "numberBoolean", "resultFormat", "resultInfo", "rank", "resultType", "resultFrom", "resultTo", "varName", "storage"],  
 
-	fields: ["File" ,"serverType" ,"dataName" ,"sort" ,"numberBoolean" ,"resultFormat" ,"resultInfo" ,"rank" ,"resultType" ,"resultFrom" ,"resultTo" ,"varName" ,"storage"] ,
-
-	//---------------------------------------------------------------------
-	// Command HTML
-	//
-	// This function returns a string containing the HTML used for
-	// editting actions.
-	//
-	// The "isEvent" parameter will be true if this action is being used
-	// for an event. Due to their nature, events lack certain information,
-	// so edit the HTML to reflect this.
-	//
-	// The "data" parameter stores constants for select elements to use.
-	// Each is an array: index 0 for commands, index 1 for events.
-	// The names are: sendTargets, members, roles, channels,
-	//                messages, servers, variables
-	//---------------------------------------------------------------------
-
-	html: function(isEvent ,data) {
+	html: function(isEvent, data) {
 		return `
 <div style="width: 550px; height: 350px; overflow-y: scroll;">
 	<div>
@@ -162,18 +115,10 @@ module.exports = {
 		</div>
 	</div>
 </div>`;
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Editor Init Code
-	//
-	// When the HTML is first applied to the action editor, this code
-	// is also run. This helps add modifications or setup reactionary
-	// functions for the DOM elements.
-	//---------------------------------------------------------------------
+	},  
 
 	init: function() {
-		const { glob ,document } = this;
+		const { glob, document } = this;
 		const Input0 = document.getElementById("Input0");
 		const Input1 = document.getElementById("Input1");
 		const Input2 = document.getElementById("Input2");
@@ -246,15 +191,7 @@ module.exports = {
 		glob.onChange0(document.getElementById("File"));
 		glob.onChange1(document.getElementById("resultInfo"));
 		glob.onChange2(document.getElementById("resultType"));
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Bot Function
-	//
-	// This is the function for the action within the Bot's Action class.
-	// Keep in mind event calls won't have access to the "msg" parameter,
-	// so be sure to provide checks for variable existance.
-	//---------------------------------------------------------------------
+	},  
 
 	action: function(cache) {
 		const Discord = require("discord.js");
@@ -262,31 +199,31 @@ module.exports = {
 		const fs = require("fs");
 		const data = cache.actions[cache.index];
 		const File = parseInt(data.File);
-		let file ,serverType;
+		let file, serverType;
 		if (File == 0) {
 			serverType = parseInt(data.serverType);
-			file = JSON.parse(fs.readFileSync("./data/players.json" ,"utf8"));
+			file = JSON.parse(fs.readFileSync("./data/players.json", "utf8"));
 		} else {
-			file = JSON.parse(fs.readFileSync("./data/servers.json" ,"utf8"));
+			file = JSON.parse(fs.readFileSync("./data/servers.json", "utf8"));
 		}
 		let array0 = [];
 		let result = [];
-		const dataName = this.evalMessage(data.dataName ,cache);
+		const dataName = this.evalMessage(data.dataName, cache);
 		const sort = parseInt(data.sort);
 		const numberBoolean = parseInt(data.numberBoolean);
 		const resultInfo = parseInt(data.resultInfo);
-		let resultFormat = String(this.evalMessage(data.resultFormat ,cache));
+		let resultFormat = String(this.evalMessage(data.resultFormat, cache));
 		if (resultInfo == 0) {
 			if (!resultFormat) {
 				resultFormat = String("Name + \" \" + DataValue");
 			}
 		}
 		const resultType = parseInt(data.resultType);
-		const rank = this.evalMessage(data.rank ,cache);
+		const rank = this.evalMessage(data.rank, cache);
 		const storage = parseInt(data.storage);
-		const varName = this.evalMessage(data.varName ,cache);
+		const varName = this.evalMessage(data.varName, cache);
 
-		let objectid ,value ,name;
+		let objectid, value, name;
 		for (id in file) {
 			if (file[id][dataName] || typeof file[id][dataName] === "number") {
 				switch (File) {
@@ -304,7 +241,7 @@ module.exports = {
 							objectid = object.id;
 							value = file[id][dataName];
 							name = (object.tag || object.user.tag);
-							array0.push({ id:objectid ,data:value ,name:name });
+							array0.push({ id:objectid, data:value, name:name });
 						}
 						break;
 					case 1:
@@ -313,7 +250,7 @@ module.exports = {
 							objectid = object.guild.id;
 							value = file[id][dataName];
 							name = object.guild.name;
-							array0.push({ id:objectid ,data:value ,name:name });
+							array0.push({ id:objectid, data:value, name:name });
 						}
 						break;
 				}
@@ -332,9 +269,9 @@ module.exports = {
 		}
 		switch (resultInfo) {
 			case 0:
-				let result0 ,Name ,DataValue;
+				let result0, Name, DataValue;
 				let array1 = [];
-				let resultFrom ,resultTo;
+				let resultFrom, resultTo;
 				switch (resultType) {
 					case 0:
 						resultFrom = 0;
@@ -342,11 +279,11 @@ module.exports = {
 						break;
 					case 1:
 						resultFrom = 0;
-						resultTo = parseInt(this.evalMessage(data.resultTo ,cache));
+						resultTo = parseInt(this.evalMessage(data.resultTo, cache));
 						break;
 					case 2:
-						resultFrom = parseInt(this.evalMessage(data.resultFrom ,cache));
-						resultTo = parseInt(this.evalMessage(data.resultTo ,cache));
+						resultFrom = parseInt(this.evalMessage(data.resultFrom, cache));
+						resultTo = parseInt(this.evalMessage(data.resultTo, cache));
 						break;
 
 				}
@@ -363,14 +300,14 @@ module.exports = {
 					}
 				}
 				array1 = array1.join("");
-				this.storeValue(array1 ,storage ,varName ,cache);
+				this.storeValue(array1, storage, varName, cache);
 				break;
 			case 1:
 				if (rank) {
 					for (var i = 0; i < result.length; i++) {
 						if (result[i].id == rank) {
 							var result1 = result[i].rank;
-							this.storeValue(result1 ,storage ,varName ,cache);
+							this.storeValue(result1, storage, varName, cache);
 							break;
 						}
 					}
@@ -378,16 +315,7 @@ module.exports = {
 				break;
 		}
 		this.callNextAction(cache);
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Bot Mod
-	//
-	// Upon initialization of the bot, this code is run. Using the bot's
-	// DBM namespace, one can add/modify existing functions if necessary.
-	// In order to reduce conflictions between mods, be sure to alias
-	// functions you wish to overwrite.
-	//---------------------------------------------------------------------
+	},  
 
 	mod: function() {}
-}; // End of module
+}; 

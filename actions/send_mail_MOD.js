@@ -1,72 +1,22 @@
 module.exports = {
-	//---------------------------------------------------------------------
-	// Action Name
-	//
-	// This is the name of the action displayed in the editor.
-	//---------------------------------------------------------------------
-
-	name: "Send Mail" ,
-
-	//---------------------------------------------------------------------
-	// Action Section
-	//
-	// This is the section the action will fall into.
-	//---------------------------------------------------------------------
-
-	section: "Other Stuff" ,
-
-	//---------------------------------------------------------------------
-	// Action Subtitle
-	//
-	// This function generates the subtitle displayed next to the name.
-	//---------------------------------------------------------------------
+	name: "Send Mail",  
+	section: "Other Stuff",  
 
 	subtitle: function(data) {
 		return `from:"${data.username}" to: "${data.mailto}"`;
-	} ,
+	},  
 
-	//---------------------------------------------------------------------
-	// Action Storage Function
-	//
-	// Stores the relevant variable info for the editor.
-	//---------------------------------------------------------------------
-
-	variableStorage: function(data ,varType) {
+	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
-		return ([data.varName ,"Unknown Type"]);
-	} ,
+		return ([data.varName, "Unknown Type"]);
+	},  
 
-	//---------------------------------------------------------------------
-	// Action Fields
-	//
-	// These are the fields for the action. These fields are customized
-	// by creating elements with corresponding IDs in the HTML. These
-	// are also the names of the fields stored in the action's JSON data.
-	//---------------------------------------------------------------------
+	fields: ["username", "password", "mailto", "subject", "type", "text", "iffalse", "iffalseVal", "hostname", "portname", "sec"],  
 
-	fields: ["username" ,"password" ,"mailto" ,"subject" ,"type" ,"text" ,"iffalse" ,"iffalseVal" ,"hostname" ,"portname" ,"sec"] ,
-
-	//---------------------------------------------------------------------
-	// Command HTML
-	//
-	// This function returns a string containing the HTML used for
-	// editting actions.
-	//
-	// The "isEvent" parameter will be true if this action is being used
-	// for an event. Due to their nature, events lack certain information,
-	// so edit the HTML to reflect this.
-	//
-	// The "data" parameter stores constants for select elements to use.
-	// Each is an array: index 0 for commands, index 1 for events.
-	// The names are: sendTargets, members, roles, channels,
-	//                messages, servers, variables
-	//---------------------------------------------------------------------
-
-	html: function(isEvent ,data) {
+	html: function(isEvent, data) {
 		return `
 <div style="width: 550px; height: 350px; overflow-y: scroll;">
-    <div><u>Mod Info:</u><br>Made by <b>Blue Label</b><br>Mod By <b>Baiano</b></div><br>
     <div>
       <u>Helpful Information</u><br>
       - Html Useful Tutorial: <a href="https://www.w3schools.com/html/">W3schools Html Tutorial</a>.<br>
@@ -125,51 +75,35 @@ module.exports = {
 	</div>
     </div>
 </div>`;
-	} ,
-	//---------------------------------------------------------------------
-	// Action Editor Init Code
-	//
-	// When the HTML is first applied to the action editor, this code
-	// is also run. This helps add modifications or setup reactionary
-	// functions for the DOM elements.
-	//---------------------------------------------------------------------
-
+	},  
 	init: function() {
-		const { glob ,document } = this;
+		const { glob, document } = this;
 
 		glob.onChangeFalse(document.getElementById("iffalse"));
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Bot Function
-	//
-	// This is the function for the action within the Bot's Action class.
-	// Keep in mind event calls won't have access to the "msg" parameter,
-	// so be sure to provide checks for variable existance.
-	//---------------------------------------------------------------------
+	},  
 
 	action: function(cache) {
 		const _this = this;
 		const data = cache.actions[cache.index];
-		const username = this.evalMessage(data.username ,cache);
-		const password = this.evalMessage(data.password ,cache);
-		const mailto = this.evalMessage(data.mailto ,cache);
-		const subjectvalue = this.evalMessage(data.subject ,cache);
-		const textvalue = this.evalMessage(data.text ,cache);
+		const username = this.evalMessage(data.username, cache);
+		const password = this.evalMessage(data.password, cache);
+		const mailto = this.evalMessage(data.mailto, cache);
+		const subjectvalue = this.evalMessage(data.subject, cache);
+		const textvalue = this.evalMessage(data.text, cache);
 		const typevalue = parseInt(data.type);
-		const hostname = this.evalMessage(data.hostname ,cache);
-		const portname = this.evalMessage(data.portname ,cache);
-		const sec = this.evalMessage(data.sec ,cache);
+		const hostname = this.evalMessage(data.hostname, cache);
+		const portname = this.evalMessage(data.portname, cache);
+		const sec = this.evalMessage(data.sec, cache);
 
 		//Big thank to W3schools.com for this code.
 		const nodemailer = require("nodemailer");
 
 		var transporter = nodemailer.createTransport({
-			host: hostname ,
-			port: portname ,
-			secure: sec ,
+			host: hostname,  
+			port: portname,  
+			secure: sec,  
 			auth: {
-				user: username ,
+				user: username,  
 				pass: password
 			}
 		});
@@ -177,40 +111,31 @@ module.exports = {
 			case 0:
 			{
 				var mailOptions = {
-					from: username ,
-					to: mailto ,
-					subject: subjectvalue ,
+					from: username,  
+					to: mailto,  
+					subject: subjectvalue,  
 					text: textvalue
 				};
 			}
 			case 1:
 				var mailOptions = {
-					from: username ,
-					to: mailto ,
-					subject: subjectvalue ,
+					from: username,  
+					to: mailto,  
+					subject: subjectvalue,  
 					html: textvalue
 				};
 		}
 
-		transporter.sendMail(mailOptions ,function(error ,info){
+		transporter.sendMail(mailOptions, function(error, info){
 			if (error) {
 				console.log(error);
-				_this.executeResults(false ,data ,cache);
+				_this.executeResults(false, data, cache);
 			} else {
 				console.log("Email successfully sent to: " + mailto);
 				_this.callNextAction(cache);
 			}
 		});
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Bot Mod
-	//
-	// Upon initialization of the bot, this code is run. Using the bot's
-	// DBM namespace, one can add/modify existing functions if necessary.
-	// In order to reduce conflictions between mods, be sure to alias
-	// functions you wish to overwrite.
-	//---------------------------------------------------------------------
+	},  
 
 	mod: function() {}
-}; // End of module
+}; 

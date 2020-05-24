@@ -1,61 +1,14 @@
 module.exports = {
-	//---------------------------------------------------------------------
-	// Action Name
-	//
-	// This is the name of the action displayed in the editor.
-	//---------------------------------------------------------------------
-
-	name: "Store Member Info" ,
-
-	//---------------------------------------------------------------------
-	// Action Section
-	//
-	// This is the section the action will fall into.
-	//---------------------------------------------------------------------
-
-	section: "Member Control" ,
-
-	//---------------------------------------------------------------------
-	// Action Subtitle
-	//
-	// This function generates the subtitle displayed next to the name.
-	//---------------------------------------------------------------------
+	name: "Store Member Info",  
+	section: "Member Control",  
 
 	subtitle: function(data) {
-		const members = ["Mentioned User" ,"Command Author" ,"Temp Variable" ,"Server Variable" ,"Global Variable"];
-		const info = ["Member Object" ,"Member ID" ,"Member Username" ,"Member Display Name" ,"Member Color" ,"Member Server" ,"Member Last Message" ,"Member Highest Role" ,"Member Hoist Role" ,"Member Color Role" ,"Member Game" ,"Member Status" ,"Member Avatar URL" ,"Member Role List" ,"Member Join Date" ,"Member Voice Channel" ,"Member Discrim" ,"Member Account Creation Date" ,"Member Tag" ,"Member Last Message ID" ,"Member Roles Amount" ,"Member Permissions List" ,"Member Custom Status" ,"Member Account Creation Timestamp" ,"Member Join Timestamp"];
+		const members = ["Mentioned User", "Command Author", "Temp Variable", "Server Variable", "Global Variable"];
+		const info = ["Member Object", "Member ID", "Member Username", "Member Display Name", "Member Color", "Member Server", "Member Last Message", "Member Highest Role", "Member Hoist Role", "Member Color Role", "Member Game", "Member Status", "Member Avatar URL", "Member Role List", "Member Join Date", "Member Voice Channel", "Member Discrim", "Member Account Creation Date", "Member Tag", "Member Last Message ID", "Member Roles Amount", "Member Permissions List", "Member Custom Status", "Member Account Creation Timestamp", "Member Join Timestamp"];
 		return `${members[parseInt(data.member)]} - ${info[parseInt(data.info)]}`;
-	} ,
+	},  
 
-	//---------------------------------------------------------------------
-	// DBM Mods Manager Variables (Optional but nice to have!)
-	//
-	// These are variables that DBM Mods Manager uses to show information
-	// about the mods for people to see in the list.
-	//---------------------------------------------------------------------
-
-	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "DBM, Lasse, TheMonDon & Cap" ,
-
-	// The version of the mod (Defaults to 1.0.0)
-	version: "1.9.6" , //Added in 1.9.2
-
-	// A short description to show on the mod line for this mod (Must be on a single line)
-	short_description: "Store Member Information" ,
-
-	// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-	// depends_on_mods: ["WrexMODS"],
-
-
-	//---------------------------------------------------------------------
-
-	//---------------------------------------------------------------------
-	// Action Storage Function
-	//
-	// Stores the relevant variable info for the editor.
-	//---------------------------------------------------------------------
-
-	variableStorage: function(data ,varType) {
+	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
 		const info = parseInt(data.info);
@@ -94,7 +47,7 @@ module.exports = {
 				dataType = "Image URL";
 				break;
 			case 13:
-			case 21: // Added by Cap in 1.9.6
+			case 21:
 				dataType = "List";
 				break;
 			case 14:
@@ -107,42 +60,18 @@ module.exports = {
 			case 19:
 				dataType = "Message ID";
 				break;
-			case 20: // Added by Cap in 1.9.6
-			case 23: // Added by JasperEdits
-			case 24: // Added by JasperEdits
+			case 20:
+			case 23:
+			case 24:
 				dataType = "Number";
 				break;
 		}
-		return ([data.varName2 ,dataType]);
-	} ,
+		return ([data.varName2, dataType]);
+	},  
 
-	//---------------------------------------------------------------------
-	// Action Fields
-	//
-	// These are the fields for the action. These fields are customized
-	// by creating elements with corresponding IDs in the HTML. These
-	// are also the names of the fields stored in the action's JSON data.
-	//---------------------------------------------------------------------
+	fields: ["member", "varName", "info", "storage", "varName2"],  
 
-	fields: ["member" ,"varName" ,"info" ,"storage" ,"varName2"] ,
-
-	//---------------------------------------------------------------------
-	// Command HTML
-	//
-	// This function returns a string containing the HTML used for
-	// editting actions.
-	//
-	// The "isEvent" parameter will be true if this action is being used
-	// for an event. Due to their nature, events lack certain information,
-	// so edit the HTML to reflect this.
-	//
-	// The "data" parameter stores constants for select elements to use.
-	// Each is an array: index 0 for commands, index 1 for events.
-	// The names are: sendTargets, members, roles, channels,
-	//                messages, servers, variables
-	//---------------------------------------------------------------------
-
-	html: function(isEvent ,data) {
+	html: function(isEvent, data) {
 		return `
 	<div><p>This action has been modified by DBM Mods.</p></div><br>
 <div>
@@ -201,36 +130,20 @@ module.exports = {
 		<input id="varName2" class="round" type="text"><br>
 	</div>
 </div>`;
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Editor Init Code
-	//
-	// When the HTML is first applied to the action editor, this code
-	// is also run. This helps add modifications or setup reactionary
-	// functions for the DOM elements.
-	//---------------------------------------------------------------------
+	},  
 
 	init: function() {
-		const { glob ,document } = this;
+		const { glob, document } = this;
 
-		glob.memberChange(document.getElementById("member") ,"varNameContainer");
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Bot Function
-	//
-	// This is the function for the action within the Bot's Action class.
-	// Keep in mind event calls won't have access to the "msg" parameter,
-	// so be sure to provide checks for variable existance.
-	//---------------------------------------------------------------------
+		glob.memberChange(document.getElementById("member"), "varNameContainer");
+	},  
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
 		const member = parseInt(data.member);
-		const varName = this.evalMessage(data.varName ,cache);
+		const varName = this.evalMessage(data.varName, cache);
 		const info = parseInt(data.info);
-		const mem = this.getMember(member ,varName ,cache);
+		const mem = this.getMember(member, varName, cache);
 		if(!mem) {
 			this.callNextAction(cache);
 			return;
@@ -270,7 +183,6 @@ module.exports = {
 			case 9:
 				result = mem.colorRole;
 				break;
-			//Removed "Check if member" stuff from here. ~TheMonDon
 			case 10:
 				if(mem.presence && mem.presence.game) {
 					result = mem.presence.game.name;
@@ -319,23 +231,23 @@ module.exports = {
 			case 19:
 				result = mem.lastMessageID;
 				break;
-			case 20: // Added by Cap in 1.9.6
+			case 20:
 				result = mem.roles.size;
 				break;
-			case 21: // Added by Cap in 1.9.6
-				result = mem.permissions.toArray().join(", ").replace(/_/g ," ").toLowerCase();
+			case 21:
+				result = mem.permissions.toArray().join(", ").replace(/_/g, " ").toLowerCase();
 				break;
-			case 22: //Added by LeonZ
+			case 22:
 				if (mem.presence.game && mem.presence.game.type == 4) {
 					result = mem.presence.game.state;
 				}
 				break;
-			case 23: //Added by JasperEdits
+			case 23:
 				if (mem.user) {
 					result = mem.user.createdTimestamp;
 				}
 				break;
-			case 24: // Added by JasperEdits
+			case 24:
 				result = mem.joinedTimestamp;
 				break;
 			default:
@@ -343,20 +255,11 @@ module.exports = {
 		}
 		if(result !== undefined) {
 			const storage = parseInt(data.storage);
-			const varName2 = this.evalMessage(data.varName2 ,cache);
-			this.storeValue(result ,storage ,varName2 ,cache);
+			const varName2 = this.evalMessage(data.varName2, cache);
+			this.storeValue(result, storage, varName2, cache);
 		}
 		this.callNextAction(cache);
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Bot Mod
-	//
-	// Upon initialization of the bot, this code is run. Using the bot's
-	// DBM namespace, one can add/modify existing functions if necessary.
-	// In order to reduce conflictions between mods, be sure to alias
-	// functions you wish to overwrite.
-	//---------------------------------------------------------------------
+	},  
 
 	mod: function() {}
-}; // End of module
+}; 
