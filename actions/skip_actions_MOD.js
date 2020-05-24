@@ -1,12 +1,12 @@
 module.exports = {
-	name: "Skip Actions",  
-	section: "Other Stuff",  
+	name: "Skip Actions",
+	section: "Other Stuff",
 
 	subtitle: function(data) {
 		return `Skip ${data.count}`;
-	},  
+	},
 
-	fields: ["count"],  
+	fields: ["count"],
 
 	html: function(isEvent, data) {
 		return `
@@ -16,9 +16,9 @@ module.exports = {
 		<input id="count" class="round" type="number">
 	</div>
 </div><br><br><br>`;
-	},  
+	},
 
-	init: function() {},  
+	init: function() {},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -30,7 +30,7 @@ module.exports = {
 			cache.index = index2 - 1;
 			this.callNextAction(cache);
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

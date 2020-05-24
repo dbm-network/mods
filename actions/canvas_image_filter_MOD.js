@@ -1,14 +1,14 @@
 module.exports = {
-	name: "Canvas Image Filter",  
-	section: "Image Editing",  
+	name: "Canvas Image Filter",
+	section: "Image Editing",
 
 	subtitle: function(data) {
 		const storeTypes = ["", "Temp Variable", "Server Variable", "Global Variable"];
 		const filter = ["Blur", "Hue Rotate", "Brightness", "Contrast", "Grayscale", "Invert", "Opacity", "Saturate", "Sepia"];
 		return `${storeTypes[parseInt(data.storage)]} (${data.varName}) -> ${filter[parseInt(data.info)]} (${data.value})`;
-	},  
+	},
 
-	fields: ["storage", "varName", "info", "value"],  
+	fields: ["storage", "varName", "info", "value"],
 
 	html: function(isEvent, data) {
 		return `
@@ -44,7 +44,7 @@ module.exports = {
 		<input id="value" class="round" type="text" placeholder="0 = None filter"><br>
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
@@ -62,7 +62,7 @@ module.exports = {
 		};
 
 		glob.onChange1(document.getElementById("info"));
-	},  
+	},
 
 	action: function(cache) {
 		const Canvas = require("canvas");
@@ -125,7 +125,7 @@ module.exports = {
 		const result = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
 		this.storeValue(result, storage, varName, cache);
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

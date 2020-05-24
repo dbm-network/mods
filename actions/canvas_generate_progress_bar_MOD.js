@@ -1,20 +1,20 @@
 module.exports = {
-	name: "Canvas Generate Progress Bar",  
-	section: "Image Editing",  
+	name: "Canvas Generate Progress Bar",
+	section: "Image Editing",
 
 	subtitle: function(data) {
 		const storeTypes = ["", "Temp Variable", "Server Variable", "Global Variable"];
 		const type = ["Basic", "Circle"];
 		const index = parseInt(data.type);
 		return `Generate ${type[index]} Progress Bar ${storeTypes[parseInt(data.storage)]} (${data.varName})`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
 		return ([data.varName, "Image"]);
-	},  
-	fields: ["storage", "varName", "type", "width", "height", "lineWidth", "lineCap", "percent", "color"],  
+	},
+	fields: ["storage", "varName", "type", "width", "height", "lineWidth", "lineCap", "percent", "color"],
 
 	html: function(isEvent, data) {
 		return `
@@ -72,7 +72,7 @@ module.exports = {
 		<input id="varName" class="round" type="text">
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
@@ -89,7 +89,7 @@ module.exports = {
 			}
 		};
 		glob.onChange1(document.getElementById("type"));
-	},  
+	},
 
 	action: function(cache) {
 		const Canvas = require("canvas");
@@ -161,7 +161,7 @@ module.exports = {
 		const result = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
 		this.storeValue(result, storage, varName, cache);
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

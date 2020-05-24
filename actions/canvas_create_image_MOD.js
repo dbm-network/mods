@@ -1,18 +1,18 @@
 module.exports = {
-	name: "Canvas Create Image",  
-	section: "Image Editing",  
+	name: "Canvas Create Image",
+	section: "Image Editing",
 
 	subtitle: function(data) {
 		return `${data.url}`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
 		return ([data.varName, "Image"]);
-	},  
+	},
 
-	fields: ["url", "storage", "varName"],  
+	fields: ["url", "storage", "varName"],
 
 	html: function(isEvent, data) {
 		return `
@@ -32,10 +32,10 @@ module.exports = {
 		<input id="varName" class="round" type="text"><br>
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function() {
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -51,7 +51,7 @@ module.exports = {
 			this.storeValue(result, storage, varName, cache);
 			this.callNextAction(cache);
 		});
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

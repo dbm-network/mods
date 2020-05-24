@@ -1,11 +1,11 @@
 module.exports = {
-	name: "Convert Variable",  
-	section: "Variable Things",  
+	name: "Convert Variable",
+	section: "Variable Things",
 
 	subtitle: function(data) {
 		const info = ["Number (Int)", "Number (Float)", "String", "Uppercased String", "Lowercased String"];
 		return `Conversion Type: ${info[parseInt(data.conversion)]}`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage2);
@@ -13,10 +13,10 @@ module.exports = {
 		const info2 = ["Number", "Number", "String", "String", "String"];
 		if(type !== varType) return;
 		return ([data.varName2, info2[prse2]]);
-	},  
+	},
 
 
-	fields: ["storage", "varName", "conversion", "storage2", "varName2"],  
+	fields: ["storage", "varName", "conversion", "storage2", "varName2"],
 
 	html: function(isEvent, data) {
 		return `
@@ -88,13 +88,13 @@ module.exports = {
 			color: rgb(128, 128, 128);
 		}
 	</style>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.refreshVariableList(document.getElementById("storage"));
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -129,7 +129,7 @@ module.exports = {
 			this.storeValue(result, storage2, varName2, cache);
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

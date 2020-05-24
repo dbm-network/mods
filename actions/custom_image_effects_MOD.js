@@ -1,14 +1,14 @@
 module.exports = {
-	name: "Custom Image Effects",  
-	section: "Image Editing",  
+	name: "Custom Image Effects",
+	section: "Image Editing",
 
 	subtitle: function(data) {
 		const storeTypes = ["", "Temp Variable", "Server Variable", "Global Variable"];
 		const effect = ["Custom Blur", "Custom Pixelate"];
 		return `${storeTypes[parseInt(data.storage)]} (${data.varName}) -> ${effect[parseInt(data.effect)]} ${data.intensity}`;
-	},  
+	},
 
-	fields: ["storage", "varName", "effect", "intensity"],  
+	fields: ["storage", "varName", "effect", "intensity"],
 
 	html: function(isEvent, data) {
 		return `
@@ -37,13 +37,13 @@ module.exports = {
 		<input id="intensity" class="round" type="text"><br>
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.refreshVariableList(document.getElementById("storage"));
-	},  
+	},
 
 	action: function(cache) {
 		var _this = this;
@@ -83,8 +83,8 @@ module.exports = {
 			}
 
 		});
-	},  
+	},
 
 
 	mod: function() {}
-}; 
+};

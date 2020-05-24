@@ -1,14 +1,14 @@
 module.exports = {
-	name: "Check Variable",  
-	section: "Conditions",  
+	name: "Check Variable",
+	section: "Conditions",
 
 	subtitle: function(data) {
 		const comparisons = ["Exists", "Equals", "Equals Exactly", "Less Than", "Greater Than", "Includes", "Matches Regex", "Length is Bigger Than", "Length is Smaller Than", "Length is Equals", "Starts With", "Ends With", "Matches Full Regex", "Less Than or Equal to", "Greater Than or Equal to"];
 		const results = ["Continue Actions", "Stop Action Sequence", "Jump To Action", "Jump Forward Actions", "Jump to Anchor"];
 		return `${comparisons[parseInt(data.comparison)]} | If True: ${results[parseInt(data.iftrue)]} ~ If False: ${results[parseInt(data.iffalse)]}`;
-	},  
+	},
 
-	fields: ["storage", "varName", "comparison", "value", "iftrue", "iftrueVal", "iffalse", "iffalseVal"],  
+	fields: ["storage", "varName", "comparison", "value", "iftrue", "iftrueVal", "iffalse", "iffalseVal"],
 
 	html: function(isEvent, data) {
 		return `
@@ -54,7 +54,7 @@ module.exports = {
 <div style="padding-top: 8px;">
 	${data.conditions[0]}
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
@@ -81,7 +81,7 @@ module.exports = {
 		glob.refreshVariableList(document.getElementById("storage"));
 		glob.onChangeTrue(document.getElementById("iftrue"));
 		glob.onChangeFalse(document.getElementById("iffalse"));
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -146,7 +146,7 @@ module.exports = {
 			}
 		}
 		this.executeResults(result, data, cache);
-	},  
+	},
 
 	mod: function(DBM) {
 		DBM.Actions.executeResults = function(result, data, cache) {
@@ -219,4 +219,4 @@ module.exports = {
 		};
 	}
 
-}; 
+};

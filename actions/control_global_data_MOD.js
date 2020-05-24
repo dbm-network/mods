@@ -1,12 +1,12 @@
 module.exports = {
-	name: "Control Global Data",  
-	section: "Deprecated",  
+	name: "Control Global Data",
+	section: "Deprecated",
 
 	subtitle: function(data) {
 		return `(${data.dataName}) ${data.changeType === "1" ? "+=" : "="} ${data.value}`;
-	},  
+	},
 
-	fields: ["dataName", "changeType", "value"],  
+	fields: ["dataName", "changeType", "value"],
 
 	html: function(isEvent, data) {
 		return `
@@ -27,9 +27,9 @@ module.exports = {
 	Value:<br>
 	<input id="value" class="round" type="text" name="is-eval"><br>
 </div>`;
-	},  
+	},
 
-	init: function() {},  
+	init: function() {},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -71,7 +71,7 @@ module.exports = {
 		}
 
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

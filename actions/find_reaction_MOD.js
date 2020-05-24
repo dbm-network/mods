@@ -1,18 +1,18 @@
 module.exports = {
-	name: "Find Reaction",  
-	section: "Reaction Control",  
+	name: "Find Reaction",
+	section: "Reaction Control",
 
 	subtitle: function(data) {
 		return `${data.find}`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
 		return ([data.varName2, "Reaction"]);
-	},  
+	},
 
-	fields: ["message", "varName", "info", "find", "storage", "varName2"],  
+	fields: ["message", "varName", "info", "find", "storage", "varName2"],
 
 	html: function(isEvent, data) {
 		return `
@@ -52,13 +52,13 @@ module.exports = {
 		Variable Name:<br>
 		<input id="varName2" class="round" type="text">
 	</div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.messageChange(document.getElementById("message"), "varNameContainer");
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -86,7 +86,7 @@ module.exports = {
 			this.storeValue(result, storage, varName2, cache);
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

@@ -1,13 +1,13 @@
 module.exports = {
-	name: "Canvas Image Options",  
-	section: "Image Editing",  
+	name: "Canvas Image Options",
+	section: "Image Editing",
 
 	subtitle: function(data) {
 		const storeTypes = ["", "Temp Variable", "Server Variable", "Global Variable"];
 		return `${storeTypes[parseInt(data.storage)]} (${data.varName})`;
-	},  
+	},
 
-	fields: ["storage", "varName", "mirror", "rotation", "width", "height"],  
+	fields: ["storage", "varName", "mirror", "rotation", "width", "height"],
 
 	html: function(isEvent, data) {
 		return `
@@ -48,13 +48,13 @@ module.exports = {
 		<input id="height" class="round" type="text" value="100%"><br>
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.refreshVariableList(document.getElementById("storage"));
-	},  
+	},
 
 	action: function(cache) {
 		const Canvas = require("canvas");
@@ -138,7 +138,7 @@ module.exports = {
 					mirrorh = -1;
 			}
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

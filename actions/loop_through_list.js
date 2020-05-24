@@ -1,13 +1,13 @@
 module.exports = {
-	name: "Loop Through List",  
-	section: "Lists and Loops",  
+	name: "Loop Through List",
+	section: "Lists and Loops",
 
 	subtitle: function(data) {
 		const list = ["Server Members", "Server Channels", "Server Roles", "Server Emojis", "All Bot Servers", "Mentioned User Roles", "Command Author Roles", "Temp Variable", "Server Variable", "Global Variable"];
 		return `Loop ${list[parseInt(data.list)]} through Event ID "${data.source}"`;
-	},  
+	},
 
-	fields: ["source", "list", "varName", "tempVarName", "type"],  
+	fields: ["source", "list", "varName", "tempVarName", "type"],
 
 	html: function(isEvent, data) {
 		return `
@@ -40,7 +40,7 @@ module.exports = {
 		<option value="false">Asynchronous</option>
 	</select>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
@@ -86,7 +86,7 @@ module.exports = {
 				source.innerHTML += `<option value="${$evts[i]._id}">${$evts[i].name}</option>\n`;
 			}
 		}
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -118,10 +118,10 @@ module.exports = {
 					return;
 				}
 				const cache2 = {
-					actions: actions,  
-					index: 0,  
-					temp: cache.temp,  
-					server: cache.server,  
+					actions: actions,
+					index: 0,
+					temp: cache.temp,
+					server: cache.server,
 					msg: (cache.msg || null)
 				};
 				cache2.temp[data.tempVarName] = list[i];
@@ -135,7 +135,7 @@ module.exports = {
 		} else {
 			this.callNextAction(cache);
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

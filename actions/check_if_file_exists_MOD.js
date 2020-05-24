@@ -1,15 +1,13 @@
 module.exports = {
-	name: "Check if File Exists",  
-	section: "File Stuff",  
+	name: "Check if File Exists",
+	section: "File Stuff",
 
 	subtitle: function(data) {
 		const results = ["Continue Actions", "Stop Action Sequence", "Jump To Action", "Jump Forward Actions"];
 		return `If True: ${results[parseInt(data.iftrue)]} ~ If False: ${results[parseInt(data.iffalse)]}`;
-	},  
+	},
 
-	depends_on_mods: ["WrexMODS"],  
-
-	fields: ["filename", "iftrue", "iftrueVal", "iffalse", "iffalseVal"],  
+	fields: ["filename", "iftrue", "iftrueVal", "iffalse", "iffalseVal"],
 
 	html: function(isEvent, data) {
 		return `
@@ -21,13 +19,13 @@ module.exports = {
 <div style="padding-top: 8px;">
 	${data.conditions[0]};
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 		glob.onChangeTrue(document.getElementById("iftrue"));
 		glob.onChangeFalse(document.getElementById("iffalse"));
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -40,7 +38,7 @@ module.exports = {
 			console.log("Path is missing.");
 		}
 		this.executeResults(result, data, cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

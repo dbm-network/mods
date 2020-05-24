@@ -1,6 +1,6 @@
 module.exports = {
-	name: "Call Command/Event",  
-	section: "Other Stuff",  
+	name: "Call Command/Event",
+	section: "Other Stuff",
 
 	subtitle: function(data) {
 		let source;
@@ -10,9 +10,9 @@ module.exports = {
 			source = data.source.toString();
 		}
 		return `Call Command/Event ID "${source}"`;
-	},  
+	},
 
-	fields: ["sourcetype", "source", "source2", "type"],  
+	fields: ["sourcetype", "source", "source2", "type"],
 
 	html: function(isEvent, data) {
 		return `
@@ -44,7 +44,7 @@ module.exports = {
 	<option value="false">Asynchronous</option>
 	</select>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
@@ -85,7 +85,7 @@ module.exports = {
 		};
 
 		glob.onChange1(document.getElementById("sourcetype"));
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -111,10 +111,10 @@ module.exports = {
 		const act = actions[0];
 		if(act && this.exists(act.name)) {
 			const cache2 = {
-				actions: actions,  
-				index: 0,  
-				temp: cache.temp,  
-				server: cache.server,  
+				actions: actions,
+				index: 0,
+				temp: cache.temp,
+				server: cache.server,
 				msg: (cache.msg || null)
 			};
 			if(data.type === "true") {
@@ -129,7 +129,7 @@ module.exports = {
 		} else {
 			this.callNextAction(cache);
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

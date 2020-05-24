@@ -87,12 +87,12 @@ class StoreAttachmentInfo {
 
 		const info = parseInt(data.info);
 		const dataType = [
-			"URL",  
-			"File Name",  
-			"Number",  
-			"Message Content",  
-			"File Size",  
-			"Message ID",  
+			"URL",
+			"File Name",
+			"Number",
+			"Message Content",
+			"File Size",
+			"Message ID",
 		][info] || "Message Attachment (Unknown) Info";
 
 		return ([data.varName2, dataType]);
@@ -127,13 +127,13 @@ class StoreAttachmentInfo {
 			const attachment = attachments[0];
 
 			const result = [
-				attachment.url,  
-				attachment.filename,  
-				attachment.height,  
-				attachment.width,  
-				attachment.message.content,  
-				Math.floor(attachment.filesize / 1000),  
-				attachment.message.id,  
+				attachment.url,
+				attachment.filename,
+				attachment.height,
+				attachment.width,
+				attachment.message.content,
+				Math.floor(attachment.filesize / 1000),
+				attachment.message.id,
 			][info];
 
 			if (result !== undefined) {

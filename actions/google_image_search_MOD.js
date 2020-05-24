@@ -1,11 +1,11 @@
 module.exports = {
-	name: "Google Image Search",  
-	section: "Other Stuff",  
+	name: "Google Image Search",
+	section: "Other Stuff",
 
 	subtitle: function (data) {
 		const info = ["Title", "URL", "Snippet"];
 		return `Google Image Result ${info[parseInt(data.info)]}`;
-	},  
+	},
 
 	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage);
@@ -24,9 +24,9 @@ module.exports = {
 				break;
 		}
 		return ([data.varName, dataType]);
-	},  
+	},
 
-	fields: ["string", "apikey", "clientid", "info", "resultNo", "storage", "varName"],  
+	fields: ["string", "apikey", "clientid", "info", "resultNo", "storage", "varName"],
 
 	html: function (isEvent, data) {
 		return `
@@ -60,12 +60,12 @@ module.exports = {
 		<div style="text-align: left;"><br><br><br><br><br><br><br><br><br>
 		https://github.com/RigidStudios/underground-rd/wiki/Google-Image-Search-Tutorial < Walkthrough
 		</div></div>`;
-	},  
+	},
 
 	init: function () {
 		const { glob, document } = this;
 		glob.variableChange(document.getElementById("storage"), "varNameContainer");
-	},  
+	},
 
 	action: function (cache) {
 		const data = cache.actions[cache.index];
@@ -117,9 +117,8 @@ module.exports = {
 				console.error(`There was an error in Google Image Search MOD (#${cache.index}): \n` + error);
 				this.callNextAction(cache);
 			});
-	},  
+	},
 
 
-	mod: function (DBM) { }
-
-}; 
+	mod: function () {}
+};

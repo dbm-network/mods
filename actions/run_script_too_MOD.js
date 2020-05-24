@@ -1,19 +1,19 @@
 module.exports = {
-	name: "Run Script Too",  
-	section: "Other Stuff",  
+	name: "Run Script Too",
+	section: "Other Stuff",
 
 	subtitle: function(data) {
 		if(data.title) return `${data.title}`;
 		return `${ data.file ? "External File: " + data.file : data.code}`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
 		return ([data.varName, "Unknown Type"]);
-	},  
+	},
 
-	fields: ["behavior", "interpretation", "code", "file", "storage", "varName", "title"],  
+	fields: ["behavior", "interpretation", "code", "file", "storage", "varName", "title"],
 
 	html: function(isEvent, data) {
 		return `
@@ -121,9 +121,9 @@ module.exports = {
     }
  </style>
     `;
-	},  
+	},
 
-	init: function() {},  
+	init: function() {},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -155,7 +155,7 @@ module.exports = {
 		if(data.behavior === "0") {
 			this.callNextAction(cache);
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

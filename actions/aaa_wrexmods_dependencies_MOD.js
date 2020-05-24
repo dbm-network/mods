@@ -140,8 +140,8 @@ WrexMODS.runPostJson = function (url, json, returnJson = true, callback){
 	var request = this.require("request");
 
 	var options = {
-		url: url,  
-		method: "POST",  
+		url: url,
+		method: "POST",
 		json: json
 	};
 
@@ -174,9 +174,9 @@ WrexMODS.executeDiscordJSON = function(type, urlPath, json, DBM, cache, callback
 		var request = this.require("request");
 
 		var options = {
-			headers: { "Authorization": "Bot " + DBM.Files.data.settings.token },  
-			url: "https://discordapp.com/api/v6/" + urlPath,  
-			method: type,  
+			headers: { "Authorization": "Bot " + DBM.Files.data.settings.token },
+			url: "https://discordapp.com/api/v6/" + urlPath,
+			method: type,
 			json: json
 		};
 
@@ -205,15 +205,15 @@ WrexMODS.runPublicRequest = function (url, returnJson = false, callback, token, 
 	var request = this.require("request");
 
 	request.get({
-		url: url,  
-		json: returnJson,  
-		headers: { "User-Agent": "Other" },  
+		url: url,
+		json: returnJson,
+		headers: { "User-Agent": "Other" },
 		auth: {
-			bearer: token,  
-			user: user,  
-			pass: pass,  
+			bearer: token,
+			user: user,
+			pass: pass,
 			sendImmediately: false
-		},  
+		},
 	}, (err, res, data) => {
 
 		var statusCode = res ? res.statusCode : 200;
@@ -235,9 +235,9 @@ WrexMODS.runBearerTokenRequest = function (url, returnJson = false, bearerToken,
 	var request = this.require("request");
 
 	request.get({
-		url: url,  
-		json: returnJson,  
-		auth: { bearer: bearerToken },  
+		url: url,
+		json: returnJson,
+		auth: { bearer: bearerToken },
 		headers: { "User-Agent": "Other" }
 	}, (err, res, data) => {
 
@@ -259,13 +259,13 @@ WrexMODS.runBasicAuthRequest = function (url, returnJson = false, username, pass
 	var request = this.require("request");
 
 	request.get({
-		url: url,  
-		json: returnJson,  
+		url: url,
+		json: returnJson,
 		auth: {
-			user: user,  
-			pass: password,  
+			user: user,
+			pass: password,
 			sendImmediately: false
-		},  
+		},
 		headers: { "User-Agent": "Other" }
 	}, (err, res, data) => {
 
@@ -287,8 +287,8 @@ WrexMODS.jsonPath = function(obj, expr, arg) {
 	//Copyright (c) 2007 Stefan Goessner (goessner.net)
 	//Licensed under the MIT (MIT-LICENSE.txt) licence.
 	var P = {
-		resultType: arg && arg.resultType || "VALUE",  
-		result: [],  
+		resultType: arg && arg.resultType || "VALUE",
+		result: [],
 		normalize: function(expr) {
 			var subx = [];
 			return expr.replace(/[\['](\??\(.*?\))[\]']/g, function($0, $1){return "[#"+(subx.push($1)-1)+"]";})
@@ -296,17 +296,17 @@ WrexMODS.jsonPath = function(obj, expr, arg) {
 				.replace(/;;;|;;/g, ";..;")
 				.replace(/;$|'?\]|'$/g, "")
 				.replace(/#([0-9]+)/g, function($0, $1){return subx[$1];});
-		},  
+		},
 		asPath: function(path) {
 			var x = path.split(";"), p = "$";
 			for (var i=1, n=x.length; i<n; i++)
 				p += /^[0-9*]+$/.test(x[i]) ? ("["+x[i]+"]") : ("['"+x[i]+"']");
 			return p;
-		},  
+		},
 		store: function(p, v) {
 			if (p) P.result[P.result.length] = P.resultType == "PATH" ? P.asPath(p) : v;
 			return !!p;
-		},  
+		},
 		trace: function(expr, val, path) {
 			if (expr) {
 				var x = expr.split(";"), loc = x.shift();
@@ -329,7 +329,7 @@ WrexMODS.jsonPath = function(obj, expr, arg) {
 					P.slice(loc, x, val, path);
 			} else
 				P.store(path, val);
-		},  
+		},
 		walk: function(loc, expr, val, path, f) {
 			if (val instanceof Array) {
 				for (var i=0, n=val.length; i<n; i++)
@@ -340,7 +340,7 @@ WrexMODS.jsonPath = function(obj, expr, arg) {
 					if (val.hasOwnProperty(m))
 						f(m, loc, expr, val, path);
 			}
-		},  
+		},
 		slice: function(loc, expr, val, path) {
 			if (val instanceof Array) {
 				var len=val.length, start=0, end=len, step=1;
@@ -350,7 +350,7 @@ WrexMODS.jsonPath = function(obj, expr, arg) {
 				for (var i=start; i<end; i+=step)
 					P.trace(i+";"+expr, val, path);
 			}
-		},  
+		},
 		eval: function(x, _v, _vname) {
 			try { return $ && _v && eval(x.replace(/@/g, "_v")); } catch(e) { throw new SyntaxError("jsonPath: " + e.message + ": " + x.replace(/@/g, "_v").replace(/\^/g, "_a")); }
 		}
@@ -528,7 +528,6 @@ WrexMODS.getWebhook = function(type, varName, cache) {
 	switch(type) {
 		case 1:
 			return cache.temp[varName];
-			break;
 		case 2:
 			if(server && this.server[server.id]) {
 				return this.server[server.id][varName];
@@ -536,7 +535,6 @@ WrexMODS.getWebhook = function(type, varName, cache) {
 			break;
 		case 3:
 			return this.global[varName];
-			break;
 		default:
 			break;
 	}
@@ -548,7 +546,6 @@ WrexMODS.getReaction = function(type, varName, cache) {
 	switch(type) {
 		case 1:
 			return cache.temp[varName];
-			break;
 		case 2:
 			if(server && this.server[server.id]) {
 				return this.server[server.id][varName];
@@ -556,7 +553,6 @@ WrexMODS.getReaction = function(type, varName, cache) {
 			break;
 		case 3:
 			return this.global[varName];
-			break;
 		default:
 			break;
 	}
@@ -568,7 +564,6 @@ WrexMODS.getEmoji = function(type, varName, cache) {
 	switch(type) {
 		case 1:
 			return cache.temp[varName];
-			break;
 		case 2:
 			if(server && this.server[server.id]) {
 				return this.server[server.id][varName];
@@ -576,7 +571,6 @@ WrexMODS.getEmoji = function(type, varName, cache) {
 			break;
 		case 3:
 			return this.global[varName];
-			break;
 		default:
 			break;
 	}
@@ -609,7 +603,6 @@ customaction.getWrexMods = function(){
 
 
 customaction.mod = function(DBM) {
-
 	WrexMODS.DBM = DBM;
 
 	WrexMODS.CheckAndInstallNodeModule("request");
@@ -620,4 +613,5 @@ customaction.mod = function(DBM) {
 		return WrexMODS;
 	};
 };
+
 module.exports = customaction;

@@ -1,18 +1,18 @@
 module.exports = {
-	name: "Create Webhook",  
-	section: "Webhook Control",  
+	name: "Create Webhook",
+	section: "Webhook Control",
 
 	subtitle: function(data) {
 		return `${data.webhookName}`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage2);
 		if(type !== varType) return;
 		return ([data.varName2, "Webhook"]);
-	},  
+	},
 
-	fields: ["webhookName", "webhookIcon", "storage", "varName", "storage2", "varName2"],  
+	fields: ["webhookName", "webhookIcon", "storage", "varName", "storage2", "varName2"],
 
 	html: function(isEvent, data) {
 		return `
@@ -48,13 +48,13 @@ module.exports = {
 		<input id="varName2" class="round" type="text">
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 		glob.channelChange(document.getElementById("storage"), "varNameContainer");
 		glob.variableChange(document.getElementById("storage2"), "varNameContainer2");
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -73,7 +73,7 @@ module.exports = {
 		} else {
 			this.callNextAction(cache);
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

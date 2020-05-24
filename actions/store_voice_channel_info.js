@@ -1,12 +1,12 @@
 module.exports = {
-	name: "Store Voice Channel Info",  
-	section: "Channel Control",  
+	name: "Store Voice Channel Info",
+	section: "Channel Control",
 
 	subtitle: function(data) {
 		const channels = ["Command Author's Voice Ch.", "Mentioned User's Voice Ch.", "Default Voice Channel", "Temp Variable", "Server Variable", "Global Variable"];
 		const info = ["Voice Channel Object", "Voice Channel ID", "Voice Channel Name", "Voice Channel Position", "Voice Channel User Limit", "Voice Channel Bitrate", "Bot can speak?", "Bot can join?", "Bot can delete VC?", "Members connected", "Is VC Full", "VC Guild", "Can Bot Manage", "VC Parent"];
 		return `${channels[parseInt(data.channel)]} - ${info[parseInt(data.info)]}`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
@@ -43,9 +43,9 @@ module.exports = {
 				break;
 		}
 		return ([data.varName2, dataType]);
-	},  
+	},
 
-	fields: ["channel", "varName", "info", "storage", "varName2"],  
+	fields: ["channel", "varName", "info", "storage", "varName2"],
 
 	html: function(isEvent, data) {
 		return `
@@ -95,13 +95,13 @@ module.exports = {
 		<input id="varName2" class="round" type="text"><br>
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.voiceChannelChange(document.getElementById("channel"), "varNameContainer");
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -168,7 +168,7 @@ module.exports = {
 		} else {
 			this.callNextAction(cache);
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

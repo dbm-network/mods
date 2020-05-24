@@ -1,13 +1,13 @@
 module.exports = {
-	name: "Set Member Voice Channel",  
-	section: "Member Control",  
+	name: "Set Member Voice Channel",
+	section: "Member Control",
 
 	subtitle: function(data) {
 		const members = ["Mentioned User", "Command Author", "Temp Variable", "Server Variable", "Global Variable"];
 		return `${members[parseInt(data.member)]}`;
-	},  
+	},
 
-	fields: ["member", "varName", "channel", "varName2"],  
+	fields: ["member", "varName", "channel", "varName2"],
 
 	html: function(isEvent, data) {
 		return `
@@ -36,14 +36,14 @@ module.exports = {
 		<input id="varName2" class="round" type="text" list="variableList2"><br>
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.memberChange(document.getElementById("member"), "varNameContainer");
 		glob.channelChange(document.getElementById("channel"), "varNameContainer2");
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -67,7 +67,7 @@ module.exports = {
 		} else {
 			this.callNextAction(cache);
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

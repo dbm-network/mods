@@ -1,12 +1,12 @@
 module.exports = {
-	name: "Auto Help",  
-	section: "Other Stuff",  
+	name: "Auto Help",
+	section: "Other Stuff",
 
 	subtitle: function(data) {
 		return "Included? " + data.Include + " | " + data.Category + ": " + data.Description;
-	},  
+	},
 
-	fields: ["Category", "Description", "Include"],  
+	fields: ["Category", "Description", "Include"],
 
 	html: function(isEvent, data) {
 		return `
@@ -22,7 +22,7 @@ module.exports = {
 
 
 	</div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
@@ -31,12 +31,12 @@ module.exports = {
 		glob.sendTargetChange(document.getElementById("Description"), "varNameContainer");
 		glob.sendTargetChange(document.getElementById("Include"), "varNameContainer");
 
-	},  
+	},
 
 
 	action: function(cache) {
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

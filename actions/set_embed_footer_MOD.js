@@ -1,12 +1,12 @@
 module.exports = {
-	name: "Set Embed Footer",  
-	section: "Embed Message",  
+	name: "Set Embed Footer",
+	section: "Embed Message",
 
 	subtitle: function(data) {
 		return `${data.message}`;
-	},  
+	},
 
-	fields: ["storage", "varName", "message", "footerIcon"],  
+	fields: ["storage", "varName", "message", "footerIcon"],
 
 	html: function(isEvent, data) {
 		return `
@@ -30,13 +30,13 @@ module.exports = {
 	Footer Icon URL:<br>
 	<input id="footerIcon" class="round" type="text" placeholder="Leave blank for none!"><br>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.refreshVariableList(document.getElementById("storage"));
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -49,7 +49,7 @@ module.exports = {
 			embed.setFooter(this.evalMessage(data.message, cache), this.evalMessage(data.footerIcon, cache));
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

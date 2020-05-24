@@ -1,14 +1,14 @@
 module.exports = {
-	name: "Welcome",  
-	section: "#Mod Information",  
+	name: "Welcome",
+	section: "#Mod Information",
 
 	subtitle: function (data) {
 		return "Put this into a Bot Initalization event for music!";
-	},  
+	},
 
-	variableStorage: function (data, varType) {},  
+	variableStorage: function (data, varType) {},
 
-	fields: ["mods"],  
+	fields: ["mods"],
 
 	html: function (isEvent, data) {
 		return `
@@ -196,11 +196,11 @@ module.exports = {
 			</tbody>
 		</table><br><br>
 	</div>`;
-	},  
+	},
 
 	init: function () {
 		const {
-			glob,  
+			glob,
 			document
 		} = this;
 
@@ -287,13 +287,13 @@ module.exports = {
 				});
 			}
 		}
-	},  
+	},
 
 	action: function (cache) {
 
 		console.log("Music function successfully overwritten.");
 
-	},  
+	},
 
 	mod: function (DBM) {
 		//Check for PlayingNow Data Object
@@ -384,4 +384,4 @@ module.exports = {
 		};
 	}
 
-}; 
+};

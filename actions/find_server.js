@@ -1,19 +1,19 @@
 module.exports = {
-	name: "Find Server",  
-	section: "Server Control",  
+	name: "Find Server",
+	section: "Server Control",
 
 	subtitle: function(data) {
 		const info = ["Server ID", "Server Name", "Server Name Acronym", "Server Member Count", "Server Region", "Server Owner ID", "Server Verification Level", "Server Is Available"];
 		return `Find Server by ${info[parseInt(data.info)]}`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
 		return ([data.varName, "Server"]);
-	},  
+	},
 
-	fields: ["info", "find", "storage", "varName"],  
+	fields: ["info", "find", "storage", "varName"],
 
 	html: function(isEvent, data) {
 		return `
@@ -48,9 +48,9 @@ module.exports = {
 		<input id="varName" class="round" type="text">
 	</div>
 </div>`;
-	},  
+	},
 
-	init: function() {},  
+	init: function() {},
 
 	action: function(cache) {
 		const bot = this.getDBM().Bot.bot;
@@ -95,7 +95,7 @@ module.exports = {
 		} else {
 			this.callNextAction(cache);
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

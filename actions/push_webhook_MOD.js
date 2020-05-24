@@ -1,16 +1,12 @@
 module.exports = {
-	name: "Send Message To Webhook",  
-	section: "Webhook Control",  
+	name: "Send Message To Webhook",
+	section: "Webhook Control",
 
 	subtitle: function (data) {
 		return `${data.message}`;
-	},  
+	},
 
-	depends_on_mods: [
-		{ name:"WrexMods", path:"aaa_wrexmods_dependencies_MOD.js" }
-	],  
-
-	fields: ["webhook", "varName", "message"],  
+	fields: ["webhook", "varName", "message"],
 
 	html: function (isEvent, data) {
 		return `
@@ -30,13 +26,13 @@ module.exports = {
 	Message:<br>
 	<textarea id="message" rows="9" placeholder="Insert message here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
 </div><br>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.refreshVariableList(document.getElementById("webhook"));
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -52,7 +48,7 @@ module.exports = {
 			wh.send(message);
 			this.callNextAction(cache);
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

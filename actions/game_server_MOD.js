@@ -1,11 +1,11 @@
 module.exports = {
-	name: "Store Game Server Info",  
-	section: "Other Stuff",  
+	name: "Store Game Server Info",
+	section: "Other Stuff",
 
 	subtitle: function (data) {
 		const info = ["Server Name", "Map", "Number Of Players", "Number Of Bots", "Max Players", "Server Tags", "Does Server Have Password?", "Server Player List"];
 		return `${info[parseInt(data.info)]}`;
-	},  
+	},
 
 	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage);
@@ -31,14 +31,11 @@ module.exports = {
 			case 5:
 				dataType = "Boolean";
 				break;
-			case 5:
-				dataType = "Player list";
-				break;
 		}
 		return ([data.varName, dataType]);
-	},  
+	},
 
-	fields: ["serverip", "serverport", "game", "info", "storage", "varName"],  
+	fields: ["serverip", "serverport", "game", "info", "storage", "varName"],
 
 	html: function (isEvent, data) {
 		return `
@@ -384,16 +381,16 @@ module.exports = {
                     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
                 }
                 </style>`;
-	},  
+	},
 
 	init: function () {
 		const {
-			glob,  
+			glob,
 			document
 		} = this;
 
 		glob.variableChange(document.getElementById("storage"), "varNameContainer");
-	},  
+	},
 
 	action: function (cache) {
 		const _this = this; // To fix error
@@ -411,10 +408,10 @@ module.exports = {
 		if (!ip) return console.log("Please provide Server IP & Port.");
 
 		Gamedig.query({
-			type: gametype,  
-			host: ip,  
-			port: port,  
-			maxAttempts: 3,  
+			type: gametype,
+			host: ip,
+			port: port,
+			maxAttempts: 3,
 			attemptTimeout: 25000
 		}).then((state) => {
 			let result = undefined;
@@ -457,7 +454,7 @@ module.exports = {
 		}).catch((error) => {
 			console.log(`Game Server Info: ${error}`);
 		});
-	},  
-	mod: function (DBM) {}
+	},
 
-}; 
+	mod: function () {}
+};

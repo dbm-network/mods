@@ -1,12 +1,12 @@
 module.exports = {
-	name: "Run Action Sequence Once",  
-	section: "Other Stuff",  
+	name: "Run Action Sequence Once",
+	section: "Other Stuff",
 
 	subtitle: function(data) {
 		return `Run Once ${data.behavior == "2" ? "Per Server" : "Globally"}`;
-	},  
+	},
 
-	fields: ["behavior"],  
+	fields: ["behavior"],
 
 	html: function(isEvent, data) {
 		return `
@@ -32,9 +32,9 @@ module.exports = {
 			</select>
 		<div>
 	</div>`;
-	},  
+	},
 
-	init: function() {},  
+	init: function() {},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -48,7 +48,7 @@ module.exports = {
 			this.storeValue(true, behavior, unique, cache);
 			this.callNextAction(cache);
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

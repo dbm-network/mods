@@ -1,14 +1,14 @@
 module.exports = {
-	name: "Add Reaction",  
-	section: "Reaction Control",  
+	name: "Add Reaction",
+	section: "Reaction Control",
 
 	subtitle: function(data) {
 		const names = ["Command Message", "Temp Variable", "Server Variable", "Global Variable"];
 		const index = parseInt(data.storage);
 		return data.storage === "0" ? `Add Reaction to ${names[index]}` : `Add Reaction to ${names[index]} (${data.varName})`;
-	},  
+	},
 
-	fields: ["storage", "varName", "emoji", "varName2", "varName3"],  
+	fields: ["storage", "varName", "emoji", "varName2", "varName3"],
 
 	html: function(isEvent, data) {
 		return `
@@ -44,7 +44,7 @@ module.exports = {
 		<input id="varName3" class="round" type="text" list="variableList2">
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
@@ -69,7 +69,7 @@ module.exports = {
 
 		glob.onChange1(document.getElementById("emoji"));
 		glob.messageChange(document.getElementById("storage"), "varNameContainer");
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -98,7 +98,7 @@ module.exports = {
 		} else {
 			this.callNextAction(cache);
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

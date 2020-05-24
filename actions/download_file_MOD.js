@@ -1,16 +1,12 @@
 module.exports = {
-	name: "Download File",  
-	section: "File Stuff",  
+	name: "Download File",
+	section: "File Stuff",
 
 	subtitle: function(data) {
 		return `${data.url}`;
-	},  
+	},
 
-	depends_on_mods: [{ name:"WrexMods", path:"aaa_wrexmods_dependencies_MOD.js" }],  
-
-	//---------------------------------------------------------------------
-
-	fields: ["url", "fileName", "fileFormat", "filePath"],  
+	fields: ["url", "fileName", "fileFormat", "filePath"],
 
 	html: function(isEvent, data) {
 		return `
@@ -38,7 +34,7 @@ module.exports = {
   File Name and File Format are automatic but you can change them
 </p>
 `;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
@@ -67,7 +63,7 @@ module.exports = {
 		};
 
 		glob.onInput1(document.getElementById("url"));
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -157,7 +153,7 @@ module.exports = {
 
 		request.get(url).on("error", function(err) {console.log(`Action: #${cache.index + 1} | Download File ERROR: Web URL not found...`);}).pipe(fs.createWriteStream(path.resolve(filePath, fileName + "." + fileFormat)));
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

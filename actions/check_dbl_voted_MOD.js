@@ -1,13 +1,13 @@
 module.exports = {
-	name: "Check DBL Voted",  
-	section: "Conditions",  
+	name: "Check DBL Voted",
+	section: "Conditions",
 
 	subtitle: function(data) {
 		const results = ["Continue Actions", "Stop Action Sequence", "Jump To Action", "Jump Forward Actions"];
 		return `If True: ${results[parseInt(data.iftrue)]} ~ If False: ${results[parseInt(data.iffalse)]}`;
-	},  
+	},
 
-	fields: ["member", "apitoken", "varName", "iftrue", "iftrueVal", "iffalse", "iffalseVal"],  
+	fields: ["member", "apitoken", "varName", "iftrue", "iftrueVal", "iffalse", "iffalseVal"],
 
 	html: function(isEvent, data) {
 		return `
@@ -32,7 +32,7 @@ module.exports = {
 <div style="padding-top: 8px;">
 	${data.conditions[0]}
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
@@ -40,7 +40,7 @@ module.exports = {
 		glob.memberChange(document.getElementById("member"), "varNameContainer");
 		glob.onChangeTrue(document.getElementById("iftrue"));
 		glob.onChangeFalse(document.getElementById("iffalse"));
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -61,7 +61,7 @@ module.exports = {
 		dbl.hasVoted(member.user.id).then(voted => {
 			this.executeResults(voted, data, cache);
 		});
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

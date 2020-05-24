@@ -1,14 +1,14 @@
 module.exports = {
-	name: "Delete Server",  
-	section: "Server Control",  
+	name: "Delete Server",
+	section: "Server Control",
 
 	subtitle: function(data) {
 		const servers = ["Current Server", "Temp Variable", "Server Variable", "Global Variable"];
 		const index = parseInt(data.server);
 		return data.server === "0" ? `${servers[index]}` : `${servers[index]} - ${data.varName}`;
-	},  
+	},
 
-	fields: ["server", "varName"],  
+	fields: ["server", "varName"],
 
 	html: function(isEvent, data) {
 		return `
@@ -24,13 +24,13 @@ module.exports = {
 		<input id="varName" class="round" type="text" list="variableList"><br>
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.serverChange(document.getElementById("server"), "varNameContainer");
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -49,7 +49,7 @@ module.exports = {
 		} else {
 			this.callNextAction(cache);
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

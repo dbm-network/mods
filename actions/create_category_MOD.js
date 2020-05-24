@@ -1,18 +1,18 @@
 module.exports = {
-	name: "Create Category Channel",  
-	section: "Channel Control",  
+	name: "Create Category Channel",
+	section: "Channel Control",
 
 	subtitle: function(data) {
 		return `${data.channelName}`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
 		return ([data.varName, "Channel"]);
-	},  
+	},
 
-	fields: ["channelName", "position", "storage", "varName"],  
+	fields: ["channelName", "position", "storage", "varName"],
 
 	html: function(isEvent, data) {
 		return `
@@ -34,13 +34,13 @@ module.exports = {
 		<input id="varName" class="round" type="text" style="width: 90%"><br>
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.variableChange(document.getElementById("storage"), "varNameContainer");
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -57,8 +57,8 @@ module.exports = {
 		} else {
 			this.callNextAction(cache);
 		}
-	},  
+	},
 
 	mod: function() {}
 
-}; 
+};

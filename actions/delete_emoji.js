@@ -1,13 +1,13 @@
 module.exports = {
-	name: "Delete Emoji",  
-	section: "Emoji Control",  
+	name: "Delete Emoji",
+	section: "Emoji Control",
 
 	subtitle: function(data) {
 		const inputTypes = ["Specific Emoji", "Temp Variable", "Server Variable", "Global Variable"];
 		return `${inputTypes[parseInt(data.emoji)]} (${data.varName})`;
-	},  
+	},
 
-	fields: ["emoji", "varName"],  
+	fields: ["emoji", "varName"],
 
 	html: function(isEvent, data) {
 		return `
@@ -26,7 +26,7 @@ module.exports = {
 		<input id="varName" class="round" type="text" list="variableList"><br>
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
@@ -42,7 +42,7 @@ module.exports = {
 		};
 
 		glob.onChange1(document.getElementById("emoji"));
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -66,7 +66,7 @@ module.exports = {
 		} else {
 			this.callNextAction(cache);
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

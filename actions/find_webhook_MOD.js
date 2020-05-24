@@ -1,18 +1,18 @@
 module.exports = {
-	name: "Find Webhook",  
-	section: "Webhook Control",  
+	name: "Find Webhook",
+	section: "Webhook Control",
 
 	subtitle: function(data) {
 		return `${data.id}`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
 		return ([data.varName, "Webhook"]);
-	},  
+	},
 
-	fields: ["id", "token", "storage", "varName"],  
+	fields: ["id", "token", "storage", "varName"],
 
 	html: function(isEvent, data) {
 		return `
@@ -38,9 +38,9 @@ module.exports = {
 		<input id="varName" class="round" type="text">
 	</div>
 </div>`;
-	},  
+	},
 
-	init: function() {},  
+	init: function() {},
 
 	action: function(cache) {
 		const DiscordJS = this.getDBM().DiscordJS;
@@ -58,7 +58,7 @@ module.exports = {
 		} else {
 			this.callNextAction(cache);
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

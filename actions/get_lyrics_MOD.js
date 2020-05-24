@@ -1,11 +1,11 @@
 module.exports = {
-	name: "Get Song Lyrics",  
-	section: "Other Stuff",  
+	name: "Get Song Lyrics",
+	section: "Other Stuff",
 
 	subtitle: function (data) {
 		const info = ["Title", "Artist", "Lyrics", "URL"];
 		return `Get Lyrics - ${info[parseInt(data.info)]}`;
-	},  
+	},
 
 	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage);
@@ -27,9 +27,9 @@ module.exports = {
 				break;
 		}
 		return ([data.varName, dataType]);
-	},  
+	},
 
-	fields: ["song", "key", "info", "storage", "varName"],  
+	fields: ["song", "key", "info", "storage", "varName"],
 
 	html: function (isEvent, data) {
 		return `
@@ -104,12 +104,12 @@ module.exports = {
                     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
                 }
                 </style>`;
-	},  
+	},
 
 	init: function () {
 		const { glob, document } = this;
 		glob.variableChange(document.getElementById("storage"), "varNameContainer");
-	},  
+	},
 
 	action: function (cache) {
 		const _this = this;
@@ -117,7 +117,7 @@ module.exports = {
 		const info = parseInt(data.info);
 		const geniustoken = _this.evalMessage(data.key, cache);
 		const songname = _this.evalMessage(data.song, cache);
-		
+
 		const WrexMODS = _this.getWrexMods();
 		WrexMODS.CheckAndInstallNodeModule("analyrics");
 		const analyrics = WrexMODS.require("analyrics");
@@ -125,6 +125,7 @@ module.exports = {
 		analyrics.setToken(`${geniustoken}`);
 
 		analyrics.getSong(`${songname}`, function(song) {
+			let result;
 			switch (info) {
 				case 0:
 					result = song.title;
@@ -148,8 +149,7 @@ module.exports = {
 			}
 			_this.callNextAction(cache);
 		});
-	},  
+	},
 
-	mod: function (DBM) { }
-
-}; 
+	mod: function () {}
+};

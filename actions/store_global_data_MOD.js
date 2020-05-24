@@ -1,19 +1,19 @@
 module.exports = {
-	name: "Store Global Data",  
-	section: "Deprecated",  
+	name: "Store Global Data",
+	section: "Deprecated",
 
 	subtitle: function(data) {
 		const storage = ["", "Temp Variable", "Server Variable", "Global Variable"];
 		return `${storage[parseInt(data.storage)]} (${data.varName})`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
 		return ([data.varName, "Unknown Type"]);
-	},  
+	},
 
-	fields: ["dataName", "defaultVal", "storage", "varName"],  
+	fields: ["dataName", "defaultVal", "storage", "varName"],
 
 	html: function(isEvent, data) {
 		return `
@@ -39,9 +39,9 @@ module.exports = {
 		<input id="varName" class="round" type="text"><br>
 	</div>
 </div>`;
-	},  
+	},
 
-	init: function() {},  
+	init: function() {},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -77,7 +77,7 @@ module.exports = {
 		const varName = this.evalMessage(data.varName, cache);
 		this.storeValue(result, storage, varName, cache);
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

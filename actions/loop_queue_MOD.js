@@ -1,13 +1,13 @@
 module.exports = {
-	name: "Loop Queue",  
-	section: "Audio Control",  
+	name: "Loop Queue",
+	section: "Audio Control",
 
 	subtitle: function(data) {
 		const actions = ["Loop Whole Queue", "Loop Current Item"];
 		return `${actions[parseInt(data.loop)]}`;
-	},  
+	},
 
-	fields: ["status", "loop"],  
+	fields: ["status", "loop"],
 
 	html: function(isEvent, data) {
 		return `
@@ -30,9 +30,9 @@ module.exports = {
 		Please put the Welcome action into a Bot Initalization event to be able to store the current song!
 	</p>
 </div>`;
-	},  
+	},
 
-	init: function() {},  
+	init: function() {},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -65,7 +65,7 @@ module.exports = {
 		}
 
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function(DBM) {
 	//Check for PlayingNow Data Object
@@ -156,4 +156,4 @@ module.exports = {
 		};
 	}
 
-}; 
+};

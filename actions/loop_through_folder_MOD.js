@@ -1,10 +1,10 @@
 module.exports = {
-	name: "Loop through Folder",  
-	section: "Lists and Loops",  
+	name: "Loop through Folder",
+	section: "Lists and Loops",
 
 	subtitle: function(data) {
-		return `Loops through folder, and turns filenames into array`;
-	},  
+		return "Loops through folder, and turns filenames into array";
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
@@ -12,9 +12,9 @@ module.exports = {
 		const filename = parseInt(data.filename);
 		let dataType = "Array";
 		return ([data.varName2, dataType]);
-	},  
+	},
 
-	fields: ["filename", "storage", "varName2"],  
+	fields: ["filename", "storage", "varName2"],
 
 	html: function(isEvent, data) {
 		return `
@@ -42,15 +42,15 @@ module.exports = {
         <input id="varName2" class="round" type="text"><br>
     </div>
 </div>`;
-	},  
+	},
 
-	init: function() {},  
+	init: function() {},
 
 	action: function (cache) {
 		const
-			data = cache.actions[cache.index],  
-			fs = require("fs");
-		FOLDERPATH = this.evalMessage(data.filename, cache);
+			data = cache.actions[cache.index],
+			fs = require("fs"),
+			FOLDERPATH = this.evalMessage(data.filename, cache);
 		var output = {};
 		try {
 			if (FOLDERPATH) {
@@ -63,8 +63,8 @@ module.exports = {
 			console.error("ERROR!" + err.stack ? err.stack : err);
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
 
-}; 
+};

@@ -12,12 +12,10 @@ rules:
   brace-style:
     - error
     - 1tbs
-    -
-      allowSingleLine: true
+    - allowSingleLine: true
   comma-spacing:
     - error
-    -
-      after: true
+    - after: true
       before: false
   eol-last:
     - error
@@ -25,8 +23,7 @@ rules:
   indent:
     - error
     - tab
-    -
-      SwitchCase: 1
+    - SwitchCase: 1
   linebreak-style:
     - error
     - windows
@@ -42,8 +39,7 @@ rules:
     - off
   object-curly-newline:
     - error
-    -
-      multiline: true
+    - multiline: true
   object-curly-spacing:
     - error
     - always
@@ -53,3 +49,5 @@ rules:
   semi:
     - error
     - always
+  no-trailing-spaces:
+    - error

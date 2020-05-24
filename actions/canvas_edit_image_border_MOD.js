@@ -1,13 +1,13 @@
 module.exports = {
-	name: "Canvas Edit Image Border",  
-	section: "Image Editing",  
+	name: "Canvas Edit Image Border",
+	section: "Image Editing",
 
 	subtitle: function(data) {
 		const storeTypes = ["", "Temp Variable", "Server Variable", "Global Variable"];
 		return `${storeTypes[parseInt(data.storage)]} (${data.varName})`;
-	},  
+	},
 
-	fields: ["storage", "varName", "circleinfo", "radius"],  
+	fields: ["storage", "varName", "circleinfo", "radius"],
 
 	html: function(isEvent, data) {
 		return `
@@ -36,13 +36,13 @@ module.exports = {
 		<input id="radius" class="round" type="text" value="0"><br>
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.refreshVariableList(document.getElementById("storage"));
-	},  
+	},
 
 	action: function(cache) {
 		const Canvas = require("canvas");
@@ -93,7 +93,7 @@ module.exports = {
 			ctx.closePath();
 			ctx.clip();
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

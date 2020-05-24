@@ -1,15 +1,15 @@
 module.exports = {
-	name: "Set Role Permissions",  
-	section: "Role Control",  
+	name: "Set Role Permissions",
+	section: "Role Control",
 
 	subtitle: function(data) {
 		const roles = ["Mentioned Role", "1st Author Role", "1st Server Role", "Temp Variable", "Server Variable", "Global Variable"];
 		const index = ["Granted", "Denied"];
 		const perm = ["Administrator", "Manage Guild", "Manage Nicknames", "Manage Roles", "Manage Emojis", "Kick Members", "Ban Members", "View Audit Log", "Change Nickname", "Create Instant Invite", "Priority Speaker", "Manage Channel", "Manage Webhooks", "Read Messages", "Send Messages", "Send TTS Messages", "Manage Messages", "Embed Links", "Attach Files", "Read Message History", "Mention Everyone", "Use External Emojis", "Add Reactions", "Connect to Voice", "Speak in Voice", "Mute Members", "Deafen Members", "Move Members", "Use Voice Activity", "All Permissions"];
 		return `${roles[data.role]} - ${perm[data.permission]} - ${index[data.state]} ${!data.reason ? "" : `with Reason: <i>${data.reason}<i>`}`;
-	},  
+	},
 
-	fields: ["role", "varName", "permission", "state", "reason"],  
+	fields: ["role", "varName", "permission", "state", "reason"],
 
 	html: function(isEvent, data) {
 		return `
@@ -73,13 +73,13 @@ module.exports = {
 	Reason:<br>
 	<textarea id="reason" rows="2" placeholder="Insert reason here... (optional)" style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.roleChange(document.getElementById("role"), "varNameContainer");
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -231,7 +231,7 @@ module.exports = {
 		} else {
 			this.callNextAction(cache);
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

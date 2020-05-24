@@ -1,12 +1,12 @@
 module.exports = {
-	name: "Find Message",  
-	section: "Messaging",  
+	name: "Find Message",
+	section: "Messaging",
 
 	subtitle: function(data) {
 		const channels = ["Same Channel", "Mentioned Channel", "1st Server Channel", "Temp Variable", "Server Variable", "Global Variable"];
 		const info = ["Find by Content", "Find by ID"];
 		return `${channels[parseInt(data.channel)]} - ${info[parseInt(data.info)]}`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
@@ -14,9 +14,9 @@ module.exports = {
 		const info = parseInt(data.info);
 		let dataType = "Message";
 		return ([data.varName2, dataType]);
-	},  
+	},
 
-	fields: ["channel", "varName", "info", "search", "storage", "varName2"],  
+	fields: ["channel", "varName", "info", "search", "storage", "varName2"],
 
 	html: function(isEvent, data) {
 		return `
@@ -64,13 +64,13 @@ module.exports = {
 	This mod can only find messages by <b>content</b> within the last 100 messages.<br>
 	If there are multiple messages with the same content, the bot is always using the oldest message (after start).
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.channelChange(document.getElementById("channel"), "varNameContainer");
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -115,7 +115,7 @@ module.exports = {
 			default:
 				break;
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

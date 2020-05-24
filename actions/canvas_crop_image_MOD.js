@@ -1,13 +1,13 @@
 module.exports = {
-	name: "Canvas Crop Image",  
-	section: "Image Editing",  
+	name: "Canvas Crop Image",
+	section: "Image Editing",
 
 	subtitle: function(data) {
 		const storeTypes = ["", "Temp Variable", "Server Variable", "Global Variable"];
 		return `${storeTypes[parseInt(data.storage)]} (${data.varName})`;
-	},  
+	},
 
-	fields: ["storage", "varName", "align", "align2", "width", "height", "positionx", "positiony"],  
+	fields: ["storage", "varName", "align", "align2", "width", "height", "positionx", "positiony"],
 
 	html: function(isEvent, data) {
 		return `
@@ -73,7 +73,7 @@ module.exports = {
 		<input id="positiony" class="round" type="text" value="0"><br>
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
@@ -93,7 +93,7 @@ module.exports = {
 
 		glob.refreshVariableList(document.getElementById("storage"));
 		glob.onChange0(document.getElementById("align"));
-	},  
+	},
 
 	action: function(cache) {
 		const Canvas = require("canvas");
@@ -209,7 +209,7 @@ module.exports = {
 		const result = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
 		this.storeValue(result, storage, varName, cache);
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

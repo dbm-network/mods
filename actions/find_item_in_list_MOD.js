@@ -1,19 +1,19 @@
 module.exports = {
-	name: "Find Item in List",  
-	section: "Lists and Loops",  
+	name: "Find Item in List",
+	section: "Lists and Loops",
 
 	subtitle: function(data) {
 		const list = ["Server Members", "Server Channels", "Server Roles", "Server Emojis", "All Bot Servers", "Mentioned User Roles", "Command Author Roles", "Temp Variable", "Server Variable", "Global Variable"];
 		return `Find "${data.item}" in ${list[parseInt(data.list)]}`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
 		return ([data.varName2, "Number"]);
-	},  
+	},
 
-	fields: ["list", "varName", "item", "storage", "varName2"],  
+	fields: ["list", "varName", "item", "storage", "varName2"],
 
 	html: function(isEvent, data) {
 		return `
@@ -45,7 +45,7 @@ module.exports = {
 	</div>
 </div><br><br><br>
 <div><p>This action searches for an item in a list and returns the position.<br>Note that every list in JavaScript starts from 0!</p></div><br>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
@@ -61,7 +61,7 @@ module.exports = {
 		};
 
 		glob.listChange(document.getElementById("list"), "varNameContainer");
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -89,7 +89,7 @@ module.exports = {
 		}
 
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

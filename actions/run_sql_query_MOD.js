@@ -1,16 +1,12 @@
 module.exports = {
-	name: "Run SQL Query",  
-	section: "Other Stuff",  
-
-	depends_on_mods: [
-		{ name:"WrexMODS", path:"aaa_wrexmods_dependencies_MOD.js" }
-	],  
+	name: "Run SQL Query",
+	section: "Other Stuff",
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
 		return ([data.varName, "JSON Object"]);
-	},  
+	},
 
 	subtitle: function (data) {
 		let sub = "";
@@ -33,9 +29,9 @@ module.exports = {
 
 
 		return sub;
-	},  
+	},
 
-	fields: ["storage", "stringifyOutput", "varName", "hostname", "port", "username", "password", "database", "query", "path", "otype", "source_conn_storage", "source_conn_varName", "store_source_conn_storage", "store_source_conn_varName", "debugMode"],  
+	fields: ["storage", "stringifyOutput", "varName", "hostname", "port", "username", "password", "database", "query", "path", "otype", "source_conn_storage", "source_conn_varName", "store_source_conn_storage", "store_source_conn_varName", "debugMode"],
 
 	html: function (isEvent, data) {
 		return `
@@ -261,7 +257,7 @@ module.exports = {
 		  color:#4676b9;
 		  }
 </style>`;
-	},  
+	},
 	init: function () {
 		const { glob, document } = this;
 
@@ -296,16 +292,16 @@ module.exports = {
 				const path = require("path");
 
 				var options =  {
-					host: (hostname || "localhost"),  
-					port: (port || "3311"),  
-					dialect: (getType(type) || "sqlite"),  
-					operatorsAliases: false,  
+					host: (hostname || "localhost"),
+					port: (port || "3311"),
+					dialect: (getType(type) || "sqlite"),
+					operatorsAliases: false,
 					pool: {
-						max: 5,  
-						min: 0,  
-						acquire: 30000,  
+						max: 5,
+						min: 0,
+						acquire: 30000,
 						idle: 10000
-					},  
+					},
 				};
 
 				const sequelize = new Sequelize(database || "database", username || "username", password || "password", options );
@@ -362,7 +358,7 @@ module.exports = {
 		glob.variableChange(document.getElementById("storage"), "varNameContainer");
 		glob.variableChange(document.getElementById("source_conn_storage"), "varNameContainer2");
 		glob.variableChange(document.getElementById("store_source_conn_storage"), "varNameContainer3");
-	},  
+	},
 
 	action: function (cache) {
 
@@ -426,15 +422,15 @@ module.exports = {
 			}
 
 			var options =  {
-				host: (hostname || "localhost"),  
-				port: (port || "3311"),  
-				dialect: (getType(type) || "sqlite"),  
+				host: (hostname || "localhost"),
+				port: (port || "3311"),
+				dialect: (getType(type) || "sqlite"),
 				pool: {
-					max: 5,  
-					min: 0,  
-					acquire: 30000,  
+					max: 5,
+					min: 0,
+					acquire: 30000,
 					idle: 10000
-				},  
+				},
 			};
 
 			if(!DEBUG){
@@ -538,7 +534,7 @@ module.exports = {
 			console.log("SQL Mod Error: " + (error.stack ? error.stack : error));
 		}
 
-	},  
+	},
 
-	mod: function (DBM) {}
-}; 
+	mod: function () {}
+};

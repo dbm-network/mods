@@ -1,19 +1,19 @@
 module.exports = {
-	name: "Send Message",  
-	section: "Messaging",  
+	name: "Send Message",
+	section: "Messaging",
 
 	subtitle: function(data) {
 		const channels = ["Same Channel", "Command Author", "Mentioned User", "Mentioned Channel", "Default Channel (Top Channel)", "Temp Variable", "Server Variable", "Global Variable"];
 		return `${channels[parseInt(data.channel)]}: "${data.message.replace(/[\n\r]+/, "")}"`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
 		return ([data.varName2, "Message"]);
-	},  
+	},
 
-	fields: ["channel", "varName", "message", "storage", "varName2", "iffalse", "iffalseVal"],  
+	fields: ["channel", "varName", "message", "storage", "varName2", "iffalse", "iffalseVal"],
 
 	html: function(isEvent, data) {
 		return `
@@ -58,7 +58,7 @@ module.exports = {
 		 </select>
 		</div>
 		<div id="iffalseContainer" style="display: none; float: right; width: 60%;"><span id="iffalseName">Action Number</span>:<br><input id="iffalseVal" class="round" type="text"></div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
@@ -66,7 +66,7 @@ module.exports = {
 		glob.sendTargetChange(document.getElementById("channel"), "varNameContainer");
 		glob.variableChange(document.getElementById("storage"), "varNameContainer2");
 		glob.onChangeFalse(document.getElementById("iffalse"));
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -100,7 +100,7 @@ module.exports = {
 		} else {
 			this.callNextAction(cache);
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

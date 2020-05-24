@@ -1,13 +1,13 @@
 module.exports = {
-	name: "Check Server Data",  
-	section: "Deprecated",  
+	name: "Check Server Data",
+	section: "Deprecated",
 
 	subtitle: function(data) {
 		const results = ["Continue Actions", "Stop Action Sequence", "Jump To Action", "Jump Forward Actions"];
 		return `If True: ${results[parseInt(data.iftrue)]} ~ If False: ${results[parseInt(data.iffalse)]}`;
-	},  
+	},
 
-	fields: ["server", "varName", "dataName", "comparison", "value", "iftrue", "iftrueVal", "iffalse", "iffalseVal"],  
+	fields: ["server", "varName", "dataName", "comparison", "value", "iftrue", "iftrueVal", "iffalse", "iffalseVal"],
 
 	html: function(isEvent, data) {
 		return `
@@ -54,7 +54,7 @@ module.exports = {
 <div style="padding-top: 16px;">
 	${data.conditions[0]}
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
@@ -62,7 +62,7 @@ module.exports = {
 		glob.serverChange(document.getElementById("server"), "varNameContainer");
 		glob.onChangeTrue(document.getElementById("iftrue"));
 		glob.onChangeFalse(document.getElementById("iffalse"));
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -119,7 +119,7 @@ module.exports = {
 			}
 		}
 		this.executeResults(result, data, cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

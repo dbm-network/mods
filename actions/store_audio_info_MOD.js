@@ -1,8 +1,8 @@
 module.exports = {
-	name: "Store Audio Info",  
-	section: "Audio Control",  
+	name: "Store Audio Info",
+	section: "Audio Control",
 
-	fields: ["server", "info", "storage", "varName", "varName2"],  
+	fields: ["server", "info", "storage", "varName", "varName2"],
 
 	html: function(isEvent, data) {
 		return `
@@ -109,34 +109,34 @@ div.embed { /* <div class="embed"></div> */
             color:#4676b9;
         }
 	</style>`;
-	},  
+	},
 
 	// this is the list of items used in the subtitle, init, types, and the html
 	itemList:  [
-		{ name: "Volume (1-100)", type: "Number" },  
-		{ name: "Is Playing", type: "Boolean" },  
-		{ name: "Start Time (Seconds)", type: "Seconds" },  
-		{ name: "Queue URL List", type: "List" },  
-		{ name: "Next Song URL In Queue", type: "Url" },  
-		{ name: "Queue Length", type: "Number" },  
-		{ name: "Bitrate", type: "Number" },  
-		{ name: "Passes", type: "Number" },  
-		{ name: "Current Seek Position (Seconds)", type: "Seconds" },  
-		{ name: "Current Song URL", type: "Url" },  
-		{ name: "Requester of Next Song URL", type: "User" },  
-		{ name: "Requester of Current Song URL", type: "User" },  
-		{ name: "Title of Next Song URL", type: "Title String" },  
-		{ name: "Title of Current Song URL", type: "Title String" },  
-		{ name: "Duration of Current Song URL", type: "Duration" },  
+		{ name: "Volume (1-100)", type: "Number" },
+		{ name: "Is Playing", type: "Boolean" },
+		{ name: "Start Time (Seconds)", type: "Seconds" },
+		{ name: "Queue URL List", type: "List" },
+		{ name: "Next Song URL In Queue", type: "Url" },
+		{ name: "Queue Length", type: "Number" },
+		{ name: "Bitrate", type: "Number" },
+		{ name: "Passes", type: "Number" },
+		{ name: "Current Seek Position (Seconds)", type: "Seconds" },
+		{ name: "Current Song URL", type: "Url" },
+		{ name: "Requester of Next Song URL", type: "User" },
+		{ name: "Requester of Current Song URL", type: "User" },
+		{ name: "Title of Next Song URL", type: "Title String" },
+		{ name: "Title of Current Song URL", type: "Title String" },
+		{ name: "Duration of Current Song URL", type: "Duration" },
 		{ name: "Current Song Thumbnail URL", type: "Url" }
-	],  
+	],
 
 	// itemlist is set from above
 	subtitle: function(data) {
 		this.itemList = require("./store_audio_info_MOD.js").itemList;
 		const servers = ["Current Server", "Temp Variable", "Server Variable", "Global Variable"];
 		return `${servers[parseInt(data.server)]} - ${this.itemList[parseInt(data.info)].name}`;
-	},  
+	},
 
 	// itemlist is set from above
 	variableStorage: function(data, varType) {
@@ -145,7 +145,7 @@ div.embed { /* <div class="embed"></div> */
 		if(type !== varType) return;
 		const dataType = this.itemList[parseInt(data.info)].type || "Unknown Type";
 		return ([data.varName, dataType]);
-	},  
+	},
 
 	// itemlist is set from above
 	init: function() {
@@ -186,7 +186,7 @@ div.embed { /* <div class="embed"></div> */
 		} catch (error) {
 			alert("Store Audio Info Init Error:\n\n" + error);
 		}
-	},  
+	},
 
 
 	action: function(cache) {
@@ -268,7 +268,7 @@ div.embed { /* <div class="embed"></div> */
 			this.storeValue(result, storage, varName, cache);
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

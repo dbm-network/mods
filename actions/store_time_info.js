@@ -1,11 +1,11 @@
 module.exports = {
-	name: "Store Time Info",  
-	section: "Other Stuff",  
+	name: "Store Time Info",
+	section: "Other Stuff",
 
 	subtitle: function(data) {
 		const time = ["Year", "Month (Number)", "Day of the Month", "Hour", "Minute", "Second", "Milisecond", "Month (text)"];
 		return `${time[parseInt(data.type)]}`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
@@ -15,9 +15,9 @@ module.exports = {
 			result = "Text";
 		}
 		return ([data.varName, result]);
-	},  
+	},
 
-	fields: ["type", "storage", "varName"],  
+	fields: ["type", "storage", "varName"],
 
 	html: function(isEvent, data) {
 		return `
@@ -48,9 +48,9 @@ module.exports = {
 		<input id="varName" class="round" type="text"><br>
 	</div>
 </div>`;
-	},  
+	},
 
-	init: function() {},  
+	init: function() {},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -81,6 +81,7 @@ module.exports = {
 			case 7:
 				const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 				result = months[(new Date().getMonth())];
+				break;
 			default:
 				break;
 		}
@@ -91,7 +92,7 @@ module.exports = {
 			this.storeValue(result, storage, varName, cache);
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

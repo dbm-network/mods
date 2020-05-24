@@ -1,6 +1,6 @@
 module.exports = {
-	name: "Speed Test",  
-	section: "Other Stuff",  
+	name: "Speed Test",
+	section: "Other Stuff",
 
 	subtitle: function (data) {
 		if (data.info === "downloadspeed") {
@@ -10,7 +10,7 @@ module.exports = {
 		} else {
 			return "Error in subtitles.";
 		}
-	},  
+	},
 
 	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage);
@@ -24,9 +24,9 @@ module.exports = {
 			dataType = "Unknown Data Type";
 		}
 		return ([data.varName, dataType]);
-	},  
+	},
 
-	fields: ["info", "type", "storage", "varName"],  
+	fields: ["info", "type", "storage", "varName"],
 
 	html: function (isEvent, data) {
 		return `
@@ -89,12 +89,12 @@ module.exports = {
                     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
                 }
                 </style>`;
-	},  
+	},
 
 	init: function () {
 		const { glob, document } = this;
 		glob.variableChange(document.getElementById("storage"), "varNameContainer");
-	},  
+	},
 
 	action: function (cache) {
 		const _this = this; //This is needed sometimes
@@ -134,8 +134,8 @@ module.exports = {
 			console.log("Error in Speed Test MOD: " + error);
 			_this.callNextAction(cache);
 		});
-	},  
+	},
 
-	mod: function (DBM) {}
+	mod: function () {}
 
-}; 
+};

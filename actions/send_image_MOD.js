@@ -1,19 +1,19 @@
 module.exports = {
-	name: "Send Image MOD",  
-	section: "Image Editing",  
+	name: "Send Image MOD",
+	section: "Image Editing",
 
 	subtitle: function(data) {
 		const channels = ["Same Channel", "Command Author", "Mentioned User", "Mentioned Channel", "Default Channel (Top Channel)", "Temp Variable", "Server Variable", "Global Variable"];
 		return `${channels[parseInt(data.channel)]}`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage2);
 		if(type !== varType) return;
 		return ([data.varName3, "Message"]);
-	},  
+	},
 
-	fields: ["storage", "varName", "channel", "varName2", "message", "imageName", "imageFormat", "storage2", "varName3"],  
+	fields: ["storage", "varName", "channel", "varName2", "message", "imageName", "imageFormat", "storage2", "varName3"],
 
 	html: function(isEvent, data) {
 		return `
@@ -71,7 +71,7 @@ module.exports = {
 	</div>
 </div>
 	`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
@@ -79,7 +79,7 @@ module.exports = {
 		glob.refreshVariableList(document.getElementById("storage"));
 		glob.variableChange(document.getElementById("storage2"), "varNameContainer3"); //Fix the varname container poofing ~TheMonDon
 		glob.sendTargetChange(document.getElementById("channel"), "varNameContainer2");
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -102,7 +102,7 @@ module.exports = {
 				this.callListFunc(target, "send", [this.evalMessage(data.message, cache), {
 					files: [
 						{
-							attachment: buffer,  
+							attachment: buffer,
 							name: `${fileName}${data.imageFormat}`
 						}
 					]
@@ -121,7 +121,7 @@ module.exports = {
 				target.send(this.evalMessage(data.message, cache), {
 					files: [
 						{
-							attachment: buffer,  
+							attachment: buffer,
 							name: `${fileName}${data.imageFormat}`
 						}
 					]
@@ -133,7 +133,7 @@ module.exports = {
 		} else {
 			this.callNextAction(cache);
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

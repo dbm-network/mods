@@ -1,18 +1,18 @@
 module.exports = {
-	name: "Send Mail",  
-	section: "Other Stuff",  
+	name: "Send Mail",
+	section: "Other Stuff",
 
 	subtitle: function(data) {
 		return `from:"${data.username}" to: "${data.mailto}"`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
 		return ([data.varName, "Unknown Type"]);
-	},  
+	},
 
-	fields: ["username", "password", "mailto", "subject", "type", "text", "iffalse", "iffalseVal", "hostname", "portname", "sec"],  
+	fields: ["username", "password", "mailto", "subject", "type", "text", "iffalse", "iffalseVal", "hostname", "portname", "sec"],
 
 	html: function(isEvent, data) {
 		return `
@@ -75,12 +75,12 @@ module.exports = {
 	</div>
     </div>
 </div>`;
-	},  
+	},
 	init: function() {
 		const { glob, document } = this;
 
 		glob.onChangeFalse(document.getElementById("iffalse"));
-	},  
+	},
 
 	action: function(cache) {
 		const _this = this;
@@ -99,31 +99,33 @@ module.exports = {
 		const nodemailer = require("nodemailer");
 
 		var transporter = nodemailer.createTransport({
-			host: hostname,  
-			port: portname,  
-			secure: sec,  
+			host: hostname,
+			port: portname,
+			secure: sec,
 			auth: {
-				user: username,  
+				user: username,
 				pass: password
 			}
 		});
+
+		let mailOptions;
 		switch(typevalue) {
 			case 0:
-			{
-				var mailOptions = {
-					from: username,  
-					to: mailto,  
-					subject: subjectvalue,  
+				mailOptions = {
+					from: username,
+					to: mailto,
+					subject: subjectvalue,
 					text: textvalue
 				};
-			}
+				break;
 			case 1:
-				var mailOptions = {
-					from: username,  
-					to: mailto,  
-					subject: subjectvalue,  
+				mailOptions = {
+					from: username,
+					to: mailto,
+					subject: subjectvalue,
 					html: textvalue
 				};
+				break;
 		}
 
 		transporter.sendMail(mailOptions, function(error, info){
@@ -135,7 +137,7 @@ module.exports = {
 				_this.callNextAction(cache);
 			}
 		});
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

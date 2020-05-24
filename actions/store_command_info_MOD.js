@@ -1,14 +1,12 @@
 module.exports = {
-	name: "Store Command Info",  
-	section: "Bot Client Control",  
+	name: "Store Command Info",
+	section: "Bot Client Control",
 
 	subtitle: function(data) {
 		const info = ["Command Name", "Command ID", "Command Type", "Command Restriction", "Command User Required Permission", "Command Aliases", "Command Time Restriction", "Command Actions Length"];
 		const storage = ["", "Temp Variable", "Server Variable", "Global Variable"];
 		return `${info[parseInt(data.info)]} - ${storage[parseInt(data.storage)]}`;
-	},  
-
-	depends_on_mods: ["WrexMODS"],  
+	},
 
 	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage);
@@ -31,9 +29,9 @@ module.exports = {
 				break;
 		}
 		return ([data.varName, dataType]);
-	},  
+	},
 
-	fields: ["searchCommandBy", "valueToSearch", "info", "storage", "varName"],  
+	fields: ["searchCommandBy", "valueToSearch", "info", "storage", "varName"],
 
 	html: function(isEvent, data) {
 		return `
@@ -73,7 +71,7 @@ module.exports = {
         <input id="varName" class="round" type="text">
     </div>
         `;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
@@ -87,7 +85,7 @@ module.exports = {
 		};
 
 		glob.onChangeSame(document.getElementById("searchCommandBy"));
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -134,8 +132,8 @@ module.exports = {
 		}
 
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};
 

@@ -1,12 +1,12 @@
 module.exports = {
-	name: "Create Anchor",  
-	section: "Other Stuff",  
+	name: "Create Anchor",
+	section: "Other Stuff",
 
 	subtitle: function(data) {
 		return data.description ? `<font color="${data.color}">${data.description}</font>` : `Create ${data.anchor_id ? `the "<font color="${data.color}">${data.anchor_id}</font>" anchor at the current position!` : "an anchor!"}`;
-	},  
+	},
 
-	fields: ["anchor_id", "color", "description"],  
+	fields: ["anchor_id", "color", "description"],
 
 	html: function(isEvent, data) {
 		return `
@@ -32,13 +32,13 @@ module.exports = {
 		</div>
 	</div>
 		`;
-	},  
+	},
 
-	init: function() {},  
+	init: function() {},
 
 	action: function(cache) {
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

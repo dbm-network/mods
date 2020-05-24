@@ -1,12 +1,12 @@
 module.exports = {
-	name: "Store Message Info",  
-	section: "Messaging",  
+	name: "Store Message Info",
+	section: "Messaging",
 
 	subtitle: function(data) {
 		const message = ["Command Message", "Temp Variable", "Server Variable", "Global Variable"];
 		const info = ["Message Object", "Message ID", "Message Text", "Message Author", "Message Channel", "Message Timestamp", "", "", "Message Edited At", "Message Edits History", "", "", "Messages Different Reactions Count", "Mentioned Users List", "Mentioned Users Count", "Message URL", "Message Creation Date", "Message Length", "Message Attachments Count", "Message Guild", "Message Type", "Message Webhook ID", "Message Embed Object"];
 		return `${message[parseInt(data.message)]} - ${info[parseInt(data.info)]}`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
@@ -63,9 +63,9 @@ module.exports = {
 				break;
 		}
 		return ([data.varName2, dataType]);
-	},  
+	},
 
-	fields: ["message", "varName", "info", "storage", "varName2"],  
+	fields: ["message", "varName", "info", "storage", "varName2"],
 
 	html: function(isEvent, data) {
 		return `
@@ -124,13 +124,13 @@ module.exports = {
 			<input id="varName2" class="round" type="text"><br>
 		</div>
 	</div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.messageChange(document.getElementById("message"), "varNameContainer");
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -231,8 +231,8 @@ module.exports = {
 			this.storeValue(result, storage, varName2, cache);
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};
 

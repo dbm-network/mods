@@ -1,11 +1,11 @@
 module.exports = {
-	name: "Store Bot Client Info",  
-	section: "Bot Client Control",  
+	name: "Store Bot Client Info",
+	section: "Bot Client Control",
 
 	subtitle: function (data) {
 		const info = ["Uptime in Milliseconds", "Ready At?", "Ping", "Guild Amount", "User Amount", "Rounded Ping", "Uptime in Seconds", "Uptime in Minutes", "Bot's Token", "Voice Connections Amount", "Total Amount of Channels", "Total Amount of Emojis", "Bot's Previous Pings", "Uptime in Days", "Uptime in Days (Rounded)", "Memory (RAM) Usage", "Bot Guilds Objects", "Bot Guilds Names", "Bot Guilds IDs", "Bot Current Prefix", "Bot Client ID", "Discord JS Version", "Uptime in Hours", "Refreshing Uptime in Days", "Refreshing Uptime in Hours", "Refreshing Uptime in Minutes", "Refreshing Uptime in Seconds", "Memory (RAM) Usage in MB", "Bot's OS (Process Platform)", "CPU Usage in MB", "Bot's Directory", "Node JS Version", "Amount of Commands", "Amount of Events", "Ready At ? [timestamp]", "CPU Core Count", "Total Memory (GB)", "Total Memory (MB)", "Available Memory (GB)", "Available Memory (MB)", "Available Memory (%)", "Used Memory (GB)", "Used Memory (MB)", "Used Memory (%)", "Bot Owner ID"];
 		return `Bot Client - ${info[parseInt(data.info)]}`;
-	},  
+	},
 
 	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage);
@@ -135,9 +135,9 @@ module.exports = {
 
 		}
 		return ([data.varName2, dataType]);
-	},  
+	},
 
-	fields: ["info", "storage", "varName2"],  
+	fields: ["info", "storage", "varName2"],
 
 	html: function (isEvent, data) {
 	// current 43 items
@@ -210,9 +210,9 @@ module.exports = {
 			<input id="varName2" class="round" type="text"><br>
 		</div>
 	</div><br><br>`;
-	},  
+	},
 
-	init: function () { },  
+	init: function () { },
 
 	action: function (cache) {
 		const botClient = this.getDBM().Bot.bot;
@@ -225,6 +225,7 @@ module.exports = {
 			this.callNextAction(cache);
 			return;
 		}
+		let result;
 		switch (info) {
 			case 0: // Uptime in Milliseconds //Deprecated in 1.8.5
 				result = botClient.uptime;
@@ -366,15 +367,11 @@ module.exports = {
 				result = (((usedMem / 1024) / 1024) / 1024).toFixed(2);
 				break;
 			case 42: // Used Memory (MB)
-				var usedMem = os.totalmem() - os.freemem();
-				result = ((usedMem / 1024) / 1024).toFixed(0);
+				result = (((os.totalmem() - os.freemem()) / 1024) / 1024).toFixed(0);
 				break;
 			case 43: // Used Memory (%)
-				var usedMem = os.totalmem() - os.freemem();
-				result = Math.floor((usedMem / os.totalmem()) * 100);
+				result = Math.floor(((os.totalmem() - os.freemem()) / os.totalmem()) * 100);
 				break;
-
-
 			default:
 				break;
 		}
@@ -384,8 +381,7 @@ module.exports = {
 			this.storeValue(result, storage, varName2, cache);
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
-	mod: function (DBM) { }
-
-}; 
+	mod: function () {}
+};

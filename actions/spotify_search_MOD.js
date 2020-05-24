@@ -1,6 +1,6 @@
 module.exports = {
-	name: "Spotify Search",  
-	section: "Other Stuff",  
+	name: "Spotify Search",
+	section: "Other Stuff",
 
 	subtitle: function(data) {
 		const info1 = ["Track Name", "Track Artists Name", "Track Artists ID", "Track Album Name", "Track Album ID", "Track ID", "Track URL", "Track Available Markets List", "Track Duration", "Track Popularity", "Is Explicit?", "Is Local?", "Total Tracks Results", "Track Data"];
@@ -8,7 +8,7 @@ module.exports = {
 		const info3 = ["Playlist Name", "Playlist ID", "Playlist URL", "Playlist Owner Name", "Playlist Owner ID", "Playlist Owner URL", "Playlist Snapshot ID", "Playlist Tracks Total", "Playlist Image (H)", "Playlist Image (M)", "Playlist Image (L)", "Is Collaborative?", "Total Playlists Results", "Playlist Data"];
 		const info4 = ["Album Name", "Album Artists Name", "Album Artists ID", "Album ID", "Album Release Date", "Album Type", "Album URL", "Album Total Tracks", "Album Available Markets List", "Album Image (H)", "Album Image (M)", "Album Image (L)", "Total Albums Results", "Album Data"];
 		return `${data.varName} - ${data.search === "0" ? `${info1[data.info1]}` : `${data.search === "1" ? `${info2[data.info2]}` : `${data.search === "2" ? `${info3[data.info3]}` : `${info4[data.info4]}`}`}`}`;
-	},  
+	},
 
 	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage);
@@ -192,9 +192,9 @@ module.exports = {
 			}
 		}
 		return ([data.varName2, dataType]);
-	},  
+	},
 
-	fields: ["clientid", "clientsecret", "search", "varName", "info1", "info2", "info3", "info4", "resultNo", "storage", "varName2"],  
+	fields: ["clientid", "clientsecret", "search", "varName", "info1", "info2", "info3", "info4", "resultNo", "storage", "varName2"],
 
 	html: function(isEvent, data) {
 		return `
@@ -323,7 +323,7 @@ module.exports = {
 	<div>
 	</div>
 	`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
@@ -355,7 +355,7 @@ module.exports = {
 
 		glob.onChange1(document.getElementById("search"));
 		glob.variableChange(document.getElementById("storage"), "varNameContainer2");
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -381,7 +381,7 @@ module.exports = {
 		var SpotifyWebApi = require("spotify-web-api-node");
 
 		var spotifyApi = new SpotifyWebApi({
-			clientId: cclientid,  
+			clientId: cclientid,
 			clientSecret: cclientsecret
 		});
 
@@ -620,12 +620,12 @@ module.exports = {
 					this.callNextAction(cache);
 				}
 
-			},  
+			},
 			function(err) {
 				console.log("Something went wrong when retrieving an access token", err.message);
 			}
 		);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

@@ -1,12 +1,12 @@
 module.exports = {
-	name: "Store Category Info",  
-	section: "Channel Control",  
+	name: "Store Category Info",
+	section: "Channel Control",
 
 	subtitle: function(data) {
 		const categories = ["You cheater!", "Temp Variable", "Server Variable", "Global Variable"];
 		const info = ["Category ID", "Category Name", "Category Server", "Category Position", "Category Is Manageable?", "Category Is Deleteable?", "Category Channel List", "Category Channel Count", "Category Text Channel List", "Category Text Channel Count", "Category Voice Channel List", "Category Voice Channel Count"];
 		return `${categories[parseInt(data.category)]} - ${info[parseInt(data.info)]}`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
@@ -44,9 +44,9 @@ module.exports = {
 				break;
 		}
 		return ([data.varName2, dataType]);
-	},  
+	},
 
-	fields: ["category", "varName", "info", "storage", "varName2"],  
+	fields: ["category", "varName", "info", "storage", "varName2"],
 
 	html: function(isEvent, data) {
 		return `
@@ -129,13 +129,13 @@ module.exports = {
 						font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 					}
 					</style>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.refreshVariableList(document.getElementById("category"));
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -194,8 +194,8 @@ module.exports = {
 			this.storeValue(result, storage, varName2, cache);
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
 
-}; 
+};

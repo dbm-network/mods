@@ -1,14 +1,14 @@
 module.exports = {
-	name: "Edit Channel",  
-	section: "Channel Control",  
+	name: "Edit Channel",
+	section: "Channel Control",
 
 	subtitle: function(data) {
 		const names = ["Same Channel", "Mentioned Channel", "Default Channel", "Temp Variable", "Server Variable", "Global Variable"];
 		const opt = ["Name", "Topic", "Position", "Bitrate", "User Limit", "Category ID", "Rate Limit Per User"];
 		return `${names[parseInt(data.storage)]} - ${opt[parseInt(data.toChange)]}`;
-	},  
+	},
 
-	fields: ["storage", "varName", "channelType", "toChange", "newState"],  
+	fields: ["storage", "varName", "channelType", "toChange", "newState"],
 
 	html: function(isEvent, data) {
 		return `
@@ -52,13 +52,13 @@ module.exports = {
 			<input id="newState" class="round" type="text"><br>
 		</div>
 	</div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.channelChange(document.getElementById("storage"), "varNameContainer");
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -111,10 +111,10 @@ module.exports = {
 			console.log("Please update your edit_channel_MOD.js in your projects action folder!");
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function(DBM) {
 		DBM.Actions["Edit channel"] = DBM.Actions["Edit Channel"];
 	}
 
-}; 
+};

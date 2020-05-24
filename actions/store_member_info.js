@@ -1,12 +1,12 @@
 module.exports = {
-	name: "Store Member Info",  
-	section: "Member Control",  
+	name: "Store Member Info",
+	section: "Member Control",
 
 	subtitle: function(data) {
 		const members = ["Mentioned User", "Command Author", "Temp Variable", "Server Variable", "Global Variable"];
 		const info = ["Member Object", "Member ID", "Member Username", "Member Display Name", "Member Color", "Member Server", "Member Last Message", "Member Highest Role", "Member Hoist Role", "Member Color Role", "Member Game", "Member Status", "Member Avatar URL", "Member Role List", "Member Join Date", "Member Voice Channel", "Member Discrim", "Member Account Creation Date", "Member Tag", "Member Last Message ID", "Member Roles Amount", "Member Permissions List", "Member Custom Status", "Member Account Creation Timestamp", "Member Join Timestamp"];
 		return `${members[parseInt(data.member)]} - ${info[parseInt(data.info)]}`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
@@ -67,9 +67,9 @@ module.exports = {
 				break;
 		}
 		return ([data.varName2, dataType]);
-	},  
+	},
 
-	fields: ["member", "varName", "info", "storage", "varName2"],  
+	fields: ["member", "varName", "info", "storage", "varName2"],
 
 	html: function(isEvent, data) {
 		return `
@@ -130,13 +130,13 @@ module.exports = {
 		<input id="varName2" class="round" type="text"><br>
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.memberChange(document.getElementById("member"), "varNameContainer");
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -259,7 +259,7 @@ module.exports = {
 			this.storeValue(result, storage, varName2, cache);
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

@@ -1,19 +1,19 @@
 module.exports = {
-	name: "Canvas Send Image",  
-	section: "Image Editing",  
+	name: "Canvas Send Image",
+	section: "Image Editing",
 
 	subtitle: function(data) {
 		const channels = ["Same Channel", "Command Author", "Mentioned User", "Mentioned Channel", "Default Channel", "Temp Variable", "Server Variable", "Global Variable"];
 		return `${channels[parseInt(data.channel)]}`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage2);
 		if(type !== varType) return;
 		return ([data.varName3, "Message"]);
-	},  
+	},
 
-	fields: ["storage", "varName", "channel", "varName2", "message", "compress", "spoiler", "storage2", "varName3"],  
+	fields: ["storage", "varName", "channel", "varName2", "message", "compress", "spoiler", "storage2", "varName3"],
 
 	html: function(isEvent, data) {
 		return `
@@ -81,7 +81,7 @@ module.exports = {
 		<input id="varName3" class="round" type="text">
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
@@ -89,7 +89,7 @@ module.exports = {
 		glob.refreshVariableList(document.getElementById("storage"));
 		glob.sendTargetChange(document.getElementById("channel"), "varNameContainer2");
 		glob.variableChange(document.getElementById("storage2"), "varNameContainer3");
-	},  
+	},
 
 	action: function(cache) {
 		const Discord = require("discord.js");
@@ -134,7 +134,7 @@ module.exports = {
 		} else {
 			this.callNextAction(cache);
 		}
-	},  
-	
+	},
+
 	mod: function() {}
-}; 
+};

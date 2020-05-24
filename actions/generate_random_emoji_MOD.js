@@ -1,19 +1,19 @@
 module.exports = {
-	name: "Generate Random Emoji",  
-	section: "Other Stuff",  
+	name: "Generate Random Emoji",
+	section: "Other Stuff",
 
 	subtitle: function(data) {
-		return `Generate emoji's`;
-	},  
+		return "Generate emoji's";
+	},
 
 	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		let dataType = "Text";
 		return ([data.varName, dataType]);
-	},  
+	},
 
-	fields: ["storage", "varName"],  
+	fields: ["storage", "varName"],
 
 	html: function(isEvent, data) {
 		return `
@@ -31,9 +31,9 @@ module.exports = {
 <div>
 </div>
 	`;
-	},  
+	},
 
-	init: function() {},  
+	init: function() {},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -46,7 +46,7 @@ module.exports = {
 		const result = gg.emoji;
 		this.storeValue(result, storage, varName, cache);
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

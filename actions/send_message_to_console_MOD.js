@@ -1,6 +1,6 @@
 module.exports = {
-	name: "Send Message to Console",  
-	section: "Other Stuff",  
+	name: "Send Message to Console",
+	section: "Other Stuff",
 
 	subtitle: function(data) {
 		if (data.tosend.length > 0) {
@@ -8,9 +8,9 @@ module.exports = {
 		} else {
 			return "Please enter a message!";
 		}
-	},  
+	},
 
-	fields: ["tosend", "color"],  
+	fields: ["tosend", "color"],
 
 	html: function(isEvent, data) {
 		return `
@@ -18,14 +18,14 @@ module.exports = {
 	Message to send:<br>
 	<textarea id="tosend" rows="4" style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
 </div>`;
-	},  
+	},
 
-	init: function() {},  
+	init: function() {},
 
 	action: function(cache) {
-		const WrexMODS = this.getWrexMods();                    
-		WrexMODS.CheckAndInstallNodeModule("chalk"); 
-		const chalk = WrexMODS.require("chalk");          
+		const WrexMODS = this.getWrexMods();
+		WrexMODS.CheckAndInstallNodeModule("chalk");
+		const chalk = WrexMODS.require("chalk");
 		const data = cache.actions[cache.index];
 		const send = this.evalMessage(data.tosend, cache);
 		if (send.length > 0) {
@@ -36,10 +36,10 @@ module.exports = {
 			console.log(chalk.gray(`Please provide something to log: Action #${cache.index + 1}`));
 			this.callNextAction(cache);
 		}
-	},  
+	},
 
 	mod: function(DBM) {
 		DBM.Actions["Send Message to Console (Logs)"] = DBM.Actions["Send Message to Console"];
 	}
 
-}; 
+};

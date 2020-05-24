@@ -1,18 +1,18 @@
 module.exports = {
-	name: "Slice",  
-	section: "Other Stuff",  
+	name: "Slice",
+	section: "Other Stuff",
 
 	subtitle: function(data) {
 		return "Slice anything!";
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
 		let dataType = "Sliced Result";
 		return ([data.varName, dataType]);
-	},  
-	fields: ["slice", "startingNumber", "sliceLength", "storage", "varName"],  
+	},
+	fields: ["slice", "startingNumber", "sliceLength", "storage", "varName"],
 
 	html: function(isEvent, data) {
 		return `
@@ -45,13 +45,13 @@ module.exports = {
 		</p>
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.variableChange(document.getElementById("storage"), "varNameContainer");
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -68,10 +68,10 @@ module.exports = {
 		if(!sliceLength) return console.log("Slice length can not be empty");
 
 		const result = `${sliceText}`.slice(`${startingFrom}`, `${sliceLength + startingFrom}`);
-		
+
 		this.storeValue(result, type, varName, cache);
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

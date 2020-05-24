@@ -1,6 +1,6 @@
 module.exports = {
-	name: "Store Audit Log List MOD",  
-	section: "Server Control",  
+	name: "Store Audit Log List MOD",
+	section: "Server Control",
 
 	subtitle: function(data) {
 		const storage = ["All Member", "Mentioned User", "Command Author", "tempVars", "serverVars", "globalVars"];
@@ -10,7 +10,7 @@ module.exports = {
 		} else {
 			return `Store ${storage[parseInt(data.storage)]}("${data.varName}") - ${type[parseInt(data.type)]}`;
 		}
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage2);
@@ -18,9 +18,9 @@ module.exports = {
 		const info = parseInt(data.info);
 		let dataType = "Audit Log List";
 		return ([data.varName2, dataType]);
-	},  
+	},
 
-	fields: ["storage", "varName", "type", "before", "after", "limit", "storage2", "varName2"],  
+	fields: ["storage", "varName", "type", "before", "after", "limit", "storage2", "varName2"],
 
 	html: function(isEvent, data) {
 		return `
@@ -112,7 +112,7 @@ module.exports = {
 			<input id="varName2" class="round" type="text">
 		</div>
 	</div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
@@ -132,7 +132,7 @@ module.exports = {
 		};
 
 		glob.onChange0(document.getElementById("storage"));
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -185,7 +185,7 @@ module.exports = {
 			}
 			this.callNextAction(cache);
 		});
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

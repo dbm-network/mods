@@ -1,11 +1,11 @@
 module.exports = {
-	name: "Store YouTube Info",  
-	section: "Audio Control",  
+	name: "Store YouTube Info",
+	section: "Audio Control",
 
 	subtitle: function (data) {
 		const info = ["Video ID", "Video URL", "Video Title", "Video Description", "Video Owner", "Video ChannelID", "Video ThumbnailUrl", "Video EmbedURL", "Video Genre", "Video Paid", "Video Unlisted", "Video isFamilyFriendly", "Video Duration", "Video Views", "Video regionsAllowed", "Video commentCount", "Video  likeCount", "Video  dislikeCount", "Video  channelThumbnailUrl"];
 		return `YouTube ${info[parseInt(data.info)]}`;
-	},  
+	},
 
 	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage);
@@ -73,9 +73,9 @@ module.exports = {
 
 		}
 		return ([data.varName, dataType]);
-	},  
+	},
 
-	fields: ["video", "info", "storage", "varName"],  
+	fields: ["video", "info", "storage", "varName"],
 
 	html: function (isEvent, data) {
 		return `
@@ -128,15 +128,15 @@ module.exports = {
 		</p>
 	<div>
 </div>`;
-	},  
+	},
 
 	init: function () {
 		const {
-			glob,  
+			glob,
 			document
 		} = this;
 		glob.variableChange(document.getElementById("storage"), "varNameContainer");
-	},  
+	},
 
 	action: async function (cache) {
 		const data = cache.actions[cache.index];
@@ -219,7 +219,7 @@ module.exports = {
 				default:
 					break;
 			}
-			
+
 			if (result !== undefined) {
 				const storage = parseInt(data.storage);
 				const varName2 = _this.evalMessage(data.varName, cache);
@@ -229,8 +229,8 @@ module.exports = {
 
 		});
 
-	},  
+	},
 
-	mod: function (DBM) {}
+	mod: function () {}
 
 };

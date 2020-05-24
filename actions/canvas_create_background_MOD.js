@@ -1,6 +1,6 @@
 module.exports = {
-	name: "Canvas Create Background",  
-	section: "Image Editing",  
+	name: "Canvas Create Background",
+	section: "Image Editing",
 
 	subtitle: function(data) {
 		if (parseInt(data.info) == 0) {
@@ -9,15 +9,15 @@ module.exports = {
 			return data.gradient ? `Create with Gradient ${data.gradient}` : "No gradient background has create";
 		}
 
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
 		return ([data.varName, "Image"]);
-	},  
+	},
 
-	fields: ["width", "height", "info", "gradient", "color", "storage", "varName"],  
+	fields: ["width", "height", "info", "gradient", "color", "storage", "varName"],
 
 	html: function(isEvent, data) {
 		return `
@@ -61,7 +61,7 @@ module.exports = {
 		<input id="varName" class="round" type="text"><br>
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
@@ -82,7 +82,7 @@ module.exports = {
 			}
 		};
 		glob.onChange0(document.getElementById("info"));
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -113,7 +113,7 @@ module.exports = {
 		this.storeValue(result, storage, varName, cache);
 		this.callNextAction(cache);
 
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

@@ -1,21 +1,21 @@
-module.exports = {  
-	name: "Set Bot Activity",  
-	section: "Bot Client Control",  
+module.exports = {
+	name: "Set Bot Activity",
+	section: "Bot Client Control",
 
 	subtitle: function (data) {
 		const activities = [
-			"Playing",  
-			"Listening to",  
-			"Watching",  
+			"Playing",
+			"Listening to",
+			"Watching",
 			"Streaming Twitch"
 		];
 
 		const stats = ["Online", "Idle", "Invisible", "Do Not Disturb"];
 
 		return `${stats[data.stat]}, ${activities[data.activity]} ${data.nameText}`;
-	},  
+	},
 
-	fields: ["activity", "nameText", "url", "stat"],  
+	fields: ["activity", "nameText", "url", "stat"],
 
 	html: function (isEvent, data) {
 		return `
@@ -76,11 +76,11 @@ module.exports = {
           display: none;
         }
       </style>`;
-	},  
+	},
 
 	init: function () {
 		const {
-			glob,  
+			glob,
 			document
 		} = this;
 
@@ -102,7 +102,7 @@ module.exports = {
 		}
 
 		selector.onclick = () => showUrl();
-	},  
+	},
 
 	action: function (cache) {
 		const botClient = this.getDBM()
@@ -158,10 +158,10 @@ module.exports = {
 				if (target === "STREAMING") {
 					obj = {
 						game: {
-							name: nameText,  
-							type: target,  
+							name: nameText,
+							type: target,
 							url: url
-						},  
+						},
 						status: statustarget
 					};
 					botClient
@@ -175,9 +175,9 @@ module.exports = {
 				} else {
 					obj = {
 						game: {
-							name: nameText,  
+							name: nameText,
 							type: target
-						},  
+						},
 						status: statustarget
 					};
 					botClient
@@ -197,7 +197,7 @@ module.exports = {
 		} else {
 			this.callNextAction(cache);
 		}
-	},  
+	},
 
-	mod: function (DBM) {}
-}; 
+	mod: function () {}
+};

@@ -1,13 +1,13 @@
 module.exports = {
-	name: "Shuffle Queue MOD",  
-	section: "Audio Control",  
+	name: "Shuffle Queue MOD",
+	section: "Audio Control",
 
 	subtitle: function(data) {
 		const servers = ["Current Server", "Temp Variable", "Server Variable", "Global Variable"];
 		return `Shuffle Queue of ${servers[parseInt(data.server)]}`;
-	},  
+	},
 
-	fields: ["server", "varName"],  
+	fields: ["server", "varName"],
 
 	html: function(isEvent, data) {
 		return `
@@ -24,13 +24,13 @@ module.exports = {
 	</div>
 </div>
 `;
-	},  
+	},
 
 	init: function () {
 		const { glob, document } = this;
 
 		glob.serverChange(document.getElementById("server"), "varNameContainer");
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -39,6 +39,7 @@ module.exports = {
 		const varName = this.evalMessage(data.varName, cache);
 		const targetServer = this.getServer(server, varName, cache);
 
+		let queue;
 		if (targetServer) {
 			queue = Audio.queue[targetServer.id];
 		}
@@ -50,7 +51,7 @@ module.exports = {
 			Audio.queue[targetServer.id] = queue;
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

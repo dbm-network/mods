@@ -1,19 +1,19 @@
 module.exports = {
-	name: "Base Convert MOD",  
-	section: "Other Stuff",  
+	name: "Base Convert MOD",
+	section: "Other Stuff",
 
 	subtitle: function(data) {
 		return `Base ${(data.basef)} to Base ${(data.baset)}`;
-	},  
+	},
 
 	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		let dataType = "Number";
 		return ([data.varName, dataType]);
-	},  
+	},
 
-	fields: ["num", "basef", "baset", "storage", "varName"],  
+	fields: ["num", "basef", "baset", "storage", "varName"],
 
 	html: function(isEvent, data) {
 		return `
@@ -43,9 +43,9 @@ module.exports = {
 		<input id="varName" class="round" type="text">
 	</div>
 </div>`;
-	},  
+	},
 
-	init: function() {},  
+	init: function() {},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -67,7 +67,7 @@ module.exports = {
 			this.storeValue(result, storage, varName, cache);
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

@@ -1,11 +1,11 @@
 module.exports = {
-	name: "Cleverbot",  
-	section: "Other Stuff",  
+	name: "Cleverbot",
+	section: "Other Stuff",
 
 	subtitle: function(data) {
 		const WhichAPI = ["cleverbot.io", "cleverbot.com"];
 		return `Speak with ${WhichAPI[parseInt(data.WhichAPI)]}!`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
@@ -13,10 +13,10 @@ module.exports = {
 		const info = parseInt(data.info);
 		let dataType = "Clever Response";
 		return ([data.varName2, dataType]);
-	},  
+	},
 
 
-	fields: ["WhichAPI", "inputVarType", "inputVarName", "APIuser", "APIkey", "storage", "varName2"],  
+	fields: ["WhichAPI", "inputVarType", "inputVarName", "APIuser", "APIkey", "storage", "varName2"],
 
 	html: function(isEvent, data) {
 		return `
@@ -73,14 +73,14 @@ module.exports = {
 		</p>
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.variableChange(document.getElementById("inputVarType"), "varNameContainer");
 		glob.variableChange(document.getElementById("storage"), "varNameContainer2");
-	},  
+	},
 
 	action: function(cache) {
 		var _this = this;
@@ -142,7 +142,7 @@ module.exports = {
 				});
 				break;
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

@@ -1,20 +1,20 @@
 module.exports = {
-	name: "Set slowmode MOD",  
-	section: "Channel Control",  
+	name: "Set slowmode MOD",
+	section: "Channel Control",
 
 	subtitle: function(data) {
 		const names = ["Same Channel", "Mentioned Channel", "Default Channel", "Temp Variable", "Server Variable", "Global Variable"];
 		const index = parseInt(data.storage);
 		return index < 3 ? `Set slowmode : ${names[index]}` : `Set slowmode : ${names[index]} - ${data.varName}`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage2);
 		if(type !== varType) return;
 		return ([data.varName2, "Channel"]);
-	},  
+	},
 
-	fields: ["storage", "varName", "varName2", "amount", "reason"],  
+	fields: ["storage", "varName", "varName2", "amount", "reason"],
 
 	html: function(isEvent, data) {
 		return `
@@ -42,7 +42,7 @@ module.exports = {
 		Variable Name:<br>
 		<input id="varName2" class="round" type="text">
 	</div>`;
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -68,7 +68,7 @@ module.exports = {
 			this.callNextAction(cache);
 			console.log("This channel isn't a channel.");
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

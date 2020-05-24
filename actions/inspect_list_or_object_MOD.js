@@ -1,26 +1,20 @@
 module.exports = {
-	name: "Inspect List/Object",  
-	section: "Lists and Loops",  
+	name: "Inspect List/Object",
+	section: "Lists and Loops",
 
 	subtitle: function (data) {
 		const storages = ["", "Temp Variable", "Server Variable", "Global Variable"];
 		return `Inspect ${storages[parseInt(data.storage)]} "${data.varName}"`;
-	},  
-
-	sample_result: "<b>Client {<br><b style='color: #b58900'>_events</b>: [<b style='color: #dc322f'>Object</b>],<br><b style='color: #b58900'>_eventsCount</b>: <b style='color: #2a978f'>5</b>,<br><b style='color: #b58900'>_maxListeners</b>: <b style='color: #2a978f'>10</b>,<br><b style='color: #b58900'>options</b>: [<b style='color: #dc322f'>Object</b>],<br><b style='color: #b58900'>rest</b>: [RESTManager],<br><b style='color: #b58900'>dataManager</b>: [ClientDataManager],<br><b style='color: #b58900'>manager</b>: [ClientManager],<br><b style='color: #b58900'>ws</b>: [WebSocketManager],<br><b style='color: #b58900'>resolver</b>: [ClientDataResolver],<br><b style='color: #b58900'>actions</b>: [ActionsManager],<br><b style='color: #b58900'>voice</b>: [ClientVoiceManager],<br><b style='color: #b58900'>shard</b>: <b style='color: #2a978f'>null</b>,<br><b style='color: #b58900'>users</b>: [Collection],<br><b style='color: #b58900'>guilds</b>: [Collection],<br><b style='color: #b58900'>channels</b>: [Collection],<br><b style='color: #b58900'>presences</b>: [Collection],<br><b style='color: #b58900'>user</b>: [ClientUser],<br><b style='color: #b58900'>readyAt</b>: <b style='color: #2a978f'>2019-05-11</b>T11:<b style='color: #2a978f'>30</b>:<b style='color: #2a978f'>47.999</b>Z,<br><b style='color: #b58900'>broadcasts</b>: [],<br><b style='color: #b58900'>pings</b>: [<b style='color: #dc322f'>Array</b>],<br><b style='color: #b58900'>_timeouts</b>: [<b style='color: #dc322f'>Set</b>],<br><b style='color: #b58900'>_intervals</b>: [<b style='color: #dc322f'>Set</b>],<br><b style='color: #b58900'>config</b>: [<b style='color: #dc322f'>Object</b>],<br><b style='color: #b58900'>info</b>: [<b style='color: #dc322f'>Object</b>],<br><b style='color: #b58900'>audio</b>: [<b style='color: #dc322f'>Object</b>],<br><b style='color: #b58900'>warnings</b>: [<b style='color: #dc322f'>Object</b>],<br><b style='color: #b58900'>loadCommands</b>: [<b style='color: #dc322f'>Function</b>],<br><b style='color: #b58900'>commands</b>: [<b style='color: #dc322f'>Map</b>] }<b>",  
-
-	depends_on_mods: [
-		{ name:"WrexMODS", path:"aaa_wrexmods_dependencies_MOD.js" }
-	],  
+	},
 
 	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage2);
 		if (type !== varType) return;
 		let dataType = "Text";
 		return ([data.varName2, dataType]);
-	},  
+	},
 
-	fields: ["storage", "varName", "depth", "storage2", "varName2"],  
+	fields: ["storage", "varName", "depth", "storage2", "varName2"],
 
 	html: function (isEvent, data) {
 		return `
@@ -59,7 +53,7 @@ module.exports = {
 		<div class="embed" style="width:98%; padding-top: 8px;">
 			<embedleftline></embedleftline><div class="embedinfo">
 				<span class="embed-auth"><u><b>Sample Result</b></u><br></span><br>
-				<span class="embed-desc">${this.sample_result}<br></span>
+				<span class="embed-desc"><b>Client {<br><b style='color: #b58900'>_events</b>: [<b style='color: #dc322f'>Object</b>],<br><b style='color: #b58900'>_eventsCount</b>: <b style='color: #2a978f'>5</b>,<br><b style='color: #b58900'>_maxListeners</b>: <b style='color: #2a978f'>10</b>,<br><b style='color: #b58900'>options</b>: [<b style='color: #dc322f'>Object</b>],<br><b style='color: #b58900'>rest</b>: [RESTManager],<br><b style='color: #b58900'>dataManager</b>: [ClientDataManager],<br><b style='color: #b58900'>manager</b>: [ClientManager],<br><b style='color: #b58900'>ws</b>: [WebSocketManager],<br><b style='color: #b58900'>resolver</b>: [ClientDataResolver],<br><b style='color: #b58900'>actions</b>: [ActionsManager],<br><b style='color: #b58900'>voice</b>: [ClientVoiceManager],<br><b style='color: #b58900'>shard</b>: <b style='color: #2a978f'>null</b>,<br><b style='color: #b58900'>users</b>: [Collection],<br><b style='color: #b58900'>guilds</b>: [Collection],<br><b style='color: #b58900'>channels</b>: [Collection],<br><b style='color: #b58900'>presences</b>: [Collection],<br><b style='color: #b58900'>user</b>: [ClientUser],<br><b style='color: #b58900'>readyAt</b>: <b style='color: #2a978f'>2019-05-11</b>T11:<b style='color: #2a978f'>30</b>:<b style='color: #2a978f'>47.999</b>Z,<br><b style='color: #b58900'>broadcasts</b>: [],<br><b style='color: #b58900'>pings</b>: [<b style='color: #dc322f'>Array</b>],<br><b style='color: #b58900'>_timeouts</b>: [<b style='color: #dc322f'>Set</b>],<br><b style='color: #b58900'>_intervals</b>: [<b style='color: #dc322f'>Set</b>],<br><b style='color: #b58900'>config</b>: [<b style='color: #dc322f'>Object</b>],<br><b style='color: #b58900'>info</b>: [<b style='color: #dc322f'>Object</b>],<br><b style='color: #b58900'>audio</b>: [<b style='color: #dc322f'>Object</b>],<br><b style='color: #b58900'>warnings</b>: [<b style='color: #dc322f'>Object</b>],<br><b style='color: #b58900'>loadCommands</b>: [<b style='color: #dc322f'>Function</b>],<br><b style='color: #b58900'>commands</b>: [<b style='color: #dc322f'>Map</b>] }<b><br></span>
 			</div>
 		</div>
 	</div><br>
@@ -96,13 +90,13 @@ module.exports = {
 		color: rgb(128, 128, 128);
 	}
 </style>`;
-	},  
+	},
 
 	init: function () {
 		const { glob, document } = this;
 
 		glob.variableChange(document.getElementById("storage"), "varNameContainer");
-	},  
+	},
 
 	action: function (cache) {
 		const data = cache.actions[cache.index];
@@ -132,10 +126,7 @@ module.exports = {
 			this.storeValue(result, storage2, varName2, cache);
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
-	mod: function (DBM) {
-
-	}
-
-}; 
+	mod: function () {}
+};

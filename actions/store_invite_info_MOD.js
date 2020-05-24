@@ -1,11 +1,11 @@
 module.exports = {
-	name: "Store Invite Info",  
-	section: "Channel Control",  
+	name: "Store Invite Info",
+	section: "Channel Control",
 
 	subtitle: function(data) {
 		const info = ["Channel Object", "Invite Creator", "Creation Date", "Expiration Date", "Guild Object", "Max. Uses", "Is Temporary?", "URL for Invite", "Times Used", "Invite server member count", "Invite code"];
 		return `Store ${info[parseInt(data.info)]} from Invite`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
@@ -48,9 +48,9 @@ module.exports = {
 				break;
 		}
 		return ([data.varName, dataType]);
-	},  
+	},
 
-	fields: ["invite", "info", "storage", "varName"],  
+	fields: ["invite", "info", "storage", "varName"],
 
 	html: function(isEvent, data) {
 		return `
@@ -84,13 +84,13 @@ module.exports = {
 		Variable Name:<br>
 		<input id="varName" class="round" type="text">
 	</div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.variableChange(document.getElementById("storage"), "varNameContainer");
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -152,7 +152,7 @@ module.exports = {
 			}
 			this.callNextAction(cache);
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

@@ -1,20 +1,20 @@
 module.exports = {
-	name: "Replace Text",  
-	section: "Other Stuff",  
+	name: "Replace Text",
+	section: "Other Stuff",
 
 	subtitle: function(data) {
 		const info = ["Replace the first result", "Replace all results"];
 		return `${info[data.info]}`;
-	},  
+	},
 
 	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		let dataType = "String";
 		return ([data.varName, dataType]);
-	},  
+	},
 
-	fields: ["text", "text2", "text3", "info", "storage", "varName"],  
+	fields: ["text", "text2", "text3", "info", "storage", "varName"],
 
 	html: function(isEvent, data) {
 		return `
@@ -52,9 +52,9 @@ module.exports = {
 	</div>
 </div>
 	`;
-	},  
+	},
 
-	init: function() {},  
+	init: function() {},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -84,7 +84,7 @@ module.exports = {
 			this.storeValue(result, storage, varName, cache);
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

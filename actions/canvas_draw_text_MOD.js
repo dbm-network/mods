@@ -1,12 +1,12 @@
 module.exports = {
-	name: "Canvas Draw Text on Image",  
-	section: "Image Editing",  
+	name: "Canvas Draw Text on Image",
+	section: "Image Editing",
 
 	subtitle: function(data) {
 		return `${data.text}`;
-	},  
-	
-	fields: ["storage", "varName", "x", "y", "fontPath", "fontColor", "fontSize", "align", "text"],  
+	},
+
+	fields: ["storage", "varName", "x", "y", "fontPath", "fontColor", "fontSize", "align", "text"],
 
 	html: function(isEvent, data) {
 		return `
@@ -46,13 +46,13 @@ module.exports = {
 	Text:<br>
 	<textarea id="text" rows="2" placeholder="Insert text here..." style="width: 95%; white-space: nowrap; resize: none;"></textarea>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.refreshVariableList(document.getElementById("storage"));
-	},  
+	},
 
 	action: function(cache) {
 		const Canvas = require("canvas");
@@ -125,7 +125,7 @@ module.exports = {
 		const result = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
 		this.storeValue(result, storage, varName, cache);
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

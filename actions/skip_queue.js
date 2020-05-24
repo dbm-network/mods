@@ -1,12 +1,12 @@
 module.exports = {
-	name: "Skip Queue",  
-	section: "Audio Control",  
+	name: "Skip Queue",
+	section: "Audio Control",
 
 	subtitle: function(data) {
 		return `Skip ${data.amount} Items`;
-	},  
+	},
 
-	fields: ["amount"],  
+	fields: ["amount"],
 
 	html: function(isEvent, data) {
 		return `
@@ -25,9 +25,9 @@ module.exports = {
 	</p>
 </div>
 `;
-	},  
+	},
 
-	init: function() {},  
+	init: function() {},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -61,7 +61,7 @@ module.exports = {
 			}
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

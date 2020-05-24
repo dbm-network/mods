@@ -1,13 +1,13 @@
 module.exports = {
-	name: "Delete Bulk Messages MOD",  
-	section: "Messaging",  
+	name: "Delete Bulk Messages MOD",
+	section: "Messaging",
 
 	subtitle: function(data) {
 		const channels = ["Same Channel", "Mentioned Channel", "1st Server Channel", "Temp Variable", "Server Variable", "Global Variable"];
 		return `Delete ${data.count} messages from ${channels[parseInt(data.channel)] || "Nothing"}`;
-	},  
+	},
 
-	fields: ["channel", "varName", "count", "option", "msgid", "Con0", "Con1", "Con2", "Con3", "Con4", "Con5", "iffalse", "iffalseVal"],  
+	fields: ["channel", "varName", "count", "option", "msgid", "Con0", "Con1", "Con2", "Con3", "Con4", "Con5", "iffalse", "iffalseVal"],
 
 	html: function(isEvent, data) {
 		return `
@@ -88,7 +88,7 @@ module.exports = {
 		<div id="iffalseContainer" style="padding-left: 3%; display: none; float: left; width: 60%;"><span id="iffalseName">Action Number</span>:<br><input id="iffalseVal" class="round" type="text"></div>
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
@@ -105,7 +105,7 @@ module.exports = {
 		glob.channelChange(document.getElementById("channel"), "varNameContainer");
 		glob.onChange2(document.getElementById("option"));
 		glob.onChangeFalse(document.getElementById("iffalse"));
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -222,7 +222,7 @@ module.exports = {
 		} else {
 			this.callNextAction(cache);
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

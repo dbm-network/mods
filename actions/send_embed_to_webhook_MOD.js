@@ -1,16 +1,12 @@
 module.exports = {
-	name: "Send Embed to Webhook",  
-	section: "Webhook Control",  
+	name: "Send Embed to Webhook",
+	section: "Webhook Control",
 
 	subtitle: function(data) {
 		return `${data.varName2}`;
-	},  
+	},
 
-	depends_on_mods: [
-		{ name:"WrexMods", path:"aaa_wrexmods_dependencies_MOD.js" }
-	],  
-
-	fields: ["storage", "varName", "storage2", "varName2"],  
+	fields: ["storage", "varName", "storage2", "varName2"],
 
 	html: function(isEvent, data) {
 		return `
@@ -38,14 +34,14 @@ module.exports = {
 		<input id="varName2" class="round" type="text" list="variableList"><br>
 </div>
 `;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.refreshVariableList(document.getElementById("storage"));
 		glob.refreshVariableList(document.getElementById("storage2"), "varNameContainer2");
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -70,7 +66,7 @@ module.exports = {
 
 		webhook.send(embed2);
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

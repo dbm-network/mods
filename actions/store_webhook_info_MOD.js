@@ -1,15 +1,11 @@
 module.exports = {
-	name: "Store Webhook Info",  
-	section: "Webhook Control",  
+	name: "Store Webhook Info",
+	section: "Webhook Control",
 
 	subtitle: function (data) {
 		const info = ["Webhook ", "Webhook ", "Webhook ", "Webhook ", "Webhook ", "Webhook ", "Webhook ", "Webhook "];
 		return `${info[parseInt(data.info)]}`;
-	},  
-
-	depends_on_mods: [
-		{ name:"WrexMods", path:"aaa_wrexmods_dependencies_MOD.js" }
-	],  
+	},
 
 	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage);
@@ -40,9 +36,9 @@ module.exports = {
 				break;
 		}
 		return ([data.varName2, dataType]);
-	},  
+	},
 
-	fields: ["webhook", "varName", "info", "storage", "varName2"],  
+	fields: ["webhook", "varName", "info", "storage", "varName2"],
 
 	html: function (isEvent, data) {
 		return `
@@ -82,13 +78,13 @@ module.exports = {
 		<input id="varName2" class="round" type="text"><br>
 	</div>
 </div><br><br><br>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.refreshVariableList(document.getElementById("webhook"));
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -129,7 +125,7 @@ module.exports = {
 			this.storeValue(result, storage, varName2, cache);
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

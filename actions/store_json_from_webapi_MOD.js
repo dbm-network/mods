@@ -1,20 +1,18 @@
 module.exports = {
-	name: "Store Json From WebAPI",  
-	section: "JSON Things", 
-
-	depends_on_mods: ["WrexMODS"],  
+	name: "Store Json From WebAPI",
+	section: "JSON Things",
 
 	subtitle: function(data) {
 		return `${data.varName}`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
 		return ([data.varName, "JSON Object"]);
-	},  
+	},
 
-	fields: ["token", "user", "pass", "url", "path", "storage", "varName", "debugMode", "headers"],  
+	fields: ["token", "user", "pass", "url", "path", "storage", "varName", "debugMode", "headers"],
 
 	html: function(isEvent, data) {
 		return `
@@ -74,7 +72,7 @@ module.exports = {
 	</div>
 	</div>
 	`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
@@ -89,11 +87,9 @@ module.exports = {
 		};
 
 		glob.checkBox(document.getElementById("toggleAuth"), "auth");
-
-	},  
+	},
 
 	action: function(cache) {
-
 		var _this = this;
 
 		const data = cache.actions[cache.index];
@@ -113,9 +109,7 @@ module.exports = {
 		const user = this.evalMessage(data.user, cache);
 		const pass = this.evalMessage(data.pass, cache);
 
-
 		let headers = this.evalMessage(data.headers, cache);
-
 
 		// if it fails the check, try to re-encode the url
 		if(!WrexMODS.checkURL(url)){
@@ -123,11 +117,8 @@ module.exports = {
 		}
 
 		if(WrexMODS.checkURL(url)){
-
 			try {
-
 				function storeData(error, res, jsonData) {
-
 					var statusCode = res ? res.statusCode : 200;
 
 					if(error){
@@ -136,10 +127,8 @@ module.exports = {
 
 						console.error("WebAPI: Error: " + errorJson + " stored to: ["+ varName+"]");
 					}else{
-
 						if(path){
 							var outData = WrexMODS.jsonPath(jsonData, path);
-
 
 							if(_DEBUG) console.dir(outData);
 
@@ -157,7 +146,6 @@ module.exports = {
 								console.error("WebAPI: Error: " + errorJson + " NO JSON data returned. Check the URL: "+ url);
 								var errorJson = JSON.stringify({ error:"No JSON Data Returned", statusCode: 0 });
 								_this.storeValue(errorJson, storage, varName, cache);
-
 							}else if(outData.success != null){
 								var errorJson = JSON.stringify({ error: error, statusCode: statusCode, success: false });
 								_this.storeValue(errorJson, storage, varName, cache);
@@ -174,7 +162,6 @@ module.exports = {
 									if(_DEBUG) console.log("WebAPI: JSON Data values starting from ["+ path +"] stored to: ["+ varName+"]");
 								}
 							}
-
 						}else{
 							if(_DEBUG) console.dir(jsonData);
 							_this.storeValue(jsonData, storage, varName, cache);
@@ -189,7 +176,6 @@ module.exports = {
 				var oldUrl = this.getVariable(1, url + "_URL", cache);
 
 				if(url === oldUrl){
-
 					let jsonData;
 					let error;
 					let res = { statusCode:200 };
@@ -203,15 +189,11 @@ module.exports = {
 					if(_DEBUG) console.log("WebAPI: Using previously stored json data from the initial store json action within this command.");
 
 					storeData(error, res, jsonData);
-
-
 				}else{
-
 					let setHeaders = {};
 
 					// set default required header
 					setHeaders["User-Agent"] = "Other";
-
 
 					// Because headers are a dictionary ;)
 					if(headers){
@@ -231,33 +213,28 @@ module.exports = {
 						}
 					}
 
-
 					request.get({
-						url: url,  
-						json: true,  
-						headers: setHeaders,  
+						url: url,
+						json: true,
+						headers: setHeaders,
 						auth: {
-							bearer: token,  
-							user: user,  
-							pass: pass,  
+							bearer: token,
+							user: user,
+							pass: pass,
 							sendImmediately: false
-						},  
+						},
 					}, (error, res, jsonData) => storeData(error, res, jsonData));
 				}
-
-
-
 			} catch (err) {
 				console.error(err.stack ? err.stack : err);
 			}
 		} else{
 			console.error("URL ["+url+"] Is Not Valid");
 		}
-	},  
+	},
 
 	mod: function(DBM) {
 		// aliases for backwards compatibility, in the bot only, DBM will still say the action is missing.
 		DBM.Actions["Store Variable From WebAPI"] = DBM.Actions["Store Json From WebAPI"];
 	}
-
-}; 
+};

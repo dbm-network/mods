@@ -1,11 +1,11 @@
 module.exports = {
-	name: "Google Search",  
-	section: "Other Stuff",  
+	name: "Google Search",
+	section: "Other Stuff",
 
 	subtitle: function (data) {
 		const info = ["Title", "URL", "Snippet"];
 		return `Google Result ${info[parseInt(data.info)]}`;
-	},  
+	},
 
 	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage);
@@ -24,9 +24,9 @@ module.exports = {
 				break;
 		}
 		return ([data.varName, dataType]);
-	},  
+	},
 
-	fields: ["string", "info", "resultNo", "storage", "varName"],  
+	fields: ["string", "info", "resultNo", "storage", "varName"],
 
 	html: function (isEvent, data) {
 		return `
@@ -67,12 +67,12 @@ module.exports = {
 			Variable Name:<br>
 			<input id="varName" class="round" type="text"><br>
 		</div>`;
-	},  
+	},
 
 	init: function () {
 		const { glob, document } = this;
 		glob.variableChange(document.getElementById("storage"), "varNameContainer");
-	},  
+	},
 
 	action: function (cache) {
 		const data = cache.actions[cache.index];
@@ -89,6 +89,7 @@ module.exports = {
 		const googleIt = WrexMODS.require("google-it");
 
 		googleIt({ "query": `${string}`, "no-display": 1, "limit": 10 }).then(results => {
+			let result;
 			switch (info) {
 				case 0:
 					result = results[resultNumber].title;
@@ -114,8 +115,7 @@ module.exports = {
 			console.log("An error in Google Search MOD: " + e);
 			this.callNextAction(cache);
 		});
-	},  
+	},
 
-	mod: function (DBM) { }
-
-}; 
+	mod: function () {}
+};
