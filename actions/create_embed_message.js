@@ -1,88 +1,20 @@
 module.exports = {
-	//---------------------------------------------------------------------
-	// Action Name
-	//
-	// This is the name of the action displayed in the editor.
-	//---------------------------------------------------------------------
-
-	name: "Create Embed Message" ,
-
-	//---------------------------------------------------------------------
-	// Action Section
-	//
-	// This is the section the action will fall into.
-	//---------------------------------------------------------------------
-
-	section: "Embed Message" ,
-
-	//---------------------------------------------------------------------
-	// Action Subtitle
-	//
-	// This function generates the subtitle displayed next to the name.
-	//---------------------------------------------------------------------
+	name: "Create Embed Message",  
+	section: "Embed Message",  
 
 	subtitle: function(data) {
 		return `${data.title}`;
-	} ,
+	},  
 
-	//---------------------------------------------------------------------
-	// DBM Mods Manager Variables (Optional but nice to have!)
-	//
-	// These are variables that DBM Mods Manager uses to show information
-	// about the mods for people to see in the list.
-	//---------------------------------------------------------------------
-
-	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "DBM, ACertainCoder" ,
-
-	// The version of the mod (Defaults to 1.0.0)
-	version: "1.9.5" , //Added in 1.8.2
-
-	// A short description to show on the mod line for this mod (Must be on a single line)
-	short_description: "Changed category, added author url, the ability to customize the timestamp and a debug button." ,
-
-	// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-	// depends_on_mods: ["WrexMODS"],
-
-	//---------------------------------------------------------------------
-	// Action Storage Function
-	//
-	// Stores the relevant variable info for the editor.
-	//---------------------------------------------------------------------
-
-	variableStorage: function(data ,varType) {
+	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
-		return ([data.varName ,"Embed Message"]);
-	} ,
+		return ([data.varName, "Embed Message"]);
+	},  
 
-	//---------------------------------------------------------------------
-	// Action Fields
-	//
-	// These are the fields for the action. These fields are customized
-	// by creating elements with corresponding IDs in the HTML. These
-	// are also the names of the fields stored in the action's JSON data.
-	//---------------------------------------------------------------------
+	fields: ["title", "author", "color", "url", "authorIcon", "authorUrl", "imageUrl", "thumbUrl", "timestamp", "debug", "timestamp1", "timestamp2", "text", "year", "month", "day", "hour", "minute", "second", "note1", "note2", "storage", "varName"],  
 
-	fields: ["title" ,"author" ,"color" ,"url" ,"authorIcon" ,"authorUrl" ,"imageUrl" ,"thumbUrl" ,"timestamp" ,"debug" ,"timestamp1" ,"timestamp2" ,"text" ,"year" ,"month" ,"day" ,"hour" ,"minute" ,"second" ,"note1" ,"note2" ,"storage" ,"varName"] ,
-
-	//---------------------------------------------------------------------
-	// Command HTML
-	//
-	// This function returns a string containing the HTML used for
-	// editting actions.
-	//
-	// The "isEvent" parameter will be true if this action is being used
-	// for an event. Due to their nature, events lack certain information,
-	// so edit the HTML to reflect this.
-	//
-	// The "data" parameter stores constants for select elements to use.
-	// Each is an array: index 0 for commands, index 1 for events.
-	// The names are: sendTargets, members, roles, channels,
-	//                messages, servers, variables
-	//---------------------------------------------------------------------
-
-	html: function(isEvent ,data) {
+	html: function(isEvent, data) {
 		return `
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
 <div>
@@ -195,18 +127,10 @@ module.exports = {
 	</p>
 </div>
 </div>`;
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Editor Init Code
-	//
-	// When the HTML is first applied to the action editor, this code
-	// is also run. This helps add modifications or setup reactionary
-	// functions for the DOM elements.
-	//---------------------------------------------------------------------
+	},  
 
 	init: function() {
-		const { glob ,document } = this;
+		const { glob, document } = this;
 		const timestampDiv = document.getElementById("timestampDiv");
 		const timestamp = document.getElementById("timestamp");
 		const timestampDivDebug = document.getElementById("timestampDivDebug");
@@ -270,65 +194,57 @@ module.exports = {
 
 		glob.onChange1(document.getElementById("timestamp"));
 		glob.onChange2(document.getElementById("debug"));
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Bot Function
-	//
-	// This is the function for the action within the Bot's Action class.
-	// Keep in mind event calls won't have access to the "msg" parameter,
-	// so be sure to provide checks for variable existance.
-	//---------------------------------------------------------------------
+	},  
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
 		const embed = this.createEmbed();
-		const text = this.evalMessage(data.text ,cache);
-		const year = parseInt(this.evalMessage(data.year ,cache));
-		const month = parseInt(this.evalMessage(data.month ,cache)-1);
-		const day = parseInt(this.evalMessage(data.day ,cache));
-		const hour = parseInt(this.evalMessage(data.hour ,cache));
-		const minute = parseInt(this.evalMessage(data.minute ,cache));
-		const second = parseInt(this.evalMessage(data.second ,cache));
-		const timestamp = this.evalMessage(data.timestamp ,cache);
-		const timestampDebug = this.evalMessage(data.timestampDebug ,cache);
+		const text = this.evalMessage(data.text, cache);
+		const year = parseInt(this.evalMessage(data.year, cache));
+		const month = parseInt(this.evalMessage(data.month, cache)-1);
+		const day = parseInt(this.evalMessage(data.day, cache));
+		const hour = parseInt(this.evalMessage(data.hour, cache));
+		const minute = parseInt(this.evalMessage(data.minute, cache));
+		const second = parseInt(this.evalMessage(data.second, cache));
+		const timestamp = this.evalMessage(data.timestamp, cache);
+		const timestampDebug = this.evalMessage(data.timestampDebug, cache);
 		const debug = this.evalMessage(data.debug);
 
 		if(debug != "true") {
 		//Title
-			embed.setTitle(this.evalMessage(data.title ,cache));
+			embed.setTitle(this.evalMessage(data.title, cache));
 
 			//URL
 			if(data.url) {
-				embed.setURL(this.evalMessage(data.url ,cache));
+				embed.setURL(this.evalMessage(data.url, cache));
 			}
 
 			//Author Name
 			if(data.author) {
 				if(data.authorIcon && data.authorUrl) {
-					embed.setAuthor(this.evalMessage(data.author ,cache) ,this.evalMessage(data.authorIcon ,cache) ,this.evalMessage(data.authorUrl ,cache));
+					embed.setAuthor(this.evalMessage(data.author, cache), this.evalMessage(data.authorIcon, cache), this.evalMessage(data.authorUrl, cache));
 				} else if(data.authorIcon && !data.authorUrl) {
-					embed.setAuthor(this.evalMessage(data.author ,cache) ,this.evalMessage(data.authorIcon ,cache));
+					embed.setAuthor(this.evalMessage(data.author, cache), this.evalMessage(data.authorIcon, cache));
 				} else if(!data.authorIcon && data.authorUrl) {
-					embed.setAuthor(this.evalMessage(data.author ,cache) ,"" ,this.evalMessage(data.authorUrl ,cache));
+					embed.setAuthor(this.evalMessage(data.author, cache), "", this.evalMessage(data.authorUrl, cache));
 				} else {
-					embed.setAuthor(this.evalMessage(data.author ,cache));
+					embed.setAuthor(this.evalMessage(data.author, cache));
 				}
 			}
 
 			//Color
 			if(data.color) {
-				embed.setColor(this.evalMessage(data.color ,cache));
+				embed.setColor(this.evalMessage(data.color, cache));
 			}
 
 			//Image URL
 			if(data.imageUrl) {
-				embed.setImage(this.evalMessage(data.imageUrl ,cache));
+				embed.setImage(this.evalMessage(data.imageUrl, cache));
 			}
 
 			//Thumbnail URL
 			if(data.thumbUrl) {
-				embed.setThumbnail(this.evalMessage(data.thumbUrl ,cache));
+				embed.setThumbnail(this.evalMessage(data.thumbUrl, cache));
 			}
 
 			//Timestamp
@@ -349,15 +265,15 @@ module.exports = {
 				case "custom":
 					if(year >= 1000 && year !== undefined && month >= 0 && month !== undefined && day >= 0 && day !== undefined && hour >= 0 && hour !== undefined && minute >= 0 && minute !== undefined && second >= 0 && second !== undefined) {
 						if(year !== undefined && month !== undefined && day !== undefined && hour !== undefined && minute !== undefined && second !== undefined) {
-							embed.setTimestamp(new Date(year ,month ,day ,hour ,minute ,second));
+							embed.setTimestamp(new Date(year, month, day, hour, minute, second));
 						} else if(year !== undefined && month !== undefined && day !== undefined && hour !== undefined && minute !== undefined && second == undefined) {
-							embed.setTimestamp(new Date(year ,month ,day ,hour ,minute));
+							embed.setTimestamp(new Date(year, month, day, hour, minute));
 						} else if(year !== undefined && month !== undefined && day !== undefined && hour !== undefined && minute == undefined && second == undefined) {
-							embed.setTimestamp(new Date(year ,month ,day ,hour));
+							embed.setTimestamp(new Date(year, month, day, hour));
 						} else if(year !== undefined && month !== undefined && day !== undefined && hour == undefined && minute == undefined && second == undefined) {
-							embed.setTimestamp(new Date(year ,month ,day));
+							embed.setTimestamp(new Date(year, month, day));
 						} else if(year !== undefined && month !== undefined && day == undefined && hour == undefined && minute == undefined && second == undefined) {
-							embed.setTimestamp(new Date(year ,month));
+							embed.setTimestamp(new Date(year, month));
 						} else if(year !== undefined && month == undefined && day == undefined && hour == undefined && minute == undefined && second == undefined) {
 							embed.setTimestamp(new Date(year));
 						} else {
@@ -375,46 +291,37 @@ module.exports = {
 			}
 
 			const storage = parseInt(data.storage);
-			const varName = this.evalMessage(data.varName ,cache);
-			this.storeValue(embed ,storage ,varName ,cache);
+			const varName = this.evalMessage(data.varName, cache);
+			this.storeValue(embed, storage, varName, cache);
 			this.callNextAction(cache);
 		} else {
 			const data = cache.actions[cache.index];
 			const embed = this.createEmbed();
-			embed.setTitle(this.evalMessage(data.title ,cache));
+			embed.setTitle(this.evalMessage(data.title, cache));
 			if(data.url) {
-				embed.setURL(this.evalMessage(data.url ,cache));
+				embed.setURL(this.evalMessage(data.url, cache));
 			}
 			if(data.author && data.authorIcon) {
-				embed.setAuthor(this.evalMessage(data.author ,cache) ,this.evalMessage(data.authorIcon ,cache));
+				embed.setAuthor(this.evalMessage(data.author, cache), this.evalMessage(data.authorIcon, cache));
 			}
 			if(data.color) {
-				embed.setColor(this.evalMessage(data.color ,cache));
+				embed.setColor(this.evalMessage(data.color, cache));
 			}
 			if(data.imageUrl) {
-				embed.setImage(this.evalMessage(data.imageUrl ,cache));
+				embed.setImage(this.evalMessage(data.imageUrl, cache));
 			}
 			if(data.thumbUrl) {
-				embed.setThumbnail(this.evalMessage(data.thumbUrl ,cache));
+				embed.setThumbnail(this.evalMessage(data.thumbUrl, cache));
 			}
 			if(timestampDebug === "true") {
 				embed.setTimestamp(new Date());
 			}
 			const storage = parseInt(data.storage);
-			const varName = this.evalMessage(data.varName ,cache);
-			this.storeValue(embed ,storage ,varName ,cache);
+			const varName = this.evalMessage(data.varName, cache);
+			this.storeValue(embed, storage, varName, cache);
 			this.callNextAction(cache);
 		}
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Bot Mod
-	//
-	// Upon initialization of the bot, this code is run. Using the bot's
-	// DBM namespace, one can add/modify existing functions if necessary.
-	// In order to reduce conflictions between mods, be sure to alias
-	// functions you wish to overwrite.
-	//---------------------------------------------------------------------
+	},  
 
 	mod: function(DBM) {
 		const DiscordJS = DBM.DiscordJS;
@@ -425,4 +332,4 @@ module.exports = {
 		};
 	}
 
-}; // End of module
+}; 

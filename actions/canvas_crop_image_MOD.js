@@ -1,62 +1,15 @@
 module.exports = {
-	//---------------------------------------------------------------------
-	// Action Name
-	//
-	// This is the name of the action displayed in the editor.
-	//---------------------------------------------------------------------
-
-	name: "Canvas Crop Image" ,
-
-	//---------------------------------------------------------------------
-	// Action Section
-	//
-	// This is the section the action will fall into.
-	//---------------------------------------------------------------------
-
-	section: "Image Editing" ,
-
-	//---------------------------------------------------------------------
-	// Action Subtitle
-	//
-	// This function generates the subtitle displayed next to the name.
-	//---------------------------------------------------------------------
+	name: "Canvas Crop Image",  
+	section: "Image Editing",  
 
 	subtitle: function(data) {
-		const storeTypes = ["" ,"Temp Variable" ,"Server Variable" ,"Global Variable"];
+		const storeTypes = ["", "Temp Variable", "Server Variable", "Global Variable"];
 		return `${storeTypes[parseInt(data.storage)]} (${data.varName})`;
-	} ,
+	},  
 
-	//https://github.com/LeonZ2019/
-	author: "LeonZ" ,
-	version: "1.1.0" ,
+	fields: ["storage", "varName", "align", "align2", "width", "height", "positionx", "positiony"],  
 
-	//---------------------------------------------------------------------
-	// Action Fields
-	//
-	// These are the fields for the action. These fields are customized
-	// by creating elements with corresponding IDs in the HTML. These
-	// are also the names of the fields stored in the action's JSON data.
-	//---------------------------------------------------------------------
-
-	fields: ["storage" ,"varName" ,"align" ,"align2" ,"width" ,"height" ,"positionx" ,"positiony"] ,
-
-	//---------------------------------------------------------------------
-	// Command HTML
-	//
-	// This function returns a string containing the HTML used for
-	// editting actions.
-	//
-	// The "isEvent" parameter will be true if this action is being used
-	// for an event. Due to their nature, events lack certain information,
-	// so edit the HTML to reflect this.
-	//
-	// The "data" parameter stores constants for select elements to use.
-	// Each is an array: index 0 for commands, index 1 for events.
-	// The names are: sendTargets, members, roles, channels,
-	//                messages, servers, variables
-	//---------------------------------------------------------------------
-
-	html: function(isEvent ,data) {
+	html: function(isEvent, data) {
 		return `
 <div>
 	<div style="float: left; width: 45%;">
@@ -120,18 +73,10 @@ module.exports = {
 		<input id="positiony" class="round" type="text" value="0"><br>
 	</div>
 </div>`;
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Editor Init Code
-	//
-	// When the HTML is first applied to the action editor, this code
-	// is also run. This helps add modifications or setup reactionary
-	// functions for the DOM elements.
-	//---------------------------------------------------------------------
+	},  
 
 	init: function() {
-		const { glob ,document } = this;
+		const { glob, document } = this;
 
 		const position = document.getElementById("position");
 		const specific = document.getElementById("specific");
@@ -148,30 +93,22 @@ module.exports = {
 
 		glob.refreshVariableList(document.getElementById("storage"));
 		glob.onChange0(document.getElementById("align"));
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Bot Function
-	//
-	// This is the function for the action within the Bot's Action class.
-	// Keep in mind event calls won't have access to the "msg" parameter,
-	// so be sure to provide checks for variable existance.
-	//---------------------------------------------------------------------
+	},  
 
 	action: function(cache) {
 		const Canvas = require("canvas");
 		const data = cache.actions[cache.index];
 		const storage = parseInt(data.storage);
-		const varName = this.evalMessage(data.varName ,cache);
-		const imagedata = this.getVariable(storage ,varName ,cache);
+		const varName = this.evalMessage(data.varName, cache);
+		const imagedata = this.getVariable(storage, varName, cache);
 		if(!imagedata) {
 			this.callNextAction(cache);
 			return;
 		}
 		const image = new Canvas.Image();
 		image.src = imagedata;
-		let cropw = this.evalMessage(data.width ,cache);
-		let croph = this.evalMessage(data.height ,cache);
+		let cropw = this.evalMessage(data.width, cache);
+		let croph = this.evalMessage(data.height, cache);
 		if (cropw.endsWith("%")) {
 			cropw = image.width * parseFloat(cropw) / 100;
 		} else {
@@ -224,8 +161,8 @@ module.exports = {
 				break;
 			case 9:
 				const align2 = parseInt(data.align2);
-				const pX = parseFloat(this.evalMessage(data.positionx ,cache));
-				const pY = parseFloat(this.evalMessage(data.positiony ,cache));
+				const pX = parseFloat(this.evalMessage(data.positionx, cache));
+				const pY = parseFloat(this.evalMessage(data.positiony, cache));
 				switch(align2) {
 					case 0:
 						positionx = -pX;
@@ -266,22 +203,13 @@ module.exports = {
 				}
 				break;
 		}
-		const canvas = Canvas.createCanvas(cropw ,croph);
+		const canvas = Canvas.createCanvas(cropw, croph);
 		const ctx = canvas.getContext("2d");
-		ctx.drawImage(image ,positionx ,positiony);
-		const result = canvas.toDataURL("image/png").replace("image/png" ,"image/octet-stream");
-		this.storeValue(result ,storage ,varName ,cache);
+		ctx.drawImage(image, positionx, positiony);
+		const result = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+		this.storeValue(result, storage, varName, cache);
 		this.callNextAction(cache);
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Bot Mod
-	//
-	// Upon initialization of the bot, this code is run. Using the bot's
-	// DBM namespace, one can add/modify existing functions if necessary.
-	// In order to reduce conflictions between mods, be sure to alias
-	// functions you wish to overwrite.
-	//---------------------------------------------------------------------
+	},  
 
 	mod: function() {}
-}; // End of module
+}; 

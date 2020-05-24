@@ -53,7 +53,7 @@ class EmitEvent {
      * The fields used in the actions JSON data and HTML elements.
      * @type {Array<string>}
      */
-		this.fields = ["eventType" ,"firstArg" ,"secondArg"];
+		this.fields = ["eventType", "firstArg", "secondArg"];
 	}
 
 	/**
@@ -97,8 +97,8 @@ class EmitEvent {
 			const wrexlink = wrexlinks[i];
 			const url = wrexlink.getAttribute("data-url2");
 			if (url) {
-				wrexlink.setAttribute("title" ,url);
-				wrexlink.addEventListener("click" ,function(e) {
+				wrexlink.setAttribute("title", url);
+				wrexlink.addEventListener("click", function(e) {
 					e.stopImmediatePropagation();
 					execSync(`start ${url}`);
 				});
@@ -119,11 +119,11 @@ class EmitEvent {
 		const event = this.evalMessage(data.eventType);
 		if (!events.includes(event)) return console.error(`${this.name} (#${cache.index + 1}): Unkown event type.`);
 
-		const firstArg = this.evalMessage(data.firstArg ,cache);
-		const secondArg = this.evalMessage(data.secondArg ,cache);
+		const firstArg = this.evalMessage(data.firstArg, cache);
+		const secondArg = this.evalMessage(data.secondArg, cache);
 
 		const client = this.getDBM().Bot.bot;
-		client.emit(event ,firstArg ,secondArg);
+		client.emit(event, firstArg, secondArg);
 	}
 
 	/**

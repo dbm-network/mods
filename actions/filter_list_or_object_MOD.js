@@ -1,95 +1,24 @@
 module.exports = {
-	//---------------------------------------------------------------------
-	// Action Name
-	//
-	// This is the name of the action displayed in the editor.
-	//---------------------------------------------------------------------
-
-	name: "Filter List/Object" ,
-
-	//---------------------------------------------------------------------
-	// Action Section
-	//
-	// This is the section the action will fall into.
-	//---------------------------------------------------------------------
-
-	section: "Lists and Loops" ,
-
-	//---------------------------------------------------------------------
-	// Action Subtitle
-	//
-	// This function generates the subtitle displayed next to the name.
-	//---------------------------------------------------------------------
+	name: "Filter List/Object",  
+	section: "Lists and Loops",  
 
 	subtitle: function (data) {
-		const storages = ["" ,"Temp Variable" ,"Server Variable" ,"Global Variable"];
+		const storages = ["", "Temp Variable", "Server Variable", "Global Variable"];
 		return `Filter ${storages[parseInt(data.storage)]} "${data.varName}"`;
-	} ,
+	},  
 
-	//---------------------------------------------------------------------
-	// DBM Mods Manager Variables (Optional but nice to have!)
-	//
-	// These are variables that DBM Mods Manager uses to show information
-	// about the mods for people to see in the list.
-	//---------------------------------------------------------------------
-
-	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "ACertainCoder" ,
-
-	// The version of the mod (Defaults to 1.0.0)
-	version: "1.9.6" , //Added in 1.9.6
-
-	// A short description to show on the mod line for this mod (Must be on a single line)
-	short_description: "This mod will filter a JavaScript object or list." ,
-
-	// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-	// depends_on_mods: ["WrexMODS"],
-
-	//---------------------------------------------------------------------
-
-	//---------------------------------------------------------------------
-	// Action Storage Function
-	//
-	// Stores the relevant variable info for the editor.
-	//---------------------------------------------------------------------
-
-	variableStorage: function (data ,varType) {
+	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage2);
 		if (type !== varType) return;
 		let dataType = "List / Object";
-		return ([data.varName2 ,dataType]);
-	} ,
+		return ([data.varName2, dataType]);
+	},  
 
-	//---------------------------------------------------------------------
-	// Action Fields
-	//
-	// These are the fields for the action. These fields are customized
-	// by creating elements with corresponding IDs in the HTML. These
-	// are also the names of the fields stored in the action's JSON data.
-	//---------------------------------------------------------------------
+	fields: ["storage", "varName", "type", "value", "value2", "storage2", "varName2"],  
 
-	fields: ["storage" ,"varName" ,"type" ,"value" ,"value2" ,"storage2" ,"varName2"] ,
-
-	//---------------------------------------------------------------------
-	// Command HTML
-	//
-	// This function returns a string containing the HTML used for
-	// editting actions.
-	//
-	// The "isEvent" parameter will be true if this action is being used
-	// for an event. Due to their nature, events lack certain information,
-	// so edit the HTML to reflect this.
-	//
-	// The "data" parameter stores constants for select elements to use.
-	// Each is an array: index 0 for commands, index 1 for events.
-	// The names are: sendTargets, members, roles, channels,
-	//                messages, servers, variables
-	//---------------------------------------------------------------------
-
-	html: function (isEvent ,data) {
+	html: function (isEvent, data) {
 		return `
 	<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
-	<p>Made by ${this.author}<br>Idea by Almeida#0001</p><br>
 	<div>
 		<div style="float: left; width: 35%;">
 			Source Variable:<br>
@@ -154,21 +83,13 @@ module.exports = {
 		color:#4676b9;
 	}
 </style>`;
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Editor Init Code
-	//
-	// When the HTML is first applied to the action editor, this code
-	// is also run. This helps add modifications or setup reactionary
-	// functions for the DOM elements.
-	//---------------------------------------------------------------------
+	},  
 
 	init: function () {
-		const { glob ,document } = this;
+		const { glob, document } = this;
 
 		try {
-			var WrexMods = require(require("path").join(__dirname ,"aaa_wrexmods_dependencies_MOD.js")).getWrexMods();
+			var WrexMods = require(require("path").join(__dirname, "aaa_wrexmods_dependencies_MOD.js")).getWrexMods();
 
 			var wrexlinks = document.getElementsByClassName("wrexlink");
 			for(var x = 0; x < wrexlinks.length; x++) {
@@ -176,16 +97,16 @@ module.exports = {
 				var wrexlink = wrexlinks[x];
 				var url = wrexlink.getAttribute("data-url");
 				if(url){
-					wrexlink.setAttribute("title" ,url);
-					wrexlink.addEventListener("click" ,function(e){
+					wrexlink.setAttribute("title", url);
+					wrexlink.addEventListener("click", function(e){
 						e.stopImmediatePropagation();
 						console.log("Launching URL: [" + url + "] in your default browser.");
 						require("child_process").execSync("start " + url);
 					});
 				}
 			}
-		} catch (error) {//Write any init errors to errors.txt in dbm's main directory
-			require("fs").appendFile("errors.txt" ,error.stack ? error.stack : error + "\r\n");
+		} catch (error) {
+			require("fs").appendFile("errors.txt", error.stack ? error.stack : error + "\r\n");
 		}
 
 		glob.onChange1 = function() {
@@ -217,26 +138,18 @@ module.exports = {
 		};
 
 		glob.onChange1(document.getElementById("type"));
-		glob.variableChange(document.getElementById("storage") ,"varNameContainer");
-		glob.variableChange(document.getElementById("storage2") ,"varNameContainer2");
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Bot Function
-	//
-	// This is the function for the action within the Bot's Action class.
-	// Keep in mind event calls won't have access to the "msg" parameter,
-	// so be sure to provide checks for variable existance.
-	//---------------------------------------------------------------------
+		glob.variableChange(document.getElementById("storage"), "varNameContainer");
+		glob.variableChange(document.getElementById("storage2"), "varNameContainer2");
+	},  
 
 	action: function (cache) {
 		const data = cache.actions[cache.index];
 
 		const storage = parseInt(data.storage);
-		const varName = this.evalMessage(data.varName ,cache);
-		const variable = this.getVariable(storage ,varName ,cache);
-		const value = this.evalMessage(data.value ,cache);//Filter To
-		const value2 = this.evalMessage(data.value2 ,cache);//Filter From
+		const varName = this.evalMessage(data.varName, cache);
+		const variable = this.getVariable(storage, varName, cache);
+		const value = this.evalMessage(data.value, cache);//Filter To
+		const value2 = this.evalMessage(data.value2, cache);//Filter From
 		let result;
 
 		if(value2 !== "" && value2 !== undefined) {
@@ -260,7 +173,7 @@ module.exports = {
 					result = variable.filter(item => item[value2].indexOf(value));
 					break;
 				case 6://Regex
-					result = variable.filter(item => item[value2].match(new RegExp("^" + value + "$" ,"i")));
+					result = variable.filter(item => item[value2].match(new RegExp("^" + value + "$", "i")));
 					break;
 				case 7://Full Regex
 					result = variable.filter(item => item[value2].match(new RegExp(value)));
@@ -304,7 +217,7 @@ module.exports = {
 					result = variable.filter(item => item.indexOf(value));
 					break;
 				case 6://Regex
-					result = variable.filter(item => item.match(new RegExp("^" + value + "$" ,"i")));
+					result = variable.filter(item => item.match(new RegExp("^" + value + "$", "i")));
 					break;
 				case 7://Full Regex
 					result = variable.filter(item => item.match(new RegExp(value)));
@@ -331,23 +244,14 @@ module.exports = {
 
 		if (result !== undefined) {
 			const storage2 = parseInt(data.storage2);
-			const varName2 = this.evalMessage(data.varName2 ,cache);
-			this.storeValue(result ,storage2 ,varName2 ,cache);
+			const varName2 = this.evalMessage(data.varName2, cache);
+			this.storeValue(result, storage2, varName2, cache);
 		}
 		this.callNextAction(cache);
-	} ,
-
-	//---------------------------------------------------------------------
-	// Action Bot Mod
-	//
-	// Upon initialization of the bot, this code is run. Using the bot's
-	// DBM namespace, one can add/modify existing functions if necessary.
-	// In order to reduce conflictions between mods, be sure to alias
-	// functions you wish to overwrite.
-	//---------------------------------------------------------------------
+	},  
 
 	mod: function (DBM) {
 
 	}
 
-}; // End of module
+}; 
