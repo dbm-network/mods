@@ -1,13 +1,13 @@
 module.exports = {
-	name: "Set Server Owner",  
-	section: "Server Control",  
+	name: "Set Server Owner",
+	section: "Server Control",
 
 	subtitle: function(data) {
 		const members = ["Mentioned User", "Command Author", "Temp Variable", "Server Variable", "Global Variable"];
 		return `${members[data.member]} ${data.member < 2 ? "" : `- ${data.varName2}`} ${!data.reason ? "" : `with Reason: <i>${data.reason}<i>`}`;
-	},  
+	},
 
-	fields: ["server", "varName", "member", "varName2", "reason"],  
+	fields: ["server", "varName", "member", "varName2", "reason"],
 
 	html: function(isEvent, data) {
 		return `
@@ -39,14 +39,14 @@ module.exports = {
 	Reason:<br>
 	<textarea id="reason" rows="2" placeholder="Insert reason here... (optional)" style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.serverChange(document.getElementById("server"), "varNameContainer");
 		glob.memberChange(document.getElementById("member"), "varNameContainer2");
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -72,7 +72,7 @@ module.exports = {
 		} else {
 			this.callNextAction(cache);
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

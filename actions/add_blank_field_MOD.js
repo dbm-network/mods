@@ -1,13 +1,13 @@
 module.exports = {
-	name: "Add Blank Embed Field",  
-	section: "Embed Message",  
+	name: "Add Blank Embed Field",
+	section: "Embed Message",
 
 	subtitle: function(data) {
 		const info = [".", "Temp Variable", "Server Variable", "Global Variable"];
 		return `${info[parseInt(data.storage)]}: ${data.varName}`;
-	},  
+	},
 
-	fields: ["storage", "varName"],  
+	fields: ["storage", "varName"],
 
 	html: function(isEvent, data) {
 		return `
@@ -23,9 +23,9 @@ module.exports = {
 		<input id="varName" class="round varSearcher" type="text" list="variableList"><br>
 	</div>
 </div>`;
-	},  
+	},
 
-	init: function() {},  
+	init: function() {},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -36,7 +36,7 @@ module.exports = {
 			embed.addBlankField();
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

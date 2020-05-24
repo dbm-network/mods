@@ -1,19 +1,19 @@
 module.exports = {
-	name: "Translate",  
-	section: "Other Stuff",  
+	name: "Translate",
+	section: "Other Stuff",
 
 	subtitle: function (data) {
 		return `Translate to [${data.translateTo}]`;
-	},  
+	},
 
 	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		let dataType = "Translated String";
 		return ([data.varName, dataType]);
-	},  
+	},
 
-	fields: ["translateTo", "translateMessage", "storage", "varName"],  
+	fields: ["translateTo", "translateMessage", "storage", "varName"],
 
 	html: function (isEvent, data) {
 		return `
@@ -39,13 +39,13 @@ module.exports = {
 		<input id="varName" class="round" type="text">
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function () {
 		const { glob, document } = this;
 
 		glob.variableChange(document.getElementById("storage"), "varNameContainer");
-	},  
+	},
 
 	action: function (cache) {
 
@@ -63,7 +63,7 @@ module.exports = {
 		const translate = WrexMODS.require("node-google-translate-skidz");
 
 		translate({
-			text: translateMessage,  
+			text: translateMessage,
 			target: translateTo
 		}, function (result) {
 			if(result.translation !== undefined) {
@@ -71,8 +71,8 @@ module.exports = {
 			}
 			_this.callNextAction(cache);
 		});
-	},  
+	},
 
-	mod: function (DBM) {}
+	mod: function () {}
 
-}; 
+};

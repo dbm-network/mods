@@ -1,13 +1,13 @@
 module.exports = {
-	name: "Sends Stats to DBL",  
-	section: "Other Stuff",  
+	name: "Sends Stats to DBL",
+	section: "Other Stuff",
 
 	subtitle: function (data) {
 		const info = ["Only Server Count", "Shard & Server Count"];
 		return `Send ${info[parseInt(data.info)]} to DBL!`;
-	},  
+	},
 
-	fields: ["dblToken", "info"],  
+	fields: ["dblToken", "info"],
 
 	html: function (isEvent, data) {
 		return `
@@ -28,15 +28,15 @@ module.exports = {
 	</p>
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function () {
-	},  
+	},
 
 	action: function (cache) {
-		const data = cache.actions[cache.index],  
-			token = this.evalMessage(data.dblToken, cache),  
-			info = parseInt(data.info),  
+		const data = cache.actions[cache.index],
+			token = this.evalMessage(data.dblToken, cache),
+			info = parseInt(data.info),
 			snek = require("snekfetch");
 
 		switch (info) {
@@ -55,8 +55,8 @@ module.exports = {
 		}
 
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function () {}
 
-}; 
+};

@@ -1,6 +1,6 @@
 module.exports = {
-	name: "Bot Typing",  
-	section: "Bot Client Control",  
+	name: "Bot Typing",
+	section: "Bot Client Control",
 
 	subtitle: function(data) {
 		const names = ["Same Channel", "Mentioned Channel", "Default Channel", "Temp Variable", "Server Variable", "Global Variable"];
@@ -8,9 +8,9 @@ module.exports = {
 		const index2 = parseInt(data.EliteArtzIsPro);
 		const index = parseInt(data.storage);
 		return index < 3 ? `${names[index]} - ${names2[index2]}` : `${names[index]} - ${data.varName} - ${names2[index2]}`;
-	},  
+	},
 
-	fields: ["storage", "varName", "EliteArtzIsPro"],  
+	fields: ["storage", "varName", "EliteArtzIsPro"],
 
 	html: function(isEvent, data) {
 		return `
@@ -40,13 +40,13 @@ module.exports = {
 			You can stop the typing with <b>Stop Typing</b>
 		</p>
 	</div><br>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.channelChange(document.getElementById("storage"), "varNameContainer");
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -67,7 +67,7 @@ module.exports = {
 		}
 
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

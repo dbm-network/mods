@@ -1,15 +1,15 @@
 module.exports = {
-	name: "Stop RSS Feed Watcher",  
-	section: "Other Stuff",  
+	name: "Stop RSS Feed Watcher",
+	section: "Other Stuff",
 
 	subtitle: function (data) {
 		return `${data.url}`;
-	},  
+	},
 
 	variableStorage: function (data, varType) {
-	},  
+	},
 
-	fields: ["storage", "varName"],  
+	fields: ["storage", "varName"],
 
 	html: function (isEvent, data) {
 		return `
@@ -24,9 +24,9 @@ module.exports = {
 		Variable Name:<br>
 		<input id="varName" class="round" type="text" list="variableList"><br>
 	</div>`;
-	},  
+	},
 
-	init: function () {},  
+	init: function () {},
 
 	action: function (cache) {
 		const data = cache.actions[cache.index];
@@ -41,8 +41,8 @@ module.exports = {
 
 		this.callNextAction(cache);
 
-	},  
+	},
 
-	mod: function (DBM) {}
+	mod: function () {}
 
-}; 
+};

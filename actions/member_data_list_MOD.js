@@ -1,18 +1,18 @@
 module.exports = {
-	name: "Store Member Data List",  
-	section: "Member Control",  
-	
+	name: "Store Member Data List",
+	section: "Member Control",
+
 	subtitle: function (data) {
 		return `${[(data.dataName)]}`;
-	},  
+	},
 
 	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		return ([data.varName2, "Array"]);
-	},  
+	},
 
-	fields: ["debu", "numbefst2", "numbefst", "numbefstselect", "sort", "start", "middle", "end", "getresults", "dataName", "varName2", "storage"],  
+	fields: ["debu", "numbefst2", "numbefst", "numbefstselect", "sort", "start", "middle", "end", "getresults", "dataName", "varName2", "storage"],
 
 	html: function (isEvent, data) {
 		return `
@@ -99,11 +99,11 @@ Char after Number:<br>
 </select><br>
 </div>
 </html>`;
-	},  
+	},
 
 	init: function () {
 		const {
-			glob,  
+			glob,
 			document
 		} = this;
 		glob.onChange1 = function(event) {
@@ -121,7 +121,7 @@ Char after Number:<br>
 
 		};
 		glob.onChange1(document.getElementById("numbefstselect"));
-	},  
+	},
 
 	action: function (cache) {
 		var _this = this;
@@ -140,16 +140,12 @@ Char after Number:<br>
 		const debug = parseInt(data.debu);
 		const WrexMODS = this.getWrexMods();
 
-
 		var Discord = WrexMODS.require("discord.js");
 		var fastsort = WrexMODS.require("fast-sort");
 		var client = new Discord.Client();
 		const { JSONPath } = WrexMODS.require("jsonpath-plus");
-		fs = require("fs");
+		const fs = require("fs");
 		var file = fs.readFileSync("./data/players.json", "utf8");
-
-
-
 
 		if (file) {
 			var dataName = this.evalMessage(data.dataName, cache);
@@ -163,52 +159,37 @@ Char after Number:<br>
 			var list5 = [];
 
 			if (val !== undefined) {
-				var file = JSON.parse(file);
+				const file = JSON.parse(file);
 				try {
-					var list = [];
+					const list = [];
 					var result = JSONPath({
-						path: "$.[?(@" + dataName + " || @" + dataName + " > -9999999999999999999999999999999999999999999999999999999)]*~",  
+						path: "$.[?(@" + dataName + " || @" + dataName + " > -9999999999999999999999999999999999999999999999999999999)]*~",
 						json: file
 					});
 					var pull = result;
 
-					function sortNumber(a, b) {
-						return b - a;
-					}
 					for (var i = 0; i < result.length; i++) {
 
 						var result2 = JSONPath({
-							path: "$." + result[i] + dataName,  
+							path: "$." + result[i] + dataName,
 							json: file
 						});
 
 						try {
-
 							var user = msg.guild.members.get(result[i]);
-
-							tag = user.user.tag;
+							let tag = user.user.tag;
 
 							var name2 = "'" + "name" + "'";
 							var id = "'" + "id" + "'";
 							var tag2 = "" + tag + "";
 							var res2 = "" + result2 + "";
 
-
 							list.push({
-								id: tag2,  
+								id: tag2,
 								name2: res2
 							});
-
-
 						} catch (err) {
-							switch (debug) {
-								case 0:
-									console.log(err);
-									break;
-								case 1:
-									break;
-							}
-
+							if (debug === 0) console.log(err);
 						}
 					}
 					switch (sort) {
@@ -225,12 +206,9 @@ Char after Number:<br>
 					}
 
 					var result2 = JSON.stringify(result);
-
 					var getres = parseInt(this.evalMessage(data.getresults, cache));
 
-
 					if (!getres) {
-
 						getres = result.length;
 					}
 
@@ -238,15 +216,15 @@ Char after Number:<br>
 						var result2 = JSON.stringify(list[i]);
 
 						try {
-							var file = JSON.parse(result2);
-
+							const file = JSON.parse(result2);
 
 							var res = JSONPath({
-								path: "$..name2",  
+								path: "$..name2",
 								json: file
 							});
-							var res2 = JSONPath({
-								path: "$..id",  
+
+							const res2 = JSONPath({
+								path: "$..id",
 								json: file
 							});
 
@@ -263,54 +241,29 @@ Char after Number:<br>
 							list5.push("easter egg :eyes:");
 							switch (selectionsnum) {
 								case 1:
-
-
 									list2.push(st2 + middle + en2 + "\n");
 									break;
 								case 2:
-
 									var num = list5.length;
 									var numbef = this.evalMessage(data.numbefst2, cache);
 									list2.push(num + numbef + " " + st2 + middle + en2 + "\n");
 									break;
 							}
-
 						} catch (err) {
-							switch (debug) {
-								case 0:
-									console.log(err);
-									break;
-								case 1:
-									break;
-							}
+							if (debug === 0) console.log(err);
 						}
 
-
-
-
 						list4 = list2.join("");
-
 					}
 
 					_this.storeValue(list4, storage, varName2, cache);
 					_this.callNextAction(cache);
 				} catch (err) {
-					switch (debug) {
-						case 0:
-							console.log(err);
-							break;
-						case 1:
-							break;
-					}
+					if (debug === 0) console.log(err);
 				}
-
 			}
 		}
+	},
 
-
-
-	},  
-
-	mod: function (DBM) {}
-
-}; 
+	mod: function () {}
+};

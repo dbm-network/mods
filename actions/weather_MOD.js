@@ -1,11 +1,11 @@
 module.exports = {
-	name: "Weather",  
-	section: "Other Stuff",  
+	name: "Weather",
+	section: "Other Stuff",
 
 	subtitle: function (data) {
 		const info = ["Temperature", "Weather Text", "Date", "City", "Country", "Region", "Wind Speed", "Wind Chill", "Wind Direction", "Humidity", "Pressure", "Atmosphere Visibility", "Sunrise Time", "Sunset Time", "Feelslike", "Image URL", "Current Day"];
 		return `${info[parseInt(data.info)]}`;
-	},  
+	},
 
 	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage);
@@ -66,9 +66,9 @@ module.exports = {
 				break;
 		}
 		return ([data.varName, dataType]);
-	},  
+	},
 
-	fields: ["city", "degreeType", "info", "storage", "varName"],  
+	fields: ["city", "degreeType", "info", "storage", "varName"],
 
 	html: function (isEvent, data) {
 		return `
@@ -111,32 +111,34 @@ module.exports = {
 			<input id="varName" class="round" type="text"><br>
 		</div>
 	</div><br><br>`;
-	},  
+	},
 
 	init: function () {
 		const { glob, document } = this;
 		glob.variableChange(document.getElementById("storage"), "varNameContainer");
-	},  
+	},
 
 	action: function (cache) {
-		const data = cache.actions[cache.index],  
-			info = parseInt(data.info),  
-			city = this.evalMessage(data.city, cache),  
-			degreeType2 = this.evalMessage(data.degreeType, cache),  
+		const data = cache.actions[cache.index],
+			info = parseInt(data.info),
+			city = this.evalMessage(data.city, cache),
+			degreeType2 = this.evalMessage(data.degreeType, cache),
 			_this = this;
 
 		if (!city) return console.log("Please specify a city to get weather informations.");
 
-		const WrexMODS = this.getWrexMods(), 
+		const WrexMODS = this.getWrexMods(),
 			weather = WrexMODS.require("weather-js");
 
 		weather.find({ search: `${city}`, degreeType: `${degreeType2}` }, function (err, response) {
 			if (err || !response || response.length < 1) {
-				const storage = parseInt(data.storage),  
+				const storage = parseInt(data.storage),
 					varName2 = _this.evalMessage(data.varName, cache);
 				_this.storeValue(undefined, storage, varName2, cache);
 				_this.callNextAction(cache);
 			} else {
+				let result;
+
 				switch (info) { // Never use deprecated results. Current API doesn't support any of them. RIP old module...
 					case 0:
 						result = response[0].current.temperature;
@@ -193,15 +195,14 @@ module.exports = {
 						break;
 				}
 				if (result !== undefined) {
-					const storage = parseInt(data.storage),  
+					const storage = parseInt(data.storage),
 						varName2 = _this.evalMessage(data.varName, cache);
 					_this.storeValue(result, storage, varName2, cache);
 				}
 				_this.callNextAction(cache);
 			}
 		});
-	},  
+	},
 
-	mod: function (DBM) { }
-
-}; 
+	mod: function () {}
+};

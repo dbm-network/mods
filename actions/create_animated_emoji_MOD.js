@@ -1,18 +1,18 @@
 module.exports = {
-	name: "Create Animated Emoji",  
-	section: "Emoji Control",  
+	name: "Create Animated Emoji",
+	section: "Emoji Control",
 
 	subtitle: function(data) {
 		return `${data.emojiName}`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage2);
 		if(type !== varType) return;
 		return ([data.varName2, "Animated Emoji"]);
-	},  
+	},
 
-	fields: ["emojiName", "storage", "varName", "storage2", "varName2"],  
+	fields: ["emojiName", "storage", "varName", "storage2", "varName2"],
 
 	html: function(isEvent, data) {
 		return `
@@ -44,7 +44,7 @@ module.exports = {
 		<input id="varName2" class="round" type="text">
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
@@ -61,7 +61,7 @@ module.exports = {
 
 		glob.refreshVariableList(document.getElementById("storage"));
 		glob.onChange1(document.getElementById("storage2"));
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -80,7 +80,7 @@ module.exports = {
 		} else {
 			this.callNextAction(cache);
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

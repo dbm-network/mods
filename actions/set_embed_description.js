@@ -1,12 +1,12 @@
 module.exports = {
-	name: "Set Embed Description",  
-	section: "Embed Message",  
+	name: "Set Embed Description",
+	section: "Embed Message",
 
 	subtitle: function(data) {
 		return `${data.message}`;
-	},  
+	},
 
-	fields: ["storage", "varName", "message"],  
+	fields: ["storage", "varName", "message"],
 
 
 	html: function(isEvent, data) {
@@ -28,9 +28,9 @@ module.exports = {
 	Description:<br>
 	<textarea id="message" rows="12" placeholder="Insert message here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
 </div>`;
-	},  
+	},
 
-	init: function() {},  
+	init: function() {},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -41,7 +41,7 @@ module.exports = {
 			embed.setDescription(this.evalMessage(data.message, cache));
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

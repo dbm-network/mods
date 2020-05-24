@@ -1,19 +1,19 @@
 module.exports = {
-	name: "Revise", 
-	section: "Other Stuff",  
+	name: "Revise",
+	section: "Other Stuff",
 
 	subtitle: function(data) {
 		return `Revise: "${data.reviser}"`;
-	},  
+	},
 
 	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		let dataType = "Revised Result";
 		return ([data.varName2, dataType]);
-	},  
+	},
 
-	fields: ["reviser", "storage", "varName2"],  
+	fields: ["reviser", "storage", "varName2"],
 
 	html: function(isEvent, data) {
 		return `
@@ -33,9 +33,9 @@ module.exports = {
         <input id="varName2" class="round" type="text"><br>
     </div>
 </div>`;
-	},  
+	},
 
-	init: function() {},  
+	init: function() {},
 
 	action: function (cache) {
 		const data = cache.actions[cache.index];
@@ -55,7 +55,7 @@ module.exports = {
 			console.log("ERROR!" + err.stack ? err.stack : err);
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

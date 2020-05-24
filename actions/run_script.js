@@ -1,10 +1,10 @@
 module.exports = {
-	name: "Run Script",  
-	section: "Other Stuff",  
+	name: "Run Script",
+	section: "Other Stuff",
 
 	subtitle: function(data) {
 		return `${data.code}`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
@@ -50,9 +50,9 @@ module.exports = {
 				break;
 		}
 		return ([data.varName, dataType]);
-	},  
+	},
 
-	fields: ["code", "behavior", "interpretation", "storage", "varName", "VTypeSelect", "CVTypeValue"],  
+	fields: ["code", "behavior", "interpretation", "storage", "varName", "VTypeSelect", "CVTypeValue"],
 
 	html: function(isEvent, data) {
 		return `
@@ -152,7 +152,7 @@ module.exports = {
 			background-color: #404142;
 	    }
 	</style>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
@@ -230,7 +230,7 @@ module.exports = {
 		document.getElementById("createAction").setAttribute("onclick", "if(document.getElementById(\"JSEditor\").contentWindow.document.getElementById(\"hideCode\").value) document.getElementById(\"code\").value = document.getElementById(\"JSEditor\").contentWindow.document.getElementById(\"hideCode\").value; finish()");
 
 
-	
+
 		glob.onChangeVTypeSelect1 = function() {
 			if(document.getElementById("storage").value === "0") {
 				document.getElementById("VTypeDiv").style.display = "none";
@@ -270,7 +270,7 @@ module.exports = {
 		glob.onClickDefault();
 		glob.onChangeVTypeSelect2(document.getElementById("VTypeSelect"));
 		glob.variableChange(document.getElementById("storage"), "varNameContainer");
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -284,7 +284,7 @@ module.exports = {
 
 		if(data.storage !== "0") {
 			const result = this.eval(code, cache);
-	    const varName = this.evalMessage(data.varName, cache);
+			const varName = this.evalMessage(data.varName, cache);
 			const storage = parseInt(data.storage);
 			this.storeValue(result, storage, varName, cache);
 		} else {
@@ -293,7 +293,7 @@ module.exports = {
 		if(data.behavior === "0") {
 			this.callNextAction(cache);
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

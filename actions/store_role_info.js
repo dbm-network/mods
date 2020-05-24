@@ -1,12 +1,12 @@
 module.exports = {
-	name: "Store Role Info",  
-	section: "Role Control",  
+	name: "Store Role Info",
+	section: "Role Control",
 
 	subtitle: function(data) {
 		const roles = ["Mentioned Role", "1st Author Role", "1st Server Role", "Temp Variable", "Server Variable", "Global Variable"];
 		const info = ["Role Object", "Role ID", "Role Name", "Role Color", "Role Position", "Role Timestamp", "Role Is Mentionable?", "Role Is Separate From Others?", "Role Is Managed?", "Role Member List", "Role Creation Date", "Role Permissions", "Role Members Amount"];
 		return `${roles[parseInt(data.role)]} - ${info[parseInt(data.info)]}`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
@@ -38,19 +38,19 @@ module.exports = {
 			case 9:
 				dataType = "Member List";
 				break;
-			case 10: 
+			case 10:
 				dataType = "Date";
 				break;
-			case 11: 
-			case 12: 
+			case 11:
+			case 12:
 				dataType = "Number";
 				break;
 
 		}
 		return ([data.varName2, dataType]);
-	},  
+	},
 
-	fields: ["role", "varName", "info", "storage", "varName2"],  
+	fields: ["role", "varName", "info", "storage", "varName2"],
 
 	html: function(isEvent, data) {
 		return `
@@ -99,13 +99,13 @@ module.exports = {
 			<input id="varName2" class="round" type="text"><br>
 		</div>
 	</div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.roleChange(document.getElementById("role"), "varNameContainer");
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -149,13 +149,13 @@ module.exports = {
 			case 9:
 				result = targetRole.members.array();
 				break;
-			case 10: 
+			case 10:
 				result = targetRole.createdAt;
 				break;
-			case 11: 
+			case 11:
 				result = targetRole.permissions;
 				break;
-			case 12: 
+			case 12:
 				result = targetRole.members.array().length;
 				break;
 			default:
@@ -167,7 +167,7 @@ module.exports = {
 			this.storeValue(result, storage, varName2, cache);
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

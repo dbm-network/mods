@@ -1,6 +1,6 @@
 module.exports = {
-	name: "YouTube Search",  
-	section: "Audio Control",  
+	name: "YouTube Search",
+	section: "Audio Control",
 
 	subtitle: function (data) {
 		const videoInfo = ["Video ID", "Video URL", "Video Title", "Video Description", "Video Channel ID", "Video Channel URL", "Video Channel Name", "Video Channel Thumbnail URL (Default)", "Video Channel Thumbnail URL (Medium)", "Video Channel Thumbnail URL (High)", "Video Thumbnail URL (Default)", "Video Thumbnail URL (Medium)", "Video Thumbnail URL (High)", "Video Genre", "Paid Video?", "Unlisted Video?", "Is Video Family Friendly?", "Video Duration", "Video Publish Data", "Video Views", "Allowed Video Regions", "Video Comment Count", "Video Like Count", "Video Dislike Count"];
@@ -10,7 +10,7 @@ module.exports = {
 		} else {
 			return `${videoInfo[parseInt(data.info0)]}`;
 		}
-	},  
+	},
 
 	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage);
@@ -100,9 +100,9 @@ module.exports = {
 				break;
 		}
 		return ([data.varName, dataType]);
-	},  
+	},
 
-	fields: ["type", "input", "info0", "info1", "apikey", "results", "storage", "varName"],  
+	fields: ["type", "input", "info0", "info1", "apikey", "results", "storage", "varName"],
 
 	html: function (isEvent, data) {
 		return `
@@ -222,7 +222,7 @@ module.exports = {
 		</div>
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function () {
 		const { glob, document } = this;
@@ -255,7 +255,7 @@ module.exports = {
 			document.getElementById("tempName").innerHTML = result;
 		};
 		glob.onChange1(document.getElementById("type"));
-	},  
+	},
 
 	action: function (cache) {
 		const data = cache.actions[cache.index];
@@ -501,8 +501,8 @@ module.exports = {
 			default:
 				return console.log("Please check your YouTube Search action... There is something wrong.");
 		}
-	},  
+	},
 
 	mod: function () {}
 
-}; 
+};

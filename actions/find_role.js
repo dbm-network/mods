@@ -1,19 +1,19 @@
 module.exports = {
-	name: "Find Role",  
-	section: "Role Control",  
+	name: "Find Role",
+	section: "Role Control",
 
 	subtitle: function(data) {
 		const info = ["Role ID", "Role Name", "Role Color"];
 		return `Find Role by ${info[parseInt(data.info)]}`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
 		return ([data.varName, "Role"]);
-	},  
+	},
 
-	fields: ["info", "find", "storage", "varName"],  
+	fields: ["info", "find", "storage", "varName"],
 
 	html: function(isEvent, data) {
 		return `
@@ -43,9 +43,9 @@ module.exports = {
 		<input id="varName" class="round" type="text">
 	</div>
 </div>`;
-	},  
+	},
 
-	init: function() {},  
+	init: function() {},
 
 	action: function(cache) {
 		const server = cache.server;
@@ -76,7 +76,7 @@ module.exports = {
 			this.storeValue(result, storage, varName, cache);
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

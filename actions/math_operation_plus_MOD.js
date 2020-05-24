@@ -1,20 +1,20 @@
 module.exports = {
-	name: "Math Operation Plus",  
-	section: "Other Stuff",  
+	name: "Math Operation Plus",
+	section: "Other Stuff",
 
 	subtitle: function(data) {
 		const info = ["Addition", "Subtraction", "Multiplication", "Division", "Round", "Round to S.F.", "Absolute", "Ceil", "Floor", "Factorial", "Raised by (Exponents)", "Rooted by (Roots)", "Sine", "Cosine", "Tangent", "Arc Sine", "Arc Cosine", "Arc Tangent", "% Of Number", "Increase By %", "Decrease By %", "Value of Pi", "Value of Eulers number"];
 		return `${info[data.info]}`;
-	},  
+	},
 
 	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		let dataType = "Number";
 		return ([data.varName, dataType]);
-	},  
+	},
 
-	fields: ["FirstNumber", "info", "SecondNumber", "storage", "varName"],  
+	fields: ["FirstNumber", "info", "SecondNumber", "storage", "varName"],
 
 	html: function(isEvent, data) {
 		return `
@@ -67,7 +67,7 @@ module.exports = {
 	</div>
 </div>
 	`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
@@ -111,13 +111,13 @@ module.exports = {
 		};
 		glob.onChange1(document.getElementById("info"));
 
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
 		const storage = parseInt(data.storage);
 		const varName = this.evalMessage(data.varName, cache);
-		const FN = parseFloat(this.evalMessage(data.FirstNumber, cache).replace(/,/g, ""));
+		let FN = parseFloat(this.evalMessage(data.FirstNumber, cache).replace(/,/g, ""));
 		const SN = parseFloat(this.evalMessage(data.SecondNumber, cache).replace(/,/g, ""));
 		const info = parseInt(data.info);
 
@@ -151,19 +151,16 @@ module.exports = {
 				result = Math.floor(FN);
 				break;
 			case 9:
-				function fact(x) {
-					if(x == 0) {
-						return 1;
-					}
-					if(x < 0 ) {
-						return undefined;
-					}
-					for(var i = x; --i; ) {
-						x *= i;
-					}
-					return x;
+				if(FN == 0) {
+					result = 1;
 				}
-				result = fact(FN);
+				if(FN < 0 ) {
+					result = undefined;
+				}
+				for(var i = FN; --i; ) {
+					FN *= i;
+				}
+				result = FN;
 				break;
 			case 10:
 				result = Math.pow(FN, SN);
@@ -215,7 +212,7 @@ module.exports = {
 			this.storeValue(result, storage, varName, cache);
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

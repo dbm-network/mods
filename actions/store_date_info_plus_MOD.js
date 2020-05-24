@@ -1,23 +1,21 @@
 module.exports = {
-	name: "Store Date Info Plus",  
-	section: "Other Stuff",  
+	name: "Store Date Info Plus",
+	section: "Other Stuff",
 
 	subtitle: function(data) {
 		const info = ["Day of Week", "Day Number", "Day of Year", "Week of Year", "Month of Year", "Month Number", "Year", "Hour", "Minute", "Second", "Millisecond", "Timezone", "Unix Timestamp"];
 		const storage = ["", "Temp Variable", "Server Variable", "Global Variable"];
 		return `Store ${data.modeStorage === "0" ? "\"" + info[data.info] + "\"" : data.buildInput === "" ? "\"Not Set\"" : "\"" + data.buildInput + "\""} from a Date ~ ${storage[data.storage]}`;
-	},  
-
-	depends_on_mods: ["WrexMODS"],  
+	},
 
 	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		let dataType = "Date";
 		return ([data.varName, dataType]);
-	},  
+	},
 
-	fields: ["sourceDate", "dateLanguage", "modeStorage", "info", "buildInput", "storage", "varName"],  
+	fields: ["sourceDate", "dateLanguage", "modeStorage", "info", "buildInput", "storage", "varName"],
 
 	html: function(isEvent, data) {
 		return `
@@ -92,7 +90,7 @@ module.exports = {
               }
         </style>
         `;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
@@ -128,7 +126,7 @@ module.exports = {
 				});
 			}
 		}
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -198,8 +196,8 @@ module.exports = {
 		}
 
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};
 

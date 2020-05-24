@@ -1,11 +1,11 @@
 module.exports = {
-	name: "Command Description",  
-	section: "Other Stuff",  
-	author: "Hazelpy",  
-	version: "1.0.0",  
-	short_description: "Set command description and restrictions. Useful for help/info commands.",  
-	subtitle: function(data) { return "Command Description"; },  
-	fields: ["description", "restrictedTo"],  
+	name: "Command Description",
+	section: "Other Stuff",
+	author: "Hazelpy",
+	version: "1.0.0",
+	short_description: "Set command description and restrictions. Useful for help/info commands.",
+	subtitle: function(data) { return "Command Description"; },
+	fields: ["description", "restrictedTo"],
 	html: (isEvent, data) => {
 		return `<div width="540" height="360" overflow-y="scroll">
             <div style="padding-top: 8px;">
@@ -21,8 +21,8 @@ module.exports = {
             </div>
         </div>
         `;
-	},  
-	action: function(cache) { this.callNextAction(cache); },  
-	init: function() {},  
+	},
+	action: function(cache) { this.callNextAction(cache); },
+	init: function() {},
 	mod: function() {}
 };

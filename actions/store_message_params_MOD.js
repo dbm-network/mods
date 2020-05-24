@@ -1,12 +1,12 @@
 module.exports = {
-	name: "Store Message Params",  
-	section: "Messaging",  
+	name: "Store Message Params",
+	section: "Messaging",
 
 	subtitle: function(data) {
 		const message = ["Command Message", "Temp Variable", "Server Variable", "Global Variable"];
 		const info = ["One Parameter", "Multiple Parameters", "Mentioned User", "Mentioned Member", "Mentioned Role", "Mentioned Channel"];
 		return `${message[parseInt(data.message)]} - ${info[parseInt(data.info)]} #${data.ParamN}`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
@@ -32,9 +32,9 @@ module.exports = {
 				break;
 		}
 		return ([data.varName2, dataType]);
-	},  
+	},
 
-	fields: ["message", "varName", "info", "ParamN", "separator", "storage", "varName2"],  
+	fields: ["message", "varName", "info", "ParamN", "separator", "storage", "varName2"],
 
 	html: function(isEvent, data) {
 		return `
@@ -93,7 +93,7 @@ module.exports = {
         Custom Parameter Separator supports Regex
         </p>
 </div><br><br><br><br><br><br><br><br><br>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
@@ -142,7 +142,7 @@ module.exports = {
 
 		glob.onChange1(document.getElementById("info"));
 		glob.messageChange(document.getElementById("message"), "varNameContainer");
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -264,7 +264,7 @@ module.exports = {
 			this.storeValue(result, storage, varName2, cache);
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

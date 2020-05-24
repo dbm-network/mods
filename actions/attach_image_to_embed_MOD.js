@@ -1,13 +1,13 @@
 module.exports = {
-	name: "Attach Image To Embed",  
-	section: "Embed Message",  
+	name: "Attach Image To Embed",
+	section: "Embed Message",
 
 	subtitle: function (data) {
 		const array = ["Temp Variable", "Server Variable", "Global Variable"];
 		return `Attach (${array[data.imagestorage - 1]} ${data.imagevarName}) to Embed (${array[data.embedstorage - 1]} ${data.embedvarName}) (${data.filename || "image.png"})`;
-	},  
+	},
 
-	fields: ["embedstorage", "embedvarName", "imagestorage", "imagevarName", "filename"],  
+	fields: ["embedstorage", "embedvarName", "imagestorage", "imagevarName", "filename"],
 
 	html: function (isEvent, data) {
 		return `
@@ -39,9 +39,9 @@ module.exports = {
               <input id="filename" class="round" type="text" placeholder="image.png"><br>
           </div>
       </div>`;
-	},  
+	},
 
-	init: function () {},  
+	init: function () {},
 
 	action: function (cache) {
 		const data = cache.actions[cache.index];
@@ -66,7 +66,7 @@ module.exports = {
 			embed.attachFile(attachment);
 			func.callNextAction(cache);
 		});
-	},  
+	},
 
 	mod: function () {}
-}; 
+};

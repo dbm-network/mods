@@ -1,8 +1,8 @@
 module.exports = {
-	name: "Set AFK Timeout",  
-	section: "Server Control",  
+	name: "Set AFK Timeout",
+	section: "Server Control",
 
-	fields: ["server", "varName", "serverAfkTime"],  
+	fields: ["server", "varName", "serverAfkTime"],
 
 	html: function(isEvent, data) {
 		return `
@@ -62,13 +62,13 @@ module.exports = {
                     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
                 }
                 </style>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.serverChange(document.getElementById("server"), "varNameContainer");
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -86,7 +86,7 @@ module.exports = {
 		} else {
 			this.callNextAction(cache);
 		}
-	},  
+	},
 
 
 
@@ -104,7 +104,7 @@ module.exports = {
 		} else {
 			return `${data.serverAfkTime} Seconds`;
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

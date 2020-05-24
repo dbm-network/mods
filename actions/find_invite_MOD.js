@@ -1,18 +1,18 @@
 module.exports = {
-	name: "Find Invite",  
-	section: "Invite Control",  
+	name: "Find Invite",
+	section: "Invite Control",
 
 	subtitle: function(data) {
 		return `${data.invite}`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
 		return ([data.varName, "Invite"]);
-	},  
+	},
 
-	fields: ["invite", "storage", "varName"],  
+	fields: ["invite", "storage", "varName"],
 
 	html: function(isEvent, data) {
 		return `
@@ -34,10 +34,10 @@ module.exports = {
 		<input id="varName" class="round" type="text">
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function() {
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -52,7 +52,7 @@ module.exports = {
 			this.storeValue(invite, storage, varName, cache);
 			this.callNextAction(cache);
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

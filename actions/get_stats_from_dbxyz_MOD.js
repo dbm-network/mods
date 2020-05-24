@@ -1,11 +1,11 @@
 module.exports = {
-	name: "Get Bot Stats From DBXYZ",  
-	section: "Other Stuff",  
+	name: "Get Bot Stats From DBXYZ",
+	section: "Other Stuff",
 
 	subtitle: function (data) {
 		const info = ["Bot ID", "Bot Name", "Prefix", "Bots Lib", "Server Count", "Short Description", "Description", "Avatar", "Owner ID", "Owner Name", "Invite", "Support Server", "Website", "Waiting For Review", "Certified?", "Vanity Url"];
 		return `Get Bot's ${info[parseInt(data.info)]}`;
-	},  
+	},
 
 	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage);
@@ -63,8 +63,8 @@ module.exports = {
 				break;
 		}
 		return ([data.varName, dataType]);
-	},  
-	fields: ["botID", "info", "storage", "varName"],  
+	},
+	fields: ["botID", "info", "storage", "varName"],
 
 	html: function (isEvent, data) {
 		return `
@@ -110,13 +110,13 @@ module.exports = {
 		</p>
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function () {
 		const { glob, document } = this;
 
 		glob.variableChange(document.getElementById("storage"), "varNameContainer");
-	},  
+	},
 
 	action: function (cache) {
 
@@ -127,6 +127,7 @@ module.exports = {
 
 		sf.get("https://discordboats.xyz/api/bot/" + botID)
 			.then(r => {
+				let result;
 				switch (info) {
 					case 0:
 						result = r.body.id;
@@ -188,8 +189,7 @@ module.exports = {
 			.catch(e => {
 				console.log("Get Stats From DBXYZ Error:"+ "\n" + e.stack);
 			});
-	},  
+	},
 
 	mod: function () {}
-
-}; 
+};

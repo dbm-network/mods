@@ -1,6 +1,6 @@
 module.exports = {
-	name: "Store Server Info", 
-	section: "Server Control", 
+	name: "Store Server Info",
+	section: "Server Control",
 
 	subtitle: function (data) {
 		const servers = [
@@ -8,7 +8,7 @@ module.exports = {
 		];
 		const info = ["Server Object", "Server ID", "Server Name", "Server Name Acronym", "Server Region", "Server Icon URL", "Server Verification Level", "Server Default Channel", "Server AFK Channel", "Server System Channel", "Server Default Role", "Server Owner Member", "Server Bot Member Object", "Server Channel List", "Server Role List", "Server Member List", "Server Emoji List", "Server Member Count", "Creation Date", "Time To AFK", "Is Server Available?", "More than 250 members?", "Date Bot Joined Server", "Channel Amount", "Emoji Amount", "Embed Links", "DND Members Count", "Online Members Count (fixed)", "Offline Members Count", "Idle Members Count", "Total Bots Count In Server", "Server Channel IDs", "Server Role IDs", "Server Member IDs", "Server Bot Member Count", "Server Human Member Count", "Server Member Count", "Role Count", "Text Channel Count", "Voice Channel Count", "Is Server Verified?", "Banned Users List", "Invite List", "Server Explicit Content Filter", "Server Booster Count", "Server Premium Tier"];
 		return `${servers[parseInt(data.server)]} - ${info[parseInt(data.info)]}`;
-	}, 
+	},
 
 	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage);
@@ -106,9 +106,9 @@ module.exports = {
 				break;
 		}
 		return ([data.varName2, dataType]);
-	}, 
+	},
 
-	fields: ["server", "varName", "info", "storage", "varName2"], 
+	fields: ["server", "varName", "info", "storage", "varName2"],
 
 	html: function (isEvent, data) {
 		return `
@@ -204,13 +204,13 @@ module.exports = {
 				<input id="varName2" class="round" type="text"><br>
 			</div>
 		</div>`;
-	}, 
+	},
 
 	init: function () {
 		const { glob, document } = this;
 
 		glob.serverChange(document.getElementById("server"), "varNameContainer");
-	}, 
+	},
 
 	action: async function (cache) {
 		const data = cache.actions[cache.index];
@@ -400,7 +400,7 @@ module.exports = {
 			this.storeValue(result, storage, varName2, cache);
 		}
 		this.callNextAction(cache);
-	}, 
+	},
 
 	mod: function () {}
-}; 
+};

@@ -1,20 +1,20 @@
 module.exports = {
-	name: "Math Operation",  
-	section: "Other Stuff",  
+	name: "Math Operation",
+	section: "Other Stuff",
 
 	subtitle: function(data) {
 		const info = ["Round", "Absolute", "Ceil", "Floor", "Sine", "Cosine", "Tangent", "Arc Sine", "Arc Cosine", "Arc Tangent"];
 		return `${info[data.info]}`;
-	},  
+	},
 
 	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		let dataType = "Number";
 		return ([data.varName, dataType]);
-	},  
+	},
 
-	fields: ["math", "info", "storage", "varName"],  
+	fields: ["math", "info", "storage", "varName"],
 
 	html: function(isEvent, data) {
 		return `
@@ -56,9 +56,9 @@ module.exports = {
 	</div>
 </div>
 	`;
-	},  
+	},
 
-	init: function() {},  
+	init: function() {},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -112,7 +112,7 @@ module.exports = {
 			this.storeValue(result, storage, varName, cache);
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

@@ -1,12 +1,12 @@
 module.exports = {
-	name: "Add Embed Field",  
-	section: "Embed Message",  
+	name: "Add Embed Field",
+	section: "Embed Message",
 
 	subtitle: function(data) {
 		return `${data.name} - ${data.message}`;
-	},  
+	},
 
-	fields: ["storage", "varName", "fieldName", "message", "inline"],  
+	fields: ["storage", "varName", "fieldName", "message", "inline"],
 
 
 	html: function(isEvent, data) {
@@ -41,9 +41,9 @@ module.exports = {
 	Field Description:<br>
 	<textarea id="message" rows="7.5" placeholder="Insert message here... (Optional)" style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
 </div>`;
-	},  
+	},
 
-	init: function() {},  
+	init: function() {},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -60,7 +60,7 @@ module.exports = {
 			embed.addField(name ? name : "\u200B", message ? message : "\u200B", inline);
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

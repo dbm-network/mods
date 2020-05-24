@@ -1,20 +1,20 @@
 module.exports = {
-	name: "Filter List/Object",  
-	section: "Lists and Loops",  
+	name: "Filter List/Object",
+	section: "Lists and Loops",
 
 	subtitle: function (data) {
 		const storages = ["", "Temp Variable", "Server Variable", "Global Variable"];
 		return `Filter ${storages[parseInt(data.storage)]} "${data.varName}"`;
-	},  
+	},
 
 	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage2);
 		if (type !== varType) return;
 		let dataType = "List / Object";
 		return ([data.varName2, dataType]);
-	},  
+	},
 
-	fields: ["storage", "varName", "type", "value", "value2", "storage2", "varName2"],  
+	fields: ["storage", "varName", "type", "value", "value2", "storage2", "varName2"],
 
 	html: function (isEvent, data) {
 		return `
@@ -83,7 +83,7 @@ module.exports = {
 		color:#4676b9;
 	}
 </style>`;
-	},  
+	},
 
 	init: function () {
 		const { glob, document } = this;
@@ -140,7 +140,7 @@ module.exports = {
 		glob.onChange1(document.getElementById("type"));
 		glob.variableChange(document.getElementById("storage"), "varNameContainer");
 		glob.variableChange(document.getElementById("storage2"), "varNameContainer2");
-	},  
+	},
 
 	action: function (cache) {
 		const data = cache.actions[cache.index];
@@ -248,10 +248,8 @@ module.exports = {
 			this.storeValue(result, storage2, varName2, cache);
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
-	mod: function (DBM) {
+	mod: function () {}
 
-	}
-
-}; 
+};

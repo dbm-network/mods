@@ -1,16 +1,12 @@
 module.exports = {
-	name: "Store Reaction Info",  
-	section: "Reaction Control",  
+	name: "Store Reaction Info",
+	section: "Reaction Control",
 
 	subtitle: function(data) {
 		const reaction = ["You cheater!", "Temp Variable", "Server Variable", "Global Variable"];
 		const info = ["Message Object", "Bot reacted?", "Users Who Reacted List", "Emoji Name", "Reaction Count", "First User to React", "Random User to React", "Last User to React"];
 		return `${reaction[parseInt(data.reaction)]} - ${info[parseInt(data.info)]}`;
-	},  
-
-	depends_on_mods: [
-		{ name:"WrexMods", path:"aaa_wrexmods_dependencies_MOD.js" }
-	],  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
@@ -44,9 +40,9 @@ module.exports = {
 				break;
 		}
 		return ([data.varName2, dataType]);
-	},  
+	},
 
-	fields: ["reaction", "varName", "info", "storage", "varName2"],  
+	fields: ["reaction", "varName", "info", "storage", "varName2"],
 
 	html: function(isEvent, data) {
 		return `
@@ -89,13 +85,13 @@ module.exports = {
 		<input id="varName2" class="round" type="text"><br>
 	</div>
 </div>`;
-	},  
+	},
 	//display: none;
 	init: function() {
 		const { glob, document } = this;
 
 		glob.refreshVariableList(document.getElementById("reaction"));
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -147,7 +143,7 @@ module.exports = {
 			this.storeValue(result, storage, varName2, cache);
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

@@ -1,23 +1,19 @@
 module.exports = {
-	name: "Parse From Stored Webpage",  
-	section: "HTML/XML Things",  
-
-	depends_on_mods: [
-		{ name:"WrexMODS", path:"aaa_wrexmods_dependencies_MOD.js" }
-	],  
+	name: "Parse From Stored Webpage",
+	section: "HTML/XML Things",
 
 	subtitle: function(data) {
 		return ` Var: ${data.varName} Path: ${data.xpath}`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
 		return ([data.varName, "String"]);
-	},  
+	},
 
-	fields: ["debugMode", "xpath", "source", "sourceVarName", "storage", "varName"],  
-	
+	fields: ["debugMode", "xpath", "source", "sourceVarName", "storage", "varName"],
+
 	html: function(isEvent, data) {
 		return `
 		<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
@@ -76,7 +72,7 @@ module.exports = {
 	  }
 	</style>
 	`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
@@ -106,7 +102,7 @@ module.exports = {
 
 		glob.variableChange(document.getElementById("storage"), "varNameContainer");
 		glob.variableChange(document.getElementById("source"), "sourceVarNameContainer");
-	},  
+	},
 
 	action: function(cache) {
 
@@ -149,12 +145,12 @@ module.exports = {
 					let mylocator = {};
 					let parseLog = { errorLevel: 0 };
 					let doc = new dom({
-						locator: mylocator,  
+						locator: mylocator,
 						errorHandler: {
-							warning: (msg) => {manageXmlParseError(msg, 1, parseLog);},  
-							error: (msg) => {manageXmlParseError(msg, 2, parseLog); ( DEBUG ? console.log("XMLDOMError: " + msg) : "");},  
-							fatalError: (msg) => {manageXmlParseError(msg, 3, parseLog); ( DEBUG ? console.log("FATAL XMLDOMError: " + msg) : "");},  
-						},  
+							warning: (msg) => {manageXmlParseError(msg, 1, parseLog);},
+							error: (msg) => {manageXmlParseError(msg, 2, parseLog); ( DEBUG ? console.log("XMLDOMError: " + msg) : "");},
+							fatalError: (msg) => {manageXmlParseError(msg, 3, parseLog); ( DEBUG ? console.log("FATAL XMLDOMError: " + msg) : "");},
+						},
 					}).parseFromString(ent.decode(html));
 
 
@@ -245,7 +241,7 @@ module.exports = {
 			console.error("Webpage Things:  Error: " + error.stack ? error.stack : error);
 		}
 
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

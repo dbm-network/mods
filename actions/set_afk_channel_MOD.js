@@ -1,13 +1,13 @@
 module.exports = {
-	name: "Set AFK Channel",  
-	section: "Server Control",  
+	name: "Set AFK Channel",
+	section: "Server Control",
 
 	subtitle: function(data) {
 		const channels = ["Command Author's Voice Ch.", "Mentioned User's Voice Ch.", "Default Voice Channel", "Temp Variable", "Server Variable", "Global Variable"];
 		return `${channels[parseInt(data.afkchannel)]}`;
-	},  
+	},
 
-	fields: ["server", "varName", "afkchannel", "varNameChannel"],  
+	fields: ["server", "varName", "afkchannel", "varNameChannel"],
 
 	html: function(isEvent, data) {
 		return `
@@ -68,14 +68,14 @@ module.exports = {
 				font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 			}
 			</style>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.serverChange(document.getElementById("server"), "varNameContainer");
 		glob.voiceChannelChange(document.getElementById("afkchannel"), "varNameContainerr");
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -100,7 +100,7 @@ module.exports = {
 		} else {
 			this.callNextAction(cache);
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

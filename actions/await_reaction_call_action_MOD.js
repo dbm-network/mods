@@ -1,19 +1,19 @@
 module.exports = {
-	name: "Await Reaction Call Action",  
-	section: "Messaging",  
+	name: "Await Reaction Call Action",
+	section: "Messaging",
 
 	subtitle: function(data) {
 		return `Await ${data.max} ${data.max === "1" ? "reaction" : "reactions"} for ${data.time} ${data.time === "1" ? "milisecond" : "miliseconds"}`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage2);
 		if(type !== varType) return;
 		return ([data.varName2, "Reaction List"]);
-	},  
+	},
 
 
-	fields: ["storage", "varName", "filter", "max", "time", "maxEmojis", "maxUsers", "iftrue", "iftrueVal", "iffalse", "iffalseVal", "storage2", "varName2"],  
+	fields: ["storage", "varName", "filter", "max", "time", "maxEmojis", "maxUsers", "iftrue", "iftrueVal", "iffalse", "iffalseVal", "storage2", "varName2"],
 
 	html: function(isEvent, data) {
 		return `
@@ -115,7 +115,7 @@ Max Users:<br>
 			color:#4676b9;
 		}
 </style>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
@@ -141,7 +141,7 @@ Max Users:<br>
 				});
 			}
 		}
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -168,10 +168,10 @@ Max Users:<br>
 					return false;
 				}
 			}, {
-				max: max,  
-				maxEmojis: maxEmojis,  
-				maxUsers: maxUsers,  
-				time: time,  
+				max: max,
+				maxEmojis: maxEmojis,
+				maxUsers: maxUsers,
+				time: time,
 				errors: ["time"]
 			}).then(function(collected) {
 				this.storeValue(collected.array(), storage, varName2, cache);
@@ -180,7 +180,7 @@ Max Users:<br>
 				this.executeResults(false, data, cache);
 			}.bind(this)).catch(function(err) {console.error(err.stack ? err.stack : err);});
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

@@ -1,18 +1,18 @@
 module.exports = {
-	name: "Repeat String",  
-	section: "Other Stuff",  
+	name: "Repeat String",
+	section: "Other Stuff",
 
 	subtitle: function(data) {
 		return `${data.xtimes || "0"}x "${data.girdi || "None"}"`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
 		return ([data.varName, "Text"]);
-	},  
+	},
 
-	fields: ["storage", "varName", "girdi", "xtimes"],  
+	fields: ["storage", "varName", "girdi", "xtimes"],
 
 	html: function(isEvent, data) {
 		return `
@@ -46,10 +46,10 @@ module.exports = {
 	 </div>
 
 	</div>`;
-	},  
+	},
 
 	init: function() {
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -70,7 +70,7 @@ module.exports = {
 		var val = repeat(girdi, xtimes);
 		this.storeValue(val, type, varName, cache);
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

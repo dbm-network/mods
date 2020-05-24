@@ -1,12 +1,12 @@
 module.exports = {
-	name: "Change Global Prefix",  
-	section: "Bot Client Control",  
+	name: "Change Global Prefix",
+	section: "Bot Client Control",
 
 	subtitle: function(data) {
 		return "Change Prefix";
-	},  
+	},
 
-	fields: ["pprefix"],  
+	fields: ["pprefix"],
 
 	html: function(isEvent, data) {
 		return `
@@ -14,9 +14,9 @@ module.exports = {
     Change Prefix to:<br>
 	<textarea id="pprefix" class="round" style="width: 40%; resize: none;" type="textarea" rows="1" cols="20"></textarea><br><br>
 </div>`;
-	},  
+	},
 
-	init: function() {},  
+	init: function() {},
 
 	action: function (cache) {
 		const data = cache.actions[cache.index];
@@ -34,7 +34,7 @@ module.exports = {
 			console.log("ERROR!" + err.stack ? err.stack : err);
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

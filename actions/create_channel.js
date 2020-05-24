@@ -1,18 +1,18 @@
 module.exports = {
-	name: "Create Text Channel",  
-	section: "Channel Control",  
+	name: "Create Text Channel",
+	section: "Channel Control",
 
 	subtitle: function(data) {
 		return `${data.channelName}`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
 		return ([data.varName, "Channel"]);
-	},  
+	},
 
-	fields: ["channelName", "categoryID", "topic", "position", "storage", "varName", ],  
+	fields: ["channelName", "categoryID", "topic", "position", "storage", "varName", ],
 
 	html: function(isEvent, data) {
 		return `
@@ -44,13 +44,13 @@ Category ID:<br>
 		<input id="varName" class="round" type="text" style="width: 90%"><br>
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.variableChange(document.getElementById("storage"), "varNameContainer");
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -77,7 +77,7 @@ Category ID:<br>
 		} else {
 			this.callNextAction(cache);
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

@@ -1,18 +1,18 @@
 module.exports = {
-	name: "Create GIF",  
-	section: "Image Editing",  
+	name: "Create GIF",
+	section: "Image Editing",
 
 	subtitle: function(data) {
 		return `${data.url}`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
 		return ([data.varName, "GIF"]);
-	},  
+	},
 
-	fields: ["url", "storage", "varName"],  
+	fields: ["url", "storage", "varName"],
 
 	html: function(isEvent, data) {
 		return `
@@ -32,9 +32,9 @@ module.exports = {
 		<input id="varName" class="round" type="text"><br>
 	</div>
 </div>`;
-	},  
+	},
 
-	init: function() {},  
+	init: function() {},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -56,7 +56,7 @@ module.exports = {
 		const storage = parseInt(data.storage);
 		this.storeValue(gif, storage, varName, cache);
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

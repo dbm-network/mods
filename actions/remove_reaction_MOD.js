@@ -1,17 +1,13 @@
 module.exports = {
-	name: "Remove Reaction",  
-	section: "Reaction Control",  
+	name: "Remove Reaction",
+	section: "Reaction Control",
 
 	subtitle: function(data) {
 		const names = ["Mentioned User", "Command Author", "Temp Variable", "Server Variable", "Global Variable"];
 		return `${names[parseInt(data.member)]}`;
-	},  
+	},
 
-	depends_on_mods: [
-		{ name:"WrexMods", path:"aaa_wrexmods_dependencies_MOD.js" }
-	],  
-
-	fields: ["reaction", "varName", "member", "varName2"],  
+	fields: ["reaction", "varName", "member", "varName2"],
 
 	html: function(isEvent, data) {
 		return `
@@ -39,14 +35,14 @@ module.exports = {
 		<input id="varName2" class="round" type="text" list="variableList"><br>
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.refreshVariableList(document.getElementById("reaction"));
 		glob.memberChange(document.getElementById("member"), "varNameContainer2");
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -70,7 +66,7 @@ module.exports = {
 			rea.remove(member);
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

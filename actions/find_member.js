@@ -1,21 +1,21 @@
 module.exports = {
-	name: "Find Member",  
-	section: "Member Control",  
+	name: "Find Member",
+	section: "Member Control",
 
 	subtitle: function(data) {
 		const op1 = ["Member", "User"];
 		const info = [" ID", " Username", " Display Name", " Tag", " Color"];
 		return `Find ${op1[parseInt(data.find2)]} by ${op1[parseInt(data.find2)]}${info[parseInt(data.info)]}`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		const op1 = ["Member", "User"];
 		if(type !== varType) return;
 		return ([data.varName, `Server ${op1[parseInt(data.find2)]}`]);
-	},  
+	},
 
-	fields: ["info", "find", "storage", "varName", "find2", "iffalse", "iffalseVal"],  
+	fields: ["info", "find", "storage", "varName", "find2", "iffalse", "iffalseVal"],
 
 	html: function(isEvent, data) {
 		return `
@@ -66,7 +66,7 @@ module.exports = {
         </div>
 		</div>
 	`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
@@ -76,15 +76,14 @@ module.exports = {
 				var option = document.getElementById("info");
 				var x = document.getElementById("info");
 				if(sel.value == "0"){
-
-					for(var i = 0; i < option.length; i++){
+					for(let i = 0; i < option.length; i++){
 						option[i].disabled = false;
 						option[i].innerHTML = option[i].innerHTML.replace(/[^\s]*/, "Member");
 					}
 				}else if(sel.value == "1"){
 					option[3].disabled = true;
 					option[4].disabled = true;
-					for(var i = 0; i < option.length; i++){
+					for(let i = 0; i < option.length; i++){
 						option[i].innerHTML = option[i].innerHTML.replace(/[^\s]*/, "User");
 					}
 				}
@@ -93,7 +92,7 @@ module.exports = {
 		glob.change(document.getElementById("find"));
 		glob.change();
 		glob.onChangeFalse(document.getElementById("iffalse"));
-	},  
+	},
 
 	action: function(cache) {
 		const server = cache.server;
@@ -105,7 +104,7 @@ module.exports = {
 		const info = parseInt(data.info);
 		const find = this.evalMessage(data.find, cache);
 		const find2 = parseInt(data.find2);
-		
+
 		//Checks if server is large and caches all users to verify that offline users are tracked.
 		if(server.large == true) {
 			server.fetchMembers();
@@ -151,8 +150,8 @@ module.exports = {
 		} else {
 			this.executeResults(false, data, cache);
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};
 

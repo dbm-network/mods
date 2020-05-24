@@ -1,18 +1,18 @@
 module.exports = {
-	name: "Randomize Letters",  
-	section: "Other Stuff",  
+	name: "Randomize Letters",
+	section: "Other Stuff",
 
 	subtitle: function(data) {
 		return `Randomize [${data.input}]`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
 		let dataType = "Randomized Letters";
 		return ([data.varName, dataType]);
-	},  
-	fields: ["input", "wordLength", "storage", "varName"],  
+	},
+	fields: ["input", "wordLength", "storage", "varName"],
 
 	html: function(isEvent, data) {
 		return `
@@ -47,13 +47,13 @@ module.exports = {
 		</p>
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.variableChange(document.getElementById("storage"), "varNameContainer");
-	},  
+	},
 
 	action: function(cache) {
 
@@ -75,7 +75,7 @@ module.exports = {
 		this.storeValue(random, storage, varName, cache);
 
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

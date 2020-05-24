@@ -1,11 +1,11 @@
 module.exports = {
-	name: "Get Item from List",  
-	section: "Lists and Loops",  
+	name: "Get Item from List",
+	section: "Lists and Loops",
 
 	subtitle: function(data) {
 		const list = ["Server Members", "Server Channels", "Server Roles", "Server Emojis", "All Bot Servers", "Mentioned User Roles", "Command Author Roles", "Temp Variable", "Server Variable", "Global Variable"];
 		return `Get Item from ${list[parseInt(data.list)]}`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
@@ -32,9 +32,9 @@ module.exports = {
 				break;
 		}
 		return ([data.varName2, dataType]);
-	},  
+	},
 
-	fields: ["list", "varName", "getType", "position", "storage", "varName2"],  
+	fields: ["list", "varName", "getType", "position", "storage", "varName2"],
 
 	html: function(isEvent, data) {
 		return `
@@ -77,7 +77,7 @@ module.exports = {
 		<input id="varName2" class="round" type="text">
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
@@ -94,7 +94,7 @@ module.exports = {
 
 		glob.listChange(document.getElementById("list"), "varNameContainer");
 		glob.onChange1(document.getElementById("getType"));
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -117,10 +117,11 @@ module.exports = {
 			case 3:
 				const posout = this.evalMessage(data.position, cache);
 
+				let position;
 				if (typeof posout === "string") {
-					var position = parseInt(posout);
+					position = parseInt(posout);
 				} else {
-					var position = posout;
+					position = posout;
 				}
 
 				if (position < 0) {
@@ -140,7 +141,7 @@ module.exports = {
 		}
 
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

@@ -1,12 +1,12 @@
 module.exports = {
-	name: "Loop Through All Servers",  
-	section: "Lists and Loops",  
+	name: "Loop Through All Servers",
+	section: "Lists and Loops",
 
 	subtitle: function(data) {
 		return `Loop Servers through Event ID "${data.source}"`;
-	},  
+	},
 
-	fields: ["source", "type"],  
+	fields: ["source", "type"],
 
 	html: function(isEvent, data) {
 		return `
@@ -23,7 +23,7 @@ module.exports = {
 			<option value="false">Asynchronous</option>
 		</select>
 	</div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
@@ -36,7 +36,7 @@ module.exports = {
 				source.innerHTML += `<option value="${i}">${$evts[i].name}</option>\n`;
 			}
 		}
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -66,10 +66,10 @@ module.exports = {
 					return;
 				}
 				const cache2 = {
-					actions: actions,  
-					index: 0,  
-					temp: cache.temp,  
-					server: servers[i],  
+					actions: actions,
+					index: 0,
+					temp: cache.temp,
+					server: servers[i],
 					msg: (cache.msg || null)
 				};
 				cache2.callback = function() {
@@ -82,7 +82,7 @@ module.exports = {
 		} else {
 			this.callNextAction(cache);
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

@@ -1,13 +1,13 @@
 module.exports = {
-	name: "Edit Message",  
-	section: "Messaging",  
+	name: "Edit Message",
+	section: "Messaging",
 
 	subtitle: function(data) {
 		const names = ["Temp Variable", "Server Variable", "Global Variable"];
 		return data.storage === "0" ? `${names[parseInt(data.storage)-1]}` : `${names[parseInt(data.storage)-1]} (${data.varName})`;
-	},  
+	},
 
-	fields: ["storage", "varName", "message", "storage2", "varName2"],  
+	fields: ["storage", "varName", "message", "storage2", "varName2"],
 
 	html: function(isEvent, data) {
 		return `
@@ -40,14 +40,14 @@ module.exports = {
 		<input id="varName2" placeholder="Optional" class="round" type="text" list="variableList"><br>
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.messageChange(document.getElementById("storage"), "varNameContainer");
 		glob.refreshVariableList(document.getElementById("storage2"), "varNameContainer2");
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -73,7 +73,7 @@ module.exports = {
 		} else {
 			this.callNextAction(cache);
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

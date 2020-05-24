@@ -1,18 +1,14 @@
 module.exports = {
-	name: "Play YouTube Playlist",  
-	section: "Audio Control",  
+	name: "Play YouTube Playlist",
+	section: "Audio Control",
 
-	requiresAudioLibraries: true,  
+	requiresAudioLibraries: true,
 
 	subtitle: function(data) {
 		return `${data.url}`;
-	},  
+	},
 
-	depends_on_mods: [
-		{ name:"WrexMods", path:"aaa_wrexmods_dependencies_MOD.js" }
-	],  
-
-	fields: ["url", "apikey", "seek", "volume", "passes", "bitrate"],  
+	fields: ["url", "apikey", "seek", "volume", "passes", "bitrate"],
 
 	html: function(isEvent, data) {
 		return `
@@ -36,9 +32,9 @@ module.exports = {
 		Video Bitrates:<br>
 		<input id="bitrate" class="round" type="text" placeholder="Leave blank for automatic..."><br>
 	</div>`;
-	},  
+	},
 
-	init: function() {},  
+	init: function() {},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -92,7 +88,7 @@ module.exports = {
 		});
 
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
 };

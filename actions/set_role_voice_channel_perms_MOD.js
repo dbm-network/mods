@@ -1,14 +1,14 @@
 module.exports = {
-	name: "Set Role Voice Channel Perms",  
-	section: "Channel Control",  
+	name: "Set Role Voice Channel Perms",
+	section: "Channel Control",
 
 	subtitle: function(data) {
 		const names = ["Command Author's Voice Ch.", "Mentioned User's Voice Ch.", "Default Voice Channel", "Temp Variable", "Server Variable", "Global Variable"];
 		const index = parseInt(data.vchannel);
 		return index < 3 ? `${names[index]}` : `${names[index]} - ${data.varName}`;
-	},  
+	},
 
-	fields: ["vchannel", "varName", "role", "varName2", "permission", "state"],  
+	fields: ["vchannel", "varName", "role", "varName2", "permission", "state"],
 
 	html: function(isEvent, data) {
 		return `
@@ -52,14 +52,14 @@ module.exports = {
 		</select>
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.voiceChannelChange(document.getElementById("vchannel"), "varNameContainer");
 		glob.roleChange(document.getElementById("role"), "varNameContainer2");
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -88,10 +88,10 @@ module.exports = {
 		} else {
 			this.callNextAction(cache);
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};
 
 function newFunction_1() {
 	return 1;

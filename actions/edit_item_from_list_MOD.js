@@ -1,12 +1,12 @@
 module.exports = {
-	name: "Edit Item from List MOD",  
-	section: "Lists and Loops",  
+	name: "Edit Item from List MOD",
+	section: "Lists and Loops",
 
 	subtitle: function(data) {
 		return `Edit "${data.value}" at position ${data.position}`;
-	},  
+	},
 
-	fields: ["storage", "varName", "position", "value"],  
+	fields: ["storage", "varName", "position", "value"],
 
 	html: function(isEvent, data) {
 		return `
@@ -32,14 +32,14 @@ module.exports = {
 		<input id="value" class="round" type="text">
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.refreshVariableList(document.getElementById("storage"));
 
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -52,7 +52,7 @@ module.exports = {
 			list[position] = val;
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

@@ -1,12 +1,12 @@
 module.exports = {
-	name: "Jump to Anchor",  
-	section: "Other Stuff",  
+	name: "Jump to Anchor",
+	section: "Other Stuff",
 
 	subtitle: function(data) {
 		return data.description ? `<font color="${data.color}">${data.description}</font>` : `Jump to ${data.jump_to_anchor ? `the "<font color="${data.color}">${data.jump_to_anchor}</font>" anchor in your command if it exists!` : "an anchor!"}`;
-	},  
+	},
 
-	fields: ["description", "jump_to_anchor", "color"],  
+	fields: ["description", "jump_to_anchor", "color"],
 
 	html: function(isEvent, data) {
 		return `
@@ -31,9 +31,9 @@ module.exports = {
 		<input type="text" class="round" id="description"><br>
 	</div>
 	`;
-	},  
+	},
 
-	init: function() {},  
+	init: function() {},
 
 	action: function(cache) {
 		const errors = { "404": "There was not an anchor found with that exact anchor ID!" };
@@ -44,7 +44,7 @@ module.exports = {
 		if (anchorIndex === -1) throw new Error(errors["404"]);
 		cache.index = anchorIndex - 1;
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

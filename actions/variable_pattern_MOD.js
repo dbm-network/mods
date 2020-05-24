@@ -1,21 +1,21 @@
 module.exports = {
-	name: "Variable Pattern MOD",  
-	section: "Variable Things",  
+	name: "Variable Pattern MOD",
+	section: "Variable Things",
 
 	subtitle: function(data) {
 		const storage = ["", "Temp Variable", "Server Variable", "Global Variable"];
 		return `${storage[parseInt(data.storage)]} (${data.varName})`;
-	},  
+	},
 
 	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage2);
 		if (type !== varType) return;
 		let dataType = "String";
 		return ([data.varName2, dataType]);
-	},  
+	},
 
 
-	fields: ["storage", "varName", "info", "info2", "value", "storage2", "varName2"],  
+	fields: ["storage", "varName", "info", "info2", "value", "storage2", "varName2"],
 
 	html: function(isEvent, data) {
 		return `
@@ -66,7 +66,7 @@ module.exports = {
 		<input id="varName2" class="round" type="text"><br>
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
@@ -98,7 +98,7 @@ module.exports = {
 
 		glob.onChange1(document.getElementById("info"));
 		glob.refreshVariableList(document.getElementById("storage"));
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -113,20 +113,12 @@ module.exports = {
 		}
 		switch(info) {
 			case 0:
-				function separators(str, length, separate) {
-					var parts = str.toString().split(".");
-					var replace = "\\B(?=(.{"+length+"})+(?!.))";
-					var reg = new RegExp(replace, "g");
-					parts[0] = parts[0].replace(new RegExp(replace, "g"), separate);
-					return parts.join(".");
-				}
-				result = separators(variable, info2, value);
+				const parts = variable.toString().split(".");
+				parts[0] = parts[0].replace(new RegExp("\\B(?=(.{" + info2 + "})+(?!.))", "g"), value);
+				result = parts.join(".");
 				break;
 			case 1:
-				function replace(str, find, replace) {
-					return str.replace(new RegExp(find, "g"), replace);
-				}
-				result = replace(variable, info2, value);
+				result = variable.replace(new RegExp(info2, "g"), value);
 				break;
 			case 2:
 				result = value+""+variable;
@@ -155,7 +147,7 @@ module.exports = {
 			this.storeValue(result, storage2, varName2, cache);
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

@@ -1,13 +1,13 @@
 module.exports = {
-	name: "Transfer Variable",  
-	section: "Variable Things",  
+	name: "Transfer Variable",
+	section: "Variable Things",
 
 	subtitle: function(data) {
 		const storeTypes = ["", "Temp Variable", "Server Variable", "Global Variable"];
 		return `${storeTypes[parseInt(data.storage)]} (${data.varName}) -> ${storeTypes[parseInt(data.storage2)]} (${data.varName2})`;
-	},  
+	},
 
-	fields: ["storage", "varName", "storage2", "varName2"],  
+	fields: ["storage", "varName", "storage2", "varName2"],
 
 	html: function(isEvent, data) {
 		return `
@@ -36,14 +36,14 @@ module.exports = {
 		<input id="varName2" class="round" type="text" list="variableList2"><br>
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.variableChange(document.getElementById("storage"), "varNameContainer");
 		glob.variableChange(document.getElementById("storage2"), "varNameContainer2");
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -66,7 +66,7 @@ module.exports = {
 
 		this.storeValue(var1, storage2, varName2, cache);
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

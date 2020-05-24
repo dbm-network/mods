@@ -1,14 +1,14 @@
 module.exports = {
-	name: "Un-Pin Message",  
-	section: "Messaging",  
+	name: "Un-Pin Message",
+	section: "Messaging",
 
 	subtitle: function(data) {
 		const names = ["Command Message", "Temp Variable", "Server Variable", "Global Variable"];
 		const index = parseInt(data.storage);
 		return data.storage === "0" ? `Un-Pin ${names[index]}` : `Un-Pin ${names[index]} (${data.varName})`;
-	},  
+	},
 
-	fields: ["storage", "varName"],  
+	fields: ["storage", "varName"],
 
 	html: function(isEvent, data) {
 		return `
@@ -24,13 +24,13 @@ module.exports = {
 		<input id="varName" class="round" type="text" list="variableList"><br>
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.messageChange(document.getElementById("storage"), "varNameContainer");
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -48,7 +48,7 @@ module.exports = {
 		} else {
 			this.callNextAction(cache);
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

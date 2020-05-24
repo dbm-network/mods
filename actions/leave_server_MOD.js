@@ -1,12 +1,12 @@
 module.exports = {
-	name: "Leave Server",  
-	section: "Bot Client Control",  
+	name: "Leave Server",
+	section: "Bot Client Control",
 
 	subtitle: function(data) {
 		return "Leaves a server";
-	},  
+	},
 
-	fields: ["server", "varName"],  
+	fields: ["server", "varName"],
 
 	html: function(isEvent, data) {
 		return `
@@ -22,13 +22,13 @@ module.exports = {
 		<input id="varName" class="round" type="text" list="variableList">
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.serverChange(document.getElementById("server"), "varNameContainer");
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -46,7 +46,7 @@ module.exports = {
 		} else {
 			this.callNextAction(cache);
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

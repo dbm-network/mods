@@ -1,19 +1,19 @@
 module.exports = {
-	name: "Get Dominant Color",  
-	section: "Image Editing",  
+	name: "Get Dominant Color",
+	section: "Image Editing",
 
 	subtitle: function(data) {
 		const info = ["Image URL"];
 		return "Get dominant color from URL";
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
 		return ([data.varName, "String"]);
-	},  
+	},
 
-	fields: ["info", "find", "storage", "varName"],  
+	fields: ["info", "find", "storage", "varName"],
 
 	html: function(isEvent, data) {
 		return `
@@ -42,9 +42,9 @@ module.exports = {
 		<input id="varName" class="round" type="text">
 	</div>
 </div>`;
-	},  
+	},
 
-	init: function() {},  
+	init: function() {},
 
 	action: async function(cache) {
 		const { getColorFromURL } = require("color-thief-node"), rgbToHex = require("rgb-hex");
@@ -71,7 +71,7 @@ module.exports = {
 			this.storeValue(result, storage, varName, cache);
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

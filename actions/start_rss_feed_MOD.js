@@ -1,19 +1,19 @@
 module.exports = {
-	name: "RSS Feed Watcher",  
-	section: "Other Stuff",  
+	name: "RSS Feed Watcher",
+	section: "Other Stuff",
 
 	subtitle: function (data) {
 		return `${data.url}`;
-	},  
+	},
 
 
 	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		return ([data.varName, "RSS Feed"]);
-	},  
+	},
 
-	fields: ["path", "url", "storage", "varName"],  
+	fields: ["path", "url", "storage", "varName"],
 
 	html: function (isEvent, data) {
 		return `
@@ -42,9 +42,9 @@ module.exports = {
 		<input id="varName" class="round" type="text"><br>
 	</div>
 </div>`;
-	},  
+	},
 
-	init: function () {},  
+	init: function () {},
 
 	action: function (cache) {
 		const data = cache.actions[cache.index];
@@ -57,8 +57,8 @@ module.exports = {
 		console.log(stor);
 		const WrexMODS = this.getWrexMods();
 		const { JSONPath } = WrexMODS.require("jsonpath-plus");
-		var Watcher = WrexMODS.require("feed-watcher"),  
-			feed = url,  
+		var Watcher = WrexMODS.require("feed-watcher"),
+			feed = url,
 			interval = 10; // seconds
 
 		// if not interval is passed, 60s would be set as default interval.
@@ -71,7 +71,7 @@ module.exports = {
 
 				if(path){
 					var res = JSONPath({
-						path: path,  
+						path: path,
 						json: entry
 					});
 					_this.storeValue(res, storage, varName, cache);
@@ -97,8 +97,8 @@ module.exports = {
 
 
 
-	},  
+	},
 
-	mod: function (DBM) {}
+	mod: function () {}
 
-}; 
+};

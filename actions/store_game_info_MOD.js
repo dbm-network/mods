@@ -1,12 +1,12 @@
 module.exports = {
-	name: "Store Game Info",  
-	section: "Member Control",  
+	name: "Store Game Info",
+	section: "Member Control",
 
 	subtitle: function(data) {
 		const members = ["Mentioned User", "Command Author", "Temp Variable", "Server Variable", "Global Variable"];
 		const info = ["Game Application ID", "Game Details", "Game Name", "Game State", "Game Is Being Streamed?", "Game Stream URL", "Game Status Type", "Game Large Image ID", "Game Large Image URL", "Game Large Image Text", "Game Small Image ID", "Game Small Image URL", "Game Small Image Text", "Game Timestamp Start", "Game Party ID", "Game Timestamp End", "Game Party Size"];
 		return `${members[parseInt(data.member)]} - ${info[parseInt(data.info)]}`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
@@ -67,9 +67,9 @@ module.exports = {
 				break;
 		}
 		return ([data.varName2, dataType]);
-	},  
+	},
 
-	fields: ["member", "varName", "info", "storage", "varName2"],  
+	fields: ["member", "varName", "info", "storage", "varName2"],
 
 	html: function(isEvent, data) {
 		return `
@@ -125,13 +125,13 @@ module.exports = {
 		<input id="varName2" class="round" type="text"><br>
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.memberChange(document.getElementById("member"), "varNameContainer");
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -297,7 +297,7 @@ module.exports = {
 			this.storeValue(result, storage, varName2, cache);
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

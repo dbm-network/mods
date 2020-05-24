@@ -1,19 +1,19 @@
 module.exports = {
-	name: "Set Time Restriction",  
-	section: "Other Stuff",  
+	name: "Set Time Restriction",
+	section: "Other Stuff",
 
 	subtitle: function (data) {
 		const results = ["Continue Actions", "Stop Action Sequence", "Jump To Action", "Jump Forward Actions", "Jump to Anchor"];
 		return `Cooldown | If True: ${results[parseInt(data.iftrue)]} ~ If False: ${results[parseInt(data.iffalse)]}`;
-	},  
+	},
 
 	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		return ([data.varName, "Number"]);
-	},  
+	},
 
-	fields: ["measurement", "value", "save", "restrict", "iftrue", "iftrueVal", "iffalse", "iffalseVal", "storage", "varName"],  
+	fields: ["measurement", "value", "save", "restrict", "iftrue", "iftrueVal", "iffalse", "iffalseVal", "storage", "varName"],
 
 	html: function (isEvent, data) {
 		return `
@@ -65,7 +65,7 @@ module.exports = {
 			</div>
 		</div>
 	</div>`;
-	},  
+	},
 
 	init: function () {
 		const { glob, document } = this;
@@ -91,7 +91,7 @@ module.exports = {
 		glob.onChangeTrue(document.getElementById("iftrue"));
 		glob.onChangeFalse(document.getElementById("iffalse"));
 		glob.onChange(document.getElementById("Measurement"));
-	},  
+	},
 
 	action: function (cache) {
 		const data = cache.actions[cache.index];
@@ -125,7 +125,7 @@ module.exports = {
 			result = true;
 		}
 		this.executeResults(result, data, cache);
-	},  
+	},
 
 	mod: function (DBM) {
 
@@ -190,7 +190,6 @@ module.exports = {
 						if (save == 0) Files.saveGlobalVariable("DBMCooldown", JSON.stringify(Cooldown));
 						return false;
 					}
-					brerak;
 				case 1:
 					let channelId;
 					if (typeof msg.channel.guild !== "undefined") {
@@ -215,9 +214,8 @@ module.exports = {
 						if (save == 0) Files.saveGlobalVariable("DBMCooldown", JSON.stringify(Cooldown));
 						return false;
 					}
-					brerak;
 			}
 		};
 	}
 
-}; 
+};

@@ -1,18 +1,18 @@
 module.exports = {
-	name: "Create Server",  
-	section: "Server Control",  
+	name: "Create Server",
+	section: "Server Control",
 
 	subtitle: function(data) {
 		return `${data.serverName}`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
 		return ([data.varName, "Server"]);
-	},  
+	},
 
-	fields: ["serverName", "serverRegion", "storage", "varName"],  
+	fields: ["serverName", "serverRegion", "storage", "varName"],
 
 	html: function(isEvent, data) {
 		return `
@@ -58,13 +58,13 @@ module.exports = {
 	<b>NOTE:</b> <span style="color:red">This is only available to bots in less than 10 servers!
 	</p>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.variableChange(document.getElementById("storage"), "varNameContainer");
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -84,7 +84,7 @@ module.exports = {
 			this.storeValue(server, storage, varName, cache);
 			this.callNextAction(cache);
 		}.bind(this)).catch(this.displayError.bind(this, data, cache));
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

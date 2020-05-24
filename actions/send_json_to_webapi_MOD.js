@@ -7,10 +7,6 @@ dbmMod.name = "Send Json to WebAPI";
 
 dbmMod.section = "JSON Things";
 
-
-dbmMod.depends_on_mods = ["WrexMODS"];
-
-
 dbmMod.dependencies = ["request", "valid-url"];
 
 
@@ -148,7 +144,7 @@ dbmMod.html = function(isEvent, data) {
 
 dbmMod.init = function() {
 	const {
-		glob,  
+		glob,
 		document
 	} = this;
 
@@ -179,7 +175,7 @@ dbmMod.action = function(cache) {
 	const request = WrexMODS.require("request");
 	const buffer = WrexMODS.require("buffer");
 
-	const url = this.evalMessage(data.postUrl, cache);
+	let url = this.evalMessage(data.postUrl, cache);
 	const method = this.evalMessage(data.method, cache);
 	const token = this.evalMessage(data.token, cache);
 	const user = this.evalMessage(data.user, cache);
@@ -207,8 +203,8 @@ dbmMod.action = function(cache) {
 				var test = JSON.parse(JSON.stringify(postJson));
 			} catch (error) {
 				var errorJson = JSON.stringify({
-					error: error,  
-					statusCode: statusCode,  
+					error: error,
+					statusCode: statusCode,
 					success: false
 				});
 				console.error(error.stack ? error.stack : error);
@@ -251,17 +247,17 @@ dbmMod.action = function(cache) {
 			}
 
 			request({
-				method: method ||"POST",  
-				url: url,  
-				body: JSON.parse(postJson),  
-				json: true,  
+				method: method ||"POST",
+				url: url,
+				body: JSON.parse(postJson),
+				json: true,
 				headers: setHeaders
 			}, (error, res, jsonData) => {
 
 				try {
 					if (error) {
 						var errorJson = JSON.stringify({
-							error,  
+							error,
 							statusCode
 						});
 						Actions.storeValue(errorJson, storage, varName, cache);
@@ -278,7 +274,7 @@ dbmMod.action = function(cache) {
 							}
 						} else {
 							var errorJson = JSON.stringify({
-								error,  
+								error,
 								statusCode
 							});
 							Actions.storeValue(errorJson, storage, varName, cache);
@@ -300,8 +296,6 @@ dbmMod.action = function(cache) {
 	}
 };
 
-dbmMod.mod = function(DBM) {
-
-};
+dbmMod.mod = function() {};
 
 module.exports = dbmMod;

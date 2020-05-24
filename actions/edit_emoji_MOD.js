@@ -1,17 +1,13 @@
 module.exports = {
-	name: "Edit Emoji",  
-	section: "Emoji Control",  
+	name: "Edit Emoji",
+	section: "Emoji Control",
 
 	subtitle: function(data) {
 		const emoji = ["You cheater!", "Temp Variable", "Server Variable", "Global Variable"];
 		return `${emoji[parseInt(data.storage)]}`;
-	},  
+	},
 
-	depends_on_mods: [
-		{ name:"WrexMods", path:"aaa_wrexmods_dependencies_MOD.js" }
-	],  
-
-	fields: ["storage", "varName", "emojiName"],  
+	fields: ["storage", "varName", "emojiName"],
 
 	html: function(isEvent, data) {
 		return `
@@ -31,13 +27,13 @@ module.exports = {
 	Emoji Name:<br>
 	<input id="emojiName" placeholder="Leave blank to not edit!" class="round" type="text">
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.emojiChange(document.getElementById("storage"));
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -60,7 +56,7 @@ module.exports = {
 		} else {
 			this.callNextAction(cache);
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

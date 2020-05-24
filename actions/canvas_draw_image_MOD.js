@@ -1,13 +1,13 @@
 module.exports = {
-	name: "Canvas Draw Image on Image",  
-	section: "Image Editing",  
+	name: "Canvas Draw Image on Image",
+	section: "Image Editing",
 
 	subtitle: function(data) {
 		const storeTypes = ["", "Temp Variable", "Server Variable", "Global Variable"];
 		return `${storeTypes[parseInt(data.storage2)]} (${data.varName2}) -> ${storeTypes[parseInt(data.storage)]} (${data.varName})`;
-	},  
+	},
 
-	fields: ["storage", "varName", "storage2", "varName2", "x", "y", "effect"],  
+	fields: ["storage", "varName", "storage2", "varName2", "x", "y", "effect"],
 
 	html: function(isEvent, data) {
 		return `
@@ -54,13 +54,13 @@ module.exports = {
 		</select>
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.refreshVariableList(document.getElementById("storage"));
-	},  
+	},
 
 	action: function(cache) {
 		const Canvas = require("canvas");
@@ -97,7 +97,7 @@ module.exports = {
 		const result = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
 		this.storeValue(result, storage, varName, cache);
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

@@ -1,20 +1,20 @@
 module.exports = {
-	name: "Basic Math Operation",  
-	section: "Other Stuff",  
+	name: "Basic Math Operation",
+	section: "Other Stuff",
 
 	subtitle: function(data) {
 		const info = ["Addition", "Subtraction", "Multiplication", "Division"];
 		return `${info[data.info]}`;
-	},  
+	},
 
 	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		let dataType = "Number";
 		return ([data.varName, dataType]);
-	},  
+	},
 
-	fields: ["FirstNumber", "info", "SecondNumber", "storage", "varName"],  
+	fields: ["FirstNumber", "info", "SecondNumber", "storage", "varName"],
 
 	html: function(isEvent, data) {
 		return `
@@ -48,9 +48,9 @@ module.exports = {
 	</div>
 </div>
 	`;
-	},  
+	},
 
-	init: function() {},  
+	init: function() {},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -84,7 +84,7 @@ module.exports = {
 			this.storeValue(result, storage, varName, cache);
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

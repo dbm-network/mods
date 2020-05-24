@@ -1,19 +1,19 @@
 module.exports = {
-	name: "Find Custom Emoji in Specified Server",  
-	section: "Emoji Control",  
+	name: "Find Custom Emoji in Specified Server",
+	section: "Emoji Control",
 
 	subtitle: function(data) {
 		const info = ["Emoji ID", "Emoji Name"];
 		return `Find Emoji by ${info[parseInt(data.info)]}`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
 		return ([data.varName, "Emoji"]);
-	},  
+	},
 
-	fields: ["info", "find", "storage", "varName"],  
+	fields: ["info", "find", "storage", "varName"],
 
 	html: function(isEvent, data) {
 		return `
@@ -42,9 +42,9 @@ module.exports = {
 		<input id="varName" class="round" type="text">
 	</div>
 </div>`;
-	},  
+	},
 
-	init: function() {},  
+	init: function() {},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -68,7 +68,7 @@ module.exports = {
 			this.storeValue(result, storage, varName, cache);
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

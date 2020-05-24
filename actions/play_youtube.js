@@ -1,14 +1,14 @@
 module.exports = {
-	name: "Play YouTube Video",  
-	section: "Audio Control",  
+	name: "Play YouTube Video",
+	section: "Audio Control",
 
-	requiresAudioLibraries: true,  
+	requiresAudioLibraries: true,
 
 	subtitle: function (data) {
 		return `${data.url}`;
-	},  
+	},
 
-	fields: ["url", "seek", "volume", "passes", "bitrate", "type"],  
+	fields: ["url", "seek", "volume", "passes", "bitrate", "type"],
 
 	html: function (isEvent, data) {
 		return `
@@ -38,9 +38,9 @@ module.exports = {
                 <option value="1">Play Immediately</option>
             </select>
         </div>`;
-	},  
+	},
 
-	init: function () {},  
+	init: function () {},
 
 	action: async function (cache) {
 		const data = cache.actions[cache.index];
@@ -94,8 +94,8 @@ module.exports = {
 			}
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
-	mod: function (DBM) {}
+	mod: function () {}
 
-}; 
+};

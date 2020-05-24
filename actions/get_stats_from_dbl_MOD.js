@@ -1,11 +1,11 @@
 module.exports = {
-	name: "Get Bot Stats From DBL",  
-	section: "Other Stuff",  
+	name: "Get Bot Stats From DBL",
+	section: "Other Stuff",
 
 	subtitle: function (data) {
 		const info = ["Invite URL", "GitHub Repository URL", "Website URL", "Long Description", "Short Description", "Prefix", "Library", "Avatar URL", "Approved On", "Support Server Invite URL", "Server Count", "Shard Count", "Vanity URL", "Guild ID(s)", "Servers on Shards", "Monthly Vote Count", "Total Vote Count", "Owner ID(s)", "Tag(s)", "Username", "Discriminator"];
 		return `Get Bot's ${info[parseInt(data.info)]}`;
-	},  
+	},
 
 	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage);
@@ -78,8 +78,8 @@ module.exports = {
 				break;
 		}
 		return ([data.varName, dataType]);
-	},  
-	fields: ["botID", "token", "info", "storage", "varName"],  
+	},
+	fields: ["botID", "token", "info", "storage", "varName"],
 
 	html: function (isEvent, data) {
 		return `
@@ -135,13 +135,13 @@ module.exports = {
 		</p>
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function () {
 		const { glob, document } = this;
 
 		glob.variableChange(document.getElementById("storage"), "varNameContainer");
-	},  
+	},
 
 	action: function (cache) {
 
@@ -152,11 +152,12 @@ module.exports = {
 
 		var fetch = require("node-fetch");
 		fetch("https://discordbots.org/api/bots/" + botID, {
-			method: "GET",  
-			headers: { "Authorization": dblToken ? dblToken : "" },  
+			method: "GET",
+			headers: { "Authorization": dblToken ? dblToken : "" },
 		})
 			.then(res => res.json())
 			.then(r => {
+				let result;
 				switch (info) {
 					case 0:
 						result = r.invite;
@@ -226,12 +227,9 @@ module.exports = {
 				const storage = parseInt(data.storage);
 				const varName = this.evalMessage(data.varName, cache);
 				this.storeValue(result, storage, varName, cache);
-
 				this.callNextAction(cache);
 			});
-
-	},  
+	},
 
 	mod: function () {}
-
-}; 
+};

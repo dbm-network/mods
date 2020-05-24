@@ -1,17 +1,13 @@
 module.exports = {
-	name: "Delete Webhook",  
-	section: "Webhook Control",  
+	name: "Delete Webhook",
+	section: "Webhook Control",
 
 	subtitle: function(data) {
 		const names = ["You cheater!", "Temp Variable", "Server Variable", "Global Variable"];
 		return `${names[parseInt(data.webhook)]} - ${data.varName}`;
-	},  
+	},
 
-	depends_on_mods: [
-		{ name:"WrexMods", path:"aaa_wrexmods_dependencies_MOD.js" }
-	],  
-
-	fields: ["webhook", "varName"],  
+	fields: ["webhook", "varName"],
 
 	html: function(isEvent, data) {
 		return `
@@ -26,13 +22,13 @@ module.exports = {
 		<input id="varName" class="round" type="text" list="variableList"><br>
 	</div>
 </div><br>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.refreshVariableList(document.getElementById("webhook"));
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -51,7 +47,7 @@ module.exports = {
 		} else {
 			this.callNextAction(cache);
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

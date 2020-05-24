@@ -1,19 +1,19 @@
 module.exports = {
-	name: "Convert List to Text",  
-	section: "Lists and Loops",  
+	name: "Convert List to Text",
+	section: "Lists and Loops",
 
 	subtitle: function(data) {
 		const list = ["Server Members", "Server Channels", "Server Roles", "Server Emojis", "All Bot Servers", "Mentioned User Roles", "Command Author Roles", "Temp Variable", "Server Variable", "Global Variable"];
 		return `Convert ${list[parseInt(data.list)]} to Text`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
 		return ([data.varName2, "Text"]);
-	},  
+	},
 
-	fields: ["list", "varName", "start", "middle", "end", "storage", "varName2", "sort"],  
+	fields: ["list", "varName", "start", "middle", "end", "storage", "varName2", "sort"],
 
 	html: function(isEvent, data) {
 		return `
@@ -63,13 +63,13 @@ module.exports = {
 		<input id="varName2" class="round" type="text">
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.listChange(document.getElementById("list"), "varNameContainer");
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -106,7 +106,7 @@ module.exports = {
 		}
 
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

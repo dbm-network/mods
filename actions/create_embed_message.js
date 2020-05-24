@@ -1,18 +1,18 @@
 module.exports = {
-	name: "Create Embed Message",  
-	section: "Embed Message",  
+	name: "Create Embed Message",
+	section: "Embed Message",
 
 	subtitle: function(data) {
 		return `${data.title}`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
 		return ([data.varName, "Embed Message"]);
-	},  
+	},
 
-	fields: ["title", "author", "color", "url", "authorIcon", "authorUrl", "imageUrl", "thumbUrl", "timestamp", "debug", "timestamp1", "timestamp2", "text", "year", "month", "day", "hour", "minute", "second", "note1", "note2", "storage", "varName"],  
+	fields: ["title", "author", "color", "url", "authorIcon", "authorUrl", "imageUrl", "thumbUrl", "timestamp", "debug", "timestamp1", "timestamp2", "text", "year", "month", "day", "hour", "minute", "second", "note1", "note2", "storage", "varName"],
 
 	html: function(isEvent, data) {
 		return `
@@ -127,7 +127,7 @@ module.exports = {
 	</p>
 </div>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
@@ -194,7 +194,7 @@ module.exports = {
 
 		glob.onChange1(document.getElementById("timestamp"));
 		glob.onChange2(document.getElementById("debug"));
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -321,7 +321,7 @@ module.exports = {
 			this.storeValue(embed, storage, varName, cache);
 			this.callNextAction(cache);
 		}
-	},  
+	},
 
 	mod: function(DBM) {
 		const DiscordJS = DBM.DiscordJS;
@@ -332,4 +332,4 @@ module.exports = {
 		};
 	}
 
-}; 
+};

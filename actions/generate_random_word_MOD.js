@@ -1,21 +1,19 @@
 module.exports = {
-	name: "Generate Random Word(s)",  
-	section: "Other Stuff",  
+	name: "Generate Random Word(s)",
+	section: "Other Stuff",
 
 	subtitle: function(data) {
 		const storage = ["", "Temp Variable", "Server Variable", "Global Variable"];
 		return "Generate Random Word(s)";
-	},  
-
-	depends_on_mods: ["WrexMODS"],  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
 		return ([data.varName, "Text"]);
-	},  
+	},
 
-	fields: ["storage", "varName", "min", "max", "wps"],  
+	fields: ["storage", "varName", "min", "max", "wps"],
 
 	html: function(isEvent, data) {
 		return `
@@ -45,9 +43,9 @@ module.exports = {
 		<input id="varName" class="round" type="text">
 	</div>
 </div>`;
-	},  
+	},
 
-	init: function() {},  
+	init: function() {},
 
 	action: function(cache) {
 		const WrexMODS = this.getWrexMods();
@@ -72,7 +70,7 @@ module.exports = {
 			this.storeValue(words, type, varName, cache);
 			this.callNextAction(cache);
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

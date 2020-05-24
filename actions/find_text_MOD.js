@@ -1,18 +1,18 @@
 module.exports = {
-	name: "Find Text",  
-	section: "Other Stuff",  
+	name: "Find Text",
+	section: "Other Stuff",
 
 	subtitle: function(data) {
 		return `Find "${data.wordtoFind}"`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
 		let dataType = "Number";
 		return ([data.varName, dataType]);
-	},  
-	fields: ["text", "wordtoFind", "position", "storage", "varName"],  
+	},
+	fields: ["text", "wordtoFind", "position", "storage", "varName"],
 
 	html: function(isEvent, data) {
 		return `
@@ -49,13 +49,13 @@ module.exports = {
 			<b>Example</b>: We search word "a" | <u>This is<b> *</b>a<b>- </b>test</u> | * is the start (8) | - is the end (9)
 			</p>
 		</div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.variableChange(document.getElementById("storage"), "varNameContainer");
-	},  
+	},
 
 	action: function(cache) {
 
@@ -87,8 +87,8 @@ module.exports = {
 		this.storeValue(result, storage, varName, cache);
 
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};
 

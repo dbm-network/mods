@@ -1,19 +1,19 @@
 module.exports = {
-	name: "Remove Item from List",  
-	section: "Lists and Loops",  
+	name: "Remove Item from List",
+	section: "Lists and Loops",
 
 	subtitle: function (data) {
 		const storage = ["", "Temp Variable", "Server Variable", "Global Variable"];
 		return `Remove Item from ${storage[parseInt(data.storage)]} (${data.varName})`;
-	},  
+	},
 
 	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage2);
 		if (type !== varType) return;
 		return ([data.varName2, "Unknown Type"]);
-	},  
+	},
 
-	fields: ["storage", "varName", "removeType", "position", "storage2", "varName2"],  
+	fields: ["storage", "varName", "removeType", "position", "storage2", "varName2"],
 
 	html: function (isEvent, data) {
 		return `
@@ -55,11 +55,11 @@ module.exports = {
 			<input id="varName2" class="round" type="text">
 		</div>
 	</div>`;
-	},  
+	},
 
 	init: function () {
 		const {
-			glob,  
+			glob,
 			document
 		} = this;
 
@@ -76,7 +76,7 @@ module.exports = {
 		glob.refreshVariableList(document.getElementById("storage"));
 		glob.onChange1(document.getElementById("removeType"));
 		glob.variableChange(document.getElementById("storage2"), "varNameContainer2");
-	},  
+	},
 
 	action: function (cache) {
 		const data = cache.actions[cache.index];
@@ -115,8 +115,8 @@ module.exports = {
 		}
 		console.log("Problem with remove item from list");
 		return this.callNextAction(cache);
-	},  
+	},
 
-	mod: function (DBM) {}
+	mod: function () {}
 
-}; 
+};

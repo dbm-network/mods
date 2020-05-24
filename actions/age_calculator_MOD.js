@@ -1,23 +1,23 @@
 module.exports = {
-	name: "Age Calculator",  
-	section: "Other Stuff",  
+	name: "Age Calculator",
+	section: "Other Stuff",
 
 	subtitle: function(data) {
 		// const info = ['Age', 'Format'];
 		const info = ["MM/DD/YYYY", "DD/MM/YYYY", "MM/YYYY/DD", "DD/YYYY/MM", "YYYY/MM/DD", "YYYY/DD/MM"];
 		// What user sees when previewing actions box on bottom.
 		return `Convert Age from format: ${info[data.info]}`;
-	},  
-	
+	},
+
 	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		let dataType = "Number";
 		return ([data.varName, dataType]);
-	},  
+	},
 
 	//fields: ["DateOfBirth", "format", "storage", "varName"],
-	fields: ["DOB", "info", "storage", "varName"],  
+	fields: ["DOB", "info", "storage", "varName"],
 
 	html: function(isEvent, data) {
 		return `
@@ -49,9 +49,9 @@ module.exports = {
 	</div>
 </div>
 	`;
-	},  
+	},
 
-	init: function() {},  
+	init: function() {},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -63,16 +63,16 @@ module.exports = {
 		const dateArr = replDOB.split(" ");
 		const monthsArr = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 		const INFO = parseInt(data.info);
-		let result;
+		let result, converttoformat, converttodateformat, calcDOB;
 		switch(INFO) {
 			case 0:
 				// MM/DD/YYYY selected format
 			// convert to DD/MM/YYYY so calc can work
 				//INPUT: ['12', '23', '1990']
-				var converttoformat = dateArr[1] + " " +  monthsArr[parseInt(dateArr[0])-1] + " " + dateArr[2];
-				var converttodateformat = new Date(converttoformat);
+				converttoformat = dateArr[1] + " " +  monthsArr[parseInt(dateArr[0])-1] + " " + dateArr[2];
+				converttodateformat = new Date(converttoformat);
 
-				var calcDOB = parseInt((new Date() - converttodateformat)/60/60/24/365.242214/1000); // Precise num of days in year, not 365 or 365.25
+				calcDOB = parseInt((new Date() - converttodateformat)/60/60/24/365.242214/1000); // Precise num of days in year, not 365 or 365.25
 
 				if (calcDOB < 0) {
 					result = "unborn";
@@ -87,10 +87,10 @@ module.exports = {
 				// DD/MM/YYYY selected format
 			// convert to DD/MM/YYYY so calc can work
 				//INPUT: ['12', '23', '1990']
-				var converttoformat = dateArr[0] + " " +  monthsArr[parseInt(dateArr[1])-1] + " " + dateArr[2];
-				var converttodateformat = new Date(converttoformat);
+				converttoformat = dateArr[0] + " " +  monthsArr[parseInt(dateArr[1])-1] + " " + dateArr[2];
+				converttodateformat = new Date(converttoformat);
 
-				var calcDOB = parseInt((new Date() - converttodateformat)/60/60/24/365.242214/1000); // Precise num of days in year, not 365 or 365.25
+				calcDOB = parseInt((new Date() - converttodateformat)/60/60/24/365.242214/1000); // Precise num of days in year, not 365 or 365.25
 
 				if (calcDOB < 0) {
 					result = "unborn";
@@ -105,10 +105,10 @@ module.exports = {
 			// MM/YYYY/DD selected format
 			// convert to DD/MM/YYYY so calc can work
 				//INPUT: ['12', '1990', '23']
-				var converttoformat = dateArr[2] + " " +  monthsArr[parseInt(dateArr[0])-1] + " " + dateArr[1];
-				var converttodateformat = new Date(converttoformat);
+				converttoformat = dateArr[2] + " " +  monthsArr[parseInt(dateArr[0])-1] + " " + dateArr[1];
+				converttodateformat = new Date(converttoformat);
 
-				var calcDOB = parseInt((new Date() - converttodateformat)/60/60/24/365.242214/1000); // Precise num of days in year, not 365 or 365.25
+				calcDOB = parseInt((new Date() - converttodateformat)/60/60/24/365.242214/1000); // Precise num of days in year, not 365 or 365.25
 
 				if (calcDOB < 0) {
 					result = "unborn";
@@ -122,10 +122,10 @@ module.exports = {
 			// DD/YYYY/MM selected format
 			// convert to DD/MM/YYYY so calc can work
 				//INPUT: ['12', '1990', '23']
-				var converttoformat = dateArr[0] + " " +  monthsArr[parseInt(dateArr[2])-1] + " " + dateArr[1];
-				var converttodateformat = new Date(converttoformat);
+				converttoformat = dateArr[0] + " " +  monthsArr[parseInt(dateArr[2])-1] + " " + dateArr[1];
+				converttodateformat = new Date(converttoformat);
 
-				var calcDOB = parseInt((new Date() - converttodateformat)/60/60/24/365.242214/1000); // Precise num of days in year, not 365 or 365.25
+				calcDOB = parseInt((new Date() - converttodateformat)/60/60/24/365.242214/1000); // Precise num of days in year, not 365 or 365.25
 
 				if (calcDOB < 0) {
 					result = "unborn";
@@ -140,10 +140,10 @@ module.exports = {
 			// YYYY/MM/DD selected format
 			// convert to DD/MM/YYYY so calc can work
 				//INPUT: ['1990', '12', '23']
-				var converttoformat = dateArr[2] + " " +  monthsArr[parseInt(dateArr[1])-1] + " " + dateArr[0];
-				var converttodateformat = new Date(converttoformat);
+				converttoformat = dateArr[2] + " " +  monthsArr[parseInt(dateArr[1])-1] + " " + dateArr[0];
+				converttodateformat = new Date(converttoformat);
 
-				var calcDOB = parseInt((new Date() - converttodateformat)/60/60/24/365.242214/1000); // Precise num of days in year, not 365 or 365.25
+				calcDOB = parseInt((new Date() - converttodateformat)/60/60/24/365.242214/1000); // Precise num of days in year, not 365 or 365.25
 
 				if (calcDOB < 0) {
 					result = "unborn";
@@ -158,10 +158,10 @@ module.exports = {
 			// YYYY/DD/MM selected format
 			// convert to DD/MM/YYYY so calc can work
 				//INPUT: ['1990', '23', '12']
-				var converttoformat = dateArr[1] + " " +  monthsArr[parseInt(dateArr[2])-1] + " " + dateArr[0];
-				var converttodateformat = new Date(converttoformat);
+				converttoformat = dateArr[1] + " " +  monthsArr[parseInt(dateArr[2])-1] + " " + dateArr[0];
+				converttodateformat = new Date(converttoformat);
 
-				var calcDOB = parseInt((new Date() - converttodateformat)/60/60/24/365.242214/1000); // Precise num of days in year, not 365 or 365.25
+				calcDOB = parseInt((new Date() - converttodateformat)/60/60/24/365.242214/1000); // Precise num of days in year, not 365 or 365.25
 
 				if (calcDOB < 0) {
 					result = "unborn";
@@ -182,7 +182,7 @@ module.exports = {
 			this.storeValue(result, storage, varName, cache);
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

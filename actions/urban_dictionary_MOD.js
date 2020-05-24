@@ -1,11 +1,11 @@
 module.exports = {
-	name: "Urban Dictionary Search",  
-	section: "Other Stuff",  
+	name: "Urban Dictionary Search",
+	section: "Other Stuff",
 
 	subtitle: function (data) {
 		const info = ["Definition", "Result URL", "Example", "Thumbs Up Count", "Thumbs Down Count", "Author", "Result ID", "Tags"];
 		return `${info[parseInt(data.info)]}`;
-	},  
+	},
 
 	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage);
@@ -36,9 +36,9 @@ module.exports = {
 				break;
 		}
 		return ([data.varName, dataType]);
-	},  
+	},
 
-	fields: ["string", "info", "storage", "varName"],  
+	fields: ["string", "info", "storage", "varName"],
 
 	html: function (isEvent, data) {
 		return `
@@ -72,12 +72,12 @@ module.exports = {
 		</div>
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function () {
 		const { glob, document } = this;
 		glob.variableChange(document.getElementById("storage"), "varNameContainer");
-	},  
+	},
 
 	action: function (cache) {
 		const data = cache.actions[cache.index];
@@ -92,6 +92,7 @@ module.exports = {
 
 		urban(`${string}`).first(function (results) {
 			if (!results) return _this.callNextAction(cache);
+			let result;
 			switch (info) {
 				case 0:
 					result = results.definition;
@@ -125,8 +126,7 @@ module.exports = {
 			}
 			_this.callNextAction(cache);
 		});
-	},  
+	},
 
-	mod: function (DBM) { }
-
-}; 
+	mod: function () {}
+};

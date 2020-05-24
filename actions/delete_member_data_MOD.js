@@ -1,13 +1,13 @@
 module.exports = {
-	name: "Delete Member Data MOD",  
-	section: "Deprecated",  
+	name: "Delete Member Data MOD",
+	section: "Deprecated",
 
 	subtitle: function(data) {
 		const members = ["Mentioned User", "Command Author", "Temp Variable", "Server Variable", "Global Variable"];
 		return `${members[parseInt(data.member)]} - ${data.dataName}`;
-	},  
+	},
 
-	fields: ["member", "varName", "dataName"],  
+	fields: ["member", "varName", "dataName"],
 
 	html: function(isEvent, data) {
 		return `
@@ -29,13 +29,13 @@ module.exports = {
 		<input id="dataName" class="round" placeholder="Leave it blank to delete all data" type="text">
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.memberChange(document.getElementById("member"), "varNameContainer");
-	},  
+	},
 
 	action: function(cache) {
 		const Files = this.getDBM().Files;
@@ -56,7 +56,7 @@ module.exports = {
 			Files.saveData("players");
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

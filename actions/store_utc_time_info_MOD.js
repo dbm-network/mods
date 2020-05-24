@@ -1,19 +1,19 @@
 module.exports = {
-	name: "Store UTC Time Info",  
-	section: "Other Stuff",  
+	name: "Store UTC Time Info",
+	section: "Other Stuff",
 
 	subtitle: function(data) {
 		const time = ["UTC Year", "UTC Month", "UTC Day of the Month", "UTC Hour", "UTC Minute", "UTC Second", "UTC Millisecond"];
 		return `${time[parseInt(data.type)]}`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
 		return ([data.varName, "Number"]);
-	},  
+	},
 
-	fields: ["type", "storage", "varName"],  
+	fields: ["type", "storage", "varName"],
 
 	html: function(isEvent, data) {
 		return `
@@ -43,9 +43,9 @@ module.exports = {
 		<input id="varName" class="round" type="text"><br>
 	</div>
 </div>`;
-	},  
+	},
 
-	init: function() {},  
+	init: function() {},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -82,7 +82,7 @@ module.exports = {
 			this.storeValue(result, storage, varName, cache);
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

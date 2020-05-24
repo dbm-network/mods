@@ -1,10 +1,6 @@
 module.exports = {
-	name: "Store Twitch Info",  
-	section: "Other Stuff",  
-
-	depends_on_mods: [
-		{ name:"WrexMODS", path:"aaa_wrexmods_dependencies_MOD.js" }
-	],  
+	name: "Store Twitch Info",
+	section: "Other Stuff",
 
 	subtitle: function (data) {
 		const sourceType = parseInt(data.type);//"Channel", "Stream", "Video" or "Game"
@@ -82,7 +78,7 @@ module.exports = {
 		}
 
 		return `Get "${infoList1[parseInt(infoNum1)]}" ${infoList2[parseInt(infoNum2)]}`;
-	},  
+	},
 
 	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage);
@@ -145,9 +141,9 @@ module.exports = {
 		}
 
 		return ([data.varName, dataType]);
-	},  
+	},
 
-	fields: ["wrexdiv", "type", "divinputtype", "inputtype", "divinput", "input", "divinfo1", "info1", "divinfo2", "info2", "divinfo3", "info3", "divinfo4", "info4", "clientid", "results", "divresults", "storage", "varName"],  
+	fields: ["wrexdiv", "type", "divinputtype", "inputtype", "divinput", "input", "divinfo1", "info1", "divinfo2", "info2", "divinfo3", "info3", "divinfo4", "info4", "clientid", "results", "divresults", "storage", "varName"],
 
 	html: function (isEvent, data) {
 		return `
@@ -290,7 +286,7 @@ module.exports = {
 		color:#4676b9;
 	  }
 	</style>`;
-	},  
+	},
 
 	init: function () {
 		const { glob, document } = this;
@@ -540,7 +536,7 @@ module.exports = {
 		glob.onChange3(document.getElementById("info1"));//For Source Info: Channel
 		glob.onChange4(document.getElementById("info4"));//For Source Info: Game
 		glob.variableChange(document.getElementById("storage"), "varNameContainer");
-	},  
+	},
 
 	action: function (cache) {
 		const data = cache.actions[cache.index];
@@ -592,23 +588,22 @@ module.exports = {
 		if(sourceType == 0) {//Soure Info: Channel
 
 			if(inputType == 0 || infoType == 9) {//Input Type: ID
+				let options = {
+					url: `https://api.twitch.tv/helix/users/follows?to_id=${input}&first=2`,
+					headers: { "Client-ID": `${clientID}` }
+				};
 
 				if(infoType < 9) {
-					var options = {
-						url: `https://api.twitch.tv/helix/users?id=${input}`,  
-						headers: { "Client-ID": `${clientID}` }
-					};
-				} else {
-					var options = {
-						url: `https://api.twitch.tv/helix/users/follows?to_id=${input}&first=2`,  
+					options = {
+						url: `https://api.twitch.tv/helix/users?id=${input}`,
 						headers: { "Client-ID": `${clientID}` }
 					};
 				}
 
-				function callback(error, response, body) {
+				request(options, function(error, response, body) {
 					if(!error && response.statusCode == 200) {
-					  	var info = JSON.parse(body);
-					  	var result = undefined;
+						var info = JSON.parse(body);
+						var result = undefined;
 						if(!info.data[0]) {
 							console.log(`No results for ${input}.`);
 							return _this.callNextAction(cache);
@@ -634,19 +629,19 @@ module.exports = {
 					} else {
 						console.error(error);
 					}
-				}
-				request(options, callback);
+				});
 
 			} else if(inputType == 1 && infoType < 9) {//Input Type: Name
 
 				var options = {
-					url: `https://api.twitch.tv/helix/users?login=${input}`,  
+					url: `https://api.twitch.tv/helix/users?login=${input}`,
 					headers: { "Client-ID": `${clientID}` }
 				};
-				function callback(error, response, body) {
+
+				request(options, function(error, response, body) {
 					if(!error && response.statusCode == 200) {
-					  	var info = JSON.parse(body);
-					  	var result = undefined;
+						var info = JSON.parse(body);
+						var result = undefined;
 						if(!info.data[0]) {
 							console.log(`No results for ${input}.`);
 							return _this.callNextAction(cache);
@@ -671,21 +666,20 @@ module.exports = {
 					} else {
 						console.error(error);
 					}
-				}
-				request(options, callback);
+				});
 
 			} else {//Input Type: Undefined
 				return console.log("Please select either \"User ID\" or \"User Login Name\"!");
 			}
 
 		} else if(sourceType == 1) {//Source Info: Stream
-
 			//Input Type: ID
-			var options = {
-				url: `https://api.twitch.tv/helix/streams?user_id=${input}`,  
+			const options = {
+				url: `https://api.twitch.tv/helix/streams?user_id=${input}`,
 				headers: { "Client-ID": `${clientID}` }
 			};
-			function callback(error, response, body) {
+
+			request(options, function(error, response, body) {
 				if(!error && response.statusCode == 200) {
 					var info = JSON.parse(body);
 					var result = undefined;
@@ -728,17 +722,15 @@ module.exports = {
 				} else {
 					console.error(error);
 				}
-			}
-			request(options, callback);
-
+			});
 		} else if(sourceType == 2) {//Source Info: Video
-
 			//Input Type: ID
-			var options = {
-				url: `https://api.twitch.tv/helix/videos?user_id=${input}&first=${searchResults}`,  
+			const options = {
+				url: `https://api.twitch.tv/helix/videos?user_id=${input}&first=${searchResults}`,
 				headers: { "Client-ID": `${clientID}` }
 			};
-			function callback(error, response, body) {
+
+			request(options, function(error, response, body) {
 				if(!error && response.statusCode == 200) {
 					var info = JSON.parse(body);
 					var result = [];
@@ -769,25 +761,22 @@ module.exports = {
 				} else {
 					console.error(error);
 				}
-			}
-			request(options, callback);
-
+			});
 		} else if(sourceType == 3) {//Source Info: Game
 
 			if(inputType == 0) {//Input Type: Game ID
-
+				let options = {
+					url: "https://api.twitch.tv/helix/games/top",
+					headers: { "Client-ID": `${clientID}` }
+				};
 				if(infoType < 3) {
-					var options = {
-						url: `https://api.twitch.tv/helix/games?id=${input}`,  
-						headers: { "Client-ID": `${clientID}` }
-					};
-				} else {
-					var options = {
-						url: "https://api.twitch.tv/helix/games/top",  
+					options = {
+						url: `https://api.twitch.tv/helix/games?id=${input}`,
 						headers: { "Client-ID": `${clientID}` }
 					};
 				}
-				function callback(error, response, body) {
+
+				request(options, 	function(error, response, body) {
 					if(!error && response.statusCode == 200) {
 						var info = JSON.parse(body);
 						var result = undefined;
@@ -818,23 +807,21 @@ module.exports = {
 					} else {
 						console.error(error);
 					}
-				}
-				request(options, callback);
-
+				});
 			} else if(inputType == 1) {//Input Type: Game Name
+				let options =  {
+					url: `https://api.twitch.tv/helix/games/top?first=${searchResults}`,
+					headers: { "Client-ID": `${clientID}` }
+				};
 
 				if(infoType < 3) {
-					var options = {
-						url: `https://api.twitch.tv/helix/games?id=${input}`,  
-						headers: { "Client-ID": `${clientID}` }
-					};
-				} else {
-					var options = {
-						url: `https://api.twitch.tv/helix/games/top?first=${searchResults}`,  
+					options = {
+						url: `https://api.twitch.tv/helix/games?id=${input}`,
 						headers: { "Client-ID": `${clientID}` }
 					};
 				}
-				function callback(error, response, body) {
+
+				request(options, function(error, response, body) {
 					if(!error && response.statusCode == 200) {
 						var info = JSON.parse(body);
 						var result = undefined;
@@ -865,19 +852,14 @@ module.exports = {
 					} else {
 						console.error(error);
 					}
-				}
-				request(options, callback);
-
-			} else {//Input Type: Popular Games List
+				});
+			} else { //Input Type: Popular Games List
 				return console.log("Please select either \"Game ID\" or \"Game Name\"!");
 			}
-		} else {//Source Type: Undefined
+		} else { //Source Type: Undefined
 			return console.log("Please select either \"Channel\", \"Stream\", \"Video\" or \"Game\"!");//This will only be executed if there is an invaild action setting of the "Source Input".
 		}
-	},  
+	},
 
-	mod: function (DBM) {
-
-	}
-
-}; 
+	mod: function () {}
+};

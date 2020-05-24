@@ -1,11 +1,11 @@
 module.exports = {
-	name: "Store Data List MOD",  
-	section: "Other Stuff",  
+	name: "Store Data List MOD",
+	section: "Other Stuff",
 
 	subtitle: function(data) {
 		const files = ["players.json", "servers.json"];
 		return `${files[parseInt(data.File)]} - ${(data.dataName)}`;
-	},  
+	},
 
 	variableStorage: function (data, varType) {
 		const type = parseInt(data.storage);
@@ -21,9 +21,9 @@ module.exports = {
 				break;
 		}
 		return ([data.varName, dataType]);
-	},  
+	},
 
-	fields: ["File", "serverType", "dataName", "sort", "numberBoolean", "resultFormat", "resultInfo", "rank", "resultType", "resultFrom", "resultTo", "varName", "storage"],  
+	fields: ["File", "serverType", "dataName", "sort", "numberBoolean", "resultFormat", "resultInfo", "rank", "resultType", "resultFrom", "resultTo", "varName", "storage"],
 
 	html: function(isEvent, data) {
 		return `
@@ -115,7 +115,7 @@ module.exports = {
 		</div>
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
@@ -191,7 +191,7 @@ module.exports = {
 		glob.onChange0(document.getElementById("File"));
 		glob.onChange1(document.getElementById("resultInfo"));
 		glob.onChange2(document.getElementById("resultType"));
-	},  
+	},
 
 	action: function(cache) {
 		const Discord = require("discord.js");
@@ -224,10 +224,11 @@ module.exports = {
 		const varName = this.evalMessage(data.varName, cache);
 
 		let objectid, value, name;
-		for (id in file) {
+		for (const id in file) {
 			if (file[id][dataName] || typeof file[id][dataName] === "number") {
 				switch (File) {
 					case 0:
+						let object;
 						switch (serverType) {
 							case 0:
 								object = cache.msg.guild.members.get(id);
@@ -304,7 +305,7 @@ module.exports = {
 				break;
 			case 1:
 				if (rank) {
-					for (var i = 0; i < result.length; i++) {
+					for (let i = 0; i < result.length; i++) {
 						if (result[i].id == rank) {
 							var result1 = result[i].rank;
 							this.storeValue(result1, storage, varName, cache);
@@ -315,7 +316,7 @@ module.exports = {
 				break;
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

@@ -57,7 +57,7 @@ class GetCommandDescription {
 
 		const Files = this.getDBM().Files;
 		const commands = Files.data.commands;
-        
+
 		if (findBy == "id") {
 			var cmd;
 
@@ -68,7 +68,6 @@ class GetCommandDescription {
 					for (let j = 0; j < cmd.actions.length; j++) {
 						let action = cmd.actions[j];
 						if (action.name == "Command Description") {
-							console.log(saveTo);
 							this.storeValue(action.description, Number(saveTo), saveToName, cache);
 							this.callNextAction(cache);
 							return;
@@ -79,10 +78,10 @@ class GetCommandDescription {
 				}
 			}
 
-			this.storeValue(null, varType, saveToName, cache);
+			this.storeValue(null, Number(saveTo), saveToName, cache);
 			this.callNextAction(cache);
 		} else if (findBy == "name") {
-			var cmd;
+			let cmd;
 
 			for (let i = 0; i < commands.length; i++) {
 				cmd = commands[i];
@@ -91,7 +90,6 @@ class GetCommandDescription {
 					for (let j = 0; j < cmd.actions.length; j++) {
 						let action = cmd.actions[j];
 						if (action.name == "Command Description") {
-							console.log(saveTo);
 							this.storeValue(action.description, Number(saveTo), saveToName, cache);
 							this.callNextAction(cache);
 							return;
@@ -102,16 +100,14 @@ class GetCommandDescription {
 				}
 			}
 
-			this.storeValue(null, varType, saveToName, cache);
+			this.storeValue(null, Number(saveTo), saveToName, cache);
 			this.callNextAction(cache);
 		}
 
 		this.callNextAction(cache);
 	}
 
-	mod(DBM) {
-		return;
-	}
+	mod() {}
 }
 
 module.exports = new GetCommandDescription();

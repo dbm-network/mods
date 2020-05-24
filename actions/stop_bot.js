@@ -1,12 +1,12 @@
 module.exports = {
-	name: "Stop Bot",  
-	section: "Bot Client Control",  
+	name: "Stop Bot",
+	section: "Bot Client Control",
 
 	subtitle: function(data) {
 		return "Stops bot";
-	},  
+	},
 
-	fields: [],  
+	fields: [],
 
 	html: function(isEvent, data) {
 		return `
@@ -17,15 +17,15 @@ module.exports = {
 		Choose the permissions for this command/event carefully!
 	</p>
 </div>`;
-	},  
+	},
 
-	init: function() {},  
+	init: function() {},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
 		console.log("Stopped bot!");
 		this.getDBM().Bot.bot.destroy();
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

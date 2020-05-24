@@ -1,11 +1,11 @@
 module.exports = {
-	name: "Read File",  
-	section: "File Stuff",  
+	name: "Read File",
+	section: "File Stuff",
 
 	subtitle: function(data) {
 		const info1 = data.filename;
 		return `Read File "${data.filename}"`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
@@ -13,9 +13,9 @@ module.exports = {
 		const filename = parseInt(data.filename);
 		let dataType = "File";
 		return ([data.varName2, dataType]);
-	},  
+	},
 
-	fields: ["filename", "storage", "varName2"],  
+	fields: ["filename", "storage", "varName2"],
 
 	html: function(isEvent, data) {
 		return `
@@ -37,14 +37,14 @@ module.exports = {
         <input id="varName2" class="round" type="text"><br>
     </div>
 </div>`;
-	},  
+	},
 
-	init: function() {},  
+	init: function() {},
 
 	action: function (cache) {
 		const
-			data = cache.actions[cache.index],  
-			fs = require("fs"),  
+			data = cache.actions[cache.index],
+			fs = require("fs"),
 			FILENAME = this.evalMessage(data.filename, cache);
 		try {
 			if (FILENAME) {
@@ -57,8 +57,8 @@ module.exports = {
 			console.error("ERROR!" + err.stack ? err.stack : err);
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
 
-}; 
+};

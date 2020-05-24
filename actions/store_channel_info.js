@@ -1,12 +1,12 @@
 module.exports = {
-	name: "Store Channel Info",  
-	section: "Channel Control",  
+	name: "Store Channel Info",
+	section: "Channel Control",
 
 	subtitle: function(data) {
 		const channels = ["Same Channel", "Mentioned Channel", "1st Server Channel", "Temp Variable", "Server Variable", "Global Variable"];
 		const info = ["Channel Object", "Channel ID", "Channel Name", "Channel Topic", "Channel Last Message", "Channel Position", "Channel Is NSFW?", "Channel Is DM?", "Channel Is Deleteable?", "Channel Creation Date", "Channel Category Name", "Created At", "Created At Timestamp"];
 		return `${channels[parseInt(data.channel)]} - ${info[parseInt(data.info)]}`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
@@ -49,9 +49,9 @@ module.exports = {
 				break;
 		}
 		return ([data.varName2, dataType]);
-	},  
+	},
 
-	fields: ["channel", "varName", "info", "storage", "varName2"],  
+	fields: ["channel", "varName", "info", "storage", "varName2"],
 
 	html: function(isEvent, data) {
 		return `
@@ -100,13 +100,13 @@ module.exports = {
 		<input id="varName2" class="round" type="text"><br>
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.channelChange(document.getElementById("channel"), "varNameContainer");
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -175,7 +175,7 @@ module.exports = {
 		} else {
 			this.callNextAction(cache);
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

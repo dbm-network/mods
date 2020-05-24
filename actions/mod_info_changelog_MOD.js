@@ -1,12 +1,12 @@
 module.exports = {
-	name: "Changelog",  
-	section: "#Mod Information",  
+	name: "Changelog",
+	section: "#Mod Information",
 
 	subtitle: function(data) {
 		return "Does nothing - Click \"Edit\" for more information";
-	},  
+	},
 
-	fields: [],  
+	fields: [],
 
 	html: function(isEvent, data) {
 		return `
@@ -332,11 +332,11 @@ module.exports = {
 		● Bug fixes<br>
 		● https://youtu.be/mrrtj5nlV58
 </div>`;
-	},  
+	},
 
-	init: function() {},  
+	init: function() {},
 
-	action: function(cache) {},  
+	action: function(cache) {},
 
 	mod: function() {}
-}; 
+};

@@ -1,18 +1,18 @@
 module.exports = {
-	name: "Color",  
-	section: "Tools",  
+	name: "Color",
+	section: "Tools",
 
 	subtitle: function(data) {
 		return `${data.color}`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
 		return ([data.varName, "Color"]);
-	},  
+	},
 
-	fields: ["color", "storage", "varName"],  
+	fields: ["color", "storage", "varName"],
 
 	html: function(isEvent, data) {
 		return `
@@ -30,9 +30,9 @@ Color:<br>
 		<input id="varName" class="round" type="text"><br>
 	</div>
 </div>`;
-	},  
+	},
 
-	init: function() {},  
+	init: function() {},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -45,7 +45,7 @@ Color:<br>
 			this.storeValue(color, storage, varName, cache);
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

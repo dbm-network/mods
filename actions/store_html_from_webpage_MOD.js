@@ -1,22 +1,18 @@
 module.exports = {
-	name: "Store HTML From Webpage",  
-	section: "HTML/XML Things",  
-
-	depends_on_mods: [
-		{ name:"WrexMODS", path:"aaa_wrexmods_dependencies_MOD.js" }
-	],  
+	name: "Store HTML From Webpage",
+	section: "HTML/XML Things",
 
 	subtitle: function(data) {
 		return `URL: ${data.url}`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
 		return ([data.varName, "HTML Webpage"]);
-	},  
+	},
 
-	fields: ["url", "storage", "varName"],  
+	fields: ["url", "storage", "varName"],
 
 	html: function(isEvent, data) {
 		return `
@@ -49,7 +45,7 @@ module.exports = {
 		</div>
 	</div>
 	`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
@@ -92,7 +88,7 @@ module.exports = {
 
 		glob.variableChange(document.getElementById("storage"), "varNameContainer");
 
-	},  
+	},
 
 	action: function(cache) {
 
@@ -133,7 +129,7 @@ module.exports = {
 			console.error("API Things:  Error: " + error.stack ? error.stack : error);
 		}
 
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

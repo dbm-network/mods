@@ -1,20 +1,20 @@
 module.exports = {
-	name: "Clone Channel MOD",  
-	section: "Channel Control",  
+	name: "Clone Channel MOD",
+	section: "Channel Control",
 
 	subtitle: function(data) {
 		const names = ["Same Channel", "Mentioned Channel", "Default Channel", "Temp Variable", "Server Variable", "Global Variable"];
 		const index = parseInt(data.storage);
 		return index < 3 ? `Clone Channel : ${names[index]}` : `Clone Channel : ${names[index]} - ${data.varName}`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage2);
 		if(type !== varType) return;
 		return ([data.varName2, "Channel"]);
-	},  
+	},
 
-	fields: ["storage", "varName", "categoryID", "position", "permission", "info", "topic", "slowmode", "nsfw", "bitrate", "userLimit", "storage2", "varName2", ],  
+	fields: ["storage", "varName", "categoryID", "position", "permission", "info", "topic", "slowmode", "nsfw", "bitrate", "userLimit", "storage2", "varName2", ],
 
 	html: function(isEvent, data) {
 		return `
@@ -108,7 +108,7 @@ module.exports = {
 		<input id="varName2" class="round" type="text">
 	</div>
 </div>`;
-	},  
+	},
 	init: function() {
 		const { glob, document } = this;
 
@@ -128,7 +128,7 @@ module.exports = {
 			}
 		};
 		glob.channeltype(document.getElementById("info"));
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -210,7 +210,7 @@ module.exports = {
 		} else {
 			this.callNextAction(cache);
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

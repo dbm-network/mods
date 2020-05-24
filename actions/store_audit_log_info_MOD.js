@@ -1,12 +1,12 @@
 module.exports = {
-	name: "Store Audit Log Info MOD",  
-	section: "Server Control",  
+	name: "Store Audit Log Info MOD",
+	section: "Server Control",
 
 	subtitle: function(data) {
 		const storage = ["", "Temp Variable", "Server Variable", "Global Variable"];
 		const info = ["Audit Log Id", "Action", "Executor", "Target", "Target Type", "Creation Date", "Creation Timestamp", "Total Key Change", "Key Change", "Old Value", "New Value", "Reason", "Extra Data"];
 		return `${storage[parseInt(data.storage)]} ${data.varName} - ${info[parseInt(data.info)]}`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage2);
@@ -39,9 +39,9 @@ module.exports = {
 				break;
 		}
 		return ([data.varName2, dataType]);
-	},  
+	},
 
-	fields: ["storage", "varName", "info", "position", "storage2", "varName2"],  
+	fields: ["storage", "varName", "info", "position", "storage2", "varName2"],
 
 	html: function(isEvent, data) {
 		return `
@@ -95,7 +95,7 @@ module.exports = {
 		<input id="varName2" class="round" type="text">
 	</div>
 </div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
@@ -116,7 +116,7 @@ module.exports = {
 
 		glob.onChange0(document.getElementById("info"));
 		glob.refreshVariableList(document.getElementById("storage"));
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -209,7 +209,7 @@ module.exports = {
 			this.storeValue(result, storage2, varName2, cache);
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

@@ -1,16 +1,12 @@
 module.exports = {
-	name: "Store Emoji Info",  
-	section: "Emoji Control",  
+	name: "Store Emoji Info",
+	section: "Emoji Control",
 
 	subtitle: function(data) {
 		const emoji = ["You cheater!", "Temp Variable", "Server Variable", "Global Variable"];
 		const info = ["Emoji Object", "Emoji Is Animated?", "Emoji Creation Date", "Emoji Name", "Emoji URL", "Emoji ID", "Emoji Timestamp", "Emoji Is Deletable?", "Emoji Has Been Deleted?", "Emoji Server", "Emoji Identifier", "Emoji Is Managed By An External Service?", "Emoji Requires Colons Surrounding It?"];
 		return `${emoji[parseInt(data.emoji)]} - ${info[parseInt(data.info)]}`;
-	},  
-
-	depends_on_mods: [
-		{ name:"WrexMods", path:"aaa_wrexmods_dependencies_MOD.js" }
-	],  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
@@ -59,9 +55,9 @@ module.exports = {
 				break;
 		}
 		return ([data.varName2, dataType]);
-	},  
+	},
 
-	fields: ["emoji", "varName", "info", "storage", "varName2"],  
+	fields: ["emoji", "varName", "info", "storage", "varName2"],
 
 	html: function(isEvent, data) {
 		return `
@@ -115,13 +111,13 @@ module.exports = {
 				Only works with custom emojis.<br>
 		</div>
 	</div>`;
-	},  
+	},
 
 	init: function() {
 		const { glob, document } = this;
 
 		glob.emojiChange(document.getElementById("emoji"));
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -185,8 +181,8 @@ module.exports = {
 			this.storeValue(result, storage, varName2, cache);
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};
 

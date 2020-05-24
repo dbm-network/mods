@@ -1,19 +1,19 @@
 module.exports = {
-	name: "Find Category",  
-	section: "Channel Control",  
+	name: "Find Category",
+	section: "Channel Control",
 
 	subtitle: function(data) {
 		const info = ["Category ID", "Category Name", "Category Topic"];
 		return `Find Category by ${info[parseInt(data.info)]}`;
-	},  
+	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
 		return ([data.varName, "Category"]);
-	},  
+	},
 
-	fields: ["info", "find", "storage", "varName"],  
+	fields: ["info", "find", "storage", "varName"],
 
 	html: function(isEvent, data) {
 		return `
@@ -86,9 +86,9 @@ This was made by EliteArtz!-->
 	color:#4676b9;
 	}
 </style>`;
-	},  
+	},
 
-	init: function() {},  
+	init: function() {},
 
 	action: function(cache) {
 		const server = cache.server;
@@ -119,7 +119,7 @@ This was made by EliteArtz!-->
 		} else {
 			this.callNextAction(cache);
 		}
-	},  
+	},
 
 	mod: function() {}
-}; 
+};

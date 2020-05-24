@@ -1,12 +1,12 @@
 module.exports = {
-	name: "Restart Bot",  
-	section: "Bot Client Control",  
+	name: "Restart Bot",
+	section: "Bot Client Control",
 
 	subtitle: function(data) {
 		return `Restarts ${data.filename}`;
-	},  
+	},
 
-	fields: ["filename"],  
+	fields: ["filename"],
 
 	html: function(isEvent, data) {
 		return `
@@ -20,9 +20,9 @@ module.exports = {
 	<p><u>NOTE:</u><br>
 		Any action that is below this mod will not be executed!</p>
 </div>`;
-	},  
+	},
 
-	init: function() {},  
+	init: function() {},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -30,8 +30,8 @@ module.exports = {
 		this.getDBM().Bot.bot.destroy().then(console.log(`Restarting ${filename}...`));
 		const child = require("child_process");
 		child.execSync(`node ${filename}`, { cwd: require("path").dirname(process.argv[1]), stdio:[0, 1, 2] }).catch(e => console.log("An error in Restart Bot MOD: " + e));
-	},  
+	},
 
 	mod: function() {}
 
-}; 
+};

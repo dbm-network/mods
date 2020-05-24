@@ -1,12 +1,12 @@
 module.exports = {
-	name: "Remove from Queue MOD",  
-	section: "Audio Control",  
+	name: "Remove from Queue MOD",
+	section: "Audio Control",
 
 	subtitle: function(data) {
 		return `Remove ${data.amount} Song`;
-	},  
+	},
 
-	fields: ["server", "varName", "position", "amount"],  
+	fields: ["server", "varName", "position", "amount"],
 
 	html: function(isEvent, data) {
 		return `
@@ -34,13 +34,13 @@ module.exports = {
 </div>
 
 `;
-	},  
+	},
 
 	init: function () {
 		const { glob, document } = this;
 
 		glob.serverChange(document.getElementById("server"), "varNameContainer");
-	},  
+	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -60,7 +60,7 @@ module.exports = {
 			Audio.queue[targetServer.id] = queue;
 		}
 		this.callNextAction(cache);
-	},  
+	},
 
 	mod: function() {}
-}; 
+};
