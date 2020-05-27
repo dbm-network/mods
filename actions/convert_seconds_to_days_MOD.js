@@ -34,13 +34,13 @@ module.exports = {
     //---------------------------------------------------------------------
 
     // Who made the mod (If not set, defaults to "DBM Mods")
-    author: "Aamon", //Idea by Tresmos    // I don't know who Tremos is but 'heya' =]]]
+    author: "Aamon, Revamped by RigidStudios", //Idea by Tresmos    // I don't know who Tremos is but 'heya' =]]] // Oh coolio Tresmos :3
 
     // The version of the mod (Defaults to 1.0.0)
     version: "1.9.6", //added in 1.9.4
 
     // A short description to show on the mod line for this mod (Must be on a single line)
-    short_description: "Convert Seconds to Days, Hours, Minutes and Seconds.",
+    short_description: "Convert Seconds to Days, Hours, Minutes and Seconds, along with other formats.",
 
     // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
@@ -66,7 +66,7 @@ module.exports = {
     // are also the names of the fields stored in the action's JSON data.
     //---------------------------------------------------------------------
 
-    fields: ["time", "storage", "varName"],
+    fields: ["time", "storage", "format", "varName"],
 
     //---------------------------------------------------------------------
     // Command HTML
@@ -88,17 +88,30 @@ module.exports = {
         return `
 	<div style="float: left; width: 95%; padding-top: 8px;">
 		<p><u>Mod Info:</u><br>
-		Made by <b>Aamon</b>! <br> Convert seconds to Days Hours Minutes and Seconds.</p>
+		Revamped by <b>RigidStudios</b>! Originally by <b>Aamon</b>. <br> Convert seconds to Various formats.</p>
 	</div>
 	<br><br><br>
 	<div style="float: left; width: 70%; padding-top: 8px;">
 		Seconds to Convert:
 		<input id="time" class="round" type="text" placeholder="e.g. 1522672056 or use Variables">
 	</div>
+  <div style="float: left; width: 100%; paddint-top: 8px;">
+    Format:<br>
+    <select id="format" class="round">
+      <option value="1">M/D/H/M/S</option>
+      <option value="2" selected>D/H/M/S</option>
+      <option value="3">H/M/S</option>
+      <option value="4">M/S</option>
+      <option value="5">Months/Days/Hours/Minutes/Seconds</option>
+      <option value="6">Days/Hours/Minutes/Seconds</option>
+      <option value="7">Hours/Minutes/Seconds</option>
+      <option value="8">Minutes/Seconds</option>
+    </select>
+  </div>
 	<div style="float: left; width: 35%; padding-top: 8px;">
 		Store Result In:<br>
 		<select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-		${data.variables[0]}
+		  ${data.variables[0]}
 		</select>
 	</div>
 	<div id="varNameContainer" style="float: right; display: none; width: 60%; padding-top: 8px;">
@@ -107,9 +120,6 @@ module.exports = {
 	</div><br><br>
 	<div style=" float: left; width: 88%; padding-top: 8px;">
 		<br>
-		<p>
-			For aditional information contact <b>Aamon#9130</b> on Discord or <a href ="https://twitter.com/44m0n"><b>@44m0n<b></a> on Twitter. 
-		</p>
 	</div>`;
     },
 
@@ -143,34 +153,68 @@ module.exports = {
         const data = cache.actions[cache.index];
         const time = this.evalMessage(data.time, cache);
         var _this = this; // this is needed sometimes.
+        const format = parseInt(this.evalMessage(data.format, cache));
 
-        // Main code.
-
-        let d, h, m, s;
+        let mo, d, h, m, s;
         let result;
 
-        if (isNaN(time)) {
-            result.toString() = "Invalid Date";
-            console.log('Please insert a number');
-        } else {
-
-            s = time;
-
-            m = Math.floor(s / 60);
-            s = s % 60;
-            h = Math.floor(m / 60);
-            m = m % 60;
-            d = Math.floor(h / 24);
-            h = h % 24;
-
-            result = d + "d " + h + "h " + m + "m " + s + "s";
-
+        switch (format) {
+          case 1: // MDHMS
+              mo = Math.floor(time / 2592000)
+              d = Math.floor(time % 2592000 / 86400);
+              h = Math.floor(time % 86400 / 3600);
+              m = Math.floor(time % 3600 / 60);
+              s = Math.floor(time % 60);
+                result = ((mo > 0) ? mo + "M " : "") + ((d > 0) ? d + "d " : "") + ((h > 0) ? h + "h " : "") + ((m > 0) ? m + "m " : "") + s + "s";
+            break;
+          case 2: // DHMS
+              d = Math.floor(time / 86400);
+              h = Math.floor(time % 86400 / 3600);
+              m = Math.floor(time % 3600 / 60);
+              s = Math.floor(time % 60);
+                result = ((d > 0) ? d + "d " : "") + ((h > 0) ? h + "h " : "") + ((m > 0) ? m + "m " : "") + s + "s";
+            break;
+          case 3: // HMS
+              h = Math.floor(time / 3600);
+              m = Math.floor(time % 3600 / 60);
+              s = time % 60;
+                result = ((h > 0) ? h + "h " : "") + ((m > 0) ? m + "m " : "") + s + "s";
+            break;
+          case 4: // MS
+              m = Math.floor(time / 60);
+              s = time % 60;
+                result = ((m > 0) ? m + "m " : "") + s + "s";
+            break;
+          case 5: // Formatted MDHMS
+              mo = Math.floor(time / 2592000)
+              d = Math.floor(time % 2592000 / 86400);
+              h = Math.floor(time % 86400 / 3600);
+              m = Math.floor(time % 3600 / 60);
+              s = Math.floor(time % 60);
+                result = ((mo > 0) ? ((mo !== 1 ) ? mo + " Months " : mo + " Month ") : "") + ((d > 0) ? ((d !== 1 ) ? d + " Days " : d + " Day ") : "") + ((h > 0) ? ((h !== 1 ) ? h + " Hours " : h + " Hour ") : "") + ((m > 0) ? ((m !== 1 ) ? m + " Minutes " : m + " Minute ") : "") + ((s !== 1 ) ? s + " Seconds" : s + " Second");
+            break;
+          case 6: // Formatted DHMS
+              d = Math.floor(time / 86400);
+              h = Math.floor(time % 86400 / 3600);
+              m = Math.floor(time % 3600 / 60);
+              s = Math.floor(time % 60);
+                result = ((d > 0) ? ((d !== 1 ) ? d + " Days " : d + " Day ") : "") + ((h > 0) ? ((h !== 1 ) ? h + " Hours " : h + " Hour ") : "") + ((m > 0) ? ((m !== 1 ) ? m + " Minutes " : m + " Minute ") : "") + ((s !== 1 ) ? s + " Seconds" : s + " Second");
+            break;
+          case 7: // Formatted HMS
+              h = Math.floor(time / 3600);
+              m = Math.floor(time % 3600 / 60);
+              s = time % 60;
+                result = ((h > 0) ? ((h !== 1 ) ? h + " Hours " : h + " Hour ") : "") + ((m > 0) ? ((m !== 1 ) ? m + " Minutes " : m + " Minute ") : "") + ((s !== 1 ) ? s + " Seconds" : s + " Second");
+            break;
+          case 8: // Formatted MS
+              m = Math.floor(time / 60);
+              s = time % 60;
+                result = ((m > 0) ? ((m !== 1 ) ? m + " Minutes " : m + " Minute ") : "") + ((s !== 1 ) ? s + " Seconds" : s + " Second");
+            break;
+          default:
+            print("Something went wrong... Check your Convert Seconds to D/H/M/S mod. (#" + cache.index + ")")
         }
-        //return { days: d, hours: h, minutes: m, seconds: s }
 
-        if (result.toString() === "Invalid Date") result = undefined;
-
-        // Storage.
         if (result !== undefined) {
             const storage = parseInt(data.storage);
             const varName = this.evalMessage(data.varName, cache);
