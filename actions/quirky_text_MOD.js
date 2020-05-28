@@ -23,7 +23,7 @@ module.exports = {
     //---------------------------------------------------------------------
 
     subtitle: function (data) {
-        let opts = ["OWO'ify","SpONgeBoB","🇪🇲🇴🇱🇪🇹🇸","C 👏 L 👏 A 👏 P","1337"]
+        let opts = ["OWO'ify","SpONgeBoB","🇪🇲🇴🇱🇪🇹🇸","C 👏 L 👏 A 👏 P","1337","ᵗᶦⁿʸ"]
         return `Convert ${data.text} (${opts[parseInt(data.format) - 1]})`;
     },
 
@@ -104,6 +104,7 @@ module.exports = {
                     <option value="3" title="Code from General Wrex's Raw Data.">Emolets</option>
                     <option value="4">Clap Clap Clap</option>
                     <option value="5">LEET</option>
+                    <option value="6">tiny</option>
                   </select>
                 </div>
               	<div style="float: left; width: 35%; padding-top: 8px;">
@@ -232,15 +233,19 @@ module.exports = {
                         }
                     }
 
-              text.toLowerCase().split('').forEach(function(char){ word = word + GetCharacter(char)})
-              result = word
+              text.toLowerCase().split('').forEach(function(char){ word = word + GetCharacter(char)});
+              result = word;
           break;
           case 4:
             result = text.toUpperCase().split("").join(" 👏 ");
           break;
           case 5:
             const leet = WrexMODS.require('leet');
-            result = leet.convert(text.toLowerCase())
+            result = leet.convert(text.toLowerCase());
+            break;
+          case 6:
+            const small = WrexMODS.require('superscript-text');
+            result = small(text);
             break;
           default:
             result = "bRuH yOU foRgOT thE TexT"
