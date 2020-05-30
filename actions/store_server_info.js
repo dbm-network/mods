@@ -10,12 +10,12 @@ module.exports = {
 	// 1.8.9:
 	// - Added fetchMembers to probably fix the membercount cause users weren't cached ~ Lasse
 	//
-	// 1.9.1: Change Log: ~ Danno3817 10/03/2018 - 
+	// 1.9.1: Change Log: ~ Danno3817 10/03/2018 -
 	// - Scraped store_server_info_MOD, every thing is moved here to store_server_info
 	// - Added Is Server Verified ~ Danno3817
 	//
 	// Missing 1.9.6 update text by Cap (stated on Case 43)
-	// 
+	//
 	// 1.9.7 ~ CoolGuy 02/17/2020:
 	// - converted 'action' function to async to support below. Wouldn't affect other actions in this list.
 	// - Had to restructure how switch cases were made to avoid already declared errors from occuring.
@@ -24,8 +24,14 @@ module.exports = {
 	//
 	//  Mindlesscargo 04/25/2020:
 	// - Added server boost count
-	// - Added server premium tier 
+	// - Added server premium tier
 	//
+	//  RigidStudios 05/25/2020:
+	// - Added Category Channel Count
+	// - Added Category List
+	// - Added Voice Channel List
+	// - Added Text Channel List
+	// - Added Strict Channel List
 	//---------------------------------------------------------------------
 
 	//---------------------------------------------------------------------
@@ -54,7 +60,7 @@ module.exports = {
 		const servers = [
 			'Current Server', 'Temp Variable', 'Server Variable', 'Global Variable'
 		];
-		const info = ['Server Object', 'Server ID', 'Server Name', 'Server Name Acronym', 'Server Region', 'Server Icon URL', 'Server Verification Level', 'Server Default Channel', 'Server AFK Channel', 'Server System Channel', 'Server Default Role', 'Server Owner Member', 'Server Bot Member Object', 'Server Channel List', 'Server Role List', 'Server Member List', 'Server Emoji List', 'Server Member Count', 'Creation Date', 'Time To AFK', 'Is Server Available?', 'More than 250 members?', 'Date Bot Joined Server', 'Channel Amount', 'Emoji Amount', 'Embed Links', 'DND Members Count', 'Online Members Count (fixed)', 'Offline Members Count', 'Idle Members Count', 'Total Bots Count In Server', 'Server Channel IDs', 'Server Role IDs', 'Server Member IDs', 'Server Bot Member Count', 'Server Human Member Count', 'Server Member Count', 'Role Count', 'Text Channel Count', 'Voice Channel Count', 'Is Server Verified?', 'Banned Users List', 'Invite List', 'Server Explicit Content Filter', 'Server Booster Count', 'Server Premium Tier'];
+		const info = ['Server Object', 'Server ID', 'Server Name', 'Server Name Acronym', 'Server Region', 'Server Icon URL', 'Server Verification Level', 'Server Default Channel', 'Server AFK Channel', 'Server System Channel', 'Server Default Role', 'Server Owner Member', 'Server Bot Member Object', 'Server Channel List', 'Server Role List', 'Server Member List', 'Server Emoji List', 'Server Member Count', 'Creation Date', 'Time To AFK', 'Is Server Available?', 'More than 250 members?', 'Date Bot Joined Server', 'Channel Amount', 'Emoji Amount', 'Embed Links', 'DND Members Count', 'Online Members Count (fixed)', 'Offline Members Count', 'Idle Members Count', 'Total Bots Count In Server', 'Server Channel IDs', 'Server Role IDs', 'Server Member IDs', 'Server Bot Member Count', 'Server Human Member Count', 'Server Member Count', 'Role Count', 'Text Channel Count', 'Voice Channel Count', 'Is Server Verified?', 'Banned Users List', 'Invite List', 'Server Explicit Content Filter', 'Server Booster Count', 'Server Premium Tier', 'Category Count', 'Voice Channel List', 'Text Channel List', 'Category List', 'Strict Channel Count'];
 		return `${servers[parseInt(data.server)]} - ${info[parseInt(data.info)]}`;
 	},
 
@@ -66,7 +72,7 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "Lasse, EGGSY, EliteArtz, Danno3817, ACertainCoder, Cap, & CoolGuy",
+	author: "Lasse, EGGSY, EliteArtz, Danno3817, ACertainCoder, Cap, CoolGuy & RigidStudios",
 
 	// The version of the mod (Defaults to 1.0.0)
 	version: "1.9.7", // added in 1.9.1
@@ -106,7 +112,9 @@ module.exports = {
 				break; }
 			case 6: {} // Verification Level
 			case 43: {} // Explicit Content Filter. Added by Cap in 1.9.6
-			case 17: {} // Server Member Count
+			case 17: { // Server Member Count
+			        dataType = 'Number';
+			        break; }
 			case 19: {} // Time To AFK
 			case 23: {} // Channel Amount.
 			case 24: {} // Emoji Amount.
@@ -117,8 +125,12 @@ module.exports = {
 			case 30: {} // Total Bots Count In Server.
 			case 34: {} // Server Bot Member Count.
 			case 35: {} // Server Human Member Count.
-			case 36: {} // Server Member Count. //Added by Lasse in 
-			case 37: {} // Role Count.
+			case 36: { // Server Member Count. //Added by Lasse in
+				dataType = 'Number';
+			        break; }
+			case 37: { // Role Count.
+			        dataType = 'Number';
+			        break; }
 			case 38: {} // Text Channel
 			case 39: { // Voice Channel
 				dataType = 'Number';
@@ -171,14 +183,29 @@ module.exports = {
 			case 41: {} //	Collection of banned users
 			case 42: { //	Collection of guild invites
 				dataType = 'List';
-                		break; }
-            		case 44: { // Server Boost Count
-                		dataType = 'Number';
-                		break; }
-            		case 45: { // Server Premium Tier
-                		dataType = 'Number';
-                		break; } 
-        }
+                                break; }
+                        case 44: { // Server Boost Count
+                                dataType = 'Number';
+                                break; }
+                        case 45: { // Server Premium Tier
+                                dataType = 'Number';
+                                break; }
+			case 46: { // Category Channel Count
+				dataType = 'Number';
+				break; }
+			case 47: { // Server Voice Channel List
+				dataType = 'List';
+				break; }
+			case 48: { // Server Text Channel List
+				dataType = 'List';
+				break; }
+			case 49: { // Server Category List
+				dataType = 'List';
+				break; }
+			case 50: { // Channel Count (Without Categories)
+				dataType = 'Number';
+				break; }
+			}
 		return ([data.varName2, dataType]);
 	},
 
@@ -196,15 +223,15 @@ module.exports = {
 	// Command HTML
 	//
 	// This function returns a string containing the HTML used for
-	// editting actions. 
+	// editting actions.
 	//
 	// The "isEvent" parameter will be true if this action is being used
-	// for an event. Due to their nature, events lack certain information, 
+	// for an event. Due to their nature, events lack certain information,
 	// so edit the HTML to reflect this.
 	//
-	// The "data" parameter stores constants for select elements to use. 
+	// The "data" parameter stores constants for select elements to use.
 	// Each is an array: index 0 for commands, index 1 for events.
-	// The names are: sendTargets, members, roles, channels, 
+	// The names are: sendTargets, members, roles, channels,
 	//                messages, servers, variables
 	//---------------------------------------------------------------------
 
@@ -272,9 +299,14 @@ module.exports = {
 					</optgroup>
 					<optgroup label="Channel Infos">
 						<option value="23">Channel Amount</option>
+                                                <option value="50" label="Without Categories">Strict Channel Amount</option>
+						<option value="46">Category Count</option>
+						<option value="49">Category List</option>
 						<option value="38">Text Channel Count</option>
+						<option value="48">Text Channel List</option>
 						<option value="39">Voice Channel Count</option>
-					</optgroup>			
+						<option value="47">Voice Channel List</option>
+					</optgroup>
 					<optgroup label="Other">
 						<option value="40">Is Server Verified?</option>
 						<option value="19">Time User gets AFK</option>
@@ -285,8 +317,8 @@ module.exports = {
                         			<option value="42">Invite List</option>
                         			<option value="44">Server Boost Count</option>
                         			<option value="45">Server Boost Tier</option>
-					</optgroup>				
-					<!--<option value="21">More Than 250 Members?</option>-->				
+					</optgroup>
+					<!--<option value="21">More Than 250 Members?</option>-->
 				</select>
 			</div>
 		</div><br>
@@ -322,7 +354,7 @@ module.exports = {
 	// Action Bot Function
 	//
 	// This is the function for the action within the Bot's Action class.
-	// Keep in mind event calls won't have access to the "msg" parameter, 
+	// Keep in mind event calls won't have access to the "msg" parameter,
 	// so be sure to provide checks for variable existance.
 	//---------------------------------------------------------------------
 
@@ -498,13 +530,28 @@ module.exports = {
 				break; }
 			case 43: { // Explicit Content Filter. Added by Cap in 1.9.6
 				result = targetServer.explicitContentFilter;
-                		break; }
-            		case 44: {
-                		result = targetServer.premiumSubscriptionCount || 0;
-                		break; }
-            		case 45: {
-                		result = targetServer.premiumTier || 0;
-                		break; }
+                                break; }
+  		        case 44: { // Server Premium Subscribers
+    		                result = targetServer.premiumSubscriptionCount || 0;
+                                break; }
+  		        case 45: { // Server Premium Tier
+    		                result = targetServer.premiumTier || 0;
+    		                break; }
+			case 46: { // Category Channel Count
+				result = targetServer.channels.filter(c => c.type == "category").size
+				break; }
+			case 47: { // Server Voice Channel List
+				result = targetServer.channels.filter(c => c.type == "voice").array()
+				break; }
+			case 48: { // Server Text Channel List
+				result = targetServer.channels.filter(c => c.type == "text").array()
+				break; }
+			case 49: { // Server Category List
+				result = targetServer.channels.filter(c => c.type == "category").array()
+				break; } // Good Luck to case 50 =D
+			case 50: { // Channel Count (Without Categories)
+				result = targetServer.channels.filter(c => c.type != "category").size
+				break; }
 			default: { // Fixed Spacing. Fixed in 1.9.7
 				break; }
 		};
