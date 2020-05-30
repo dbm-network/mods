@@ -176,26 +176,29 @@ module.exports = {
 			case 41: {} //	Collection of banned users
 			case 42: { //	Collection of guild invites
 				dataType = 'List';
-        break; }
-      case 44: { // Server Boost Count
-        dataType = 'Number';
-        break; }
-      case 45: { // Server Premium Tier
-        dataType = 'Number';
-        break; }
+                                break; }
+                        case 44: { // Server Boost Count
+                                dataType = 'Number';
+                                break; }
+                        case 45: { // Server Premium Tier
+                                dataType = 'Number';
+                                break; }
 			case 46: { // Category Channel Count
-				datatype = 'Number';
+				dataType = 'Number';
 				break; }
 			case 47: { // Server Voice Channel List
-				datatype = 'List';
+				dataType = 'List';
 				break; }
 			case 48: { // Server Text Channel List
-				datatype = 'List';
+				dataType = 'List';
 				break; }
 			case 49: { // Server Category List
-				datatype = 'List';
+				dataType = 'List';
 				break; }
-				}
+			case 50: { // Channel Count (Without Categories)
+				dataType = 'Number';
+				break; }
+			}
 		return ([data.varName2, dataType]);
 	},
 
@@ -289,6 +292,7 @@ module.exports = {
 					</optgroup>
 					<optgroup label="Channel Infos">
 						<option value="23">Channel Amount</option>
+                                                <option value="50" label="Without Categories">Strict Channel Amount</option>
 						<option value="46">Category Count</option>
 						<option value="49">Category List</option>
 						<option value="38">Text Channel Count</option>
@@ -519,13 +523,13 @@ module.exports = {
 				break; }
 			case 43: { // Explicit Content Filter. Added by Cap in 1.9.6
 				result = targetServer.explicitContentFilter;
-        break; }
-  		case 44: { // Server Premium Subscribers
-    		result = targetServer.premiumSubscriptionCount || 0;
-        break; }
-  		case 45: { // Server Premium Tier
-    		result = targetServer.premiumTier || 0;
-    		break; }
+                                break; }
+  		        case 44: { // Server Premium Subscribers
+    		                result = targetServer.premiumSubscriptionCount || 0;
+                                break; }
+  		        case 45: { // Server Premium Tier
+    		                result = targetServer.premiumTier || 0;
+    		                break; }
 			case 46: { // Category Channel Count
 				result = targetServer.channels.filter(c => c.type == "category").size
 				break; }
@@ -538,6 +542,9 @@ module.exports = {
 			case 49: { // Server Category List
 				result = targetServer.channels.filter(c => c.type == "category").array()
 				break; } // Good Luck to case 50 =D
+			case 50: { // Channel Count (Without Categories)
+				result = targetServer.channels.filter(c => c.type != "category").size
+				break; }
 			default: { // Fixed Spacing. Fixed in 1.9.7
 				break; }
 		};
