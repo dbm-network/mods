@@ -22,7 +22,7 @@ module.exports = {
 
 
                 if (event.temp) temp[event.temp] = newNickname;
-                if (event.temp2) temp[event.temp2] = newMember.user;
+                if (event.temp2) temp[event.temp2] = newMember;
 
                 Actions.invokeEvent(event, server, temp);
             }
