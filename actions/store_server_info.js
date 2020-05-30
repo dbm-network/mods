@@ -31,6 +31,7 @@ module.exports = {
 	// - Added Category List
 	// - Added Voice Channel List
 	// - Added Text Channel List
+	// - Added Strict Channel List
 	//---------------------------------------------------------------------
 
 	//---------------------------------------------------------------------
@@ -59,7 +60,7 @@ module.exports = {
 		const servers = [
 			'Current Server', 'Temp Variable', 'Server Variable', 'Global Variable'
 		];
-		const info = ['Server Object', 'Server ID', 'Server Name', 'Server Name Acronym', 'Server Region', 'Server Icon URL', 'Server Verification Level', 'Server Default Channel', 'Server AFK Channel', 'Server System Channel', 'Server Default Role', 'Server Owner Member', 'Server Bot Member Object', 'Server Channel List', 'Server Role List', 'Server Member List', 'Server Emoji List', 'Server Member Count', 'Creation Date', 'Time To AFK', 'Is Server Available?', 'More than 250 members?', 'Date Bot Joined Server', 'Channel Amount', 'Emoji Amount', 'Embed Links', 'DND Members Count', 'Online Members Count (fixed)', 'Offline Members Count', 'Idle Members Count', 'Total Bots Count In Server', 'Server Channel IDs', 'Server Role IDs', 'Server Member IDs', 'Server Bot Member Count', 'Server Human Member Count', 'Server Member Count', 'Role Count', 'Text Channel Count', 'Voice Channel Count', 'Is Server Verified?', 'Banned Users List', 'Invite List', 'Server Explicit Content Filter', 'Server Booster Count', 'Server Premium Tier', 'Category Count', 'Voice Channel List', 'Text Channel List', 'Category List'];
+		const info = ['Server Object', 'Server ID', 'Server Name', 'Server Name Acronym', 'Server Region', 'Server Icon URL', 'Server Verification Level', 'Server Default Channel', 'Server AFK Channel', 'Server System Channel', 'Server Default Role', 'Server Owner Member', 'Server Bot Member Object', 'Server Channel List', 'Server Role List', 'Server Member List', 'Server Emoji List', 'Server Member Count', 'Creation Date', 'Time To AFK', 'Is Server Available?', 'More than 250 members?', 'Date Bot Joined Server', 'Channel Amount', 'Emoji Amount', 'Embed Links', 'DND Members Count', 'Online Members Count (fixed)', 'Offline Members Count', 'Idle Members Count', 'Total Bots Count In Server', 'Server Channel IDs', 'Server Role IDs', 'Server Member IDs', 'Server Bot Member Count', 'Server Human Member Count', 'Server Member Count', 'Role Count', 'Text Channel Count', 'Voice Channel Count', 'Is Server Verified?', 'Banned Users List', 'Invite List', 'Server Explicit Content Filter', 'Server Booster Count', 'Server Premium Tier', 'Category Count', 'Voice Channel List', 'Text Channel List', 'Category List', 'Strict Channel Count'];
 		return `${servers[parseInt(data.server)]} - ${info[parseInt(data.info)]}`;
 	},
 
@@ -111,7 +112,9 @@ module.exports = {
 				break; }
 			case 6: {} // Verification Level
 			case 43: {} // Explicit Content Filter. Added by Cap in 1.9.6
-			case 17: {} // Server Member Count
+			case 17: { // Server Member Count
+			        dataType = 'Number';
+			        break; }
 			case 19: {} // Time To AFK
 			case 23: {} // Channel Amount.
 			case 24: {} // Emoji Amount.
@@ -122,8 +125,12 @@ module.exports = {
 			case 30: {} // Total Bots Count In Server.
 			case 34: {} // Server Bot Member Count.
 			case 35: {} // Server Human Member Count.
-			case 36: {} // Server Member Count. //Added by Lasse in
-			case 37: {} // Role Count.
+			case 36: { // Server Member Count. //Added by Lasse in
+				dataType = 'Number';
+			        break; }
+			case 37: { // Role Count.
+			        dataType = 'Number';
+			        break; }
 			case 38: {} // Text Channel
 			case 39: { // Voice Channel
 				dataType = 'Number';
