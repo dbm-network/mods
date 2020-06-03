@@ -212,7 +212,7 @@ module.exports = {
                 result = ((m > 0) ? ((m !== 1 ) ? m + " Minutes " : m + " Minute ") : "") + ((s !== 1 ) ? s + " Seconds" : s + " Second");
             break;
           default:
-            print("Something went wrong... Check your Format Seconds mod. (#" + cache.index + ")")
+            console.log("Something went wrong... Check your Format Seconds mod. (#" + cache.index + ")");
         }
 
         if (result !== undefined) {
