@@ -21,7 +21,7 @@ WrexMODS.MaxInstallAttemptsPerModule = 3;
 WrexMODS.CheckAndInstallNodeModule = function(moduleName, isGlobal = false){
 	return new Promise((resolve, reject) => {
 
-		let module = this.modules.find(x => x.name == moduleName);
+		let module = this.modules.find((x) => x.name == moduleName);
 
 		const botPath = path.dirname(process.argv[1]);
 		const modulePath = path.join(botPath, "node_modules", moduleName);

@@ -211,7 +211,7 @@ module.exports = {
 				}
 				source.bulkDelete(messages).then(function() {
 					this.callNextAction(cache);
-				}.bind(this)).catch(err => {
+				}.bind(this)).catch((err) => {
 					if (err.message == "You can only bulk delete messages that are under 14 days old.") {
 						this.executeResults(false, data, cache);
 					} else {

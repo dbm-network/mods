@@ -71,10 +71,10 @@ module.exports = {
 		let result;
 		switch(info) {
 			case 0:
-				result = msg.reactions.find(reaction => reaction.emoji.id == emoji);
+				result = msg.reactions.find((reaction) => reaction.emoji.id == emoji);
 				break;
 			case 1:
-				result = msg.reactions.find(reaction => reaction.emoji.name == emoji);
+				result = msg.reactions.find((reaction) => reaction.emoji.name == emoji);
 				break;
 			default:
 				break;

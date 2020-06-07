@@ -99,14 +99,14 @@ This was made by EliteArtz!-->
 		const data = cache.actions[cache.index];
 		const info = parseInt(data.info);
 		const find = this.evalMessage(data.find, cache);
-		const channels = server.channels.filter(s=>s.type==="category");
+		const channels = server.channels.filter((s)=>s.type==="category");
 		let result;
 		switch(info) {
 			case 0:
-				result = channels.find(e => e.id === find);
+				result = channels.find((e) => e.id === find);
 				break;
 			case 1:
-				result = channels.find(e => e.name === find);
+				result = channels.find((e) => e.name === find);
 				break;
 			default:
 				break;

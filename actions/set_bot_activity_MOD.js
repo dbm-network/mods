@@ -171,7 +171,7 @@ module.exports = {
 								this.callNextAction(cache);
 							}.bind(this)
 						)
-						.catch(err => console.log(err));
+						.catch((err) => console.log(err));
 				} else {
 					obj = {
 						game: {
@@ -187,7 +187,7 @@ module.exports = {
 								this.callNextAction(cache);
 							}.bind(this)
 						)
-						.catch(err => console.log(err));
+						.catch((err) => console.log(err));
 				}
 			} else {
 				console.log("ERROR: Please input activity in \"Set Bot Activity MOD\"");
