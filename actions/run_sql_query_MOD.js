@@ -8,7 +8,7 @@ module.exports = {
 		return ([data.varName, "JSON Object"]);
 	},
 
-	subtitle: function (data) {
+	subtitle: function(data) {
 		let sub = "";
 		if(data.store_source_conn_storage != 0){
 			sub += "C: Stored ";
@@ -33,7 +33,7 @@ module.exports = {
 
 	fields: ["storage", "stringifyOutput", "varName", "hostname", "port", "username", "password", "database", "query", "path", "otype", "source_conn_storage", "source_conn_varName", "store_source_conn_storage", "store_source_conn_varName", "debugMode"],
 
-	html: function (isEvent, data) {
+	html: function(isEvent, data) {
 		return `
         <div id="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
           <div>
@@ -258,7 +258,7 @@ module.exports = {
 		  }
 </style>`;
 	},
-	init: function () {
+	init: function() {
 		const { glob, document } = this;
 
 		function getType(key){
@@ -286,7 +286,7 @@ module.exports = {
 			const database = document.getElementById("database").value;
 
 
-			document.getElementById("checkConnection").onclick = function (evt) {
+			document.getElementById("checkConnection").onclick = function(evt) {
 
 				const Sequelize = require("sequelize");
 				const path = require("path");
@@ -325,7 +325,7 @@ module.exports = {
 			};
 
 			// to show/hide certian connection options if sqllite is selected
-			document.getElementById("otype").onchange = function (evt) {
+			document.getElementById("otype").onchange = function(evt) {
 				var lite = (evt.target.value === "3");
 				document.getElementById("auth").style.display = lite ? "none" : "";
 				document.getElementById("showPath").style.display = lite ? "" : "none";
@@ -341,7 +341,7 @@ module.exports = {
 				var url = wrexlink.getAttribute("data-url");
 				if (url) {
 					wrexlink.setAttribute("title", url);
-					wrexlink.addEventListener("click", function (e) {
+					wrexlink.addEventListener("click", function(e) {
 						e.stopImmediatePropagation();
 						console.log("Launching URL: [" + url + "] in your default browser.");
 						require("child_process").execSync("start " + url);
@@ -360,7 +360,7 @@ module.exports = {
 		glob.variableChange(document.getElementById("store_source_conn_storage"), "varNameContainer3");
 	},
 
-	action: function (cache) {
+	action: function(cache) {
 
 		//fields: ["storage", "varName", "hostname", "port", "username", "password", "database", "query", "otype",
 		//"source_conn_storage", "storage_conn_varName", "store_source_conn_storage", "store_storage_conn_varName", "debugMode"],
@@ -536,5 +536,5 @@ module.exports = {
 
 	},
 
-	mod: function () {}
+	mod: function() {}
 };

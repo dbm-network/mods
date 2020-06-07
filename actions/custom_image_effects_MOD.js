@@ -61,7 +61,7 @@ module.exports = {
 			this.callNextAction(cache);
 			return;
 		}
-		Jimp.read(image, function (err, image1) {
+		Jimp.read(image, function(err, image1) {
 			const effect = parseInt(data.effect);
 			switch(effect) {
 				case 0:

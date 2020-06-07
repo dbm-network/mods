@@ -114,7 +114,7 @@ WrexMODS.require = function(moduleName){
 	return require.main.require(modulePath);
 };
 
-WrexMODS.checkURL = function (url){
+WrexMODS.checkURL = function(url){
 /// <summary>Checks if the provided URL is valid.</summary>
 /// <param name="url" type="String">The URL to check.</param>
 /// <returns type="Boolean">True if valid.</returns>
@@ -131,7 +131,7 @@ WrexMODS.checkURL = function (url){
 	}
 };
 
-WrexMODS.runPostJson = function (url, json, returnJson = true, callback){
+WrexMODS.runPostJson = function(url, json, returnJson = true, callback){
 /// <summary>Runs a Request to return JSON Data</summary>
 /// <param name="url" type="String">The URL to post the JSON to.</param>
 /// <param name="json" type="String">The json to post</param>
@@ -145,7 +145,7 @@ WrexMODS.runPostJson = function (url, json, returnJson = true, callback){
 		json: json
 	};
 
-	request(options, function (err, res, data) {
+	request(options, function(err, res, data) {
 		var statusCode = res ? res.statusCode : 200;
 
 		if(callback && typeof callback == "function"){
@@ -180,7 +180,7 @@ WrexMODS.executeDiscordJSON = function(type, urlPath, json, DBM, cache, callback
 			json: json
 		};
 
-		request(options, function (err, res, data) {
+		request(options, function(err, res, data) {
 			var statusCode = res ? res.statusCode : 200;
 
 			if(err){
@@ -197,7 +197,7 @@ WrexMODS.executeDiscordJSON = function(type, urlPath, json, DBM, cache, callback
 };
 
 
-WrexMODS.runPublicRequest = function (url, returnJson = false, callback, token, user, pass){
+WrexMODS.runPublicRequest = function(url, returnJson = false, callback, token, user, pass){
 /// <summary>Runs a Request to return JSON Data</summary>
 /// <param name="url" type="String">The URL to get JSON from.</param>
 /// <param name="returnJson" type="String">True if the response should be in JSON format. False if not</param>
@@ -226,7 +226,7 @@ WrexMODS.runPublicRequest = function (url, returnJson = false, callback, token, 
 
 };
 
-WrexMODS.runBearerTokenRequest = function (url, returnJson = false, bearerToken, callback){
+WrexMODS.runBearerTokenRequest = function(url, returnJson = false, bearerToken, callback){
 /// <summary>Runs a Request to return HTML Data using a bearer Token.</summary>
 /// <param name="url" type="String">The URL to get JSON from.</param>
 /// <param name="returnJson" type="String">True if the response should be in JSON format. False if not</param>
@@ -249,7 +249,7 @@ WrexMODS.runBearerTokenRequest = function (url, returnJson = false, bearerToken,
 	});
 };
 
-WrexMODS.runBasicAuthRequest = function (url, returnJson = false, username, password, callback){
+WrexMODS.runBasicAuthRequest = function(url, returnJson = false, username, password, callback){
 /// <summary>Runs a Request to return HTML Data</summary>
 /// <param name="url" type="String">The URL to get JSON from.</param>
 /// <param name="returnJson" type="String">True if the response should be in JSON format. False if not</param>

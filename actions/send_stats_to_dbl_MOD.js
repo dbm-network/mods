@@ -2,14 +2,14 @@ module.exports = {
 	name: "Sends Stats to DBL",
 	section: "Other Stuff",
 
-	subtitle: function (data) {
+	subtitle: function(data) {
 		const info = ["Only Server Count", "Shard & Server Count"];
 		return `Send ${info[parseInt(data.info)]} to DBL!`;
 	},
 
 	fields: ["dblToken", "info"],
 
-	html: function (isEvent, data) {
+	html: function(isEvent, data) {
 		return `
 <div id="modinfo">
 	<div style="float: left; width: 99%; padding-top: 8px;">
@@ -30,10 +30,10 @@ module.exports = {
 </div>`;
 	},
 
-	init: function () {
+	init: function() {
 	},
 
-	action: function (cache) {
+	action: function(cache) {
 		const data = cache.actions[cache.index],
 			token = this.evalMessage(data.dblToken, cache),
 			info = parseInt(data.info),
@@ -57,6 +57,6 @@ module.exports = {
 		this.callNextAction(cache);
 	},
 
-	mod: function () {}
+	mod: function() {}
 
 };

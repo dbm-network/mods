@@ -2,16 +2,16 @@ module.exports = {
 	name: "Stop RSS Feed Watcher",
 	section: "Other Stuff",
 
-	subtitle: function (data) {
+	subtitle: function(data) {
 		return `${data.url}`;
 	},
 
-	variableStorage: function (data, varType) {
+	variableStorage: function(data, varType) {
 	},
 
 	fields: ["storage", "varName"],
 
-	html: function (isEvent, data) {
+	html: function(isEvent, data) {
 		return `
 		<div>
 	<div style="float: left; width: 35%;">
@@ -26,9 +26,9 @@ module.exports = {
 	</div>`;
 	},
 
-	init: function () {},
+	init: function() {},
 
-	action: function (cache) {
+	action: function(cache) {
 		const data = cache.actions[cache.index];
 		const varName = this.evalMessage(data.varName, cache);
 		const storage = parseInt(data.storage);
@@ -43,6 +43,6 @@ module.exports = {
 
 	},
 
-	mod: function () {}
+	mod: function() {}
 
 };

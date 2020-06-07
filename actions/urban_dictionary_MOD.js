@@ -2,12 +2,12 @@ module.exports = {
 	name: "Urban Dictionary Search",
 	section: "Other Stuff",
 
-	subtitle: function (data) {
+	subtitle: function(data) {
 		const info = ["Definition", "Result URL", "Example", "Thumbs Up Count", "Thumbs Down Count", "Author", "Result ID", "Tags"];
 		return `${info[parseInt(data.info)]}`;
 	},
 
-	variableStorage: function (data, varType) {
+	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		const info = parseInt(data.info);
@@ -40,7 +40,7 @@ module.exports = {
 
 	fields: ["string", "info", "storage", "varName"],
 
-	html: function (isEvent, data) {
+	html: function(isEvent, data) {
 		return `
 <div style="width: 550px; height: 350px; overflow-y: scroll;">
 	<div style="width: 100%; padding-top: 8px;">
@@ -74,12 +74,12 @@ module.exports = {
 </div>`;
 	},
 
-	init: function () {
+	init: function() {
 		const { glob, document } = this;
 		glob.variableChange(document.getElementById("storage"), "varNameContainer");
 	},
 
-	action: function (cache) {
+	action: function(cache) {
 		const data = cache.actions[cache.index];
 		const info = parseInt(data.info);
 		const string = this.evalMessage(data.string, cache);
@@ -90,7 +90,7 @@ module.exports = {
 		const WrexMODS = this.getWrexMods();
 		const urban = WrexMODS.require("urban");
 
-		urban(`${string}`).first(function (results) {
+		urban(`${string}`).first(function(results) {
 			if (!results) return _this.callNextAction(cache);
 			let result;
 			switch (info) {
@@ -128,5 +128,5 @@ module.exports = {
 		});
 	},
 
-	mod: function () {}
+	mod: function() {}
 };

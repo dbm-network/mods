@@ -2,12 +2,12 @@ module.exports = {
 	name: "Weather",
 	section: "Other Stuff",
 
-	subtitle: function (data) {
+	subtitle: function(data) {
 		const info = ["Temperature", "Weather Text", "Date", "City", "Country", "Region", "Wind Speed", "Wind Chill", "Wind Direction", "Humidity", "Pressure", "Atmosphere Visibility", "Sunrise Time", "Sunset Time", "Feelslike", "Image URL", "Current Day"];
 		return `${info[parseInt(data.info)]}`;
 	},
 
-	variableStorage: function (data, varType) {
+	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		const info = parseInt(data.info);
@@ -70,7 +70,7 @@ module.exports = {
 
 	fields: ["city", "degreeType", "info", "storage", "varName"],
 
-	html: function (isEvent, data) {
+	html: function(isEvent, data) {
 		return `
 	<div style="float: left; width: 55%; padding-top: 8px;">
 		Source City:<br>
@@ -113,12 +113,12 @@ module.exports = {
 	</div><br><br>`;
 	},
 
-	init: function () {
+	init: function() {
 		const { glob, document } = this;
 		glob.variableChange(document.getElementById("storage"), "varNameContainer");
 	},
 
-	action: function (cache) {
+	action: function(cache) {
 		const data = cache.actions[cache.index],
 			info = parseInt(data.info),
 			city = this.evalMessage(data.city, cache),
@@ -130,7 +130,7 @@ module.exports = {
 		const WrexMODS = this.getWrexMods(),
 			weather = WrexMODS.require("weather-js");
 
-		weather.find({ search: `${city}`, degreeType: `${degreeType2}` }, function (err, response) {
+		weather.find({ search: `${city}`, degreeType: `${degreeType2}` }, function(err, response) {
 			if (err || !response || response.length < 1) {
 				const storage = parseInt(data.storage),
 					varName2 = _this.evalMessage(data.varName, cache);
@@ -204,5 +204,5 @@ module.exports = {
 		});
 	},
 
-	mod: function () {}
+	mod: function() {}
 };

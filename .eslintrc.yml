@@ -1,8 +1,7 @@
----
 env:
   es6: true
   node: true
-extends: "eslint:recommended"
+extends: eslint:recommended
 globals:
   Atomics: readonly
   SharedArrayBuffer: readonly
@@ -27,27 +26,21 @@ rules:
   linebreak-style:
     - error
     - windows
-  no-case-declarations:
-    - off
-  no-empty:
-    - off
-  no-irregular-whitespace:
-    - off
-  no-unused-vars:
-    - off
-  no-useless-escape:
-    - off
+  no-case-declarations: off
+  no-empty: off
+  no-irregular-whitespace: off
+  no-unused-vars: off
+  no-useless-escape: off
   object-curly-newline:
     - error
     - multiline: true
-  object-curly-spacing:
-    - error
-    - always
   quotes:
     - error
     - double
   semi:
     - error
     - always
-  no-trailing-spaces:
+  space-before-function-paren:
     - error
+    - never
+  no-trailing-spaces: error

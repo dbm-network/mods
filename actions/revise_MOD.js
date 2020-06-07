@@ -6,7 +6,7 @@ module.exports = {
 		return `Revise: "${data.reviser}"`;
 	},
 
-	variableStorage: function (data, varType) {
+	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		let dataType = "Revised Result";
@@ -37,7 +37,7 @@ module.exports = {
 
 	init: function() {},
 
-	action: function (cache) {
+	action: function(cache) {
 		const data = cache.actions[cache.index];
 		const reviseText = this.evalMessage(data.reviser, cache);
 		try {

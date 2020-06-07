@@ -2,11 +2,11 @@ module.exports = {
 	name: "Translate",
 	section: "Other Stuff",
 
-	subtitle: function (data) {
+	subtitle: function(data) {
 		return `Translate to [${data.translateTo}]`;
 	},
 
-	variableStorage: function (data, varType) {
+	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		let dataType = "Translated String";
@@ -15,7 +15,7 @@ module.exports = {
 
 	fields: ["translateTo", "translateMessage", "storage", "varName"],
 
-	html: function (isEvent, data) {
+	html: function(isEvent, data) {
 		return `
 <div>
 	<div style="float: right; width: 60%;">
@@ -41,13 +41,13 @@ module.exports = {
 </div>`;
 	},
 
-	init: function () {
+	init: function() {
 		const { glob, document } = this;
 
 		glob.variableChange(document.getElementById("storage"), "varNameContainer");
 	},
 
-	action: function (cache) {
+	action: function(cache) {
 
 		var _this = this;
 		const data = cache.actions[cache.index];
@@ -65,7 +65,7 @@ module.exports = {
 		translate({
 			text: translateMessage,
 			target: translateTo
-		}, function (result) {
+		}, function(result) {
 			if(result.translation !== undefined) {
 				_this.storeValue(result.translation, storage, varName, cache);
 			}
@@ -73,6 +73,6 @@ module.exports = {
 		});
 	},
 
-	mod: function () {}
+	mod: function() {}
 
 };

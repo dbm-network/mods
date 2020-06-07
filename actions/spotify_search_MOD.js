@@ -10,7 +10,7 @@ module.exports = {
 		return `${data.varName} - ${data.search === "0" ? `${info1[data.info1]}` : `${data.search === "1" ? `${info2[data.info2]}` : `${data.search === "2" ? `${info3[data.info3]}` : `${info4[data.info4]}`}`}`}`;
 	},
 
-	variableStorage: function (data, varType) {
+	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		const info1 = parseInt(data.info1);

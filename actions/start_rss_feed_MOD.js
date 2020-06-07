@@ -2,12 +2,12 @@ module.exports = {
 	name: "RSS Feed Watcher",
 	section: "Other Stuff",
 
-	subtitle: function (data) {
+	subtitle: function(data) {
 		return `${data.url}`;
 	},
 
 
-	variableStorage: function (data, varType) {
+	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		return ([data.varName, "RSS Feed"]);
@@ -15,7 +15,7 @@ module.exports = {
 
 	fields: ["path", "url", "storage", "varName"],
 
-	html: function (isEvent, data) {
+	html: function(isEvent, data) {
 		return `
 	<div style="padding-top: 8px;">
 	<div style="float:left"><u>Note:</u><b>This action will not stop watching the feed until bot restarts or using Stop RSS Feed Watcher action!</b></div><br>
@@ -44,9 +44,9 @@ module.exports = {
 </div>`;
 	},
 
-	init: function () {},
+	init: function() {},
 
-	action: function (cache) {
+	action: function(cache) {
 		const data = cache.actions[cache.index];
 		const url = this.evalMessage(data.url, cache);
 		const varName = this.evalMessage(data.varName, cache);
@@ -66,8 +66,8 @@ module.exports = {
 		this.storeValue(watcher, storage, stor, cache);
 
 		// Check for new entries every n seconds.
-		watcher.on("new entries", function (entries) {
-			entries.forEach(function (entry) {
+		watcher.on("new entries", function(entries) {
+			entries.forEach(function(entry) {
 
 				if(path){
 					var res = JSONPath({
@@ -88,10 +88,10 @@ module.exports = {
 		// Start watching the feed.
 		watcher
 			.start()
-			.then(function (entries) {
+			.then(function(entries) {
 				console.log("Starting watching...");
 			})
-			.catch(function (error) {
+			.catch(function(error) {
 				console.error(error);
 			});
 
@@ -99,6 +99,6 @@ module.exports = {
 
 	},
 
-	mod: function () {}
+	mod: function() {}
 
 };

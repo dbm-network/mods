@@ -2,7 +2,7 @@ module.exports = {
 	name: "Speed Test",
 	section: "Other Stuff",
 
-	subtitle: function (data) {
+	subtitle: function(data) {
 		if (data.info === "downloadspeed") {
 			return "Speed Test - Download Speed";
 		} else if (data.info === "uploadspeed") {
@@ -12,7 +12,7 @@ module.exports = {
 		}
 	},
 
-	variableStorage: function (data, varType) {
+	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		let dataType;
@@ -28,7 +28,7 @@ module.exports = {
 
 	fields: ["info", "type", "storage", "varName"],
 
-	html: function (isEvent, data) {
+	html: function(isEvent, data) {
 		return `
 	<div style="float: left; width: 50%; padding-top: 8px;">
 		Speed:<br>
@@ -91,12 +91,12 @@ module.exports = {
                 </style>`;
 	},
 
-	init: function () {
+	init: function() {
 		const { glob, document } = this;
 		glob.variableChange(document.getElementById("storage"), "varNameContainer");
 	},
 
-	action: function (cache) {
+	action: function(cache) {
 		const _this = this; //This is needed sometimes
 		const data = cache.actions[cache.index];
 		const info = _this.evalMessage(data.info);
@@ -136,6 +136,6 @@ module.exports = {
 		});
 	},
 
-	mod: function () {}
+	mod: function() {}
 
 };

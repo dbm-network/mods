@@ -2,12 +2,12 @@ module.exports = {
 	name: "Google Image Search",
 	section: "Other Stuff",
 
-	subtitle: function (data) {
+	subtitle: function(data) {
 		const info = ["Title", "URL", "Snippet"];
 		return `Google Image Result ${info[parseInt(data.info)]}`;
 	},
 
-	variableStorage: function (data, varType) {
+	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		const info = parseInt(data.info);
@@ -28,7 +28,7 @@ module.exports = {
 
 	fields: ["string", "apikey", "clientid", "info", "resultNo", "storage", "varName"],
 
-	html: function (isEvent, data) {
+	html: function(isEvent, data) {
 		return `
 		<div style="height: 350px; width: 550px; overflow-y: scroll;">
 			<div style="width: 95%; padding-top: 2px;">Google Image Search Text:<br /> <textarea id="string" style="width: 100%; font-family: monospace; white-space: nowrap; resize: none;" rows="4" placeholder="Write something here or insert a variable..."></textarea></div><br>
@@ -62,12 +62,12 @@ module.exports = {
 		</div></div>`;
 	},
 
-	init: function () {
+	init: function() {
 		const { glob, document } = this;
 		glob.variableChange(document.getElementById("storage"), "varNameContainer");
 	},
 
-	action: function (cache) {
+	action: function(cache) {
 		const data = cache.actions[cache.index];
 		const info = parseInt(data.info);// Desired Info
 		const string = this.evalMessage(data.string, cache).replace(/[\u{0080}-\u{FFFF}]/gu, ""); // Replace taken from original Google Search Mod, invalid character parser.
@@ -120,5 +120,5 @@ module.exports = {
 	},
 
 
-	mod: function () {}
+	mod: function() {}
 };

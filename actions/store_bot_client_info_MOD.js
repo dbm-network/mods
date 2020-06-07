@@ -2,12 +2,12 @@ module.exports = {
 	name: "Store Bot Client Info",
 	section: "Bot Client Control",
 
-	subtitle: function (data) {
+	subtitle: function(data) {
 		const info = ["Uptime in Milliseconds", "Ready At?", "Ping", "Guild Amount", "User Amount", "Rounded Ping", "Uptime in Seconds", "Uptime in Minutes", "Bot's Token", "Voice Connections Amount", "Total Amount of Channels", "Total Amount of Emojis", "Bot's Previous Pings", "Uptime in Days", "Uptime in Days (Rounded)", "Memory (RAM) Usage", "Bot Guilds Objects", "Bot Guilds Names", "Bot Guilds IDs", "Bot Current Prefix", "Bot Client ID", "Discord JS Version", "Uptime in Hours", "Refreshing Uptime in Days", "Refreshing Uptime in Hours", "Refreshing Uptime in Minutes", "Refreshing Uptime in Seconds", "Memory (RAM) Usage in MB", "Bot's OS (Process Platform)", "CPU Usage in MB", "Bot's Directory", "Node JS Version", "Amount of Commands", "Amount of Events", "Ready At ? [timestamp]", "CPU Core Count", "Total Memory (GB)", "Total Memory (MB)", "Available Memory (GB)", "Available Memory (MB)", "Available Memory (%)", "Used Memory (GB)", "Used Memory (MB)", "Used Memory (%)", "Bot Owner ID"];
 		return `Bot Client - ${info[parseInt(data.info)]}`;
 	},
 
-	variableStorage: function (data, varType) {
+	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		const info = parseInt(data.info);
@@ -139,7 +139,7 @@ module.exports = {
 
 	fields: ["info", "storage", "varName2"],
 
-	html: function (isEvent, data) {
+	html: function(isEvent, data) {
 	// current 43 items
 		return `
 	<div style="float: left; width: 80%; padding-top: 8px;">
@@ -212,9 +212,9 @@ module.exports = {
 	</div><br><br>`;
 	},
 
-	init: function () { },
+	init: function() { },
 
-	action: function (cache) {
+	action: function(cache) {
 		const botClient = this.getDBM().Bot.bot;
 		const os = require("os");
 		const dibiem = this.getDBM();
@@ -383,5 +383,5 @@ module.exports = {
 		this.callNextAction(cache);
 	},
 
-	mod: function () {}
+	mod: function() {}
 };

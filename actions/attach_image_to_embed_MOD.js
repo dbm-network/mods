@@ -2,14 +2,14 @@ module.exports = {
 	name: "Attach Image To Embed",
 	section: "Embed Message",
 
-	subtitle: function (data) {
+	subtitle: function(data) {
 		const array = ["Temp Variable", "Server Variable", "Global Variable"];
 		return `Attach (${array[data.imagestorage - 1]} ${data.imagevarName}) to Embed (${array[data.embedstorage - 1]} ${data.embedvarName}) (${data.filename || "image.png"})`;
 	},
 
 	fields: ["embedstorage", "embedvarName", "imagestorage", "imagevarName", "filename"],
 
-	html: function (isEvent, data) {
+	html: function(isEvent, data) {
 		return `
       <div>
           <div style="float: left; width: 35%;">
@@ -41,9 +41,9 @@ module.exports = {
       </div>`;
 	},
 
-	init: function () {},
+	init: function() {},
 
-	action: function (cache) {
+	action: function(cache) {
 		const data = cache.actions[cache.index];
 
 		const embedstorage = parseInt(data.embedstorage);
@@ -59,14 +59,12 @@ module.exports = {
 		const DBM = this.getDBM();
 		const Images = DBM.Images;
 
-		const func = this;
-
-		Images.createBuffer(image).then(function (buffer) {
+		Images.createBuffer(image).then((buffer) => {
 			const attachment = new DBM.DiscordJS.Attachment(buffer, filename);
 			embed.attachFile(attachment);
-			func.callNextAction(cache);
+			this.callNextAction(cache);
 		});
 	},
 
-	mod: function () {}
+	mod: function() {}
 };
