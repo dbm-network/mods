@@ -282,7 +282,7 @@ module.exports = {
 				result = botClient.guilds.array();
 				break;
 			case 18: // Bot Guilds IDs
-				result = botClient.guilds.map(guilds => guilds.id);
+				result = botClient.guilds.map((guilds) => guilds.id);
 				break;
 			case 19: // Bot Current Prefix
 				result = dibiem.Files.data.settings.tag;

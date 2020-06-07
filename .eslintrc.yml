@@ -8,6 +8,9 @@ globals:
 parserOptions:
   ecmaVersion: 2020
 rules:
+  arrow-parens:
+    - error
+    - always
   brace-style:
     - error
     - 1tbs

@@ -145,11 +145,11 @@ module.exports = {
 				}
 				break;
 			case 2:
-				result = server.members.find(member => member.id == auditLog.executor.id);
+				result = server.members.find((member) => member.id == auditLog.executor.id);
 				break;
 			case 3:
 				if (auditLog.target.constructor.name == "User") {
-					result = server.members.find(member => member.id == auditLog.target.id);
+					result = server.members.find((member) => member.id == auditLog.target.id);
 				} else {
 					result = auditLog.target;
 				}

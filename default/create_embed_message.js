@@ -328,7 +328,7 @@ module.exports = {
 		const Actions = DBM.Actions;
 
 		Actions.createEmbed = function() {
-			return new DiscordJS.RichEmbed();
+			return new DiscordJS.MessageEmbed();
 		};
 	}
 

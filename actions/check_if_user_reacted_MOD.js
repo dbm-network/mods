@@ -61,13 +61,11 @@ module.exports = {
 
 		const type2 = parseInt(data.reaction);
 		const varName2 = this.evalMessage(data.varName2, cache);
-		const reaction = this.getWrexMods()
-			.getReaction(type2, varName2, cache);
+		const reaction = this.getWrexMods().getReaction(type2, varName2, cache);
 
 		let result = false;
 		if (member && reaction.users) {
-			const member22 = String(member)
-				.replace(/!/g, "");
+			const member22 = String(member).replace(/!/g, "");
 			const ar = reaction.users.array();
 			const ar22 = String(ar);
 			result = ar22.includes(member22);
@@ -77,8 +75,7 @@ module.exports = {
 			if (Array.isArray(member)) {
 				result = member.every(function(mem) {
 					if (mem && reaction.users) {
-						const member2 = String(mem)
-							.replace(/!/g, "");
+						const member2 = String(mem).replace(/!/g, "");
 						const ar1 = reaction.users.array();
 						const ar12 = String(ar1);
 						return ar12.includes(member2);

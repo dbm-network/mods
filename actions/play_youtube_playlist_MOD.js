@@ -76,9 +76,9 @@ module.exports = {
 		//Load playlist
 		const YouTube = new ytapi(`${apikey}`);
 
-		YouTube.getPlaylist(`${playlist}`).then(playlist => {
-			playlist.getVideos().then(videos => {
-				videos.forEach(video => {
+		YouTube.getPlaylist(`${playlist}`).then((playlist) => {
+			playlist.getVideos().then((videos) => {
+				videos.forEach((video) => {
 					const info = ["yt", options, `https://www.youtube.com/watch?v=${video.id}`];
 					if(video.id !== undefined) {
 						Audio.addToQueue(info, cache);

@@ -174,7 +174,7 @@ module.exports = {
 			options.user = mem;
 		}
 		let result = [];
-		server.fetchAuditLogs(options).then(audits => {
+		server.fetchAuditLogs(options).then((audits) => {
 			audits.entries.forEach(function(entry) {
 				result.push(entry);
 			});

@@ -221,10 +221,10 @@ div.embed { /* <div class="embed"></div> */
 				result = audio.dispatchers[targetServer.id] && audio.dispatchers[targetServer.id].player.streamingData.startTime || 0; // when the music first started playing
 				break;
 			case 3:
-				result = audio.queue[targetServer.id] && audio.queue[targetServer.id].map(el => el[2]); // the queue list
+				result = audio.queue[targetServer.id] && audio.queue[targetServer.id].map((el) => el[2]); // the queue list
 				break;
 			case 4:
-				result = audio.queue[targetServer.id] && audio.queue[targetServer.id].map(el => el[2])[0]; // next item in queue
+				result = audio.queue[targetServer.id] && audio.queue[targetServer.id].map((el) => el[2])[0]; // next item in queue
 				break;
 			case 5:
 				result = audio.queue[targetServer.id] && audio.queue[targetServer.id].length;  // queue length
@@ -242,13 +242,13 @@ div.embed { /* <div class="embed"></div> */
 				result = audio.playingnow[targetServer.id][2]; //Current song url
 				break;
 			case 10:
-				result = audio.queue[targetServer.id] && audio.queue[targetServer.id].map(el => el[1])[0].requester; //Requested person of next song in queue
+				result = audio.queue[targetServer.id] && audio.queue[targetServer.id].map((el) => el[1])[0].requester; //Requested person of next song in queue
 				break;
 			case 11:
 				result = audio.playingnow[targetServer.id] && audio.playingnow[targetServer.id][1].requester; // Requested person of current song
 				break;
 			case 12:
-				result = audio.queue[targetServer.id] && audio.queue[targetServer.id].map(el => el[1])[0].title; // Title of next song in queue
+				result = audio.queue[targetServer.id] && audio.queue[targetServer.id].map((el) => el[1])[0].title; // Title of next song in queue
 				break;
 			case 13:
 				result = audio.playingnow[targetServer.id] && audio.playingnow[targetServer.id][1].title; // Title of current song

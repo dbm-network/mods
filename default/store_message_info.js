@@ -219,7 +219,7 @@ module.exports = {
 					if (embed.footer != null) {
 						delete embed.footer.embed;
 					}
-					result = new DiscordJS.RichEmbed(embed);
+					result = new DiscordJS.MessageEmbed(embed);
 				}
 				break;
 			default:

@@ -174,16 +174,16 @@ module.exports = {
 				result = targetCategory.children.size; //Category Channel Count
 				break;
 			case 8:
-				result = targetCategory.children.filter(c => c.type == "text").array(); //Category Text Channel List
+				result = targetCategory.children.filter((c) => c.type == "text").array(); //Category Text Channel List
 				break;
 			case 9:
-				result = targetCategory.children.filter(c => c.type == "text").size; //Category Text Channel Count
+				result = targetCategory.children.filter((c) => c.type == "text").size; //Category Text Channel Count
 				break;
 			case 10:
-				result = targetCategory.children.filter(c => c.type == "voice").array(); //Category Voice Channel List
+				result = targetCategory.children.filter((c) => c.type == "voice").array(); //Category Voice Channel List
 				break;
 			case 11:
-				result = targetCategory.children.filter(c => c.type == "voice").size; //Category Voice Channel Count
+				result = targetCategory.children.filter((c) => c.type == "voice").size; //Category Voice Channel Count
 				break;
 			default:
 				break;

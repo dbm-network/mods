@@ -282,7 +282,7 @@ module.exports = {
 
 		switch(type) {
 			case 0://Video
-				YouTube.searchVideos(`${input}`, results).then(videos => {
+				YouTube.searchVideos(`${input}`, results).then((videos) => {
 					var result;
 					var video = videos[results-1];
 					switch(info0) {
@@ -384,7 +384,7 @@ module.exports = {
 				}).catch(console.error);
 				break;
 			case 1://Playlist
-				YouTube.searchPlaylists(`${input}`, results).then(playlists => {
+				YouTube.searchPlaylists(`${input}`, results).then((playlists) => {
 					var result;
 					var playlist = playlists[results-1];
 					switch(info1) {
@@ -428,7 +428,7 @@ module.exports = {
 							result = playlist.channel.raw.snippet.thumbnails.high.url;
 							break;
 						default:
-							playlist.getVideos().then(videos => {
+							playlist.getVideos().then((videos) => {
 								var result2 = [];
 								videos.forEach((video, pos) => {
 									switch(info1) {

@@ -124,15 +124,15 @@ module.exports = {
 				break;
 			case 5:
 				const firstid = rea.users.firstKey(); //Stores first user ID reacted
-				result = cache.server.members.find(element => element.id === firstid);
+				result = cache.server.members.find((element) => element.id === firstid);
 				break;
 			case 6:
 				const randomid = rea.users.randomKey(); //Stores random user ID reacted
-				result = cache.server.members.find(element => element.id === randomid);
+				result = cache.server.members.find((element) => element.id === randomid);
 				break;
 			case 7:
 				const lastid = rea.users.lastKey(); //Stores last user ID reacted
-				result = cache.server.members.find(element => element.id === lastid);
+				result = cache.server.members.find((element) => element.id === lastid);
 				break;
 			default:
 				break;
