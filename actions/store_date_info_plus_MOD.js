@@ -8,7 +8,7 @@ module.exports = {
 		return `Store ${data.modeStorage === "0" ? "\"" + info[data.info] + "\"" : data.buildInput === "" ? "\"Not Set\"" : "\"" + data.buildInput + "\""} from a Date ~ ${storage[data.storage]}`;
 	},
 
-	variableStorage: function (data, varType) {
+	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		let dataType = "Date";

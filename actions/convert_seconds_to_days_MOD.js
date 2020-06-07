@@ -2,11 +2,11 @@ module.exports = {
 	name: "Convert Seconds To D/H/M/S",
 	section: "Other Stuff",
 
-	subtitle: function (data) {
+	subtitle: function(data) {
 		return `Convert ${data.time}`;
 	},
 
-	variableStorage: function (data, varType) {
+	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		return ([data.varName, "Date"]);
@@ -14,7 +14,7 @@ module.exports = {
 
 	fields: ["time", "storage", "varName"],
 
-	html: function (isEvent, data) {
+	html: function(isEvent, data) {
 		return `
 	<br><br><br>
 	<div style="float: left; width: 70%; padding-top: 8px;">
@@ -39,7 +39,7 @@ module.exports = {
 	</div>`;
 	},
 
-	init: function () {
+	init: function() {
 		const {
 			glob,
 			document
@@ -48,7 +48,7 @@ module.exports = {
 		glob.variableChange(document.getElementById("storage"), "varNameContainer");
 	},
 
-	action: function (cache) {
+	action: function(cache) {
 
 		const data = cache.actions[cache.index];
 		const time = this.evalMessage(data.time, cache);
@@ -84,6 +84,6 @@ module.exports = {
 		this.callNextAction(cache);
 	},
 
-	mod: function () {}
+	mod: function() {}
 
 };

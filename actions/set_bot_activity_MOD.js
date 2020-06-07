@@ -2,7 +2,7 @@ module.exports = {
 	name: "Set Bot Activity",
 	section: "Bot Client Control",
 
-	subtitle: function (data) {
+	subtitle: function(data) {
 		const activities = [
 			"Playing",
 			"Listening to",
@@ -17,7 +17,7 @@ module.exports = {
 
 	fields: ["activity", "nameText", "url", "stat"],
 
-	html: function (isEvent, data) {
+	html: function(isEvent, data) {
 		return `
   <div id="mod-container">
         <div id="main-body">
@@ -78,7 +78,7 @@ module.exports = {
       </style>`;
 	},
 
-	init: function () {
+	init: function() {
 		const {
 			glob,
 			document
@@ -104,7 +104,7 @@ module.exports = {
 		selector.onclick = () => showUrl();
 	},
 
-	action: function (cache) {
+	action: function(cache) {
 		const botClient = this.getDBM()
 			.Bot.bot.user;
 		const data = cache.actions[cache.index];
@@ -167,7 +167,7 @@ module.exports = {
 					botClient
 						.setPresence(obj)
 						.then(
-							function () {
+							function() {
 								this.callNextAction(cache);
 							}.bind(this)
 						)
@@ -183,7 +183,7 @@ module.exports = {
 					botClient
 						.setPresence(obj)
 						.then(
-							function () {
+							function() {
 								this.callNextAction(cache);
 							}.bind(this)
 						)
@@ -199,5 +199,5 @@ module.exports = {
 		}
 	},
 
-	mod: function () {}
+	mod: function() {}
 };

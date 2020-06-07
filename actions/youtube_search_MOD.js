@@ -2,7 +2,7 @@ module.exports = {
 	name: "YouTube Search",
 	section: "Audio Control",
 
-	subtitle: function (data) {
+	subtitle: function(data) {
 		const videoInfo = ["Video ID", "Video URL", "Video Title", "Video Description", "Video Channel ID", "Video Channel URL", "Video Channel Name", "Video Channel Thumbnail URL (Default)", "Video Channel Thumbnail URL (Medium)", "Video Channel Thumbnail URL (High)", "Video Thumbnail URL (Default)", "Video Thumbnail URL (Medium)", "Video Thumbnail URL (High)", "Video Genre", "Paid Video?", "Unlisted Video?", "Is Video Family Friendly?", "Video Duration", "Video Publish Data", "Video Views", "Allowed Video Regions", "Video Comment Count", "Video Like Count", "Video Dislike Count"];
 		const playlistInfo = ["Playlist ID", "Playlist URL", "Playlist Name", "Playlist Description", "Playlist Thumbnail URL (Default)", "Playlist Thumbnail URL (Medium)", "Playlist Thumbnail URL (High)", "Playlist Channel ID", "Playlist Channel URL", "Playlist Channel Name", "Playlist Channel Thumbnail URL (Default)", "Playlist Channel Thumbnail URL (Medium)", "Playlist Channel Thumbnail URL (High)", "Video IDs", "Video URLs", "Video Titles", "Video Descriptions", "Video Channel IDs", "Video Channel URls", "Video Channel Names", "Video Channel Thumbnail URLs (Default)", "Video Channel Thumbnail URLs (Medium)", "Video Channel Thumbnail URLs (High)", "Video Thumbnail URLs (Default)", "Video Thumbnail URLs (Medium)", "Video Thumbnail URLs (High)", "Video Positions", "Video Publish Dates"];
 		if(parseInt(data.type) == 1) {
@@ -12,7 +12,7 @@ module.exports = {
 		}
 	},
 
-	variableStorage: function (data, varType) {
+	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		let dataType = "Unknown Type";
@@ -104,7 +104,7 @@ module.exports = {
 
 	fields: ["type", "input", "info0", "info1", "apikey", "results", "storage", "varName"],
 
-	html: function (isEvent, data) {
+	html: function(isEvent, data) {
 		return `
 	<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
 	<div style="float: left; width: 30%; padding-top: 8px;">
@@ -224,7 +224,7 @@ module.exports = {
 </div>`;
 	},
 
-	init: function () {
+	init: function() {
 		const { glob, document } = this;
 		glob.variableChange(document.getElementById("storage"), "varNameContainer");
 		glob.onChange1 = function(event) {
@@ -257,7 +257,7 @@ module.exports = {
 		glob.onChange1(document.getElementById("type"));
 	},
 
-	action: function (cache) {
+	action: function(cache) {
 		const data = cache.actions[cache.index];
 		const _this = this; //This is needed sometimes.
 		const WrexMods = this.getWrexMods(); //As always.
@@ -503,6 +503,6 @@ module.exports = {
 		}
 	},
 
-	mod: function () {}
+	mod: function() {}
 
 };

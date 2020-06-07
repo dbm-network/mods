@@ -2,15 +2,15 @@ module.exports = {
 	name: "Welcome",
 	section: "#Mod Information",
 
-	subtitle: function (data) {
+	subtitle: function(data) {
 		return "Put this into a Bot Initalization event for music!";
 	},
 
-	variableStorage: function (data, varType) {},
+	variableStorage: function(data, varType) {},
 
 	fields: ["mods"],
 
-	html: function (isEvent, data) {
+	html: function(isEvent, data) {
 		return `
 	<style>
 	table.scroll {
@@ -198,7 +198,7 @@ module.exports = {
 	</div>`;
 	},
 
-	init: function () {
+	init: function() {
 		const {
 			glob,
 			document
@@ -211,7 +211,7 @@ module.exports = {
 
 			require("fs")
 				.readdirSync(__dirname)
-				.forEach(function (file) {
+				.forEach(function(file) {
 					if (file.match(/MOD.js/i)) {
 						var action = require(path.join(__dirname, file));
 						if (action.name && action.action !== null) {
@@ -249,7 +249,7 @@ module.exports = {
 			var wrexlink = wrexlinks[x];
 			var url = wrexlink.getAttribute("data-url");
 			if (url) {
-				wrexlink.addEventListener("click", function (e) {
+				wrexlink.addEventListener("click", function(e) {
 					e.stopImmediatePropagation();
 					console.log("Launching URL: [" + url + "] in your default browser.");
 					require("child_process")
@@ -264,7 +264,7 @@ module.exports = {
 			var url2 = wrexlink2.getAttribute("data-url2");
 			if (url2) {
 				wrexlink2.setAttribute("title", url2);
-				wrexlink2.addEventListener("click", function (e2) {
+				wrexlink2.addEventListener("click", function(e2) {
 					e2.stopImmediatePropagation();
 					console.log("Launching URL: [" + url2 + "] in your default browser.");
 					require("child_process")
@@ -279,7 +279,7 @@ module.exports = {
 			var url3 = wrexlink3.getAttribute("data-url3");
 			if (url3) {
 				wrexlink3.setAttribute("title", url3);
-				wrexlink3.addEventListener("click", function (e3) {
+				wrexlink3.addEventListener("click", function(e3) {
 					e3.stopImmediatePropagation();
 					console.log("Launching URL: [" + url3 + "] in your default browser.");
 					require("child_process")
@@ -289,13 +289,13 @@ module.exports = {
 		}
 	},
 
-	action: function (cache) {
+	action: function(cache) {
 
 		console.log("Music function successfully overwritten.");
 
 	},
 
-	mod: function (DBM) {
+	mod: function(DBM) {
 		//Check for PlayingNow Data Object
 		if (DBM.Audio.playingnow === undefined) {
 			DBM.Audio.playingnow = [];
@@ -309,7 +309,7 @@ module.exports = {
 			DBM.Audio.loopItem = {};
 		}
 
-		DBM.Audio.addToQueue = function (item, cache) {
+		DBM.Audio.addToQueue = function(item, cache) {
 			if (!cache.server) return;
 			const id = cache.server.id;
 			if (!this.queue[id]) {
@@ -321,7 +321,7 @@ module.exports = {
 			this.playNext(id);
 		};
 
-		DBM.Audio.playNext = function (id, forceSkip) {
+		DBM.Audio.playNext = function(id, forceSkip) {
 			if (!this.connections[id]) {
 				DBM.Audio.loopQueue[id] = false; //Reset loop status
 				DBM.Audio.loopItem[id] = false;
@@ -349,7 +349,7 @@ module.exports = {
 			}
 		};
 
-		DBM.Audio.playItem = function (item, id) {
+		DBM.Audio.playItem = function(item, id) {
 			if (!this.connections[id]) return;
 			if (this.dispatchers[id]) {
 				this.dispatchers[id]._forceEnd = true;
@@ -372,7 +372,7 @@ module.exports = {
 					break;
 			}
 			if (setupDispatcher && !this.dispatchers[id]._eventSetup) {
-				this.dispatchers[id].on("end", function () {
+				this.dispatchers[id].on("end", function() {
 					const isForced = this.dispatchers[id]._forceEnd;
 					this.dispatchers[id] = null;
 					if (!isForced) {

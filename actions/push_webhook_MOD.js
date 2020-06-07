@@ -2,13 +2,13 @@ module.exports = {
 	name: "Send Message To Webhook",
 	section: "Webhook Control",
 
-	subtitle: function (data) {
+	subtitle: function(data) {
 		return `${data.message}`;
 	},
 
 	fields: ["webhook", "varName", "message"],
 
-	html: function (isEvent, data) {
+	html: function(isEvent, data) {
 		return `
 <div>
 	<div style="float: left; width: 35%;">

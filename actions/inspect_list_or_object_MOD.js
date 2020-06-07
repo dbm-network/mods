@@ -2,12 +2,12 @@ module.exports = {
 	name: "Inspect List/Object",
 	section: "Lists and Loops",
 
-	subtitle: function (data) {
+	subtitle: function(data) {
 		const storages = ["", "Temp Variable", "Server Variable", "Global Variable"];
 		return `Inspect ${storages[parseInt(data.storage)]} "${data.varName}"`;
 	},
 
-	variableStorage: function (data, varType) {
+	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage2);
 		if (type !== varType) return;
 		let dataType = "Text";
@@ -16,7 +16,7 @@ module.exports = {
 
 	fields: ["storage", "varName", "depth", "storage2", "varName2"],
 
-	html: function (isEvent, data) {
+	html: function(isEvent, data) {
 		return `
 	<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
 	<div>
@@ -92,13 +92,13 @@ module.exports = {
 </style>`;
 	},
 
-	init: function () {
+	init: function() {
 		const { glob, document } = this;
 
 		glob.variableChange(document.getElementById("storage"), "varNameContainer");
 	},
 
-	action: function (cache) {
+	action: function(cache) {
 		const data = cache.actions[cache.index];
 
 		const WrexMods = this.getWrexMods();
@@ -128,5 +128,5 @@ module.exports = {
 		this.callNextAction(cache);
 	},
 
-	mod: function () {}
+	mod: function() {}
 };

@@ -41,7 +41,7 @@ module.exports = {
 
 	init: function() {},
 
-	action: function (cache) {
+	action: function(cache) {
 		const
 			data = cache.actions[cache.index],
 			fs = require("fs"),

@@ -2,13 +2,13 @@ module.exports = {
 	name: "License",
 	section: "#Mod Information",
 
-	subtitle: function (data) {
+	subtitle: function(data) {
 		return "Does nothing - Click \"Edit\" for more information";
 	},
 
 	fields: [],
 
-	html: function (isEvent, data) {
+	html: function(isEvent, data) {
 		return `
 <div>
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
@@ -27,7 +27,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 	init: function() {},
 
-	action: function (cache) { },
+	action: function(cache) { },
 
-	mod: function () {}
+	mod: function() {}
 };

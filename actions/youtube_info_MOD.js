@@ -2,12 +2,12 @@ module.exports = {
 	name: "Store YouTube Info",
 	section: "Audio Control",
 
-	subtitle: function (data) {
+	subtitle: function(data) {
 		const info = ["Video ID", "Video URL", "Video Title", "Video Description", "Video Owner", "Video ChannelID", "Video ThumbnailUrl", "Video EmbedURL", "Video Genre", "Video Paid", "Video Unlisted", "Video isFamilyFriendly", "Video Duration", "Video Views", "Video regionsAllowed", "Video commentCount", "Video  likeCount", "Video  dislikeCount", "Video  channelThumbnailUrl"];
 		return `YouTube ${info[parseInt(data.info)]}`;
 	},
 
-	variableStorage: function (data, varType) {
+	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		const info = parseInt(data.info);
@@ -77,7 +77,7 @@ module.exports = {
 
 	fields: ["video", "info", "storage", "varName"],
 
-	html: function (isEvent, data) {
+	html: function(isEvent, data) {
 		return `
 <div style="width: 550px; height: 350px; overflow-y: scroll;">
 
@@ -130,7 +130,7 @@ module.exports = {
 </div>`;
 	},
 
-	init: function () {
+	init: function() {
 		const {
 			glob,
 			document
@@ -138,7 +138,7 @@ module.exports = {
 		glob.variableChange(document.getElementById("storage"), "varNameContainer");
 	},
 
-	action: async function (cache) {
+	action: async function(cache) {
 		const data = cache.actions[cache.index];
 		const info = parseInt(data.info);
 		const _this = this;
@@ -153,7 +153,7 @@ module.exports = {
 
 		const songID = ytdl.getVideoID(video);
 
-		fetchVideoInfo(songID, function (err, videoInfo) {
+		fetchVideoInfo(songID, function(err, videoInfo) {
 			if (err) return console.error(err);
 
 			switch (info) {
@@ -231,6 +231,6 @@ module.exports = {
 
 	},
 
-	mod: function () {}
+	mod: function() {}
 
 };

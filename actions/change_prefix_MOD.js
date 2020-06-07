@@ -18,7 +18,7 @@ module.exports = {
 
 	init: function() {},
 
-	action: function (cache) {
+	action: function(cache) {
 		const data = cache.actions[cache.index];
 
 		try {
@@ -26,7 +26,7 @@ module.exports = {
 			var prefix = this.evalMessage(data.pprefix, cache);
 			if (prefix) {
 				this.getDBM().Files.data.settings.tag = prefix;
-				this.getDBM().Files.saveData("settings", function () { console.log("Prefix changed to " + prefix); });
+				this.getDBM().Files.saveData("settings", function() { console.log("Prefix changed to " + prefix); });
 			} else {
 				console.log(prefix + " is not valid! Try again!");
 			}

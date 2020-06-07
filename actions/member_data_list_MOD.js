@@ -2,11 +2,11 @@ module.exports = {
 	name: "Store Member Data List",
 	section: "Member Control",
 
-	subtitle: function (data) {
+	subtitle: function(data) {
 		return `${[(data.dataName)]}`;
 	},
 
-	variableStorage: function (data, varType) {
+	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		return ([data.varName2, "Array"]);
@@ -14,7 +14,7 @@ module.exports = {
 
 	fields: ["debu", "numbefst2", "numbefst", "numbefstselect", "sort", "start", "middle", "end", "getresults", "dataName", "varName2", "storage"],
 
-	html: function (isEvent, data) {
+	html: function(isEvent, data) {
 		return `
 	<html>
 	<div id="wrexdiv2" style="width: 550px; height: 350px; overflow-y: scroll;">
@@ -101,7 +101,7 @@ Char after Number:<br>
 </html>`;
 	},
 
-	init: function () {
+	init: function() {
 		const {
 			glob,
 			document
@@ -123,7 +123,7 @@ Char after Number:<br>
 		glob.onChange1(document.getElementById("numbefstselect"));
 	},
 
-	action: function (cache) {
+	action: function(cache) {
 		var _this = this;
 		const data = cache.actions[cache.index];
 		var msg = cache.msg;
@@ -265,5 +265,5 @@ Char after Number:<br>
 		}
 	},
 
-	mod: function () {}
+	mod: function() {}
 };

@@ -2,7 +2,7 @@ module.exports = {
 	name: "Store Twitch Info",
 	section: "Other Stuff",
 
-	subtitle: function (data) {
+	subtitle: function(data) {
 		const sourceType = parseInt(data.type);//"Channel", "Stream", "Video" or "Game"
 		const inputType = parseInt(data.inputtype);//"ID" or "Name"
 
@@ -80,7 +80,7 @@ module.exports = {
 		return `Get "${infoList1[parseInt(infoNum1)]}" ${infoList2[parseInt(infoNum2)]}`;
 	},
 
-	variableStorage: function (data, varType) {
+	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		const sourceType = parseInt(data.type);//"Channel", "Stream", "Video" or "Game"
 		const inputType = parseInt(data.inputtype);//"ID" or "Name"
@@ -145,7 +145,7 @@ module.exports = {
 
 	fields: ["wrexdiv", "type", "divinputtype", "inputtype", "divinput", "input", "divinfo1", "info1", "divinfo2", "info2", "divinfo3", "info3", "divinfo4", "info4", "clientid", "results", "divresults", "storage", "varName"],
 
-	html: function (isEvent, data) {
+	html: function(isEvent, data) {
 		return `
 	<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
 	<div style="float: left; width: 42%;">
@@ -288,7 +288,7 @@ module.exports = {
 	</style>`;
 	},
 
-	init: function () {
+	init: function() {
 		const { glob, document } = this;
 
 		try {//Used for the Twitch API link | Made by General Wrex
@@ -538,7 +538,7 @@ module.exports = {
 		glob.variableChange(document.getElementById("storage"), "varNameContainer");
 	},
 
-	action: function (cache) {
+	action: function(cache) {
 		const data = cache.actions[cache.index];
 		const _this = this;//Just to be sure
 		const WrexMODS = this.getWrexMods();//As always.
@@ -861,5 +861,5 @@ module.exports = {
 		}
 	},
 
-	mod: function () {}
+	mod: function() {}
 };

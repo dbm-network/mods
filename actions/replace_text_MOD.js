@@ -7,7 +7,7 @@ module.exports = {
 		return `${info[data.info]}`;
 	},
 
-	variableStorage: function (data, varType) {
+	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		let dataType = "String";

@@ -7,7 +7,7 @@ module.exports = {
 		return `${files[parseInt(data.File)]} - ${(data.dataName)}`;
 	},
 
-	variableStorage: function (data, varType) {
+	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		const resultInfo = parseInt(data.resultInfo);

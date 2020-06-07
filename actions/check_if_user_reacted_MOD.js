@@ -2,14 +2,14 @@ module.exports = {
 	name: "Check If User Reacted",
 	section: "Conditions",
 
-	subtitle: function (data) {
+	subtitle: function(data) {
 		const results = ["Continue Actions", "Stop Action Sequence", "Jump To Action", "Jump Forward Actions"];
 		return `If True: ${results[parseInt(data.iftrue)]} ~ If False: ${results[parseInt(data.iffalse)]}`;
 	},
 
 	fields: ["member", "varName", "reaction", "varName2", "iftrue", "iftrueVal", "iffalse", "iffalseVal"],
 
-	html: function (isEvent, data) {
+	html: function(isEvent, data) {
 		return `
 <div>
 	<div style="float: left; width: 35%;">
@@ -40,7 +40,7 @@ module.exports = {
 </div>`;
 	},
 
-	init: function () {
+	init: function() {
 		const {
 			glob,
 			document
@@ -52,7 +52,7 @@ module.exports = {
 		glob.onChangeFalse(document.getElementById("iffalse"));
 	},
 
-	action: function (cache) {
+	action: function(cache) {
 		const data = cache.actions[cache.index];
 
 		const type = parseInt(data.member);
@@ -75,7 +75,7 @@ module.exports = {
 
 		if (reaction) {
 			if (Array.isArray(member)) {
-				result = member.every(function (mem) {
+				result = member.every(function(mem) {
 					if (mem && reaction.users) {
 						const member2 = String(mem)
 							.replace(/!/g, "");
@@ -98,6 +98,6 @@ module.exports = {
 		this.executeResults(result, data, cache);
 	},
 
-	mod: function () {}
+	mod: function() {}
 
 };

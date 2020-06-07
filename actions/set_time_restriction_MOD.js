@@ -2,12 +2,12 @@ module.exports = {
 	name: "Set Time Restriction",
 	section: "Other Stuff",
 
-	subtitle: function (data) {
+	subtitle: function(data) {
 		const results = ["Continue Actions", "Stop Action Sequence", "Jump To Action", "Jump Forward Actions", "Jump to Anchor"];
 		return `Cooldown | If True: ${results[parseInt(data.iftrue)]} ~ If False: ${results[parseInt(data.iffalse)]}`;
 	},
 
-	variableStorage: function (data, varType) {
+	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		return ([data.varName, "Number"]);
@@ -15,7 +15,7 @@ module.exports = {
 
 	fields: ["measurement", "value", "save", "restrict", "iftrue", "iftrueVal", "iffalse", "iffalseVal", "storage", "varName"],
 
-	html: function (isEvent, data) {
+	html: function(isEvent, data) {
 		return `
 	<div>
 		<div style="padding-top: 8px;">
@@ -67,7 +67,7 @@ module.exports = {
 	</div>`;
 	},
 
-	init: function () {
+	init: function() {
 		const { glob, document } = this;
 		const value = document.getElementById("value");
 		glob.onChange = function(Measurement) {
@@ -93,7 +93,7 @@ module.exports = {
 		glob.onChange(document.getElementById("Measurement"));
 	},
 
-	action: function (cache) {
+	action: function(cache) {
 		const data = cache.actions[cache.index];
 		const Files = this.getDBM().Files;
 		const value = parseInt(this.evalMessage(data.value, cache));
@@ -127,11 +127,11 @@ module.exports = {
 		this.executeResults(result, data, cache);
 	},
 
-	mod: function (DBM) {
+	mod: function(DBM) {
 
 		const Files = DBM.Files;
 		let Cooldown;
-		DBM.Actions.TimeRestriction = function (msg, cmd, cache) {
+		DBM.Actions.TimeRestriction = function(msg, cmd, cache) {
 
 			let value = parseInt(this.evalMessage(cache.actions[cache.index].value, cache));
 			let measurement = parseInt(cache.actions[cache.index].measurement);

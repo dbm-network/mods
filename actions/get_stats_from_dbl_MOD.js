@@ -2,12 +2,12 @@ module.exports = {
 	name: "Get Bot Stats From DBL",
 	section: "Other Stuff",
 
-	subtitle: function (data) {
+	subtitle: function(data) {
 		const info = ["Invite URL", "GitHub Repository URL", "Website URL", "Long Description", "Short Description", "Prefix", "Library", "Avatar URL", "Approved On", "Support Server Invite URL", "Server Count", "Shard Count", "Vanity URL", "Guild ID(s)", "Servers on Shards", "Monthly Vote Count", "Total Vote Count", "Owner ID(s)", "Tag(s)", "Username", "Discriminator"];
 		return `Get Bot's ${info[parseInt(data.info)]}`;
 	},
 
-	variableStorage: function (data, varType) {
+	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		let dataType = "A DBL Stat";
@@ -81,7 +81,7 @@ module.exports = {
 	},
 	fields: ["botID", "token", "info", "storage", "varName"],
 
-	html: function (isEvent, data) {
+	html: function(isEvent, data) {
 		return `
 <div id="modinfo">
 	<div style="float: left; width: 99%; padding-top: 8px;">
@@ -137,13 +137,13 @@ module.exports = {
 </div>`;
 	},
 
-	init: function () {
+	init: function() {
 		const { glob, document } = this;
 
 		glob.variableChange(document.getElementById("storage"), "varNameContainer");
 	},
 
-	action: function (cache) {
+	action: function(cache) {
 
 		const data = cache.actions[cache.index];
 		const botID = this.evalMessage(data.botID, cache);
@@ -231,5 +231,5 @@ module.exports = {
 			});
 	},
 
-	mod: function () {}
+	mod: function() {}
 };

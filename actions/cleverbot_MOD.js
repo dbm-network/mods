@@ -132,7 +132,7 @@ module.exports = {
 				if (!comAPIkey) return console.log("Please enter a valid API Key from cleverbot.com!");
 				clbot.configure({ botapi: comAPIkey });
 
-				clbot.write(Input, function (response) {
+				clbot.write(Input, function(response) {
 					if(response.output !== undefined) {
 						_this.storeValue(response.output, storage, varName2, cache);
 					} else {

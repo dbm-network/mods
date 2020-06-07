@@ -8,7 +8,7 @@ module.exports = {
 		return `${info[parseInt(data.info)]} - ${storage[parseInt(data.storage)]}`;
 	},
 
-	variableStorage: function (data, varType) {
+	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		let dataType = "Unknown Type";

@@ -2,12 +2,12 @@ module.exports = {
 	name: "Store Webhook Info",
 	section: "Webhook Control",
 
-	subtitle: function (data) {
+	subtitle: function(data) {
 		const info = ["Webhook ", "Webhook ", "Webhook ", "Webhook ", "Webhook ", "Webhook ", "Webhook ", "Webhook "];
 		return `${info[parseInt(data.info)]}`;
 	},
 
-	variableStorage: function (data, varType) {
+	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		const info = parseInt(data.info);
@@ -40,7 +40,7 @@ module.exports = {
 
 	fields: ["webhook", "varName", "info", "storage", "varName2"],
 
-	html: function (isEvent, data) {
+	html: function(isEvent, data) {
 		return `
 <div>
 	<div style="float: left; width: 35%;">

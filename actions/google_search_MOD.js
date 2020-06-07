@@ -2,12 +2,12 @@ module.exports = {
 	name: "Google Search",
 	section: "Other Stuff",
 
-	subtitle: function (data) {
+	subtitle: function(data) {
 		const info = ["Title", "URL", "Snippet"];
 		return `Google Result ${info[parseInt(data.info)]}`;
 	},
 
-	variableStorage: function (data, varType) {
+	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		const info = parseInt(data.info);
@@ -28,7 +28,7 @@ module.exports = {
 
 	fields: ["string", "info", "resultNo", "storage", "varName"],
 
-	html: function (isEvent, data) {
+	html: function(isEvent, data) {
 		return `
 	<div style="width: 95%; padding-top: 8px;">
 		String(s) to Search on Google:<br>
@@ -69,12 +69,12 @@ module.exports = {
 		</div>`;
 	},
 
-	init: function () {
+	init: function() {
 		const { glob, document } = this;
 		glob.variableChange(document.getElementById("storage"), "varNameContainer");
 	},
 
-	action: function (cache) {
+	action: function(cache) {
 		const data = cache.actions[cache.index];
 		const info = parseInt(data.info);
 		const string = this.evalMessage(data.string, cache).replace(/[\u{0080}-\u{FFFF}]/gu, ""); // The replace thing is very new, it's just replacing the invalid characters so command won't stuck when you use other languages.
@@ -117,5 +117,5 @@ module.exports = {
 		});
 	},
 
-	mod: function () {}
+	mod: function() {}
 };

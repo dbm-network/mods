@@ -2,12 +2,12 @@ module.exports = {
 	name: "Get Song Lyrics",
 	section: "Other Stuff",
 
-	subtitle: function (data) {
+	subtitle: function(data) {
 		const info = ["Title", "Artist", "Lyrics", "URL"];
 		return `Get Lyrics - ${info[parseInt(data.info)]}`;
 	},
 
-	variableStorage: function (data, varType) {
+	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		const info = parseInt(data.info);
@@ -31,7 +31,7 @@ module.exports = {
 
 	fields: ["song", "key", "info", "storage", "varName"],
 
-	html: function (isEvent, data) {
+	html: function(isEvent, data) {
 		return `
         <div style="width: 550px; height: 350px; overflow-y: scroll;">
         <div>
@@ -106,12 +106,12 @@ module.exports = {
                 </style>`;
 	},
 
-	init: function () {
+	init: function() {
 		const { glob, document } = this;
 		glob.variableChange(document.getElementById("storage"), "varNameContainer");
 	},
 
-	action: function (cache) {
+	action: function(cache) {
 		const _this = this;
 		const data = cache.actions[cache.index];
 		const info = parseInt(data.info);
@@ -151,5 +151,5 @@ module.exports = {
 		});
 	},
 
-	mod: function () {}
+	mod: function() {}
 };

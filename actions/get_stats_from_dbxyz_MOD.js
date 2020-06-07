@@ -2,12 +2,12 @@ module.exports = {
 	name: "Get Bot Stats From DBXYZ",
 	section: "Other Stuff",
 
-	subtitle: function (data) {
+	subtitle: function(data) {
 		const info = ["Bot ID", "Bot Name", "Prefix", "Bots Lib", "Server Count", "Short Description", "Description", "Avatar", "Owner ID", "Owner Name", "Invite", "Support Server", "Website", "Waiting For Review", "Certified?", "Vanity Url"];
 		return `Get Bot's ${info[parseInt(data.info)]}`;
 	},
 
-	variableStorage: function (data, varType) {
+	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		let dataType = "A DBXYZ Stat";
@@ -66,7 +66,7 @@ module.exports = {
 	},
 	fields: ["botID", "info", "storage", "varName"],
 
-	html: function (isEvent, data) {
+	html: function(isEvent, data) {
 		return `
 <div id="modinfo">
 	<div style="float: left; width: 99%; padding-top: 8px;">
@@ -112,13 +112,13 @@ module.exports = {
 </div>`;
 	},
 
-	init: function () {
+	init: function() {
 		const { glob, document } = this;
 
 		glob.variableChange(document.getElementById("storage"), "varNameContainer");
 	},
 
-	action: function (cache) {
+	action: function(cache) {
 
 		const data = cache.actions[cache.index];
 		const botID = this.evalMessage(data.botID, cache);
@@ -191,5 +191,5 @@ module.exports = {
 			});
 	},
 
-	mod: function () {}
+	mod: function() {}
 };
