@@ -47,8 +47,7 @@ This repository is not meant to be downloaded or cloned. Please follow the insta
 6.  Extract the contents of the .zip file into Discord Bot Maker's actions folder  
     (Overwrite existing files if asked)
 
-**It's strongly advised to also install the [DBM Mods files](https://dbm-network.github.io/download-git/#/home?url=https://github.com/dbm-network/mods/tree/beta/actions) to your bot project's "actions" folder**  
-
+**IMPORTANT: Repeat steps 4 to 6 in your bot project's "actions" folder**
 ** **
 
 ## Installing DBM Beta
