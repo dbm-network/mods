@@ -1,9 +1,5 @@
 module.exports = {
 
-// RigidStudios:
-// ban by id added :3
-// days to delete added
-
 //---------------------------------------------------------------------
 // Action Name
 //
@@ -60,6 +56,7 @@ fields: ["member", "varName", "reason", "guild", "varName2", "days"],
 
 html: function(isEvent, data) {
 	return `
+	This action has been modified by DBM Mods.<br>
 <div>
 	<div style="float: left; width: 35%;">
 		Member:<br>
@@ -90,7 +87,7 @@ html: function(isEvent, data) {
 </div>
 <div style="padding-top: 8px;">
 	Days of Messages to Delete:<br>
-	<textarea id="days" rows="5" style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+	<textarea id="days" rows="1" style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
 </div>`
 },
 
@@ -128,14 +125,14 @@ action: function(cache) {
 	const days = parseInt(this.evalMessage(data.days, cache));
 	const member = type == 5 ? this.evalMessage(varName) : this.getMember(type, varName, cache)
 	if (guildType !== 0) {
-		cache.server = server; // magic. -- Oh and if it breaks it is no longer magic.
+		cache.server = server;
 	}
 	if (Array.isArray(member)) {
 		this.callListFunc(member, 'ban', [this.evalMessage(data.reason, cache)]).then(function() {
 			this.callNextAction(cache);
 		}.bind(this));
 	} else if (member) {
-		server.ban(member, {days: days, reason: `${reason ? reason : ""}`}).then(function(member) {
+		server.ban(member, {days: days, reason: reason || ""}).then(function() {
 			this.callNextAction(cache);
 		}.bind(this)).catch(this.displayError.bind(this, data, cache));
 	} else {
@@ -152,7 +149,6 @@ action: function(cache) {
 // functions you wish to overwrite.
 //---------------------------------------------------------------------
 
-mod: function(DBM) {
-}
+mod: function(DBM) {}
 
 }; // End of module
