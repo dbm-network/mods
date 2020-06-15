@@ -1,6 +1,8 @@
 module.exports = {
 
+// RigidStudios:
 // ban by id added :3
+// days to delete added
 
 //---------------------------------------------------------------------
 // Action Name
@@ -25,9 +27,9 @@ section: "Member Control",
 //---------------------------------------------------------------------
 
 subtitle: function(data) {
-	const channels = ['Mentioned User', 'Command Author', 'Temp Variable', 'Server Variable', 'Global Variable', 'By ID'];
+	const users = ['Mentioned User', 'Command Author', 'Temp Variable', 'Server Variable', 'Global Variable', 'By ID'];
 	const guilds = ['Current Server', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	return `${channels[parseInt(data.member)]} - ${guilds[parseInt(data.guild)]}`;
+	return `${users[parseInt(data.member)]} - ${guilds[parseInt(data.guild)]}`;
 },
 
 //---------------------------------------------------------------------
@@ -38,7 +40,7 @@ subtitle: function(data) {
 // are also the names of the fields stored in the action's JSON data.
 //---------------------------------------------------------------------
 
-fields: ["member", "varName", "reason", "guild", "varName2"],
+fields: ["member", "varName", "reason", "guild", "varName2", "days"],
 
 //---------------------------------------------------------------------
 // Command HTML
@@ -84,7 +86,11 @@ html: function(isEvent, data) {
 <br><br><br>
 <div style="padding-top: 8px;">
 	Reason:<br>
-	<textarea id="reason" rows="5" placeholder="Insert reason here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+	<textarea id="reason" rows="5" placeholder="Insert reason here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea><br>
+</div>
+<div style="padding-top: 8px;">
+	Days of Messages to Delete:<br>
+	<textarea id="days" rows="5" style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
 </div>`
 },
 
@@ -119,6 +125,7 @@ action: function(cache) {
 	const guildType = parseInt(data.guild);
 	const server = this.getServer(guildType, varName2, cache);
 	const reason = this.evalMessage(data.reason, cache);
+	const days = parseInt(this.evalMessage(data.days, cache));
 	const member = type == 5 ? this.evalMessage(varName) : this.getMember(type, varName, cache)
 	if (guildType !== 0) {
 		cache.server = server; // magic. -- Oh and if it breaks it is no longer magic.
@@ -128,7 +135,7 @@ action: function(cache) {
 			this.callNextAction(cache);
 		}.bind(this));
 	} else if (member) {
-		server.ban(member, {reason: `${reason ? reason : ""}`}).then(function(member) {
+		server.ban(member, {days: days, reason: `${reason ? reason : ""}`}).then(function(member) {
 			this.callNextAction(cache);
 		}.bind(this)).catch(this.displayError.bind(this, data, cache));
 	} else {
