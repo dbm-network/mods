@@ -324,8 +324,6 @@ action: function(cache) {
 		//Color
 		if(data.color) {
 			embed.setColor(this.evalMessage(data.color, cache));
-		} else {
-			embed.setColor('#96faee')
 		};
 
 		//Image URL
