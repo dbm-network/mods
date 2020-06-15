@@ -41,7 +41,7 @@ version: "1.2.0",
 variableStorage: function(data, varType) {
 	const type = parseInt(data.storage);
 	if(type !== varType) return;
-	return ([data.varName, 'Embed Message']);
+	return ([data.varName, 'Embed Object']);
 },
 
 //---------------------------------------------------------------------
@@ -82,7 +82,7 @@ html: function(isEvent, data) {
 		</div>
 		<div style="float: right; width: 60%;">
 			Variable Name:<br>
-			<input id="varName" class="round" type="text" list="variableList">
+			<input id="varName" placeholder="Embed Object" class="round" type="text" list="variableList">
 		</div>
 	</div><br><br><br>
 	<div style="padding-top: 8px;">
@@ -302,7 +302,8 @@ html: function(isEvent, data) {
 			</select><br>
 		</div>
 	</div>
-</div>`
+</div><br>
+Embeds edited here must then be selected as Source Embed Object in <b>Edit Message</b>`
 },
 
 //---------------------------------------------------------------------
@@ -685,7 +686,7 @@ action: function(cache) {
 		} else if (Edit10 != 0) {
 			embed.footer.icon_url = undefined;
 		}
-	}		
+	}
 	switch(Edit10) {
 		case 1:
 			embed.footer.icon_url = footerIcon;
@@ -759,7 +760,6 @@ action: function(cache) {
 // functions you wish to overwrite.
 //---------------------------------------------------------------------
 
-mod: function(DBM) {
-}
+mod: function(DBM) { }
 
 }; // End of module
