@@ -40,7 +40,7 @@ subtitle: function(data) {
 	 version: "1.9.5",//Added in 1.8.2
 
 	 // A short description to show on the mod line for this mod (Must be on a single line)
-	 short_description: "Changed category, added author url, the ability to customize the timestamp and a debug button.",
+	 short_description: "Creates an Embed Object",
 
 	 // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
 
@@ -56,7 +56,7 @@ subtitle: function(data) {
 variableStorage: function(data, varType) {
 	const type = parseInt(data.storage);
 	if(type !== varType) return;
-	return ([data.varName, 'Embed Message']);
+	return ([data.varName, 'Embed Object']);
 },
 
 //---------------------------------------------------------------------
@@ -246,7 +246,7 @@ init: function() {
 					note.style.display = 'none';
 					note2.style.display = null;
 					break;
-	
+
 			};
 		};
 	};
@@ -302,12 +302,12 @@ action: function(cache) {
 	if(debug != "true") {
 		//Title
 		embed.setTitle(this.evalMessage(data.title, cache));
-	
+
 		//URL
 		if(data.url) {
 			embed.setURL(this.evalMessage(data.url, cache));
 		};
-	
+
 		//Author Name
 		if(data.author) {
 			if(data.authorIcon && data.authorUrl) {
@@ -320,22 +320,22 @@ action: function(cache) {
 				embed.setAuthor(this.evalMessage(data.author, cache));
 			};
 		};
-	
+
 		//Color
 		if(data.color) {
 			embed.setColor(this.evalMessage(data.color, cache));
 		};
-	
+
 		//Image URL
 		if(data.imageUrl) {
 			embed.setImage(this.evalMessage(data.imageUrl, cache));
 		};
-	
+
 		//Thumbnail URL
 		if(data.thumbUrl) {
 			embed.setThumbnail(this.evalMessage(data.thumbUrl, cache));
 		};
-	
+
 		//Timestamp
 		switch(timestamp) {
 			case "false":
@@ -378,7 +378,7 @@ action: function(cache) {
 				embed.setTimestamp(new Date());
 				break;
 		};
-	
+
 		const storage = parseInt(data.storage);
 		const varName = this.evalMessage(data.varName, cache);
 		this.storeValue(embed, storage, varName, cache);
