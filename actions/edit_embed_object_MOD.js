@@ -1,16 +1,14 @@
 module.exports = {
-	name: "Edit Embed Object MOD",
+	name: "Edit Embed Object",
 	section: "Embed Message",
-
 	subtitle: function(data) {
 		const storage = ["", "Temp Variable", "Server Variable", "Global Variable"];
 		return `${storage[parseInt(data.storage)]} (${data.varName})`;
 	},
-
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
-		return ([data.varName, "Embed Message"]);
+		return ([data.varName, "Embed Object"]);
 	},
 
 	fields: ["storage", "varName", "Edit0", "Edit1", "Edit2", "Edit3", "Edit4", "Edit5", "Edit6", "Edit7", "Edit8", "Edit9", "Edit10", "Edit11", "Edit12", "title", "url", "description", "color", "imageUrl", "imageUrl2", "thumbUrl", "thumbUrl2", "author", "authorUrl", "authorIcon", "footer", "footerIcon", "timestamp", "fieldNum", "fieldName", "fieldDescription", "fieldInline"],
@@ -27,7 +25,7 @@ module.exports = {
 		</div>
 		<div style="float: right; width: 60%;">
 			Variable Name:<br>
-			<input id="varName" class="round" type="text" list="variableList">
+			<input id="varName" placeholder="Embed Object" class="round" type="text" list="variableList" oninput="glob.onChange13(this)">
 		</div>
 	</div><br><br><br>
 	<div style="padding-top: 8px;">
@@ -251,7 +249,7 @@ module.exports = {
 	},
 
 	init: function() {
-		const { glob, document } = this;
+		const {glob, document} = this;
 		const Input0 = document.getElementById("Input0");
 		const Input1 = document.getElementById("Input1");
 		const Input2 = document.getElementById("Input2");
@@ -457,6 +455,31 @@ module.exports = {
 					break;
 			}
 		};
+
+		let varName = document.getElementById("varName");
+		glob.onChange13 = function(Edit13) {
+	  const list = document.getElementById("variableList");
+	  if (list.children.length == 0) return;
+	  let dataType = list.options;
+			let correct = filter(dataType);
+			if (correct !== undefined) {
+				if (correct.innerHTML != "Embed Object") {
+					alert(`Please select an Embed Object to edit. You've selected a ${correct.innerHTML}; This won't edit your message directly, you'll have to later select 'Edit Message' and use the same embed as here in Source Embed`);
+				}
+			}
+		};
+		glob.onChange13(varName);
+
+		function filter(dataType) {
+	  for (let i = 0; i < dataType.length; i++) {
+	    console.log(dataType[i].value);
+	    console.log(varName.value);
+	    if (dataType[i].value == varName.value) {
+	      console.log(i);
+	      return dataType[i];
+	    }
+	  }
+		}
 
 		glob.onChange0(document.getElementById("Edit0"));
 		glob.onChange1(document.getElementById("Edit1"));
@@ -679,5 +702,7 @@ module.exports = {
 		this.callNextAction(cache);
 	},
 
-	mod: function() {}
+	mod: function() {
+		DBM.Actions["Edit Embed Object MOD"] = DBM.Actions["Edit Embed Object"];
+	}
 };

@@ -9,7 +9,7 @@ module.exports = {
 		return `Convert Age from format: ${info[data.info]}`;
 	},
 
-	variableStorage: function (data, varType) {
+	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		let dataType = "Number";
