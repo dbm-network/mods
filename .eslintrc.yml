@@ -11,6 +11,8 @@ rules:
   arrow-parens:
     - error
     - always
+  arrow-spacing: error
+  block-spacing: error
   brace-style:
     - error
     - 1tbs
@@ -33,11 +35,18 @@ rules:
   no-empty: off
   no-irregular-whitespace: off
   no-prototype-builtins: off
+  no-trailing-spaces: error
   no-unused-vars: off
   no-useless-escape: off
   object-curly-newline:
     - error
     - multiline: true
+  object-curly-spacing:
+    - error
+    - always
+  quote-props:
+    - error
+    - as-needed
   quotes:
     - error
     - double
@@ -48,12 +57,3 @@ rules:
     - error
     - never
   space-in-parens: error
-  no-trailing-spaces: error
-  block-spacing: error
-  arrow-spacing: error
-  quote-props:
-    - error
-    - as-needed
-  object-curly-spacing:
-    - error
-    - always
