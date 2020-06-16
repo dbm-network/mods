@@ -1,16 +1,14 @@
 module.exports = {
-	name: "Edit Embed Object MOD",
+	name: "Edit Embed Object",
 	section: "Embed Message",
-
 	subtitle: function(data) {
 		const storage = ["", "Temp Variable", "Server Variable", "Global Variable"];
 		return `${storage[parseInt(data.storage)]} (${data.varName})`;
 	},
-
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
-		return ([data.varName, "Embed Message"]);
+		return ([data.varName, "Embed Object"]);
 	},
 
 	fields: ["storage", "varName", "Edit0", "Edit1", "Edit2", "Edit3", "Edit4", "Edit5", "Edit6", "Edit7", "Edit8", "Edit9", "Edit10", "Edit11", "Edit12", "title", "url", "description", "color", "imageUrl", "imageUrl2", "thumbUrl", "thumbUrl2", "author", "authorUrl", "authorIcon", "footer", "footerIcon", "timestamp", "fieldNum", "fieldName", "fieldDescription", "fieldInline"],
@@ -27,7 +25,7 @@ module.exports = {
 		</div>
 		<div style="float: right; width: 60%;">
 			Variable Name:<br>
-			<input id="varName" class="round" type="text" list="variableList">
+			<input id="varName" placeholder="Embed Object" class="round" type="text" list="variableList" oninput="glob.onChange13(this)">
 		</div>
 	</div><br><br><br>
 	<div style="padding-top: 8px;">
@@ -250,228 +248,253 @@ module.exports = {
 </div>`;
 	},
 
-	init: function() {
-		const { glob, document } = this;
-		const Input0 = document.getElementById("Input0");
-		const Input1 = document.getElementById("Input1");
-		const Input2 = document.getElementById("Input2");
-		const Input3 = document.getElementById("Input3");
-		const Input4 = document.getElementById("Input4");
-		const Input4a = document.getElementById("Input4a");
-		const Input4placeholder = document.getElementById("Input4placeholder");
-		const Input5 = document.getElementById("Input5");
-		const Input5a = document.getElementById("Input5a");
-		const Input5placeholder = document.getElementById("Input5placeholder");
-		const Input6 = document.getElementById("Input6");
-		const Input7 = document.getElementById("Input7");
-		const Input8 = document.getElementById("Input8");
-		const Input9 = document.getElementById("Input9");
-		const Input10 = document.getElementById("Input10");
-		const Input11 = document.getElementById("Input11");
-		const Input12 = document.getElementById("Input12");
-		const Input13 = document.getElementById("Input13");
-		const Input14 = document.getElementById("Input14");
-		const fieldInline = document.getElementById("fieldInline");
+init: function() {
+	const {glob, document} = this;
+	const Input0 = document.getElementById('Input0');
+	const Input1 = document.getElementById('Input1');
+	const Input2 = document.getElementById('Input2');
+	const Input3 = document.getElementById('Input3');
+	const Input4 = document.getElementById('Input4');
+	const Input4a = document.getElementById('Input4a');
+	const Input4placeholder = document.getElementById('Input4placeholder');
+	const Input5 = document.getElementById('Input5');
+	const Input5a = document.getElementById('Input5a');
+	const Input5placeholder = document.getElementById('Input5placeholder');
+	const Input6 = document.getElementById('Input6');
+	const Input7 = document.getElementById('Input7');
+	const Input8 = document.getElementById('Input8');
+	const Input9 = document.getElementById('Input9');
+	const Input10 = document.getElementById('Input10');
+	const Input11 = document.getElementById('Input11');
+	const Input12 = document.getElementById('Input12');
+	const Input13 = document.getElementById('Input13');
+	const Input14 = document.getElementById('Input14');
+	const fieldInline = document.getElementById('fieldInline');
 
-		glob.onChange0 = function(Edit0) {
-			switch(parseInt(Edit0.value)) {
-				case 0:
-				case 2:
-					Input0.style.display = "none";
-					break;
-				case 1:
-					Input0.style.display = null;
-					break;
-			}
-		};
-		glob.onChange1 = function(Edit1) {
-			switch(parseInt(Edit1.value)) {
-				case 0:
-				case 2:
-					Input1.style.display = "none";
-					break;
-				case 1:
-					Input1.style.display = null;
-					break;
-			}
-		};
-		glob.onChange2 = function(Edit2) {
-			switch(parseInt(Edit2.value)) {
-				case 0:
-				case 2:
-					Input2.style.display = "none";
-					break;
-				case 1:
-					Input2.style.display = null;
-					break;
-			}
-		};
-		glob.onChange3 = function(Edit3) {
-			switch(parseInt(Edit3.value)) {
-				case 0:
-				case 2:
-					Input3.style.display = "none";
-					break;
-				case 1:
-					Input3.style.display = null;
-					break;
-			}
-		};
-		glob.onChange4 = function(Edit4) {
-			switch(parseInt(Edit4.value)) {
-				case 0:
-				case 2:
-					Input4.style.display = "none";
-					Input4a.style.display = "none";
-					break;
-				case 1:
-					Input4.style.display = null;
-					Input4placeholder.innerHTML = "Image URL:";
-					document.getElementById("imageUrl").value = "";
-					Input4a.style.display = "none";
-					break;
-				case 3:
-					Input4.style.display = null;
-					Input4placeholder.innerHTML = "Local Path:";
-					document.getElementById("imageUrl").value = "./resources";
-					Input4a.style.display = null;
-					break;
-			}
-		};
-		glob.onChange5 = function(Edit5) {
-			switch(parseInt(Edit5.value)) {
-				case 0:
-				case 2:
-					Input5.style.display = "none";
-					Input5a.style.display = "none";
-					break;
-				case 1:
-					Input5.style.display = null;
-					Input5placeholder.innerHTML = "Image URL:";
-					document.getElementById("thumbUrl").value = "";
-					Input5a.style.display = "none";
-					break;
-				case 3:
-					Input5.style.display = null;
-					Input5placeholder.innerHTML = "Local Path:";
-					document.getElementById("thumbUrl").value = "./resources";
-					Input5a.style.display = null;
-					break;
-			}
-		};
-		glob.onChange6 = function(Edit6) {
-			switch(parseInt(Edit6.value)) {
-				case 0:
-				case 2:
-					Input6.style.display = "none";
-					break;
-				case 1:
-					Input6.style.display = null;
-					break;
-			}
-		};
-		glob.onChange7 = function(Edit7) {
-			switch(parseInt(Edit7.value)) {
-				case 0:
-				case 2:
-					Input7.style.display = "none";
-					break;
-				case 1:
-					Input7.style.display = null;
-					break;
-			}
-		};
-		glob.onChange8 = function(Edit8) {
-			switch(parseInt(Edit8.value)) {
-				case 0:
-				case 2:
-					Input8.style.display = "none";
-					break;
-				case 1:
-					Input8.style.display = null;
-					break;
-			}
-		};
-		glob.onChange9 = function(Edit9) {
-			switch(parseInt(Edit9.value)) {
-				case 0:
-				case 2:
-					Input9.style.display = "none";
-					break;
-				case 1:
-					Input9.style.display = null;
-					break;
-			}
-		};
-		glob.onChange10 = function(Edit10) {
-			switch(parseInt(Edit10.value)) {
-				case 0:
-				case 2:
-					Input10.style.display = "none";
-					break;
-				case 1:
-					Input10.style.display = null;
-					break;
-			}
-		};
-		glob.onChange11 = function(Edit11) {
-			switch(parseInt(Edit11.value)) {
-				case 0:
-				case 1:
-				case 3:
-					Input11.style.display = "none";
-					break;
-				case 2:
-					Input11.style.display = null;
-					break;
-			}
-		};
+	glob.onChange0 = function(Edit0) {
+		switch(parseInt(Edit0.value)) {
+			case 0:
+			case 2:
+				Input0.style.display = 'none';
+				break;
+			case 1:
+				Input0.style.display = null;
+				break;
+		}
+	}
+	glob.onChange1 = function(Edit1) {
+		switch(parseInt(Edit1.value)) {
+			case 0:
+			case 2:
+				Input1.style.display = 'none';
+				break;
+			case 1:
+				Input1.style.display = null;
+				break;
+		}
+	}
+	glob.onChange2 = function(Edit2) {
+		switch(parseInt(Edit2.value)) {
+			case 0:
+			case 2:
+				Input2.style.display = 'none';
+				break;
+			case 1:
+				Input2.style.display = null;
+				break;
+		}
+	}
+	glob.onChange3 = function(Edit3) {
+		switch(parseInt(Edit3.value)) {
+			case 0:
+			case 2:
+				Input3.style.display = 'none';
+				break;
+			case 1:
+				Input3.style.display = null;
+				break;
+		}
+	}
+	glob.onChange4 = function(Edit4) {
+		switch(parseInt(Edit4.value)) {
+			case 0:
+			case 2:
+				Input4.style.display = 'none';
+				Input4a.style.display = 'none';
+				break;
+			case 1:
+				Input4.style.display = null;
+				Input4placeholder.innerHTML = 'Image URL:';
+				document.getElementById('imageUrl').value = '';
+				Input4a.style.display = 'none';
+				break;
+			case 3:
+				Input4.style.display = null;
+				Input4placeholder.innerHTML = 'Local Path:';
+				document.getElementById('imageUrl').value = './resources';
+				Input4a.style.display = null;
+				break;
+		}
+	}
+	glob.onChange5 = function(Edit5) {
+		switch(parseInt(Edit5.value)) {
+			case 0:
+			case 2:
+				Input5.style.display = 'none';
+				Input5a.style.display = 'none';
+				break;
+			case 1:
+				Input5.style.display = null;
+				Input5placeholder.innerHTML = 'Image URL:';
+				document.getElementById('thumbUrl').value = '';
+				Input5a.style.display = 'none';
+				break;
+			case 3:
+				Input5.style.display = null;
+				Input5placeholder.innerHTML = 'Local Path:';
+				document.getElementById('thumbUrl').value = './resources';
+				Input5a.style.display = null;
+				break;
+		}
+	}
+	glob.onChange6 = function(Edit6) {
+		switch(parseInt(Edit6.value)) {
+			case 0:
+			case 2:
+				Input6.style.display = 'none';
+				break;
+			case 1:
+				Input6.style.display = null;
+				break;
+		}
+	}
+	glob.onChange7 = function(Edit7) {
+		switch(parseInt(Edit7.value)) {
+			case 0:
+			case 2:
+				Input7.style.display = 'none';
+				break;
+			case 1:
+				Input7.style.display = null;
+				break;
+		}
+	}
+	glob.onChange8 = function(Edit8) {
+		switch(parseInt(Edit8.value)) {
+			case 0:
+			case 2:
+				Input8.style.display = 'none';
+				break;
+			case 1:
+				Input8.style.display = null;
+				break;
+		}
+	}
+	glob.onChange9 = function(Edit9) {
+		switch(parseInt(Edit9.value)) {
+			case 0:
+			case 2:
+				Input9.style.display = 'none';
+				break;
+			case 1:
+				Input9.style.display = null;
+				break;
+		}
+	}
+	glob.onChange10 = function(Edit10) {
+		switch(parseInt(Edit10.value)) {
+			case 0:
+			case 2:
+				Input10.style.display = 'none';
+				break;
+			case 1:
+				Input10.style.display = null;
+				break;
+		}
+	}
+	glob.onChange11 = function(Edit11) {
+		switch(parseInt(Edit11.value)) {
+			case 0:
+			case 1:
+			case 3:
+				Input11.style.display = 'none';
+				break;
+			case 2:
+				Input11.style.display = null;
+				break;
+		}
+	}
 
-		glob.onChange12 = function(Edit12) {
-			switch(parseInt(Edit12.value)) {
-				case 0:
-				case 3:
-					Input12.style.display = "none";
-					Input13.style.display = "none";
-					break;
-				case 1:
-					Input12.style.display = null;
-					Input13.style.display = null;
-					if (fieldInline.length !== 3) {
-						var option = document.createElement("option");
-						option.value = 0;
-						option.innerHTML = "Keep Inline";
-						fieldInline.prepend(option);
-					}
-					break;
-				case 2:
-					Input12.style.display = null;
-					Input13.style.display = "none";
-					break;
-				case 4:
-					Input12.style.display = null;
-					Input13.style.display = null;
-					if (fieldInline.length === 3) {
-						fieldInline.remove(0);
-					}
-					break;
-			}
-		};
+	glob.onChange12 = function(Edit12) {
+		switch(parseInt(Edit12.value)) {
+			case 0:
+			case 3:
+				Input12.style.display = 'none';
+				Input13.style.display = 'none';
+				break;
+			case 1:
+				Input12.style.display = null;
+				Input13.style.display = null;
+				if (fieldInline.length !== 3) {
+					var option = document.createElement('option');
+					option.value = 0;
+					option.innerHTML = "Keep Inline";
+					fieldInline.prepend(option);
+				}
+				break;
+			case 2:
+				Input12.style.display = null;
+				Input13.style.display = 'none';
+				break;
+			case 4:
+				Input12.style.display = null;
+				Input13.style.display = null;
+				if (fieldInline.length === 3) {
+					fieldInline.remove(0);
+				}
+				break;
+		}
+	}
 
-		glob.onChange0(document.getElementById("Edit0"));
-		glob.onChange1(document.getElementById("Edit1"));
-		glob.onChange2(document.getElementById("Edit2"));
-		glob.onChange3(document.getElementById("Edit3"));
-		glob.onChange4(document.getElementById("Edit4"));
-		glob.onChange5(document.getElementById("Edit5"));
-		glob.onChange6(document.getElementById("Edit6"));
-		glob.onChange7(document.getElementById("Edit7"));
-		glob.onChange8(document.getElementById("Edit8"));
-		glob.onChange9(document.getElementById("Edit9"));
-		glob.onChange10(document.getElementById("Edit10"));
-		glob.onChange11(document.getElementById("Edit11"));
-		glob.onChange12(document.getElementById("Edit12"));
-	},
+	let varName = document.getElementById('varName')
+	glob.onChange13 = function(Edit13) {
+	  const list = document.getElementById('variableList');
+	  if (list.children.length == 0) return;
+	  let dataType = list.options
+    let correct = filter(dataType)
+    if (correct !== undefined) {
+      if (correct.innerHTML != "Embed Object") {
+        alert(`Please select an Embed Object to edit. You've selected a ${correct.innerHTML}; This won't edit your message directly, you'll have to later select 'Edit Message' and use the same embed as here in Source Embed`);
+      }
+    }
+  }
+	glob.onChange13(varName);
+
+		function filter(dataType) {
+	  for (let i = 0; i < dataType.length; i++) {
+	    console.log(dataType[i].value);
+	    console.log(varName.value);
+	    if (dataType[i].value == varName.value) {
+	      console.log(i)
+	      return dataType[i];
+	    }
+	  }
+	}
+
+	glob.onChange0(document.getElementById('Edit0'));
+	glob.onChange1(document.getElementById('Edit1'));
+	glob.onChange2(document.getElementById('Edit2'));
+	glob.onChange3(document.getElementById('Edit3'));
+	glob.onChange4(document.getElementById('Edit4'));
+	glob.onChange5(document.getElementById('Edit5'));
+	glob.onChange6(document.getElementById('Edit6'));
+	glob.onChange7(document.getElementById('Edit7'));
+	glob.onChange8(document.getElementById('Edit8'));
+	glob.onChange9(document.getElementById('Edit9'));
+	glob.onChange10(document.getElementById('Edit10'));
+	glob.onChange11(document.getElementById('Edit11'));
+	glob.onChange12(document.getElementById('Edit12'));
+},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
@@ -679,5 +702,7 @@ module.exports = {
 		this.callNextAction(cache);
 	},
 
-	mod: function() {}
+	mod: function() {
+		DBM.Actions["Edit Embed Object MOD"] = DBM.Actions["Edit Embed Object"];
+	}
 };
