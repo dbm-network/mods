@@ -4,13 +4,13 @@ module.exports = {
 
 	requiresAudioLibraries: true,
 
-	subtitle: function (data) {
+	subtitle: function(data) {
 		return `${data.url}`;
 	},
 
 	fields: ["url", "seek", "volume", "passes", "bitrate", "type"],
 
-	html: function (isEvent, data) {
+	html: function(isEvent, data) {
 		return `
         <div>
             <p>This action has been modified by DBM Mods.</p>
@@ -40,15 +40,15 @@ module.exports = {
         </div>`;
 	},
 
-	init: function () {},
+	init: function() {},
 
-	action: async function (cache) {
+	action: async function(cache) {
 		const data = cache.actions[cache.index];
 		const Audio = this.getDBM()
 			.Audio;
-		const WrexMods = this.getWrexMods();
-		const ytdl = WrexMods.require("ytdl-core");
-		const getInfoAsync = WrexMods.require("util")
+		const Mods = this.getMods();
+		const ytdl = Mods.require("ytdl-core");
+		const getInfoAsync = Mods.require("util")
 			.promisify(ytdl.getInfo);
 		const url = this.evalMessage(data.url, cache);
 		const msg = cache.msg;
@@ -96,6 +96,6 @@ module.exports = {
 		this.callNextAction(cache);
 	},
 
-	mod: function () {}
+	mod: function() {}
 
 };

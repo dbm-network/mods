@@ -235,7 +235,7 @@ module.exports = {
 			const playlistDiv = document.getElementById("divinfo1");
 			const playlist = document.getElementById("info1");
 			let result = "";
-			switch(id) {//Show: [Source Video Info] Hide: [Source Playlist Info], [Max Results]
+			switch(id) { //Show: [Source Video Info] Hide: [Source Playlist Info], [Max Results]
 				case 0:
 					result = "Video";
 					video.style.display = null;
@@ -260,16 +260,16 @@ module.exports = {
 	action: function(cache) {
 		const data = cache.actions[cache.index];
 		const _this = this; //This is needed sometimes.
-		const WrexMods = this.getWrexMods(); //As always.
+		const Mods = this.getMods(); //As always.
 		const input = this.evalMessage(data.input, cache);//URL or Keywords
 		const apikey = this.evalMessage(data.apikey, cache);//Api Key
 		const type = parseInt(data.type);//0: Video | 1: Playlist
 		const info0 = parseInt(data.info0);//Video
 		const info1 = parseInt(data.info1);//Playlist
 		const results = parseInt(data.results);//Number within 1 to 10
-		const ytapi = WrexMods.require("simple-youtube-api");
-		const ytinfo = WrexMods.require("youtube-info");
-		const TimeFormat = WrexMods.require("hh-mm-ss");
+		const ytapi = Mods.require("simple-youtube-api");
+		const ytinfo = Mods.require("youtube-info");
+		const TimeFormat = Mods.require("hh-mm-ss");
 
 		if(input === undefined || input === "") {
 			return console.log("Please provide a url or some keywords to search for.");
@@ -331,7 +331,7 @@ module.exports = {
 						default:
 							ytinfo(`${video.id}`, function(error, videoInfo) {
 								var result2;
-								if(error) {console.error(error);}
+								if(error) { console.error(error); }
 								switch(info0) {
 									case 13://Video Genre
 										result2 = videoInfo.genre;

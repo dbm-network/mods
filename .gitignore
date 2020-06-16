@@ -1,8 +1,5 @@
 .vscode/
 node_modules/
-.editorconfig
-package.json
 yarn.lock
-editorconfig
 package-lock.json
 *:Zone.Identifier

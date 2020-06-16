@@ -89,7 +89,7 @@ module.exports = {
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
-		const jp = this.getWrexMods().require("jsonpath");
+		const jp = this.getMods().require("jsonpath");
 
 		const command = parseInt(data.searchCommandBy) === 0 ? jp.query(this.getDBM().Files.data.commands, `$..[?(@.name=="${this.evalMessage(data.valueToSearch, cache)}")]`) : parseInt(data.searchCommandBy) === 1 ? jp.query(this.getDBM().Files.data.commands, `$..[?(@._id=="${this.evalMessage(data.valueToSearch, cache)}")]`) : jp.query(this.getDBM().Files.data.commands, `$..[?(@.name=="${cache.msg.content.slice(this.getDBM().Files.data.settings.tag.length || cache.server.tag.length).split(/ +/).shift()}")]`);
 

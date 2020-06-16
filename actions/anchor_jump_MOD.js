@@ -36,7 +36,7 @@ module.exports = {
 	init: function() {},
 
 	action: function(cache) {
-		const errors = { "404": "There was not an anchor found with that exact anchor ID!" };
+		const errors = { 404: "There was not an anchor found with that exact anchor ID!" };
 		const actions = cache.actions;
 		const id = cache.actions[cache.index].jump_to_anchor;
 		const anchorIndex = actions.findIndex((a) => a.name === "Create Anchor" &&

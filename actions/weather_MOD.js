@@ -127,8 +127,8 @@ module.exports = {
 
 		if (!city) return console.log("Please specify a city to get weather informations.");
 
-		const WrexMODS = this.getWrexMods(),
-			weather = WrexMODS.require("weather-js");
+		const Mods = this.getMods(),
+			weather = Mods.require("weather-js");
 
 		weather.find({ search: `${city}`, degreeType: `${degreeType2}` }, function(err, response) {
 			if (err || !response || response.length < 1) {

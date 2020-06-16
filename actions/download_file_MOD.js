@@ -142,8 +142,8 @@ module.exports = {
 		fileName = gR(fileName);
 		fileFormat = gR(fileFormat);
 
-		var WrexMODS = this.getWrexMods();
-		var request = WrexMODS.require("request");
+		var Mods = this.getMods();
+		var request = Mods.require("request");
 		var path = require("path");
 		var fs = require("fs");
 
@@ -151,7 +151,7 @@ module.exports = {
 			fs.mkdirSync(filePath);
 		}
 
-		request.get(url).on("error", function(err) {console.log(`Action: #${cache.index + 1} | Download File ERROR: Web URL not found...`);}).pipe(fs.createWriteStream(path.resolve(filePath, fileName + "." + fileFormat)));
+		request.get(url).on("error", function(err) { console.log(`Action: #${cache.index + 1} | Download File ERROR: Web URL not found...`); }).pipe(fs.createWriteStream(path.resolve(filePath, fileName + "." + fileFormat)));
 		this.callNextAction(cache);
 	},
 

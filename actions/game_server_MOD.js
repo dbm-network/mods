@@ -401,9 +401,9 @@ module.exports = {
 		const port = this.evalMessage(data.serverport, cache);
 
 		// Main code:
-		const WrexMODS = _this.getWrexMods(); // as always.
-		WrexMODS.CheckAndInstallNodeModule("gamedig");
-		const Gamedig = WrexMODS.require("gamedig");
+		const Mods = _this.getMods(); // as always.
+		Mods.CheckAndInstallNodeModule("gamedig");
+		const Gamedig = Mods.require("gamedig");
 
 		if (!ip) return console.log("Please provide Server IP & Port.");
 
@@ -438,7 +438,7 @@ module.exports = {
 					result = state.password;
 					break;
 				case 7:
-					result = state.players.map((a)=> a.name);
+					result = state.players.map((a) => a.name);
 					break;
 				default:
 					break;

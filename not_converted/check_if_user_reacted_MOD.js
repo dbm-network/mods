@@ -61,7 +61,7 @@ module.exports = {
 
 		const type2 = parseInt(data.reaction);
 		const varName2 = this.evalMessage(data.varName2, cache);
-		const reaction = this.getWrexMods().getReaction(type2, varName2, cache);
+		const reaction = this.getMods().getReaction(type2, varName2, cache);
 
 		let result = false;
 		if (member && reaction.users) {

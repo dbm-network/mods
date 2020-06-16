@@ -34,8 +34,8 @@ module.exports = {
 		const data = cache.actions[cache.index];
 		const storage = parseInt(data.webhook);
 		const varName = this.evalMessage(data.varName, cache);
-		var WrexMods = this.getWrexMods();
-		const webhook = WrexMods.getWebhook(storage, varName, cache);
+		var Mods = this.getMods();
+		const webhook = Mods.getWebhook(storage, varName, cache);
 		if(Array.isArray(webhook)) {
 			this.callListFunc(webhook, "delete", []).then(function() {
 				this.callNextAction(cache);

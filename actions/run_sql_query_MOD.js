@@ -304,14 +304,14 @@ module.exports = {
 					},
 				};
 
-				const sequelize = new Sequelize(database || "database", username || "username", password || "password", options );
+				const sequelize = new Sequelize(database || "database", username || "username", password || "password", options);
 
 				document.getElementById("checkConnection_lbl").setAttribute("class", "ui basic label yellow");
 				document.getElementById("checkConnection_lbl").innerHTML = "Checking...";
 
 				function isValid(bool, message = false){
 					document.getElementById("checkConnection_lbl").setAttribute("class", "ui basic label " + (bool ? "green" : "red"));
-					document.getElementById("checkConnection_lbl").innerHTML = ( (bool ? "Valid" :  "Invalid") + (message ? ": " + message : "") );
+					document.getElementById("checkConnection_lbl").innerHTML = ((bool ? "Valid" :  "Invalid") + (message ? ": " + message : ""));
 				}
 
 				sequelize.authenticate()
@@ -389,33 +389,33 @@ module.exports = {
 		const stringifyOutput = parseInt(data.stringifyOutput);
 
 
-		const WrexMODS = this.getWrexMods();
+		const Mods = this.getMods();
 
 		try {
 
-			const Sequelize = WrexMODS.require("sequelize");
+			const Sequelize = Mods.require("sequelize");
 			function getType(key){
 				let res;
 				switch (key) {
 					case "0":
 						res=  "mysql";
-						WrexMODS.CheckAndInstallNodeModule("mysql2");
+						Mods.CheckAndInstallNodeModule("mysql2");
 						break;
 					case "1":
 						res= "postgres";
-						WrexMODS.CheckAndInstallNodeModule("pg-hstore");
+						Mods.CheckAndInstallNodeModule("pg-hstore");
 						break;
 					case "2":
 						res= "mssql";
-						WrexMODS.CheckAndInstallNodeModule("tedious");
+						Mods.CheckAndInstallNodeModule("tedious");
 						break;
 					case "3":
 						res= "sqlite";
-						WrexMODS.CheckAndInstallNodeModule("sqlite3");
+						Mods.CheckAndInstallNodeModule("sqlite3");
 						break;
 					default:
 						res= "sqlite";
-						WrexMODS.CheckAndInstallNodeModule("sqlite3");
+						Mods.CheckAndInstallNodeModule("sqlite3");
 						break;
 				}
 				return res;
@@ -437,10 +437,10 @@ module.exports = {
 				options["logging"] = false;
 			}
 
-			if(getType(type) ==="sqlite") options["storage"] = ( require("path").resolve(database) || "database.sqlite");
+			if(getType(type) ==="sqlite") options["storage"] = (require("path").resolve(database) || "database.sqlite");
 
 			let sequelize;
-			if(source_conn_storage > 0 && source_conn_varName && store_source_conn_storage == 0 ){
+			if(source_conn_storage > 0 && source_conn_varName && store_source_conn_storage == 0){
 				const storedConnection = this.getVariable(source_conn_storage, source_conn_varName, cache);
 				sequelize = storedConnection && storedConnection.sequelize;
 				if(sequelize){
@@ -470,16 +470,16 @@ module.exports = {
 							let jsonOut = false;
 							if(results && path !== undefined){
 
-								jsonOut = WrexMODS.jsonPath(results, path);
+								jsonOut = Mods.jsonPath(results, path);
 
 								// if it failed and if they didn't the required initial object, add it for them
 								if(jsonOut == false){
-									jsonOut = WrexMODS.jsonPath(results, ("$.").concat(path));
+									jsonOut = Mods.jsonPath(results, ("$.").concat(path));
 								}
 
 								// if it failed still, try just pulling the first object
 								if(jsonOut == false){
-									jsonOut = WrexMODS.jsonPath(results, ("$.[0].").concat(path));
+									jsonOut = Mods.jsonPath(results, ("$.[0].").concat(path));
 								}
 
 								if(jsonOut){

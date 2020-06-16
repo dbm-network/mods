@@ -48,8 +48,8 @@ module.exports = {
 	init: function() {},
 
 	action: function(cache) {
-		const WrexMODS = this.getWrexMods();
-		const randomWords = WrexMODS.require("random-words");
+		const Mods = this.getMods();
+		const randomWords = Mods.require("random-words");
 		const data = cache.actions[cache.index];
 		const type = parseInt(data.storage);
 		const varName = this.evalMessage(data.varName, cache);

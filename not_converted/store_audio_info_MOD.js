@@ -172,12 +172,12 @@ div.embed { /* <div class="embed"></div> */
 				for(let i = 0; i < this.itemList.length; i++){
 					const item = this.itemList[i];
 
-					let option = document.createElement( "option" );
+					let option = document.createElement("option");
 					if(i==0) option.className = "selected";
 					option.value = i;
 					option.text = item.name;
 
-					select.add( option );
+					select.add(option);
 				}
 			}
 
@@ -193,7 +193,7 @@ div.embed { /* <div class="embed"></div> */
 		const data = cache.actions[cache.index];
 		const server = parseInt(data.server);
 		const varName2 = this.evalMessage(data.varName2, cache);
-		const TimeFormat = this.getWrexMods().require("hh-mm-ss");
+		const TimeFormat = this.getMods().require("hh-mm-ss");
 		const info = parseInt(data.info);
 
 		const audio = this.getDBM().Audio;

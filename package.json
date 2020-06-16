@@ -1,0 +1,12 @@
+{
+  "name": "v12",
+  "repository": "https://github.com/dbm-network/mods",
+	"private": true,
+	"license": "MIT",
+	"scripts": {
+    "lint": "eslint actions not_converted --fix"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0"
+	}
+}

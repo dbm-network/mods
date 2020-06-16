@@ -23,7 +23,7 @@ module.exports = {
 		var infoName1 = "";
 		var infoName2 = "";
 
-		switch(sourceType) {//"Channel", "Stream", "Video" or "Game"
+		switch(sourceType) { //"Channel", "Stream", "Video" or "Game"
 			case 0:
 				infoList1 = list1;//Channel
 				infoNum1 = info1;
@@ -87,7 +87,7 @@ module.exports = {
 		if(type !== varType) return;
 		var dataType = "Unknown Type";
 
-		if(sourceType == 0) {//Source Type: Channel
+		if(sourceType == 0) { //Source Type: Channel
 			var info1 = parseInt(data.info1);
 			switch(info1) {
 				case 0:
@@ -101,7 +101,7 @@ module.exports = {
 				case 6:
 				case 7: dataType = "Image URL"; break;
 			}
-		} else if(sourceType == 1) {//Source Type: Stream
+		} else if(sourceType == 1) { //Source Type: Stream
 			var info2 = parseInt(data.info2);
 			switch(info2) {
 				case 0:
@@ -117,10 +117,10 @@ module.exports = {
 				case 4:
 				case 11: dataType = "List"; break;
 			}
-		} else if(sourceType == 2) {//Source Type: Video
+		} else if(sourceType == 2) { //Source Type: Video
 			/*var info3 = parseInt(data.info3);*/
 			dataType = "List";
-		} else if(sourceType == 3) {//Source Type: Game
+		} else if(sourceType == 3) { //Source Type: Game
 			var info4 = parseInt(data.info4);
 			switch(info4) {
 				case 0:
@@ -291,8 +291,8 @@ module.exports = {
 	init: function() {
 		const { glob, document } = this;
 
-		try {//Used for the Twitch API link | Made by General Wrex
-			var WrexMODS = require(require("path").join(__dirname, "aaa_wrexmods_dependencies_MOD.js")).getWrexMods();
+		try { //Used for the Twitch API link | Made by General Wrex
+			var Mods = require(require("path").join(__dirname, "aaa_wrexmods_dependencies_MOD.js")).getMods();
 
 			var wrexlinks = document.getElementsByClassName("wrexlink");
 			for(var x = 0; x < wrexlinks.length; x++) {
@@ -323,11 +323,11 @@ module.exports = {
 				}
 			}
 
-		} catch (error) {//Write any init errors to errors.txt in dbm's main directory
+		} catch (error) { //Write any init errors to errors.txt in dbm's main directory
 			require("fs").appendFile("errors.txt", error.stack ? error.stack : error + "\r\n");
 		}
 
-		glob.onChange1 = function(event) {//"Channel", "Stream", "Video" or "Game"
+		glob.onChange1 = function(event) { //"Channel", "Stream", "Video" or "Game"
 			//Load HTML Stuff
 			const id1 = parseInt(document.getElementById("type").value);//Source Type: "Channel", "Stream", "Video" or "Game"
 			const infoDiv1 = document.getElementById("divinfo1");//Source Channel Info
@@ -437,7 +437,7 @@ module.exports = {
 			document.getElementById("tempName2").innerHTML = result2;
 		};
 
-		glob.onChange2 = function(event) {//"ID" or "Login Name"
+		glob.onChange2 = function(event) { //"ID" or "Login Name"
 			//Load HTML Stuff
 			const id1 = parseInt(document.getElementById("type").value);//Source Type: "Channel", "Stream", "Video" or "Game"
 			const id2 = parseInt(document.getElementById("inputtype").value);//Input Type
@@ -474,7 +474,7 @@ module.exports = {
 			document.getElementById("tempName2").innerHTML = result;
 		};
 
-		glob.onChange3 = function(event) {//Source Channel Info
+		glob.onChange3 = function(event) { //Source Channel Info
 			//Load HTML Stuff
 			const id4 = parseInt(document.getElementById("info1").value);//Source Channel Info
 			const inputType = document.getElementById("inputtype");//InputType: "ID" or "Login Name"
@@ -498,7 +498,7 @@ module.exports = {
 			document.getElementById("tempName2").innerHTML = result2;
 		};
 
-		glob.onChange4 = function(event) {//Source Game Info
+		glob.onChange4 = function(event) { //Source Game Info
 			//Load HTML Stuff
 			const id1 = parseInt(document.getElementById("type").value);//Source Type: "Channel", "Stream", "Video" or "Game"
 			const id5 = parseInt(document.getElementById("info4").value);//Source Game Info
@@ -541,8 +541,8 @@ module.exports = {
 	action: function(cache) {
 		const data = cache.actions[cache.index];
 		const _this = this;//Just to be sure
-		const WrexMODS = this.getWrexMods();//As always.
-		const request = WrexMODS.require("request");
+		const Mods = this.getMods();//As always.
+		const request = Mods.require("request");
 
 		const input = this.evalMessage(data.input, cache);//The inserted "ID" or "Name"
 		const clientID = this.evalMessage(data.clientid, cache);
@@ -572,22 +572,22 @@ module.exports = {
 
 
 		//Check Input
-		if(!clientID) {return console.log("Please insert a client id!");}
-		if(!input) {return console.log("Please insert something to search for!");}
+		if(!clientID) { return console.log("Please insert a client id!"); }
+		if(!input) { return console.log("Please insert something to search for!"); }
 
 		if(searchResults > 0) {
 			if(searchResults > 100) {
 				searchResults = 100;//Max value
 			}
-		} else {//Default value
+		} else { //Default value
 			searchResults = 20;
 		}
 
 
 
-		if(sourceType == 0) {//Soure Info: Channel
+		if(sourceType == 0) { //Soure Info: Channel
 
-			if(inputType == 0 || infoType == 9) {//Input Type: ID
+			if(inputType == 0 || infoType == 9) { //Input Type: ID
 				let options = {
 					url: `https://api.twitch.tv/helix/users/follows?to_id=${input}&first=2`,
 					headers: { "Client-ID": `${clientID}` }
@@ -631,7 +631,7 @@ module.exports = {
 					}
 				});
 
-			} else if(inputType == 1 && infoType < 9) {//Input Type: Name
+			} else if(inputType == 1 && infoType < 9) { //Input Type: Name
 
 				var options = {
 					url: `https://api.twitch.tv/helix/users?login=${input}`,
@@ -668,11 +668,11 @@ module.exports = {
 					}
 				});
 
-			} else {//Input Type: Undefined
+			} else { //Input Type: Undefined
 				return console.log("Please select either \"User ID\" or \"User Login Name\"!");
 			}
 
-		} else if(sourceType == 1) {//Source Info: Stream
+		} else if(sourceType == 1) { //Source Info: Stream
 			//Input Type: ID
 			const options = {
 				url: `https://api.twitch.tv/helix/streams?user_id=${input}`,
@@ -723,7 +723,7 @@ module.exports = {
 					console.error(error);
 				}
 			});
-		} else if(sourceType == 2) {//Source Info: Video
+		} else if(sourceType == 2) { //Source Info: Video
 			//Input Type: ID
 			const options = {
 				url: `https://api.twitch.tv/helix/videos?user_id=${input}&first=${searchResults}`,
@@ -748,7 +748,7 @@ module.exports = {
 						case 6: info.data.forEach((video) => result.push(video.published_at)); break;
 						case 7: info.data.forEach((video) => result.push(video.url)); break;
 						case 8: info.data.forEach((video) => result.push(video.thumbnail_url.replace("%{width}", "1920").replace("%{height}", "1280"))); break;
-						case 9: info.data.forEach((video) => {if(video.viewable !== "" || video.viewable !== undefined) {if(video.viewable == "public") {result.push(true);} else if(video.viewable == "private") {result.push(false);}}}); break;//"public" or "private"
+						case 9: info.data.forEach((video) => { if(video.viewable !== "" || video.viewable !== undefined) { if(video.viewable == "public") { result.push(true); } else if(video.viewable == "private") { result.push(false); } } }); break;//"public" or "private"
 						case 10: info.data.forEach((video) => result.push(video.view_count)); break;
 						case 11: info.data.forEach((video) => result.push(video.language)); break;
 						case 12: info.data.forEach((video) => result.push(video.type)); break;//"upload", "archive" or "highlight"
@@ -762,9 +762,9 @@ module.exports = {
 					console.error(error);
 				}
 			});
-		} else if(sourceType == 3) {//Source Info: Game
+		} else if(sourceType == 3) { //Source Info: Game
 
-			if(inputType == 0) {//Input Type: Game ID
+			if(inputType == 0) { //Input Type: Game ID
 				let options = {
 					url: "https://api.twitch.tv/helix/games/top",
 					headers: { "Client-ID": `${clientID}` }
@@ -808,7 +808,7 @@ module.exports = {
 						console.error(error);
 					}
 				});
-			} else if(inputType == 1) {//Input Type: Game Name
+			} else if(inputType == 1) { //Input Type: Game Name
 				let options =  {
 					url: `https://api.twitch.tv/helix/games/top?first=${searchResults}`,
 					headers: { "Client-ID": `${clientID}` }

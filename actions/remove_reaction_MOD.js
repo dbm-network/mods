@@ -49,14 +49,14 @@ module.exports = {
 
 		const reaction = parseInt(data.reaction);
 		const varName = this.evalMessage(data.varName, cache);
-		var WrexMods = this.getWrexMods();
-		const rea = WrexMods.getReaction(reaction, varName, cache);
+		var Mods = this.getMods();
+		const rea = Mods.getReaction(reaction, varName, cache);
 
 		const type = parseInt(data.member);
 		const varName2 = this.evalMessage(data.varName2, cache);
 		const member = this.getMember(type, varName2, cache);
 
-		if(!WrexMods) return;
+		if(!Mods) return;
 		if(!rea) {
 			console.log("This is not a reaction"); //Variable is not a reaction -> Error
 			this.callNextAction(cache);

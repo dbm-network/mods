@@ -51,8 +51,8 @@ module.exports = {
 
 		const data = cache.actions[cache.index];
 		var   _this = this; // this is needed sometimes.
-		const WrexMODS = _this.getWrexMods(); // as always.
-		const toDate = WrexMODS.require("normalize-date");
+		const Mods = _this.getMods(); // as always.
+		const toDate = Mods.require("normalize-date");
 		const time = this.evalMessage(data.time, cache);
 
 		// Main code.

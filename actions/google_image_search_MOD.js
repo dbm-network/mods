@@ -82,8 +82,8 @@ module.exports = {
 		if (!apikey) return console.error(`There was an error in Google Image Search MOD (#${index}): \nPlease provide an API Key`);// No API Key
 
 		// Search Code:
-		const WrexMODS = this.getWrexMods(); // as always.
-		const imgSearch = WrexMODS.require("image-search-google");
+		const Mods = this.getMods(); // as always.
+		const imgSearch = Mods.require("image-search-google");
 		const imgClient = new imgSearch(`${clientid}`, `${apikey}`);
 		const options = { page:1 };
 		imgClient.search(string, options)

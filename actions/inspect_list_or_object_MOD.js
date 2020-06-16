@@ -101,8 +101,8 @@ module.exports = {
 	action: function(cache) {
 		const data = cache.actions[cache.index];
 
-		const WrexMods = this.getWrexMods();
-		const util = WrexMods.require("util");
+		const Mods = this.getMods();
+		const util = Mods.require("util");
 		const depth = parseInt(data.depth);
 		const storage = parseInt(data.storage);
 		const varName = this.evalMessage(data.varName, cache);

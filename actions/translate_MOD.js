@@ -59,8 +59,8 @@ module.exports = {
 		if (!translateTo || translateTo.length > 2) return console.log("Translate to can only be 2 letters.");
 		if (!translateMessage) return console.log("You need to write something to translate.");
 
-		var WrexMODS = this.getWrexMods();
-		const translate = WrexMODS.require("node-google-translate-skidz");
+		var Mods = this.getMods();
+		const translate = Mods.require("node-google-translate-skidz");
 
 		translate({
 			text: translateMessage,

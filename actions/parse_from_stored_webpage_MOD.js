@@ -78,7 +78,7 @@ module.exports = {
 		const { glob, document } = this;
 
 		try {
-			var WrexMODS = require(require("path").join(__dirname, "aaa_wrexmods_dependencies_MOD.js")).getWrexMods();
+			var Mods = require(require("path").join(__dirname, "aaa_wrexmods_dependencies_MOD.js")).getMods();
 
 			var wrexlinks = document.getElementsByClassName("wrexlink");
 			for(var x = 0; x < wrexlinks.length; x++) {
@@ -108,7 +108,7 @@ module.exports = {
 
 		try {
 
-			var WrexMODS = this.getWrexMods();
+			var Mods = this.getMods();
 
 			const data = cache.actions[cache.index];
 
@@ -123,9 +123,9 @@ module.exports = {
 
 			let html = this.getVariable(source, sourceVarName, cache);
 
-			var xpath = WrexMODS.require("xpath")
-				, dom = WrexMODS.require("xmldom").DOMParser
-				, ent = WrexMODS.require("ent");
+			var xpath = Mods.require("xpath")
+				, dom = Mods.require("xmldom").DOMParser
+				, ent = Mods.require("ent");
 
 			let errors = [];
 
@@ -147,15 +147,15 @@ module.exports = {
 					let doc = new dom({
 						locator: mylocator,
 						errorHandler: {
-							warning: (msg) => {manageXmlParseError(msg, 1, parseLog);},
-							error: (msg) => {manageXmlParseError(msg, 2, parseLog); ( DEBUG ? console.log("XMLDOMError: " + msg) : "");},
-							fatalError: (msg) => {manageXmlParseError(msg, 3, parseLog); ( DEBUG ? console.log("FATAL XMLDOMError: " + msg) : "");},
+							warning: (msg) => { manageXmlParseError(msg, 1, parseLog); },
+							error: (msg) => { manageXmlParseError(msg, 2, parseLog); (DEBUG ? console.log("XMLDOMError: " + msg) : ""); },
+							fatalError: (msg) => { manageXmlParseError(msg, 3, parseLog); (DEBUG ? console.log("FATAL XMLDOMError: " + msg) : ""); },
 						},
 					}).parseFromString(ent.decode(html));
 
 
 					function manageXmlParseError(msg, errorLevel, errorLog){
-						if( (errorLog.errorLevel == null) || (errorLog.errorLevel < errorLevel)){
+						if((errorLog.errorLevel == null) || (errorLog.errorLevel < errorLevel)){
 							errorLog.errorLevel = errorLevel;
 						}
 						if(errorLog[errorLevel.toString()] == null){
@@ -216,7 +216,7 @@ module.exports = {
 							this.callNextAction(cache);
 						}else{
 							console.error(`Could not store a value from path ${myXPath}, Check that the path is valid!\n`);
-							if(DEBUG) console.info("parsestatus ==> " + parseLog.errorLevel + "\nlocator:" +  mylocator.columnNumber + "/" + mylocator.lineNumber );
+							if(DEBUG) console.info("parsestatus ==> " + parseLog.errorLevel + "\nlocator:" +  mylocator.columnNumber + "/" + mylocator.lineNumber);
 
 							this.storeValue(errored ? errored : undefined, storage, varName, cache);
 							this.callNextAction(cache);

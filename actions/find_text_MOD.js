@@ -66,7 +66,7 @@ module.exports = {
 		// Check if everything is ok
 		if(!wordtoFind) return console.log("Find Text MOD: Text to find is missing!");
 		if(!text) return console.log("Find Text MOD: Source text is missing!");
-		if(!text.includes(wordtoFind)) {console.log(`Find Text MOD: The requested text wasn't found in the source text!\n	Source text: ${text}\n	Text to find: ${wordtoFind}`);}
+		if(!text.includes(wordtoFind)) { console.log(`Find Text MOD: The requested text wasn't found in the source text!\n	Source text: ${text}\n	Text to find: ${wordtoFind}`); }
 
 		// Main code
 		let result;

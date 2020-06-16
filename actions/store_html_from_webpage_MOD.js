@@ -59,7 +59,7 @@ module.exports = {
 
 		try {
 
-			var WrexMODS = require(require("path").join(__dirname, "aaa_wrexmods_dependencies_MOD.js")).getWrexMods();
+			var Mods = require(require("path").join(__dirname, "aaa_wrexmods_dependencies_MOD.js")).getMods();
 
 			var valid = document.getElementById("valid");
 			var url = document.getElementById("url");
@@ -68,7 +68,7 @@ module.exports = {
 
 				const pUrl = url.value;
 
-				const checkedUrl = WrexMODS.checkURL(encodeURI(evalMessage(pUrl)));
+				const checkedUrl = Mods.checkURL(encodeURI(evalMessage(pUrl)));
 
 				if(checkedUrl && pUrl){
 					valid.innerHTML = "Valid URL Format!";
@@ -94,7 +94,7 @@ module.exports = {
 
 		try {
 
-			var WrexMODS = this.getWrexMods();
+			var Mods = this.getMods();
 
 			const data = cache.actions[cache.index];
 
@@ -103,14 +103,14 @@ module.exports = {
 
 			var url = this.evalMessage(data.url, cache);
 
-			if(!WrexMODS.checkURL(url)){
+			if(!Mods.checkURL(url)){
 				url = encodeURI(url);
 			}
 
-			if(WrexMODS.checkURL(url)){
+			if(Mods.checkURL(url)){
 
 				// making sure all the required node modules are installed
-				var request = WrexMODS.require("request");
+				var request = Mods.require("request");
 
 				request(url, function(err, res, html) {
 

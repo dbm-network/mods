@@ -141,7 +141,7 @@ module.exports = {
 			const name = channel.name;
 			const catid = this.evalMessage(data.categoryID, cache);
 			const type = channel.type;
-			server.createChannel(name, type, "", ""	).then(function(newchannel) {
+			server.createChannel(name, type, "", "").then(function(newchannel) {
 				if (catid) {
 					newchannel.setParent(catid);
 				}

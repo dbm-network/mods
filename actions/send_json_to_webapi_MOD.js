@@ -171,9 +171,9 @@ dbmMod.action = function(cache) {
 	const data = cache.actions[cache.index];
 	const Actions = this;
 
-	const WrexMODS = this.getWrexMods();
-	const request = WrexMODS.require("request");
-	const buffer = WrexMODS.require("buffer");
+	const Mods = this.getMods();
+	const request = Mods.require("request");
+	const buffer = Mods.require("buffer");
 
 	let url = this.evalMessage(data.postUrl, cache);
 	const method = this.evalMessage(data.method, cache);
@@ -190,11 +190,11 @@ dbmMod.action = function(cache) {
 
 	const postJson = this.evalMessage(data.postJson, cache);
 
-	if (!WrexMODS.checkURL(url)) {
+	if (!Mods.checkURL(url)) {
 		url = encodeURI(url);
 	}
 
-	if (WrexMODS.checkURL(url)) {
+	if (Mods.checkURL(url)) {
 
 		if (postJson) {
 			// Test the json

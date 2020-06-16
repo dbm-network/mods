@@ -94,8 +94,8 @@ module.exports = {
 
 		const data = cache.actions[cache.index];
 
-		var WrexMODS = this.getWrexMods();
-		var request = WrexMODS.require("request");
+		var Mods = this.getMods();
+		var request = Mods.require("request");
 
 		const _DEBUG = parseInt(data.debugMode);
 
@@ -112,11 +112,11 @@ module.exports = {
 		let headers = this.evalMessage(data.headers, cache);
 
 		// if it fails the check, try to re-encode the url
-		if(!WrexMODS.checkURL(url)){
+		if(!Mods.checkURL(url)){
 			url = encodeURI(url);
 		}
 
-		if(WrexMODS.checkURL(url)){
+		if(Mods.checkURL(url)){
 			try {
 				function storeData(error, res, jsonData) {
 					var statusCode = res ? res.statusCode : 200;
@@ -128,7 +128,7 @@ module.exports = {
 						console.error("WebAPI: Error: " + errorJson + " stored to: ["+ varName+"]");
 					}else{
 						if(path){
-							var outData = WrexMODS.jsonPath(jsonData, path);
+							var outData = Mods.jsonPath(jsonData, path);
 
 							if(_DEBUG) console.dir(outData);
 

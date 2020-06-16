@@ -1,10 +1,12 @@
 module.exports = {
 	name: "Edit Embed Object",
 	section: "Embed Message",
+
 	subtitle: function(data) {
 		const storage = ["", "Temp Variable", "Server Variable", "Global Variable"];
 		return `${storage[parseInt(data.storage)]} (${data.varName})`;
 	},
+
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
@@ -249,7 +251,7 @@ module.exports = {
 	},
 
 	init: function() {
-		const {glob, document} = this;
+		const { glob, document } = this;
 		const Input0 = document.getElementById("Input0");
 		const Input1 = document.getElementById("Input1");
 		const Input2 = document.getElementById("Input2");
@@ -458,9 +460,9 @@ module.exports = {
 
 		let varName = document.getElementById("varName");
 		glob.onChange13 = function(Edit13) {
-	  const list = document.getElementById("variableList");
-	  if (list.children.length == 0) return;
-	  let dataType = list.options;
+			const list = document.getElementById("variableList");
+			if (list.children.length == 0) return;
+			let dataType = list.options;
 			let correct = filter(dataType);
 			if (correct !== undefined) {
 				if (correct.innerHTML != "Embed Object") {
@@ -471,14 +473,14 @@ module.exports = {
 		glob.onChange13(varName);
 
 		function filter(dataType) {
-	  for (let i = 0; i < dataType.length; i++) {
-	    console.log(dataType[i].value);
-	    console.log(varName.value);
-	    if (dataType[i].value == varName.value) {
-	      console.log(i);
-	      return dataType[i];
-	    }
-	  }
+			for (let i = 0; i < dataType.length; i++) {
+				console.log(dataType[i].value);
+				console.log(varName.value);
+				if (dataType[i].value == varName.value) {
+					console.log(i);
+					return dataType[i];
+				}
+			}
 		}
 
 		glob.onChange0(document.getElementById("Edit0"));

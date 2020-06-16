@@ -55,9 +55,9 @@ module.exports = {
 		var _this = this;
 		var stor = storage + varName;
 		console.log(stor);
-		const WrexMODS = this.getWrexMods();
-		const { JSONPath } = WrexMODS.require("jsonpath-plus");
-		var Watcher = WrexMODS.require("feed-watcher"),
+		const Mods = this.getMods();
+		const { JSONPath } = Mods.require("jsonpath-plus");
+		var Watcher = Mods.require("feed-watcher"),
 			feed = url,
 			interval = 10; // seconds
 

@@ -143,10 +143,10 @@ module.exports = {
 		const info = parseInt(data.info);
 		const _this = this;
 		const video = this.evalMessage(data.video, cache);
-		const WrexMods = this.getWrexMods();
-		const fetchVideoInfo = WrexMods.require("youtube-info");
-		const TimeFormat = WrexMods.require("hh-mm-ss");
-		const ytdl = WrexMods.require("ytdl-core");
+		const Mods = this.getMods();
+		const fetchVideoInfo = Mods.require("youtube-info");
+		const TimeFormat = Mods.require("hh-mm-ss");
+		const ytdl = Mods.require("ytdl-core");
 		let result;
 
 		if (!video) return console.log("Please specify a video id to get video informations.");

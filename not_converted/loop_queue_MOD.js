@@ -100,15 +100,15 @@ module.exports = {
 				return;
 			}
 			if(!this.dispatchers[id] || !!forceSkip) {
-				if(DBM.Audio.loopItem[id] == true) {//Check if Item Loop is active
+				if(DBM.Audio.loopItem[id] == true) { //Check if Item Loop is active
 					const item = this.playingnow[id];
 					this.playItem(item, id);
-				} else if(DBM.Audio.loopQueue[id] == true) {//Check if Queue Loop is active
+				} else if(DBM.Audio.loopQueue[id] == true) { //Check if Queue Loop is active
 					const currentItem = this.playingnow[id];
 					this.queue[id].push(currentItem);
 					const nextItem = this.queue[id].shift();
 					this.playItem(nextItem, id);
-				} else {//Basic DBM function (No Loops are active)
+				} else { //Basic DBM function (No Loops are active)
 					if(this.queue[id].length > 0) {
 						const item = this.queue[id].shift();
 						this.playItem(item, id);

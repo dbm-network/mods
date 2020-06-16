@@ -98,9 +98,9 @@ module.exports = {
 		const reaction = parseInt(data.reaction);
 		const varName = this.evalMessage(data.varName, cache);
 		const info = parseInt(data.info);
-		var WrexMods = this.getWrexMods();
-		const rea = WrexMods.getReaction(reaction, varName, cache);
-		if(!WrexMods) return;
+		var Mods = this.getMods();
+		const rea = Mods.getReaction(reaction, varName, cache);
+		if(!Mods) return;
 		if(!rea) {
 			console.log("This is not a reaction");
 			this.callNextAction(cache);

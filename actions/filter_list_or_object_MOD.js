@@ -89,7 +89,7 @@ module.exports = {
 		const { glob, document } = this;
 
 		try {
-			var WrexMods = require(require("path").join(__dirname, "aaa_wrexmods_dependencies_MOD.js")).getWrexMods();
+			var Mods = require(require("path").join(__dirname, "aaa_wrexmods_dependencies_MOD.js")).getMods();
 
 			var wrexlinks = document.getElementsByClassName("wrexlink");
 			for(var x = 0; x < wrexlinks.length; x++) {

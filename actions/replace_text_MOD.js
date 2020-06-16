@@ -71,8 +71,8 @@ module.exports = {
 				result = text.replace(text2, text3);
 				break;
 			case 1:
-				const WrexMODS = this.getWrexMods();
-				const replacestr = WrexMODS.require("replace-string");
+				const Mods = this.getMods();
+				const replacestr = Mods.require("replace-string");
 				result = replacestr(text, text2, text3);
 				break;
 			default:

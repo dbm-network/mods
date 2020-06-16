@@ -49,8 +49,8 @@ module.exports = {
 		const varName = this.evalMessage(data.varName, cache);
 		const member = this.getMember(type, varName, cache);
 
-		const WrexMODS = this.getWrexMods();
-		const DBL = WrexMODS.require("dblapi.js");
+		const Mods = this.getMods();
+		const DBL = Mods.require("dblapi.js");
 		const dbl = new DBL(apitoken);
 
 		if(!apitoken) {

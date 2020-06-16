@@ -130,7 +130,7 @@ module.exports = {
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
-		const moment = this.getWrexMods().require("moment");
+		const moment = this.getMods().require("moment");
 		const dateLanguage = this.evalMessage(data.dateLanguage, cache);
 		const date = moment(Date.parse(this.evalMessage(data.sourceDate, cache)), "", dateLanguage === "" ? "en" : dateLanguage);
 		const buildInput = this.evalMessage(data.buildInput, cache);
