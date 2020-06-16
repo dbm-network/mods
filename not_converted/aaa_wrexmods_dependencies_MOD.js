@@ -5,96 +5,22 @@ const path = require("path");
 // Contains functions for actions using WrexMODS
 //---------------------------------------------------------------------
 const WrexMODS= {};
-
 WrexMODS.API = {};
-
 WrexMODS.DBM = null;
-
-WrexMODS.Version = "2.0.5";
-
-WrexMODS.latest_changes = "The module installer WORKS NOW";
+WrexMODS.Version = "2.0.6";
+WrexMODS.latest_changes = "No it didn't, now it does"; // RigidStudios
 
 // Module Installer
 //{name:"modulename", attempts:0, installed: false}
-WrexMODS.modules = [];
-WrexMODS.MaxInstallAttemptsPerModule = 3;
-WrexMODS.CheckAndInstallNodeModule = function(moduleName, isGlobal = false){
+
+WrexMODS.CheckAndInstallNodeModule = function(moduleName){
 	return new Promise((resolve, reject) => {
-
-		let module = this.modules.find((x) => x.name == moduleName);
-
-		const botPath = path.dirname(process.argv[1]);
-		const modulePath = path.join(botPath, "node_modules", moduleName);
-
+		require("child_process").execSync(`npm i ${moduleName}`);
 		try {
-
-			require.resolve(modulePath);
-
-			if(!module){
-				module = { name: moduleName, attempts:1, installed: true, errored: false  };
-				WrexMODS.modules.push(module);
-			}else{
-				module.installed = true;
-			}
-
-			resolve(module);
-
-		} catch (e) { // not installed
-
-			if(module){
-				module.attempts += 1;
-			}else{
-				module = { name: moduleName, attempts:1, installed: false, errored: false };
-				WrexMODS.modules.push(module);
-			}
-
-			if(module.errored){
-				module.errored = true;
-				reject(module);
-			}
-
-			if(module.attempts >= this.MaxInstallAttemptsPerModule){
-				console.error("DBM MODS (Node Module Installer v2.5): Could not automatically install " + moduleName + ". \n\n (Install attempt limit reached) \n Please try to run your bot CMD/Terminal (Ctrl + Shift + Right Click [In Windows] To Open a CMD Window) and do 'node bot.js' at least once to allow the installer to run. \n If that still fails please do 'npm install --save " + moduleName + "' and restart your bot before you continue.");
-				module.errored = true;
-				reject(module);
-			}else{
-
-				try {
-					console.log("DBM MODS (Node Module Installer v2.5) Attempting To Install Node Module: '" + moduleName + "'. Please wait...\n");
-
-					const child = require("child_process");
-					let cliCommand = "npm install " + moduleName + " --loglevel=error " + (isGlobal ? "-g" : "--save");
-					child.execSync(cliCommand, { cwd: require("path").dirname(process.argv[1]), stdio:[0, 1, 2] });
-
-					try {
-						require.resolve(modulePath);
-						module.installed = true;
-
-						console.log("DBM MODS (Node Module Installer v2.5) Node Module '" + moduleName + "' has been Installed. You MAY need to restart your bot if theres errors.");
-						resolve(module)	;
-
-					} catch (error) {
-						console.error("DBM MODS (Node Module Installer v2.5): Node Module  '" + moduleName + "' failed to install. Attempt Number: " + module.attempts + " out of " + this.MaxInstallAttemptsPerModule);
-						if(module) WrexMODS.CheckAndInstallNodeModule(module.name);
-					}
-
-				} catch (error) {
-
-					module.errored = true;
-
-					if(error.message.includes("Command failed") || error.message.includes("Not found")|| error.message.includes("Not Found")){
-						console.log("DBM MODS (Node Module Installer v2.5): Node Module  '" + moduleName + "' does not exist!");
-						console.error(error.message);
-					}else{
-						console.error("DBM MODS (Node Module Installer v2.5): MAIN ERROR. Report the information below to DBM Mods Support!");
-						console.dir(this.modules);
-						console.error(error.message);
-						console.log("----------------------------------------");
-					}
-
-				}
-
-			}
+			require(moduleName);
+			resolve(require(moduleName));
+		} catch (e) {
+			console.log(`Failed to Install ${moduleName}, please re-try or install manually with "npm i ${moduleName}"`)
 		}
 	});
 };
@@ -102,16 +28,13 @@ WrexMODS.CheckAndInstallNodeModule = function(moduleName, isGlobal = false){
 
 
 WrexMODS.require = function(moduleName){
+	try {
+		return require(moduleName);
+	} catch (e) {
+		this.CheckAndInstallNodeModule(moduleName);
 
-	/// <summary> Custom require function that will attempt to install the module if it doesn't exist</summary>
-	/// <returns type="Object">The required module</returns>
-
-	this.CheckAndInstallNodeModule(moduleName);
-
-	const botPath = path.dirname(process.argv[1]);
-	const modulePath = path.join(botPath, "node_modules", moduleName);
-
-	return require.main.require(modulePath);
+		return require(moduleName);
+	}
 };
 
 WrexMODS.checkURL = function(url){
@@ -605,13 +528,12 @@ customaction.getWrexMods = function(){
 customaction.mod = function(DBM) {
 	WrexMODS.DBM = DBM;
 
-	WrexMODS.CheckAndInstallNodeModule("request");
-	WrexMODS.CheckAndInstallNodeModule("extend");
-	WrexMODS.CheckAndInstallNodeModule("valid-url");
-
 	DBM.Actions.getWrexMods = function(){
 		return WrexMODS;
 	};
+	DBM.WrexMods = function() {
+		return WrexMODS;
+	}
 };
 
 module.exports = customaction;
