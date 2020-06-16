@@ -124,9 +124,9 @@ module.exports = {
 		const emoji = parseInt(data.emoji);
 		const varName = this.evalMessage(data.varName, cache);
 		const info = parseInt(data.info);
-		var WrexMods = this.getWrexMods(); //Find abb_custom_methods_MOD
-		const emo = WrexMods.getEmoji(emoji, varName, cache); //Get Emoji
-		if(!WrexMods) return;
+		var Mods = this.getMods(); //Find abb_custom_methods_MOD
+		const emo = Mods.getEmoji(emoji, varName, cache); //Get Emoji
+		if(!Mods) return;
 		if(!emo) {
 			console.log("This is not a emoji"); //Variable is not a emoji -> Error
 			this.callNextAction(cache);

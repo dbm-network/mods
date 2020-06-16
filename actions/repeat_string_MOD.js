@@ -61,9 +61,9 @@ module.exports = {
 
 
 		var _this = this;
-		const WrexMODS = _this.getWrexMods();
-		WrexMODS.CheckAndInstallNodeModule("repeat-string");
-		const search = WrexMODS.require("repeat-string");
+		const Mods = _this.getMods();
+		Mods.CheckAndInstallNodeModule("repeat-string");
+		const search = Mods.require("repeat-string");
 
 
 		var repeat = require("repeat-string");

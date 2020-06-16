@@ -81,7 +81,7 @@ module.exports = {
 	},
 
 	action: function(cache) {
-		const WrexMODS = this.getWrexMods();
+		const Mods = this.getMods();
 		const data = cache.actions[cache.index];
 		let result;
 		const varName = this.evalMessage(data.varName, cache);
@@ -98,16 +98,16 @@ module.exports = {
 
 		try {
 			if (path && jsonData) {
-				var outData = WrexMODS.jsonPath(jsonData, path);
+				var outData = Mods.jsonPath(jsonData, path);
 
 				// if it dont work, try to go backwards one path
 				if (outData == false) {
-					outData = WrexMODS.jsonPath(jsonData, "$." + path);
+					outData = Mods.jsonPath(jsonData, "$." + path);
 				}
 
 				// if it still dont work, try to go backwards two paths
 				if (outData == false) {
-					outData = WrexMODS.jsonPath(jsonData, "$.." + path);
+					outData = Mods.jsonPath(jsonData, "$.." + path);
 				}
 
 				if(DEBUG) console.log(outData);

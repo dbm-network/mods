@@ -39,8 +39,8 @@ module.exports = {
 	action: function(cache) {
 		const data = cache.actions[cache.index];
 		const Audio = this.getDBM().Audio;
-		const WrexMODS = this.getWrexMods();
-		const ytapi = WrexMODS.require("simple-youtube-api");
+		const Mods = this.getMods();
+		const ytapi = Mods.require("simple-youtube-api");
 		const apikey = this.evalMessage(data.apikey, cache);
 		const playlist = this.evalMessage(data.url, cache);
 		const options = {};

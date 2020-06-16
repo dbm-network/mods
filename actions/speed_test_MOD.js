@@ -103,9 +103,9 @@ module.exports = {
 		const type = parseInt(data.type);
 
 		// Main code:
-		const WrexMODS = _this.getWrexMods(); // as always.
-		WrexMODS.CheckAndInstallNodeModule("speedtest-net"); //To install module automatically
-		const speedTest = WrexMODS.require("speedtest-net");
+		const Mods = _this.getMods(); // as always.
+		Mods.CheckAndInstallNodeModule("speedtest-net"); //To install module automatically
+		const speedTest = Mods.require("speedtest-net");
 		const test = speedTest({ maxTime: 5000 });
 
 		let result;

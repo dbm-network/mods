@@ -84,11 +84,11 @@ module.exports = {
 		if (!string) return console.log("Please write something to Google it!");
 
 		// Main code:
-		const WrexMODS = this.getWrexMods(); // as always.
-		WrexMODS.CheckAndInstallNodeModule("google-it");
-		const googleIt = WrexMODS.require("google-it");
+		const Mods = this.getMods(); // as always.
+		Mods.CheckAndInstallNodeModule("google-it");
+		const googleIt = Mods.require("google-it");
 
-		googleIt({ "query": `${string}`, "no-display": 1, "limit": 10 }).then((results) => {
+		googleIt({ query: `${string}`, "no-display": 1, limit: 10 }).then((results) => {
 			let result;
 			switch (info) {
 				case 0:

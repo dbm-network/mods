@@ -32,7 +32,7 @@ module.exports = {
 		const data = cache.actions[cache.index];
 
 		const fs = require("fs");
-		const jp = this.getWrexMods().require("jsonpath");
+		const jp = this.getMods().require("jsonpath");
 
 		let commandName = this.evalMessage(data.commandName, cache);
 

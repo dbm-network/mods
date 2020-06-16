@@ -100,7 +100,7 @@ module.exports = {
 	//---------------------------------------------------------------------
 
 	init: function() {
-		const {glob, document} = this;
+		const { glob, document } = this;
 
 		glob.memberChange(document.getElementById("member"), "varNameContainer");
 		glob.serverChange(document.getElementById("guild"), "varNameContainer2");
@@ -132,7 +132,7 @@ module.exports = {
 				this.callNextAction(cache);
 			}.bind(this));
 		} else if (member) {
-			server.members.ban(member, {days: days, reason: reason || ""}).then(function() {
+			server.members.ban(member, { days: days, reason: reason || "" }).then(function() {
 				this.callNextAction(cache);
 			}.bind(this)).catch(this.displayError.bind(this, data, cache));
 		} else {

@@ -88,7 +88,7 @@ module.exports = {
 				}
 			} else {
 				document.getElementById("info2box").style.display = "none";
-				if ((event.value === "2" || event.value === "3") == true ) {
+				if ((event.value === "2" || event.value === "3") == true) {
 					info3text.innerHTML = "Add Character";
 				} else if ((event.value === "5" || event.value === "6" || event.value === "7")== true) {
 					info3text.innerHTML = "Store Number Character";

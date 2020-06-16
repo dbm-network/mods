@@ -90,24 +90,24 @@ module.exports = {
 		let result;
 		switch(info) {
 			case 0:
-				targetChannel.messages.fetch({ limit: 100 }).then((messages) =>{
+				targetChannel.messages.fetch({ limit: 100 }).then((messages) => {
 					const message = messages.find((el) => el.content.includes(search));
 					if(message !== undefined){
 						this.storeValue(message, storage, varName2, cache);
 					}
 					this.callNextAction(cache);
-				}).catch((err)=>{
+				}).catch((err) => {
 					console.error(err);
 					this.callNextAction(cache);
 				});
 				break;
 			case 1:
-				targetChannel.messages.fetch(search).then((message) =>{
+				targetChannel.messages.fetch(search).then((message) => {
 					if(message !== undefined){
 						this.storeValue(message, storage, varName2, cache);
 					}
 					this.callNextAction(cache);
-				}).catch((err)=>{
+				}).catch((err) => {
 					console.error(err);
 					this.callNextAction(cache);
 				});

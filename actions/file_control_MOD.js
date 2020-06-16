@@ -201,9 +201,9 @@ class FileControl {
 		const fs = require("fs");
 		const path = require("path");
 
-		const WrexMODS = this.getWrexMods();
-		const mkdirp = WrexMODS.require("mkdirp");
-		const insertLine = WrexMODS.require("insert-line");
+		const Mods = this.getMods();
+		const mkdirp = Mods.require("mkdirp");
+		const insertLine = Mods.require("insert-line");
 
 		const data = cache.actions[cache.index];
 		const dirName = path.normalize(this.evalMessage(data.filepath, cache));

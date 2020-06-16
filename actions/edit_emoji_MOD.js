@@ -43,8 +43,8 @@ module.exports = {
 		}
 		const storage = parseInt(data.storage);
 		const varName = this.evalMessage(data.varName, cache);
-		var WrexMods = this.getWrexMods();
-		const emoji = WrexMods.getEmoji(storage, varName, cache);
+		var Mods = this.getMods();
+		const emoji = Mods.getEmoji(storage, varName, cache);
 		if(Array.isArray(emoji)) {
 			this.callListFunc(emoji, "edit", [emojiData]).then(function() {
 				this.callNextAction(cache);

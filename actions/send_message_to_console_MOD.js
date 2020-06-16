@@ -23,9 +23,9 @@ module.exports = {
 	init: function() {},
 
 	action: function(cache) {
-		const WrexMODS = this.getWrexMods();
-		WrexMODS.CheckAndInstallNodeModule("chalk");
-		const chalk = WrexMODS.require("chalk");
+		const Mods = this.getMods();
+		Mods.CheckAndInstallNodeModule("chalk");
+		const chalk = Mods.require("chalk");
 		const data = cache.actions[cache.index];
 		const send = this.evalMessage(data.tosend, cache);
 		if (send.length > 0) {

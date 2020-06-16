@@ -118,9 +118,9 @@ module.exports = {
 		const geniustoken = _this.evalMessage(data.key, cache);
 		const songname = _this.evalMessage(data.song, cache);
 
-		const WrexMODS = _this.getWrexMods();
-		WrexMODS.CheckAndInstallNodeModule("analyrics");
-		const analyrics = WrexMODS.require("analyrics");
+		const Mods = _this.getMods();
+		Mods.CheckAndInstallNodeModule("analyrics");
+		const analyrics = Mods.require("analyrics");
 
 		analyrics.setToken(`${geniustoken}`);
 

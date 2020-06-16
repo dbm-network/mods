@@ -154,10 +154,10 @@ module.exports = {
 				if(FN == 0) {
 					result = 1;
 				}
-				if(FN < 0 ) {
+				if(FN < 0) {
 					result = undefined;
 				}
-				for(var i = FN; --i; ) {
+				for(var i = FN; --i;) {
 					FN *= i;
 				}
 				result = FN;

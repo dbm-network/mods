@@ -95,7 +95,7 @@ module.exports = {
 		const storage = parseInt(data.storage);
 		const varName2 = this.evalMessage(data.varName2, cache);
 
-		var WrexMODS = this.getWrexMods(); // Using WrexMods for better performance.
+		var Mods = this.getMods(); // Using Mods for better performance.
 
 		let response;
 		switch(WhichAPI) {
@@ -105,8 +105,8 @@ module.exports = {
 				if (!ioAPIuser) return console.log("Please enter a valid API User key from cleverbot.io!");
 				if (!ioAPIkey) return console.log("Please enter a valid API Key from cleverbot.io!");
 
-				WrexMODS.CheckAndInstallNodeModule("cleverbot.io");
-				const cleverbotio = WrexMODS.require("cleverbot.io");
+				Mods.CheckAndInstallNodeModule("cleverbot.io");
+				const cleverbotio = Mods.require("cleverbot.io");
 				const CLEVERBOT = new cleverbotio(ioAPIuser, ioAPIkey);
 				const session = CLEVERBOT.setNick("DBM Bot");
 
@@ -124,8 +124,8 @@ module.exports = {
 
 				break;
 			case 1:
-				WrexMODS.CheckAndInstallNodeModule("cleverbot-node");
-				const cleverbotcom = WrexMODS.require("cleverbot-node");
+				Mods.CheckAndInstallNodeModule("cleverbot-node");
+				const cleverbotcom = Mods.require("cleverbot-node");
 				const clbot = new cleverbotcom;
 				const comAPIkey = this.evalMessage(data.APIkey, cache);
 

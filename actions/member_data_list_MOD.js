@@ -138,12 +138,12 @@ Char after Number:<br>
 		const en = this.evalMessage(data.end, cache);
 		const sort = parseInt(data.sort);
 		const debug = parseInt(data.debu);
-		const WrexMODS = this.getWrexMods();
+		const Mods = this.getMods();
 
-		var Discord = WrexMODS.require("discord.js");
-		var fastsort = WrexMODS.require("fast-sort");
+		var Discord = Mods.require("discord.js");
+		var fastsort = Mods.require("fast-sort");
 		var client = new Discord.Client();
-		const { JSONPath } = WrexMODS.require("jsonpath-plus");
+		const { JSONPath } = Mods.require("jsonpath-plus");
 		const fs = require("fs");
 		var file = fs.readFileSync("./data/players.json", "utf8");
 

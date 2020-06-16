@@ -66,7 +66,7 @@ module.exports = {
 		if(!wordLength) return console.log("Please specify amount of randomized letters.");
 
 		// Main code
-		const randomize = this.getWrexMods().require("randomatic");
+		const randomize = this.getMods().require("randomatic");
 		var random = randomize(Input, wordLength);
 
 		// Storing

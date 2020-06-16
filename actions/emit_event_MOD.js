@@ -114,8 +114,8 @@ class EmitEvent {
 	action(cache) {
 		const data = cache.actions[cache.index];
 
-		const WrexMods = this.getWrexMods();
-		const events = Object.values(WrexMods.require("discord.js").Constants.Events).sort();
+		const Mods = this.getMods();
+		const events = Object.values(Mods.require("discord.js").Constants.Events).sort();
 		const event = this.evalMessage(data.eventType);
 		if (!events.includes(event)) return console.error(`${this.name} (#${cache.index + 1}): Unkown event type.`);
 

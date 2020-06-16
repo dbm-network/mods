@@ -32,6 +32,7 @@ rules:
   no-case-declarations: off
   no-empty: off
   no-irregular-whitespace: off
+  no-prototype-builtins: off
   no-unused-vars: off
   no-useless-escape: off
   object-curly-newline:
@@ -46,4 +47,13 @@ rules:
   space-before-function-paren:
     - error
     - never
+  space-in-parens: error
   no-trailing-spaces: error
+  block-spacing: error
+  arrow-spacing: error
+  quote-props:
+    - error
+    - as-needed
+  object-curly-spacing:
+    - error
+    - always

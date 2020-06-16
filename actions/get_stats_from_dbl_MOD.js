@@ -153,7 +153,7 @@ module.exports = {
 		var fetch = require("node-fetch");
 		fetch("https://discordbots.org/api/bots/" + botID, {
 			method: "GET",
-			headers: { "Authorization": dblToken ? dblToken : "" },
+			headers: { Authorization: dblToken ? dblToken : "" },
 		})
 			.then((res) => res.json())
 			.then((r) => {

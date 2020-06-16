@@ -87,8 +87,8 @@ module.exports = {
 		if (!string) return console.log("Please write something to search on Urban Dictionary.");
 
 		var _this = this;
-		const WrexMODS = this.getWrexMods();
-		const urban = WrexMODS.require("urban");
+		const Mods = this.getMods();
+		const urban = Mods.require("urban");
 
 		urban(`${string}`).first(function(results) {
 			if (!results) return _this.callNextAction(cache);
