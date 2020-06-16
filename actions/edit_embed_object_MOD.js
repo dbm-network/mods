@@ -82,7 +82,7 @@ html: function(isEvent, data) {
 		</div>
 		<div style="float: right; width: 60%;">
 			Variable Name:<br>
-			<input id="varName" placeholder="Embed Object" class="round" type="text" list="variableList">
+			<input id="varName" placeholder="Embed Object" class="round" type="text" list="variableList" oninput="glob.onChange13(this)">
 		</div>
 	</div><br><br><br>
 	<div style="padding-top: 8px;">
@@ -520,6 +520,31 @@ init: function() {
 				}
 				break;
 		}
+	}
+
+	let varName = document.getElementById('varName')
+	glob.onChange13 = function(Edit13) {
+	  const list = document.getElementById('variableList');
+	  if (list.children.length == 0) return;
+	  let dataType = list.options
+    let correct = filter(dataType)
+    if (correct !== undefined) {
+      if (correct.innerHTML != "Embed Object") {
+        alert(`Please select an Embed Object to edit. You've selected a ${correct.innerHTML}; This won't edit your message directly, you'll have to later select 'Edit Message' and use the same embed as here in Source Embed`);
+      }
+    }
+  }
+	glob.onChange13(varName);
+
+		function filter(dataType) {
+	  for (let i = 0; i < dataType.length; i++) {
+	    console.log(dataType[i].value);
+	    console.log(varName.value);
+	    if (dataType[i].value == varName.value) {
+	      console.log(i)
+	      return dataType[i];
+	    }
+	  }
 	}
 
 	glob.onChange0(document.getElementById('Edit0'));
