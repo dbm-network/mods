@@ -702,7 +702,7 @@ module.exports = {
 		this.callNextAction(cache);
 	},
 
-	mod: function() {
+	mod: function(DBM) {
 		DBM.Actions["Edit Embed Object MOD"] = DBM.Actions["Edit Embed Object"];
 	}
 };
