@@ -1,5 +1,5 @@
 module.exports = {
-	name: "Invite Delete MOD",
+	name: "Invite Delete",
 
 	isEvent: true,
 
@@ -7,25 +7,22 @@ module.exports = {
 
 	mod: function(DBM) {
 		DBM.LeonZ = DBM.LeonZ || {};
-		DBM.LeonZ.inviteDelete = function(packet) {
+		DBM.LeonZ.inviteDelete = function(invite) {
 			const { Bot, Actions } = DBM;
-			const events = Bot.$evts["Invite Delete MOD"];
+			const events = Bot.$evts["Invite Delete"];
 			if(!events) return;
-
-			if (packet.t == "INVITE_DELETE") {
-				const server = Bot.bot.guilds.get(packet.d.guild_id);
+			const server = invite.guild;
+			for (let i = 0; i < events.length; i++) {
 				const temp = {};
-				for (let i = 0; i < events.length; i++) {
-					const event = events[i];
-					if(event.temp) temp[event.temp] = packet.d.code;
-					Actions.invokeEvent(event, server, temp);
-				}
-			}
+				const event = events[i];
+				if(event.temp) temp[event.temp] = invite.code;
+				Actions.invokeEvent(event, server, temp);
+			};
 		};
 
 		const onReady = DBM.Bot.onReady;
 		DBM.Bot.onReady = function(...params) {
-			DBM.Bot.bot.on("raw", DBM.LeonZ.inviteDelete);
+			DBM.Bot.bot.on("inviteDelete", DBM.LeonZ.inviteDelete);
 			onReady.apply(this, ...params);
 		};
 	}

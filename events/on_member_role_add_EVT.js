@@ -11,7 +11,7 @@ module.exports = {
 			const { Bot, Actions } = DBM;
 			const events = Bot.$evts["Member Role Added MOD"];
 			if(!events) return;
-			if (newMember.roles.size <= oldMember.roles.size) return;
+			if (newMember.roles.size < oldMember.roles.size) return;
 
 			for (const event of events) {
 				const temp = {};
@@ -19,10 +19,10 @@ module.exports = {
 				const oldRoles = oldMember.roles;
 				const newRoles = newMember.roles;
 
-				let difference = newRoles.filter((role) => !oldRoles.has(role.id));
+				let difference = newRoles.filter((role) => !oldRoles.has(role.id)).first();
 
-				if (event.temp) temp[event.temp] = server.roles.find((role) => role.id == difference.firstKey());
-				if (event.temp2) temp[event.temp2] = newMember.user;
+				if (event.temp) temp[event.temp] = difference;
+				if (event.temp2) temp[event.temp2] = newMember;
 
 				Actions.invokeEvent(event, server, temp);
 			}

@@ -39,18 +39,18 @@ module.exports = {
      * @param {User} newUser The member after the voice state update.
      * @return {void}
      */
-		DBM.MemberJoinVoiceChannel.callAllEvents = async function(oldUser, newUser) {
+		DBM.MemberJoinVoiceChannel.callAllEvents = function(oldVoiceState, newVoiceState) {
 			const events = Bot.$evts["Member Join Voice Channel"];
 			if (!events) return;
 
 			for (const event of events) {
 				const temp = {};
 
-				const oldChannel = oldUser.voiceChannel;
-				const newChannel = newUser.voiceChannel;
+				const oldChannel = oldVoiceState.channel;
+				const newChannel = newVoiceState.channel;
 				const server = (oldChannel || newChannel).guild;
 
-				if (event.temp) temp[event.temp] = server.member(newUser);
+				if (event.temp) temp[event.temp] = newVoiceState.member;
 				if (event.temp2) temp[event.temp2] = newChannel;
 
 				if (!oldChannel && newChannel) Actions.invokeEvent(event, server, temp);

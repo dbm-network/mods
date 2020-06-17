@@ -1,36 +1,35 @@
 module.exports = {
-	name: "Member Stop Streaming MOD",
+
+	name: "Member Stop Streaming",
 
 	isEvent: true,
 
-	fields: ["Temp Variable Name (store streaming member object):"],
+	fields: ["Temp Variable Name (store voice channel):", "Temp Variable Name (store streaming member object):"],
 
 	mod: function(DBM) {
 		DBM.LeonZ = DBM.LeonZ || {};
-		DBM.LeonZ.offStream = function(packet) {
+		DBM.LeonZ.offStream = function(oldVoiceState, newVoiceState) {
 			const { Bot, Actions } = DBM;
-			const events = Bot.$evts["Member Stop Streaming MOD"];
+			const events = Bot.$evts["Member Stop Streaming"];
 			if(!events) return;
 
-			if (packet.t == "VOICE_STATE_UPDATE") {
-				const server = Bot.bot.guilds.get(packet.d.guild_id);
-				const member = server.members.get(packet.d.member.user.id);
-				if ((!packet.d.self_stream && !!packet.d.channel_id && member.streaming) || (packet.d.self_stream && !packet.d.channel_id && member.streaming)) {
-					member.streaming = false;
-					const temp = {};
-					for (let i = 0; i < events.length; i++) {
-						const event = events[i];
-						if(event.temp) temp[event.temp] = member;
-						Actions.invokeEvent(event, server, temp);
-					}
-				}
-			}
-		};
+			const oldChannel = oldVoiceState.channel;
+			const newChannel = newVoiceState.channel;
+			if ((!oldChannel || !oldVoiceState.streaming) || (newChannel && newVoiceState.streaming)) return;
+			const server = (oldChannel || newChannel).guild;
 
+			for (const event of events) {
+				const temp = {};
+				if (event.temp) temp[event.temp] = oldChannel;
+				if (event.temp2) temp[event.temp2] = oldVoiceState.member;
+				Actions.invokeEvent(event, server, temp);
+			};
+		};
+	
 		const onReady = DBM.Bot.onReady;
 		DBM.Bot.onReady = function(...params) {
-			DBM.Bot.bot.on("raw", DBM.LeonZ.offStream);
+			DBM.Bot.bot.on("voiceStateUpdate", DBM.LeonZ.offStream);
 			onReady.apply(this, ...params);
 		};
 	}
-};
+}
