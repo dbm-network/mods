@@ -20,7 +20,7 @@ module.exports = {
 		return ([data.varName2, dataType]);
 	},
 
-	fields: ["storage", "varName", "type", "before", "after", "limit", "storage2", "varName2"],
+	fields: ["storage", "varName", "type", "before", "limit", "storage2", "varName2"],
 
 	html: function(isEvent, data) {
 		return `
@@ -88,10 +88,6 @@ module.exports = {
 		<div style="float: left; width: 48%;">
 			Before Entry / Timestamp:<br>
 			<input id="before" class="round" type="text" placeholder="Leave it blank for None."><br>
-		</div>
-		<div style="float: left; width: 51%; padding-left: 3px">
-			After Entry / Timestamp:<br>
-			<input id="after" class="round" type="text" placeholder="Leave it blank for None."><br>
 		</div>
 	</div><br><br><br>
 	<div>
@@ -163,9 +159,6 @@ module.exports = {
 		}
 		if (typeof before == "object" || !isNaN(before)) {
 			options.before = before;
-		}
-		if (typeof after == "object" || !isNaN(after)) {
-			options.after = after;
 		}
 		if (limit && !isNaN(limit)) {
 			options.limit = limit;
