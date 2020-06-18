@@ -2,7 +2,7 @@ const Mods = {
 	API: {},
 	DBM: null,
 	version: "3.0.0",
-	lastest_changes: "Revamped the dependencies"
+	lastest_changes: "Revamped the dependencies",
 };
 
 Mods.installModule = function(moduleName) {
@@ -307,6 +307,11 @@ module.exports = {
 		};
 
 		DBM.Mods = function() {
+			return Mods;
+		};
+		
+		// backwards compatibility
+		DBM.Actions.getWrexMods = function() {
 			return Mods;
 		};
 	},
