@@ -309,8 +309,12 @@ module.exports = {
 		DBM.Mods = function() {
 			return Mods;
 		};
+		
+		DBM.Actions.getWrexMods = function() { // Added to not break every single action that depends on it.
+			return Mods;
+		};
 	},
-
+	
 	getMods: function() {
 		return Mods;
 	},
