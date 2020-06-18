@@ -2,7 +2,7 @@ const Mods = {
 	API: {},
 	DBM: null,
 	version: "3.0.0",
-	lastest_changes: "Revamped the dependencies" // RigidStudios
+	lastest_changes: "Revamped the dependencies",
 };
 
 Mods.installModule = function(moduleName) {
@@ -310,7 +310,8 @@ module.exports = {
 			return Mods;
 		};
 		
-		DBM.Actions.getWrexMods = function() { // Added to not break every single action that depends on it.
+		// backwards compatibility
+		DBM.Actions.getWrexMods = function() {
 			return Mods;
 		};
 	},
