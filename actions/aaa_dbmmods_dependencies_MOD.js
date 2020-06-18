@@ -2,7 +2,7 @@ const Mods = {
 	API: {},
 	DBM: null,
 	version: "3.0.0",
-	lastest_changes: "Revamped the dependencies"
+	lastest_changes: "Revamped the dependencies" // RigidStudios
 };
 
 Mods.installModule = function(moduleName) {
