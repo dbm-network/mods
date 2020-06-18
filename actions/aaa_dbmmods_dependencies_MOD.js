@@ -315,7 +315,7 @@ module.exports = {
 			return Mods;
 		};
 	},
-	
+
 	getMods: function() {
 		return Mods;
 	},
