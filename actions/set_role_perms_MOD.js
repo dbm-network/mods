@@ -5,7 +5,7 @@ module.exports = {
 	subtitle: function(data) {
 		const roles = ["Mentioned Role", "1st Author Role", "1st Server Role", "Temp Variable", "Server Variable", "Global Variable"];
 		const index = ["Granted", "Denied"];
-		const perm = ["Administrator", "Manage Guild", "Manage Nicknames", "Manage Roles", "Manage Emojis", "Kick Members", "Ban Members", "View Audit Log", "Change Nickname", "Create Instant Invite", "Priority Speaker", "Manage Channel", "Manage Webhooks", "Read Messages", "Send Messages", "Send TTS Messages", "Manage Messages", "Embed Links", "Attach Files", "Read Message History", "Mention Everyone", "Use External Emojis", "Add Reactions", "Connect to Voice", "Speak in Voice", "Mute Members", "Deafen Members", "Move Members", "Use Voice Activity", "All Permissions"];
+		const perm = ["Administrator", "Manage Guild", "Manage Nicknames", "Manage Roles", "Manage Emojis", "Kick Members", "Ban Members", "View Audit Log", "Change Nickname", "Create Instant Invite", "Priority Speaker", "Manage Channel", "Manage Webhooks", "Read Messages", "Send Messages", "Send TTS Messages", "Manage Messages", "Embed Links", "Attach Files", "Read Message History", "Mention Everyone", "Use External Emojis", "Add Reactions", "Connect to Voice", "Speak in Voice", "Mute Members", "Deafen Members", "Move Members", "Use Voice Activity", "All Permissions", "Stream"];
 		return `${roles[data.role]} - ${perm[data.permission]} - ${index[data.state]} ${!data.reason ? "" : `with Reason: <i>${data.reason}<i>`}`;
 	},
 
@@ -59,6 +59,7 @@ module.exports = {
 			<option value="27">Move Members</option>
 			<option value="28">Use Voice Activity</option>
 			<option value="29">All Permissions</option>
+			<option value="30">Stream</option>
 		</select>
 	</div>
 	<div style="padding-left: 5%; float: left; width: 55%;">
@@ -202,6 +203,9 @@ module.exports = {
 				break;
 			case 28:
 				result = 33554432;
+				break;
+			case 30:
+				result = 200;
 				break;
 			default:
 				break;
