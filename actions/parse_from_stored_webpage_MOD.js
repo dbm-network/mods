@@ -166,9 +166,9 @@ module.exports = {
 
 					let nodes = [];
 					try {
-						 nodes = xpath.select(myXPath, doc);
+						nodes = xpath.select(myXPath, doc);
 
-						 if(nodes && nodes.length > 0){
+						if(nodes && nodes.length > 0){
 
 							var out = [];
 							nodes.forEach((node) => {

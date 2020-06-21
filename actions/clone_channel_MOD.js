@@ -134,32 +134,38 @@ module.exports = {
 		const data = cache.actions[cache.index];
 		const server = cache.server;
 		const storage = parseInt(data.storage);
-		const info = parseInt(data.info);
 		const varName = this.evalMessage(data.varName, cache);
 		const channel = this.getChannel(storage, varName, cache); // bitrate slowmode
-		if (channel.type == 'voice') {
-			const VCoptions = { positon: (data.position == 1 ? channel.position : 0), 
-							  permissionOverwrites: (data.permission == 1 ? channel.permissionOverwrites : []),
-							  userLimit: (data.userLimit == 1 ? channel.userLimit : 0),
-							  bitrate: (data.bitrate == 1 ? channel.bitrate : 64),
-							  parent: (data.categoryID ? parseInt(this.evalMessage(data.categoryID, cache)) : null)
-							  }
-		} else if (channel.type == 'text') {
-			const TCoptions = { position: (data.position == 1 ? channel.position : 0),
-							  permissionOverwrites: (data.permission == 1 ? channel.permissionOverwrites : []),
-							  nsfw: (data.nsfw == 1 ? channel.nsfw : false),
-							  topic: (data.topic == 1 ? channel.topic : undefined),
-							  rateLimitPerUser: (data.slowmode == 1 ? channel.slowmode : 0),
-							  parent: (data.categoryID ? cache.server.channels.get(this.evalMessage(data.categoryID, cache)) : null)
-							  }			
-		} 
+
+		let options;
+		if (channel.type == "voice") {
+			options = {
+				positon: data.position == 1 ? channel.position : 0,
+				permissionOverwrites: data.permission == 1 ? channel.permissionOverwrites : [],
+				userLimit: data.userLimit == 1 ? channel.userLimit : 0,
+				bitrate: data.bitrate == 1 ? channel.bitrate : 64,
+				parent: data.categoryID ? parseInt(this.evalMessage(data.categoryID, cache)) : null
+			};
+		} else if (channel.type == "text") {
+			options = {
+				position: data.position == 1 ? channel.position : 0,
+				permissionOverwrites: data.permission == 1 ? channel.permissionOverwrites : [],
+				nsfw: data.nsfw == 1 ? channel.nsfw : false,
+				topic: data.topic == 1 ? channel.topic : undefined,
+				rateLimitPerUser: data.slowmode == 1 ? channel.slowmode : 0,
+				parent: data.categoryID ? cache.server.channels.get(this.evalMessage(data.categoryID, cache)) : null
+			};
+		}
+
 		if (server && channel) {
-				channel.clone((channel.type == 'text' ? TCoptions : VCoptions)).then(function(newchannel) {
-				const storage2 = parseInt(data.storage2);
-				const varName2 = this.evalMessage(data.varName2, cache);
-				this.storeValue(newchannel, storage2, varName2, cache);
-				this.callNextAction(cache);
-			}.bind(this)).catch(this.displayError.bind(this, data, cache));
+			channel.clone(options)
+				.then((newchannel) => {
+					const storage2 = parseInt(data.storage2);
+					const varName2 = this.evalMessage(data.varName2, cache);
+					this.storeValue(newchannel, storage2, varName2, cache);
+					this.callNextAction(cache);
+				})
+				.catch(this.displayError.bind(this, data, cache));
 		} else {
 			console.log(`${server ? "channel" : "server"} could not be found! Clone Channel MOD.`);
 			this.callNextAction(cache);

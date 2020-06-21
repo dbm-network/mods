@@ -92,8 +92,8 @@ module.exports = {
 		const Files = this.getDBM().Files;
 
 		let id;
-		if(parseInt(data.sourcetype) == 1) {id = this.evalMessage(data.source2, cache);} else {id = data.source;}
-		if(!id) {return console.log("Please insert a Command/Event ID!");}
+		if(parseInt(data.sourcetype) == 1) { id = this.evalMessage(data.source2, cache); } else { id = data.source; }
+		if(!id) { return console.log("Please insert a Command/Event ID!"); }
 
 		let actions;
 		const allData = Files.data.commands.concat(Files.data.events);

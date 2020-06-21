@@ -87,8 +87,8 @@ module.exports = {
 
 	init: function() {
 		const { glob, document } = this;
-        glob.variableChange(document.getElementById("storage"), "varNameContainer");
-        glob.refreshVariableList(document.getElementById("storage"));
+		glob.variableChange(document.getElementById("storage"), "varNameContainer");
+		glob.refreshVariableList(document.getElementById("storage"));
 	},
 
 	action: function(cache) {
@@ -96,8 +96,8 @@ module.exports = {
 		const data = cache.actions[cache.index];
 		let result;
 		const varName = this.evalMessage(data.varName, cache);
-        const storage = parseInt(data.storage);
-        const type = parseInt(data.varStorage);
+		const storage = parseInt(data.storage);
+		const type = parseInt(data.varStorage);
 		const jsonObjectVarName = this.evalMessage(data.jsonObjectVarName, cache);
 		const path = this.evalMessage(data.path, cache);
 		const jsonRaw = this.getVariable(type, jsonObjectVarName, cache);
