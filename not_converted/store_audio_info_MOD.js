@@ -196,7 +196,7 @@ div.embed { /* <div class="embed"></div> */
 		const TimeFormat = this.getMods().require("hh-mm-ss");
 		const info = parseInt(data.info);
 
-		const audio = this.getDBM().Audio;
+		const Audio = this.getDBM().Audio;
 
 		const targetServer = this.getServer(server, varName2, cache);
 		if(!targetServer) {
@@ -204,7 +204,7 @@ div.embed { /* <div class="embed"></div> */
 			return;
 		}
 
-		if(!audio) {
+		if(!Audio) {
 			this.callNextAction(cache);
 			return;
 		}
@@ -212,52 +212,52 @@ div.embed { /* <div class="embed"></div> */
 		let result;
 		switch(info) {
 			case 0:
-				result = audio.volumes[targetServer.id] && parseInt(audio.volumes[targetServer.id]) * 100 || 50; // volume
+				result = Audio.volumes[targetServer.id] && parseInt(Audio.volumes[targetServer.id]) * 100 || 50; // volume
 				break;
 			case 1:
-				result = audio.dispatchers[targetServer.id] && audio.dispatchers[targetServer.id] ? true : false; // is playing
+				result = !!Audio.dispatchers[targetServer.id]; // is playing
 				break;
 			case 2:
-				result = audio.dispatchers[targetServer.id] && audio.dispatchers[targetServer.id].player.streamingData.startTime || 0; // when the music first started playing
+				result = this.dest(Audio.dispatchers[targetServer.id], "startTime") || 0; // when the music first started playing
 				break;
 			case 3:
-				result = audio.queue[targetServer.id] && audio.queue[targetServer.id].map((el) => el[2]); // the queue list
+				result = Audio.queue[targetServer.id] && Audio.queue[targetServer.id].map((q) => q[2]); // the queue list
 				break;
 			case 4:
-				result = audio.queue[targetServer.id] && audio.queue[targetServer.id].map((el) => el[2])[0]; // next item in queue
+				result = Audio.queue[targetServer.id] && Audio.queue[targetServer.id].map((q) => q[2])[0]; // next item in queue
 				break;
 			case 5:
-				result = audio.queue[targetServer.id] && audio.queue[targetServer.id].length;  // queue length
+				result = this.dest(Audio.queue[targetServer.id], "length"); // queue length
 				break;
 			case 6:
-				result = audio.dispatchers[targetServer.id] && audio.dispatchers[targetServer.id].player.opusEncoder.bitrate || 0; // bitrate
+				result = this.dest(Audio.dispatchers[targetServer.id], "streams", "opus", "_options", "rate") || 0; // bitrate
 				break;
-			case 7:
-				result = audio.dispatchers[targetServer.id] && audio.dispatchers[targetServer.id].streamOptions.passes || 0; // the encoder passes
+			case 7: // bad
+				result = this.dest(Audio.dispatchers[targetServer.id], "streamOptions", "passes")  || 0; // the encoder passes
 				break;
 			case 8:
-				result = audio.dispatchers[targetServer.id] && audio.dispatchers[targetServer.id].streamingData.timestamp || 0; // seek position
+				result = this.dest(Audio.dispatchers[targetServer.id], "player", "streamingData", "timestamp") || 0; // seek position
 				break;
 			case 9:
-				result = audio.playingnow[targetServer.id][2]; //Current song url
+				result = Audio.playingnow[targetServer.id][2]; //Current song url
 				break;
-			case 10:
-				result = audio.queue[targetServer.id] && audio.queue[targetServer.id].map((el) => el[1])[0].requester; //Requested person of next song in queue
+			case 10: // bad
+				result = Audio.queue[targetServer.id] && Audio.queue[targetServer.id].map((q) => q[1])[0].requester; //Requested person of next song in queue
 				break;
-			case 11:
-				result = audio.playingnow[targetServer.id] && audio.playingnow[targetServer.id][1].requester; // Requested person of current song
+			case 11: // bad
+				result = Audio.playingnow[targetServer.id] && Audio.playingnow[targetServer.id][1].requester; // Requested person of current song
 				break;
-			case 12:
-				result = audio.queue[targetServer.id] && audio.queue[targetServer.id].map((el) => el[1])[0].title; // Title of next song in queue
+			case 12: // bad
+				result = Audio.queue[targetServer.id] && Audio.queue[targetServer.id].map((el) => el[1])[0].title; // Title of next song in queue
 				break;
-			case 13:
-				result = audio.playingnow[targetServer.id] && audio.playingnow[targetServer.id][1].title; // Title of current song
+			case 13: // bad
+				result = Audio.playingnow[targetServer.id] && Audio.playingnow[targetServer.id][1].title; // Title of current song
 				break;
-			case 14:
-				result = TimeFormat.fromS(audio.playingnow[targetServer.id] && audio.playingnow[targetServer.id][1].duration); //Current song duration
+			case 14: // bad
+				result = TimeFormat.fromS(Audio.playingnow[targetServer.id] && Audio.playingnow[targetServer.id][1].duration); //Current song duration
 				break;
-			case 15:
-				result = audio.playingnow[targetServer.id] && audio.playingnow[targetServer.id][1].thumbnail; // Current Song Thumbnail URL
+			case 15: // bad
+				result = Audio.playingnow[targetServer.id] && Audio.playingnow[targetServer.id][1].thumbnail; // Current Song Thumbnail URL
 				break;
 			default:
 				break;
