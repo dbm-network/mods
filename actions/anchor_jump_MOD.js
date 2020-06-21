@@ -1,5 +1,7 @@
 module.exports = {
+
 	name: "Jump to Anchor",
+	
 	section: "Other Stuff",
 
 	subtitle: function(data) {
@@ -36,15 +38,25 @@ module.exports = {
 	init: function() {},
 
 	action: function(cache) {
-		const errors = { 404: "There was not an anchor found with that exact anchor ID!" };
-		const actions = cache.actions;
 		const id = cache.actions[cache.index].jump_to_anchor;
-		const anchorIndex = actions.findIndex((a) => a.name === "Create Anchor" &&
-			a.anchor_id === id);
-		if (anchorIndex === -1) throw new Error(errors["404"]);
-		cache.index = anchorIndex - 1;
-		this.callNextAction(cache);
+		this.anchorJump(id,cache);
 	},
 
-	mod: function() {}
+	mod: function(DBM) {
+		DBM.Actions.anchorJump = (id, cache) => {
+			const anchorIndex = cache.actions.findIndex(a => a.name === "Create Anchor" && a.anchor_id === id);
+			if (anchorIndex === -1) throw new Error('There was not an anchor found with that exact anchor ID!');
+			cache.index = anchorIndex - 1;
+			this.callNextAction(cache);
+		};
+
+		DBM.Actions.anchorExist = function(id,cache) {
+			const anchorIndex = cache.actions.findIndex((a) => a.name === "Create Anchor" && a.anchor_id === id);
+			if (anchorIndex === -1) {
+				return false;
+			} else {
+				return true;
+			};
+		};
+	}
 };
