@@ -44,18 +44,14 @@ module.exports = {
 
 	action: async function(cache) {
 		const data = cache.actions[cache.index];
-		const Audio = this.getDBM()
-			.Audio;
+		const { Actions, Audio } = this.getDBM();
 		const Mods = this.getMods();
 		const ytdl = Mods.require("ytdl-core");
-		const getInfoAsync = Mods.require("util")
-			.promisify(ytdl.getInfo);
 		const url = this.evalMessage(data.url, cache);
 		const msg = cache.msg;
 		const options = {};
 
 		if (url) {
-
 			if (data.seek) {
 				options.seek = parseInt(this.evalMessage(data.seek, cache));
 			}
@@ -78,24 +74,26 @@ module.exports = {
 				options.requester = msg.author;
 			}
 
-			const video = await getInfoAsync(url)
-				.catch((err) => {
-					console.error(`Error with getInfoAsync in play_youtube: ${err}`);
-				});
-			options.title = video.title;
-			options.duration = parseInt(video.length_seconds);
-			options.thumbnail = video.player_response.videoDetails.thumbnail.thumbnails[3].url;
+			ytdl.getInfo(url, (err, video) => {
+				if (err) return console.error(`Action #${cache.index + 1} Play Yotube:\n${err}`);
 
-			const info = ["yt", options, url];
-			if (data.type === "0") {
-				Audio.addToQueue(info, cache);
-			} else if (cache.server && cache.server.id !== undefined) {
-				Audio.playItem(info, cache.server.id);
-			}
+				options.title = video.title;
+				options.duration = parseInt(video.length_seconds);
+				options.thumbnail = video.player_response.videoDetails.thumbnail.thumbnails[3].url;
+
+				const info = ["yt", options, url];
+				if (data.type === "0") {
+					Audio.addToQueue(info, cache);
+				} else if (cache.server && cache.server.id !== undefined) {
+					Audio.playItem(info, cache.server.id);
+				}
+
+				Actions.callNextAction(cache);
+			});
 		}
+
 		this.callNextAction(cache);
 	},
 
 	mod: function() {}
-
 };

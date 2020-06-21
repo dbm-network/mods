@@ -120,7 +120,7 @@ div.embed { /* <div class="embed"></div> */
 		{ name: "Next Song URL In Queue", type: "Url" },
 		{ name: "Queue Length", type: "Number" },
 		{ name: "Bitrate", type: "Number" },
-		{ name: "Passes", type: "Number" },
+		{ name: "This option was removed", type: "null" },
 		{ name: "Current Seek Position (Seconds)", type: "Seconds" },
 		{ name: "Current Song URL", type: "Url" },
 		{ name: "Requester of Next Song URL", type: "User" },
@@ -133,14 +133,12 @@ div.embed { /* <div class="embed"></div> */
 
 	// itemlist is set from above
 	subtitle: function(data) {
-		this.itemList = require("./store_audio_info_MOD.js").itemList;
 		const servers = ["Current Server", "Temp Variable", "Server Variable", "Global Variable"];
 		return `${servers[parseInt(data.server)]} - ${this.itemList[parseInt(data.info)].name}`;
 	},
 
 	// itemlist is set from above
 	variableStorage: function(data, varType) {
-		this.itemList = require("./store_audio_info_MOD.js").itemList;
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
 		const dataType = this.itemList[parseInt(data.info)].type || "Unknown Type";
@@ -166,7 +164,6 @@ div.embed { /* <div class="embed"></div> */
 				}
 			}
 
-			this.itemList = require("./store_audio_info_MOD.js").itemList;
 			const select = document.getElementById("info");
 			if(select.length == 0){
 				for(let i = 0; i < this.itemList.length; i++){
@@ -232,32 +229,29 @@ div.embed { /* <div class="embed"></div> */
 			case 6:
 				result = this.dest(Audio.dispatchers[targetServer.id], "streams", "opus", "_options", "rate") || 0; // bitrate
 				break;
-			case 7: // bad
-				result = this.dest(Audio.dispatchers[targetServer.id], "streamOptions", "passes")  || 0; // the encoder passes
-				break;
 			case 8:
 				result = this.dest(Audio.dispatchers[targetServer.id], "player", "streamingData", "timestamp") || 0; // seek position
 				break;
 			case 9:
-				result = Audio.playingnow[targetServer.id][2]; //Current song url
+				result = this.dest(Audio.playingnow[targetServer.id], 2); //Current song url
 				break;
-			case 10: // bad
+			case 10:
 				result = Audio.queue[targetServer.id] && Audio.queue[targetServer.id].map((q) => q[1])[0].requester; //Requested person of next song in queue
 				break;
-			case 11: // bad
-				result = Audio.playingnow[targetServer.id] && Audio.playingnow[targetServer.id][1].requester; // Requested person of current song
+			case 11:
+				result = this.dest(Audio.playingnow[targetServer.id], 1, "requester"); // Requested person of current song
 				break;
-			case 12: // bad
-				result = Audio.queue[targetServer.id] && Audio.queue[targetServer.id].map((el) => el[1])[0].title; // Title of next song in queue
+			case 12:
+				result = Audio.queue[targetServer.id] && Audio.queue[targetServer.id].map((q) => q[1])[0].title; // Title of next song in queue
 				break;
-			case 13: // bad
-				result = Audio.playingnow[targetServer.id] && Audio.playingnow[targetServer.id][1].title; // Title of current song
+			case 13:
+				result = this.dest(Audio.playingnow[targetServer.id], 1, "title"); // Title of current song
 				break;
-			case 14: // bad
-				result = TimeFormat.fromS(Audio.playingnow[targetServer.id] && Audio.playingnow[targetServer.id][1].duration); //Current song duration
+			case 14:
+				result = TimeFormat.fromS(this.dest(Audio.playingnow[targetServer.id], 1, "duration")); //Current song duration
 				break;
-			case 15: // bad
-				result = Audio.playingnow[targetServer.id] && Audio.playingnow[targetServer.id][1].thumbnail; // Current Song Thumbnail URL
+			case 15:
+				result = this.dest(Audio.playingnow[targetServer.id], 1, "thumbnail"); // Current Song Thumbnail URL
 				break;
 			default:
 				break;
