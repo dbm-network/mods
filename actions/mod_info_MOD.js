@@ -305,6 +305,7 @@ module.exports = {
 		if (DBM.Audio.loopQueue === undefined) {
 			DBM.Audio.loopQueue = {};
 		}
+
 		if (DBM.Audio.loopItem === undefined) {
 			DBM.Audio.loopItem = {};
 		}
@@ -314,7 +315,7 @@ module.exports = {
 			const id = cache.server.id;
 			if (!this.queue[id]) {
 				this.queue[id] = [];
-				DBM.Audio.loopQueue[id] = false; //Reset loop status
+				DBM.Audio.loopQueue[id] = false; // Reset loop status
 				DBM.Audio.loopItem[id] = false;
 			}
 			this.queue[id].push(item);
@@ -328,20 +329,20 @@ module.exports = {
 				return;
 			}
 			if (!this.dispatchers[id] || !!forceSkip) {
-				if (DBM.Audio.loopItem[id] == true) { //Check if Item Loop is active
+				if (DBM.Audio.loopItem[id] == true) { // Check if Item Loop is active
 					const item = this.playingnow[id];
 					this.playItem(item, id);
-				} else if (DBM.Audio.loopQueue[id] == true) { //Check if Queue Loop is active
+				} else if (DBM.Audio.loopQueue[id] == true) { // Check if Queue Loop is active
 					const currentItem = this.playingnow[id];
 					this.queue[id].push(currentItem);
 					const nextItem = this.queue[id].shift();
 					this.playItem(nextItem, id);
-				} else { //Basic DBM function (No Loops are active)
-					if (this.queue[id] && this.queue[id].length > 0) { //Add check if this.queue[id] exists ~TheMonDon
+				} else { // Basic DBM function (No Loops are active)
+					if (this.queue[id] && this.queue[id].length > 0) { // Add check if this.queue[id] exists ~TheMonDon
 						const item = this.queue[id].shift();
 						this.playItem(item, id);
 					} else {
-						DBM.Audio.loopQueue[id] = false; //Reset loop status
+						DBM.Audio.loopQueue[id] = false; // Reset loop status
 						DBM.Audio.loopItem[id] = false;
 						this.connections[id].disconnect();
 					}
@@ -353,8 +354,9 @@ module.exports = {
 			if (!this.connections[id]) return;
 			if (this.dispatchers[id]) {
 				this.dispatchers[id]._forceEnd = true;
-				this.dispatchers[id].end();
+				this.dispatchers[id].destroy();
 			}
+
 			const type = item[0];
 			let setupDispatcher = false;
 			switch (type) {
@@ -371,8 +373,9 @@ module.exports = {
 					this.playingnow[id] = item;
 					break;
 			}
+
 			if (setupDispatcher && !this.dispatchers[id]._eventSetup) {
-				this.dispatchers[id].on("end", function() {
+				this.dispatchers[id].on("finish", function() {
 					const isForced = this.dispatchers[id]._forceEnd;
 					this.dispatchers[id] = null;
 					if (!isForced) {
@@ -383,5 +386,4 @@ module.exports = {
 			}
 		};
 	}
-
 };
