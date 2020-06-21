@@ -1,3 +1,22 @@
+const itemList = [
+  { name: "Volume (1-100)", type: "Number" },
+  { name: "Is Playing", type: "Boolean" },
+  { name: "Start Time (Seconds)", type: "Seconds" },
+  { name: "Queue URL List", type: "List" },
+  { name: "Next Song URL In Queue", type: "Url" },
+  { name: "Queue Length", type: "Number" },
+  { name: "Bitrate", type: "Number" },
+  { name: "This option was removed", type: "null" },
+  { name: "Current Seek Position (Seconds)", type: "Seconds" },
+  { name: "Current Song URL", type: "Url" },
+  { name: "Requester of Next Song URL", type: "User" },
+  { name: "Requester of Current Song URL", type: "User" },
+  { name: "Title of Next Song URL", type: "Title String" },
+  { name: "Title of Current Song URL", type: "Title String" },
+  { name: "Duration of Current Song URL", type: "Duration" },
+  { name: "Current Song Thumbnail URL", type: "Url" }
+];
+
 module.exports = {
 	name: "Store Audio Info",
 	section: "Audio Control",
@@ -111,46 +130,22 @@ div.embed { /* <div class="embed"></div> */
 	</style>`;
 	},
 
-	// this is the list of items used in the subtitle, init, types, and the html
-	itemList:  [
-		{ name: "Volume (1-100)", type: "Number" },
-		{ name: "Is Playing", type: "Boolean" },
-		{ name: "Start Time (Seconds)", type: "Seconds" },
-		{ name: "Queue URL List", type: "List" },
-		{ name: "Next Song URL In Queue", type: "Url" },
-		{ name: "Queue Length", type: "Number" },
-		{ name: "Bitrate", type: "Number" },
-		{ name: "This option was removed", type: "null" },
-		{ name: "Current Seek Position (Seconds)", type: "Seconds" },
-		{ name: "Current Song URL", type: "Url" },
-		{ name: "Requester of Next Song URL", type: "User" },
-		{ name: "Requester of Current Song URL", type: "User" },
-		{ name: "Title of Next Song URL", type: "Title String" },
-		{ name: "Title of Current Song URL", type: "Title String" },
-		{ name: "Duration of Current Song URL", type: "Duration" },
-		{ name: "Current Song Thumbnail URL", type: "Url" }
-	],
-
-	// itemlist is set from above
 	subtitle: function(data) {
 		const servers = ["Current Server", "Temp Variable", "Server Variable", "Global Variable"];
-		return `${servers[parseInt(data.server)]} - ${this.itemList[parseInt(data.info)].name}`;
+		return `${servers[parseInt(data.server)]} - ${itemList[parseInt(data.info)].name}`;
 	},
 
-	// itemlist is set from above
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
-		const dataType = this.itemList[parseInt(data.info)].type || "Unknown Type";
+		const dataType = itemList[parseInt(data.info)].type || "Unknown Type";
 		return ([data.varName, dataType]);
 	},
 
-	// itemlist is set from above
 	init: function() {
 		try {
 			const { glob, document } = this;
 
-			//
 			const wrexlinks = document.getElementsByClassName("wrexlink");
 			for(let x = 0; x < wrexlinks.length; x++) {
 				const wrexlink = wrexlinks[x], url = wrexlink.getAttribute("data-url");
@@ -166,8 +161,8 @@ div.embed { /* <div class="embed"></div> */
 
 			const select = document.getElementById("info");
 			if(select.length == 0){
-				for(let i = 0; i < this.itemList.length; i++){
-					const item = this.itemList[i];
+				for(let i = 0; i < itemList.length; i++){
+					const item = itemList[i];
 
 					let option = document.createElement("option");
 					if(i==0) option.className = "selected";
