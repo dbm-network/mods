@@ -6,7 +6,7 @@ module.exports = {
 		return `Base ${(data.basef)} to Base ${(data.baset)}`;
 	},
 
-	variableStorage: function (data, varType) {
+	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		let dataType = "Number";

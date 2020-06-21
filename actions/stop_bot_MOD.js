@@ -2,7 +2,7 @@ module.exports = {
 	name: "Stop Bot",
 	section: "Bot Client Control",
 
-	subtitle: function(data) {
+	subtitle: function() {
 		return "Stops bot";
 	},
 
@@ -13,7 +13,7 @@ module.exports = {
 <div>
 	<p>
 		<u>Warning:</u><br>
-		This action stops the bot. You cannot restart it with a command!<br>
+		This action stops the bot. You cannot restart it with a command after this action is ran!<br>
 		Choose the permissions for this command/event carefully!
 	</p>
 </div>`;
@@ -21,8 +21,7 @@ module.exports = {
 
 	init: function() {},
 
-	action: function(cache) {
-		const data = cache.actions[cache.index];
+	action: function() {
 		console.log("Stopped bot!");
 		this.getDBM().Bot.bot.destroy();
 	},
