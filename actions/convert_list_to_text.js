@@ -75,16 +75,9 @@ module.exports = {
 		const data = cache.actions[cache.index];
 		const storage = parseInt(data.list);
 		const varName = this.evalMessage(data.varName, cache);
-		const list = this.getList(storage, varName, cache);
+		let list = this.getList(storage, varName, cache);
 		const sort = parseInt(data.sort);
-
-		switch(sort) {
-			case 0:
-				list.sort();
-				break;
-			case 1:
-				break;
-		}
+		if (sort === 0) list = list.sort();
 
 		const start = this.evalMessage(data.start, cache).replace("\\n", "\n");
 		const middle = this.evalMessage(data.middle, cache).replace("\\n", "\n");
@@ -93,9 +86,9 @@ module.exports = {
 
 		for(let i = 0; i < list.length; i++) {
 			if(i === 0) {
-				result += (start + String(list[i]) + end);
+				result += start + String(list[i]) + end;
 			} else {
-				result += (start + middle + String(list[i]) + end);
+				result += start + middle + String(list[i]) + end;
 			}
 		}
 

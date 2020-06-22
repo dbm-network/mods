@@ -74,19 +74,19 @@ module.exports = {
 			const value2 = parseInt(data.value);
 			switch(comparison) {
 				case 0:
-					result = Boolean(value == value2);
+					result = value == value2;
 					break;
 				case 1:
-					result = Boolean(value < value2);
+					result = value < value2;
 					break;
 				case 2:
-					result = Boolean(value > value2);
+					result = value > value2;
 					break;
 				case 3:
-					result = Boolean(value >= value2);
+					result = value >= value2;
 					break;
 				case 4:
-					result = Boolean(value <= value2);
+					result = value <= value2;
 					break;
 			}
 		}

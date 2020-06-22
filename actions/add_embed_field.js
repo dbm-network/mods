@@ -8,7 +8,6 @@ module.exports = {
 
 	fields: ["storage", "varName", "fieldName", "message", "inline"],
 
-
 	html: function(isEvent, data) {
 		return `
 <div><p>This action has been modified by DBM Mods. Use [Title](Link) to mask links here.</p></div><br>
