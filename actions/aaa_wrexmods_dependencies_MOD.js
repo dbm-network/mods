@@ -42,11 +42,8 @@ WrexMODS.require = function(moduleName){
 	try {
 		return require(moduleName);
 	} catch (e) {
-		this.CheckAndInstallNodeModule(moduleName).then(mod => {
-			return mod;
-		}).catch(err => {
-			console.error(err);
-		})
+		this.CheckAndInstallNodeModule(moduleName)
+		return require(moduleName)
 	}
 }
 
