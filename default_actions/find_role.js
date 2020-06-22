@@ -59,13 +59,13 @@ module.exports = {
 		let result;
 		switch(info) {
 			case 0:
-				result = server.roles.find((element) => element.id === find);
+				result = server.roles.cache.find((element) => element.id === find);
 				break;
 			case 1:
-				result = server.roles.find((element) => element.name === find);
+				result = server.roles.cache.find((element) => element.name === find);
 				break;
 			case 2:
-				result = server.roles.find((element) => element.color === find);
+				result = server.roles.cache.find((element) => element.color === find);
 				break;
 			default:
 				break;
