@@ -15,6 +15,8 @@ module.exports = {
 		let dataType = "Unknown Type";
 		switch(info) {
 			case 0:
+				dataType = "String";
+				break;
 			case 1:
 				dataType = "String";
 				break;
@@ -145,6 +147,10 @@ module.exports = {
 	},
 
 	action: function(cache) {
+		
+		// TODO: rigidstudios
+		// - add select amount of parameters for store multiple
+		
 		const data = cache.actions[cache.index];
 		const message = parseInt(data.message);
 		const varName = this.evalMessage(data.varName, cache);
@@ -180,10 +186,10 @@ module.exports = {
 		let result;
 		switch (infoType) {
 			case 0:
-				result = msg.content.split(new RegExp(separator))[ParamN] || undefined;
+				result = msg.content.split(new RegExp(separator))[ParamN + 1] || undefined;
 				break;
 			case 1:
-				result = msg.content.split(new RegExp(separator, "g")).slice(ParamN + 1) || undefined;
+				result = msg.content.split(new RegExp(separator, "g")).slice(ParamN + 1).join(new RegExp(separator, "g")) || undefined;
 				break;
 			case 2:
 				result = msg.mentions.users.array().length > 0 ? msg.mentions.users.array()[ParamN - 1] : undefined;
