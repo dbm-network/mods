@@ -36,7 +36,7 @@ module.exports = {
 		return ([data.varName2, dataType]);
 	},
 
-	fields: ["message", "varName", "info", "ParamN", "separator", "storage", "varName2"],
+	fields: ["message", "varName", "info", "ParamN", "separator", "storage", "varName2", "count"],
 
 	html: function(isEvent, data) {
 		return `
@@ -70,6 +70,12 @@ module.exports = {
 	    <input id="ParamN" class="round" type="text" value="1">
     </div>
 </div><br><br><br>
+<div id="DiVcount" style="padding-top: 8p;">
+	<div style="float: left; width: 567px;">
+		Parameter Count:<br>
+		<input id="count" placeholder="Leave blank for all..." class="round" type="text">
+	</div>
+<br><br><br></div>
 <div id="DiVseparator" style="padding-top: 8px;">
     <div style="float: left; width: 567px;">
 	    Custom Parameter Separator:<br>
@@ -100,7 +106,7 @@ module.exports = {
 	init: function() {
 		const { glob, document } = this;
 
-		document.getElementById("separator").placeholder = "Read the Note below | Default Parameter Separator: " + JSON.parse(require("fs").readFileSync(JSON.parse(require("fs").readFileSync(__dirname.substr(0, __dirname.lastIndexOf("\\") + 1) + "settings.json", "utf8"))["current-project"] + "\\data\\settings.json", "utf8")).separator;
+		document.getElementById("separator").placeholder = "Read the Note below | Default Parameter Separator: \"" + JSON.parse(require("fs").readFileSync(JSON.parse(require("fs").readFileSync(__dirname.substr(0, __dirname.lastIndexOf("\\") + 1) + "settings.json", "utf8"))["current-project"] + "\\data\\settings.json", "utf8")).separator + '"';
 
 		glob.onChange1 = function(event) {
 			const value = parseInt(event.value);
@@ -110,31 +116,37 @@ module.exports = {
 					infoCountLabel.innerHTML = "Parameter Number:";
 					document.getElementById("DiVseparator").style.display = null;
 					document.getElementById("DiVScroll").style.overflowY = "scroll";
+					document.getElementById("DiVcount").style.display = "none";
 					break;
 				case 1:
 					infoCountLabel.innerHTML = "Starting From Parameter Number:";
 					document.getElementById("DiVseparator").style.display = null;
 					document.getElementById("DiVScroll").style.overflowY = "scroll";
+					document.getElementById("DiVcount").style.display = null;
 					break;
 				case 2:
 					infoCountLabel.innerHTML = "User Mention Number:";
 					document.getElementById("DiVseparator").style.display = "none";
 					document.getElementById("DiVScroll").style.overflowY = "hidden";
+					document.getElementById("DiVcount").style.display = "none";
 					break;
 				case 3:
 					infoCountLabel.innerHTML = "Member Mention Number:";
 					document.getElementById("DiVseparator").style.display = "none";
 					document.getElementById("DiVScroll").style.overflowY = "hidden";
+					document.getElementById("DiVcount").style.display = "none";
 					break;
 				case 4:
 					infoCountLabel.innerHTML = "Role Mention Number:";
 					document.getElementById("DiVseparator").style.display = "none";
 					document.getElementById("DiVScroll").style.overflowY = "hidden";
+					document.getElementById("DiVcount").style.display = "none";
 					break;
 				case 5:
 					infoCountLabel.innerHTML = "Channel Mention Number:";
 					document.getElementById("DiVseparator").style.display = "none";
 					document.getElementById("DiVScroll").style.overflowY = "hidden";
+					document.getElementById("DiVcount").style.display = "none";
 					break;
 				default:
 					infoCountLabel.innerHTML = "";
@@ -155,6 +167,8 @@ module.exports = {
 		const message = parseInt(data.message);
 		const varName = this.evalMessage(data.varName, cache);
 		const msg = this.getMessage(message, varName, cache);
+		const count = this.evalMessage(data.count, cache);
+		
 		if (!msg) {
 			console.log(`Action: #${cache.index + 1} | Store Message Params ERROR: Message doesn't exist`);
 			this.callNextAction(cache);
@@ -189,7 +203,11 @@ module.exports = {
 				result = msg.content.split(new RegExp(separator))[ParamN + 1] || undefined;
 				break;
 			case 1:
-				result = msg.content.split(new RegExp(separator, "g")).slice(ParamN + 1).join(new RegExp(separator, "g")) || undefined;
+				if (data.count) {
+					result = msg.content.split(new RegExp(separator, "g")).slice(ParamN + 1).slice(0, count).join(new RegExp(separator, "g")) || undefined;
+				} else {
+					result = msg.content.split(new RegExp(separator, "g")).slice(ParamN + 1).join(new RegExp(separator, "g")) || undefined;
+				}
 				break;
 			case 2:
 				result = msg.mentions.users.array().length > 0 ? msg.mentions.users.array()[ParamN - 1] : undefined;
