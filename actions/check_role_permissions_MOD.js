@@ -50,8 +50,8 @@ module.exports = {
 		const info = parseInt(data.permission);
 		const reason = this.evalMessage(data.reason, cache);
 		let result;
-		if(role) {
-			result = role.hasPermission([(data.permission)]);
+		if (role) {
+			result = role.permissions.has(data.permission);
 		}
 		this.executeResults(result, data, cache);
 	},
