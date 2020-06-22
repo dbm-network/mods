@@ -146,20 +146,20 @@ module.exports = {
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
-
 		const message = parseInt(data.message);
 		const varName = this.evalMessage(data.varName, cache);
 		const msg = this.getMessage(message, varName, cache);
-		if(!msg) {
+		if (!msg) {
 			console.log(`Action: #${cache.index + 1} | Store Message Params ERROR: Message doesn't exist`);
 			this.callNextAction(cache);
 			return;
 		}
-
+		
+		const ParamN = this.evalMessage(data.ParamN, cache);
 		const infoType = parseInt(data.info);
 
-		const ParamN = this.evalMessage(data.ParamN, cache);
-		if(ParamN == "") {
+
+		if (ParamN == "") {
 			console.log(`Action: #${cache.index + 1} | Store Message Params ERROR: Parameter Number has nothing`);
 			this.callNextAction(cache);
 			return;
@@ -169,91 +169,33 @@ module.exports = {
 			return;
 		}
 
-		let separator;
-		if(data.separator) {
-			separator = this.evalMessage(data.separator, cache);
-		} else {
-			separator = this.getDBM().Files.data.settings.separator;
-		}
-		if(separator == "") {
+		let separator = data.separator ? this.evalMessage(data.separator, cache) : this.getDBM().Files.data.settings.separator;
+
+		if (separator == "") {
 			console.log(`Action: #${cache.index + 1} | Store Message Params ERROR: Parameter Separator has nothing`);
 			this.callNextAction(cache);
 			return;
 		}
 
 		let result;
-		switch(infoType) {
+		switch (infoType) {
 			case 0:
-				const params = msg.content.split(new RegExp(separator));
-				if(params.length == 0) {
-					result = undefined;
-					console.log(`Action: #${cache.index + 1} | Store Message Params ERROR: Nothing was found...`);
-				} else {
-					result = params[ParamN] || undefined;
-				}
+				result = msg.content.split(new RegExp(separator))[ParamN] || undefined;
 				break;
 			case 1:
-				let arrayy = [];
-				var regex = new RegExp(separator, "g");
-				while (rE = regex.exec(msg.content)) {
-					arrayy.push(rE);
-				}
-				if(arrayy.length == 0) {
-					result = undefined;
-					console.log(`Action: #${cache.index + 1} | Store Message Params ERROR: Nothing was found...`);
-					break;
-				}
-				if(ParamN > arrayy.length || ParamN < 0) {
-					result = undefined;
-				} else if(ParamN == 0) {
-					result = msg.content.substring(0, arrayy[ParamN].index);
-				} else {
-					result = msg.content.substring(arrayy[ParamN - 1].index + arrayy[ParamN - 1][0].length);
-				}
+				result = msg.content.split(new RegExp(separator, "g")).slice(ParamN + 1) || undefined;
 				break;
 			case 2:
-				if(msg.mentions.users.array().length != 0) {
-					const members = msg.mentions.users.array();
-					if(members[ParamN - 1]) {
-						result = members[ParamN - 1];
-					}
-				} else {
-					result = undefined;
-					console.log(`Action: #${cache.index + 1} | Store Message Params ERROR: Doesn't exist users mentions...`);
-				}
+				result = msg.mentions.users.array().length > 0 ? msg.mentions.users.array()[ParamN - 1] : undefined;
 				break;
 			case 3:
-				if(msg.mentions.members.array().length != 0) {
-					const members = msg.mentions.members.array();
-					if(members[ParamN - 1]) {
-						result = members[ParamN - 1];
-					}
-				} else {
-					result = undefined;
-					console.log(`Action: #${cache.index + 1} | Store Message Params ERROR: Doesn't exist members mentions...`);
-				}
+				result = msg.mentions.members.array().length > 0 ? msg.mentions.members.array()[ParamN - 1] : undefined;
 				break;
 			case 4:
-				if(msg.mentions.roles.array().length != 0) {
-					const roles = msg.mentions.roles.array();
-					if(roles[ParamN - 1]) {
-						result = roles[ParamN - 1];
-					}
-				} else {
-					result = undefined;
-					console.log(`Action: #${cache.index + 1} | Store Message Params ERROR: Doesn't exist roles mentions...`);
-				}
+				result = msg.mentions.roles.array().length > 0 ? msg.mentions.roles.array()[ParamN - 1] : undefined;
 				break;
 			case 5:
-				if(msg.mentions.channels.array().length != 0) {
-					const channels = msg.mentions.channels.array();
-					if(channels[ParamN - 1]) {
-						result = channels[ParamN - 1];
-					}
-				} else {
-					result = undefined;
-					console.log(`Action: #${cache.index + 1} | Store Message Params ERROR: Doesn't exist channels mentions...`);
-				}
+				result = msg.mentions.channels.array().length > 0 ? msg.mentions.channels.array()[ParamN - 1] : undefined;
 				break;
 			default:
 				break;
