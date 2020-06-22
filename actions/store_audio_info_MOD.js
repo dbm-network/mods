@@ -1,20 +1,20 @@
 const itemList = [
-  { name: "Volume (1-100)", type: "Number" },
-  { name: "Is Playing", type: "Boolean" },
-  { name: "Start Time (Seconds)", type: "Seconds" },
-  { name: "Queue URL List", type: "List" },
-  { name: "Next Song URL In Queue", type: "Url" },
-  { name: "Queue Length", type: "Number" },
-  { name: "Bitrate", type: "Number" },
-  { name: "This option was removed", type: "null" },
-  { name: "Current Seek Position (Seconds)", type: "Seconds" },
-  { name: "Current Song URL", type: "Url" },
-  { name: "Requester of Next Song URL", type: "User" },
-  { name: "Requester of Current Song URL", type: "User" },
-  { name: "Title of Next Song URL", type: "Title String" },
-  { name: "Title of Current Song URL", type: "Title String" },
-  { name: "Duration of Current Song URL", type: "Duration" },
-  { name: "Current Song Thumbnail URL", type: "Url" }
+	{ name: "Volume (1-100)", type: "Number" },
+	{ name: "Is Playing", type: "Boolean" },
+	{ name: "Start Time (Seconds)", type: "Seconds" },
+	{ name: "Queue URL List", type: "List" },
+	{ name: "Next Song URL In Queue", type: "Url" },
+	{ name: "Queue Length", type: "Number" },
+	{ name: "Bitrate", type: "Number" },
+	{ name: "This option was removed", type: "null" },
+	{ name: "Current Seek Position (Seconds)", type: "Seconds" },
+	{ name: "Current Song URL", type: "Url" },
+	{ name: "Requester of Next Song URL", type: "User" },
+	{ name: "Requester of Current Song URL", type: "User" },
+	{ name: "Title of Next Song URL", type: "Title String" },
+	{ name: "Title of Current Song URL", type: "Title String" },
+	{ name: "Duration of Current Song URL", type: "Duration" },
+	{ name: "Current Song Thumbnail URL", type: "Url" }
 ];
 
 module.exports = {

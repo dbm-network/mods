@@ -87,7 +87,7 @@ module.exports = {
 						option[i].innerHTML = option[i].innerHTML.replace(/[^\s]*/, "User");
 					}
 				}
-			}catch(err){alert(err);}
+			}catch(err){ alert(err); }
 		};
 		glob.change(document.getElementById("find"));
 		glob.change();
@@ -104,39 +104,31 @@ module.exports = {
 		const info = parseInt(data.info);
 		const find = this.evalMessage(data.find, cache);
 		const find2 = parseInt(data.find2);
-
-		//Checks if server is large and caches all users to verify that offline users are tracked.
-		if(server.large == true) {
-			server.fetchMembers();
-		}
-		//End
-
+		if (server.memberCount !== server.members.cache.size) server.members.fetch();
+		const members = server.members.cache;
+		const users = this.getDBM().Bot.bot.users.cache;
 		let result;
 		switch(info) {
 			case 0:
-
-				result = find2 == 0 ? server.members.find(element => element.id === find) : this.getDBM().Bot.bot.users.find(element => element.id === find);
-
+				result = members.get(find);
 				break;
 			case 1:
-				result = find2 == 0 ? server.members.find(function(mem) {
-					return mem.user ? mem.user.username === find : false;
-				}) : this.getDBM().Bot.bot.users.find(function(mem) {
-					return mem ? mem.username === find : false;
-				});
+				result = find2 == 0
+					? members.find((m) => m.user.username === find)
+					: users.find((u) => u.username === find);
 				break;
 			case 2:
-				result = find2 == 0 ? server.members.find(element => element.displayName === find) : this.getDBM().Bot.bot.users.find(element => element.displayName === find);
+				result = find2 == 0
+					? members.find((m) => m.displayName === find)
+					: users.find((u) => u.username === find);
 				break;
 			case 3:
-				result = find2 == 0 ? server.members.find(function(mem) {
-					return mem.user ? mem.user.tag === find : false;
-				}) : this.getDBM().Bot.bot.users.find(function(mem) {
-					return mem ? mem.tag === find : false;
-				});
+				result = find2 == 0
+					? members.find((m) => m.user.tag === find)
+					: users.find((u) => u.tag === find);
 				break;
 			case 4:
-				result = find2 == 0 ? server.members.find(element => element.displayColor === find) : this.getDBM().Bot.bot.users.find(element => element.displayColor === find);
+				result = members.find((m) => m.displayHexColor === find);
 				break;
 			default:
 				break;
