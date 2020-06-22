@@ -1,14 +1,13 @@
 module.exports = {
-
 	name: "Store Channel Permissions",
 
 	section: "Permission Control",
 
 	subtitle: function(data) {
-		const roles = ['Mentioned Role', '1st Author Role', '1st Server Role', 'Temp Variable', 'Server Variable', 'Global Variable'];
-		const index = ['Granted', 'Denied']
-		const perm = ['Administrator', 'Manage Guild', 'Manage Nicknames', 'Manage Roles', 'Manage Emojis', 'Kick Members', 'Ban Members', 'View Audit Log', 'Change Nickname', 'Create Instant Invite', 'Priority Speaker', 'Manage Channel', 'Manage Webhooks', 'Read Messages', 'Send Messages', 'Send TTS Messages', 'Manage Messages', 'Embed Links', 'Attach Files', 'Read Message History', 'Mention Everyone', 'Use External Emojis', 'Add Reactions', 'Connect to Voice', 'Speak in Voice', 'Mute Members', 'Deafen Members', 'Move Members', 'Use Voice Activity', 'All Permissions']
-	return `${roles[data.role]} - ${perm[data.permission]} - ${index[data.state]} ${!data.reason ? "" : `with Reason: <i>${data.reason}<i>`}`;
+		const roles = ["Mentioned Role", "1st Author Role", "1st Server Role", "Temp Variable", "Server Variable", "Global Variable"];
+		const index = ["Granted", "Denied"];
+		const perm = ["Administrator", "Manage Guild", "Manage Nicknames", "Manage Roles", "Manage Emojis", "Kick Members", "Ban Members", "View Audit Log", "Change Nickname", "Create Instant Invite", "Priority Speaker", "Manage Channel", "Manage Webhooks", "Read Messages", "Send Messages", "Send TTS Messages", "Manage Messages", "Embed Links", "Attach Files", "Read Message History", "Mention Everyone", "Use External Emojis", "Add Reactions", "Connect to Voice", "Speak in Voice", "Mute Members", "Deafen Members", "Move Members", "Use Voice Activity", "All Permissions"];
+		return `${roles[data.role]} - ${perm[data.permission]} - ${index[data.state]} ${!data.reason ? "" : `with Reason: <i>${data.reason}<i>`}`;
 	},
 
 	fields: ["storage", "varName", "target", "role", "varName2", "member", "varName3", "storage3", "varName4"],
@@ -71,29 +70,29 @@ module.exports = {
 			Variable Name:<br>
 			<input id="varName4" class="round" type="text">
 		</div>
-	</div>`
+	</div>`;
 	},
 
 	init: function() {
-		const {glob, document} = this;
+		const { glob, document } = this;
 
-		glob.channelChange(document.getElementById('storage'), 'varNameContainer');
-		
-		glob.roleChange(document.getElementById('role'), 'varNameContainer2');
-		glob.memberChange(document.getElementById('member'), 'varNameContainer3');
+		glob.channelChange(document.getElementById("storage"), "varNameContainer");
 
-		const roleHolder = document.getElementById('roleHolder');
-		const memberHolder = document.getElementById('memberHolder');
-		glob.targetChange = function (target) {
+		glob.roleChange(document.getElementById("role"), "varNameContainer2");
+		glob.memberChange(document.getElementById("member"), "varNameContainer3");
+
+		const roleHolder = document.getElementById("roleHolder");
+		const memberHolder = document.getElementById("memberHolder");
+		glob.targetChange = function(target) {
 			if (target.value == "0") {
 				roleHolder.style.display = null;
-				memberHolder.style.display = 'none';
+				memberHolder.style.display = "none";
 			} else if (target.value == "1") {
-				roleHolder.style.display = 'none';
+				roleHolder.style.display = "none";
 				memberHolder.style.display = null;
 			}
-		}
-		glob.targetChange(document.getElementById('target'));
+		};
+		glob.targetChange(document.getElementById("target"));
 	},
 
 	action: function(cache) {
@@ -131,7 +130,5 @@ module.exports = {
 		this.callNextAction(cache);
 	},
 
-	mod: function(DBM) {
-	}
-
+	mod: function() {}
 };

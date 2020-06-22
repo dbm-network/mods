@@ -1,13 +1,12 @@
 module.exports = {
-
 	name: "Set Permissions",
 
 	section: "Permission Control",
 
 	subtitle: function(data) {
-		const roles = ['Mentioned Role', '1st Author Role', '1st Server Role', 'Temp Variable', 'Server Variable', 'Global Variable'];
+		const roles = ["Mentioned Role", "1st Author Role", "1st Server Role", "Temp Variable", "Server Variable", "Global Variable"];
 		const way = ["Update", "Set"];
-		return `${way[data.way]} ${roles[data.storage]} ${!data.reason ? "" : `with Reason: <i>${data.reason}<i>`}`
+		return `${way[data.way]} ${roles[data.storage]} ${!data.reason ? "" : `with Reason: <i>${data.reason}<i>`}`;
 	},
 
 	fields: ["way", "storage", "varName", "storage2", "varName2", "reason"],
@@ -50,14 +49,14 @@ module.exports = {
 	<div style="padding-top: 8px;">
 		Reason:<br>
 		<textarea id="reason" rows="2" placeholder="Insert reason here... (optional)" style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
-	</div>`
+	</div>`;
 	},
 
 	init: function() {
-		const {glob, document} = this;
+		const { glob, document } = this;
 
-		glob.roleChange(document.getElementById('storage'), 'varNameContainer')
-		glob.refreshVariableList(document.getElementById('storage2'));
+		glob.roleChange(document.getElementById("storage"), "varNameContainer");
+		glob.refreshVariableList(document.getElementById("storage2"));
 	},
 
 	action: function(cache) {
@@ -77,10 +76,10 @@ module.exports = {
 			let tempPermissions = new Permissions();
 			tempPermissions.add(role.permissions);
 			if (permissions.allow) {
-				tempPermissions.add(permissions.allow)
+				tempPermissions.add(permissions.allow);
 			}
 			if (permissions.disallow) {
-				tempPermissions.remove(permissions.disallow)
+				tempPermissions.remove(permissions.disallow);
 			}
 			permissions = tempPermissions;
 		} else {
@@ -92,7 +91,5 @@ module.exports = {
 		}.bind(this)).catch(this.displayError.bind(this, data, cache));
 	},
 
-	mod: function(DBM) {
-	}
-
+	mod: function() {}
 };

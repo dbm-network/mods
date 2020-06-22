@@ -1,11 +1,10 @@
 module.exports = {
-
 	name: "Compare Permissions",
 
 	section: "Permission Control",
 
 	subtitle: function(data) {
-		let variables = ['', 'Temp Variable', 'Server Variable', 'Global Variable'];
+		let variables = ["", "Temp Variable", "Server Variable", "Global Variable"];
 		return `Compare ${variables[data.storage]} (${data.varName}) To ${variables[data.storage2]} (${data.varName2})`;
 	},
 
@@ -54,14 +53,14 @@ module.exports = {
 			Variable Name:<br>
 			<input id="varName3" class="round" type="text">
 		</div>
-	</div>`
+	</div>`;
 	},
 
 
 	init: function() {
-		const {glob, document} = this;
-		glob.refreshVariableList(document.getElementById('storage'));
-		glob.refreshVariableList(document.getElementById('storage2'));
+		const { glob, document } = this;
+		glob.refreshVariableList(document.getElementById("storage"));
+		glob.refreshVariableList(document.getElementById("storage2"));
 	},
 
 	action: function(cache) {
@@ -104,12 +103,10 @@ module.exports = {
 			} else if (!newPermissions.bitfield) {
 				console.error("New permissions not found.");
 			} else  {
-				console.error("Something error!!!")
+				console.error("Something error!!!");
 			}
 		}
 	},
 
-	mod: function(DBM) {
-	}
-
+	mod: function() {}
 };

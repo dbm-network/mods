@@ -61,28 +61,28 @@ module.exports = {
 		let result;
 		switch(info) {
 			case 0:
-				result = servers.find(element => element.id === find);
+				result = servers.find((element) => element.id === find);
 				break;
 			case 1:
-				result = servers.find(element => element.name === find);
+				result = servers.find((element) => element.name === find);
 				break;
 			case 2:
-				result = servers.find(element => element.nameAcronym === find);
+				result = servers.find((element) => element.nameAcronym === find);
 				break;
 			case 3:
-				result = servers.find(element => element.memberCount === parseInt(find));
+				result = servers.find((element) => element.memberCount === parseInt(find));
 				break;
 			case 4:
-				result = servers.find(element => element.region === find);
+				result = servers.find((element) => element.region === find);
 				break;
 			case 5:
-				result = servers.find(element => element.ownerID === find);
+				result = servers.find((element) => element.ownerID === find);
 				break;
 			case 6:
-				result = servers.find(element => element.verificationLevel === parseInt(find));
+				result = servers.find((element) => element.verificationLevel === parseInt(find));
 				break;
 			case 7:
-				result = servers.find(element => element.available === Boolean(find === "true"));
+				result = servers.find((element) => element.available === Boolean(find === "true"));
 				break;
 			default:
 				break;

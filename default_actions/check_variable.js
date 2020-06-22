@@ -150,7 +150,7 @@ module.exports = {
 
 	mod: function(DBM) {
 		DBM.Actions.executeResults = function(result, data, cache) {
-			const errors = { "404": "There was not an anchor found with that exact anchor ID!" };
+			const errors = { 404: "There was not an anchor found with that exact anchor ID!" };
 			if(result) {
 				const type = parseInt(data.iftrue);
 				switch(type) {

@@ -1,5 +1,4 @@
 module.exports = {
-
 	name: "Check Permissions",
 
 	section: "Permission Control",
@@ -51,29 +50,29 @@ module.exports = {
 				<input id="varName2" class="round" type="text">
 			</div>
 		</div>
-	</div>`
+	</div>`;
 	},
 
 
 	init: function() {
-		const {glob, document} = this;
+		const { glob, document } = this;
 
-		const permissionsName = {"ADMINISTRATOR":"Administrator", "CREATE_INSTANT_INVITE":"Create Invite", "KICK_MEMBERS":"Kick Members", "BAN_MEMBERS":"Ban Members", "MANAGE_CHANNELS":"Manage Channels", "MANAGE_GUILD":"Manage Server", "ADD_REACTIONS":"Add Reactions", "VIEW_AUDIT_LOG":"View Audit Log", "PRIORITY_SPEAKER":"Priority Speaker", "STREAM":"Video", "VIEW_CHANNEL":"View Channel", "SEND_MESSAGES":"Send Messages", "SEND_TTS_MESSAGES":"Send TTS Messages", "MANAGE_MESSAGES":"Manage Messages", "EMBED_LINKS":"Embed Links", "ATTACH_FILES":"Attach Files", "READ_MESSAGE_HISTORY":"Read Mesage History", "MENTION_EVERYONE":"Mention Everyone", "USE_EXTERNAL_EMOJIS":"Use External Emojis", "CONNECT":"Connect", "SPEAK":"Speak", "MUTE_MEMBERS":"Mute Members", "DEAFEN_MEMBERS":"Deafen Members", "MOVE_MEMBERS":"Move Members", "USE_VAD":"User Voice Activity", "CHANGE_NICKNAME":"Change Nickname", "MANAGE_NICKNAMES":"Manage Nicknames", "MANAGE_ROLES":"Manage Roles", "MANAGE_WEBHOOKS":"Manage Webhooks", "MANAGE_EMOJIS":"Manage Emojis"};
-		const options = ['Not Check', 'Allow', 'Disallow', 'Inherit'];
-		const options2 = ['Not Check', 'Allow', 'Disallow'];
+		const permissionsName = { ADMINISTRATOR:"Administrator", CREATE_INSTANT_INVITE:"Create Invite", KICK_MEMBERS:"Kick Members", BAN_MEMBERS:"Ban Members", MANAGE_CHANNELS:"Manage Channels", MANAGE_GUILD:"Manage Server", ADD_REACTIONS:"Add Reactions", VIEW_AUDIT_LOG:"View Audit Log", PRIORITY_SPEAKER:"Priority Speaker", STREAM:"Video", VIEW_CHANNEL:"View Channel", SEND_MESSAGES:"Send Messages", SEND_TTS_MESSAGES:"Send TTS Messages", MANAGE_MESSAGES:"Manage Messages", EMBED_LINKS:"Embed Links", ATTACH_FILES:"Attach Files", READ_MESSAGE_HISTORY:"Read Mesage History", MENTION_EVERYONE:"Mention Everyone", USE_EXTERNAL_EMOJIS:"Use External Emojis", CONNECT:"Connect", SPEAK:"Speak", MUTE_MEMBERS:"Mute Members", DEAFEN_MEMBERS:"Deafen Members", MOVE_MEMBERS:"Move Members", USE_VAD:"User Voice Activity", CHANGE_NICKNAME:"Change Nickname", MANAGE_NICKNAMES:"Manage Nicknames", MANAGE_ROLES:"Manage Roles", MANAGE_WEBHOOKS:"Manage Webhooks", MANAGE_EMOJIS:"Manage Emojis" };
+		const options = ["Not Check", "Allow", "Disallow", "Inherit"];
+		const options2 = ["Not Check", "Allow", "Disallow"];
 		const allPermissions = ["ADMINISTRATOR", "VIEW_AUDIT_LOG", "MANAGE_GUILD", "MANAGE_ROLES", "MANAGE_CHANNELS", "KICK_MEMBERS", "BAN_MEMBERS", "CREATE_INSTANT_INVITE", "CHANGE_NICKNAME", "MANAGE_NICKNAMES", "MANAGE_EMOJIS", "MANAGE_WEBHOOKS", "VIEW_CHANNEL", "SEND_MESSAGES", "SEND_TTS_MESSAGES", "MANAGE_MESSAGES", "EMBED_LINKS", "ATTACH_FILES", "READ_MESSAGE_HISTORY", "MENTION_EVERYONE", "USE_EXTERNAL_EMOJIS", "ADD_REACTIONS", "CONNECT", "SPEAK", "STREAM", "MUTE_MEMBERS", "DEAFEN_MEMBERS", "MOVE_MEMBERS", "USE_VAD", "PRIORITY_SPEAKER"];
 		const rolePermissions = ["ADMINISTRATOR", "VIEW_AUDIT_LOG", "MANAGE_GUILD", "MANAGE_ROLES", "MANAGE_CHANNELS", "KICK_MEMBERS", "BAN_MEMBERS", "CREATE_INSTANT_INVITE", "CHANGE_NICKNAME", "MANAGE_NICKNAMES", "MANAGE_EMOJIS", "MANAGE_WEBHOOKS", "VIEW_CHANNEL", "SEND_MESSAGES", "SEND_TTS_MESSAGES", "MANAGE_MESSAGES", "EMBED_LINKS", "ATTACH_FILES", "READ_MESSAGE_HISTORY", "MENTION_EVERYONE", "USE_EXTERNAL_EMOJIS", "ADD_REACTIONS", "CONNECT", "SPEAK", "STREAM", "MUTE_MEMBERS", "DEAFEN_MEMBERS", "MOVE_MEMBERS", "USE_VAD", "PRIORITY_SPEAKER"];
-		const categoryPermissions = ["CREATE_INSTANT_INVITE", "MANAGE_CHANNELS", "MANAGE_WEBHOOKS", "VIEW_CHANNEL","SEND_MESSAGES", "SEND_TTS_MESSAGES", "MANAGE_MESSAGES", "EMBED_LINKS", "ATTACH_FILES", "READ_MESSAGE_HISTORY", "MENTION_EVERYONE", "USE_EXTERNAL_EMOJIS", "ADD_REACTIONS", "CONNECT", "SPEAK", "STREAM", "MUTE_MEMBERS", "DEAFEN_MEMBERS", "MOVE_MEMBERS", "USE_VAD", "PRIORITY_SPEAKER"];
+		const categoryPermissions = ["CREATE_INSTANT_INVITE", "MANAGE_CHANNELS", "MANAGE_WEBHOOKS", "VIEW_CHANNEL", "SEND_MESSAGES", "SEND_TTS_MESSAGES", "MANAGE_MESSAGES", "EMBED_LINKS", "ATTACH_FILES", "READ_MESSAGE_HISTORY", "MENTION_EVERYONE", "USE_EXTERNAL_EMOJIS", "ADD_REACTIONS", "CONNECT", "SPEAK", "STREAM", "MUTE_MEMBERS", "DEAFEN_MEMBERS", "MOVE_MEMBERS", "USE_VAD", "PRIORITY_SPEAKER"];
 		const textPermissions = ["CREATE_INSTANT_INVITE", "MANAGE_CHANNELS", "MANAGE_WEBHOOKS", "VIEW_CHANNEL", "SEND_MESSAGES", "SEND_TTS_MESSAGES", "MANAGE_MESSAGES", "EMBED_LINKS", "ATTACH_FILES", "READ_MESSAGE_HISTORY", "MENTION_EVERYONE", "USE_EXTERNAL_EMOJIS", "ADD_REACTIONS"];
 		const voicePermissions = ["CREATE_INSTANT_INVITE", "MANAGE_CHANNELS", "MANAGE_WEBHOOKS", "VIEW_CHANNEL", "CONNECT", "SPEAK", "STREAM", "MUTE_MEMBERS", "DEAFEN_MEMBERS", "MOVE_MEMBERS", "USE_VAD", "PRIORITY_SPEAKER"];
-		const permissionsList = {"All Permissions":allPermissions, "Role Permissions":rolePermissions, "Category Channel Permissions":categoryPermissions, "Text Channel Permissions":textPermissions, "Voice Channel Permissions":voicePermissions};
+		const permissionsList = { "All Permissions":allPermissions, "Role Permissions":rolePermissions, "Category Channel Permissions":categoryPermissions, "Text Channel Permissions":textPermissions, "Voice Channel Permissions":voicePermissions };
 
-		const varName = document.getElementById('varName');
-		const list = document.getElementById('variableList');
-		const checkbox = document.getElementById('checkbox');
-		const conditions = document.getElementById('conditions');
+		const varName = document.getElementById("varName");
+		const list = document.getElementById("variableList");
+		const checkbox = document.getElementById("checkbox");
+		const conditions = document.getElementById("conditions");
 
-		varName.oninput = function () {
+		varName.oninput = function() {
 			if (list.children.length == 0) return;
 			let dataType;
 			for (let i = 0; i < list.children.length; i++) {
@@ -83,7 +82,7 @@ module.exports = {
 				}
 			}
 			if (!dataType) dataType = "All Permissions";
-			checkbox.innerHTML = '';
+			checkbox.innerHTML = "";
 			permissionsList[dataType].forEach((Permission) => {
 				let dom = document.createElement("select");
 				checkbox.innerHTML += permissionsName[Permission] +":<br>";
@@ -96,13 +95,13 @@ module.exports = {
 					op.innerHTML = option;
 					op.value = option;
 					dom.add(op);
-				})
+				});
 				checkbox.appendChild(dom);
-				checkbox.innerHTML += '<br>';
-			})
+				checkbox.innerHTML += "<br>";
+			});
 			conditions.style["padding-top"] = (permissionsList[dataType].length * 66) + "px";
-		}
-		
+		};
+
 		let dataType;
 		if (list.children.length != 0) {
 			for (let i = 0; i < list.children.length; i++) {
@@ -113,7 +112,7 @@ module.exports = {
 			}
 		}
 		if (!dataType) dataType = "All Permissions";
-		checkbox.innerHTML = '';
+		checkbox.innerHTML = "";
 		permissionsList[dataType].forEach((Permission) => {
 			let dom = document.createElement("select");
 			checkbox.innerHTML += permissionsName[Permission] +":<br>";
@@ -124,26 +123,26 @@ module.exports = {
 				op.innerHTML = option;
 				op.value = option;
 				dom.add(op);
-			})
+			});
 			checkbox.appendChild(dom);
-			checkbox.innerHTML += '<br>';
-		})
+			checkbox.innerHTML += "<br>";
+		});
 		conditions.style["padding-top"] = (permissionsList[dataType].length * 66) + "px";
 
-		glob.variableChange(document.getElementById('storage2'), 'varNameContainer');
-		glob.refreshVariableList(document.getElementById('storage'));
+		glob.variableChange(document.getElementById("storage2"), "varNameContainer");
+		glob.refreshVariableList(document.getElementById("storage"));
 
-		let option = document.createElement('OPTION');
-		option.value = '4';
-		option.text = 'Jump to Anchor';
-		const iffalse = document.getElementById('iffalse');
+		let option = document.createElement("OPTION");
+		option.value = "4";
+		option.text = "Jump to Anchor";
+		const iffalse = document.getElementById("iffalse");
 		if (iffalse.length == 4) {
 			iffalse.add(option);
 		}
-		let option2 = document.createElement('OPTION');
-		option2.value = '4';
-		option2.text = 'Jump to Anchor';
-		const iftrue = document.getElementById('iftrue');
+		let option2 = document.createElement("OPTION");
+		option2.value = "4";
+		option2.text = "Jump to Anchor";
+		const iftrue = document.getElementById("iftrue");
 		if (iftrue.length == 4) {
 			iftrue.add(option2);
 		}
@@ -151,41 +150,41 @@ module.exports = {
 			switch (parseInt(event.value)) {
 				case 0:
 				case 1:
-					document.getElementById('iftrueContainer').style.display = 'none';
+					document.getElementById("iftrueContainer").style.display = "none";
 					break;
 				case 2:
-					document.getElementById('iftrueName').innerHTML = 'Action Number';
-					document.getElementById('iftrueContainer').style.display = null;
+					document.getElementById("iftrueName").innerHTML = "Action Number";
+					document.getElementById("iftrueContainer").style.display = null;
 					break;
 				case 3:
-					document.getElementById('iftrueName').innerHTML = 'Number of Actions to Skip';
-					document.getElementById('iftrueContainer').style.display = null;
+					document.getElementById("iftrueName").innerHTML = "Number of Actions to Skip";
+					document.getElementById("iftrueContainer").style.display = null;
 					break;
 				case 4:
-					document.getElementById('iftrueName').innerHTML = 'Anchor ID';
-					document.getElementById('iftrueContainer').style.display = null;
+					document.getElementById("iftrueName").innerHTML = "Anchor ID";
+					document.getElementById("iftrueContainer").style.display = null;
 					break;
-			};
+			}
 		};
 		glob.onChangeFalse = function(event) {
 			switch (parseInt(event.value)) {
 				case 0:
 				case 1:
-					document.getElementById('iffalseContainer').style.display = 'none';
+					document.getElementById("iffalseContainer").style.display = "none";
 					break;
 				case 2:
-					document.getElementById('iffalseName').innerHTML = 'Action Number';
-					document.getElementById('iffalseContainer').style.display = null;
+					document.getElementById("iffalseName").innerHTML = "Action Number";
+					document.getElementById("iffalseContainer").style.display = null;
 					break;
 				case 3:
-					document.getElementById('iffalseName').innerHTML = 'Number of Actions to Skip';
-					document.getElementById('iffalseContainer').style.display = null;
+					document.getElementById("iffalseName").innerHTML = "Number of Actions to Skip";
+					document.getElementById("iffalseContainer").style.display = null;
 					break;
 				case 4:
-					document.getElementById('iffalseName').innerHTML = 'Anchor ID';
-					document.getElementById('iffalseContainer').style.display = null;
+					document.getElementById("iffalseName").innerHTML = "Anchor ID";
+					document.getElementById("iffalseContainer").style.display = null;
 					break;
-			};
+			}
 		};
 	},
 
@@ -206,7 +205,7 @@ module.exports = {
 			} else if (data[perms] == "Inherit") {
 				(permissions.allow.has(perms) || permissions.disallow.has(perms)) ? no.push(perms) : yes.push(perms);
 			}
-		})
+		});
 		const storage2 = parseInt(data.storage2);
 		const varName2 = this.evalMessage(data.varName2, cache);
 		if (storage2 && varName2 && no.length != 0) this.storeValue(no, storage2, varName2, cache);
@@ -217,7 +216,5 @@ module.exports = {
 		}
 	},
 
-	mod: function(DBM) {
-	}
-
+	mod: function() {}
 };

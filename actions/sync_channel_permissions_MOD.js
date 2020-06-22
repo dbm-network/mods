@@ -1,11 +1,10 @@
 module.exports = {
-
 	name: "Sync Channel Permissions",
 
 	section: "Permission Control",
 
 	subtitle: function(data) {
-		const names = ['Same Channel', 'Mentioned Channel', 'Default Channel', 'Temp Variable', 'Server Variable', 'Global Variable'];
+		const names = ["Same Channel", "Mentioned Channel", "Default Channel", "Temp Variable", "Server Variable", "Global Variable"];
 		const index = parseInt(data.storage);
 		return index < 3 ? `${names[index]}` : `${names[index]} - ${data.varName}`;
 	},
@@ -25,13 +24,13 @@ module.exports = {
 			Variable Name:<br>
 			<input id="varName" class="round" type="text" list="variableList"><br>
 		</div>
-	</div>`
+	</div>`;
 	},
 
 	init: function() {
-		const {glob, document} = this;
+		const { glob, document } = this;
 
-		glob.channelChange(document.getElementById('storage'), 'varNameContainer');
+		glob.channelChange(document.getElementById("storage"), "varNameContainer");
 	},
 
 	action: function(cache) {
@@ -53,7 +52,5 @@ module.exports = {
 		}).catch(this.displayError.bind(this, data, cache));
 	},
 
-	mod: function(DBM) {
-	}
-
+	mod: function() {}
 };

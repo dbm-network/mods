@@ -5,8 +5,8 @@ module.exports = {
 	section: "Permission Control",
 
 	subtitle: function(data) {
-		let variables = ['','Temp Variable', 'Server Variable', 'Global Variable'];
-		let options = ["Allow Bitfields","Allow Flags", "Disallow Flags", "Disallow Flags", "Have Administrator", "Have View Audit Log", "Have Manage Server"];
+		let variables = ["", "Temp Variable", "Server Variable", "Global Variable"];
+		let options = ["Allow Bitfields", "Allow Flags", "Disallow Flags", "Disallow Flags", "Have Administrator", "Have View Audit Log", "Have Manage Server"];
 		return `${variables[data.storage]} (${data.varName}) - ${options[data.info]}`;
 	},
 
@@ -136,13 +136,13 @@ module.exports = {
 			Variable Name:<br>
 			<input id="varName2" class="round" type="text">
 		</div>
-	</div>`
+	</div>`;
 	},
 
 
 	init: function() {
-		const {glob, document} = this;
-		glob.refreshVariableList(document.getElementById('storage'));
+		const { glob, document } = this;
+		glob.refreshVariableList(document.getElementById("storage"));
 	},
 
 	action: function(cache) {
@@ -155,7 +155,7 @@ module.exports = {
 		let result = false;
 		const storage2 = parseInt(data.storage2);
 		const varName2 = this.evalMessage(data.varName2, cache);
-		if (!permissions.allow && ![2,3].includes(info) || !permissions.disallow && [2,3].includes(info)) {
+		if (!permissions.allow && ![2, 3].includes(info) || !permissions.disallow && [2, 3].includes(info)) {
 			this.storeValue(result, storage2, varName2, cache);
 			this.callNextAction(cache);
 			return;
@@ -266,7 +266,7 @@ module.exports = {
 
 		}
 		console.log(result);
-		if (typeof result != 'undefined') {
+		if (typeof result != "undefined") {
 			this.storeValue(result, storage2, varName2, cache);
 		}
 		this.callNextAction(cache);
