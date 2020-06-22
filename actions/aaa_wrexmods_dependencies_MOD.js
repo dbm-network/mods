@@ -26,8 +26,8 @@ WrexMODS.latest_changes = "The module installer WORKS NOW";
 
 WrexMODS.CheckAndInstallNodeModule = function(moduleName){
 	return new Promise((resolve, reject) => {
-		require("child_process").execSync(`npm i ${moduleName}`);
 		try {
+			require("child_process").execSync(`npm i ${moduleName}`);
 			resolve(require(moduleName));
 		} catch (e) {
 			console.log(`Failed to Install ${moduleName}, please re-try or install manually with "npm i ${moduleName}"`);
