@@ -56,16 +56,17 @@ module.exports = {
 		const data = cache.actions[cache.index];
 		const info = parseInt(data.info);
 		const find = this.evalMessage(data.find, cache);
+		const roles = server.roles.cache;
 		let result;
 		switch(info) {
 			case 0:
-				result = server.roles.find((element) => element.id === find);
+				result = roles.find((element) => element.id === find);
 				break;
 			case 1:
-				result = server.roles.find((element) => element.name === find);
+				result = roles.find((element) => element.name === find);
 				break;
 			case 2:
-				result = server.roles.find((element) => element.color === find);
+				result = roles.find((element) => element.color === find);
 				break;
 			default:
 				break;
