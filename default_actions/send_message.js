@@ -90,7 +90,7 @@ module.exports = {
 				const storage = parseInt(data.storage);
 				this.storeValue(resultMsg, storage, varName2, cache);
 				this.callNextAction(cache);
-			}.bind(this)).catch(err => {
+			}.bind(this)).catch((err) => {
 				if(err.message == ("Cannot send messages to this user")) {
 					this.executeResults(false, data, cache);
 				} else {

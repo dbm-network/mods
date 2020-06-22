@@ -2,12 +2,12 @@ module.exports = {
 	name: "Remove Item from List",
 	section: "Lists and Loops",
 
-	subtitle: function (data) {
+	subtitle: function(data) {
 		const storage = ["", "Temp Variable", "Server Variable", "Global Variable"];
 		return `Remove Item from ${storage[parseInt(data.storage)]} (${data.varName})`;
 	},
 
-	variableStorage: function (data, varType) {
+	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage2);
 		if (type !== varType) return;
 		return ([data.varName2, "Unknown Type"]);
@@ -15,7 +15,7 @@ module.exports = {
 
 	fields: ["storage", "varName", "removeType", "position", "storage2", "varName2"],
 
-	html: function (isEvent, data) {
+	html: function(isEvent, data) {
 		return `
 	<div>
 		<div style="float: left; width: 35%;">
@@ -57,13 +57,13 @@ module.exports = {
 	</div>`;
 	},
 
-	init: function () {
+	init: function() {
 		const {
 			glob,
 			document
 		} = this;
 
-		glob.onChange1 = function (event) {
+		glob.onChange1 = function(event) {
 			const value = parseInt(event.value);
 			const dom = document.getElementById("positionHolder");
 			if (value < 2) {
@@ -78,7 +78,7 @@ module.exports = {
 		glob.variableChange(document.getElementById("storage2"), "varNameContainer2");
 	},
 
-	action: function (cache) {
+	action: function(cache) {
 		const data = cache.actions[cache.index];
 		const storage = parseInt(data.storage);
 		const varName = this.evalMessage(data.varName, cache);
@@ -117,6 +117,6 @@ module.exports = {
 		return this.callNextAction(cache);
 	},
 
-	mod: function () {}
+	mod: function() {}
 
 };

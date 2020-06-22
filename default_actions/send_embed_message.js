@@ -98,7 +98,7 @@ module.exports = {
 				target.send(messageContent === "" ? "" : messageContent, { embed }).then(function(message) {
 					if(message && varName3) this.storeValue(message, storage3, varName3, cache);
 					this.callNextAction(cache);
-				}.bind(this)).catch(err => {
+				}.bind(this)).catch((err) => {
 					if(err.message == ("Cannot send messages to this user")) {
 						this.executeResults(false, data, cache);
 					} else {

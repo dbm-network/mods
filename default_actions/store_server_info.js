@@ -2,7 +2,7 @@ module.exports = {
 	name: "Store Server Info",
 	section: "Server Control",
 
-	subtitle: function (data) {
+	subtitle: function(data) {
 		const servers = [
 			"Current Server", "Temp Variable", "Server Variable", "Global Variable"
 		];
@@ -10,7 +10,7 @@ module.exports = {
 		return `${servers[parseInt(data.server)]} - ${info[parseInt(data.info)]}`;
 	},
 
-	variableStorage: function (data, varType) {
+	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
 		const info = parseInt(data.info);
@@ -110,7 +110,7 @@ module.exports = {
 
 	fields: ["server", "varName", "info", "storage", "varName2"],
 
-	html: function (isEvent, data) {
+	html: function(isEvent, data) {
 		return `
 		<div><p>This action has been modified by DBM Mods.</p></div><br>
 		<div>
@@ -206,13 +206,13 @@ module.exports = {
 		</div>`;
 	},
 
-	init: function () {
+	init: function() {
 		const { glob, document } = this;
 
 		glob.serverChange(document.getElementById("server"), "varNameContainer");
 	},
 
-	action: async function (cache) {
+	action: async function(cache) {
 		const data = cache.actions[cache.index];
 		const server = parseInt(data.server);
 		const varName = this.evalMessage(data.varName, cache);
@@ -306,55 +306,55 @@ module.exports = {
 				if (targetServer.memberCount !== targetServer.members.size) {
 					await targetServer.fetchMembers(); // ensures it fetches. updated to await.
 				}
-				result = targetServer.members.filter(m => m.user.presence.status == "dnd").size;
+				result = targetServer.members.filter((m) => m.user.presence.status == "dnd").size;
 				break; }
 			case 27: { // Online Members Count.
 				if (targetServer.memberCount !== targetServer.members.size) {
 					await targetServer.fetchMembers(); // ensures it fetches. updated to await.
 				}
-				result = targetServer.members.filter(m => m.user.presence.status == "online").size;
+				result = targetServer.members.filter((m) => m.user.presence.status == "online").size;
 				break; }
 			case 28: { // Offline Members Count.
 				if (targetServer.memberCount !== targetServer.members.size) {
 					await targetServer.fetchMembers(); // ensures it fetches. updated to await.
 				}
-				result = targetServer.members.filter(m => m.user.presence.status == "offline").size;
+				result = targetServer.members.filter((m) => m.user.presence.status == "offline").size;
 				break; }
 			case 29: { // Idle Members Count.
 				if (targetServer.memberCount !== targetServer.members.size) {
 					await targetServer.fetchMembers(); // ensures it fetches. updated to await.
 				}
-				result = targetServer.members.filter(m => m.user.presence.status == "idle").size;
+				result = targetServer.members.filter((m) => m.user.presence.status == "idle").size;
 				break; }
 			case 30: { // Total Bots Count In Server.
 				if (targetServer.memberCount !== targetServer.members.size) {
 					await targetServer.fetchMembers(); // ensures it fetches. updated to await.
 				}
-				result = targetServer.members.filter(m => m.user.bot).size;
+				result = targetServer.members.filter((m) => m.user.bot).size;
 				break; }
 			case 31: { // Server Channel IDs.
-				result = targetServer.channels.map(channels => channels.id);
+				result = targetServer.channels.map((channels) => channels.id);
 				break; }
 			case 32: { // Server Roles IDs.
-				result = targetServer.roles.map(roles => roles.id);
+				result = targetServer.roles.map((roles) => roles.id);
 				break; }
 			case 33: { // Server Member IDs.
 				if (targetServer.memberCount !== targetServer.members.size) {
 					await targetServer.fetchMembers(); // ensures it fetches. updated to await.
 				}
-				result = targetServer.members.map(members => members.id);
+				result = targetServer.members.map((members) => members.id);
 				break; }
 			case 34: { // Server Bot Member Count.
 				if (targetServer.memberCount !== targetServer.members.size) {
 					await targetServer.fetchMembers(); // ensures it fetches. updated to await.
 				}
-				result = targetServer.members.filter(m => m.user.bot == true).size;
+				result = targetServer.members.filter((m) => m.user.bot == true).size;
 				break; }
 			case 35: { // Server Human Member Count.
 				if (targetServer.memberCount !== targetServer.members.size) {
 					await targetServer.fetchMembers(); // ensures it fetches. updated to await.
 				}
-				result = targetServer.members.filter(m => m.user.bot == false).size;
+				result = targetServer.members.filter((m) => m.user.bot == false).size;
 				break; }
 			case 36: { // Server Member Count. //Added by Lasse in 1.8.7
 				if (targetServer.memberCount !== targetServer.members.size) {
@@ -366,10 +366,10 @@ module.exports = {
 				result = targetServer.roles.size;
 				break; }
 			case 38: { // Text Channel Count.
-				result = targetServer.channels.filter(c => c.type == "text").size;
+				result = targetServer.channels.filter((c) => c.type == "text").size;
 				break; }
 			case 39: { // Voice Channel Count.
-				result = targetServer.channels.filter(c => c.type == "voice").size;
+				result = targetServer.channels.filter((c) => c.type == "voice").size;
 				break; }
 			case 40: { // Is Server Verified?
 				result = targetServer.verified;
@@ -402,5 +402,5 @@ module.exports = {
 		this.callNextAction(cache);
 	},
 
-	mod: function () {}
+	mod: function() {}
 };

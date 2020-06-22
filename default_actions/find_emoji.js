@@ -54,10 +54,10 @@ module.exports = {
 		let result;
 		switch(info) {
 			case 0:
-				result = bot.emojis.find(element => element.id === find);
+				result = bot.emojis.find((element) => element.id === find);
 				break;
 			case 1:
-				result = bot.emojis.find(element => element.name === find);
+				result = bot.emojis.find((element) => element.name === find);
 				break;
 			default:
 				break;

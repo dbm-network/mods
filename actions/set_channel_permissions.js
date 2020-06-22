@@ -1,12 +1,11 @@
 module.exports = {
-
 	name: "Set Channel Permissions",
 
 	section: "Permission Control",
 
 	subtitle: function(data) {
-		let channels = ['Same Channel', 'Mentioned Channel', 'Default Channel', 'Temp Variable', 'Server Variable', 'Global Variable'];
-		let variables = ['', 'Temp Variable', 'Server Variable', 'Global Variable'];
+		let channels = ["Same Channel", "Mentioned Channel", "Default Channel", "Temp Variable", "Server Variable", "Global Variable"];
+		let variables = ["", "Temp Variable", "Server Variable", "Global Variable"];
 		if (data.storage < 3) {
 			return `Channel ${channels[data.storage]} -> Permissions ${variables[data.storage3]} (${data.varName4})`;
 		} else {
@@ -86,52 +85,52 @@ module.exports = {
 		<div style="padding-top: 8px;">
 			${data.conditions[0]}
 		</div>
-	</div>`
+	</div>`;
 	},
 
 
 	init: function() {
-		const {glob, document} = this;
+		const { glob, document } = this;
 
-		glob.roleChange(document.getElementById('role'), 'varNameContainer2');
-		glob.memberChange(document.getElementById('member'), 'varNameContainer3');
+		glob.roleChange(document.getElementById("role"), "varNameContainer2");
+		glob.memberChange(document.getElementById("member"), "varNameContainer3");
 
-		glob.channelChange(document.getElementById('storage'), 'varNameContainer');
-		glob.refreshVariableList(document.getElementById('storage3'));
+		glob.channelChange(document.getElementById("storage"), "varNameContainer");
+		glob.refreshVariableList(document.getElementById("storage3"));
 
-		const roleHolder = document.getElementById('roleHolder');
-		const memberHolder = document.getElementById('memberHolder');
-		glob.targetChange = function (target) {
+		const roleHolder = document.getElementById("roleHolder");
+		const memberHolder = document.getElementById("memberHolder");
+		glob.targetChange = function(target) {
 			if (target.value == "0") {
 				roleHolder.style.display = null;
-				memberHolder.style.display = 'none';
+				memberHolder.style.display = "none";
 			} else if (target.value == "1") {
-				roleHolder.style.display = 'none';
+				roleHolder.style.display = "none";
 				memberHolder.style.display = null;
 			}
-		}
-		glob.targetChange(document.getElementById('target'));
+		};
+		glob.targetChange(document.getElementById("target"));
 
-		const actionHtml = document.getElementById('actionHtml');
+		const actionHtml = document.getElementById("actionHtml");
 		const ifTrue = actionHtml.children[17].outerHTML;
-		const trueValue = ifTrue.replace(/If True/g,"If Set Success")
+		const trueValue = ifTrue.replace(/If True/g, "If Set Success");
 		actionHtml.children[17].outerHTML = trueValue;
 
 		const ifFalse = actionHtml.children[21].outerHTML;
-		const falseValue = ifFalse.replace(/If False/g,"If Set Failed")
+		const falseValue = ifFalse.replace(/If False/g, "If Set Failed");
 		actionHtml.children[21].outerHTML = falseValue;
-		
-		let option = document.createElement('OPTION');
-		option.value = '4';
-		option.text = 'Jump to Anchor';
-		const iffalse = document.getElementById('iffalse');
+
+		let option = document.createElement("OPTION");
+		option.value = "4";
+		option.text = "Jump to Anchor";
+		const iffalse = document.getElementById("iffalse");
 		if (iffalse.length == 4) {
 			iffalse.add(option);
 		}
-		let option2 = document.createElement('OPTION');
-		option2.value = '4';
-		option2.text = 'Jump to Anchor';
-		const iftrue = document.getElementById('iftrue');
+		let option2 = document.createElement("OPTION");
+		option2.value = "4";
+		option2.text = "Jump to Anchor";
+		const iftrue = document.getElementById("iftrue");
 		if (iftrue.length == 4) {
 			iftrue.add(option2);
 		}
@@ -139,41 +138,41 @@ module.exports = {
 			switch (parseInt(event.value)) {
 				case 0:
 				case 1:
-					document.getElementById('iftrueContainer').style.display = 'none';
+					document.getElementById("iftrueContainer").style.display = "none";
 					break;
 				case 2:
-					document.getElementById('iftrueName').innerHTML = 'Action Number';
-					document.getElementById('iftrueContainer').style.display = null;
+					document.getElementById("iftrueName").innerHTML = "Action Number";
+					document.getElementById("iftrueContainer").style.display = null;
 					break;
 				case 3:
-					document.getElementById('iftrueName').innerHTML = 'Number of Actions to Skip';
-					document.getElementById('iftrueContainer').style.display = null;
+					document.getElementById("iftrueName").innerHTML = "Number of Actions to Skip";
+					document.getElementById("iftrueContainer").style.display = null;
 					break;
 				case 4:
-					document.getElementById('iftrueName').innerHTML = 'Anchor ID';
-					document.getElementById('iftrueContainer').style.display = null;
+					document.getElementById("iftrueName").innerHTML = "Anchor ID";
+					document.getElementById("iftrueContainer").style.display = null;
 					break;
-			};
+			}
 		};
 		glob.onChangeFalse = function(event) {
 			switch (parseInt(event.value)) {
 				case 0:
 				case 1:
-					document.getElementById('iffalseContainer').style.display = 'none';
+					document.getElementById("iffalseContainer").style.display = "none";
 					break;
 				case 2:
-					document.getElementById('iffalseName').innerHTML = 'Action Number';
-					document.getElementById('iffalseContainer').style.display = null;
+					document.getElementById("iffalseName").innerHTML = "Action Number";
+					document.getElementById("iffalseContainer").style.display = null;
 					break;
 				case 3:
-					document.getElementById('iffalseName').innerHTML = 'Number of Actions to Skip';
-					document.getElementById('iffalseContainer').style.display = null;
+					document.getElementById("iffalseName").innerHTML = "Number of Actions to Skip";
+					document.getElementById("iffalseContainer").style.display = null;
 					break;
 				case 4:
-					document.getElementById('iffalseName').innerHTML = 'Anchor ID';
-					document.getElementById('iffalseContainer').style.display = null;
+					document.getElementById("iffalseName").innerHTML = "Anchor ID";
+					document.getElementById("iffalseContainer").style.display = null;
 					break;
-			};
+			}
 		};
 	},
 
@@ -199,48 +198,46 @@ module.exports = {
 
 		const storage3 = parseInt(data.storage3);
 		const varName4 = this.evalMessage(data.varName4, cache);
-		const permissions = this.getVariable(storage3, varName4, cache);
+		let permissions = this.getVariable(storage3, varName4, cache);
 
 		let perms = {};
 		if (permissions.bitfield) {
 			let temp = permissions;
-			permissions = {allow:temp};
+			permissions = { allow:temp };
 		}
 		if (permissions.allow) {
 			permissions.allow.toArray().forEach((perm) => {
 				perms[perm] = true;
-			})
+			});
 		}
 		if (permissions.disallow) {
 			permissions.disallow.toArray().forEach((perm) => {
 				perms[perm] = false;
-			})
+			});
 		}
 		if (permissions.inherit) {
 			permissions.inherit.forEach((perm) => {
 				perms[perm] = null;
-			})
+			});
 		}
 
 		if (way == 0) {
 			targetChannel.updateOverwrite(target, perms).then(() => {
 				this.executeResults(true, data, cache);
 			}).catch((error) => {
-				console.error(error)
+				console.error(error);
 				this.executeResults(false, data, cache);
 			});
 		} else {
 			targetChannel.createOverwrite(target, perms).then(() => {
 				this.executeResults(true, data, cache);
 			}).catch((error) => {
-				console.error(error)
+				console.error(error);
 				this.executeResults(false, data, cache);
 			});
-		};
-		
+		}
+
 	},
 
-	mod: function(DBM) {
-	}
-
+	mod: function() {}
 };

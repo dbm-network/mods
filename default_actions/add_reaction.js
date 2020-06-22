@@ -82,7 +82,7 @@ module.exports = {
 		if(type === 4) {
 			emoji = this.evalMessage(data.varName2, cache);
 		} else if(type === 0) {
-			emoji = this.getDBM().Bot.bot.emojis.find(element => element.name === this.evalMessage(data.varName2, cache));
+			emoji = this.getDBM().Bot.bot.emojis.find((element) => element.name === this.evalMessage(data.varName2, cache));
 		} else {
 			emoji = this.getVariable(type, this.evalMessage(data.varName3, cache), cache);
 		}
