@@ -1,5 +1,5 @@
 module.exports = {
-	name: "Check Member Data",
+	name: "Check Server Data",
 	section: "Deprecated",
 
 	subtitle: function(data) {
@@ -7,16 +7,16 @@ module.exports = {
 		return `If True: ${results[parseInt(data.iftrue)]} ~ If False: ${results[parseInt(data.iffalse)]}`;
 	},
 
-	fields: ["member", "varName", "dataName", "comparison", "value", "iftrue", "iftrueVal", "iffalse", "iffalseVal"],
+	fields: ["server", "varName", "dataName", "comparison", "value", "iftrue", "iftrueVal", "iffalse", "iffalseVal"],
 
 	html: function(isEvent, data) {
 		return `
 	<div><p>This action has been modified by DBM Mods.</p></div><br>
 <div>
 	<div style="float: left; width: 35%;">
-		Member:<br>
-		<select id="member" class="round" onchange="glob.memberChange(this, 'varNameContainer')">
-			${data.members[isEvent ? 1 : 0]}
+		Server:<br>
+		<select id="server" class="round" onchange="glob.serverChange(this, 'varNameContainer')">
+			${data.servers[isEvent ? 1 : 0]}
 		</select>
 	</div>
 	<div id="varNameContainer" style="display: none; float: right; width: 60%;">
@@ -59,56 +59,56 @@ module.exports = {
 	init: function() {
 		const { glob, document } = this;
 
-		glob.memberChange(document.getElementById("member"), "varNameContainer");
+		glob.serverChange(document.getElementById("server"), "varNameContainer");
 		glob.onChangeTrue(document.getElementById("iftrue"));
 		glob.onChangeFalse(document.getElementById("iffalse"));
 	},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
-		const type = parseInt(data.member);
+		const type = parseInt(data.server);
 		const varName = this.evalMessage(data.varName, cache);
-		const member = this.getMember(type, varName, cache);
+		const server = this.getServer(type, varName, cache);
 		let result = false;
-		if(member && member.data) {
+		if(server && server.data) {
 			const dataName = this.evalMessage(data.dataName, cache);
-			const val1 = member.data(dataName);
+			const val1 = server.data(dataName);
 			const compare = parseInt(data.comparison);
 			let val2 = this.evalMessage(data.value, cache);
 			if(compare !== 6) val2 = this.eval(val2, cache);
 			if(val2 === false) val2 = this.evalMessage(data.value, cache);
 			switch(compare) {
 				case 0:
-					result = Boolean(val1 !== undefined);
+					result = val1 !== undefined;
 					break;
 				case 1:
-					result = Boolean(val1 == val2);
+					result = val1 == val2;
 					break;
 				case 2:
-					result = Boolean(val1 === val2);
+					result = val1 === val2;
 					break;
 				case 3:
-					result = Boolean(val1 < val2);
+					result = val1 < val2;
 					break;
 				case 4:
-					result = Boolean(val1 > val2);
+					result = val1 > val2;
 					break;
 				case 5:
 					if(typeof(val1.includes) === "function") {
-						result = Boolean(val1.includes(val2));
+						result = val1.includes(val2);
 					}
 					break;
 				case 6:
 					result = Boolean(val1.match(new RegExp("^" + val2 + "$", "i")));
 					break;
 				case 7:
-					result = Boolean(val1.length > val2);
+					result = val1.length > val2;
 					break;
 				case 8:
-					result = Boolean(val1.length < val2);
+					result = val1.length < val2;
 					break;
 				case 9:
-					result = Boolean(val1.length == val2);
+					result = val1.length === val2;
 					break;
 				case 10:
 					result = val1.startsWith(val2);

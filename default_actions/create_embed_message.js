@@ -331,5 +331,4 @@ module.exports = {
 			return new DiscordJS.MessageEmbed();
 		};
 	}
-
 };

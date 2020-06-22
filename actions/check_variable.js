@@ -97,51 +97,51 @@ module.exports = {
 			if(val2 === false) val2 = this.evalMessage(data.value, cache);
 			switch(compare) {
 				case 0:
-					result = Boolean(val1 !== undefined);
+					result = val1 !== undefined;
 					break;
 				case 1:
-					result = Boolean(val1 == val2);
+					result = val1 == val2;
 					break;
 				case 2:
-					result = Boolean(val1 === val2);
+					result = val1 === val2;
 					break;
 				case 3:
-					result = Boolean(val1 < val2);
+					result = val1 < val2;
 					break;
 				case 4:
-					result = Boolean(val1 > val2);
+					result = val1 > val2;
 					break;
 				case 5:
 					if(typeof(val1.includes) === "function") {
-						result = Boolean(val1.includes(val2));
+						result = val1.includes(val2);
 					}
 					break;
 				case 6:
-					result = Boolean(val1.match(new RegExp("^" + val2 + "$", "i")));
+					result = Boolean(val1.match(new RegExp(`^${val2}$`, "i")));
 					break;
 				case 7:
-					result = Boolean(val1.length > val2);
+					result = val1.length > val2;
 					break;
 				case 8:
-					result = Boolean(val1.length < val2);
+					result = val1.length < val2;
 					break;
 				case 9:
-					result = Boolean(val1.length == val2);
+					result = val1.length === val2;
 					break;
 				case 10:
-					result = Boolean(val1.startsWith(val2));
+					result = val1.startsWith(val2);
 					break;
 				case 11:
-					result = Boolean(val1.endsWith(val2));
+					result = val1.endsWith(val2);
 					break;
 				case 12:
 					result = Boolean(val1.match(new RegExp(val2)));
 					break;
 				case 13:
-					result = Boolean(val1 <= val2);
+					result = val1 <= val2;
 					break;
 				case 14:
-					result = Boolean(val1 >= val2);
+					result = val1 >= val2;
 					break;
 			}
 		}
