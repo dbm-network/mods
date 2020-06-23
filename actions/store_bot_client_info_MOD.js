@@ -3,7 +3,7 @@ module.exports = {
 	section: "Bot Client Control",
 
 	subtitle: function(data) {
-		const info = ["Uptime in Milliseconds", "Ready At?", "Ping", "Guild Amount", "User Amount", "Rounded Ping", "Uptime in Seconds", "Uptime in Minutes", "Bot's Token", "Voice Connections Amount", "Total Amount of Channels", "Total Amount of Emojis", "This option has been removed", "Uptime in Days", "Uptime in Days (Rounded)", "Memory (RAM) Usage", "Bot Guilds Objects", "Bot Guilds Names", "Bot Guilds IDs", "Bot Current Prefix", "Bot Client ID", "Discord JS Version", "Uptime in Hours", "Refreshing Uptime in Days", "Refreshing Uptime in Hours", "Refreshing Uptime in Minutes", "Refreshing Uptime in Seconds", "Memory (RAM) Usage in MB", "Bot's OS (Process Platform)", "CPU Usage in MB", "Bot's Directory", "Node JS Version", "Amount of Commands", "Amount of Events", "Ready At ? [timestamp]", "CPU Core Count", "Total Memory (GB)", "Total Memory (MB)", "Available Memory (GB)", "Available Memory (MB)", "Available Memory (%)", "Used Memory (GB)", "Used Memory (MB)", "Used Memory (%)", "Bot Owner ID"];
+		const info = ["Uptime in Milliseconds", "Ready At?", "Ping", "Guild Amount", "User Amount", "Rounded Ping", "Uptime in Seconds", "Uptime in Minutes", "Bot's Token", "Voice Connections Amount", "Total Amount of Channels", "Total Amount of Emojis", "This option has been removed", "Uptime in Days", "Uptime in Days (Rounded)", "Memory (RAM) Usage", "Bot Guilds Objects", "Bot Guilds Names", "Bot Guilds IDs", "Bot Current Prefix", "Bot Client ID", "Discord JS Version", "Uptime in Hours", "Refreshing Uptime in Days", "Refreshing Uptime in Hours", "Refreshing Uptime in Minutes", "Refreshing Uptime in Seconds", "Memory (RAM) Usage in MB", "Bot's OS (Process Platform)", "CPU Usage in MB", "Bot's Directory", "Node JS Version", "Amount of Commands", "Amount of Events", "Ready At ? [timestamp]", "CPU Core Count", "Total Memory (GB)", "Total Memory (MB)", "Available Memory (GB)", "Available Memory (MB)", "Available Memory (%)", "Used Memory (GB)", "Used Memory (MB)", "Used Memory (%)", "Bot Owner ID", "Are Commands Case Sensitive?", "Last Message ID"];
 		return `Bot Client - ${info[parseInt(data.info)]}`;
 	},
 
@@ -129,7 +129,12 @@ module.exports = {
 			case 44: // Bot Owner ID
 				dataType = "Bot Owner ID";
 				break;
-
+			case 45: // Are Commands Case Sensitive?
+				dataType = "Boolean";
+				break;
+			case 46: // Last Message ID
+				dataType = "Last Message ID";
+				break;
 		}
 		return ([data.varName2, dataType]);
 	},
@@ -168,6 +173,8 @@ module.exports = {
 				<option value="28">Bot OS (Process Platform)</option>
 				<option value="30">Bot Directory</option>
 				<option value="8">Bot Token (be careful)</option>
+				<option value="45">Are Commands Case Sensitive?</option>
+				<option value="46">Last Message ID</option>
 			</optgroup>
 			<optgroup label="System Measurements">
 				<option value="29">CPU Usage (MB)</option>
@@ -212,6 +219,8 @@ module.exports = {
 
 	action: function(cache) {
 		const botClient = this.getDBM().Bot.bot;
+		const botBotClient = this.getDBM().Bot;
+		const b = this.getDBM().Bot.bot.user.id;
 		const os = require("os");
 		const DBM = this.getDBM();
 		const data = cache.actions[cache.index];
@@ -249,6 +258,12 @@ module.exports = {
 				break;
 			case 8: // Bot's Token
 				result = botClient.token;
+				break;
+			case 45: // Are Commands Case Sensitive?
+				result = botBotClient._caseSensitive;
+				break;
+			case 46: // Last Message ID
+				result = this.getDBM().Bot.bot.user.lastMessageID;
 				break;
 			case 9: // Voice Connections Amount
 				result = botClient.voice.connections.size;
