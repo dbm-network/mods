@@ -178,13 +178,13 @@ action: function(cache) {
 	if(result !== undefined) {
 		const storage = parseInt(data.storage);
 		const varName2 = this.evalMessage(data.varName2, cache);
-		result.fetchUsers().then(react => {
+		result.fetchUsers().then((react) => {
 			this.storeValue(result, storage, varName2, cache);
 			this.callNextAction(cache);
-			return;
-		}
+		});
+	} else {
+		this.callNextAction(cache);
 	}
-	this.callNextAction(cache);
 },
 
 //---------------------------------------------------------------------
