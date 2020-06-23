@@ -60,11 +60,11 @@ module.exports = {
 		const options = {};
 		options[data.permission] = Boolean(data.state === "0");
 		if(Array.isArray(channel)) {
-			this.callListFunc(channel, "overwritePermissions", [server.id, options]).then(function() {
+			this.callListFunc(channel, "updateOverwrite", [server.id, options]).then(function() {
 				this.callNextAction(cache);
 			}.bind(this));
-		} else if(channel && channel.overwritePermissions) {
-			channel.overwritePermissions(server.id, options).then(function() {
+		} else if(channel && channel.updateOverwrite) {
+			channel.updateOverwrite(server.id, options).then(function() {
 				this.callNextAction(cache);
 			}.bind(this)).catch(this.displayError.bind(this, data, cache));
 		} else {
