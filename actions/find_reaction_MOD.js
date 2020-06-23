@@ -85,6 +85,8 @@ module.exports = {
 			const varName2 = this.evalMessage(data.varName2, cache);
 			result.fetch().then(react => {
 				this.storeValue(react, storage, varName2, cache);
+				this.callNextAction(cache);
+				return;
 			}
 		}
 		this.callNextAction(cache);
