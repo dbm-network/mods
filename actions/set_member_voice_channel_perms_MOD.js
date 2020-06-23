@@ -74,10 +74,6 @@ module.exports = {
 		const options = {};
 		options[data.permission] = data.state === "0" ? true : (data.state === "2" ? false : null);
 		if(member && member.id) {
-			//if(Array.isArray(channel)) {
-				//this.callListFunc(channel, "updateOverwrite", [member.id, options]).then(function() {
-					//this.callNextAction(cache);
-				//}.bind(this));
 			if (channel && channel.updateOverwrite) {
 				channel.updateOverwrite(member.id, options).then(function() {
 					this.callNextAction(cache);
