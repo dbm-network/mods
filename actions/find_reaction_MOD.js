@@ -83,7 +83,9 @@ module.exports = {
 		if(result !== undefined) {
 			const storage = parseInt(data.storage);
 			const varName2 = this.evalMessage(data.varName2, cache);
-			this.storeValue(result, storage, varName2, cache);
+			result.fetch().then(react => {
+				this.storeValue(react, storage, varName2, cache);
+			}
 		}
 		this.callNextAction(cache);
 	},
