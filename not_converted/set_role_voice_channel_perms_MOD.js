@@ -66,20 +66,18 @@ module.exports = {
 		const storage = parseInt(data.vchannel);
 		const varName = this.evalMessage(data.varName, cache);
 		const channel = this.getChannel(storage, varName, cache);
-
 		const storage2 = parseInt(data.role);
 		const varName2 = this.evalMessage(data.varName2, cache);
 		const role = this.getRole(storage2, varName2, cache);
-
 		const options = {};
 		options[data.permission] = data.state === "0" ? true : (data.state === "2" ? false : null);
 		if(role && role.id) {
-			if(Array.isArray(channel)) {
-				this.callListFunc(channel, "overwritePermissions", [role.id, options]).then(function() {
-					this.callNextAction(cache);
-				}.bind(this));
-			} else if(channel && channel.overwritePermissions) {
-				channel.overwritePermissions(role.id, options).then(function() {
+			//if(Array.isArray(channel)) { // this can't actually be called due to ^^ if (role.id)
+				//this.callListFunc(channel, "updateOverwrite", [role.id, options]).then(function() {
+					//this.callNextAction(cache);
+				//}.bind(this));
+			if (channel && channel.updateOverwrite) {
+				channel.updateOverwrite(role.id, options).then(function() {
 					this.callNextAction(cache);
 				}.bind(this)).catch(this.displayError.bind(this, data, cache));
 			} else {
