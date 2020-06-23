@@ -160,9 +160,6 @@ module.exports = {
 
 	action: function(cache) {
 		
-		// TODO: rigidstudios
-		// - add select amount of parameters for store multiple
-		
 		const data = cache.actions[cache.index];
 		const message = parseInt(data.message);
 		const varName = this.evalMessage(data.varName, cache);
