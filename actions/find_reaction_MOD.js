@@ -87,7 +87,7 @@ module.exports = {
 				this.storeValue(react, storage, varName2, cache);
 				this.callNextAction(cache);
 				return;
-			}
+			});
 		}
 		this.callNextAction(cache);
 	},
