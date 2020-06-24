@@ -6,7 +6,7 @@ module.exports = {
 		const servers = [
 			"Current Server", "Temp Variable", "Server Variable", "Global Variable"
 		];
-		const info = ["Server Object", "Server ID", "Server Name", "Server Name Acronym", "Server Region", "Server Icon URL", "Server Default Channel", "Server AFK Channel", "Server System Channel", "Server Default Role", "Server Owner Member", "Server Bot Member Object", "Server Channel List", "Server Role List", "Server Member List", "Server Emoji List", "Server Member Count", "Creation Date", "Time To AFK", "Is Server Available?", "More than 250 members?", "Date Bot Joined Server", "Channel Amount", "Emoji Amount", "Embed Links", "DND Members Count", "Online Members Count (fixed)", "Offline Members Count", "Idle Members Count", "Total Bots Count In Server", "Server Channel IDs", "Server Role IDs", "Server Member IDs", "Server Bot Member Count", "Server Human Member Count", "Server Member Count", "Role Count", "Text Channel Count", "Voice Channel Count", "Is Server Verified?", "Banned Users List", "Invite List", "Server Explicit Content Filter", "Server Booster Count", "Server Premium Tier"];
+		const info = ["Server Object", "Server ID", "Server Name", "Server Name Acronym", "Server Region", "Server Icon URL", "Server Verification Level", "Server Default Channel", "Server AFK Channel", "Server System Channel", "Server Default Role", "Server Owner Member", "Server Bot Member Object", "Server Channel List", "Server Role List", "Server Member List", "Server Emoji List", "Server Member Count", "Creation Date", "Time To AFK", "Is Server Available?", "More than 250 members?", "Date Bot Joined Server", "Channel Amount", "Emoji Amount", "Embed Links", "DND Members Count", "Online Members Count (fixed)", "Offline Members Count", "Idle Members Count", "Total Bots Count In Server", "Server Channel IDs", "Server Role IDs", "Server Member IDs", "Server Bot Member Count", "Server Human Member Count", "Server Member Count", "Role Count", "Text Channel Count", "Voice Channel Count", "Is Server Verified?", "Banned Users List", "Invite List", "Server Explicit Content Filter", "Server Booster Count", "Server Premium Tier"];
 		return `${servers[parseInt(data.server)]} - ${info[parseInt(data.info)]}`;
 	},
 
@@ -31,76 +31,77 @@ module.exports = {
 				dataType = "Image URL";
 				break;
 			case 6:  // Verification Level
-			case 42: // Explicit Content Filter. Added by Cap in 1.9.6
-			case 16: // Server Member Count
-			case 18: // Time To AFK
-			case 22: // Channel Amount.
-			case 23: // Emoji Amount.
-			case 25: // DND Members Count.
-			case 26: // Online Members Count. (fixed)
-			case 27: // Offline Members Count.
-			case 28: // Idle Members Count.
-			case 29: // Total Bots Count In Server.
-			case 33: // Server Bot Member Count.
-			case 34: // Server Human Member Count.
-			case 35: // Server Member Count. //Added by Lasse in
-			case 36: // Role Count.
-			case 37: // Text Channel
-			case 38: { // Voice Channel
+			case 43: // Explicit Content Filter. Added by Cap in 1.9.6
+			case 17: // Server Member Count
+			case 19: // Time To AFK
+			case 23: // Channel Amount.
+			case 24: // Emoji Amount.
+			case 26: // DND Members Count.
+			case 27: // Online Members Count. (fixed)
+			case 28: // Offline Members Count.
+			case 29: // Idle Members Count.
+			case 30: // Total Bots Count In Server.
+			case 34: // Server Bot Member Count.
+			case 35: // Server Human Member Count.
+			case 36: // Server Member Count. //Added by Lasse in
+			case 37: // Role Count.
+			case 38: // Text Channel
+			case 39: { // Voice Channel
 				dataType = "Number";
 				break; }
-			case 7: // AFK Channel
-			case 8: // System Channel
+			case 7: // Default Channel
+			case 8: // AFK Channel
+			case 9: // System Channel
 				dataType = "Channel";
 				break;
-			case 9: // Default Role
+			case 10: // Default Role
 				dataType = "Role";
 				break;
-			case 10: // Owner Member
-			case 11: // Bot Member Object
+			case 11: // Owner Member
+			case 12: // Bot Member Object
 				dataType = "Guild Member";
 				break;
-			case 12: // Channel List
+			case 13: // Channel List
 				dataType = "List";
 				break;
-			case 13: // Role List
+			case 14: // Role List
 				dataType = "List";
 				break;
-			case 14: // Member List
+			case 15: // Member List
 				dataType = "List";
 				break;
-			case 15: // Emoji List
+			case 16: // Emoji List
 				dataType = "List";
 				break;
-			case 17: // Creation Date
-			case 21: // Date bot Joined Server.
+			case 18: // Creation Date
+			case 22: // Date bot Joined Server.
 				dataType = "Date";
 				break;
-			case 19: // Is Server Avilable?
-			case 20: // More Than 250 Members? //Deprecated in v1.8.5
-			case 24: // Embed Links.
+			case 20: // Is Server Avilable?
+			case 21: // More Than 250 Members? //Deprecated in v1.8.5
+			case 25: // Embed Links.
 				dataType = "Boolean";
 				break;
-			case 30: // Server Channel IDs.
+			case 31: // Server Channel IDs.
 				dataType = "List";
 				break;
-			case 31: // Server Roles IDs.
+			case 32: // Server Roles IDs.
 				dataType = "List";
 				break;
-			case 32: // Server Member IDs.
+			case 33: // Server Member IDs.
 				dataType = "List";
 				break;
-			case 39: // Verified?
+			case 40: // Verified?
 				dataType = "Boolean";
 				break;
-			case 40: // Collection of banned users
-			case 41: //	Collection of guild invites
+			case 41: // Collection of banned users
+			case 42: //	Collection of guild invites
 				dataType = "List";
 				break;
-			case 43: // Server Boost Count
+			case 44: // Server Boost Count
 				dataType = "Number";
 				break;
-			case 44: // Server Premium Tier
+			case 45: // Server Premium Tier
 				dataType = "Number";
 				break;
 		}
@@ -136,57 +137,58 @@ module.exports = {
 						<option value="4">Server Region</option>
 						<option value="5">Server Icon URL</option>
 						<option value="6">Server Verification Level</option>
-						<option value="42">Server Explicit Content Filter</option>
-						<option value="7">Server AFK Channel</option>
-						<option value="8">Server System Channel</option>
-						<option value="9">Server Default Role</option>
-						<option value="10">Server Owner Member</option>
-						<option value="11">Server Bot Member Object</option>
-						<option value="12">Server Channel List</option>
-						<option value="13">Server Role List</option>
-						<option value="14">Server Member List</option>
-						<option value="15">Server Emoji List</option>
+						<option value="43">Server Explicit Content Filter</option>
+						<option value="7">Server Default Channel</option>
+						<option value="8">Server AFK Channel</option>
+						<option value="9">Server System Channel</option>
+						<option value="10">Server Default Role</option>
+						<option value="11">Server Owner Member</option>
+						<option value="12">Server Bot Member Object</option>
+						<option value="13">Server Channel List</option>
+						<option value="14">Server Role List</option>
+						<option value="15">Server Member List</option>
+						<option value="16">Server Emoji List</option>
 					</optgroup>
 					<optgroup label="Creation/Join Dates">
-						<option value="17" selected>Servers Creation Date</option>
-						<option value="21">Date Bot Joined</option>
+						<option value="18" selected>Servers Creation Date</option>
+						<option value="22">Date Bot Joined</option>
 					</optgroup>
 					<optgroup label="Member Infos">
 						<!--<option value="17">Server Member Count</option>-->
-						<option value="29">Total Bots in Servers</option>
-						<option value="33">Bot Count (Same as Total Bots In Servers)</option>
-						<option value="34">Human Member Count</option>
-						<option value="35">Member Count</option>
+						<option value="30">Total Bots in Servers</option>
+						<option value="34">Bot Count (Same as Total Bots In Servers)</option>
+						<option value="35">Human Member Count</option>
+						<option value="36">Member Count</option>
                         			<option value="41">Banned Member List</option>
 					</optgroup>
 					<optgroup label="Member Status Infos">
-						<option value="26">Online Members Count</option>
-						<option value="28">Idle Members Count</option>
-						<option value="25">DND Members Count</option>
-						<option value="27">Offline Members Count</option>
+						<option value="27">Online Members Count</option>
+						<option value="29">Idle Members Count</option>
+						<option value="26">DND Members Count</option>
+						<option value="28">Offline Members Count</option>
 					</optgroup>
 					<optgroup label="ID Infos">
-						<option value="30">Server Channel IDs</option>
-						<option value="31">Server Role IDs</option>
-						<option value="32">Server Member IDs</option>
+						<option value="31">Server Channel IDs</option>
+						<option value="32">Server Role IDs</option>
+						<option value="33">Server Member IDs</option>
 					</optgroup>
 					<optgroup label="Channel Infos">
-						<option value="22">Channel Amount</option>
-						<option value="37">Text Channel Count</option>
-						<option value="38">Voice Channel Count</option>
+						<option value="23">Channel Amount</option>
+						<option value="38">Text Channel Count</option>
+						<option value="39">Voice Channel Count</option>
 					</optgroup>
 					<optgroup label="Other">
-						<option value="39">Is Server Verified?</option>
-						<option value="18">Time User gets AFK</option>
-						<option value="19">Is Server available?</option>
-						<option value="23">Emoji Amount</option>
-						<option value="24">Embeds links?</option>
-						<option value="36">Role Count</option>
-                        			<option value="41">Invite List</option>
-                        			<option value="43">Server Boost Count</option>
-                        			<option value="44">Server Boost Tier</option>
+						<option value="40">Is Server Verified?</option>
+						<option value="19">Time User gets AFK</option>
+						<option value="20">Is Server available?</option>
+						<option value="24">Emoji Amount</option>
+						<option value="25">Embeds links?</option>
+						<option value="37">Role Count</option>
+                        			<option value="42">Invite List</option>
+                        			<option value="44">Server Boost Count</option>
+                        			<option value="45">Server Boost Tier</option>
 					</optgroup>
-					<!--<option value="20">More Than 250 Members?</option>-->
+					<!--<option value="21">More Than 250 Members?</option>-->
 				</select>
 			</div>
 		</div><br>
@@ -243,147 +245,150 @@ module.exports = {
 			case 6: // Verification Level
 				result = targetServer.verificationLevel;
 				break;
-			case 7: // AFK Channel
+			case 7: // Default Channel.
+				result = targetServer.getDefaultChannel();
+				break;
+			case 8: // AFK Channel
 				result = targetServer.afkChannel;
 				break;
-			case 8: // System Channel
+			case 9: // System Channel
 				result = targetServer.systemChannel;
 				break;
-			case 9: // Default Role
+			case 10: // Default Role
 				result = targetServer.roles.everyone;
 				break;
-			case 10: // Owner Member
+			case 11: // Owner Member
 				result = targetServer.owner;
 				break;
-			case 11: // Bot Member
+			case 12: // Bot Member
 				result = targetServer.me;
 				break;
-			case 12: // Channel List
-				result = targetServer.channels.cache.array();
+			case 13: // Channel List
+				result = targetServer.channels.array();
 				break;
-			case 13: // Role List
+			case 14: // Role List
 				result = targetServer.roles.cache.array();
 				break;
-			case 14: // Member List
+			case 15: // Member List
 				result = targetServer.members.cache.array();
 				break;
-			case 15: // Emoji List
+			case 16: // Emoji List
 				result = targetServer.emojis.cache.array();
 				break;
-			case 16: // Member Count
+			case 17: // Member Count
 				result = targetServer.members.cache.size;
 				break;
-			case 17: // Creation Date.
+			case 18: // Creation Date.
 				result = targetServer.createdAt;
 				break;
-			case 18: // Time To AFK.
+			case 19: // Time To AFK.
 				result = targetServer.afkTimeout;
 				break;
-			case 19: // Is Server Avilable?
+			case 20: // Is Server Avilable?
 				result = targetServer.available;
 				break;
-			case 20: // More Than 250 Members? // Deprecated in v1.8.5
+			case 21: // More Than 250 Members? // Deprecated in v1.8.5
 				result = targetServer.large;
 				break;
-			case 21: // Date bot Joined Server.
+			case 22: // Date bot Joined Server.
 				result = targetServer.joinedAt;
 				break;
-			case 22: // Channel Amount.
+			case 23: // Channel Amount.
 				result = targetServer.channels.cache.array().length;
 				break;
-			case 23: // Emoji Amount.
+			case 24: // Emoji Amount.
 				result = targetServer.emojis.cache.array().length;
 				break;
-			case 24: // Embed Links.
+			case 25: // Embed Links.
 				result = targetServer.embedEnabled;
 				break;
-			case 25: { // DND Members Count.
+			case 26: { // DND Members Count.
 				if (targetServer.memberCount !== targetServer.members.cache.size) {
 					await targetServer.members.fetch(); // ensures it fetches. updated to await.
 				}
 				result = targetServer.members.filter((m) => m.user.presence.status == "dnd").size;
 				break; }
-			case 26: { // Online Members Count.
+			case 27: { // Online Members Count.
 				if (targetServer.memberCount !== targetServer.members.cache.size) {
 					await targetServer.members.fetch(); // ensures it fetches. updated to await.
 				}
-				result = targetServer.members.filter((m) => m.user.presence.status == "online").size;
+				result = targetServer.members.cache.filter((m) => m.user.presence.status == "online").size;
 				break; }
-			case 27: { // Offline Members Count.
+			case 28: { // Offline Members Count.
 				if (targetServer.memberCount !== targetServer.members.cache.size) {
 					await targetServer.members.fetch(); // ensures it fetches. updated to await.
 				}
-				result = targetServer.members.filter((m) => m.user.presence.status == "offline").size;
+				result = targetServer.members.cache.filter((m) => m.user.presence.status == "offline").size;
 				break; }
-			case 28: { // Idle Members Count.
+			case 29: { // Idle Members Count.
 				if (targetServer.memberCount !== targetServer.members.cache.size) {
 					await targetServer.members.fetch(); // ensures it fetches. updated to await.
 				}
 				result = targetServer.members.filter((m) => m.user.presence.status == "idle").size;
 				break; }
-			case 29: { // Total Bots Count In Server.
+			case 30: { // Total Bots Count In Server.
 				if (targetServer.memberCount !== targetServer.members.cache.size) {
 					await targetServer.members.fetch(); // ensures it fetches. updated to await.
 				}
-				result = targetServer.members.filter((m) => m.user.bot).size;
+				result = targetServer.members.cache.filter((m) => m.user.bot).size;
 				break; }
-			case 30: { // Server Channel IDs.
+			case 31: { // Server Channel IDs.
 				result = targetServer.channels.cache.map((channels) => channels.id);
 				break; }
-			case 31: { // Server Roles IDs.
+			case 32: { // Server Roles IDs.
 				result = targetServer.roles.cache.map((roles) => roles.id);
 				break; }
-			case 32: { // Server Member IDs.
+			case 33: { // Server Member IDs.
 				if (targetServer.memberCount !== targetServer.members.cache.size) {
 					await targetServer.members.fetch(); // ensures it fetches. updated to await.
 				}
 				result = targetServer.members.cache.map((members) => members.id);
 				break; }
-			case 33: { // Server Bot Member Count.
+			case 34: { // Server Bot Member Count.
 				if (targetServer.memberCount !== targetServer.members.cache.size) {
 					await targetServer.members.fetch(); // ensures it fetches. updated to await.
 				}
 				result = targetServer.members.cache.filter((m) => m.user.bot == true).size;
 				break; }
-			case 34: { // Server Human Member Count.
+			case 35: { // Server Human Member Count.
 				if (targetServer.memberCount !== targetServer.members.cache.size) {
 					await targetServer.members.fetch(); // ensures it fetches. updated to await.
 				}
 				result = targetServer.members.cache.filter((m) => m.user.bot == false).size;
 				break; }
-			case 35: { // Server Member Count. //Added by Lasse in 1.8.7
+			case 36: { // Server Member Count. //Added by Lasse in 1.8.7
 				if (targetServer.memberCount !== targetServer.members.cache.size) {
 					await targetServer.members.fetch(); // ensures it fetches. updated to await.
 				}
 				result = targetServer.memberCount;
 				break; }
-			case 36: { // Role Count.
+			case 37: { // Role Count.
 				result = targetServer.roles.cache.size;
 				break; }
-			case 37: { // Text Channel Count.
+			case 38: { // Text Channel Count.
 				result = targetServer.channels.cache.filter((c) => c.type == "text").size;
 				break; }
-			case 38: { // Voice Channel Count.
+			case 39: { // Voice Channel Count.
 				result = targetServer.channels.cache.filter((c) => c.type == "voice").size;
 				break; }
-			case 39: { // Is Server Verified?
+			case 40: { // Is Server Verified?
 				result = targetServer.verified;
 				break; }
-			case 40: { // Collection of banned users.
+			case 41: { // Collection of banned users.
 				const bans = await targetServer.fetchBans();
 				result = bans.array();
 				break; }
-			case 41: { // Collection of guild invites.
+			case 42: { // Collection of guild invites.
 				const invites = await targetServer.fetchInvites();
 				result = invites.array();
 				break; }
-			case 42: { // Explicit Content Filter.
+			case 43: { // Explicit Content Filter.
 				result = targetServer.explicitContentFilter;
 				break; }
-			case 43: {
+			case 44: {
 				result = targetServer.premiumSubscriptionCount || 0;
 				break; }
-			case 44: {
+			case 45: {
 				result = targetServer.premiumTier || 0;
 				break; }
 			default: { // Fixed Spacing.
