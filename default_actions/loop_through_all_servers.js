@@ -57,7 +57,7 @@ module.exports = {
 			return;
 		}
 
-		const servers = bot.guilds.array();
+		const servers = bot.guilds.cache.array();
 		const act = actions[0];
 		if(act && this.exists(act.name)) {
 			const looper = function(i) {
