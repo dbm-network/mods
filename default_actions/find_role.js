@@ -3,7 +3,7 @@ module.exports = {
 	section: "Role Control",
 
 	subtitle: function(data) {
-		const info = ["Role ID", "Role Name", "Role Color"];
+		const info = ["Role ID", "Role Name", "Role Color", "Raw Position"];
 		return `Find Role by ${info[parseInt(data.info)]}`;
 	},
 
@@ -24,6 +24,7 @@ module.exports = {
 			<option value="0" selected>Role ID</option>
 			<option value="1">Role Name</option>
 			<option value="2">Role Color</option>
+			<option value="3">Raw Position</option>
 		</select>
 	</div>
 	<div style="float: right; width: 55%;">
@@ -67,6 +68,9 @@ module.exports = {
 				break;
 			case 2:
 				result = roles.find((element) => element.color === find);
+				break;
+			case 3:
+				result = roles.find((element) => element.rawPosition === parseInt(find));
 				break;
 			default:
 				break;
