@@ -174,7 +174,7 @@ module.exports = {
 				result = msg.edits;
 				break;
 			case 12:
-				result = msg.reactions.array().length;
+				result = msg.reactions.cache.array().length;
 				break;
 			case 13:
 				result = msg.mentions.users.array();
