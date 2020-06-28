@@ -138,7 +138,7 @@ module.exports = {
 						<option value="5">Server Icon URL</option>
 						<option value="6">Server Verification Level</option>
 						<option value="43">Server Explicit Content Filter</option>
-						<!--<option value="7">Server Default Channel</option>-->
+						<option value="7">Server Default Channel</option>
 						<option value="8">Server AFK Channel</option>
 						<option value="9">Server System Channel</option>
 						<option value="10">Server Default Role</option>
@@ -240,13 +240,13 @@ module.exports = {
 				result = targetServer.region;
 				break;
 			case 5: // Icon URL
-				result = targetServer.iconURL;
+				result = targetServer.iconURL();
 				break;
 			case 6: // Verification Level
 				result = targetServer.verificationLevel;
 				break;
-			case 7: // Default Channel. This is now deprecated.
-				result = targetServer.defaultChannel;
+			case 7: // Default Channel.
+				result = targetServer.getDefaultChannel();
 				break;
 			case 8: // AFK Channel
 				result = targetServer.afkChannel;
@@ -255,7 +255,7 @@ module.exports = {
 				result = targetServer.systemChannel;
 				break;
 			case 10: // Default Role
-				result = targetServer.defaultRole;
+				result = targetServer.roles.everyone;
 				break;
 			case 11: // Owner Member
 				result = targetServer.owner;
@@ -267,16 +267,16 @@ module.exports = {
 				result = targetServer.channels.array();
 				break;
 			case 14: // Role List
-				result = targetServer.roles.array();
+				result = targetServer.roles.cache.array();
 				break;
 			case 15: // Member List
-				result = targetServer.members.array();
+				result = targetServer.members.cache.array();
 				break;
 			case 16: // Emoji List
-				result = targetServer.emojis.array();
+				result = targetServer.emojis.cache.array();
 				break;
 			case 17: // Member Count
-				result = targetServer.members.size;
+				result = targetServer.members.cache.size;
 				break;
 			case 18: // Creation Date.
 				result = targetServer.createdAt;
@@ -294,82 +294,82 @@ module.exports = {
 				result = targetServer.joinedAt;
 				break;
 			case 23: // Channel Amount.
-				result = targetServer.channels.array().length;
+				result = targetServer.channels.cache.array().length;
 				break;
 			case 24: // Emoji Amount.
-				result = targetServer.emojis.array().length;
+				result = targetServer.emojis.cache.array().length;
 				break;
 			case 25: // Embed Links.
 				result = targetServer.embedEnabled;
 				break;
 			case 26: { // DND Members Count.
-				if (targetServer.memberCount !== targetServer.members.size) {
-					await targetServer.fetchMembers(); // ensures it fetches. updated to await.
+				if (targetServer.memberCount !== targetServer.members.cache.size) {
+					await targetServer.members.fetch(); // ensures it fetches. updated to await.
 				}
 				result = targetServer.members.filter((m) => m.user.presence.status == "dnd").size;
 				break; }
 			case 27: { // Online Members Count.
-				if (targetServer.memberCount !== targetServer.members.size) {
-					await targetServer.fetchMembers(); // ensures it fetches. updated to await.
+				if (targetServer.memberCount !== targetServer.members.cache.size) {
+					await targetServer.members.fetch(); // ensures it fetches. updated to await.
 				}
-				result = targetServer.members.filter((m) => m.user.presence.status == "online").size;
+				result = targetServer.members.cache.filter((m) => m.user.presence.status == "online").size;
 				break; }
 			case 28: { // Offline Members Count.
-				if (targetServer.memberCount !== targetServer.members.size) {
-					await targetServer.fetchMembers(); // ensures it fetches. updated to await.
+				if (targetServer.memberCount !== targetServer.members.cache.size) {
+					await targetServer.members.fetch(); // ensures it fetches. updated to await.
 				}
-				result = targetServer.members.filter((m) => m.user.presence.status == "offline").size;
+				result = targetServer.members.cache.filter((m) => m.user.presence.status == "offline").size;
 				break; }
 			case 29: { // Idle Members Count.
-				if (targetServer.memberCount !== targetServer.members.size) {
-					await targetServer.fetchMembers(); // ensures it fetches. updated to await.
+				if (targetServer.memberCount !== targetServer.members.cache.size) {
+					await targetServer.members.fetch(); // ensures it fetches. updated to await.
 				}
 				result = targetServer.members.filter((m) => m.user.presence.status == "idle").size;
 				break; }
 			case 30: { // Total Bots Count In Server.
-				if (targetServer.memberCount !== targetServer.members.size) {
-					await targetServer.fetchMembers(); // ensures it fetches. updated to await.
+				if (targetServer.memberCount !== targetServer.members.cache.size) {
+					await targetServer.members.fetch(); // ensures it fetches. updated to await.
 				}
-				result = targetServer.members.filter((m) => m.user.bot).size;
+				result = targetServer.members.cache.filter((m) => m.user.bot).size;
 				break; }
 			case 31: { // Server Channel IDs.
-				result = targetServer.channels.map((channels) => channels.id);
+				result = targetServer.channels.cache.map((channels) => channels.id);
 				break; }
 			case 32: { // Server Roles IDs.
-				result = targetServer.roles.map((roles) => roles.id);
+				result = targetServer.roles.cache.map((roles) => roles.id);
 				break; }
 			case 33: { // Server Member IDs.
-				if (targetServer.memberCount !== targetServer.members.size) {
-					await targetServer.fetchMembers(); // ensures it fetches. updated to await.
+				if (targetServer.memberCount !== targetServer.members.cache.size) {
+					await targetServer.members.fetch(); // ensures it fetches. updated to await.
 				}
-				result = targetServer.members.map((members) => members.id);
+				result = targetServer.members.cache.map((members) => members.id);
 				break; }
 			case 34: { // Server Bot Member Count.
-				if (targetServer.memberCount !== targetServer.members.size) {
-					await targetServer.fetchMembers(); // ensures it fetches. updated to await.
+				if (targetServer.memberCount !== targetServer.members.cache.size) {
+					await targetServer.members.fetch(); // ensures it fetches. updated to await.
 				}
-				result = targetServer.members.filter((m) => m.user.bot == true).size;
+				result = targetServer.members.cache.filter((m) => m.user.bot == true).size;
 				break; }
 			case 35: { // Server Human Member Count.
-				if (targetServer.memberCount !== targetServer.members.size) {
-					await targetServer.fetchMembers(); // ensures it fetches. updated to await.
+				if (targetServer.memberCount !== targetServer.members.cache.size) {
+					await targetServer.members.fetch(); // ensures it fetches. updated to await.
 				}
-				result = targetServer.members.filter((m) => m.user.bot == false).size;
+				result = targetServer.members.cache.filter((m) => m.user.bot == false).size;
 				break; }
 			case 36: { // Server Member Count. //Added by Lasse in 1.8.7
-				if (targetServer.memberCount !== targetServer.members.size) {
-					await targetServer.fetchMembers(); // ensures it fetches. updated to await.
+				if (targetServer.memberCount !== targetServer.members.cache.size) {
+					await targetServer.members.fetch(); // ensures it fetches. updated to await.
 				}
 				result = targetServer.memberCount;
 				break; }
 			case 37: { // Role Count.
-				result = targetServer.roles.size;
+				result = targetServer.roles.cache.size;
 				break; }
 			case 38: { // Text Channel Count.
-				result = targetServer.channels.filter((c) => c.type == "text").size;
+				result = targetServer.channels.cache.filter((c) => c.type == "text").size;
 				break; }
 			case 39: { // Voice Channel Count.
-				result = targetServer.channels.filter((c) => c.type == "voice").size;
+				result = targetServer.channels.cache.filter((c) => c.type == "voice").size;
 				break; }
 			case 40: { // Is Server Verified?
 				result = targetServer.verified;

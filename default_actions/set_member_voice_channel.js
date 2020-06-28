@@ -50,18 +50,18 @@ module.exports = {
 
 		const storage = parseInt(data.member);
 		const varName = this.evalMessage(data.varName, cache);
-		const member = this.getMember(storage, varName, cache);
+		const member = this.getMember(storage, varName, cache).voice;
 
 		const storage2 = parseInt(data.channel);
 		const varName2 = this.evalMessage(data.varName2, cache);
 		const channel = this.getVoiceChannel(storage2, varName2, cache);
 
 		if(Array.isArray(member)) {
-			this.callListFunc(member, "setVoiceChannel", [channel]).then(function() {
+			this.callListFunc(member, "setChannel", [channel]).then(function() {
 				this.callNextAction(cache);
 			}.bind(this));
-		} else if(member && member.setVoiceChannel) {
-			member.setVoiceChannel(channel).then(function() {
+		} else if(member && member.setChannel) {
+			member.setChannel(channel).then(function() {
 				this.callNextAction(cache);
 			}.bind(this)).catch(this.displayError.bind(this, data, cache));
 		} else {

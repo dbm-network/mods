@@ -4,7 +4,7 @@ module.exports = {
 
 	subtitle: function(data) {
 		const roles = ["Mentioned Role", "1st Author Role", "1st Server Role", "Temp Variable", "Server Variable", "Global Variable"];
-		const info = ["Role Object", "Role ID", "Role Name", "Role Color", "Role Position", "Role Timestamp", "Role Is Mentionable?", "Role Is Separate From Others?", "Role Is Managed?", "Role Member List", "Role Creation Date", "Role Permissions", "Role Members Amount"];
+		const info = ["Role Object", "Role ID", "Role Name", "Role Color", "Role Position", "Role Timestamp", "Role Is Mentionable?", "Role Is Separate From Others?", "Role Is Managed?", "Role Member List", "Role Creation Date", "Role Permissions", "Role Members Amount", "Role Permissions List"];
 		return `${roles[parseInt(data.role)]} - ${info[parseInt(data.info)]}`;
 	},
 
@@ -84,6 +84,7 @@ module.exports = {
 				<option value="6">Role Is Mentionable?</option>
 				<option value="7">Role Is Separate From Others?</option>
 				<option value="8">Role Is Managed By Bot/Integration</option>
+				<option value="13">Role Permissions List</option>
 			</select>
 		</div>
 	</div><br>
@@ -157,6 +158,9 @@ module.exports = {
 				break;
 			case 12:
 				result = targetRole.members.array().length;
+				break;
+			case 13:
+				result = mem.permissions.toArray().join(", ").replace(/_/g, " ").toLowerCase();
 				break;
 			default:
 				break;

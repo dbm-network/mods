@@ -54,7 +54,7 @@ module.exports = {
 
 	action: function(cache) {
 		const bot = this.getDBM().Bot.bot;
-		const servers = bot.guilds;
+		const servers = bot.guilds.cache;
 		const data = cache.actions[cache.index];
 		const info = parseInt(data.info);
 		const find = this.evalMessage(data.find, cache);
