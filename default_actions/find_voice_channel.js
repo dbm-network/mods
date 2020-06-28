@@ -58,7 +58,7 @@ module.exports = {
 		const data = cache.actions[cache.index];
 		const info = parseInt(data.info);
 		const find = this.evalMessage(data.find, cache);
-		const channels = server.channels.filter(function(channel) {
+		const channels = server.channels.cache.filter(function(channel) {
 			return channel.type === "voice";
 		});
 		let result;

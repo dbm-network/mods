@@ -175,17 +175,17 @@ module.exports = {
 				result = mem.lastMessage;
 				break;
 			case 7:
-				result = mem.highestRole;
+				result = mem.roles.highest;
 				break;
 			case 8:
-				result = mem.hoistRole;
+				result = mem.roles.hoist;
 				break;
 			case 9:
-				result = mem.colorRole;
+				result = mem.roles.color;
 				break;
 			case 10:
-				if(mem.presence && mem.presence.game) {
-					result = mem.presence.game.name;
+				if(mem.presence && mem.presence.activities) {
+					result = mem.presence.activities.find(activity => activity.type === "PLAYING").name
 				}
 				break;
 			case 11:
@@ -199,19 +199,19 @@ module.exports = {
 				break;
 			case 12:
 				if(mem.user) {
-					result = mem.user.displayAvatarURL;
+					result = mem.user.displayAvatarURL();
 				}
 				break;
 			case 13:
 				if(mem.roles) {
-					result = mem.roles.array();
+					result = mem.roles.cache.array();
 				}
 				break;
 			case 14:
 				result = mem.joinedAt;
 				break;
 			case 15:
-				result = mem.voiceChannel;
+				result = mem.voice.channel;
 				break;
 			case 16:
 				if(mem.user) {
@@ -232,14 +232,14 @@ module.exports = {
 				result = mem.lastMessageID;
 				break;
 			case 20:
-				result = mem.roles.size;
+				result = mem.roles.cache.size;
 				break;
 			case 21:
 				result = mem.permissions.toArray().join(", ").replace(/_/g, " ").toLowerCase();
 				break;
 			case 22:
-				if (mem.presence.game && mem.presence.game.type == 4) {
-					result = mem.presence.game.state;
+				if (mem.presence.game && mem.presence.activities) {
+					result = mem.presence.activities.find(activity => activity.type === "CUSTOM_STATUS").state;
 				}
 				break;
 			case 23:

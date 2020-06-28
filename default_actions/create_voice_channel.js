@@ -58,17 +58,17 @@ Category ID:<br>
 		const catid = this.evalMessage(data.categoryID, cache);
 		const bitrate = parseInt(this.evalMessage(data.bitrate, cache));
 		const userLimit = parseInt(this.evalMessage(data.userLimit, cache));
-		if(server && server.createChannel) {
+		if(server && server.available && server.channels.create) {
 			const name = this.evalMessage(data.channelName, cache);
 			const storage = parseInt(data.storage);
 			if (!catid) {
-				server.createChannel(name, { type: "voice", bitrate: bitrate, userLimit: userLimit }).then(function(channel) {
+				server.channels.create(name, { type: "voice", bitrate: bitrate, userLimit: userLimit }).then(function(channel) {
 					const varName = this.evalMessage(data.varName, cache);
 					this.storeValue(channel, storage, varName, cache);
 					this.callNextAction(cache);
 				}.bind(this)).catch(this.displayError.bind(this, data, cache));
 			} else {
-				server.createChannel(name, { type: "voice", bitrate: bitrate, userLimit: userLimit, parent: catid }).then(function(channel) {
+				server.channels.create(name, { type: "voice", bitrate: bitrate, userLimit: userLimit, parent: catid }).then(function(channel) {
 					const varName = this.evalMessage(data.varName, cache);
 					this.storeValue(channel, storage, varName, cache);
 					this.callNextAction(cache);

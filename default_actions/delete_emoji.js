@@ -51,7 +51,7 @@ module.exports = {
 		const varName = this.evalMessage(data.varName, cache);
 		let emoji;
 		if(type === 0) {
-			emoji = server.emojis.find((element) => element.name === varName);
+			emoji = server.emojis.cache.find((element) => element.name === varName);
 		} else {
 			emoji = this.getVariable(type, varName, cache);
 		}
@@ -59,8 +59,8 @@ module.exports = {
 			this.callNextAction(cache);
 			return;
 		}
-		if(server && server.deleteEmoji) {
-			server.deleteEmoji(emoji).then(function() {
+		if(server && server.available) {
+			emoji.delete().then(function() {
 				this.callNextAction(cache);
 			}.bind(this)).catch(this.displayError.bind(this, data, cache));
 		} else {
