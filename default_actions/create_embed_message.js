@@ -209,44 +209,37 @@ module.exports = {
 		const timestamp = this.evalMessage(data.timestamp, cache);
 		const timestampDebug = this.evalMessage(data.timestampDebug, cache);
 		const debug = this.evalMessage(data.debug);
-
+		const storage = parseInt(data.storage);
+		const varName = this.evalMessage(data.varName, cache);
+		
+		if (!varName) {
+			this.callNextAction(cache);
+			return;
+		}
+		
 		if(debug != "true") {
-		//Title
+			//Title
 			embed.setTitle(this.evalMessage(data.title, cache));
-
 			//URL
 			if(data.url) {
 				embed.setURL(this.evalMessage(data.url, cache));
 			}
-
 			//Author Name
 			if(data.author) {
-				if(data.authorIcon && data.authorUrl) {
-					embed.setAuthor(this.evalMessage(data.author, cache), this.evalMessage(data.authorIcon, cache), this.evalMessage(data.authorUrl, cache));
-				} else if(data.authorIcon && !data.authorUrl) {
-					embed.setAuthor(this.evalMessage(data.author, cache), this.evalMessage(data.authorIcon, cache));
-				} else if(!data.authorIcon && data.authorUrl) {
-					embed.setAuthor(this.evalMessage(data.author, cache), "", this.evalMessage(data.authorUrl, cache));
-				} else {
-					embed.setAuthor(this.evalMessage(data.author, cache));
-				}
+				embed.setAuthor(this.evalMessage(data.author, cache), this.evalMessage(data.authorIcon, cache), this.evalMessage(data.authorUrl, cache));
 			}
-
 			//Color
 			if(data.color) {
 				embed.setColor(this.evalMessage(data.color, cache));
 			}
-
 			//Image URL
 			if(data.imageUrl) {
 				embed.setImage(this.evalMessage(data.imageUrl, cache));
 			}
-
 			//Thumbnail URL
 			if(data.thumbUrl) {
 				embed.setThumbnail(this.evalMessage(data.thumbUrl, cache));
 			}
-
 			//Timestamp
 			switch(timestamp) {
 				case "false":
@@ -259,44 +252,20 @@ module.exports = {
 						embed.setTimestamp(new Date(`${text}`));
 					} else {
 						embed.setTimestamp(new Date());
-						console.log("Invaild utc timestamp! Changed from [String Timestamp] to [Current Timestamp].");
+						console.log("Invaild UTC timestamp! Changed from [String Timestamp] to [Current Timestamp].");
 					}
 					break;
 				case "custom":
-					if(year >= 1000 && year !== undefined && month >= 0 && month !== undefined && day >= 0 && day !== undefined && hour >= 0 && hour !== undefined && minute >= 0 && minute !== undefined && second >= 0 && second !== undefined) {
-						if(year !== undefined && month !== undefined && day !== undefined && hour !== undefined && minute !== undefined && second !== undefined) {
-							embed.setTimestamp(new Date(year, month, day, hour, minute, second));
-						} else if(year !== undefined && month !== undefined && day !== undefined && hour !== undefined && minute !== undefined && second == undefined) {
-							embed.setTimestamp(new Date(year, month, day, hour, minute));
-						} else if(year !== undefined && month !== undefined && day !== undefined && hour !== undefined && minute == undefined && second == undefined) {
-							embed.setTimestamp(new Date(year, month, day, hour));
-						} else if(year !== undefined && month !== undefined && day !== undefined && hour == undefined && minute == undefined && second == undefined) {
-							embed.setTimestamp(new Date(year, month, day));
-						} else if(year !== undefined && month !== undefined && day == undefined && hour == undefined && minute == undefined && second == undefined) {
-							embed.setTimestamp(new Date(year, month));
-						} else if(year !== undefined && month == undefined && day == undefined && hour == undefined && minute == undefined && second == undefined) {
-							embed.setTimestamp(new Date(year));
-						} else {
-							embed.setTimestamp(new Date());
-							console.log("Invaild utc timestamp! Changed from [Custom Timestamp] to [Current Timestamp].");
-						}
-					} else {
-						embed.setTimestamp(new Date());
-						console.log("Invaild utc timestamp! from [Custom Timestamp] Changed to [Current Timestamp].");
-					}
+					embed.setTimestamp(new Date(year || null, month || null, day || null, hour || null, minute || null, second || null));
 					break;
 				default:
 					embed.setTimestamp(new Date());
 					break;
 			}
 
-			const storage = parseInt(data.storage);
-			const varName = this.evalMessage(data.varName, cache);
 			this.storeValue(embed, storage, varName, cache);
 			this.callNextAction(cache);
 		} else {
-			const data = cache.actions[cache.index];
-			const embed = this.createEmbed();
 			embed.setTitle(this.evalMessage(data.title, cache));
 			if(data.url) {
 				embed.setURL(this.evalMessage(data.url, cache));
@@ -326,9 +295,32 @@ module.exports = {
 	mod: function(DBM) {
 		const DiscordJS = DBM.DiscordJS;
 		const Actions = DBM.Actions;
-
-		Actions.createEmbed = function() {
-			return new DiscordJS.MessageEmbed();
+		
+		/*
+		 * @param {[string]} title - The Title for your embed.
+		 * @param {[string]} url - The URL for your embed.
+		 * @param {[string]} color - The Color for your embed.
+		 * @param {[object]} author - The author for your embed.
+		 *		@param {[string]} - Author Name
+		 *		@param {[string]} - Author Icon URL
+		 *		@param {[string]} - Author URL
+		 * @param {[string]} description - The Description for your embed.
+		 */
+		
+		Actions.createEmbed = function(title, url, color, author, description) {
+			let embed = new DiscordJS.MessageEmbed();
+			if (title) { // no, not supposed to be an else if.
+				embed.setTitle(title);
+			} if (url) {
+				embed.setURL(url);
+			} if (color) {
+				embed.setColor(color);
+			} if (author) {
+				embed.setAuthor(author[0], author[1], author[2]);
+			} if (description) {
+				embed.setDescription(description);
+			}
+			return embed;
 		};
 	}
 };
