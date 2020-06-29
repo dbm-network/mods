@@ -8,10 +8,6 @@ module.exports = {
 		return `Data : ${data.dataName ? data.dataName : "All Data"}`;
 	},
 
-	github: "LeonZ2019",
-	author: "LeonZ",
-	version: "1.1.1",
-
 	fields: ["dataName"],
 
 	html: function(isEvent, data) {

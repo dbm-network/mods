@@ -8,15 +8,9 @@ module.exports = {
 		return `(${data.dataName}) ${data.changeType === "1" ? "+=" : "="} ${data.value}`;
 	},
 
-	author: "MrGold",
-
-	version: "1.9.5",
-
-	short_description: "Adds/sets value to Globals JSON file",
-
 	fields: ["dataName", "changeType", "value"],
 
-	html: function(isEvent, data) {
+	html: function() {
 		return `
 	<div style="padding-top: 8px;">
 		<div style="float: left; width: 50%;">
@@ -59,7 +53,7 @@ module.exports = {
 		this.callNextAction(cache);
 	},
 
-	mod: function(DBM) {
+	mod: function() {
 	}
 
 };

@@ -9,12 +9,6 @@ module.exports = {
 		return `${storage[parseInt(data.storage)]} (${data.varName})`;
 	},
 
-	author: "MrGold",
-
-	version: "1.9.5",
-
-	short_description: "Stores a Global Data Value",
-
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
@@ -63,7 +57,7 @@ module.exports = {
 		this.callNextAction(cache);
 	},
 
-	mod: function(DBM) {
+	mod: function() {
 	}
 
 };

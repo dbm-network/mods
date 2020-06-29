@@ -9,12 +9,6 @@ module.exports = {
 		return `If True: ${results[parseInt(data.iftrue)]} ~ If False: ${results[parseInt(data.iffalse)]}`;
 	},
 
-	author: "MrGold",
-
-	version: "1.9.5",
-
-	short_description: "Check if a Global Data Value meets the conditions",
-
 	fields: ["dataName", "comparison", "value", "iftrue", "iftrueVal", "iffalse", "iffalseVal", "Jump to Anchor"],
 
 	html: function(isEvent, data) {
@@ -131,7 +125,7 @@ module.exports = {
 		this.executeResults(result, data, cache);
 	},
 
-	mod: function(DBM) {
+	mod: function() {
 	}
 
 };

@@ -9,10 +9,6 @@ module.exports = {
 		return `${members[parseInt(data.member)]} - ${data.dataName}`;
 	},
 
-	github: "LeonZ2019",
-	author: "LeonZ",
-	version: "1.1.1",
-
 	fields: ["member", "varName", "dataName"],
 
 	html: function(isEvent, data) {
