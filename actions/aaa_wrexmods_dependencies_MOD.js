@@ -31,7 +31,6 @@ WrexMODS.CheckAndInstallNodeModule = function(moduleName){
 			resolve(require(moduleName));
 		} catch (e) {
 			console.log(`Failed to Install ${moduleName}, please re-try or install manually with "npm i ${moduleName}"`);
-			reject('Installer Failed.');
 		}
 	});
 }
