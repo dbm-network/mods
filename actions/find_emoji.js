@@ -1,5 +1,5 @@
 module.exports = {
-	name: "Find Custom Emoji in Specified Server",
+	name: "Find Custom Emoji",
 	section: "Emoji Control",
 
 	subtitle: function(data) {
@@ -54,7 +54,7 @@ module.exports = {
 		let result;
 		switch(info) {
 			case 0:
-				result = bot.emojis.cache.find((element) => element.id === find);
+				result = bot.emojis.cache.get(find);
 				break;
 			case 1:
 				result = bot.emojis.cache.find((element) => element.name === find);
@@ -70,5 +70,7 @@ module.exports = {
 		this.callNextAction(cache);
 	},
 
-	mod: function() {}
+	mod: function() {
+		DBM.Actions["Find Custom Emoji in Specified Server"] = DBM.Actions["Find Custom Emoji"];
+	}
 };
