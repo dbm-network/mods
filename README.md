@@ -15,7 +15,6 @@
   </a>
 </p>
 
-** **
 
 # Table of Contents
 
@@ -23,13 +22,13 @@
 - [Downloads](#downloads)
   - [Installing mods](#installing-dbm-mods)
   - [Installing beta](#installing-dbm-beta)
-** **
+
 
 ## Overview
 
 DBM Mods is a community driven open source project meant to modify, extend, and improve [Discord Bot Maker](https://store.steampowered.com/app/682130/Discord_Bot_Maker/).
 
-** **
+
 # Downloads
 
 This repository is not meant to be downloaded or cloned. Please follow the installation guide below.
@@ -49,7 +48,6 @@ This repository is not meant to be downloaded or cloned. Please follow the insta
 
 **It's strongly advised to also install the [DBM Mods files](https://dbm-network.github.io/download-git/#/home?url=https://github.com/dbm-network/mods/tree/beta/actions) to your bot project's "actions" folder**
 
-** **
 
 ## Installing DBM Beta
 
