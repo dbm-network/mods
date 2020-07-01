@@ -66,7 +66,7 @@ module.exports = {
 			this.callListFunc(message, "edit", [content, embed]).then(function() {
 				this.callNextAction(cache);
 			}.bind(this));
-		} else if(message && message.edit && !(message.deleted)) {
+		} else if(message && message.edit && !message.deleted) {
 			message.edit(content, embed).then(function() {
 				this.callNextAction(cache);
 			}.bind(this)).catch(this.displayError.bind(this, data, cache));
