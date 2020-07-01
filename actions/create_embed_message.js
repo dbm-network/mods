@@ -198,6 +198,7 @@ module.exports = {
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
+		const { DiscordJS } = this.getDBM();
 		const embed = new DiscordJS.MessageEmbed();
 		const text = this.evalMessage(data.text, cache);
 		const year = parseInt(this.evalMessage(data.year, cache));
