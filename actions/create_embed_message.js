@@ -198,7 +198,7 @@ module.exports = {
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
-		const embed = this.createEmbed();
+		const embed = new DiscordJS.MessageEmbed();
 		const text = this.evalMessage(data.text, cache);
 		const year = parseInt(this.evalMessage(data.year, cache));
 		const month = parseInt(this.evalMessage(data.month, cache)-1);
@@ -219,7 +219,9 @@ module.exports = {
 		
 		if(debug != "true") {
 			//Title
-			embed.setTitle(this.evalMessage(data.title, cache));
+			if(data.title) {
+				embed.setTitle(this.evalMessage(data.title, cache));
+			}
 			//URL
 			if(data.url) {
 				embed.setURL(this.evalMessage(data.url, cache));
@@ -266,7 +268,9 @@ module.exports = {
 			this.storeValue(embed, storage, varName, cache);
 			this.callNextAction(cache);
 		} else {
-			embed.setTitle(this.evalMessage(data.title, cache));
+			if(data.title) {
+				embed.setTitle(this.evalMessage(data.title, cache));
+			}
 			if(data.url) {
 				embed.setURL(this.evalMessage(data.url, cache));
 			}
@@ -290,9 +294,5 @@ module.exports = {
 		}
 	},
 
-	mod: function(DBM) {
-		const DiscordJS = DBM.DiscordJS;
-		const Actions = DBM.Actions;
-		
-	}
+	mod: function() {}
 };
