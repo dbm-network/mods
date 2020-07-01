@@ -294,31 +294,5 @@ module.exports = {
 		const DiscordJS = DBM.DiscordJS;
 		const Actions = DBM.Actions;
 		
-		/*
-		 * @param {[string]} title - The Title for your embed.
-		 * @param {[string]} url - The URL for your embed.
-		 * @param {[string]} color - The Color for your embed.
-		 * @param {[object]} author - The author for your embed.
-		 *		@param {[string]} - Author Name
-		 *		@param {[string]} - Author Icon URL
-		 *		@param {[string]} - Author URL
-		 * @param {[string]} description - The Description for your embed.
-		 */
-		
-		Actions.createEmbed = function(title, url, color, author, description) {
-			let embed = new DiscordJS.MessageEmbed();
-			if (title) { // no, not supposed to be an else if.
-				embed.setTitle(title);
-			} if (url) {
-				embed.setURL(url);
-			} if (color) {
-				embed.setColor(color);
-			} if (author) {
-				embed.setAuthor(author[0], author[1], author[2]);
-			} if (description) {
-				embed.setDescription(description);
-			}
-			return embed;
-		};
 	}
 };
