@@ -248,7 +248,7 @@ module.exports = {
 				case "false":
 					break;
 				case "true":
-					embed.setTimestamp(new Date());
+					embed.setTimestamp();
 					break;
 				case "string":
 					if(text.length > 0) {
@@ -262,7 +262,7 @@ module.exports = {
 					embed.setTimestamp(new Date(year || null, month || null, day || null, hour || null, minute || null, second || null));
 					break;
 				default:
-					embed.setTimestamp(new Date());
+					embed.setTimestamp();
 					break;
 			}
 
@@ -288,7 +288,7 @@ module.exports = {
 				embed.setThumbnail(this.evalMessage(data.thumbUrl, cache));
 			}
 			if(timestampDebug === "true") {
-				embed.setTimestamp(new Date());
+				embed.setTimestamp();
 			}
 			this.storeValue(embed, storage, varName, cache);
 			this.callNextAction(cache);
