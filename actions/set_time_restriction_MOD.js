@@ -37,8 +37,8 @@ module.exports = {
 			<div style="float: left; width: 35%;">
 				Reset After Restart:<br>
 				<select id="save" class="round"><br>
-					<option value="0" selected>false</option>
-					<option value="1">true</option>
+					<option value="0" selected>False</option>
+					<option value="1">True</option>
 				</select>
 			</div>
 			<div style="padding-left: 5%; float: left; width: 59%;">
@@ -48,7 +48,7 @@ module.exports = {
 					<option value="1">Server</option>
 				</select>
 			</div>
-		<div><br><br><br>
+		</div><br><br><br>
 		<div style="padding-top: 8px;">
 			${data.conditions[0]}
 		</div><br><br><br>
@@ -86,7 +86,60 @@ module.exports = {
 					break;
 			}
 		};
-
+		let option = document.createElement("OPTION");
+		option.value = "4";
+		option.text = "Jump to Anchor";
+		const iffalse = document.getElementById("iffalse");
+		if (iffalse.length == 4) {
+			iffalse.add(option);
+		}
+		let option2 = document.createElement("OPTION");
+		option2.value = "4";
+		option2.text = "Jump to Anchor";
+		const iftrue = document.getElementById("iftrue");
+		if (iftrue.length == 4) {
+			iftrue.add(option2);
+		}
+		glob.onChangeTrue = function(event) {
+			switch (parseInt(event.value)) {
+				case 0:
+				case 1:
+					document.getElementById('iftrueContainer').style.display = 'none';
+					break;
+				case 2:
+					document.getElementById('iftrueName').innerHTML = 'Action Number';
+					document.getElementById('iftrueContainer').style.display = null;
+					break;
+				case 3:
+					document.getElementById('iftrueName').innerHTML = 'Number of Actions to Skip';
+					document.getElementById('iftrueContainer').style.display = null;
+					break;
+				case 4:
+					document.getElementById('iftrueName').innerHTML = 'Anchor ID';
+					document.getElementById('iftrueContainer').style.display = null;
+					break;
+			};
+		};
+		glob.onChangeFalse = function(event) {
+			switch (parseInt(event.value)) {
+				case 0:
+				case 1:
+					document.getElementById('iffalseContainer').style.display = 'none';
+					break;
+				case 2:
+					document.getElementById('iffalseName').innerHTML = 'Action Number';
+					document.getElementById('iffalseContainer').style.display = null;
+					break;
+				case 3:
+					document.getElementById('iffalseName').innerHTML = 'Number of Actions to Skip';
+					document.getElementById('iffalseContainer').style.display = null;
+					break;
+				case 4:
+					document.getElementById('iffalseName').innerHTML = 'Anchor ID';
+					document.getElementById('iffalseContainer').style.display = null;
+					break;
+			};
+		};
 		glob.variableChange(document.getElementById("storage"), "varNameContainer");
 		glob.onChangeTrue(document.getElementById("iftrue"));
 		glob.onChangeFalse(document.getElementById("iffalse"));

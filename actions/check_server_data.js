@@ -58,7 +58,60 @@ module.exports = {
 
 	init: function() {
 		const { glob, document } = this;
-
+		let option = document.createElement("OPTION");
+		option.value = "4";
+		option.text = "Jump to Anchor";
+		const iffalse = document.getElementById("iffalse");
+		if (iffalse.length == 4) {
+			iffalse.add(option);
+		}
+		let option2 = document.createElement("OPTION");
+		option2.value = "4";
+		option2.text = "Jump to Anchor";
+		const iftrue = document.getElementById("iftrue");
+		if (iftrue.length == 4) {
+			iftrue.add(option2);
+		}
+		glob.onChangeTrue = function(event) {
+			switch (parseInt(event.value)) {
+				case 0:
+				case 1:
+					document.getElementById('iftrueContainer').style.display = 'none';
+					break;
+				case 2:
+					document.getElementById('iftrueName').innerHTML = 'Action Number';
+					document.getElementById('iftrueContainer').style.display = null;
+					break;
+				case 3:
+					document.getElementById('iftrueName').innerHTML = 'Number of Actions to Skip';
+					document.getElementById('iftrueContainer').style.display = null;
+					break;
+				case 4:
+					document.getElementById('iftrueName').innerHTML = 'Anchor ID';
+					document.getElementById('iftrueContainer').style.display = null;
+					break;
+			};
+		};
+		glob.onChangeFalse = function(event) {
+			switch (parseInt(event.value)) {
+				case 0:
+				case 1:
+					document.getElementById('iffalseContainer').style.display = 'none';
+					break;
+				case 2:
+					document.getElementById('iffalseName').innerHTML = 'Action Number';
+					document.getElementById('iffalseContainer').style.display = null;
+					break;
+				case 3:
+					document.getElementById('iffalseName').innerHTML = 'Number of Actions to Skip';
+					document.getElementById('iffalseContainer').style.display = null;
+					break;
+				case 4:
+					document.getElementById('iffalseName').innerHTML = 'Anchor ID';
+					document.getElementById('iffalseContainer').style.display = null;
+					break;
+			};
+		};
 		glob.serverChange(document.getElementById("server"), "varNameContainer");
 		glob.onChangeTrue(document.getElementById("iftrue"));
 		glob.onChangeFalse(document.getElementById("iffalse"));
