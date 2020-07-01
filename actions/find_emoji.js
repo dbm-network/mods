@@ -71,7 +71,5 @@ module.exports = {
 		this.callNextAction(cache);
 	},
 
-	mod: function(DBM) {
-		DBM.Actions["Find Custom Emoji in Specified Server"] = DBM.Actions["Find Custom Emoji"];
-	}
+	mod: function() {}
 };
