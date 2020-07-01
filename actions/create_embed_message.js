@@ -254,7 +254,7 @@ module.exports = {
 					if(text.length > 0) {
 						embed.setTimestamp(new Date(`${text}`));
 					} else {
-						embed.setTimestamp(new Date());
+						embed.setTimestamp();
 						console.log("Invaild UTC timestamp! Changed from [String Timestamp] to [Current Timestamp].");
 					}
 					break;
