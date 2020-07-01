@@ -1,5 +1,4 @@
 module.exports = {
-
 	name: "Check Global Data",
 
 	section: "Deprecated",
@@ -37,53 +36,53 @@ module.exports = {
 	</div>
 	<div style="padding-top: 16px;">
 		${data.conditions[0]}
-	</div>`
+	</div>`;
 	},
 
 	init: function() {
-		const {glob, document} = this;
+		const { glob, document } = this;
 		glob.onChangeTrue = function(event) {
 			switch (parseInt(event.value)) {
 				case 0:
 				case 1:
-					document.getElementById('iftrueContainer').style.display = 'none';
+					document.getElementById("iftrueContainer").style.display = "none";
 					break;
 				case 2:
-					document.getElementById('iftrueName').innerHTML = 'Action Number';
-					document.getElementById('iftrueContainer').style.display = null;
+					document.getElementById("iftrueName").innerHTML = "Action Number";
+					document.getElementById("iftrueContainer").style.display = null;
 					break;
 				case 3:
-					document.getElementById('iftrueName').innerHTML = 'Number of Actions to Skip';
-					document.getElementById('iftrueContainer').style.display = null;
+					document.getElementById("iftrueName").innerHTML = "Number of Actions to Skip";
+					document.getElementById("iftrueContainer").style.display = null;
 					break;
 				case 4:
-					document.getElementById('iftrueName').innerHTML = 'Anchor ID';
-					document.getElementById('iftrueContainer').style.display = null;
+					document.getElementById("iftrueName").innerHTML = "Anchor ID";
+					document.getElementById("iftrueContainer").style.display = null;
 					break;
-			};
+			}
 		};
 		glob.onChangeFalse = function(event) {
 			switch (parseInt(event.value)) {
 				case 0:
 				case 1:
-					document.getElementById('iffalseContainer').style.display = 'none';
+					document.getElementById("iffalseContainer").style.display = "none";
 					break;
 				case 2:
-					document.getElementById('iffalseName').innerHTML = 'Action Number';
-					document.getElementById('iffalseContainer').style.display = null;
+					document.getElementById("iffalseName").innerHTML = "Action Number";
+					document.getElementById("iffalseContainer").style.display = null;
 					break;
 				case 3:
-					document.getElementById('iffalseName').innerHTML = 'Number of Actions to Skip';
-					document.getElementById('iffalseContainer').style.display = null;
+					document.getElementById("iffalseName").innerHTML = "Number of Actions to Skip";
+					document.getElementById("iffalseContainer").style.display = null;
 					break;
 				case 4:
-					document.getElementById('iffalseName').innerHTML = 'Anchor ID';
-					document.getElementById('iffalseContainer').style.display = null;
+					document.getElementById("iffalseName").innerHTML = "Anchor ID";
+					document.getElementById("iffalseContainer").style.display = null;
 					break;
-			};
+			}
 		};
-		glob.onChangeTrue(document.getElementById('iftrue'));
-		glob.onChangeFalse(document.getElementById('iffalse'));
+		glob.onChangeTrue(document.getElementById("iftrue"));
+		glob.onChangeFalse(document.getElementById("iffalse"));
 	},
 
 	action: function(cache) {
@@ -99,33 +98,31 @@ module.exports = {
 		let result = false;
 		switch(compare) {
 			case 0:
-				result = Boolean(val1 !== undefined);
+				result = val1 !== undefined;
 				break;
 			case 1:
-				result = Boolean(val1 == val2);
+				result = val1 == val2;
 				break;
 			case 2:
-				result = Boolean(val1 === val2);
+				result = val1 === val2;
 				break;
 			case 3:
-				result = Boolean(val1 < val2);
+				result = val1 < val2;
 				break;
 			case 4:
-				result = Boolean(val1 > val2);
+				result = val1 > val2;
 				break;
 			case 5:
-				if(typeof(val1.includes) === 'function') {
-					result = Boolean(val1.includes(val2));
+				if(typeof(val1.includes) === "function") {
+					result = val1.includes(val2);
 				}
 				break;
 			case 6:
-				result = Boolean(val1.match(new RegExp('^' + val2 + '$', 'i')));
+				result = Boolean(val1.match(new RegExp("^" + val2 + "$", "i")));
 				break;
 		}
 		this.executeResults(result, data, cache);
 	},
 
-	mod: function() {
-	}
-
+	mod: function() {}
 };

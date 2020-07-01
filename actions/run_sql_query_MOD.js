@@ -27,7 +27,6 @@ module.exports = {
 			sub += `${storage[parseInt(data.storage)]} :${data.varName}`;
 		}
 
-
 		return sub;
 	},
 
@@ -277,14 +276,12 @@ module.exports = {
 		}
 
 		try {
-
 			const type = document.getElementById("otype").value;
 			const hostname = document.getElementById("hostname").value;
 			const port = document.getElementById("port").value;
 			const username = document.getElementById("username").value;
 			const password = document.getElementById("password").value;
 			const database = document.getElementById("database").value;
-
 
 			document.getElementById("checkConnection").onclick = function(evt) {
 
@@ -388,11 +385,9 @@ module.exports = {
 		const DEBUG = parseInt(data.debugMode);
 		const stringifyOutput = parseInt(data.stringifyOutput);
 
-
 		const Mods = this.getMods();
 
 		try {
-
 			const Sequelize = Mods.require("sequelize");
 			function getType(key){
 				let res;

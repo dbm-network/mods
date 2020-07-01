@@ -1,5 +1,4 @@
 module.exports = {
-
 	name: "Control Global Data",
 
 	section: "Deprecated",
@@ -28,7 +27,7 @@ module.exports = {
 	<div style="padding-top: 8px;">
 		Value:<br>
 		<input id="value" class="round" type="text" name="is-eval"><br>
-	</div>`
+	</div>`;
 	},
 
 	init: function() {
@@ -49,11 +48,9 @@ module.exports = {
 			Globals.addData(dataName, val);
 		} else {
 			Globals.setData(dataName, val);
-		};
+		}
 		this.callNextAction(cache);
 	},
 
-	mod: function() {
-	}
-
+	mod: function() {}
 };

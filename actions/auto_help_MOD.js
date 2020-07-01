@@ -10,18 +10,24 @@ module.exports = {
 
 	html: function(isEvent, data) {
 		return `
-		<a href="https://www.silversunset.net/paste/raw/230" target="_blank">This RAW DATA</a> is <b>required</b> to use this mod.<br>
-		</p>
+		<div>
+			<p>
+				<u>Mod Info:</u><br>
+				This will add an additional field to your raw data for use in an automatic help command<br>
+				<a href="https://www.silversunset.net/paste/raw/230" target="_blank">This RAW DATA</a> is <b>required</b> to use this mod.<br>
+			</p>
+		</div><br>
 		<div style="float: left; width: 99%;">
-		Category: <input id="Category" class="round" type="text" style="width:99%"><br>
-		Description: <textarea id="Description" rows="3" placeholder="Insert description here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea><br>
-		Include in Auto Help: <select style="width:33%;" id="Include" class="round">
-								<option value="No">No</option>
-								<option value="Yes">Yes</option>
-							  </select.
-
-
-	</div>`;
+			Category:
+			<input id="Category" class="round" type="text" style="width:99%"><br>
+			Description:
+			<textarea id="Description" rows="3" placeholder="Insert description here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea><br>
+			Include in Auto Help:
+			<select style="width:33%;" id="Include" class="round">
+				<option value="Yes">Yes</option>
+				<option value="No">No</option>
+			</select>
+		</div>`;
 	},
 
 	init: function() {
@@ -32,7 +38,6 @@ module.exports = {
 		glob.sendTargetChange(document.getElementById("Include"), "varNameContainer");
 
 	},
-
 
 	action: function(cache) {
 		this.callNextAction(cache);

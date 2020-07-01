@@ -105,8 +105,6 @@ module.exports = {
 		glob.refreshVariableList(document.getElementById("reaction"));
 		glob.onChangeTrue(document.getElementById("iftrue"));
 		glob.onChangeFalse(document.getElementById("iffalse"));
-
-
 	},
 
 	action: function(cache) {
@@ -136,5 +134,4 @@ module.exports = {
 	},
 
 	mod: function() {}
-
 };

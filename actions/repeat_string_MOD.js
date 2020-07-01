@@ -57,16 +57,9 @@ module.exports = {
 		const varName = this.evalMessage(data.varName, cache);
 		const girdi = this.evalMessage(data.girdi, cache);
 		const xtimes = this.evalMessage(data.xtimes, cache);
-		const storage = this.getVariable(type, varName, cache);
 
-
-		var _this = this;
-		const Mods = _this.getMods();
-		Mods.CheckAndInstallNodeModule("repeat-string");
-		const search = Mods.require("repeat-string");
-
-
-		var repeat = require("repeat-string");
+		const Mods = this.getMods();
+		const repeat = Mods.require("repeat-string");
 		var val = repeat(girdi, xtimes);
 		this.storeValue(val, type, varName, cache);
 		this.callNextAction(cache);

@@ -106,7 +106,7 @@ module.exports = {
 	init: function() {
 		const { glob, document } = this;
 
-		document.getElementById("separator").placeholder = "Read the Note below | Default Parameter Separator: \"" + JSON.parse(require("fs").readFileSync(JSON.parse(require("fs").readFileSync(__dirname.substr(0, __dirname.lastIndexOf("\\") + 1) + "settings.json", "utf8"))["current-project"] + "\\data\\settings.json", "utf8")).separator + '"';
+		document.getElementById("separator").placeholder = "Read the Note below | Default Parameter Separator: \"" + JSON.parse(require("fs").readFileSync(JSON.parse(require("fs").readFileSync(__dirname.substr(0, __dirname.lastIndexOf("\\") + 1) + "settings.json", "utf8"))["current-project"] + "\\data\\settings.json", "utf8")).separator + "\"";
 
 		glob.onChange1 = function(event) {
 			const value = parseInt(event.value);
@@ -159,22 +159,21 @@ module.exports = {
 	},
 
 	action: function(cache) {
-		
+
 		const data = cache.actions[cache.index];
 		const message = parseInt(data.message);
 		const varName = this.evalMessage(data.varName, cache);
 		const msg = this.getMessage(message, varName, cache);
 		const count = this.evalMessage(data.count, cache);
-		
+
 		if (!msg) {
 			console.log(`Action: #${cache.index + 1} | Store Message Params ERROR: Message doesn't exist`);
 			this.callNextAction(cache);
 			return;
 		}
-		
+
 		const ParamN = this.evalMessage(data.ParamN, cache);
 		const infoType = parseInt(data.info);
-
 
 		if (ParamN == "") {
 			console.log(`Action: #${cache.index + 1} | Store Message Params ERROR: Parameter Number has nothing`);

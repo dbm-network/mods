@@ -10,11 +10,9 @@ module.exports = {
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
-		const info = parseInt(data.info);
 		let dataType = "Clever Response";
 		return ([data.varName2, dataType]);
 	},
-
 
 	fields: ["WhichAPI", "inputVarType", "inputVarName", "APIuser", "APIkey", "storage", "varName2"],
 
@@ -95,9 +93,8 @@ module.exports = {
 		const storage = parseInt(data.storage);
 		const varName2 = this.evalMessage(data.varName2, cache);
 
-		var Mods = this.getMods(); // Using Mods for better performance.
+		const Mods = this.getMods();
 
-		let response;
 		switch(WhichAPI) {
 			case 0:
 				const ioAPIuser = this.evalMessage(data.APIuser, cache);

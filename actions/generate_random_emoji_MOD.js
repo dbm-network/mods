@@ -40,7 +40,6 @@ module.exports = {
 		const storage = parseInt(data.storage);
 		const varName = this.evalMessage(data.varName, cache);
 
-
 		const emoji = require("node-emoji");
 		let gg = emoji.random();
 		const result = gg.emoji;

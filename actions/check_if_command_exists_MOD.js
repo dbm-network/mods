@@ -11,14 +11,14 @@ module.exports = {
 
 	html: function(isEvent, data) {
 		return `
-        <div style="width: 45%">
-            Command Name:<br>
-            <input id="commandName" type="text" class="round">
-        </div><br>
-        <div>
-            ${data.conditions[0]}
-        </div>
-        `;
+		<div style="width: 45%">
+			Command Name:<br>
+			<input id="commandName" type="text" class="round">
+		</div><br>
+		<div>
+			${data.conditions[0]}
+		</div>
+		`;
 	},
 
 	init: function() {
@@ -67,4 +67,3 @@ module.exports = {
 
 	mod: function() {}
 };
-
