@@ -104,41 +104,41 @@ module.exports = {
 			switch (parseInt(event.value)) {
 				case 0:
 				case 1:
-					document.getElementById('iftrueContainer').style.display = 'none';
+					document.getElementById("iftrueContainer").style.display = "none";
 					break;
 				case 2:
-					document.getElementById('iftrueName').innerHTML = 'Action Number';
-					document.getElementById('iftrueContainer').style.display = null;
+					document.getElementById("iftrueName").innerHTML = "Action Number";
+					document.getElementById("iftrueContainer").style.display = null;
 					break;
 				case 3:
-					document.getElementById('iftrueName').innerHTML = 'Number of Actions to Skip';
-					document.getElementById('iftrueContainer').style.display = null;
+					document.getElementById("iftrueName").innerHTML = "Number of Actions to Skip";
+					document.getElementById("iftrueContainer").style.display = null;
 					break;
 				case 4:
-					document.getElementById('iftrueName').innerHTML = 'Anchor ID';
-					document.getElementById('iftrueContainer').style.display = null;
+					document.getElementById("iftrueName").innerHTML = "Anchor ID";
+					document.getElementById("iftrueContainer").style.display = null;
 					break;
-			};
+			}
 		};
 		glob.onChangeFalse = function(event) {
 			switch (parseInt(event.value)) {
 				case 0:
 				case 1:
-					document.getElementById('iffalseContainer').style.display = 'none';
+					document.getElementById("iffalseContainer").style.display = "none";
 					break;
 				case 2:
-					document.getElementById('iffalseName').innerHTML = 'Action Number';
-					document.getElementById('iffalseContainer').style.display = null;
+					document.getElementById("iffalseName").innerHTML = "Action Number";
+					document.getElementById("iffalseContainer").style.display = null;
 					break;
 				case 3:
-					document.getElementById('iffalseName').innerHTML = 'Number of Actions to Skip';
-					document.getElementById('iffalseContainer').style.display = null;
+					document.getElementById("iffalseName").innerHTML = "Number of Actions to Skip";
+					document.getElementById("iffalseContainer").style.display = null;
 					break;
 				case 4:
-					document.getElementById('iffalseName').innerHTML = 'Anchor ID';
-					document.getElementById('iffalseContainer').style.display = null;
+					document.getElementById("iffalseName").innerHTML = "Anchor ID";
+					document.getElementById("iffalseContainer").style.display = null;
 					break;
-			};
+			}
 		};
 		glob.variableChange(document.getElementById("storage"), "varNameContainer");
 		glob.onChangeTrue(document.getElementById("iftrue"));
