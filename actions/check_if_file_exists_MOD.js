@@ -1,5 +1,5 @@
 module.exports = {
-	name: "Check If File Exists",
+	name: "Check if File Exists",
 	section: "File Stuff",
 
 	subtitle: function(data) {

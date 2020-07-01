@@ -41,7 +41,7 @@ module.exports = {
 	},
 
 	init: function() {
-		const {glob, document} = this;
+		const { glob, document } = this;
 
 		let option = document.createElement("OPTION");
 		option.value = "4";
