@@ -185,6 +185,8 @@ module.exports = {
 					break;
 			}
 		};
+		glob.onChangeTrue(document.getElementById("iftrue"));
+		glob.onChangeFalse(document.getElementById("iffalse"));
 	},
 
 	action: function(cache) {
