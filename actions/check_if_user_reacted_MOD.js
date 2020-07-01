@@ -41,10 +41,7 @@ module.exports = {
 	},
 
 	init: function() {
-		const {
-			glob,
-			document
-		} = this;
+		const {glob, document} = this;
 
 		let option = document.createElement("OPTION");
 		option.value = "4";
@@ -100,13 +97,10 @@ module.exports = {
 					break;
 			}
 		};
-
 		glob.memberChange(document.getElementById("member"), "varNameContainer");
 		glob.refreshVariableList(document.getElementById("reaction"));
 		glob.onChangeTrue(document.getElementById("iftrue"));
 		glob.onChangeFalse(document.getElementById("iffalse"));
-
-
 	},
 
 	action: function(cache) {

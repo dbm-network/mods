@@ -42,6 +42,20 @@ module.exports = {
 
 	init: function() {
 		const {glob, document} = this;
+		let option = document.createElement("OPTION");
+		option.value = "4";
+		option.text = "Jump to Anchor";
+		const iffalse = document.getElementById("iffalse");
+		if (iffalse.length == 4) {
+			iffalse.add(option);
+		}
+		let option2 = document.createElement("OPTION");
+		option2.value = "4";
+		option2.text = "Jump to Anchor";
+		const iftrue = document.getElementById("iftrue");
+		if (iftrue.length == 4) {
+			iftrue.add(option2);
+		}
 		glob.onChangeTrue = function(event) {
 			switch (parseInt(event.value)) {
 				case 0:
