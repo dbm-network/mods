@@ -56,7 +56,6 @@ module.exports = {
 
 		var Jimp = require("jimp");
 
-
 		if(!image) {
 			this.callNextAction(cache);
 			return;
@@ -84,7 +83,6 @@ module.exports = {
 
 		});
 	},
-
 
 	mod: function() {}
 };

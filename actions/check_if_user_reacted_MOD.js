@@ -130,5 +130,4 @@ module.exports = {
 	},
 
 	mod: function() {}
-
 };

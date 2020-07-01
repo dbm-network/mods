@@ -180,7 +180,6 @@ div.embed { /* <div class="embed"></div> */
 		}
 	},
 
-
 	action: function(cache) {
 		const data = cache.actions[cache.index];
 		const server = parseInt(data.server);

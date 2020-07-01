@@ -229,8 +229,6 @@ module.exports = {
 
 		document.getElementById("createAction").setAttribute("onclick", "if(document.getElementById(\"JSEditor\").contentWindow.document.getElementById(\"hideCode\").value) document.getElementById(\"code\").value = document.getElementById(\"JSEditor\").contentWindow.document.getElementById(\"hideCode\").value; finish()");
 
-
-
 		glob.onChangeVTypeSelect1 = function() {
 			if(document.getElementById("storage").value === "0") {
 				document.getElementById("VTypeDiv").style.display = "none";

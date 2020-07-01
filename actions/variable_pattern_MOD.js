@@ -14,7 +14,6 @@ module.exports = {
 		return ([data.varName2, dataType]);
 	},
 
-
 	fields: ["storage", "varName", "info", "info2", "value", "storage2", "varName2"],
 
 	html: function(isEvent, data) {

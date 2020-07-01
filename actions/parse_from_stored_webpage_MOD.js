@@ -99,7 +99,6 @@ module.exports = {
 			require("fs").appendFile("errors.txt", error.stack ? error.stack : error + "\r\n");
 		}
 
-
 		glob.variableChange(document.getElementById("storage"), "varNameContainer");
 		glob.variableChange(document.getElementById("source"), "sourceVarNameContainer");
 	},
@@ -153,7 +152,6 @@ module.exports = {
 						},
 					}).parseFromString(ent.decode(html));
 
-
 					function manageXmlParseError(msg, errorLevel, errorLog){
 						if((errorLog.errorLevel == null) || (errorLog.errorLevel < errorLevel)){
 							errorLog.errorLevel = errorLevel;
@@ -172,10 +170,8 @@ module.exports = {
 
 							var out = [];
 							nodes.forEach((node) => {
-
 								var name = node.name || "Text Value";
 								var value = node.value ? node.value : node.toString();
-
 
 								if(DEBUG) {
 									console.log("====================================");
@@ -208,10 +204,8 @@ module.exports = {
 								console.log(""+ varName +"[key] if not using it as a template\r\n");
 							}
 
-
 							this.storeValue(out, storage, varName, cache);
 							if(DEBUG) console.log(`Stored value(s) [${out}] to  [${varName}] `);
-
 
 							this.callNextAction(cache);
 						}else{
@@ -221,26 +215,19 @@ module.exports = {
 							this.storeValue(errored ? errored : undefined, storage, varName, cache);
 							this.callNextAction(cache);
 						}
-
 					} catch (error) {
-
 						this.storeValue(errored ? errored : undefined, storage, varName, cache);
 						this.callNextAction(cache);
 					}
-
-
 				}else{
 					console.error("HTML data Is Not Valid!");
 				}
-
 			}else{
 				console.error(`Path [${myXPath}] Is Not Valid`);
 			}
-
 		} catch (error) {
 			console.error("Webpage Things:  Error: " + error.stack ? error.stack : error);
 		}
-
 	},
 
 	mod: function() {}

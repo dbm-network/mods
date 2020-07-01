@@ -88,8 +88,6 @@ module.exports = {
 		}
 	},
 
-
-
 	subtitle: function(data) {
 		if (data.serverAfkTime === "60") {
 			return "1 Minutes";

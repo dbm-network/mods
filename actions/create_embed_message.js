@@ -212,12 +212,12 @@ module.exports = {
 		const debug = this.evalMessage(data.debug);
 		const storage = parseInt(data.storage);
 		const varName = this.evalMessage(data.varName, cache);
-		
+
 		if (!varName) {
 			this.callNextAction(cache);
 			return;
 		}
-		
+
 		if(debug != "true") {
 			//Title
 			if(data.title) {

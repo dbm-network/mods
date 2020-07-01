@@ -50,7 +50,6 @@ module.exports = {
 	init: function() {
 		const { glob, document } = this;
 
-
 		function evalMessage(content) {
 			if(!content) return "";
 			if(!content.match(/\$\{.*\}/im)) return content;
@@ -77,9 +76,7 @@ module.exports = {
 					valid.innerHTML = "Invalid URL Format!";
 					valid.style.color = "red";
 				}
-
 			};
-
 
 		} catch (error) {
 			// write any init errors to errors.txt in dbm's main directory

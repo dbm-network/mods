@@ -6,7 +6,6 @@ module.exports = {
 		return `${data.url}`;
 	},
 
-
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
@@ -68,7 +67,6 @@ module.exports = {
 		// Check for new entries every n seconds.
 		watcher.on("new entries", function(entries) {
 			entries.forEach(function(entry) {
-
 				if(path){
 					var res = JSONPath({
 						path: path,
@@ -78,9 +76,6 @@ module.exports = {
 				} else if (!path){
 					_this.storeValue(entry, storage, varName, cache);
 				}
-
-
-
 				_this.callNextAction(cache);
 			});
 		});
@@ -94,9 +89,6 @@ module.exports = {
 			.catch(function(error) {
 				console.error(error);
 			});
-
-
-
 	},
 
 	mod: function() {}

@@ -17,8 +17,6 @@ class FileControl {
 		this.fields = ["input", "format", "filename", "filepath", "filetask", "input2"];
 	}
 
-
-
 	/**
    * Action Subtitle
    *
@@ -187,7 +185,6 @@ class FileControl {
 		}
 	}
 
-
 	/**
    * Action Bot Function
    *
@@ -209,7 +206,6 @@ class FileControl {
 		const dirName = path.normalize(this.evalMessage(data.filepath, cache));
 		const fileName = this.evalMessage(data.filename, cache);
 		const line = parseInt(this.evalMessage(data.input2, cache));
-
 
 		var fpath = path.join (dirName, fileName + data.format);
 		var task = parseInt(data.filetask);

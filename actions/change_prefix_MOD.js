@@ -11,7 +11,7 @@ module.exports = {
 	html: function(isEvent, data) {
 		return `
 <div>
-    Change Prefix to:<br>
+	Change Prefix to:<br>
 	<textarea id="pprefix" class="round" style="width: 40%; resize: none;" type="textarea" rows="1" cols="20"></textarea><br><br>
 </div>`;
 	},

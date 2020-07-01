@@ -15,7 +15,6 @@ module.exports = {
 		return ([data.varName2, info2[prse2]]);
 	},
 
-
 	fields: ["storage", "varName", "conversion", "storage2", "varName2"],
 
 	html: function(isEvent, data) {
