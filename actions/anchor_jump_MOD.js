@@ -46,7 +46,7 @@ module.exports = {
 			const anchorIndex = cache.actions.findIndex((a) => a.name === "Create Anchor" && a.anchor_id === id);
 			if (anchorIndex === -1) throw new Error("There was not an anchor found with that exact anchor ID!");
 			cache.index = anchorIndex - 1;
-			this.callNextAction(cache);
+			DBM.Actions.callNextAction(cache);
 		};
 
 		DBM.Actions.anchorExist = function(id, cache) {
