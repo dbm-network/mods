@@ -47,8 +47,6 @@ module.exports = {
 		const storage = parseInt(data.role);
 		const varName = this.evalMessage(data.varName, cache);
 		const role = this.getRole(storage, varName, cache);
-		const info = parseInt(data.permission);
-		const reason = this.evalMessage(data.reason, cache);
 		let result;
 		if (role) {
 			result = role.permissions.has(data.permission);

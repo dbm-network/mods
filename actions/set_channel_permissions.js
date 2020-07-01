@@ -88,7 +88,6 @@ module.exports = {
 	</div>`;
 	},
 
-
 	init: function() {
 		const { glob, document } = this;
 

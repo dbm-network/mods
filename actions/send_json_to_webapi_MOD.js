@@ -4,21 +4,17 @@ dbmMod.requiredDBMVersion = "2.0.0-beta.7";
 
 dbmMod.name = "Send Json to WebAPI";
 
-
 dbmMod.section = "JSON Things";
 
 dbmMod.dependencies = ["request", "valid-url"];
 
-
 dbmMod.subtitle = function(data) {
 	return `Store: ${data.varName} DebugMode: ${data.debugMode === "1" ? "Enabled" : "Disabled"}`;
 };
 
-
 dbmMod.subtitle = function(data) {
 	return `Store: ${data.varName} DebugMode: ${data.debugMode === "1" ? "Enabled" : "Disabled"}`;
 };
-
 
 dbmMod.variableStorage = function(data, varType) {
 	const type = parseInt(data.storage);
@@ -26,9 +22,7 @@ dbmMod.variableStorage = function(data, varType) {
 	return ([data.varName, "JSON Object"]);
 };
 
-
 dbmMod.fields = ["hideUrl", "debugMode", "postUrl", "postJson", "storage", "varName", "token", "user", "pass", "headers", "method"];
-
 
 dbmMod.html = function(isEvent, data) {
 
@@ -167,7 +161,6 @@ dbmMod.init = function() {
 };
 
 dbmMod.action = function(cache) {
-
 	const data = cache.actions[cache.index];
 	const Actions = this;
 
@@ -181,8 +174,6 @@ dbmMod.action = function(cache) {
 	const user = this.evalMessage(data.user, cache);
 	const pass = this.evalMessage(data.pass, cache);
 	const headers = this.evalMessage(data.headers, cache);
-
-
 
 	const varName = this.evalMessage(data.varName, cache);
 	const storage = parseInt(data.storage);
@@ -198,7 +189,6 @@ dbmMod.action = function(cache) {
 
 		if (postJson) {
 			// Test the json
-
 			try {
 				var test = JSON.parse(JSON.stringify(postJson));
 			} catch (error) {
@@ -211,7 +201,6 @@ dbmMod.action = function(cache) {
 
 				return this.storeValue(errorJson, storage, varName, cache);
 			}
-
 
 			let setHeaders = {};
 
@@ -226,7 +215,6 @@ dbmMod.action = function(cache) {
 
 			// if token, apply it to headers
 			if(token) setHeaders["Authorization"] = "Bearer " + token;
-
 
 			// Because headers are a dictionary ;)
 			if(headers){

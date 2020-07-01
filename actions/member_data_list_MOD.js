@@ -25,7 +25,6 @@ module.exports = {
 		<input id="dataName" class="round" type="text">
 	</div>
 	<span>
-
 </div>
       Number before start
 <select id="numbefstselect" class="round" style="width:33%" onchange="glob.onChange1(this)">
@@ -33,40 +32,27 @@ module.exports = {
 <option value="2"selected>Yes</option>
 </select>
 <br>
-
-
 <div id="numbefst" style=" width: 80%; display: none;">
 Char after Number:<br>
 <input id="numbefst2" class="round" type="text" value=")">
 </div>
 <br>
-
 	Start:
-
 	<select id="start" class="round" style="width:33%">
 	<option value="result" >Result</option>
 	<option value="username"selected>Username</option>
 	</select>
     <br>
-
     	<div style="display: table-cell;">
 		Middle:
-
-
 		<input id="middle" style="width:80%"  class="round" type="text" value="-">
 		</input>
 			<br>
-
 	End:
-
-
 	<select id="end" class="round" style="width:100%">
-
 	<option value="result" selected>Result</option>
 	<option value="username">Username</option>
 	</select><br>
-
-
    </span>
    </div>
    <select id="sort" class="round" style="width: 90%;">
@@ -74,9 +60,6 @@ Char after Number:<br>
    <option value="1" selected>Sort from Descending</option>
    <option value="2">Sort from Ascending</option>
 </select><br>
-
-
-
 	<div style="float: left; width: 50%; font-family: monospace; white-space: nowrap; resize: none;">
 	Result Limit:
 	<input id="getresults" class="round" type="text" placeholder="If blank it gets all results.">
@@ -95,7 +78,6 @@ Char after Number:<br>
 <select id="debu" class="round" style="width: 90%;">
 <option value="0" selected>Debug</option>
 <option value="1" selected>Don't Debug</option>
-
 </select><br>
 </div>
 </html>`;
@@ -110,12 +92,9 @@ Char after Number:<br>
 			const value = parseInt(event.value);
 			const dom = document.getElementById("numbefst");
 
-
 			if(value == 1) {
 				dom.style.display = "none";
-
 			} else if(value == 2) {
-
 				dom.style.display = null;
 			}
 

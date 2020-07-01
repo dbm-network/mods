@@ -56,8 +56,6 @@ module.exports = {
 		Image Name:<br>
 		<input id="imageName" class="round" type="text">
 	</div><br><br><br>
-
-
 <div>
 	<div style="float: left; width: 35%;">
 		Store In:<br>

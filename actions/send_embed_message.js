@@ -50,20 +50,22 @@ module.exports = {
         </select>
     </div>
     <div id="varNameContainer3" style="display: ; float: right; width: 60%;">
-        Storage Variable Name:<br>
-        <input id="varName3" class="round" type="text">
-        </div><br><br><br>
-        <div style="padding-top: 8px;">
-                <div style="float: left; width: 35%;">
-                    If Message Delivery Fails:<br>
-                    <select id="iffalse" class="round" onchange="glob.onChangeFalse(this)">
-                        <option value="0" selected>Continue Actions</option>
-                        <option value="1">Stop Action Sequence</option>
-                        <option value="2">Jump To Action</option>
-                        <option value="3">Skip Next Actions</option>
-                 </select>
-                </div>
-                <div id="iffalseContainer" style="display: none; float: right; width: 60%;"><span id="iffalseName">Action Number</span>:<br><input id="iffalseVal" class="round" type="text"></div>`;
+			Storage Variable Name:<br>
+			<input id="varName3" class="round" type="text">
+			</div><br><br><br>
+			<div style="padding-top: 8px;">
+			<div style="float: left; width: 35%;">
+					If Message Delivery Fails:<br>
+					<select id="iffalse" class="round" onchange="glob.onChangeFalse(this)">
+							<option value="0" selected>Continue Actions</option>
+							<option value="1">Stop Action Sequence</option>
+							<option value="2">Jump To Action</option>
+							<option value="3">Skip Next Actions</option>
+				</select>
+			</div>
+			<div id="iffalseContainer" style="display: none; float: right; width: 60%;">
+				<span id="iffalseName">Action Number</span>:<br><input id="iffalseVal" class="round" type="text">
+			</div>`;
 	},
 
 	init: function() {
@@ -76,7 +78,6 @@ module.exports = {
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
-		const server = cache.server;
 		const storage = parseInt(data.storage);
 		const varName = this.evalMessage(data.varName, cache);
 		const embed = this.getVariable(storage, varName, cache);
@@ -85,7 +86,6 @@ module.exports = {
 			return;
 		}
 
-		const msg = cache.msg;
 		const messageContent = this.evalMessage(data.messageContent, cache);
 		const channel = parseInt(data.channel);
 		const varName2 = this.evalMessage(data.varName2, cache);
@@ -94,20 +94,18 @@ module.exports = {
 		const target = this.getSendTarget(channel, varName2, cache);
 
 		if(target && target.send) {
-			try {
-				target.send(messageContent === "" ? "" : messageContent, { embed }).then(function(message) {
-					if(message && varName3) this.storeValue(message, storage3, varName3, cache);
+			target.send(messageContent, { embed })
+				.then((msg) => {
+					if(msg && varName3) this.storeValue(msg, storage3, varName3, cache);
 					this.callNextAction(cache);
-				}.bind(this)).catch((err) => {
-					if(err.message == ("Cannot send messages to this user")) {
+				})
+				.catch((err) => {
+					if(err.message === "Cannot send messages to this user") {
 						this.executeResults(false, data, cache);
 					} else {
 						this.displayError.bind(this, data, cache);
 					}
 				});
-			} catch (e) {
-				this.displayError(data, cache, e);
-			}
 		} else {
 			this.callNextAction(cache);
 		}
@@ -115,4 +113,3 @@ module.exports = {
 
 	mod: function() {}
 };
-

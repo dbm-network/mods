@@ -126,8 +126,6 @@ module.exports = {
 									console.log(""+ varName +"[key] if not using it as a template");
 									this.storeValue(this.eval(jsonData, cache), storage, varName, cache);
 								}
-
-
 							} else {
 								console.log("Store Regex Match: Invalid Regex: (RegEx String: " + typeVariable + ")");
 								this.storeValue(this.eval(outputData, cache), storage, varName, cache);
@@ -138,7 +136,6 @@ module.exports = {
 					}
 					break;
 				case 1:
-
 					try {
 						if (typeVariable) {
 

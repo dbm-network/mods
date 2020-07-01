@@ -1,5 +1,4 @@
 module.exports = {
-
 	name: "Store Permissions Info",
 
 	section: "Permission Control",
@@ -138,7 +137,6 @@ module.exports = {
 		</div>
 	</div>`;
 	},
-
 
 	init: function() {
 		const { glob, document } = this;

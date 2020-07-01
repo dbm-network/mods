@@ -1,5 +1,4 @@
 module.exports = {
-
 	name: "Delete Global Data",
 
 	section: "Deprecated",
@@ -17,7 +16,7 @@ module.exports = {
 			Data Name:<br>
 			<input id="dataName" class="round" placeholder="Leave it blank to delete all data" type="text">
 		</div>
-	</div>`
+	</div>`;
 	},
 
 	init: function() {
@@ -31,8 +30,8 @@ module.exports = {
 	},
 
 	mod: function(DBM) {
-		let fs = require('fs');
-		let path = require('path');
+		let fs = require("fs");
+		let path = require("path");
 		let filePath = path.join(process.cwd(), "data", "globals.json");
 		if (!fs.existsSync(filePath)) {
 			fs.writeFileSync(filePath, "{}");
@@ -47,31 +46,29 @@ module.exports = {
 					DBM.Files.data.globals = {};
 					DBM.Files.saveData("globals");
 				}
-			};
+			}
 			data(name, defaultValue) {
 				if(DBM.Files.data.globals[name] || defaultValue !== undefined) {
 					let data = (DBM.Files.data.globals[name]) ? DBM.Files.data.globals[name] : defaultValue;
 					return data;
 				} else {
 					return null;
-				};
-			};
-			setData(name,value) {
+				}
+			}
+			setData(name, value) {
 				if (value !== undefined) {
 					DBM.Files.data.globals[name] = value;
 					DBM.Files.saveData("globals");
-				};
-			};
+				}
+			}
 			addData(name, value) {
 				if(data[name] === undefined) {
 					this.setData(name, value);
 				} else {
 					this.setData(name, this.data(name) + value);
-				};
+				}
 			}
 		}
 		Globals = new GlobalsData();
-		
 	}
-
 };

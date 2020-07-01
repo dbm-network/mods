@@ -70,33 +70,33 @@ module.exports = {
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
-		const server = cache.server;
-		const msg = cache.msg;
 		const channel = parseInt(data.channel);
 		const message = data.message;
-		if(channel === undefined || message === undefined) return;
+		if(!channel || !message) return;
 		const varName = this.evalMessage(data.varName, cache);
 		const target = this.getSendTarget(channel, varName, cache);
 		if(Array.isArray(target)) {
-			this.callListFunc(target, "send", [this.evalMessage(message, cache)]).then(function(resultMsg) {
+			this.callListFunc(target, "send", [this.evalMessage(message, cache)]).then((msg) => {
 				const varName2 = this.evalMessage(data.varName2, cache);
 				const storage = parseInt(data.storage);
-				this.storeValue(resultMsg, storage, varName2, cache);
+				this.storeValue(msg, storage, varName2, cache);
 				this.callNextAction(cache);
-			}.bind(this));
-		} else if(target && target.send) {
-			target.send(this.evalMessage(message, cache)).then(function(resultMsg) {
-				const varName2 = this.evalMessage(data.varName2, cache);
-				const storage = parseInt(data.storage);
-				this.storeValue(resultMsg, storage, varName2, cache);
-				this.callNextAction(cache);
-			}.bind(this)).catch((err) => {
-				if(err.message == ("Cannot send messages to this user")) {
-					this.executeResults(false, data, cache);
-				} else {
-					this.displayError.bind(this, data, cache);
-				}
 			});
+		} else if(target && target.send) {
+			target.send(this.evalMessage(message, cache))
+				.then((msg) => {
+					const varName2 = this.evalMessage(data.varName2, cache);
+					const storage = parseInt(data.storage);
+					this.storeValue(msg, storage, varName2, cache);
+					this.callNextAction(cache);
+				})
+				.catch((err) => {
+					if(err.message === "Cannot send messages to this user") {
+						this.executeResults(false, data, cache);
+					} else {
+						this.displayError.bind(this, data, cache);
+					}
+				});
 		} else {
 			this.callNextAction(cache);
 		}

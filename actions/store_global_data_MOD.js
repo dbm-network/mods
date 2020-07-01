@@ -1,18 +1,17 @@
 module.exports = {
-
 	name: "Store Global Data",
 
 	section: "Deprecated",
 
 	subtitle: function(data) {
-		const storage = ['', 'Temp Variable', 'Server Variable', 'Global Variable'];
+		const storage = ["", "Temp Variable", "Server Variable", "Global Variable"];
 		return `${storage[parseInt(data.storage)]} (${data.varName})`;
 	},
 
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if(type !== varType) return;
-		return ([data.varName, 'Unknown Type']);
+		return ([data.varName, "Unknown Type"]);
 	},
 
 	fields: ["dataName", "defaultVal", "storage", "varName"],
@@ -40,7 +39,7 @@ module.exports = {
 			Variable Name:<br>
 			<input id="varName" class="round" type="text"><br>
 		</div>
-	</div>`
+	</div>`;
 	},
 
 	init: function() {
@@ -57,7 +56,5 @@ module.exports = {
 		this.callNextAction(cache);
 	},
 
-	mod: function() {
-	}
-
+	mod: function() {}
 };

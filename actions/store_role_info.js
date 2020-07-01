@@ -154,13 +154,13 @@ module.exports = {
 				result = targetRole.createdAt;
 				break;
 			case 11:
-				result = targetRole.permissions;
+				result = targetRole.permissions.toArray();
 				break;
 			case 12:
-				result = targetRole.members.array().length;
+				result = targetRole.members.size;
 				break;
 			case 13:
-				result = mem.permissions.toArray().join(", ").replace(/_/g, " ").toLowerCase();
+				result = targetRole.permissions.toArray().join(", ").replace(/_/g, " ").toLowerCase();
 				break;
 			default:
 				break;

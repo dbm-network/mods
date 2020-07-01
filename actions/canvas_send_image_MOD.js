@@ -92,7 +92,7 @@ module.exports = {
 	},
 
 	action: function(cache) {
-		const Discord = require("discord.js");
+		const { DiscordJS } = this.getDBM();
 		const Canvas = require("canvas");
 		const data = cache.actions[cache.index];
 		const storage = parseInt(data.storage);
@@ -111,26 +111,17 @@ module.exports = {
 		const canvas = Canvas.createCanvas(image.width, image.height);
 		const ctx = canvas.getContext("2d");
 		ctx.drawImage(image, 0, 0, image.width, image.height);
-		var fs = require("fs");
-		let name;
-		const spoiler = parseInt(data.spoiler);
-		switch(spoiler) {
-			case 0:
-				name = "image.png";
-				break;
-			case 1:
-				name = "SPOILER_image.png";
-		}
+		const name = `${parseInt(data.spoiler) === 1 ? "SPOILER_" : ""}image.png`;
 		const buffer = canvas.toBuffer("image/png", { compressionLevel:compress });
-		const attachment = new Discord.MessageAttachment(buffer, name);
-		const _this = this;
+		const attachment = new DiscordJS.MessageAttachment(buffer, name);
 		if(target && target.send) {
-			target.send(this.evalMessage(data.message, cache), attachment).then(function(msgobject) {
-				const varName3 = _this.evalMessage(data.varName3, cache);
-				const storage2 = parseInt(data.storage2);
-				_this.storeValue(msgobject, storage2, varName3, cache);
-				_this.callNextAction(cache);
-			});
+			target.send(this.evalMessage(data.message, cache), attachment)
+				.then((msgobject) => {
+					const varName3 = this.evalMessage(data.varName3, cache);
+					const storage2 = parseInt(data.storage2);
+					this.storeValue(msgobject, storage2, varName3, cache);
+					this.callNextAction(cache);
+				});
 		} else {
 			this.callNextAction(cache);
 		}

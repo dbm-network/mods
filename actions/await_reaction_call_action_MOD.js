@@ -12,7 +12,6 @@ module.exports = {
 		return ([data.varName2, "Reaction List"]);
 	},
 
-
 	fields: ["storage", "varName", "filter", "max", "time", "maxEmojis", "maxUsers", "iftrue", "iftrueVal", "iffalse", "iffalseVal", "storage2", "varName2"],
 
 	html: function(isEvent, data) {
@@ -123,7 +122,6 @@ Max Users:<br>
 		glob.messageChange(document.getElementById("storage"), "varNameContainer");
 
 		glob.variableChange(document.getElementById("storage2"), "varNameContainer2");
-
 
 		glob.onChangeTrue(document.getElementById("iftrue"));
 		glob.onChangeFalse(document.getElementById("iffalse"));

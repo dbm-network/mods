@@ -1,11 +1,10 @@
 module.exports = {
-
 	name: "Delete Server Data",
 
 	section: "Deprecated",
 
 	subtitle: function(data) {
-		const servers = ['Current Server', 'Temp Variable', 'Server Variable', 'Global Variable'];
+		const servers = ["Current Server", "Temp Variable", "Server Variable", "Global Variable"];
 		return `${servers[parseInt(data.server)]} - ${data.dataName}`;
 	},
 
@@ -30,13 +29,13 @@ module.exports = {
 			Data Name:<br>
 			<input id="dataName" class="round" placeholder="Leave it blank to delete all data" type="text">
 		</div>
-	</div>`
+	</div>`;
 	},
 
 	init: function() {
-		const {glob, document} = this;
+		const { glob, document } = this;
 
-		glob.serverChange(document.getElementById('server'), 'varNameContainer');
+		glob.serverChange(document.getElementById("server"), "varNameContainer");
 	},
 
 	action: function(cache) {
@@ -49,7 +48,7 @@ module.exports = {
 			this.callNextAction(cache);
 			return;
 		}
-		server.delData(dataName)
+		server.delData(dataName);
 		this.callNextAction(cache);
 	},
 
@@ -64,8 +63,8 @@ module.exports = {
 				} else if (!name) {
 					delete servers[this.id];
 					DBM.Files.saveData("servers");
-				};
-			};
+				}
+			}
 		});
 	}
 

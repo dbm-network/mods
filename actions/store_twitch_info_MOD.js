@@ -469,7 +469,6 @@ module.exports = {
 				result = "ID";
 			}
 
-
 			//Reload HTML Stuff
 			document.getElementById("tempName2").innerHTML = result;
 		};
@@ -569,8 +568,6 @@ module.exports = {
 				break;
 		}
 
-
-
 		//Check Input
 		if(!clientID) { return console.log("Please insert a client id!"); }
 		if(!input) { return console.log("Please insert something to search for!"); }
@@ -582,8 +579,6 @@ module.exports = {
 		} else { //Default value
 			searchResults = 20;
 		}
-
-
 
 		if(sourceType == 0) { //Soure Info: Channel
 

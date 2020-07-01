@@ -1,11 +1,10 @@
 module.exports = {
-
 	name: "Delete Member Data",
 
 	section: "Deprecated",
 
 	subtitle: function(data) {
-		const members = ['Mentioned User', 'Command Author', 'Temp Variable', 'Server Variable', 'Global Variable'];
+		const members = ["Mentioned User", "Command Author", "Temp Variable", "Server Variable", "Global Variable"];
 		return `${members[parseInt(data.member)]} - ${data.dataName}`;
 	},
 
@@ -30,13 +29,13 @@ module.exports = {
 			Data Name:<br>
 			<input id="dataName" class="round" placeholder="Leave it blank to delete all data" type="text">
 		</div>
-	</div>`
+	</div>`;
 	},
 
 	init: function() {
-		const {glob, document} = this;
+		const { glob, document } = this;
 
-		glob.memberChange(document.getElementById('member'), 'varNameContainer');
+		glob.memberChange(document.getElementById("member"), "varNameContainer");
 	},
 
 	action: function(cache) {
@@ -63,8 +62,8 @@ module.exports = {
 				} else if (!name) {
 					delete players[this.id];
 					DBM.Files.saveData("players");
-				};
-			};
+				}
+			}
 		});
 		DBM.DiscordJS.Structures.extend("User", (User) => class extends User {
 			delData(name) {
@@ -75,8 +74,8 @@ module.exports = {
 				} else if (!name) {
 					delete players[this.id];
 					DBM.Files.saveData("players");
-				};
-			};
+				}
+			}
 		});
 	}
 

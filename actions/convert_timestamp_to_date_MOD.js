@@ -12,7 +12,6 @@ module.exports = {
 		return ([data.varName, "Date"]);
 	},
 
-
 	fields: ["time", "storage", "varName"],
 
 	html: function(isEvent, data) {
