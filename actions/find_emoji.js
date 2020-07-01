@@ -1,5 +1,6 @@
 module.exports = {
-	name: "Find Custom Emoji",
+	name: "Find Custom Emoji in Specified Server",
+	displayName: "Find Custom Emoji",
 	section: "Emoji Control",
 
 	subtitle: function(data) {
