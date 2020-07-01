@@ -1,5 +1,6 @@
 module.exports = {
 	name: "Find Custom Emoji in Specified Server",
+	displayName: "Find Custom Emoji",
 	section: "Emoji Control",
 
 	subtitle: function(data) {
@@ -54,7 +55,7 @@ module.exports = {
 		let result;
 		switch(info) {
 			case 0:
-				result = bot.emojis.cache.find((element) => element.id === find);
+				result = bot.emojis.cache.get(find);
 				break;
 			case 1:
 				result = bot.emojis.cache.find((element) => element.name === find);
