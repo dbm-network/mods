@@ -42,7 +42,7 @@ module.exports = {
 	},
 
 	mod: function(DBM) {
-		DBM.Actions.anchorJump = (id, cache) => {
+		DBM.Actions.anchorJump = function(id, cache) {
 			const anchorIndex = cache.actions.findIndex((a) => a.name === "Create Anchor" && a.anchor_id === id);
 			if (anchorIndex === -1) throw new Error("There was not an anchor found with that exact anchor ID!");
 			cache.index = anchorIndex - 1;
