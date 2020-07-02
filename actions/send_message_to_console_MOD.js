@@ -24,7 +24,6 @@ module.exports = {
 
 	action: function(cache) {
 		const Mods = this.getMods();
-		Mods.CheckAndInstallNodeModule("chalk");
 		const chalk = Mods.require("chalk");
 		const data = cache.actions[cache.index];
 		const send = this.evalMessage(data.tosend, cache);
