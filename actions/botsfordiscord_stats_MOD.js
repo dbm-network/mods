@@ -36,7 +36,7 @@ module.exports = {
 		const clientid = this.evalMessage(data.ClientID, cache);
 		const Mods = this.getMods();
 		const BFD = Mods.require("bfd-api");
-    const bfd = new BFD(token);
+		const bfd = new BFD(token);
 		bfd.postCount(this.getDBM().Bot.bot.guilds.cache.size, clientid);
 		this.callNextAction(cache);
 	},
