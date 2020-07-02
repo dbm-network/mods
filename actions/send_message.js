@@ -71,10 +71,10 @@ module.exports = {
 	action: function(cache) {
 		const data = cache.actions[cache.index];
 		const channel = parseInt(data.channel);
-		const message = data.message;
-		if(!channel || !message) return;
 		const varName = this.evalMessage(data.varName, cache);
 		const target = this.getSendTarget(channel, varName, cache);
+		const message = data.message;
+		if(!target || !message) return;
 		if(Array.isArray(target)) {
 			this.callListFunc(target, "send", [this.evalMessage(message, cache)]).then((msg) => {
 				const varName2 = this.evalMessage(data.varName2, cache);
