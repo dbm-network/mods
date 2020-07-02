@@ -23,7 +23,7 @@ module.exports = {
 			 <br>
 			 Your bot ID<br>
 			 <input id="ClientID" class="round" type="text">
-       <br>Please make sure you don't put this action on a short interval - it can cause 429 (ratelimit) errors!
+			 <br>Please make sure you don't put this action on a short interval - it can cause 429 (rate limit) errors!
 		</div><br>`;
 	},
 
