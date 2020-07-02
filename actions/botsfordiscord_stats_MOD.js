@@ -27,8 +27,7 @@ module.exports = {
 		</div><br>`;
 	},
 
-	init: function() {
-	},
+	init: function() {},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
