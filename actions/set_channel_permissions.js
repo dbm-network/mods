@@ -16,8 +16,9 @@ module.exports = {
 	fields: ["target", "way", "storage", "varName3", "role", "varName", "member", "varName2", "storage3", "varName4", "iftrue", "iftrueVal", "iffalse", "iffalseVal"],
 
 	html: function(isEvent, data) {
+		data.conditions[0] = data.conditions[0].replace(/If True/g, "If Set Success").replace(/If False/g, "If Set Failed");
 		return `
-	<div id="actionHtml" style="width: 550px; height: 350px; overflow-y: scroll;">
+	<div style="width: 550px; height: 350px; overflow-y: scroll;">
 		<div style="padding-top: 8px;">
 			<div style="float: left; width: 35%;">
 				Target Type:<br>
@@ -109,16 +110,6 @@ module.exports = {
 			}
 		};
 		glob.targetChange(document.getElementById("target"));
-
-		const actionHtml = document.getElementById("actionHtml");
-		const ifTrue = actionHtml.children[17].outerHTML;
-		const trueValue = ifTrue.replace(/If True/g, "If Set Success");
-		actionHtml.children[17].outerHTML = trueValue;
-
-		const ifFalse = actionHtml.children[21].outerHTML;
-		const falseValue = ifFalse.replace(/If False/g, "If Set Failed");
-		actionHtml.children[21].outerHTML = falseValue;
-
 		let option = document.createElement("OPTION");
 		option.value = "4";
 		option.text = "Jump to Anchor";
@@ -173,6 +164,8 @@ module.exports = {
 					break;
 			}
 		};
+		glob.onChangeFalse(document.getElementById("iffalse"));
+		glob.onChange(document.getElementById("Measurement"));
 	},
 
 	action: function(cache) {
