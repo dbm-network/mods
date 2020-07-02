@@ -16,6 +16,7 @@ module.exports = {
 	fields: ["measurement", "value", "save", "restrict", "iftrue", "iftrueVal", "iffalse", "iffalseVal", "storage", "varName"],
 
 	html: function(isEvent, data) {
+		data.conditions[0] = data.conditions[0].replace(/If True/g, "If Cooldown is Active").replace(/If False/g, "If Cooldown is Not Active");
 		return `
 	<div>
 		<div style="padding-top: 8px;">
