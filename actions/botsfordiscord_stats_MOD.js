@@ -34,7 +34,8 @@ module.exports = {
 		const data = cache.actions[cache.index];
 		const token = this.evalMessage(data.BFDToken, cache);
 		const clientid = this.evalMessage(data.ClientID, cache);
-    const BFD = require("bfd-api");
+		const Mods = this.getMods();
+		const BFD = Mods.require("bfd-api");
     const bfd = new BFD(token);
 		bfd.postCount(this.getDBM().Bot.bot.guilds.cache.size, clientid);
 		this.callNextAction(cache);
