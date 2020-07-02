@@ -165,7 +165,7 @@ module.exports = {
 			}
 		};
 		glob.onChangeFalse(document.getElementById("iffalse"));
-		glob.onChange(document.getElementById("Measurement"));
+		glob.onChangeTrue(document.getElementById("iftrue"));
 	},
 
 	action: function(cache) {
