@@ -2,13 +2,13 @@ module.exports = {
 	name: "Send Stats to BFD",
 	section: "Other Stuff",
 
-	subtitle: function(data) {
-		return `Send server count to BFD!`;
+	subtitle: function() {
+		return "Send server count to BFD!";
 	},
 
 	fields: ["BFDToken", "ClientID", "info"],
 
-	html: function(isEvent, data) {
+	html: function() {
 		return `
 		<div>
 			<p>
@@ -19,9 +19,8 @@ module.exports = {
 		<div id="modinfo">
 		<div style="float: left; width: 99%; padding-top: 8px;">
 		   Your BFD token:<br>
-		   <input id="BFDToken" class="round" type="text">
-			 <br>
-			 Your bot ID<br>
+		   <input id="BFDToken" class="round" type="text"><br>
+			 Your bot ID:<br>
 			 <input id="ClientID" class="round" type="text">
 			 <br>Please make sure you don't put this action on a short interval - it can cause 429 (rate limit) errors!
 		</div><br>`;
