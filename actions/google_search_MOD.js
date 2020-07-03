@@ -80,12 +80,9 @@ module.exports = {
 		const string = this.evalMessage(data.string, cache).replace(/[\u{0080}-\u{FFFF}]/gu, ""); // The replace thing is very new, it's just replacing the invalid characters so command won't stuck when you use other languages.
 		const resultNumber = parseInt(data.resultNo);
 
-		// Check if everything is ok:
 		if (!string) return console.log("Please write something to Google it!");
 
-		// Main code:
-		const Mods = this.getMods(); // as always.
-		Mods.CheckAndInstallNodeModule("google-it");
+		const Mods = this.getMods();
 		const googleIt = Mods.require("google-it");
 
 		googleIt({ query: `${string}`, "no-display": 1, limit: 10 }).then((results) => {

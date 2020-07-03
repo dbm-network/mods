@@ -394,32 +394,32 @@ module.exports = {
 				switch (key) {
 					case "0":
 						res=  "mysql";
-						Mods.CheckAndInstallNodeModule("mysql2");
+						Mods.installModule("mysql2");
 						break;
 					case "1":
 						res= "postgres";
-						Mods.CheckAndInstallNodeModule("pg-hstore");
+						Mods.installModule("pg-hstore");
 						break;
 					case "2":
 						res= "mssql";
-						Mods.CheckAndInstallNodeModule("tedious");
+						Mods.installModule("tedious");
 						break;
 					case "3":
 						res= "sqlite";
-						Mods.CheckAndInstallNodeModule("sqlite3");
+						Mods.installModule("sqlite3");
 						break;
 					default:
 						res= "sqlite";
-						Mods.CheckAndInstallNodeModule("sqlite3");
+						Mods.installModule("sqlite3");
 						break;
 				}
 				return res;
 			}
 
 			var options =  {
-				host: (hostname || "localhost"),
-				port: (port || "3311"),
-				dialect: (getType(type) || "sqlite"),
+				host: hostname || "localhost",
+				port: port || "3311",
+				dialect: getType(type) || "sqlite",
 				pool: {
 					max: 5,
 					min: 0,

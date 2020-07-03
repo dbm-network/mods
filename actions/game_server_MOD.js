@@ -393,16 +393,14 @@ module.exports = {
 	},
 
 	action: function(cache) {
-		const _this = this; // To fix error
+		const _this = this;
 		const data = cache.actions[cache.index];
 		const info = parseInt(data.info);
 		const gametype = this.evalMessage(data.game, cache);
 		const ip = this.evalMessage(data.serverip, cache);
 		const port = this.evalMessage(data.serverport, cache);
 
-		// Main code:
-		const Mods = _this.getMods(); // as always.
-		Mods.CheckAndInstallNodeModule("gamedig");
+		const Mods = this.getMods();
 		const Gamedig = Mods.require("gamedig");
 
 		if (!ip) return console.log("Please provide Server IP & Port.");
@@ -410,7 +408,7 @@ module.exports = {
 		Gamedig.query({
 			type: gametype,
 			host: ip,
-			port: port,
+			port,
 			maxAttempts: 3,
 			attemptTimeout: 25000
 		}).then((state) => {
@@ -451,9 +449,7 @@ module.exports = {
 			}
 			_this.callNextAction(cache);
 
-		}).catch((error) => {
-			console.log(`Game Server Info: ${error}`);
-		});
+		}).catch((error) => console.log(`Game Server Info: ${error}`));
 	},
 
 	mod: function() {}

@@ -115,11 +115,10 @@ module.exports = {
 		const _this = this;
 		const data = cache.actions[cache.index];
 		const info = parseInt(data.info);
-		const geniustoken = _this.evalMessage(data.key, cache);
-		const songname = _this.evalMessage(data.song, cache);
+		const geniustoken = this.evalMessage(data.key, cache);
+		const songname = this.evalMessage(data.song, cache);
 
-		const Mods = _this.getMods();
-		Mods.CheckAndInstallNodeModule("analyrics");
+		const Mods = this.getMods();
 		const analyrics = Mods.require("analyrics");
 
 		analyrics.setToken(`${geniustoken}`);
