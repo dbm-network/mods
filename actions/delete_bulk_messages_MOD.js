@@ -83,6 +83,7 @@ module.exports = {
 				<option value="1">Stop Action Sequence</option>
 				<option value="2">Jump To Action</option>
 				<option value="3">Skip Next Actions</option>
+				<option value="4">Jump To Anchor</option>
 			</select>
 		</div>
 		<div id="iffalseContainer" style="padding-left: 3%; display: none; float: left; width: 60%;"><span id="iffalseName">Action Number</span>:<br><input id="iffalseVal" class="round" type="text"></div>
@@ -93,6 +94,26 @@ module.exports = {
 	init: function() {
 		const { glob, document } = this;
 
+		glob.onChangeFalse = function(event) {
+			switch (parseInt(event.value)) {
+				case 0:
+				case 1:
+					document.getElementById("iffalseContainer").style.display = "none";
+					break;
+				case 2:
+					document.getElementById("iffalseName").innerHTML = "Action Number";
+					document.getElementById("iffalseContainer").style.display = null;
+					break;
+				case 3:
+					document.getElementById("iffalseName").innerHTML = "Number of Actions to Skip";
+					document.getElementById("iffalseContainer").style.display = null;
+					break;
+				case 4:
+					document.getElementById("iffalseName").innerHTML = "Anchor ID";
+					document.getElementById("iffalseContainer").style.display = null;
+					break;
+			}
+		};
 		glob.onChange2 = function(event) {
 			const value = parseInt(event.value);
 			const varNameInput = document.getElementById("varNameContainer2");
