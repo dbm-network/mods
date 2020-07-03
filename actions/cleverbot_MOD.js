@@ -102,7 +102,6 @@ module.exports = {
 				if (!ioAPIuser) return console.log("Please enter a valid API User key from cleverbot.io!");
 				if (!ioAPIkey) return console.log("Please enter a valid API Key from cleverbot.io!");
 
-				Mods.CheckAndInstallNodeModule("cleverbot.io");
 				const cleverbotio = Mods.require("cleverbot.io");
 				const CLEVERBOT = new cleverbotio(ioAPIuser, ioAPIkey);
 				const session = CLEVERBOT.setNick("DBM Bot");
@@ -121,7 +120,6 @@ module.exports = {
 
 				break;
 			case 1:
-				Mods.CheckAndInstallNodeModule("cleverbot-node");
 				const cleverbotcom = Mods.require("cleverbot-node");
 				const clbot = new cleverbotcom;
 				const comAPIkey = this.evalMessage(data.APIkey, cache);

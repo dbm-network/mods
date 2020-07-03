@@ -97,14 +97,12 @@ module.exports = {
 	},
 
 	action: function(cache) {
-		const _this = this; //This is needed sometimes
+		const _this = this;
 		const data = cache.actions[cache.index];
-		const info = _this.evalMessage(data.info);
+		const info = this.evalMessage(data.info);
 		const type = parseInt(data.type);
 
-		// Main code:
-		const Mods = _this.getMods(); // as always.
-		Mods.CheckAndInstallNodeModule("speedtest-net"); //To install module automatically
+		const Mods = this.getMods();
 		const speedTest = Mods.require("speedtest-net");
 		const test = speedTest({ maxTime: 5000 });
 
@@ -137,5 +135,4 @@ module.exports = {
 	},
 
 	mod: function() {}
-
 };
