@@ -39,7 +39,7 @@ module.exports = {
     const storage = parseInt(data.storage);
     const type = parseInt(data.type);
     const user = this.getVariable(storage, varName, cache)
-    let xxxTentaction;
+    let file = fs.readFileSync('./data/blacklist.txt', 'utf-8').toString();
     let users;
     const fs = require(`fs`);
     if (!varName) {
@@ -48,15 +48,13 @@ module.exports = {
     }
     switch(type) {
       case 1:
-        xxxTentaction = fs.readFileSync('./data/blacklist.txt', 'utf-8').toString();
-        users = xxxTentaction.split("\n");
+        users = file.split("\n");
         if (!users.includes(user.id)) {
           fs.appendFileSync('./data/blacklist.txt', user.id + "\n");
         }
         break;
       case 2:
-        xxxTentaction = fs.readFileSync('./data/blacklist.txt', 'utf-8').toString();
-        users = xxxTentaction.split("\n");
+        users = file.split("\n");
         if (users.includes(user.id)) {
           console.log(users);
           console.log(users.filter(x => x !== user.id));
