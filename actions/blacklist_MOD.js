@@ -62,7 +62,7 @@ module.exports = {
         }
         break;
     default:
-        console.log("wha- hwatt???");
+        console.log("Update your blacklist_MOD.js, the selected option doesn't exist.");
         break;
     }
   },
@@ -71,7 +71,7 @@ module.exports = {
     if (!fs.existsSync('./data/blacklist.txt')) {
       fs.writeFileSync('./data/blacklist.txt', "", function (err) {
         if (err) {
-          console.log("Something went wrong...");
+          console.log(err);
         }
       });
     }
