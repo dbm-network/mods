@@ -25,7 +25,7 @@ module.exports = {
       <div style="float: right; width: 47%">
         Variable Name:<br>
         <input class="round" id="varName" />
-</div>
+      </div>
     </div>
   </div>
     `
