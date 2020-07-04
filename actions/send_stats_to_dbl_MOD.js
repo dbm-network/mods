@@ -31,7 +31,7 @@ module.exports = {
 
 	init: function() {},
 
-	action: function(cache) {
+	action: async function(cache) {
 		const data = cache.actions[cache.index],
 			token = this.evalMessage(data.dblToken, cache),
 			info = parseInt(data.info),
@@ -39,27 +39,17 @@ module.exports = {
 			fetch = Mods.require("node-fetch"),
 			client = this.getDBM().Bot.bot;
 
-		const errorHandler = (err) => console.error(`#${cache.index + 1} ${this.name}: ${err.stack}`);
+		const body = [
+			{ server_count: client.guilds.cache.size },
+			{ server_count: client.guilds.cache.size, shard_id: client.shard.ids[0], shard_count: client.shard.count },
+		][info];
+		if (!body) return console.error(`#${cache.index + 1} ${this.name}: Invalid option selected`);
 
-		let body;
-		switch (info) {
-			case 0:
-				body = { server_count: client.guilds.cache.size };
-				fetch(`https://top.gg/api/bots/${client.user.id}/stats`, {
-					body,
-					headers: { Authorization: token },
-					method: "POST",
-				}).catch(errorHandler);
-				break;
-			case 1:
-				body = { server_count: client.guilds.cache.size, shard_id: client.shard.id };
-				fetch(`https://top.gg/api/bots/${client.user.id}/stats`, {
-					body,
-					headers: { Authorization: token },
-					method: "POST",
-				}).catch(errorHandler);
-				break;
-		}
+		await fetch(`https://top.gg/api/bots/${client.user.id}/stats`, {
+			body,
+			headers: { Authorization: token },
+			method: "POST",
+		}).catch((err) => console.error(`#${cache.index + 1} ${this.name}: ${err.stack}`));
 
 		this.callNextAction(cache);
 	},
