@@ -9,7 +9,7 @@ module.exports = {
 
 	fields: ["dblToken", "info"],
 
-	html: function(isEvent, data) {
+	html: function() {
 		return `
 <div id="modinfo">
 	<div style="float: left; width: 99%; padding-top: 8px;">
@@ -17,40 +17,47 @@ module.exports = {
 	   <input id="dblToken" class="round" type="text">
 	</div><br>
 	<div style="float: left; width: 90%; padding-top: 8px;">
-	   Info to Send:<br>
-	   <select id="info" class="round">
+		Info to Send:<br>
+		<select id="info" class="round">
 		<option value="0">Send Server Count Only</option>
 		<option value="1">Send Shard & Server Count</option>
 	</select><br>
 	<p>
-		• Use this mod inside events or commands<br>
 		• Do not send anything about shards if you don't shard your bot, otherwise it'll crash your bot!
 	</p>
 	</div>
 </div>`;
 	},
 
-	init: function() {
-	},
+	init: function() {},
 
 	action: function(cache) {
 		const data = cache.actions[cache.index],
 			token = this.evalMessage(data.dblToken, cache),
 			info = parseInt(data.info),
-			snek = require("snekfetch");
+			Mods = this.getMods(),
+			fetch = Mods.require("node-fetch"),
+			client = this.getDBM().Bot.bot;
 
+		const errorHandler = (err) => console.error(`#${cache.index + 1} ${this.name}: ${err.stack}`);
+
+		let body;
 		switch (info) {
 			case 0:
-				snek.post(`https://top.gg/api/bots/${this.getDBM().Bot.bot.user.id}/stats`)
-					.set("Authorization", token)
-					.send({ server_count: this.getDBM().Bot.bot.guilds.size })
-					.catch(() => { });
+				body = { server_count: client.guilds.cache.size };
+				fetch(`https://top.gg/api/bots/${client.user.id}/stats`, {
+					body,
+					headers: { Authorization: token },
+					method: "POST",
+				}).catch(errorHandler);
 				break;
 			case 1:
-				snek.post(`https://top.gg/api/bots/${this.getDBM().Bot.bot.user.id}/stats`)
-					.set("Authorization", token)
-					.send({ server_count: this.getDBM().Bot.bot.guilds.size, shard_id: this.getDBM().Bot.bot.shard.id })
-					.catch(() => { });
+				body = { server_count: client.guilds.cache.size, shard_id: client.shard.id };
+				fetch(`https://top.gg/api/bots/${client.user.id}/stats`, {
+					body,
+					headers: { Authorization: token },
+					method: "POST",
+				}).catch(errorHandler);
 				break;
 		}
 
@@ -58,5 +65,4 @@ module.exports = {
 	},
 
 	mod: function() {}
-
 };
