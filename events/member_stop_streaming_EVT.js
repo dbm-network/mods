@@ -23,13 +23,13 @@ module.exports = {
 				if (event.temp) temp[event.temp] = oldChannel;
 				if (event.temp2) temp[event.temp2] = oldVoiceState.member;
 				Actions.invokeEvent(event, server, temp);
-			};
+			}
 		};
-	
+
 		const onReady = DBM.Bot.onReady;
 		DBM.Bot.onReady = function(...params) {
 			DBM.Bot.bot.on("voiceStateUpdate", DBM.LeonZ.offStream);
 			onReady.apply(this, ...params);
 		};
 	}
-}
+};

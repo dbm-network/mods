@@ -18,7 +18,7 @@ module.exports = {
 				if(event.temp) temp[event.temp] = invite.code;
 				if(event.temp2) temp[event.temp2] = invite.inviter;
 				Actions.invokeEvent(event, server, temp);
-			};
+			}
 		};
 
 		const onReady = DBM.Bot.onReady;

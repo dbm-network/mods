@@ -1,15 +1,15 @@
 module.exports = {
 
-name: "Member Boosted Server",
+	name: "Member Boosted Server",
 
-isEvent: true,
+	isEvent: true,
 
-fields: ["Member","Guild"],
+	fields: ["Member", "Guild"],
 
-mod: function(DBM) {
-	DBM.RigidKeK = DBM.RigidKeK || {};
+	mod: function(DBM) {
+		DBM.RigidKeK = DBM.RigidKeK || {};
 
-	DBM.RigidKeK.boostedGuild = function(old, recent) {
+		DBM.RigidKeK.boostedGuild = function(old, recent) {
 			const { Bot, Actions } = DBM;
 
 			const events = Bot.$evts["Member Boosted Server"];
@@ -32,9 +32,9 @@ mod: function(DBM) {
 		};
 
 		const onReady = DBM.Bot.onReady;
-			DBM.Bot.onReady = function(...params) {
-					DBM.Bot.bot.on("guildMemberUpdate", DBM.RigidKeK.boostedGuild);
-					onReady.apply(this, ...params);
-		}
+		DBM.Bot.onReady = function(...params) {
+			DBM.Bot.bot.on("guildMemberUpdate", DBM.RigidKeK.boostedGuild);
+			onReady.apply(this, ...params);
+		};
 	}
 };

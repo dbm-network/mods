@@ -23,7 +23,7 @@ module.exports = {
 				if (event.temp) temp[event.temp] = newChannel;
 				if (event.temp2) temp[event.temp2] = newVoiceState.member;
 				Actions.invokeEvent(event, server, temp);
-			};
+			}
 		};
 
 		const onReady = DBM.Bot.onReady;
@@ -32,4 +32,4 @@ module.exports = {
 			onReady.apply(this, ...params);
 		};
 	}
-}
+};
