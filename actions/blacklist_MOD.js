@@ -30,9 +30,7 @@ module.exports = {
   </div>
     `
   },
-  init: function() {
-    const { document, glob } = this;
-  },
+  init: function() {},
   action: function(cache) {
     const data = cache.actions[cache.index];
     const varName = this.evalMessage(data.varName, cache);
