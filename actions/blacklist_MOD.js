@@ -11,7 +11,6 @@ module.exports = {
     return `
   <div>
     <div>
-    <p><u>Made by Rigid and Noah</u></p>
     <br>Operation Type:<br>
       <select class="round" id="type">
         <option value="1" selected>Blacklist User</option>
