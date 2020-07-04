@@ -68,3 +68,34 @@ module.exports = {
         break;
     }
   },
+	  mod: function(DBM) {
+    const fs = require('fs');
+    if (!fs.existsSync('./data/blacklist.txt')) {
+      fs.writeFileSync('./data/blacklist.txt', "", function (err) {
+        if (err) {
+          console.log("Something went wrong...");
+        }
+      });
+    }
+    // MODIFY Bot.checkCommand to effectively check the blacklist
+    DBM.Bot.checkCommand = function(msg) {
+    	let command = this.checkTag(msg.content);
+    	if(command) {
+    		if(!this._caseSensitive) {
+    			command = command.toLowerCase();
+    		}
+    		const cmd = this.$cmds[command];
+    		if(cmd) {
+          let info = fs.readFileSync('./data/blacklist.txt').toString();
+          if (!info.split("\n").includes(msg.member.id)) {
+      			DBM.Actions.preformActions(msg, cmd);
+      			return true;
+          } else {
+            DBM.Bot.bot.emit('blacklistUserUse', msg.member || msg.author, msg);
+          }
+    		}
+    	}
+    	return false;
+    };
+  }
+}
