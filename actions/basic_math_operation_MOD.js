@@ -18,36 +18,35 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-<div style="width: 90%;">
-	First Number:<br>
-	<input id="FirstNumber" class="round" type="text">
-</div><br>
-<div style="padding-top: 8px; width: 60%;">
-	Math Operation:
-	<select id="info" class="round">
-			<option value="0" selected>Addition</option>
-			<option value="1">Subtraction</option>
-			<option value="2">Multiplication</option>
-			<option value="3">Division</option>
-	</select>
-</div><br>
-<div style="width: 90%;">
-	Second Number:<br>
-	<input id="SecondNumber" class="round" type="text">
-</div><br>
-<div style="padding-top: 8px;">
-	<div style="float: left; width: 35%;">
-		Store In:<br>
-		<select id="storage" class="round">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text">
-	</div>
-</div>
-	`
+    <div style="width: 90%;">
+      First Number:<br>
+      <input id="FirstNumber" class="round" type="text">
+    </div><br>
+    <div style="padding-top: 8px; width: 60%;">
+      Math Operation:
+      <select id="info" class="round">
+          <option value="0" selected>Addition</option>
+          <option value="1">Subtraction</option>
+          <option value="2">Multiplication</option>
+          <option value="3">Division</option>
+      </select>
+    </div><br>
+    <div style="width: 90%;">
+      Second Number:<br>
+      <input id="SecondNumber" class="round" type="text">
+    </div><br>
+    <div style="padding-top: 8px;">
+      <div style="float: left; width: 35%;">
+        Store In:<br>
+        <select id="storage" class="round">
+          ${data.variables[1]}
+        </select>
+      </div>
+      <div id="varNameContainer" style="float: right; width: 60%;">
+        Variable Name:<br>
+        <input id="varName" class="round" type="text">
+      </div>
+    </div>`
   },
 
   init () {},

@@ -21,34 +21,33 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-<div style="width: 90%;">
-	Date Variable or String:<br>
-	<input id="DOB" class="round" type="text">
-</div><br>
-<div style="padding-top: 8px; width: 60%;">
-	Input Date Format:
-	<select id="info" class="round">
-			<option value="0" selected>MM/DD/YYYY</option>
-			<option value="1">DD/MM/YYYY</option>
-			<option value="2">MM/YYYY/DD</option>
-			<option value="3">DD/YYYY/MM</option>
-			<option value="4">YYYY/MM/DD</option>
-			<option value="5">YYYY/DD/MM</option>
-	</select>
-</div><br>
-<div style="padding-top: 8px;">
-	<div style="float: left; width: 35%;">
-		Store In:<br>
-		<select id="storage" class="round">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text">
-	</div>
-</div>
-	`
+    <div style="width: 90%;">
+      Date Variable or String:<br>
+      <input id="DOB" class="round" type="text">
+    </div><br>
+    <div style="padding-top: 8px; width: 60%;">
+      Input Date Format:
+      <select id="info" class="round">
+          <option value="0" selected>MM/DD/YYYY</option>
+          <option value="1">DD/MM/YYYY</option>
+          <option value="2">MM/YYYY/DD</option>
+          <option value="3">DD/YYYY/MM</option>
+          <option value="4">YYYY/MM/DD</option>
+          <option value="5">YYYY/DD/MM</option>
+      </select>
+    </div><br>
+    <div style="padding-top: 8px;">
+      <div style="float: left; width: 35%;">
+        Store In:<br>
+        <select id="storage" class="round">
+          ${data.variables[1]}
+        </select>
+      </div>
+      <div id="varNameContainer" style="float: right; width: 60%;">
+        Variable Name:<br>
+        <input id="varName" class="round" type="text">
+      </div>
+    </div>`
   },
 
   init () {},
