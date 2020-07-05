@@ -48,7 +48,7 @@ This repository is not meant to be downloaded or cloned. Please follow the insta
 2.  Open your Steam Library and find Discord Bot Maker in the Software section
 3.  Right-click it, then click Properties → Local Files → Browse Local Files
 4.  Open the "actions" folder
-5.  Download the [DBM Mods files]('https://dbm-network.github.io/download-git/#/home?url=https://github.com/dbm-network/mods/tree/old_version_v1.5/actions')  
+5.  Download the [DBM Mods files](https://dbm-network.github.io/download-git/#/home?url=https://github.com/dbm-network/mods/tree/old_version_v1.5/actions)  
     (There is no need to clone or download the Git repository)
 6.  Extract the contents of the .zip file into Discord Bot Maker's actions folder  
     (Overwrite existing files if asked)
