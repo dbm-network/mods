@@ -1,19 +1,19 @@
 module.exports = {
-	name: "Store Channel Permissions",
+  name: 'Store Channel Permissions',
 
-	section: "Permission Control",
+  section: 'Permission Control',
 
-	subtitle: function(data) {
-		const roles = ["Mentioned Role", "1st Author Role", "1st Server Role", "Temp Variable", "Server Variable", "Global Variable"];
-		const index = ["Granted", "Denied"];
-		const perm = ["Administrator", "Manage Guild", "Manage Nicknames", "Manage Roles", "Manage Emojis", "Kick Members", "Ban Members", "View Audit Log", "Change Nickname", "Create Instant Invite", "Priority Speaker", "Manage Channel", "Manage Webhooks", "Read Messages", "Send Messages", "Send TTS Messages", "Manage Messages", "Embed Links", "Attach Files", "Read Message History", "Mention Everyone", "Use External Emojis", "Add Reactions", "Connect to Voice", "Speak in Voice", "Mute Members", "Deafen Members", "Move Members", "Use Voice Activity", "All Permissions"];
-		return `${roles[data.role]} - ${perm[data.permission]} - ${index[data.state]} ${!data.reason ? "" : `with Reason: <i>${data.reason}<i>`}`;
-	},
+  subtitle (data) {
+    const roles = ['Mentioned Role', '1st Author Role', '1st Server Role', 'Temp Variable', 'Server Variable', 'Global Variable']
+    const index = ['Granted', 'Denied']
+    const perm = ['Administrator', 'Manage Guild', 'Manage Nicknames', 'Manage Roles', 'Manage Emojis', 'Kick Members', 'Ban Members', 'View Audit Log', 'Change Nickname', 'Create Instant Invite', 'Priority Speaker', 'Manage Channel', 'Manage Webhooks', 'Read Messages', 'Send Messages', 'Send TTS Messages', 'Manage Messages', 'Embed Links', 'Attach Files', 'Read Message History', 'Mention Everyone', 'Use External Emojis', 'Add Reactions', 'Connect to Voice', 'Speak in Voice', 'Mute Members', 'Deafen Members', 'Move Members', 'Use Voice Activity', 'All Permissions']
+    return `${roles[data.role]} - ${perm[data.permission]} - ${index[data.state]} ${!data.reason ? '' : `with Reason: <i>${data.reason}<i>`}`
+  },
 
-	fields: ["storage", "varName", "target", "role", "varName2", "member", "varName3", "storage3", "varName4"],
+  fields: ['storage', 'varName', 'target', 'role', 'varName2', 'member', 'varName3', 'storage3', 'varName4'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 	<div style="padding-top: 8px;">
 		<div style="float: left; width: 35%;">
 			Source Channel:<br>
@@ -70,65 +70,65 @@ module.exports = {
 			Variable Name:<br>
 			<input id="varName4" class="round" type="text">
 		</div>
-	</div>`;
-	},
+	</div>`
+  },
 
-	init: function() {
-		const { glob, document } = this;
+  init () {
+    const { glob, document } = this
 
-		glob.channelChange(document.getElementById("storage"), "varNameContainer");
+    glob.channelChange(document.getElementById('storage'), 'varNameContainer')
 
-		glob.roleChange(document.getElementById("role"), "varNameContainer2");
-		glob.memberChange(document.getElementById("member"), "varNameContainer3");
+    glob.roleChange(document.getElementById('role'), 'varNameContainer2')
+    glob.memberChange(document.getElementById('member'), 'varNameContainer3')
 
-		const roleHolder = document.getElementById("roleHolder");
-		const memberHolder = document.getElementById("memberHolder");
-		glob.targetChange = function(target) {
-			if (target.value == "0") {
-				roleHolder.style.display = null;
-				memberHolder.style.display = "none";
-			} else if (target.value == "1") {
-				roleHolder.style.display = "none";
-				memberHolder.style.display = null;
-			}
-		};
-		glob.targetChange(document.getElementById("target"));
-	},
+    const roleHolder = document.getElementById('roleHolder')
+    const memberHolder = document.getElementById('memberHolder')
+    glob.targetChange = function (target) {
+      if (target.value == '0') {
+        roleHolder.style.display = null
+        memberHolder.style.display = 'none'
+      } else if (target.value == '1') {
+        roleHolder.style.display = 'none'
+        memberHolder.style.display = null
+      }
+    }
+    glob.targetChange(document.getElementById('target'))
+  },
 
-	action: function(cache) {
-		const data = cache.actions[cache.index];
+  action (cache) {
+    const data = cache.actions[cache.index]
 
-		const type = parseInt(data.target);
-		let target;
-		if (type == 0) {
-			const role = parseInt(data.role);
-			const varName2 = this.evalMessage(data.varName2, cache);
-			target = this.getRole(role, varName2, cache);
-		} else {
-			const member = parseInt(data.member);
-			const varName3 = this.evalMessage(data.varName3, cache);
-			target = this.getMember(member, varName3, cache);
-		}
+    const type = parseInt(data.target)
+    let target
+    if (type == 0) {
+      const role = parseInt(data.role)
+      const varName2 = this.evalMessage(data.varName2, cache)
+      target = this.getRole(role, varName2, cache)
+    } else {
+      const member = parseInt(data.member)
+      const varName3 = this.evalMessage(data.varName3, cache)
+      target = this.getMember(member, varName3, cache)
+    }
 
-		const storage = parseInt(data.storage);
-		const varName = this.evalMessage(data.varName, cache);
-		const targetChannel = this.getChannel(storage, varName, cache);
+    const storage = parseInt(data.storage)
+    const varName = this.evalMessage(data.varName, cache)
+    const targetChannel = this.getChannel(storage, varName, cache)
 
-		const allow = target.permissionsIn(targetChannel);
-		let permissions = {};
-		permissions.allow = allow;
+    const allow = target.permissionsIn(targetChannel)
+    const permissions = {}
+    permissions.allow = allow
 
-		const Permissions = this.getDBM().DiscordJS.Permissions;
-		const disallow = new Permissions();
-		disallow.add(target.permissions);
-		disallow.remove(allow);
-		permissions.disallow = disallow;
+    const { Permissions } = this.getDBM().DiscordJS
+    const disallow = new Permissions()
+    disallow.add(target.permissions)
+    disallow.remove(allow)
+    permissions.disallow = disallow
 
-		const varName4 = this.evalMessage(data.varName4, cache);
-		const storage2 = parseInt(data.storage2);
-		this.storeValue(permissions, storage2, varName4, cache);
-		this.callNextAction(cache);
-	},
+    const varName4 = this.evalMessage(data.varName4, cache)
+    const storage2 = parseInt(data.storage2)
+    this.storeValue(permissions, storage2, varName4, cache)
+    this.callNextAction(cache)
+  },
 
-	mod: function() {}
-};
+  mod () {}
+}

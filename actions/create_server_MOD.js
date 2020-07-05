@@ -1,21 +1,21 @@
 module.exports = {
-	name: "Create Server",
-	section: "Server Control",
+  name: 'Create Server',
+  section: 'Server Control',
 
-	subtitle: function(data) {
-		return `${data.serverName}`;
-	},
+  subtitle (data) {
+    return `${data.serverName}`
+  },
 
-	variableStorage: function(data, varType) {
-		const type = parseInt(data.storage);
-		if(type !== varType) return;
-		return ([data.varName, "Server"]);
-	},
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage)
+    if (type !== varType) return
+    return ([data.varName, 'Server'])
+  },
 
-	fields: ["serverName", "serverRegion", "storage", "varName"],
+  fields: ['serverName', 'serverRegion', 'storage', 'varName'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 <div style="padding-top: 8px;">
     <div style="float: left; width: 560px;">
         Server Name:<br>
@@ -57,34 +57,34 @@ module.exports = {
 	<p>
 	<b>NOTE:</b> <span style="color:red">This is only available to bots in less than 10 servers!
 	</p>
-</div>`;
-	},
+</div>`
+  },
 
-	init: function() {
-		const { glob, document } = this;
+  init () {
+    const { glob, document } = this
 
-		glob.variableChange(document.getElementById("storage"), "varNameContainer");
-	},
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer')
+  },
 
-	action: function(cache) {
-		const data = cache.actions[cache.index];
-		const serverName = this.evalMessage(data.serverName, cache);
-		const botClient = this.getDBM().Bot.bot.user;
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const serverName = this.evalMessage(data.serverName, cache)
+    const botClient = this.getDBM().Bot.bot.user
 
-		if(!serverName) {
-			this.callNextAction(cache);
-			return;
-		}
+    if (!serverName) {
+      this.callNextAction(cache)
+      return
+    }
 
-		const region = data.serverRegion;
+    const region = data.serverRegion
 
-		botClient.guilds.create(serverName, { region }).then((server) => {
-			const storage = parseInt(data.storage);
-			const varName = this.evalMessage(data.varName, cache);
-			this.storeValue(server, storage, varName, cache);
-			this.callNextAction(cache);
-		}).catch(this.displayError.bind(this, data, cache));
-	},
+    botClient.guilds.create(serverName, { region }).then((server) => {
+      const storage = parseInt(data.storage)
+      const varName = this.evalMessage(data.varName, cache)
+      this.storeValue(server, storage, varName, cache)
+      this.callNextAction(cache)
+    }).catch(this.displayError.bind(this, data, cache))
+  },
 
-	mod: function() {}
-};
+  mod () {}
+}

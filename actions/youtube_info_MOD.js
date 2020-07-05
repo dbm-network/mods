@@ -1,84 +1,83 @@
 module.exports = {
-	name: "Store YouTube Info",
-	section: "Audio Control",
+  name: 'Store YouTube Info',
+  section: 'Audio Control',
 
-	subtitle: function(data) {
-		const info = ["Video ID", "Video URL", "Video Title", "Video Description", "Video Owner", "Video ChannelID", "Video ThumbnailUrl", "Video EmbedURL", "Video Genre", "Video Paid", "Video Unlisted", "Video isFamilyFriendly", "Video Duration", "Video Views", "Video regionsAllowed", "Video commentCount", "Video  likeCount", "Video  dislikeCount", "Video  channelThumbnailUrl"];
-		return `YouTube ${info[parseInt(data.info)]}`;
-	},
+  subtitle (data) {
+    const info = ['Video ID', 'Video URL', 'Video Title', 'Video Description', 'Video Owner', 'Video ChannelID', 'Video ThumbnailUrl', 'Video EmbedURL', 'Video Genre', 'Video Paid', 'Video Unlisted', 'Video isFamilyFriendly', 'Video Duration', 'Video Views', 'Video regionsAllowed', 'Video commentCount', 'Video  likeCount', 'Video  dislikeCount', 'Video  channelThumbnailUrl']
+    return `YouTube ${info[parseInt(data.info)]}`
+  },
 
-	variableStorage: function(data, varType) {
-		const type = parseInt(data.storage);
-		if (type !== varType) return;
-		const info = parseInt(data.info);
-		let dataType = "Unknown YouTube Type";
-		switch (info) {
-			case 0:
-				dataType = "YouTube Video ID";
-				break;
-			case 1:
-				dataType = "YouTube Video URL";
-				break;
-			case 2:
-				dataType = "YouTube Video Title";
-				break;
-			case 3:
-				dataType = "YouTube Video Description";
-				break;
-			case 4:
-				dataType = "YouTube Video Owner";
-				break;
-			case 5:
-				dataType = "YouTube Video ChannelID";
-				break;
-			case 6:
-				dataType = "YouTube Video ThumbnailUrl";
-				break;
-			case 7:
-				dataType = "YouTube Video EmbedURL";
-				break;
-			case 8:
-				dataType = "YouTube Video Genre";
-				break;
-			case 9:
-				dataType = "YouTube Video Paid";
-				break;
-			case 10:
-				dataType = "YouTube Video Unlisted";
-				break;
-			case 11:
-				dataType = "YouTube Video isFamilyFriendly";
-				break;
-			case 12:
-				dataType = "YouTube Video Duration";
-				break;
-			case 13:
-				dataType = "YouTube Video Views";
-				break;
-			case 14:
-				dataType = "YouTube Video regionsAllowed";
-				break;
-			case 15:
-				dataType = "YouTube Video commentCount";
-				break;
-			case 16:
-				dataType = "YouTube Video likeCount";
-				break;
-			case 17:
-				dataType = "YouTube Video dislikeCount";
-				break;
-			case 18:
-				dataType = "YouTube Video channelThumbnailUrl";
-				break;
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage)
+    if (type !== varType) return
+    const info = parseInt(data.info)
+    let dataType = 'Unknown YouTube Type'
+    switch (info) {
+      case 0:
+        dataType = 'YouTube Video ID'
+        break
+      case 1:
+        dataType = 'YouTube Video URL'
+        break
+      case 2:
+        dataType = 'YouTube Video Title'
+        break
+      case 3:
+        dataType = 'YouTube Video Description'
+        break
+      case 4:
+        dataType = 'YouTube Video Owner'
+        break
+      case 5:
+        dataType = 'YouTube Video ChannelID'
+        break
+      case 6:
+        dataType = 'YouTube Video ThumbnailUrl'
+        break
+      case 7:
+        dataType = 'YouTube Video EmbedURL'
+        break
+      case 8:
+        dataType = 'YouTube Video Genre'
+        break
+      case 9:
+        dataType = 'YouTube Video Paid'
+        break
+      case 10:
+        dataType = 'YouTube Video Unlisted'
+        break
+      case 11:
+        dataType = 'YouTube Video isFamilyFriendly'
+        break
+      case 12:
+        dataType = 'YouTube Video Duration'
+        break
+      case 13:
+        dataType = 'YouTube Video Views'
+        break
+      case 14:
+        dataType = 'YouTube Video regionsAllowed'
+        break
+      case 15:
+        dataType = 'YouTube Video commentCount'
+        break
+      case 16:
+        dataType = 'YouTube Video likeCount'
+        break
+      case 17:
+        dataType = 'YouTube Video dislikeCount'
+        break
+      case 18:
+        dataType = 'YouTube Video channelThumbnailUrl'
+        break
+    }
+    return ([data.varName, dataType])
+  },
 
-		}
-		return ([data.varName, dataType]);
-	},
+  fields: ['video', 'info', 'storage', 'varName'],
 
-	fields: ["video", "info", "storage", "varName"],
-
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 <div style="width: 550px; height: 350px; overflow-y: scroll;">
 
 	<div style="width: 95%; padding-top: 8px;">
@@ -127,110 +126,108 @@ module.exports = {
 			For aditional information contact <b>Aamon#9130</b> on Discord or <a href ="https://twitter.com/44m0n"><b>@44m0n<b></a> on Twitter.
 		</p>
 	<div>
-</div>`;
-	},
+</div>`
+  },
 
-	init: function() {
-		const {
-			glob,
-			document
-		} = this;
-		glob.variableChange(document.getElementById("storage"), "varNameContainer");
-	},
+  init () {
+    const {
+      glob,
+      document
+    } = this
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer')
+  },
 
-	action: async function(cache) {
-		const data = cache.actions[cache.index];
-		const info = parseInt(data.info);
-		const _this = this;
-		const video = this.evalMessage(data.video, cache);
-		const Mods = this.getMods();
-		const fetchVideoInfo = Mods.require("youtube-info");
-		const TimeFormat = Mods.require("hh-mm-ss");
-		const ytdl = Mods.require("ytdl-core");
-		let result;
+  async action (cache) {
+    const data = cache.actions[cache.index]
+    const info = parseInt(data.info)
+    const _this = this
+    const video = this.evalMessage(data.video, cache)
+    const Mods = this.getMods()
+    const fetchVideoInfo = Mods.require('youtube-info')
+    const TimeFormat = Mods.require('hh-mm-ss')
+    const ytdl = Mods.require('ytdl-core')
+    let result
 
-		if (!video) return console.log("Please specify a video id to get video informations.");
+    if (!video) return console.log('Please specify a video id to get video informations.')
 
-		const songID = ytdl.getVideoID(video);
+    const songID = ytdl.getVideoID(video)
 
-		fetchVideoInfo(songID, function(err, videoInfo) {
-			if (err) return console.error(err);
+    fetchVideoInfo(songID, (err, videoInfo) => {
+      if (err) return console.error(err)
 
-			switch (info) {
-				case 0:
-					result = videoInfo.videoId;
-					break;
-				case 1:
-					result = videoInfo.url;
-					break;
-				case 2:
-					result = videoInfo.title;
-					break;
-				case 3:
-					result = videoInfo.description;
-					break;
-				case 4:
-					result = videoInfo.owner;
-					break;
-				case 5:
-					result = videoInfo.channelId;
-					break;
-				case 6:
-					result = videoInfo.thumbnailUrl;
-					break;
-				case 7:
-					result = videoInfo.embedURL;
-					break;
-				case 8:
-					result = videoInfo.genre;
-					break;
-				case 9:
-					result = videoInfo.paid;
-					break;
-				case 10:
-					result = videoInfo.unlisted;
-					break;
-				case 11:
-					result = videoInfo.isFamilyFriendly;
-					break;
-				case 12: {
-					result = TimeFormat.fromS(videoInfo.duration); // check documentation/parameters ==> https://www.npmjs.com/package/hh-mm-ss
-					//result = videoInfo.duration; just seconds =]]
-				}
-					break;
-				case 13:
-					result = videoInfo.views;
-					break;
-				case 14:
-					result = videoInfo.regionsAllowed;
-					break;
-				case 15:
-					result = videoInfo.commentCount;
-					break;
-				case 16:
-					result = videoInfo.likeCount;
-					break;
-				case 17:
-					result = videoInfo.dislikeCount;
-					break;
-				case 18:
-					result = videoInfo.channelThumbnailUrl;
-					break;
-				default:
-					break;
-			}
+      switch (info) {
+        case 0:
+          result = videoInfo.videoId
+          break
+        case 1:
+          result = videoInfo.url
+          break
+        case 2:
+          result = videoInfo.title
+          break
+        case 3:
+          result = videoInfo.description
+          break
+        case 4:
+          result = videoInfo.owner
+          break
+        case 5:
+          result = videoInfo.channelId
+          break
+        case 6:
+          result = videoInfo.thumbnailUrl
+          break
+        case 7:
+          result = videoInfo.embedURL
+          break
+        case 8:
+          result = videoInfo.genre
+          break
+        case 9:
+          result = videoInfo.paid
+          break
+        case 10:
+          result = videoInfo.unlisted
+          break
+        case 11:
+          result = videoInfo.isFamilyFriendly
+          break
+        case 12: {
+          result = TimeFormat.fromS(videoInfo.duration) // check documentation/parameters ==> https://www.npmjs.com/package/hh-mm-ss
+          // result = videoInfo.duration; just seconds =]]
+        }
+          break
+        case 13:
+          result = videoInfo.views
+          break
+        case 14:
+          result = videoInfo.regionsAllowed
+          break
+        case 15:
+          result = videoInfo.commentCount
+          break
+        case 16:
+          result = videoInfo.likeCount
+          break
+        case 17:
+          result = videoInfo.dislikeCount
+          break
+        case 18:
+          result = videoInfo.channelThumbnailUrl
+          break
+        default:
+          break
+      }
 
-			if (result !== undefined) {
-				const storage = parseInt(data.storage);
-				const varName2 = _this.evalMessage(data.varName, cache);
-				_this.storeValue(result, storage, varName2, cache);
-			}
-			_this.callNextAction(cache);
+      if (result !== undefined) {
+        const storage = parseInt(data.storage)
+        const varName2 = _this.evalMessage(data.varName, cache)
+        _this.storeValue(result, storage, varName2, cache)
+      }
+      _this.callNextAction(cache)
+    })
+  },
 
-		});
+  mod () {}
 
-	},
-
-	mod: function() {}
-
-};
+}

@@ -1,21 +1,21 @@
 module.exports = {
-	name: "Store HTML From Webpage",
-	section: "HTML/XML Things",
+  name: 'Store HTML From Webpage',
+  section: 'HTML/XML Things',
 
-	subtitle: function(data) {
-		return `URL: ${data.url}`;
-	},
+  subtitle (data) {
+    return `URL: ${data.url}`
+  },
 
-	variableStorage: function(data, varType) {
-		const type = parseInt(data.storage);
-		if(type !== varType) return;
-		return ([data.varName, "HTML Webpage"]);
-	},
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage)
+    if (type !== varType) return
+    return ([data.varName, 'HTML Webpage'])
+  },
 
-	fields: ["url", "storage", "varName"],
+  fields: ['url', 'storage', 'varName'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 
 		<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
 		<div>
@@ -44,89 +44,77 @@ module.exports = {
 			<input id="varName" class="round" type="text">
 		</div>
 	</div>
-	`;
-	},
+	`
+  },
 
-	init: function() {
-		const { glob, document } = this;
+  init () {
+    const { glob, document } = this
 
-		function evalMessage(content) {
-			if(!content) return "";
-			if(!content.match(/\$\{.*\}/im)) return content;
-			return content.replace(/\$\{.*\}/im, "CUSTOMVALUE");
-		}
+    function evalMessage (content) {
+      if (!content) return ''
+      if (!content.match(/\$\{.*\}/im)) return content
+      return content.replace(/\$\{.*\}/im, 'CUSTOMVALUE')
+    }
 
-		try {
+    try {
+      const Mods = require(require('path').join(__dirname, 'aaa_wrexmods_dependencies_MOD.js')).getMods()
 
-			var Mods = require(require("path").join(__dirname, "aaa_wrexmods_dependencies_MOD.js")).getMods();
+      const valid = document.getElementById('valid')
+      const url = document.getElementById('url')
 
-			var valid = document.getElementById("valid");
-			var url = document.getElementById("url");
+      glob.checkURL = function (element) {
+        const pUrl = url.value
 
-			glob.checkURL = function(element){
+        const checkedUrl = Mods.checkURL(encodeURI(evalMessage(pUrl)))
 
-				const pUrl = url.value;
+        if (checkedUrl && pUrl) {
+          valid.innerHTML = 'Valid URL Format!'
+          valid.style.color = 'green'
+        } else {
+          valid.innerHTML = 'Invalid URL Format!'
+          valid.style.color = 'red'
+        }
+      }
+    } catch (error) {
+      // write any init errors to errors.txt in dbm's main directory
+      require('fs').appendFile('errors.txt', error.stack ? error.stack : `${error}\r\n`)
+    }
 
-				const checkedUrl = Mods.checkURL(encodeURI(evalMessage(pUrl)));
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer')
+  },
 
-				if(checkedUrl && pUrl){
-					valid.innerHTML = "Valid URL Format!";
-					valid.style.color = "green";
-				}else{
-					valid.innerHTML = "Invalid URL Format!";
-					valid.style.color = "red";
-				}
-			};
+  action (cache) {
+    try {
+      const Mods = this.getMods()
 
-		} catch (error) {
-			// write any init errors to errors.txt in dbm's main directory
-			require("fs").appendFile("errors.txt", error.stack ? error.stack : error + "\r\n");
-		}
+      const data = cache.actions[cache.index]
 
-		glob.variableChange(document.getElementById("storage"), "varNameContainer");
+      const varName = this.evalMessage(data.varName, cache)
+      const storage = parseInt(data.storage)
 
-	},
+      let url = this.evalMessage(data.url, cache)
 
-	action: function(cache) {
+      if (!Mods.checkURL(url)) {
+        url = encodeURI(url)
+      }
 
-		try {
+      if (Mods.checkURL(url)) {
+        // making sure all the required node modules are installed
+        const request = Mods.require('request')
 
-			var Mods = this.getMods();
+        request(url, (err, res, html) => {
+          if (err) throw err
 
-			const data = cache.actions[cache.index];
+          this.storeValue(html.trim(), storage, varName, cache)
+          this.callNextAction(cache)
+        })
+      } else {
+        throw Error(`HTML Parser - URL [${url}] Is Not Valid`)
+      }
+    } catch (error) {
+      console.error(`API Things:  Error: ${error.stack}` ? error.stack : error)
+    }
+  },
 
-			const varName = this.evalMessage(data.varName, cache);
-			const storage = parseInt(data.storage);
-
-			var url = this.evalMessage(data.url, cache);
-
-			if(!Mods.checkURL(url)){
-				url = encodeURI(url);
-			}
-
-			if(Mods.checkURL(url)){
-
-				// making sure all the required node modules are installed
-				var request = Mods.require("request");
-
-				request(url, function(err, res, html) {
-
-					if(err) throw err;
-
-					this.storeValue(html.trim(), storage, varName, cache)	;
-					this.callNextAction(cache);
-
-				}.bind(this));
-
-			}else{
-				throw Error("HTML Parser - URL ["+url+"] Is Not Valid");
-			}
-
-		} catch (error) {
-			console.error("API Things:  Error: " + error.stack ? error.stack : error);
-		}
-
-	},
-
-	mod: function() {}
-};
+  mod () {}
+}

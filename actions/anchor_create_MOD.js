@@ -1,15 +1,15 @@
 module.exports = {
-	name: "Create Anchor",
-	section: "Other Stuff",
+  name: 'Create Anchor',
+  section: 'Other Stuff',
 
-	subtitle: function(data) {
-		return data.description ? `<font color="${data.color}">${data.description}</font>` : `Create ${data.anchor_id ? `the "<font color="${data.color}">${data.anchor_id}</font>" anchor at the current position!` : "an anchor!"}`;
-	},
+  subtitle (data) {
+    return data.description ? `<font color="${data.color}">${data.description}</font>` : `Create ${data.anchor_id ? `the "<font color="${data.color}">${data.anchor_id}</font>" anchor at the current position!` : 'an anchor!'}`
+  },
 
-	fields: ["anchor_id", "color", "description"],
+  fields: ['anchor_id', 'color', 'description'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 		<div>
 			<p>
 				<u>Mod Info:</u><br>
@@ -31,14 +31,14 @@ module.exports = {
 			<input type="text" class="round" id="description">
 		</div>
 	</div>
-		`;
-	},
+		`
+  },
 
-	init: function() {},
+  init () {},
 
-	action: function(cache) {
-		this.callNextAction(cache);
-	},
+  action (cache) {
+    this.callNextAction(cache)
+  },
 
-	mod: function() {}
-};
+  mod () {}
+}

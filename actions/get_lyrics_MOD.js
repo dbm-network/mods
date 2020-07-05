@@ -1,38 +1,38 @@
 module.exports = {
-	name: "Get Song Lyrics",
-	section: "Other Stuff",
+  name: 'Get Song Lyrics',
+  section: 'Other Stuff',
 
-	subtitle: function(data) {
-		const info = ["Title", "Artist", "Lyrics", "URL"];
-		return `Get Lyrics - ${info[parseInt(data.info)]}`;
-	},
+  subtitle (data) {
+    const info = ['Title', 'Artist', 'Lyrics', 'URL']
+    return `Get Lyrics - ${info[parseInt(data.info)]}`
+  },
 
-	variableStorage: function(data, varType) {
-		const type = parseInt(data.storage);
-		if (type !== varType) return;
-		const info = parseInt(data.info);
-		let dataType = "Unknown Song Type";
-		switch (info) {
-			case 0:
-				dataType = "Song Name";
-				break;
-			case 1:
-				dataType = "Song Artist";
-				break;
-			case 2:
-				dataType = "Song Lyrics";
-				break;
-			case 3:
-				dataType = "Song URL";
-				break;
-		}
-		return ([data.varName, dataType]);
-	},
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage)
+    if (type !== varType) return
+    const info = parseInt(data.info)
+    let dataType = 'Unknown Song Type'
+    switch (info) {
+      case 0:
+        dataType = 'Song Name'
+        break
+      case 1:
+        dataType = 'Song Artist'
+        break
+      case 2:
+        dataType = 'Song Lyrics'
+        break
+      case 3:
+        dataType = 'Song URL'
+        break
+    }
+    return ([data.varName, dataType])
+  },
 
-	fields: ["song", "key", "info", "storage", "varName"],
+  fields: ['song', 'key', 'info', 'storage', 'varName'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
         <div style="width: 550px; height: 350px; overflow-y: scroll;">
         <div>
  <div style="width: 95%; padding-top: 8px;">
@@ -103,52 +103,52 @@ module.exports = {
                 span { /* Only making the text look, nice! */
                     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
                 }
-                </style>`;
-	},
+                </style>`
+  },
 
-	init: function() {
-		const { glob, document } = this;
-		glob.variableChange(document.getElementById("storage"), "varNameContainer");
-	},
+  init () {
+    const { glob, document } = this
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer')
+  },
 
-	action: function(cache) {
-		const _this = this;
-		const data = cache.actions[cache.index];
-		const info = parseInt(data.info);
-		const geniustoken = this.evalMessage(data.key, cache);
-		const songname = this.evalMessage(data.song, cache);
+  action (cache) {
+    const _this = this
+    const data = cache.actions[cache.index]
+    const info = parseInt(data.info)
+    const geniustoken = this.evalMessage(data.key, cache)
+    const songname = this.evalMessage(data.song, cache)
 
-		const Mods = this.getMods();
-		const analyrics = Mods.require("analyrics");
+    const Mods = this.getMods()
+    const analyrics = Mods.require('analyrics')
 
-		analyrics.setToken(`${geniustoken}`);
+    analyrics.setToken(`${geniustoken}`)
 
-		analyrics.getSong(`${songname}`, function(song) {
-			let result;
-			switch (info) {
-				case 0:
-					result = song.title;
-					break;
-				case 1:
-					result = song.artist;
-					break;
-				case 2:
-					result = song.lyrics;
-					break;
-				case 3:
-					result = song.url;
-					break;
-				default:
-					break;
-			}
-			if (result !== undefined) {
-				const storage = parseInt(data.storage);
-				const varName2 = _this.evalMessage(data.varName, cache);
-				_this.storeValue(result, storage, varName2, cache);
-			}
-			_this.callNextAction(cache);
-		});
-	},
+    analyrics.getSong(`${songname}`, (song) => {
+      let result
+      switch (info) {
+        case 0:
+          result = song.title
+          break
+        case 1:
+          result = song.artist
+          break
+        case 2:
+          result = song.lyrics
+          break
+        case 3:
+          result = song.url
+          break
+        default:
+          break
+      }
+      if (result !== undefined) {
+        const storage = parseInt(data.storage)
+        const varName2 = _this.evalMessage(data.varName, cache)
+        _this.storeValue(result, storage, varName2, cache)
+      }
+      _this.callNextAction(cache)
+    })
+  },
 
-	mod: function() {}
-};
+  mod () {}
+}

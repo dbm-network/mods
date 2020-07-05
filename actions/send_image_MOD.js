@@ -1,22 +1,22 @@
 module.exports = {
-	name: "Send Image MOD",
-	section: "Image Editing",
+  name: 'Send Image MOD',
+  section: 'Image Editing',
 
-	subtitle: function(data) {
-		const channels = ["Same Channel", "Command Author", "Mentioned User", "Mentioned Channel", "Default Channel (Top Channel)", "Temp Variable", "Server Variable", "Global Variable"];
-		return `${channels[parseInt(data.channel)]}`;
-	},
+  subtitle (data) {
+    const channels = ['Same Channel', 'Command Author', 'Mentioned User', 'Mentioned Channel', 'Default Channel (Top Channel)', 'Temp Variable', 'Server Variable', 'Global Variable']
+    return `${channels[parseInt(data.channel)]}`
+  },
 
-	variableStorage: function(data, varType) {
-		const type = parseInt(data.storage2);
-		if(type !== varType) return;
-		return ([data.varName3, "Message"]);
-	},
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage2)
+    if (type !== varType) return
+    return ([data.varName3, 'Message'])
+  },
 
-	fields: ["storage", "varName", "channel", "varName2", "message", "imageName", "imageFormat", "storage2", "varName3"],
+  fields: ['storage', 'varName', 'channel', 'varName2', 'message', 'imageName', 'imageFormat', 'storage2', 'varName3'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 <div>
 	<div style="float: left; width: 35%;">
 		Source Image:<br>
@@ -68,70 +68,70 @@ module.exports = {
 		<input id="varName3" class="round" type="text">
 	</div>
 </div>
-	`;
-	},
+	`
+  },
 
-	init: function() {
-		const { glob, document } = this;
+  init () {
+    const { glob, document } = this
 
-		glob.refreshVariableList(document.getElementById("storage"));
-		glob.variableChange(document.getElementById("storage2"), "varNameContainer3"); //Fix the varname container poofing ~TheMonDon
-		glob.sendTargetChange(document.getElementById("channel"), "varNameContainer2");
-	},
+    glob.refreshVariableList(document.getElementById('storage'))
+    glob.variableChange(document.getElementById('storage2'), 'varNameContainer3') // Fix the varname container poofing ~TheMonDon
+    glob.sendTargetChange(document.getElementById('channel'), 'varNameContainer2')
+  },
 
-	action: function(cache) {
-		const data = cache.actions[cache.index];
-		const server = cache.server;
-		const msg = cache.msg;
-		const storage = parseInt(data.storage);
-		const varName = this.evalMessage(data.varName, cache);
-		const image = this.getVariable(storage, varName, cache);
-		if(!image) {
-			this.callNextAction(cache);
-			return;
-		}
-		const channel = parseInt(data.channel);
-		const varName2 = this.evalMessage(data.varName2, cache);
-		const target = this.getSendTarget(channel, varName2, cache);
-		const fileName = this.evalMessage(data.imageName, cache);
-		if(Array.isArray(target)) {
-			const Images = this.getDBM().Images;
-			Images.createBuffer(image).then(function(buffer) {
-				this.callListFunc(target, "send", [this.evalMessage(data.message, cache), {
-					files: [
-						{
-							attachment: buffer,
-							name: `${fileName}${data.imageFormat}`
-						}
-					]
-				}]).then(function(resultMsg) {
-					const varName3 = this.evalMessage(data.varName3, cache);
-					const storage2 = parseInt(data.storage2);
-					this.storeValue(resultMsg, storage2, varName3, cache);
-					this.callNextAction(cache);
-				}.bind(this));
-			}.bind(this)).catch(this.displayError.bind(this, data, cache));
-		} else if(target && target.send) {
-			const Images = this.getDBM().Images;
-			Images.createBuffer(image).then(function(buffer) {
-				const varName3 = this.evalMessage(data.varName3, cache);
-				const storage2 = parseInt(data.storage2);
-				target.send(this.evalMessage(data.message, cache), {
-					files: [
-						{
-							attachment: buffer,
-							name: `${fileName}${data.imageFormat}`
-						}
-					]
-				}).then(function(resultMsg) {
-					this.storeValue(resultMsg, storage2, varName3, cache);
-					this.callNextAction(cache);
-				}.bind(this)).catch(this.displayError.bind(this, data, cache));
-			}.bind(this)).catch(this.displayError.bind(this, data, cache));
-		} else {
-			this.callNextAction(cache);
-		}
-	},
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const { server } = cache
+    const { msg } = cache
+    const storage = parseInt(data.storage)
+    const varName = this.evalMessage(data.varName, cache)
+    const image = this.getVariable(storage, varName, cache)
+    if (!image) {
+      this.callNextAction(cache)
+      return
+    }
+    const channel = parseInt(data.channel)
+    const varName2 = this.evalMessage(data.varName2, cache)
+    const target = this.getSendTarget(channel, varName2, cache)
+    const fileName = this.evalMessage(data.imageName, cache)
+    if (Array.isArray(target)) {
+      const { Images } = this.getDBM()
+      Images.createBuffer(image).then((buffer) => {
+        this.callListFunc(target, 'send', [this.evalMessage(data.message, cache), {
+          files: [
+            {
+              attachment: buffer,
+              name: `${fileName}${data.imageFormat}`
+            }
+          ]
+        }]).then((resultMsg) => {
+          const varName3 = this.evalMessage(data.varName3, cache)
+          const storage2 = parseInt(data.storage2)
+          this.storeValue(resultMsg, storage2, varName3, cache)
+          this.callNextAction(cache)
+        })
+      }).catch(this.displayError.bind(this, data, cache))
+    } else if (target && target.send) {
+      const { Images } = this.getDBM()
+      Images.createBuffer(image).then((buffer) => {
+        const varName3 = this.evalMessage(data.varName3, cache)
+        const storage2 = parseInt(data.storage2)
+        target.send(this.evalMessage(data.message, cache), {
+          files: [
+            {
+              attachment: buffer,
+              name: `${fileName}${data.imageFormat}`
+            }
+          ]
+        }).then((resultMsg) => {
+          this.storeValue(resultMsg, storage2, varName3, cache)
+          this.callNextAction(cache)
+        }).catch(this.displayError.bind(this, data, cache))
+      }).catch(this.displayError.bind(this, data, cache))
+    } else {
+      this.callNextAction(cache)
+    }
+  },
 
-	mod: function() {}
-};
+  mod () {}
+}

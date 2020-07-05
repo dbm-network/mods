@@ -1,17 +1,17 @@
 module.exports = {
-	name: "Welcome",
-	section: "#Mod Information",
+  name: 'Welcome',
+  section: '#Mod Information',
 
-	subtitle: function(data) {
-		return "Put this into a Bot Initalization event for music!";
-	},
+  subtitle (data) {
+    return 'Put this into a Bot Initalization event for music!'
+  },
 
-	variableStorage: function(data, varType) {},
+  variableStorage (data, varType) {},
 
-	fields: ["mods"],
+  fields: ['mods'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 	<style>
 	table.scroll {
 		width: 525px;
@@ -195,106 +195,105 @@ module.exports = {
 			<tbody id="mods">
 			</tbody>
 		</table><br><br>
-	</div>`;
-	},
+	</div>`
+  },
 
-	init: function() {
-		const {
-			glob,
-			document
-		} = this;
+  init () {
+    const {
+      glob,
+      document
+    } = this
 
-		var path = require("path");
+    const path = require('path')
 
-		try {
-			var mods = document.getElementById("mods");
+    try {
+      const mods = document.getElementById('mods')
 
-			require("fs")
-				.readdirSync(__dirname)
-				.forEach(function(file) {
-					if (file.match(/MOD.js/i)) {
-						var action = require(path.join(__dirname, file));
-						if (action.name && action.action !== null) {
+      require('fs')
+        .readdirSync(__dirname)
+        .forEach((file) => {
+          if (file.match(/MOD.js/i)) {
+            const action = require(path.join(__dirname, file))
+            if (action.name && action.action !== null) {
+              const tr = document.createElement('tr')
+              tr.setAttribute('class', 'table-dark')
 
-							const tr = document.createElement("tr");
-							tr.setAttribute("class", "table-dark");
+              const name = document.createElement('td')
+              const headerText = document.createElement('b')
+              headerText.innerHTML = action.name
+              name.appendChild(headerText)
 
-							const name = document.createElement("td");
-							const headerText = document.createElement("b");
-							headerText.innerHTML = action.name;
-							name.appendChild(headerText);
+              name.setAttribute('scope', 'row')
+              tr.appendChild(name)
 
-							name.setAttribute("scope", "row");
-							tr.appendChild(name);
+              const section = document.createElement('td')
+              section.appendChild(document.createTextNode(action.section))
+              tr.appendChild(section)
 
-							const section = document.createElement("td");
-							section.appendChild(document.createTextNode(action.section));
-							tr.appendChild(section);
+              const author = document.createElement('td')
+              author.appendChild(document.createTextNode(action.author ? action.author : 'DBM'))
+              tr.appendChild(author)
+              mods.appendChild(tr)
+            }
+          }
+        })
+    } catch (error) {
+      // write any init errors to errors.txt in dbm's main directory
+      require('fs')
+        .appendFile('errors.txt', error.stack ? error.stack : `${error}\r\n`)
+    }
 
-							const author = document.createElement("td");
-							author.appendChild(document.createTextNode(action.author ? action.author : "DBM"));
-							tr.appendChild(author);
-							mods.appendChild(tr);
-						}
-					}
-				});
-		} catch (error) {
-			// write any init errors to errors.txt in dbm's main directory
-			require("fs")
-				.appendFile("errors.txt", error.stack ? error.stack : error + "\r\n");
-		}
+    const wrexlinks = document.getElementsByClassName('wrexlink')
+    for (let x = 0; x < wrexlinks.length; x++) {
+      const wrexlink = wrexlinks[x]
+      var url = wrexlink.getAttribute('data-url')
+      if (url) {
+        wrexlink.addEventListener('click', (e) => {
+          e.stopImmediatePropagation()
+          console.log(`Launching URL: [${url}] in your default browser.`)
+          require('child_process')
+            .execSync(`start ${url}`)
+        })
+      }
+    }
 
-		var wrexlinks = document.getElementsByClassName("wrexlink");
-		for (var x = 0; x < wrexlinks.length; x++) {
-			var wrexlink = wrexlinks[x];
-			var url = wrexlink.getAttribute("data-url");
-			if (url) {
-				wrexlink.addEventListener("click", function(e) {
-					e.stopImmediatePropagation();
-					console.log("Launching URL: [" + url + "] in your default browser.");
-					require("child_process")
-						.execSync("start " + url);
-				});
-			}
-		}
+    const wrexlinks2 = document.getElementsByClassName('wrexlink2')
+    for (let x2 = 0; x2 < wrexlinks2.length; x2++) {
+      const wrexlink2 = wrexlinks2[x2]
+      var url2 = wrexlink2.getAttribute('data-url2')
+      if (url2) {
+        wrexlink2.setAttribute('title', url2)
+        wrexlink2.addEventListener('click', (e2) => {
+          e2.stopImmediatePropagation()
+          console.log(`Launching URL: [${url2}] in your default browser.`)
+          require('child_process')
+            .execSync(`start ${url2}`)
+        })
+      }
+    }
 
-		var wrexlinks2 = document.getElementsByClassName("wrexlink2");
-		for (var x2 = 0; x2 < wrexlinks2.length; x2++) {
-			var wrexlink2 = wrexlinks2[x2];
-			var url2 = wrexlink2.getAttribute("data-url2");
-			if (url2) {
-				wrexlink2.setAttribute("title", url2);
-				wrexlink2.addEventListener("click", function(e2) {
-					e2.stopImmediatePropagation();
-					console.log("Launching URL: [" + url2 + "] in your default browser.");
-					require("child_process")
-						.execSync("start " + url2);
-				});
-			}
-		}
+    const wrexlinks3 = document.getElementsByClassName('wrexlink3')
+    for (let x3 = 0; x3 < wrexlinks3.length; x3++) {
+      const wrexlink3 = wrexlinks3[x3]
+      var url3 = wrexlink3.getAttribute('data-url3')
+      if (url3) {
+        wrexlink3.setAttribute('title', url3)
+        wrexlink3.addEventListener('click', (e3) => {
+          e3.stopImmediatePropagation()
+          console.log(`Launching URL: [${url3}] in your default browser.`)
+          require('child_process')
+            .execSync(`start ${url3}`)
+        })
+      }
+    }
+  },
 
-		var wrexlinks3 = document.getElementsByClassName("wrexlink3");
-		for (var x3 = 0; x3 < wrexlinks3.length; x3++) {
-			var wrexlink3 = wrexlinks3[x3];
-			var url3 = wrexlink3.getAttribute("data-url3");
-			if (url3) {
-				wrexlink3.setAttribute("title", url3);
-				wrexlink3.addEventListener("click", function(e3) {
-					e3.stopImmediatePropagation();
-					console.log("Launching URL: [" + url3 + "] in your default browser.");
-					require("child_process")
-						.execSync("start " + url3);
-				});
-			}
-		}
-	},
+  action () {
+    console.log('Music functions successfully overwritten.')
+  },
 
-	action: function() {
-		console.log("Music functions successfully overwritten.");
-	},
-
-	mod: function(DBM) {
-		const Mods = DBM.Actions.getMods();
-		Mods.setupMusic(DBM);
-	}
-};
+  mod (DBM) {
+    const Mods = DBM.Actions.getMods()
+    Mods.setupMusic(DBM)
+  }
+}

@@ -1,15 +1,15 @@
 module.exports = {
-	name: "Remove from Queue MOD",
-	section: "Audio Control",
+  name: 'Remove from Queue MOD',
+  section: 'Audio Control',
 
-	subtitle: function(data) {
-		return `Remove ${data.amount} Song`;
-	},
+  subtitle (data) {
+    return `Remove ${data.amount} Song`
+  },
 
-	fields: ["server", "varName", "position", "amount"],
+  fields: ['server', 'varName', 'position', 'amount'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 <div>
 	<div style="float: left; width: 35%;">
 		Source Server:<br>
@@ -33,34 +33,34 @@ module.exports = {
 	</div>
 </div>
 
-`;
-	},
+`
+  },
 
-	init: function() {
-		const { glob, document } = this;
+  init () {
+    const { glob, document } = this
 
-		glob.serverChange(document.getElementById("server"), "varNameContainer");
-	},
+    glob.serverChange(document.getElementById('server'), 'varNameContainer')
+  },
 
-	action: function(cache) {
-		const data = cache.actions[cache.index];
-		const Audio = this.getDBM().Audio;
-		const server = parseInt(data.server);
-		const varName = this.evalMessage(data.varName, cache);
-		const targetServer = this.getServer(server, varName, cache);
-		const position = parseInt(this.evalMessage(data.position, cache));
-		const amount = parseInt(this.evalMessage(data.amount, cache));
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const { Audio } = this.getDBM()
+    const server = parseInt(data.server)
+    const varName = this.evalMessage(data.varName, cache)
+    const targetServer = this.getServer(server, varName, cache)
+    const position = parseInt(this.evalMessage(data.position, cache))
+    const amount = parseInt(this.evalMessage(data.amount, cache))
 
-		let queue;
-		if (targetServer) {
-			queue = Audio.queue[targetServer.id];
-		}
-		if (queue && queue.length >= 1 && queue.length > amount + position) {
-			queue.splice(position, amount);
-			Audio.queue[targetServer.id] = queue;
-		}
-		this.callNextAction(cache);
-	},
+    let queue
+    if (targetServer) {
+      queue = Audio.queue[targetServer.id]
+    }
+    if (queue && queue.length >= 1 && queue.length > amount + position) {
+      queue.splice(position, amount)
+      Audio.queue[targetServer.id] = queue
+    }
+    this.callNextAction(cache)
+  },
 
-	mod: function() {}
-};
+  mod () {}
+}

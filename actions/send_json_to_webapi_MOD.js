@@ -1,32 +1,30 @@
+const dbmMod = {}
+dbmMod.requiredDBMVersion = '2.0.0-beta.7'
 
-var dbmMod = {};
-dbmMod.requiredDBMVersion = "2.0.0-beta.7";
+dbmMod.name = 'Send Json to WebAPI'
 
-dbmMod.name = "Send Json to WebAPI";
+dbmMod.section = 'JSON Things'
 
-dbmMod.section = "JSON Things";
+dbmMod.dependencies = ['request', 'valid-url']
 
-dbmMod.dependencies = ["request", "valid-url"];
+dbmMod.subtitle = function (data) {
+  return `Store: ${data.varName} DebugMode: ${data.debugMode === '1' ? 'Enabled' : 'Disabled'}`
+}
 
-dbmMod.subtitle = function(data) {
-	return `Store: ${data.varName} DebugMode: ${data.debugMode === "1" ? "Enabled" : "Disabled"}`;
-};
+dbmMod.subtitle = function (data) {
+  return `Store: ${data.varName} DebugMode: ${data.debugMode === '1' ? 'Enabled' : 'Disabled'}`
+}
 
-dbmMod.subtitle = function(data) {
-	return `Store: ${data.varName} DebugMode: ${data.debugMode === "1" ? "Enabled" : "Disabled"}`;
-};
+dbmMod.variableStorage = function (data, varType) {
+  const type = parseInt(data.storage)
+  if (type !== varType) return
+  return ([data.varName, 'JSON Object'])
+}
 
-dbmMod.variableStorage = function(data, varType) {
-	const type = parseInt(data.storage);
-	if (type !== varType) return;
-	return ([data.varName, "JSON Object"]);
-};
+dbmMod.fields = ['hideUrl', 'debugMode', 'postUrl', 'postJson', 'storage', 'varName', 'token', 'user', 'pass', 'headers', 'method']
 
-dbmMod.fields = ["hideUrl", "debugMode", "postUrl", "postJson", "storage", "varName", "token", "user", "pass", "headers", "method"];
-
-dbmMod.html = function(isEvent, data) {
-
-	return `
+dbmMod.html = function (isEvent, data) {
+  return `
     <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
 
 	<div>
@@ -133,157 +131,150 @@ dbmMod.html = function(isEvent, data) {
 	  span.wrexlink:hover {
       color:#4676b9;
 	  }
-</style>`;
-};
+</style>`
+}
 
-dbmMod.init = function() {
-	const {
-		glob,
-		document
-	} = this;
+dbmMod.init = function () {
+  const {
+    glob,
+    document
+  } = this
 
-	var wrexlinks = document.getElementsByClassName("wrexlink");
-	for(var x = 0; x < wrexlinks.length; x++) {
+  const wrexlinks = document.getElementsByClassName('wrexlink')
+  for (let x = 0; x < wrexlinks.length; x++) {
+    const wrexlink = wrexlinks[x]
+    var url = wrexlink.getAttribute('data-url')
+    if (url) {
+      wrexlink.setAttribute('title', url)
+      wrexlink.addEventListener('click', (e) => {
+        e.stopImmediatePropagation()
+        console.log(`Launching URL: [${url}] in your default browser.`)
+        require('child_process').execSync(`start ${url}`)
+      })
+    }
+  }
 
-		var wrexlink = wrexlinks[x];
-		var url = wrexlink.getAttribute("data-url");
-		if(url){
-			wrexlink.setAttribute("title", url);
-			wrexlink.addEventListener("click", function(e){
-				e.stopImmediatePropagation();
-				console.log("Launching URL: [" + url + "] in your default browser.");
-				require("child_process").execSync("start " + url);
-			});
-		}
-	}
+  glob.variableChange(document.getElementById('storage'), 'varNameContainer')
+}
 
-	glob.variableChange(document.getElementById("storage"), "varNameContainer");
-};
+dbmMod.action = function (cache) {
+  const data = cache.actions[cache.index]
+  const Actions = this
 
-dbmMod.action = function(cache) {
-	const data = cache.actions[cache.index];
-	const Actions = this;
+  const Mods = this.getMods()
+  const request = Mods.require('request')
+  const buffer = Mods.require('buffer')
 
-	const Mods = this.getMods();
-	const request = Mods.require("request");
-	const buffer = Mods.require("buffer");
+  let url = this.evalMessage(data.postUrl, cache)
+  const method = this.evalMessage(data.method, cache)
+  const token = this.evalMessage(data.token, cache)
+  const user = this.evalMessage(data.user, cache)
+  const pass = this.evalMessage(data.pass, cache)
+  const headers = this.evalMessage(data.headers, cache)
 
-	let url = this.evalMessage(data.postUrl, cache);
-	const method = this.evalMessage(data.method, cache);
-	const token = this.evalMessage(data.token, cache);
-	const user = this.evalMessage(data.user, cache);
-	const pass = this.evalMessage(data.pass, cache);
-	const headers = this.evalMessage(data.headers, cache);
+  const varName = this.evalMessage(data.varName, cache)
+  const storage = parseInt(data.storage)
+  const debugMode = parseInt(data.debugMode)
 
-	const varName = this.evalMessage(data.varName, cache);
-	const storage = parseInt(data.storage);
-	const debugMode = parseInt(data.debugMode);
+  const postJson = this.evalMessage(data.postJson, cache)
 
-	const postJson = this.evalMessage(data.postJson, cache);
+  if (!Mods.checkURL(url)) {
+    url = encodeURI(url)
+  }
 
-	if (!Mods.checkURL(url)) {
-		url = encodeURI(url);
-	}
+  if (Mods.checkURL(url)) {
+    if (postJson) {
+      // Test the json
+      try {
+        const test = JSON.parse(JSON.stringify(postJson))
+      } catch (error) {
+        const errorJson = JSON.stringify({
+          error,
+          statusCode,
+          success: false
+        })
+        console.error(error.stack ? error.stack : error)
 
-	if (Mods.checkURL(url)) {
+        return this.storeValue(errorJson, storage, varName, cache)
+      }
 
-		if (postJson) {
-			// Test the json
-			try {
-				var test = JSON.parse(JSON.stringify(postJson));
-			} catch (error) {
-				var errorJson = JSON.stringify({
-					error: error,
-					statusCode: statusCode,
-					success: false
-				});
-				console.error(error.stack ? error.stack : error);
+      const setHeaders = {}
 
-				return this.storeValue(errorJson, storage, varName, cache);
-			}
+      // set default required header
+      setHeaders['User-Agent'] = 'Other'
+      setHeaders['Content-Type'] = 'application/json'
 
-			let setHeaders = {};
+      const buffer = require('buffer/').Buffer
 
-			// set default required header
-			setHeaders["User-Agent"] = "Other";
-			setHeaders["Content-Type"] = "application/json";
+      // if user or pass, apply it to headers
+      if (user || pass) setHeaders.Authorization = `Basic ${buffer.from(`${user}:${pass}`).toString('base64')}`
 
-			const buffer = require("buffer/").Buffer;
+      // if token, apply it to headers
+      if (token) setHeaders.Authorization = `Bearer ${token}`
 
-			// if user or pass, apply it to headers
-			if(user || pass) setHeaders["Authorization"] = "Basic " + buffer.from(user + ":" + pass).toString("base64");
+      // Because headers are a dictionary ;)
+      if (headers) {
+        const lines = String(headers).split('\n')
+        for (let i = 0; i < lines.length; i++) {
+          const header = lines[i].split(':')
 
-			// if token, apply it to headers
-			if(token) setHeaders["Authorization"] = "Bearer " + token;
+          if (lines[i].includes(':') && header.length > 0) {
+            const key = header[0] || 'Unknown'
+            const value = header[1] || 'Unknown'
+            setHeaders[key] = value
 
-			// Because headers are a dictionary ;)
-			if(headers){
-				var lines = String(headers).split("\n");
-				for(var i = 0;i < lines.length;i++){
-					var header = lines[i].split(":");
+            if (_DEBUG) console.log(`Applied Header: ${lines[i]}`)
+          } else {
+            console.error(`WebAPI: Error: Custom Header line ${lines[i]} is wrongly formatted. You must split the key from the value with a colon (:)`)
+          }
+        }
+      }
 
-					if(lines[i].includes(":") && header.length > 0){
-						var key = header[0] || "Unknown";
-						var value = header[1] || "Unknown";
-						setHeaders[key] = value;
+      request({
+        method: method || 'POST',
+        url,
+        body: JSON.parse(postJson),
+        json: true,
+        headers: setHeaders
+      }, (error, res, jsonData) => {
+        try {
+          if (error) {
+            var errorJson = JSON.stringify({
+              error,
+              statusCode
+            })
+            Actions.storeValue(errorJson, storage, varName, cache)
 
-						if(_DEBUG) console.log("Applied Header: " + lines[i]);
-					}else{
-						console.error(`WebAPI: Error: Custom Header line ${lines[i]} is wrongly formatted. You must split the key from the value with a colon (:)`);
-					}
-				}
-			}
+            console.error(`WebAPI: Error: ${errorJson} stored to: [${varName}]`)
+          } else if (jsonData) {
+            Actions.storeValue(jsonData, storage, varName, cache)
 
-			request({
-				method: method ||"POST",
-				url: url,
-				body: JSON.parse(postJson),
-				json: true,
-				headers: setHeaders
-			}, (error, res, jsonData) => {
+            if (debugMode) {
+              console.log(`WebAPI: JSON Data Response value stored to: [${varName}]`)
+              console.log('Response (Disable DebugMode to stop printing the response data to the console):\r\n')
+              console.log(JSON.stringify(jsonData, null, 4))
+            }
+          } else {
+            var errorJson = JSON.stringify({
+              error,
+              statusCode
+            })
+            Actions.storeValue(errorJson, storage, varName, cache)
 
-				try {
-					if (error) {
-						var errorJson = JSON.stringify({
-							error,
-							statusCode
-						});
-						Actions.storeValue(errorJson, storage, varName, cache);
+            console.error(`WebAPI: Error: ${errorJson} stored to: [${varName}]`)
+          }
 
-						console.error("WebAPI: Error: " + errorJson + " stored to: [" + varName + "]");
-					} else {
-						if (jsonData) {
-							Actions.storeValue(jsonData, storage, varName, cache);
+          Actions.callNextAction(cache)
+        } catch (err) {
+          console.error(err.stack ? err.stack : err)
+        }
+      })
+    }
+  } else {
+    console.error(`URL [${url}] Is Not Valid`)
+  }
+}
 
-							if (debugMode) {
-								console.log("WebAPI: JSON Data Response value stored to: [" + varName + "]");
-								console.log("Response (Disable DebugMode to stop printing the response data to the console):\r\n");
-								console.log(JSON.stringify(jsonData, null, 4));
-							}
-						} else {
-							var errorJson = JSON.stringify({
-								error,
-								statusCode
-							});
-							Actions.storeValue(errorJson, storage, varName, cache);
+dbmMod.mod = function () {}
 
-							console.error("WebAPI: Error: " + errorJson + " stored to: [" + varName + "]");
-						}
-					}
-
-					Actions.callNextAction(cache);
-
-				} catch (err) {
-					console.error(err.stack ? err.stack : err);
-				}
-
-			});
-		}
-	} else {
-		console.error("URL [" + url + "] Is Not Valid");
-	}
-};
-
-dbmMod.mod = function() {};
-
-module.exports = dbmMod;
+module.exports = dbmMod

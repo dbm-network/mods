@@ -1,61 +1,61 @@
 module.exports = {
-	name: "Run Script",
-	section: "Other Stuff",
+  name: 'Run Script',
+  section: 'Other Stuff',
 
-	subtitle: function(data) {
-		return `${data.code}`;
-	},
+  subtitle (data) {
+    return `${data.code}`
+  },
 
-	variableStorage: function(data, varType) {
-		const type = parseInt(data.storage);
-		if(type !== varType) return;
-		const info = parseInt(data.VTypeSelect);
-		let dataType = "Unknown Type";
-		switch (info) {
-			case 0:
-				dataType = "Unknown Type";
-				break;
-			case 1:
-				dataType = "Number";
-				break;
-			case 2:
-				dataType = "String";
-				break;
-			case 3:
-				dataType = "Image";
-				break;
-			case 4:
-				dataType = "Member";
-				break;
-			case 5:
-				dataType = "Message";
-				break;
-			case 6:
-				dataType = "Text Channel";
-				break;
-			case 7:
-				dataType = "Voice Channel";
-				break;
-			case 8:
-				dataType = "Role";
-				break;
-			case 9:
-				dataType = "Server";
-				break;
-			case 10:
-				dataType = "Emoji";
-				break;
-			case 11:
-				dataType = data.CVTypeValue;
-				break;
-		}
-		return ([data.varName, dataType]);
-	},
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage)
+    if (type !== varType) return
+    const info = parseInt(data.VTypeSelect)
+    let dataType = 'Unknown Type'
+    switch (info) {
+      case 0:
+        dataType = 'Unknown Type'
+        break
+      case 1:
+        dataType = 'Number'
+        break
+      case 2:
+        dataType = 'String'
+        break
+      case 3:
+        dataType = 'Image'
+        break
+      case 4:
+        dataType = 'Member'
+        break
+      case 5:
+        dataType = 'Message'
+        break
+      case 6:
+        dataType = 'Text Channel'
+        break
+      case 7:
+        dataType = 'Voice Channel'
+        break
+      case 8:
+        dataType = 'Role'
+        break
+      case 9:
+        dataType = 'Server'
+        break
+      case 10:
+        dataType = 'Emoji'
+        break
+      case 11:
+        dataType = data.CVTypeValue
+        break
+    }
+    return ([data.varName, dataType])
+  },
 
-	fields: ["code", "behavior", "interpretation", "storage", "varName", "VTypeSelect", "CVTypeValue"],
+  fields: ['code', 'behavior', 'interpretation', 'storage', 'varName', 'VTypeSelect', 'CVTypeValue'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 	<div id ="wrexdiv" style="width: 570px; height: 359px; overflow-x: hidden;">
 
 		<div style="width: 100%; height: 324px;">
@@ -151,13 +151,13 @@ module.exports = {
         .RS_button:active {
 			background-color: #404142;
 	    }
-	</style>`;
-	},
+	</style>`
+  },
 
-	init: function() {
-		const { glob, document } = this;
+  init () {
+    const { glob, document } = this
 
-		document.getElementById("JSEditor").src = "data:text/html," + `
+    document.getElementById('JSEditor').src = 'data:text/html,' + `
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.3/ace.js" integrity="sha256-gkWBmkjy/8e1QUz5tv4CCYgEtjR8sRlGiXsMeebVeUo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.3/ext-language_tools.js" integrity="sha256-PAtX04Rk2WBELn+z4CmyvM2E5bhFBNEplF8mrHBvMJc=" crossorigin="anonymous"></script>
 
@@ -212,86 +212,86 @@ module.exports = {
         ::-webkit-scrollbar-thumb:hover {
             background: #555;
         }
-	</style>`;
+	</style>`
 
-		document.getElementById("JSEditor").addEventListener("load", function() {
-			if(document.getElementById("code").value) {
-				this.contentWindow.document.getElementById("hideCode").value = document.getElementById("code").value;
-				this.contentWindow.document.getElementById("hideCode").dispatchEvent(new Event("_load"));
-			}
-			this.style.visibility = "visible";
-		});
+    document.getElementById('JSEditor').addEventListener('load', function () {
+      if (document.getElementById('code').value) {
+        this.contentWindow.document.getElementById('hideCode').value = document.getElementById('code').value
+        this.contentWindow.document.getElementById('hideCode').dispatchEvent(new Event('_load'))
+      }
+      this.style.visibility = 'visible'
+    })
 
-		document.getElementById("code").addEventListener("input", function() {
-			document.getElementById("JSEditor").contentWindow.document.getElementById("hideCode").value = document.getElementById("code").value;
-			document.getElementById("JSEditor").contentWindow.document.getElementById("hideCode").dispatchEvent(new Event("_load"));
-		});
+    document.getElementById('code').addEventListener('input', () => {
+      document.getElementById('JSEditor').contentWindow.document.getElementById('hideCode').value = document.getElementById('code').value
+      document.getElementById('JSEditor').contentWindow.document.getElementById('hideCode').dispatchEvent(new Event('_load'))
+    })
 
-		document.getElementById("createAction").setAttribute("onclick", "if(document.getElementById(\"JSEditor\").contentWindow.document.getElementById(\"hideCode\").value) document.getElementById(\"code\").value = document.getElementById(\"JSEditor\").contentWindow.document.getElementById(\"hideCode\").value; finish()");
+    document.getElementById('createAction').setAttribute('onclick', 'if(document.getElementById("JSEditor").contentWindow.document.getElementById("hideCode").value) document.getElementById("code").value = document.getElementById("JSEditor").contentWindow.document.getElementById("hideCode").value; finish()')
 
-		glob.onChangeVTypeSelect1 = function() {
-			if(document.getElementById("storage").value === "0") {
-				document.getElementById("VTypeDiv").style.display = "none";
-			} else {
-				document.getElementById("VTypeDiv").style.display = null;
-			}
-		};
+    glob.onChangeVTypeSelect1 = function () {
+      if (document.getElementById('storage').value === '0') {
+        document.getElementById('VTypeDiv').style.display = 'none'
+      } else {
+        document.getElementById('VTypeDiv').style.display = null
+      }
+    }
 
-		glob.onChangeVTypeSelect2 = function(element) {
-			if(element.value === "11") {
-				document.getElementById("CVTypeDiv").style.display = null;
-			} else {
-				document.getElementById("CVTypeDiv").style.display = "none";
-			}
-		};
+    glob.onChangeVTypeSelect2 = function (element) {
+      if (element.value === '11') {
+        document.getElementById('CVTypeDiv').style.display = null
+      } else {
+        document.getElementById('CVTypeDiv').style.display = 'none'
+      }
+    }
 
-		glob.onClickDefault = function(element) {
-			if(document.getElementById("code").style.display == "none") {
-				element.innerHTML = "Back";
+    glob.onClickDefault = function (element) {
+      if (document.getElementById('code').style.display == 'none') {
+        element.innerHTML = 'Back'
 
-				document.getElementById("code").value = document.getElementById("JSEditor").contentWindow.document.getElementById("hideCode").value;
+        document.getElementById('code').value = document.getElementById('JSEditor').contentWindow.document.getElementById('hideCode').value
 
-				document.getElementById("code").style.display = "initial";
-				document.getElementById("JSEditor").style.display = "none";
-			} else {
-				element.innerHTML = "Default";
+        document.getElementById('code').style.display = 'initial'
+        document.getElementById('JSEditor').style.display = 'none'
+      } else {
+        element.innerHTML = 'Default'
 
-				document.getElementById("JSEditor").contentWindow.document.getElementById("hideCode").value = document.getElementById("code").value;
-				document.getElementById("JSEditor").contentWindow.document.getElementById("hideCode").dispatchEvent(new Event("_load"));
+        document.getElementById('JSEditor').contentWindow.document.getElementById('hideCode').value = document.getElementById('code').value
+        document.getElementById('JSEditor').contentWindow.document.getElementById('hideCode').dispatchEvent(new Event('_load'))
 
-				document.getElementById("code").style.display = "none";
-				document.getElementById("JSEditor").style.display = "initial";
-			}
-		};
+        document.getElementById('code').style.display = 'none'
+        document.getElementById('JSEditor').style.display = 'initial'
+      }
+    }
 
-		glob.onChangeVTypeSelect1();
-		glob.onClickDefault();
-		glob.onChangeVTypeSelect2(document.getElementById("VTypeSelect"));
-		glob.variableChange(document.getElementById("storage"), "varNameContainer");
-	},
+    glob.onChangeVTypeSelect1()
+    glob.onClickDefault()
+    glob.onChangeVTypeSelect2(document.getElementById('VTypeSelect'))
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer')
+  },
 
-	action: function(cache) {
-		const data = cache.actions[cache.index];
+  action (cache) {
+    const data = cache.actions[cache.index]
 
-		let code;
-		if(data.interpretation === "0") {
-			code = this.evalMessage(data.code, cache);
-		} else {
-			code = data.code;
-		}
+    let code
+    if (data.interpretation === '0') {
+      code = this.evalMessage(data.code, cache)
+    } else {
+      code = data.code
+    }
 
-		if(data.storage !== "0") {
-			const result = this.eval(code, cache);
-			const varName = this.evalMessage(data.varName, cache);
-			const storage = parseInt(data.storage);
-			this.storeValue(result, storage, varName, cache);
-		} else {
-			this.eval(code, cache);
-		}
-		if(data.behavior === "0") {
-			this.callNextAction(cache);
-		}
-	},
+    if (data.storage !== '0') {
+      const result = this.eval(code, cache)
+      const varName = this.evalMessage(data.varName, cache)
+      const storage = parseInt(data.storage)
+      this.storeValue(result, storage, varName, cache)
+    } else {
+      this.eval(code, cache)
+    }
+    if (data.behavior === '0') {
+      this.callNextAction(cache)
+    }
+  },
 
-	mod: function() {}
-};
+  mod () {}
+}

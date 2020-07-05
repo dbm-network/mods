@@ -1,15 +1,15 @@
 module.exports = {
-	name: "Changelog",
-	section: "#Mod Information",
+  name: 'Changelog',
+  section: '#Mod Information',
 
-	subtitle: function(data) {
-		return "Does nothing - Click \"Edit\" for more information";
-	},
+  subtitle (data) {
+    return 'Does nothing - Click "Edit" for more information'
+  },
 
-	fields: [],
+  fields: [],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 <div>
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
 	<p>
@@ -331,12 +331,12 @@ module.exports = {
 		● Update discord.js (Check the video)<br>
 		● Bug fixes<br>
 		● https://youtu.be/mrrtj5nlV58
-</div>`;
-	},
+</div>`
+  },
 
-	init: function() {},
+  init () {},
 
-	action: function(cache) {},
+  action (cache) {},
 
-	mod: function() {}
-};
+  mod () {}
+}

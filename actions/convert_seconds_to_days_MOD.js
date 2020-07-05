@@ -1,21 +1,21 @@
 module.exports = {
-	name: "Convert Seconds To D/H/M/S",
-	section: "Other Stuff",
+  name: 'Convert Seconds To D/H/M/S',
+  section: 'Other Stuff',
 
-	subtitle: function(data) {
-		return `Convert ${data.time}`;
-	},
+  subtitle (data) {
+    return `Convert ${data.time}`
+  },
 
-	variableStorage: function(data, varType) {
-		const type = parseInt(data.storage);
-		if (type !== varType) return;
-		return ([data.varName, "Date"]);
-	},
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage)
+    if (type !== varType) return
+    return ([data.varName, 'Date'])
+  },
 
-	fields: ["time", "storage", "varName"],
+  fields: ['time', 'storage', 'varName'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 	<br><br><br>
 	<div style="float: left; width: 70%; padding-top: 8px;">
 		Seconds to Convert:
@@ -36,54 +36,52 @@ module.exports = {
 		<p>
 			For aditional information contact <b>Aamon#9130</b> on Discord or <a href ="https://twitter.com/44m0n"><b>@44m0n<b></a> on Twitter.
 		</p>
-	</div>`;
-	},
+	</div>`
+  },
 
-	init: function() {
-		const {
-			glob,
-			document
-		} = this;
+  init () {
+    const {
+      glob,
+      document
+    } = this
 
-		glob.variableChange(document.getElementById("storage"), "varNameContainer");
-	},
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer')
+  },
 
-	action: function(cache) {
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const time = this.evalMessage(data.time, cache)
+    const _this = this // this is needed sometimes.
 
-		const data = cache.actions[cache.index];
-		const time = this.evalMessage(data.time, cache);
-		var _this = this; // this is needed sometimes.
+    let d; let h; let m; let
+      s
+    let result
 
-		let d, h, m, s;
-		let result;
+    if (isNaN(time)) {
+      console.log('Please insert a number')
+    } else {
+      s = time
 
-		if (isNaN(time)) {
-			console.log("Please insert a number");
-		} else {
+      m = Math.floor(s / 60)
+      s %= 60
+      h = Math.floor(m / 60)
+      m %= 60
+      d = Math.floor(h / 24)
+      h %= 24
 
-			s = time;
+      result = `${d}d ${h}h ${m}m ${s}s`
+    }
 
-			m = Math.floor(s / 60);
-			s = s % 60;
-			h = Math.floor(m / 60);
-			m = m % 60;
-			d = Math.floor(h / 24);
-			h = h % 24;
+    if (result.toString() === 'Invalid Date') result = undefined
 
-			result = d + "d " + h + "h " + m + "m " + s + "s";
+    if (result !== undefined) {
+      const storage = parseInt(data.storage)
+      const varName = this.evalMessage(data.varName, cache)
+      this.storeValue(result, storage, varName, cache)
+    }
+    this.callNextAction(cache)
+  },
 
-		}
+  mod () {}
 
-		if (result.toString() === "Invalid Date") result = undefined;
-
-		if (result !== undefined) {
-			const storage = parseInt(data.storage);
-			const varName = this.evalMessage(data.varName, cache);
-			this.storeValue(result, storage, varName, cache);
-		}
-		this.callNextAction(cache);
-	},
-
-	mod: function() {}
-
-};
+}

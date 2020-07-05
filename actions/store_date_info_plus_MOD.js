@@ -1,24 +1,24 @@
 module.exports = {
-	name: "Store Date Info Plus",
-	section: "Other Stuff",
+  name: 'Store Date Info Plus',
+  section: 'Other Stuff',
 
-	subtitle: function(data) {
-		const info = ["Day of Week", "Day Number", "Day of Year", "Week of Year", "Month of Year", "Month Number", "Year", "Hour", "Minute", "Second", "Millisecond", "Timezone", "Unix Timestamp"];
-		const storage = ["", "Temp Variable", "Server Variable", "Global Variable"];
-		return `Store ${data.modeStorage === "0" ? "\"" + info[data.info] + "\"" : data.buildInput === "" ? "\"Not Set\"" : "\"" + data.buildInput + "\""} from a Date ~ ${storage[data.storage]}`;
-	},
+  subtitle (data) {
+    const info = ['Day of Week', 'Day Number', 'Day of Year', 'Week of Year', 'Month of Year', 'Month Number', 'Year', 'Hour', 'Minute', 'Second', 'Millisecond', 'Timezone', 'Unix Timestamp']
+    const storage = ['', 'Temp Variable', 'Server Variable', 'Global Variable']
+    return `Store ${data.modeStorage === '0' ? `"${info[data.info]}"` : data.buildInput === '' ? '"Not Set"' : `"${data.buildInput}"`} from a Date ~ ${storage[data.storage]}`
+  },
 
-	variableStorage: function(data, varType) {
-		const type = parseInt(data.storage);
-		if (type !== varType) return;
-		let dataType = "Date";
-		return ([data.varName, dataType]);
-	},
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage)
+    if (type !== varType) return
+    const dataType = 'Date'
+    return ([data.varName, dataType])
+  },
 
-	fields: ["sourceDate", "dateLanguage", "modeStorage", "info", "buildInput", "storage", "varName"],
+  fields: ['sourceDate', 'dateLanguage', 'modeStorage', 'info', 'buildInput', 'storage', 'varName'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
         <div style="float: left; width: 62%">
             Source Date:<br>
             <input id="sourceDate" class="round" type="text" placeholder="Ex: Sun Oct 26 2019 10:38:01 GMT+0200">
@@ -89,115 +89,113 @@ module.exports = {
                 border-radius: 2px
               }
         </style>
-        `;
-	},
+        `
+  },
 
-	init: function() {
-		const { glob, document } = this;
+  init () {
+    const { glob, document } = this
 
-		glob.onChangeMode = function(modeStorage) {
-			switch(parseInt(modeStorage.value)) {
-				case 0:
-					document.getElementById("selectMode").style.display = null;
-					document.getElementById("buildMode").style.display = "none";
-					document.getElementById("noteContainer").style.display = "none";
-					break;
-				case 1:
-					document.getElementById("selectMode").style.display = "none";
-					document.getElementById("buildMode").style.display = null;
-					document.getElementById("noteContainer").style.display = null;
-					break;
-			}
-		};
+    glob.onChangeMode = function (modeStorage) {
+      switch (parseInt(modeStorage.value)) {
+        case 0:
+          document.getElementById('selectMode').style.display = null
+          document.getElementById('buildMode').style.display = 'none'
+          document.getElementById('noteContainer').style.display = 'none'
+          break
+        case 1:
+          document.getElementById('selectMode').style.display = 'none'
+          document.getElementById('buildMode').style.display = null
+          document.getElementById('noteContainer').style.display = null
+          break
+      }
+    }
 
-		glob.onChangeMode(document.getElementById("modeStorage"));
+    glob.onChangeMode(document.getElementById('modeStorage'))
 
-		var wrexlinks = document.getElementsByClassName("wrexlink");
-		for(var x = 0; x < wrexlinks.length; x++) {
+    const wrexlinks = document.getElementsByClassName('wrexlink')
+    for (let x = 0; x < wrexlinks.length; x++) {
+      const wrexlink = wrexlinks[x]
+      var url = wrexlink.getAttribute('data-url')
+      if (url) {
+        wrexlink.setAttribute('title', url)
+        wrexlink.addEventListener('click', (e) => {
+          e.stopImmediatePropagation()
+          console.log(`Launching URL: [${url}] in your default browser.`)
+          require('child_process').execSync(`start ${url}`)
+        })
+      }
+    }
+  },
 
-			var wrexlink = wrexlinks[x];
-			var url = wrexlink.getAttribute("data-url");
-			if (url) {
-				wrexlink.setAttribute("title", url);
-				wrexlink.addEventListener("click", function(e){
-					e.stopImmediatePropagation();
-					console.log("Launching URL: [" + url + "] in your default browser.");
-					require("child_process").execSync("start " + url);
-				});
-			}
-		}
-	},
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const moment = this.getMods().require('moment')
+    const dateLanguage = this.evalMessage(data.dateLanguage, cache)
+    const date = moment(Date.parse(this.evalMessage(data.sourceDate, cache)), '', dateLanguage === '' ? 'en' : dateLanguage)
+    const buildInput = this.evalMessage(data.buildInput, cache)
+    const modeType = parseInt(this.evalMessage(data.modeStorage, cache))
+    const info = parseInt(data.info)
 
-	action: function(cache) {
-		const data = cache.actions[cache.index];
-		const moment = this.getMods().require("moment");
-		const dateLanguage = this.evalMessage(data.dateLanguage, cache);
-		const date = moment(Date.parse(this.evalMessage(data.sourceDate, cache)), "", dateLanguage === "" ? "en" : dateLanguage);
-		const buildInput = this.evalMessage(data.buildInput, cache);
-		const modeType = parseInt(this.evalMessage(data.modeStorage, cache));
-		const info = parseInt(data.info);
+    let result
 
-		let result;
+    if (modeType === 0) {
+      switch (info) {
+        case 0:
+          result = date.format('dddd')
+          break
+        case 1:
+          result = date.format('DD')
+          break
+        case 2:
+          result = date.format('DDD')
+          break
+        case 3:
+          result = date.format('ww')
+          break
+        case 4:
+          result = date.format('MMMMM')
+          break
+        case 5:
+          result = date.format('MM')
+          break
+        case 6:
+          result = date.format('YYYY')
+          break
+        case 7:
+          result = date.format('hh')
+          break
+        case 8:
+          result = date.format('mm')
+          break
+        case 9:
+          result = date.format('ss')
+          break
+        case 10:
+          result = date.format('SS')
+          break
+        case 11:
+          result = date.format('ZZ')
+          break
+        case 12:
+          result = date.format('X')
+          break
+      }
+    } else {
+      result = date.format(buildInput)
+    }
 
-		if (modeType === 0) {
-			switch(info) {
-				case 0:
-					result = date.format("dddd");
-					break;
-				case 1:
-					result = date.format("DD");
-					break;
-				case 2:
-					result = date.format("DDD");
-					break;
-				case 3:
-					result = date.format("ww");
-					break;
-				case 4:
-					result = date.format("MMMMM");
-					break;
-				case 5:
-					result = date.format("MM");
-					break;
-				case 6:
-					result = date.format("YYYY");
-					break;
-				case 7:
-					result = date.format("hh");
-					break;
-				case 8:
-					result = date.format("mm");
-					break;
-				case 9:
-					result = date.format("ss");
-					break;
-				case 10:
-					result = date.format("SS");
-					break;
-				case 11:
-					result = date.format("ZZ");
-					break;
-				case 12:
-					result = date.format("X");
-					break;
-			}
-		} else {
-			result = date.format(buildInput);
-		}
+    if (result === 'Invalid date') {
+      return console.log('Invalid Date! Check that your date is valid in "Store Date Info Plus". A Date generally looks like the one stored in "Creation Date" of a server. (variables works)')
+    }
 
-		if (result === "Invalid date") {
-			return console.log("Invalid Date! Check that your date is valid in \"Store Date Info Plus\". A Date generally looks like the one stored in \"Creation Date\" of a server. (variables works)");
-		}
+    if (result !== undefined) {
+      const storage = parseInt(data.storage)
+      const varName = this.evalMessage(data.varName, cache)
+      this.storeValue(result, storage, varName, cache)
+    }
 
-		if (result !== undefined) {
-			const storage = parseInt(data.storage);
-			const varName = this.evalMessage(data.varName, cache);
-			this.storeValue(result, storage, varName, cache);
-		}
+    this.callNextAction(cache)
+  },
 
-		this.callNextAction(cache);
-	},
-
-	mod: function() {}
-};
-
+  mod () {}
+}

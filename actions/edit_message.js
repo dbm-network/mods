@@ -1,16 +1,16 @@
 module.exports = {
-	name: "Edit Message",
-	section: "Messaging",
+  name: 'Edit Message',
+  section: 'Messaging',
 
-	subtitle: function(data) {
-		const names = ["Temp Variable", "Server Variable", "Global Variable"];
-		return data.storage === "0" ? `${names[parseInt(data.storage)-1]}` : `${names[parseInt(data.storage)-1]} (${data.varName})`;
-	},
+  subtitle (data) {
+    const names = ['Temp Variable', 'Server Variable', 'Global Variable']
+    return data.storage === '0' ? `${names[parseInt(data.storage) - 1]}` : `${names[parseInt(data.storage) - 1]} (${data.varName})`
+  },
 
-	fields: ["storage", "varName", "message", "storage2", "varName2"],
+  fields: ['storage', 'varName', 'message', 'storage2', 'varName2'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 <div><p>This action has been modified by DBM Mods</p></div><br>
 <div>
 	<div style="float: left; width: 35%;">
@@ -39,41 +39,41 @@ module.exports = {
 		Variable Name:<br>
 		<input id="varName2" placeholder="Optional" class="round" type="text" list="variableList"><br>
 	</div>
-</div>`;
-	},
+</div>`
+  },
 
-	init: function() {
-		const { glob, document } = this;
+  init () {
+    const { glob, document } = this
 
-		glob.messageChange(document.getElementById("storage"), "varNameContainer");
-		glob.refreshVariableList(document.getElementById("storage2"), "varNameContainer2");
-	},
+    glob.messageChange(document.getElementById('storage'), 'varNameContainer')
+    glob.refreshVariableList(document.getElementById('storage2'), 'varNameContainer2')
+  },
 
-	action: function(cache) {
-		const data = cache.actions[cache.index];
+  action (cache) {
+    const data = cache.actions[cache.index]
 
-		const storage = parseInt(data.storage);
-		const varName = this.evalMessage(data.varName, cache);
-		const message = this.getMessage(storage, varName, cache);
+    const storage = parseInt(data.storage)
+    const varName = this.evalMessage(data.varName, cache)
+    const message = this.getMessage(storage, varName, cache)
 
-		const content = this.evalMessage(data.message, cache);
+    const content = this.evalMessage(data.message, cache)
 
-		const storage2 = parseInt(data.storage2);
-		const varName2 = this.evalMessage(data.varName2, cache);
-		const embed = this.getVariable(storage2, varName2, cache);
+    const storage2 = parseInt(data.storage2)
+    const varName2 = this.evalMessage(data.varName2, cache)
+    const embed = this.getVariable(storage2, varName2, cache)
 
-		if(Array.isArray(message)) {
-			this.callListFunc(message, "edit", [content, embed]).then(function() {
-				this.callNextAction(cache);
-			}.bind(this));
-		} else if(message && message.edit && !message.deleted) {
-			message.edit(content, embed).then(function() {
-				this.callNextAction(cache);
-			}.bind(this)).catch(this.displayError.bind(this, data, cache));
-		} else {
-			this.callNextAction(cache);
-		}
-	},
+    if (Array.isArray(message)) {
+      this.callListFunc(message, 'edit', [content, embed]).then(() => {
+        this.callNextAction(cache)
+      })
+    } else if (message && message.edit && !message.deleted) {
+      message.edit(content, embed).then(() => {
+        this.callNextAction(cache)
+      }).catch(this.displayError.bind(this, data, cache))
+    } else {
+      this.callNextAction(cache)
+    }
+  },
 
-	mod: function() {}
-};
+  mod () {}
+}

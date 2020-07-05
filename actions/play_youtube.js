@@ -1,17 +1,17 @@
 module.exports = {
-	name: "Play YouTube Video",
-	section: "Audio Control",
+  name: 'Play YouTube Video',
+  section: 'Audio Control',
 
-	requiresAudioLibraries: true,
+  requiresAudioLibraries: true,
 
-	subtitle: function(data) {
-		return `${data.url}`;
-	},
+  subtitle (data) {
+    return `${data.url}`
+  },
 
-	fields: ["url", "seek", "volume", "passes", "bitrate", "type"],
+  fields: ['url', 'seek', 'volume', 'passes', 'bitrate', 'type'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
         <div>
             <p>This action has been modified by DBM Mods.</p>
         </div>
@@ -37,63 +37,63 @@ module.exports = {
                 <option value="0" selected>Add to Queue</option>
                 <option value="1">Play Immediately</option>
             </select>
-        </div>`;
-	},
+        </div>`
+  },
 
-	init: function() {},
+  init () {},
 
-	action: async function(cache) {
-		const data = cache.actions[cache.index];
-		const { Actions, Audio } = this.getDBM();
-		const Mods = this.getMods();
-		const ytdl = Mods.require("ytdl-core");
-		const url = this.evalMessage(data.url, cache);
-		const msg = cache.msg;
-		const options = {};
+  async action (cache) {
+    const data = cache.actions[cache.index]
+    const { Actions, Audio } = this.getDBM()
+    const Mods = this.getMods()
+    const ytdl = Mods.require('ytdl-core')
+    const url = this.evalMessage(data.url, cache)
+    const { msg } = cache
+    const options = {}
 
-		if (url) {
-			if (data.seek) {
-				options.seek = parseInt(this.evalMessage(data.seek, cache));
-			}
-			if (data.volume) {
-				options.volume = parseInt(this.evalMessage(data.volume, cache)) / 100;
-			} else if (cache.server) {
-				options.volume = Audio.volumes[cache.server.id] || 0.5;
-			} else {
-				options.volume = 0.5;
-			}
-			if (data.passes) {
-				options.passes = parseInt(this.evalMessage(data.passes, cache));
-			}
-			if (data.bitrate) {
-				options.bitrate = parseInt(this.evalMessage(data.bitrate, cache));
-			} else {
-				options.bitrate = "auto";
-			}
-			if (msg) {
-				options.requester = msg.author;
-			}
+    if (url) {
+      if (data.seek) {
+        options.seek = parseInt(this.evalMessage(data.seek, cache))
+      }
+      if (data.volume) {
+        options.volume = parseInt(this.evalMessage(data.volume, cache)) / 100
+      } else if (cache.server) {
+        options.volume = Audio.volumes[cache.server.id] || 0.5
+      } else {
+        options.volume = 0.5
+      }
+      if (data.passes) {
+        options.passes = parseInt(this.evalMessage(data.passes, cache))
+      }
+      if (data.bitrate) {
+        options.bitrate = parseInt(this.evalMessage(data.bitrate, cache))
+      } else {
+        options.bitrate = 'auto'
+      }
+      if (msg) {
+        options.requester = msg.author
+      }
 
-			ytdl.getInfo(url, (err, video) => {
-				if (err) return console.error(`Action #${cache.index + 1} Play Yotube:\n${err}`);
+      ytdl.getInfo(url, (err, video) => {
+        if (err) return console.error(`Action #${cache.index + 1} Play Yotube:\n${err}`)
 
-				options.title = video.title;
-				options.duration = parseInt(video.length_seconds);
-				options.thumbnail = video.player_response.videoDetails.thumbnail.thumbnails[3].url;
+        options.title = video.title
+        options.duration = parseInt(video.length_seconds)
+        options.thumbnail = video.player_response.videoDetails.thumbnail.thumbnails[3].url
 
-				const info = ["yt", options, url];
-				if (data.type === "0") {
-					Audio.addToQueue(info, cache);
-				} else if (cache.server && cache.server.id !== undefined) {
-					Audio.playItem(info, cache.server.id);
-				}
+        const info = ['yt', options, url]
+        if (data.type === '0') {
+          Audio.addToQueue(info, cache)
+        } else if (cache.server && cache.server.id !== undefined) {
+          Audio.playItem(info, cache.server.id)
+        }
 
-				Actions.callNextAction(cache);
-			});
-		}
+        Actions.callNextAction(cache)
+      })
+    }
 
-		this.callNextAction(cache);
-	},
+    this.callNextAction(cache)
+  },
 
-	mod: function() {}
-};
+  mod () {}
+}

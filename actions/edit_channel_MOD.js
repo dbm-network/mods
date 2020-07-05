@@ -1,17 +1,17 @@
 module.exports = {
-	name: "Edit Channel",
-	section: "Channel Control",
+  name: 'Edit Channel',
+  section: 'Channel Control',
 
-	subtitle: function(data) {
-		const names = ["Same Channel", "Mentioned Channel", "Default Channel", "Temp Variable", "Server Variable", "Global Variable"];
-		const opt = ["Name", "Topic", "Position", "Bitrate", "User Limit", "Category ID", "Rate Limit Per User"];
-		return `${names[parseInt(data.storage)]} - ${opt[parseInt(data.toChange)]}`;
-	},
+  subtitle (data) {
+    const names = ['Same Channel', 'Mentioned Channel', 'Default Channel', 'Temp Variable', 'Server Variable', 'Global Variable']
+    const opt = ['Name', 'Topic', 'Position', 'Bitrate', 'User Limit', 'Category ID', 'Rate Limit Per User']
+    return `${names[parseInt(data.storage)]} - ${opt[parseInt(data.toChange)]}`
+  },
 
-	fields: ["storage", "varName", "channelType", "toChange", "newState"],
+  fields: ['storage', 'varName', 'channelType', 'toChange', 'newState'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 	<div>
 		<div style="float: left; width: 35%;">
 			Source Channel:<br>
@@ -51,57 +51,57 @@ module.exports = {
 			Change to:<br>
 			<input id="newState" class="round" type="text"><br>
 		</div>
-	</div>`;
-	},
+	</div>`
+  },
 
-	init: function() {
-		const { glob, document } = this;
+  init () {
+    const { glob, document } = this
 
-		glob.channelChange(document.getElementById("storage"), "varNameContainer");
-	},
+    glob.channelChange(document.getElementById('storage'), 'varNameContainer')
+  },
 
-	action: function(cache) {
-		const data = cache.actions[cache.index];
-		const storage = parseInt(data.storage);
-		const varName = this.evalMessage(data.varName, cache);
-		const channelType = parseInt(data.channelType);
-		const newState = this.evalMessage(data.newState, cache);
-		const toChange = parseInt(data.toChange, cache);
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const storage = parseInt(data.storage)
+    const varName = this.evalMessage(data.varName, cache)
+    const channelType = parseInt(data.channelType)
+    const newState = this.evalMessage(data.newState, cache)
+    const toChange = parseInt(data.toChange, cache)
 
-		let channel;
-		switch(channelType) {
-			case 0:
-				channel = this.getChannel(storage, varName, cache);
-				break;
-			case 1:
-				channel = this.getVoiceChannel(storage, varName, cache);
-				break;
-			default:
-				channel = this.getChannel(storage, varName, cache);
-				break;
-		}
+    let channel
+    switch (channelType) {
+      case 0:
+        channel = this.getChannel(storage, varName, cache)
+        break
+      case 1:
+        channel = this.getVoiceChannel(storage, varName, cache)
+        break
+      default:
+        channel = this.getChannel(storage, varName, cache)
+        break
+    }
 
-		if(toChange === 1) {
-			channel.edit({ topic: newState });
-		} else if(toChange === 0) {
-			channel.edit({ name: newState });
-		} else if(toChange === 2) {
-			channel.edit({ position: newState });
-		} else if(toChange === 3) {
-			channel.edit({ bitrate: parseInt(newState) });
-		} else if(toChange === 4) {
-			channel.edit({ userLimit: parseInt(newState) });
-		} else if(toChange === 5) {
-			channel.setParent(newState);
-		} else if(toChange === 6) {
-			channel.setRateLimitPerUser(newState);
-		} else {
-			console.log("Please update your edit_channel_MOD.js in your projects action folder!");
-		}
-		this.callNextAction(cache);
-	},
+    if (toChange === 1) {
+      channel.edit({ topic: newState })
+    } else if (toChange === 0) {
+      channel.edit({ name: newState })
+    } else if (toChange === 2) {
+      channel.edit({ position: newState })
+    } else if (toChange === 3) {
+      channel.edit({ bitrate: parseInt(newState) })
+    } else if (toChange === 4) {
+      channel.edit({ userLimit: parseInt(newState) })
+    } else if (toChange === 5) {
+      channel.setParent(newState)
+    } else if (toChange === 6) {
+      channel.setRateLimitPerUser(newState)
+    } else {
+      console.log('Please update your edit_channel_MOD.js in your projects action folder!')
+    }
+    this.callNextAction(cache)
+  },
 
-	mod: function(DBM) {
-		DBM.Actions["Edit channel"] = DBM.Actions["Edit Channel"];
-	}
-};
+  mod (DBM) {
+    DBM.Actions['Edit channel'] = DBM.Actions['Edit Channel']
+  }
+}

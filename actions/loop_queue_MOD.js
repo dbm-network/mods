@@ -1,16 +1,16 @@
 module.exports = {
-	name: "Loop Queue",
-	section: "Audio Control",
+  name: 'Loop Queue',
+  section: 'Audio Control',
 
-	subtitle: function(data) {
-		const actions = ["Loop Whole Queue", "Loop Current Item"];
-		return `${actions[parseInt(data.loop)]}`;
-	},
+  subtitle (data) {
+    const actions = ['Loop Whole Queue', 'Loop Current Item']
+    return `${actions[parseInt(data.loop)]}`
+  },
 
-	fields: ["status", "loop"],
+  fields: ['status', 'loop'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 <div style="float: left; width: 45%; padding-top: 8px;">
 	Loop Setting:<br>
 	<select id="status" class="round" onchange="glob.onChange(this)">
@@ -29,46 +29,46 @@ module.exports = {
 	<p>
 		Please put the Welcome action into a Bot Initalization event to be able to store the current song!
 	</p>
-</div>`;
-	},
+</div>`
+  },
 
-	init: function() {},
+  init () {},
 
-	action: function(cache) {
-		const data = cache.actions[cache.index];
-		const Audio = this.getDBM().Audio;
-		const server = cache.server;
-		const status = parseInt(data.status);
-		const loop = parseInt(data.loop);
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const { Audio } = this.getDBM()
+    const { server } = cache
+    const status = parseInt(data.status)
+    const loop = parseInt(data.loop)
 
-		switch(status) {
-			case 0://Enable
-				switch(loop) {
-					case 0://Loop Queue
-						Audio.loopQueue[server.id] = true;
-						break;
-					case 1://Loop Item
-						Audio.loopItem[server.id] = true;
-						break;
-				}
-				break;
-			case 1://Disable
-				switch(loop) {
-					case 0://Loop Queue
-						Audio.loopQueue[server.id] = false;
-						break;
-					case 1://Loop Item
-						Audio.loopItem[server.id] = false;
-						break;
-				}
-				break;
-		}
+    switch (status) {
+      case 0:// Enable
+        switch (loop) {
+          case 0:// Loop Queue
+            Audio.loopQueue[server.id] = true
+            break
+          case 1:// Loop Item
+            Audio.loopItem[server.id] = true
+            break
+        }
+        break
+      case 1:// Disable
+        switch (loop) {
+          case 0:// Loop Queue
+            Audio.loopQueue[server.id] = false
+            break
+          case 1:// Loop Item
+            Audio.loopItem[server.id] = false
+            break
+        }
+        break
+    }
 
-		this.callNextAction(cache);
-	},
+    this.callNextAction(cache)
+  },
 
-	mod: function(DBM) {
-		const Mods = DBM.Actions.getMods();
-		Mods.setupMusic(DBM);
-	}
-};
+  mod (DBM) {
+    const Mods = DBM.Actions.getMods()
+    Mods.setupMusic(DBM)
+  }
+}

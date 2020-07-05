@@ -1,30 +1,30 @@
 module.exports = {
-	name: "Stop Bot",
-	section: "Bot Client Control",
+  name: 'Stop Bot',
+  section: 'Bot Client Control',
 
-	subtitle: function() {
-		return "Stops bot";
-	},
+  subtitle () {
+    return 'Stops bot'
+  },
 
-	fields: [],
+  fields: [],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 <div>
 	<p>
 		<u>Warning:</u><br>
 		This action stops the bot. You cannot restart it with a command after this action is ran!<br>
 		Choose the permissions for this command/event carefully!
 	</p>
-</div>`;
-	},
+</div>`
+  },
 
-	init: function() {},
+  init () {},
 
-	action: function() {
-		console.log("Stopped bot!");
-		this.getDBM().Bot.bot.destroy();
-	},
+  action () {
+    console.log('Stopped bot!')
+    this.getDBM().Bot.bot.destroy()
+  },
 
-	mod: function() {}
-};
+  mod () {}
+}

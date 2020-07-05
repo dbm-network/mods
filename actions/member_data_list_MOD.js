@@ -1,21 +1,21 @@
 module.exports = {
-	name: "Store Member Data List",
-	section: "Member Control",
+  name: 'Store Member Data List',
+  section: 'Member Control',
 
-	subtitle: function(data) {
-		return `${[(data.dataName)]}`;
-	},
+  subtitle (data) {
+    return `${[(data.dataName)]}`
+  },
 
-	variableStorage: function(data, varType) {
-		const type = parseInt(data.storage);
-		if (type !== varType) return;
-		return ([data.varName2, "Array"]);
-	},
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage)
+    if (type !== varType) return
+    return ([data.varName2, 'Array'])
+  },
 
-	fields: ["debu", "numbefst2", "numbefst", "numbefstselect", "sort", "start", "middle", "end", "getresults", "dataName", "varName2", "storage"],
+  fields: ['debu', 'numbefst2', 'numbefst', 'numbefstselect', 'sort', 'start', 'middle', 'end', 'getresults', 'dataName', 'varName2', 'storage'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 	<html>
 	<div id="wrexdiv2" style="width: 550px; height: 350px; overflow-y: scroll;">
 <div>
@@ -80,169 +80,167 @@ Char after Number:<br>
 <option value="1" selected>Don't Debug</option>
 </select><br>
 </div>
-</html>`;
-	},
+</html>`
+  },
 
-	init: function() {
-		const {
-			glob,
-			document
-		} = this;
-		glob.onChange1 = function(event) {
-			const value = parseInt(event.value);
-			const dom = document.getElementById("numbefst");
+  init () {
+    const {
+      glob,
+      document
+    } = this
+    glob.onChange1 = function (event) {
+      const value = parseInt(event.value)
+      const dom = document.getElementById('numbefst')
 
-			if(value == 1) {
-				dom.style.display = "none";
-			} else if(value == 2) {
-				dom.style.display = null;
-			}
+      if (value == 1) {
+        dom.style.display = 'none'
+      } else if (value == 2) {
+        dom.style.display = null
+      }
+    }
+    glob.onChange1(document.getElementById('numbefstselect'))
+  },
 
-		};
-		glob.onChange1(document.getElementById("numbefstselect"));
-	},
+  action (cache) {
+    const _this = this
+    const data = cache.actions[cache.index]
+    const { msg } = cache
+    const type = parseInt(data.member)
+    const varName = this.evalMessage(data.varName, cache)
+    const storage = parseInt(data.storage)
+    const varName2 = this.evalMessage(data.varName2, cache)
+    const st = this.evalMessage(data.start, cache)
+    const mid = this.evalMessage(data.middle, cache)
+    const selectionsnum = parseInt(data.numbefstselect)
 
-	action: function(cache) {
-		var _this = this;
-		const data = cache.actions[cache.index];
-		var msg = cache.msg;
-		const type = parseInt(data.member);
-		const varName = this.evalMessage(data.varName, cache);
-		const storage = parseInt(data.storage);
-		const varName2 = this.evalMessage(data.varName2, cache);
-		const st = this.evalMessage(data.start, cache);
-		const mid = this.evalMessage(data.middle, cache);
-		const selectionsnum = parseInt(data.numbefstselect);
+    const en = this.evalMessage(data.end, cache)
+    const sort = parseInt(data.sort)
+    const debug = parseInt(data.debu)
+    const Mods = this.getMods()
 
-		const en = this.evalMessage(data.end, cache);
-		const sort = parseInt(data.sort);
-		const debug = parseInt(data.debu);
-		const Mods = this.getMods();
+    const Discord = Mods.require('discord.js')
+    const fastsort = Mods.require('fast-sort')
+    const client = new Discord.Client()
+    const { JSONPath } = Mods.require('jsonpath-plus')
+    const fs = require('fs')
+    const file = fs.readFileSync('./data/players.json', 'utf8')
 
-		var Discord = Mods.require("discord.js");
-		var fastsort = Mods.require("fast-sort");
-		var client = new Discord.Client();
-		const { JSONPath } = Mods.require("jsonpath-plus");
-		const fs = require("fs");
-		var file = fs.readFileSync("./data/players.json", "utf8");
+    if (file) {
+      let dataName = this.evalMessage(data.dataName, cache)
+      dataName = `${'[' + "'"}${dataName}'` + ']'
 
-		if (file) {
-			var dataName = this.evalMessage(data.dataName, cache);
-			dataName = "[" + "'" + dataName + "'" + "]";
+      const isAdd = Boolean(data.changeType === '1')
+      const val = this.evalMessage(data.value, cache)
+      const list2 = []
+      const list = []
+      let list4 = []
+      const list5 = []
 
-			const isAdd = Boolean(data.changeType === "1");
-			let val = this.evalMessage(data.value, cache);
-			var list2 = [];
-			var list = [];
-			var list4 = [];
-			var list5 = [];
+      if (val !== undefined) {
+        const file = JSON.parse(file)
+        try {
+          const list = []
+          var result = JSONPath({
+            path: `$.[?(@${dataName} || @${dataName} > -9999999999999999999999999999999999999999999999999999999)]*~`,
+            json: file
+          })
+          const pull = result
 
-			if (val !== undefined) {
-				const file = JSON.parse(file);
-				try {
-					const list = [];
-					var result = JSONPath({
-						path: "$.[?(@" + dataName + " || @" + dataName + " > -9999999999999999999999999999999999999999999999999999999)]*~",
-						json: file
-					});
-					var pull = result;
+          for (var i = 0; i < result.length; i++) {
+            var result2 = JSONPath({
+              path: `$.${result[i]}${dataName}`,
+              json: file
+            })
 
-					for (var i = 0; i < result.length; i++) {
+            try {
+              const user = msg.guild.members.get(result[i])
+              const { tag } = user.user
 
-						var result2 = JSONPath({
-							path: "$." + result[i] + dataName,
-							json: file
-						});
+              const name2 = "'" + 'name' + "'"
+              const id = "'" + 'id' + "'"
+              const tag2 = `${tag}`
+              const res2 = `${result2}`
 
-						try {
-							var user = msg.guild.members.get(result[i]);
-							let tag = user.user.tag;
+              list.push({
+                id: tag2,
+                name2: res2
+              })
+            } catch (err) {
+              if (debug === 0) console.log(err)
+            }
+          }
+          switch (sort) {
+            case 1:
+              result = fastsort(list).desc((u) => parseInt(u.name2))
+              break
+            case 2:
 
-							var name2 = "'" + "name" + "'";
-							var id = "'" + "id" + "'";
-							var tag2 = "" + tag + "";
-							var res2 = "" + result2 + "";
+              result = fastsort(list).asc((u) => parseInt(u.name2))
+              break
+            case 0:
+              result = list
+              break
+          }
 
-							list.push({
-								id: tag2,
-								name2: res2
-							});
-						} catch (err) {
-							if (debug === 0) console.log(err);
-						}
-					}
-					switch (sort) {
-						case 1:
-							result = fastsort(list).desc((u) => parseInt(u.name2));
-							break;
-						case 2:
+          var result2 = JSON.stringify(result)
+          let getres = parseInt(this.evalMessage(data.getresults, cache))
 
-							result = fastsort(list).asc((u) => parseInt(u.name2));
-							break;
-						case 0:
-							result = list;
-							break;
-					}
+          if (!getres) {
+            getres = result.length
+          }
 
-					var result2 = JSON.stringify(result);
-					var getres = parseInt(this.evalMessage(data.getresults, cache));
+          for (var i = 0; i < getres; i++) {
+            var result2 = JSON.stringify(list[i])
 
-					if (!getres) {
-						getres = result.length;
-					}
+            try {
+              const file = JSON.parse(result2)
 
-					for (var i = 0; i < getres; i++) {
-						var result2 = JSON.stringify(list[i]);
+              const res = JSONPath({
+                path: '$..name2',
+                json: file
+              })
 
-						try {
-							const file = JSON.parse(result2);
+              const res2 = JSONPath({
+                path: '$..id',
+                json: file
+              })
 
-							var res = JSONPath({
-								path: "$..name2",
-								json: file
-							});
+              var username = res2
+              var result = res
 
-							const res2 = JSONPath({
-								path: "$..id",
-								json: file
-							});
+              eval(` ${st} `)
+              const middle = ` ${mid} `
+              eval(` ${en} `)
+              var username = res2
+              var result = res
+              const en2 = eval(en)
+              const st2 = eval(st)
+              list5.push('easter egg :eyes:')
+              switch (selectionsnum) {
+                case 1:
+                  list2.push(`${st2 + middle + en2}\n`)
+                  break
+                case 2:
+                  var num = list5.length
+                  var numbef = this.evalMessage(data.numbefst2, cache)
+                  list2.push(`${num + numbef} ${st2}${middle}${en2}\n`)
+                  break
+              }
+            } catch (err) {
+              if (debug === 0) console.log(err)
+            }
 
-							var username = res2;
-							var result = res;
+            list4 = list2.join('')
+          }
 
-							eval(" " + st + " ");
-							var middle = " " + mid + " ";
-							eval(" " + en + " ");
-							var username = res2;
-							var result = res;
-							var en2 = eval(en);
-							var st2 = eval(st);
-							list5.push("easter egg :eyes:");
-							switch (selectionsnum) {
-								case 1:
-									list2.push(st2 + middle + en2 + "\n");
-									break;
-								case 2:
-									var num = list5.length;
-									var numbef = this.evalMessage(data.numbefst2, cache);
-									list2.push(num + numbef + " " + st2 + middle + en2 + "\n");
-									break;
-							}
-						} catch (err) {
-							if (debug === 0) console.log(err);
-						}
+          _this.storeValue(list4, storage, varName2, cache)
+          _this.callNextAction(cache)
+        } catch (err) {
+          if (debug === 0) console.log(err)
+        }
+      }
+    }
+  },
 
-						list4 = list2.join("");
-					}
-
-					_this.storeValue(list4, storage, varName2, cache);
-					_this.callNextAction(cache);
-				} catch (err) {
-					if (debug === 0) console.log(err);
-				}
-			}
-		}
-	},
-
-	mod: function() {}
-};
+  mod () {}
+}

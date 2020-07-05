@@ -1,35 +1,34 @@
 module.exports = {
-	name: "Speed Test",
-	section: "Other Stuff",
+  name: 'Speed Test',
+  section: 'Other Stuff',
 
-	subtitle: function(data) {
-		if (data.info === "downloadspeed") {
-			return "Speed Test - Download Speed";
-		} else if (data.info === "uploadspeed") {
-			return "Speed Test - Upload Speed";
-		} else {
-			return "Error in subtitles.";
-		}
-	},
+  subtitle (data) {
+    if (data.info === 'downloadspeed') {
+      return 'Speed Test - Download Speed'
+    } if (data.info === 'uploadspeed') {
+      return 'Speed Test - Upload Speed'
+    }
+    return 'Error in subtitles.'
+  },
 
-	variableStorage: function(data, varType) {
-		const type = parseInt(data.storage);
-		if (type !== varType) return;
-		let dataType;
-		if (data.info === "downloadspeed") {
-			dataType = "Download Speed";
-		} else if (data.info === "uploadspeed") {
-			dataType = "Upload Speed";
-		} else {
-			dataType = "Unknown Data Type";
-		}
-		return ([data.varName, dataType]);
-	},
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage)
+    if (type !== varType) return
+    let dataType
+    if (data.info === 'downloadspeed') {
+      dataType = 'Download Speed'
+    } else if (data.info === 'uploadspeed') {
+      dataType = 'Upload Speed'
+    } else {
+      dataType = 'Unknown Data Type'
+    }
+    return ([data.varName, dataType])
+  },
 
-	fields: ["info", "type", "storage", "varName"],
+  fields: ['info', 'type', 'storage', 'varName'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 	<div style="float: left; width: 50%; padding-top: 8px;">
 		Speed:<br>
 		<select id="info" class="round">
@@ -88,51 +87,50 @@ module.exports = {
                 span { /* Only making the text look, nice! */
                     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
                 }
-                </style>`;
-	},
+                </style>`
+  },
 
-	init: function() {
-		const { glob, document } = this;
-		glob.variableChange(document.getElementById("storage"), "varNameContainer");
-	},
+  init () {
+    const { glob, document } = this
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer')
+  },
 
-	action: function(cache) {
-		const _this = this;
-		const data = cache.actions[cache.index];
-		const info = this.evalMessage(data.info);
-		const type = parseInt(data.type);
+  action (cache) {
+    const _this = this
+    const data = cache.actions[cache.index]
+    const info = this.evalMessage(data.info)
+    const type = parseInt(data.type)
 
-		const Mods = this.getMods();
-		const speedTest = Mods.require("speedtest-net");
-		const test = speedTest({ maxTime: 5000 });
+    const Mods = this.getMods()
+    const speedTest = Mods.require('speedtest-net')
+    const test = speedTest({ maxTime: 5000 })
 
-		let result;
-		test.on(`${info}`, (speed) => {
-			switch (type) {
-				case 0:
-					result = speed;
-					break;
-				case 1:
-					result = (speed * 125).toFixed(2);
-					break;
-				default:
-					break;
-			}
+    let result
+    test.on(`${info}`, (speed) => {
+      switch (type) {
+        case 0:
+          result = speed
+          break
+        case 1:
+          result = (speed * 125).toFixed(2)
+          break
+        default:
+          break
+      }
 
-			if (result !== undefined) {
-				const storage = parseInt(data.storage);
-				const varName2 = _this.evalMessage(data.varName, cache);
-				_this.storeValue(result, storage, varName2, cache);
-			}
-			_this.callNextAction(cache);
+      if (result !== undefined) {
+        const storage = parseInt(data.storage)
+        const varName2 = _this.evalMessage(data.varName, cache)
+        _this.storeValue(result, storage, varName2, cache)
+      }
+      _this.callNextAction(cache)
+    })
 
-		});
+    test.on('error', (error) => {
+      console.log(`Error in Speed Test MOD: ${error}`)
+      _this.callNextAction(cache)
+    })
+  },
 
-		test.on("error", (error) => {
-			console.log("Error in Speed Test MOD: " + error);
-			_this.callNextAction(cache);
-		});
-	},
-
-	mod: function() {}
-};
+  mod () {}
+}

@@ -1,15 +1,15 @@
 module.exports = {
-	name: "Edit Item from List MOD",
-	section: "Lists and Loops",
+  name: 'Edit Item from List MOD',
+  section: 'Lists and Loops',
 
-	subtitle: function(data) {
-		return `Edit "${data.value}" at position ${data.position}`;
-	},
+  subtitle (data) {
+    return `Edit "${data.value}" at position ${data.position}`
+  },
 
-	fields: ["storage", "varName", "position", "value"],
+  fields: ['storage', 'varName', 'position', 'value'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 <div>
 	<div style="float: left; width: 35%;">
 		Source List:<br>
@@ -31,28 +31,27 @@ module.exports = {
 		Value:<br>
 		<input id="value" class="round" type="text">
 	</div>
-</div>`;
-	},
+</div>`
+  },
 
-	init: function() {
-		const { glob, document } = this;
+  init () {
+    const { glob, document } = this
 
-		glob.refreshVariableList(document.getElementById("storage"));
+    glob.refreshVariableList(document.getElementById('storage'))
+  },
 
-	},
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const storage = parseInt(data.storage)
+    const varName = this.evalMessage(data.varName, cache)
+    const list = this.getVariable(storage, varName, cache)
+    const position = parseInt(this.evalMessage(data.position))
+    const val = this.evalMessage(data.value, cache)
+    if (list.length > position) {
+      list[position] = val
+    }
+    this.callNextAction(cache)
+  },
 
-	action: function(cache) {
-		const data = cache.actions[cache.index];
-		const storage = parseInt(data.storage);
-		const varName = this.evalMessage(data.varName, cache);
-		const list = this.getVariable(storage, varName, cache);
-		const position = parseInt(this.evalMessage(data.position));
-		const val = this.evalMessage(data.value, cache);
-		if (list.length > position) {
-			list[position] = val;
-		}
-		this.callNextAction(cache);
-	},
-
-	mod: function() {}
-};
+  mod () {}
+}

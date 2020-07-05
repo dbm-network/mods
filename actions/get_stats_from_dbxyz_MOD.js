@@ -1,73 +1,73 @@
 module.exports = {
-	name: "Get Bot Stats From DBXYZ",
-	section: "Other Stuff",
+  name: 'Get Bot Stats From DBXYZ',
+  section: 'Other Stuff',
 
-	subtitle: function(data) {
-		const info = ["Bot ID", "Bot Name", "Prefix", "Bots Lib", "Server Count", "Short Description", "Description", "Avatar", "Owner ID", "Owner Name", "Invite", "Support Server", "Website", "Waiting For Review", "Certified?", "Vanity Url"];
-		return `Get Bot's ${info[parseInt(data.info)]}`;
-	},
+  subtitle (data) {
+    const info = ['Bot ID', 'Bot Name', 'Prefix', 'Bots Lib', 'Server Count', 'Short Description', 'Description', 'Avatar', 'Owner ID', 'Owner Name', 'Invite', 'Support Server', 'Website', 'Waiting For Review', 'Certified?', 'Vanity Url']
+    return `Get Bot's ${info[parseInt(data.info)]}`
+  },
 
-	variableStorage: function(data, varType) {
-		const type = parseInt(data.storage);
-		if (type !== varType) return;
-		let dataType = "A DBXYZ Stat";
-		const info = parseInt(data.info);
-		switch (info) {
-			case 0:
-				dataType = "Bot ID";
-				break;
-			case 1:
-				dataType = "Bot Name";
-				break;
-			case 2:
-				dataType = "Bot Prefix";
-				break;
-			case 3:
-				dataType = "Library";
-				break;
-			case 4:
-				dataType = "Server Count";
-				break;
-			case 5:
-				dataType = "Short Description";
-				break;
-			case 6:
-				dataType = "Long Description";
-				break;
-			case 7:
-				dataType = "Avatar";
-				break;
-			case 8:
-				dataType = "Bot Owner ID";
-				break;
-			case 9:
-				dataType = "Bot Owner Name";
-				break;
-			case 10:
-				dataType = "Bot Invite";
-				break;
-			case 11:
-				dataType = "Support Server";
-				break;
-			case 12:
-				dataType = "Website";
-				break;
-			case 13:
-				dataType = "Waiting For Approval?";
-				break;
-			case 14:
-				dataType = "Certified?";
-				break;
-			case 15:
-				dataType = "Vanity Url";
-				break;
-		}
-		return ([data.varName, dataType]);
-	},
-	fields: ["botID", "info", "storage", "varName"],
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage)
+    if (type !== varType) return
+    let dataType = 'A DBXYZ Stat'
+    const info = parseInt(data.info)
+    switch (info) {
+      case 0:
+        dataType = 'Bot ID'
+        break
+      case 1:
+        dataType = 'Bot Name'
+        break
+      case 2:
+        dataType = 'Bot Prefix'
+        break
+      case 3:
+        dataType = 'Library'
+        break
+      case 4:
+        dataType = 'Server Count'
+        break
+      case 5:
+        dataType = 'Short Description'
+        break
+      case 6:
+        dataType = 'Long Description'
+        break
+      case 7:
+        dataType = 'Avatar'
+        break
+      case 8:
+        dataType = 'Bot Owner ID'
+        break
+      case 9:
+        dataType = 'Bot Owner Name'
+        break
+      case 10:
+        dataType = 'Bot Invite'
+        break
+      case 11:
+        dataType = 'Support Server'
+        break
+      case 12:
+        dataType = 'Website'
+        break
+      case 13:
+        dataType = 'Waiting For Approval?'
+        break
+      case 14:
+        dataType = 'Certified?'
+        break
+      case 15:
+        dataType = 'Vanity Url'
+        break
+    }
+    return ([data.varName, dataType])
+  },
+  fields: ['botID', 'info', 'storage', 'varName'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 <div id="modinfo">
 	<div style="float: left; width: 99%; padding-top: 8px;">
 	   Bot's ID (Must be ID):<br>
@@ -109,87 +109,86 @@ module.exports = {
 		Some options will only work for certified or special bots. You better use some check variables to check if they exist.
 		</p>
 	</div>
-</div>`;
-	},
+</div>`
+  },
 
-	init: function() {
-		const { glob, document } = this;
+  init () {
+    const { glob, document } = this
 
-		glob.variableChange(document.getElementById("storage"), "varNameContainer");
-	},
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer')
+  },
 
-	action: function(cache) {
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const botID = this.evalMessage(data.botID, cache)
+    const info = parseInt(data.info)
+    const sf = require('snekfetch')
 
-		const data = cache.actions[cache.index];
-		const botID = this.evalMessage(data.botID, cache);
-		const info = parseInt(data.info);
-		var sf = require("snekfetch");
+    sf.get(`https://discordboats.xyz/api/bot/${botID}`)
+      .then((r) => {
+        let result
+        switch (info) {
+          case 0:
+            result = r.body.id
+            break
+          case 1:
+            result = r.body.name
+            break
+          case 2:
+            result = r.body.prefix
+            break
+          case 3:
+            result = r.body.lib
+            break
+          case 4:
+            result = r.body.server_count
+            break
+          case 5:
+            result = r.body.shortDesc
+            break
+          case 6:
+            result = r.body.desc
+            break
+          case 7:
+            result = `https://cdn.discordapp.com/avatars/${botID}/${r.body.avatar}.png`
+            break
+          case 8:
+            result = r.body.ownerid
+            break
+          case 9:
+            result = r.body.ownername
+            break
+          case 10:
+            result = r.body.invite
+            break
+          case 11:
+            result = r.body.discord
+            break
+          case 12:
+            result = r.body.website
+            break
+          case 13:
+            result = r.body.inQueue
+            break
+          case 14:
+            result = r.body.certified
+            break
+          case 15:
+            result = r.body.vanity_url
+            break
+        }
 
-		sf.get("https://discordboats.xyz/api/bot/" + botID)
-			.then((r) => {
-				let result;
-				switch (info) {
-					case 0:
-						result = r.body.id;
-						break;
-					case 1:
-						result = r.body.name;
-						break;
-					case 2:
-						result = r.body.prefix;
-						break;
-					case 3:
-						result = r.body.lib;
-						break;
-					case 4:
-						result = r.body.server_count;
-						break;
-					case 5:
-						result = r.body.shortDesc;
-						break;
-					case 6:
-						result = r.body.desc;
-						break;
-					case 7:
-						result = "https://cdn.discordapp.com/avatars/" + botID + "/" + r.body.avatar + ".png";
-						break;
-					case 8:
-						result = r.body.ownerid;
-						break;
-					case 9:
-						result = r.body.ownername;
-						break;
-					case 10:
-						result = r.body.invite;
-						break;
-					case 11:
-						result = r.body.discord;
-						break;
-					case 12:
-						result = r.body.website;
-						break;
-					case 13:
-						result = r.body.inQueue;
-						break;
-					case 14:
-						result = r.body.certified;
-						break;
-					case 15:
-						result = r.body.vanity_url;
-						break;
-				}
+        if (result !== undefined) {
+          const storage = parseInt(data.storage)
+          const varName = this.evalMessage(data.varName, cache)
+          this.storeValue(result, storage, varName, cache)
+        }
+        this.callNextAction(cache)
+      })
+      .catch((e) => {
+        console.log(`${'Get Stats From DBXYZ Error:' + '\n'}${e.stack}`)
+      })
+  },
 
-				if (result !== undefined) {
-					const storage = parseInt(data.storage);
-					const varName = this.evalMessage(data.varName, cache);
-					this.storeValue(result, storage, varName, cache);
-				}
-				this.callNextAction(cache);
-			})
-			.catch((e) => {
-				console.log("Get Stats From DBXYZ Error:"+ "\n" + e.stack);
-			});
-	},
-
-	mod: function() {}
-};
+  mod () {}
+}

@@ -1,18 +1,18 @@
 module.exports = {
-	name: "Stop RSS Feed Watcher",
-	section: "Other Stuff",
+  name: 'Stop RSS Feed Watcher',
+  section: 'Other Stuff',
 
-	subtitle: function(data) {
-		return `${data.url}`;
-	},
+  subtitle (data) {
+    return `${data.url}`
+  },
 
-	variableStorage: function(data, varType) {
-	},
+  variableStorage (data, varType) {
+  },
 
-	fields: ["storage", "varName"],
+  fields: ['storage', 'varName'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 		<div>
 	<div style="float: left; width: 35%;">
 		RSS Feed Source:<br>
@@ -23,26 +23,25 @@ module.exports = {
 	<div id="varNameContainer" style="float: right; width: 60%;">
 		Variable Name:<br>
 		<input id="varName" class="round" type="text" list="variableList"><br>
-	</div>`;
-	},
+	</div>`
+  },
 
-	init: function() {},
+  init () {},
 
-	action: function(cache) {
-		const data = cache.actions[cache.index];
-		const varName = this.evalMessage(data.varName, cache);
-		const storage = parseInt(data.storage);
-		var stor = storage + varName;
-		const res = this.getVariable(storage, stor, cache);
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const varName = this.evalMessage(data.varName, cache)
+    const storage = parseInt(data.storage)
+    const stor = storage + varName
+    const res = this.getVariable(storage, stor, cache)
 
-		// Stop watching the feed.
+    // Stop watching the feed.
 
-		res.stop();
+    res.stop()
 
-		this.callNextAction(cache);
+    this.callNextAction(cache)
+  },
 
-	},
+  mod () {}
 
-	mod: function() {}
-
-};
+}

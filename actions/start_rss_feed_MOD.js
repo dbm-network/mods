@@ -1,21 +1,21 @@
 module.exports = {
-	name: "RSS Feed Watcher",
-	section: "Other Stuff",
+  name: 'RSS Feed Watcher',
+  section: 'Other Stuff',
 
-	subtitle: function(data) {
-		return `${data.url}`;
-	},
+  subtitle (data) {
+    return `${data.url}`
+  },
 
-	variableStorage: function(data, varType) {
-		const type = parseInt(data.storage);
-		if (type !== varType) return;
-		return ([data.varName, "RSS Feed"]);
-	},
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage)
+    if (type !== varType) return
+    return ([data.varName, 'RSS Feed'])
+  },
 
-	fields: ["path", "url", "storage", "varName"],
+  fields: ['path', 'url', 'storage', 'varName'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 	<div style="padding-top: 8px;">
 	<div style="float:left"><u>Note:</u><b>This action will not stop watching the feed until bot restarts or using Stop RSS Feed Watcher action!</b></div><br>
 <br>
@@ -40,57 +40,57 @@ module.exports = {
 		Variable Name:<br>
 		<input id="varName" class="round" type="text"><br>
 	</div>
-</div>`;
-	},
+</div>`
+  },
 
-	init: function() {},
+  init () {},
 
-	action: function(cache) {
-		const data = cache.actions[cache.index];
-		const url = this.evalMessage(data.url, cache);
-		const varName = this.evalMessage(data.varName, cache);
-		const storage = parseInt(data.storage);
-		const path = parseInt(data.path);
-		var _this = this;
-		var stor = storage + varName;
-		console.log(stor);
-		const Mods = this.getMods();
-		const { JSONPath } = Mods.require("jsonpath-plus");
-		var Watcher = Mods.require("feed-watcher"),
-			feed = url,
-			interval = 10; // seconds
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const url = this.evalMessage(data.url, cache)
+    const varName = this.evalMessage(data.varName, cache)
+    const storage = parseInt(data.storage)
+    const path = parseInt(data.path)
+    const _this = this
+    const stor = storage + varName
+    console.log(stor)
+    const Mods = this.getMods()
+    const { JSONPath } = Mods.require('jsonpath-plus')
+    const Watcher = Mods.require('feed-watcher')
+    const feed = url
+    const interval = 10 // seconds
 
-		// if not interval is passed, 60s would be set as default interval.
-		var watcher = new Watcher(feed, interval);
-		this.storeValue(watcher, storage, stor, cache);
+    // if not interval is passed, 60s would be set as default interval.
+    const watcher = new Watcher(feed, interval)
+    this.storeValue(watcher, storage, stor, cache)
 
-		// Check for new entries every n seconds.
-		watcher.on("new entries", function(entries) {
-			entries.forEach(function(entry) {
-				if(path){
-					var res = JSONPath({
-						path: path,
-						json: entry
-					});
-					_this.storeValue(res, storage, varName, cache);
-				} else if (!path){
-					_this.storeValue(entry, storage, varName, cache);
-				}
-				_this.callNextAction(cache);
-			});
-		});
+    // Check for new entries every n seconds.
+    watcher.on('new entries', (entries) => {
+      entries.forEach((entry) => {
+        if (path) {
+          const res = JSONPath({
+            path,
+            json: entry
+          })
+          _this.storeValue(res, storage, varName, cache)
+        } else if (!path) {
+          _this.storeValue(entry, storage, varName, cache)
+        }
+        _this.callNextAction(cache)
+      })
+    })
 
-		// Start watching the feed.
-		watcher
-			.start()
-			.then(function(entries) {
-				console.log("Starting watching...");
-			})
-			.catch(function(error) {
-				console.error(error);
-			});
-	},
+    // Start watching the feed.
+    watcher
+      .start()
+      .then((entries) => {
+        console.log('Starting watching...')
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  },
 
-	mod: function() {}
+  mod () {}
 
-};
+}

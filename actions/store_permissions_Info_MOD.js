@@ -1,68 +1,68 @@
 module.exports = {
-	name: "Store Permissions Info",
+  name: 'Store Permissions Info',
 
-	section: "Permission Control",
+  section: 'Permission Control',
 
-	subtitle: function(data) {
-		let variables = ["", "Temp Variable", "Server Variable", "Global Variable"];
-		let options = ["Allow Bitfields", "Allow Flags", "Disallow Flags", "Disallow Flags", "Have Administrator", "Have View Audit Log", "Have Manage Server"];
-		return `${variables[data.storage]} (${data.varName}) - ${options[data.info]}`;
-	},
+  subtitle (data) {
+    const variables = ['', 'Temp Variable', 'Server Variable', 'Global Variable']
+    const options = ['Allow Bitfields', 'Allow Flags', 'Disallow Flags', 'Disallow Flags', 'Have Administrator', 'Have View Audit Log', 'Have Manage Server']
+    return `${variables[data.storage]} (${data.varName}) - ${options[data.info]}`
+  },
 
-	variableStorage: function(data, varType) {
-		const info = parseInt(data.info);
-		const type = parseInt(data.storage2);
-		if(type !== varType) return;
-		let dataType;
-		switch(info) {
-			case 0:
-			case 2:
-				dataType = "Permissions Bitfields";
-				break;
-			case 1:
-			case 3:
-				dataType = "Permissions Flags";
-				break;
-			case 4:
-			case 5:
-			case 6:
-			case 7:
-			case 8:
-			case 9:
-			case 10:
-			case 11:
-			case 12:
-			case 13:
-			case 14:
-			case 15:
-			case 16:
-			case 17:
-			case 18:
-			case 19:
-			case 20:
-			case 21:
-			case 22:
-			case 23:
-			case 24:
-			case 25:
-			case 26:
-			case 27:
-			case 28:
-			case 29:
-			case 30:
-			case 31:
-			case 32:
-			case 33:
-				dataType = "Boolean";
-				break;
-		}
-		return ([data.varName2, dataType]);
-	},
+  variableStorage (data, varType) {
+    const info = parseInt(data.info)
+    const type = parseInt(data.storage2)
+    if (type !== varType) return
+    let dataType
+    switch (info) {
+      case 0:
+      case 2:
+        dataType = 'Permissions Bitfields'
+        break
+      case 1:
+      case 3:
+        dataType = 'Permissions Flags'
+        break
+      case 4:
+      case 5:
+      case 6:
+      case 7:
+      case 8:
+      case 9:
+      case 10:
+      case 11:
+      case 12:
+      case 13:
+      case 14:
+      case 15:
+      case 16:
+      case 17:
+      case 18:
+      case 19:
+      case 20:
+      case 21:
+      case 22:
+      case 23:
+      case 24:
+      case 25:
+      case 26:
+      case 27:
+      case 28:
+      case 29:
+      case 30:
+      case 31:
+      case 32:
+      case 33:
+        dataType = 'Boolean'
+        break
+    }
+    return ([data.varName2, dataType])
+  },
 
-	fields: ["storage", "varName", "info", "storage2", "varName2"],
+  fields: ['storage', 'varName', 'info', 'storage2', 'varName2'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 	<div>
 		<div style="float: left; width: 35%;">
 			Source Permissions:<br>
@@ -135,142 +135,141 @@ module.exports = {
 			Variable Name:<br>
 			<input id="varName2" class="round" type="text">
 		</div>
-	</div>`;
-	},
+	</div>`
+  },
 
-	init: function() {
-		const { glob, document } = this;
-		glob.refreshVariableList(document.getElementById("storage"));
-	},
+  init () {
+    const { glob, document } = this
+    glob.refreshVariableList(document.getElementById('storage'))
+  },
 
-	action: function(cache) {
-		const data = cache.actions[cache.index];
+  action (cache) {
+    const data = cache.actions[cache.index]
 
-		const varName = this.evalMessage(data.varName, cache);
-		const storage = parseInt(data.storage);
-		const permissions = this.getVariable(storage, varName, cache);
-		const info = parseInt(data.info);
-		let result = false;
-		const storage2 = parseInt(data.storage2);
-		const varName2 = this.evalMessage(data.varName2, cache);
-		if (!permissions.allow && ![2, 3].includes(info) || !permissions.disallow && [2, 3].includes(info)) {
-			this.storeValue(result, storage2, varName2, cache);
-			this.callNextAction(cache);
-			return;
-		}
-		switch(info) {
-			case 0:
-				result = permissions.allow.bitfield;
-				break;
-			case 1:
-				result = permissions.allow.toArray();
-				break;
-			case 2:
-				result = permissions.disallow.bitfield;
-				break;
-			case 3:
-				result = permissions.disallow.toArray();
-				break;
-			case 4:
-				result = permissions.allow.has("ADMINISTRATOR");
-				break;
-			case 5:
-				result = permissions.allow.has("VIEW_AUDIT_LOG");
-				break;
-			case 6:
-				result = permissions.allow.has("MANAGE_GUILD");
-				break;
-			case 7:
-				result = permissions.allow.has("MANAGE_ROLES");
-				break;
-			case 8:
-				result = permissions.allow.has("MANAGE_CHANNELS");
-				break;
-			case 9:
-				result = permissions.allow.has("KICK_MEMBERS");
-				break;
-			case 10:
-				result = permissions.allow.has("BAN_MEMBERS");
-				break;
-			case 11:
-				result = permissions.allow.has("CREATE_INSTANT_INVITE");
-				break;
-			case 12:
-				result = permissions.allow.has("CHANGE_NICKNAME");
-				break;
-			case 13:
-				result = permissions.allow.has("MANAGE_NICKNAMES");
-				break;
-			case 14:
-				result = permissions.allow.has("MANAGE_EMOJIS");
-				break;
-			case 15:
-				result = permissions.allow.has("MANAGE_WEBHOOKS");
-				break;
-			case 16:
-				result = permissions.allow.has("VIEW_CHANNEL");
-				break;
-			case 17:
-				result = permissions.allow.has("SEND_MESSAGES");
-				break;
-			case 18:
-				result = permissions.allow.has("SEND_TTS_MESSAGES");
-				break;
-			case 19:
-				result = permissions.allow.has("MANAGE_MESSAGES");
-				break;
-			case 20:
-				result = permissions.allow.has("EMBED_LINKS");
-				break;
-			case 21:
-				result = permissions.allow.has("ATTACH_FILES");
-				break;
-			case 22:
-				result = permissions.allow.has("READ_MESSAGE_HISTORY");
-				break;
-			case 23:
-				result = permissions.allow.has("MENTION_EVERYONE");
-				break;
-			case 24:
-				result = permissions.allow.has("USE_EXTERNAL_EMOJIS");
-				break;
-			case 25:
-				result = permissions.allow.has("ADD_REACTIONS");
-				break;
-			case 26:
-				result = permissions.allow.has("CONNECT");
-				break;
-			case 27:
-				result = permissions.allow.has("SPEAK");
-				break;
-			case 28:
-				result = permissions.allow.has("STREAM");
-				break;
-			case 29:
-				result = permissions.allow.has("MUTE_MEMBERS");
-				break;
-			case 30:
-				result = permissions.allow.has("DEAFEN_MEMBERS");
-				break;
-			case 31:
-				result = permissions.allow.has("MOVE_MEMBERS");
-				break;
-			case 32:
-				result = permissions.allow.has("USE_VAD");
-				break;
-			case 33:
-				result = permissions.allow.has("PRIORITY_SPEAKER");
-				break;
+    const varName = this.evalMessage(data.varName, cache)
+    const storage = parseInt(data.storage)
+    const permissions = this.getVariable(storage, varName, cache)
+    const info = parseInt(data.info)
+    let result = false
+    const storage2 = parseInt(data.storage2)
+    const varName2 = this.evalMessage(data.varName2, cache)
+    if (!permissions.allow && ![2, 3].includes(info) || !permissions.disallow && [2, 3].includes(info)) {
+      this.storeValue(result, storage2, varName2, cache)
+      this.callNextAction(cache)
+      return
+    }
+    switch (info) {
+      case 0:
+        result = permissions.allow.bitfield
+        break
+      case 1:
+        result = permissions.allow.toArray()
+        break
+      case 2:
+        result = permissions.disallow.bitfield
+        break
+      case 3:
+        result = permissions.disallow.toArray()
+        break
+      case 4:
+        result = permissions.allow.has('ADMINISTRATOR')
+        break
+      case 5:
+        result = permissions.allow.has('VIEW_AUDIT_LOG')
+        break
+      case 6:
+        result = permissions.allow.has('MANAGE_GUILD')
+        break
+      case 7:
+        result = permissions.allow.has('MANAGE_ROLES')
+        break
+      case 8:
+        result = permissions.allow.has('MANAGE_CHANNELS')
+        break
+      case 9:
+        result = permissions.allow.has('KICK_MEMBERS')
+        break
+      case 10:
+        result = permissions.allow.has('BAN_MEMBERS')
+        break
+      case 11:
+        result = permissions.allow.has('CREATE_INSTANT_INVITE')
+        break
+      case 12:
+        result = permissions.allow.has('CHANGE_NICKNAME')
+        break
+      case 13:
+        result = permissions.allow.has('MANAGE_NICKNAMES')
+        break
+      case 14:
+        result = permissions.allow.has('MANAGE_EMOJIS')
+        break
+      case 15:
+        result = permissions.allow.has('MANAGE_WEBHOOKS')
+        break
+      case 16:
+        result = permissions.allow.has('VIEW_CHANNEL')
+        break
+      case 17:
+        result = permissions.allow.has('SEND_MESSAGES')
+        break
+      case 18:
+        result = permissions.allow.has('SEND_TTS_MESSAGES')
+        break
+      case 19:
+        result = permissions.allow.has('MANAGE_MESSAGES')
+        break
+      case 20:
+        result = permissions.allow.has('EMBED_LINKS')
+        break
+      case 21:
+        result = permissions.allow.has('ATTACH_FILES')
+        break
+      case 22:
+        result = permissions.allow.has('READ_MESSAGE_HISTORY')
+        break
+      case 23:
+        result = permissions.allow.has('MENTION_EVERYONE')
+        break
+      case 24:
+        result = permissions.allow.has('USE_EXTERNAL_EMOJIS')
+        break
+      case 25:
+        result = permissions.allow.has('ADD_REACTIONS')
+        break
+      case 26:
+        result = permissions.allow.has('CONNECT')
+        break
+      case 27:
+        result = permissions.allow.has('SPEAK')
+        break
+      case 28:
+        result = permissions.allow.has('STREAM')
+        break
+      case 29:
+        result = permissions.allow.has('MUTE_MEMBERS')
+        break
+      case 30:
+        result = permissions.allow.has('DEAFEN_MEMBERS')
+        break
+      case 31:
+        result = permissions.allow.has('MOVE_MEMBERS')
+        break
+      case 32:
+        result = permissions.allow.has('USE_VAD')
+        break
+      case 33:
+        result = permissions.allow.has('PRIORITY_SPEAKER')
+        break
+    }
+    console.log(result)
+    if (typeof result !== 'undefined') {
+      this.storeValue(result, storage2, varName2, cache)
+    }
+    this.callNextAction(cache)
+  },
 
-		}
-		console.log(result);
-		if (typeof result != "undefined") {
-			this.storeValue(result, storage2, varName2, cache);
-		}
-		this.callNextAction(cache);
-	},
+  mod (DBM) {
+  }
 
-	mod: function(DBM) {
-	}
-
-};
+}

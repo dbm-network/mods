@@ -1,16 +1,16 @@
 module.exports = {
-	name: "Set AFK Channel",
-	section: "Server Control",
+  name: 'Set AFK Channel',
+  section: 'Server Control',
 
-	subtitle: function(data) {
-		const channels = ["Command Author's Voice Ch.", "Mentioned User's Voice Ch.", "Default Voice Channel", "Temp Variable", "Server Variable", "Global Variable"];
-		return `${channels[parseInt(data.afkchannel)]}`;
-	},
+  subtitle (data) {
+    const channels = ["Command Author's Voice Ch.", "Mentioned User's Voice Ch.", 'Default Voice Channel', 'Temp Variable', 'Server Variable', 'Global Variable']
+    return `${channels[parseInt(data.afkchannel)]}`
+  },
 
-	fields: ["server", "varName", "afkchannel", "varNameChannel"],
+  fields: ['server', 'varName', 'afkchannel', 'varNameChannel'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 <div>
 
 	<div style="float: left; width: 35%;">
@@ -67,40 +67,40 @@ module.exports = {
 			span { /* Only making the text look, nice! */
 				font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 			}
-			</style>`;
-	},
+			</style>`
+  },
 
-	init: function() {
-		const { glob, document } = this;
+  init () {
+    const { glob, document } = this
 
-		glob.serverChange(document.getElementById("server"), "varNameContainer");
-		glob.voiceChannelChange(document.getElementById("afkchannel"), "varNameContainerr");
-	},
+    glob.serverChange(document.getElementById('server'), 'varNameContainer')
+    glob.voiceChannelChange(document.getElementById('afkchannel'), 'varNameContainerr')
+  },
 
-	action: function(cache) {
-		const data = cache.actions[cache.index];
-		const type = parseInt(data.server);
-		const afkchannel = parseInt(data.afkchannel);
-		const varName2 = this.evalMessage(data.varNameChannel, cache);
-		const varName = this.evalMessage(data.varName, cache);
-		const server = this.getServer(type, varName, cache);
-		const channel = this.getVoiceChannel(afkchannel, varName2, cache);
-		if(!channel) {
-			this.callNextAction(cache);
-			return;
-		}
-		if(Array.isArray(server)) {
-			this.callListFunc(server, "setAFKChannel", channel).then(function() {
-				this.callNextAction(cache);
-			}.bind(this));
-		} else if(server && server.setAFKChannel) {
-			server.setAFKChannel(channel).then(function() {
-				this.callNextAction(cache);
-			}.bind(this)).catch(this.displayError.bind(this, data, cache));
-		} else {
-			this.callNextAction(cache);
-		}
-	},
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const type = parseInt(data.server)
+    const afkchannel = parseInt(data.afkchannel)
+    const varName2 = this.evalMessage(data.varNameChannel, cache)
+    const varName = this.evalMessage(data.varName, cache)
+    const server = this.getServer(type, varName, cache)
+    const channel = this.getVoiceChannel(afkchannel, varName2, cache)
+    if (!channel) {
+      this.callNextAction(cache)
+      return
+    }
+    if (Array.isArray(server)) {
+      this.callListFunc(server, 'setAFKChannel', channel).then(() => {
+        this.callNextAction(cache)
+      })
+    } else if (server && server.setAFKChannel) {
+      server.setAFKChannel(channel).then(() => {
+        this.callNextAction(cache)
+      }).catch(this.displayError.bind(this, data, cache))
+    } else {
+      this.callNextAction(cache)
+    }
+  },
 
-	mod: function() {}
-};
+  mod () {}
+}

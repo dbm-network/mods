@@ -1,16 +1,16 @@
 module.exports = {
-	name: "Control Global Data",
+  name: 'Control Global Data',
 
-	section: "Deprecated",
+  section: 'Deprecated',
 
-	subtitle: function(data) {
-		return `(${data.dataName}) ${data.changeType === "1" ? "+=" : "="} ${data.value}`;
-	},
+  subtitle (data) {
+    return `(${data.dataName}) ${data.changeType === '1' ? '+=' : '='} ${data.value}`
+  },
 
-	fields: ["dataName", "changeType", "value"],
+  fields: ['dataName', 'changeType', 'value'],
 
-	html: function() {
-		return `
+  html () {
+    return `
 	<div style="padding-top: 8px;">
 		<div style="float: left; width: 50%;">
 			Data Name:<br>
@@ -27,30 +27,30 @@ module.exports = {
 	<div style="padding-top: 8px;">
 		Value:<br>
 		<input id="value" class="round" type="text" name="is-eval"><br>
-	</div>`;
-	},
+	</div>`
+  },
 
-	init: function() {
-	},
+  init () {
+  },
 
-	action: function(cache) {
-		const data = cache.actions[cache.index];
+  action (cache) {
+    const data = cache.actions[cache.index]
 
-		const dataName = this.evalMessage(data.dataName, cache);
-		const isAdd = Boolean(data.changeType === "1");
-		let val = this.evalMessage(data.value, cache);
-		try {
-			val = this.eval(val, cache);
-		} catch(e) {
-			this.displayError(data, cache, e);
-		}
-		if(isAdd) {
-			Globals.addData(dataName, val);
-		} else {
-			Globals.setData(dataName, val);
-		}
-		this.callNextAction(cache);
-	},
+    const dataName = this.evalMessage(data.dataName, cache)
+    const isAdd = Boolean(data.changeType === '1')
+    let val = this.evalMessage(data.value, cache)
+    try {
+      val = this.eval(val, cache)
+    } catch (e) {
+      this.displayError(data, cache, e)
+    }
+    if (isAdd) {
+      Globals.addData(dataName, val)
+    } else {
+      Globals.setData(dataName, val)
+    }
+    this.callNextAction(cache)
+  },
 
-	mod: function() {}
-};
+  mod () {}
+}

@@ -1,21 +1,21 @@
 module.exports = {
-	name: "Await Reaction Call Action",
-	section: "Messaging",
+  name: 'Await Reaction Call Action',
+  section: 'Messaging',
 
-	subtitle: function(data) {
-		return `Await ${data.max} ${data.max === "1" ? "reaction" : "reactions"} for ${data.time} ${data.time === "1" ? "milisecond" : "miliseconds"}`;
-	},
+  subtitle (data) {
+    return `Await ${data.max} ${data.max === '1' ? 'reaction' : 'reactions'} for ${data.time} ${data.time === '1' ? 'milisecond' : 'miliseconds'}`
+  },
 
-	variableStorage: function(data, varType) {
-		const type = parseInt(data.storage2);
-		if(type !== varType) return;
-		return ([data.varName2, "Reaction List"]);
-	},
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage2)
+    if (type !== varType) return
+    return ([data.varName2, 'Reaction List'])
+  },
 
-	fields: ["storage", "varName", "filter", "max", "time", "maxEmojis", "maxUsers", "iftrue", "iftrueVal", "iffalse", "iffalseVal", "storage2", "varName2"],
+  fields: ['storage', 'varName', 'filter', 'max', 'time', 'maxEmojis', 'maxUsers', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal', 'storage2', 'varName2'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 	<div id="wrexdiv2" style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
 
 <div class="codeblock" style="float: left; width: 88%; padding-top: 8px;">
@@ -115,112 +115,112 @@ Max Users:<br>
 		span.wrexlink:hover {
 			color:#4676b9;
 		}
-</style>`;
-	},
+</style>`
+  },
 
-	init: function() {
-		const { glob, document } = this;
+  init () {
+    const { glob, document } = this
 
-		glob.messageChange(document.getElementById("storage"), "varNameContainer");
+    glob.messageChange(document.getElementById('storage'), 'varNameContainer')
 
-		glob.variableChange(document.getElementById("storage2"), "varNameContainer2");
-		glob.onChangeTrue = function(event) {
-			switch (parseInt(event.value)) {
-				case 0:
-				case 1:
-					document.getElementById("iftrueContainer").style.display = "none";
-					break;
-				case 2:
-					document.getElementById("iftrueName").innerHTML = "Action Number";
-					document.getElementById("iftrueContainer").style.display = null;
-					break;
-				case 3:
-					document.getElementById("iftrueName").innerHTML = "Number of Actions to Skip";
-					document.getElementById("iftrueContainer").style.display = null;
-					break;
-				case 4:
-					document.getElementById("iftrueName").innerHTML = "Anchor ID";
-					document.getElementById("iftrueContainer").style.display = null;
-					break;
-			}
-		};
-		glob.onChangeFalse = function(event) {
-			switch (parseInt(event.value)) {
-				case 0:
-				case 1:
-					document.getElementById("iffalseContainer").style.display = "none";
-					break;
-				case 2:
-					document.getElementById("iffalseName").innerHTML = "Action Number";
-					document.getElementById("iffalseContainer").style.display = null;
-					break;
-				case 3:
-					document.getElementById("iffalseName").innerHTML = "Number of Actions to Skip";
-					document.getElementById("iffalseContainer").style.display = null;
-					break;
-				case 4:
-					document.getElementById("iffalseName").innerHTML = "Anchor ID";
-					document.getElementById("iffalseContainer").style.display = null;
-					break;
-			}
-		};
-		glob.onChangeTrue(document.getElementById("iftrue"));
-		glob.onChangeFalse(document.getElementById("iffalse"));
+    glob.variableChange(document.getElementById('storage2'), 'varNameContainer2')
+    glob.onChangeTrue = function (event) {
+      switch (parseInt(event.value)) {
+        case 0:
+        case 1:
+          document.getElementById('iftrueContainer').style.display = 'none'
+          break
+        case 2:
+          document.getElementById('iftrueName').innerHTML = 'Action Number'
+          document.getElementById('iftrueContainer').style.display = null
+          break
+        case 3:
+          document.getElementById('iftrueName').innerHTML = 'Number of Actions to Skip'
+          document.getElementById('iftrueContainer').style.display = null
+          break
+        case 4:
+          document.getElementById('iftrueName').innerHTML = 'Anchor ID'
+          document.getElementById('iftrueContainer').style.display = null
+          break
+      }
+    }
+    glob.onChangeFalse = function (event) {
+      switch (parseInt(event.value)) {
+        case 0:
+        case 1:
+          document.getElementById('iffalseContainer').style.display = 'none'
+          break
+        case 2:
+          document.getElementById('iffalseName').innerHTML = 'Action Number'
+          document.getElementById('iffalseContainer').style.display = null
+          break
+        case 3:
+          document.getElementById('iffalseName').innerHTML = 'Number of Actions to Skip'
+          document.getElementById('iffalseContainer').style.display = null
+          break
+        case 4:
+          document.getElementById('iffalseName').innerHTML = 'Anchor ID'
+          document.getElementById('iffalseContainer').style.display = null
+          break
+      }
+    }
+    glob.onChangeTrue(document.getElementById('iftrue'))
+    glob.onChangeFalse(document.getElementById('iffalse'))
 
-		var wrexlinks = document.getElementsByClassName("wrexlink");
-		for(var x = 0; x < wrexlinks.length; x++) {
-			var wrexlink = wrexlinks[x];
-			var url = wrexlink.getAttribute("data-url");
-			if(url){
-				wrexlink.setAttribute("title", url);
-				wrexlink.addEventListener("click", function(e){
-					e.stopImmediatePropagation();
-					console.log("Launching URL: [" + url + "] in your default browser.");
-					require("child_process").execSync("start " + url);
-				});
-			}
-		}
-	},
+    const wrexlinks = document.getElementsByClassName('wrexlink')
+    for (let x = 0; x < wrexlinks.length; x++) {
+      const wrexlink = wrexlinks[x]
+      var url = wrexlink.getAttribute('data-url')
+      if (url) {
+        wrexlink.setAttribute('title', url)
+        wrexlink.addEventListener('click', (e) => {
+          e.stopImmediatePropagation()
+          console.log(`Launching URL: [${url}] in your default browser.`)
+          require('child_process').execSync(`start ${url}`)
+        })
+      }
+    }
+  },
 
-	action: function(cache) {
-		const data = cache.actions[cache.index];
+  action (cache) {
+    const data = cache.actions[cache.index]
 
-		const message = parseInt(data.storage);
-		const varName = this.evalMessage(data.varName, cache);
-		const msg = this.getMessage(message, varName, cache);
+    const message = parseInt(data.storage)
+    const varName = this.evalMessage(data.varName, cache)
+    const msg = this.getMessage(message, varName, cache)
 
-		const storage = parseInt(data.storage2);
-		const varName2 = this.evalMessage(data.varName2, cache);
+    const storage = parseInt(data.storage2)
+    const varName2 = this.evalMessage(data.varName2, cache)
 
-		if(msg) {
-			const js = String(this.evalMessage(data.filter, cache));
+    if (msg) {
+      const js = String(this.evalMessage(data.filter, cache))
 
-			const max = parseInt(this.evalMessage(data.max, cache));
-			const maxEmojis = parseInt(this.evalMessage(data.maxEmojis, cache));
-			const maxUsers = parseInt(this.evalMessage(data.maxUsers, cache));
-			const time = parseInt(this.evalMessage(data.time, cache));
+      const max = parseInt(this.evalMessage(data.max, cache))
+      const maxEmojis = parseInt(this.evalMessage(data.maxEmojis, cache))
+      const maxUsers = parseInt(this.evalMessage(data.maxUsers, cache))
+      const time = parseInt(this.evalMessage(data.time, cache))
 
-			msg.awaitReactions(function(reaction, user) {
-				try {
-					return !!eval(js);
-				} catch(e) {
-					return false;
-				}
-			}, {
-				max,
-				maxEmojis,
-				maxUsers,
-				time,
-				errors: ["time"]
-			})
-				.then((collected) => {
-					this.storeValue(collected.size === 1 ? collected.first() : collected.array(), storage, varName2, cache);
-					this.executeResults(true, data, cache);
-				})
-				.catch(() => this.executeResults(false, data, cache))
-				.catch((err) => console.error(err.stack || err));
-		}
-	},
+      msg.awaitReactions((reaction, user) => {
+        try {
+          return !!eval(js)
+        } catch (e) {
+          return false
+        }
+      }, {
+        max,
+        maxEmojis,
+        maxUsers,
+        time,
+        errors: ['time']
+      })
+        .then((collected) => {
+          this.storeValue(collected.size === 1 ? collected.first() : collected.array(), storage, varName2, cache)
+          this.executeResults(true, data, cache)
+        })
+        .catch(() => this.executeResults(false, data, cache))
+        .catch((err) => console.error(err.stack || err))
+    }
+  },
 
-	mod: function() {}
-};
+  mod () {}
+}

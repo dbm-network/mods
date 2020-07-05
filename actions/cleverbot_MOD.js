@@ -1,23 +1,23 @@
 module.exports = {
-	name: "Cleverbot",
-	section: "Other Stuff",
+  name: 'Cleverbot',
+  section: 'Other Stuff',
 
-	subtitle: function(data) {
-		const WhichAPI = ["cleverbot.io", "cleverbot.com"];
-		return `Speak with ${WhichAPI[parseInt(data.WhichAPI)]}!`;
-	},
+  subtitle (data) {
+    const WhichAPI = ['cleverbot.io', 'cleverbot.com']
+    return `Speak with ${WhichAPI[parseInt(data.WhichAPI)]}!`
+  },
 
-	variableStorage: function(data, varType) {
-		const type = parseInt(data.storage);
-		if(type !== varType) return;
-		let dataType = "Clever Response";
-		return ([data.varName2, dataType]);
-	},
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage)
+    if (type !== varType) return
+    const dataType = 'Clever Response'
+    return ([data.varName2, dataType])
+  },
 
-	fields: ["WhichAPI", "inputVarType", "inputVarName", "APIuser", "APIkey", "storage", "varName2"],
+  fields: ['WhichAPI', 'inputVarType', 'inputVarName', 'APIuser', 'APIkey', 'storage', 'varName2'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
 <div>
 	<div style="width: 45%; padding-top: 8px;">
@@ -70,74 +70,74 @@ module.exports = {
 		Copy the links to your browser.<br>
 		</p>
 	</div>
-</div>`;
-	},
+</div>`
+  },
 
-	init: function() {
-		const { glob, document } = this;
+  init () {
+    const { glob, document } = this
 
-		glob.variableChange(document.getElementById("inputVarType"), "varNameContainer");
-		glob.variableChange(document.getElementById("storage"), "varNameContainer2");
-	},
+    glob.variableChange(document.getElementById('inputVarType'), 'varNameContainer')
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer2')
+  },
 
-	action: function(cache) {
-		var _this = this;
+  action (cache) {
+    const _this = this
 
-		const data = cache.actions[cache.index];
-		const WhichAPI = parseInt(data.WhichAPI);
+    const data = cache.actions[cache.index]
+    const WhichAPI = parseInt(data.WhichAPI)
 
-		const type = parseInt(data.inputVarType);
-		const inVar = this.evalMessage(data.inputVarName, cache);
-		const Input = this.getVariable(type, inVar, cache);
+    const type = parseInt(data.inputVarType)
+    const inVar = this.evalMessage(data.inputVarName, cache)
+    const Input = this.getVariable(type, inVar, cache)
 
-		const storage = parseInt(data.storage);
-		const varName2 = this.evalMessage(data.varName2, cache);
+    const storage = parseInt(data.storage)
+    const varName2 = this.evalMessage(data.varName2, cache)
 
-		const Mods = this.getMods();
+    const Mods = this.getMods()
 
-		switch(WhichAPI) {
-			case 0:
-				const ioAPIuser = this.evalMessage(data.APIuser, cache);
-				const ioAPIkey = this.evalMessage(data.APIkey, cache);
-				if (!ioAPIuser) return console.log("Please enter a valid API User key from cleverbot.io!");
-				if (!ioAPIkey) return console.log("Please enter a valid API Key from cleverbot.io!");
+    switch (WhichAPI) {
+      case 0:
+        const ioAPIuser = this.evalMessage(data.APIuser, cache)
+        const ioAPIkey = this.evalMessage(data.APIkey, cache)
+        if (!ioAPIuser) return console.log('Please enter a valid API User key from cleverbot.io!')
+        if (!ioAPIkey) return console.log('Please enter a valid API Key from cleverbot.io!')
 
-				const cleverbotio = Mods.require("cleverbot.io");
-				const CLEVERBOT = new cleverbotio(ioAPIuser, ioAPIkey);
-				const session = CLEVERBOT.setNick("DBM Bot");
+        const cleverbotio = Mods.require('cleverbot.io')
+        const CLEVERBOT = new cleverbotio(ioAPIuser, ioAPIkey)
+        const session = CLEVERBOT.setNick('DBM Bot')
 
-				CLEVERBOT.create(function(err, session) {
-					if (err) return console.log("ERROR with cleverbot.io: " + err);
-					CLEVERBOT.ask(Input, function(err, response) {
-						if (err) return console.log("ERROR with cleverbot.io: " + err);
-						//Saving
-						if(response !== undefined) {
-							_this.storeValue(response, storage, varName2, cache);
-						}
-						_this.callNextAction(cache);
-					});
-				});
+        CLEVERBOT.create((err, session) => {
+          if (err) return console.log(`ERROR with cleverbot.io: ${err}`)
+          CLEVERBOT.ask(Input, (err, response) => {
+            if (err) return console.log(`ERROR with cleverbot.io: ${err}`)
+            // Saving
+            if (response !== undefined) {
+              _this.storeValue(response, storage, varName2, cache)
+            }
+            _this.callNextAction(cache)
+          })
+        })
 
-				break;
-			case 1:
-				const cleverbotcom = Mods.require("cleverbot-node");
-				const clbot = new cleverbotcom;
-				const comAPIkey = this.evalMessage(data.APIkey, cache);
+        break
+      case 1:
+        const cleverbotcom = Mods.require('cleverbot-node')
+        const clbot = new cleverbotcom()
+        const comAPIkey = this.evalMessage(data.APIkey, cache)
 
-				if (!comAPIkey) return console.log("Please enter a valid API Key from cleverbot.com!");
-				clbot.configure({ botapi: comAPIkey });
+        if (!comAPIkey) return console.log('Please enter a valid API Key from cleverbot.com!')
+        clbot.configure({ botapi: comAPIkey })
 
-				clbot.write(Input, function(response) {
-					if(response.output !== undefined) {
-						_this.storeValue(response.output, storage, varName2, cache);
-					} else {
-						console.log("cleverbot.com doesn't like this. Check your API key and your input!");
-					}
-					_this.callNextAction(cache);
-				});
-				break;
-		}
-	},
+        clbot.write(Input, (response) => {
+          if (response.output !== undefined) {
+            _this.storeValue(response.output, storage, varName2, cache)
+          } else {
+            console.log("cleverbot.com doesn't like this. Check your API key and your input!")
+          }
+          _this.callNextAction(cache)
+        })
+        break
+    }
+  },
 
-	mod: function() {}
-};
+  mod () {}
+}

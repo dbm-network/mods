@@ -1,23 +1,23 @@
 module.exports = {
-	name: "Set slowmode MOD",
-	section: "Channel Control",
+  name: 'Set slowmode MOD',
+  section: 'Channel Control',
 
-	subtitle: function(data) {
-		const names = ["Same Channel", "Mentioned Channel", "Default Channel", "Temp Variable", "Server Variable", "Global Variable"];
-		const index = parseInt(data.storage);
-		return index < 3 ? `Set slowmode : ${names[index]}` : `Set slowmode : ${names[index]} - ${data.varName}`;
-	},
+  subtitle (data) {
+    const names = ['Same Channel', 'Mentioned Channel', 'Default Channel', 'Temp Variable', 'Server Variable', 'Global Variable']
+    const index = parseInt(data.storage)
+    return index < 3 ? `Set slowmode : ${names[index]}` : `Set slowmode : ${names[index]} - ${data.varName}`
+  },
 
-	variableStorage: function(data, varType) {
-		const type = parseInt(data.storage2);
-		if(type !== varType) return;
-		return ([data.varName2, "Channel"]);
-	},
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage2)
+    if (type !== varType) return
+    return ([data.varName2, 'Channel'])
+  },
 
-	fields: ["storage", "varName", "varName2", "amount", "reason"],
+  fields: ['storage', 'varName', 'varName2', 'amount', 'reason'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 <div style="padding-top: 8px;">
 	<div style="float: left; width: 35%;" padding-top: 16px;">
 		Source Channel:<br>
@@ -41,30 +41,30 @@ module.exports = {
 	<div id="varNameContainer2" style="display: none; padding-left: 5%; float: left; width: 65%;">
 		Variable Name:<br>
 		<input id="varName2" class="round" type="text">
-	</div>`;
-	},
+	</div>`
+  },
 
-	action: function(cache) {
-		const data = cache.actions[cache.index];
-		const server = cache.server;
-		const storage = parseInt(data.storage);
-		const varName = this.evalMessage(data.varName, cache);
-		const channel = this.getChannel(storage, varName, cache);
-		const name = channel.name;
-		const amount = this.evalMessage(data.amount, cache);
-		const reason = this.evalMessage(data.reason, cache);
-		const type = channel.type;
-		if (type == "text") {
-			if (reason !== null) {
-				channel.setRateLimitPerUser(amount, reason);
-			} else {
-				channel.setRateLimitPerUser(amount);
-			}
-		} else {
-			this.callNextAction(cache);
-			console.log("This channel isn't a channel.");
-		}
-	},
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const { server } = cache
+    const storage = parseInt(data.storage)
+    const varName = this.evalMessage(data.varName, cache)
+    const channel = this.getChannel(storage, varName, cache)
+    const { name } = channel
+    const amount = this.evalMessage(data.amount, cache)
+    const reason = this.evalMessage(data.reason, cache)
+    const { type } = channel
+    if (type == 'text') {
+      if (reason !== null) {
+        channel.setRateLimitPerUser(amount, reason)
+      } else {
+        channel.setRateLimitPerUser(amount)
+      }
+    } else {
+      this.callNextAction(cache)
+      console.log("This channel isn't a channel.")
+    }
+  },
 
-	mod: function() {}
-};
+  mod () {}
+}

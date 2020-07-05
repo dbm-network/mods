@@ -1,16 +1,16 @@
 module.exports = {
-	name: "Send Mail",
+  name: 'Send Mail',
 
-	section: "Other Stuff",
+  section: 'Other Stuff',
 
-	subtitle: function(data) {
-		return `from:"${data.username}" to: "${data.mailto}"`;
-	},
+  subtitle (data) {
+    return `from:"${data.username}" to: "${data.mailto}"`
+  },
 
-	fields: ["username", "password", "mailto", "subject", "type", "text", "iffalse", "iffalseVal", "hostname", "portname", "sec"],
+  fields: ['username', 'password', 'mailto', 'subject', 'type', 'text', 'iffalse', 'iffalseVal', 'hostname', 'portname', 'sec'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 	<div style="width: 550px; height: 350px; overflow-y: scroll;">
 		<div>
 			<u>Helpful Information</u><br>
@@ -72,86 +72,86 @@ module.exports = {
 				<input id="iffalseVal" class="round" type="text">
 			</div>
 		</div>
-	</div>`;
-	},
-	init: function() {
-		const { glob, document } = this;
-		glob.onChangeFalse = function(event) {
-			switch (parseInt(event.value)) {
-				case 0:
-				case 1:
-					document.getElementById("iffalseContainer").style.display = "none";
-					break;
-				case 2:
-					document.getElementById("iffalseName").innerHTML = "Action Number";
-					document.getElementById("iffalseContainer").style.display = null;
-					break;
-				case 3:
-					document.getElementById("iffalseName").innerHTML = "Number of Actions to Skip";
-					document.getElementById("iffalseContainer").style.display = null;
-					break;
-				case 4:
-					document.getElementById("iffalseName").innerHTML = "Anchor ID";
-					document.getElementById("iffalseContainer").style.display = null;
-					break;
-			}
-		};
-		glob.onChangeFalse(document.getElementById("iffalse"));
-	},
+	</div>`
+  },
+  init () {
+    const { glob, document } = this
+    glob.onChangeFalse = function (event) {
+      switch (parseInt(event.value)) {
+        case 0:
+        case 1:
+          document.getElementById('iffalseContainer').style.display = 'none'
+          break
+        case 2:
+          document.getElementById('iffalseName').innerHTML = 'Action Number'
+          document.getElementById('iffalseContainer').style.display = null
+          break
+        case 3:
+          document.getElementById('iffalseName').innerHTML = 'Number of Actions to Skip'
+          document.getElementById('iffalseContainer').style.display = null
+          break
+        case 4:
+          document.getElementById('iffalseName').innerHTML = 'Anchor ID'
+          document.getElementById('iffalseContainer').style.display = null
+          break
+      }
+    }
+    glob.onChangeFalse(document.getElementById('iffalse'))
+  },
 
-	action: function(cache) {
-		const _this = this;
-		const data = cache.actions[cache.index];
-		const username = this.evalMessage(data.username, cache);
-		const password = this.evalMessage(data.password, cache);
-		const mailto = this.evalMessage(data.mailto, cache);
-		const subjectvalue = this.evalMessage(data.subject, cache);
-		const textvalue = this.evalMessage(data.text, cache);
-		const typevalue = parseInt(data.type);
-		const hostname = this.evalMessage(data.hostname, cache);
-		const portname = this.evalMessage(data.portname, cache);
-		const sec = this.evalMessage(data.sec, cache);
-		const nodemailer = require("nodemailer");
-		var transporter = nodemailer.createTransport({
-			host: hostname,
-			port: portname,
-			secure: sec,
-			auth: {
-				user: username,
-				pass: password
-			}
-		});
+  action (cache) {
+    const _this = this
+    const data = cache.actions[cache.index]
+    const username = this.evalMessage(data.username, cache)
+    const password = this.evalMessage(data.password, cache)
+    const mailto = this.evalMessage(data.mailto, cache)
+    const subjectvalue = this.evalMessage(data.subject, cache)
+    const textvalue = this.evalMessage(data.text, cache)
+    const typevalue = parseInt(data.type)
+    const hostname = this.evalMessage(data.hostname, cache)
+    const portname = this.evalMessage(data.portname, cache)
+    const sec = this.evalMessage(data.sec, cache)
+    const nodemailer = require('nodemailer')
+    const transporter = nodemailer.createTransport({
+      host: hostname,
+      port: portname,
+      secure: sec,
+      auth: {
+        user: username,
+        pass: password
+      }
+    })
 
-		let mailOptions;
-		switch(typevalue) {
-			case 0:
-				mailOptions = {
-					from: username,
-					to: mailto,
-					subject: subjectvalue,
-					text: textvalue
-				};
-				break;
-			case 1:
-				mailOptions = {
-					from: username,
-					to: mailto,
-					subject: subjectvalue,
-					html: textvalue
-				};
-				break;
-		}
+    let mailOptions
+    switch (typevalue) {
+      case 0:
+        mailOptions = {
+          from: username,
+          to: mailto,
+          subject: subjectvalue,
+          text: textvalue
+        }
+        break
+      case 1:
+        mailOptions = {
+          from: username,
+          to: mailto,
+          subject: subjectvalue,
+          html: textvalue
+        }
+        break
+    }
 
-		transporter.sendMail(mailOptions, function(error, info){
-			if (error) {
-				console.log(error);
-				_this.executeResults(false, data, cache);
-			} else {
-				console.log("Email successfully sent to: " + mailto);
-				_this.callNextAction(cache);
-			}
-		});
-	},
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log(error)
+        _this.executeResults(false, data, cache)
+      } else {
+        console.log(`Email successfully sent to: ${mailto}`)
+        _this.callNextAction(cache)
+      }
+    })
+  },
 
-	mod: function() {}
-};
+  mod () {}
+}

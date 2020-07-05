@@ -1,23 +1,23 @@
 module.exports = {
-	name: "Loop through Folder",
-	section: "Lists and Loops",
+  name: 'Loop through Folder',
+  section: 'Lists and Loops',
 
-	subtitle: function(data) {
-		return "Loops through folder, and turns filenames into array";
-	},
+  subtitle (data) {
+    return 'Loops through folder, and turns filenames into array'
+  },
 
-	variableStorage: function(data, varType) {
-		const type = parseInt(data.storage);
-		if (type !== varType) return;
-		const filename = parseInt(data.filename);
-		let dataType = "Array";
-		return ([data.varName2, dataType]);
-	},
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage)
+    if (type !== varType) return
+    const filename = parseInt(data.filename)
+    const dataType = 'Array'
+    return ([data.varName2, dataType])
+  },
 
-	fields: ["filename", "storage", "varName2"],
+  fields: ['filename', 'storage', 'varName2'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 <div>
     <p>
         <u>Notice:</u><br>
@@ -41,30 +41,30 @@ module.exports = {
         Variable Name:<br>
         <input id="varName2" class="round" type="text"><br>
     </div>
-</div>`;
-	},
+</div>`
+  },
 
-	init: function() {},
+  init () {},
 
-	action: function(cache) {
-		const
-			data = cache.actions[cache.index],
-			fs = require("fs"),
-			FOLDERPATH = this.evalMessage(data.filename, cache);
-		var output = {};
-		try {
-			if (FOLDERPATH) {
-				output = fs.readdirSync(FOLDERPATH);
-				this.storeValue(output, parseInt(data.storage), this.evalMessage(data.varName2, cache), cache);
-			} else {
-				console.log("Path is missing.");
-			}
-		} catch (err) {
-			console.error("ERROR!" + err.stack ? err.stack : err);
-		}
-		this.callNextAction(cache);
-	},
+  action (cache) {
+    const
+      data = cache.actions[cache.index]
+    const fs = require('fs')
+    const FOLDERPATH = this.evalMessage(data.filename, cache)
+    let output = {}
+    try {
+      if (FOLDERPATH) {
+        output = fs.readdirSync(FOLDERPATH)
+        this.storeValue(output, parseInt(data.storage), this.evalMessage(data.varName2, cache), cache)
+      } else {
+        console.log('Path is missing.')
+      }
+    } catch (err) {
+      console.error(`ERROR!${err.stack}` ? err.stack : err)
+    }
+    this.callNextAction(cache)
+  },
 
-	mod: function() {}
+  mod () {}
 
-};
+}

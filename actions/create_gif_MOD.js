@@ -1,21 +1,21 @@
 module.exports = {
-	name: "Create GIF",
-	section: "Image Editing",
+  name: 'Create GIF',
+  section: 'Image Editing',
 
-	subtitle: function(data) {
-		return `${data.url}`;
-	},
+  subtitle (data) {
+    return `${data.url}`
+  },
 
-	variableStorage: function(data, varType) {
-		const type = parseInt(data.storage);
-		if(type !== varType) return;
-		return ([data.varName, "GIF"]);
-	},
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage)
+    if (type !== varType) return
+    return ([data.varName, 'GIF'])
+  },
 
-	fields: ["url", "storage", "varName"],
+  fields: ['url', 'storage', 'varName'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 <div>
 	Local/Web URL:<br>
 	<input id="url" class="round" type="text" value="resources/" style="float: left; width: 504px;">
@@ -31,32 +31,32 @@ module.exports = {
 		Variable Name:<br>
 		<input id="varName" class="round" type="text"><br>
 	</div>
-</div>`;
-	},
+</div>`
+  },
 
-	init: function() {},
+  init () {},
 
-	action: function(cache) {
-		const data = cache.actions[cache.index];
-		const obj = this.evalMessage(data.url, cache);
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const obj = this.evalMessage(data.url, cache)
 
-		let gif;
-		if(!obj.startsWith("http")) {
-			gif = this.getLocalFile(obj);
-		} else {
-			gif = obj;
-		}
+    let gif
+    if (!obj.startsWith('http')) {
+      gif = this.getLocalFile(obj)
+    } else {
+      gif = obj
+    }
 
-		if(!gif.includes(".gif")) {
-			console.log("This isn't a GIF");
-			this.callNextAction(cache);
-		}
+    if (!gif.includes('.gif')) {
+      console.log("This isn't a GIF")
+      this.callNextAction(cache)
+    }
 
-		const varName = this.evalMessage(data.varName, cache);
-		const storage = parseInt(data.storage);
-		this.storeValue(gif, storage, varName, cache);
-		this.callNextAction(cache);
-	},
+    const varName = this.evalMessage(data.varName, cache)
+    const storage = parseInt(data.storage)
+    this.storeValue(gif, storage, varName, cache)
+    this.callNextAction(cache)
+  },
 
-	mod: function() {}
-};
+  mod () {}
+}

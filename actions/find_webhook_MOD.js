@@ -1,21 +1,21 @@
 module.exports = {
-	name: "Find Webhook",
-	section: "Webhook Control",
+  name: 'Find Webhook',
+  section: 'Webhook Control',
 
-	subtitle: function(data) {
-		return `${data.id}`;
-	},
+  subtitle (data) {
+    return `${data.id}`
+  },
 
-	variableStorage: function(data, varType) {
-		const type = parseInt(data.storage);
-		if(type !== varType) return;
-		return ([data.varName, "Webhook"]);
-	},
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage)
+    if (type !== varType) return
+    return ([data.varName, 'Webhook'])
+  },
 
-	fields: ["id", "token", "storage", "varName"],
+  fields: ['id', 'token', 'storage', 'varName'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 <div>
 	<div style="float: left; width: 40%;">
 		Webhook ID:<br>
@@ -37,28 +37,28 @@ module.exports = {
 		Variable Name:<br>
 		<input id="varName" class="round" type="text">
 	</div>
-</div>`;
-	},
+</div>`
+  },
 
-	init: function() {},
+  init () {},
 
-	action: function(cache) {
-		const DiscordJS = this.getDBM().DiscordJS;
-		const data = cache.actions[cache.index];
-		const id = this.evalMessage(data.id, cache);
-		const token = this.evalMessage(data.token, cache);
+  action (cache) {
+    const { DiscordJS } = this.getDBM()
+    const data = cache.actions[cache.index]
+    const id = this.evalMessage(data.id, cache)
+    const token = this.evalMessage(data.token, cache)
 
-		var result = new DiscordJS.WebhookClient(id, token);
+    const result = new DiscordJS.WebhookClient(id, token)
 
-		if(result !== undefined) {
-			const storage = parseInt(data.storage);
-			const varName = this.evalMessage(data.varName, cache);
-			this.storeValue(result, storage, varName, cache);
-			this.callNextAction(cache);
-		} else {
-			this.callNextAction(cache);
-		}
-	},
+    if (result !== undefined) {
+      const storage = parseInt(data.storage)
+      const varName = this.evalMessage(data.varName, cache)
+      this.storeValue(result, storage, varName, cache)
+      this.callNextAction(cache)
+    } else {
+      this.callNextAction(cache)
+    }
+  },
 
-	mod: function() {}
-};
+  mod () {}
+}
