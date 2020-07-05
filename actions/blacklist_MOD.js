@@ -66,6 +66,7 @@ module.exports = {
         console.log("Update your blacklist_MOD.js, the selected option doesn't exist.")
         break
     }
+    this.callNextAction(cache)
   },
 
   mod (DBM) {
