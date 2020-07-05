@@ -23,41 +23,36 @@
 - [Downloads](#downloads)
   - [Installing mods](#installing-dbm-mods)
   - [Installing beta](#installing-dbm-beta)
-** **
 
 ## Overview
 
 DBM Mods is a community driven open source project meant to modify, extend, and improve [Discord Bot Maker](https://store.steampowered.com/app/682130/Discord_Bot_Maker/).
 
-** **
 # Downloads
 
 This repository is not meant to be downloaded or cloned. Please follow the installation guide below.
 
 ## Installing DBM Mods
 
-**DBM Mods** requires **Discord Bot Maker Beta** to work properly ([Installation Guide](#installing-dbm-beta))  
-
 1.  Close Discord Bot Maker
 2.  Open your Steam Library and find Discord Bot Maker in the Software section
 3.  Right-click it, then click Properties → Local Files → Browse Local Files
 4.  Open the "actions" folder
-5.  Download the [DBM Mods files](https://dbm-network.github.io/download-git/#/home?url=https://github.com/dbm-network/mods/tree/beta/actions)  
+5.  Download the [DBM Mods files]('https://dbm-network.github.io/download-git/#/home?url=https://github.com/dbm-network/mods/tree/old_version_v1.5/actions)  
     (There is no need to clone or download the Git repository)
 6.  Extract the contents of the .zip file into Discord Bot Maker's actions folder  
     (Overwrite existing files if asked)
 
 **IMPORTANT: Repeat steps 4 to 6 in your bot project's "actions" folder**
 ** **
+## Installing 1.5.0
 
-## Installing DBM Beta
-
-**Before starting:** Switching to Beta with encryption enabled _will_ cause you to lose all of your bot's data. Disable encryption and make backups of your bot project's "data" folder before continuing.
+**Before starting:** Switching to 1.5.0 with encryption enabled _will_ cause you to lose all of your bot's data. Disable encryption and make backups of your bot project's "data" folder before continuing.
 
 1.  Close Discord Bot Maker
 2.  Open your Steam Library and find Discord Bot Maker in the Software section
 3.  Right-click it, then click Properties → Beta
-4.  Select "beta" in the drop-down menu  
+4.  Select "old_version_v1.5" in the drop-down menu  
     (No key is required)
 5.  Steam should now update DBM  
     (Repeat these steps if it doesn't)
