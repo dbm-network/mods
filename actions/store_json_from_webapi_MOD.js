@@ -120,9 +120,9 @@ module.exports = {
 			try {
 				function storeData(error, res, jsonData) {
 					var statusCode = res ? res.statusCode : 200;
-
+					var errorJson;
 					if(error){
-						var errorJson = JSON.stringify({ error, statusCode });
+						errorJson = JSON.stringify({ error, statusCode });
 						_this.storeValue(errorJson, storage, varName, cache);
 
 						console.error("WebAPI: Error: " + errorJson + " stored to: ["+ varName+"]");
@@ -135,7 +135,7 @@ module.exports = {
 							try {
 								var test = JSON.parse(JSON.stringify(outData));
 							} catch (error) {
-								var errorJson = JSON.stringify({ error: error, statusCode: statusCode, success: false });
+								errorJson = JSON.stringify({ error: error, statusCode: statusCode, success: false });
 								_this.storeValue(errorJson, storage, varName, cache);
 								console.error(error.stack ? error.stack : error);
 							}
@@ -144,15 +144,15 @@ module.exports = {
 
 							if(!outData){
 								console.error("WebAPI: Error: " + errorJson + " NO JSON data returned. Check the URL: "+ url);
-								var errorJson = JSON.stringify({ error:"No JSON Data Returned", statusCode: 0 });
+								errorJson = JSON.stringify({ error:"No JSON Data Returned", statusCode: 0 });
 								_this.storeValue(errorJson, storage, varName, cache);
 							}else if(outData.success != null){
-								var errorJson = JSON.stringify({ error: error, statusCode: statusCode, success: false });
+								errorJson = JSON.stringify({ error: error, statusCode: statusCode, success: false });
 								_this.storeValue(errorJson, storage, varName, cache);
 								console.log("WebAPI: Error Invalid JSON, is the Path and/or URL set correctly? [" + path + "]");
 							}else{
 								if(outValue.success != null || !outValue){
-									var errorJson = JSON.stringify({ error: error, statusCode: statusCode, success: false });
+									errorJson = JSON.stringify({ error: error, statusCode: statusCode, success: false });
 									_this.storeValue(errorJson, storage, varName, cache);
 									console.log("WebAPI: Error Invalid JSON, is the Path and/or URL set correctly? [" + path + "]");
 								}else{
