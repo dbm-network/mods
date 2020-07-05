@@ -19,18 +19,6 @@
 
 - [Overview](#overview)
 - [Downloads](#downloads)
-  - [Installing mods](#installing-dbm-mods)
-
-** **
-
-
-# Table of Contents
-
-- [Overview](#overview)
-- [Downloads](#downloads)
-  - [Installing mods](#installing-dbm-mods)
-  - [Installing beta](#installing-dbm-beta)
-** **
 
 ## Overview
 
@@ -41,8 +29,6 @@ DBM Mods is a community driven open source project meant to modify, extend, and 
 # Downloads
 
 This repository is not meant to be downloaded or cloned. Please follow the installation guide below.
-
-## Installing DBM Mods
 
 1.  Close Discord Bot Maker
 2.  Open your Steam Library and find Discord Bot Maker in the Software section
