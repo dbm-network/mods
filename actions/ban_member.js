@@ -52,12 +52,12 @@ module.exports = {
 
 		glob.user = function(element, container) {
 			if (element.value == 5) {
-				document.getElementById(container).childNodes[0].nodeValue = "User ID:"
+				document.getElementById(container).childNodes[0].nodeValue = "User ID:";
 			} else {
-				document.getElementById(container).childNodes[0].nodeValue = "Variable Name:"
+				document.getElementById(container).childNodes[0].nodeValue = "Variable Name:";
 			}
 			glob.memberChange(element, container);
-		}
+		};
 
 		glob.user(document.getElementById("member"), "varNameContainer");
 		glob.serverChange(document.getElementById("guild"), "varNameContainer2");
