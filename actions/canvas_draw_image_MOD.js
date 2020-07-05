@@ -12,47 +12,47 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div>
-	<div style="float: left; width: 45%;">
-		Source Image:<br>
-		<select id="storage" class="round" onchange="glob.refreshVariableList(this)">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="float: right; width: 50%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList"><br>
-	</div>
+  <div style="float: left; width: 45%;">
+    Source Image:<br>
+    <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="float: right; width: 50%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text" list="variableList"><br>
+  </div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
-	<div style="float: left; width: 45%;">
-		Image that is Drawn:<br>
-		<select id="storage2" class="round">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer2" style="float: right; width: 50%;">
-		Variable Name:<br>
-		<input id="varName2" class="round" type="text" list="variableList"><br>
-	</div>
+  <div style="float: left; width: 45%;">
+    Image that is Drawn:<br>
+    <select id="storage2" class="round">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer2" style="float: right; width: 50%;">
+    Variable Name:<br>
+    <input id="varName2" class="round" type="text" list="variableList"><br>
+  </div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
-	<div style="float: left; width: 50%;">
-		X Position:<br>
-		<input id="x" class="round" type="text" value="0"><br>
-	</div>
-	<div style="float: right; width: 50%;">
-		Y Position:<br>
-		<input id="y" class="round" type="text" value="0"><br>
-	</div>
+  <div style="float: left; width: 50%;">
+    X Position:<br>
+    <input id="x" class="round" type="text" value="0"><br>
+  </div>
+  <div style="float: right; width: 50%;">
+    Y Position:<br>
+    <input id="y" class="round" type="text" value="0"><br>
+  </div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
-	<div style="float: left; width: 45%;">
-		Draw Effect:<br>
-		<select id="effect" class="round">
-			<option value="0" selected>Overlay</option>
-			<option value="1">Mask</option>
-		</select>
-	</div>
+  <div style="float: left; width: 45%;">
+    Draw Effect:<br>
+    <select id="effect" class="round">
+      <option value="0" selected>Overlay</option>
+      <option value="1">Mask</option>
+    </select>
+  </div>
 </div>`
   },
 

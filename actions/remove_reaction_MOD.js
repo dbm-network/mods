@@ -12,28 +12,28 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div>
-	<div style="float: left; width: 35%;">
-		Source Reaction:<br>
-		<select id="reaction" class="round" onchange="glob.refreshVariableList(this)">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList"><br>
-	</div>
+  <div style="float: left; width: 35%;">
+    Source Reaction:<br>
+    <select id="reaction" class="round" onchange="glob.refreshVariableList(this)">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text" list="variableList"><br>
+  </div>
 </div><br><br><br><br>
 <div>
-	<div style="float: left; width: 35%;">
-		Source Member:<br>
-		<select id="member" class="round" onchange="glob.memberChange(this, 'varNameContainer2')">
-			${data.members[isEvent ? 1 : 0]}
-		</select>
-	</div>
-	<div id="varNameContainer2" style="display: none; float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName2" class="round" type="text" list="variableList"><br>
-	</div>
+  <div style="float: left; width: 35%;">
+    Source Member:<br>
+    <select id="member" class="round" onchange="glob.memberChange(this, 'varNameContainer2')">
+      ${data.members[isEvent ? 1 : 0]}
+    </select>
+  </div>
+  <div id="varNameContainer2" style="display: none; float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName2" class="round" type="text" list="variableList"><br>
+  </div>
 </div>`
   },
 
@@ -58,7 +58,7 @@ module.exports = {
 
     if (!Mods) return
     if (!rea) {
-      console.log('This is not a reaction') // Variable is not a reaction -> Error
+      console.log('This is not a reaction')
       this.callNextAction(cache)
     }
 

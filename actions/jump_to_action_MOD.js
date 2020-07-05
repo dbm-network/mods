@@ -11,11 +11,11 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div>
-	<div id="varNameContainer" style="float: left; width: 60%;">
-		Jump to Action:<br>
-		<input id="call" class="round" type="number">
-	</div>
-</div><br><br><br>`
+  <div id="varNameContainer" style="float: left; width: 60%;">
+    Jump to Action:<br>
+    <input id="call" class="round" type="number">
+  </div>
+</div>`
   },
 
   init () {},

@@ -21,46 +21,46 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-    <div>
-      <div style="float: left; width: 46%;">
-        Width(px):<br>
-        <input id="width" class="round" type="text"><br>
-      </div>
-      <div style="padding-left: 3px; float: left; width: 49%;">
-        Height(px):<br>
-        <input id="height" class="round" type="text"><br>
-      </div>
-    </div><br><br><br>
-    <div>
-      <div style="float: left; width: 92%;">
-        Fill:
-        <select id="info" class="round" onchange="glob.onChange0(this)">
-          <option value="0" selected>Solid Color</option>
-          <option value="1">Gradient Color</option>
-        </select>
-      <div>
-    <div><br>
-      <div id="Gradient" style="display: none; float: left; width: 109%;">
-        Gradient:<br>
-        <textarea id="gradient" rows="5" placeholder="Insert var lingrad = ctx.createLinearGradient()... here" style="width: 92%; white-space: nowrap;"></textarea><br>
-      </div>
-      <div id="Solid" style="float: left; width: 111%;">
-        Color:<br>
-        <input id="color" class="round" type="text" placeholder="Insert Color Hex code here"><br>
-      </div>
-    <div><br><br><br>
-    <div>
-      <div style="float: left; width: 35%;">
-        Store In:<br>
-        <select id="storage" class="round">
-          ${data.variables[1]}
-        </select>
-      </div>
-      <div style="float: right; width: 60%;">
-        Variable Name:<br>
-        <input id="varName" class="round" type="text"><br>
-      </div>
-    </div>`
+<div>
+  <div style="float: left; width: 46%;">
+    Width(px):<br>
+    <input id="width" class="round" type="text"><br>
+  </div>
+  <div style="padding-left: 3px; float: left; width: 49%;">
+    Height(px):<br>
+    <input id="height" class="round" type="text"><br>
+  </div>
+</div><br><br><br>
+<div>
+  <div style="float: left; width: 92%;">
+    Fill:
+    <select id="info" class="round" onchange="glob.onChange0(this)">
+      <option value="0" selected>Solid Color</option>
+      <option value="1">Gradient Color</option>
+    </select>
+  <div>
+<div><br>
+  <div id="Gradient" style="display: none; float: left; width: 109%;">
+    Gradient:<br>
+    <textarea id="gradient" rows="5" placeholder="Insert var lingrad = ctx.createLinearGradient()... here" style="width: 92%; white-space: nowrap;"></textarea><br>
+  </div>
+  <div id="Solid" style="float: left; width: 111%;">
+    Color:<br>
+    <input id="color" class="round" type="text" placeholder="Insert Color Hex code here"><br>
+  </div>
+<div><br><br><br>
+<div>
+  <div style="float: left; width: 35%;">
+    Store In:<br>
+    <select id="storage" class="round">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text"><br>
+  </div>
+</div>`
   },
 
   init () {

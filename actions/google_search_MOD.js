@@ -30,43 +30,43 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-	<div style="width: 95%; padding-top: 8px;">
-		String(s) to Search on Google:<br>
-		<textarea id="string" rows="5" placeholder="Write something or use variables to Google search it..." style="width: 100%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
-	 </div><br>
-	 <div style="float: left; width: 45%; padding-top: 8px;">
-		Source Info:<br>
-		<select id="info" class="round">
-			<option value="0">Result Title</option>
-			<option value="1">Result URL</option>
-			<option value="2">Result Snippet (Description)</option>
-		</select>
-	</div>
-	<div style="float: left; width: 50%; padding-left: 10px; padding-top: 8px;">
-		Result Number:<br>
-		<select id="resultNo" class="round">
-			<option value="0">1st Result</option>
-			<option value="1">2nd Result</option>
-			<option value="2">3rd Result</option>
-			<option value="3">4th Result</option>
-			<option value="4">5th Result</option>
-			<option value="5">6th Result</option>
-			<option value="6">7th Result</option>
-			<option value="7">8th Result</option>
-			<option value="8">9th Result</option>
-			<option value="9">10th Result</option>
-		</select>
-	</div><br><br>
-		<div style="float: left; width: 43%; padding-top: 8px;">
-			Store In:<br>
-			<select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-				${data.variables[0]}
-			</select>
-		</div>
-		<div id="varNameContainer" style="float: right; width: 53%; padding-top: 8px;">
-			Variable Name:<br>
-			<input id="varName" class="round" type="text"><br>
-		</div>`
+<div style="width: 95%; padding-top: 8px;">
+  String(s) to Search on Google:<br>
+  <textarea id="string" rows="5" placeholder="Write something or use variables to Google search it..." style="width: 100%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+  </div><br>
+  <div style="float: left; width: 45%; padding-top: 8px;">
+  Source Info:<br>
+  <select id="info" class="round">
+    <option value="0">Result Title</option>
+    <option value="1">Result URL</option>
+    <option value="2">Result Snippet (Description)</option>
+  </select>
+</div>
+<div style="float: left; width: 50%; padding-left: 10px; padding-top: 8px;">
+  Result Number:<br>
+  <select id="resultNo" class="round">
+    <option value="0">1st Result</option>
+    <option value="1">2nd Result</option>
+    <option value="2">3rd Result</option>
+    <option value="3">4th Result</option>
+    <option value="4">5th Result</option>
+    <option value="5">6th Result</option>
+    <option value="6">7th Result</option>
+    <option value="7">8th Result</option>
+    <option value="8">9th Result</option>
+    <option value="9">10th Result</option>
+  </select>
+</div><br><br>
+  <div style="float: left; width: 43%; padding-top: 8px;">
+    Store In:<br>
+    <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
+      ${data.variables[0]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="float: right; width: 53%; padding-top: 8px;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text"><br>
+  </div>`
   },
 
   init () {

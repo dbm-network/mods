@@ -11,29 +11,28 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div style="padding-top: 8px;">
-	<div style="float: left; width: 35%;">
-		Source Webhook:<br>
-		<select id="storage" class="round" onchange="glob.refreshVariableList(this)">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList"><br>
-	</div>
+  <div style="float: left; width: 35%;">
+    Source Webhook:<br>
+    <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text" list="variableList"><br>
+  </div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
-	<div style="float: left; width: 35%;">
-		Source Embed Object:<br>
-		<select id="storage2" class="round" onchange="glob.refreshVariableList(this, 'varNameContainer2')">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer2" style="float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName2" class="round" type="text" list="variableList"><br>
-</div>
-`
+  <div style="float: left; width: 35%;">
+    Source Embed Object:<br>
+    <select id="storage2" class="round" onchange="glob.refreshVariableList(this, 'varNameContainer2')">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer2" style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName2" class="round" type="text" list="variableList"><br>
+</div>`
   },
 
   init () {

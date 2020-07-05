@@ -18,30 +18,30 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div>
-	<div style="padding-top: 8px; width: 70%;">
-		Time Info:<br>
-		<select id="type" class="round">
-			<option value="0" selected>UTC Year</option>
-			<option value="1">UTC Month</option>
-			<option value="2">UTC Day of the Month</option>
-			<option value="3">UTC Hour</option>
-			<option value="4">UTC Minute</option>
-			<option value="5">UTC Second</option>
-			<option value="6">UTC Millisecond</option>
-		</select>
-	</div>
+  <div style="padding-top: 8px; width: 70%;">
+    Time Info:<br>
+    <select id="type" class="round">
+      <option value="0" selected>UTC Year</option>
+      <option value="1">UTC Month</option>
+      <option value="2">UTC Day of the Month</option>
+      <option value="3">UTC Hour</option>
+      <option value="4">UTC Minute</option>
+      <option value="5">UTC Second</option>
+      <option value="6">UTC Millisecond</option>
+    </select>
+  </div>
 </div><br>
 <div>
-	<div style="float: left; width: 35%;">
-		Store In:<br>
-		<select id="storage" class="round">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text"><br>
-	</div>
+  <div style="float: left; width: 35%;">
+    Store In:<br>
+    <select id="storage" class="round">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text"><br>
+  </div>
 </div>`
   },
 

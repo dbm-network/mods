@@ -12,18 +12,17 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div>
-	<div style="float: left; width: 35%;">
-		Source Server:<br>
-		<select id="server" class="round" onchange="glob.serverChange(this, 'varNameContainer')">
-			${data.servers[isEvent ? 1 : 0]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="display: none; float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList"><br>
-	</div>
-</div>
-`
+  <div style="float: left; width: 35%;">
+    Source Server:<br>
+    <select id="server" class="round" onchange="glob.serverChange(this, 'varNameContainer')">
+      ${data.servers[isEvent ? 1 : 0]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text" list="variableList"><br>
+  </div>
+</div>`
   },
 
   init () {
@@ -45,7 +44,7 @@ module.exports = {
     }
     if (queue && queue.length > 1) {
       const temp = JSON.stringify(queue)
-      while (JSON.stringify(queue) == temp) {
+      while (JSON.stringify(queue) === temp) {
         queue.sort(() => Math.random() - 0.5)
       }
       Audio.queue[targetServer.id] = queue

@@ -12,47 +12,47 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-	<div><p>This action has been modified by DBM Mods.</p></div><br>
+<div><p>This action has been modified by DBM Mods.</p></div><br>
 <div>
-	<div style="float: left; width: 35%;">
-		Source Variable:<br>
-		<select id="storage" class="round" onchange="glob.refreshVariableList(this)">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList">
-	</div>
+  <div style="float: left; width: 35%;">
+    Source Variable:<br>
+    <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text" list="variableList">
+  </div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
-	<div style="float: left; width: 35%;">
-		Comparison Type:<br>
-		<select id="comparison" class="round" onchange="glob.onChange1(this)">
-			<option value="0" selected>Exists</option>
-			<option value="1">Equals</option>
-			<option value="2">Equals Exactly</option>
-			<option value="3">Less Than</option>
-			<option value="13">Less Than or Equal to</option>
-			<option value="4">Greater Than</option>
-			<option value="14">Greater Than or Equal to</option>
-			<option value="5">Includes</option>
-			<option value="6">Matches Regex</option>
-			<option value="12">Matches Full Regex</option>
-			<option value="7">Length is Bigger Than</option>
-			<option value="8">Length is Smaller Than</option>
-			<option value="9">Length is Equals</option>
-			<option value="10">Starts With</option>
-			<option value="11">Ends With</option>
-		</select>
-	</div>
-	<div style="float: right; width: 60%; display: none;" id="directValue">
-		Value to Compare to:<br>
-		<input id="value" class="round" type="text" name="is-eval" placeholder="">
-	</div>
+  <div style="float: left; width: 35%;">
+    Comparison Type:<br>
+    <select id="comparison" class="round" onchange="glob.onChange1(this)">
+      <option value="0" selected>Exists</option>
+      <option value="1">Equals</option>
+      <option value="2">Equals Exactly</option>
+      <option value="3">Less Than</option>
+      <option value="13">Less Than or Equal to</option>
+      <option value="4">Greater Than</option>
+      <option value="14">Greater Than or Equal to</option>
+      <option value="5">Includes</option>
+      <option value="6">Matches Regex</option>
+      <option value="12">Matches Full Regex</option>
+      <option value="7">Length is Bigger Than</option>
+      <option value="8">Length is Smaller Than</option>
+      <option value="9">Length is Equals</option>
+      <option value="10">Starts With</option>
+      <option value="11">Ends With</option>
+    </select>
+  </div>
+  <div style="float: right; width: 60%; display: none;" id="directValue">
+    Value to Compare to:<br>
+    <input id="value" class="round" type="text" name="is-eval" placeholder="">
+  </div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
-	${data.conditions[0]}
+  ${data.conditions[0]}
 </div>`
   },
 
@@ -60,7 +60,7 @@ module.exports = {
     const { glob, document } = this
 
     glob.onChange1 = function (event) {
-      if (parseInt(event.value) == 0) {
+      if (parseInt(event.value) === 0) {
         document.getElementById('directValue').style.display = 'none'
       } else {
         document.getElementById('directValue').style.display = null
@@ -81,14 +81,14 @@ module.exports = {
     option.value = '4'
     option.text = 'Jump to Anchor'
     const iffalse = document.getElementById('iffalse')
-    if (iffalse.length == 4) {
+    if (iffalse.length === 4) {
       iffalse.add(option)
     }
     const option2 = document.createElement('OPTION')
     option2.value = '4'
     option2.text = 'Jump to Anchor'
     const iftrue = document.getElementById('iftrue')
-    if (iftrue.length == 4) {
+    if (iftrue.length === 4) {
       iftrue.add(option2)
     }
     glob.onChangeTrue = function (event) {
@@ -154,6 +154,7 @@ module.exports = {
           result = val1 !== undefined
           break
         case 1:
+          // eslint-disable-next-line eqeqeq
           result = val1 == val2
           break
         case 2:

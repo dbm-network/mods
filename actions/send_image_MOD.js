@@ -18,57 +18,56 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div>
-	<div style="float: left; width: 35%;">
-		Source Image:<br>
-		<select id="storage" class="round" onchange="glob.refreshVariableList(this)">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList"><br>
-	</div>
+  <div style="float: left; width: 35%;">
+    Source Image:<br>
+    <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text" list="variableList"><br>
+  </div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
-	<div style="float: left; width: 35%;">
-		Send To:<br>
-		<select id="channel" class="round" onchange="glob.sendTargetChange(this, 'varNameContainer2')">
-			${data.sendTargets[isEvent ? 1 : 0]}
-		</select>
-	</div>
-	<div id="varNameContainer2" style="display: none; float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName2" class="round" type="text"><br>
-	</div>
+  <div style="float: left; width: 35%;">
+    Send To:<br>
+    <select id="channel" class="round" onchange="glob.sendTargetChange(this, 'varNameContainer2')">
+      ${data.sendTargets[isEvent ? 1 : 0]}
+    </select>
+  </div>
+  <div id="varNameContainer2" style="display: none; float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName2" class="round" type="text"><br>
+  </div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
-	Message:
-	<textarea id="message" rows="3" placeholder="Insert message here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+  Message:
+  <textarea id="message" rows="3" placeholder="Insert message here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
 </div><br>
-	<div id="imageFormatField" style="float: left; width: 35%;">
-		Image Format:<br>
-		<select id="imageFormat" class="round">
-			<option value=".jpg">JPG</option>
-			<option value=".png">PNG</option>
-		</select>
-	</div>
-	<div id="imageNameField" style="float: right; width: 60%;">
-		Image Name:<br>
-		<input id="imageName" class="round" type="text">
-	</div><br><br><br>
+  <div id="imageFormatField" style="float: left; width: 35%;">
+    Image Format:<br>
+    <select id="imageFormat" class="round">
+      <option value=".jpg">JPG</option>
+      <option value=".png">PNG</option>
+    </select>
+  </div>
+  <div id="imageNameField" style="float: right; width: 60%;">
+    Image Name:<br>
+    <input id="imageName" class="round" type="text">
+  </div><br><br><br>
 <div>
-	<div style="float: left; width: 35%;">
-		Store In:<br>
-		<select id="storage2" class="round" onchange="glob.variableChange(this, 'varNameContainer3')">
-			${data.variables[0]}
-		</select>
-	</div>
-	<div id="varNameContainer3" style="display: none; float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName3" class="round" type="text">
-	</div>
-</div>
-	`
+  <div style="float: left; width: 35%;">
+    Store In:<br>
+    <select id="storage2" class="round" onchange="glob.variableChange(this, 'varNameContainer3')">
+      ${data.variables[0]}
+    </select>
+  </div>
+  <div id="varNameContainer3" style="display: none; float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName3" class="round" type="text">
+  </div>
+</div>`
   },
 
   init () {
@@ -81,8 +80,6 @@ module.exports = {
 
   action (cache) {
     const data = cache.actions[cache.index]
-    const { server } = cache
-    const { msg } = cache
     const storage = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
     const image = this.getVariable(storage, varName, cache)

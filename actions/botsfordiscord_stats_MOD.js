@@ -10,20 +10,20 @@ module.exports = {
 
   html () {
     return `
-    <div>
-      <p>
-        <u>Send Server Stats To BFD</u><br>
-        This will send your bot server count to Bots For Discord
-      </p>
-    </div>
-    <div id="modinfo">
-    <div style="float: left; width: 99%; padding-top: 8px;">
-        Your BFD token:<br>
-        <input id="BFDToken" class="round" type="text"><br>
-        Your bot ID:<br>
-        <input id="ClientID" class="round" type="text">
-        <br>Please make sure you don't put this action on a short interval - it can cause 429 (rate limit) errors!
-    </div><br>`
+<div>
+  <p>
+    <u>Send Server Stats To BFD</u><br>
+    This will send your bot server count to Bots For Discord
+  </p>
+</div>
+<div id="modinfo">
+<div style="float: left; width: 99%; padding-top: 8px;">
+  Your BFD token:<br>
+  <input id="BFDToken" class="round" type="text"><br>
+  Your bot ID:<br>
+  <input id="ClientID" class="round" type="text">
+  <br>Please make sure you don't put this action on a short interval - it can cause 429 (rate limit) errors!
+</div><br>`
   },
 
   init () {},

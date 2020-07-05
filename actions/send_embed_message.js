@@ -17,56 +17,58 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-    <div><p>This action has been modified by DBM Mods.</p></div><br>
-    <div>
-        <div style="float: left; width: 35%;">
-            Source Embed Object:<br>
-            <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
-                ${data.variables[1]}
-            </select>
-        </div>
-        <div id="varNameContainer" style="float: right; width: 60%;">
-            Variable Name:<br>
-            <input id="varName" class="round" type="text" list="variableList">
-        </div><br><br><br>
-        <div style="float: left; padding-top: 4px; width: 42%; height: 30px">
-            Message Content:<br>
-            <input id="messageContent" class="round" type="text" placeholder="Leave blank to ignore...">
-        </div><br><br><br>
-    <div style="padding-top: 8px; float: left; width: 35%;">
-        Send To:<br>
-        <select id="channel" class="round" onchange="glob.sendTargetChange(this, 'varNameContainer2')">
-            ${data.sendTargets[isEvent ? 1 : 0]}
-        </select>
-    </div>
-    <div id="varNameContainer2" style="display: none; float: right; width: 60%; padding-top: 8px">
-        Variable Name:<br>
-        <input id="varName2" class="round" type="text" list="variableList"><br>
-    </div><br><br><br><br>
-    <div style="float: left; width: 35%;">
+<div><p>This action has been modified by DBM Mods.</p></div><br>
+<div>
+  <div style="float: left; width: 35%;">
+    Source Embed Object:<br>
+    <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text" list="variableList">
+  </div><br><br><br>
+  <div style="float: left; padding-top: 4px; width: 42%; height: 30px">
+    Message Content:<br>
+    <input id="messageContent" class="round" type="text" placeholder="Leave blank to ignore...">
+  </div><br><br><br>
+  <div style="padding-top: 8px; float: left; width: 35%;">
+    Send To:<br>
+    <select id="channel" class="round" onchange="glob.sendTargetChange(this, 'varNameContainer2')">
+      ${data.sendTargets[isEvent ? 1 : 0]}
+    </select>
+  </div>
+  <div id="varNameContainer2" style="display: none; float: right; width: 60%; padding-top: 8px">
+    Variable Name:<br>
+    <input id="varName2" class="round" type="text" list="variableList"><br>
+  </div><br><br><br><br>
+  <div style="float: left; width: 35%;">
     Store Message Object In:<br>
-        <select id="storage3" class="round" onchange="glob.variableChange(this, 'varNameContainer3')">
-            ${data.variables[0]}
-        </select>
+    <select id="storage3" class="round" onchange="glob.variableChange(this, 'varNameContainer3')">
+      ${data.variables[0]}
+    </select>
+  </div>
+  <div id="varNameContainer3" style="display: ; float: right; width: 60%;">
+    Storage Variable Name:<br>
+    <input id="varName3" class="round" type="text">
+  </div><br><br><br>
+  <div style="padding-top: 8px;">
+    <div style="float: left; width: 35%;">
+      If Message Delivery Fails:<br>
+      <select id="iffalse" class="round" onchange="glob.onChangeFalse(this)">
+        <option value="0" selected>Continue Actions</option>
+        <option value="1">Stop Action Sequence</option>
+        <option value="2">Jump To Action</option>
+        <option value="3">Skip Next Actions</option>
+        <option value="4">Jump To Anchor</option>
+      </select>
     </div>
-    <div id="varNameContainer3" style="display: ; float: right; width: 60%;">
-			Storage Variable Name:<br>
-			<input id="varName3" class="round" type="text">
-			</div><br><br><br>
-			<div style="padding-top: 8px;">
-			<div style="float: left; width: 35%;">
-					If Message Delivery Fails:<br>
-					<select id="iffalse" class="round" onchange="glob.onChangeFalse(this)">
-							<option value="0" selected>Continue Actions</option>
-							<option value="1">Stop Action Sequence</option>
-							<option value="2">Jump To Action</option>
-							<option value="3">Skip Next Actions</option>
-							<option value="4">Jump To Anchor</option>
-				</select>
-			</div>
-			<div id="iffalseContainer" style="display: none; float: right; width: 60%;">
-				<span id="iffalseName">Action Number</span>:<br><input id="iffalseVal" class="round" type="text">
-			</div>`
+    <div id="iffalseContainer" style="display: none; float: right; width: 60%;">
+      <span id="iffalseName">Action Number</span>:<br><input id="iffalseVal" class="round" type="text">
+    </div>
+  </div>
+</div>`
   },
 
   init () {

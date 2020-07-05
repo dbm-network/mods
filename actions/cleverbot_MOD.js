@@ -20,56 +20,56 @@ module.exports = {
     return `
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
 <div>
-	<div style="width: 45%; padding-top: 8px;">
-		API:<br>
-			<select id="WhichAPI" class="round">
-				<option value="0" selected>Cleverbot.io (free)</option>
-				<option value="1">Cleverbot.com (free trial)</option>
-			</select>
-	</div>
+  <div style="width: 45%; padding-top: 8px;">
+    API:<br>
+    <select id="WhichAPI" class="round">
+      <option value="0" selected>Cleverbot.io (free)</option>
+      <option value="1">Cleverbot.com (free trial)</option>
+    </select>
+  </div>
 </div><br>
 <div>
-	<div style="float: left; width: 35%;">
-	   Input Variable:<br>
-	   <select id="inputVarType" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-	   ${data.variables[1]}
-	   </select>
-	</div>
-	<div id="varNameContainer" style="float: right; width: 60%;">
-	   Variable Name:<br>
-	   <input id="inputVarName" class="round" type="text" list="variableList">
-	</div>
-	<br><br><br>
-	<div style="float: left; width: 80%; padding-top: 8px;">
-	   API User:<br>
-	   <input id="APIuser" class="round" type="text" placeholder="Leave blank if you use cleverbot.com">
-	</div><br>
-	<div style="float: left; width: 80%; padding-top: 8px;">
-	   API Key:<br>
-	   <input id="APIkey" class="round" type="text">
-	</div>
-	<br><br><br>
-	<div style="float: left; width: 35%; padding-top: 8px;">
-		Store Response In:<br>
-		<select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer2')">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer2" style="float: right; width: 60%; padding-top: 8px;">
-		Variable Name:<br>
-		<input id="varName2" class="round" type="text"><br>
-	</div>
-	<br><br><br><br><br>
-	<div id="comment" style="padding-top: 30px; padding-top: 8px;">
-		<p>
-		<u>Which API should I use?</u><br>
-		Cleverbot.io is completely free. You only have to sign in with an email to get an API key. But that bot is a little bit dumb. It is asking you the same questions on every start etc.<br>
-		Cleverbot.com is much more clever. But it is only free for 5000 calls/questions. If you want more, you'll have to pay (or create a new account).<br><br>
-		Get cleverbot.io key: https://cleverbot.io/keys<br>
-		Get cleverbot.com key: http://www.cleverbot.com/api<br>
-		Copy the links to your browser.<br>
-		</p>
-	</div>
+  <div style="float: left; width: 35%;">
+    Input Variable:<br>
+    <select id="inputVarType" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
+    ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="inputVarName" class="round" type="text" list="variableList">
+  </div>
+  <br><br><br>
+  <div style="float: left; width: 80%; padding-top: 8px;">
+    API User:<br>
+    <input id="APIuser" class="round" type="text" placeholder="Leave blank if you use cleverbot.com">
+  </div><br>
+  <div style="float: left; width: 80%; padding-top: 8px;">
+    API Key:<br>
+    <input id="APIkey" class="round" type="text">
+  </div>
+  <br><br><br>
+  <div style="float: left; width: 35%; padding-top: 8px;">
+    Store Response In:<br>
+    <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer2')">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer2" style="float: right; width: 60%; padding-top: 8px;">
+    Variable Name:<br>
+    <input id="varName2" class="round" type="text"><br>
+  </div>
+  <br><br><br><br><br>
+  <div id="comment" style="padding-top: 30px; padding-top: 8px;">
+    <p>
+    <u>Which API should I use?</u><br>
+    Cleverbot.io is completely free. You only have to sign in with an email to get an API key. But that bot is a little bit dumb. It is asking you the same questions on every start etc.<br>
+    Cleverbot.com is much more clever. But it is only free for 5000 calls/questions. If you want more, you'll have to pay (or create a new account).<br><br>
+    Get cleverbot.io key: https://cleverbot.io/keys<br>
+    Get cleverbot.com key: http://www.cleverbot.com/api<br>
+    Copy the links to your browser.<br>
+    </p>
+  </div>
 </div>`
   },
 
@@ -102,9 +102,8 @@ module.exports = {
         if (!ioAPIuser) return console.log('Please enter a valid API User key from cleverbot.io!')
         if (!ioAPIkey) return console.log('Please enter a valid API Key from cleverbot.io!')
 
-        const cleverbotio = Mods.require('cleverbot.io')
-        const CLEVERBOT = new cleverbotio(ioAPIuser, ioAPIkey)
-        const session = CLEVERBOT.setNick('DBM Bot')
+        const CleverBotIO = Mods.require('cleverbot.io')
+        const CLEVERBOT = new CleverBotIO(ioAPIuser, ioAPIkey)
 
         CLEVERBOT.create((err, session) => {
           if (err) return console.log(`ERROR with cleverbot.io: ${err}`)
@@ -120,8 +119,8 @@ module.exports = {
 
         break
       case 1:
-        const cleverbotcom = Mods.require('cleverbot-node')
-        const clbot = new cleverbotcom()
+        const CleverBotCOM = Mods.require('cleverbot-node')
+        const clbot = new CleverBotCOM()
         const comAPIkey = this.evalMessage(data.APIkey, cache)
 
         if (!comAPIkey) return console.log('Please enter a valid API Key from cleverbot.com!')

@@ -11,26 +11,26 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-	<div>
-		<div style="float: left; width: 35%;">
-			Source Member:<br>
-			<select id="member" class="round" onchange="glob.memberChange(this, 'varNameContainer')">
-				${data.members[isEvent ? 1 : 0]}
-			</select>
-		</div>
-		<div id="varNameContainer" style="display: none; float: right; width: 60%;">
-			Variable Name:<br>
-			<input id="varName" class="round" type="text" list="variableList"><br>
-		</div>
-	</div><br><br><br>
 <div>
-	<div style="float: left; width: 89%;">
-		DBL API Token:<br>
-		<input id="apitoken" class="round" type="text">
-	</div>
+  <div style="float: left; width: 35%;">
+    Source Member:<br>
+    <select id="member" class="round" onchange="glob.memberChange(this, 'varNameContainer')">
+      ${data.members[isEvent ? 1 : 0]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text" list="variableList"><br>
+  </div>
+</div><br><br><br>
+<div>
+  <div style="float: left; width: 89%;">
+    DBL API Token:<br>
+    <input id="apitoken" class="round" type="text">
+  </div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
-	${data.conditions[0]}
+  ${data.conditions[0]}
 </div>`
   },
 
@@ -40,14 +40,14 @@ module.exports = {
     option.value = '4'
     option.text = 'Jump to Anchor'
     const iffalse = document.getElementById('iffalse')
-    if (iffalse.length == 4) {
+    if (iffalse.length === 4) {
       iffalse.add(option)
     }
     const option2 = document.createElement('OPTION')
     option2.value = '4'
     option2.text = 'Jump to Anchor'
     const iftrue = document.getElementById('iftrue')
-    if (iftrue.length == 4) {
+    if (iftrue.length === 4) {
       iftrue.add(option2)
     }
     glob.onChangeTrue = function (event) {

@@ -17,41 +17,42 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div>
-	<div style="float: left; width: 35%;">
-		Source Message:<br>
-		<select id="message" class="round" onchange="glob.messageChange(this, 'varNameContainer')">
-			${data.messages[isEvent ? 1 : 0]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="display: none; float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList"><br>
-	</div>
+  <div style="float: left; width: 35%;">
+    Source Message:<br>
+    <select id="message" class="round" onchange="glob.messageChange(this, 'varNameContainer')">
+      ${data.messages[isEvent ? 1 : 0]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text" list="variableList"><br>
+  </div>
 </div><br><br><br><br>
 <div>
-	<div style="float: left; width: 40%;">
-		Source Emoji:<br>
-		<select id="info" class="round">
-			<option value="0" selected>Emoji ID</option>
-			<option value="1">Emoji Name</option>
-		</select>
-	</div>
-	<div style="float: right; width: 55%;">
-		Search Value:<br>
-		<input id="find" class="round" type="text">
-	</div>
+  <div style="float: left; width: 40%;">
+    Source Emoji:<br>
+    <select id="info" class="round">
+      <option value="0" selected>Emoji ID</option>
+      <option value="1">Emoji Name</option>
+    </select>
+  </div>
+  <div style="float: right; width: 55%;">
+    Search Value:<br>
+    <input id="find" class="round" type="text">
+  </div>
 </div><br><br><br><br>
 <div style="padding-top: 8px;">
-	<div style="float: left; width: 35%;">
-		Store In:<br>
-		<select id="storage" class="round">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer2" style="float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName2" class="round" type="text">
-	</div>`
+  <div style="float: left; width: 35%;">
+    Store In:<br>
+    <select id="storage" class="round">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer2" style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName2" class="round" type="text">
+  </div>
+</div>`
   },
 
   init () {
@@ -71,12 +72,10 @@ module.exports = {
     let result
     switch (info) {
       case 0:
-        result = msg.reactions.cache.find((reaction) => reaction.emoji.id == emoji)
+        result = msg.reactions.cache.get(emoji)
         break
       case 1:
-        result = msg.reactions.cache.find((reaction) => reaction.emoji.name == emoji)
-        break
-      default:
+        result = msg.reactions.cache.find((r) => r.emoji.name === emoji)
         break
     }
 

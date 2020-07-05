@@ -18,19 +18,17 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div style="padding-top: 8px;">
-<div id="varNameContainer" style="float: right; width: 60%;">
-	Variable Name:<br>
-	<input id="varName" class="round" type="text">
-</div>
-<div style="float: left; width: 35%;">
-	Store In:<br>
-	<select id="storage" class="round">
-		${data.variables[1]}
-	</select>
-</div>
-<div>
-</div>
-	`
+  <div id="varNameContainer" style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text">
+  </div>
+  <div style="float: left; width: 35%;">
+    Store In:<br>
+    <select id="storage" class="round">
+      ${data.variables[1]}
+    </select>
+  </div>
+</div>`
   },
 
   init () {},
@@ -40,10 +38,10 @@ module.exports = {
     const storage = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
 
-    const emoji = require('node-emoji')
-    const gg = emoji.random()
-    const result = gg.emoji
-    this.storeValue(result, storage, varName, cache)
+    const Mods = this.getMods()
+    const emoji = Mods.require('node-emoji')
+    const res = emoji.random()
+    this.storeValue(res.emoji, storage, varName, cache)
     this.callNextAction(cache)
   },
 

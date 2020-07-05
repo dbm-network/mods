@@ -19,54 +19,54 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-		<div><p>This action has been modified by DBM Mods.</p></div><br>
-		<div style="float: left;">
-			<select id="find2" onchange="glob.change()">
-				<option value="0" selected>Find Member (current server only)</option>
-				<option value="1">Find User (all servers)</option>
-			</select>
-		</div><br><br>
-		<div>
-			<div style="float: left; width: 40%;">
-				Source Field:<br>
-				<select id="info" class="round">
-					<option value="0" selected>Member ID</option>
-					<option value="1">Member Username</option>
-					<option value="3">Member Tag</option>
-					<option value="2">Member Display Name</option>
-					<option value="4">Member Color</option>
-				</select>
-			</div>
-			<div style="float: right; width: 55%;">
-				Search Value:<br>
-				<input id="find" class="round" type="text">
-			</div>
-		</div><br><br><br>
-		<div style="padding-top: 8px;">
-			<div style="float: left; width: 35%;">
-				Store In:<br>
-				<select id="storage" class="round">
-					${data.variables[1]}
-				</select>
-			</div>
-			<div id="varNameContainer" style="float: right; width: 60%;">
-				Variable Name:<br>
-				<input id="varName" class="round" type="text">
-			</div>
-			<div style="float: left; width: 35%; padding-top: 10px;">
-				If Member Wasn't Found:<br>
-				<select id="iffalse" class="round" onchange="glob.onChangeFalse(this)">
-					<option value="0" selected>Continue Actions</option>
-					<option value="1">Stop Action Sequence</option>
-					<option value="2">Jump To Action</option>
-					<option value="3">Skip Next Actions</option>
-					<option value="4">Jump To Anchor</option>
-				</select>
-			</div>
-			<div id="iffalseContainer" style="display: none; float: right; width: 60%; padding-top: 10px;">
-				<span id="iffalseName">Action Number</span>:<br><input id="iffalseVal" class="round" type="text">
-			</div>
-		</div>`
+<div><p>This action has been modified by DBM Mods.</p></div><br>
+<div style="float: left;">
+  <select id="find2" onchange="glob.change()">
+    <option value="0" selected>Find Member (current server only)</option>
+    <option value="1">Find User (all servers)</option>
+  </select>
+</div><br><br>
+<div>
+  <div style="float: left; width: 40%;">
+    Source Field:<br>
+    <select id="info" class="round">
+      <option value="0" selected>Member ID</option>
+      <option value="1">Member Username</option>
+      <option value="3">Member Tag</option>
+      <option value="2">Member Display Name</option>
+      <option value="4">Member Color</option>
+    </select>
+  </div>
+  <div style="float: right; width: 55%;">
+    Search Value:<br>
+    <input id="find" class="round" type="text">
+  </div>
+</div><br><br><br>
+<div style="padding-top: 8px;">
+  <div style="float: left; width: 35%;">
+    Store In:<br>
+    <select id="storage" class="round">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text">
+  </div>
+  <div style="float: left; width: 35%; padding-top: 10px;">
+    If Member Wasn't Found:<br>
+    <select id="iffalse" class="round" onchange="glob.onChangeFalse(this)">
+      <option value="0" selected>Continue Actions</option>
+      <option value="1">Stop Action Sequence</option>
+      <option value="2">Jump To Action</option>
+      <option value="3">Skip Next Actions</option>
+      <option value="4">Jump To Anchor</option>
+    </select>
+  </div>
+  <div id="iffalseContainer" style="display: none; float: right; width: 60%; padding-top: 10px;">
+    <span id="iffalseName">Action Number</span>:<br><input id="iffalseVal" class="round" type="text">
+  </div>
+</div>`
   },
 
   init () {
@@ -95,19 +95,22 @@ module.exports = {
       try {
         const sel = document.getElementById('find2').value
         const option = document.getElementById('info')
-        if (sel == '0') {
+        if (sel === '0') {
           for (let i = 0; i < option.length; i++) {
             option[i].disabled = false
             option[i].innerHTML = option[i].innerHTML.replace(/[^\s]*/, 'Member')
           }
-        } else if (sel == '1') {
+        } else if (sel === '1') {
           option[3].disabled = true
           option[4].disabled = true
           for (let i = 0; i < option.length; i++) {
             option[i].innerHTML = option[i].innerHTML.replace(/[^\s]*/, 'User')
           }
         }
-      } catch (err) { alert(err) }
+      } catch (err) {
+        // eslint-disable-next-line no-undef
+        alert(err)
+      }
     }
     glob.change()
     glob.onChangeFalse(document.getElementById('iffalse'))
@@ -132,17 +135,17 @@ module.exports = {
         result = members.get(find)
         break
       case 1:
-        result = find2 == 0
+        result = find2 === 0
           ? members.find((m) => m.user.username === find)
           : users.find((u) => u.username === find)
         break
       case 2:
-        result = find2 == 0
+        result = find2 === 0
           ? members.find((m) => m.displayName === find)
           : users.find((u) => u.username === find)
         break
       case 3:
-        result = find2 == 0
+        result = find2 === 0
           ? members.find((m) => m.user.tag === find)
           : users.find((u) => u.tag === find)
         break

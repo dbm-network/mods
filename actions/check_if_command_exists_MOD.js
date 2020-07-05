@@ -11,14 +11,13 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-		<div style="width: 45%">
-			Command Name:<br>
-			<input id="commandName" type="text" class="round">
-		</div><br>
-		<div>
-			${data.conditions[0]}
-		</div>
-		`
+<div style="width: 45%">
+  Command Name:<br>
+  <input id="commandName" type="text" class="round">
+</div><br>
+<div>
+  ${data.conditions[0]}
+</div>`
   },
 
   init () {
@@ -28,14 +27,14 @@ module.exports = {
     option.value = '4'
     option.text = 'Jump to Anchor'
     const iffalse = document.getElementById('iffalse')
-    if (iffalse.length == 4) {
+    if (iffalse.length === 4) {
       iffalse.add(option)
     }
     const option2 = document.createElement('OPTION')
     option2.value = '4'
     option2.text = 'Jump to Anchor'
     const iftrue = document.getElementById('iftrue')
-    if (iftrue.length == 4) {
+    if (iftrue.length === 4) {
       iftrue.add(option2)
     }
     glob.onChangeTrue = function (event) {

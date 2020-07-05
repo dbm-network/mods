@@ -19,77 +19,76 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-        <div style="float: left; width: 62%">
-            Source Date:<br>
-            <input id="sourceDate" class="round" type="text" placeholder="Ex: Sun Oct 26 2019 10:38:01 GMT+0200">
-        </div>
-        <div style="float: right; width: 38%">
-           Date Language (initials):<br>
-           <input id="dateLanguage" class="round" placeholder='Default is "en" (English)'>
-        </div><br>
-        <div style="float: left; width: 40%; padding-top: 16px">
-            Mode:<br>
-            <select id="modeStorage" class="round" onchange="glob.onChangeMode(this)">
-                <option value="0" selected>Select</option>
-                <option value="1">Builder</option>
-            </select>
-        </div>
-        <div id="selectMode" style="display: none; float: right; width: 50%; padding-top: 16px">
-            Source Info:<br>
-            <select id="info" class="round">
-                <option value="0" selected>Day of Week</option>
-                <option value="1">Day Number</option>
-                <option value="2">Day of Year (number)</option>
-                <option value="3">Week of Year (number)</option>
-                <option value="4">Month of Year</option>
-                <option value="5">Month Number</option>
-                <option value="6">Year</option>
-                <option value="7">Hour</option>
-                <option value="8">Minute</option>
-                <option value="9">Second</option>
-                <option value="10">Millisecond</option>
-                <option value="11">Timezone</option>
-                <option value="12">Unix Timestamp</option>
-            </select>
-        </div>
-        <div id="buildMode" style="display: none; float: right; width: 50%; padding-top: 16px">
-            Build It (<span class="wrexlink" data-url="https://momentjs.com/docs/#/displaying/format/">Moment Docs</span>):<br>
-            <input id="buildInput" class="round" placeholder="Ex: DD/MM/YYYY = 10/26/2019">
-        </div><br><br><br><br><br>
-        <div style="float: left; width: 35%; padding-top: 10px">
-            Store In:<br>
-            <select id="storage" class="round">
-                ${data.variables[1]}
-            </select>
-        </div>
-        <div id="varNameContainer" style="float: right; width: 60%; padding-top: 10px">
-            Variable Name:<br>
-            <input id="varName" class="round" type="text">
-        </div><br><br><br>
-        <div id="noteContainer" style="display: none; padding-top: 16px">
-            <b>Note:</b> You can use square brackets to put text in <b>builder mode</b> in the "Build It" field.<br>
-            <b>Ex:</b> <span id="code">DD/MM/YYYY [at] HH:mm</span> = <span id="code">10/26/2019 at 10:38</span>
-        </div>
-        <style>
-             span.wrexlink {
-		color: #99b3ff;
-		text-decoration: underline;
-                cursor: pointer
-            }
+<div style="float: left; width: 62%">
+  Source Date:<br>
+  <input id="sourceDate" class="round" type="text" placeholder="Ex: Sun Oct 26 2019 10:38:01 GMT+0200">
+</div>
+<div style="float: right; width: 38%">
+  Date Language (initials):<br>
+  <input id="dateLanguage" class="round" placeholder='Default is "en" (English)'>
+</div><br>
+<div style="float: left; width: 40%; padding-top: 16px">
+  Mode:<br>
+  <select id="modeStorage" class="round" onchange="glob.onChangeMode(this)">
+    <option value="0" selected>Select</option>
+    <option value="1">Builder</option>
+  </select>
+</div>
+<div id="selectMode" style="display: none; float: right; width: 50%; padding-top: 16px">
+  Source Info:<br>
+  <select id="info" class="round">
+    <option value="0" selected>Day of Week</option>
+    <option value="1">Day Number</option>
+    <option value="2">Day of Year (number)</option>
+    <option value="3">Week of Year (number)</option>
+    <option value="4">Month of Year</option>
+    <option value="5">Month Number</option>
+    <option value="6">Year</option>
+    <option value="7">Hour</option>
+    <option value="8">Minute</option>
+    <option value="9">Second</option>
+    <option value="10">Millisecond</option>
+    <option value="11">Timezone</option>
+    <option value="12">Unix Timestamp</option>
+  </select>
+</div>
+<div id="buildMode" style="display: none; float: right; width: 50%; padding-top: 16px">
+  Build It (<span class="wrexlink" data-url="https://momentjs.com/docs/#/displaying/format/">Moment Docs</span>):<br>
+  <input id="buildInput" class="round" placeholder="Ex: DD/MM/YYYY = 10/26/2019">
+</div><br><br><br><br><br>
+<div style="float: left; width: 35%; padding-top: 10px">
+  Store In:<br>
+  <select id="storage" class="round">
+    ${data.variables[1]}
+  </select>
+</div>
+<div id="varNameContainer" style="float: right; width: 60%; padding-top: 10px">
+  Variable Name:<br>
+  <input id="varName" class="round" type="text">
+</div><br><br><br>
+<div id="noteContainer" style="display: none; padding-top: 16px">
+  <b>Note:</b> You can use square brackets to put text in <b>builder mode</b> in the "Build It" field.<br>
+  <b>Ex:</b> <span id="code">DD/MM/YYYY [at] HH:mm</span> = <span id="code">10/26/2019 at 10:38</span>
+</div>
+<style>
+  span.wrexlink {
+    color: #99b3ff;
+    text-decoration: underline;
+    cursor: pointer
+  }
 
-	     span.wrexlink:hover {
-                color:#4676b9
-            }
+  span.wrexlink:hover {
+    color:#4676b9
+  }
 
-            #code {
-                background: #2C313C;
-                color: white;
-                padding: 3px;
-                font-size: 12px;
-                border-radius: 2px
-              }
-        </style>
-        `
+  #code {
+    background: #2C313C;
+    color: white;
+    padding: 3px;
+    font-size: 12px;
+    border-radius: 2px
+  }
+</style>`
   },
 
   init () {

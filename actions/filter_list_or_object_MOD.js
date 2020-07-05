@@ -18,70 +18,70 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-	<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
-	<div>
-		<div style="float: left; width: 35%;">
-			Source Variable:<br>
-			<select id="storage" class="round" onchange="glob.refreshVariableList(this)">
-				${data.variables[1]}
-			</select>
-		</div>
-		<div id="varNameContainer" style="float: right; width: 60%;">
-			Variable Name:<br>
-			<input id="varName" class="round" type="text" list="variableList">
-		</div>
-	</div><br><br><br>
-	<div style="float: left; width: 30%; padding-top: 8px;">
-		Filter Type:<br>
-		<select id="type" class="round" onchange="glob.onChange1(this)">
-			<option value="0" selected>Exists</option>
-			<option value="1">Equals</option>
-			<option value="2">Equals Exactly</option>
-			<option value="3">Less Than</option>
-			<option value="4">Greater Than</option>
-			<option value="5">Includes</option>
-			<option value="6">Matches Regex</option>
-			<option value="7">Matches Full Regex</option>
-			<option value="8">Length is Bigger Than</option>
-			<option value="9">Length is Smaller Than</option>
-			<option value="10">Length is Equals</option>
-			<option value="11">Starts With</option>
-			<option value="12">Ends With</option>
-		</select>
-	</div>
-	<div id="valueDiv2" style="float: left; width: 30.5%; padding-top: 8px; padding-left: 16px;">
-		Value to Filter from:<br>
-		<input id="value2" class="round" type="text" placeholder="Optional">
-	</div>
-	<div id="valueDiv" style="float: left; width: 37%; padding-top: 8px; display: none;">
-		Value to Filter to:<br>
-		<input id="value" class="round" type="text" placeholder="">
-	</div><br><br><br>
-	<div style="float: left; width: 35%; padding-top: 8px;">
-		Store In:<br>
-		<select id="storage2" class="round">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer2" style="float: right; width: 60%; padding-top: 8px;">
-		Variable Name:<br>
-		<input id="varName2" class="round" type="text"><br>
-	</div><br><br><br>
-	<div style="float: left; width: 100%; padding-top: 16px;">
-		<p>
-			You can find some useful values to filter from in the <span class="wrexlink" data-url="https://discord.js.org/#/docs/">Discord.js Documentation</span>.
-		</p>
-	</div>
+<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
+  <div>
+    <div style="float: left; width: 35%;">
+      Source Variable:<br>
+      <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
+        ${data.variables[1]}
+      </select>
+    </div>
+    <div id="varNameContainer" style="float: right; width: 60%;">
+      Variable Name:<br>
+      <input id="varName" class="round" type="text" list="variableList">
+    </div>
+  </div><br><br><br>
+  <div style="float: left; width: 30%; padding-top: 8px;">
+    Filter Type:<br>
+    <select id="type" class="round" onchange="glob.onChange1(this)">
+      <option value="0" selected>Exists</option>
+      <option value="1">Equals</option>
+      <option value="2">Equals Exactly</option>
+      <option value="3">Less Than</option>
+      <option value="4">Greater Than</option>
+      <option value="5">Includes</option>
+      <option value="6">Matches Regex</option>
+      <option value="7">Matches Full Regex</option>
+      <option value="8">Length is Bigger Than</option>
+      <option value="9">Length is Smaller Than</option>
+      <option value="10">Length is Equals</option>
+      <option value="11">Starts With</option>
+      <option value="12">Ends With</option>
+    </select>
+  </div>
+  <div id="valueDiv2" style="float: left; width: 30.5%; padding-top: 8px; padding-left: 16px;">
+    Value to Filter from:<br>
+    <input id="value2" class="round" type="text" placeholder="Optional">
+  </div>
+  <div id="valueDiv" style="float: left; width: 37%; padding-top: 8px; display: none;">
+    Value to Filter to:<br>
+    <input id="value" class="round" type="text" placeholder="">
+  </div><br><br><br>
+  <div style="float: left; width: 35%; padding-top: 8px;">
+    Store In:<br>
+    <select id="storage2" class="round">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer2" style="float: right; width: 60%; padding-top: 8px;">
+    Variable Name:<br>
+    <input id="varName2" class="round" type="text"><br>
+  </div><br><br><br>
+  <div style="float: left; width: 100%; padding-top: 16px;">
+    <p>
+      You can find some useful values to filter from in the <span class="wrexlink" data-url="https://discord.js.org/#/docs/">Discord.js Documentation</span>.
+    </p>
+  </div>
 </div>
 <style>
-	span.wrexlink {
-		color: #99b3ff;
-		text-decoration:underline;
-		cursor:pointer;
-	}
-	span.wrexlink:hover {
-		color:#4676b9;
-	}
+  span.wrexlink {
+    color: #99b3ff;
+    text-decoration:underline;
+    cursor:pointer;
+  }
+  span.wrexlink:hover {
+    color:#4676b9;
+  }
 </style>`
   },
 
@@ -89,8 +89,6 @@ module.exports = {
     const { glob, document } = this
 
     try {
-      const Mods = require(require('path').join(__dirname, 'aaa_wrexmods_dependencies_MOD.js')).getMods()
-
       const wrexlinks = document.getElementsByClassName('wrexlink')
       for (let x = 0; x < wrexlinks.length; x++) {
         const wrexlink = wrexlinks[x]
@@ -147,8 +145,8 @@ module.exports = {
     const storage = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
     const variable = this.getVariable(storage, varName, cache)
-    const value = this.evalMessage(data.value, cache)// Filter To
-    const value2 = this.evalMessage(data.value2, cache)// Filter From
+    const value = this.evalMessage(data.value, cache) // Filter To
+    const value2 = this.evalMessage(data.value2, cache) // Filter From
     let result
 
     if (value2 !== '' && value2 !== undefined) {
@@ -157,6 +155,7 @@ module.exports = {
           result = variable.filter((item) => item[value2] !== undefined && item[value2] !== null)
           break
         case 1:// Equals
+          // eslint-disable-next-line eqeqeq
           result = variable.filter((item) => item[value2] == value)
           break
         case 2:// Equals Exactly
@@ -184,7 +183,7 @@ module.exports = {
           result = variable.filter((item) => item[value2].length < value)
           break
         case 10:// Equals Length
-          result = variable.filter((item) => item[value2].length == value)
+          result = variable.filter((item) => item[value2].length === value)
           break
         case 11:// Starts With
           result = variable.filter((item) => item[value2].startsWith(value))
@@ -201,6 +200,7 @@ module.exports = {
           result = variable.filter((item) => item !== undefined && item !== null)
           break
         case 1:// Equals
+          // eslint-disable-next-line eqeqeq
           result = variable.filter((item) => item == value)
           break
         case 2:// Equals Exactly
@@ -228,7 +228,7 @@ module.exports = {
           result = variable.filter((item) => item.length < value)
           break
         case 10:// Equals Length
-          result = variable.filter((item) => item.length == value)
+          result = variable.filter((item) => item.length === value)
           break
         case 11:// Starts With
           result = variable.filter((item) => item.startsWith(value))
@@ -250,5 +250,4 @@ module.exports = {
   },
 
   mod () {}
-
 }

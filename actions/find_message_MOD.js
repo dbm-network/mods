@@ -11,9 +11,7 @@ module.exports = {
   variableStorage (data, varType) {
     const type = parseInt(data.storage)
     if (type !== varType) return
-    const info = parseInt(data.info)
-    const dataType = 'Message'
-    return ([data.varName2, dataType])
+    return ([data.varName2, 'Message'])
   },
 
   fields: ['channel', 'varName', 'info', 'search', 'storage', 'varName2'],
@@ -22,47 +20,47 @@ module.exports = {
     return `
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
 <div>
-	<div style="float: left; width: 35%;">
-		Source Channel:<br>
-		<select id="channel" class="round" onchange="glob.channelChange(this, 'varNameContainer')">
-			${data.channels[isEvent ? 1 : 0]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="display: none; float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList"><br>
-	</div>
+  <div style="float: left; width: 35%;">
+    Source Channel:<br>
+    <select id="channel" class="round" onchange="glob.channelChange(this, 'varNameContainer')">
+      ${data.channels[isEvent ? 1 : 0]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text" list="variableList"><br>
+  </div>
 </div><br><br><br>
 <div>
-	<div style="float: left; width: 70%;">
-		Find by:<br>
-		<select id="info" class="round">
-			<option value="0" selected>Find by Content</option>
-			<option value="1">Find by ID</option>
-		</select>
-	</div><br><br><br>
-	<div style="float: left; width: 70%;">
-		Search for:<br>
-		<input id="search" class="round" type="text"><br>
-	</div>
+  <div style="float: left; width: 70%;">
+    Find by:<br>
+    <select id="info" class="round">
+      <option value="0" selected>Find by Content</option>
+      <option value="1">Find by ID</option>
+    </select>
+  </div><br><br><br>
+  <div style="float: left; width: 70%;">
+    Search for:<br>
+    <input id="search" class="round" type="text"><br>
+  </div>
 </div><br>
 <div>
-	<div style="float: left; width: 35%;">
-		Store In:<br>
-		<select id="storage" class="round">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer2" style="float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName2" class="round" type="text"><br>
-	</div>
+  <div style="float: left; width: 35%;">
+    Store In:<br>
+    <select id="storage" class="round">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer2" style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName2" class="round" type="text"><br>
+  </div>
 </div><br><br><br>
 <div>
-	<p>
-	<u>Note:</u><br>
-	This mod can only find messages by <b>content</b> within the last 100 messages.<br>
-	If there are multiple messages with the same content, the bot is always using the oldest message (after start).
+  <p>
+  <u>Note:</u><br>
+  This mod can only find messages by <b>content</b> within the last 100 messages.<br>
+  If there are multiple messages with the same content, the bot is always using the oldest message (after start).
 </div>`
   },
 
@@ -87,7 +85,6 @@ module.exports = {
     const storage = parseInt(data.storage)
     const varName2 = this.evalMessage(data.varName2, cache)
 
-    let result
     switch (info) {
       case 0:
         targetChannel.messages.fetch({ limit: 100 }).then((messages) => {
@@ -113,7 +110,7 @@ module.exports = {
         })
         break
       default:
-        break
+        this.callNextAction(cache)
     }
   },
 

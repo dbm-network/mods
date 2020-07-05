@@ -17,32 +17,32 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div style="width: 90%;">
-	Animated Emoji Name:<br>
-	<input id="emojiName" class="round" type="text">
+  Animated Emoji Name:<br>
+  <input id="emojiName" class="round" type="text">
 </div><br>
 <div>
-	<div style="float: left; width: 35%;">
-		Source GIF:<br>
-		<select id="storage" class="round" onchange="glob.refreshVariableList(this)">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList">
-	</div>
+  <div style="float: left; width: 35%;">
+    Source GIF:<br>
+    <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text" list="variableList">
+  </div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
-	<div style="float: left; width: 35%;">
-		Store In:<br>
-		<select id="storage2" class="round" onchange="glob.onChange1(this)">
-			${data.variables[0]}
-		</select>
-	</div>
-	<div id="varNameContainer2" style="display: none; float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName2" class="round" type="text">
-	</div>
+  <div style="float: left; width: 35%;">
+    Store In:<br>
+    <select id="storage2" class="round" onchange="glob.onChange1(this)">
+      ${data.variables[0]}
+    </select>
+  </div>
+  <div id="varNameContainer2" style="display: none; float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName2" class="round" type="text">
+  </div>
 </div>`
   },
 

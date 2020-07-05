@@ -41,66 +41,67 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div id="DiVScroll" style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
-<div>
-	<div style="float: left; width: 35%;">
-		Source Message:<br>
-		<select id="message" class="round" onchange="glob.messageChange(this, 'varNameContainer')">
-			${data.messages[isEvent ? 1 : 0]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="display: none; float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList"><br>
-	</div>
-</div><br><br><br>
-<div style="padding-top: 8px;">
+  <div>
     <div style="float: left; width: 35%;">
-        Source Info:<br>
-    	<select id="info" class="round" onchange="glob.onChange1(this)">
-            <option value="0" selected>One Parameter</option>
-            <option value="1">Multiple Parameters</option>
-            <option value="2">Mentioned User</option>
-		    <option value="3">Mentioned Member</option>
-		    <option value="4">Mentioned Role</option>
-		    <option value="5">Mentioned Channel</option>
-        </select>
+      Source Message:<br>
+      <select id="message" class="round" onchange="glob.messageChange(this, 'varNameContainer')">
+        ${data.messages[isEvent ? 1 : 0]}
+      </select>
     </div>
-	<div style="float: right; width: 60%;">
-	    <span id="infoCountLabel">Parameter Number:</span><br>
-	    <input id="ParamN" class="round" type="text" value="1">
+    <div id="varNameContainer" style="display: none; float: right; width: 60%;">
+      Variable Name:<br>
+      <input id="varName" class="round" type="text" list="variableList"><br>
     </div>
-</div><br><br><br>
-<div id="DiVcount" style="padding-top: 8p;">
-	<div style="float: left; width: 567px;">
-		Parameter Count:<br>
-		<input id="count" placeholder="Leave blank for all..." class="round" type="text">
-	</div>
-<br><br><br></div>
-<div id="DiVseparator" style="padding-top: 8px;">
+  </div><br><br><br>
+  <div style="padding-top: 8px;">
+    <div style="float: left; width: 35%;">
+      Source Info:<br>
+      <select id="info" class="round" onchange="glob.onChange1(this)">
+        <option value="0" selected>One Parameter</option>
+        <option value="1">Multiple Parameters</option>
+        <option value="2">Mentioned User</option>
+        <option value="3">Mentioned Member</option>
+        <option value="4">Mentioned Role</option>
+        <option value="5">Mentioned Channel</option>
+      </select>
+    </div>
+    <div style="float: right; width: 60%;">
+      <span id="infoCountLabel">Parameter Number:</span><br>
+      <input id="ParamN" class="round" type="text" value="1">
+    </div>
+  </div><br><br><br>
+  <div id="DiVcount" style="padding-top: 8p;">
     <div style="float: left; width: 567px;">
-	    Custom Parameter Separator:<br>
-	    <input id="separator" placeholder="Read the Note below | Default Parameter Separator:" class="round" type="text">
-    </div>
-<br><br><br></div>
-<div style="padding-top: 8px;">
-	<div style="float: left; width: 35%;">
-		Store In:<br>
-		<select id="storage" class="round">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer2" style="float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName2" class="round" type="text"><br>
-	</div>
-</div>
-<div style="float: left; width: 88%; padding-top: 8px;">
+      Parameter Count:<br>
+      <input id="count" placeholder="Leave blank for all..." class="round" type="text">
+    </div><br><br><br></div>
+    <div id="DiVseparator" style="padding-top: 8px;">
+      <div style="float: left; width: 567px;">
+        Custom Parameter Separator:<br>
+        <input id="separator" placeholder="Read the Note below | Default Parameter Separator:" class="round" type="text">
+      </div><br><br><br></div>
+      <div style="padding-top: 8px;">
+        <div style="float: left; width: 35%;">
+          Store In:<br>
+          <select id="storage" class="round">
+            ${data.variables[1]}
+          </select>
+        </div>
+        <div id="varNameContainer2" style="float: right; width: 60%;">
+          Variable Name:<br>
+          <input id="varName2" class="round" type="text"><br>
+        </div>
+      </div>
+      <div style="float: left; width: 88%; padding-top: 8px;">
         <p>
-        <b><span style="color:#ffffff; font-size: 20px;">Note:</span></b><br>
-        Leave blank the Custom Parameter Separator if you want to use the Parameter Separator set in your DBM Settings<br>
-        Custom Parameter Separator supports Regex
+          <b><span style="color:#ffffff; font-size: 20px;">Note:</span></b><br>
+          Leave blank the Custom Parameter Separator if you want to use the Parameter Separator set in your DBM Settings<br>
+          Custom Parameter Separator supports Regex
         </p>
-</div><br><br><br><br><br><br><br><br><br>`
+      </div>
+    </div>
+  </div>
+</div>`
   },
 
   init () {
@@ -174,7 +175,7 @@ module.exports = {
     const ParamN = this.evalMessage(data.ParamN, cache)
     const infoType = parseInt(data.info)
 
-    if (ParamN == '') {
+    if (ParamN === '') {
       console.log(`Action: #${cache.index + 1} | Store Message Params ERROR: Parameter Number has nothing`)
       this.callNextAction(cache)
       return
@@ -186,7 +187,7 @@ module.exports = {
 
     const separator = data.separator ? this.evalMessage(data.separator, cache) : this.getDBM().Files.data.settings.separator
 
-    if (separator == '') {
+    if (separator === '') {
       console.log(`Action: #${cache.index + 1} | Store Message Params ERROR: Parameter Separator has nothing`)
       this.callNextAction(cache)
       return

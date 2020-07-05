@@ -71,7 +71,7 @@ module.exports = {
     infoList2.push(`from ${infoName2} ${infoName1} "${data.input.toString()}"`)
     infoList2.push('')
 
-    if (info4 > 2 && sourceType == 3) {
+    if (info4 > 2 && sourceType === 3) {
       infoNum2 = 1
     } else {
       infoNum2 = 0
@@ -83,11 +83,10 @@ module.exports = {
   variableStorage (data, varType) {
     const type = parseInt(data.storage)
     const sourceType = parseInt(data.type)// "Channel", "Stream", "Video" or "Game"
-    const inputType = parseInt(data.inputtype)// "ID" or "Name"
     if (type !== varType) return
     let dataType = 'Unknown Type'
 
-    if (sourceType == 0) { // Source Type: Channel
+    if (sourceType === 0) { // Source Type: Channel
       const info1 = parseInt(data.info1)
       switch (info1) {
         case 0:
@@ -101,7 +100,7 @@ module.exports = {
         case 6:
         case 7: dataType = 'Image URL'; break
       }
-    } else if (sourceType == 1) { // Source Type: Stream
+    } else if (sourceType === 1) { // Source Type: Stream
       const info2 = parseInt(data.info2)
       switch (info2) {
         case 0:
@@ -117,10 +116,10 @@ module.exports = {
         case 4:
         case 11: dataType = 'List'; break
       }
-    } else if (sourceType == 2) { // Source Type: Video
+    } else if (sourceType === 2) { // Source Type: Video
       /* var info3 = parseInt(data.info3); */
       dataType = 'List'
-    } else if (sourceType == 3) { // Source Type: Game
+    } else if (sourceType === 3) { // Source Type: Game
       const info4 = parseInt(data.info4)
       switch (info4) {
         case 0:
@@ -147,153 +146,151 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-	<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
-	<div style="float: left; width: 42%;">
-		<br>Source Type:<br>
-		<select id="type" class="round" onchange="glob.onChange1(this)">
-			<option value="0" selected>Channel Info</option>
-			<option value="1">Stream Info</option>
-			<option value="2">Video Info</option>
-			<option value="3">Game Info</option>
-		</select>
-	</div>
-	<div id="divinputtype" style="padding-left: 5%; float: left; width: 52%; display: none;">
-		<br>Input Type:<br>
-		<select id="inputtype" class="round" onchange="glob.onChange2(this)" style="display: none;">
-			<option value="0" selected>ID</option>
-			<option value="1">Name</option>
-		</select>
-	</div>
-	<div id="divinput" style="float: left; width: 99%; padding-top: 8px;">
-		<span id="tempName1">User</span> <span id="tempName2">ID</span>:<br>
-		<textarea id="input" rows="2" placeholder="Please insert the needed information..." style="width: 95%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
-	</div>
-	<div id="divinfo1"; style="float: left; width: 94%; padding-top: 8px; display: none;" onchange="glob.onChange3(this)">
-		Source Channel Info:<br>
-		<select id="info1" class="round">
-			<option value="0">User ID</option>
-			<option value="1">User Login Name</option>
-			<option value="2" selected>User Display Name</option>
-			<option value="3">User Type</option>
-			<option value="4">Broadcaster Type</option>
-			<option value="5">Channel Description</option>
-			<option value="6">Channel Profile Picture URL</option>
-			<option value="7">Channel Offline Picture URL</option>
-			<option value="8">Channel View Count</option>
-			<option value="9">Channel Follower Count</option>
-		</select>
-	</div>
-	<div id="divinfo2"; style="float: left; width: 94%; padding-top: 8px; display: none;">
-		Source Stream Info:<br>
-		<select id="info2" class="round">
-			<option value="5">Is Live?</option>
-			<option value="0">Stream ID</option>
-			<option value="6" selected>Stream Title</option>
-			<option value="7">Viewer Count</option>
-			<option value="8">Started At</option>
-			<option value="9">Language Code</option>
-			<option value="10">Thumbnail URL</option>
-			<option value="1">User ID</option>
-			<option value="2">User Display Name</option>
-			<option value="3">Game ID</option>
-			<option value="4">Community IDs</option>
-			<option value="11">Tag IDs</option>
-		</select>
-	</div>
-	<div id="divinfo3"; style="float: left; width: 94%; padding-top: 8px; display: none;">
-		Source Video Info:<br>
-		<select id="info3" class="round">
-			<option value="1">User IDs</option>
-			<option value="2">User Display Names</option>
-			<option value="0">Video IDs</option>
-			<option value="3" selected>Video Titles</option>
-			<option value="4">Video Descriptions</option>
-			<option value="5">Video Creation Dates</option>
-			<option value="6">Video Publish Dates</option>
-			<option value="7">Video URLs</option>
-			<option value="8">Video Thumbnail URLs</option>
-			<option value="9">Videos Viewable?</option>
-			<option value="10">Video Viewcounts</option>
-			<option value="11">Video Languages</option>
-			<option value="12">Video Types</option>
-			<option value="13">Video Durations</option>
-		</select>
-	</div>
-	<div id="divinfo4"; style="float: left; width: 94%; padding-top: 8px; display: none;" onchange="glob.onChange4(this)">
-		Source Game Info:<br>
-		<select id="info4" class="round">
-			<option value="0">Game ID</option>
-			<option value="1">Game Name</option>
-			<option value="2">Game Box Art URL</option>
-			<option value="3">Popular Games List (Game IDs)</option>
-			<option value="4">Popular Games List (Game Names)</option>
-			<option value="5">Popular Games List (Game Box Art URLs)</option>
-		</select>
-	</div>
-	<div style="float: left; width: 104.5%; padding-top: 8px;">
-		Client ID:<br>
-		<input id="clientid" class="round" type="text" placeholder="Insert your Twitch Application Client ID...">
-	</div>
-	<div id="divresults" style="float: left; width: 95%; padding-top: 8px; display: none;">
-		Max Results:<br>
-		<input id="results" class="round" type="text" placeholder="Default: 20 | Max: 100">
-	</div>
-	<div>
-		<div style="float: left; width: 35%;  padding-top: 8px;">
-			Store In:<br>
-			<select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-				${data.variables[1]}
-			</select>
-		</div>
-		<div id="varNameContainer" style="float: right; width: 60%; padding-top: 8px;">
-			Variable Name:<br>
-			<input id="varName" class="round" type="text"><br>
-		</div>
-		<div style="float: left; padding-top: 8px;">
-			<p>
-				<u>API Info:</u><br>
-				You will need a <span class="wrexlink" data-url="https://glass.twitch.tv/console/apps">Twitch Client ID</span> to use this mod!<br><br>
-				<u>Client ID Introductions:</u><br>
-				To get a client id: login through Twitch, create a new application. Then insert your favourite application name & some url (this could be your GitHub page).<br>
-				Then select the category "Application Integration" down below and click on create! You should now be in your application list again.<br>
-				You need to edit your application once more to copy the client id.<br><br>
-				<u>API Limitations:</u><br>
-				Please go to the <span class="wrexlink2" data-url2="https://dev.twitch.tv/docs/api/guide/#rate-limits">Twitch API Rate Limits Page</span> if need this information.<br><br>
-				<u>Explanations of individual source types:</u><br>
-				• User Types: "staff", "admin", "global_mod" or ""<br>
-				• Broadcaster Types: "partner", "affiliate" or ""<br>
-				• Video Types: "upload", "archive" or "highlight"<br>
-				• Video Duration: Will return something like "3h8m33s"<br>
-			</p>
-		</div>
-	</div>
-	</div>
-	<style>
-	  span.wrexlink {
-		color: #99b3ff;
-		text-decoration:underline;
-		cursor:pointer;
-	  }
-	  span.wrexlink:hover {
-		color:#4676b9;
-	  }
-	  span.wrexlink2 {
-		color: #99b3ff;
-		text-decoration:underline;
-		cursor:pointer;
-	  }
-	  span.wrexlink2:hover {
-		color:#4676b9;
-	  }
-	</style>`
+<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
+<div style="float: left; width: 42%;">
+  <br>Source Type:<br>
+  <select id="type" class="round" onchange="glob.onChange1(this)">
+    <option value="0" selected>Channel Info</option>
+    <option value="1">Stream Info</option>
+    <option value="2">Video Info</option>
+    <option value="3">Game Info</option>
+  </select>
+</div>
+<div id="divinputtype" style="padding-left: 5%; float: left; width: 52%; display: none;">
+  <br>Input Type:<br>
+  <select id="inputtype" class="round" onchange="glob.onChange2(this)" style="display: none;">
+    <option value="0" selected>ID</option>
+    <option value="1">Name</option>
+  </select>
+</div>
+<div id="divinput" style="float: left; width: 99%; padding-top: 8px;">
+  <span id="tempName1">User</span> <span id="tempName2">ID</span>:<br>
+  <textarea id="input" rows="2" placeholder="Please insert the needed information..." style="width: 95%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+</div>
+<div id="divinfo1"; style="float: left; width: 94%; padding-top: 8px; display: none;" onchange="glob.onChange3(this)">
+  Source Channel Info:<br>
+  <select id="info1" class="round">
+    <option value="0">User ID</option>
+    <option value="1">User Login Name</option>
+    <option value="2" selected>User Display Name</option>
+    <option value="3">User Type</option>
+    <option value="4">Broadcaster Type</option>
+    <option value="5">Channel Description</option>
+    <option value="6">Channel Profile Picture URL</option>
+    <option value="7">Channel Offline Picture URL</option>
+    <option value="8">Channel View Count</option>
+    <option value="9">Channel Follower Count</option>
+  </select>
+</div>
+<div id="divinfo2"; style="float: left; width: 94%; padding-top: 8px; display: none;">
+  Source Stream Info:<br>
+  <select id="info2" class="round">
+    <option value="5">Is Live?</option>
+    <option value="0">Stream ID</option>
+    <option value="6" selected>Stream Title</option>
+    <option value="7">Viewer Count</option>
+    <option value="8">Started At</option>
+    <option value="9">Language Code</option>
+    <option value="10">Thumbnail URL</option>
+    <option value="1">User ID</option>
+    <option value="2">User Display Name</option>
+    <option value="3">Game ID</option>
+    <option value="4">Community IDs</option>
+    <option value="11">Tag IDs</option>
+  </select>
+</div>
+<div id="divinfo3"; style="float: left; width: 94%; padding-top: 8px; display: none;">
+  Source Video Info:<br>
+  <select id="info3" class="round">
+    <option value="1">User IDs</option>
+    <option value="2">User Display Names</option>
+    <option value="0">Video IDs</option>
+    <option value="3" selected>Video Titles</option>
+    <option value="4">Video Descriptions</option>
+    <option value="5">Video Creation Dates</option>
+    <option value="6">Video Publish Dates</option>
+    <option value="7">Video URLs</option>
+    <option value="8">Video Thumbnail URLs</option>
+    <option value="9">Videos Viewable?</option>
+    <option value="10">Video Viewcounts</option>
+    <option value="11">Video Languages</option>
+    <option value="12">Video Types</option>
+    <option value="13">Video Durations</option>
+  </select>
+</div>
+<div id="divinfo4"; style="float: left; width: 94%; padding-top: 8px; display: none;" onchange="glob.onChange4(this)">
+  Source Game Info:<br>
+  <select id="info4" class="round">
+    <option value="0">Game ID</option>
+    <option value="1">Game Name</option>
+    <option value="2">Game Box Art URL</option>
+    <option value="3">Popular Games List (Game IDs)</option>
+    <option value="4">Popular Games List (Game Names)</option>
+    <option value="5">Popular Games List (Game Box Art URLs)</option>
+  </select>
+</div>
+<div style="float: left; width: 104.5%; padding-top: 8px;">
+  Client ID:<br>
+  <input id="clientid" class="round" type="text" placeholder="Insert your Twitch Application Client ID...">
+</div>
+<div id="divresults" style="float: left; width: 95%; padding-top: 8px; display: none;">
+  Max Results:<br>
+  <input id="results" class="round" type="text" placeholder="Default: 20 | Max: 100">
+</div>
+<div>
+  <div style="float: left; width: 35%;  padding-top: 8px;">
+    Store In:<br>
+    <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="float: right; width: 60%; padding-top: 8px;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text"><br>
+  </div>
+  <div style="float: left; padding-top: 8px;">
+    <p>
+      <u>API Info:</u><br>
+      You will need a <span class="wrexlink" data-url="https://glass.twitch.tv/console/apps">Twitch Client ID</span> to use this mod!<br><br>
+      <u>Client ID Introductions:</u><br>
+      To get a client id: login through Twitch, create a new application. Then insert your favourite application name & some url (this could be your GitHub page).<br>
+      Then select the category "Application Integration" down below and click on create! You should now be in your application list again.<br>
+      You need to edit your application once more to copy the client id.<br><br>
+      <u>API Limitations:</u><br>
+      Please go to the <span class="wrexlink2" data-url2="https://dev.twitch.tv/docs/api/guide/#rate-limits">Twitch API Rate Limits Page</span> if need this information.<br><br>
+      <u>Explanations of individual source types:</u><br>
+      • User Types: "staff", "admin", "global_mod" or ""<br>
+      • Broadcaster Types: "partner", "affiliate" or ""<br>
+      • Video Types: "upload", "archive" or "highlight"<br>
+      • Video Duration: Will return something like "3h8m33s"<br>
+    </p>
+  </div>
+</div>
+</div>
+<style>
+  span.wrexlink {
+  color: #99b3ff;
+  text-decoration:underline;
+  cursor:pointer;
+  }
+  span.wrexlink:hover {
+  color:#4676b9;
+  }
+  span.wrexlink2 {
+  color: #99b3ff;
+  text-decoration:underline;
+  cursor:pointer;
+  }
+  span.wrexlink2:hover {
+  color:#4676b9;
+  }
+</style>`
   },
 
   init () {
     const { glob, document } = this
 
-    try { // Used for the Twitch API link | Made by General Wrex
-      const Mods = require(require('path').join(__dirname, 'aaa_wrexmods_dependencies_MOD.js')).getMods()
-
+    try {
       const wrexlinks = document.getElementsByClassName('wrexlink')
       for (let x = 0; x < wrexlinks.length; x++) {
         const wrexlink = wrexlinks[x]
@@ -336,8 +333,6 @@ module.exports = {
       const info3 = document.getElementById('info3')// Source Video Info
       const infoDiv4 = document.getElementById('divinfo4')// Source Game Info
       const info4 = document.getElementById('info4')// Source Game Info
-      const input = document.getElementById('input')// InputField
-      const inputDiv = document.getElementById('divinput')// Div of InputField
       const inputType = document.getElementById('inputtype')// InputType: "ID" or "Name"
       const inputTypeDiv = document.getElementById('divinputtype')// Div of InputType
       const results = document.getElementById('results')// Max Results
@@ -369,7 +364,7 @@ module.exports = {
           infoDiv4.style.display = 'none'
           info4.style.display = 'none'
           /* inputType.style.display = null;
-					inputTypeDiv.style.display = null; */
+          inputTypeDiv.style.display = null; */
           results.style.display = 'none'
           resultsDiv.style.display = 'none'
           break
@@ -424,7 +419,7 @@ module.exports = {
           infoDiv4.style.display = null
           info4.style.display = null
           /* inputType.style.display = null;
-					inputTypeDiv.style.display = null; */
+          inputTypeDiv.style.display = null; */
           results.style.display = 'none'
           resultsDiv.style.display = 'none'
           break
@@ -442,7 +437,7 @@ module.exports = {
 
       // Change HTML Stuff
       let result = ''
-      if (id1 == 0) {
+      if (id1 === 0) {
         switch (id2) {
           case 0:
             result = 'ID'
@@ -455,7 +450,7 @@ module.exports = {
             }
             break
         }
-      } else if (id1 == 3) {
+      } else if (id1 === 3) {
         switch (id2) {
           case 0:
             result = 'ID'
@@ -503,7 +498,7 @@ module.exports = {
       const inputTypeDiv = document.getElementById('divinputtype')// Div of InputType
 
       // Change HTML Stuff
-      if (id1 == 3) {
+      if (id1 === 3) {
         if (parseInt(id5) < 3) {
           inputType.style.display = null
           inputTypeDiv.style.display = null
@@ -511,7 +506,7 @@ module.exports = {
           inputType.style.display = 'none'
           inputTypeDiv.style.display = 'none'
         }
-      } else if (id1 == 1 || id1 == 2) {
+      } else if (id1 === 1 || id1 === 2) {
         inputType.style.display = 'none'
         inputTypeDiv.style.display = 'none'
       } else {
@@ -537,8 +532,8 @@ module.exports = {
 
   action (cache) {
     const data = cache.actions[cache.index]
-    const _this = this// Just to be sure
-    const Mods = this.getMods()// As always.
+    const _this = this
+    const Mods = this.getMods()
     const request = Mods.require('request')
 
     const input = this.evalMessage(data.input, cache)// The inserted "ID" or "Name"
@@ -566,20 +561,19 @@ module.exports = {
         break
     }
 
-    // Check Input
     if (!clientID) { return console.log('Please insert a client id!') }
     if (!input) { return console.log('Please insert something to search for!') }
 
     if (searchResults > 0) {
       if (searchResults > 100) {
-        searchResults = 100// Max value
+        searchResults = 100
       }
-    } else { // Default value
+    } else {
       searchResults = 20
     }
 
-    if (sourceType == 0) { // Soure Info: Channel
-      if (inputType == 0 || infoType == 9) { // Input Type: ID
+    if (sourceType === 0) { // Soure Info: Channel
+      if (inputType === 0 || infoType === 9) { // Input Type: ID
         let options = {
           url: `https://api.twitch.tv/helix/users/follows?to_id=${input}&first=2`,
           headers: { 'Client-ID': `${clientID}` }
@@ -593,7 +587,7 @@ module.exports = {
         }
 
         request(options, (error, response, body) => {
-          if (!error && response.statusCode == 200) {
+          if (!error && response.statusCode === 200) {
             const info = JSON.parse(body)
             let result
             if (!info.data[0]) {
@@ -622,14 +616,14 @@ module.exports = {
             console.error(error)
           }
         })
-      } else if (inputType == 1 && infoType < 9) { // Input Type: Name
+      } else if (inputType === 1 && infoType < 9) { // Input Type: Name
         const options = {
           url: `https://api.twitch.tv/helix/users?login=${input}`,
           headers: { 'Client-ID': `${clientID}` }
         }
 
         request(options, (error, response, body) => {
-          if (!error && response.statusCode == 200) {
+          if (!error && response.statusCode === 200) {
             const info = JSON.parse(body)
             let result
             if (!info.data[0]) {
@@ -660,7 +654,7 @@ module.exports = {
       } else { // Input Type: Undefined
         return console.log('Please select either "User ID" or "User Login Name"!')
       }
-    } else if (sourceType == 1) { // Source Info: Stream
+    } else if (sourceType === 1) { // Source Info: Stream
       // Input Type: ID
       const options = {
         url: `https://api.twitch.tv/helix/streams?user_id=${input}`,
@@ -668,12 +662,12 @@ module.exports = {
       }
 
       request(options, (error, response, body) => {
-        if (!error && response.statusCode == 200) {
+        if (!error && response.statusCode === 200) {
           const info = JSON.parse(body)
           let result
           let result2 = false
           if (!info.data[0]) {
-            if (infoType == 5) {
+            if (infoType === 5) {
               const storage = parseInt(data.storage)
               const varName = _this.evalMessage(data.varName, cache)
               _this.storeValue(result2, storage, varName, cache)
@@ -711,7 +705,7 @@ module.exports = {
           console.error(error)
         }
       })
-    } else if (sourceType == 2) { // Source Info: Video
+    } else if (sourceType === 2) { // Source Info: Video
       // Input Type: ID
       const options = {
         url: `https://api.twitch.tv/helix/videos?user_id=${input}&first=${searchResults}`,
@@ -719,7 +713,7 @@ module.exports = {
       }
 
       request(options, (error, response, body) => {
-        if (!error && response.statusCode == 200) {
+        if (!error && response.statusCode === 200) {
           const info = JSON.parse(body)
           const result = []
           if (!info.data[0]) {
@@ -736,7 +730,17 @@ module.exports = {
             case 6: info.data.forEach((video) => result.push(video.published_at)); break
             case 7: info.data.forEach((video) => result.push(video.url)); break
             case 8: info.data.forEach((video) => result.push(video.thumbnail_url.replace('%{width}', '1920').replace('%{height}', '1280'))); break
-            case 9: info.data.forEach((video) => { if (video.viewable !== '' || video.viewable !== undefined) { if (video.viewable == 'public') { result.push(true) } else if (video.viewable == 'private') { result.push(false) } } }); break// "public" or "private"
+            case 9:
+              info.data.forEach((video) => {
+                if (video.viewable !== '' || video.viewable !== undefined) {
+                  if (video.viewable === 'public') {
+                    result.push(true)
+                  } else if (video.viewable === 'private') {
+                    result.push(false)
+                  }
+                }
+              })
+              break// "public" or "private"
             case 10: info.data.forEach((video) => result.push(video.view_count)); break
             case 11: info.data.forEach((video) => result.push(video.language)); break
             case 12: info.data.forEach((video) => result.push(video.type)); break// "upload", "archive" or "highlight"
@@ -750,8 +754,8 @@ module.exports = {
           console.error(error)
         }
       })
-    } else if (sourceType == 3) { // Source Info: Game
-      if (inputType == 0) { // Input Type: Game ID
+    } else if (sourceType === 3) { // Source Info: Game
+      if (inputType === 0) { // Input Type: Game ID
         let options = {
           url: 'https://api.twitch.tv/helix/games/top',
           headers: { 'Client-ID': `${clientID}` }
@@ -763,8 +767,8 @@ module.exports = {
           }
         }
 
-        request(options, 	(error, response, body) => {
-          if (!error && response.statusCode == 200) {
+        request(options, (error, response, body) => {
+          if (!error && response.statusCode === 200) {
             const info = JSON.parse(body)
             let result
             const result2 = []
@@ -795,7 +799,7 @@ module.exports = {
             console.error(error)
           }
         })
-      } else if (inputType == 1) { // Input Type: Game Name
+      } else if (inputType === 1) { // Input Type: Game Name
         let options = {
           url: `https://api.twitch.tv/helix/games/top?first=${searchResults}`,
           headers: { 'Client-ID': `${clientID}` }
@@ -809,7 +813,7 @@ module.exports = {
         }
 
         request(options, (error, response, body) => {
-          if (!error && response.statusCode == 200) {
+          if (!error && response.statusCode === 200) {
             const info = JSON.parse(body)
             let result
             const result2 = []

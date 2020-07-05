@@ -35,42 +35,41 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-    <div style="float: left; width: 40%">
-        Search Command By:<br>
-        <select id="searchCommandBy" class="round" onchange="glob.onChangeSame(this)">
-            <option value="0">Name</option>
-            <option value="1">ID</option>
-            <option value="2" selected>None (Same Command)</option>
-        </select>
-    </div>
-    <div id="vtsContainer" style="display: none; float: right; width: 55%">
-        Value To Search:<br>
-        <input id="valueToSearch" type="text" class="round">
-    </div><br><br><br>
-    <div style="float: left; width: 48%; padding-top: 8px">
-        Source Info:<br>
-        <select id="info" class="round">
-            <option value="0" selected>Command Name</option>
-            <option value="1">Command ID</option>
-            <option value="2">Command Type</option>
-            <option value="3">Command Restriction</option>
-            <option value="4">Command User Required Permission</option>
-            <option value="5">Command Aliases</option>
-            <option value="6">Command Time Restriction</option>
-            <option value="7">Command Actions Length</option>
-        </select>
-    </div><br><br><br>
-    <div style="float: left; width: 35%; padding-top: 12px">
-        Store In:<br>
-        <select id="storage" class="round">
-            ${data.variables[1]}
-        </select>
-    </div>
-    <div id="varNameContainer" style="float: right; width: 60%; padding-top: 12px">
-        Variable Name:<br>
-        <input id="varName" class="round" type="text">
-    </div>
-        `
+<div style="float: left; width: 40%">
+  Search Command By:<br>
+  <select id="searchCommandBy" class="round" onchange="glob.onChangeSame(this)">
+    <option value="0">Name</option>
+    <option value="1">ID</option>
+    <option value="2" selected>None (Same Command)</option>
+  </select>
+</div>
+<div id="vtsContainer" style="display: none; float: right; width: 55%">
+  Value To Search:<br>
+  <input id="valueToSearch" type="text" class="round">
+</div><br><br><br>
+<div style="float: left; width: 48%; padding-top: 8px">
+  Source Info:<br>
+  <select id="info" class="round">
+    <option value="0" selected>Command Name</option>
+    <option value="1">Command ID</option>
+    <option value="2">Command Type</option>
+    <option value="3">Command Restriction</option>
+    <option value="4">Command User Required Permission</option>
+    <option value="5">Command Aliases</option>
+    <option value="6">Command Time Restriction</option>
+    <option value="7">Command Actions Length</option>
+  </select>
+</div><br><br><br>
+<div style="float: left; width: 35%; padding-top: 12px">
+  Store In:<br>
+  <select id="storage" class="round">
+    ${data.variables[1]}
+  </select>
+</div>
+<div id="varNameContainer" style="float: right; width: 60%; padding-top: 12px">
+  Variable Name:<br>
+  <input id="varName" class="round" type="text">
+</div>`
   },
 
   init () {
@@ -102,22 +101,22 @@ module.exports = {
         result = jp.query(command, '$.._id')
         break
       case 2:
-        result = jp.query(command, '$..comType') == 0 || '' ? 'Normal Command' : jp.query(command, '$..comType') == 1 ? 'Includes Word' : jp.query(command, '$..comType') == 2 ? 'Matches Regular Expression' : 'Any Message'
+        result = jp.query(command, '$..comType') === 0 || '' ? 'Normal Command' : jp.query(command, '$..comType') === 1 ? 'Includes Word' : jp.query(command, '$..comType') === 2 ? 'Matches Regular Expression' : 'Any Message'
         break
       case 3:
-        result = jp.query(command, '$..restriction') == 0 ? 'none' : jp.query(command, '$..restriction') == 1 ? 'Server Only' : jp.query(command, '$..restriction') == 2 ? 'Owner Only' : jp.query(command, '$..restriction') == 3 ? 'DMs Only' : 'Bot Owner Only'
+        result = jp.query(command, '$..restriction') === 0 ? 'none' : jp.query(command, '$..restriction') === 1 ? 'Server Only' : jp.query(command, '$..restriction') === 2 ? 'Owner Only' : jp.query(command, '$..restriction') === 3 ? 'DMs Only' : 'Bot Owner Only'
         break
       case 4:
         result = JSON.stringify(jp.query(command, '$..permissions')).slice(2, -2).replace('_', ' ').toLowerCase()
         break
       case 5:
-        result = jp.query(command, '$.._aliases') == '' ? 'none' : jp.query(command, '$.._aliases')
+        result = jp.query(command, '$.._aliases') === '' ? 'none' : jp.query(command, '$.._aliases')
         break
       case 6:
-        result = jp.query(command, '$.._timeRestriction') == '' ? 'none' : parseInt(jp.query(command, '$.._timeRestriction'))
+        result = jp.query(command, '$.._timeRestriction') === '' ? 'none' : parseInt(jp.query(command, '$.._timeRestriction'))
         break
       case 7:
-        result = parseInt(jp.query(command, '$..name').length) - 1 == '' ? 'none' : parseInt(jp.query(command, '$..name').length) - 1
+        result = parseInt(jp.query(command, '$..name').length) - 1 === '' ? 'none' : parseInt(jp.query(command, '$..name').length) - 1
         break
     }
 

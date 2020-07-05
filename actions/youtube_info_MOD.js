@@ -79,61 +79,52 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div style="width: 550px; height: 350px; overflow-y: scroll;">
-
-	<div style="width: 95%; padding-top: 8px;">
-		Video to Search:<br>
-		<textarea id="video" rows="2" placeholder="Video ID or Video URL Goes here!" style="width: 95%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
-	 </div>
-	<div style="width: 95%; padding-top: 8px;">
-		Source Info:<br>
-		<select id="info" class="round">
-			<option value="0">Video ID</option>
-			<option value="1">Video URL</option>
-			<option value="2">Video Title</option>
-			<option value="3">Video Description</option>
-			<option value="4">Video Owner</option>
-			<option value="5">Video ChannelID</option>
-			<option value="6">Video ThumbnailUrl</option>
-			<option value="7">Video EmbedURL</option>
-			<option value="8">Video Genre</option>
-			<option value="9">Video Paid</option>
-			<option value="10">Video Unlisted</option>
-			<option value="11">Video isFamilyFriendly</option>
-			<option value="12">Video Duration(hh:mm:ss)</option>
-			<option value="13">Video Views</option>
-			<option value="14">Video regionsAllowed</option>
-			<option value="15">Video commentCount</option>
-			<option value="16">Video likeCount</option>
-			<option value="17">Video dislikeCount</option>
-			<option value="18">Video channelThumbnailUrl</option>
-		</select>
-	</div>
-	<div>
-		<div style="float: left; width: 35%;  padding-top: 8px;">
-			Store In:<br>
-			<select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-				${data.variables[0]}
-			</select>
-		</div>
-		<div id="varNameContainer" style="float: right; width: 60%; padding-top: 8px;">
-			Variable Name:<br>
-			<input id="varName" class="round" type="text"><br>
-		</div>
-	</div>
-	<div style="float: left; width: 88%; padding-top: 8px;">
-		<br>
-		<p>
-			For aditional information contact <b>Aamon#9130</b> on Discord or <a href ="https://twitter.com/44m0n"><b>@44m0n<b></a> on Twitter.
-		</p>
-	<div>
+  <div style="width: 95%; padding-top: 8px;">
+    Video to Search:<br>
+    <textarea id="video" rows="2" placeholder="Video ID or Video URL Goes here!" style="width: 95%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+  </div>
+  <div style="width: 95%; padding-top: 8px;">
+    Source Info:<br>
+    <select id="info" class="round">
+      <option value="0">Video ID</option>
+      <option value="1">Video URL</option>
+      <option value="2">Video Title</option>
+      <option value="3">Video Description</option>
+      <option value="4">Video Owner</option>
+      <option value="5">Video ChannelID</option>
+      <option value="6">Video ThumbnailUrl</option>
+      <option value="7">Video EmbedURL</option>
+      <option value="8">Video Genre</option>
+      <option value="9">Video Paid</option>
+      <option value="10">Video Unlisted</option>
+      <option value="11">Video isFamilyFriendly</option>
+      <option value="12">Video Duration(hh:mm:ss)</option>
+      <option value="13">Video Views</option>
+      <option value="14">Video regionsAllowed</option>
+      <option value="15">Video commentCount</option>
+      <option value="16">Video likeCount</option>
+      <option value="17">Video dislikeCount</option>
+      <option value="18">Video channelThumbnailUrl</option>
+    </select>
+  </div>
+  <div>
+    <div style="float: left; width: 35%;  padding-top: 8px;">
+      Store In:<br>
+      <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
+        ${data.variables[0]}
+      </select>
+    </div>
+    <div id="varNameContainer" style="float: right; width: 60%; padding-top: 8px;">
+      Variable Name:<br>
+      <input id="varName" class="round" type="text"><br>
+    </div>
+  </div>
 </div>`
   },
 
   init () {
-    const {
-      glob,
-      document
-    } = this
+    const { glob, document } = this
+
     glob.variableChange(document.getElementById('storage'), 'varNameContainer')
   },
 
@@ -192,10 +183,9 @@ module.exports = {
         case 11:
           result = videoInfo.isFamilyFriendly
           break
-        case 12: {
+        case 12:
           result = TimeFormat.fromS(videoInfo.duration) // check documentation/parameters ==> https://www.npmjs.com/package/hh-mm-ss
           // result = videoInfo.duration; just seconds =]]
-        }
           break
         case 13:
           result = videoInfo.views
@@ -229,5 +219,4 @@ module.exports = {
   },
 
   mod () {}
-
 }

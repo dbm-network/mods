@@ -11,17 +11,16 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-	<div style="float: left; width: 35%;">
-		Source Webhook:<br>
-		<select id="webhook" class="round" onchange="glob.refreshVariableList(this)">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList"><br>
-	</div>
-</div><br>`
+<div style="float: left; width: 35%;">
+  Source Webhook:<br>
+  <select id="webhook" class="round" onchange="glob.refreshVariableList(this)">
+    ${data.variables[1]}
+  </select>
+</div>
+<div id="varNameContainer" style="float: right; width: 60%;">
+  Variable Name:<br>
+  <input id="varName" class="round" type="text" list="variableList"><br>
+</div>`
   },
 
   init () {

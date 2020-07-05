@@ -10,12 +10,12 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-    <div style="float: left; width: 99%;">
-      Text Color:<br>
-      <input type="color" id="color"><br>
-      Comment To Show: (Supports some HTML Tags)<br>
-      <input id="comment" class="round" type="text"><br>
-    </div>`
+<div style="float: left; width: 99%;">
+  Text Color:<br>
+  <input type="color" id="color"><br>
+  Comment To Show: (Supports some HTML Tags)<br>
+  <input id="comment" class="round" type="text"><br>
+</div>`
   },
 
   init () {},

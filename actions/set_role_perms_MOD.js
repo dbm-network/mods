@@ -14,65 +14,65 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div style="padding-top: 8px;">
-	<div style="float: left; width: 35%;">
-		Source Role:<br>
-		<select id="role" class="round" onchange="glob.roleChange(this, 'varNameContainer')">
-			${data.roles[isEvent ? 1 : 0]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="display: none; float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList"><br>
-	</div>
+  <div style="float: left; width: 35%;">
+    Source Role:<br>
+    <select id="role" class="round" onchange="glob.roleChange(this, 'varNameContainer')">
+      ${data.roles[isEvent ? 1 : 0]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text" list="variableList"><br>
+  </div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
-	<div style="float: left; width: 45%;">
-		Permission:<br>
-		<select id="permission" class="round">
-			<option value="0" selected>Administrator</option>
-			<option value="1">Manage Guild</option>
-			<option value="2">Manage Nicknames</option>
-			<option value="3">Manage Roles</option>
-			<option value="4">Manage Emojis</option>
-			<option value="5">Kick Members</option>
-			<option value="6">Ban Members</option>
-			<option value="7">View Audit Log</option>
-			<option value="8">Change Nickname</option>
-			<option value="9">Create Instant Invite</option>
-			<option value="10">Priority Speaker</option>
-			<option value="11">Manage Channel</option>
-			<option value="12">Manage Webhooks</option>
-			<option value="13">Read Messages</option>
-			<option value="14">Send Messages</option>
-			<option value="15">Send TTS Messages</option>
-			<option value="16">Manage Messages</option>
-			<option value="17">Embed Links</option>
-			<option value="18">Attach Files</option>
-			<option value="19">Read Message History</option>
-			<option value="20">Mention Everyone</option>
-			<option value="21">Use External Emojis</option>
-			<option value="22">Add Reactions</option>
-			<option value="23">Connect to Voice</option>
-			<option value="24">Speak in Voice</option>
-			<option value="25">Mute Members</option>
-			<option value="26">Deafen Members</option>
-			<option value="27">Move Members</option>
-			<option value="28">Use Voice Activity</option>
-			<option value="29">All Permissions</option>
-			<option value="30">Stream</option>
-		</select>
-	</div>
-	<div style="padding-left: 5%; float: left; width: 55%;">
-		Change To:<br>
-  		<select id="state" class="round">
-	  	<option value="0" selected>Granted</option>
-	   	<option value="1">Denied</option>
-		</select>
-	</div>
+  <div style="float: left; width: 45%;">
+    Permission:<br>
+    <select id="permission" class="round">
+      <option value="0" selected>Administrator</option>
+      <option value="1">Manage Guild</option>
+      <option value="2">Manage Nicknames</option>
+      <option value="3">Manage Roles</option>
+      <option value="4">Manage Emojis</option>
+      <option value="5">Kick Members</option>
+      <option value="6">Ban Members</option>
+      <option value="7">View Audit Log</option>
+      <option value="8">Change Nickname</option>
+      <option value="9">Create Instant Invite</option>
+      <option value="10">Priority Speaker</option>
+      <option value="11">Manage Channel</option>
+      <option value="12">Manage Webhooks</option>
+      <option value="13">Read Messages</option>
+      <option value="14">Send Messages</option>
+      <option value="15">Send TTS Messages</option>
+      <option value="16">Manage Messages</option>
+      <option value="17">Embed Links</option>
+      <option value="18">Attach Files</option>
+      <option value="19">Read Message History</option>
+      <option value="20">Mention Everyone</option>
+      <option value="21">Use External Emojis</option>
+      <option value="22">Add Reactions</option>
+      <option value="23">Connect to Voice</option>
+      <option value="24">Speak in Voice</option>
+      <option value="25">Mute Members</option>
+      <option value="26">Deafen Members</option>
+      <option value="27">Move Members</option>
+      <option value="28">Use Voice Activity</option>
+      <option value="29">All Permissions</option>
+      <option value="30">Stream</option>
+    </select>
+  </div>
+  <div style="padding-left: 5%; float: left; width: 55%;">
+    Change To:<br>
+      <select id="state" class="round">
+      <option value="0" selected>Granted</option>
+      <option value="1">Denied</option>
+    </select>
+  </div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
-	Reason:<br>
-	<textarea id="reason" rows="2" placeholder="Insert reason here... (optional)" style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+  Reason:<br>
+  <textarea id="reason" rows="2" placeholder="Insert reason here... (optional)" style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
 </div>`
   },
 
@@ -90,7 +90,7 @@ module.exports = {
     const info = parseInt(data.permission)
     const reason = this.evalMessage(data.reason, cache)
 
-    if (data.permission == '29') {
+    if (data.permission === '29') {
       const options = {}
       options[data.permission] = data.state === '0' ? true : (data.state === '1' ? false : null)
       if (role && role.id) {

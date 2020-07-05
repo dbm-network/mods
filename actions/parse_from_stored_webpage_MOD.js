@@ -16,70 +16,67 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-		<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
-		<div>
-				<u>Instructions:</u><br>
-					1. Input a Path into the XPath textarea<br>
-					2. Test Online: <span class="wrexlink" data-url="https://codebeautify.org/Xpath-Tester">X-Path Tester</span><br>
-					3. How to get <span class="wrexlink" data-url="https://stackoverflow.com/a/46599584/1422928">XPath from Chrome.</span><br>
+<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
+  <div>
+    <u>Instructions:</u><br>
+    1. Input a Path into the XPath textarea<br>
+    2. Test Online: <span class="wrexlink" data-url="https://codebeautify.org/Xpath-Tester">X-Path Tester</span><br>
+    3. How to get <span class="wrexlink" data-url="https://stackoverflow.com/a/46599584/1422928">XPath from Chrome.</span><br>
+    </p
+  </div>
+  <div style="float: left; width: 35%;">
+    Source HTML:<br>
+    <select id="source" class="round" onchange="glob.variableChange(this, 'sourceVarNameContainer')">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="sourceVarNameContainer" style="display: none; float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="sourceVarName" class="round" type="text" list="variableList">
+  </div><br><br><br>
+  <div>
+    XPath: (Supports multiple, split with the <b>|</b> symbol) <br>
+    <textarea id="xpath" class="round" style="width: 99%; resize: none;" type="textarea" rows="2" cols="20"></textarea><br>
+  </div>
+  <div hidden="true">
+    <button class="tiny compact ui labeled icon button" onclick="glob.checkPath(this)"><i class="plus icon"></i>Check XPath</button><br>
+    Valid: <text id="valid" style="color: red">Input A Path</text>
+  </div><br>
+  <div style="float: left; width: 35%;">
+    Store In:<br>
+    <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
+      ${data.variables[0]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
+    Storage Variable Name:<br>
+    <input id="varName" class="round" type="text">
+  </div><br>
+  <div style="float: left; width: 30%;">
+    <br>Debug Mode: (Enable to see verbose printing in the bot console)<br>
+    <select id="debugMode" class="round">
+      <option value="1" selected>Enabled</option>
+      <option value="0" >Disabled</option>
+    </select>
+  </div>
+</div>
+<style>
+  span.wrexlink {
+    color: #99b3ff;
+    text-decoration:underline;
+    cursor:pointer;
+  }
 
-			</p>
-		</div>
-		  <div style="float: left; width: 35%;">
-       Source HTML:<br>
-			 <select id="source" class="round" onchange="glob.variableChange(this, 'sourceVarNameContainer')">
-				 ${data.variables[1]}
-			 </select>
-      </div>
-      <div id="sourceVarNameContainer" style="display: none; float: right; width: 60%;">
-        Variable Name:<br>
-        <input id="sourceVarName" class="round" type="text" list="variableList">
-      </div><br><br><br>
-		<div>
-			XPath: (Supports multiple, split with the <b>|</b> symbol) <br>
-			<textarea id="xpath" class="round" style="width: 99%; resize: none;" type="textarea" rows="2" cols="20"></textarea><br>
-		</div>
-	  <div hidden="true">
-		<button class="tiny compact ui labeled icon button" onclick="glob.checkPath(this)"><i class="plus icon"></i>Check XPath</button><br>
-		Valid: <text id="valid" style="color: red">Input A Path</text>
-	  </div><br>
-		<div style="float: left; width: 35%;">
-			Store In:<br>
-			<select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-				${data.variables[0]}
-			</select>
-		</div>
-		<div id="varNameContainer" style="display: none; float: right; width: 60%;">
-			Storage Variable Name:<br>
-			<input id="varName" class="round" type="text">
-		</div><br>
-		<div style="float: left; width: 30%;">
-			<br>Debug Mode: (Enable to see verbose printing in the bot console)<br>
-			<select id="debugMode" class="round">
-		   		<option value="1" selected>Enabled</option>
-		   		<option value="0" >Disabled</option>
-			</select>
-	 </div>
-	</div>
-	<style>
-	  span.wrexlink {
-		color: #99b3ff;
-		text-decoration:underline;
-		cursor:pointer;
-	  }
-	  span.wrexlink:hover {
-		color:#4676b9;
-	  }
-	</style>
-	`
+  span.wrexlink:hover {
+    color:#4676b9;
+  }
+</style>`
   },
 
   init () {
     const { glob, document } = this
 
     try {
-      const Mods = require(require('path').join(__dirname, 'aaa_wrexmods_dependencies_MOD.js')).getMods()
-
       const wrexlinks = document.getElementsByClassName('wrexlink')
       for (let x = 0; x < wrexlinks.length; x++) {
         const wrexlink = wrexlinks[x]
@@ -120,10 +117,8 @@ module.exports = {
       const html = this.getVariable(source, sourceVarName, cache)
 
       const xpath = Mods.require('xpath')
-      const dom = Mods.require('xmldom').DOMParser
+      const DOM = Mods.require('xmldom').DOMParser
       const ent = Mods.require('ent')
-
-      const errors = []
 
       if (myXPath) {
         // check for errors
@@ -138,12 +133,20 @@ module.exports = {
         if (html) {
           const mylocator = {}
           const parseLog = { errorLevel: 0 }
-          const doc = new dom({
+          const doc = new DOM({
             locator: mylocator,
             errorHandler: {
-              warning: (msg) => { manageXmlParseError(msg, 1, parseLog) },
-              error: (msg) => { manageXmlParseError(msg, 2, parseLog); (DEBUG ? console.log(`XMLDOMError: ${msg}`) : '') },
-              fatalError: (msg) => { manageXmlParseError(msg, 3, parseLog); (DEBUG ? console.log(`FATAL XMLDOMError: ${msg}`) : '') }
+              warning: (msg) => {
+                manageXmlParseError(msg, 1, parseLog)
+              },
+              error: (msg) => {
+                manageXmlParseError(msg, 2, parseLog)
+                if (DEBUG) console.log(`XMLDOMError: ${msg}`)
+              },
+              fatalError: (msg) => {
+                manageXmlParseError(msg, 3, parseLog)
+                if (DEBUG) console.log(`FATAL XMLDOMError: ${msg}`)
+              }
             }
           }).parseFromString(ent.decode(html))
 

@@ -63,79 +63,79 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-	<div>
-		<div style="float: left; width: 35%;">
-			Source Permissions:<br>
-			<select id="storage" class="round" onchange="glob.refreshVariableList(this)">
-				${data.variables[1]}
-			</select><br>
-		</div>
-		<div style="float: right; width: 60%;">
-			Variable Name:<br>
-			<input id="varName" class="round" type="text" list="variableList"><br>
-		</div>
-	</div><br><br><br>
-	<div style="padding-top: 8px;">
-		<div style="float: left; width: 60%;">
-			Info:<br>
-			<select id="info" class="round">
-				<optgroup label="Basic Info">
-					<option value="0" selected>Allow Bitfields</option>
-					<option value="1">Allow Flags</option>
-					<option value="2">Disallow Bitfields</option>
-					<option value="3">Disallow Flags</option>
-				</optgroup>
-				<optgroup label="General Permissions">
-					<option value="4">Have Administrator</option>
-					<option value="5">Have View Audit Log</option>
-					<option value="6">Have Manage Server</option>
-					<option value="7">Have Manage Roles</option>
-					<option value="8">Have Manage Channels</option>
-					<option value="9">Have Kick Members</option>
-					<option value="10">Have Ban Members</option>
-					<option value="11">Have Create Invite</option>
-					<option value="12">Have Change Nickname</option>
-					<option value="13">Have Manage Nicknames</option>
-					<option value="14">Have Manage Emojis</option>
-					<option value="15">Have Manage Webhooks</option>
-				</optgroup>
-				<optgroup label="Text Permissions">
-					<option value="16">Have View Channel</option>
-					<option value="17">Have Send Messages</option>
-					<option value="18">Have Send TTS Messages</option>
-					<option value="19">Have Manage Messages</option>
-					<option value="20">Have Embed Links</option>
-					<option value="21">Have Attach Files</option>
-					<option value="22">Have Read Mesage History</option>
-					<option value="23">Have Mention Everyone</option>
-					<option value="24">Have Use External Emojis</option>
-					<option value="25">Have Add Reactions</option>
-				</optgroup>
-				<optgroup label="Voice Permissions">
-					<option value="26">Have Connect</option>
-					<option value="27">Have Speak</option>
-					<option value="28">Have Video</option>
-					<option value="29">Have Mute Members</option>
-					<option value="30">Have Deafen Members</option>
-					<option value="31">Have Move Members</option>
-					<option value="32">Have User Voice Activity</option>
-					<option value="33">Have Priority Speaker</option>
-				</optgroup>
-			</select>
-		</div>
-	</div><br><br><br>
-	<div style="padding-top: 8px;">
-		<div style="float: left; width: 35%;">
-			Store In:<br>
-			<select id="storage2" class="round">
-				${data.variables[1]}
-			</select>
-		</div>
-		<div style="float: right; width: 60%;">
-			Variable Name:<br>
-			<input id="varName2" class="round" type="text">
-		</div>
-	</div>`
+<div>
+  <div style="float: left; width: 35%;">
+    Source Permissions:<br>
+    <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
+      ${data.variables[1]}
+    </select><br>
+  </div>
+  <div style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text" list="variableList"><br>
+  </div>
+</div><br><br><br>
+<div style="padding-top: 8px;">
+  <div style="float: left; width: 60%;">
+    Info:<br>
+    <select id="info" class="round">
+      <optgroup label="Basic Info">
+        <option value="0" selected>Allow Bitfields</option>
+        <option value="1">Allow Flags</option>
+        <option value="2">Disallow Bitfields</option>
+        <option value="3">Disallow Flags</option>
+      </optgroup>
+      <optgroup label="General Permissions">
+        <option value="4">Have Administrator</option>
+        <option value="5">Have View Audit Log</option>
+        <option value="6">Have Manage Server</option>
+        <option value="7">Have Manage Roles</option>
+        <option value="8">Have Manage Channels</option>
+        <option value="9">Have Kick Members</option>
+        <option value="10">Have Ban Members</option>
+        <option value="11">Have Create Invite</option>
+        <option value="12">Have Change Nickname</option>
+        <option value="13">Have Manage Nicknames</option>
+        <option value="14">Have Manage Emojis</option>
+        <option value="15">Have Manage Webhooks</option>
+      </optgroup>
+      <optgroup label="Text Permissions">
+        <option value="16">Have View Channel</option>
+        <option value="17">Have Send Messages</option>
+        <option value="18">Have Send TTS Messages</option>
+        <option value="19">Have Manage Messages</option>
+        <option value="20">Have Embed Links</option>
+        <option value="21">Have Attach Files</option>
+        <option value="22">Have Read Mesage History</option>
+        <option value="23">Have Mention Everyone</option>
+        <option value="24">Have Use External Emojis</option>
+        <option value="25">Have Add Reactions</option>
+      </optgroup>
+      <optgroup label="Voice Permissions">
+        <option value="26">Have Connect</option>
+        <option value="27">Have Speak</option>
+        <option value="28">Have Video</option>
+        <option value="29">Have Mute Members</option>
+        <option value="30">Have Deafen Members</option>
+        <option value="31">Have Move Members</option>
+        <option value="32">Have User Voice Activity</option>
+        <option value="33">Have Priority Speaker</option>
+      </optgroup>
+    </select>
+  </div>
+</div><br><br><br>
+<div style="padding-top: 8px;">
+  <div style="float: left; width: 35%;">
+    Store In:<br>
+    <select id="storage2" class="round">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName2" class="round" type="text">
+  </div>
+</div>`
   },
 
   init () {
@@ -153,7 +153,7 @@ module.exports = {
     let result = false
     const storage2 = parseInt(data.storage2)
     const varName2 = this.evalMessage(data.varName2, cache)
-    if (!permissions.allow && ![2, 3].includes(info) || !permissions.disallow && [2, 3].includes(info)) {
+    if ((!permissions.allow && ![2, 3].includes(info)) || (!permissions.disallow && [2, 3].includes(info))) {
       this.storeValue(result, storage2, varName2, cache)
       this.callNextAction(cache)
       return

@@ -13,31 +13,31 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div>
-	<div style="float: left; width: 45%;">
-		Source Voice Channel:<br>
-		<select id="storage" class="round" onchange="glob.channelChange(this, 'varNameContainer')">
-			${data.voiceChannels[isEvent ? 1 : 0]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="padding-left: 5%; float: left; width: 55%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList"><br>
-	</div>
+  <div style="float: left; width: 45%;">
+    Source Voice Channel:<br>
+    <select id="storage" class="round" onchange="glob.channelChange(this, 'varNameContainer')">
+      ${data.voiceChannels[isEvent ? 1 : 0]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="padding-left: 5%; float: left; width: 55%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text" list="variableList"><br>
+  </div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
-	<div style="float: left; width: 45%;">
-		Permission:<br>
-		<select id="permission" class="round">
-			${data.permissions[1]}
-		</select>
-	</div>
-	<div style="padding-left: 5%; float: left; width: 55%;">
-		Change To:<br>
-		<select id="state" class="round">
-			<option value="0" selected>Allow</option>
-			<option value="1">Disallow</option>
-		</select>
-	</div>
+  <div style="float: left; width: 45%;">
+    Permission:<br>
+    <select id="permission" class="round">
+      ${data.permissions[1]}
+    </select>
+  </div>
+  <div style="padding-left: 5%; float: left; width: 55%;">
+    Change To:<br>
+    <select id="state" class="round">
+      <option value="0" selected>Allow</option>
+      <option value="1">Disallow</option>
+    </select>
+  </div>
 </div>`
   },
 

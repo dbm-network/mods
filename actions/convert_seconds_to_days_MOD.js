@@ -16,34 +16,24 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-	<br><br><br>
-	<div style="float: left; width: 70%; padding-top: 8px;">
-		Seconds to Convert:
-		<input id="time" class="round" type="text" placeholder="e.g. 1522672056 or use Variables">
-	</div>
-	<div style="float: left; width: 35%; padding-top: 8px;">
-		Store Result In:<br>
-		<select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-		${data.variables[0]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="float: right; display: none; width: 60%; padding-top: 8px;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text">
-	</div><br><br>
-	<div style=" float: left; width: 88%; padding-top: 8px;">
-		<br>
-		<p>
-			For aditional information contact <b>Aamon#9130</b> on Discord or <a href ="https://twitter.com/44m0n"><b>@44m0n<b></a> on Twitter.
-		</p>
-	</div>`
+<div style="float: left; width: 70%; padding-top: 8px;">
+  Seconds to Convert:
+  <input id="time" class="round" type="text" placeholder="e.g. 1522672056 or use Variables">
+</div>
+<div style="float: left; width: 35%; padding-top: 8px;">
+  Store Result In:<br>
+  <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
+  ${data.variables[0]}
+  </select>
+</div>
+<div id="varNameContainer" style="float: right; display: none; width: 60%; padding-top: 8px;">
+  Variable Name:<br>
+  <input id="varName" class="round" type="text">
+</div><br><br>`
   },
 
   init () {
-    const {
-      glob,
-      document
-    } = this
+    const { glob, document } = this
 
     glob.variableChange(document.getElementById('storage'), 'varNameContainer')
   },
@@ -51,10 +41,10 @@ module.exports = {
   action (cache) {
     const data = cache.actions[cache.index]
     const time = this.evalMessage(data.time, cache)
-    const _this = this // this is needed sometimes.
-
-    let d; let h; let m; let
-      s
+    let d
+    let h
+    let m
+    let s
     let result
 
     if (isNaN(time)) {
@@ -83,5 +73,4 @@ module.exports = {
   },
 
   mod () {}
-
 }

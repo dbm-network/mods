@@ -8,17 +8,15 @@ module.exports = {
 
   fields: ['filename'],
 
-  html (isEvent, data) {
+  html () {
     return `
-<div>
-</div><br>
 <div style="float: left; width: 105%;">
-	Your main bot file:<br>
-	<input id="filename" class="round" type="text" value="bot.js"><br>
+  Your main bot file:<br>
+  <input id="filename" class="round" type="text" value="bot.js"><br>
 </div>
 <div><br>
-	<p><u>NOTE:</u><br>
-		Any action that is below this mod will not be executed!</p>
+  <p><u>NOTE:</u><br>
+  Any action that is below this mod will not be executed!</p>
 </div>`
   },
 

@@ -16,23 +16,23 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-	Name:<br>
-	<input id="channelName" class="round" type="text"><br>
-	<div style="float: left; width: 50%;">
-		Position:<br>
-		<input id="position" class="round" type="text" placeholder="Leave blank for default!" style="width: 90%;"><br>
-	</div><br><br><br><br>
+Name:<br>
+<input id="channelName" class="round" type="text"><br>
+<div style="float: left; width: 50%;">
+  Position:<br>
+  <input id="position" class="round" type="text" placeholder="Leave blank for default!" style="width: 90%;"><br>
+</div><br><br><br><br>
 <div>
 <div style="float: left; width: 45%;">
-		Store In:<br>
-		<select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-			${data.variables[0]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="display: none; float: right; width: 50%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text" style="width: 90%"><br>
-	</div>
+    Store In:<br>
+    <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
+      ${data.variables[0]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="display: none; float: right; width: 50%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text" style="width: 90%"><br>
+  </div>
 </div>`
   },
 

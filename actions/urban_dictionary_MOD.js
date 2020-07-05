@@ -43,34 +43,34 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div style="width: 550px; height: 350px; overflow-y: scroll;">
-	<div style="width: 100%; padding-top: 8px;">
-		String to Search:<br>
-		<textarea id="string" rows="6" placeholder="Write a something or use variables..." style="width: 95%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
-	 </div>
-	<div style="float: left; width: 94%; padding-top: 8px;">
-		Source Info:<br>
-		<select id="info" class="round">
-			<option value="0">Definition</option>
-			<option value="1">URL</option>
-			<option value="2">Example</option>
-			<option value="3">Thumbs Up Count</option>
-			<option value="4">Thumbs Down Count</option>
-			<option value="5">Author</option>
-			<option value="6">Result ID</option>
-		</select>
-	</div><br><br><br>
-	<div>
-		<div style="float: left; width: 35%; padding-top: 8px;">
-			Store In:<br>
-			<select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-				${data.variables[0]}
-			</select>
-		</div>
-		<div id="varNameContainer" style="float: right; width: 60%; padding-top: 8px;">
-			Variable Name:<br>
-			<input id="varName" class="round" type="text"><br>
-		</div>
-	</div>
+  <div style="width: 100%; padding-top: 8px;">
+    String to Search:<br>
+    <textarea id="string" rows="6" placeholder="Write a something or use variables..." style="width: 95%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+  </div>
+  <div style="float: left; width: 94%; padding-top: 8px;">
+    Source Info:<br>
+    <select id="info" class="round">
+      <option value="0">Definition</option>
+      <option value="1">URL</option>
+      <option value="2">Example</option>
+      <option value="3">Thumbs Up Count</option>
+      <option value="4">Thumbs Down Count</option>
+      <option value="5">Author</option>
+      <option value="6">Result ID</option>
+    </select>
+  </div><br><br><br>
+  <div>
+    <div style="float: left; width: 35%; padding-top: 8px;">
+      Store In:<br>
+      <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
+        ${data.variables[0]}
+      </select>
+    </div>
+    <div id="varNameContainer" style="float: right; width: 60%; padding-top: 8px;">
+      Variable Name:<br>
+      <input id="varName" class="round" type="text"><br>
+    </div>
+  </div>
 </div>`
   },
 

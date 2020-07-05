@@ -19,51 +19,51 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div>
-	<div style="float: left; width: 35%;">
-		Variable:<br>
-		<select id="storage" class="round" onchange="glob.refreshVariableList(this)">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList">
-	</div>
+  <div style="float: left; width: 35%;">
+    Variable:<br>
+    <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text" list="variableList">
+  </div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
-	<div style="float: left; width: 45%;">
-		Pattern Type:<br>
-		<select id="info" class="round" onchange="glob.onChange1(this)">
-			<option value="0">Repeat</option>
-			<option value="1">Change</option>
-			<option value="2">Add To Front</option>
-			<option value="3">Add To End</option>
-			<option value="4">Add To Specific Position</option>
-			<option value="5">Store From Front</option>
-			<option value="6">Store From End</option>
-			<option value="7">Store One Character</option>
-		</select>
-	</div>
-	<div style="float: right; width: 50%;" id="info2box">
-		<div id="info2text">Character:</div>
-		<input id="info2" class="round" type="text">
-	</div>
+  <div style="float: left; width: 45%;">
+    Pattern Type:<br>
+    <select id="info" class="round" onchange="glob.onChange1(this)">
+      <option value="0">Repeat</option>
+      <option value="1">Change</option>
+      <option value="2">Add To Front</option>
+      <option value="3">Add To End</option>
+      <option value="4">Add To Specific Position</option>
+      <option value="5">Store From Front</option>
+      <option value="6">Store From End</option>
+      <option value="7">Store One Character</option>
+    </select>
+  </div>
+  <div style="float: right; width: 50%;" id="info2box">
+    <div id="info2text">Character:</div>
+    <input id="info2" class="round" type="text">
+  </div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
-	<div id="info3text">Character:</div>
-	<input id="value" class="round" type="text">
+  <div id="info3text">Character:</div>
+  <input id="value" class="round" type="text">
 </div><br>
 <div style="padding-top: 8px;">
-	<div style="float: left; width: 35%;">
-		Store In:<br>
-		<select id="storage2" class="round">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName2" class="round" type="text"><br>
-	</div>
+  <div style="float: left; width: 35%;">
+    Store In:<br>
+    <select id="storage2" class="round">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName2" class="round" type="text"><br>
+  </div>
 </div>`
   },
 
@@ -72,7 +72,7 @@ module.exports = {
 
     glob.onChange1 = function (event) {
       const info3text = document.getElementById('info3text')
-      if ((event.value === '0' || event.value === '1' || event.value === '4') == true) {
+      if (event.value === '0' || event.value === '1' || event.value === '4') {
         const info2text = document.getElementById('info2text')
         document.getElementById('info2box').style.display = null
         if (event.value === '0') {
@@ -87,9 +87,9 @@ module.exports = {
         }
       } else {
         document.getElementById('info2box').style.display = 'none'
-        if ((event.value === '2' || event.value === '3') == true) {
+        if (event.value === '2' || event.value === '3') {
           info3text.innerHTML = 'Add Character'
-        } else if ((event.value === '5' || event.value === '6' || event.value === '7') == true) {
+        } else if (event.value === '5' || event.value === '6' || event.value === '7') {
           info3text.innerHTML = 'Store Number Character'
         }
       }
@@ -107,7 +107,7 @@ module.exports = {
     const info = parseInt(data.info)
     const value = this.evalMessage(data.value, cache)
     let result
-    if ((info == 0 || info == 1 || info == 4) == true) {
+    if (info === 0 || info === 1 || info === 4) {
       var info2 = this.evalMessage(data.info2, cache)
     }
     switch (info) {

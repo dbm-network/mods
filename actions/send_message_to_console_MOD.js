@@ -14,8 +14,8 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div style="padding-top: 8px;">
-	Message to send:<br>
-	<textarea id="tosend" rows="4" style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+  Message to send:<br>
+  <textarea id="tosend" rows="4" style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
 </div>`
   },
 
@@ -27,7 +27,7 @@ module.exports = {
     const data = cache.actions[cache.index]
     const send = this.evalMessage(data.tosend, cache)
     if (send.length > 0) {
-      const color = this.evalMessage(data.color, cache)	// Default to #f2f2f2
+      const color = this.evalMessage(data.color, cache)
       console.log(chalk.hex(color)(send))
       this.callNextAction(cache)
     } else {
@@ -39,5 +39,4 @@ module.exports = {
   mod (DBM) {
     DBM.Actions['Send Message to Console (Logs)'] = DBM.Actions['Send Message to Console']
   }
-
 }

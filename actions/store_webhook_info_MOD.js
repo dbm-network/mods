@@ -43,41 +43,41 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div>
-	<div style="float: left; width: 35%;">
-		Transfer Value From:<br>
-		<select id="webhook" class="round" onchange="glob.refreshVariableList(this)">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList"><br>
-	</div>
+  <div style="float: left; width: 35%;">
+    Transfer Value From:<br>
+    <select id="webhook" class="round" onchange="glob.refreshVariableList(this)">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text" list="variableList"><br>
+  </div>
 </div><br><br><br>
 <div style="float: left; width: 80%; padding-top: 8px;">
-	Source Info:<br>
-	<select id="info" class="round">
-		<option value="6" selected>Webhook URL</option>
-		<option value="2">Webhook ID</option>
-		<option value="5">Webhook Token</option>
-		<option value="3">Webhook Name</option>
-		<option value="4">Webhook Owner</option>
-		<option value="1">Webhook Guild ID</option>
-		<option value="0">Webhook Channel ID</option>
-	</select>
+  Source Info:<br>
+  <select id="info" class="round">
+    <option value="6" selected>Webhook URL</option>
+    <option value="2">Webhook ID</option>
+    <option value="5">Webhook Token</option>
+    <option value="3">Webhook Name</option>
+    <option value="4">Webhook Owner</option>
+    <option value="1">Webhook Guild ID</option>
+    <option value="0">Webhook Channel ID</option>
+  </select>
 </div><br><br>
 <div>
-	<div style="float: left; width: 35%;">
-		Store In:<br>
-		<select id="storage" class="round">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer2" style="float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName2" class="round" type="text"><br>
-	</div>
-</div><br><br><br>`
+  <div style="float: left; width: 35%;">
+    Store In:<br>
+    <select id="storage" class="round">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer2" style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName2" class="round" type="text"><br>
+  </div>
+</div>`
   },
 
   init () {

@@ -17,36 +17,36 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div style="width: 90%;">
-	Webhook Name:<br>
-	<input id="webhookName" class="round" type="text">
+  Webhook Name:<br>
+  <input id="webhookName" class="round" type="text">
 </div><br>
 <div style="width: 90%;">
-	Webhook Icon URL:<br>
-	<input id="webhookIcon" class="round" type="text">
+  Webhook Icon URL:<br>
+  <input id="webhookIcon" class="round" type="text">
 </div><br>
 <div>
-	<div style="float: left; width: 35%;">
-		Source Channel:<br>
-		<select id="storage" class="round" onchange="glob.channelChange(this, 'varNameContainer')">
-			${data.channels[1]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="display: none; float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList"><br>
-	</div>
+  <div style="float: left; width: 35%;">
+    Source Channel:<br>
+    <select id="storage" class="round" onchange="glob.channelChange(this, 'varNameContainer')">
+      ${data.channels[1]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text" list="variableList"><br>
+  </div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
-	<div style="float: left; width: 35%;">
-		Store In:<br>
-		<select id="storage2" class="round" onchange="glob.variableChange(this, 'varNameContainer2')">
-			${data.variables[0]}
-		</select>
-	</div>
-	<div id="varNameContainer2" style="display: none; float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName2" class="round" type="text">
-	</div>
+  <div style="float: left; width: 35%;">
+    Store In:<br>
+    <select id="storage2" class="round" onchange="glob.variableChange(this, 'varNameContainer2')">
+      ${data.variables[0]}
+    </select>
+  </div>
+  <div id="varNameContainer2" style="display: none; float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName2" class="round" type="text">
+  </div>
 </div>`
   },
 

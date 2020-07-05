@@ -25,109 +25,112 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-        <style>
-        table.scroll {
-            width: 525px; /* 140px * 5 column + 16px scrollbar width */
-            border-spacing: 0;
-            border: 2px solid white;
-        }
+<style>
+  table.scroll {
+    width: 525px; /* 140px * 5 column + 16px scrollbar width */
+    border-spacing: 0;
+    border: 2px solid white;
+  }
 
-        table.scroll tbody,
-        table.scroll thead tr { display: block; }
+  table.scroll tbody,
+  table.scroll thead tr { display: block; }
 
-        table.scroll tbody {
-            height: 100px;
-            overflow-y: auto;
-            overflow-x: hidden;
-        }
+  table.scroll tbody {
+    height: 100px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
 
-        table.scroll tbody td,
-        table.scroll thead th {
-            width: 176px;
-        }
+  table.scroll tbody td,
+  table.scroll thead th {
+    width: 176px;
+  }
 
-        table.scroll thead th:last-child {
-            width: 180px; /* 140px + 16px scrollbar width */
-        }
+  table.scroll thead th:last-child {
+    width: 180px; /* 140px + 16px scrollbar width */
+  }
 
-        thead tr th {
-            height: 30px;
-            line-height: 30px;
-            /*text-align: left;*/
-        }
+  thead tr th {
+    height: 30px;
+    line-height: 30px;
+  }
 
-        tbody { border-top: 2px solid white; }
-
-        </style>
-        <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
-
-    <div>
-        <div style="float: left; width: 35%;">
-            Source Server:<br>
-            <select id="server" class="round" onchange="glob.serverChange(this, 'varNameContainer2')">
-                ${data.servers[isEvent ? 1 : 0]}
-            </select>
-        </div>
-        <div id="varNameContainer2" style="display: none; float: right; width: 60%;">
-            Variable Name:<br>
-            <input id="varName2" class="round" type="text" list="variableList"><br>
-        </div>
-    </div><br><br><br>
-	<div style="padding-top: 8px; width: 70%;">
-		Source Info:<br>
-        <select id="info" class="round">
-          /* Options are added in the init function */
-		</select>
-	</div><br>
-	<div style="float: left; width: 35%; padding-top: 8px;">
-		Store Result In:<br>
-		<select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-			${data.variables[0]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="float: right; display: none; width: 60%; padding-top: 8px;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text">
-	</div>
-	<style>
-	/* START OF EMBED CSS */
-div.embed { /* <div class="embed"></div> */
+  tbody { border-top: 2px solid white; }
+</style>
+<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
+<div>
+  <div style="float: left; width: 35%;">
+    Source Server:<br>
+    <select id="server" class="round" onchange="glob.serverChange(this, 'varNameContainer2')">
+        ${data.servers[isEvent ? 1 : 0]}
+    </select>
+  </div>
+  <div id="varNameContainer2" style="display: none; float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName2" class="round" type="text" list="variableList"><br>
+  </div>
+</div><br><br><br>
+<div style="padding-top: 8px; width: 70%;">
+  Source Info:<br>
+  <select id="info" class="round">
+    <!-- Options are added in the init function -->
+  </select>
+</div><br>
+<div style="float: left; width: 35%; padding-top: 8px;">
+  Store Result In:<br>
+  <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
+    ${data.variables[0]}
+  </select>
+</div>
+<div id="varNameContainer" style="float: right; display: none; width: 60%; padding-top: 8px;">
+  Variable Name:<br>
+  <input id="varName" class="round" type="text">
+</div>
+<style>
+  div.embed { /* <div class="embed"></div> */
     position: relative;
-}
-    embedleftline { /* <embedleftline></embedleftline> OR if you wan't to change the Color: <embedleftline style="background-color: #HEXCODE;"></embedleftline> */
-        background-color: #eee;
-        width: 4px;
-        border-radius: 3px 0 0 3px;
-        border: 0;
-        height: 100%;
-        margin-left: 4px;
-        position: absolute;
-    }
-    div.embedinfo { /* <div class="embedinfo"></div> */
-        background: rgba(46,48,54,.45) fixed;
-        border: 1px solid hsla(0,0%,80%,.3);
-        padding: 10px;
-        margin:0 4px 0 7px;
-        border-radius: 0 3px 3px 0;
-    }
-        span.embed-auth { /* <span class="embed-auth"></span> (Title thing) */
-            color: rgb(255, 255, 255);
-        }
-        span.embed-desc { /* <span class="embed-desc"></span> (Description thing) */
-            color: rgb(128, 128, 128);
-        }
-        span { /* Only making the text look, nice! */
-            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-        }
-        span.wrexlink {
-            color: #99b3ff;
-            text-decoration:underline;
-            cursor:pointer;
-        }
-        span.wrexlink:hover {
-            color:#4676b9;
-        }
-	</style>`
+  }
+
+  embedleftline { /* <embedleftline></embedleftline> OR if you wan't to change the Color: <embedleftline style="background-color: #HEXCODE;"></embedleftline> */
+    background-color: #eee;
+    width: 4px;
+    border-radius: 3px 0 0 3px;
+    border: 0;
+    height: 100%;
+    margin-left: 4px;
+    position: absolute;
+  }
+
+  div.embedinfo { /* <div class="embedinfo"></div> */
+    background: rgba(46,48,54,.45) fixed;
+    border: 1px solid hsla(0,0%,80%,.3);
+    padding: 10px;
+    margin:0 4px 0 7px;
+    border-radius: 0 3px 3px 0;
+  }
+
+  span.embed-auth { /* <span class="embed-auth"></span> (Title thing) */
+    color: rgb(255, 255, 255);
+  }
+
+  span.embed-desc { /* <span class="embed-desc"></span> (Description thing) */
+    color: rgb(128, 128, 128);
+  }
+
+  span {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  }
+
+  span.wrexlink {
+    color: #99b3ff;
+    text-decoration:underline;
+    cursor:pointer;
+  }
+
+  span.wrexlink:hover {
+    color:#4676b9;
+  }
+</style>`
   },
 
   subtitle (data) {
@@ -161,12 +164,12 @@ div.embed { /* <div class="embed"></div> */
       }
 
       const select = document.getElementById('info')
-      if (select.length == 0) {
+      if (select.length === 0) {
         for (let i = 0; i < itemList.length; i++) {
           const item = itemList[i]
 
           const option = document.createElement('option')
-          if (i == 0) option.className = 'selected'
+          if (i === 0) option.className = 'selected'
           option.value = i
           option.text = item.name
 
@@ -177,6 +180,7 @@ div.embed { /* <div class="embed"></div> */
       glob.variableChange(document.getElementById('storage'), 'varNameContainer')
       glob.serverChange(document.getElementById('server'), 'varNameContainer2')
     } catch (error) {
+      // eslint-disable-next-line no-undef
       alert(`Store Audio Info Init Error:\n\n${error}`)
     }
   },
@@ -204,7 +208,7 @@ div.embed { /* <div class="embed"></div> */
     let result
     switch (info) {
       case 0:
-        result = Audio.volumes[targetServer.id] && parseInt(Audio.volumes[targetServer.id]) * 100 || 50 // volume
+        result = (Audio.volumes[targetServer.id] && parseInt(Audio.volumes[targetServer.id]) * 100) || 50 // volume
         break
       case 1:
         result = !!Audio.dispatchers[targetServer.id] // is playing

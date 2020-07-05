@@ -1,6 +1,5 @@
 module.exports = {
   name: 'Control Permissions',
-
   section: 'Permission Control',
 
   subtitle (data) {
@@ -34,24 +33,24 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-	<div style="width: 550px; height: 350px; overflow-y: scroll;">
-		<div style="padding-top: 8px;">
-			<div style="float: left; width: 35%;">
-				Source Permissions:<br>
-				<select id="storage" class="round" onchange="glob.refreshVariableList(this)">
-					${data.variables[1]}
-				</select><br>
-			</div>
-			<div style="float: right; width: 60%;">
-				Variable Name:<br>
-				<input id="varName" class="round" type="text" list="variableList"><br>
-			</div>
-		</div><br><br><br>
-		<div style="padding-top: 8px;">
-			<div id="checkbox" style="float: left; width: 80%;">
-			</div>
-		</div>
-	</div>`
+<div style="width: 550px; height: 350px; overflow-y: scroll;">
+  <div style="padding-top: 8px;">
+    <div style="float: left; width: 35%;">
+      Source Permissions:<br>
+      <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
+        ${data.variables[1]}
+      </select><br>
+    </div>
+    <div style="float: right; width: 60%;">
+      Variable Name:<br>
+      <input id="varName" class="round" type="text" list="variableList"><br>
+    </div>
+  </div><br><br><br>
+  <div style="padding-top: 8px;">
+    <div id="checkbox" style="float: left; width: 80%;">
+    </div>
+  </div>
+</div>`
   },
 
   init () {
@@ -76,10 +75,10 @@ module.exports = {
     const list = document.getElementById('variableList')
 
     varName.oninput = function () {
-      if (list.children.length == 0) return
+      if (list.children.length === 0) return
       let dataType
       for (let i = 0; i < list.children.length; i++) {
-        if (varName.value && list.children[i].value == varName.value) {
+        if (varName.value && list.children[i].value === varName.value) {
           dataType = list.children[i].innerHTML
           break
         }
@@ -92,7 +91,7 @@ module.exports = {
         dom.id = Permission
         dom.className = 'round'
         let option = options
-        if (dataType == 'Role Permissions') option = options2
+        if (dataType === 'Role Permissions') option = options2
         option.forEach((option) => {
           const op = document.createElement('option')
           op.innerHTML = option
@@ -105,9 +104,9 @@ module.exports = {
     }
 
     let dataType
-    if (list.children.length != 0) {
+    if (list.children.length !== 0) {
       for (let i = 0; i < list.children.length; i++) {
-        if (list.children[i].value == varName.value) {
+        if (list.children[i].value === varName.value) {
           dataType = list.children[i].innerHTML
           break
         }
@@ -146,21 +145,21 @@ module.exports = {
     const permsArray = ['ADMINISTRATOR', 'CREATE_INSTANT_INVITE', 'KICK_MEMBERS', 'BAN_MEMBERS', 'MANAGE_CHANNELS', 'MANAGE_GUILD', 'ADD_REACTIONS', 'VIEW_AUDIT_LOG', 'PRIORITY_SPEAKER', 'STREAM', 'VIEW_CHANNEL', 'SEND_MESSAGES', 'SEND_TTS_MESSAGES', 'MANAGE_MESSAGES', 'EMBED_LINKS', 'ATTACH_FILES', 'READ_MESSAGE_HISTORY', 'MENTION_EVERYONE', 'USE_EXTERNAL_EMOJIS', 'CONNECT', 'SPEAK', 'MUTE_MEMBERS', 'DEAFEN_MEMBERS', 'MOVE_MEMBERS', 'USE_VAD', 'CHANGE_NICKNAME', 'MANAGE_NICKNAMES', 'MANAGE_ROLES', 'MANAGE_WEBHOOKS', 'MANAGE_EMOJIS']
 
     permsArray.forEach((perms) => {
-      if (data[perms] == 'Allow') {
+      if (data[perms] === 'Allow') {
         if (!permissions.allow || !permissions.allow.has(perms)) {
           if (!permissions.allow) permissions.allow = new Permissions()
           permissions.allow.add(perms)
         }
         if (permissions.disallow && permissions.disallow.has(perms)) permissions.disallow.remove(perms)
         if (permissions.inherit && permissions.inherit.includes(perms)) permissions.inherit.splice(permissions.inherit.indexOf(perms), 1)
-      } else if (data[perms] == 'Disallow') {
+      } else if (data[perms] === 'Disallow') {
         if (!permissions.disallow || !permissions.disallow.has(perms)) {
           if (!permissions.disallow) permissions.disallow = new Permissions()
           permissions.disallow.add(perms)
         }
         if (permissions.allow && permissions.allow.has(perms)) permissions.allow.remove(perms)
         if (permissions.inherit && permissions.inherit.includes(perms)) permissions.inherit.splice(permissions.inherit.indexOf(perms), 1)
-      } else if (data[perms] == 'Inherit') {
+      } else if (data[perms] === 'Inherit') {
         if (!permissions.inherit || !permissions.inherit.has(perms)) {
           if (!permissions.inherit) permissions.inherit = []
           permissions.inherit.push(perms)

@@ -50,85 +50,87 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-	<div>
-		<div style="float: left; width: 35%;">
-			Source Category:<br>
-			<select id="category" class="round" onchange="glob.refreshVariableList(this)">
-				${data.variables[1]}
-			</select>
-		</div>
-		<div id="varNameContainer" style="float: right; width: 60%;">
-			Variable Name:<br>
-			<input id="varName" class="round" type="text" list="variableList"><br>
-		</div>
-	</div><br><br><br>
-	<div>
-		<div style="padding-top: 8px; width: 70%;">
-			Source Info:<br>
-			<select id="info" class="round">
-				<optgroup label="Main">
-				<option value="0">Category ID</option>
-				<option value="1">Category Name</option>
-				<option value="2">Category Server</option>
-				<option value="3">Category Position</option>
-				<option value="4">Category Is Manageable?</option>
-				<option value="5">Category Is Deleteable?</option>
-				</optgroup>
-				<optgroup label="Channel Infos">
-				<option value="6">Category Channel List</option>
-				<option value="7">Category Channel Count</option>
-				<option value="8">Category Text Channel List</option>
-				<option value="9">Category Text Channel Count</option>
-				<option value="10">Category Voice Channel List</option>
-				<option value="11">Category Voice Channel Count</option>
-			</select>
-		</div>
-	</div><br>
-	<div>
-		<div style="float: left; width: 35%;">
-			Store In:<br>
-			<select id="storage" class="round">
-				${data.variables[1]}
-			</select>
-		</div>
-		<div id="varNameContainer2" style="float: right; width: 60%;">
-			Variable Name:<br>
-			<input id="varName2" class="round" type="text"><br>
-		</div>
-	</div>
+<div>
+  <div style="float: left; width: 35%;">
+    Source Category:<br>
+    <select id="category" class="round" onchange="glob.refreshVariableList(this)">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text" list="variableList"><br>
+  </div>
+</div><br><br><br>
+<div>
+  <div style="padding-top: 8px; width: 70%;">
+    Source Info:<br>
+    <select id="info" class="round">
+      <optgroup label="Main">
+      <option value="0">Category ID</option>
+      <option value="1">Category Name</option>
+      <option value="2">Category Server</option>
+      <option value="3">Category Position</option>
+      <option value="4">Category Is Manageable?</option>
+      <option value="5">Category Is Deleteable?</option>
+      </optgroup>
+      <optgroup label="Channel Infos">
+      <option value="6">Category Channel List</option>
+      <option value="7">Category Channel Count</option>
+      <option value="8">Category Text Channel List</option>
+      <option value="9">Category Text Channel Count</option>
+      <option value="10">Category Voice Channel List</option>
+      <option value="11">Category Voice Channel Count</option>
+    </select>
+  </div>
+</div><br>
+<div>
+  <div style="float: left; width: 35%;">
+    Store In:<br>
+    <select id="storage" class="round">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer2" style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName2" class="round" type="text"><br>
+  </div>
+</div>
+<style>
+  div.embed { /* <div class="embed"></div> */
+    position: relative;
+  }
 
-				<style>
-			/* START OF EMBED CSS */
-			div.embed { /* <div class="embed"></div> */
-				position: relative;
-			}
-				embedleftline { /* <embedleftline></embedleftline> OR if you wan't to change the Color: <embedleftline style="background-color: #HEXCODE;"></embedleftline> */
-					background-color: #eee;
-					width: 4px;
-					border-radius: 3px 0 0 3px;
-					border: 0;
-					height: 100%;
-					margin-left: 4px;
-					position: absolute;
-				}
-				div.embedinfo { /* <div class="embedinfo"></div> */
-					background: rgba(46,48,54,.45) fixed;
-					border: 1px solid hsla(0,0%,80%,.3);
-					padding: 10px;
-					margin:0 4px 0 7px;
-					border-radius: 0 3px 3px 0;
-				}
-					span.embed-auth { /* <span class="embed-auth"></span> (Title thing) */
-						color: rgb(255, 255, 255);
-					}
-					span.embed-desc { /* <span class="embed-desc"></span> (Description thing) */
-						color: rgb(128, 128, 128);
-					}
+  embedleftline { /* <embedleftline></embedleftline> OR if you wan't to change the Color: <embedleftline style="background-color: #HEXCODE;"></embedleftline> */
+    background-color: #eee;
+    width: 4px;
+    border-radius: 3px 0 0 3px;
+    border: 0;
+    height: 100%;
+    margin-left: 4px;
+    position: absolute;
+  }
 
-					span { /* Only making the text look, nice! */
-						font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-					}
-					</style>`
+  div.embedinfo { /* <div class="embedinfo"></div> */
+    background: rgba(46,48,54,.45) fixed;
+    border: 1px solid hsla(0,0%,80%,.3);
+    padding: 10px;
+    margin:0 4px 0 7px;
+    border-radius: 0 3px 3px 0;
+  }
+
+  span.embed-auth { /* <span class="embed-auth"></span> (Title thing) */
+    color: rgb(255, 255, 255);
+  }
+
+  span.embed-desc { /* <span class="embed-desc"></span> (Description thing) */
+    color: rgb(128, 128, 128);
+  }
+
+  span { /* Only making the text look, nice! */
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  }
+</style>`
   },
 
   init () {

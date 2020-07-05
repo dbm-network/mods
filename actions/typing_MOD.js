@@ -14,32 +14,32 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-	<div>
-		<div style="float: left; width: 35%;">
-			Typing Option:<br>
-			<select id="typing" class="round">
-				<option value="0" selected>Start Typing</option>
-				<option value="1">Stop Typing</option>
-			</select>
-		</div><br>
-	</div><br><br>
-	<div>
-		<div style="float: left; width: 35%;">
-			Channel to start typing in:<br>
-			<select id="storage" class="round" onchange="glob.channelChange(this, 'varNameContainer')">
-				${data.channels[isEvent ? 1 : 0]}
-			</select>
-		</div>
-		<div id="varNameContainer" style="display: none; float: right; width: 60%;">
-			Variable Name:<br>
-			<input id="varName" class="round" type="text" list="variableList"><br>
-		</div>
-	</div><br><br><br>
-	<div>
-		<p>
-			You can stop the typing with <b>Stop Typing</b>
-		</p>
-	</div><br>`
+<div>
+  <div style="float: left; width: 35%;">
+    Typing Option:<br>
+    <select id="typing" class="round">
+      <option value="0" selected>Start Typing</option>
+      <option value="1">Stop Typing</option>
+    </select>
+  </div><br>
+</div><br><br>
+<div>
+  <div style="float: left; width: 35%;">
+    Channel to start typing in:<br>
+    <select id="storage" class="round" onchange="glob.channelChange(this, 'varNameContainer')">
+      ${data.channels[isEvent ? 1 : 0]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text" list="variableList"><br>
+  </div>
+</div><br><br><br>
+<div>
+  <p>
+    You can stop the typing with <b>Stop Typing</b>
+  </p>
+</div>`
   },
 
   init () {

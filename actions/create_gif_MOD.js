@@ -17,20 +17,20 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div>
-	Local/Web URL:<br>
-	<input id="url" class="round" type="text" value="resources/" style="float: left; width: 504px;">
+  Local/Web URL:<br>
+  <input id="url" class="round" type="text" value="resources/" style="float: left; width: 504px;">
 </div><br><br>
 <div style="padding-top: 10px;">
-	<div style="float: left; width: 35%;">
-		Store In:<br>
-		<select id="storage" class="round">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text"><br>
-	</div>
+  <div style="float: left; width: 35%;">
+    Store In:<br>
+    <select id="storage" class="round">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text"><br>
+  </div>
 </div>`
   },
 

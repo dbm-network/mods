@@ -8,23 +8,22 @@ module.exports = {
 
   fields: ['amount'],
 
-  html (isEvent, data) {
+  html () {
     return `
 <div>
-	<p>
-		This action has been modified by DBM Mods.
-	</p>
+  <p>
+    This action has been modified by DBM Mods.
+  </p>
 </div>
 <div style="float: left; width: 95%;">
-	<br>Amount to Skip:<br>
-	<input id="amount" class="round" value="1">
+  <br>Amount to Skip:<br>
+  <input id="amount" class="round" value="1">
 </div>
 <div style="width: 100%;">
-	<p>
-		<br><br><br><br><br>Please put the Welcome action into a Bot Initalization event to be able to store the current song!
-	</p>
-</div>
-`
+  <p>
+    <br><br><br><br><br>Please put the Welcome action into a Bot Initalization event to be able to store the current song!
+  </p>
+</div>`
   },
 
   init () {},

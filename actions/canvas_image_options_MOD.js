@@ -12,41 +12,41 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div>
-	<div style="float: left; width: 45%;">
-		Source Image:<br>
-		<select id="storage" class="round" onchange="glob.refreshVariableList(this)">
-			${data.variables[1]}
-		</select><br>
-	</div>
-	<div id="varNameContainer" style="float: right; width: 50%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList"><br>
-	</div>
+  <div style="float: left; width: 45%;">
+    Source Image:<br>
+    <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
+      ${data.variables[1]}
+    </select><br>
+  </div>
+  <div id="varNameContainer" style="float: right; width: 50%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text" list="variableList"><br>
+  </div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
-	<div style="float: left; width: 45%;">
-		Mirror:<br>
-		<select id="mirror" class="round">
-			<option value="0" selected>None</option>
-			<option value="1">Horizontal Mirror</option>
-			<option value="2">Vertical Mirror</option>
-			<option value="3">Diagonal Mirror</option>
-		</select><br>
-	</div>
-	<div style="float: right; width: 50%;">
-		Rotation (degrees):<br>
-		<input id="rotation" class="round" type="text" value="0"><br>
-	</div>
+  <div style="float: left; width: 45%;">
+    Mirror:<br>
+    <select id="mirror" class="round">
+      <option value="0" selected>None</option>
+      <option value="1">Horizontal Mirror</option>
+      <option value="2">Vertical Mirror</option>
+      <option value="3">Diagonal Mirror</option>
+    </select><br>
+  </div>
+  <div style="float: right; width: 50%;">
+    Rotation (degrees):<br>
+    <input id="rotation" class="round" type="text" value="0"><br>
+  </div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
-	<div style="float: left; width: 50%;">
-		Scale Width (direct size or percent):<br>
-		<input id="width" class="round" type="text" value="100%"><br>
-	</div>
-	<div style="float: right; width: 50%;">
-		Scale Height (direct size or percent):<br>
-		<input id="height" class="round" type="text" value="100%"><br>
-	</div>
+  <div style="float: left; width: 50%;">
+    Scale Width (direct size or percent):<br>
+    <input id="width" class="round" type="text" value="100%"><br>
+  </div>
+  <div style="float: right; width: 50%;">
+    Scale Height (direct size or percent):<br>
+    <input id="height" class="round" type="text" value="100%"><br>
+  </div>
 </div>`
   },
 

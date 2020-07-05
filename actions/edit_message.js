@@ -13,32 +13,32 @@ module.exports = {
     return `
 <div><p>This action has been modified by DBM Mods</p></div><br>
 <div>
-	<div style="float: left; width: 35%;">
-		Source Message:<br>
-		<select id="storage" class="round" onchange="glob.messageChange(this, 'varNameContainer')">
-			${data.messages[1]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="display: none; float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList"><br>
-	</div>
+  <div style="float: left; width: 35%;">
+    Source Message:<br>
+    <select id="storage" class="round" onchange="glob.messageChange(this, 'varNameContainer')">
+      ${data.messages[1]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text" list="variableList"><br>
+  </div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
-	Edited Message Content:<br>
-	<textarea id="message" rows="7" placeholder="Insert message here... (Optional)" style="width: 94%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+  Edited Message Content:<br>
+  <textarea id="message" rows="7" placeholder="Insert message here... (Optional)" style="width: 94%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
 </div><br>
 <div>
-	<div style="float: left; width: 35%;">
-		Source Embed Object:<br>
-		<select id="storage2" class="round" onchange="glob.refreshVariableList(this, 'varNameContainer2')">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer2" style="float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName2" placeholder="Optional" class="round" type="text" list="variableList"><br>
-	</div>
+  <div style="float: left; width: 35%;">
+    Source Embed Object:<br>
+    <select id="storage2" class="round" onchange="glob.refreshVariableList(this, 'varNameContainer2')">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer2" style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName2" placeholder="Optional" class="round" type="text" list="variableList"><br>
+  </div>
 </div>`
   },
 

@@ -13,44 +13,44 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div>
-	<div style="float: left; width: 35%;">
-		Source Voice Channel:<br>
-		<select id="vchannel" class="round" onchange="glob.voiceChannelChange(this, 'varNameContainer')">
-			${data.voiceChannels[isEvent ? 1 : 0]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="display: none; float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList"><br>
-	</div>
+  <div style="float: left; width: 35%;">
+    Source Voice Channel:<br>
+    <select id="vchannel" class="round" onchange="glob.voiceChannelChange(this, 'varNameContainer')">
+      ${data.voiceChannels[isEvent ? 1 : 0]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text" list="variableList"><br>
+  </div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
-	<div style="float: left; width: 35%;">
-		Source Role:<br>
-		<select id="role" name="second-list" class="round" onchange="glob.roleChange(this, 'varNameContainer2')">
-			${data.roles[isEvent ? 1 : 0]}
-		</select>
-	</div>
-	<div id="varNameContainer2" style="display: none; float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName2" class="round" type="text" list="variableList2"><br>
-	</div>
+  <div style="float: left; width: 35%;">
+    Source Role:<br>
+    <select id="role" name="second-list" class="round" onchange="glob.roleChange(this, 'varNameContainer2')">
+      ${data.roles[isEvent ? 1 : 0]}
+    </select>
+  </div>
+  <div id="varNameContainer2" style="display: none; float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName2" class="round" type="text" list="variableList2"><br>
+  </div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
-	<div style="float: left; width: 45%;">
-		Permission:<br>
-		<select id="permission" class="round">
-			${data.permissions[1]}
-		</select>
-	</div>
-	<div style="padding-left: 5%; float: left; width: 55%;">
-		Change To:<br>
-		<select id="state" class="round">
-			<option value="0" selected>Allow</option>
-			<option value="1">Inherit</option>
-			<option value="2">Disallow</option>
-		</select>
-	</div>
+  <div style="float: left; width: 45%;">
+    Permission:<br>
+    <select id="permission" class="round">
+      ${data.permissions[1]}
+    </select>
+  </div>
+  <div style="padding-left: 5%; float: left; width: 55%;">
+    Change To:<br>
+    <select id="state" class="round">
+      <option value="0" selected>Allow</option>
+      <option value="1">Inherit</option>
+      <option value="2">Disallow</option>
+    </select>
+  </div>
 </div>`
   },
 

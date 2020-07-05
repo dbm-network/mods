@@ -18,32 +18,31 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-	<div style="padding-top: 8px;">
-		<div style="float: left; width: 40%;">
-			Data Name:<br>
-			<input id="dataName" class="round" type="text">
-		</div>
-		<div style="float: left; width: 60%;">
-			Default Value (if data doesn't exist):<br>
-			<input id="defaultVal" class="round" type="text" value="0">
-		</div>
-	</div><br><br><br>
-	<div style="padding-top: 8px;">
-		<div style="float: left; width: 35%;">
-			Store In:<br>
-			<select id="storage" class="round">
-				${data.variables[1]}
-			</select>
-		</div>
-		<div id="varNameContainer" style="float: right; width: 60%;">
-			Variable Name:<br>
-			<input id="varName" class="round" type="text"><br>
-		</div>
-	</div>`
+<div style="padding-top: 8px;">
+  <div style="float: left; width: 40%;">
+    Data Name:<br>
+    <input id="dataName" class="round" type="text">
+  </div>
+  <div style="float: left; width: 60%;">
+    Default Value (if data doesn't exist):<br>
+    <input id="defaultVal" class="round" type="text" value="0">
+  </div>
+</div><br><br><br>
+<div style="padding-top: 8px;">
+  <div style="float: left; width: 35%;">
+    Store In:<br>
+    <select id="storage" class="round">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text"><br>
+  </div>
+</div>`
   },
 
-  init () {
-  },
+  init () {},
 
   action (cache) {
     const data = cache.actions[cache.index]

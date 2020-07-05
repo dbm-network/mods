@@ -16,34 +16,34 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-    <div>
-      <p>This action has been modified by DBM Mods.</p>
-    </div>
-    <div style="float: left; width: 85%; padding-top: 20px;">
-      Source Type:<br>
-      <select id="sourcetype" class="round" onchange="glob.onChange1(this)">
-        <option value="0" selected>Choose from List</option>
-        <option value="1">Insert an ID</option>
-      </select>
-    </div>
-    <div id="info1"; style="float: left; width: 85%; padding-top: 20px; display: none;">
-      Command/Event:<br>
-      <select id="source" class="round">
-        <optgroup id="commands" label="Commands"></optgroup>
-        <optgroup id="events" label="Events"></optgroup>
-      </select>
-    </div>
-    <div id="info2" style="float: left; width: 94.5%; padding-top: 20px;">
-      Command/Event ID:<br>
-      <input id="source2" class="round" type="text" placeholder="Insert a Command/Event ID...">
-    </div>
-    <div style="float: left; width: 85%; padding-top: 20px;">
-      Call Type:<br>
-      <select id="type" class="round">
-      <option value="true" selected>Synchronous</option>
-      <option value="false">Asynchronous</option>
-      </select>
-    </div>`
+<div>
+  <p>This action has been modified by DBM Mods.</p>
+</div>
+<div style="float: left; width: 85%; padding-top: 20px;">
+  Source Type:<br>
+  <select id="sourcetype" class="round" onchange="glob.onChange1(this)">
+    <option value="0" selected>Choose from List</option>
+    <option value="1">Insert an ID</option>
+  </select>
+</div>
+<div id="info1"; style="float: left; width: 85%; padding-top: 20px; display: none;">
+  Command/Event:<br>
+  <select id="source" class="round">
+    <optgroup id="commands" label="Commands"></optgroup>
+    <optgroup id="events" label="Events"></optgroup>
+  </select>
+</div>
+<div id="info2" style="float: left; width: 94.5%; padding-top: 20px;">
+  Command/Event ID:<br>
+  <input id="source2" class="round" type="text" placeholder="Insert a Command/Event ID...">
+</div>
+<div style="float: left; width: 85%; padding-top: 20px;">
+  Call Type:<br>
+  <select id="type" class="round">
+  <option value="true" selected>Synchronous</option>
+  <option value="false">Asynchronous</option>
+  </select>
+</div>`
   },
 
   init () {

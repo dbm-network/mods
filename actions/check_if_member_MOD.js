@@ -12,41 +12,41 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div>
-	<div style="float: left; width: 35%; padding-top: 12px;">
-		Source Member:<br>
-		<select id="member" class="round" onchange="glob.memberChange(this, 'varNameContainer')">
-			${data.members[isEvent ? 1 : 0]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="display: none; float: right; width: 60%; padding-top: 12px;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList"><br>
-	</div>
+  <div style="float: left; width: 35%; padding-top: 12px;">
+    Source Member:<br>
+    <select id="member" class="round" onchange="glob.memberChange(this, 'varNameContainer')">
+      ${data.members[isEvent ? 1 : 0]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="display: none; float: right; width: 60%; padding-top: 12px;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text" list="variableList"><br>
+  </div>
 </div><br><br><br>
 <div style="padding-top: 20px;">
-	<div style="float: left; width: 35%;">
-		Check if Member:<br>
-		<select id="info" class="round">
-			<option value="0" selected>Is Bot?</option>
-			<option value="1">Is Bannable?</option>
-			<option value="2">Is Kickable?</option>
-			<!-- option value="3">Is Speaking?</option --!>
-			<option value="4">Is In Voice Channel?</option>
-			<option value="5">Is User Manageable?</option>
-      		<option value="6">Is Bot Owner?</option>
-			<option value="7">Is Muted?</option>
-			<option value="8">Is Deafened?</option>
-			${!isEvent && '<option value="9">Is Command Author?</option>'}
-			${!isEvent && '<option value="10">Is Current Server Owner?</option>'}
-		</select>
-	</div>
-	<div id="varNameContainer2" style="display: none; float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName2" class="round" type="text" list="variableList2"><br>
-	</div>
+  <div style="float: left; width: 35%;">
+    Check if Member:<br>
+    <select id="info" class="round">
+      <option value="0" selected>Is Bot?</option>
+      <option value="1">Is Bannable?</option>
+      <option value="2">Is Kickable?</option>
+      <!-- option value="3">Is Speaking?</option --!>
+      <option value="4">Is In Voice Channel?</option>
+      <option value="5">Is User Manageable?</option>
+          <option value="6">Is Bot Owner?</option>
+      <option value="7">Is Muted?</option>
+      <option value="8">Is Deafened?</option>
+      ${!isEvent && '<option value="9">Is Command Author?</option>'}
+      ${!isEvent && '<option value="10">Is Current Server Owner?</option>'}
+    </select>
+  </div>
+  <div id="varNameContainer2" style="display: none; float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName2" class="round" type="text" list="variableList2"><br>
+  </div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
-	${data.conditions[0]}
+  ${data.conditions[0]}
 </div>`
   },
 
@@ -56,14 +56,14 @@ module.exports = {
     option.value = '4'
     option.text = 'Jump to Anchor'
     const iffalse = document.getElementById('iffalse')
-    if (iffalse.length == 4) {
+    if (iffalse.length === 4) {
       iffalse.add(option)
     }
     const option2 = document.createElement('OPTION')
     option2.value = '4'
     option2.text = 'Jump to Anchor'
     const iftrue = document.getElementById('iftrue')
-    if (iftrue.length == 4) {
+    if (iftrue.length === 4) {
       iftrue.add(option2)
     }
     glob.onChangeTrue = function (event) {
@@ -115,8 +115,6 @@ module.exports = {
     const data = cache.actions[cache.index]
     const type = parseInt(data.member)
     const varName = this.evalMessage(data.varName, cache)
-    // const type2 = parseInt(data.role);
-    // const varName2 = this.evalMessage(data.varName2, cache); //Why is this still in here? xD ~ZockerNico
     const member = this.getMember(type, varName, cache)
     const info = parseInt(data.info)
     const { Files } = this.getDBM()
@@ -134,8 +132,8 @@ module.exports = {
         result = member.kickable
         break
         // case 3:
-        // 	result = Boolean(member.speaking);
-        // 	break; //Do not ask me why this is not working... ~Lasse
+        // result = Boolean(member.speaking);
+        // break; //Do not ask me why this is not working... ~Lasse
       case 4:
         result = !!this.dest(member.voice, 'channel')
         break
