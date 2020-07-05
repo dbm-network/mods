@@ -1,77 +1,23 @@
 module.exports = {
+  name: 'Clone Channel MOD',
+  section: 'Channel Control',
 
-//---------------------------------------------------------------------
-// Action Name
-//
-// This is the name of the action displayed in the editor.
-//---------------------------------------------------------------------
+  subtitle (data) {
+    const names = ['Same Channel', 'Mentioned Channel', 'Default Channel', 'Temp Variable', 'Server Variable', 'Global Variable']
+    const index = parseInt(data.storage)
+    return index < 3 ? `Clone Channel : ${names[index]}` : `Clone Channel : ${names[index]} - ${data.varName}`
+  },
 
-name: "Clone Channel MOD",
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage2)
+    if (type !== varType) return
+    return ([data.varName2, 'Channel'])
+  },
 
-//---------------------------------------------------------------------
-// Action Section
-//
-// This is the section the action will fall into.
-//---------------------------------------------------------------------
+  fields: ['storage', 'varName', 'categoryID', 'position', 'permission', 'info', 'topic', 'slowmode', 'nsfw', 'bitrate', 'userLimit', 'storage2', 'varName2'],
 
-section: "Channel Control",
-
-//---------------------------------------------------------------------
-// Action Subtitle
-//
-// This function generates the subtitle displayed next to the name.
-//---------------------------------------------------------------------
-
-subtitle: function(data) {
-	const names = ['Same Channel', 'Mentioned Channel', 'Default Channel', 'Temp Variable', 'Server Variable', 'Global Variable'];
-	const index = parseInt(data.storage);
-	return index < 3 ? `Clone Channel : ${names[index]}` : `Clone Channel : ${names[index]} - ${data.varName}`;
-},
-
-//https://github.com/LeonZ2019/
-author: "LeonZ",
-version: "1.1.0",
-
-//---------------------------------------------------------------------
-// Action Storage Function
-//
-// Stores the relevant variable info for the editor.
-//---------------------------------------------------------------------
-
-variableStorage: function(data, varType) {
-	const type = parseInt(data.storage2);
-	if(type !== varType) return;
-	return ([data.varName2, 'Channel']);
-},
-
-//---------------------------------------------------------------------
-// Action Fields
-//
-// These are the fields for the action. These fields are customized
-// by creating elements with corresponding IDs in the HTML. These
-// are also the names of the fields stored in the action's JSON data.
-//---------------------------------------------------------------------
-
-fields: ["storage", "varName", "categoryID", "position", "permission", "info", "topic", "slowmode", "nsfw", "bitrate", "userLimit", "storage2", "varName2",],
-
-//---------------------------------------------------------------------
-// Command HTML
-//
-// This function returns a string containing the HTML used for
-// editting actions. 
-//
-// The "isEvent" parameter will be true if this action is being used
-// for an event. Due to their nature, events lack certain information, 
-// so edit the HTML to reflect this.
-//
-// The "data" parameter stores constants for select elements to use. 
-// Each is an array: index 0 for commands, index 1 for events.
-// The names are: sendTargets, members, roles, channels, 
-//                messages, servers, variables
-//---------------------------------------------------------------------
-
-html: function(isEvent, data) {
-	return `
+  html (isEvent, data) {
+    return `
 <div style="padding-top: 8px;">
 	<div style="float: left; width: 35%;">
 		Source Channel:<br>
@@ -162,136 +108,69 @@ html: function(isEvent, data) {
 		<input id="varName2" class="round" type="text">
 	</div>
 </div>`
-},
-//---------------------------------------------------------------------
-// Action Editor Init Code
-//
-// When the HTML is first applied to the action editor, this code
-// is also run. This helps add modifications or setup reactionary
-// functions for the DOM elements.
-//---------------------------------------------------------------------
+  },
+  init () {
+    const { glob, document } = this
 
-init: function() {
-	const {glob, document} = this;
+    glob.channelChange(document.getElementById('storage'), 'varNameContainer')
+    glob.variableChange(document.getElementById('storage2'), 'varNameContainer2')
 
-	glob.channelChange(document.getElementById('storage'), 'varNameContainer');
-	glob.variableChange(document.getElementById('storage2'), 'varNameContainer2');
-	
-	glob.channeltype = function(event) {
-		if (event.value === "0") {
-			document.getElementById("text").style.display = 'none';
-			document.getElementById("voice").style.display = 'none';
-		} else if (event.value === "1") {
-			document.getElementById("text").style.display = null;
-			document.getElementById("voice").style.display = 'none';
-		} else if (event.value === "2") {
-			document.getElementById("text").style.display = 'none';
-			document.getElementById("voice").style.display = null;
-		}
-	}
-	glob.channeltype(document.getElementById('info'))
-},
+    glob.channeltype = function (event) {
+      if (event.value === '0') {
+        document.getElementById('text').style.display = 'none'
+        document.getElementById('voice').style.display = 'none'
+      } else if (event.value === '1') {
+        document.getElementById('text').style.display = null
+        document.getElementById('voice').style.display = 'none'
+      } else if (event.value === '2') {
+        document.getElementById('text').style.display = 'none'
+        document.getElementById('voice').style.display = null
+      }
+    }
+    glob.channeltype(document.getElementById('info'))
+  },
 
-//---------------------------------------------------------------------
-// Action Bot Function
-//
-// This is the function for the action within the Bot's Action class.
-// Keep in mind event calls won't have access to the "msg" parameter, 
-// so be sure to provide checks for variable existance.
-//---------------------------------------------------------------------
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const { server } = cache
+    const storage = parseInt(data.storage)
+    const varName = this.evalMessage(data.varName, cache)
+    const channel = this.getChannel(storage, varName, cache) // bitrate slowmode
 
-action: function(cache) {
-	const data = cache.actions[cache.index];
-	const server = cache.server;
-	const storage = parseInt(data.storage);
-	const info = parseInt(data.info);
-	const varName = this.evalMessage(data.varName, cache);
-	const channel = this.getChannel(storage, varName, cache);
-	if (server && server.createChannel) {
-		const name = channel.name;
-		const catid = this.evalMessage(data.categoryID, cache);
-		const type = channel.type;
-		server.createChannel(name, type, "", ""	).then(function(newchannel) {
-			if (catid) {
-				newchannel.setParent(catid);
-			}
-			const channelData = {};
-			if (data.position) {
-				channelData.position = parseInt(data.position);
-			}
-			const permission = parseInt(data.permission)
-			if (channel.permissionOverwrites != "Collection [Map] {}") {
-				channelData.permissionOverwrites = channel.permissionOverwrites
-			}
-			if (type == "text") {
-				const topic = parseInt(data.topic);
-				const slowmode = parseInt(data.slowmode);
-				const nsfw = parseInt(data.nsfw);
-				if (info == 0) {
-					if (channel.topic !== "") {
-						channelData.topic = channel.topic;
-					}
-					if (channel.rateLimitPerUser != 0) {
-						channelData.rateLimitPerUser = channel.rateLimitPerUser;
-					}
-					if (channel.nsfw) {
-						channelData.nsfw = true;
-					}
-				} else {
-					if ((topic == 1 && channel.topic !== "") == true) {
-						channelData.topic = channel.topic;
-					}
-					if ((slowmode == 1 && channel.rateLimitPerUser != 0) == true) {
-						channelData.rateLimitPerUser = channel.rateLimitPerUser;
-					}
-					if ((nsfw == 1 && channel.nsfw) == true) {
-						channelData.nsfw = true;
-					}
-				}
-			} else if (type == "voice") {
-				const bitrate = parseInt(data.bitrate);
-				const userLimit = parseInt(data.userLimit);
-				if (info == 0) {
-					if (channel.bitrate != 64) {
-						const bitrate = parseInt(channel.bitrate)*1000;
-						channelData.bitrate = bitrate;
-					}
-					if (channel.userLimit != 0) {
-						channelData.userLimit = channel.userLimit;
-					}
-				} else {
-					if ((bitrate == 1 && channel.bitrate != 64) == true) {
-						const bitrate = parseInt(channel.bitrate)*1000;
-						channelData.bitrate = bitrate;
-					}
-					if ((userLimit == 1 && channel.userLimit != 0) == true) {
-						channelData.userLimit = channel.userLimit;
-					}
-				}
-			}
-			if (channelData != {}) {
-				newchannel.edit(channelData);
-			}
-			const storage2 = parseInt(data.storage2);
-			const varName2 = this.evalMessage(data.varName2, cache);
-			this.storeValue(newchannel, storage2, varName2, cache);
-			this.callNextAction(cache);
-		}.bind(this)).catch(this.displayError.bind(this, data, cache));
-	} else {
-		this.callNextAction(cache);
-	}
-},
+    let options
+    if (channel.type == 'voice') {
+      options = {
+        positon: data.position == 1 ? channel.position : 0,
+        permissionOverwrites: data.permission == 1 ? channel.permissionOverwrites : [],
+        userLimit: data.userLimit == 1 ? channel.userLimit : 0,
+        bitrate: data.bitrate == 1 ? channel.bitrate : 64,
+        parent: data.categoryID ? parseInt(this.evalMessage(data.categoryID, cache)) : null
+      }
+    } else if (channel.type == 'text') {
+      options = {
+        position: data.position == 1 ? channel.position : 0,
+        permissionOverwrites: data.permission == 1 ? channel.permissionOverwrites : [],
+        nsfw: data.nsfw == 1 ? channel.nsfw : false,
+        topic: data.topic == 1 ? channel.topic : undefined,
+        rateLimitPerUser: data.slowmode == 1 ? channel.slowmode : 0,
+        parent: data.categoryID ? cache.server.channels.get(this.evalMessage(data.categoryID, cache)) : null
+      }
+    }
 
-//---------------------------------------------------------------------
-// Action Bot Mod
-//
-// Upon initialization of the bot, this code is run. Using the bot's
-// DBM namespace, one can add/modify existing functions if necessary.
-// In order to reduce conflictions between mods, be sure to alias
-// functions you wish to overwrite.
-//---------------------------------------------------------------------
+    if (server && channel) {
+      channel.clone(options)
+        .then((newchannel) => {
+          const storage2 = parseInt(data.storage2)
+          const varName2 = this.evalMessage(data.varName2, cache)
+          this.storeValue(newchannel, storage2, varName2, cache)
+          this.callNextAction(cache)
+        })
+        .catch(this.displayError.bind(this, data, cache))
+    } else {
+      console.log(`${server ? 'channel' : 'server'} could not be found! Clone Channel MOD.`)
+      this.callNextAction(cache)
+    }
+  },
 
-mod: function(DBM) {
+  mod () {}
 }
-
-}; // End of module

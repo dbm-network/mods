@@ -6,54 +6,54 @@ class EmitEvent {
   /**
    * Creates an instance of AwaitResponseCallAction.
    */
-  constructor() {
+  constructor () {
     /**
      * The name of the action.
      * @type {string}
      */
-    this.name = 'Emit Event';
+    this.name = 'Emit Event'
 
     /**
      * The section of the action.
      * @type
      */
-    this.section = 'Bot Client Control';
+    this.section = 'Bot Client Control'
 
     /**
      * The author of the action.
      * @type {Array<string>}
      */
-    this.authors = ['Almeida'];
+    this.authors = ['Almeida']
 
     /**
      * The version of the action.
      * @type {string}
      */
-    this.version = '1.0.0'; // Added in 1.9.6
+    this.version = '1.0.0' // Added in 1.9.6
 
     /**
      * The Developer Version Number.
      * @type {string}
      */
-    this.DVN = '1.0.0';
+    this.DVN = '1.0.0'
 
     /**
      * The name of the action, displayed on the editor.
      * @type {string}
      */
-    this.displayName = `Emit Event v${this.DVN}`;
+    this.displayName = `Emit Event v${this.DVN}`
 
     /**
      * A short description to be shown on the list of mods.
      * @type {string}
      */
-    this.shortDescription = 'Emits an event.';
+    this.shortDescription = 'Emits an event.'
 
     /**
      * The fields used in the actions JSON data and HTML elements.
      * @type {Array<string>}
      */
-    this.fields = ['eventType', 'firstArg', 'secondArg'];
+    this.fields = ['eventType', 'firstArg', 'secondArg']
   }
 
   /**
@@ -61,47 +61,47 @@ class EmitEvent {
    * @param {Object<*>} DBM The DBM workspace.
    * @returns {void}
    */
-  mod() {}
+  mod () {}
 
   /**
    * Generates the subtitle displayed next to the name on the editor.
    * @param {Object} data The data of the command.
    * @returns {string} The finalized subtitle.
    */
-  subtitle({ eventType }) {
-    let DiscordJS;
+  subtitle ({ eventType }) {
+    let DiscordJS
     try {
-      DiscordJS = require('discord.js');
+      DiscordJS = require('discord.js')
     } catch (__) {}
 
-    const events = Object.values(DiscordJS.Constants.Events).sort();
-    return events.includes(eventType) ? `Emits a ${eventType} event` : 'Not emitting antyhing';
+    const events = Object.values(DiscordJS.Constants.Events).sort()
+    return events.includes(eventType) ? `Emits a ${eventType} event` : 'Not emitting antyhing'
   }
 
   /**
    * Stores the relevant variable info for the editor.
    * @returns {void}
    */
-  variableStorage() {}
+  variableStorage () {}
 
   /**
    * Is ran when the HTML is loaded.
    * @returns {void}
    */
-  init() {
-    const { execSync } = require('child_process');
-    const { document } = this;
+  init () {
+    const { execSync } = require('child_process')
+    const { document } = this
 
-    const wrexlinks = document.getElementsByClassName('wrexlink2');
+    const wrexlinks = document.getElementsByClassName('wrexlink2')
     for (let i = 0; i < wrexlinks.length; i++) {
-      const wrexlink = wrexlinks[i];
-      const url = wrexlink.getAttribute('data-url2');
+      const wrexlink = wrexlinks[i]
+      const url = wrexlink.getAttribute('data-url2')
       if (url) {
-        wrexlink.setAttribute('title', url);
-        wrexlink.addEventListener('click', function(e) {
-          e.stopImmediatePropagation();
-          execSync(`start ${url}`);
-        });
+        wrexlink.setAttribute('title', url)
+        wrexlink.addEventListener('click', (e) => {
+          e.stopImmediatePropagation()
+          execSync(`start ${url}`)
+        })
       }
     }
   }
@@ -111,33 +111,33 @@ class EmitEvent {
    * @param {Object<*>} cache The cache of the command/event.
    * @returns {void}
    */
-  action(cache) {
-    const data = cache.actions[cache.index];
+  action (cache) {
+    const data = cache.actions[cache.index]
 
-    const WrexMods = this.getWrexMods();
-    const events = Object.values(WrexMods.require('discord.js').Constants.Events).sort();
-    const event = this.evalMessage(data.eventType);
-    if (!events.includes(event)) return console.error(`${this.name} (#${cache.index + 1}): Unkown event type.`);
+    const Mods = this.getMods()
+    const events = Object.values(Mods.require('discord.js').Constants.Events).sort()
+    const event = this.evalMessage(data.eventType)
+    if (!events.includes(event)) return console.error(`${this.name} (#${cache.index + 1}): Unkown event type.`)
 
-    const firstArg = this.evalMessage(data.firstArg, cache);
-    const secondArg = this.evalMessage(data.secondArg, cache);
+    const firstArg = this.evalMessage(data.firstArg, cache)
+    const secondArg = this.evalMessage(data.secondArg, cache)
 
-    const client = this.getDBM().Bot.bot;
-    client.emit(event, firstArg, secondArg);
+    const client = this.getDBM().Bot.bot
+    client.emit(event, firstArg, secondArg)
   }
 
   /**
    * The HTML document for the action, visible on the editor.
    * @returns {string} The HTML document.
    */
-  html() {
-    let DiscordJS;
+  html () {
+    let DiscordJS
     try {
-      DiscordJS = require('discord.js');
+      DiscordJS = require('discord.js')
     } catch (__) {}
 
-    const events = DiscordJS && Object.values(DiscordJS.Constants.Events).sort();
-    const docs = `https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-${(events && events[0]) || 'channelCreate'}`;
+    const events = DiscordJS && Object.values(DiscordJS.Constants.Events).sort()
+    const docs = `https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-${(events && events[0]) || 'channelCreate'}`
 
     return `
       <div id="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
@@ -205,8 +205,8 @@ class EmitEvent {
         span.wrexlink2:hover {
           color: #4676b9;
         }
-      </style>`;
+      </style>`
   }
 }
 
-module.exports = new EmitEvent();
+module.exports = new EmitEvent()
