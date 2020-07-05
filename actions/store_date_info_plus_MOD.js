@@ -1,102 +1,24 @@
 module.exports = {
+  name: 'Store Date Info Plus',
+  section: 'Other Stuff',
 
-    //---------------------------------------------------------------------
-    // Action Name
-    //
-    // This is the name of the action displayed in the editor.
-    //---------------------------------------------------------------------
-    
-    name: "Store Date Info Plus",
-    
-    //---------------------------------------------------------------------
-    // Action Section
-    //
-    // This is the section the action will fall into.
-    //---------------------------------------------------------------------
-    
-    section: "Other Stuff",
-    
-        
-    //---------------------------------------------------------------------
-    // DBM Mods Manager Variables (Optional but nice to have!)
-    //
-    // These are variables that DBM Mods Manager uses to show information
-    // about the mods for people to see in the list.
-    //---------------------------------------------------------------------
-    
-    //---------------------------------------------------------------------
-    // Action Subtitle
-    //
-    // This function generates the subtitle displayed next to the name.
-    //---------------------------------------------------------------------
-    
-    subtitle: function(data) {
-        const info = ['Day of Week', 'Day Number', 'Day of Year', 'Week of Year', 'Month of Year', 'Month Number', 'Year', 'Hour', 'Minute', 'Second', 'Millisecond', 'Timezone', 'Unix Timestamp']
-        const storage = ['', 'Temp Variable', 'Server Variable', 'Global Variable']
-        return `Store ${data.modeStorage === "0" ? '"' + info[data.info] + '"' : data.buildInput === "" ? '"Not Set"' : '"' + data.buildInput + '"'} from a Date ~ ${storage[data.storage]}`;
-    },
-    
-    // Who made the mod (If not set, defaults to "DBM Mods")
-    author: "Cap",
-    
-    // The version of the mod (Last edited version number of DBM Mods)
-    version: "1.9.7", //Added in 1.9.7
-    
-    // A short description to show on the mod line for this mod (Must be on a single line)
-    short_description: "Store something from a date more fully, plus!",
-    
-    // If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-    // Uncomment if you need this. Also, replace WrexMODS if needed.
-    depends_on_mods: ["WrexMODS"],
-    
-    
-    //---------------------------------------------------------------------
-    // Action Storage Function
-    //
-    // Stores the relevant variable info for the editor.
-    //---------------------------------------------------------------------
-    
-    variableStorage: function (data, varType) {
-        const type = parseInt(data.storage);
-        if (type !== varType) return;
-        let dataType = 'Date';
-        return ([data.varName, dataType]);
-    },
-    
-    //---------------------------------------------------------------------
-    // Action Fields
-    //
-    // These are the fields for the action. These fields are customized
-    // by creating elements with corresponding IDs in the HTML. These
-    // are also the names of the fields stored in the action's JSON data.
-    //---------------------------------------------------------------------
-    
-    fields: ["sourceDate", "dateLanguage", "modeStorage", "info", "buildInput", "storage", "varName"],
-    
-    //---------------------------------------------------------------------
-    // Command HTML
-    //
-    // This function returns a string containing the HTML used for
-    // editting actions. 
-    //
-    // The "isEvent" parameter will be true if this action is being used
-    // for an event. Due to their nature, events lack certain information, 
-    // so edit the HTML to reflect this.
-    //
-    // The "data" parameter stores constants for select elements to use. 
-    // Each is an array: index 0 for commands, index 1 for events.
-    // The names are: sendTargets, members, roles, channels, 
-    //                messages, servers, variables
-    //---------------------------------------------------------------------
-    
-    html: function(isEvent, data) {
-        return `
-        <div>
-            <p>
-                <u>Mod Info:</u><br>
-                Created by ${this.author}
-            </p>
-        </div><br>
+  subtitle (data) {
+    const info = ['Day of Week', 'Day Number', 'Day of Year', 'Week of Year', 'Month of Year', 'Month Number', 'Year', 'Hour', 'Minute', 'Second', 'Millisecond', 'Timezone', 'Unix Timestamp']
+    const storage = ['', 'Temp Variable', 'Server Variable', 'Global Variable']
+    return `Store ${data.modeStorage === '0' ? `"${info[data.info]}"` : data.buildInput === '' ? '"Not Set"' : `"${data.buildInput}"`} from a Date ~ ${storage[data.storage]}`
+  },
+
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage)
+    if (type !== varType) return
+    const dataType = 'Date'
+    return ([data.varName, dataType])
+  },
+
+  fields: ['sourceDate', 'dateLanguage', 'modeStorage', 'info', 'buildInput', 'storage', 'varName'],
+
+  html (isEvent, data) {
+    return `
         <div style="float: left; width: 62%">
             Source Date:<br>
             <input id="sourceDate" class="round" type="text" placeholder="Ex: Sun Oct 26 2019 10:38:01 GMT+0200">
@@ -155,7 +77,7 @@ module.exports = {
                 cursor: pointer
             }
 
-	     span.wrexlink:hover { 
+	     span.wrexlink:hover {
                 color:#4676b9
             }
 
@@ -168,141 +90,112 @@ module.exports = {
               }
         </style>
         `
-    },
-    
-    //---------------------------------------------------------------------
-    // Action Editor Init Code
-    //
-    // When the HTML is first applied to the action editor, this code
-    // is also run. This helps add modifications or setup reactionary
-    // functions for the DOM elements.
-    //---------------------------------------------------------------------
-    
-    init: function() {
-        const {glob, document} = this;
+  },
 
-        glob.onChangeMode = function(modeStorage) {
-            switch(parseInt(modeStorage.value)) {
-                case 0:
-                    document.getElementById("selectMode").style.display = null;
-                    document.getElementById("buildMode").style.display = "none";
-                    document.getElementById("noteContainer").style.display = "none";
-                    break;
-                case 1:
-                    document.getElementById("selectMode").style.display = "none";
-                    document.getElementById("buildMode").style.display = null;
-                    document.getElementById("noteContainer").style.display = null;
-                    break;
-                }
-            }
+  init () {
+    const { glob, document } = this
 
-        glob.onChangeMode(document.getElementById("modeStorage"));
-
-        var wrexlinks = document.getElementsByClassName("wrexlink")
-        for(var x = 0; x < wrexlinks.length; x++) {
-          
-          var wrexlink = wrexlinks[x];
-          var url = wrexlink.getAttribute('data-url');   
-          if (url) {
-            wrexlink.setAttribute("title", url);
-            wrexlink.addEventListener("click", function(e){
-              e.stopImmediatePropagation();
-              console.log("Launching URL: [" + url + "] in your default browser.")
-              require('child_process').execSync('start ' + url);
-            });
-          }   
-        }  
-    },
-    
-    //---------------------------------------------------------------------
-    // Action Bot Function
-    //
-    // This is the function for the action within the Bot's Action class.
-    // Keep in mind event calls won't have access to the "msg" parameter, 
-    // so be sure to provide checks for variable existance.
-    //---------------------------------------------------------------------
-    
-    action: function(cache) {
-        const data = cache.actions[cache.index];
-        const moment = this.getWrexMods().require("moment");
-        const dateLanguage = this.evalMessage(data.dateLanguage, cache);
-        const date = moment(Date.parse(this.evalMessage(data.sourceDate, cache)), "", dateLanguage === "" ? "en" : dateLanguage);
-        const buildInput = this.evalMessage(data.buildInput, cache);
-        const modeType = parseInt(this.evalMessage(data.modeStorage, cache));
-        const info = parseInt(data.info);
-
-        let result;
-        
-        if (modeType === 0) {
-            switch(info) {
-                case 0:
-                    result = date.format("dddd");
-                    break;
-                case 1:
-                    result = date.format("DD");
-                    break;
-                case 2:
-                    result = date.format("DDD");
-                    break;
-                case 3:
-                    result = date.format("ww");
-                    break;
-                case 4:
-                    result = date.format("MMMMM");
-                    break;
-                case 5:
-                    result = date.format("MM");
-                    break;
-                case 6:
-                    result = date.format("YYYY");
-                    break;
-                case 7:
-                    result = date.format("hh");
-                    break;
-                case 8:
-                    result = date.format("mm");
-                    break;
-                case 9:
-                    result = date.format("ss");
-                    break;
-                case 10:
-                    result = date.format("SS");
-                    break;
-                case 11:
-                    result = date.format("ZZ");
-                    break;
-                case 12:
-                    result = date.format("X");
-                    break;
-               }
-          } else {
-             result = date.format(buildInput);
-          }
-
-          if (result === "Invalid date") {
-             return console.log('Invalid Date! Check that your date is valid in "Store Date Info Plus". A Date generally looks like the one stored in "Creation Date" of a server. (variables works)');
-          }
-    
-          if (result !== undefined) {
-              const storage = parseInt(data.storage);
-              const varName = this.evalMessage(data.varName, cache);
-              this.storeValue(result, storage, varName, cache);
-          }
-	   
-        this.callNextAction(cache);
-    },
-    
-    //---------------------------------------------------------------------
-    // Action Bot Mod
-    //
-    // Upon initialization of the bot, this code is run. Using the bot's
-    // DBM namespace, one can add/modify existing functions if necessary.
-    // In order to reduce conflictions between mods, be sure to alias
-    // functions you wish to overwrite.
-    //---------------------------------------------------------------------
-    
-    mod: function(DBM) {
+    glob.onChangeMode = function (modeStorage) {
+      switch (parseInt(modeStorage.value)) {
+        case 0:
+          document.getElementById('selectMode').style.display = null
+          document.getElementById('buildMode').style.display = 'none'
+          document.getElementById('noteContainer').style.display = 'none'
+          break
+        case 1:
+          document.getElementById('selectMode').style.display = 'none'
+          document.getElementById('buildMode').style.display = null
+          document.getElementById('noteContainer').style.display = null
+          break
+      }
     }
-    
-    }; // End of module
-    
+
+    glob.onChangeMode(document.getElementById('modeStorage'))
+
+    const wrexlinks = document.getElementsByClassName('wrexlink')
+    for (let x = 0; x < wrexlinks.length; x++) {
+      const wrexlink = wrexlinks[x]
+      var url = wrexlink.getAttribute('data-url')
+      if (url) {
+        wrexlink.setAttribute('title', url)
+        wrexlink.addEventListener('click', (e) => {
+          e.stopImmediatePropagation()
+          console.log(`Launching URL: [${url}] in your default browser.`)
+          require('child_process').execSync(`start ${url}`)
+        })
+      }
+    }
+  },
+
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const moment = this.getMods().require('moment')
+    const dateLanguage = this.evalMessage(data.dateLanguage, cache)
+    const date = moment(Date.parse(this.evalMessage(data.sourceDate, cache)), '', dateLanguage === '' ? 'en' : dateLanguage)
+    const buildInput = this.evalMessage(data.buildInput, cache)
+    const modeType = parseInt(this.evalMessage(data.modeStorage, cache))
+    const info = parseInt(data.info)
+
+    let result
+
+    if (modeType === 0) {
+      switch (info) {
+        case 0:
+          result = date.format('dddd')
+          break
+        case 1:
+          result = date.format('DD')
+          break
+        case 2:
+          result = date.format('DDD')
+          break
+        case 3:
+          result = date.format('ww')
+          break
+        case 4:
+          result = date.format('MMMMM')
+          break
+        case 5:
+          result = date.format('MM')
+          break
+        case 6:
+          result = date.format('YYYY')
+          break
+        case 7:
+          result = date.format('hh')
+          break
+        case 8:
+          result = date.format('mm')
+          break
+        case 9:
+          result = date.format('ss')
+          break
+        case 10:
+          result = date.format('SS')
+          break
+        case 11:
+          result = date.format('ZZ')
+          break
+        case 12:
+          result = date.format('X')
+          break
+      }
+    } else {
+      result = date.format(buildInput)
+    }
+
+    if (result === 'Invalid date') {
+      return console.log('Invalid Date! Check that your date is valid in "Store Date Info Plus". A Date generally looks like the one stored in "Creation Date" of a server. (variables works)')
+    }
+
+    if (result !== undefined) {
+      const storage = parseInt(data.storage)
+      const varName = this.evalMessage(data.varName, cache)
+      this.storeValue(result, storage, varName, cache)
+    }
+
+    this.callNextAction(cache)
+  },
+
+  mod () {}
+}

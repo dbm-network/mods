@@ -1,118 +1,44 @@
 module.exports = {
+  name: 'Store Game Server Info',
+  section: 'Other Stuff',
 
-	//---------------------------------------------------------------------
-	// Action Name
-	//
-	// This is the name of the action displayed in the editor.
-	//---------------------------------------------------------------------
+  subtitle (data) {
+    const info = ['Server Name', 'Map', 'Number Of Players', 'Number Of Bots', 'Max Players', 'Server Tags', 'Does Server Have Password?', 'Server Player List']
+    return `${info[parseInt(data.info)]}`
+  },
 
-	name: "Store Game Server Info",
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage)
+    if (type !== varType) return
+    const info = parseInt(data.info)
+    let dataType = 'Unknown Type'
+    switch (info) {
+      case 0:
+        dataType = 'Server Name'
+        break
+      case 1:
+        dataType = 'Map'
+        break
+      case 2:
+        dataType = 'Number'
+        break
+      case 3:
+        dataType = 'Number'
+        break
+      case 4:
+        dataType = 'Server Tags'
+        break
+      case 5:
+        dataType = 'Boolean'
+        break
+    }
+    return ([data.varName, dataType])
+  },
 
-	//---------------------------------------------------------------------
-	// Action Section
-	//
-	// This is the section the action will fall into.
-	//---------------------------------------------------------------------
+  fields: ['serverip', 'serverport', 'game', 'info', 'storage', 'varName'],
 
-	section: "Other Stuff",
-
-	//---------------------------------------------------------------------
-	// Action Subtitle
-	//
-	// This function generates the subtitle displayed next to the name.
-	//---------------------------------------------------------------------
-
-	subtitle: function (data) {
-		const info = ['Server Name', 'Map', 'Number Of Players', 'Number Of Bots', 'Max Players', 'Server Tags', 'Does Server Have Password?', 'Server Player List'];
-		return `${info[parseInt(data.info)]}`;
-	},
-
-	//---------------------------------------------------------------------
-	// DBM Mods Manager Variables (Optional but nice to have!)
-	//
-	// These are variables that DBM Mods Manager uses to show information
-	// about the mods for people to see in the list.
-	//---------------------------------------------------------------------
-
-	// Who made the mod (If not set, defaults to "DBM Mods")
-	author: "NetLuis, Danno3817 & Destiny",
-
-	// The version of the mod (Defaults to 1.0.0)
-	version: "2.0.0",
-
-	// A short description to show on the mod line for this mod (Must be on a single line)
-	short_description: "Stores Game Server Information.",
-
-	// If it depends on any other mods by name, ex: WrexMODS if the mod uses something from WrexMods
-
-
-	//---------------------------------------------------------------------
-
-	//---------------------------------------------------------------------
-	// Action Storage Function
-	//
-	// Stores the relevant variable info for the editor.
-	//---------------------------------------------------------------------
-
-	variableStorage: function (data, varType) {
-		const type = parseInt(data.storage);
-		if (type !== varType) return;
-		const info = parseInt(data.info);
-		let dataType = 'Unknown Type';
-		switch (info) {
-			case 0:
-				dataType = "Server Name";
-				break;
-			case 1:
-				dataType = "Map";
-				break;
-			case 2:
-				dataType = "Number";
-				break;
-			case 3:
-				dataType = "Number";
-				break;
-			case 4:
-				dataType = "Server Tags";
-				break;
-			case 5:
-				dataType = "Boolean";
-				break;
-			case 5:
-				dataType = "Player list";
-				break;
-		}
-		return ([data.varName, dataType]);
-	},
-
-	//---------------------------------------------------------------------
-	// Action Fields
-	//
-	// These are the fields for the action. These fields are customized
-	// by creating elements with corresponding IDs in the HTML. These
-	// are also the names of the fields stored in the action's JSON data.
-	//---------------------------------------------------------------------
-
-	fields: ["serverip", "serverport", "game", "info", "storage", "varName"],
-
-	//---------------------------------------------------------------------
-	// Command HTML
-	//
-	// This function returns a string containing the HTML used for
-	// editting actions.
-	//
-	// The "isEvent" parameter will be true if this action is being used
-	// for an event. Due to their nature, events lack certain information,
-	// so edit the HTML to reflect this.
-	//
-	// The "data" parameter stores constants for select elements to use.
-	// Each is an array: index 0 for commands, index 1 for events.
-	// The names are: sendTargets, members, roles, channels,
-	//                messages, servers, variables
-	//---------------------------------------------------------------------
-
-	html: function (isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 		<div style="width: 550px; height: 350px; overflow-y: scroll;">
         <div>
 		<div class="embed">
@@ -422,7 +348,7 @@ module.exports = {
 		</p>
 	<div>
 </div>
-        
+
         <style>
         /* START OF EMBED CSS */
         div.embed { /* <div class="embed"></div> */
@@ -450,110 +376,80 @@ module.exports = {
                 span.embed-desc { /* <span class="embed-desc"></span> (Description thing) */
                     color: rgb(128, 128, 128);
                 }
-        
+
                 span { /* Only making the text look, nice! */
                     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
                 }
                 </style>`
-	},
+  },
 
-	//---------------------------------------------------------------------
-	// Action Editor Init Code
-	//
-	// When the HTML is first applied to the action editor, this code
-	// is also run. This helps add modifications or setup reactionary
-	// functions for the DOM elements.
-	//---------------------------------------------------------------------
+  init () {
+    const {
+      glob,
+      document
+    } = this
 
-	init: function () {
-		const {
-			glob,
-			document
-		} = this;
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer')
+  },
 
-		glob.variableChange(document.getElementById('storage'), 'varNameContainer');
-	},
+  action (cache) {
+    const _this = this
+    const data = cache.actions[cache.index]
+    const info = parseInt(data.info)
+    const gametype = this.evalMessage(data.game, cache)
+    const ip = this.evalMessage(data.serverip, cache)
+    const port = this.evalMessage(data.serverport, cache)
 
-	//---------------------------------------------------------------------
-	// Action Bot Function
-	//
-	// This is the function for the action within the Bot's Action class.
-	// Keep in mind event calls won't have access to the "msg" parameter,
-	// so be sure to provide checks for variable existance.
-	//---------------------------------------------------------------------
+    const Mods = this.getMods()
+    const Gamedig = Mods.require('gamedig')
 
-	action: function (cache) {
-		const _this = this // To fix error
-		const data = cache.actions[cache.index];
-		const info = parseInt(data.info);
-		const gametype = this.evalMessage(data.game, cache);
-		const ip = this.evalMessage(data.serverip, cache)
-		const port = this.evalMessage(data.serverport, cache)
+    if (!ip) return console.log('Please provide Server IP & Port.')
 
-		// Main code:
-		const WrexMODS = _this.getWrexMods(); // as always.
-		WrexMODS.CheckAndInstallNodeModule('gamedig');
-		const Gamedig = WrexMODS.require('gamedig');
+    Gamedig.query({
+      type: gametype,
+      host: ip,
+      port,
+      maxAttempts: 3,
+      attemptTimeout: 25000
+    }).then((state) => {
+      let result
+      switch (info) {
+        case 0:
+          result = state.name
+          break
+        case 1:
+          result = state.map
+          break
+        case 2:
+          result = state.raw.numplayers || state.players.length
+          break
+        case 3:
+          result = state.raw.numbots
+          break
+        case 4:
+          result = state.maxplayers
+          break
+        case 5:
+          result = state.raw.tags
+          break
+        case 6:
+          result = state.password
+          break
+        case 7:
+          result = state.players.map((a) => a.name)
+          break
+        default:
+          break
+      }
 
-		if (!ip) return console.log("Please provide Server IP & Port.");
+      if (result !== undefined) {
+        const storage = parseInt(data.storage)
+        const varName2 = _this.evalMessage(data.varName, cache)
+        _this.storeValue(result, storage, varName2, cache)
+      }
+      _this.callNextAction(cache)
+    }).catch((error) => console.log(`Game Server Info: ${error}`))
+  },
 
-		Gamedig.query({
-			type: gametype,
-			host: ip,
-			port: port,
-			maxAttempts: 3,
-			attemptTimeout: 25000
-		}).then((state) => {
-			let result = undefined;
-			switch (info) {
-				case 0:
-					result = state.name;
-					break;
-				case 1:
-					result = state.map;
-					break;
-				case 2:
-					result = state.raw.numplayers;
-					break;
-				case 3:
-					result = state.raw.numbots;
-					break;
-				case 4:
-					result = state.maxplayers;
-					break;
-				case 5:
-					result = state.raw.tags;
-					break;
-				case 6:
-					result = state.password;
-					break;
-				case 7:
-					result = state.players.map(a=> a.name);
-					break;
-				default:
-					break;
-				}
-
-			if (result !== undefined) {
-				const storage = parseInt(data.storage);
-				const varName2 = _this.evalMessage(data.varName, cache);
-				_this.storeValue(result, storage, varName2, cache);
-			}
-				_this.callNextAction(cache);
-			
-		}).catch((error) => {
-			console.log(`Game Server Info: ${error}`)
-		})
-	},
-	//---------------------------------------------------------------------
-	// Action Bot Mod
-	//
-	// Upon initialization of the bot, this code is run. Using the bot's
-	// DBM namespace, one can add/modify existing functions if necessary.
-	// In order to reduce conflictions between mods, be sure to alias
-	// functions you wish to overwrite.
-	//---------------------------------------------------------------------
-
-	mod: function (DBM) {}
-
-}; // End of module
+  mod () {}
+}
