@@ -18,235 +18,235 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div style="width: 550px; height: 350px; overflow-y: scroll;">
-	<div style="padding-top: 8px;">
-		<div style="float: left; width: 35%;">
-			Source Embed Object:<br>
-			<select id="storage" class="round" onchange="glob.refreshVariableList(this)">
-				${data.variables[1]}
-			</select>
-		</div>
-		<div style="float: right; width: 60%;">
-			Variable Name:<br>
-			<input id="varName" placeholder="Embed Object" class="round" type="text" list="variableList" oninput="glob.onChange13(this)">
-		</div>
-	</div><br><br><br>
-	<div style="padding-top: 8px;">
-		<div style="float: left; width: 35%;">
-			Edit Title:<br>
-			<select id="Edit0" class="round" onchange="glob.onChange0(this)">
-				<option value="0" selected>Keep Content</option>
-				<option value="1">Edit Content</option>
-				<option value="2">Clear Content</option>
-			</select>
-		</div>
-		<div id="Input0" style="display: none; float: right; width: 60%;">
-			Title:<br>
-			<input id="title" class="round" type="text">
-		</div>
-	</div><br><br><br>
-	<div style="padding-top: 8px;">
-		<div style="float: left; width: 35%;">
-			Edit URL:<br>
-			<select id="Edit1" class="round" onchange="glob.onChange1(this)">
-				<option value=0 selected>Keep Content</option>
-				<option value=1>Edit Content</option>
-				<option value=2>Clear Content</option>
-			</select>
-		</div>
-		<div id="Input1" style="display: none; float: right; width: 60%;">
-			URL:<br>
-			<input id="url" class="round" type="text">
-		</div>
-	</div><br><br><br>
-	<div style="padding-top: 8px;">
-		<div style="float: left; width: 35%;">
-			Edit Description:<br>
-			<select id="Edit2" class="round" onchange="glob.onChange2(this)">
-				<option value=0 selected>Keep Content</option>
-				<option value=1>Edit Content</option>
-				<option value=2>Clear Content</option>
-			</select>
-		</div>
-		<div id="Input2" style="display: none; float: right; width: 60%;">
-			Description:<br>
-			<input id="description" class="round" type="text">
-		</div>
-	</div><br><br><br>
-	<div style="padding-top: 8px;">
-		<div style="float: left; width: 35%;">
-			Edit Color:<br>
-			<select id="Edit3" class="round" onchange="glob.onChange3(this)">
-				<option value=0 selected>Keep Content</option>
-				<option value=1>Edit Content</option>
-				<option value=2>Clear Content</option>
-			</select>
-		</div>
-		<div id="Input3" style="display: none; float: right; width: 60%;">
-			Color:<br>
-			<input id="color" class="round" type="text">
-		</div>
-	</div><br><br><br>
-	<div style="padding-top: 8px;">
-		<div style="float: left; width: 35%;">
-			Edit Image URL:<br>
-			<select id="Edit4" class="round" onchange="glob.onChange4(this)">
-				<option value=0 selected>Keep Content</option>
-				<option value=1>Edit Content</option>
-				<option value=2>Clear Content</option>
-				<option value=3>Edit Content (Local)</option>
-			</select>
-		</div>
-		<div id="Input4" style="display: none; float: right; width: 60%;">
-			<div id="Input4placeholder">Image URL:</div>
-			<input id="imageUrl" class="round" type="text">
-		</div>
-	</div><br><br><br>
-	<div id="Input4a" style="display: none; padding-top: 8px;">
-	<div style="float: left; width: 105%;">
-			Name With Extension:<br>
-			<input id="imageUrl2" class="round" type="text" placeholder="name.extension">
-		</div><br><br><br>
-	</div>
-	<div style="padding-top: 8px;">
-		<div style="float: left; width: 35%;">
-			Edit Thumbnail URL:<br>
-			<select id="Edit5" class="round" onchange="glob.onChange5(this)">
-				<option value=0 selected>Keep Content</option>
-				<option value=1>Edit Content</option>
-				<option value=2>Clear Content</option>
-				<option value=3>Edit Content (Local)</option>
-			</select>
-		</div>
-		<div id="Input5" style="display: none; float: right; width: 60%;">
-			<div id="Input5placeholder">Thumbnail URL:</div>
-			<input id="thumbUrl" class="round" type="text">
-		</div>
-	</div><br><br><br>
-	<div id="Input5a" style="display: none; padding-top: 8px;">
-		<div style="float: left; width: 105%;">
-			Name With Extension:<br>
-			<input id="thumbUrl2" class="round" type="text" placeholder="name.extension">
-		</div><br><br><br>
-	</div>
-	<div style="padding-top: 8px;">
-		<div style="float: left; width: 35%;">
-			Edit Author Name:<br>
-			<select id="Edit6" class="round" onchange="glob.onChange6(this)">
-				<option value=0 selected>Keep Content</option>
-				<option value=1>Edit Content</option>
-				<option value=2>Clear Content</option>
-			</select>
-		</div>
-		<div id="Input6" style="display: none; float: right; width: 60%;">
-			Author Name:<br>
-			<input id="author" class="round" type="text">
-		</div>
-	</div><br><br><br>
-	<div style="padding-top: 8px;">
-		<div style="float: left; width: 35%;">
-			Edit Author URL:<br>
-			<select id="Edit7" class="round" onchange="glob.onChange7(this)">
-				<option value=0 selected>Keep Content</option>
-				<option value=1>Edit Content</option>
-				<option value=2>Clear Content</option>
-			</select>
-		</div>
-		<div id="Input7" style="display: none; float: right; width: 60%;">
-			Author URL:<br>
-			<input id="authorUrl" class="round" type="text">
-		</div>
-	</div><br><br><br>
-	<div style="padding-top: 8px;">
-		<div style="float: left; width: 35%;">
-			Edit Author Icon URL:<br>
-			<select id="Edit8" class="round" onchange="glob.onChange8(this)">
-				<option value=0 selected>Keep Content</option>
-				<option value=1>Edit Content</option>
-				<option value=2>Clear Content</option>
-			</select>
-		</div>
-		<div id="Input8" style="display: none; float: right; width: 60%;">
-			Author Icon URL:<br>
-			<input id="authorIcon" class="round" type="text">
-		</div>
-	</div><br><br><br>
-	<div style="padding-top: 8px;">
-		<div style="float: left; width: 35%;">
-			Edit Footer:<br>
-			<select id="Edit9" class="round" onchange="glob.onChange9(this)">
-				<option value=0 selected>Keep Content</option>
-				<option value=1>Edit Content</option>
-				<option value=2>Clear Content</option>
-			</select>
-		</div>
-		<div id="Input9" style="display: none; float: right; width: 60%;">
-			Footer:<br>
-			<input id="footer" class="round" type="text">
-		</div>
-	</div><br><br><br>
-	<div style="padding-top: 8px;">
-		<div style="float: left; width: 35%;">
-			Edit Footer Icon URL:<br>
-			<select id="Edit10" class="round" onchange="glob.onChange10(this)">
-				<option value=0 selected>Keep Content</option>
-				<option value=1>Edit Content</option>
-				<option value=2>Clear Content</option>
-			</select>
-		</div>
-		<div id="Input10" style="display: none; float: right; width: 60%;">
-			Footer Icon URL:<br>
-			<input id="footerIcon" class="round" type="text">
-		</div>
-	</div><br><br><br>
-	<div style="padding-top: 8px;">
-		<div style="float: left; width: 35%;">
-			Edit Timestamp:<br>
-			<select id="Edit11" class="round" onchange="glob.onChange11(this)">
-				<option value=0 selected>Keep Content</option>
-				<option value=1>Edit to Current Timestamp</option>
-				<option value=2>Edit to String Timestamp</option>
-				<option value=3>Clear Content</option>
-			</select>
-		</div>
-		<div id="Input11" style="display: none; float: right; width: 60%;">
-			URL Timestamp:<br>
-			<input id="timestamp" class="round" type="text">
-		</div>
-	</div><br><br><br>
-	<div style="padding-top: 8px;">
-		<div style="float: left; width: 35%;">
-			Edit Edit Field:<br>
-			<select id="Edit12" class="round" onchange="glob.onChange12(this)">
-				<option value=0 selected>Keep Content</option>
-				<option value=1>Edit Content</option>
-				<option value=2>Delete Field</option>
-				<option value=3>Delete All Fields</option>
-				<option value=4>Add Field</option>
-			</select><br>
-		</div>
-		<div id="Input12" style="display: none; float: right; width: 60%;">
-			Field Number:<br>
-			<input id="fieldNum" class="round" type="text"><br>
-		</div>
-	</div><br><br><br>
-	<div id="Input13" style="display: none;">
-		<div style="float: left; width: 32%;">
-			Edit Field Name:<br>
-			<input id="fieldName" class="round" type="text"><br>
-		</div>
-		<div style="padding-left: 3%; float: left; width: 32%;">
-			Edit Field Value:<br>
-			<input id="fieldDescription" class="round" type="text"><br>
-		</div>
-		<div style="padding-left: 3%; float: left; width: 32%;">
-			Edit Field Inline:<br>
-			<select id="fieldInline" class="round">
-				<option value=0 selected>Keep Inline</option>
-				<option value=1>Yes</option>
-				<option value=2>No</option>
-			</select><br>
-		</div>
-	</div>
+  <div style="padding-top: 8px;">
+    <div style="float: left; width: 35%;">
+      Source Embed Object:<br>
+      <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
+        ${data.variables[1]}
+      </select>
+    </div>
+    <div style="float: right; width: 60%;">
+      Variable Name:<br>
+      <input id="varName" placeholder="Embed Object" class="round" type="text" list="variableList" oninput="glob.onChange13(this)">
+    </div>
+  </div><br><br><br>
+  <div style="padding-top: 8px;">
+    <div style="float: left; width: 35%;">
+      Edit Title:<br>
+      <select id="Edit0" class="round" onchange="glob.onChange0(this)">
+        <option value="0" selected>Keep Content</option>
+        <option value="1">Edit Content</option>
+        <option value="2">Clear Content</option>
+      </select>
+    </div>
+    <div id="Input0" style="display: none; float: right; width: 60%;">
+      Title:<br>
+      <input id="title" class="round" type="text">
+    </div>
+  </div><br><br><br>
+  <div style="padding-top: 8px;">
+    <div style="float: left; width: 35%;">
+      Edit URL:<br>
+      <select id="Edit1" class="round" onchange="glob.onChange1(this)">
+        <option value=0 selected>Keep Content</option>
+        <option value=1>Edit Content</option>
+        <option value=2>Clear Content</option>
+      </select>
+    </div>
+    <div id="Input1" style="display: none; float: right; width: 60%;">
+      URL:<br>
+      <input id="url" class="round" type="text">
+    </div>
+  </div><br><br><br>
+  <div style="padding-top: 8px;">
+    <div style="float: left; width: 35%;">
+      Edit Description:<br>
+      <select id="Edit2" class="round" onchange="glob.onChange2(this)">
+        <option value=0 selected>Keep Content</option>
+        <option value=1>Edit Content</option>
+        <option value=2>Clear Content</option>
+      </select>
+    </div>
+    <div id="Input2" style="display: none; float: right; width: 60%;">
+      Description:<br>
+      <input id="description" class="round" type="text">
+    </div>
+  </div><br><br><br>
+  <div style="padding-top: 8px;">
+    <div style="float: left; width: 35%;">
+      Edit Color:<br>
+      <select id="Edit3" class="round" onchange="glob.onChange3(this)">
+        <option value=0 selected>Keep Content</option>
+        <option value=1>Edit Content</option>
+        <option value=2>Clear Content</option>
+      </select>
+    </div>
+    <div id="Input3" style="display: none; float: right; width: 60%;">
+      Color:<br>
+      <input id="color" class="round" type="text">
+    </div>
+  </div><br><br><br>
+  <div style="padding-top: 8px;">
+    <div style="float: left; width: 35%;">
+      Edit Image URL:<br>
+      <select id="Edit4" class="round" onchange="glob.onChange4(this)">
+        <option value=0 selected>Keep Content</option>
+        <option value=1>Edit Content</option>
+        <option value=2>Clear Content</option>
+        <option value=3>Edit Content (Local)</option>
+      </select>
+    </div>
+    <div id="Input4" style="display: none; float: right; width: 60%;">
+      <div id="Input4placeholder">Image URL:</div>
+      <input id="imageUrl" class="round" type="text">
+    </div>
+  </div><br><br><br>
+  <div id="Input4a" style="display: none; padding-top: 8px;">
+  <div style="float: left; width: 105%;">
+      Name With Extension:<br>
+      <input id="imageUrl2" class="round" type="text" placeholder="name.extension">
+    </div><br><br><br>
+  </div>
+  <div style="padding-top: 8px;">
+    <div style="float: left; width: 35%;">
+      Edit Thumbnail URL:<br>
+      <select id="Edit5" class="round" onchange="glob.onChange5(this)">
+        <option value=0 selected>Keep Content</option>
+        <option value=1>Edit Content</option>
+        <option value=2>Clear Content</option>
+        <option value=3>Edit Content (Local)</option>
+      </select>
+    </div>
+    <div id="Input5" style="display: none; float: right; width: 60%;">
+      <div id="Input5placeholder">Thumbnail URL:</div>
+      <input id="thumbUrl" class="round" type="text">
+    </div>
+  </div><br><br><br>
+  <div id="Input5a" style="display: none; padding-top: 8px;">
+    <div style="float: left; width: 105%;">
+      Name With Extension:<br>
+      <input id="thumbUrl2" class="round" type="text" placeholder="name.extension">
+    </div><br><br><br>
+  </div>
+  <div style="padding-top: 8px;">
+    <div style="float: left; width: 35%;">
+      Edit Author Name:<br>
+      <select id="Edit6" class="round" onchange="glob.onChange6(this)">
+        <option value=0 selected>Keep Content</option>
+        <option value=1>Edit Content</option>
+        <option value=2>Clear Content</option>
+      </select>
+    </div>
+    <div id="Input6" style="display: none; float: right; width: 60%;">
+      Author Name:<br>
+      <input id="author" class="round" type="text">
+    </div>
+  </div><br><br><br>
+  <div style="padding-top: 8px;">
+    <div style="float: left; width: 35%;">
+      Edit Author URL:<br>
+      <select id="Edit7" class="round" onchange="glob.onChange7(this)">
+        <option value=0 selected>Keep Content</option>
+        <option value=1>Edit Content</option>
+        <option value=2>Clear Content</option>
+      </select>
+    </div>
+    <div id="Input7" style="display: none; float: right; width: 60%;">
+      Author URL:<br>
+      <input id="authorUrl" class="round" type="text">
+    </div>
+  </div><br><br><br>
+  <div style="padding-top: 8px;">
+    <div style="float: left; width: 35%;">
+      Edit Author Icon URL:<br>
+      <select id="Edit8" class="round" onchange="glob.onChange8(this)">
+        <option value=0 selected>Keep Content</option>
+        <option value=1>Edit Content</option>
+        <option value=2>Clear Content</option>
+      </select>
+    </div>
+    <div id="Input8" style="display: none; float: right; width: 60%;">
+      Author Icon URL:<br>
+      <input id="authorIcon" class="round" type="text">
+    </div>
+  </div><br><br><br>
+  <div style="padding-top: 8px;">
+    <div style="float: left; width: 35%;">
+      Edit Footer:<br>
+      <select id="Edit9" class="round" onchange="glob.onChange9(this)">
+        <option value=0 selected>Keep Content</option>
+        <option value=1>Edit Content</option>
+        <option value=2>Clear Content</option>
+      </select>
+    </div>
+    <div id="Input9" style="display: none; float: right; width: 60%;">
+      Footer:<br>
+      <input id="footer" class="round" type="text">
+    </div>
+  </div><br><br><br>
+  <div style="padding-top: 8px;">
+    <div style="float: left; width: 35%;">
+      Edit Footer Icon URL:<br>
+      <select id="Edit10" class="round" onchange="glob.onChange10(this)">
+        <option value=0 selected>Keep Content</option>
+        <option value=1>Edit Content</option>
+        <option value=2>Clear Content</option>
+      </select>
+    </div>
+    <div id="Input10" style="display: none; float: right; width: 60%;">
+      Footer Icon URL:<br>
+      <input id="footerIcon" class="round" type="text">
+    </div>
+  </div><br><br><br>
+  <div style="padding-top: 8px;">
+    <div style="float: left; width: 35%;">
+      Edit Timestamp:<br>
+      <select id="Edit11" class="round" onchange="glob.onChange11(this)">
+        <option value=0 selected>Keep Content</option>
+        <option value=1>Edit to Current Timestamp</option>
+        <option value=2>Edit to String Timestamp</option>
+        <option value=3>Clear Content</option>
+      </select>
+    </div>
+    <div id="Input11" style="display: none; float: right; width: 60%;">
+      URL Timestamp:<br>
+      <input id="timestamp" class="round" type="text">
+    </div>
+  </div><br><br><br>
+  <div style="padding-top: 8px;">
+    <div style="float: left; width: 35%;">
+      Edit Edit Field:<br>
+      <select id="Edit12" class="round" onchange="glob.onChange12(this)">
+        <option value=0 selected>Keep Content</option>
+        <option value=1>Edit Content</option>
+        <option value=2>Delete Field</option>
+        <option value=3>Delete All Fields</option>
+        <option value=4>Add Field</option>
+      </select><br>
+    </div>
+    <div id="Input12" style="display: none; float: right; width: 60%;">
+      Field Number:<br>
+      <input id="fieldNum" class="round" type="text"><br>
+    </div>
+  </div><br><br><br>
+  <div id="Input13" style="display: none;">
+    <div style="float: left; width: 32%;">
+      Edit Field Name:<br>
+      <input id="fieldName" class="round" type="text"><br>
+    </div>
+    <div style="padding-left: 3%; float: left; width: 32%;">
+      Edit Field Value:<br>
+      <input id="fieldDescription" class="round" type="text"><br>
+    </div>
+    <div style="padding-left: 3%; float: left; width: 32%;">
+      Edit Field Inline:<br>
+      <select id="fieldInline" class="round">
+        <option value=0 selected>Keep Inline</option>
+        <option value=1>Yes</option>
+        <option value=2>No</option>
+      </select><br>
+    </div>
+  </div>
 </div>`
   },
 
@@ -270,7 +270,6 @@ module.exports = {
     const Input11 = document.getElementById('Input11')
     const Input12 = document.getElementById('Input12')
     const Input13 = document.getElementById('Input13')
-    const Input14 = document.getElementById('Input14')
     const fieldInline = document.getElementById('fieldInline')
 
     glob.onChange0 = function (Edit0) {
@@ -461,11 +460,12 @@ module.exports = {
     const varName = document.getElementById('varName')
     glob.onChange13 = function (Edit13) {
       const list = document.getElementById('variableList')
-      if (list.children.length == 0) return
+      if (list.children.length === 0) return
       const dataType = list.options
       const correct = filter(dataType)
       if (correct !== undefined) {
-        if (correct.innerHTML != 'Embed Object') {
+        if (correct.innerHTML !== 'Embed Object') {
+          // eslint-disable-next-line no-undef
           alert(`Please select an Embed Object to edit. You've selected a ${correct.innerHTML}; This won't edit your message directly, you'll have to later select 'Edit Message' and use the same embed as here in Source Embed`)
         }
       }
@@ -476,7 +476,7 @@ module.exports = {
       for (let i = 0; i < dataType.length; i++) {
         console.log(dataType[i].value)
         console.log(varName.value)
-        if (dataType[i].value == varName.value) {
+        if (dataType[i].value === varName.value) {
           console.log(i)
           return dataType[i]
         }
@@ -595,48 +595,48 @@ module.exports = {
         break
     }
     if (embed.author === undefined) {
-      if (Edit6 == 1 && typeof author !== undefined) {
+      if (Edit6 === 1 && author !== undefined) {
         embed.setAuthor(author)
-        if (Edit7 == 1 && typeof authorUrl !== undefined) {
+        if (Edit7 === 1 && authorUrl !== undefined) {
           embed.author.url = authorUrl
         }
-        if (Edit8 == 1 && typeof authorIcon !== undefined) {
+        if (Edit8 === 1 && authorIcon !== undefined) {
           embed.author.icon_url = authorIcon
         }
       }
     } else {
-      if (typeof author !== undefined && Edit6 == 1) {
+      if (author !== undefined && Edit6 === 1) {
         embed.author.name = author
-      } else if (Edit6 == 2) {
+      } else if (Edit6 === 2) {
         embed.author.name = undefined
       }
-      if (typeof authorUrl !== undefined && Edit7 == 1 && embed.author !== undefined) {
+      if (authorUrl !== undefined && Edit7 === 1 && embed.author !== undefined) {
         embed.author.url = authorUrl
-      } else if (Edit7 == 2) {
+      } else if (Edit7 === 2) {
         embed.author.url = undefined
       }
-      if (typeof authorIcon !== undefined && Edit8 == 1 && embed.author !== undefined) {
+      if (authorIcon !== undefined && Edit8 === 1 && embed.author !== undefined) {
         embed.author.icon_url = authorIcon
-      } else if (Edit8 == 2) {
+      } else if (Edit8 === 2) {
         embed.author.icon_url = undefined
       }
     }
     if (embed.footer === undefined) {
-      if (Edit9 == 1 && typeof footer !== undefined) {
+      if (Edit9 === 1 && footer !== undefined) {
         embed.setFooter(footer)
-        if (Edit10 == 1 && typeof footerIcon !== undefined) {
+        if (Edit10 === 1 && footerIcon !== undefined) {
           embed.footer.icon_url = footerIcon
         }
       }
     } else {
-      if (typeof footer !== undefined && Edit9 == 1) {
+      if (footer !== undefined && Edit9 === 1) {
         embed.footer.text = footer
-      } else if (Edit9 != 0) {
+      } else if (Edit9 !== 0) {
         embed.footer.text = undefined
       }
-      if (typeof footerIcon !== undefined && Edit10 == 1) {
+      if (footerIcon !== undefined && Edit10 === 1) {
         embed.footer.icon_url = footerIcon
-      } else if (Edit10 != 0) {
+      } else if (Edit10 !== 0) {
         embed.footer.icon_url = undefined
       }
     }

@@ -18,20 +18,20 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div>
-    <div style="width: 70%;">
-        Message to Revise:<br>
-        <input id="reviser" type="text" class="round">
-    </div><br>
-    <div style="float: left; width: 35%;">
-        Store In:<br>
-        <select id="storage" class="round">
-            ${data.variables[1]}
-        </select>
-    </div>
-    <div id="varNameContainer2" style="float: right; width: 60%;">
-        Variable Name:<br>
-        <input id="varName2" class="round" type="text"><br>
-    </div>
+  <div style="width: 70%;">
+    Message to Revise:<br>
+    <input id="reviser" type="text" class="round">
+  </div><br>
+  <div style="float: left; width: 35%;">
+    Store In:<br>
+    <select id="storage" class="round">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer2" style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName2" class="round" type="text"><br>
+  </div>
 </div>`
   },
 
@@ -52,7 +52,7 @@ module.exports = {
       const out = array.join(' ').trim()
       this.storeValue(out.substr(0, 1).toUpperCase() + out.substr(1), storage, varName2, cache)
     } catch (err) {
-      console.log(`ERROR!${err.stack}` ? err.stack : err)
+      console.log(`ERROR! ${err.stack || err}`)
     }
     this.callNextAction(cache)
   },

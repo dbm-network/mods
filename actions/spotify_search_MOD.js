@@ -198,131 +198,130 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-	<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
-	<div style="width: 95%; padding-top: 8px;">
-		Client ID:<br>
-		<textarea id="clientid" rows="2" placeholder="Write your Client ID. Get one from Spotify." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
-	</div>
-	<div style="width: 95%; padding-top: 8px;">
-		Client Secret:<br>
-		<textarea id="clientsecret" rows="2" placeholder="Write your Client Secret. Get one from Spotify." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
-	</div>
-	<div style="padding-top: 15px;">
-		<div style="float: left; width: 35%;">
-			Search for:<br>
-			<select id="search" name="second-list" class="round" onchange="glob.onChange1(this)">
-				<option value="0" selected>Track</option>
-				<option value="1">Artist</option>
-				<option value="2">Playlist</option>
-				<option value="3">Album</option>
-			</select>
-		</div>
-		<div id="varNameContainer" style="float: right; width: 60%;">
-			Search Value:<br>
-			<input id="varName" class="round" type="text">
-		</div>
-	</div><br><br><br>
-	<div style="padding-top: 8px;">
-		<div style="float: left; width: 50%;">
-			Source Info:<br>
-			<select id="info1" class="round">
-				<option value="0" selected>Track Name</option>
-				<option value="1">Track Artists Name</option>
-				<option value="2">Track Artists ID</option>
-				<option value="3">Track Album Name</option>
-				<option value="4">Track Album ID</option>
-				<option value="5">Track ID</option>
-				<option value="6">Track URL</option>
-				<option value="7">Track Available Markets List</option>
-				<option value="8">Track Duration</option>
-				<option value="9">Track Popularity</option>
-				<option value="10">Is Explicit?</option>
-				<option value="11">Is Local?</option>
-				<option value="12">Total Tracks Results</option>
-				<option value="13">Track Data</option>
-			</select>
-			<select id="info2" class="round">
-				<option value="0" selected>Artist Name</option>
-				<option value="1">Artist ID</option>
-				<option value="2">Artist URL</option>
-				<option value="3">Artist Followers Number</option>
-				<option value="4">Artist Genres</option>
-				<option value="5">Artist Popularity</option>
-				<option value="6">Artist Image (High)</option>
-				<option value="7">Artist Image (Medium)</option>
-				<option value="8">Artist Image (Low)</option>
-				<option value="9">Total Artists Results</option>
-				<option value="10">Artist Data</option>
-			</select>
-			<select id="info3" class="round">
-				<option value="0" selected>Playlist Name</option>
-				<option value="1">Playlist ID</option>
-				<option value="2">Playlist URL</option>
-				<option value="3">Playlist Owner Name</option>
-				<option value="4">Playlist Owner ID</option>
-				<option value="5">Playlist Owner URL</option>
-				<option value="6">Playlist Snapshot ID</option>
-				<option value="7">Playlist Tracks Total</option>
-				<option value="8">Playlist Image (High)</option>
-				<option value="9">Playlist Image (Medium)</option>
-				<option value="10">Playlist Image (Low)</option>
-				<option value="11">Is Collaborative?</option>
-				<option value="12">Total Playlists Results</option>
-				<option value="13">Playlist Data</option>
-			</select>
-			<select id="info4" class="round">
-				<option value="0" selected>Album Name</option>
-				<option value="1">Album Artists Name</option>
-				<option value="2">Album Artists ID</option>
-				<option value="3">Album ID</option>
-				<option value="4">Album Release Date</option>
-				<option value="5">Album Type</option>
-				<option value="6">Album URL</option>
-				<option value="7">Album Total Tracks</option>
-				<option value="8">Album Available Markets List</option>
-				<option value="9">Album Image (High)</option>
-				<option value="10">Album Image (Medium)</option>
-				<option value="11">Album Image (Low)</option>
-				<option value="12">Total Albums Results</option>
-				<option value="13">Album Data</option>
-			</select>
-		</div>
-		<div style="float: left; width: 35%; padding-left: 25px;">
-			Result Number:<br>
-			<select id="resultNo" class="round">
-				<option value="1" selected>1st Result</option>
-				<option value="2">2nd Result</option>
-				<option value="3">3rd Result</option>
-				<option value="4">4th Result</option>
-				<option value="5">5th Result</option>
-				<option value="6">6th Result</option>
-				<option value="7">7th Result</option>
-				<option value="8">8th Result</option>
-				<option value="9">9th Result</option>
-				<option value="10">10th Result</option>
-			</select>
-		</div>
-	</div><br><br><br>
-	<div>
-		<div style="float: left; width: 35%; padding-top: 8px;">
-			Store In:<br>
-			<select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer2')">
-				${data.variables[0]}
-			</select>
-		</div>
-		<div id="varNameContainer2" style="float: right; width: 60%; padding-top: 8px;">
-			Variable Name:<br>
-			<input id="varName2" class="round" type="text"><br>
-		</div>
-	</div><br><br><br><br>
-	<div style="float: left; width: 88%; padding-top: 8px;">
-		<br>
-		<p>
-			To get your Client ID and Client Secret, create an App on <a href="https://developer.spotify.com/dashboard/applications">https://developer.spotify.com/dashboard/applications</a>
-		</p>
-	<div>
-	</div>
-	`
+<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
+  <div style="width: 95%; padding-top: 8px;">
+    Client ID:<br>
+    <textarea id="clientid" rows="2" placeholder="Write your Client ID. Get one from Spotify." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+  </div>
+  <div style="width: 95%; padding-top: 8px;">
+    Client Secret:<br>
+    <textarea id="clientsecret" rows="2" placeholder="Write your Client Secret. Get one from Spotify." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+  </div>
+  <div style="padding-top: 15px;">
+    <div style="float: left; width: 35%;">
+      Search for:<br>
+      <select id="search" name="second-list" class="round" onchange="glob.onChange1(this)">
+        <option value="0" selected>Track</option>
+        <option value="1">Artist</option>
+        <option value="2">Playlist</option>
+        <option value="3">Album</option>
+      </select>
+    </div>
+    <div id="varNameContainer" style="float: right; width: 60%;">
+      Search Value:<br>
+      <input id="varName" class="round" type="text">
+    </div>
+  </div><br><br><br>
+  <div style="padding-top: 8px;">
+    <div style="float: left; width: 50%;">
+      Source Info:<br>
+      <select id="info1" class="round">
+        <option value="0" selected>Track Name</option>
+        <option value="1">Track Artists Name</option>
+        <option value="2">Track Artists ID</option>
+        <option value="3">Track Album Name</option>
+        <option value="4">Track Album ID</option>
+        <option value="5">Track ID</option>
+        <option value="6">Track URL</option>
+        <option value="7">Track Available Markets List</option>
+        <option value="8">Track Duration</option>
+        <option value="9">Track Popularity</option>
+        <option value="10">Is Explicit?</option>
+        <option value="11">Is Local?</option>
+        <option value="12">Total Tracks Results</option>
+        <option value="13">Track Data</option>
+      </select>
+      <select id="info2" class="round">
+        <option value="0" selected>Artist Name</option>
+        <option value="1">Artist ID</option>
+        <option value="2">Artist URL</option>
+        <option value="3">Artist Followers Number</option>
+        <option value="4">Artist Genres</option>
+        <option value="5">Artist Popularity</option>
+        <option value="6">Artist Image (High)</option>
+        <option value="7">Artist Image (Medium)</option>
+        <option value="8">Artist Image (Low)</option>
+        <option value="9">Total Artists Results</option>
+        <option value="10">Artist Data</option>
+      </select>
+      <select id="info3" class="round">
+        <option value="0" selected>Playlist Name</option>
+        <option value="1">Playlist ID</option>
+        <option value="2">Playlist URL</option>
+        <option value="3">Playlist Owner Name</option>
+        <option value="4">Playlist Owner ID</option>
+        <option value="5">Playlist Owner URL</option>
+        <option value="6">Playlist Snapshot ID</option>
+        <option value="7">Playlist Tracks Total</option>
+        <option value="8">Playlist Image (High)</option>
+        <option value="9">Playlist Image (Medium)</option>
+        <option value="10">Playlist Image (Low)</option>
+        <option value="11">Is Collaborative?</option>
+        <option value="12">Total Playlists Results</option>
+        <option value="13">Playlist Data</option>
+      </select>
+      <select id="info4" class="round">
+        <option value="0" selected>Album Name</option>
+        <option value="1">Album Artists Name</option>
+        <option value="2">Album Artists ID</option>
+        <option value="3">Album ID</option>
+        <option value="4">Album Release Date</option>
+        <option value="5">Album Type</option>
+        <option value="6">Album URL</option>
+        <option value="7">Album Total Tracks</option>
+        <option value="8">Album Available Markets List</option>
+        <option value="9">Album Image (High)</option>
+        <option value="10">Album Image (Medium)</option>
+        <option value="11">Album Image (Low)</option>
+        <option value="12">Total Albums Results</option>
+        <option value="13">Album Data</option>
+      </select>
+    </div>
+    <div style="float: left; width: 35%; padding-left: 25px;">
+      Result Number:<br>
+      <select id="resultNo" class="round">
+        <option value="1" selected>1st Result</option>
+        <option value="2">2nd Result</option>
+        <option value="3">3rd Result</option>
+        <option value="4">4th Result</option>
+        <option value="5">5th Result</option>
+        <option value="6">6th Result</option>
+        <option value="7">7th Result</option>
+        <option value="8">8th Result</option>
+        <option value="9">9th Result</option>
+        <option value="10">10th Result</option>
+      </select>
+    </div>
+  </div><br><br><br>
+  <div>
+    <div style="float: left; width: 35%; padding-top: 8px;">
+      Store In:<br>
+      <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer2')">
+        ${data.variables[0]}
+      </select>
+    </div>
+    <div id="varNameContainer2" style="float: right; width: 60%; padding-top: 8px;">
+      Variable Name:<br>
+      <input id="varName2" class="round" type="text"><br>
+    </div>
+  </div><br><br><br><br>
+  <div style="float: left; width: 88%; padding-top: 8px;">
+    <br>
+    <p>
+      To get your Client ID and Client Secret, create an App on <a href="https://developer.spotify.com/dashboard/applications">https://developer.spotify.com/dashboard/applications</a>
+    </p>
+  <div>
+</div>`
   },
 
   init () {

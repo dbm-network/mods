@@ -18,54 +18,54 @@ module.exports = {
   html (isEvent, data) {
     data.conditions[0] = data.conditions[0].replace(/If True/g, 'If Cooldown is Active').replace(/If False/g, 'If Cooldown is Not Active')
     return `
-	<div>
-		<div style="padding-top: 8px;">
-			<div style="float: left; width: 35%;">
-				Time Measurement:<br>
-				<select id="measurement" class="round" onchange="glob.onChange(this)">
-					<option value="0">Miliseconds</option>
-					<option value="1" selected>Seconds</option>
-					<option value="2">Minutes</option>
-					<option value="3">Hours</option>
-				</select>
-			</div>
-			<div style="padding-left: 5%; float: left; width: 65%;">
-				Cooldown Time:<br>
-				<input id="value" class="round" type="text" placeholder="1 = 1 second"><br>
-			</div>
-		</div><br><br><br>
-		<div style="padding-top: 8px;">
-			<div style="float: left; width: 35%;">
-				Reset After Restart:<br>
-				<select id="save" class="round"><br>
-					<option value="0" selected>False</option>
-					<option value="1">True</option>
-				</select>
-			</div>
-			<div style="padding-left: 5%; float: left; width: 59%;">
-				Restrict By:<br>
-				<select id="restrict" class="round"><br>
-					<option value="0" selected>Global</option>
-					<option value="1">Server</option>
-				</select>
-			</div>
-		</div><br><br><br>
-		<div style="padding-top: 8px;">
-			${data.conditions[0]}
-		</div><br><br><br>
-		<div style="padding-top: 8px;">
-			<div style="float: left; width: 35%;">
-				Store Left Time In (s):<br>
-				<select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-					${data.variables[0]}
-				</select>
-			</div>
-			<div id="varNameContainer" style="float: right; width: 60%; display: none;">
-				Variable Name:<br>
-				<input id="varName" class="round" type="text"><br>
-			</div>
-		</div>
-	</div>`
+<div>
+  <div style="padding-top: 8px;">
+    <div style="float: left; width: 35%;">
+      Time Measurement:<br>
+      <select id="measurement" class="round" onchange="glob.onChange(this)">
+        <option value="0">Miliseconds</option>
+        <option value="1" selected>Seconds</option>
+        <option value="2">Minutes</option>
+        <option value="3">Hours</option>
+      </select>
+    </div>
+    <div style="padding-left: 5%; float: left; width: 65%;">
+      Cooldown Time:<br>
+      <input id="value" class="round" type="text" placeholder="1 = 1 second"><br>
+    </div>
+  </div><br><br><br>
+  <div style="padding-top: 8px;">
+    <div style="float: left; width: 35%;">
+      Reset After Restart:<br>
+      <select id="save" class="round"><br>
+        <option value="0" selected>False</option>
+        <option value="1">True</option>
+      </select>
+    </div>
+    <div style="padding-left: 5%; float: left; width: 59%;">
+      Restrict By:<br>
+      <select id="restrict" class="round"><br>
+        <option value="0" selected>Global</option>
+        <option value="1">Server</option>
+      </select>
+    </div>
+  </div><br><br><br>
+  <div style="padding-top: 8px;">
+    ${data.conditions[0]}
+  </div><br><br><br>
+  <div style="padding-top: 8px;">
+    <div style="float: left; width: 35%;">
+      Store Left Time In (s):<br>
+      <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
+        ${data.variables[0]}
+      </select>
+    </div>
+    <div id="varNameContainer" style="float: right; width: 60%; display: none;">
+      Variable Name:<br>
+      <input id="varName" class="round" type="text"><br>
+    </div>
+  </div>
+</div>`
   },
 
   init () {
@@ -91,14 +91,14 @@ module.exports = {
     option.value = '4'
     option.text = 'Jump to Anchor'
     const iffalse = document.getElementById('iffalse')
-    if (iffalse.length == 4) {
+    if (iffalse.length === 4) {
       iffalse.add(option)
     }
     const option2 = document.createElement('OPTION')
     option2.value = '4'
     option2.text = 'Jump to Anchor'
     const iftrue = document.getElementById('iftrue')
-    if (iftrue.length == 4) {
+    if (iftrue.length === 4) {
       iftrue.add(option2)
     }
     glob.onChangeTrue = function (event) {
@@ -156,7 +156,7 @@ module.exports = {
     }
     let cmd
     for (const command of this.getDBM().Files.data.commands) {
-      if (command && JSON.stringify(command.actions) == JSON.stringify(cache.actions)) {
+      if (command && JSON.stringify(command.actions) === JSON.stringify(cache.actions)) {
         cmd = command
         break
       }
@@ -182,7 +182,7 @@ module.exports = {
         Cooldown = JSON.parse(Cooldown)
       }
       for (const command of Object.keys(Cooldown)) {
-        if (Cooldown[command].save == 1) {
+        if (Cooldown[command].save === 1) {
           delete Cooldown[command]
         }
       }
@@ -232,14 +232,12 @@ module.exports = {
               return Math.ceil((expirationTime - now) / 1000)
             }
             Command[msg.author.id] = now
-            if (save == 0) Files.saveGlobalVariable('DBMCooldown', JSON.stringify(Cooldown))
+            if (save === 0) Files.saveGlobalVariable('DBMCooldown', JSON.stringify(Cooldown))
             return false
           }
           Command[msg.author.id] = now
-          if (save == 0) Files.saveGlobalVariable('DBMCooldown', JSON.stringify(Cooldown))
+          if (save === 0) Files.saveGlobalVariable('DBMCooldown', JSON.stringify(Cooldown))
           return false
-
-          break
         case 1:
           let channelId
           if (typeof cache.server !== 'undefined') {
@@ -256,14 +254,12 @@ module.exports = {
               return Math.ceil((expirationTime - now) / 1000)
             }
             Command[msg.author.id][channelId] = now
-            if (save == 0) Files.saveGlobalVariable('DBMCooldown', JSON.stringify(Cooldown))
+            if (save === 0) Files.saveGlobalVariable('DBMCooldown', JSON.stringify(Cooldown))
             return false
           }
           Command[msg.author.id][channelId] = now
-          if (save == 0) Files.saveGlobalVariable('DBMCooldown', JSON.stringify(Cooldown))
+          if (save === 0) Files.saveGlobalVariable('DBMCooldown', JSON.stringify(Cooldown))
           return false
-
-          break
       }
     }
   }

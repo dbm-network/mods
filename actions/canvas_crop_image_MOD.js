@@ -12,66 +12,66 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div>
-	<div style="float: left; width: 45%;">
-		Source Image:<br>
-		<select id="storage" class="round" onchange="glob.refreshVariableList(this)">
-			${data.variables[1]}
-		</select><br>
-	</div>
-	<div id="varNameContainer" style="float: right; width: 50%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList"><br>
-	</div>
+  <div style="float: left; width: 45%;">
+    Source Image:<br>
+    <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
+      ${data.variables[1]}
+    </select><br>
+  </div>
+  <div id="varNameContainer" style="float: right; width: 50%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text" list="variableList"><br>
+  </div>
 </div><br><br><br>
 <div>
-	<div style="float: left; width: 50%;">
-		Crop Width (direct size or percent):<br>
-		<input id="width" class="round" type="text" value="100%"><br>
-	</div>
-	<div style="float: right; width: 50%;">
-		Crop Height (direct size or percent):<br>
-		<input id="height" class="round" type="text" value="100%"><br>
-	</div>
+  <div style="float: left; width: 50%;">
+    Crop Width (direct size or percent):<br>
+    <input id="width" class="round" type="text" value="100%"><br>
+  </div>
+  <div style="float: right; width: 50%;">
+    Crop Height (direct size or percent):<br>
+    <input id="height" class="round" type="text" value="100%"><br>
+  </div>
 </div><br><br><br>
-	<div style="float: left; width: 45%;">
-		Alignment:<br>
-		<select id="align" class="round" onchange="glob.onChange0(this)">
-			<option value="0" selected>Top Left</option>
-			<option value="1">Top Center</option>
-			<option value="2">Top Right</option>
-			<option value="3">Middle Left</option>
-			<option value="4">Middle Center</option>
-			<option value="5">Middle Right</option>
-			<option value="6">Bottom Left</option>
-			<option value="7">Bottom Center</option>
-			<option value="8">Bottom Right</option>
-			<option value="9">Specific Position</option>
-		</select><br>
-	</div>
-	<div id="specific" style="display: none; padding-left: 5%; float: left; width: 50%;">
-		Custom Alignment:<br>
-		<select id="align2" class="round">
-			<option value="0" selected>Top Left</option>
-			<option value="1">Top Center</option>
-			<option value="2">Top Right</option>
-			<option value="3">Middle Left</option>
-			<option value="4">Middle Center</option>
-			<option value="5">Middle Right</option>
-			<option value="6">Bottom Left</option>
-			<option value="7">Bottom Center</option>
-			<option value="8">Bottom Right</option>
-		</select><br>
-	</div>
+  <div style="float: left; width: 45%;">
+    Alignment:<br>
+    <select id="align" class="round" onchange="glob.onChange0(this)">
+      <option value="0" selected>Top Left</option>
+      <option value="1">Top Center</option>
+      <option value="2">Top Right</option>
+      <option value="3">Middle Left</option>
+      <option value="4">Middle Center</option>
+      <option value="5">Middle Right</option>
+      <option value="6">Bottom Left</option>
+      <option value="7">Bottom Center</option>
+      <option value="8">Bottom Right</option>
+      <option value="9">Specific Position</option>
+    </select><br>
+  </div>
+  <div id="specific" style="display: none; padding-left: 5%; float: left; width: 50%;">
+    Custom Alignment:<br>
+    <select id="align2" class="round">
+      <option value="0" selected>Top Left</option>
+      <option value="1">Top Center</option>
+      <option value="2">Top Right</option>
+      <option value="3">Middle Left</option>
+      <option value="4">Middle Center</option>
+      <option value="5">Middle Right</option>
+      <option value="6">Bottom Left</option>
+      <option value="7">Bottom Center</option>
+      <option value="8">Bottom Right</option>
+    </select><br>
+  </div>
 </div><br><br>
 <div id="position" style="display: none">
-	<div style="float: left; width: 50%;">
-		Position X:<br>
-		<input id="positionx" class="round" type="text" value="0"><br>
-	</div>
-	<div style="float: right; width: 50%;">
-		Position Y:<br>
-		<input id="positiony" class="round" type="text" value="0"><br>
-	</div>
+  <div style="float: left; width: 50%;">
+    Position X:<br>
+    <input id="positionx" class="round" type="text" value="0"><br>
+  </div>
+  <div style="float: right; width: 50%;">
+    Position Y:<br>
+    <input id="positiony" class="round" type="text" value="0"><br>
+  </div>
 </div>`
   },
 

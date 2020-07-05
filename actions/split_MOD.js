@@ -17,24 +17,24 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
-	<div id="modinfo">
-		Split Text:<br>
-		<textarea id="split" rows="2" placeholder="Insert text here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+  <div id="modinfo">
+    Split Text:<br>
+    <textarea id="split" rows="2" placeholder="Insert text here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
 </div><br>
-	<div style="float: left; width: 45%; padding-top: 8px;">
-	   Split on:<br>
-	   <input id="spliton" class="round" type="text">
+  <div style="float: left; width: 45%; padding-top: 8px;">
+    Split on:<br>
+    <input id="spliton" class="round" type="text">
 </div><br><br><br><br>
-	<div style="float: left; width: 35%;">
-		Store In:<br>
-		<select id="storage" class="round">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text"><br>
-	</div>
+  <div style="float: left; width: 35%;">
+    Store In:<br>
+    <select id="storage" class="round">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text"><br>
+  </div>
 </div>`
   },
 

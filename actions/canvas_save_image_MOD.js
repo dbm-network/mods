@@ -17,34 +17,34 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div>
-	<div style="float: left; width: 40%;">
-		Source Image:<br>
-		<select id="storage" class="round" onchange="glob.refreshVariableList(this)">
-			${data.variables[1]}
-		</select><br>
-	</div>
-	<div id="varNameContainer" style="padding-left: 2%; float: left; width: 60%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList"><br>
-	</div>
+  <div style="float: left; width: 40%;">
+    Source Image:<br>
+    <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
+      ${data.variables[1]}
+    </select><br>
+  </div>
+  <div id="varNameContainer" style="padding-left: 2%; float: left; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text" list="variableList"><br>
+  </div>
 </div><br><br><br>
 <div>
-	<div style="float: left; width: 105%;">
-		Path (Save to Local):<br>
-		<input id="Path" class="round" type="text" placeholder="resources/output.png"><br>
-	</div>
+  <div style="float: left; width: 105%;">
+    Path (Save to Local):<br>
+    <input id="Path" class="round" type="text" placeholder="resources/output.png"><br>
+  </div>
 </div><br><br>
 <div>
-	<div style="float: left; width: 40%;">
-		Store In:<br>
-		<select id="storage2" class="round">
-			${data.variables[1]}
-		</select><br>
-	</div>
-	<div style="padding-left: 2%; float: left; width: 60%;">
-		Variable Name:<br>
-		<input id="varName2" class="round" type="text"><br>
-	</div>
+  <div style="float: left; width: 40%;">
+    Store In:<br>
+    <select id="storage2" class="round">
+      ${data.variables[1]}
+    </select><br>
+  </div>
+  <div style="padding-left: 2%; float: left; width: 60%;">
+    Variable Name:<br>
+    <input id="varName2" class="round" type="text"><br>
+  </div>
 </div>`
   },
 

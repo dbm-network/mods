@@ -19,16 +19,16 @@ module.exports = {
 Color:<br>
 <input type="color" id="color"><br><br>
 <div>
-	<div style="float: left; width: 35%;">
-		Store In:<br>
-		<select id="storage" class="round">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text"><br>
-	</div>
+  <div style="float: left; width: 35%;">
+    Store In:<br>
+    <select id="storage" class="round">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text"><br>
+  </div>
 </div>`
   },
 
@@ -36,7 +36,6 @@ Color:<br>
 
   action (cache) {
     const data = cache.actions[cache.index]
-
     const color = this.evalMessage(data.color, cache)
 
     if (color !== undefined) {

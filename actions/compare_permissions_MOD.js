@@ -18,42 +18,42 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-	<div>
-		<div style="float: left; width: 35%;">
-			Old Permissions:<br>
-			<select id="storage" class="round" onchange="glob.refreshVariableList(this)">
-				${data.variables[1]}
-			</select><br>
-		</div>
-		<div style="float: right; width: 60%;">
-			Variable Name:<br>
-			<input id="varName" class="round" type="text" list="variableList"><br>
-		</div>
-	</div><br><br><br>
-	<div>
-		<div style="float: left; width: 35%;">
-			New Permissions:<br>
-			<select id="storage2" class="round" onchange="glob.refreshVariableList(this)">
-				${data.variables[1]}
-			</select><br>
-		</div>
-		<div style="float: right; width: 60%;">
-			Variable Name:<br>
-			<input id="varName2" class="round" type="text" list="variableList"><br>
-		</div>
-	</div><br><br><br>
-	<div style="padding-top: 8px;">
-		<div style="float: left; width: 35%;">
-			Store In:<br>
-			<select id="storage3" class="round">
-				${data.variables[1]}
-			</select>
-		</div>
-		<div style="float: right; width: 60%;">
-			Variable Name:<br>
-			<input id="varName3" class="round" type="text">
-		</div>
-	</div>`
+<div>
+  <div style="float: left; width: 35%;">
+    Old Permissions:<br>
+    <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
+      ${data.variables[1]}
+    </select><br>
+  </div>
+  <div style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text" list="variableList"><br>
+  </div>
+</div><br><br><br>
+<div>
+  <div style="float: left; width: 35%;">
+    New Permissions:<br>
+    <select id="storage2" class="round" onchange="glob.refreshVariableList(this)">
+      ${data.variables[1]}
+    </select><br>
+  </div>
+  <div style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName2" class="round" type="text" list="variableList"><br>
+  </div>
+</div><br><br><br>
+<div style="padding-top: 8px;">
+  <div style="float: left; width: 35%;">
+    Store In:<br>
+    <select id="storage3" class="round">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName3" class="round" type="text">
+  </div>
+</div>`
   },
 
   init () {

@@ -12,23 +12,23 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div style="float: left; width: 45%; padding-top: 8px;">
-	Loop Setting:<br>
-	<select id="status" class="round" onchange="glob.onChange(this)">
-		<option value="0" selected>Enable</option>
-		<option value="1">Disable</option>
-	</select>
+  Loop Setting:<br>
+  <select id="status" class="round" onchange="glob.onChange(this)">
+    <option value="0" selected>Enable</option>
+    <option value="1">Disable</option>
+  </select>
 </div>
 <div style="float: right; width: 50%; padding-top: 8px;">
-	Loop Operation:<br>
-	<select id="loop" class="round">
-		<option value="0" selected>Loop Whole Queue</option>
-		<option value="1">Loop Current Item</option>
-	</select><br>
+  Loop Operation:<br>
+  <select id="loop" class="round">
+    <option value="0" selected>Loop Whole Queue</option>
+    <option value="1">Loop Current Item</option>
+  </select><br>
 </div>
 <div style="float: left; width: 100%; padding-top: 8px;">
-	<p>
-		Please put the Welcome action into a Bot Initalization event to be able to store the current song!
-	</p>
+  <p>
+    Please put the Welcome action into a Bot Initalization event to be able to store the current song!
+  </p>
 </div>`
   },
 

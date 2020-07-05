@@ -11,40 +11,40 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div style="float: left; width: 50%;">
-	Source Image:<br>
-	<select id="storage" class="round" style="width: 90%" onchange="glob.refreshVariableList(this)">
-		${data.variables[1]}
-	</select><br>
-	Local Font URL:<br>
-	<input id="fontPath" class="round" type="text" value="fonts/"><br>
-	Alignment:<br>
-	<select id="align" class="round" style="width: 90%;">
-		<option value="0" selected>Top Left</option>
-		<option value="1">Top Center</option>
-		<option value="2">Top Right</option>
-		<option value="3">Middle Left</option>
-		<option value="4">Middle Center</option>
-		<option value="5">Middle Right</option>
-		<option value="6">Bottom Left</option>
-		<option value="7">Bottom Center</option>
-		<option value="8">Bottom Right</option>
-	</select><br>
-	X Position:<br>
-	<input id="x" class="round" type="text" value="0"><br>
+  Source Image:<br>
+  <select id="storage" class="round" style="width: 90%" onchange="glob.refreshVariableList(this)">
+    ${data.variables[1]}
+  </select><br>
+  Local Font URL:<br>
+  <input id="fontPath" class="round" type="text" value="fonts/"><br>
+  Alignment:<br>
+  <select id="align" class="round" style="width: 90%;">
+    <option value="0" selected>Top Left</option>
+    <option value="1">Top Center</option>
+    <option value="2">Top Right</option>
+    <option value="3">Middle Left</option>
+    <option value="4">Middle Center</option>
+    <option value="5">Middle Right</option>
+    <option value="6">Bottom Left</option>
+    <option value="7">Bottom Center</option>
+    <option value="8">Bottom Right</option>
+  </select><br>
+  X Position:<br>
+  <input id="x" class="round" type="text" value="0"><br>
 </div>
 <div style="float: right; width: 50%;">
-	Variable Name:<br>
-	<input id="varName" class="round" type="text" list="variableList"><br>
-	Font Color (Hex):<br>
-	<input id="fontColor" class="round" type="text" value="FFFFFF"><br>
-	Font Size:<br>
-	<input id="fontSize" class="round" type="text" placeholder="Default size 10px"><br>
-	Y Position:<br>
-	<input id="y" class="round" type="text" value="0"><br>
+  Variable Name:<br>
+  <input id="varName" class="round" type="text" list="variableList"><br>
+  Font Color (Hex):<br>
+  <input id="fontColor" class="round" type="text" value="FFFFFF"><br>
+  Font Size:<br>
+  <input id="fontSize" class="round" type="text" placeholder="Default size 10px"><br>
+  Y Position:<br>
+  <input id="y" class="round" type="text" value="0"><br>
 </div><br><br><br><br>
 <div>
-	Text:<br>
-	<textarea id="text" rows="2" placeholder="Insert text here..." style="width: 95%; white-space: nowrap; resize: none;"></textarea>
+  Text:<br>
+  <textarea id="text" rows="2" placeholder="Insert text here..." style="width: 95%; white-space: nowrap; resize: none;"></textarea>
 </div>`
   },
 
@@ -67,7 +67,7 @@ module.exports = {
     }
     const fontPath = this.evalMessage(data.fontPath, cache)
     let fontColor = this.evalMessage(data.fontColor, cache)
-    if (fontColor.startsWith('#') == false) {
+    if (!fontColor.startsWith('#')) {
       fontColor = `#${fontColor}`
     }
     let fontSize = parseInt(this.evalMessage(data.fontSize, cache))

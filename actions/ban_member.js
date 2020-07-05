@@ -12,39 +12,39 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-    This action has been modified by DBM Mods.<br>
-    <div>
-      <div style="float: left; width: 35%;">
-        Member:<br>
-        <select id="member" class="round" onchange="glob.user(this, 'varNameContainer')">
-          ${data.members[isEvent ? 1 : 0]}
-          <option value="5">By ID</option>
-        </select>
-      </div>
-      <div id="varNameContainer" style="display: none; float: right; width: 60%;">
-        Variable Name:<br>
-        <input id="varName" class="round" type="text" list="variableList"><br>
-      </div><br><br><br>
-      <div style="float: left; width: 35%;">
-        Server:<br>
-        <select id="guild" class="round" onchange="glob.serverChange(this, 'varNameContainer2')">
-          ${data.servers[isEvent ? 1 : 0]}
-        </select>
-      </div>
-      <div id="varNameContainer2" style="display: none; float: right; width: 60%;">
-        Variable Name:<br>
-        <input id="varName2" class="round" type="text" list="variableList"><br>
-      </div>
-    </div>
-    <br><br><br>
-    <div style="padding-top: 8px;">
-      Reason:<br>
-      <textarea id="reason" rows="5" placeholder="Insert reason here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea><br>
-    </div>
-    <div style="padding-top: 8px;">
-      Days of Messages to Delete:<br>
-      <textarea id="days" rows="1" style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
-    </div>`
+This action has been modified by DBM Mods.<br>
+<div>
+  <div style="float: left; width: 35%;">
+    Member:<br>
+    <select id="member" class="round" onchange="glob.user(this, 'varNameContainer')">
+      ${data.members[isEvent ? 1 : 0]}
+      <option value="5">By ID</option>
+    </select>
+  </div>
+  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text" list="variableList"><br>
+  </div><br><br><br>
+  <div style="float: left; width: 35%;">
+    Server:<br>
+    <select id="guild" class="round" onchange="glob.serverChange(this, 'varNameContainer2')">
+      ${data.servers[isEvent ? 1 : 0]}
+    </select>
+  </div>
+  <div id="varNameContainer2" style="display: none; float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName2" class="round" type="text" list="variableList"><br>
+  </div>
+</div>
+<br><br><br>
+<div style="padding-top: 8px;">
+  Reason:<br>
+  <textarea id="reason" rows="5" placeholder="Insert reason here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea><br>
+</div>
+<div style="padding-top: 8px;">
+  Days of Messages to Delete:<br>
+  <textarea id="days" rows="1" style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+</div>`
   },
 
   init () {

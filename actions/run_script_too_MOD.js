@@ -17,83 +17,65 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-    <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
-    <div>
-       <div style="float: left; width: 45%;">
-          End Behavior:<br>
-          <select id="behavior" class="round">
-             <option value="0"selected>Call Next Action</option>
-             <option value="1">Do Not Call Next Action</option>
-          </select>
-       </div>
-       <div style="padding-left: 5%; float: left; width: 55%;">
-          Interpretation Style:<br>
-          <select id="interpretation" class="round">
-             <option value="0">Evaluate Text First</option>
-             <option value="1" selected>Evaluate Text Directly</option>
-          </select>
-       </div>
+<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
+  <div>
+    <div style="float: left; width: 45%;">
+      End Behavior:<br>
+      <select id="behavior" class="round">
+        <option value="0"selected>Call Next Action</option>
+        <option value="1">Do Not Call Next Action</option>
+      </select>
     </div>
-    <br><br><br><br>
-    <div>
-       <div class="embed" style="width:98%;">
-          <embedleftline></embedleftline>
-          <div class="embedinfo">
-             <span class="embed-auth">
-             <u><span class="wrexlink" data-url="https://github.com/Discord-Bot-Maker-Mods/DBM-Mods">Mod Info:</span></u><br>
-             Made by General Wrex
-             </span><br>
-             <span class="embed-desc">
-             This mod allows you to load run scripts from external javascript files.  The point of it is to allow the use of syntax highlighting and syntax checking by allowing the use of your favorite text editor. It also live reloads the file if used in a command. Very useful for live changes! Make a change, call the command!
-             </span>
-          </div>
-       </div>
+    <div style="padding-left: 5%; float: left; width: 55%;">
+      Interpretation Style:<br>
+      <select id="interpretation" class="round">
+        <option value="0">Evaluate Text First</option>
+        <option value="1" selected>Evaluate Text Directly</option>
+      </select>
     </div>
-    <br>
-    <div id="" style="float: left; width: 65%;">
-       Script Name: (shown in the action subtitle)<br>
-       <input id="title" class="round" type="text">
+  </div><br><br><br><br>
+  <div id="" style="float: left; width: 65%;">
+    Script Name: (shown in the action subtitle)<br>
+    <input id="title" class="round" type="text">
+  </div><br><br><br><br>
+  <div>
+    External File Path: (Root directory is your bot folder )<br>
+    <div style="float: left; width: 65%;">
+      <input type="text" name="file" id="file" class="round" placeholder="./scripts/myscript.js" style="float: left;"/>
     </div>
-    <br><br><br><br>
-    <div>
-       External File Path: (Root directory is your bot folder )<br>
-       <div style="float: left; width: 65%;">
-          <input type="text" name="file" id="file" class="round" placeholder="./scripts/myscript.js" style="float: left;"/>
-       </div>
+  </div><br><br><br><br><br><br>
+  <div>
+    <div style="float: left; width: 35%;">
+      Store In:<br>
+      <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
+      ${data.variables[0]}
+      </select>
     </div>
-    <br><br><br><br><br><br>
-    <div>
-       <div style="float: left; width: 35%;">
-          Store In:<br>
-          <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-          ${data.variables[0]}
-          </select>
-       </div>
-       <div id="varNameContainer" style="display: none; float: right; width: 60%;">
-          Variable Name:<br>
-          <input id="varName" class="round" type="text">
-       </div>
+    <div id="varNameContainer" style="display: none; float: right; width: 60%;">
+      Variable Name:<br>
+      <input id="varName" class="round" type="text">
     </div>
-    <br><br><br><br><br>
-    <div style="padding-top: 8px;">
-       Or Use Custom Code: (This isn't used if an external path is defined.)<br>
-       <textarea id="code" rows="14" name="is-eval" style="width: 99%; white-space: nowrap; resize: none;"></textarea>
-    </div>
-    <br><br>
- </div>
- <style>
-    /* EliteArtz Embed CSS code */
-    .embed {
+  </div><br><br><br><br><br>
+  <div style="padding-top: 8px;">
+    Or Use Custom Code: (This isn't used if an external path is defined.)<br>
+    <textarea id="code" rows="14" name="is-eval" style="width: 99%; white-space: nowrap; resize: none;"></textarea>
+  </div><br><br>
+</div>
+<style>
+  /* EliteArtz Embed CSS code */
+  .embed {
     position: relative;
-    }
-    .embedinfo {
+  }
+
+  .embedinfo {
     background: rgba(46,48,54,.45) fixed;
     border: 1px solid hsla(0,0%,80%,.3);
     padding: 10px;
     margin:0 4px 0 7px;
     border-radius: 0 3px 3px 0;
-    }
-    embedleftline {
+  }
+
+  embedleftline {
     background-color: #eee;
     width: 4px;
     border-radius: 3px 0 0 3px;
@@ -101,26 +83,30 @@ module.exports = {
     height: 100%;
     margin-left: 4px;
     position: absolute;
-    }
-    span {
+  }
+
+  span {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    }
-    span.embed-auth {
+  }
+
+  span.embed-auth {
     color: rgb(255, 255, 255);
-    }
-    span.embed-desc {
+  }
+
+  span.embed-desc {
     color: rgb(128, 128, 128);
-    }
-    span.wrexlink {
+  }
+
+  span.wrexlink {
     color: #99b3ff;
     text-decoration:underline;
     cursor:pointer;
-    }
-    span.wrexlink:hover {
+  }
+
+  span.wrexlink:hover {
     color:#4676b9;
-    }
- </style>
-    `
+  }
+</style>`
   },
 
   init () {},

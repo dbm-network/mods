@@ -14,63 +14,63 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-	<div style="padding-top: 8px;">
-		<div style="float: left; width: 35%;">
-			Source Channel:<br>
-			<select id="storage" class="round" onchange="glob.channelChange(this, 'varNameContainer')">
-				${data.channels[isEvent ? 1 : 0]}
-			</select>
-		</div>
-		<div id="varNameContainer" style="display: none; float: right; width: 60%;">
-			Variable Name:<br>
-			<input id="varName" class="round" type="text" list="variableList">
-		</div>
-	</div><br><br><br>
-	<div style="padding-top: 8px;">
-		<div style="float: left; width: 35%;">
-			Target Type:<br>
-			<select id="target" class="round" onchange="glob.targetChange(this)">
-				<option value="0" selected>Role</option>
-				<option value="1">Member</option>
-			</select>
-		</div>
-	</div><br><br><br>
-	<div id="roleHolder" style="padding-top: 8px;">
-		<div style="float: left; width: 35%;">
-			Source Role:<br>
-			<select id="role" class="round" onchange="glob.roleChange(this, 'varNameContainer2')">
-				${data.roles[isEvent ? 1 : 0]}
-			</select>
-		</div>
-		<div id="varNameContainer2" style="display: none; float: right; width: 60%;">
-			Variable Name:<br>
-			<input id="varName2" class="round" type="text" list="variableList"><br>
-		</div>
-	</div>
-	<div id="memberHolder" style="display: none; padding-top: 8px;">
-		<div style="float: left; width: 35%;">
-			Source Member:<br>
-			<select id="member" class="round" onchange="glob.memberChange(this, 'varNameContainer3')">
-				${data.members[isEvent ? 1 : 0]}
-			</select>
-		</div>
-		<div id="varNameContainer3" style="display: none; float: right; width: 60%;">
-			Variable Name:<br>
-			<input id="varName3" class="round" type="text" list="variableList">
-		</div>
-	</div><br><br><br>
-	<div style="padding-top: 8px;">
-		<div style="float: left; width: 35%;">
-			Store In:<br>
-			<select id="storage2" class="round">
-				${data.variables[1]}
-			</select>
-		</div>
-		<div style="float: right; width: 60%;">
-			Variable Name:<br>
-			<input id="varName4" class="round" type="text">
-		</div>
-	</div>`
+<div style="padding-top: 8px;">
+  <div style="float: left; width: 35%;">
+    Source Channel:<br>
+    <select id="storage" class="round" onchange="glob.channelChange(this, 'varNameContainer')">
+      ${data.channels[isEvent ? 1 : 0]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text" list="variableList">
+  </div>
+</div><br><br><br>
+<div style="padding-top: 8px;">
+  <div style="float: left; width: 35%;">
+    Target Type:<br>
+    <select id="target" class="round" onchange="glob.targetChange(this)">
+      <option value="0" selected>Role</option>
+      <option value="1">Member</option>
+    </select>
+  </div>
+</div><br><br><br>
+<div id="roleHolder" style="padding-top: 8px;">
+  <div style="float: left; width: 35%;">
+    Source Role:<br>
+    <select id="role" class="round" onchange="glob.roleChange(this, 'varNameContainer2')">
+      ${data.roles[isEvent ? 1 : 0]}
+    </select>
+  </div>
+  <div id="varNameContainer2" style="display: none; float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName2" class="round" type="text" list="variableList"><br>
+  </div>
+</div>
+<div id="memberHolder" style="display: none; padding-top: 8px;">
+  <div style="float: left; width: 35%;">
+    Source Member:<br>
+    <select id="member" class="round" onchange="glob.memberChange(this, 'varNameContainer3')">
+      ${data.members[isEvent ? 1 : 0]}
+    </select>
+  </div>
+  <div id="varNameContainer3" style="display: none; float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName3" class="round" type="text" list="variableList">
+  </div>
+</div><br><br><br>
+<div style="padding-top: 8px;">
+  <div style="float: left; width: 35%;">
+    Store In:<br>
+    <select id="storage2" class="round">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName4" class="round" type="text">
+  </div>
+</div>`
   },
 
   init () {
@@ -84,10 +84,10 @@ module.exports = {
     const roleHolder = document.getElementById('roleHolder')
     const memberHolder = document.getElementById('memberHolder')
     glob.targetChange = function (target) {
-      if (target.value == '0') {
+      if (target.value === '0') {
         roleHolder.style.display = null
         memberHolder.style.display = 'none'
-      } else if (target.value == '1') {
+      } else if (target.value === '1') {
         roleHolder.style.display = 'none'
         memberHolder.style.display = null
       }
@@ -100,7 +100,7 @@ module.exports = {
 
     const type = parseInt(data.target)
     let target
-    if (type == 0) {
+    if (type === 0) {
       const role = parseInt(data.role)
       const varName2 = this.evalMessage(data.varName2, cache)
       target = this.getRole(role, varName2, cache)

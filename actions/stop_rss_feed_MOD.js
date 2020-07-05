@@ -13,17 +13,18 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-		<div>
-	<div style="float: left; width: 35%;">
-		RSS Feed Source:<br>
-		<select id="storage" class="round" onchange="glob.refreshVariableList(this)">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList"><br>
-	</div>`
+<div>
+  <div style="float: left; width: 35%;">
+    RSS Feed Source:<br>
+    <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text" list="variableList"><br>
+  </div>
+</div>`
   },
 
   init () {},
@@ -35,13 +36,10 @@ module.exports = {
     const stor = storage + varName
     const res = this.getVariable(storage, stor, cache)
 
-    // Stop watching the feed.
-
     res.stop()
 
     this.callNextAction(cache)
   },
 
   mod () {}
-
 }

@@ -16,40 +16,31 @@ module.exports = {
 
   html (isEvent, data) {
     return `
- <div>
-	<div>
-		String:<br>
-		<input placeholder="String or varible" id="girdi" class="round" type="text">
-	</div>
-
-	<br>
-
-	<div>
-		Times:<br>
-		<input placeholder="Number or varible" id="xtimes" class="round" type="text">
-	</div>
- </div>
-
-	<br>
-
-    <div>
-		<div style="float: left; width: 35%;">
-			Store In:<br>
-			<select id="storage" class="round">
-				${data.variables[1]}
-			</select>
-		</div>
-		<div id="varNameContainer" style="float: right; width: 60%;">
-			Variable Name:<br>
-			<input id="varName" class="round" type="text">
-		</div>
-	 </div>
-
-	</div>`
+<div>
+  <div>
+    String:<br>
+    <input placeholder="String or varible" id="girdi" class="round" type="text">
+  </div><br>
+  <div>
+    Times:<br>
+    <input placeholder="Number or varible" id="xtimes" class="round" type="text">
+  </div>
+</div><br>
+<div>
+  <div style="float: left; width: 35%;">
+    Store In:<br>
+    <select id="storage" class="round">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text">
+  </div>
+</div>`
   },
 
-  init () {
-  },
+  init () {},
 
   action (cache) {
     const data = cache.actions[cache.index]

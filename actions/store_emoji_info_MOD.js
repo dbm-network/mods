@@ -61,56 +61,55 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-
-	<div>
-		<div style="float: left; width: 35%;">
-			Source Emoji:<br>
-			<select id="emoji" class="round" onchange="glob.refreshVariableList(this)">
-				${data.variables[1]}
-			</select>
-		</div>
-		<div id="varNameContainer" style="float: right; width: 60%;">
-			Variable Name:<br>
-			<input id="varName" class="round" type="text" list="variableList"><br>
-		</div>
-	</div><br><br><br>
-	<div>
-		<div style="padding-top: 8px; width: 70%;">
-			Source Info:<br>
-			<select id="info" class="round">
-			<option value="0" selected>Emoji Object</option>
-			<option value="1">Emoji Is Animated?</option>
-			<option value="2">Emoji Creation Date</option>
-			<option value="6">Emoji Timestamp</option>
-			<option value="3">Emoji Name</option>
-			<option value="4">Emoji URL</option>
-			<option value="5">Emoji ID</option>
-			<option value="7">Emoji Is Deletable?</option>
-			<option value="8">Emoji Has Been Deleted?</option>
-			<option value="9">Emoji Server</option>
-			<option value="10">Emoji Identifier</option>
-			<option value="11">Emoji Is Managed By An External Service?</option>
-			<option value="12">Emoji Requires Colons Surrounding It?</option>
-			</select>
-		</div>
-	</div><br>
-	<div>
-		<div style="float: left; width: 35%;">
-			Store In:<br>
-			<select id="storage" class="round">
-				${data.variables[1]}
-			</select>
-		</div>
-		<div id="varNameContainer2" style="float: right; width: 60%;">
-			Variable Name:<br>
-			<input id="varName2" class="round" type="text"><br>
-			</div>
-			<br><br><br><br><br>
-			<div id="comment" style="padding-top: 30px; padding-top: 8px;">
-				<p>
-				Only works with custom emojis.<br>
-		</div>
-	</div>`
+<div>
+  <div style="float: left; width: 35%;">
+    Source Emoji:<br>
+    <select id="emoji" class="round" onchange="glob.refreshVariableList(this)">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text" list="variableList"><br>
+  </div>
+</div><br><br><br>
+<div>
+  <div style="padding-top: 8px; width: 70%;">
+    Source Info:<br>
+    <select id="info" class="round">
+    <option value="0" selected>Emoji Object</option>
+    <option value="1">Emoji Is Animated?</option>
+    <option value="2">Emoji Creation Date</option>
+    <option value="6">Emoji Timestamp</option>
+    <option value="3">Emoji Name</option>
+    <option value="4">Emoji URL</option>
+    <option value="5">Emoji ID</option>
+    <option value="7">Emoji Is Deletable?</option>
+    <option value="8">Emoji Has Been Deleted?</option>
+    <option value="9">Emoji Server</option>
+    <option value="10">Emoji Identifier</option>
+    <option value="11">Emoji Is Managed By An External Service?</option>
+    <option value="12">Emoji Requires Colons Surrounding It?</option>
+    </select>
+  </div>
+</div><br>
+<div>
+  <div style="float: left; width: 35%;">
+    Store In:<br>
+    <select id="storage" class="round">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer2" style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName2" class="round" type="text"><br>
+    </div>
+    <br><br><br><br><br>
+    <div id="comment" style="padding-top: 30px; padding-top: 8px;">
+      <p>
+      Only works with custom emojis.<br>
+  </div>
+</div>`
   },
 
   init () {
@@ -124,11 +123,11 @@ module.exports = {
     const emoji = parseInt(data.emoji)
     const varName = this.evalMessage(data.varName, cache)
     const info = parseInt(data.info)
-    const Mods = this.getMods() // Find abb_custom_methods_MOD
-    const emo = Mods.getEmoji(emoji, varName, cache) // Get Emoji
+    const Mods = this.getMods()
+    const emo = Mods.getEmoji(emoji, varName, cache)
     if (!Mods) return
     if (!emo) {
-      console.log('This is not a emoji') // Variable is not a emoji -> Error
+      console.log('This is not a emoji')
       this.callNextAction(cache)
     }
     let result

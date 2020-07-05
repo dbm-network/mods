@@ -13,36 +13,36 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div>
-	<div style="float: left; width: 45%;">
-		Source Image:<br>
-		<select id="storage" class="round" onchange="glob.refreshVariableList(this)">
-			${data.variables[1]}
-		</select><br>
-	</div>
-	<div id="varNameContainer" style="float: right; width: 50%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList"><br>
-	</div>
+  <div style="float: left; width: 45%;">
+    Source Image:<br>
+    <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
+      ${data.variables[1]}
+    </select><br>
+  </div>
+  <div id="varNameContainer" style="float: right; width: 50%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text" list="variableList"><br>
+  </div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
-	<div style="float: left; width: 45%;">
-		Filter:<br>
-		<select id="info" class="round" onchange="glob.onChange1(this)">
-			<option value="0" selected>Blur</option>
-			<option value="1">Hue Rotate</option>
-			<option value="2">Brightness</option>
-			<option value="3">Contrast</option>
-			<option value="4">Grayscale</option>
-			<option value="5">Invert</option>
-			<option value="6">Opacity</option>
-			<option value="7">Saturate</option>
-			<option value="8">Sepia</option>
-		</select><br>
-	</div>
-	<div style="float: right; width: 50%;">
-		<span id="valuetext">Value:</span><br>
-		<input id="value" class="round" type="text" placeholder="0 = None filter"><br>
-	</div>
+  <div style="float: left; width: 45%;">
+    Filter:<br>
+    <select id="info" class="round" onchange="glob.onChange1(this)">
+      <option value="0" selected>Blur</option>
+      <option value="1">Hue Rotate</option>
+      <option value="2">Brightness</option>
+      <option value="3">Contrast</option>
+      <option value="4">Grayscale</option>
+      <option value="5">Invert</option>
+      <option value="6">Opacity</option>
+      <option value="7">Saturate</option>
+      <option value="8">Sepia</option>
+    </select><br>
+  </div>
+  <div style="float: right; width: 50%;">
+    <span id="valuetext">Value:</span><br>
+    <input id="value" class="round" type="text" placeholder="0 = None filter"><br>
+  </div>
 </div>`
   },
 

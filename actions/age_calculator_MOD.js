@@ -3,9 +3,7 @@ module.exports = {
   section: 'Other Stuff',
 
   subtitle (data) {
-    // const info = ['Age', 'Format'];
     const info = ['MM/DD/YYYY', 'DD/MM/YYYY', 'MM/YYYY/DD', 'DD/YYYY/MM', 'YYYY/MM/DD', 'YYYY/DD/MM']
-    // What user sees when previewing actions box on bottom.
     return `Convert Age from format: ${info[data.info]}`
   },
 
@@ -16,7 +14,6 @@ module.exports = {
     return ([data.varName, dataType])
   },
 
-  // fields: ["DateOfBirth", "format", "storage", "varName"],
   fields: ['DOB', 'info', 'storage', 'varName'],
 
   html (isEvent, data) {
@@ -54,9 +51,7 @@ module.exports = {
 
   action (cache) {
     const data = cache.actions[cache.index]
-    const storage = parseInt(data.storage)
-    const varName = this.evalMessage(data.varName, cache)
-    const regex = /(\.)|(\-)|(\/)|(\\)|(\,)|(\:)|(\;)|(\')|(\°)/gi
+    const regex = /(\.)|(-)|(\/)|(\\)|(,)|(:)|(;)|(')|(°)/gi
     const replDOB = this.evalMessage(data.DOB, cache).replace(regex, ' ')
     // ['12', '23', '1990']
     const dateArr = replDOB.split(' ')
@@ -76,7 +71,7 @@ module.exports = {
 
         if (calcDOB < 0) {
           result = 'unborn'
-        } else if (calcDOB == 0) {
+        } else if (calcDOB === 0) {
           result = 'newborn'
         } else {
           result = calcDOB
@@ -94,7 +89,7 @@ module.exports = {
 
         if (calcDOB < 0) {
           result = 'unborn'
-        } else if (calcDOB == 0) {
+        } else if (calcDOB === 0) {
           result = 'newborn'
         } else {
           result = calcDOB
@@ -112,7 +107,7 @@ module.exports = {
 
         if (calcDOB < 0) {
           result = 'unborn'
-        } else if (calcDOB == 0) {
+        } else if (calcDOB === 0) {
           result = 'newborn'
         } else {
           result = calcDOB
@@ -129,7 +124,7 @@ module.exports = {
 
         if (calcDOB < 0) {
           result = 'unborn'
-        } else if (calcDOB == 0) {
+        } else if (calcDOB === 0) {
           result = 'newborn'
         } else {
           result = calcDOB
@@ -147,7 +142,7 @@ module.exports = {
 
         if (calcDOB < 0) {
           result = 'unborn'
-        } else if (calcDOB == 0) {
+        } else if (calcDOB === 0) {
           result = 'newborn'
         } else {
           result = calcDOB
@@ -165,7 +160,7 @@ module.exports = {
 
         if (calcDOB < 0) {
           result = 'unborn'
-        } else if (calcDOB == 0) {
+        } else if (calcDOB === 0) {
           result = 'newborn'
         } else {
           result = calcDOB

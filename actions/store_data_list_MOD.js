@@ -28,92 +28,92 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div style="width: 550px; height: 350px; overflow-y: scroll;">
-	<div>
-		<div style="float: left; width: 35%;">
-			Data File:<br>
-			<select id="File" class="round" onchange="glob.onChange0(this)">
-				<option value="0" selected>players.json</option>
-				<option value="1">servers.json</option>
-			</select>
-		</div>
-		<div id="Input0" style="padding-left: 5%; display: none; float: left; width: 60%;">
-			Store by server type:<br>
-			<select id="serverType" class="round">
-				<option value="0" selected>Current Server</option>
-				<option value="1">All Servers</option>
-			</select>
-		</div>
-	</div><br><br><br>
-	<div>
-		<div style="float: left; width: 39%;">
-			Data Name:<br>
-			<input id="dataName" class="round" type="text" placeholder="Must fill in"><br>
-		</div>
-		<div style="padding-left: 1%; float: left; width: 56%;">
-			Sort By:<br>
-			<select id="sort" class="round">
-				<option value="0" selected>Sort from Descending</option>
-				<option value="1">Sort from Ascending</option>
-			</select><br>
-		</div>
-	</div><br>
-	<div>
-		<div style="float: left; width: 35%;">
-			Store Result Info:<br>
-			<select id="resultInfo" class="round" onchange="glob.onChange1(this)">
-				<option value="0" selected>Results List</option>
-				<option value="1">Ranking</option>
-			</select><br>
-		</div>
-		<div id="Result0" style="padding-left: 5%; display: null; float: left; width: 60%;">
-			Store Result List:<br>
-			<select id="resultType" class="round" onchange="glob.onChange2(this)">
-				<option value="0" selected>All Results</option>
-				<option value="1">Result From Begin</option>
-				<option value="2">Result To End</option>
-				<option value="3">Result From Specific</option>
-			</select><br>
-		</div>
-		<div id="Result1" style="padding-left: 5%; display: none; float: left; width: 62%;">
-			Store Ranking:<br>
-			<input id="rank" class="round" type="text" placeholder="Input Member ID here"><br>
-		</div>
-	</div><br>
-	<div>
-		<div id="Input1" style="display: null; float: left; width: 35%;">
-			Number Before Start:<br>
-			<select id="numberBoolean" class="round">
-				<option value="0"selected>No</option>
-				<option value="1" >Yes</option>
-			</select><br>
-		</div>
-		<div id="Input2" style="display: null; padding-left: 5%; float: left; width: 65%;">
-			Result Format (<a id="link" href='#'>Javascript String</a>):<br>
-			<input id="resultFormat" class="round" type="text" placeholder="Name + 'DataName' + DataValue"><br>
-		</div>
-	</div><br>
-	<div>
-		<div id="Input3" style="display: none; float: left; width: 50%;">
-			Result From:<br>
-			<input id="resultFrom" class="round" type="text"><br>
-		</div>
-		<div id="Input4" style="display: none; float: left; width: 50%;">
-			Result To:<br>
-			<input id="resultTo" class="round" type="text"><br>
-		</div>
-	</div>
-	<div style="padding-top: 5px;">
-		<div style="float: left; width: 35%;">
-			Store In:<br>
-			<select id="storage" class="round">
-				${data.variables[1]}
-			</select>
-		</div>
-		<div style="float: right; width: 61%;">
-			Variable Name:<br>
-			<input id="varName" class="round" type="text">
-		</div>
-	</div>
+  <div>
+    <div style="float: left; width: 35%;">
+      Data File:<br>
+      <select id="File" class="round" onchange="glob.onChange0(this)">
+        <option value="0" selected>players.json</option>
+        <option value="1">servers.json</option>
+      </select>
+    </div>
+    <div id="Input0" style="padding-left: 5%; display: none; float: left; width: 60%;">
+      Store by server type:<br>
+      <select id="serverType" class="round">
+        <option value="0" selected>Current Server</option>
+        <option value="1">All Servers</option>
+      </select>
+    </div>
+  </div><br><br><br>
+  <div>
+    <div style="float: left; width: 39%;">
+      Data Name:<br>
+      <input id="dataName" class="round" type="text" placeholder="Must fill in"><br>
+    </div>
+    <div style="padding-left: 1%; float: left; width: 56%;">
+      Sort By:<br>
+      <select id="sort" class="round">
+        <option value="0" selected>Sort from Descending</option>
+        <option value="1">Sort from Ascending</option>
+      </select><br>
+    </div>
+  </div><br>
+  <div>
+    <div style="float: left; width: 35%;">
+      Store Result Info:<br>
+      <select id="resultInfo" class="round" onchange="glob.onChange1(this)">
+        <option value="0" selected>Results List</option>
+        <option value="1">Ranking</option>
+      </select><br>
+    </div>
+    <div id="Result0" style="padding-left: 5%; display: null; float: left; width: 60%;">
+      Store Result List:<br>
+      <select id="resultType" class="round" onchange="glob.onChange2(this)">
+        <option value="0" selected>All Results</option>
+        <option value="1">Result From Begin</option>
+        <option value="2">Result To End</option>
+        <option value="3">Result From Specific</option>
+      </select><br>
+    </div>
+    <div id="Result1" style="padding-left: 5%; display: none; float: left; width: 62%;">
+      Store Ranking:<br>
+      <input id="rank" class="round" type="text" placeholder="Input Member ID here"><br>
+    </div>
+  </div><br>
+  <div>
+    <div id="Input1" style="display: null; float: left; width: 35%;">
+      Number Before Start:<br>
+      <select id="numberBoolean" class="round">
+        <option value="0"selected>No</option>
+        <option value="1" >Yes</option>
+      </select><br>
+    </div>
+    <div id="Input2" style="display: null; padding-left: 5%; float: left; width: 65%;">
+      Result Format (<a id="link" href='#'>Javascript String</a>):<br>
+      <input id="resultFormat" class="round" type="text" placeholder="Name + 'DataName' + DataValue"><br>
+    </div>
+  </div><br>
+  <div>
+    <div id="Input3" style="display: none; float: left; width: 50%;">
+      Result From:<br>
+      <input id="resultFrom" class="round" type="text"><br>
+    </div>
+    <div id="Input4" style="display: none; float: left; width: 50%;">
+      Result To:<br>
+      <input id="resultTo" class="round" type="text"><br>
+    </div>
+  </div>
+  <div style="padding-top: 5px;">
+    <div style="float: left; width: 35%;">
+      Store In:<br>
+      <select id="storage" class="round">
+        ${data.variables[1]}
+      </select>
+    </div>
+    <div style="float: right; width: 61%;">
+      Variable Name:<br>
+      <input id="varName" class="round" type="text">
+    </div>
+  </div>
 </div>`
   },
 
@@ -203,8 +203,9 @@ module.exports = {
     const fastsort = require('fast-sort')
     const data = cache.actions[cache.index]
     const File = parseInt(data.File)
-    let file; let serverType
-    if (File == 0) {
+    let file
+    let serverType
+    if (File === 0) {
       serverType = parseInt(data.serverType)
       file = Files.data.players
     } else {
@@ -217,7 +218,7 @@ module.exports = {
     const numberBoolean = parseInt(data.numberBoolean)
     const resultInfo = parseInt(data.resultInfo)
     let resultFormat = String(this.evalMessage(data.resultFormat, cache))
-    if (resultInfo == 0) {
+    if (resultInfo === 0) {
       if (!resultFormat) {
         resultFormat = String('Name + " " + DataValue')
       }
@@ -235,7 +236,7 @@ module.exports = {
             switch (serverType) {
               case 0:
                 const { server } = cache
-                if (server.memberCount != server.members.cache.size) await server.members.fetch()
+                if (server.memberCount !== server.members.cache.size) await server.members.fetch()
                 object = server.members.cache.get(id)
                 break
               case 1:
@@ -288,18 +289,22 @@ module.exports = {
           resultTo = result.length
         }
         for (; resultFrom < resultTo; resultFrom++) {
+          /* eslint-disable */
           const Name = result[resultFrom].name
           const DataValue = result[resultFrom].data
-          let Member; let
-            User
-          if (serverType == 0) {
+          let Member
+          let User
+          /* eslint-enable */
+          if (serverType === 0) {
             Member = cache.server.members.cache.get(result[resultFrom].id)
           } else {
             User = Client.users.cache.get(result[resultFrom].id)
           }
-          if (numberBoolean == 0) {
+          if (numberBoolean === 0) {
+            // eslint-disable-next-line no-eval
             array1.push(`${eval(resultFormat)}\n`)
           } else {
+            // eslint-disable-next-line no-eval
             array1.push(`${result[resultFrom].rank + eval(resultFormat)}\n`)
           }
         }
@@ -308,7 +313,7 @@ module.exports = {
         break
       case 1:
         if (rank) {
-          const found = result.find((res) => res.id == rank)
+          const found = result.find((res) => res.id === rank)
           if (found) this.storeValue(found.rank, storage, varName, cache)
         }
         break

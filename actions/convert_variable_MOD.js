@@ -19,74 +19,74 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-	<div>
-		<div style="float: left; width: 35%;">
-			Source Variable:<br>
-			<select id="storage" class="round" onchange="glob.refreshVariableList(this)">
-				${data.variables[1]}
-			</select>
-		</div>
-		<div id="varNameContainer" style="float: right; width: 60%;">
-			Variable Name:<br>
-			<input id="varName" class="round" type="text" list="variableList">
-		</div>
-	</div><br><br><br>
-	<div>
-		<div style="padding-top: 8px; width: 35%;">
-			Conversion Type:<br>
-			<select id="conversion" class="round">
-				<option value="0" selected>Number (Int)</option>
-				<option value="1">Number (Float)</option>
-				<option value="2">String</option>
-				<option value="3">Uppercased String</option>
-				<option value="4">Lowercased String</option>
-			</select>
-		</div>
-	</div><br>
-	<div>
-		<div style="float: left; width: 35%;">
-			Store In:<br>
-			<select id="storage2" class="round">
-				${data.variables[1]}
-			</select>
-		</div>
-		<div id="varNameContainer2" style="float: right; width: 60%;">
-			Variable Name:<br>
-			<input id="varName2" class="round" type="text"><br>
-		</div>
-	</div>
-	<style>
-		/* My Embed CSS code */
-		.embed {
-			position: relative;
-		}
-		.embedinfo {
-			background: rgba(46,48,54,.45) fixed;
-			border: 1px solid hsla(0,0%,80%,.3);
-			padding: 10px;
-			margin:0 4px 0 7px;
-			border-radius: 0 3px 3px 0;
-		}
-		embedleftline {
-			background-color: #eee;
-			width: 4px;
-			border-radius: 3px 0 0 3px;
-			border: 0;
-			height: 100%;
-			margin-left: 4px;
-			position: absolute;
-		}
-		span {
-			font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-		}
-		span.embed-auth {
-			color: rgb(255, 255, 255);
+<div>
+  <div style="float: left; width: 35%;">
+    Source Variable:<br>
+    <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text" list="variableList">
+  </div>
+</div><br><br><br>
+<div>
+  <div style="padding-top: 8px; width: 35%;">
+    Conversion Type:<br>
+    <select id="conversion" class="round">
+      <option value="0" selected>Number (Int)</option>
+      <option value="1">Number (Float)</option>
+      <option value="2">String</option>
+      <option value="3">Uppercased String</option>
+      <option value="4">Lowercased String</option>
+    </select>
+  </div>
+</div><br>
+<div>
+  <div style="float: left; width: 35%;">
+    Store In:<br>
+    <select id="storage2" class="round">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer2" style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName2" class="round" type="text"><br>
+  </div>
+</div>
+<style>
+  /* My Embed CSS code */
+  .embed {
+    position: relative;
+  }
+  .embedinfo {
+    background: rgba(46,48,54,.45) fixed;
+    border: 1px solid hsla(0,0%,80%,.3);
+    padding: 10px;
+    margin:0 4px 0 7px;
+    border-radius: 0 3px 3px 0;
+  }
+  embedleftline {
+    background-color: #eee;
+    width: 4px;
+    border-radius: 3px 0 0 3px;
+    border: 0;
+    height: 100%;
+    margin-left: 4px;
+    position: absolute;
+  }
+  span {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  }
+  span.embed-auth {
+    color: rgb(255, 255, 255);
 
-		}
-		span.embed-desc {
-			color: rgb(128, 128, 128);
-		}
-	</style>`
+  }
+  span.embed-desc {
+    color: rgb(128, 128, 128);
+  }
+</style>`
   },
 
   init () {

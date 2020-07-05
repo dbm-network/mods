@@ -12,31 +12,31 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-	<div style="padding-top: 8px;">
-		<div style="float: left; width: 50%;">
-			Data Name:<br>
-			<input id="dataName" class="round" type="text">
-		</div>
-		<div style="float: left; width: 45%;">
-			Comparison Type:<br>
-			<select id="comparison" class="round">
-				<option value="0">Exists</option>
-				<option value="1" selected>Equals</option>
-				<option value="2">Equals Exactly</option>
-				<option value="3">Less Than</option>
-				<option value="4">Greater Than</option>
-				<option value="5">Includes</option>
-				<option value="6">Matches Regex</option>
-			</select>
-		</div>
-	</div><br><br><br>
-	<div style="padding-top: 8px;">
-		Value to Compare to:<br>
-		<input id="value" class="round" type="text" name="is-eval">
-	</div>
-	<div style="padding-top: 16px;">
-		${data.conditions[0]}
-	</div>`
+<div style="padding-top: 8px;">
+  <div style="float: left; width: 50%;">
+    Data Name:<br>
+    <input id="dataName" class="round" type="text">
+  </div>
+  <div style="float: left; width: 45%;">
+    Comparison Type:<br>
+    <select id="comparison" class="round">
+      <option value="0">Exists</option>
+      <option value="1" selected>Equals</option>
+      <option value="2">Equals Exactly</option>
+      <option value="3">Less Than</option>
+      <option value="4">Greater Than</option>
+      <option value="5">Includes</option>
+      <option value="6">Matches Regex</option>
+    </select>
+  </div>
+</div><br><br><br>
+<div style="padding-top: 8px;">
+  Value to Compare to:<br>
+  <input id="value" class="round" type="text" name="is-eval">
+</div>
+<div style="padding-top: 16px;">
+  ${data.conditions[0]}
+</div>`
   },
 
   init () {
@@ -115,6 +115,7 @@ module.exports = {
         result = val1 !== undefined
         break
       case 1:
+        // eslint-disable-next-line eqeqeq
         result = val1 == val2
         break
       case 2:

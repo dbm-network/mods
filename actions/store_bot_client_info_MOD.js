@@ -142,85 +142,83 @@ module.exports = {
   fields: ['info', 'storage', 'varName2'],
 
   html (isEvent, data) {
-    // current 43 items
     return `
-	<div style="float: left; width: 80%; padding-top: 8px;">
-		Source Info:<br>
-		<select id="info" class="round">
-			<optgroup label="Uptimes">
-				<option value="23">Refreshing Uptime in Days</option>
-				<option value="24">Refreshing Uptime in Hours</option>
-				<option value="25">Refreshing Uptime in Minutes</option>
-				<option value="26">Refreshing Uptime in Seconds</option>
-			</optgroup>
-			<optgroup label="Values">
-				<option value="3">Total Amount of Guilds</option>
-				<option value="4">Total Amount of Users</option>
-				<option value="10">Total Amount of Channels</option>
-				<option value="11">Total Amount of Emojis</option>
-        <option value="32">Total Amount of Commands</option>
-        <option value="33">Total Amount of Events</option>
-				<option value="9">Total Voice Connections</option>
-      </optgroup>
-      <optgroup label="Guilds Arrays">
-				<option value="16">Bot Guilds Objects</option>
-				<option value="17">Bot Guilds Names</option>
-				<option value="18">Bot Guilds IDs</option>
-			<optgroup label="Bot Informations">
-				<option value="19">Bot Current Prefix</option>
-				<option value="20">Bot Client ID</option>
-				<option value="44">Bot Owner ID</option>
-				<option value="28">Bot OS (Process Platform)</option>
-				<option value="30">Bot Directory</option>
-				<option value="8">Bot Token (be careful)</option>
-				<option value="45">Are Commands Case Sensitive?</option>
-				<option value="46">Last Message ID</option>
-			</optgroup>
-			<optgroup label="System Measurements">
-				<option value="29">CPU Usage (MB)</option>
-				<option value="35">CPU Core Count</option>
-				<option value="36">Total Memory (GB)</option>
-				<option value="37">Total Memory (MB)</option>
-				<option value="38">Available Memory (GB)</option>
-				<option value="39">Available Memory (MB)</option>
-				<option value="40">Available Memory (%)</option>
-				<option value="41">Used Memory (GB)</option>
-				<option value="42">Used Memory (MB)</option>
-				<option value="43">Used Memory (%)</option>
-			</optgroup>
-			<optgroup label="Bot Measurments">
-				<option value="27">Memory (RAM) Usage in MB</option>
-				<option value="1">Ready at</option>
-				<option value="34">Ready at [unix timestamp]</option>
-				<option value="2">Ping</option>
-				<option value="5">Ping Rounded</option>
-			</optgroup>
-			<optgroup label="Versions">
-				<option value="21">Discord JS Version</option>
-				<option value="31">Node JS Version</option>
-			</optgroup>
-		</select>
-	</div><br><br><br>
-	<div>
-		<div style="float: left; width: 35%; padding-top: 8px;">
-			Store In:<br>
-			<select id="storage" class="round">
-				${data.variables[1]}
-			</select>
-		</div>
-		<div id="varNameContainer2" style="float: right; width: 60%; padding-top: 8px;">
-			Variable Name:<br>
-			<input id="varName2" class="round" type="text"><br>
-		</div>
-	</div><br><br>`
+<div style="float: left; width: 80%; padding-top: 8px;">
+  Source Info:<br>
+  <select id="info" class="round">
+    <optgroup label="Uptimes">
+      <option value="23">Refreshing Uptime in Days</option>
+      <option value="24">Refreshing Uptime in Hours</option>
+      <option value="25">Refreshing Uptime in Minutes</option>
+      <option value="26">Refreshing Uptime in Seconds</option>
+    </optgroup>
+    <optgroup label="Values">
+      <option value="3">Total Amount of Guilds</option>
+      <option value="4">Total Amount of Users</option>
+      <option value="10">Total Amount of Channels</option>
+      <option value="11">Total Amount of Emojis</option>
+      <option value="32">Total Amount of Commands</option>
+      <option value="33">Total Amount of Events</option>
+      <option value="9">Total Voice Connections</option>
+    </optgroup>
+    <optgroup label="Guilds Arrays">
+      <option value="16">Bot Guilds Objects</option>
+      <option value="17">Bot Guilds Names</option>
+      <option value="18">Bot Guilds IDs</option>
+    <optgroup label="Bot Informations">
+      <option value="19">Bot Current Prefix</option>
+      <option value="20">Bot Client ID</option>
+      <option value="44">Bot Owner ID</option>
+      <option value="28">Bot OS (Process Platform)</option>
+      <option value="30">Bot Directory</option>
+      <option value="8">Bot Token (be careful)</option>
+      <option value="45">Are Commands Case Sensitive?</option>
+      <option value="46">Last Message ID</option>
+    </optgroup>
+    <optgroup label="System Measurements">
+      <option value="29">CPU Usage (MB)</option>
+      <option value="35">CPU Core Count</option>
+      <option value="36">Total Memory (GB)</option>
+      <option value="37">Total Memory (MB)</option>
+      <option value="38">Available Memory (GB)</option>
+      <option value="39">Available Memory (MB)</option>
+      <option value="40">Available Memory (%)</option>
+      <option value="41">Used Memory (GB)</option>
+      <option value="42">Used Memory (MB)</option>
+      <option value="43">Used Memory (%)</option>
+    </optgroup>
+    <optgroup label="Bot Measurments">
+      <option value="27">Memory (RAM) Usage in MB</option>
+      <option value="1">Ready at</option>
+      <option value="34">Ready at [unix timestamp]</option>
+      <option value="2">Ping</option>
+      <option value="5">Ping Rounded</option>
+    </optgroup>
+    <optgroup label="Versions">
+      <option value="21">Discord JS Version</option>
+      <option value="31">Node JS Version</option>
+    </optgroup>
+  </select>
+</div><br><br><br>
+<div>
+  <div style="float: left; width: 35%; padding-top: 8px;">
+    Store In:<br>
+    <select id="storage" class="round">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer2" style="float: right; width: 60%; padding-top: 8px;">
+    Variable Name:<br>
+    <input id="varName2" class="round" type="text"><br>
+  </div>
+</div>`
   },
 
-  init () { },
+  init () {},
 
   action (cache) {
     const botClient = this.getDBM().Bot.bot
-    const botBotClient = this.getDBM().Bot
-    const b = this.getDBM().Bot.bot.user.id
+    const Bot = this.getDBM().Bot
     const os = require('os')
     const DBM = this.getDBM()
     const data = cache.actions[cache.index]
@@ -260,10 +258,10 @@ module.exports = {
         result = botClient.token
         break
       case 45: // Are Commands Case Sensitive?
-        result = botBotClient._caseSensitive
+        result = Bot._caseSensitive
         break
       case 46: // Last Message ID
-        result = this.getDBM().Bot.bot.user.lastMessageID
+        result = botClient.user.lastMessageID
         break
       case 9: // Voice Connections Amount
         result = botClient.voice.connections.size
@@ -284,13 +282,13 @@ module.exports = {
         result = `${((process.memoryUsage().heapUsed / 1024) / 1024).toFixed(2)}%`
         break
       case 16: // Bot Guilds Objects
-        result = botClient.guilds
+        result = botClient.guilds.cache.array()
         break
       case 17: // Bot Guilds Names
-        result = botClient.guilds.array()
+        result = botClient.guilds.cache.map((g) => g.name)
         break
       case 18: // Bot Guilds IDs
-        result = botClient.guilds.map((guilds) => guilds.id)
+        result = botClient.guilds.cache.map((g) => g.id)
         break
       case 19: // Bot Current Prefix
         result = DBM.Files.data.settings.tag
@@ -371,8 +369,7 @@ module.exports = {
         result = Math.floor((os.freemem() / os.totalmem()) * 100)
         break
       case 41: // Used Memory (GB)
-        var usedMem = os.totalmem() - os.freemem()
-        result = (((usedMem / 1024) / 1024) / 1024).toFixed(2)
+        result = (((os.totalmem() - os.freemem() / 1024) / 1024) / 1024).toFixed(2)
         break
       case 42: // Used Memory (MB)
         result = (((os.totalmem() - os.freemem()) / 1024) / 1024).toFixed(0)

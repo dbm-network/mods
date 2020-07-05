@@ -72,45 +72,45 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-	<div style="float: left; width: 55%; padding-top: 8px;">
-		Source City:<br>
-		<input id="city" class="round" type="text">
-	 </div>
-	 <div style="float: right; width: 45%; padding-top: 8px;">
-	 	Degree Type:<br>
-	 	<select id="degreeType" class="round">
-			<option value="F">F</option>
-			<option value="C">C</option>
-		</select>
-  	</div><br>
-	<div style="float: left; width: 100%; padding-top: 8px;">
-		Source Info:<br>
-		<select id="info" class="round">
-			<option value="0">Temperature</option>
-			<option value="14">Feelslike</option>
-			<option value="1">Weather Text</option>
-			<option value="2">Date</option>
-			<option value="3">City</option>
-			<option value="4">Country</option>
-			<option value="6">Wind Speed</option>
-			<option value="8">Wind Direction</option>
-			<option value="9">Humidity</option>
-			<option value="15">Image URL</option>
-			<option value="16">Current Day</option>
-		</select>
-	</div><br>
-	<div>
-		<div style="float: left; width: 35%; padding-top: 8px;">
-			Store In:<br>
-			<select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-				${data.variables[0]}
-			</select>
-		</div>
-		<div id="varNameContainer" style="float: right; width: 60%; padding-top: 8px;">
-			Variable Name:<br>
-			<input id="varName" class="round" type="text"><br>
-		</div>
-	</div><br><br>`
+<div style="float: left; width: 55%; padding-top: 8px;">
+  Source City:<br>
+  <input id="city" class="round" type="text">
+  </div>
+  <div style="float: right; width: 45%; padding-top: 8px;">
+  Degree Type:<br>
+  <select id="degreeType" class="round">
+    <option value="F">F</option>
+    <option value="C">C</option>
+  </select>
+  </div><br>
+<div style="float: left; width: 100%; padding-top: 8px;">
+  Source Info:<br>
+  <select id="info" class="round">
+    <option value="0">Temperature</option>
+    <option value="14">Feelslike</option>
+    <option value="1">Weather Text</option>
+    <option value="2">Date</option>
+    <option value="3">City</option>
+    <option value="4">Country</option>
+    <option value="6">Wind Speed</option>
+    <option value="8">Wind Direction</option>
+    <option value="9">Humidity</option>
+    <option value="15">Image URL</option>
+    <option value="16">Current Day</option>
+  </select>
+</div><br>
+<div>
+  <div style="float: left; width: 35%; padding-top: 8px;">
+    Store In:<br>
+    <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
+      ${data.variables[0]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="float: right; width: 60%; padding-top: 8px;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text"><br>
+  </div>
+</div>`
   },
 
   init () {

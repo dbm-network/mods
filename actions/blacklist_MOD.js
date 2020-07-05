@@ -12,24 +12,24 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-    <div>
-      <div><br>
-        Operation Type:<br>
-        <select class="round" id="type">
-          <option value="1" selected>Blacklist User</option>
-          <option value="2">Un-Blacklist User</option>
-        </select><br>
-        <div style="float: left; width: 47%">
-          Variable Type:<br><select id="storage" class="round">
-            ${data.variables[1]}
-          </select>
-        </div>
-        <div style="float: right; width: 47%">
-          Variable Name:<br>
-          <input class="round" id="varName" />
-        </div>
-      </div>
-    </div>`
+<div>
+  <div><br>
+    Operation Type:<br>
+    <select class="round" id="type">
+      <option value="1" selected>Blacklist User</option>
+      <option value="2">Un-Blacklist User</option>
+    </select><br>
+    <div style="float: left; width: 47%">
+      Variable Type:<br><select id="storage" class="round">
+        ${data.variables[1]}
+      </select>
+    </div>
+    <div style="float: right; width: 47%">
+      Variable Name:<br>
+      <input class="round" id="varName" />
+    </div>
+  </div>
+</div>`
   },
 
   init () {},

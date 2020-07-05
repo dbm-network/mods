@@ -19,58 +19,58 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div style="padding-top: 8px;">
-	<div style="float: left; width: 45%;">
-		Type:<br>
-		<select id="type" class="round" onchange="glob.onChange1(this)">
-			<option value="0" selected>Basic</option>
-			<option value="1">Circle</option><br>
-		</select>
-	</div>
+  <div style="float: left; width: 45%;">
+    Type:<br>
+    <select id="type" class="round" onchange="glob.onChange1(this)">
+      <option value="0" selected>Basic</option>
+      <option value="1">Circle</option><br>
+    </select>
+  </div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
-	<div style="float: left; width: 50%;">
-		<div id="Change1text">Width:</div>
-		<input id="width" class="round" type="text"><br>
-	</div>
-	<div style="float: right; width: 50%;">
-		<div id="Change2text">Height:</div>
-		<input id="height" class="round" type="text"><br>
-	</div>
+  <div style="float: left; width: 50%;">
+    <div id="Change1text">Width:</div>
+    <input id="width" class="round" type="text"><br>
+  </div>
+  <div style="float: right; width: 50%;">
+    <div id="Change2text">Height:</div>
+    <input id="height" class="round" type="text"><br>
+  </div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
-	<div style="float: left; width: 50%;">
-		Line Width:<br>
-		<input id="lineWidth" class="round" type="text"><br>
-	</div>
-	<div style="padding-left: 1%; float: left; width: 45%;">
-		Line Cap:<br>
-		<select id="lineCap" class="round">
-			<option value="0" selected>Square</option>
-			<option value="1">Round</option>
-		</select><br>
-	</div>
+  <div style="float: left; width: 50%;">
+    Line Width:<br>
+    <input id="lineWidth" class="round" type="text"><br>
+  </div>
+  <div style="padding-left: 1%; float: left; width: 45%;">
+    Line Cap:<br>
+    <select id="lineCap" class="round">
+      <option value="0" selected>Square</option>
+      <option value="1">Round</option>
+    </select><br>
+  </div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
-	<div style="float: left; width: 50%;">
-		Percent:<br>
-		<input id="percent" class="round" type="text"><br>
-	</div>
-	<div style="float: right; width: 50%;">
-		Color:<br>
-		<input id="color" class="round" type="text" value="FFFFFF"><br>
-	</div>
+  <div style="float: left; width: 50%;">
+    Percent:<br>
+    <input id="percent" class="round" type="text"><br>
+  </div>
+  <div style="float: right; width: 50%;">
+    Color:<br>
+    <input id="color" class="round" type="text" value="FFFFFF"><br>
+  </div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
-	<div style="float: left; width: 45%;">
-		Store In:<br>
-		<select id="storage" class="round">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="float: right; width: 50%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text">
-	</div>
+  <div style="float: left; width: 45%;">
+    Store In:<br>
+    <select id="storage" class="round">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="float: right; width: 50%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text">
+  </div>
 </div>`
   },
 
@@ -113,9 +113,9 @@ module.exports = {
     }
     const color = this.evalMessage(data.color, cache)
     let canvas
-    if (type == 0) {
+    if (type === 0) {
       canvas = Canvas.createCanvas(width, height)
-    } else if (type == 1) {
+    } else if (type === 1) {
       canvas = Canvas.createCanvas(height, height)
     }
     const ctx = canvas.getContext('2d')
@@ -125,7 +125,7 @@ module.exports = {
       ctx.strokeStyle = `#${color}`
     }
     ctx.lineWidth = lineWidth
-    if (type == 0) {
+    if (type === 0) {
       ctx.beginPath()
       switch (lineCap) {
         case 0:
@@ -150,7 +150,7 @@ module.exports = {
           ctx.lineTo(width * percent / 100 - center, height / 2)
           break
       }
-    } else if (type == 1) {
+    } else if (type === 1) {
       ctx.translate(height / 2, height / 2)
       ctx.rotate(-0.5 * Math.PI)
       ctx.beginPath()

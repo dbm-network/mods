@@ -8,14 +8,14 @@ module.exports = {
 
   fields: ['count'],
 
-  html (isEvent, data) {
+  html () {
     return `
 <div>
-	<div id="varNameContainer" style="float: left; width: 60%;">
-		Actions To Skip:<br>
-		<input id="count" class="round" type="number">
-	</div>
-</div><br><br><br>`
+  <div id="varNameContainer" style="float: left; width: 60%;">
+    Actions To Skip:<br>
+    <input id="count" class="round" type="number">
+  </div>
+</div>`
   },
 
   init () {},

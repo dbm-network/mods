@@ -12,46 +12,46 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-	<div>
-		<div style="float: left; width: 35%;">
-			Source Channel:<br>
-			<select id="storage" class="round" onchange="glob.channelChange(this, 'varNameContainer')">
-				${data.channels[isEvent ? 1 : 0]}
-			</select>
-		</div>
-		<div id="varNameContainer" style="display: none; float: right; width: 60%;">
-			Variable Name:<br>
-			<input id="varName" class="round" type="text" list="variableList"><br>
-		</div>
-	</div><br><br><br>
-	<div>
-		<div style="float: left; width: 35%;">
-			Channel Type:<br>
-			<select id="channelType" class="round">
-				<option value="0" selected>Text Channel</option>
-				<option value="1">Voice Channel</option>
-			</select>
-		</div><br><br><br>
-	</div>
-	<div>
-		<div style="float: left; width: 35%;">
-			Change:<br>
-			<select id="toChange" class="round">
-				<option value="0" selected>Name</option>
-				<option value="1">Topic</option>
-				<option value="2">Position</option>
-				<option value="3">Bitrate</option>
-				<option value="4">User Limit</option>
-				<option value="5">Category ID</option>
-				<option value="6">Rate Limit Per User</option>
-			</select>
-		</div><br><br><br>
-	<div>
-		<div style="float: left; width: 80%;">
-			Change to:<br>
-			<input id="newState" class="round" type="text"><br>
-		</div>
-	</div>`
+<div>
+  <div style="float: left; width: 35%;">
+    Source Channel:<br>
+    <select id="storage" class="round" onchange="glob.channelChange(this, 'varNameContainer')">
+      ${data.channels[isEvent ? 1 : 0]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text" list="variableList"><br>
+  </div>
+</div><br><br><br>
+<div>
+  <div style="float: left; width: 35%;">
+    Channel Type:<br>
+    <select id="channelType" class="round">
+      <option value="0" selected>Text Channel</option>
+      <option value="1">Voice Channel</option>
+    </select>
+  </div><br><br><br>
+</div>
+<div>
+  <div style="float: left; width: 35%;">
+    Change:<br>
+    <select id="toChange" class="round">
+      <option value="0" selected>Name</option>
+      <option value="1">Topic</option>
+      <option value="2">Position</option>
+      <option value="3">Bitrate</option>
+      <option value="4">User Limit</option>
+      <option value="5">Category ID</option>
+      <option value="6">Rate Limit Per User</option>
+    </select>
+  </div><br><br><br>
+<div>
+  <div style="float: left; width: 80%;">
+    Change to:<br>
+    <input id="newState" class="round" type="text"><br>
+  </div>
+</div>`
   },
 
   init () {

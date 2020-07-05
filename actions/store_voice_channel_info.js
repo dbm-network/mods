@@ -51,49 +51,49 @@ module.exports = {
     return `
 <div><p>This action has been modified by DBM Mods.</p></div><br>
 <div>
-	<div style="float: left; width: 35%;">
-		Source Channel:<br>
-		<select id="channel" class="round" onchange="glob.voiceChannelChange(this, 'varNameContainer')">
-			${data.voiceChannels[isEvent ? 1 : 0]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="display: none; float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList"><br>
-	</div>
+  <div style="float: left; width: 35%;">
+    Source Channel:<br>
+    <select id="channel" class="round" onchange="glob.voiceChannelChange(this, 'varNameContainer')">
+      ${data.voiceChannels[isEvent ? 1 : 0]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text" list="variableList"><br>
+  </div>
 </div><br><br><br>
 <div>
-	<div style="padding-top: 8px; width: 70%;">
-		Source Info:<br>
-		<select id="info" class="round">
-			<option value="0" title="VC as a object" selected>Object</option>
-			<option value="1" title="The ID of a VC">ID</option>
-			<option value="2" title="The name of the VC">Name</option>
-			<option value="3" title="The position of the VC in the list">Position</option>
-			<option value="4" title="The maximum amount of members allowed in the VC (0 means unlimited)">User Limit</option>
-			<option value="5" title="The bitrate of the VC">Voice Channel Bitrate</option>
+  <div style="padding-top: 8px; width: 70%;">
+    Source Info:<br>
+    <select id="info" class="round">
+      <option value="0" title="VC as a object" selected>Object</option>
+      <option value="1" title="The ID of a VC">ID</option>
+      <option value="2" title="The name of the VC">Name</option>
+      <option value="3" title="The position of the VC in the list">Position</option>
+      <option value="4" title="The maximum amount of members allowed in the VC (0 means unlimited)">User Limit</option>
+      <option value="5" title="The bitrate of the VC">Voice Channel Bitrate</option>
       <option value="11" title="Gets the VC's guild">Guild (object)</option>
-			<option value="9" title="The members in the VC">Connected Members</option>
+      <option value="9" title="The members in the VC">Connected Members</option>
       <option value="13" title="The category this VC's in">Parent (object)</option>
       <option value="6" title="Checks if the Bot has permission to send audio to the VC">Can Bot Speak?</option>
       <option value="7" title="checks if the Bot has permission to join the VC">Can Bot Join VC?</option>
-			<option value="8" title="checks if the Bot has permission to delete the VC">Can Bot Delete VC?</option>
+      <option value="8" title="checks if the Bot has permission to delete the VC">Can Bot Delete VC?</option>
       <option value="12" title="checks if the Bot has permission to manage the VC">Can Bot Manage?</option>
       <option value="10" title="Checks if the VC is full">Is VC Full?</option>
-		</select>
-	</div>
+    </select>
+  </div>
 </div><br>
 <div>
-	<div style="float: left; width: 35%;">
-		Store In:<br>
-		<select id="storage" class="round">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer2" style="float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName2" class="round" type="text"><br>
-	</div>
+  <div style="float: left; width: 35%;">
+    Store In:<br>
+    <select id="storage" class="round">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer2" style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName2" class="round" type="text"><br>
+  </div>
 </div>`
   },
 

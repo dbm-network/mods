@@ -12,29 +12,29 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div>
-	<div style="float: left; width: 45%;">
-		Source Image:<br>
-		<select id="storage" class="round" onchange="glob.refreshVariableList(this)">
-			${data.variables[1]}
-		</select><br>
-	</div>
-	<div id="varNameContainer" style="float: right; width: 50%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList"><br>
-	</div>
+  <div style="float: left; width: 45%;">
+    Source Image:<br>
+    <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
+      ${data.variables[1]}
+    </select><br>
+  </div>
+  <div id="varNameContainer" style="float: right; width: 50%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text" list="variableList"><br>
+  </div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
-	<div style="float: left; width: 45%;">
-		Circle:<br>
-		<select id="circleinfo" class="round">
-			<option value="0" selected>No</option>
-			<option value="1">Yes</option>
-		</select><br>
-	</div>
-	<div style="float: right; width: 50%;">
-		Round Corner Radius:<br>
-		<input id="radius" class="round" type="text" value="0"><br>
-	</div>
+  <div style="float: left; width: 45%;">
+    Circle:<br>
+    <select id="circleinfo" class="round">
+      <option value="0" selected>No</option>
+      <option value="1">Yes</option>
+    </select><br>
+  </div>
+  <div style="float: right; width: 50%;">
+    Round Corner Radius:<br>
+    <input id="radius" class="round" type="text" value="0"><br>
+  </div>
 </div>`
   },
 
@@ -65,7 +65,7 @@ module.exports = {
     if (radius > 0) {
       corner(radius)
     }
-    if (circleinfo == 1 && imagew == imageh) {
+    if (circleinfo === 1 && imagew === imageh) {
       circle()
     }
     ctx.drawImage(image, 0, 0)

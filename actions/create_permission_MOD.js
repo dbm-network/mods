@@ -35,48 +35,48 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-	<div style="width: 550px; height: 350px; overflow-y: scroll;">
-		<div style="padding-top: 8px;">
-			<div style="float: left; width: 35%; ">
-				Apply Type:<br>
-				<select id="type" class="round" onchange="glob.typeChange(this)">
-					<option value="0" selected>Bit Fields</option>
-					<option value="1">Check Box</option>
-				</select>
-			</div>
-			<div style="padding-left: 5%; float: left; width: 60%;">
-				Permission Type:<br>
-				<select id="targetType" class="round" onchange="glob.targetChange(this)">
-					<option value="0" selected>Role</option>
-					<option value="1">Category Channel</option>
-					<option value="2">Text Channel</option>
-					<option value="3">Voice Channel</option>
-				</select>
-			</div>
-		</div><br><br><br>
-		<div style="padding-top: 8px;">
-			<div id="bitfield" style="float: left; width: 80%;">
-				Bit Fields:<br>
-				<input id="bitFields" class="round" type="text"><br>
-			</div>
-		</div>
-		<div style="padding-top: 8px;">
-			<div id="checkbox" style="display: none; float: left; width: 80%;">
-			</div>
-		</div>
-		<div style="padding-top: 8px;">
-			<div style="float: left; width: 35%;">
-				Store In:<br>
-				<select id="storage" class="round">
-					${data.variables[1]}
-				</select>
-			</div>
-			<div style="float: right; width: 60%;">
-				Variable Name:<br>
-				<input id="varName" class="round" type="text">
-			</div>
-		</div>
-	</div>`
+<div style="width: 550px; height: 350px; overflow-y: scroll;">
+  <div style="padding-top: 8px;">
+    <div style="float: left; width: 35%; ">
+      Apply Type:<br>
+      <select id="type" class="round" onchange="glob.typeChange(this)">
+        <option value="0" selected>Bit Fields</option>
+        <option value="1">Check Box</option>
+      </select>
+    </div>
+    <div style="padding-left: 5%; float: left; width: 60%;">
+      Permission Type:<br>
+      <select id="targetType" class="round" onchange="glob.targetChange(this)">
+        <option value="0" selected>Role</option>
+        <option value="1">Category Channel</option>
+        <option value="2">Text Channel</option>
+        <option value="3">Voice Channel</option>
+      </select>
+    </div>
+  </div><br><br><br>
+  <div style="padding-top: 8px;">
+    <div id="bitfield" style="float: left; width: 80%;">
+      Bit Fields:<br>
+      <input id="bitFields" class="round" type="text"><br>
+    </div>
+  </div>
+  <div style="padding-top: 8px;">
+    <div id="checkbox" style="display: none; float: left; width: 80%;">
+    </div>
+  </div>
+  <div style="padding-top: 8px;">
+    <div style="float: left; width: 35%;">
+      Store In:<br>
+      <select id="storage" class="round">
+        ${data.variables[1]}
+      </select>
+    </div>
+    <div style="float: right; width: 60%;">
+      Variable Name:<br>
+      <input id="varName" class="round" type="text">
+    </div>
+  </div>
+</div>`
   },
 
   init () {
@@ -198,7 +198,6 @@ module.exports = {
   action (cache) {
     const data = cache.actions[cache.index]
     const type = parseInt(data.type)
-    const targetType = parseInt(data.targetType)
     const { Permissions } = this.getDBM().DiscordJS
     let permissions = {}
     switch (type) {
@@ -211,17 +210,17 @@ module.exports = {
         const disallow = []
         const inherit = []
         permsArray.forEach((perms) => {
-          if (data[perms] == 'Allow') {
+          if (data[perms] === 'Allow') {
             allow.push(perms)
-          } else if (data[perms] == 'Disallow') {
+          } else if (data[perms] === 'Disallow') {
             disallow.push(perms)
-          } else if (data[perms] == 'Inherit') {
+          } else if (data[perms] === 'Inherit') {
             inherit.push(perms)
           }
         })
-        if (allow.length != 0) permissions.allow = new Permissions(allow)
-        if (disallow.length != 0) permissions.disallow = new Permissions(disallow)
-        if (inherit.length != 0) permissions.inherit = inherit
+        if (allow.length !== 0) permissions.allow = new Permissions(allow)
+        if (disallow.length !== 0) permissions.disallow = new Permissions(disallow)
+        if (inherit.length !== 0) permissions.inherit = inherit
         break
     }
     const storage = parseInt(data.storage)

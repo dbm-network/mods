@@ -17,49 +17,46 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div>
-	<div style="float: left; width: 35%;">
-		Source List:<br>
-		<select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-			${data.lists[isEvent ? 1 : 0]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName" class="round varSearcher" type="text" list="variableList">
-	</div>
+  <div style="float: left; width: 35%;">
+    Source List:<br>
+    <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
+      ${data.lists[isEvent ? 1 : 0]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round varSearcher" type="text" list="variableList">
+  </div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
-	<div style="float: left; width: 35%;">
-		Source List 2:<br>
-		<select id="storage2" class="round" onchange="glob.variableChange(this, 'varNameContainer2')">
-			${data.lists[isEvent ? 1 : 0]}
-		</select>
-	</div>
-	<div id="varNameContainer2" style="float: right; width: 60%;">
-		Variable Name 2:<br>
-		<input id="varName2" class="round varSearcher" type="text" list="variableList">
-	</div>
+  <div style="float: left; width: 35%;">
+    Source List 2:<br>
+    <select id="storage2" class="round" onchange="glob.variableChange(this, 'varNameContainer2')">
+      ${data.lists[isEvent ? 1 : 0]}
+    </select>
+  </div>
+  <div id="varNameContainer2" style="float: right; width: 60%;">
+    Variable Name 2:<br>
+    <input id="varName2" class="round varSearcher" type="text" list="variableList">
+  </div>
 </div>
 </div><br><br><br>
 <div>
-	<div style="float: left; width: 35%;">
-		Store In:<br>
-		<select id="storage3" class="round" onchange="glob.variableChange(this, 'varNameContainer3')">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer3" style="display: none; float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName3" class="round" type="text">
-	</div>
-</div><br><br><br>`
+  <div style="float: left; width: 35%;">
+    Store In:<br>
+    <select id="storage3" class="round" onchange="glob.variableChange(this, 'varNameContainer3')">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer3" style="display: none; float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName3" class="round" type="text">
+  </div>
+</div>`
   },
 
   init () {
-    const {
-      glob,
-      document
-    } = this
+    const { glob, document } = this
     glob.listChange(document.getElementById('storage'), 'varNameContainer')
     glob.listChange(document.getElementById('storage2'), 'varNameContainer')
     glob.variableChange(document.getElementById('storage3'), 'varNameContainer3')
@@ -89,5 +86,4 @@ module.exports = {
   },
 
   mod () {}
-
 }

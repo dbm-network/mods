@@ -16,85 +16,73 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-	<html>
-	<div id="wrexdiv2" style="width: 550px; height: 350px; overflow-y: scroll;">
-<div>
-<div style="padding-top: 8px;">
-	<div style="float: left; width: 50%;">
-		Data Name:<br>
-		<input id="dataName" class="round" type="text">
-	</div>
-	<span>
-</div>
-      Number before start
-<select id="numbefstselect" class="round" style="width:33%" onchange="glob.onChange1(this)">
-<option value="1" >No</option>
-<option value="2"selected>Yes</option>
-</select>
-<br>
-<div id="numbefst" style=" width: 80%; display: none;">
-Char after Number:<br>
-<input id="numbefst2" class="round" type="text" value=")">
-</div>
-<br>
-	Start:
-	<select id="start" class="round" style="width:33%">
-	<option value="result" >Result</option>
-	<option value="username"selected>Username</option>
-	</select>
-    <br>
-    	<div style="display: table-cell;">
-		Middle:
-		<input id="middle" style="width:80%"  class="round" type="text" value="-">
-		</input>
-			<br>
-	End:
-	<select id="end" class="round" style="width:100%">
-	<option value="result" selected>Result</option>
-	<option value="username">Username</option>
-	</select><br>
-   </span>
-   </div>
-   <select id="sort" class="round" style="width: 90%;">
-   <option value="0" selected>Don't Sort</option>
-   <option value="1" selected>Sort from Descending</option>
-   <option value="2">Sort from Ascending</option>
-</select><br>
-	<div style="float: left; width: 50%; font-family: monospace; white-space: nowrap; resize: none;">
-	Result Limit:
-	<input id="getresults" class="round" type="text" placeholder="If blank it gets all results.">
-</div><br><br><br>
-	<div style="float: left; width: 35%; font-family: monospace; white-space: nowrap; resize: none;"">
-	Store In:<br>
-	<select id="storage" class="round">
-		${data.variables[1]}
-	</select>
-</div>
-<div id="varNameContainer2" style="float: right; width: 60%;">
-	Variable Name:<br>
-	<input id="varName2" class="round" type="text"><br>
-</div>
-</div>
-<select id="debu" class="round" style="width: 90%;">
-<option value="0" selected>Debug</option>
-<option value="1" selected>Don't Debug</option>
-</select><br>
-</div>
-</html>`
+<div id="wrexdiv2" style="width: 550px; height: 350px; overflow-y: scroll;">
+  <div>
+    <div style="padding-top: 8px;">
+      <div style="float: left; width: 50%;">
+        Data Name:<br>
+        <input id="dataName" class="round" type="text">
+      </div>
+    </div>
+    Number before start
+    <select id="numbefstselect" class="round" style="width:33%" onchange="glob.onChange1(this)">
+      <option value="1" >No</option>
+      <option value="2"selected>Yes</option>
+    </select><br>
+    <div id="numbefst" style=" width: 80%; display: none;">
+      Char after Number:<br>
+      <input id="numbefst2" class="round" type="text" value=")">
+    </div><br>
+    Start:
+    <select id="start" class="round" style="width:33%">
+      <option value="result" >Result</option>
+      <option value="username"selected>Username</option>
+    </select><br>
+    <div style="display: table-cell;">
+      Middle:
+      <input id="middle" style="width:80%"  class="round" type="text" value="-"></input><br>
+      End:
+      <select id="end" class="round" style="width:100%">
+        <option value="result" selected>Result</option>
+        <option value="username">Username</option>
+      </select><br>
+    </div>
+    <select id="sort" class="round" style="width: 90%;">
+      <option value="0" selected>Don't Sort</option>
+      <option value="1" selected>Sort from Descending</option>
+      <option value="2">Sort from Ascending</option>
+    </select><br>
+    <div style="float: left; width: 50%; font-family: monospace; white-space: nowrap; resize: none;">
+      Result Limit:
+      <input id="getresults" class="round" type="text" placeholder="If blank it gets all results.">
+    </div><br><br><br>
+    <div style="float: left; width: 35%; font-family: monospace; white-space: nowrap; resize: none;"">
+      Store In:<br>
+      <select id="storage" class="round">
+        ${data.variables[1]}
+      </select>
+    </div>
+    <div id="varNameContainer2" style="float: right; width: 60%;">
+      Variable Name:<br>
+      <input id="varName2" class="round" type="text"><br>
+    </div>
+  </div>
+  <select id="debu" class="round" style="width: 90%;">
+    <option value="0" selected>Debug</option>
+    <option value="1" selected>Don't Debug</option>
+  </select>
+</div>`
   },
 
   init () {
-    const {
-      glob,
-      document
-    } = this
+    const { document, glob } = this
     glob.onChange1 = function (event) {
       const value = parseInt(event.value)
       const dom = document.getElementById('numbefst')
 
-      if (value == 1) {
+      if (value === 1) {
         dom.style.display = 'none'
-      } else if (value == 2) {
+      } else if (value === 2) {
         dom.style.display = null
       }
     }
@@ -102,11 +90,8 @@ Char after Number:<br>
   },
 
   action (cache) {
-    const _this = this
     const data = cache.actions[cache.index]
     const { msg } = cache
-    const type = parseInt(data.member)
-    const varName = this.evalMessage(data.varName, cache)
     const storage = parseInt(data.storage)
     const varName2 = this.evalMessage(data.varName2, cache)
     const st = this.evalMessage(data.start, cache)
@@ -118,36 +103,31 @@ Char after Number:<br>
     const debug = parseInt(data.debu)
     const Mods = this.getMods()
 
-    const Discord = Mods.require('discord.js')
     const fastsort = Mods.require('fast-sort')
-    const client = new Discord.Client()
     const { JSONPath } = Mods.require('jsonpath-plus')
     const fs = require('fs')
-    const file = fs.readFileSync('./data/players.json', 'utf8')
+    let file = fs.readFileSync('./data/players.json', 'utf8')
 
     if (file) {
       let dataName = this.evalMessage(data.dataName, cache)
       dataName = `${'[' + "'"}${dataName}'` + ']'
 
-      const isAdd = Boolean(data.changeType === '1')
       const val = this.evalMessage(data.value, cache)
       const list2 = []
-      const list = []
       let list4 = []
       const list5 = []
 
       if (val !== undefined) {
-        const file = JSON.parse(file)
+        file = JSON.parse(file)
         try {
           const list = []
           var result = JSONPath({
             path: `$.[?(@${dataName} || @${dataName} > -9999999999999999999999999999999999999999999999999999999)]*~`,
             json: file
           })
-          const pull = result
 
           for (var i = 0; i < result.length; i++) {
-            var result2 = JSONPath({
+            const result2 = JSONPath({
               path: `$.${result[i]}${dataName}`,
               json: file
             })
@@ -156,14 +136,9 @@ Char after Number:<br>
               const user = msg.guild.members.get(result[i])
               const { tag } = user.user
 
-              const name2 = "'" + 'name' + "'"
-              const id = "'" + 'id' + "'"
-              const tag2 = `${tag}`
-              const res2 = `${result2}`
-
               list.push({
-                id: tag2,
-                name2: res2
+                id: tag,
+                name2: result2
               })
             } catch (err) {
               if (debug === 0) console.log(err)
@@ -174,7 +149,6 @@ Char after Number:<br>
               result = fastsort(list).desc((u) => parseInt(u.name2))
               break
             case 2:
-
               result = fastsort(list).asc((u) => parseInt(u.name2))
               break
             case 0:
@@ -182,15 +156,15 @@ Char after Number:<br>
               break
           }
 
-          var result2 = JSON.stringify(result)
+          let result2 = JSON.stringify(result)
           let getres = parseInt(this.evalMessage(data.getresults, cache))
 
           if (!getres) {
             getres = result.length
           }
 
-          for (var i = 0; i < getres; i++) {
-            var result2 = JSON.stringify(list[i])
+          for (let i = 0; i < getres; i++) {
+            result2 = JSON.stringify(list[i])
 
             try {
               const file = JSON.parse(result2)
@@ -205,16 +179,16 @@ Char after Number:<br>
                 json: file
               })
 
-              var username = res2
-              var result = res
-
-              eval(` ${st} `)
+              /* eslint-disable */
+              const username = res2
+              const result = res
+              eval(`${st}`)
               const middle = ` ${mid} `
-              eval(` ${en} `)
-              var username = res2
-              var result = res
+              eval(`${en}`)
               const en2 = eval(en)
               const st2 = eval(st)
+              /* eslint-enable */
+
               list5.push('easter egg :eyes:')
               switch (selectionsnum) {
                 case 1:
@@ -233,8 +207,8 @@ Char after Number:<br>
             list4 = list2.join('')
           }
 
-          _this.storeValue(list4, storage, varName2, cache)
-          _this.callNextAction(cache)
+          this.storeValue(list4, storage, varName2, cache)
+          this.callNextAction(cache)
         } catch (err) {
           if (debug === 0) console.log(err)
         }

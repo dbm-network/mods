@@ -12,26 +12,26 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-	<div style="float: left; width: 105%;">
-		YouTube Playlist URL:<br>
-		<input id="url" class="round" type="text" value="https://www.youtube.com/playlist?list=PLkfg3Bt9RE055BeP8DeDZSUCYxeSLnobe"><br>
-	</div>
-	<div style="float: left; width: 105%;">
-		API Key:<br>
-		<input id="apikey" class="round" type="text" placeholder="Insert your YouTube Data V3 API Key..."><br>
-	</div>
-	<div style="float: left; width: 49%;">
-		Video Seek Positions:<br>
-		<input id="seek" class="round" type="text" value="0"><br>
-		Video Volumes:<br>
-		<input id="volume" class="round" type="text" placeholder="Leave blank for automatic..."><br>
-	</div>
-	<div style="float: right; width: 49%;">
-		Video Passes:<br>
-		<input id="passes" class="round" type="text" value="1"><br>
-		Video Bitrates:<br>
-		<input id="bitrate" class="round" type="text" placeholder="Leave blank for automatic..."><br>
-	</div>`
+<div style="float: left; width: 105%;">
+  YouTube Playlist URL:<br>
+  <input id="url" class="round" type="text" value="https://www.youtube.com/playlist?list=PLkfg3Bt9RE055BeP8DeDZSUCYxeSLnobe"><br>
+</div>
+<div style="float: left; width: 105%;">
+  API Key:<br>
+  <input id="apikey" class="round" type="text" placeholder="Insert your YouTube Data V3 API Key..."><br>
+</div>
+<div style="float: left; width: 49%;">
+  Video Seek Positions:<br>
+  <input id="seek" class="round" type="text" value="0"><br>
+  Video Volumes:<br>
+  <input id="volume" class="round" type="text" placeholder="Leave blank for automatic..."><br>
+</div>
+<div style="float: right; width: 49%;">
+  Video Passes:<br>
+  <input id="passes" class="round" type="text" value="1"><br>
+  Video Bitrates:<br>
+  <input id="bitrate" class="round" type="text" placeholder="Leave blank for automatic..."><br>
+</div>`
   },
 
   init () {},
@@ -40,7 +40,7 @@ module.exports = {
     const data = cache.actions[cache.index]
     const { Audio } = this.getDBM()
     const Mods = this.getMods()
-    const ytapi = Mods.require('simple-youtube-api')
+    const YTapi = Mods.require('simple-youtube-api')
     const apikey = this.evalMessage(data.apikey, cache)
     const playlist = this.evalMessage(data.url, cache)
     const options = {}
@@ -74,7 +74,7 @@ module.exports = {
     }
 
     // Load playlist
-    const YouTube = new ytapi(`${apikey}`)
+    const YouTube = new YTapi(`${apikey}`)
 
     YouTube.getPlaylist(`${playlist}`).then((playlist) => {
       playlist.getVideos().then((videos) => {

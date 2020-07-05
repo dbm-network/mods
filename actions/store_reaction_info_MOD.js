@@ -47,46 +47,46 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div>
-	<div style="float: left; width: 35%;">
-		Source Reaction:<br>
-		<select id="reaction" class="round" onchange="glob.refreshVariableList(this)">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList"><br>
-	</div>
+  <div style="float: left; width: 35%;">
+    Source Reaction:<br>
+    <select id="reaction" class="round" onchange="glob.refreshVariableList(this)">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text" list="variableList"><br>
+  </div>
 </div><br><br><br>
 <div>
-	<div style="padding-top: 8px; width: 70%;">
-		Source Info:<br>
-		<select id="info" class="round">
-			<option value="0" selected>Message Object</option>
-			<option value="5">First User to React</option>
-			<option value="6">Random User to React</option>
-			<option value="7">Last User to React</option>
-			<option value="1">Bot Reacted?</option>
-			<option value="2">User Who Reacted List</option>
-			<option value="3">Emoji Name</option>
-			<option value="4">Reaction Count</option>
-		</select>
-	</div>
+  <div style="padding-top: 8px; width: 70%;">
+    Source Info:<br>
+    <select id="info" class="round">
+      <option value="0" selected>Message Object</option>
+      <option value="5">First User to React</option>
+      <option value="6">Random User to React</option>
+      <option value="7">Last User to React</option>
+      <option value="1">Bot Reacted?</option>
+      <option value="2">User Who Reacted List</option>
+      <option value="3">Emoji Name</option>
+      <option value="4">Reaction Count</option>
+    </select>
+  </div>
 </div><br>
 <div>
-	<div style="float: left; width: 35%;">
-		Store In:<br>
-		<select id="storage" class="round">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer2" style="float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName2" class="round" type="text"><br>
-	</div>
+  <div style="float: left; width: 35%;">
+    Store In:<br>
+    <select id="storage" class="round">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer2" style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName2" class="round" type="text"><br>
+  </div>
 </div>`
   },
-  // display: none;
+
   init () {
     const { glob, document } = this
 

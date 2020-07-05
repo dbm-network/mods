@@ -133,6 +133,7 @@ const Mods = {
   },
 
   jsonPath (obj, expr, arg) {
+    /* eslint-disable */
     // JSONPath 0.8.0 - XPath for JSON
     // JSONPath Expressions: http://goessner.net/articles/JsonPath/index.html#e2
     // http://jsonpath.com/
@@ -227,6 +228,8 @@ const Mods = {
       P.trace(P.normalize(expr).replace(/^\$;/, ''), obj, '$')
       return P.result.length ? P.result : false
     }
+
+    /* eslint-enable */
   },
   getWebhook (type, varName, cache) {
     const { server } = cache
@@ -277,12 +280,10 @@ const Mods = {
   },
 
   setupMusic (DBM) {
-    // Check for PlayingNow Data Object
     if (DBM.Audio.playingnow === undefined) {
       DBM.Audio.playingnow = []
     }
 
-    // Check for Loop Data Objects
     if (DBM.Audio.loopQueue === undefined) {
       DBM.Audio.loopQueue = {}
     }
@@ -296,7 +297,7 @@ const Mods = {
       const { id } = cache.server
       if (!this.queue[id]) {
         this.queue[id] = []
-        DBM.Audio.loopQueue[id] = false // Reset loop status
+        DBM.Audio.loopQueue[id] = false
         DBM.Audio.loopItem[id] = false
       }
       this.queue[id].push(item)
@@ -305,25 +306,25 @@ const Mods = {
 
     DBM.Audio.playNext = function (id, forceSkip) {
       if (!this.connections[id]) {
-        DBM.Audio.loopQueue[id] = false // Reset loop status
+        DBM.Audio.loopQueue[id] = false
         DBM.Audio.loopItem[id] = false
         return
       }
       if (!this.dispatchers[id] || !!forceSkip) {
-        if (DBM.Audio.loopItem[id] == true) { // Check if Item Loop is active
+        if (DBM.Audio.loopItem[id] === true) {
           const item = this.playingnow[id]
           this.playItem(item, id)
-        } else if (DBM.Audio.loopQueue[id] == true) { // Check if Queue Loop is active
+        } else if (DBM.Audio.loopQueue[id] === true) {
           const currentItem = this.playingnow[id]
           this.queue[id].push(currentItem)
           const nextItem = this.queue[id].shift()
           this.playItem(nextItem, id)
-        } else { // Basic DBM function (No Loops are active)
-          if (this.queue[id] && this.queue[id].length > 0) { // Add check if this.queue[id] exists ~TheMonDon
+        } else {
+          if (this.queue[id] && this.queue[id].length > 0) {
             const item = this.queue[id].shift()
             this.playItem(item, id)
           } else {
-            DBM.Audio.loopQueue[id] = false // Reset loop status
+            DBM.Audio.loopQueue[id] = false
             DBM.Audio.loopItem[id] = false
             this.connections[id].disconnect()
           }

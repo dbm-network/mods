@@ -26,7 +26,7 @@ module.exports = {
         Authors: ${this.author}
         </p>
     </div><br>
-    <div style="width: 80%;">    
+    <div style="width: 80%;">
         <div style="float: left; width: 35%;">
               Variable:<br>
               <select id="varStorage" class="round" onchange="glob.refreshVariableList(this)">
@@ -124,13 +124,14 @@ module.exports = {
         if (DEBUG) console.log(outData)
 
         try {
-          const test = JSON.parse(JSON.stringify(outData))
+          JSON.parse(JSON.stringify(outData))
         } catch (error) {
           const errorJson = JSON.stringify({ error, success: false })
           this.storeValue(errorJson, storage, varName, cache)
           console.error(error.stack ? error.stack : error)
         }
 
+        // eslint-disable-next-line no-eval
         const outValue = eval(JSON.stringify(outData), cache)
 
         if (outData.success != null || outValue.success != null) {

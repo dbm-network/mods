@@ -11,29 +11,27 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div>
-	<div style="float: left; width: 35%;">
-		Source Server:<br>
-		<select id="server" class="round" onchange="glob.serverChange(this, 'varNameContainer')">
-			${data.servers[isEvent ? 1 : 0]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="display: none; float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList">
-	</div>
+  <div style="float: left; width: 35%;">
+    Source Server:<br>
+    <select id="server" class="round" onchange="glob.serverChange(this, 'varNameContainer')">
+      ${data.servers[isEvent ? 1 : 0]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text" list="variableList">
+  </div>
 </div><br><br><br>
 <div>
-	<div style="float: left; width: 47%;">
-		Position:<br>
-		<input id="position" type="text" class="round" placeholder="Position start from 0">
-	</div>
-	<div style="float: left; padding-left: 3px; width: 50%;">
-		Remove Amount:<br>
-		<input id="amount" type="text" class="round" placeholder="Input must be great than 0">
-	</div>
-</div>
-
-`
+  <div style="float: left; width: 47%;">
+    Position:<br>
+    <input id="position" type="text" class="round" placeholder="Position start from 0">
+  </div>
+  <div style="float: left; padding-left: 3px; width: 50%;">
+    Remove Amount:<br>
+    <input id="amount" type="text" class="round" placeholder="Input must be great than 0">
+  </div>
+</div>`
   },
 
   init () {

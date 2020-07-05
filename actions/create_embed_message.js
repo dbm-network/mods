@@ -18,113 +18,113 @@ module.exports = {
     return `
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
 <div>
-	<p>
-		This action has been modified by DBM Mods.
-	</p>
+  <p>
+    This action has been modified by DBM Mods.
+  </p>
 </div>
 <div style="float: left; width: 50%; padding-top: 16px;">
-	Title:<br>
-	<input id="title" class="round" type="text"><br>
-	Author Name:<br>
-	<input id="author" class="round" type="text" placeholder="Leave blank to disallow author!"><br>
-	Author URL:<br>
-	<input id="authorUrl" class="round" type="text" placeholder="Leave blank for none!"><br>
-	Author Icon URL:<br>
-	<input id="authorIcon" class="round" type="text" placeholder="Leave blank for none!"><br>
+  Title:<br>
+  <input id="title" class="round" type="text"><br>
+  Author Name:<br>
+  <input id="author" class="round" type="text" placeholder="Leave blank to disallow author!"><br>
+  Author URL:<br>
+  <input id="authorUrl" class="round" type="text" placeholder="Leave blank for none!"><br>
+  Author Icon URL:<br>
+  <input id="authorIcon" class="round" type="text" placeholder="Leave blank for none!"><br>
 </div>
 <div style="float: right; width: 50%; padding-top: 16px;">
-	Color:<br>
-	<input id="color" class="round" type="text" placeholder="Leave blank for default!"><br>
-	URL:<br>
-	<input id="url" class="round" type="text" placeholder="Leave blank for none!"><br>
-	Image URL:<br>
-	<input id="imageUrl" class="round" type="text" placeholder="Leave blank for none!"><br>
-	Thumbnail URL:<br>
-	<input id="thumbUrl" class="round" type="text" placeholder="Leave blank for none!"><br>
+  Color:<br>
+  <input id="color" class="round" type="text" placeholder="Leave blank for default!"><br>
+  URL:<br>
+  <input id="url" class="round" type="text" placeholder="Leave blank for none!"><br>
+  Image URL:<br>
+  <input id="imageUrl" class="round" type="text" placeholder="Leave blank for none!"><br>
+  Thumbnail URL:<br>
+  <input id="thumbUrl" class="round" type="text" placeholder="Leave blank for none!"><br>
 </div>
 <div id="timestampDiv" style="float: left; width: 45%; display: none;">
-	Timestamp:<br>
-	<select id="timestamp" class="round" onchange="glob.onChange1(this)">
-		<option value="false" selected>No Timestamp</option>
-		<option value="true">Current Timestamp</option>
-		<option value="string">String Timestamp</option>
-		<option value="custom">Custom Timestamp</option>
-	</select>
+  Timestamp:<br>
+  <select id="timestamp" class="round" onchange="glob.onChange1(this)">
+    <option value="false" selected>No Timestamp</option>
+    <option value="true">Current Timestamp</option>
+    <option value="string">String Timestamp</option>
+    <option value="custom">Custom Timestamp</option>
+  </select>
 </div>
 <div id="timestampDivDebug" style="float: left; width: 45%; display: none;">
-	Timestamp:<br>
-	<select id="timestampDebug" class="round" onchange="glob.onChange1(this)">
-		<option value="false" selected>No Timestamp</option>
-		<option value="true">Current Timestamp</option>
-	</select>
+  Timestamp:<br>
+  <select id="timestampDebug" class="round" onchange="glob.onChange1(this)">
+    <option value="false" selected>No Timestamp</option>
+    <option value="true">Current Timestamp</option>
+  </select>
 </div>
 <div style="float: right; width: 50%; padding-right: 26px;">
-	Debug:<br>
-	<select id="debug" class="round" onchange="glob.onChange2(this)">
-		<option value="false" selected>No - More options</option>
-		<option value="true">Yes - More stable</option>
-	</select>
+  Debug:<br>
+  <select id="debug" class="round" onchange="glob.onChange2(this)">
+    <option value="false" selected>No - More options</option>
+    <option value="true">Yes - More stable</option>
+  </select>
 </div>
 <div id="timestamp1" class="round" style="float: left; width: 104.6%; padding-top: 16px; display: none;">
-	UTC Timestamp:<br>
-	<input id="text" class="round" type="text" placeholder="Insert your utc timestamp string...">
+  UTC Timestamp:<br>
+  <input id="text" class="round" type="text" placeholder="Insert your utc timestamp string...">
 </div>
 <div id="timestamp2" style="padding-top: 16px; display: table; width: 95.5%;">
-	<div style="display: table-cell;">
-		Year:<br>
-		<input id="year" class="round" type="text">
-	</div>
-	<div style="display: table-cell;">
-		Month:<br>
-		<input id="month" class="round" type="text">
-	</div>
-	<div style="display: table-cell;">
-		Day:<br>
-		<input id="day" class="round" type="text">
-	</div>
-	<div style="display: table-cell;">
-		Hour:<br>
-		<input id="hour" class="round" type="text">
-	</div>
-	<div style="display: table-cell;">
-		Minute:<br>
-		<input id="minute" class="round" type="text">
-	</div>
-	<div style="display: table-cell;">
-		Second:<br>
-		<input id="second" class="round" type="text">
-	</div>
+  <div style="display: table-cell;">
+    Year:<br>
+    <input id="year" class="round" type="text">
+  </div>
+  <div style="display: table-cell;">
+    Month:<br>
+    <input id="month" class="round" type="text">
+  </div>
+  <div style="display: table-cell;">
+    Day:<br>
+    <input id="day" class="round" type="text">
+  </div>
+  <div style="display: table-cell;">
+    Hour:<br>
+    <input id="hour" class="round" type="text">
+  </div>
+  <div style="display: table-cell;">
+    Minute:<br>
+    <input id="minute" class="round" type="text">
+  </div>
+  <div style="display: table-cell;">
+    Second:<br>
+    <input id="second" class="round" type="text">
+  </div>
 </div>
 <div>
-	<div style="float: left; width: 35%;">
-		<br>Store In:<br>
-		<select id="storage" class="round">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="float: right; width: 60%;">
-		<br>Variable Name:<br>
-		<input id="varName" class="round" type="text"><br>
-	</div>
+  <div style="float: left; width: 35%;">
+    <br>Store In:<br>
+    <select id="storage" class="round">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="float: right; width: 60%;">
+    <br>Variable Name:<br>
+    <input id="varName" class="round" type="text"><br>
+  </div>
 </div>
 <div id="note1" style="float: left; padding-top: 8px; width: 100%; display: none;">
-	<h2>
-		String Timestamp<br>
-	</h2>
-	<p>
-		This setting works with time formats like "March 03, 1973 11:13:00" or "100000000000" (milliseconds).<br>
-	</p>
+  <h2>
+    String Timestamp<br>
+  </h2>
+  <p>
+    This setting works with time formats like "March 03, 1973 11:13:00" or "100000000000" (milliseconds).<br>
+  </p>
 </div>
 <div id="note2" style="float: left; padding-top: 8px; width: 100%; display: none;">
-	<h2>
-		Custom Timestamp<br>
-	</h2>
-	<p>
-		Correct input:<br>
-		Year: [2019] Month: [8] Day: [10] Hour: [ ] Minute: [ ] Second: [ ]<br>
-		Incorrect input:<br>
-		Year: [2019] Month: [8] Day: [ ] Hour: [6] Minute: [ ] Second: [ ]<br>
-	</p>
+  <h2>
+    Custom Timestamp<br>
+  </h2>
+  <p>
+    Correct input:<br>
+    Year: [2019] Month: [8] Day: [10] Hour: [ ] Minute: [ ] Second: [ ]<br>
+    Incorrect input:<br>
+    Year: [2019] Month: [8] Day: [ ] Hour: [6] Minute: [ ] Second: [ ]<br>
+  </p>
 </div>
 </div>`
   },
@@ -134,7 +134,6 @@ module.exports = {
     const timestampDiv = document.getElementById('timestampDiv')
     const timestamp = document.getElementById('timestamp')
     const timestampDivDebug = document.getElementById('timestampDivDebug')
-    const timestampDebug = document.getElementById('timestampDebug')
     const debug = document.getElementById('debug')
     const timestamp1 = document.getElementById('timestamp1')
     const timestamp2 = document.getElementById('timestamp2')
@@ -143,7 +142,7 @@ module.exports = {
     const authorUrl = document.getElementById('authorUrl')
 
     glob.onChange1 = function () {
-      if (debug.value == 'false') {
+      if (debug.value === 'false') {
         authorUrl.placeholder = 'Leave blank for none!'
         switch (timestamp.value) {
           case 'false':
@@ -217,7 +216,7 @@ module.exports = {
       return
     }
 
-    if (debug != 'true') {
+    if (debug !== 'true') {
       // Title
       if (data.title) {
         embed.setTitle(this.evalMessage(data.title, cache))

@@ -17,75 +17,75 @@ module.exports = {
   html (isEvent, data) {
     data.conditions[0] = data.conditions[0].replace(/If True/g, 'If Set Success').replace(/If False/g, 'If Set Failed')
     return `
-	<div style="width: 550px; height: 350px; overflow-y: scroll;">
-		<div style="padding-top: 8px;">
-			<div style="float: left; width: 35%;">
-				Target Type:<br>
-				<select id="target" class="round" onchange="glob.targetChange(this)">
-					<option value="0" selected>Role</option>
-					<option value="1">Member</option>
-				</select>
-			</div>
-			<div style="padding-left: 5%; float: left; width: 60%;">
-				Permission Way:<br>
-				<select id="way" class="round">
-					<option value="0" selected>Update</option>
-					<option value="1">Set</option>
-				</select>
-			</div>
-		</div><br><br><br>
-		<div style="padding-top: 8px;">
-			<div style="float: left; width: 35%;">
-				Source Channel:<br>
-				<select id="storage" class="round" onchange="glob.channelChange(this, 'varNameContainer')">
-					${data.channels[isEvent ? 1 : 0]}
-				</select>
-			</div>
-			<div id="varNameContainer" style="display: none; float: right; width: 60%;">
-				Variable Name:<br>
-				<input id="varName3" class="round" type="text" list="variableList">
-			</div>
-		</div><br><br><br>
-		<div id="roleHolder" style="padding-top: 8px;">
-			<div style="float: left; width: 35%;">
-				Source Role:<br>
-				<select id="role" class="round" onchange="glob.roleChange(this, 'varNameContainer2')">
-					${data.roles[isEvent ? 1 : 0]}
-				</select>
-			</div>
-			<div id="varNameContainer2" style="display: none; float: right; width: 60%;">
-				Variable Name:<br>
-				<input id="varName" class="round" type="text" list="variableList">
-			</div>
-		</div>
-		<div id="memberHolder" style="display: none; padding-top: 8px;">
-			<div style="float: left; width: 35%;">
-				Source Member:<br>
-				<select id="member" class="round" onchange="glob.memberChange(this, 'varNameContainer3')">
-					${data.members[isEvent ? 1 : 0]}
-				</select>
-			</div>
-			<div id="varNameContainer3" style="display: none; float: right; width: 60%;">
-				Variable Name:<br>
-				<input id="varName2" class="round" type="text" list="variableList">
-			</div>
-		</div><br><br><br>
-		<div style="padding-top: 8px;">
-			<div style="float: left; width: 35%;">
-				Source Permissions:<br>
-				<select id="storage3" class="round" onchange="glob.refreshVariableList(this)">
-					${data.variables[1]}
-				</select>
-			</div>
-			<div style="float: right; width: 60%;">
-				Variable Name:<br>
-				<input id="varName4" class="round" type="text" list="variableList">
-			</div>
-		</div><br><br><br>
-		<div style="padding-top: 8px;">
-			${data.conditions[0]}
-		</div>
-	</div>`
+<div style="width: 550px; height: 350px; overflow-y: scroll;">
+  <div style="padding-top: 8px;">
+    <div style="float: left; width: 35%;">
+      Target Type:<br>
+      <select id="target" class="round" onchange="glob.targetChange(this)">
+        <option value="0" selected>Role</option>
+        <option value="1">Member</option>
+      </select>
+    </div>
+    <div style="padding-left: 5%; float: left; width: 60%;">
+      Permission Way:<br>
+      <select id="way" class="round">
+        <option value="0" selected>Update</option>
+        <option value="1">Set</option>
+      </select>
+    </div>
+  </div><br><br><br>
+  <div style="padding-top: 8px;">
+    <div style="float: left; width: 35%;">
+      Source Channel:<br>
+      <select id="storage" class="round" onchange="glob.channelChange(this, 'varNameContainer')">
+        ${data.channels[isEvent ? 1 : 0]}
+      </select>
+    </div>
+    <div id="varNameContainer" style="display: none; float: right; width: 60%;">
+      Variable Name:<br>
+      <input id="varName3" class="round" type="text" list="variableList">
+    </div>
+  </div><br><br><br>
+  <div id="roleHolder" style="padding-top: 8px;">
+    <div style="float: left; width: 35%;">
+      Source Role:<br>
+      <select id="role" class="round" onchange="glob.roleChange(this, 'varNameContainer2')">
+        ${data.roles[isEvent ? 1 : 0]}
+      </select>
+    </div>
+    <div id="varNameContainer2" style="display: none; float: right; width: 60%;">
+      Variable Name:<br>
+      <input id="varName" class="round" type="text" list="variableList">
+    </div>
+  </div>
+  <div id="memberHolder" style="display: none; padding-top: 8px;">
+    <div style="float: left; width: 35%;">
+      Source Member:<br>
+      <select id="member" class="round" onchange="glob.memberChange(this, 'varNameContainer3')">
+        ${data.members[isEvent ? 1 : 0]}
+      </select>
+    </div>
+    <div id="varNameContainer3" style="display: none; float: right; width: 60%;">
+      Variable Name:<br>
+      <input id="varName2" class="round" type="text" list="variableList">
+    </div>
+  </div><br><br><br>
+  <div style="padding-top: 8px;">
+    <div style="float: left; width: 35%;">
+      Source Permissions:<br>
+      <select id="storage3" class="round" onchange="glob.refreshVariableList(this)">
+        ${data.variables[1]}
+      </select>
+    </div>
+    <div style="float: right; width: 60%;">
+      Variable Name:<br>
+      <input id="varName4" class="round" type="text" list="variableList">
+    </div>
+  </div><br><br><br>
+  <div style="padding-top: 8px;">
+    ${data.conditions[0]}
+  </div>
+</div>`
   },
 
   init () {
@@ -100,10 +100,10 @@ module.exports = {
     const roleHolder = document.getElementById('roleHolder')
     const memberHolder = document.getElementById('memberHolder')
     glob.targetChange = function (target) {
-      if (target.value == '0') {
+      if (target.value === '0') {
         roleHolder.style.display = null
         memberHolder.style.display = 'none'
-      } else if (target.value == '1') {
+      } else if (target.value === '1') {
         roleHolder.style.display = 'none'
         memberHolder.style.display = null
       }
@@ -113,14 +113,14 @@ module.exports = {
     option.value = '4'
     option.text = 'Jump to Anchor'
     const iffalse = document.getElementById('iffalse')
-    if (iffalse.length == 4) {
+    if (iffalse.length === 4) {
       iffalse.add(option)
     }
     const option2 = document.createElement('OPTION')
     option2.value = '4'
     option2.text = 'Jump to Anchor'
     const iftrue = document.getElementById('iftrue')
-    if (iftrue.length == 4) {
+    if (iftrue.length === 4) {
       iftrue.add(option2)
     }
     glob.onChangeTrue = function (event) {
@@ -173,7 +173,7 @@ module.exports = {
 
     const type = parseInt(data.target)
     let target
-    if (type == 0) {
+    if (type === 0) {
       const role = parseInt(data.role)
       const varName = this.evalMessage(data.varName, cache)
       target = this.getRole(role, varName, cache)
@@ -212,7 +212,7 @@ module.exports = {
       })
     }
 
-    if (way == 0) {
+    if (way === 0) {
       targetChannel.updateOverwrite(target, perms).then(() => {
         this.executeResults(true, data, cache)
       }).catch((error) => {

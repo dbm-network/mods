@@ -17,38 +17,37 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-	<div>
-		<div style="float: left; width: 40%;">
-			Source Field:<br>
-			<select id="info" class="round">
-				<option value="0" selected>Emoji ID</option>
-				<option value="1">Emoji Name</option>
-			</select>
-		</div>
-		<div style="float: right; width: 55%;">
-			Search Value:<br>
-			<input id="find" class="round" type="text">
-		</div>
-	</div><br><br><br>
-	<div style="padding-top: 8px;">
-		<div style="float: left; width: 35%;">
-			Store In:<br>
-			<select id="storage" class="round">
-				${data.variables[1]}
-			</select>
-		</div>
-		<div id="varNameContainer" style="float: right; width: 60%;">
-			Variable Name:<br>
-			<input id="varName" class="round" type="text">
-		</div>
-	</div>`
+<div>
+  <div style="float: left; width: 40%;">
+    Source Field:<br>
+    <select id="info" class="round">
+      <option value="0" selected>Emoji ID</option>
+      <option value="1">Emoji Name</option>
+    </select>
+  </div>
+  <div style="float: right; width: 55%;">
+    Search Value:<br>
+    <input id="find" class="round" type="text">
+  </div>
+</div><br><br><br>
+<div style="padding-top: 8px;">
+  <div style="float: left; width: 35%;">
+    Store In:<br>
+    <select id="storage" class="round">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text">
+  </div>
+</div>`
   },
 
   init () {},
 
   action (cache) {
     const data = cache.actions[cache.index]
-    const { msg } = cache
     const { server } = cache
     const info = parseInt(data.info)
     const find = this.evalMessage(data.find, cache)

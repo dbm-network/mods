@@ -11,23 +11,23 @@ module.exports = {
 
   html () {
     return `
-	<div style="padding-top: 8px;">
-		<div style="float: left; width: 50%;">
-			Data Name:<br>
-			<input id="dataName" class="round" type="text">
-		</div>
-		<div style="float: left; width: 45%;">
-			Control Type:<br>
-			<select id="changeType" class="round">
-				<option value="0" selected>Set Value</option>
-				<option value="1">Add Value</option>
-			</select>
-		</div>
-	</div><br><br><br>
-	<div style="padding-top: 8px;">
-		Value:<br>
-		<input id="value" class="round" type="text" name="is-eval"><br>
-	</div>`
+<div style="padding-top: 8px;">
+  <div style="float: left; width: 50%;">
+    Data Name:<br>
+    <input id="dataName" class="round" type="text">
+  </div>
+  <div style="float: left; width: 45%;">
+    Control Type:<br>
+    <select id="changeType" class="round">
+      <option value="0" selected>Set Value</option>
+      <option value="1">Add Value</option>
+    </select>
+  </div>
+</div><br><br><br>
+<div style="padding-top: 8px;">
+  Value:<br>
+  <input id="value" class="round" type="text" name="is-eval"><br>
+</div>`
   },
 
   init () {

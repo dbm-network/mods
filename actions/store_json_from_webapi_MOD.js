@@ -16,62 +16,55 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-	<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
-	<div style="float: left; width: 95%;">
-			WebAPI URL: <br>
-			<textarea id="url" class="round" style="width: 99%; resize: none;" type="textarea" rows="4" cols="20"></textarea>
-			<text style="font-size: 60%;">If the url is the same, json data will be used from the initial store json within the command</text>
-			<br>
-			Headers (By default 'User-Agent: Other' is applied, It's 1 per line, (<b>key:value</b>))<br>
-			<textarea id="headers" class="round" placeholder="User-Agent: Other" style="width: 99%; resize: none;" type="textarea" rows="4" cols="20"></textarea><br>
-	</div>
-	<div class="ui toggle checkbox" >
-			<input type="checkbox" name="public" id="toggleAuth" onclick="glob.checkBox(this, 'auth');">
-			<label><font color="white">Show Authentication Options</font></label>
-			<text style="font-size: 60%;">Show/Hide Auth Options</text>
-	</div>
-	<div id="authSection" style="display: ;">
-			<br>Bearer Token<br>
-			<textarea id="token" class="round" placeholder="blank if none" style="width: 99%; resize: none;" type="textarea" rows="4" cols="20"></textarea><br>
-			Username<br>
-			<input id="user" class="round"  placeholder="blank if none" style="width: 99%; resize: none;" ><br>
-			Password <br>
-			<input id="pass" class="round"  placeholder="blank if none"  style="width: 99%; resize: none;" ><br>
-	</div>
-
-	<br><br>
-	JSON Path: (Leave blank to store everything)<br>
-	Supports the usage of JSON Path (Regex)<br>
-	More info here <br>
-	http://goessner.net/articles/JsonPath/index.html#e2<br><br>
-	<input id="path" class="round"; style="width: 75%;" type="text">
-	<div>
-	<br><br>
-	<div style="float: left; width: 35%;">
-			Store In:<br>
-			<select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-			${data.variables[0]}
-			</select><br>
-	</div>
-	<div id="varNameContainer" style="display: ; float: right; width: 60%;">
-			JSON Storage Variable Name:<br>
-			<input id="varName" class="round" type="text"><br>
-	</div>
-	</div>
-	<br>
-	<div style="float: left; width: 70%;">
-	<br>
-	<div>
-		<label for="debugMode"><font color="white">Debug Mode</font></label>
-		<select id="debugMode" class="round">
-			<option value="1" selected>Enabled</option>
-			<option value="0" >Disabled</option>
-		</select>
-			<text style="font-size: 60%;">Enables verbose printing to the console, disable to stop all but error printing</text>
-	</div>
-	</div>
-	</div>
-	`
+<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
+  <div style="float: left; width: 95%;">
+    WebAPI URL: <br>
+    <textarea id="url" class="round" style="width: 99%; resize: none;" type="textarea" rows="4" cols="20"></textarea>
+      <text style="font-size: 60%;">If the url is the same, json data will be used from the initial store json within the command</text><br>
+      Headers (By default 'User-Agent: Other' is applied, It's 1 per line, (<b>key:value</b>))<br>
+      <textarea id="headers" class="round" placeholder="User-Agent: Other" style="width: 99%; resize: none;" type="textarea" rows="4" cols="20"></textarea><br>
+  </div>
+  <div class="ui toggle checkbox" >
+    <input type="checkbox" name="public" id="toggleAuth" onclick="glob.checkBox(this, 'auth');">
+    <label><font color="white">Show Authentication Options</font></label>
+    <text style="font-size: 60%;">Show/Hide Auth Options</text>
+  </div>
+  <div id="authSection" style="display: ;"><br>
+    Bearer Token<br>
+    <textarea id="token" class="round" placeholder="blank if none" style="width: 99%; resize: none;" type="textarea" rows="4" cols="20"></textarea><br>
+    Username<br>
+    <input id="user" class="round" placeholder="blank if none" style="width: 99%; resize: none;" ><br>
+    Password <br>
+    <input id="pass" class="round" placeholder="blank if none"  style="width: 99%; resize: none;" ><br>
+  </div><br><br>
+  JSON Path: (Leave blank to store everything)<br>
+  Supports the usage of JSON Path (Regex)<br>
+  More info here <br>
+  http://goessner.net/articles/JsonPath/index.html#e2<br><br>
+  <input id="path" class="round"; style="width: 75%;" type="text">
+  <div><br><br>
+    <div style="float: left; width: 35%;">
+      Store In:<br>
+      <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
+        ${data.variables[0]}
+      </select><br>
+    </div>
+    <div id="varNameContainer" style="display: ; float: right; width: 60%;">
+      JSON Storage Variable Name:<br>
+      <input id="varName" class="round" type="text"><br>
+    </div>
+  </div><br>
+  <div style="float: left; width: 70%;"><br>
+    <div>
+      <label for="debugMode"><font color="white">Debug Mode</font></label>
+      <select id="debugMode" class="round">
+        <option value="1" selected>Enabled</option>
+        <option value="0" >Disabled</option>
+      </select>
+      <text style="font-size: 60%;">Enables verbose printing to the console, disable to stop all but error printing</text>
+    </div>
+  </div>
+</div>`
   },
 
   init () {
@@ -132,13 +125,14 @@ module.exports = {
             if (_DEBUG) console.dir(outData)
 
             try {
-              const test = JSON.parse(JSON.stringify(outData))
+              JSON.parse(JSON.stringify(outData))
             } catch (error) {
               errorJson = JSON.stringify({ error, statusCode, success: false })
               _this.storeValue(errorJson, storage, varName, cache)
               console.error(error.stack ? error.stack : error)
             }
 
+            // eslint-disable-next-line no-eval
             const outValue = eval(JSON.stringify(outData), cache)
 
             if (!outData) {
@@ -230,7 +224,6 @@ module.exports = {
   },
 
   mod (DBM) {
-    // aliases for backwards compatibility, in the bot only, DBM will still say the action is missing.
     DBM.Actions['Store Variable From WebAPI'] = DBM.Actions['Store Json From WebAPI']
   }
 }

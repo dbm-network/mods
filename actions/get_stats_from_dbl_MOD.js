@@ -84,56 +84,56 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div id="modinfo">
-	<div style="float: left; width: 99%; padding-top: 8px;">
-	   Bot's ID (Must be ID):<br>
-	   <input id="botID" class="round" type="text">
-	</div><br>
-	<div style="float: left; width: 99%; padding-top: 8px;">
-	   Your DBL Token:<br>
-	   <input id="token" class="round" type="text">
-	</div><br>
-	<div style="float: left; width: 90%; padding-top: 8px;">
-	   Source Info:<br>
-	   <select id="info" class="round">
-		<option value="0">Invite URL</option>
-		<option value="1">GitHub Repository URL</option>
-		<option value="2">Website URL</option>
-		<option value="3">Long Description</option>
-		<option value="4">Short Description</option>
-		<option value="5">Prefix</option>
-		<option value="6">Library</option>
-		<option value="7">Avatar URL</option>
-		<option value="8">Approved On</option>
-		<option value="9">Support Server Invite URL</option>
-		<option value="10">Server Count</option>
-		<option value="11">Shard Count</option>
-		<option value="12">Vanity URL (Only If Certified)</option>
-		<option value="13">Guild ID(s)</option>
-		<option value="14">Servers on Shards (If Sending with Module)</option>
-		<option value="15">Monthly Vote Count</option>
-		<option value="16">Total Vote Count</option>
-		<option value="17">Owner ID(s)</option>
-		<option value="18">Tag(s)</option>
-		<option value="19">Bot's Username</option>
-		<option value="20">Bot's Discriminator</option>
-	</select>
-	</div><br>
-	<div style="float: left; width: 35%; padding-top: 8px;">
-		Store Result In:<br>
-		<select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-			${data.variables[0]}
-		</select>
-	</div><br><br><br><br><br>
-	<div id="varNameContainer" style="float: right; display: none; width: 60%; padding-top: 8px;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text">
-	</div><br><br><br><br>
-	<div id="commentSection" style="padding-top: 8px;">
-		<p>
-			Some options will only work for certified or special bots. You better use some check variables to check if they exist.
-			<b>Note:</b> DBL is going to update the API and you'll need a token after the update!
-		</p>
-	</div>
+  <div style="float: left; width: 99%; padding-top: 8px;">
+    Bot's ID (Must be ID):<br>
+    <input id="botID" class="round" type="text">
+  </div><br>
+  <div style="float: left; width: 99%; padding-top: 8px;">
+    Your DBL Token:<br>
+    <input id="token" class="round" type="text">
+  </div><br>
+  <div style="float: left; width: 90%; padding-top: 8px;">
+    Source Info:<br>
+    <select id="info" class="round">
+    <option value="0">Invite URL</option>
+    <option value="1">GitHub Repository URL</option>
+    <option value="2">Website URL</option>
+    <option value="3">Long Description</option>
+    <option value="4">Short Description</option>
+    <option value="5">Prefix</option>
+    <option value="6">Library</option>
+    <option value="7">Avatar URL</option>
+    <option value="8">Approved On</option>
+    <option value="9">Support Server Invite URL</option>
+    <option value="10">Server Count</option>
+    <option value="11">Shard Count</option>
+    <option value="12">Vanity URL (Only If Certified)</option>
+    <option value="13">Guild ID(s)</option>
+    <option value="14">Servers on Shards (If Sending with Module)</option>
+    <option value="15">Monthly Vote Count</option>
+    <option value="16">Total Vote Count</option>
+    <option value="17">Owner ID(s)</option>
+    <option value="18">Tag(s)</option>
+    <option value="19">Bot's Username</option>
+    <option value="20">Bot's Discriminator</option>
+  </select>
+  </div><br>
+  <div style="float: left; width: 35%; padding-top: 8px;">
+    Store Result In:<br>
+    <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
+      ${data.variables[0]}
+    </select>
+  </div><br><br><br><br><br>
+  <div id="varNameContainer" style="float: right; display: none; width: 60%; padding-top: 8px;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text">
+  </div><br><br><br><br>
+  <div id="commentSection" style="padding-top: 8px;">
+    <p>
+      Some options will only work for certified or special bots. You better use some check variables to check if they exist.
+      <b>Note:</b> DBL is going to update the API and you'll need a token after the update!
+    </p>
+  </div>
 </div>`
   },
 
@@ -149,8 +149,10 @@ module.exports = {
     const info = parseInt(data.info)
     const dblToken = this.evalMessage(data.token, cache)
 
-    const fetch = require('node-fetch')
-    fetch(`https://discordbots.org/api/bots/${botID}`, {
+    const Mods = this.getMods()
+    const fetch = Mods.require('node-fetch')
+
+    fetch(`https://top.gg/api/bots/${botID}`, {
       method: 'GET',
       headers: { Authorization: dblToken || '' }
     })

@@ -13,4 +13,7 @@ rules:
   linebreak-style:
     - error
     - windows
+  no-case-declarations: off
   no-new: off
+  no-prototype-builtins: off
+  no-useless-constructor: off

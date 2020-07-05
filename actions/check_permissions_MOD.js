@@ -18,39 +18,39 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-	<div style="width: 550px; height: 350px; overflow-y: scroll;">
-		<div style="padding-top: 8px;">
-			<div style="float: left; width: 35%;">
-				Source Permissions:<br>
-				<select id="storage" class="round" onchange="glob.refreshVariableList(this)">
-					${data.variables[1]}
-				</select><br>
-			</div>
-			<div style="float: right; width: 60%;">
-				Variable Name:<br>
-				<input id="varName" class="round" type="text" list="variableList"><br>
-			</div>
-		</div><br><br><br>
-		<div style="padding-top: 8px;">
-			<div id="checkbox" style="float: left; width: 80%;">
-			</div>
-		</div>
-		<div id="conditions" style="padding-top: 8px;">
-			${data.conditions[0]}
-		</div><br><br><br>
-		<div style="padding-top: 8px;">
-			<div style="float: left; width: 35%;">
-				Missing Permissions:<br>
-				<select id="storage2" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-					${data.variables[0]}
-				</select>
-			</div>
-			<div id="varNameContainer" style="float: right; width: 60%;">
-				Variable Name:<br>
-				<input id="varName2" class="round" type="text">
-			</div>
-		</div>
-	</div>`
+<div style="width: 550px; height: 350px; overflow-y: scroll;">
+  <div style="padding-top: 8px;">
+    <div style="float: left; width: 35%;">
+      Source Permissions:<br>
+      <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
+        ${data.variables[1]}
+      </select><br>
+    </div>
+    <div style="float: right; width: 60%;">
+      Variable Name:<br>
+      <input id="varName" class="round" type="text" list="variableList"><br>
+    </div>
+  </div><br><br><br>
+  <div style="padding-top: 8px;">
+    <div id="checkbox" style="float: left; width: 80%;">
+    </div>
+  </div>
+  <div id="conditions" style="padding-top: 8px;">
+    ${data.conditions[0]}
+  </div><br><br><br>
+  <div style="padding-top: 8px;">
+    <div style="float: left; width: 35%;">
+      Missing Permissions:<br>
+      <select id="storage2" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
+        ${data.variables[0]}
+      </select>
+    </div>
+    <div id="varNameContainer" style="float: right; width: 60%;">
+      Variable Name:<br>
+      <input id="varName2" class="round" type="text">
+    </div>
+  </div>
+</div>`
   },
 
   init () {
@@ -76,10 +76,10 @@ module.exports = {
     const conditions = document.getElementById('conditions')
 
     varName.oninput = function () {
-      if (list.children.length == 0) return
+      if (list.children.length === 0) return
       let dataType
       for (let i = 0; i < list.children.length; i++) {
-        if (list.children[i].value == varName.value) {
+        if (list.children[i].value === varName.value) {
           dataType = list.children[i].innerHTML
           break
         }
@@ -92,7 +92,7 @@ module.exports = {
         dom.id = Permission
         dom.className = 'round'
         let option = options
-        if (dataType == 'Role Permissions') option = options2
+        if (dataType === 'Role Permissions') option = options2
         option.forEach((option) => {
           const op = document.createElement('option')
           op.innerHTML = option
@@ -106,9 +106,9 @@ module.exports = {
     }
 
     let dataType
-    if (list.children.length != 0) {
+    if (list.children.length !== 0) {
       for (let i = 0; i < list.children.length; i++) {
-        if (list.children[i].value == varName.value) {
+        if (list.children[i].value === varName.value) {
           dataType = list.children[i].innerHTML
           break
         }
@@ -139,14 +139,14 @@ module.exports = {
     option.value = '4'
     option.text = 'Jump to Anchor'
     const iffalse = document.getElementById('iffalse')
-    if (iffalse.length == 4) {
+    if (iffalse.length === 4) {
       iffalse.add(option)
     }
     const option2 = document.createElement('OPTION')
     option2.value = '4'
     option2.text = 'Jump to Anchor'
     const iftrue = document.getElementById('iftrue')
-    if (iftrue.length == 4) {
+    if (iftrue.length === 4) {
       iftrue.add(option2)
     }
     glob.onChangeTrue = function (event) {
@@ -195,7 +195,6 @@ module.exports = {
 
   action (cache) {
     const data = cache.actions[cache.index]
-    const type = parseInt(data.type)
     const storage = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
     const permissions = this.getVariable(storage, varName, cache)
@@ -203,17 +202,17 @@ module.exports = {
     const yes = []
     const no = []
     permsArray.forEach((perms) => {
-      if (data[perms] == 'Allow') {
+      if (data[perms] === 'Allow') {
         (permissions.allow.has(perms)) ? yes.push(perms) : no.push(perms)
-      } else if (data[perms] == 'Disallow') {
+      } else if (data[perms] === 'Disallow') {
         (permissions.disallow.has(perms)) ? yes.push(perms) : no.push(perms)
-      } else if (data[perms] == 'Inherit') {
+      } else if (data[perms] === 'Inherit') {
         (permissions.allow.has(perms) || permissions.disallow.has(perms)) ? no.push(perms) : yes.push(perms)
       }
     })
     const storage2 = parseInt(data.storage2)
     const varName2 = this.evalMessage(data.varName2, cache)
-    if (storage2 && varName2 && no.length != 0) this.storeValue(no, storage2, varName2, cache)
+    if (storage2 && varName2 && no.length !== 0) this.storeValue(no, storage2, varName2, cache)
     if (no.length >= 1) {
       this.executeResults(false, data, cache)
     } else {

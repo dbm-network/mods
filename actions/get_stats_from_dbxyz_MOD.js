@@ -69,46 +69,46 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div id="modinfo">
-	<div style="float: left; width: 99%; padding-top: 8px;">
-	   Bot's ID (Must be ID):<br>
-	   <input id="botID" class="round" type="text">
-	</div><br>
-	<div style="float: left; width: 90%; padding-top: 8px;">
-	   Source Info:<br>
-	   <select id="info" class="round">
-		<option value="0">Bot ID</option>
-		<option value="1">Bot Name</option>
-		<option value="2">Bot Prefix</option>
-		<option value="3">Library</option>
-		<option value="4">Server Count</option>
-		<option value="5">Short Description</option>
-		<option value="6">Long Description</option>
-		<option value="7">Avatar</option>
-		<option value="8">Owner ID</option>
-		<option value="9">Owner Name</option>
-		<option value="10">Bots Invite</option>
-		<option value="11">Support Url</option>
-		<option value="12">Website</option>
-		<option value="13">Waiting For Approval?</option>
-		<option value="14">Certified?</option>
-		<option value="15">Vanity Url (Only if certified)</option>
-	</select>
-	</div><br>
-	<div style="float: left; width: 35%; padding-top: 8px;">
-		Store Result In:<br>
-		<select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-			${data.variables[0]}
-		</select>
-	</div><br><br><br>
-	<div id="varNameContainer" style="float: right; display: none; width: 60%; padding-top: 8px;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text">
-	</div><br><br><br><br>
-	<div id="commentSection" style="padding-top: 8px;">
-		<p>
-		Some options will only work for certified or special bots. You better use some check variables to check if they exist.
-		</p>
-	</div>
+  <div style="float: left; width: 99%; padding-top: 8px;">
+    Bot's ID (Must be ID):<br>
+    <input id="botID" class="round" type="text">
+  </div><br>
+  <div style="float: left; width: 90%; padding-top: 8px;">
+    Source Info:<br>
+    <select id="info" class="round">
+    <option value="0">Bot ID</option>
+    <option value="1">Bot Name</option>
+    <option value="2">Bot Prefix</option>
+    <option value="3">Library</option>
+    <option value="4">Server Count</option>
+    <option value="5">Short Description</option>
+    <option value="6">Long Description</option>
+    <option value="7">Avatar</option>
+    <option value="8">Owner ID</option>
+    <option value="9">Owner Name</option>
+    <option value="10">Bots Invite</option>
+    <option value="11">Support Url</option>
+    <option value="12">Website</option>
+    <option value="13">Waiting For Approval?</option>
+    <option value="14">Certified?</option>
+    <option value="15">Vanity Url (Only if certified)</option>
+  </select>
+  </div><br>
+  <div style="float: left; width: 35%; padding-top: 8px;">
+    Store Result In:<br>
+    <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
+      ${data.variables[0]}
+    </select>
+  </div><br><br><br>
+  <div id="varNameContainer" style="float: right; display: none; width: 60%; padding-top: 8px;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text">
+  </div><br><br><br><br>
+  <div id="commentSection" style="padding-top: 8px;">
+    <p>
+    Some options will only work for certified or special bots. You better use some check variables to check if they exist.
+    </p>
+  </div>
 </div>`
   },
 
@@ -122,7 +122,9 @@ module.exports = {
     const data = cache.actions[cache.index]
     const botID = this.evalMessage(data.botID, cache)
     const info = parseInt(data.info)
-    const sf = require('snekfetch')
+
+    const Mods = this.getMods()
+    const sf = Mods.require('snekfetch')
 
     sf.get(`https://discordboats.xyz/api/bot/${botID}`)
       .then((r) => {
@@ -186,7 +188,7 @@ module.exports = {
         this.callNextAction(cache)
       })
       .catch((e) => {
-        console.log(`${'Get Stats From DBXYZ Error:' + '\n'}${e.stack}`)
+        console.log(`Get Stats From DBXYZ Error:\n${e.stack || e}`)
       })
   },
 

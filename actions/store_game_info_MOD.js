@@ -74,56 +74,56 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div>
-	<div style="float: left; width: 35%;">
-		Source Member:<br>
-		<select id="member" class="round" onchange="glob.memberChange(this, 'varNameContainer')">
-			${data.members[isEvent ? 1 : 0]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="display: none; float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList"><br>
-	</div>
+  <div style="float: left; width: 35%;">
+    Source Member:<br>
+    <select id="member" class="round" onchange="glob.memberChange(this, 'varNameContainer')">
+      ${data.members[isEvent ? 1 : 0]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text" list="variableList"><br>
+  </div>
 </div><br><br><br>
 <div>
-	<div style="padding-top: 8px; width: 70%;">
-		Source Info:<br>
-		<select id="info" class="round">
-			<option value="0" selected>Game Application ID</option>
-			<option value="1">Game Details</option>
-			<option value="2">Game Name</option>
-			<option value="3">Game State</option>
-			<option value="4">Game Is Being Streamed?</option>
-			<option value="5">Game Stream URL</option>
-			<option value="6">Game Status Type</option>
-			<option value="13">Game Timestamp Start</option>
-			<option value="15">Game Timestamp End</option>
-			<option value="14">Game Party ID</option>
-			<option value="16">Game Party Size</option>
-			<optgroup label="Assets Large Image">
-			<option value="7">Game Large Image ID</option>
-			<option value="8">Game Large Image URL</option>
-			<option value="9">Game Large Image Text</option>
-			</optgroup>
-			<optgroup label="Assets Small Image">
-			<option value="10">Game Small Image ID</option>
-			<option value="11">Game Small Image URL</option>
-			<option value="12">Game Small Image Text</option>
-			</optgroup>
-		</select>
-	</div>
+  <div style="padding-top: 8px; width: 70%;">
+    Source Info:<br>
+    <select id="info" class="round">
+      <option value="0" selected>Game Application ID</option>
+      <option value="1">Game Details</option>
+      <option value="2">Game Name</option>
+      <option value="3">Game State</option>
+      <option value="4">Game Is Being Streamed?</option>
+      <option value="5">Game Stream URL</option>
+      <option value="6">Game Status Type</option>
+      <option value="13">Game Timestamp Start</option>
+      <option value="15">Game Timestamp End</option>
+      <option value="14">Game Party ID</option>
+      <option value="16">Game Party Size</option>
+      <optgroup label="Assets Large Image">
+      <option value="7">Game Large Image ID</option>
+      <option value="8">Game Large Image URL</option>
+      <option value="9">Game Large Image Text</option>
+      </optgroup>
+      <optgroup label="Assets Small Image">
+      <option value="10">Game Small Image ID</option>
+      <option value="11">Game Small Image URL</option>
+      <option value="12">Game Small Image Text</option>
+      </optgroup>
+    </select>
+  </div>
 </div><br>
 <div>
-	<div style="float: left; width: 35%;">
-		Store In:<br>
-		<select id="storage" class="round">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer2" style="float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName2" class="round" type="text"><br>
-	</div>
+  <div style="float: left; width: 35%;">
+    Store In:<br>
+    <select id="storage" class="round">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer2" style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName2" class="round" type="text"><br>
+  </div>
 </div>`
   },
 

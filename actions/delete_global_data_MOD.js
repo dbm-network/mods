@@ -11,12 +11,12 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-	<div style="padding-top: 8px;">
-		<div style="float: left; width: 80%;">
-			Data Name:<br>
-			<input id="dataName" class="round" placeholder="Leave it blank to delete all data" type="text">
-		</div>
-	</div>`
+<div style="padding-top: 8px;">
+  <div style="float: left; width: 80%;">
+    Data Name:<br>
+    <input id="dataName" class="round" placeholder="Leave it blank to delete all data" type="text">
+  </div>
+</div>`
   },
 
   init () {

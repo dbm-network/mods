@@ -11,13 +11,12 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-    <div style="float: left; width: 60%">
-        Path:
-        <input id="filename" class="round" type="text">
-    </div><br>
+<div style="float: left; width: 60%">
+  Path:
+  <input id="filename" class="round" type="text">
 </div><br><br><br>
 <div style="padding-top: 8px;">
-	${data.conditions[0]};
+  ${data.conditions[0]};
 </div>`
   },
 
@@ -27,14 +26,14 @@ module.exports = {
     option.value = '4'
     option.text = 'Jump to Anchor'
     const iffalse = document.getElementById('iffalse')
-    if (iffalse.length == 4) {
+    if (iffalse.length === 4) {
       iffalse.add(option)
     }
     const option2 = document.createElement('OPTION')
     option2.value = '4'
     option2.text = 'Jump to Anchor'
     const iftrue = document.getElementById('iftrue')
-    if (iftrue.length == 4) {
+    if (iftrue.length === 4) {
       iftrue.add(option2)
     }
     glob.onChangeTrue = function (event) {

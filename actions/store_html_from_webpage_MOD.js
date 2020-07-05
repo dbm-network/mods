@@ -16,35 +16,33 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-
-		<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
-		<div>
-			<p>
-				<u>Instructions:</u><br>
-					1. Input a url into the Webpage URL textarea<br>
-					2. Click valid URL to check if the url is valid!
-			</p>
-		</div>
-		<div style="float: left; width: 95%;">
-			Webpage URL: <br>
-			<textarea id="url" class="round" style="width: 99%; resize: none;" type="textarea" rows="4" cols="20"></textarea><br>
-		</div>
-	  <div>
-		<button class="tiny compact ui labeled icon button" onclick="glob.checkURL(this)"><i class="plus icon"></i>Check URL</button><br>
-		Valid: <text id="valid" style="color: red">Input A Url</text>
-	  </div><br>
-		<div style="float: left; width: 35%;">
-			Store In:<br>
-			<select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-				${data.variables[0]}
-			</select>
-		</div>
-		<div id="varNameContainer" style="display: ; float: right; width: 60%;">
-			Storage Variable Name:<br>
-			<input id="varName" class="round" type="text">
-		</div>
-	</div>
-	`
+  <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
+  <div>
+    <p>
+      <u>Instructions:</u><br>
+      1. Input a url into the Webpage URL textarea<br>
+      2. Click valid URL to check if the url is valid!
+    </p>
+  </div>
+  <div style="float: left; width: 95%;">
+    Webpage URL: <br>
+    <textarea id="url" class="round" style="width: 99%; resize: none;" type="textarea" rows="4" cols="20"></textarea><br>
+  </div>
+  <div>
+  <button class="tiny compact ui labeled icon button" onclick="glob.checkURL(this)"><i class="plus icon"></i>Check URL</button><br>
+  Valid: <text id="valid" style="color: red">Input A Url</text>
+  </div><br>
+  <div style="float: left; width: 35%;">
+    Store In:<br>
+    <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
+      ${data.variables[0]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="display: ; float: right; width: 60%;">
+    Storage Variable Name:<br>
+    <input id="varName" class="round" type="text">
+  </div>
+</div>`
   },
 
   init () {
@@ -99,7 +97,6 @@ module.exports = {
       }
 
       if (Mods.checkURL(url)) {
-        // making sure all the required node modules are installed
         const request = Mods.require('request')
 
         request(url, (err, res, html) => {

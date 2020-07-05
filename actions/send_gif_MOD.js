@@ -13,33 +13,33 @@ module.exports = {
     return `
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
 <div>
-	<div style="float: left; width: 35%;">
-		Source GIF:<br>
-		<select id="storage" class="round" onchange="glob.refreshVariableList(this)">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList"><br>
-	</div>
+  <div style="float: left; width: 35%;">
+    Source GIF:<br>
+    <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text" list="variableList"><br>
+  </div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
-	<div style="float: left; width: 35%;">
-		Send To:<br>
-		<select id="channel" class="round" onchange="glob.sendTargetChange(this, 'varNameContainer2')">
-			${data.sendTargets[isEvent ? 1 : 0]}
-		</select>
-	</div>
-	<div id="varNameContainer2" style="display: none; float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName2" class="round" type="text"><br>
-	</div>
+  <div style="float: left; width: 35%;">
+    Send To:<br>
+    <select id="channel" class="round" onchange="glob.sendTargetChange(this, 'varNameContainer2')">
+      ${data.sendTargets[isEvent ? 1 : 0]}
+    </select>
+  </div>
+  <div id="varNameContainer2" style="display: none; float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName2" class="round" type="text"><br>
+  </div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
-	Message:<br>
-	<textarea id="message" rows="8" placeholder="Insert message here... (optional)" style="width: 508px; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
-</div><br><br>`
+  Message:<br>
+  <textarea id="message" rows="8" placeholder="Insert message here... (optional)" style="width: 508px; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+</div>`
   },
 
   init () {

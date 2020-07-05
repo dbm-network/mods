@@ -5,7 +5,7 @@ module.exports = {
   subtitle (data) {
     const videoInfo = ['Video ID', 'Video URL', 'Video Title', 'Video Description', 'Video Channel ID', 'Video Channel URL', 'Video Channel Name', 'Video Channel Thumbnail URL (Default)', 'Video Channel Thumbnail URL (Medium)', 'Video Channel Thumbnail URL (High)', 'Video Thumbnail URL (Default)', 'Video Thumbnail URL (Medium)', 'Video Thumbnail URL (High)', 'Video Genre', 'Paid Video?', 'Unlisted Video?', 'Is Video Family Friendly?', 'Video Duration', 'Video Publish Data', 'Video Views', 'Allowed Video Regions', 'Video Comment Count', 'Video Like Count', 'Video Dislike Count']
     const playlistInfo = ['Playlist ID', 'Playlist URL', 'Playlist Name', 'Playlist Description', 'Playlist Thumbnail URL (Default)', 'Playlist Thumbnail URL (Medium)', 'Playlist Thumbnail URL (High)', 'Playlist Channel ID', 'Playlist Channel URL', 'Playlist Channel Name', 'Playlist Channel Thumbnail URL (Default)', 'Playlist Channel Thumbnail URL (Medium)', 'Playlist Channel Thumbnail URL (High)', 'Video IDs', 'Video URLs', 'Video Titles', 'Video Descriptions', 'Video Channel IDs', 'Video Channel URls', 'Video Channel Names', 'Video Channel Thumbnail URLs (Default)', 'Video Channel Thumbnail URLs (Medium)', 'Video Channel Thumbnail URLs (High)', 'Video Thumbnail URLs (Default)', 'Video Thumbnail URLs (Medium)', 'Video Thumbnail URLs (High)', 'Video Positions', 'Video Publish Dates']
-    if (parseInt(data.type) == 1) {
+    if (parseInt(data.type) === 1) {
       return `${playlistInfo[parseInt(data.info1)]}`
     }
     return `${videoInfo[parseInt(data.info0)]}`
@@ -105,121 +105,121 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-	<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
-	<div style="float: left; width: 30%; padding-top: 8px;">
-		Source Type:<br>
-		<select id="type" class="round" onchange="glob.onChange1(this)">
-			<option value="0" selected>YouTube Video</option>
-			<option value="1">YouTube Playlist</option>
-		</select>
-	</div>
-	<div style="float: left; width: 99%; padding-top: 8px;">
-		<span id="tempName">Video</span> to search:<br>
-		<textarea id="input" rows="2" placeholder="Insert your url or keywords in here..." style="width: 95%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
-	</div>
-	<div id="divinfo0"; style="float: left; width: 94%; padding-top: 8px;">
-		Source Video Info:<br>
-		<select id="info0" class="round">
-			<option value="0">Video ID</option>
-			<option value="1" selected>Video URL</option>
-			<option value="2">Video Title</option>
-			<option value="3">Video Description</option>
-			<option value="4">Video Channel ID</option>
-			<option value="5">Video Channel URL</option>
-			<option value="6">Video Channel Name</option>
-			<option value="7">Video Channel Thumbnail URL (Default)</option>
-			<option value="8">Video Channel Thumbnail URL (Medium)</option>
-			<option value="9">Video Channel Thumbnail URL (High)</option>
-			<option value="10">Video Thumbnail URL (Default)</option>
-			<option value="11">Video Thumbnail URL (Medium)</option>
-			<option value="12">Video Thumbnail URL (High)</option>
-			<option value="13">Video Genre</option>
-			<option value="14">Paid Video?</option>
-			<option value="15">Unlisted Video?</option>
-			<option value="16">Is Video Family Friendly?</option>
-			<option value="17">Video Duration</option>
-			<option value="18">Video Publish Date</option>
-			<option value="19">Video Views</option>
-			<option value="20">Allowed Video Regions</option>
-			<option value="21">Video Comment Count</option>
-			<option value="22">Video Like Count</option>
-			<option value="23">Video Dislike Count</option>
-		</select>
-	</div>
-	<div id="divinfo1"; style="float: left; width: 94%; padding-top: 8px;">
-		Source Playlist Info:<br>
-		<select id="info1" class="round">
-			<option value="0">Playlist ID</option>
-			<option value="1" selected>Playlist URL</option>
-			<option value="2">Playlist Name</option>
-			<option value="3">Playlist Description</option>
-			<option value="4">Playlist Thumbnail URL (Default)</option>
-			<option value="5">Playlist Thumbnail URL (Medium)</option>
-			<option value="6">Playlist Thumbnail URL (High)</option>
-			<option value="7">Playlist Channel ID</option>
-			<option value="8">Playlist Channel URL</option>
-			<option value="9">Playlist Channel Name</option>
-			<option value="10">Playlist Channel Thumbnail URL (Default)</option>
-			<option value="11">Playlist Channel Thumbnail URL (Medium)</option>
-			<option value="12">Playlist Channel Thumbnail URL (High)</option>
-			<option value="13">Video IDs</option>
-			<option value="14">Video URLs</option>
-			<option value="15">Video Titles</option>
-			<option value="16">Video Descriptions</option>
-			<option value="17">Video Channel IDs</option>
-			<option value="18">Video Channel URLs</option>
-			<option value="19">Video Channel Names</option>
-			<option value="20">Video Channel Thumbnail URLs (Default)</option>
-			<option value="21">Video Channel Thumbnail URLs (Medium)</option>
-			<option value="22">Video Channel Thumbnail URLs (High)</option>
-			<option value="23">Video Thumbnail URLs (Default)</option>
-			<option value="24">Video Thumbnail URLs (Medium)</option>
-			<option value="25">Video Thumbnail URLs (High)</option>
-			<option value="26">Video Positions</option>
-			<option value="27">Video Publish Dates</option>
-		</select>
-	</div>
-	<div id="divresults" style="float: left; width: 94%; padding-top: 8px;">
-		Result Number:<br>
-		<select id="results" class="round">
-			<option value="1">1st Result</option>
-			<option value="2">2nd Result</option>
-			<option value="3">3rd Result</option>
-			<option value="4">4th Result</option>
-			<option value="5">5th Result</option>
-			<option value="6">6th Result</option>
-			<option value="7">7th Result</option>
-			<option value="8">8th Result</option>
-			<option value="9">9th Result</option>
-			<option value="10">10th Result</option>
-			<option value="11">11th Result</option>
-			<option value="12">12th Result</option>
-			<option value="13">13th Result</option>
-			<option value="14">14th Result</option>
-			<option value="15">15th Result</option>
-			<option value="16">16th Result</option>
-			<option value="17">17th Result</option>
-			<option value="18">18th Result</option>
-			<option value="19">19th Result</option>
-			<option value="20">20th Result</option>
-		</select>
-	</div>
-	<div id="divapikey" style="float: left; width: 104%; padding-top: 8px;">
-		API Key:<br>
-		<input id="apikey" class="round" type="text" placeholder="Insert your YouTube Data V3 API Key...">
-	</div>
-	<div>
-		<div style="float: left; width: 35%;  padding-top: 8px;">
-			Store In:<br>
-			<select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-				${data.variables[1]}
-			</select>
-		</div>
-		<div id="varNameContainer" style="float: right; width: 60%; padding-top: 8px;">
-			Variable Name:<br>
-			<input id="varName" class="round" type="text"><br>
-		</div>
-	</div>
+<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
+  <div style="float: left; width: 30%; padding-top: 8px;">
+    Source Type:<br>
+    <select id="type" class="round" onchange="glob.onChange1(this)">
+      <option value="0" selected>YouTube Video</option>
+      <option value="1">YouTube Playlist</option>
+    </select>
+  </div>
+  <div style="float: left; width: 99%; padding-top: 8px;">
+    <span id="tempName">Video</span> to search:<br>
+    <textarea id="input" rows="2" placeholder="Insert your url or keywords in here..." style="width: 95%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+  </div>
+  <div id="divinfo0"; style="float: left; width: 94%; padding-top: 8px;">
+    Source Video Info:<br>
+    <select id="info0" class="round">
+      <option value="0">Video ID</option>
+      <option value="1" selected>Video URL</option>
+      <option value="2">Video Title</option>
+      <option value="3">Video Description</option>
+      <option value="4">Video Channel ID</option>
+      <option value="5">Video Channel URL</option>
+      <option value="6">Video Channel Name</option>
+      <option value="7">Video Channel Thumbnail URL (Default)</option>
+      <option value="8">Video Channel Thumbnail URL (Medium)</option>
+      <option value="9">Video Channel Thumbnail URL (High)</option>
+      <option value="10">Video Thumbnail URL (Default)</option>
+      <option value="11">Video Thumbnail URL (Medium)</option>
+      <option value="12">Video Thumbnail URL (High)</option>
+      <option value="13">Video Genre</option>
+      <option value="14">Paid Video?</option>
+      <option value="15">Unlisted Video?</option>
+      <option value="16">Is Video Family Friendly?</option>
+      <option value="17">Video Duration</option>
+      <option value="18">Video Publish Date</option>
+      <option value="19">Video Views</option>
+      <option value="20">Allowed Video Regions</option>
+      <option value="21">Video Comment Count</option>
+      <option value="22">Video Like Count</option>
+      <option value="23">Video Dislike Count</option>
+    </select>
+  </div>
+  <div id="divinfo1"; style="float: left; width: 94%; padding-top: 8px;">
+    Source Playlist Info:<br>
+    <select id="info1" class="round">
+      <option value="0">Playlist ID</option>
+      <option value="1" selected>Playlist URL</option>
+      <option value="2">Playlist Name</option>
+      <option value="3">Playlist Description</option>
+      <option value="4">Playlist Thumbnail URL (Default)</option>
+      <option value="5">Playlist Thumbnail URL (Medium)</option>
+      <option value="6">Playlist Thumbnail URL (High)</option>
+      <option value="7">Playlist Channel ID</option>
+      <option value="8">Playlist Channel URL</option>
+      <option value="9">Playlist Channel Name</option>
+      <option value="10">Playlist Channel Thumbnail URL (Default)</option>
+      <option value="11">Playlist Channel Thumbnail URL (Medium)</option>
+      <option value="12">Playlist Channel Thumbnail URL (High)</option>
+      <option value="13">Video IDs</option>
+      <option value="14">Video URLs</option>
+      <option value="15">Video Titles</option>
+      <option value="16">Video Descriptions</option>
+      <option value="17">Video Channel IDs</option>
+      <option value="18">Video Channel URLs</option>
+      <option value="19">Video Channel Names</option>
+      <option value="20">Video Channel Thumbnail URLs (Default)</option>
+      <option value="21">Video Channel Thumbnail URLs (Medium)</option>
+      <option value="22">Video Channel Thumbnail URLs (High)</option>
+      <option value="23">Video Thumbnail URLs (Default)</option>
+      <option value="24">Video Thumbnail URLs (Medium)</option>
+      <option value="25">Video Thumbnail URLs (High)</option>
+      <option value="26">Video Positions</option>
+      <option value="27">Video Publish Dates</option>
+    </select>
+  </div>
+  <div id="divresults" style="float: left; width: 94%; padding-top: 8px;">
+    Result Number:<br>
+    <select id="results" class="round">
+      <option value="1">1st Result</option>
+      <option value="2">2nd Result</option>
+      <option value="3">3rd Result</option>
+      <option value="4">4th Result</option>
+      <option value="5">5th Result</option>
+      <option value="6">6th Result</option>
+      <option value="7">7th Result</option>
+      <option value="8">8th Result</option>
+      <option value="9">9th Result</option>
+      <option value="10">10th Result</option>
+      <option value="11">11th Result</option>
+      <option value="12">12th Result</option>
+      <option value="13">13th Result</option>
+      <option value="14">14th Result</option>
+      <option value="15">15th Result</option>
+      <option value="16">16th Result</option>
+      <option value="17">17th Result</option>
+      <option value="18">18th Result</option>
+      <option value="19">19th Result</option>
+      <option value="20">20th Result</option>
+    </select>
+  </div>
+  <div id="divapikey" style="float: left; width: 104%; padding-top: 8px;">
+    API Key:<br>
+    <input id="apikey" class="round" type="text" placeholder="Insert your YouTube Data V3 API Key...">
+  </div>
+  <div>
+    <div style="float: left; width: 35%;  padding-top: 8px;">
+      Store In:<br>
+      <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
+        ${data.variables[1]}
+      </select>
+    </div>
+    <div id="varNameContainer" style="float: right; width: 60%; padding-top: 8px;">
+      Variable Name:<br>
+      <input id="varName" class="round" type="text"><br>
+    </div>
+  </div>
 </div>`
   },
 
@@ -266,7 +266,7 @@ module.exports = {
     const info0 = parseInt(data.info0)// Video
     const info1 = parseInt(data.info1)// Playlist
     const results = parseInt(data.results)// Number within 1 to 10
-    const ytapi = Mods.require('simple-youtube-api')
+    const YTapi = Mods.require('simple-youtube-api')
     const ytinfo = Mods.require('youtube-info')
     const TimeFormat = Mods.require('hh-mm-ss')
 
@@ -277,7 +277,7 @@ module.exports = {
       return console.log('Please provide a valid api key.')
     }
 
-    const YouTube = new ytapi(`${apikey}`)
+    const YouTube = new YTapi(`${apikey}`)
 
     switch (type) {
       case 0:// Video

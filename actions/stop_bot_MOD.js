@@ -8,14 +8,14 @@ module.exports = {
 
   fields: [],
 
-  html (isEvent, data) {
+  html () {
     return `
 <div>
-	<p>
-		<u>Warning:</u><br>
-		This action stops the bot. You cannot restart it with a command after this action is ran!<br>
-		Choose the permissions for this command/event carefully!
-	</p>
+  <p>
+    <u>Warning:</u><br>
+    This action stops the bot. You cannot restart it with a command after this action is ran!<br>
+    Choose the permissions for this command/event carefully!
+  </p>
 </div>`
   },
 

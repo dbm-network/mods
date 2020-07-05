@@ -11,38 +11,37 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-        <div style="float: left; width: 35%; padding-top: 15px;">
-            Source Message:<br>
-            <select id="message" class="round" onchange="glob.memberChange(this, 'varNameContainer')">
-                ${data.messages[isEvent ? 1 : 0]}
-            </select>
-        </div>
-        <div id="varNameContainer" style="display: none; float: right; width: 60%; padding-top: 12px;">
-            Variable Name:<br>
-            <input id="varName" class="round" type="text" list="variableList"><br>
-        </div>
-    </div><br><br><br>
-    <div style="padding-top: 20px;">
-        <div style="float: left; width: 40%;">
-            Check If Message:<br>
-            <select id="info" class="round">
-                <option value="0">Is Pinnable?</option>
-                <option value="1">Is Pinned?</option>
-                <option value="2">Is Deletable?</option>
-                <option value="3">Is Deleted?</option>
-                <option value="4">Is TTS?</option>
-                <option value="5">Is Of Discord?</option>
-                <option value="6">Includes @everyone Mention?</option>
-            </select>
-        </div>
-        <div id="varNameContainer2" style="display: none; float: right; width: 60%;">
-		    Variable Name:<br>
-            <input id="varName2" class="round" type="text" list="variableList2"><br>
-        </div>
-        </div><br><br><br>
-    <div style="padding-top: 8px;">
-        ${data.conditions[0]}
-    </div>`
+<div style="float: left; width: 35%; padding-top: 15px;">
+  Source Message:<br>
+  <select id="message" class="round" onchange="glob.memberChange(this, 'varNameContainer')">
+    ${data.messages[isEvent ? 1 : 0]}
+  </select>
+</div>
+<div id="varNameContainer" style="display: none; float: right; width: 60%; padding-top: 12px;">
+  Variable Name:<br>
+  <input id="varName" class="round" type="text" list="variableList"><br>
+</div><br><br><br>
+<div style="padding-top: 20px;">
+  <div style="float: left; width: 40%;">
+    Check If Message:<br>
+    <select id="info" class="round">
+      <option value="0">Is Pinnable?</option>
+      <option value="1">Is Pinned?</option>
+      <option value="2">Is Deletable?</option>
+      <option value="3">Is Deleted?</option>
+      <option value="4">Is TTS?</option>
+      <option value="5">Is Of Discord?</option>
+      <option value="6">Includes @everyone Mention?</option>
+    </select>
+  </div>
+  <div id="varNameContainer2" style="display: none; float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName2" class="round" type="text" list="variableList2"><br>
+  </div>
+</div><br><br><br>
+<div style="padding-top: 8px;">
+  ${data.conditions[0]}
+</div>`
   },
 
   init () {
@@ -51,14 +50,14 @@ module.exports = {
     option.value = '4'
     option.text = 'Jump to Anchor'
     const iffalse = document.getElementById('iffalse')
-    if (iffalse.length == 4) {
+    if (iffalse.length === 4) {
       iffalse.add(option)
     }
     const option2 = document.createElement('OPTION')
     option2.value = '4'
     option2.text = 'Jump to Anchor'
     const iftrue = document.getElementById('iftrue')
-    if (iftrue.length == 4) {
+    if (iftrue.length === 4) {
       iftrue.add(option2)
     }
     glob.onChangeTrue = function (event) {

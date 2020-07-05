@@ -13,29 +13,29 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div>
-	<div style="float: left; width: 45%;">
-		Base Image:<br>
-		<select id="storage" class="round" onchange="glob.refreshVariableList(this)">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="float: right; width: 50%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList"><br>
-	</div>
+  <div style="float: left; width: 45%;">
+    Base Image:<br>
+    <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="float: right; width: 50%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text" list="variableList"><br>
+  </div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
-	<div style="float: left; width: 90%;">
-		Effect:<br>
-		<select id="effect" class="round">
-			<option value="0" selected>Custom Blur</option>
-			<option value="1">Custom Pixelate</option>
-		</select><br>
-	</div>
-	<div id="intensityContainer" style="float: left; width: 50%;">
-		Intensity:<br>
-		<input id="intensity" class="round" type="text"><br>
-	</div>
+  <div style="float: left; width: 90%;">
+    Effect:<br>
+    <select id="effect" class="round">
+      <option value="0" selected>Custom Blur</option>
+      <option value="1">Custom Pixelate</option>
+    </select><br>
+  </div>
+  <div id="intensityContainer" style="float: left; width: 50%;">
+    Intensity:<br>
+    <input id="intensity" class="round" type="text"><br>
+  </div>
 </div>`
   },
 
@@ -61,12 +61,15 @@ module.exports = {
       return
     }
     Jimp.read(image, (err, image1) => {
+      if (err) return console.error('Error with custom image effects: ', err)
       const effect = parseInt(data.effect)
       switch (effect) {
         case 0:
           image1.blur(intensity)
 
           image1.getBuffer(Jimp.MIME_PNG, (error, image2) => {
+            if (err) return console.error('Error with custom image effects: ', error)
+
             _this.storeValue(image2, storage, varName, cache)
             _this.callNextAction(cache)
           })
@@ -75,6 +78,8 @@ module.exports = {
         case 1:
           image1.pixelate(intensity)
           image1.getBuffer(Jimp.MIME_PNG, (error, image2) => {
+            if (err) return console.error('Error with custom image effects: ', error)
+
             _this.storeValue(image2, storage, varName, cache)
             _this.callNextAction(cache)
           })
