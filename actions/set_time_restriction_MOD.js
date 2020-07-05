@@ -10,7 +10,7 @@ module.exports = {
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
-		return ([data.varName, "Second"]);
+		return ([data.varName, "Seconds"]);
 	},
 
 	fields: ["measurement", "value", "save", "restrict", "iftrue", "iftrueVal", "iffalse", "iffalseVal", "storage", "varName"],
