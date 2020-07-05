@@ -1,5 +1,6 @@
 module.exports = {
 	name: "Blacklist Users",
+	displayName: "Blacklist User",
 	section: "Other Stuff",
 	subtitle: function(data) {
 		const info = ["", "Blacklist User", "Un-Blacklist User"];
@@ -31,45 +32,56 @@ module.exports = {
 	},
 	init: function() {},
 	action: function(cache) {
+		const this = _this;
 		const data = cache.actions[cache.index];
 		const varName = this.evalMessage(data.varName, cache);
 		const storage = parseInt(data.storage);
 		const type = parseInt(data.type);
 		const user = this.getVariable(storage, varName, cache);
-		let file = fs.readFileSync("./data/blacklist.txt", "utf-8").toString();
-		let users;
 		const fs = require("fs");
-		if (!varName) {
-			this.callNextAction(cache);
-			return;
-		}
-		switch(type) {
-			case 1:
-				users = file.split("\n");
-				if (!users.includes(user.id)) {
-					fs.appendFileSync("./data/blacklist.txt", user.id + "\n");
+		let file = fs.readFile("./data/blacklist.txt", "utf-8")
+			.then((data) => {
+				data.toString();
+				let users;
+				if (!varName) {
+					this.callNextAction(cache);
+					return;
 				}
-				break;
-			case 2:
-				users = file.split("\n");
-				if (users.includes(user.id)) {
-					console.log(users);
-					console.log(users.filter((x) => x !== user.id));
-					fs.writeFileSync("./data/blacklist.txt", users.filter((x) => x !== user.id).join("\n"));
+				switch(type) {
+					case 1:
+						users = file.split("\n");
+						if (!users.includes(user.id)) {
+							fs.appendFile("./data/blacklist.txt", user.id + "\n", (err) => {
+								if (err) console.error(err);
+							});
+						}
+						break;
+					case 2:
+						users = file.split("\n");
+						if (users.includes(user.id)) {
+							console.log(users);
+							console.log(users.filter((x) => x !== user.id));
+							fs.writeFile("./data/blacklist.txt", users.filter((x) => x !== user.id).join("\n"), (err) => {
+								if (err) console.error(err);
+							});
+						}
+						break;
+				default:
+					console.log("Update your blacklist_MOD.js, the selected option doesn't exist.");
+					break;
 				}
-				break;
-			default:
-				console.log("Update your blacklist_MOD.js, the selected option doesn't exist.");
-				break;
-		}
+				this.callNextAction(cache);
+			}).catch((err) => {
+				console.error(err)
+				this.callNextAction(cache);
+			})
+
 	},
 	  mod: function(DBM) {
 		const fs = require("fs");
 		if (!fs.existsSync("./data/blacklist.txt")) {
-			fs.writeFileSync("./data/blacklist.txt", "", function(err) {
-				if (err) {
-					console.log(err);
-				}
+			fs.writeFile("./data/blacklist.txt", "", function(err) {
+				if (err) console.error(err);
 			});
 		}
 		// MODIFY Bot.checkCommand to effectively check the blacklist
