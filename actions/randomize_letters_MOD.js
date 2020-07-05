@@ -1,21 +1,21 @@
 module.exports = {
-	name: "Randomize Letters",
-	section: "Other Stuff",
+  name: 'Randomize Letters',
+  section: 'Other Stuff',
 
-	subtitle: function(data) {
-		return `Randomize [${data.input}]`;
-	},
+  subtitle (data) {
+    return `Randomize [${data.input}]`
+  },
 
-	variableStorage: function(data, varType) {
-		const type = parseInt(data.storage);
-		if(type !== varType) return;
-		let dataType = "Randomized Letters";
-		return ([data.varName, dataType]);
-	},
-	fields: ["input", "wordLength", "storage", "varName"],
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage)
+    if (type !== varType) return
+    const dataType = 'Randomized Letters'
+    return ([data.varName, dataType])
+  },
+  fields: ['input', 'wordLength', 'storage', 'varName'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 <div id="modinfo">
 	<div style="float: left; width: 60%; padding-top: 8px;">
 	   Randomize Letters:<br>
@@ -46,36 +46,35 @@ module.exports = {
 		?: Custom characters (pass a string of custom characters to the options)
 		</p>
 	</div>
-</div>`;
-	},
+</div>`
+  },
 
-	init: function() {
-		const { glob, document } = this;
+  init () {
+    const { glob, document } = this
 
-		glob.variableChange(document.getElementById("storage"), "varNameContainer");
-	},
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer')
+  },
 
-	action: function(cache) {
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const Input = this.evalMessage(data.input, cache)
+    const wordLength = this.evalMessage(data.wordLength, cache)
 
-		const data = cache.actions[cache.index];
-		const Input = this.evalMessage(data.input, cache);
-		const wordLength = this.evalMessage(data.wordLength, cache);
+    // Check if everything is ok
+    if (!Input) return console.log('Please specify letters to randomize.')
+    if (!wordLength) return console.log('Please specify amount of randomized letters.')
 
-		// Check if everything is ok
-		if(!Input) return console.log("Please specify letters to randomize.");
-		if(!wordLength) return console.log("Please specify amount of randomized letters.");
+    // Main code
+    const randomize = this.getMods().require('randomatic')
+    const random = randomize(Input, wordLength)
 
-		// Main code
-		const randomize = this.getMods().require("randomatic");
-		var random = randomize(Input, wordLength);
+    // Storing
+    const storage = parseInt(data.storage)
+    const varName = this.evalMessage(data.varName, cache)
+    this.storeValue(random, storage, varName, cache)
 
-		// Storing
-		const storage = parseInt(data.storage);
-		const varName = this.evalMessage(data.varName, cache);
-		this.storeValue(random, storage, varName, cache);
+    this.callNextAction(cache)
+  },
 
-		this.callNextAction(cache);
-	},
-
-	mod: function() {}
-};
+  mod () {}
+}

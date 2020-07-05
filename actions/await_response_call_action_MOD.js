@@ -3,218 +3,219 @@
  * @class AwaitResponseCallAction
  */
 class AwaitResponseCallAction {
-	/**
+  /**
    * Creates an instance of AwaitResponseCallAction.
    */
-	constructor() {
-		/**
+  constructor () {
+    /**
      * The name of the action.
      * @type {string}
      */
-		this.name = "Await Response Call Action";
+    this.name = 'Await Response Call Action'
 
-		/**
+    /**
      * The section of the action.
      * @type
      */
-		this.section = "Messaging";
+    this.section = 'Messaging'
 
-		/**
+    /**
      * The author of the action.
      * @type {string}
      */
-		this.author = ["General Wrex, EliteArtz, MrGold, Almeida"];
+    this.author = ['General Wrex, EliteArtz, MrGold, Almeida']
 
-		/**
+    /**
      * The version of the action.
      * @type {string}
      */
-		this.version = "2.0.0"; // Added in 1.8.8
+    this.version = '2.0.0' // Added in 1.8.8
 
-		/**
+    /**
      * The Developer Version Number.
      * @type {string}
      */
-		this.DVN = "1.0.0";
+    this.DVN = '1.0.0'
 
-		/**
+    /**
      * The name of the action, displayed on the editor.
      * @type {string}
      */
-		this.displayName = `Await Response v${this.DVN}`;
+    this.displayName = `Await Response v${this.DVN}`
 
-		/**
+    /**
      * A short description to be shown on the list of mods.
      * @type {string}
      */
-		this.shortDescription = "Awaits a Message";
+    this.shortDescription = 'Awaits a Message'
 
-		/**
+    /**
      * The fields used in the actions JSON data and HTML elements.
      * @type {Array<string>}
      */
-		this.fields = ["storage", "varName", "filter", "max", "time", "iftrue", "iftrueVal", "iffalse", "iffalseVal", "storage2", "varName2"];
-	}
+    this.fields = ['storage', 'varName', 'filter', 'max', 'time', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal', 'storage2', 'varName2']
+  }
 
-	/**
+  /**
    * The function that is ran whenever the software/bot starts.
    * @param {Object<*>} DBM The DBM workspace.
    * @return {void}
    */
-	mod() {}
+  mod () {}
 
-	/**
+  /**
    * Generates the subtitle displayed next to the name on the editor.
    * @param {Object<*>} data The data of the command.
    * @param {string} data.max The max messages that will be awaited.
    * @param {string} data.time The time that the bot will wait.
    * @return {string} The finalized subtitle.
    */
-	subtitle({ max, time }) {
-		const getPlural = (n) => n !== "1" ? "s" : "";
-		return `Await ${max} message${getPlural(max)} for ${time} millisecond${getPlural(time)}`;
-	}
+  subtitle ({ max, time }) {
+    const getPlural = (n) => (n !== '1' ? 's' : '')
+    return `Await ${max} message${getPlural(max)} for ${time} millisecond${getPlural(time)}`
+  }
 
-	/**
+  /**
    * Stores the relevant variable info for the editor.
    * @param {Object<*>} data The data for of the action.
    * @param {string} varType The variable type.
    * @return {Array<string>|void} An array containing the variable types.
    */
-	variableStorage(data, varType) {
-		const type = parseInt(data.storage2);
-		if (type !== varType) return;
-		return [data.varName2, "Message List"];
-	}
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage2)
+    if (type !== varType) return
+    return [data.varName2, 'Message List']
+  }
 
-	/**
+  /**
    * Is ran when the HTML is loaded.
    * @return {void}
    */
-	init() {
-		const { execSync } = require("child_process");
-		const { glob, document } = this;
+  init () {
+    const { execSync } = require('child_process')
+    const { glob, document } = this
 
-		glob.channelChange(document.getElementById("storage"), "varNameContainer");
-		glob.variableChange(document.getElementById("storage2"), "varNameContainer2");
-		glob.onChangeTrue = function(event) {
-			switch (parseInt(event.value)) {
-				case 0:
-				case 1:
-					document.getElementById("iftrueContainer").style.display = "none";
-					break;
-				case 2:
-					document.getElementById("iftrueName").innerHTML = "Action Number";
-					document.getElementById("iftrueContainer").style.display = null;
-					break;
-				case 3:
-					document.getElementById("iftrueName").innerHTML = "Number of Actions to Skip";
-					document.getElementById("iftrueContainer").style.display = null;
-					break;
-				case 4:
-					document.getElementById("iftrueName").innerHTML = "Anchor ID";
-					document.getElementById("iftrueContainer").style.display = null;
-					break;
-			}
-		};
-		glob.onChangeFalse = function(event) {
-			switch (parseInt(event.value)) {
-				case 0:
-				case 1:
-					document.getElementById("iffalseContainer").style.display = "none";
-					break;
-				case 2:
-					document.getElementById("iffalseName").innerHTML = "Action Number";
-					document.getElementById("iffalseContainer").style.display = null;
-					break;
-				case 3:
-					document.getElementById("iffalseName").innerHTML = "Number of Actions to Skip";
-					document.getElementById("iffalseContainer").style.display = null;
-					break;
-				case 4:
-					document.getElementById("iffalseName").innerHTML = "Anchor ID";
-					document.getElementById("iffalseContainer").style.display = null;
-					break;
-			}
-		};
-		glob.onChangeTrue(document.getElementById("iftrue"));
-		glob.onChangeFalse(document.getElementById("iffalse"));
+    glob.channelChange(document.getElementById('storage'), 'varNameContainer')
+    glob.variableChange(document.getElementById('storage2'), 'varNameContainer2')
+    glob.onChangeTrue = function (event) {
+      switch (parseInt(event.value)) {
+        case 0:
+        case 1:
+          document.getElementById('iftrueContainer').style.display = 'none'
+          break
+        case 2:
+          document.getElementById('iftrueName').innerHTML = 'Action Number'
+          document.getElementById('iftrueContainer').style.display = null
+          break
+        case 3:
+          document.getElementById('iftrueName').innerHTML = 'Number of Actions to Skip'
+          document.getElementById('iftrueContainer').style.display = null
+          break
+        case 4:
+          document.getElementById('iftrueName').innerHTML = 'Anchor ID'
+          document.getElementById('iftrueContainer').style.display = null
+          break
+      }
+    }
+    glob.onChangeFalse = function (event) {
+      switch (parseInt(event.value)) {
+        case 0:
+        case 1:
+          document.getElementById('iffalseContainer').style.display = 'none'
+          break
+        case 2:
+          document.getElementById('iffalseName').innerHTML = 'Action Number'
+          document.getElementById('iffalseContainer').style.display = null
+          break
+        case 3:
+          document.getElementById('iffalseName').innerHTML = 'Number of Actions to Skip'
+          document.getElementById('iffalseContainer').style.display = null
+          break
+        case 4:
+          document.getElementById('iffalseName').innerHTML = 'Anchor ID'
+          document.getElementById('iffalseContainer').style.display = null
+          break
+      }
+    }
+    glob.onChangeTrue(document.getElementById('iftrue'))
+    glob.onChangeFalse(document.getElementById('iffalse'))
 
-		const wrexlinks = document.getElementsByClassName("wrexlink2");
-		for (let i = 0; i < wrexlinks.length; i++) {
-			const wrexlink = wrexlinks[i];
-			const url = wrexlink.getAttribute("data-url2");
-			if (url) {
-				wrexlink.setAttribute("title", url);
-				wrexlink.addEventListener("click", function(e) {
-					e.stopImmediatePropagation();
-					execSync(`start ${url}`);
-				});
-			}
-		}
-	}
+    const wrexlinks = document.getElementsByClassName('wrexlink2')
+    for (let i = 0; i < wrexlinks.length; i++) {
+      const wrexlink = wrexlinks[i]
+      const url = wrexlink.getAttribute('data-url2')
+      if (url) {
+        wrexlink.setAttribute('title', url)
+        wrexlink.addEventListener('click', (e) => {
+          e.stopImmediatePropagation()
+          execSync(`start ${url}`)
+        })
+      }
+    }
+  }
 
-	/**
+  /**
    * What is ran when the action is called.
    * @param {Object<*>} cache The cache of the command/event.
    * @return {void}
    */
-	action(cache) {
-		const data = cache.actions[cache.index];
+  action (cache) {
+    const data = cache.actions[cache.index]
 
-		const ch = parseInt(data.storage);
-		const varName = this.evalMessage(data.varName, cache);
-		const channel = this.getChannel(ch, varName, cache);
+    const ch = parseInt(data.storage)
+    const varName = this.evalMessage(data.varName, cache)
+    const channel = this.getChannel(ch, varName, cache)
 
-		const storage = parseInt(data.storage2);
-		const varName2 = this.evalMessage(data.varName2, cache);
+    const storage = parseInt(data.storage2)
+    const varName2 = this.evalMessage(data.varName2, cache)
 
-		if (channel) {
-			const js = String(this.evalMessage(data.filter, cache));
+    if (channel) {
+      const js = String(this.evalMessage(data.filter, cache))
 
-			const max = parseInt(this.evalMessage(data.max, cache));
-			const time = parseInt(this.evalMessage(data.time, cache));
+      const max = parseInt(this.evalMessage(data.max, cache))
+      const time = parseInt(this.evalMessage(data.time, cache))
 
-			channel.awaitMessages(function(msg) {
-				let user, member;
-				if (cache.msg) {
-					user = cache.msg.author;
-					member = cache.msg.member;
-				}
+      channel.awaitMessages((msg) => {
+        let user; let
+          member
+        if (cache.msg) {
+          user = cache.msg.author
+          member = cache.msg.member
+        }
 
-				const server = cache.server;
-				const content = msg.content;
-				const author = msg.author;
+        const { server } = cache
+        const { content } = msg
+        const { author } = msg
 
-				try {
-					return !!eval(js);
-				} catch (_) {
-					return false;
-				}
-			}, { max, time, errors: ["time"] })
-				.then((collected) => {
-					this.storeValue(collected.size === 1 ? collected.first() : collected.array(), storage, varName2, cache);
-					this.executeResults(true, data, cache);
-				})
-				.catch(() => this.executeResults(false, data, cache))
-				.catch((err) => console.error(err.stack || err));
-		}
-	}
+        try {
+          return !!eval(js)
+        } catch (_) {
+          return false
+        }
+      }, { max, time, errors: ['time'] })
+        .then((collected) => {
+          this.storeValue(collected.size === 1 ? collected.first() : collected.array(), storage, varName2, cache)
+          this.executeResults(true, data, cache)
+        })
+        .catch(() => this.executeResults(false, data, cache))
+        .catch((err) => console.error(err.stack || err))
+    }
+  }
 
-	/**
+  /**
    * The HTML document for the action, visible on the editor.
    * @param {boolean} isEvent Whether the action is being used in an event or not.
    * @param {Object<*>} data The data for the action.
    * @return {string} The HTML document.
    */
-	html(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
       <div id="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
         <div style="padding-bottom: 100px; padding: 5px 15px 5px 5px">
           <div class="container">
             <div class="ui teal segment" style="background: inherit;">
               <p>${this.shortDescription}</p>
-              <p>Made by: <b>${this.author.join(" ")}</b> Version: ${this.version} | DVN: ${this.DVN}</p>
+              <p>Made by: <b>${this.author.join(' ')}</b> Version: ${this.version} | DVN: ${this.DVN}</p>
             </div>
           </div>
         </div>
@@ -344,8 +345,8 @@ class AwaitResponseCallAction {
         span.wrexlink2:hover {
           color: #4676b9;
         }
-      </style>`;
-	}
+      </style>`
+  }
 }
 
-module.exports = new AwaitResponseCallAction();
+module.exports = new AwaitResponseCallAction()

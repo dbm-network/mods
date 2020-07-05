@@ -1,16 +1,16 @@
 module.exports = {
-	name: "Send GIF",
-	section: "Image Editing",
+  name: 'Send GIF',
+  section: 'Image Editing',
 
-	subtitle: function(data) {
-		const channels = ["Same Channel", "Command Author", "Mentioned User", "Mentioned Channel", "Default Channel (Top Channel)", "Temp Variable", "Server Variable", "Global Variable"];
-		return `${channels[parseInt(data.channel)]} ${data.channel < 5 ? "" : `- ${data.varName2}`}`;
-	},
+  subtitle (data) {
+    const channels = ['Same Channel', 'Command Author', 'Mentioned User', 'Mentioned Channel', 'Default Channel (Top Channel)', 'Temp Variable', 'Server Variable', 'Global Variable']
+    return `${channels[parseInt(data.channel)]} ${data.channel < 5 ? '' : `- ${data.varName2}`}`
+  },
 
-	fields: ["storage", "varName", "channel", "varName2", "message"],
+  fields: ['storage', 'varName', 'channel', 'varName2', 'message'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
 <div>
 	<div style="float: left; width: 35%;">
@@ -39,43 +39,43 @@ module.exports = {
 <div style="padding-top: 8px;">
 	Message:<br>
 	<textarea id="message" rows="8" placeholder="Insert message here... (optional)" style="width: 508px; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
-</div><br><br>`;
-	},
+</div><br><br>`
+  },
 
-	init: function() {
-		const { glob, document } = this;
+  init () {
+    const { glob, document } = this
 
-		glob.refreshVariableList(document.getElementById("storage"));
-		glob.sendTargetChange(document.getElementById("channel"), "varNameContainer2");
-	},
+    glob.refreshVariableList(document.getElementById('storage'))
+    glob.sendTargetChange(document.getElementById('channel'), 'varNameContainer2')
+  },
 
-	action: function(cache) {
-		const data = cache.actions[cache.index];
-		const storage = parseInt(data.storage);
-		const varName = this.evalMessage(data.varName, cache);
-		const image = this.getVariable(storage, varName, cache);
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const storage = parseInt(data.storage)
+    const varName = this.evalMessage(data.varName, cache)
+    const image = this.getVariable(storage, varName, cache)
 
-		if(!image) {
-			this.callNextAction(cache);
-			return;
-		}
+    if (!image) {
+      this.callNextAction(cache)
+      return
+    }
 
-		const channel = parseInt(data.channel);
-		const varName2 = this.evalMessage(data.varName2, cache);
-		const target = this.getSendTarget(channel, varName2, cache);
+    const channel = parseInt(data.channel)
+    const varName2 = this.evalMessage(data.varName2, cache)
+    const target = this.getSendTarget(channel, varName2, cache)
 
-		if(Array.isArray(target)) {
-			this.callListFunc(target, "send", [this.evalMessage(data.message, cache), { files: [image] }]).then(function() {
-				this.callNextAction(cache);
-			}.bind(this)).catch(this.displayError.bind(this, data, cache));
-		} else if(target && target.send) {
-			target.send(this.evalMessage(data.message, cache), { files: [image] }).then(function() {
-				this.callNextAction(cache);
-			}.bind(this)).catch(this.displayError.bind(this, data, cache));
-		} else {
-			this.callNextAction(cache);
-		}
-	},
+    if (Array.isArray(target)) {
+      this.callListFunc(target, 'send', [this.evalMessage(data.message, cache), { files: [image] }]).then(() => {
+        this.callNextAction(cache)
+      }).catch(this.displayError.bind(this, data, cache))
+    } else if (target && target.send) {
+      target.send(this.evalMessage(data.message, cache), { files: [image] }).then(() => {
+        this.callNextAction(cache)
+      }).catch(this.displayError.bind(this, data, cache))
+    } else {
+      this.callNextAction(cache)
+    }
+  },
 
-	mod: function() {}
-};
+  mod () {}
+}

@@ -1,21 +1,21 @@
 module.exports = {
-	name: "Find Reaction",
-	section: "Reaction Control",
+  name: 'Find Reaction',
+  section: 'Reaction Control',
 
-	subtitle: function(data) {
-		return `${data.find}`;
-	},
+  subtitle (data) {
+    return `${data.find}`
+  },
 
-	variableStorage: function(data, varType) {
-		const type = parseInt(data.storage);
-		if(type !== varType) return;
-		return ([data.varName2, "Reaction"]);
-	},
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage)
+    if (type !== varType) return
+    return ([data.varName2, 'Reaction'])
+  },
 
-	fields: ["message", "varName", "info", "find", "storage", "varName2"],
+  fields: ['message', 'varName', 'info', 'find', 'storage', 'varName2'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 <div>
 	<div style="float: left; width: 35%;">
 		Source Message:<br>
@@ -51,46 +51,46 @@ module.exports = {
 	<div id="varNameContainer2" style="float: right; width: 60%;">
 		Variable Name:<br>
 		<input id="varName2" class="round" type="text">
-	</div>`;
-	},
+	</div>`
+  },
 
-	init: function() {
-		const { glob, document } = this;
+  init () {
+    const { glob, document } = this
 
-		glob.messageChange(document.getElementById("message"), "varNameContainer");
-	},
+    glob.messageChange(document.getElementById('message'), 'varNameContainer')
+  },
 
-	action: function(cache) {
-		const data = cache.actions[cache.index];
-		const message = parseInt(data.message);
-		const varName = this.evalMessage(data.varName, cache);
-		const msg = this.getMessage(message, varName, cache);
-		const info = parseInt(data.info);
-		const emoji = this.evalMessage(data.find, cache);
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const message = parseInt(data.message)
+    const varName = this.evalMessage(data.varName, cache)
+    const msg = this.getMessage(message, varName, cache)
+    const info = parseInt(data.info)
+    const emoji = this.evalMessage(data.find, cache)
 
-		let result;
-		switch(info) {
-			case 0:
-				result = msg.reactions.cache.find((reaction) => reaction.emoji.id == emoji);
-				break;
-			case 1:
-				result = msg.reactions.cache.find((reaction) => reaction.emoji.name == emoji);
-				break;
-			default:
-				break;
-		}
+    let result
+    switch (info) {
+      case 0:
+        result = msg.reactions.cache.find((reaction) => reaction.emoji.id == emoji)
+        break
+      case 1:
+        result = msg.reactions.cache.find((reaction) => reaction.emoji.name == emoji)
+        break
+      default:
+        break
+    }
 
-		if(result !== undefined) {
-			const storage = parseInt(data.storage);
-			const varName2 = this.evalMessage(data.varName2, cache);
-			result.fetch().then((react) => {
-				this.storeValue(react, storage, varName2, cache);
-				this.callNextAction(cache);
-			});
-		} else {
-			this.callNextAction(cache);
-		}
-	},
+    if (result !== undefined) {
+      const storage = parseInt(data.storage)
+      const varName2 = this.evalMessage(data.varName2, cache)
+      result.fetch().then((react) => {
+        this.storeValue(react, storage, varName2, cache)
+        this.callNextAction(cache)
+      })
+    } else {
+      this.callNextAction(cache)
+    }
+  },
 
-	mod: function() {}
-};
+  mod () {}
+}

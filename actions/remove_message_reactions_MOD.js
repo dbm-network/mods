@@ -1,17 +1,17 @@
 module.exports = {
-	name: "Clear reactions from message",
-	section: "Reaction Control",
+  name: 'Clear reactions from message',
+  section: 'Reaction Control',
 
-	subtitle: function(data) {
-		const names = ["Command Message", "Temp Variable", "Server Variable", "Global Variable"];
-		const index = parseInt(data.storage);
-		return "Remove reactions from Message";
-	},
+  subtitle (data) {
+    const names = ['Command Message', 'Temp Variable', 'Server Variable', 'Global Variable']
+    const index = parseInt(data.storage)
+    return 'Remove reactions from Message'
+  },
 
-	fields: ["storage", "varName"],
+  fields: ['storage', 'varName'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 <div>
 	<div style="float: left; width: 35%;">
 		Source Message:<br>
@@ -23,32 +23,32 @@ module.exports = {
 		Variable Name:<br>
 		<input id="varName" class="round" type="text" list="variableList"><br>
 	</div>
-</div>`;
-	},
+</div>`
+  },
 
-	init: function() {
-		const { glob, document } = this;
+  init () {
+    const { glob, document } = this
 
-		glob.messageChange(document.getElementById("storage"), "varNameContainer");
-	},
+    glob.messageChange(document.getElementById('storage'), 'varNameContainer')
+  },
 
-	action: function(cache) {
-		const data = cache.actions[cache.index];
-		const storage = parseInt(data.storage);
-		const varName = this.evalMessage(data.varName, cache);
-		const message = this.getMessage(storage, varName, cache);
-		if(Array.isArray(message)) {
-			this.callListFunc(message.map((m) => m.reactions), "removeAll", []).then(function() {
-				this.callNextAction(cache);
-			}.bind(this));
-		} else if(this.dest(message, "reactions", "removeAll")) {
-			message.reactions.removeAll().then(function() {
-				this.callNextAction(cache);
-			}.bind(this)).catch(this.displayError.bind(this, data, cache));
-		} else {
-			this.callNextAction(cache);
-		}
-	},
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const storage = parseInt(data.storage)
+    const varName = this.evalMessage(data.varName, cache)
+    const message = this.getMessage(storage, varName, cache)
+    if (Array.isArray(message)) {
+      this.callListFunc(message.map((m) => m.reactions), 'removeAll', []).then(() => {
+        this.callNextAction(cache)
+      })
+    } else if (this.dest(message, 'reactions', 'removeAll')) {
+      message.reactions.removeAll().then(() => {
+        this.callNextAction(cache)
+      }).catch(this.displayError.bind(this, data, cache))
+    } else {
+      this.callNextAction(cache)
+    }
+  },
 
-	mod: function() {}
-};
+  mod () {}
+}

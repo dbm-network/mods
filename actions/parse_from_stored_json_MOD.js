@@ -1,25 +1,24 @@
 module.exports = {
-	name: "Parse From Stored Json",
-	section: "JSON Things",
+  name: 'Parse From Stored Json',
+  section: 'JSON Things',
 
-	subtitle: function(data) {
-		return `${data.varName}`;
-	},
+  subtitle (data) {
+    return `${data.varName}`
+  },
 
-	variableStorage: function(data, varType) {
-		const type = parseInt(data.storage);
-		if (type !== varType) return;
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage)
+    if (type !== varType) return
 
-		if (varType == typeof object) return [data.varName, "JSON Object"];
-		else {
-			return [data.varName, "JSON " + varType + " Value"];
-		}
-	},
+    if (varType === typeof object) return [data.varName, 'JSON Object']
 
-	fields: ["behavior", "varStorage", "jsonObjectVarName", "path", "storage", "varName"],
+    return [data.varName, `JSON ${varType} Value`]
+  },
 
-	html: function(isEvent, data) {
-		return `
+  fields: ['behavior', 'varStorage', 'jsonObjectVarName', 'path', 'storage', 'varName'],
+
+  html (isEvent, data) {
+    return `
 <div style="margin: 0; overflow-y: none;">
     <div>
         <p>
@@ -82,95 +81,93 @@ module.exports = {
         </div>
     </div>
 </div>
-`;
-	},
+`
+  },
 
-	init: function() {
-		const { glob, document } = this;
-		glob.variableChange(document.getElementById("storage"), "varNameContainer");
-		glob.refreshVariableList(document.getElementById("storage"));
-	},
+  init () {
+    const { glob, document } = this
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer')
+    glob.refreshVariableList(document.getElementById('storage'))
+  },
 
-	action: function(cache) {
-		const Mods = this.getMods();
-		const data = cache.actions[cache.index];
-		let result;
-		const varName = this.evalMessage(data.varName, cache);
-		const storage = parseInt(data.storage);
-		const type = parseInt(data.varStorage);
-		const jsonObjectVarName = this.evalMessage(data.jsonObjectVarName, cache);
-		const path = this.evalMessage(data.path, cache);
-		const jsonRaw = this.getVariable(type, jsonObjectVarName, cache);
-		const DEBUG = parseInt(data.debugMode);
+  action (cache) {
+    const Mods = this.getMods()
+    const data = cache.actions[cache.index]
+    let result
+    const varName = this.evalMessage(data.varName, cache)
+    const storage = parseInt(data.storage)
+    const type = parseInt(data.varStorage)
+    const jsonObjectVarName = this.evalMessage(data.jsonObjectVarName, cache)
+    const path = this.evalMessage(data.path, cache)
+    const jsonRaw = this.getVariable(type, jsonObjectVarName, cache)
+    const DEBUG = parseInt(data.debugMode)
 
-		let jsonData = jsonRaw;
-		if (typeof jsonRaw !== "object") {
-			jsonData = JSON.parse(jsonRaw);
-		}
+    let jsonData = jsonRaw
+    if (typeof jsonRaw !== 'object') {
+      jsonData = JSON.parse(jsonRaw)
+    }
 
-		try {
-			if (path && jsonData) {
-				var outData = Mods.jsonPath(jsonData, path);
+    try {
+      if (path && jsonData) {
+        let outData = Mods.jsonPath(jsonData, path)
 
-				// if it dont work, try to go backwards one path
-				if (outData == false) {
-					outData = Mods.jsonPath(jsonData, "$." + path);
-				}
+        // if it dont work, try to go backwards one path
+        if (outData == false) {
+          outData = Mods.jsonPath(jsonData, `$.${path}`)
+        }
 
-				// if it still dont work, try to go backwards two paths
-				if (outData == false) {
-					outData = Mods.jsonPath(jsonData, "$.." + path);
-				}
+        // if it still dont work, try to go backwards two paths
+        if (outData == false) {
+          outData = Mods.jsonPath(jsonData, `$..${path}`)
+        }
 
-				if(DEBUG) console.log(outData);
+        if (DEBUG) console.log(outData)
 
-				try {
-					var test = JSON.parse(JSON.stringify(outData));
-				} catch (error) {
-					const errorJson = JSON.stringify({ error: error, success: false });
-					this.storeValue(errorJson, storage, varName, cache);
-					console.error(error.stack ? error.stack : error);
-				}
+        try {
+          const test = JSON.parse(JSON.stringify(outData))
+        } catch (error) {
+          const errorJson = JSON.stringify({ error, success: false })
+          this.storeValue(errorJson, storage, varName, cache)
+          console.error(error.stack ? error.stack : error)
+        }
 
-				var outValue = eval(JSON.stringify(outData), cache);
+        const outValue = eval(JSON.stringify(outData), cache)
 
-				if (outData.success != null || outValue.success != null) {
-					const errorJson = JSON.stringify({
-						error: "error",
-						statusCode: 0,
-						success: false
-					});
-					this.storeValue(errorJson, storage, varName, cache);
-					console.log("WebAPI Parser: Error Invalid JSON, is the Path set correctly? [" + path + "]");
-				} else {
-					if (outValue.success != null || !outValue) {
-						const errorJson = JSON.stringify({
-							error: error,
-							statusCode: statusCode,
-							success: false
-						});
-						this.storeValue(errorJson, storage, varName, cache);
-						console.log("WebAPI Parser: Error Invalid JSON, is the Path set correctly? [" + path + "]");
-					} else {
-						this.storeValue(outValue, storage, varName, cache);
-						if(DEBUG) console.log("WebAPI Parser: JSON Data values starting from [" + path + "] stored to: [" + varName + "]");
-					}
-				}
-			}
-		} catch (error) {
-			const errorJson = JSON.stringify({
-				error: error,
-				statusCode: 0,
-				success: false
-			});
-			this.storeValue(errorJson, storage, varName, cache);
-			console.error("WebAPI Parser: Error: " + errorJson + " stored to: [" + varName + "]");
-		}
+        if (outData.success != null || outValue.success != null) {
+          const errorJson = JSON.stringify({
+            error: 'error',
+            statusCode: 0,
+            success: false
+          })
+          this.storeValue(errorJson, storage, varName, cache)
+          console.log(`WebAPI Parser: Error Invalid JSON, is the Path set correctly? [${path}]`)
+        } else if (outValue.success != null || !outValue) {
+          const errorJson = JSON.stringify({
+            error,
+            statusCode,
+            success: false
+          })
+          this.storeValue(errorJson, storage, varName, cache)
+          console.log(`WebAPI Parser: Error Invalid JSON, is the Path set correctly? [${path}]`)
+        } else {
+          this.storeValue(outValue, storage, varName, cache)
+          if (DEBUG) console.log(`WebAPI Parser: JSON Data values starting from [${path}] stored to: [${varName}]`)
+        }
+      }
+    } catch (error) {
+      const errorJson = JSON.stringify({
+        error,
+        statusCode: 0,
+        success: false
+      })
+      this.storeValue(errorJson, storage, varName, cache)
+      console.error(`WebAPI Parser: Error: ${errorJson} stored to: [${varName}]`)
+    }
 
-		if (data.behavior === "0") {
-			this.callNextAction(cache);
-		}
-	},
+    if (data.behavior === '0') {
+      this.callNextAction(cache)
+    }
+  },
 
-	mod: function() {}
-};
+  mod () {}
+}

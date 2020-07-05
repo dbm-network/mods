@@ -1,23 +1,23 @@
 module.exports = {
-	name: "Filter List/Object",
-	section: "Lists and Loops",
+  name: 'Filter List/Object',
+  section: 'Lists and Loops',
 
-	subtitle: function(data) {
-		const storages = ["", "Temp Variable", "Server Variable", "Global Variable"];
-		return `Filter ${storages[parseInt(data.storage)]} "${data.varName}"`;
-	},
+  subtitle (data) {
+    const storages = ['', 'Temp Variable', 'Server Variable', 'Global Variable']
+    return `Filter ${storages[parseInt(data.storage)]} "${data.varName}"`
+  },
 
-	variableStorage: function(data, varType) {
-		const type = parseInt(data.storage2);
-		if (type !== varType) return;
-		let dataType = "List / Object";
-		return ([data.varName2, dataType]);
-	},
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage2)
+    if (type !== varType) return
+    const dataType = 'List / Object'
+    return ([data.varName2, dataType])
+  },
 
-	fields: ["storage", "varName", "type", "value", "value2", "storage2", "varName2"],
+  fields: ['storage', 'varName', 'type', 'value', 'value2', 'storage2', 'varName2'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 	<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
 	<div>
 		<div style="float: left; width: 35%;">
@@ -82,174 +82,173 @@ module.exports = {
 	span.wrexlink:hover {
 		color:#4676b9;
 	}
-</style>`;
-	},
+</style>`
+  },
 
-	init: function() {
-		const { glob, document } = this;
+  init () {
+    const { glob, document } = this
 
-		try {
-			var Mods = require(require("path").join(__dirname, "aaa_wrexmods_dependencies_MOD.js")).getMods();
+    try {
+      const Mods = require(require('path').join(__dirname, 'aaa_wrexmods_dependencies_MOD.js')).getMods()
 
-			var wrexlinks = document.getElementsByClassName("wrexlink");
-			for(var x = 0; x < wrexlinks.length; x++) {
+      const wrexlinks = document.getElementsByClassName('wrexlink')
+      for (let x = 0; x < wrexlinks.length; x++) {
+        const wrexlink = wrexlinks[x]
+        var url = wrexlink.getAttribute('data-url')
+        if (url) {
+          wrexlink.setAttribute('title', url)
+          wrexlink.addEventListener('click', (e) => {
+            e.stopImmediatePropagation()
+            console.log(`Launching URL: [${url}] in your default browser.`)
+            require('child_process').execSync(`start ${url}`)
+          })
+        }
+      }
+    } catch (error) {
+      require('fs').appendFile('errors.txt', error.stack ? error.stack : `${error}\r\n`)
+    }
 
-				var wrexlink = wrexlinks[x];
-				var url = wrexlink.getAttribute("data-url");
-				if(url){
-					wrexlink.setAttribute("title", url);
-					wrexlink.addEventListener("click", function(e){
-						e.stopImmediatePropagation();
-						console.log("Launching URL: [" + url + "] in your default browser.");
-						require("child_process").execSync("start " + url);
-					});
-				}
-			}
-		} catch (error) {
-			require("fs").appendFile("errors.txt", error.stack ? error.stack : error + "\r\n");
-		}
+    glob.onChange1 = function () {
+      const valueDiv = document.getElementById('valueDiv')
+      const valueDiv2 = document.getElementById('valueDiv2')
+      const value = document.getElementById('value')
+      switch (parseInt(document.getElementById('type').value)) {
+        case 0:// Exists
+          value.placeholder = ''
+          valueDiv.style.display = 'none'
+          valueDiv2.style.display = null
+          break
+        case 6:// Regex
+          value.placeholder = "('My'|'Regex')"
+          valueDiv.style.display = null
+          valueDiv2.style.display = null
+          break
+        case 7:// Full Regex
+          value.placeholder = "/('My'|'Regex')\\w+/igm"
+          valueDiv.style.display = null
+          valueDiv2.style.display = null
+          break
+        default:// Other Stuff
+          value.placeholder = ''
+          valueDiv.style.display = null
+          valueDiv2.style.display = null
+          break
+      }
+    }
 
-		glob.onChange1 = function() {
-			const valueDiv = document.getElementById("valueDiv");
-			const valueDiv2 = document.getElementById("valueDiv2");
-			const value = document.getElementById("value");
-			switch(parseInt(document.getElementById("type").value)) {
-				case 0://Exists
-					value.placeholder = "";
-					valueDiv.style.display = "none";
-					valueDiv2.style.display = null;
-					break;
-				case 6://Regex
-					value.placeholder = "('My'|'Regex')";
-					valueDiv.style.display = null;
-					valueDiv2.style.display = null;
-					break;
-				case 7://Full Regex
-					value.placeholder = "/('My'|'Regex')\\w+/igm";
-					valueDiv.style.display = null;
-					valueDiv2.style.display = null;
-					break;
-				default://Other Stuff
-					value.placeholder = "";
-					valueDiv.style.display = null;
-					valueDiv2.style.display = null;
-					break;
-			}
-		};
+    glob.onChange1(document.getElementById('type'))
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer')
+    glob.variableChange(document.getElementById('storage2'), 'varNameContainer2')
+  },
 
-		glob.onChange1(document.getElementById("type"));
-		glob.variableChange(document.getElementById("storage"), "varNameContainer");
-		glob.variableChange(document.getElementById("storage2"), "varNameContainer2");
-	},
+  action (cache) {
+    const data = cache.actions[cache.index]
 
-	action: function(cache) {
-		const data = cache.actions[cache.index];
+    const storage = parseInt(data.storage)
+    const varName = this.evalMessage(data.varName, cache)
+    const variable = this.getVariable(storage, varName, cache)
+    const value = this.evalMessage(data.value, cache)// Filter To
+    const value2 = this.evalMessage(data.value2, cache)// Filter From
+    let result
 
-		const storage = parseInt(data.storage);
-		const varName = this.evalMessage(data.varName, cache);
-		const variable = this.getVariable(storage, varName, cache);
-		const value = this.evalMessage(data.value, cache);//Filter To
-		const value2 = this.evalMessage(data.value2, cache);//Filter From
-		let result;
+    if (value2 !== '' && value2 !== undefined) {
+      switch (parseInt(data.type)) {
+        case 0:// Exists
+          result = variable.filter((item) => item[value2] !== undefined && item[value2] !== null)
+          break
+        case 1:// Equals
+          result = variable.filter((item) => item[value2] == value)
+          break
+        case 2:// Equals Exactly
+          result = variable.filter((item) => item[value2] === value)
+          break
+        case 3:// Less Than
+          result = variable.filter((item) => item[value2] < value)
+          break
+        case 4:// Greater Than
+          result = variable.filter((item) => item[value2] > value)
+          break
+        case 5:// Includes
+          result = variable.filter((item) => item[value2].indexOf(value))
+          break
+        case 6:// Regex
+          result = variable.filter((item) => item[value2].match(new RegExp(`^${value}$`, 'i')))
+          break
+        case 7:// Full Regex
+          result = variable.filter((item) => item[value2].match(new RegExp(value)))
+          break
+        case 8:// Bigger Length
+          result = variable.filter((item) => item[value2].length > value)
+          break
+        case 9:// Smaller Length
+          result = variable.filter((item) => item[value2].length < value)
+          break
+        case 10:// Equals Length
+          result = variable.filter((item) => item[value2].length == value)
+          break
+        case 11:// Starts With
+          result = variable.filter((item) => item[value2].startsWith(value))
+          break
+        case 12:// Ends With
+          result = variable.filter((item) => item[value2].endsWith(value))
+          break
+        default:// Mistake in RawData
+          return console.log('Please check your Filter List/Object action! There is something wrong...')
+      }
+    } else {
+      switch (parseInt(data.type)) {
+        case 0:// Exists
+          result = variable.filter((item) => item !== undefined && item !== null)
+          break
+        case 1:// Equals
+          result = variable.filter((item) => item == value)
+          break
+        case 2:// Equals Exactly
+          result = variable.filter((item) => item === value)
+          break
+        case 3:// Less Than
+          result = variable.filter((item) => item < value)
+          break
+        case 4:// Greater Than
+          result = variable.filter((item) => item > value)
+          break
+        case 5:// Includes
+          result = variable.filter((item) => item.indexOf(value))
+          break
+        case 6:// Regex
+          result = variable.filter((item) => item.match(new RegExp(`^${value}$`, 'i')))
+          break
+        case 7:// Full Regex
+          result = variable.filter((item) => item.match(new RegExp(value)))
+          break
+        case 8:// Bigger Length
+          result = variable.filter((item) => item.length > value)
+          break
+        case 9:// Smaller Length
+          result = variable.filter((item) => item.length < value)
+          break
+        case 10:// Equals Length
+          result = variable.filter((item) => item.length == value)
+          break
+        case 11:// Starts With
+          result = variable.filter((item) => item.startsWith(value))
+          break
+        case 12:// Ends With
+          result = variable.filter((item) => item.endsWith(value))
+          break
+        default:// Mistake in RawData
+          return console.log('Please check your Filter List/Object action! There is something wrong...')
+      }
+    }
 
-		if(value2 !== "" && value2 !== undefined) {
-			switch(parseInt(data.type)) {
-				case 0://Exists
-					result = variable.filter((item) => item[value2] !== undefined && item[value2] !== null);
-					break;
-				case 1://Equals
-					result = variable.filter((item) => item[value2] == value);
-					break;
-				case 2://Equals Exactly
-					result = variable.filter((item) => item[value2] === value);
-					break;
-				case 3://Less Than
-					result = variable.filter((item) => item[value2] < value);
-					break;
-				case 4://Greater Than
-					result = variable.filter((item) => item[value2] > value);
-					break;
-				case 5://Includes
-					result = variable.filter((item) => item[value2].indexOf(value));
-					break;
-				case 6://Regex
-					result = variable.filter((item) => item[value2].match(new RegExp("^" + value + "$", "i")));
-					break;
-				case 7://Full Regex
-					result = variable.filter((item) => item[value2].match(new RegExp(value)));
-					break;
-				case 8://Bigger Length
-					result = variable.filter((item) => item[value2].length > value);
-					break;
-				case 9://Smaller Length
-					result = variable.filter((item) => item[value2].length < value);
-					break;
-				case 10://Equals Length
-					result = variable.filter((item) => item[value2].length == value);
-					break;
-				case 11://Starts With
-					result = variable.filter((item) => item[value2].startsWith(value));
-					break;
-				case 12://Ends With
-					result = variable.filter((item) => item[value2].endsWith(value));
-					break;
-				default://Mistake in RawData
-					return console.log("Please check your Filter List/Object action! There is something wrong...");
-			}
-		} else {
-			switch(parseInt(data.type)) {
-				case 0://Exists
-					result = variable.filter((item) => item !== undefined && item !== null);
-					break;
-				case 1://Equals
-					result = variable.filter((item) => item == value);
-					break;
-				case 2://Equals Exactly
-					result = variable.filter((item) => item === value);
-					break;
-				case 3://Less Than
-					result = variable.filter((item) => item < value);
-					break;
-				case 4://Greater Than
-					result = variable.filter((item) => item > value);
-					break;
-				case 5://Includes
-					result = variable.filter((item) => item.indexOf(value));
-					break;
-				case 6://Regex
-					result = variable.filter((item) => item.match(new RegExp("^" + value + "$", "i")));
-					break;
-				case 7://Full Regex
-					result = variable.filter((item) => item.match(new RegExp(value)));
-					break;
-				case 8://Bigger Length
-					result = variable.filter((item) => item.length > value);
-					break;
-				case 9://Smaller Length
-					result = variable.filter((item) => item.length < value);
-					break;
-				case 10://Equals Length
-					result = variable.filter((item) => item.length == value);
-					break;
-				case 11://Starts With
-					result = variable.filter((item) => item.startsWith(value));
-					break;
-				case 12://Ends With
-					result = variable.filter((item) => item.endsWith(value));
-					break;
-				default://Mistake in RawData
-					return console.log("Please check your Filter List/Object action! There is something wrong...");
-			}
-		}
+    if (result !== undefined) {
+      const storage2 = parseInt(data.storage2)
+      const varName2 = this.evalMessage(data.varName2, cache)
+      this.storeValue(result, storage2, varName2, cache)
+    }
+    this.callNextAction(cache)
+  },
 
-		if (result !== undefined) {
-			const storage2 = parseInt(data.storage2);
-			const varName2 = this.evalMessage(data.varName2, cache);
-			this.storeValue(result, storage2, varName2, cache);
-		}
-		this.callNextAction(cache);
-	},
+  mod () {}
 
-	mod: function() {}
-
-};
+}

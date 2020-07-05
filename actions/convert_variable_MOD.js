@@ -1,24 +1,24 @@
 module.exports = {
-	name: "Convert Variable",
-	section: "Variable Things",
+  name: 'Convert Variable',
+  section: 'Variable Things',
 
-	subtitle: function(data) {
-		const info = ["Number (Int)", "Number (Float)", "String", "Uppercased String", "Lowercased String"];
-		return `Conversion Type: ${info[parseInt(data.conversion)]}`;
-	},
+  subtitle (data) {
+    const info = ['Number (Int)', 'Number (Float)', 'String', 'Uppercased String', 'Lowercased String']
+    return `Conversion Type: ${info[parseInt(data.conversion)]}`
+  },
 
-	variableStorage: function(data, varType) {
-		const type = parseInt(data.storage2);
-		const prse2 = parseInt(data.conversion);
-		const info2 = ["Number", "Number", "String", "String", "String"];
-		if(type !== varType) return;
-		return ([data.varName2, info2[prse2]]);
-	},
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage2)
+    const prse2 = parseInt(data.conversion)
+    const info2 = ['Number', 'Number', 'String', 'String', 'String']
+    if (type !== varType) return
+    return ([data.varName2, info2[prse2]])
+  },
 
-	fields: ["storage", "varName", "conversion", "storage2", "varName2"],
+  fields: ['storage', 'varName', 'conversion', 'storage2', 'varName2'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 	<div>
 		<div style="float: left; width: 35%;">
 			Source Variable:<br>
@@ -86,49 +86,49 @@ module.exports = {
 		span.embed-desc {
 			color: rgb(128, 128, 128);
 		}
-	</style>`;
-	},
+	</style>`
+  },
 
-	init: function() {
-		const { glob, document } = this;
+  init () {
+    const { glob, document } = this
 
-		glob.refreshVariableList(document.getElementById("storage"));
-	},
+    glob.refreshVariableList(document.getElementById('storage'))
+  },
 
-	action: function(cache) {
-		const data = cache.actions[cache.index];
+  action (cache) {
+    const data = cache.actions[cache.index]
 
-		const storage = parseInt(data.storage);
-		const varName = this.evalMessage(data.varName, cache);
-		const variable = this.getVariable(storage, varName, cache);
-		const conversion = parseInt(data.conversion);
+    const storage = parseInt(data.storage)
+    const varName = this.evalMessage(data.varName, cache)
+    const variable = this.getVariable(storage, varName, cache)
+    const conversion = parseInt(data.conversion)
 
-		let result;
+    let result
 
-		switch (conversion) {
-			case 0:
-				result = parseInt(variable);
-				break;
-			case 1:
-				result = parseFloat(variable);
-				break;
-			case 2:
-				result = variable.toString();
-				break;
-			case 3:
-				result = variable.toString().toUpperCase();
-				break;
-			case 4:
-				result = variable.toString().toLowerCase();
-				break;
-		}
-		if(result !== undefined) {
-			const storage2 = parseInt(data.storage2);
-			const varName2 = this.evalMessage(data.varName2, cache);
-			this.storeValue(result, storage2, varName2, cache);
-		}
-		this.callNextAction(cache);
-	},
+    switch (conversion) {
+      case 0:
+        result = parseInt(variable)
+        break
+      case 1:
+        result = parseFloat(variable)
+        break
+      case 2:
+        result = variable.toString()
+        break
+      case 3:
+        result = variable.toString().toUpperCase()
+        break
+      case 4:
+        result = variable.toString().toLowerCase()
+        break
+    }
+    if (result !== undefined) {
+      const storage2 = parseInt(data.storage2)
+      const varName2 = this.evalMessage(data.varName2, cache)
+      this.storeValue(result, storage2, varName2, cache)
+    }
+    this.callNextAction(cache)
+  },
 
-	mod: function() {}
-};
+  mod () {}
+}

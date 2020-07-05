@@ -1,23 +1,23 @@
 module.exports = {
-	name: "Clone Channel MOD",
-	section: "Channel Control",
+  name: 'Clone Channel MOD',
+  section: 'Channel Control',
 
-	subtitle: function(data) {
-		const names = ["Same Channel", "Mentioned Channel", "Default Channel", "Temp Variable", "Server Variable", "Global Variable"];
-		const index = parseInt(data.storage);
-		return index < 3 ? `Clone Channel : ${names[index]}` : `Clone Channel : ${names[index]} - ${data.varName}`;
-	},
+  subtitle (data) {
+    const names = ['Same Channel', 'Mentioned Channel', 'Default Channel', 'Temp Variable', 'Server Variable', 'Global Variable']
+    const index = parseInt(data.storage)
+    return index < 3 ? `Clone Channel : ${names[index]}` : `Clone Channel : ${names[index]} - ${data.varName}`
+  },
 
-	variableStorage: function(data, varType) {
-		const type = parseInt(data.storage2);
-		if(type !== varType) return;
-		return ([data.varName2, "Channel"]);
-	},
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage2)
+    if (type !== varType) return
+    return ([data.varName2, 'Channel'])
+  },
 
-	fields: ["storage", "varName", "categoryID", "position", "permission", "info", "topic", "slowmode", "nsfw", "bitrate", "userLimit", "storage2", "varName2", ],
+  fields: ['storage', 'varName', 'categoryID', 'position', 'permission', 'info', 'topic', 'slowmode', 'nsfw', 'bitrate', 'userLimit', 'storage2', 'varName2'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 <div style="padding-top: 8px;">
 	<div style="float: left; width: 35%;">
 		Source Channel:<br>
@@ -107,70 +107,70 @@ module.exports = {
 		Variable Name:<br>
 		<input id="varName2" class="round" type="text">
 	</div>
-</div>`;
-	},
-	init: function() {
-		const { glob, document } = this;
+</div>`
+  },
+  init () {
+    const { glob, document } = this
 
-		glob.channelChange(document.getElementById("storage"), "varNameContainer");
-		glob.variableChange(document.getElementById("storage2"), "varNameContainer2");
+    glob.channelChange(document.getElementById('storage'), 'varNameContainer')
+    glob.variableChange(document.getElementById('storage2'), 'varNameContainer2')
 
-		glob.channeltype = function(event) {
-			if (event.value === "0") {
-				document.getElementById("text").style.display = "none";
-				document.getElementById("voice").style.display = "none";
-			} else if (event.value === "1") {
-				document.getElementById("text").style.display = null;
-				document.getElementById("voice").style.display = "none";
-			} else if (event.value === "2") {
-				document.getElementById("text").style.display = "none";
-				document.getElementById("voice").style.display = null;
-			}
-		};
-		glob.channeltype(document.getElementById("info"));
-	},
+    glob.channeltype = function (event) {
+      if (event.value === '0') {
+        document.getElementById('text').style.display = 'none'
+        document.getElementById('voice').style.display = 'none'
+      } else if (event.value === '1') {
+        document.getElementById('text').style.display = null
+        document.getElementById('voice').style.display = 'none'
+      } else if (event.value === '2') {
+        document.getElementById('text').style.display = 'none'
+        document.getElementById('voice').style.display = null
+      }
+    }
+    glob.channeltype(document.getElementById('info'))
+  },
 
-	action: function(cache) {
-		const data = cache.actions[cache.index];
-		const server = cache.server;
-		const storage = parseInt(data.storage);
-		const varName = this.evalMessage(data.varName, cache);
-		const channel = this.getChannel(storage, varName, cache); // bitrate slowmode
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const { server } = cache
+    const storage = parseInt(data.storage)
+    const varName = this.evalMessage(data.varName, cache)
+    const channel = this.getChannel(storage, varName, cache) // bitrate slowmode
 
-		let options;
-		if (channel.type == "voice") {
-			options = {
-				positon: data.position == 1 ? channel.position : 0,
-				permissionOverwrites: data.permission == 1 ? channel.permissionOverwrites : [],
-				userLimit: data.userLimit == 1 ? channel.userLimit : 0,
-				bitrate: data.bitrate == 1 ? channel.bitrate : 64,
-				parent: data.categoryID ? parseInt(this.evalMessage(data.categoryID, cache)) : null
-			};
-		} else if (channel.type == "text") {
-			options = {
-				position: data.position == 1 ? channel.position : 0,
-				permissionOverwrites: data.permission == 1 ? channel.permissionOverwrites : [],
-				nsfw: data.nsfw == 1 ? channel.nsfw : false,
-				topic: data.topic == 1 ? channel.topic : undefined,
-				rateLimitPerUser: data.slowmode == 1 ? channel.slowmode : 0,
-				parent: data.categoryID ? cache.server.channels.get(this.evalMessage(data.categoryID, cache)) : null
-			};
-		}
+    let options
+    if (channel.type == 'voice') {
+      options = {
+        positon: data.position == 1 ? channel.position : 0,
+        permissionOverwrites: data.permission == 1 ? channel.permissionOverwrites : [],
+        userLimit: data.userLimit == 1 ? channel.userLimit : 0,
+        bitrate: data.bitrate == 1 ? channel.bitrate : 64,
+        parent: data.categoryID ? parseInt(this.evalMessage(data.categoryID, cache)) : null
+      }
+    } else if (channel.type == 'text') {
+      options = {
+        position: data.position == 1 ? channel.position : 0,
+        permissionOverwrites: data.permission == 1 ? channel.permissionOverwrites : [],
+        nsfw: data.nsfw == 1 ? channel.nsfw : false,
+        topic: data.topic == 1 ? channel.topic : undefined,
+        rateLimitPerUser: data.slowmode == 1 ? channel.slowmode : 0,
+        parent: data.categoryID ? cache.server.channels.get(this.evalMessage(data.categoryID, cache)) : null
+      }
+    }
 
-		if (server && channel) {
-			channel.clone(options)
-				.then((newchannel) => {
-					const storage2 = parseInt(data.storage2);
-					const varName2 = this.evalMessage(data.varName2, cache);
-					this.storeValue(newchannel, storage2, varName2, cache);
-					this.callNextAction(cache);
-				})
-				.catch(this.displayError.bind(this, data, cache));
-		} else {
-			console.log(`${server ? "channel" : "server"} could not be found! Clone Channel MOD.`);
-			this.callNextAction(cache);
-		}
-	},
+    if (server && channel) {
+      channel.clone(options)
+        .then((newchannel) => {
+          const storage2 = parseInt(data.storage2)
+          const varName2 = this.evalMessage(data.varName2, cache)
+          this.storeValue(newchannel, storage2, varName2, cache)
+          this.callNextAction(cache)
+        })
+        .catch(this.displayError.bind(this, data, cache))
+    } else {
+      console.log(`${server ? 'channel' : 'server'} could not be found! Clone Channel MOD.`)
+      this.callNextAction(cache)
+    }
+  },
 
-	mod: function() {}
-};
+  mod () {}
+}

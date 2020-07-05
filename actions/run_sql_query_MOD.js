@@ -1,39 +1,39 @@
 module.exports = {
-	name: "Run SQL Query",
-	section: "Other Stuff",
+  name: 'Run SQL Query',
+  section: 'Other Stuff',
 
-	variableStorage: function(data, varType) {
-		const type = parseInt(data.storage);
-		if(type !== varType) return;
-		return ([data.varName, "JSON Object"]);
-	},
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage)
+    if (type !== varType) return
+    return ([data.varName, 'JSON Object'])
+  },
 
-	subtitle: function(data) {
-		let sub = "";
-		if(data.store_source_conn_storage != 0){
-			sub += "C: Stored ";
-		}
+  subtitle (data) {
+    let sub = ''
+    if (data.store_source_conn_storage != 0) {
+      sub += 'C: Stored '
+    }
 
-		if(data.query){
-			sub += `Q: ${data.query} `;
-		}
+    if (data.query) {
+      sub += `Q: ${data.query} `
+    }
 
-		if(data.path){
-			sub += `P: ${data.path} `;
-		}
+    if (data.path) {
+      sub += `P: ${data.path} `
+    }
 
-		if(data.storage > 0){
-			const storage = ["", "Temp", "Server", "Global"];
-			sub += `${storage[parseInt(data.storage)]} :${data.varName}`;
-		}
+    if (data.storage > 0) {
+      const storage = ['', 'Temp', 'Server', 'Global']
+      sub += `${storage[parseInt(data.storage)]} :${data.varName}`
+    }
 
-		return sub;
-	},
+    return sub
+  },
 
-	fields: ["storage", "stringifyOutput", "varName", "hostname", "port", "username", "password", "database", "query", "path", "otype", "source_conn_storage", "source_conn_varName", "store_source_conn_storage", "store_source_conn_varName", "debugMode"],
+  fields: ['storage', 'stringifyOutput', 'varName', 'hostname', 'port', 'username', 'password', 'database', 'query', 'path', 'otype', 'source_conn_storage', 'source_conn_varName', 'store_source_conn_storage', 'store_source_conn_varName', 'debugMode'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
         <div id="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
           <div>
             <p>
@@ -255,281 +255,270 @@ module.exports = {
 		  span.wrexlink:hover {
 		  color:#4676b9;
 		  }
-</style>`;
-	},
-	init: function() {
-		const { glob, document } = this;
+</style>`
+  },
+  init () {
+    const { glob, document } = this
 
-		function getType(key){
-			switch (key) {
-				case "0":
-					return "mysql";
-				case "1":
-					return "postgres";
-				case "2":
-					return "mssql";
-				case "3":
-					return "sqlite";
-				default:
-					return "mysql";
-			}
-		}
+    function getType (key) {
+      switch (key) {
+        case '0':
+          return 'mysql'
+        case '1':
+          return 'postgres'
+        case '2':
+          return 'mssql'
+        case '3':
+          return 'sqlite'
+        default:
+          return 'mysql'
+      }
+    }
 
-		try {
-			const type = document.getElementById("otype").value;
-			const hostname = document.getElementById("hostname").value;
-			const port = document.getElementById("port").value;
-			const username = document.getElementById("username").value;
-			const password = document.getElementById("password").value;
-			const database = document.getElementById("database").value;
+    try {
+      const type = document.getElementById('otype').value
+      const hostname = document.getElementById('hostname').value
+      const port = document.getElementById('port').value
+      const username = document.getElementById('username').value
+      const password = document.getElementById('password').value
+      const database = document.getElementById('database').value
 
-			document.getElementById("checkConnection").onclick = function(evt) {
+      document.getElementById('checkConnection').onclick = function (evt) {
+        const Sequelize = require('sequelize')
+        const path = require('path')
 
-				const Sequelize = require("sequelize");
-				const path = require("path");
+        const options = {
+          host: (hostname || 'localhost'),
+          port: (port || '3311'),
+          dialect: (getType(type) || 'sqlite'),
+          operatorsAliases: false,
+          pool: {
+            max: 5,
+            min: 0,
+            acquire: 30000,
+            idle: 10000
+          }
+        }
 
-				var options =  {
-					host: (hostname || "localhost"),
-					port: (port || "3311"),
-					dialect: (getType(type) || "sqlite"),
-					operatorsAliases: false,
-					pool: {
-						max: 5,
-						min: 0,
-						acquire: 30000,
-						idle: 10000
-					},
-				};
+        const sequelize = new Sequelize(database || 'database', username || 'username', password || 'password', options)
 
-				const sequelize = new Sequelize(database || "database", username || "username", password || "password", options);
+        document.getElementById('checkConnection_lbl').setAttribute('class', 'ui basic label yellow')
+        document.getElementById('checkConnection_lbl').innerHTML = 'Checking...'
 
-				document.getElementById("checkConnection_lbl").setAttribute("class", "ui basic label yellow");
-				document.getElementById("checkConnection_lbl").innerHTML = "Checking...";
+        function isValid (bool, message = false) {
+          document.getElementById('checkConnection_lbl').setAttribute('class', `ui basic label ${bool ? 'green' : 'red'}`)
+          document.getElementById('checkConnection_lbl').innerHTML = ((bool ? 'Valid' : 'Invalid') + (message ? `: ${message}` : ''))
+        }
 
-				function isValid(bool, message = false){
-					document.getElementById("checkConnection_lbl").setAttribute("class", "ui basic label " + (bool ? "green" : "red"));
-					document.getElementById("checkConnection_lbl").innerHTML = ((bool ? "Valid" :  "Invalid") + (message ? ": " + message : ""));
-				}
+        sequelize.authenticate()
+          .then(() => {
+            isValid(true)
+          })
+          .catch((err) => {
+            isValid(false, err)
+          })
+      }
 
-				sequelize.authenticate()
-					.then(() => {
-						isValid(true);
-					})
-					.catch((err) => {
-						isValid(false, err);
-					});
+      // to show/hide certian connection options if sqllite is selected
+      document.getElementById('otype').onchange = function (evt) {
+        const lite = (evt.target.value === '3')
+        document.getElementById('auth').style.display = lite ? 'none' : ''
+        document.getElementById('showPath').style.display = lite ? '' : 'none'
+        document.getElementById('database').setAttribute('placeholder', lite ? './mydb.sql' : 'dbm')
+      }
+      document.getElementById('database').setAttribute('placeholder', document.getElementById('otype').value == '3' ? './mydb.sql' : 'dbm')
 
-			};
+      // interactive links
+      const wrexlinks = document.getElementsByClassName('wrexlink')
+      for (let x = 0; x < wrexlinks.length; x++) {
+        const wrexlink = wrexlinks[x]
+        var url = wrexlink.getAttribute('data-url')
+        if (url) {
+          wrexlink.setAttribute('title', url)
+          wrexlink.addEventListener('click', (e) => {
+            e.stopImmediatePropagation()
+            console.log(`Launching URL: [${url}] in your default browser.`)
+            require('child_process').execSync(`start ${url}`)
+          })
+        }
+      }
+    } catch (error) {
+      // write any init errors to errors.txt in dbm's main directory
+      alert(`[Run SQL Query] Error: \n\n ${error.message}\n\n Check \n ''${require('path').resolve('dbmmods_dbm_errors.txt')}' for more details.`)
+      require('fs').appendFileSync('dbmmods_dbm_errors.txt', `${new Date().toUTCString()} : ${error.stack}` ? error.stack : `${error}\n\n`)
+    }
 
-			// to show/hide certian connection options if sqllite is selected
-			document.getElementById("otype").onchange = function(evt) {
-				var lite = (evt.target.value === "3");
-				document.getElementById("auth").style.display = lite ? "none" : "";
-				document.getElementById("showPath").style.display = lite ? "" : "none";
-				document.getElementById("database").setAttribute("placeholder", lite ? "./mydb.sql" : "dbm");
-			};
-			document.getElementById("database").setAttribute("placeholder", document.getElementById("otype").value == "3" ? "./mydb.sql" : "dbm");
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer')
+    glob.variableChange(document.getElementById('source_conn_storage'), 'varNameContainer2')
+    glob.variableChange(document.getElementById('store_source_conn_storage'), 'varNameContainer3')
+  },
 
-			// interactive links
-			var wrexlinks = document.getElementsByClassName("wrexlink");
-			for (var x = 0; x < wrexlinks.length; x++) {
+  action (cache) {
+    // fields: ["storage", "varName", "hostname", "port", "username", "password", "database", "query", "otype",
+    // "source_conn_storage", "storage_conn_varName", "store_source_conn_storage", "store_storage_conn_varName", "debugMode"],
 
-				var wrexlink = wrexlinks[x];
-				var url = wrexlink.getAttribute("data-url");
-				if (url) {
-					wrexlink.setAttribute("title", url);
-					wrexlink.addEventListener("click", function(e) {
-						e.stopImmediatePropagation();
-						console.log("Launching URL: [" + url + "] in your default browser.");
-						require("child_process").execSync("start " + url);
-					});
-				}
-			}
+    const data = cache.actions[cache.index]
 
-		} catch (error) {
-			// write any init errors to errors.txt in dbm's main directory
-			alert("[Run SQL Query] Error: \n\n " + error.message + "\n\n Check \n ''" + require("path").resolve("dbmmods_dbm_errors.txt") + "' for more details.");
-			require("fs").appendFileSync("dbmmods_dbm_errors.txt", new Date().toUTCString() + " : " + error.stack ? error.stack : error + "\n\n");
-		}
+    const source_conn_storage = parseInt(data.source_conn_storage)
+    const source_conn_varName = this.evalMessage(data.source_conn_varName, cache)
 
-		glob.variableChange(document.getElementById("storage"), "varNameContainer");
-		glob.variableChange(document.getElementById("source_conn_storage"), "varNameContainer2");
-		glob.variableChange(document.getElementById("store_source_conn_storage"), "varNameContainer3");
-	},
+    const store_source_conn_storage = parseInt(data.store_source_conn_storage)
+    const store_source_conn_varName = this.evalMessage(data.store_source_conn_varName, cache)
 
-	action: function(cache) {
+    // 0=mysql, 1=postgres, 2=mssql, 3=sqllite
+    const type = data.otype
+    const hostname = this.evalMessage(data.hostname, cache)
+    const port = this.evalMessage(data.port, cache)
+    const username = this.evalMessage(data.username, cache)
+    const password = this.evalMessage(data.password, cache)
+    const database = this.evalMessage(data.database, cache)
+    const query = this.evalMessage(data.query, cache)
+    const path = this.evalMessage(data.path, cache)
+    const varName = this.evalMessage(data.varName, cache)
 
-		//fields: ["storage", "varName", "hostname", "port", "username", "password", "database", "query", "otype",
-		//"source_conn_storage", "storage_conn_varName", "store_source_conn_storage", "store_storage_conn_varName", "debugMode"],
+    const storage = parseInt(data.storage)
+    const DEBUG = parseInt(data.debugMode)
+    const stringifyOutput = parseInt(data.stringifyOutput)
 
-		const data = cache.actions[cache.index];
+    const Mods = this.getMods()
 
-		const source_conn_storage = parseInt(data.source_conn_storage);
-		const source_conn_varName = this.evalMessage(data.source_conn_varName, cache);
+    try {
+      const Sequelize = Mods.require('sequelize')
+      function getType (key) {
+        let res
+        switch (key) {
+          case '0':
+            res = 'mysql'
+            Mods.installModule('mysql2')
+            break
+          case '1':
+            res = 'postgres'
+            Mods.installModule('pg-hstore')
+            break
+          case '2':
+            res = 'mssql'
+            Mods.installModule('tedious')
+            break
+          case '3':
+            res = 'sqlite'
+            Mods.installModule('sqlite3')
+            break
+          default:
+            res = 'sqlite'
+            Mods.installModule('sqlite3')
+            break
+        }
+        return res
+      }
 
-		const store_source_conn_storage = parseInt(data.store_source_conn_storage);
-		const store_source_conn_varName = this.evalMessage(data.store_source_conn_varName, cache);
+      const options = {
+        host: hostname || 'localhost',
+        port: port || '3311',
+        dialect: getType(type) || 'sqlite',
+        pool: {
+          max: 5,
+          min: 0,
+          acquire: 30000,
+          idle: 10000
+        }
+      }
 
-		// 0=mysql, 1=postgres, 2=mssql, 3=sqllite
-		const type = data.otype;
-		const hostname = this.evalMessage(data.hostname, cache);
-		const port = this.evalMessage(data.port, cache);
-		const username = this.evalMessage(data.username, cache);
-		const password = this.evalMessage(data.password, cache);
-		const database = this.evalMessage(data.database, cache);
-		const query = this.evalMessage(data.query, cache);
-		const path = this.evalMessage(data.path, cache);
-		const varName = this.evalMessage(data.varName, cache);
+      if (!DEBUG) {
+        options.logging = false
+      }
 
-		const storage = parseInt(data.storage);
-		const DEBUG = parseInt(data.debugMode);
-		const stringifyOutput = parseInt(data.stringifyOutput);
+      if (getType(type) === 'sqlite') options.storage = (require('path').resolve(database) || 'database.sqlite')
 
-		const Mods = this.getMods();
+      let sequelize
+      if (source_conn_storage > 0 && source_conn_varName && store_source_conn_storage == 0) {
+        const storedConnection = this.getVariable(source_conn_storage, source_conn_varName, cache)
+        sequelize = storedConnection && storedConnection.sequelize
+        if (sequelize) {
+          if (DEBUG) console.log(`Using stored Connection for host '${storedConnection.hostname}:${storedConnection.port}', using database '${storedConnection.database}'`)
+        } else {
+          sequelize = new Sequelize(database || 'database', username || 'username', password || 'password', options)
+        }
+      } else {
+        sequelize = new Sequelize(database || 'database', username || 'username', password || 'password', options)
+      }
 
-		try {
-			const Sequelize = Mods.require("sequelize");
-			function getType(key){
-				let res;
-				switch (key) {
-					case "0":
-						res=  "mysql";
-						Mods.installModule("mysql2");
-						break;
-					case "1":
-						res= "postgres";
-						Mods.installModule("pg-hstore");
-						break;
-					case "2":
-						res= "mssql";
-						Mods.installModule("tedious");
-						break;
-					case "3":
-						res= "sqlite";
-						Mods.installModule("sqlite3");
-						break;
-					default:
-						res= "sqlite";
-						Mods.installModule("sqlite3");
-						break;
-				}
-				return res;
-			}
+      sequelize.authenticate()
+        .then(() => {
+          if (store_source_conn_storage > 0 && store_source_conn_varName && source_conn_storage == 0) {
+            if (sequelize) {
+              const storedConnection = {
+                hostname, port, database, sequelize
+              }
+              if (DEBUG) console.log(`Storing connection for host '${storedConnection.hostname}:${storedConnection.port}' using database '${storedConnection.database}'`)
+              this.storeValue(storedConnection, store_source_conn_storage, store_source_conn_varName, cache)
+            }
+          }
 
-			var options =  {
-				host: hostname || "localhost",
-				port: port || "3311",
-				dialect: getType(type) || "sqlite",
-				pool: {
-					max: 5,
-					min: 0,
-					acquire: 30000,
-					idle: 10000
-				},
-			};
+          if (query) {
+            const myQuery = sequelize.query(query)
+            myQuery.spread((results, metadata) => {
+              let jsonOut = false
+              if (results && path !== undefined) {
+                jsonOut = Mods.jsonPath(results, path)
 
-			if(!DEBUG){
-				options["logging"] = false;
-			}
+                // if it failed and if they didn't the required initial object, add it for them
+                if (jsonOut == false) {
+                  jsonOut = Mods.jsonPath(results, ('$.').concat(path))
+                }
 
-			if(getType(type) ==="sqlite") options["storage"] = (require("path").resolve(database) || "database.sqlite");
+                // if it failed still, try just pulling the first object
+                if (jsonOut == false) {
+                  jsonOut = Mods.jsonPath(results, ('$.[0].').concat(path))
+                }
 
-			let sequelize;
-			if(source_conn_storage > 0 && source_conn_varName && store_source_conn_storage == 0){
-				const storedConnection = this.getVariable(source_conn_storage, source_conn_varName, cache);
-				sequelize = storedConnection && storedConnection.sequelize;
-				if(sequelize){
-					if(DEBUG) console.log(`Using stored Connection for host '${storedConnection.hostname}:${storedConnection.port}', using database '${storedConnection.database}'`);
-				}else{
-					sequelize = new Sequelize(database || "database", username || "username", password || "password", options);
-				}
-			}else{
-				sequelize = new Sequelize(database || "database", username || "username", password || "password", options);
-			}
+                if (jsonOut) {
+                  if (DEBUG) console.log(`Run SQL Query: JSON Data values starting from [${path}] stored to: [${varName}]`)
+                  if (DEBUG) console.dir(jsonOut)
+                }
+              }
 
-			sequelize.authenticate()
-				.then(() => {
+              if (results && path == undefined && DEBUG) {
+                console.log('\nStored value(s);\r\n')
+                console.log('Key =  Json')
+                for (let i = 0; i < results.length; i++) {
+                  console.log(`[${i}] = ${JSON.stringify(results[i])}`)
+                }
 
-					if(store_source_conn_storage > 0 && store_source_conn_varName && source_conn_storage == 0){
-						if(sequelize){
-							const storedConnection = { hostname: hostname, port:port, database: database, sequelize: sequelize };
-							if(DEBUG) console.log(`Storing connection for host '${storedConnection.hostname}:${storedConnection.port}' using database '${storedConnection.database}'`);
-							this.storeValue(storedConnection, store_source_conn_storage, store_source_conn_varName, cache);
-						}
-					}
+                console.log('\r\nAppend the key that you want to store that value to the variable.')
 
-					if(query){
-						let myQuery = sequelize.query(query);
-						myQuery.spread(function(results, metadata) {
+                const storageType = ['', 'tempVars', 'serverVars', 'globalVars']
+                const output = storageType[storage]
 
-							let jsonOut = false;
-							if(results && path !== undefined){
+                console.log('If not using the Path textbox in the mod, this is how to get special values.')
+                console.log(`Example \${${output}("${varName}")} to \${${output}("${varName}")[0]["${Object.keys(results[0])[0]}"]}`)
+                console.log(`Example Run Script ${output}("${varName}")["${Object.keys(results[0])[0]}"] or a place without \${}.\r\n`)
 
-								jsonOut = Mods.jsonPath(results, path);
+                console.log('Append the path to the end after the key or use the Parse From Stored JSON mod,\nin order to get the value you want')
+                console.log(`Example \${${output}("${varName}")[key].path} or use the json path box in the mod UI.`)
+              }
 
-								// if it failed and if they didn't the required initial object, add it for them
-								if(jsonOut == false){
-									jsonOut = Mods.jsonPath(results, ("$.").concat(path));
-								}
+              const out = jsonOut || results
+              this.storeValue(stringifyOutput ? JSON.stringify(out) : out, storage, varName, cache)
+              this.callNextAction(cache)
+            })
+              .catch((err) => {
+                if (err && err.original) {
+                  this.storeValue({ message: err.original, error: err.original }, storage, varName, cache)
+                  console.error(err.original)
+                  this.callNextAction(cache)
+                }
+              })
+          } else {
+            this.callNextAction(cache)
+          }
+        }).catch((err) => {
+          console.log('Unable to connect to the database:')
+          console.error(err)
+        })
+    } catch (error) {
+      console.log(`SQL Mod Error: ${error.stack ? error.stack : error}`)
+    }
+  },
 
-								// if it failed still, try just pulling the first object
-								if(jsonOut == false){
-									jsonOut = Mods.jsonPath(results, ("$.[0].").concat(path));
-								}
-
-								if(jsonOut){
-									if(DEBUG) console.log("Run SQL Query: JSON Data values starting from ["+ path +"] stored to: ["+ varName+"]");
-									if(DEBUG) console.dir(jsonOut);
-								}
-
-							}
-
-							if(results && path == undefined && DEBUG){
-								console.log("\nStored value(s);\r\n");
-								console.log("Key =  Json");
-								for (i = 0; i < results.length; i++) {
-									console.log("[" + i + "] = " + JSON.stringify(results[i]));
-								}
-
-								console.log("\r\nAppend the key that you want to store that value to the variable.");
-
-								const storageType = ["", "tempVars", "serverVars", "globalVars"];
-								const output = storageType[storage];
-
-								console.log("If not using the Path textbox in the mod, this is how to get special values.");
-								console.log("Example ${"+output+"(\""+ varName +"\")} to ${"+output+"(\""+ varName +"\")[0][\""+ Object.keys(results[0])[0]+"\"]}");
-								console.log("Example Run Script "+output+"(\""+ varName +"\")[\""+ Object.keys(results[0])[0]+"\"] or a place without ${}.\r\n");
-
-								console.log("Append the path to the end after the key or use the Parse From Stored JSON mod,\nin order to get the value you want");
-								console.log("Example ${"+output+"(\""+ varName +"\")[key].path} or use the json path box in the mod UI.");
-							}
-
-							const out = jsonOut || results;
-							this.storeValue(stringifyOutput ? JSON.stringify(out) : out, storage, varName, cache);
-							this.callNextAction(cache);
-
-						}.bind(this))
-							.catch(function(err){
-								if(err && err.original){
-									this.storeValue({ message: err.original, error:err.original }, storage, varName, cache);
-									console.error(err.original);
-									this.callNextAction(cache);
-								}
-							}.bind(this));
-
-					}else{
-						this.callNextAction(cache);
-					}
-
-				}).catch((err) => {
-					console.log("Unable to connect to the database:");
-					console.error(err);
-				});
-		} catch (error) {
-			console.log("SQL Mod Error: " + (error.stack ? error.stack : error));
-		}
-
-	},
-
-	mod: function() {}
-};
+  mod () {}
+}

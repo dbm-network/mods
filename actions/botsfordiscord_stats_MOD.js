@@ -1,15 +1,15 @@
 module.exports = {
-	name: "Send Stats to BFD",
-	section: "Other Stuff",
+  name: 'Send Stats to BFD',
+  section: 'Other Stuff',
 
-	subtitle: function() {
-		return "Send server count to BFD!";
-	},
+  subtitle () {
+    return 'Send server count to BFD!'
+  },
 
-	fields: ["BFDToken", "ClientID", "info"],
+  fields: ['BFDToken', 'ClientID', 'info'],
 
-	html: function() {
-		return `
+  html () {
+    return `
 		<div>
 			<p>
 				<u>Send Server Stats To BFD</u><br>
@@ -23,21 +23,21 @@ module.exports = {
 			 Your bot ID:<br>
 			 <input id="ClientID" class="round" type="text">
 			 <br>Please make sure you don't put this action on a short interval - it can cause 429 (rate limit) errors!
-		</div><br>`;
-	},
+		</div><br>`
+  },
 
-	init: function() {},
+  init () {},
 
-	action: function(cache) {
-		const data = cache.actions[cache.index];
-		const token = this.evalMessage(data.BFDToken, cache);
-		const clientid = this.evalMessage(data.ClientID, cache);
-		const Mods = this.getMods();
-		const BFD = Mods.require("bfd-api");
-		const bfd = new BFD(token);
-		bfd.postCount(this.getDBM().Bot.bot.guilds.cache.size, clientid);
-		this.callNextAction(cache);
-	},
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const token = this.evalMessage(data.BFDToken, cache)
+    const clientid = this.evalMessage(data.ClientID, cache)
+    const Mods = this.getMods()
+    const BFD = Mods.require('bfd-api')
+    const bfd = new BFD(token)
+    bfd.postCount(this.getDBM().Bot.bot.guilds.cache.size, clientid)
+    this.callNextAction(cache)
+  },
 
-	mod: function() {}
-};
+  mod () {}
+}

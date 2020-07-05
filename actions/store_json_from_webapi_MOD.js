@@ -1,21 +1,21 @@
 module.exports = {
-	name: "Store Json From WebAPI",
-	section: "JSON Things",
+  name: 'Store Json From WebAPI',
+  section: 'JSON Things',
 
-	subtitle: function(data) {
-		return `${data.varName}`;
-	},
+  subtitle (data) {
+    return `${data.varName}`
+  },
 
-	variableStorage: function(data, varType) {
-		const type = parseInt(data.storage);
-		if(type !== varType) return;
-		return ([data.varName, "JSON Object"]);
-	},
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage)
+    if (type !== varType) return
+    return ([data.varName, 'JSON Object'])
+  },
 
-	fields: ["token", "user", "pass", "url", "path", "storage", "varName", "debugMode", "headers"],
+  fields: ['token', 'user', 'pass', 'url', 'path', 'storage', 'varName', 'debugMode', 'headers'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 	<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
 	<div style="float: left; width: 95%;">
 			WebAPI URL: <br>
@@ -71,170 +71,166 @@ module.exports = {
 	</div>
 	</div>
 	</div>
-	`;
-	},
+	`
+  },
 
-	init: function() {
-		const { glob, document } = this;
+  init () {
+    const { glob, document } = this
 
-		glob.variableChange(document.getElementById("storage"), "varNameContainer");
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer')
 
-		glob.checkBox = function(element, type){
-			if(type === "auth"){
-				document.getElementById("authSection").style.display = element.checked  ? "" : "none";
-				document.getElementById("showAuth").value = element.checked ? "1" : "0";
-			}
-		};
+    glob.checkBox = function (element, type) {
+      if (type === 'auth') {
+        document.getElementById('authSection').style.display = element.checked ? '' : 'none'
+        document.getElementById('showAuth').value = element.checked ? '1' : '0'
+      }
+    }
 
-		glob.checkBox(document.getElementById("toggleAuth"), "auth");
-	},
+    glob.checkBox(document.getElementById('toggleAuth'), 'auth')
+  },
 
-	action: function(cache) {
-		var _this = this;
+  action (cache) {
+    const _this = this
 
-		const data = cache.actions[cache.index];
+    const data = cache.actions[cache.index]
 
-		var Mods = this.getMods();
-		var request = Mods.require("request");
+    const Mods = this.getMods()
+    const request = Mods.require('request')
 
-		const _DEBUG = parseInt(data.debugMode);
+    const _DEBUG = parseInt(data.debugMode)
 
-		const storage = parseInt(data.storage);
-		const varName = this.evalMessage(data.varName, cache);
+    const storage = parseInt(data.storage)
+    const varName = this.evalMessage(data.varName, cache)
 
-		var url = this.evalMessage(data.url, cache);
-		var path = this.evalMessage(data.path, cache);
+    let url = this.evalMessage(data.url, cache)
+    const path = this.evalMessage(data.path, cache)
 
-		const token = this.evalMessage(data.token, cache);
-		const user = this.evalMessage(data.user, cache);
-		const pass = this.evalMessage(data.pass, cache);
+    const token = this.evalMessage(data.token, cache)
+    const user = this.evalMessage(data.user, cache)
+    const pass = this.evalMessage(data.pass, cache)
 
-		let headers = this.evalMessage(data.headers, cache);
+    const headers = this.evalMessage(data.headers, cache)
 
-		// if it fails the check, try to re-encode the url
-		if(!Mods.checkURL(url)){
-			url = encodeURI(url);
-		}
+    // if it fails the check, try to re-encode the url
+    if (!Mods.checkURL(url)) {
+      url = encodeURI(url)
+    }
 
-		if(Mods.checkURL(url)){
-			try {
-				function storeData(error, res, jsonData) {
-					var statusCode = res ? res.statusCode : 200;
-					var errorJson;
-					if(error){
-						errorJson = JSON.stringify({ error, statusCode });
-						_this.storeValue(errorJson, storage, varName, cache);
+    if (Mods.checkURL(url)) {
+      try {
+        function storeData (error, res, jsonData) {
+          const statusCode = res ? res.statusCode : 200
+          let errorJson
+          if (error) {
+            errorJson = JSON.stringify({ error, statusCode })
+            _this.storeValue(errorJson, storage, varName, cache)
 
-						console.error("WebAPI: Error: " + errorJson + " stored to: ["+ varName+"]");
-					}else{
-						if(path){
-							var outData = Mods.jsonPath(jsonData, path);
+            console.error(`WebAPI: Error: ${errorJson} stored to: [${varName}]`)
+          } else if (path) {
+            const outData = Mods.jsonPath(jsonData, path)
 
-							if(_DEBUG) console.dir(outData);
+            if (_DEBUG) console.dir(outData)
 
-							try {
-								var test = JSON.parse(JSON.stringify(outData));
-							} catch (error) {
-								errorJson = JSON.stringify({ error: error, statusCode: statusCode, success: false });
-								_this.storeValue(errorJson, storage, varName, cache);
-								console.error(error.stack ? error.stack : error);
-							}
+            try {
+              const test = JSON.parse(JSON.stringify(outData))
+            } catch (error) {
+              errorJson = JSON.stringify({ error, statusCode, success: false })
+              _this.storeValue(errorJson, storage, varName, cache)
+              console.error(error.stack ? error.stack : error)
+            }
 
-							var outValue = eval(JSON.stringify(outData), cache);
+            const outValue = eval(JSON.stringify(outData), cache)
 
-							if(!outData){
-								console.error("WebAPI: Error: " + errorJson + " NO JSON data returned. Check the URL: "+ url);
-								errorJson = JSON.stringify({ error:"No JSON Data Returned", statusCode: 0 });
-								_this.storeValue(errorJson, storage, varName, cache);
-							}else if(outData.success != null){
-								errorJson = JSON.stringify({ error: error, statusCode: statusCode, success: false });
-								_this.storeValue(errorJson, storage, varName, cache);
-								console.log("WebAPI: Error Invalid JSON, is the Path and/or URL set correctly? [" + path + "]");
-							}else{
-								if(outValue.success != null || !outValue){
-									errorJson = JSON.stringify({ error: error, statusCode: statusCode, success: false });
-									_this.storeValue(errorJson, storage, varName, cache);
-									console.log("WebAPI: Error Invalid JSON, is the Path and/or URL set correctly? [" + path + "]");
-								}else{
-									_this.storeValue(outValue, storage, varName, cache);
-									_this.storeValue(jsonData, 1, url, cache);
-									_this.storeValue(url, 1, url + "_URL", cache);
-									if(_DEBUG) console.log("WebAPI: JSON Data values starting from ["+ path +"] stored to: ["+ varName+"]");
-								}
-							}
-						}else{
-							if(_DEBUG) console.dir(jsonData);
-							_this.storeValue(jsonData, storage, varName, cache);
-							_this.storeValue(jsonData, 1, url, cache);
-							_this.storeValue(url, 1, url + "_URL", cache);
-							if(_DEBUG) console.log("WebAPI: JSON Data Object stored to: ["+ varName+"]");
-						}
-					}
-					_this.callNextAction(cache);
-				}
+            if (!outData) {
+              console.error(`WebAPI: Error: ${errorJson} NO JSON data returned. Check the URL: ${url}`)
+              errorJson = JSON.stringify({ error: 'No JSON Data Returned', statusCode: 0 })
+              _this.storeValue(errorJson, storage, varName, cache)
+            } else if (outData.success != null) {
+              errorJson = JSON.stringify({ error, statusCode, success: false })
+              _this.storeValue(errorJson, storage, varName, cache)
+              console.log(`WebAPI: Error Invalid JSON, is the Path and/or URL set correctly? [${path}]`)
+            } else if (outValue.success != null || !outValue) {
+              errorJson = JSON.stringify({ error, statusCode, success: false })
+              _this.storeValue(errorJson, storage, varName, cache)
+              console.log(`WebAPI: Error Invalid JSON, is the Path and/or URL set correctly? [${path}]`)
+            } else {
+              _this.storeValue(outValue, storage, varName, cache)
+              _this.storeValue(jsonData, 1, url, cache)
+              _this.storeValue(url, 1, `${url}_URL`, cache)
+              if (_DEBUG) console.log(`WebAPI: JSON Data values starting from [${path}] stored to: [${varName}]`)
+            }
+          } else {
+            if (_DEBUG) console.dir(jsonData)
+            _this.storeValue(jsonData, storage, varName, cache)
+            _this.storeValue(jsonData, 1, url, cache)
+            _this.storeValue(url, 1, `${url}_URL`, cache)
+            if (_DEBUG) console.log(`WebAPI: JSON Data Object stored to: [${varName}]`)
+          }
+          _this.callNextAction(cache)
+        }
 
-				var oldUrl = this.getVariable(1, url + "_URL", cache);
+        const oldUrl = this.getVariable(1, `${url}_URL`, cache)
 
-				if(url === oldUrl){
-					let jsonData;
-					let error;
-					let res = { statusCode:200 };
+        if (url === oldUrl) {
+          let jsonData
+          let error
+          const res = { statusCode: 200 }
 
-					try {
-						jsonData = this.getVariable(1, url, cache);
-					} catch (err) {
-						error = err;
-					}
+          try {
+            jsonData = this.getVariable(1, url, cache)
+          } catch (err) {
+            error = err
+          }
 
-					if(_DEBUG) console.log("WebAPI: Using previously stored json data from the initial store json action within this command.");
+          if (_DEBUG) console.log('WebAPI: Using previously stored json data from the initial store json action within this command.')
 
-					storeData(error, res, jsonData);
-				}else{
-					let setHeaders = {};
+          storeData(error, res, jsonData)
+        } else {
+          const setHeaders = {}
 
-					// set default required header
-					setHeaders["User-Agent"] = "Other";
+          // set default required header
+          setHeaders['User-Agent'] = 'Other'
 
-					// Because headers are a dictionary ;)
-					if(headers){
-						var lines = String(headers).split("\n");
-						for(var i = 0;i < lines.length;i++){
-							var header = lines[i].split(":");
+          // Because headers are a dictionary ;)
+          if (headers) {
+            const lines = String(headers).split('\n')
+            for (let i = 0; i < lines.length; i++) {
+              const header = lines[i].split(':')
 
-							if(lines[i].includes(":") && header.length > 0){
-								var key = header[0] || "Unknown";
-								var value = header[1] || "Unknown";
-								setHeaders[key] = value;
+              if (lines[i].includes(':') && header.length > 0) {
+                const key = header[0] || 'Unknown'
+                const value = header[1] || 'Unknown'
+                setHeaders[key] = value
 
-								if(_DEBUG) console.log("Applied Header: " + lines[i]);
-							}else{
-								console.error(`WebAPI: Error: Custom Header line ${lines[i]} is wrongly formatted. You must split the key from the value with a colon (:)`);
-							}
-						}
-					}
+                if (_DEBUG) console.log(`Applied Header: ${lines[i]}`)
+              } else {
+                console.error(`WebAPI: Error: Custom Header line ${lines[i]} is wrongly formatted. You must split the key from the value with a colon (:)`)
+              }
+            }
+          }
 
-					request.get({
-						url: url,
-						json: true,
-						headers: setHeaders,
-						auth: {
-							bearer: token,
-							user: user,
-							pass: pass,
-							sendImmediately: false
-						},
-					}, (error, res, jsonData) => storeData(error, res, jsonData));
-				}
-			} catch (err) {
-				console.error(err.stack ? err.stack : err);
-			}
-		} else{
-			console.error("URL ["+url+"] Is Not Valid");
-		}
-	},
+          request.get({
+            url,
+            json: true,
+            headers: setHeaders,
+            auth: {
+              bearer: token,
+              user,
+              pass,
+              sendImmediately: false
+            }
+          }, (error, res, jsonData) => storeData(error, res, jsonData))
+        }
+      } catch (err) {
+        console.error(err.stack ? err.stack : err)
+      }
+    } else {
+      console.error(`URL [${url}] Is Not Valid`)
+    }
+  },
 
-	mod: function(DBM) {
-		// aliases for backwards compatibility, in the bot only, DBM will still say the action is missing.
-		DBM.Actions["Store Variable From WebAPI"] = DBM.Actions["Store Json From WebAPI"];
-	}
-};
+  mod (DBM) {
+    // aliases for backwards compatibility, in the bot only, DBM will still say the action is missing.
+    DBM.Actions['Store Variable From WebAPI'] = DBM.Actions['Store Json From WebAPI']
+  }
+}

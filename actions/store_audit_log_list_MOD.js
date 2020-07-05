@@ -1,29 +1,30 @@
 module.exports = {
-	name: "Store Audit Log List MOD",
-	section: "Server Control",
+  name: 'Store Audit Log List MOD',
+  section: 'Server Control',
 
-	subtitle: function(data) {
-		const storage = ["All Member", "Mentioned User", "Command Author", "tempVars", "serverVars", "globalVars"];
-		const type = { 0:"All Type", 1:"Update Server", 10:"Create Channel", 11:"Update Channel", 12:"Delete Channel", 13:"Create Channel Permission", 14:"Update Channel Permission", 15:"Delete Channel Permission", 20:"Kick Member", 21:"Prune Members", 22:"Ban Member", 23:"Unban Member", 24:"Update Member", 25:"Update Member Roles", 26:"Move Member", 27:"Disconnect Member", 28:"Add Bot", 30:"Create Role", 31:"Update Role", 32:"Delete Role", 40:"Create Invite", 41:"Update Invite", 42:"Delete Invite", 50:"Create Webhook", 51:"Update Webhook", 52:"Delete Webhook", 60:"Create Emoji", 61:"Update Emoji", 62:"Delete Emoji", 72:"Delete Messages", 73:"Bulk Delete Messages", 74:"Pin Message", 75:"Unpin Message", 76:"Create Integration", 77:"Update Intergration", 78:"Delete Integration" };
-		if (data.storage == 0 || data.storage == 1 || data.storage == 2) {
-			return `Store ${storage[parseInt(data.storage)]} - ${type[parseInt(data.type)]}`;
-		} else {
-			return `Store ${storage[parseInt(data.storage)]}("${data.varName}") - ${type[parseInt(data.type)]}`;
-		}
-	},
+  subtitle (data) {
+    const storage = ['All Member', 'Mentioned User', 'Command Author', 'tempVars', 'serverVars', 'globalVars']
+    const type = {
+      0: 'All Type', 1: 'Update Server', 10: 'Create Channel', 11: 'Update Channel', 12: 'Delete Channel', 13: 'Create Channel Permission', 14: 'Update Channel Permission', 15: 'Delete Channel Permission', 20: 'Kick Member', 21: 'Prune Members', 22: 'Ban Member', 23: 'Unban Member', 24: 'Update Member', 25: 'Update Member Roles', 26: 'Move Member', 27: 'Disconnect Member', 28: 'Add Bot', 30: 'Create Role', 31: 'Update Role', 32: 'Delete Role', 40: 'Create Invite', 41: 'Update Invite', 42: 'Delete Invite', 50: 'Create Webhook', 51: 'Update Webhook', 52: 'Delete Webhook', 60: 'Create Emoji', 61: 'Update Emoji', 62: 'Delete Emoji', 72: 'Delete Messages', 73: 'Bulk Delete Messages', 74: 'Pin Message', 75: 'Unpin Message', 76: 'Create Integration', 77: 'Update Intergration', 78: 'Delete Integration'
+    }
+    if (data.storage == 0 || data.storage == 1 || data.storage == 2) {
+      return `Store ${storage[parseInt(data.storage)]} - ${type[parseInt(data.type)]}`
+    }
+    return `Store ${storage[parseInt(data.storage)]}("${data.varName}") - ${type[parseInt(data.type)]}`
+  },
 
-	variableStorage: function(data, varType) {
-		const type = parseInt(data.storage2);
-		if(type !== varType) return;
-		const info = parseInt(data.info);
-		let dataType = "Audit Log List";
-		return ([data.varName2, dataType]);
-	},
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage2)
+    if (type !== varType) return
+    const info = parseInt(data.info)
+    const dataType = 'Audit Log List'
+    return ([data.varName2, dataType])
+  },
 
-	fields: ["storage", "varName", "type", "before", "limit", "storage2", "varName2"],
+  fields: ['storage', 'varName', 'type', 'before', 'limit', 'storage2', 'varName2'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 	<div>
 		<div style="float: left; width: 35%;">
 			Filter Member:<br>
@@ -107,78 +108,78 @@ module.exports = {
 			Variable Name:<br>
 			<input id="varName2" class="round" type="text">
 		</div>
-	</div>`;
-	},
+	</div>`
+  },
 
-	init: function() {
-		const { glob, document } = this;
-		const varNameContainer = document.getElementById("varNameContainer");
+  init () {
+    const { glob, document } = this
+    const varNameContainer = document.getElementById('varNameContainer')
 
-		glob.onChange0 = function(storage) {
-			switch(parseInt(storage.value)) {
-				case 0:
-				case 1:
-				case 2:
-					varNameContainer.style.display = "none";
-					break;
-				default:
-					varNameContainer.style.display = null;
-					break;
-			}
-		};
+    glob.onChange0 = function (storage) {
+      switch (parseInt(storage.value)) {
+        case 0:
+        case 1:
+        case 2:
+          varNameContainer.style.display = 'none'
+          break
+        default:
+          varNameContainer.style.display = null
+          break
+      }
+    }
 
-		glob.onChange0(document.getElementById("storage"));
-	},
+    glob.onChange0(document.getElementById('storage'))
+  },
 
-	action: function(cache) {
-		const data = cache.actions[cache.index];
-		const server = cache.server;
-		if (!server) {
-			this.callNextAction(cache);
-			return;
-		}
-		const member = parseInt(data.storage);
-		let mem;
-		switch (member) {
-			case 0:
-				break;
-			default:
-				const varName = this.evalMessage(data.varName, cache);
-				mem = this.getMember(member-1, varName, cache);
-				break;
-		}
-		let before = this.evalMessage(data.before, cache);
-		let after = this.evalMessage(data.after, cache);
-		let limit = parseInt(this.evalMessage(data.limit, cache));
-		let type = parseInt(data.type);
-		const options = {};
-		if (type != 0) {
-			options.type = type;
-		} else {
-			options.type = null;
-		}
-		if (typeof before == "object" || !isNaN(before)) {
-			options.before = before;
-		}
-		if (limit && !isNaN(limit)) {
-			options.limit = limit;
-		}
-		if (mem) {
-			options.user = mem;
-		}
-		let result = [];
-		server.fetchAuditLogs(options).then((audits) => {
-			audits.entries.forEach(function(entry) {
-				result.push(entry);
-			});
-			const storage2 = parseInt(data.storage2);
-			const varName2 = this.evalMessage(data.varName2, cache);
-			if (result.length != 0) {
-				this.storeValue(result, storage2, varName2, cache);
-			}
-			this.callNextAction(cache);
-		});
-	},
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const { server } = cache
+    if (!server) {
+      this.callNextAction(cache)
+      return
+    }
+    const member = parseInt(data.storage)
+    let mem
+    switch (member) {
+      case 0:
+        break
+      default:
+        const varName = this.evalMessage(data.varName, cache)
+        mem = this.getMember(member - 1, varName, cache)
+        break
+    }
+    const before = this.evalMessage(data.before, cache)
+    const after = this.evalMessage(data.after, cache)
+    const limit = parseInt(this.evalMessage(data.limit, cache))
+    const type = parseInt(data.type)
+    const options = {}
+    if (type != 0) {
+      options.type = type
+    } else {
+      options.type = null
+    }
+    if (typeof before === 'object' || !isNaN(before)) {
+      options.before = before
+    }
+    if (limit && !isNaN(limit)) {
+      options.limit = limit
+    }
+    if (mem) {
+      options.user = mem
+    }
+    const result = []
+    server.fetchAuditLogs(options).then((audits) => {
+      audits.entries.forEach((entry) => {
+        result.push(entry)
+      })
+      const storage2 = parseInt(data.storage2)
+      const varName2 = this.evalMessage(data.varName2, cache)
+      if (result.length != 0) {
+        this.storeValue(result, storage2, varName2, cache)
+      }
+      this.callNextAction(cache)
+    })
+  },
 
-	mod: function() {}
-};
+  mod () {}
+}

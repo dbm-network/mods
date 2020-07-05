@@ -1,22 +1,22 @@
 module.exports = {
-	name: "Base Convert MOD",
-	section: "Other Stuff",
+  name: 'Base Convert MOD',
+  section: 'Other Stuff',
 
-	subtitle: function(data) {
-		return `Base ${(data.basef)} to Base ${(data.baset)}`;
-	},
+  subtitle (data) {
+    return `Base ${(data.basef)} to Base ${(data.baset)}`
+  },
 
-	variableStorage: function(data, varType) {
-		const type = parseInt(data.storage);
-		if (type !== varType) return;
-		let dataType = "Number";
-		return ([data.varName, dataType]);
-	},
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage)
+    if (type !== varType) return
+    const dataType = 'Number'
+    return ([data.varName, dataType])
+  },
 
-	fields: ["num", "basef", "baset", "storage", "varName"],
+  fields: ['num', 'basef', 'baset', 'storage', 'varName'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 <div style="float: left; width: 100%;">
 	Number:<br>
 	<input id="num" class="round" type="text">
@@ -42,32 +42,32 @@ module.exports = {
 		Variable Name:<br>
 		<input id="varName" class="round" type="text">
 	</div>
-</div>`;
-	},
+</div>`
+  },
 
-	init: function() {},
+  init () {},
 
-	action: function(cache) {
-		const data = cache.actions[cache.index];
-		const num = this.evalMessage(data.num, cache);
-		const basef = parseInt(data.basef);
-		const baset = parseInt(data.baset);
-		let result;
-		if (basef > 1 && basef <= 36 && baset > 1 && baset <= 36) {
-			const base = parseInt(num, basef);
-			if (!isNaN(base)) {
-				result = base.toString(baset).toUpperCase();
-			} else {
-				console.log("Invalid input, "+num+" not Base-"+basef);
-			}
-		}
-		if (result !== undefined) {
-			const storage = parseInt(data.storage);
-			const varName = this.evalMessage(data.varName, cache);
-			this.storeValue(result, storage, varName, cache);
-		}
-		this.callNextAction(cache);
-	},
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const num = this.evalMessage(data.num, cache)
+    const basef = parseInt(data.basef)
+    const baset = parseInt(data.baset)
+    let result
+    if (basef > 1 && basef <= 36 && baset > 1 && baset <= 36) {
+      const base = parseInt(num, basef)
+      if (!isNaN(base)) {
+        result = base.toString(baset).toUpperCase()
+      } else {
+        console.log(`Invalid input, ${num} not Base-${basef}`)
+      }
+    }
+    if (result !== undefined) {
+      const storage = parseInt(data.storage)
+      const varName = this.evalMessage(data.varName, cache)
+      this.storeValue(result, storage, varName, cache)
+    }
+    this.callNextAction(cache)
+  },
 
-	mod: function() {}
-};
+  mod () {}
+}

@@ -1,21 +1,21 @@
 module.exports = {
-	name: "Slice",
-	section: "Other Stuff",
+  name: 'Slice',
+  section: 'Other Stuff',
 
-	subtitle: function(data) {
-		return "Slice anything!";
-	},
+  subtitle (data) {
+    return 'Slice anything!'
+  },
 
-	variableStorage: function(data, varType) {
-		const type = parseInt(data.storage);
-		if(type !== varType) return;
-		let dataType = "Sliced Result";
-		return ([data.varName, dataType]);
-	},
-	fields: ["slice", "startingNumber", "sliceLength", "storage", "varName"],
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage)
+    if (type !== varType) return
+    const dataType = 'Sliced Result'
+    return ([data.varName, dataType])
+  },
+  fields: ['slice', 'startingNumber', 'sliceLength', 'storage', 'varName'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 	<div>
 		Slice Text:<br>
 		<textarea id="slice" rows="2" placeholder="Insert message here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
@@ -44,34 +44,34 @@ module.exports = {
 		If you want to slice <b>you</b>, starting number = 0, slice length = 3.
 		</p>
 	</div>
-</div>`;
-	},
+</div>`
+  },
 
-	init: function() {
-		const { glob, document } = this;
+  init () {
+    const { glob, document } = this
 
-		glob.variableChange(document.getElementById("storage"), "varNameContainer");
-	},
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer')
+  },
 
-	action: function(cache) {
-		const data = cache.actions[cache.index];
-		const type = parseInt(data.storage);
-		const varName = this.evalMessage(data.varName, cache);
-		const sliceText = this.evalMessage(data.slice, cache);
-		const startingFrom = parseInt(this.evalMessage(data.startingNumber, cache));
-		const sliceLength = parseInt(this.evalMessage(data.sliceLength, cache));
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const type = parseInt(data.storage)
+    const varName = this.evalMessage(data.varName, cache)
+    const sliceText = this.evalMessage(data.slice, cache)
+    const startingFrom = parseInt(this.evalMessage(data.startingNumber, cache))
+    const sliceLength = parseInt(this.evalMessage(data.sliceLength, cache))
 
-		if(startingFrom < 0) return console.log("Your number can not be less than 0.");
-		if(sliceLength == 0) return console.log("Slice length can not be 0.");
-		if(!sliceText) return console.log("Please write something to slice.");
-		if(!startingFrom && startingFrom != 0) return console.log("Please write a starting number.");
-		if(!sliceLength) return console.log("Slice length can not be empty");
+    if (startingFrom < 0) return console.log('Your number can not be less than 0.')
+    if (sliceLength == 0) return console.log('Slice length can not be 0.')
+    if (!sliceText) return console.log('Please write something to slice.')
+    if (!startingFrom && startingFrom != 0) return console.log('Please write a starting number.')
+    if (!sliceLength) return console.log('Slice length can not be empty')
 
-		const result = `${sliceText}`.slice(`${startingFrom}`, `${sliceLength + startingFrom}`);
+    const result = `${sliceText}`.slice(`${startingFrom}`, `${sliceLength + startingFrom}`)
 
-		this.storeValue(result, type, varName, cache);
-		this.callNextAction(cache);
-	},
+    this.storeValue(result, type, varName, cache)
+    this.callNextAction(cache)
+  },
 
-	mod: function() {}
-};
+  mod () {}
+}

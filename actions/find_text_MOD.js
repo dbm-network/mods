@@ -1,21 +1,21 @@
 module.exports = {
-	name: "Find Text",
-	section: "Other Stuff",
+  name: 'Find Text',
+  section: 'Other Stuff',
 
-	subtitle: function(data) {
-		return `Find "${data.wordtoFind}"`;
-	},
+  subtitle (data) {
+    return `Find "${data.wordtoFind}"`
+  },
 
-	variableStorage: function(data, varType) {
-		const type = parseInt(data.storage);
-		if(type !== varType) return;
-		let dataType = "Number";
-		return ([data.varName, dataType]);
-	},
-	fields: ["text", "wordtoFind", "position", "storage", "varName"],
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage)
+    if (type !== varType) return
+    const dataType = 'Number'
+    return ([data.varName, dataType])
+  },
+  fields: ['text', 'wordtoFind', 'position', 'storage', 'varName'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 		<div style="float: left; width: 65%; padding-top: 8px;">
 			Text to Find:
 			<input id="wordtoFind" class="round" type="text">
@@ -48,47 +48,45 @@ module.exports = {
 			If you choose <b>Position at Start</b>, it will find the position of the first character of your text.
 			<b>Example</b>: We search word "a" | <u>This is<b> *</b>a<b>- </b>test</u> | * is the start (8) | - is the end (9)
 			</p>
-		</div>`;
-	},
+		</div>`
+  },
 
-	init: function() {
-		const { glob, document } = this;
+  init () {
+    const { glob, document } = this
 
-		glob.variableChange(document.getElementById("storage"), "varNameContainer");
-	},
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer')
+  },
 
-	action: function(cache) {
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const text = this.evalMessage(data.text, cache)
+    const wordtoFind = this.evalMessage(data.wordtoFind, cache)
+    const position = parseInt(data.position)
+    // Check if everything is ok
+    if (!wordtoFind) return console.log('Find Text MOD: Text to find is missing!')
+    if (!text) return console.log('Find Text MOD: Source text is missing!')
+    if (!text.includes(wordtoFind)) { console.log(`Find Text MOD: The requested text wasn't found in the source text!\n	Source text: ${text}\n	Text to find: ${wordtoFind}`) }
 
-		const data = cache.actions[cache.index];
-		const text = this.evalMessage(data.text, cache);
-		const wordtoFind = this.evalMessage(data.wordtoFind, cache);
-		const position = parseInt(data.position);
-		// Check if everything is ok
-		if(!wordtoFind) return console.log("Find Text MOD: Text to find is missing!");
-		if(!text) return console.log("Find Text MOD: Source text is missing!");
-		if(!text.includes(wordtoFind)) { console.log(`Find Text MOD: The requested text wasn't found in the source text!\n	Source text: ${text}\n	Text to find: ${wordtoFind}`); }
+    // Main code
+    let result
+    switch (position) {
+      case 0:
+        result = text.indexOf(wordtoFind)
+        break
+      case 1:
+        result = wordtoFind.length + text.indexOf(wordtoFind)
+        break
+      default:
+        break
+    }
 
-		// Main code
-		let result;
-		switch(position) {
-			case 0:
-				result = text.indexOf(wordtoFind);
-				break;
-			case 1:
-				result = wordtoFind.length + text.indexOf(wordtoFind);
-				break;
-			default:
-				break;
-		}
+    // Storing
+    const storage = parseInt(data.storage)
+    const varName = this.evalMessage(data.varName, cache)
+    this.storeValue(result, storage, varName, cache)
 
-		// Storing
-		const storage = parseInt(data.storage);
-		const varName = this.evalMessage(data.varName, cache);
-		this.storeValue(result, storage, varName, cache);
+    this.callNextAction(cache)
+  },
 
-		this.callNextAction(cache);
-	},
-
-	mod: function() {}
-};
-
+  mod () {}
+}

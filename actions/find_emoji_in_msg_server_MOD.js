@@ -1,22 +1,22 @@
 module.exports = {
-	name: "Find Custom Emoji in Current Server",
-	section: "Emoji Control",
+  name: 'Find Custom Emoji in Current Server',
+  section: 'Emoji Control',
 
-	subtitle: function(data) {
-		const info = ["Emoji ID", "Emoji Name"];
-		return `Find Emoji by ${info[parseInt(data.info)]}`;
-	},
+  subtitle (data) {
+    const info = ['Emoji ID', 'Emoji Name']
+    return `Find Emoji by ${info[parseInt(data.info)]}`
+  },
 
-	variableStorage: function(data, varType) {
-		const type = parseInt(data.storage);
-		if(type !== varType) return;
-		return ([data.varName, "Emoji"]);
-	},
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage)
+    if (type !== varType) return
+    return ([data.varName, 'Emoji'])
+  },
 
-	fields: ["info", "find", "storage", "varName"],
+  fields: ['info', 'find', 'storage', 'varName'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 	<div>
 		<div style="float: left; width: 40%;">
 			Source Field:<br>
@@ -41,35 +41,35 @@ module.exports = {
 			Variable Name:<br>
 			<input id="varName" class="round" type="text">
 		</div>
-	</div>`;
-	},
+	</div>`
+  },
 
-	init: function() {},
+  init () {},
 
-	action: function(cache) {
-		const data = cache.actions[cache.index];
-		const msg = cache.msg;
-		const server = cache.server;
-		const info = parseInt(data.info);
-		const find = this.evalMessage(data.find, cache);
-		let result;
-		switch(info) {
-			case 0:
-				result = server.emojis.cache.get(find);
-				break;
-			case 1:
-				result = server.emojis.cache.find((e) => e.name === find);
-				break;
-			default:
-				break;
-		}
-		if(result !== undefined) {
-			const storage = parseInt(data.storage);
-			const varName = this.evalMessage(data.varName, cache);
-			this.storeValue(result, storage, varName, cache);
-		}
-		this.callNextAction(cache);
-	},
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const { msg } = cache
+    const { server } = cache
+    const info = parseInt(data.info)
+    const find = this.evalMessage(data.find, cache)
+    let result
+    switch (info) {
+      case 0:
+        result = server.emojis.cache.get(find)
+        break
+      case 1:
+        result = server.emojis.cache.find((e) => e.name === find)
+        break
+      default:
+        break
+    }
+    if (result !== undefined) {
+      const storage = parseInt(data.storage)
+      const varName = this.evalMessage(data.varName, cache)
+      this.storeValue(result, storage, varName, cache)
+    }
+    this.callNextAction(cache)
+  },
 
-	mod: function() {}
-};
+  mod () {}
+}

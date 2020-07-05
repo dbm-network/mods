@@ -1,23 +1,23 @@
 module.exports = {
-	name: "Math Operation",
-	section: "Other Stuff",
+  name: 'Math Operation',
+  section: 'Other Stuff',
 
-	subtitle: function(data) {
-		const info = ["Round", "Absolute", "Ceil", "Floor", "Sine", "Cosine", "Tangent", "Arc Sine", "Arc Cosine", "Arc Tangent"];
-		return `${info[data.info]}`;
-	},
+  subtitle (data) {
+    const info = ['Round', 'Absolute', 'Ceil', 'Floor', 'Sine', 'Cosine', 'Tangent', 'Arc Sine', 'Arc Cosine', 'Arc Tangent']
+    return `${info[data.info]}`
+  },
 
-	variableStorage: function(data, varType) {
-		const type = parseInt(data.storage);
-		if (type !== varType) return;
-		let dataType = "Number";
-		return ([data.varName, dataType]);
-	},
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage)
+    if (type !== varType) return
+    const dataType = 'Number'
+    return ([data.varName, dataType])
+  },
 
-	fields: ["math", "info", "storage", "varName"],
+  fields: ['math', 'info', 'storage', 'varName'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 <div>
 	<div style="float: right; width: 60%; padding-top: 8px;">
 		<p><u>Note:</u><br>
@@ -55,64 +55,64 @@ module.exports = {
 		<input id="varName" class="round" type="text">
 	</div>
 </div>
-	`;
-	},
+	`
+  },
 
-	init: function() {},
+  init () {},
 
-	action: function(cache) {
-		const data = cache.actions[cache.index];
-		const storage = parseInt(data.storage);
-		const varName = this.evalMessage(data.varName, cache);
-		const math = parseFloat(this.evalMessage(data.math, cache).replace(/,/g, ""));
-		const info = parseInt(data.info);
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const storage = parseInt(data.storage)
+    const varName = this.evalMessage(data.varName, cache)
+    const math = parseFloat(this.evalMessage(data.math, cache).replace(/,/g, ''))
+    const info = parseInt(data.info)
 
-		if(!math) {
-			console.log("There is no number !");
-			this.callNextAction(cache);
-		}
-		let result;
-		switch(info) {
-			case 0:
-				result = Math.round(math);
-				break;
-			case 1:
-				result = Math.abs(math);
-				break;
-			case 2:
-				result = Math.ceil(math);
-				break;
-			case 3:
-				result = Math.floor(math);
-				break;
-			case 4:
-				result = Math.sin(math);
-				break;
-			case 5:
-				result = Math.cos(math);
-				break;
-			case 6:
-				result = Math.tan(math);
-				break;
-			case 7:
-				result = Math.asin(math);
-				break;
-			case 8:
-				result = Math.acos(math);
-				break;
-			case 9:
-				result = Math.atan(math);
-				break;
-			default:
-				break;
-		}
-		if (result !== undefined) {
-			const storage = parseInt(data.storage);
-			const varName = this.evalMessage(data.varName, cache);
-			this.storeValue(result, storage, varName, cache);
-		}
-		this.callNextAction(cache);
-	},
+    if (!math) {
+      console.log('There is no number !')
+      this.callNextAction(cache)
+    }
+    let result
+    switch (info) {
+      case 0:
+        result = Math.round(math)
+        break
+      case 1:
+        result = Math.abs(math)
+        break
+      case 2:
+        result = Math.ceil(math)
+        break
+      case 3:
+        result = Math.floor(math)
+        break
+      case 4:
+        result = Math.sin(math)
+        break
+      case 5:
+        result = Math.cos(math)
+        break
+      case 6:
+        result = Math.tan(math)
+        break
+      case 7:
+        result = Math.asin(math)
+        break
+      case 8:
+        result = Math.acos(math)
+        break
+      case 9:
+        result = Math.atan(math)
+        break
+      default:
+        break
+    }
+    if (result !== undefined) {
+      const storage = parseInt(data.storage)
+      const varName = this.evalMessage(data.varName, cache)
+      this.storeValue(result, storage, varName, cache)
+    }
+    this.callNextAction(cache)
+  },
 
-	mod: function() {}
-};
+  mod () {}
+}

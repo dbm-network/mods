@@ -1,22 +1,22 @@
 module.exports = {
-	name: "Find Category",
-	section: "Channel Control",
+  name: 'Find Category',
+  section: 'Channel Control',
 
-	subtitle: function(data) {
-		const info = ["Category ID", "Category Name", "Category Topic"];
-		return `Find Category by ${info[parseInt(data.info)]}`;
-	},
+  subtitle (data) {
+    const info = ['Category ID', 'Category Name', 'Category Topic']
+    return `Find Category by ${info[parseInt(data.info)]}`
+  },
 
-	variableStorage: function(data, varType) {
-		const type = parseInt(data.storage);
-		if(type !== varType) return;
-		return ([data.varName, "Category"]);
-	},
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage)
+    if (type !== varType) return
+    return ([data.varName, 'Category'])
+  },
 
-	fields: ["info", "find", "storage", "varName"],
+  fields: ['info', 'find', 'storage', 'varName'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 <div>
 	<div style="float: left; width: 40%;">
 		Source Field:<br>
@@ -85,41 +85,41 @@ This was made by EliteArtz!-->
 	span.wrexlink:hover {
 	color:#4676b9;
 	}
-</style>`;
-	},
+</style>`
+  },
 
-	init: function() {},
+  init () {},
 
-	action: function(cache) {
-		const server = cache.server;
-		if(!server || !server.channels) {
-			this.callNextAction(cache);
-			return;
-		}
-		const data = cache.actions[cache.index];
-		const info = parseInt(data.info);
-		const find = this.evalMessage(data.find, cache);
-		const channels = server.channels.cache.filter((s) => s.type === "category");
-		let result;
-		switch(info) {
-			case 0:
-				result = channels.get(find);
-				break;
-			case 1:
-				result = channels.find((e) => e.name === find);
-				break;
-			default:
-				break;
-		}
-		if(result !== undefined) {
-			const storage = parseInt(data.storage);
-			const varName = this.evalMessage(data.varName, cache);
-			this.storeValue(result, storage, varName, cache);
-			this.callNextAction(cache);
-		} else {
-			this.callNextAction(cache);
-		}
-	},
+  action (cache) {
+    const { server } = cache
+    if (!server || !server.channels) {
+      this.callNextAction(cache)
+      return
+    }
+    const data = cache.actions[cache.index]
+    const info = parseInt(data.info)
+    const find = this.evalMessage(data.find, cache)
+    const channels = server.channels.cache.filter((s) => s.type === 'category')
+    let result
+    switch (info) {
+      case 0:
+        result = channels.get(find)
+        break
+      case 1:
+        result = channels.find((e) => e.name === find)
+        break
+      default:
+        break
+    }
+    if (result !== undefined) {
+      const storage = parseInt(data.storage)
+      const varName = this.evalMessage(data.varName, cache)
+      this.storeValue(result, storage, varName, cache)
+      this.callNextAction(cache)
+    } else {
+      this.callNextAction(cache)
+    }
+  },
 
-	mod: function() {}
-};
+  mod () {}
+}

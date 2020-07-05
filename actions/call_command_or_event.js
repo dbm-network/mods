@@ -1,21 +1,21 @@
 module.exports = {
-	name: "Call Command/Event",
-	section: "Other Stuff",
+  name: 'Call Command/Event',
+  section: 'Other Stuff',
 
-	subtitle: function(data) {
-		let source;
-		if(parseInt(data.sourcetype) == 1) {
-			source = data.source2.toString();
-		} else {
-			source = data.source.toString();
-		}
-		return `Call Command/Event ID "${source}"`;
-	},
+  subtitle (data) {
+    let source
+    if (parseInt(data.sourcetype) == 1) {
+      source = data.source2.toString()
+    } else {
+      source = data.source.toString()
+    }
+    return `Call Command/Event ID "${source}"`
+  },
 
-	fields: ["sourcetype", "source", "source2", "type"],
+  fields: ['sourcetype', 'source', 'source2', 'type'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 <div>
 	<p>This action has been modified by DBM Mods.</p>
 </div>
@@ -43,93 +43,93 @@ module.exports = {
 	<option value="true" selected>Synchronous</option>
 	<option value="false">Asynchronous</option>
 	</select>
-</div>`;
-	},
+</div>`
+  },
 
-	init: function() {
-		const { glob, document } = this;
+  init () {
+    const { glob, document } = this
 
-		const $cmds = glob.$cmds;
-		const coms = document.getElementById("commands");
-		coms.innerHTML = "";
-		for(let i = 0; i < $cmds.length; i++) {
-			if($cmds[i]) {
-				coms.innerHTML += `<option value="${$cmds[i]._id}">${$cmds[i].name}</option>\n`;
-			}
-		}
+    const { $cmds } = glob
+    const coms = document.getElementById('commands')
+    coms.innerHTML = ''
+    for (let i = 0; i < $cmds.length; i++) {
+      if ($cmds[i]) {
+        coms.innerHTML += `<option value="${$cmds[i]._id}">${$cmds[i].name}</option>\n`
+      }
+    }
 
-		const $evts = glob.$evts;
-		const evet = document.getElementById("events");
-		evet.innerHTML = "";
-		for(let i = 0; i < $evts.length; i++) {
-			if($evts[i]) {
-				evet.innerHTML += `<option value="${$evts[i]._id}">${$evts[i].name}</option>\n`;
-			}
-		}
+    const { $evts } = glob
+    const evet = document.getElementById('events')
+    evet.innerHTML = ''
+    for (let i = 0; i < $evts.length; i++) {
+      if ($evts[i]) {
+        evet.innerHTML += `<option value="${$evts[i]._id}">${$evts[i].name}</option>\n`
+      }
+    }
 
-		glob.onChange1 = function(event) {
-			const sourceType = parseInt(document.getElementById("sourcetype").value);
-			const info1 = document.getElementById("info1");
-			const info2 = document.getElementById("info2");
+    glob.onChange1 = function (event) {
+      const sourceType = parseInt(document.getElementById('sourcetype').value)
+      const info1 = document.getElementById('info1')
+      const info2 = document.getElementById('info2')
 
-			switch(sourceType) {
-				case 0:
-					info1.style.display = null;
-					info2.style.display = "none";
-					break;
-				case 1:
-					info1.style.display = "none";
-					info2.style.display = null;
-					break;
-			}
-		};
+      switch (sourceType) {
+        case 0:
+          info1.style.display = null
+          info2.style.display = 'none'
+          break
+        case 1:
+          info1.style.display = 'none'
+          info2.style.display = null
+          break
+      }
+    }
 
-		glob.onChange1(document.getElementById("sourcetype"));
-	},
+    glob.onChange1(document.getElementById('sourcetype'))
+  },
 
-	action: function(cache) {
-		const data = cache.actions[cache.index];
-		const Files = this.getDBM().Files;
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const { Files } = this.getDBM()
 
-		let id;
-		if(parseInt(data.sourcetype) == 1) { id = this.evalMessage(data.source2, cache); } else { id = data.source; }
-		if(!id) { return console.log("Please insert a Command/Event ID!"); }
+    let id
+    if (parseInt(data.sourcetype) == 1) { id = this.evalMessage(data.source2, cache) } else { id = data.source }
+    if (!id) { return console.log('Please insert a Command/Event ID!') }
 
-		let actions;
-		const allData = Files.data.commands.concat(Files.data.events);
-		for(let i = 0; i < allData.length; i++) {
-			if(allData[i] && allData[i]._id === id) {
-				actions = allData[i].actions;
-				break;
-			}
-		}
-		if(!actions) {
-			this.callNextAction(cache);
-			return;
-		}
+    let actions
+    const allData = Files.data.commands.concat(Files.data.events)
+    for (let i = 0; i < allData.length; i++) {
+      if (allData[i] && allData[i]._id === id) {
+        actions = allData[i].actions
+        break
+      }
+    }
+    if (!actions) {
+      this.callNextAction(cache)
+      return
+    }
 
-		const act = actions[0];
-		if(act && this.exists(act.name)) {
-			const cache2 = {
-				actions: actions,
-				index: 0,
-				temp: cache.temp,
-				server: cache.server,
-				msg: (cache.msg || null)
-			};
-			if(data.type === "true") {
-				cache2.callback = function() {
-					this.callNextAction(cache);
-				}.bind(this);
-				this[act.name](cache2);
-			} else {
-				this[act.name](cache2);
-				this.callNextAction(cache);
-			}
-		} else {
-			this.callNextAction(cache);
-		}
-	},
+    const act = actions[0]
+    if (act && this.exists(act.name)) {
+      const cache2 = {
+        actions,
+        index: 0,
+        temp: cache.temp,
+        server: cache.server,
+        msg: (cache.msg || null)
+      }
+      if (data.type === 'true') {
+        cache2.callback = function () {
+          this.callNextAction(cache)
+        }.bind(this)
+        this[act.name](cache2)
+      } else {
+        this[act.name](cache2)
+        this.callNextAction(cache)
+      }
+    } else {
+      this.callNextAction(cache)
+    }
+  },
 
-	mod: function() {}
-};
+  mod () {}
+}

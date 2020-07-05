@@ -1,22 +1,22 @@
 module.exports = {
-	name: "Run Script Too",
-	section: "Other Stuff",
+  name: 'Run Script Too',
+  section: 'Other Stuff',
 
-	subtitle: function(data) {
-		if(data.title) return `${data.title}`;
-		return `${ data.file ? "External File: " + data.file : data.code}`;
-	},
+  subtitle (data) {
+    if (data.title) return `${data.title}`
+    return `${data.file ? `External File: ${data.file}` : data.code}`
+  },
 
-	variableStorage: function(data, varType) {
-		const type = parseInt(data.storage);
-		if(type !== varType) return;
-		return ([data.varName, "Unknown Type"]);
-	},
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage)
+    if (type !== varType) return
+    return ([data.varName, 'Unknown Type'])
+  },
 
-	fields: ["behavior", "interpretation", "code", "file", "storage", "varName", "title"],
+  fields: ['behavior', 'interpretation', 'code', 'file', 'storage', 'varName', 'title'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
     <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
     <div>
        <div style="float: left; width: 45%;">
@@ -120,42 +120,39 @@ module.exports = {
     color:#4676b9;
     }
  </style>
-    `;
-	},
+    `
+  },
 
-	init: function() {},
+  init () {},
 
-	action: function(cache) {
-		const data = cache.actions[cache.index];
-		const file = data.file;
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const { file } = data
 
-		let code;
+    let code
 
-		const fs = require("fs");
-		if(file && fs.existsSync(file)){
-			try {
-				code = fs.readFileSync(file, "utf8");
-			} catch (error) {
-				console.error(error.stack ? error.stack : error);
-			}
-		}else{
+    const fs = require('fs')
+    if (file && fs.existsSync(file)) {
+      try {
+        code = fs.readFileSync(file, 'utf8')
+      } catch (error) {
+        console.error(error.stack ? error.stack : error)
+      }
+    } else if (data.interpretation === '0') {
+      code = this.evalMessage(data.code, cache)
+    } else {
+      code = data.code
+    }
 
-			if(data.interpretation === "0") {
-				code = this.evalMessage(data.code, cache);
-			} else {
-				code = data.code;
-			}
-		}
+    const result = this.eval(code, cache)
+    const varName = this.evalMessage(data.varName, cache)
+    const storage = parseInt(data.storage)
+    this.storeValue(result, storage, varName, cache)
 
-		const result = this.eval(code, cache);
-		const varName = this.evalMessage(data.varName, cache);
-		const storage = parseInt(data.storage);
-		this.storeValue(result, storage, varName, cache);
+    if (data.behavior === '0') {
+      this.callNextAction(cache)
+    }
+  },
 
-		if(data.behavior === "0") {
-			this.callNextAction(cache);
-		}
-	},
-
-	mod: function() {}
-};
+  mod () {}
+}

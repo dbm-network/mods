@@ -1,23 +1,23 @@
 module.exports = {
-	name: "Set Time Restriction",
-	section: "Other Stuff",
+  name: 'Set Time Restriction',
+  section: 'Other Stuff',
 
-	subtitle: function(data) {
-		const results = ["Continue Actions", "Stop Action Sequence", "Jump To Action", "Jump Forward Actions", "Jump to Anchor"];
-		return `Cooldown | If True: ${results[parseInt(data.iftrue)]} ~ If False: ${results[parseInt(data.iffalse)]}`;
-	},
+  subtitle (data) {
+    const results = ['Continue Actions', 'Stop Action Sequence', 'Jump To Action', 'Jump Forward Actions', 'Jump to Anchor']
+    return `Cooldown | If True: ${results[parseInt(data.iftrue)]} ~ If False: ${results[parseInt(data.iffalse)]}`
+  },
 
-	variableStorage: function(data, varType) {
-		const type = parseInt(data.storage);
-		if (type !== varType) return;
-		return ([data.varName, "Seconds"]);
-	},
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage)
+    if (type !== varType) return
+    return ([data.varName, 'Seconds'])
+  },
 
-	fields: ["measurement", "value", "save", "restrict", "iftrue", "iftrueVal", "iffalse", "iffalseVal", "storage", "varName"],
+  fields: ['measurement', 'value', 'save', 'restrict', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal', 'storage', 'varName'],
 
-	html: function(isEvent, data) {
-		data.conditions[0] = data.conditions[0].replace(/If True/g, "If Cooldown is Active").replace(/If False/g, "If Cooldown is Not Active");
-		return `
+  html (isEvent, data) {
+    data.conditions[0] = data.conditions[0].replace(/If True/g, 'If Cooldown is Active').replace(/If False/g, 'If Cooldown is Not Active')
+    return `
 	<div>
 		<div style="padding-top: 8px;">
 			<div style="float: left; width: 35%;">
@@ -65,208 +65,206 @@ module.exports = {
 				<input id="varName" class="round" type="text"><br>
 			</div>
 		</div>
-	</div>`;
-	},
+	</div>`
+  },
 
-	init: function() {
-		const { glob, document } = this;
-		const value = document.getElementById("value");
-		glob.onChange = function(Measurement) {
-			switch(parseInt(Measurement.value)) {
-				case 0:
-					value.placeholder = "1000 = 1 second";
-					break;
-				case 1:
-					value.placeholder = "1 = 1 second";
-					break;
-				case 2:
-					value.placeholder = "1 = 60000 seconds";
-					break;
-				case 3:
-					value.placeholder = "1 = 3600000 seconds";
-					break;
-			}
-		};
-		let option = document.createElement("OPTION");
-		option.value = "4";
-		option.text = "Jump to Anchor";
-		const iffalse = document.getElementById("iffalse");
-		if (iffalse.length == 4) {
-			iffalse.add(option);
-		}
-		let option2 = document.createElement("OPTION");
-		option2.value = "4";
-		option2.text = "Jump to Anchor";
-		const iftrue = document.getElementById("iftrue");
-		if (iftrue.length == 4) {
-			iftrue.add(option2);
-		}
-		glob.onChangeTrue = function(event) {
-			switch (parseInt(event.value)) {
-				case 0:
-				case 1:
-					document.getElementById("iftrueContainer").style.display = "none";
-					break;
-				case 2:
-					document.getElementById("iftrueName").innerHTML = "Action Number";
-					document.getElementById("iftrueContainer").style.display = null;
-					break;
-				case 3:
-					document.getElementById("iftrueName").innerHTML = "Number of Actions to Skip";
-					document.getElementById("iftrueContainer").style.display = null;
-					break;
-				case 4:
-					document.getElementById("iftrueName").innerHTML = "Anchor ID";
-					document.getElementById("iftrueContainer").style.display = null;
-					break;
-			}
-		};
-		glob.onChangeFalse = function(event) {
-			switch (parseInt(event.value)) {
-				case 0:
-				case 1:
-					document.getElementById("iffalseContainer").style.display = "none";
-					break;
-				case 2:
-					document.getElementById("iffalseName").innerHTML = "Action Number";
-					document.getElementById("iffalseContainer").style.display = null;
-					break;
-				case 3:
-					document.getElementById("iffalseName").innerHTML = "Number of Actions to Skip";
-					document.getElementById("iffalseContainer").style.display = null;
-					break;
-				case 4:
-					document.getElementById("iffalseName").innerHTML = "Anchor ID";
-					document.getElementById("iffalseContainer").style.display = null;
-					break;
-			}
-		};
-		glob.variableChange(document.getElementById("storage"), "varNameContainer");
-		glob.onChangeTrue(document.getElementById("iftrue"));
-		glob.onChangeFalse(document.getElementById("iffalse"));
-		glob.onChange(document.getElementById("Measurement"));
-	},
+  init () {
+    const { glob, document } = this
+    const value = document.getElementById('value')
+    glob.onChange = function (Measurement) {
+      switch (parseInt(Measurement.value)) {
+        case 0:
+          value.placeholder = '1000 = 1 second'
+          break
+        case 1:
+          value.placeholder = '1 = 1 second'
+          break
+        case 2:
+          value.placeholder = '1 = 60000 seconds'
+          break
+        case 3:
+          value.placeholder = '1 = 3600000 seconds'
+          break
+      }
+    }
+    const option = document.createElement('OPTION')
+    option.value = '4'
+    option.text = 'Jump to Anchor'
+    const iffalse = document.getElementById('iffalse')
+    if (iffalse.length == 4) {
+      iffalse.add(option)
+    }
+    const option2 = document.createElement('OPTION')
+    option2.value = '4'
+    option2.text = 'Jump to Anchor'
+    const iftrue = document.getElementById('iftrue')
+    if (iftrue.length == 4) {
+      iftrue.add(option2)
+    }
+    glob.onChangeTrue = function (event) {
+      switch (parseInt(event.value)) {
+        case 0:
+        case 1:
+          document.getElementById('iftrueContainer').style.display = 'none'
+          break
+        case 2:
+          document.getElementById('iftrueName').innerHTML = 'Action Number'
+          document.getElementById('iftrueContainer').style.display = null
+          break
+        case 3:
+          document.getElementById('iftrueName').innerHTML = 'Number of Actions to Skip'
+          document.getElementById('iftrueContainer').style.display = null
+          break
+        case 4:
+          document.getElementById('iftrueName').innerHTML = 'Anchor ID'
+          document.getElementById('iftrueContainer').style.display = null
+          break
+      }
+    }
+    glob.onChangeFalse = function (event) {
+      switch (parseInt(event.value)) {
+        case 0:
+        case 1:
+          document.getElementById('iffalseContainer').style.display = 'none'
+          break
+        case 2:
+          document.getElementById('iffalseName').innerHTML = 'Action Number'
+          document.getElementById('iffalseContainer').style.display = null
+          break
+        case 3:
+          document.getElementById('iffalseName').innerHTML = 'Number of Actions to Skip'
+          document.getElementById('iffalseContainer').style.display = null
+          break
+        case 4:
+          document.getElementById('iffalseName').innerHTML = 'Anchor ID'
+          document.getElementById('iffalseContainer').style.display = null
+          break
+      }
+    }
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer')
+    glob.onChangeTrue(document.getElementById('iftrue'))
+    glob.onChangeFalse(document.getElementById('iffalse'))
+    glob.onChange(document.getElementById('Measurement'))
+  },
 
-	action: function(cache) {
-		const data = cache.actions[cache.index];
-		const value = parseInt(this.evalMessage(data.value, cache));
-		if (isNaN(value)) {
-			console.error(value+" is not a valid number.");
-			return;
-		}
-		let cmd;
-		for (const command of this.getDBM().Files.data.commands) {
-			if (command && JSON.stringify(command.actions) == JSON.stringify(cache.actions)) {
-				cmd = command;
-				break;
-			};
-		};
-		const timeLeft = this.TimeRestriction(cache.msg, cmd, cache);
-		if (!timeLeft) {
-			this.executeResults(false, data, cache);
-		} else {
-			const storage = parseInt(data.storage);
-			const varName2 = this.evalMessage(data.varName, cache);
-			this.storeValue(timeLeft, storage, varName2, cache);
-			this.executeResults(true, data, cache);
-		};
-	},
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const value = parseInt(this.evalMessage(data.value, cache))
+    if (isNaN(value)) {
+      console.error(`${value} is not a valid number.`)
+      return
+    }
+    let cmd
+    for (const command of this.getDBM().Files.data.commands) {
+      if (command && JSON.stringify(command.actions) == JSON.stringify(cache.actions)) {
+        cmd = command
+        break
+      }
+    }
+    const timeLeft = this.TimeRestriction(cache.msg, cmd, cache)
+    if (!timeLeft) {
+      this.executeResults(false, data, cache)
+    } else {
+      const storage = parseInt(data.storage)
+      const varName2 = this.evalMessage(data.varName, cache)
+      this.storeValue(timeLeft, storage, varName2, cache)
+      this.executeResults(true, data, cache)
+    }
+  },
 
-	mod: function(DBM) {
-		let Cooldown;
-		DBM.Actions.LoadTimeRestriction = function(cache) {
-			Cooldown = this.getVariable(3, "DBMCooldown", cache);
-			if (typeof Cooldown == "undefined") {
-				Cooldown = {};
-			} else if (typeof Cooldown == "string") {
-				Cooldown = JSON.parse(Cooldown);
-			}
-			for (const command of Object.keys(Cooldown)) {
-				if (Cooldown[command].save == 1) {
-					delete Cooldown[command];
-				};
-			};
-		};
+  mod (DBM) {
+    let Cooldown
+    DBM.Actions.LoadTimeRestriction = function (cache) {
+      Cooldown = this.getVariable(3, 'DBMCooldown', cache)
+      if (typeof Cooldown === 'undefined') {
+        Cooldown = {}
+      } else if (typeof Cooldown === 'string') {
+        Cooldown = JSON.parse(Cooldown)
+      }
+      for (const command of Object.keys(Cooldown)) {
+        if (Cooldown[command].save == 1) {
+          delete Cooldown[command]
+        }
+      }
+    }
 
-		DBM.Actions.TimeRestriction = function(msg, cmd, cache) {
-			if (typeof Cooldown == "undefined") {
-				this.LoadTimeRestriction(cache);
-			}
-			const Files = DBM.Files;
-			let value = parseInt(this.evalMessage(cache.actions[cache.index].value, cache));
-			let measurement = parseInt(cache.actions[cache.index].measurement);
-			let restrict = parseInt(cache.actions[cache.index].restrict);
-			switch (measurement) {
-				case 1:
-					value = value * 1000;
-					break;
-				case 2:
-					value = value * 60000;
-					break;
-				case 3:
-					value = value * 3600000;
-			}
-			let save = cache.actions[cache.index].save;
-			
-			if (!Cooldown[cmd.name]) {
-				Cooldown[cmd.name] = {};
-				Cooldown[cmd.name].save = parseInt(save);
-			}
-			let now = Date.now();
-			let Command = Cooldown[cmd.name];
-			let cooldownAmount;
-			if (cmd.cooldown) {
-				cooldownAmount = cmd.cooldown;
-			} else {
-				cooldownAmount = value;
-				cmd.cooldown = value;
-			}
-			switch (restrict) {
-				case 0:
-					if (typeof Command[msg.author.id] != "number") {
-						delete Command[msg.author.id];
-					}
-					if (Command[msg.author.id]) {
-						let expirationTime = Command[msg.author.id] + cooldownAmount;
-						if (now < expirationTime) {
-							return Math.ceil((expirationTime - now) / 1000);
-						} else {
-							Command[msg.author.id] = now;
-							if (save == 0) Files.saveGlobalVariable("DBMCooldown", JSON.stringify(Cooldown));
-							return false;
-						}
-					} else {
-						Command[msg.author.id] = now;
-						if (save == 0) Files.saveGlobalVariable("DBMCooldown", JSON.stringify(Cooldown));
-						return false;
-					}
-					break;
-				case 1:
-					let channelId;
-					if (typeof cache.server !== "undefined") {
-						channelId = cache.server.id;
-					} else {
-						channelId = msg.channel.id;
-					}
-					if (typeof Command[msg.author.id] != "object") {
-						Command[msg.author.id] = {};
-					}
-					if (Command[msg.author.id][channelId]) {
-						let expirationTime = Command[msg.author.id][channelId] + cooldownAmount;
-						if (now < expirationTime) {
-							return Math.ceil((expirationTime - now) / 1000);
-						} else {
-							Command[msg.author.id][channelId] = now;
-							if (save == 0) Files.saveGlobalVariable("DBMCooldown", JSON.stringify(Cooldown));
-							return false;
-						}
-					} else {
-						Command[msg.author.id][channelId] = now;
-						if (save == 0) Files.saveGlobalVariable("DBMCooldown", JSON.stringify(Cooldown));
-						return false;
-					}
-					break;
-			};
-		};
-	}
-};
+    DBM.Actions.TimeRestriction = function (msg, cmd, cache) {
+      if (typeof Cooldown === 'undefined') {
+        this.LoadTimeRestriction(cache)
+      }
+      const { Files } = DBM
+      let value = parseInt(this.evalMessage(cache.actions[cache.index].value, cache))
+      const measurement = parseInt(cache.actions[cache.index].measurement)
+      const restrict = parseInt(cache.actions[cache.index].restrict)
+      switch (measurement) {
+        case 1:
+          value *= 1000
+          break
+        case 2:
+          value *= 60000
+          break
+        case 3:
+          value *= 3600000
+      }
+      const { save } = cache.actions[cache.index]
+
+      if (!Cooldown[cmd.name]) {
+        Cooldown[cmd.name] = {}
+        Cooldown[cmd.name].save = parseInt(save)
+      }
+      const now = Date.now()
+      const Command = Cooldown[cmd.name]
+      let cooldownAmount
+      if (cmd.cooldown) {
+        cooldownAmount = cmd.cooldown
+      } else {
+        cooldownAmount = value
+        cmd.cooldown = value
+      }
+      switch (restrict) {
+        case 0:
+          if (typeof Command[msg.author.id] !== 'number') {
+            delete Command[msg.author.id]
+          }
+          if (Command[msg.author.id]) {
+            const expirationTime = Command[msg.author.id] + cooldownAmount
+            if (now < expirationTime) {
+              return Math.ceil((expirationTime - now) / 1000)
+            }
+            Command[msg.author.id] = now
+            if (save == 0) Files.saveGlobalVariable('DBMCooldown', JSON.stringify(Cooldown))
+            return false
+          }
+          Command[msg.author.id] = now
+          if (save == 0) Files.saveGlobalVariable('DBMCooldown', JSON.stringify(Cooldown))
+          return false
+
+          break
+        case 1:
+          let channelId
+          if (typeof cache.server !== 'undefined') {
+            channelId = cache.server.id
+          } else {
+            channelId = msg.channel.id
+          }
+          if (typeof Command[msg.author.id] !== 'object') {
+            Command[msg.author.id] = {}
+          }
+          if (Command[msg.author.id][channelId]) {
+            const expirationTime = Command[msg.author.id][channelId] + cooldownAmount
+            if (now < expirationTime) {
+              return Math.ceil((expirationTime - now) / 1000)
+            }
+            Command[msg.author.id][channelId] = now
+            if (save == 0) Files.saveGlobalVariable('DBMCooldown', JSON.stringify(Cooldown))
+            return false
+          }
+          Command[msg.author.id][channelId] = now
+          if (save == 0) Files.saveGlobalVariable('DBMCooldown', JSON.stringify(Cooldown))
+          return false
+
+          break
+      }
+    }
+  }
+}

@@ -1,45 +1,45 @@
 module.exports = {
-	name: "Store Message Params",
-	section: "Messaging",
+  name: 'Store Message Params',
+  section: 'Messaging',
 
-	subtitle: function(data) {
-		const message = ["Command Message", "Temp Variable", "Server Variable", "Global Variable"];
-		const info = ["One Parameter", "Multiple Parameters", "Mentioned User", "Mentioned Member", "Mentioned Role", "Mentioned Channel"];
-		return `${message[parseInt(data.message)]} - ${info[parseInt(data.info)]} #${data.ParamN}`;
-	},
+  subtitle (data) {
+    const message = ['Command Message', 'Temp Variable', 'Server Variable', 'Global Variable']
+    const info = ['One Parameter', 'Multiple Parameters', 'Mentioned User', 'Mentioned Member', 'Mentioned Role', 'Mentioned Channel']
+    return `${message[parseInt(data.message)]} - ${info[parseInt(data.info)]} #${data.ParamN}`
+  },
 
-	variableStorage: function(data, varType) {
-		const type = parseInt(data.storage);
-		if(type !== varType) return;
-		const info = parseInt(data.info);
-		let dataType = "Unknown Type";
-		switch(info) {
-			case 0:
-				dataType = "String";
-				break;
-			case 1:
-				dataType = "String";
-				break;
-			case 2:
-				dataType = "User";
-				break;
-			case 3:
-				dataType = "Member";
-				break;
-			case 4:
-				dataType = "Role";
-				break;
-			case 5:
-				dataType = "Channel";
-				break;
-		}
-		return ([data.varName2, dataType]);
-	},
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage)
+    if (type !== varType) return
+    const info = parseInt(data.info)
+    let dataType = 'Unknown Type'
+    switch (info) {
+      case 0:
+        dataType = 'String'
+        break
+      case 1:
+        dataType = 'String'
+        break
+      case 2:
+        dataType = 'User'
+        break
+      case 3:
+        dataType = 'Member'
+        break
+      case 4:
+        dataType = 'Role'
+        break
+      case 5:
+        dataType = 'Channel'
+        break
+    }
+    return ([data.varName2, dataType])
+  },
 
-	fields: ["message", "varName", "info", "ParamN", "separator", "storage", "varName2", "count"],
+  fields: ['message', 'varName', 'info', 'ParamN', 'separator', 'storage', 'varName2', 'count'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 <div id="DiVScroll" style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
 <div>
 	<div style="float: left; width: 35%;">
@@ -100,133 +100,132 @@ module.exports = {
         Leave blank the Custom Parameter Separator if you want to use the Parameter Separator set in your DBM Settings<br>
         Custom Parameter Separator supports Regex
         </p>
-</div><br><br><br><br><br><br><br><br><br>`;
-	},
+</div><br><br><br><br><br><br><br><br><br>`
+  },
 
-	init: function() {
-		const { glob, document } = this;
+  init () {
+    const { glob, document } = this
 
-		document.getElementById("separator").placeholder = "Read the Note below | Default Parameter Separator: \"" + JSON.parse(require("fs").readFileSync(JSON.parse(require("fs").readFileSync(__dirname.substr(0, __dirname.lastIndexOf("\\") + 1) + "settings.json", "utf8"))["current-project"] + "\\data\\settings.json", "utf8")).separator + "\"";
+    document.getElementById('separator').placeholder = `Read the Note below | Default Parameter Separator: "${JSON.parse(require('fs').readFileSync(`${JSON.parse(require('fs').readFileSync(`${__dirname.substr(0, __dirname.lastIndexOf('\\') + 1)}settings.json`, 'utf8'))['current-project']}\\data\\settings.json`, 'utf8')).separator}"`
 
-		glob.onChange1 = function(event) {
-			const value = parseInt(event.value);
-			const infoCountLabel = document.getElementById("infoCountLabel");
-			switch(value) {
-				case 0:
-					infoCountLabel.innerHTML = "Parameter Number:";
-					document.getElementById("DiVseparator").style.display = null;
-					document.getElementById("DiVScroll").style.overflowY = "scroll";
-					document.getElementById("DiVcount").style.display = "none";
-					break;
-				case 1:
-					infoCountLabel.innerHTML = "Starting From Parameter Number:";
-					document.getElementById("DiVseparator").style.display = null;
-					document.getElementById("DiVScroll").style.overflowY = "scroll";
-					document.getElementById("DiVcount").style.display = null;
-					break;
-				case 2:
-					infoCountLabel.innerHTML = "User Mention Number:";
-					document.getElementById("DiVseparator").style.display = "none";
-					document.getElementById("DiVScroll").style.overflowY = "hidden";
-					document.getElementById("DiVcount").style.display = "none";
-					break;
-				case 3:
-					infoCountLabel.innerHTML = "Member Mention Number:";
-					document.getElementById("DiVseparator").style.display = "none";
-					document.getElementById("DiVScroll").style.overflowY = "hidden";
-					document.getElementById("DiVcount").style.display = "none";
-					break;
-				case 4:
-					infoCountLabel.innerHTML = "Role Mention Number:";
-					document.getElementById("DiVseparator").style.display = "none";
-					document.getElementById("DiVScroll").style.overflowY = "hidden";
-					document.getElementById("DiVcount").style.display = "none";
-					break;
-				case 5:
-					infoCountLabel.innerHTML = "Channel Mention Number:";
-					document.getElementById("DiVseparator").style.display = "none";
-					document.getElementById("DiVScroll").style.overflowY = "hidden";
-					document.getElementById("DiVcount").style.display = "none";
-					break;
-				default:
-					infoCountLabel.innerHTML = "";
-					break;
-			}
-		};
+    glob.onChange1 = function (event) {
+      const value = parseInt(event.value)
+      const infoCountLabel = document.getElementById('infoCountLabel')
+      switch (value) {
+        case 0:
+          infoCountLabel.innerHTML = 'Parameter Number:'
+          document.getElementById('DiVseparator').style.display = null
+          document.getElementById('DiVScroll').style.overflowY = 'scroll'
+          document.getElementById('DiVcount').style.display = 'none'
+          break
+        case 1:
+          infoCountLabel.innerHTML = 'Starting From Parameter Number:'
+          document.getElementById('DiVseparator').style.display = null
+          document.getElementById('DiVScroll').style.overflowY = 'scroll'
+          document.getElementById('DiVcount').style.display = null
+          break
+        case 2:
+          infoCountLabel.innerHTML = 'User Mention Number:'
+          document.getElementById('DiVseparator').style.display = 'none'
+          document.getElementById('DiVScroll').style.overflowY = 'hidden'
+          document.getElementById('DiVcount').style.display = 'none'
+          break
+        case 3:
+          infoCountLabel.innerHTML = 'Member Mention Number:'
+          document.getElementById('DiVseparator').style.display = 'none'
+          document.getElementById('DiVScroll').style.overflowY = 'hidden'
+          document.getElementById('DiVcount').style.display = 'none'
+          break
+        case 4:
+          infoCountLabel.innerHTML = 'Role Mention Number:'
+          document.getElementById('DiVseparator').style.display = 'none'
+          document.getElementById('DiVScroll').style.overflowY = 'hidden'
+          document.getElementById('DiVcount').style.display = 'none'
+          break
+        case 5:
+          infoCountLabel.innerHTML = 'Channel Mention Number:'
+          document.getElementById('DiVseparator').style.display = 'none'
+          document.getElementById('DiVScroll').style.overflowY = 'hidden'
+          document.getElementById('DiVcount').style.display = 'none'
+          break
+        default:
+          infoCountLabel.innerHTML = ''
+          break
+      }
+    }
 
-		glob.onChange1(document.getElementById("info"));
-		glob.messageChange(document.getElementById("message"), "varNameContainer");
-	},
+    glob.onChange1(document.getElementById('info'))
+    glob.messageChange(document.getElementById('message'), 'varNameContainer')
+  },
 
-	action: function(cache) {
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const message = parseInt(data.message)
+    const varName = this.evalMessage(data.varName, cache)
+    const msg = this.getMessage(message, varName, cache)
+    const count = this.evalMessage(data.count, cache)
 
-		const data = cache.actions[cache.index];
-		const message = parseInt(data.message);
-		const varName = this.evalMessage(data.varName, cache);
-		const msg = this.getMessage(message, varName, cache);
-		const count = this.evalMessage(data.count, cache);
+    if (!msg) {
+      console.log(`Action: #${cache.index + 1} | Store Message Params ERROR: Message doesn't exist`)
+      this.callNextAction(cache)
+      return
+    }
 
-		if (!msg) {
-			console.log(`Action: #${cache.index + 1} | Store Message Params ERROR: Message doesn't exist`);
-			this.callNextAction(cache);
-			return;
-		}
+    const ParamN = this.evalMessage(data.ParamN, cache)
+    const infoType = parseInt(data.info)
 
-		const ParamN = this.evalMessage(data.ParamN, cache);
-		const infoType = parseInt(data.info);
+    if (ParamN == '') {
+      console.log(`Action: #${cache.index + 1} | Store Message Params ERROR: Parameter Number has nothing`)
+      this.callNextAction(cache)
+      return
+    } if (!/^[0-9]+$/.test(ParamN)) {
+      console.log(`Action: #${cache.index + 1} | Store Message Params ERROR: Parameter Number isn't a number`)
+      this.callNextAction(cache)
+      return
+    }
 
-		if (ParamN == "") {
-			console.log(`Action: #${cache.index + 1} | Store Message Params ERROR: Parameter Number has nothing`);
-			this.callNextAction(cache);
-			return;
-		} else if(!/^[0-9]+$/.test(ParamN)) {
-			console.log(`Action: #${cache.index + 1} | Store Message Params ERROR: Parameter Number isn't a number`);
-			this.callNextAction(cache);
-			return;
-		}
+    const separator = data.separator ? this.evalMessage(data.separator, cache) : this.getDBM().Files.data.settings.separator
 
-		let separator = data.separator ? this.evalMessage(data.separator, cache) : this.getDBM().Files.data.settings.separator;
+    if (separator == '') {
+      console.log(`Action: #${cache.index + 1} | Store Message Params ERROR: Parameter Separator has nothing`)
+      this.callNextAction(cache)
+      return
+    }
 
-		if (separator == "") {
-			console.log(`Action: #${cache.index + 1} | Store Message Params ERROR: Parameter Separator has nothing`);
-			this.callNextAction(cache);
-			return;
-		}
+    let result
+    switch (infoType) {
+      case 0:
+        result = msg.content.split(new RegExp(separator))[ParamN + 1] || undefined
+        break
+      case 1:
+        if (data.count) {
+          result = msg.content.split(new RegExp(separator, 'g')).slice(ParamN + 1).slice(0, count).join(new RegExp(separator, 'g')) || undefined
+        } else {
+          result = msg.content.split(new RegExp(separator, 'g')).slice(ParamN + 1).join(new RegExp(separator, 'g')) || undefined
+        }
+        break
+      case 2:
+        result = msg.mentions.users.array().length > 0 ? msg.mentions.users.array()[ParamN - 1] : undefined
+        break
+      case 3:
+        result = msg.mentions.members.array().length > 0 ? msg.mentions.members.array()[ParamN - 1] : undefined
+        break
+      case 4:
+        result = msg.mentions.roles.array().length > 0 ? msg.mentions.roles.array()[ParamN - 1] : undefined
+        break
+      case 5:
+        result = msg.mentions.channels.array().length > 0 ? msg.mentions.channels.array()[ParamN - 1] : undefined
+        break
+      default:
+        break
+    }
+    if (result) {
+      const storage = parseInt(data.storage)
+      const varName2 = this.evalMessage(data.varName2, cache)
+      this.storeValue(result, storage, varName2, cache)
+    }
+    this.callNextAction(cache)
+  },
 
-		let result;
-		switch (infoType) {
-			case 0:
-				result = msg.content.split(new RegExp(separator))[ParamN + 1] || undefined;
-				break;
-			case 1:
-				if (data.count) {
-					result = msg.content.split(new RegExp(separator, "g")).slice(ParamN + 1).slice(0, count).join(new RegExp(separator, "g")) || undefined;
-				} else {
-					result = msg.content.split(new RegExp(separator, "g")).slice(ParamN + 1).join(new RegExp(separator, "g")) || undefined;
-				}
-				break;
-			case 2:
-				result = msg.mentions.users.array().length > 0 ? msg.mentions.users.array()[ParamN - 1] : undefined;
-				break;
-			case 3:
-				result = msg.mentions.members.array().length > 0 ? msg.mentions.members.array()[ParamN - 1] : undefined;
-				break;
-			case 4:
-				result = msg.mentions.roles.array().length > 0 ? msg.mentions.roles.array()[ParamN - 1] : undefined;
-				break;
-			case 5:
-				result = msg.mentions.channels.array().length > 0 ? msg.mentions.channels.array()[ParamN - 1] : undefined;
-				break;
-			default:
-				break;
-		}
-		if(result) {
-			const storage = parseInt(data.storage);
-			const varName2 = this.evalMessage(data.varName2, cache);
-			this.storeValue(result, storage, varName2, cache);
-		}
-		this.callNextAction(cache);
-	},
-
-	mod: function() {}
-};
+  mod () {}
+}

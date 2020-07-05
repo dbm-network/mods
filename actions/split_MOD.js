@@ -1,21 +1,21 @@
 module.exports = {
-	name: "Split",
-	section: "Other Stuff",
+  name: 'Split',
+  section: 'Other Stuff',
 
-	subtitle: function(data) {
-		return "Split anything!";
-	},
+  subtitle (data) {
+    return 'Split anything!'
+  },
 
-	variableStorage: function(data, varType) {
-		const type = parseInt(data.storage);
-		if(type !== varType) return;
-		let dataType = "Sliced Result";
-		return ([data.varName, dataType]);
-	},
-	fields: ["split", "spliton", "storage", "varName"],
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage)
+    if (type !== varType) return
+    const dataType = 'Sliced Result'
+    return ([data.varName, dataType])
+  },
+  fields: ['split', 'spliton', 'storage', 'varName'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
 	<div id="modinfo">
 		Split Text:<br>
@@ -35,28 +35,28 @@ module.exports = {
 		Variable Name:<br>
 		<input id="varName" class="round" type="text"><br>
 	</div>
-</div>`;
-	},
+</div>`
+  },
 
-	init: function() {
-		const { glob, document } = this;
+  init () {
+    const { glob, document } = this
 
-		glob.variableChange(document.getElementById("storage"), "varNameContainer");
-	},
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer')
+  },
 
-	action: function(cache) {
-		const data = cache.actions[cache.index];
-		const texttosplit = this.evalMessage(data.split, cache);
-		const spliton = this.evalMessage(data.spliton, cache);
-		if(!texttosplit) return console.log("No text has been given for getting split.");
-		if(!spliton) return console.log("Something is missing...");
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const texttosplit = this.evalMessage(data.split, cache)
+    const spliton = this.evalMessage(data.spliton, cache)
+    if (!texttosplit) return console.log('No text has been given for getting split.')
+    if (!spliton) return console.log('Something is missing...')
 
-		const result = `${texttosplit}`.split(`${spliton}`);
-		const storage = parseInt(data.storage);
-		const varName = this.evalMessage(data.varName, cache);
-		this.storeValue(result, storage, varName, cache);
-		this.callNextAction(cache);
-	},
+    const result = `${texttosplit}`.split(`${spliton}`)
+    const storage = parseInt(data.storage)
+    const varName = this.evalMessage(data.varName, cache)
+    this.storeValue(result, storage, varName, cache)
+    this.callNextAction(cache)
+  },
 
-	mod: function() {}
-};
+  mod () {}
+}

@@ -1,17 +1,17 @@
 module.exports = {
-	name: "Set Voice Channel Perms",
-	section: "Channel Control",
+  name: 'Set Voice Channel Perms',
+  section: 'Channel Control',
 
-	subtitle: function(data) {
-		const names = ["Command Author's Voice Ch.", "Mentioned User's Voice Ch.", "Default Voice Channel", "Temp Variable", "Server Variable", "Global Variable"];
-		const index = parseInt(data.storage);
-		return index < 3 ? `${names[index]}` : `${names[index]} - ${data.varName}`;
-	},
+  subtitle (data) {
+    const names = ["Command Author's Voice Ch.", "Mentioned User's Voice Ch.", 'Default Voice Channel', 'Temp Variable', 'Server Variable', 'Global Variable']
+    const index = parseInt(data.storage)
+    return index < 3 ? `${names[index]}` : `${names[index]} - ${data.varName}`
+  },
 
-	fields: ["storage", "varName", "permission", "state"],
+  fields: ['storage', 'varName', 'permission', 'state'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 <div>
 	<div style="float: left; width: 45%;">
 		Source Voice Channel:<br>
@@ -38,39 +38,39 @@ module.exports = {
 			<option value="1">Disallow</option>
 		</select>
 	</div>
-</div>`;
-	},
+</div>`
+  },
 
-	init: function() {
-		const { glob, document } = this;
+  init () {
+    const { glob, document } = this
 
-		glob.channelChange(document.getElementById("storage"), "varNameContainer");
-	},
+    glob.channelChange(document.getElementById('storage'), 'varNameContainer')
+  },
 
-	action: function(cache) {
-		const data = cache.actions[cache.index];
-		const server = cache.server;
-		if(!server) {
-			this.callNextAction(cache);
-			return;
-		}
-		const storage = parseInt(data.storage);
-		const varName = this.evalMessage(data.varName, cache);
-		const channel = this.getChannel(storage, varName, cache);
-		const options = {};
-		options[data.permission] = Boolean(data.state === "0");
-		if(Array.isArray(channel)) {
-			this.callListFunc(channel, "updateOverwrite", [server.id, options]).then(function() {
-				this.callNextAction(cache);
-			}.bind(this));
-		} else if(channel && channel.updateOverwrite) {
-			channel.updateOverwrite(server.id, options).then(function() {
-				this.callNextAction(cache);
-			}.bind(this)).catch(this.displayError.bind(this, data, cache));
-		} else {
-			this.callNextAction(cache);
-		}
-	},
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const { server } = cache
+    if (!server) {
+      this.callNextAction(cache)
+      return
+    }
+    const storage = parseInt(data.storage)
+    const varName = this.evalMessage(data.varName, cache)
+    const channel = this.getChannel(storage, varName, cache)
+    const options = {}
+    options[data.permission] = Boolean(data.state === '0')
+    if (Array.isArray(channel)) {
+      this.callListFunc(channel, 'updateOverwrite', [server.id, options]).then(() => {
+        this.callNextAction(cache)
+      })
+    } else if (channel && channel.updateOverwrite) {
+      channel.updateOverwrite(server.id, options).then(() => {
+        this.callNextAction(cache)
+      }).catch(this.displayError.bind(this, data, cache))
+    } else {
+      this.callNextAction(cache)
+    }
+  },
 
-	mod: function() {}
-};
+  mod () {}
+}

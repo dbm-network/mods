@@ -1,21 +1,21 @@
 module.exports = {
-	name: "Color",
-	section: "Tools",
+  name: 'Color',
+  section: 'Tools',
 
-	subtitle: function(data) {
-		return `${data.color}`;
-	},
+  subtitle (data) {
+    return `${data.color}`
+  },
 
-	variableStorage: function(data, varType) {
-		const type = parseInt(data.storage);
-		if(type !== varType) return;
-		return ([data.varName, "Color"]);
-	},
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage)
+    if (type !== varType) return
+    return ([data.varName, 'Color'])
+  },
 
-	fields: ["color", "storage", "varName"],
+  fields: ['color', 'storage', 'varName'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 Color:<br>
 <input type="color" id="color"><br><br>
 <div>
@@ -29,23 +29,23 @@ Color:<br>
 		Variable Name:<br>
 		<input id="varName" class="round" type="text"><br>
 	</div>
-</div>`;
-	},
+</div>`
+  },
 
-	init: function() {},
+  init () {},
 
-	action: function(cache) {
-		const data = cache.actions[cache.index];
+  action (cache) {
+    const data = cache.actions[cache.index]
 
-		const color = this.evalMessage(data.color, cache);
+    const color = this.evalMessage(data.color, cache)
 
-		if(color !== undefined) {
-			const storage = parseInt(data.storage);
-			const varName = this.evalMessage(data.varName, cache);
-			this.storeValue(color, storage, varName, cache);
-		}
-		this.callNextAction(cache);
-	},
+    if (color !== undefined) {
+      const storage = parseInt(data.storage)
+      const varName = this.evalMessage(data.varName, cache)
+      this.storeValue(color, storage, varName, cache)
+    }
+    this.callNextAction(cache)
+  },
 
-	mod: function() {}
-};
+  mod () {}
+}

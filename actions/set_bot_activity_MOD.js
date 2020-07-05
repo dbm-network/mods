@@ -1,24 +1,24 @@
 module.exports = {
-	name: "Set Bot Activity",
-	section: "Bot Client Control",
+  name: 'Set Bot Activity',
+  section: 'Bot Client Control',
 
-	subtitle: function(data) {
-		const activities = [
-			"Playing",
-			"Listening to",
-			"Watching",
-			"Streaming Twitch"
-		];
+  subtitle (data) {
+    const activities = [
+      'Playing',
+      'Listening to',
+      'Watching',
+      'Streaming Twitch'
+    ]
 
-		const stats = ["Online", "Idle", "Invisible", "Do Not Disturb"];
+    const stats = ['Online', 'Idle', 'Invisible', 'Do Not Disturb']
 
-		return `${stats[data.stat]}, ${activities[data.activity]} ${data.nameText}`;
-	},
+    return `${stats[data.stat]}, ${activities[data.activity]} ${data.nameText}`
+  },
 
-	fields: ["activity", "nameText", "url", "stat"],
+  fields: ['activity', 'nameText', 'url', 'stat'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
   <div id="mod-container">
         <div id="main-body">
           <div style="display: flex;">
@@ -75,128 +75,128 @@ module.exports = {
         .hidden {
           display: none;
         }
-      </style>`;
-	},
+      </style>`
+  },
 
-	init: function() {
-		const {
-			glob,
-			document
-		} = this;
+  init () {
+    const {
+      glob,
+      document
+    } = this
 
-		let selector = document.getElementById("activity");
-		let targetfield = document.getElementById("urlArea");
+    const selector = document.getElementById('activity')
+    const targetfield = document.getElementById('urlArea')
 
-		if (selector[selector.selectedIndex].value === "3") {
-			targetfield.classList.remove("hidden");
-		} else {
-			targetfield.classList.add("hidden");
-		}
+    if (selector[selector.selectedIndex].value === '3') {
+      targetfield.classList.remove('hidden')
+    } else {
+      targetfield.classList.add('hidden')
+    }
 
-		function showUrl() {
-			if (selector[selector.selectedIndex].value === "3") {
-				targetfield.classList.remove("hidden");
-			} else {
-				targetfield.classList.add("hidden");
-			}
-		}
+    function showUrl () {
+      if (selector[selector.selectedIndex].value === '3') {
+        targetfield.classList.remove('hidden')
+      } else {
+        targetfield.classList.add('hidden')
+      }
+    }
 
-		selector.onclick = () => showUrl();
-	},
+    selector.onclick = () => showUrl()
+  },
 
-	action: function(cache) {
-		const botClient = this.getDBM()
-			.Bot.bot.user;
-		const data = cache.actions[cache.index];
+  action (cache) {
+    const botClient = this.getDBM()
+      .Bot.bot.user
+    const data = cache.actions[cache.index]
 
-		const nameText = this.evalMessage(data.nameText, cache);
-		const url = this.evalMessage(data.url, cache);
+    const nameText = this.evalMessage(data.nameText, cache)
+    const url = this.evalMessage(data.url, cache)
 
-		const activity = parseInt(data.activity);
-		const stat = parseInt(data.stat);
+    const activity = parseInt(data.activity)
+    const stat = parseInt(data.stat)
 
-		let obj;
+    let obj
 
-		let target;
-		if (activity >= 0) {
-			switch (activity) {
-				case 0:
-					target = "PLAYING";
-					break;
-				case 1:
-					target = "LISTENING";
-					break;
-				case 2:
-					target = "WATCHING";
-					break;
-				case 3:
-					target = "STREAMING";
-					break;
-			}
-		}
+    let target
+    if (activity >= 0) {
+      switch (activity) {
+        case 0:
+          target = 'PLAYING'
+          break
+        case 1:
+          target = 'LISTENING'
+          break
+        case 2:
+          target = 'WATCHING'
+          break
+        case 3:
+          target = 'STREAMING'
+          break
+      }
+    }
 
-		let statustarget;
-		if (stat >= 0) {
-			switch (stat) {
-				case 0:
-					statustarget = "online";
-					break;
-				case 1:
-					statustarget = "idle";
-					break;
-				case 2:
-					statustarget = "invisible";
-					break;
-				case 3:
-					statustarget = "dnd";
-					break;
-			}
-		}
+    let statustarget
+    if (stat >= 0) {
+      switch (stat) {
+        case 0:
+          statustarget = 'online'
+          break
+        case 1:
+          statustarget = 'idle'
+          break
+        case 2:
+          statustarget = 'invisible'
+          break
+        case 3:
+          statustarget = 'dnd'
+          break
+      }
+    }
 
-		if (botClient) {
-			if (nameText) {
-				if (target === "STREAMING") {
-					obj = {
-						activity: {
-							name: nameText,
-							type: target,
-							url
-						},
-						status: statustarget
-					};
-					botClient
-						.setPresence(obj)
-						.then(
-							function() {
-								this.callNextAction(cache);
-							}.bind(this)
-						)
-						.catch((err) => console.log(err));
-				} else {
-					obj = {
-						activity: {
-							name: nameText,
-							type: target
-						},
-						status: statustarget
-					};
-					botClient
-						.setPresence(obj)
-						.then(
-							function() {
-								this.callNextAction(cache);
-							}.bind(this)
-						)
-						.catch((err) => console.log(err));
-				}
-			} else {
-				console.log("ERROR: Please input activity in \"Set Bot Activity MOD\"");
-				this.callNextAction(cache);
-			}
-		} else {
-			this.callNextAction(cache);
-		}
-	},
+    if (botClient) {
+      if (nameText) {
+        if (target === 'STREAMING') {
+          obj = {
+            activity: {
+              name: nameText,
+              type: target,
+              url
+            },
+            status: statustarget
+          }
+          botClient
+            .setPresence(obj)
+            .then(
+              () => {
+                this.callNextAction(cache)
+              }
+            )
+            .catch((err) => console.log(err))
+        } else {
+          obj = {
+            activity: {
+              name: nameText,
+              type: target
+            },
+            status: statustarget
+          }
+          botClient
+            .setPresence(obj)
+            .then(
+              () => {
+                this.callNextAction(cache)
+              }
+            )
+            .catch((err) => console.log(err))
+        }
+      } else {
+        console.log('ERROR: Please input activity in "Set Bot Activity MOD"')
+        this.callNextAction(cache)
+      }
+    } else {
+      this.callNextAction(cache)
+    }
+  },
 
-	mod: function() {}
-};
+  mod () {}
+}

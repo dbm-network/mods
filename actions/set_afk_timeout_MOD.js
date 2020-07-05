@@ -1,11 +1,11 @@
 module.exports = {
-	name: "Set AFK Timeout",
-	section: "Server Control",
+  name: 'Set AFK Timeout',
+  section: 'Server Control',
 
-	fields: ["server", "varName", "serverAfkTime"],
+  fields: ['server', 'varName', 'serverAfkTime'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
         <div>
 
 	<div style="float: left; width: 35%;">
@@ -61,48 +61,47 @@ module.exports = {
                 span { /* Only making the text look, nice! */
                     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
                 }
-                </style>`;
-	},
+                </style>`
+  },
 
-	init: function() {
-		const { glob, document } = this;
+  init () {
+    const { glob, document } = this
 
-		glob.serverChange(document.getElementById("server"), "varNameContainer");
-	},
+    glob.serverChange(document.getElementById('server'), 'varNameContainer')
+  },
 
-	action: function(cache) {
-		const data = cache.actions[cache.index];
-		const type = parseInt(data.server);
-		const varName = this.evalMessage(data.varName, cache);
-		const server = this.getServer(type, varName, cache);
-		if(Array.isArray(server)) {
-			this.callListFunc(server, "setAFKTimeout", [this.evalMessage(data.serverAfkTime, cache)]).then(function() {
-				this.callNextAction(cache);
-			}.bind(this));
-		} else if(server && server.setAFKTimeout) {
-			server.setAFKTimeout(this.evalMessage(data.serverAfkTime, cache)).then(function() {
-				this.callNextAction(cache);
-			}.bind(this)).catch(this.displayError.bind(this, data, cache));
-		} else {
-			this.callNextAction(cache);
-		}
-	},
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const type = parseInt(data.server)
+    const varName = this.evalMessage(data.varName, cache)
+    const server = this.getServer(type, varName, cache)
+    if (Array.isArray(server)) {
+      this.callListFunc(server, 'setAFKTimeout', [this.evalMessage(data.serverAfkTime, cache)]).then(() => {
+        this.callNextAction(cache)
+      })
+    } else if (server && server.setAFKTimeout) {
+      server.setAFKTimeout(this.evalMessage(data.serverAfkTime, cache)).then(() => {
+        this.callNextAction(cache)
+      }).catch(this.displayError.bind(this, data, cache))
+    } else {
+      this.callNextAction(cache)
+    }
+  },
 
-	subtitle: function(data) {
-		if (data.serverAfkTime === "60") {
-			return "1 Minutes";
-		} else if (data.serverAfkTime === "300") {
-			return "5 Minutes";
-		} else if (data.serverAfkTime === "900") {
-			return "15 Minutes";
-		} else if (data.serverAfkTime === "1800") {
-			return "30 Minutes";
-		} else if (data.serverAfkTime === "3600") {
-			return "1 Hours";
-		} else {
-			return `${data.serverAfkTime} Seconds`;
-		}
-	},
+  subtitle (data) {
+    if (data.serverAfkTime === '60') {
+      return '1 Minutes'
+    } if (data.serverAfkTime === '300') {
+      return '5 Minutes'
+    } if (data.serverAfkTime === '900') {
+      return '15 Minutes'
+    } if (data.serverAfkTime === '1800') {
+      return '30 Minutes'
+    } if (data.serverAfkTime === '3600') {
+      return '1 Hours'
+    }
+    return `${data.serverAfkTime} Seconds`
+  },
 
-	mod: function() {}
-};
+  mod () {}
+}

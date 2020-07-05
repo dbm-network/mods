@@ -1,15 +1,15 @@
 module.exports = {
-	name: "Run Action Sequence Once",
-	section: "Other Stuff",
+  name: 'Run Action Sequence Once',
+  section: 'Other Stuff',
 
-	subtitle: function(data) {
-		return `Run Once ${data.behavior == "2" ? "Per Server" : "Globally"}`;
-	},
+  subtitle (data) {
+    return `Run Once ${data.behavior == '2' ? 'Per Server' : 'Globally'}`
+  },
 
-	fields: ["behavior"],
+  fields: ['behavior'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 		<div>
 		<p>
 			<u>Help:</u><br>
@@ -31,24 +31,24 @@ module.exports = {
 				<option value="3">Globally</option>
 			</select>
 		<div>
-	</div>`;
-	},
+	</div>`
+  },
 
-	init: function() {},
+  init () {},
 
-	action: function(cache) {
-		const data = cache.actions[cache.index];
-		const behavior = parseInt(data.behavior);
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const behavior = parseInt(data.behavior)
 
-		// would only interfere if people had the same exact actions with the same details in another command
-		const unique = Buffer.from(`${cache.actions}`);
+    // would only interfere if people had the same exact actions with the same details in another command
+    const unique = Buffer.from(`${cache.actions}`)
 
-		let store = this.getVariable(behavior, unique, cache) || false;
-		if(!store){
-			this.storeValue(true, behavior, unique, cache);
-			this.callNextAction(cache);
-		}
-	},
+    const store = this.getVariable(behavior, unique, cache) || false
+    if (!store) {
+      this.storeValue(true, behavior, unique, cache)
+      this.callNextAction(cache)
+    }
+  },
 
-	mod: function() {}
-};
+  mod () {}
+}

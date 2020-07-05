@@ -1,21 +1,21 @@
 module.exports = {
-	name: "Convert Timestamp to Date",
-	section: "Other Stuff",
+  name: 'Convert Timestamp to Date',
+  section: 'Other Stuff',
 
-	subtitle: function(data) {
-		return `Convert ${data.time}`;
-	},
+  subtitle (data) {
+    return `Convert ${data.time}`
+  },
 
-	variableStorage: function(data, varType) {
-		const type = parseInt(data.storage);
-		if(type !== varType) return;
-		return ([data.varName, "Date"]);
-	},
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage)
+    if (type !== varType) return
+    return ([data.varName, 'Date'])
+  },
 
-	fields: ["time", "storage", "varName"],
+  fields: ['time', 'storage', 'varName'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 	<div style="float: right; width: 60%; padding-top: 8px;">
 		<p><u>Note:</u><br>
 		You can convert <b>Unix Timestamp</b> and <b>YouTube Timestamp</b> with this mod (both were tested).</p>
@@ -37,40 +37,39 @@ module.exports = {
 	<div style="text-align: center; float: left; width: 100%; padding-top: 8px;">
 		<p><b>Recommended formats:</b></p>
 		<img src="https://i.imgur.com/fZXXgFa.png" alt="Timestamp Formats" />
-	</div>`;
-	},
+	</div>`
+  },
 
-	init: function() {
-		const { glob, document } = this;
+  init () {
+    const { glob, document } = this
 
-		glob.variableChange(document.getElementById("storage"), "varNameContainer");
-	},
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer')
+  },
 
-	action: function(cache) {
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const _this = this // this is needed sometimes.
+    const Mods = _this.getMods() // as always.
+    const toDate = Mods.require('normalize-date')
+    const time = this.evalMessage(data.time, cache)
 
-		const data = cache.actions[cache.index];
-		var   _this = this; // this is needed sometimes.
-		const Mods = _this.getMods(); // as always.
-		const toDate = Mods.require("normalize-date");
-		const time = this.evalMessage(data.time, cache);
+    // Main code.
+    let result
+    if (/^\d+(?:\.\d*)?$/.exec(time)) {
+      result = toDate((+time).toFixed(3))
+    } else {
+      result = toDate(time)
+    }
+    if (result.toString() === 'Invalid Date') result = undefined
 
-		// Main code.
-		let result;
-		if (/^\d+(?:\.\d*)?$/.exec(time)) {
-			result = toDate((+time).toFixed(3));
-		} else {
-			result = toDate(time);
-		}
-		if (result.toString() === "Invalid Date") result = undefined;
+    // Storage.
+    if (result !== undefined) {
+      const storage = parseInt(data.storage)
+      const varName = this.evalMessage(data.varName, cache)
+      this.storeValue(result, storage, varName, cache)
+    }
+    this.callNextAction(cache)
+  },
 
-		// Storage.
-		if(result !== undefined) {
-			const storage = parseInt(data.storage);
-			const varName = this.evalMessage(data.varName, cache);
-			this.storeValue(result, storage, varName, cache);
-		}
-		this.callNextAction(cache);
-	},
-
-	mod: function() {}
-};
+  mod () {}
+}

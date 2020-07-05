@@ -1,23 +1,23 @@
 module.exports = {
-	name: "Store Global Data",
+  name: 'Store Global Data',
 
-	section: "Deprecated",
+  section: 'Deprecated',
 
-	subtitle: function(data) {
-		const storage = ["", "Temp Variable", "Server Variable", "Global Variable"];
-		return `${storage[parseInt(data.storage)]} (${data.varName})`;
-	},
+  subtitle (data) {
+    const storage = ['', 'Temp Variable', 'Server Variable', 'Global Variable']
+    return `${storage[parseInt(data.storage)]} (${data.varName})`
+  },
 
-	variableStorage: function(data, varType) {
-		const type = parseInt(data.storage);
-		if(type !== varType) return;
-		return ([data.varName, "Unknown Type"]);
-	},
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage)
+    if (type !== varType) return
+    return ([data.varName, 'Unknown Type'])
+  },
 
-	fields: ["dataName", "defaultVal", "storage", "varName"],
+  fields: ['dataName', 'defaultVal', 'storage', 'varName'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 	<div style="padding-top: 8px;">
 		<div style="float: left; width: 40%;">
 			Data Name:<br>
@@ -39,22 +39,22 @@ module.exports = {
 			Variable Name:<br>
 			<input id="varName" class="round" type="text"><br>
 		</div>
-	</div>`;
-	},
+	</div>`
+  },
 
-	init: function() {
-	},
+  init () {
+  },
 
-	action: function(cache) {
-		const data = cache.actions[cache.index];
-		const dataName = this.evalMessage(data.dataName, cache);
-		const defVal = this.eval(this.evalMessage(data.defaultVal, cache), cache);
-		const result = Globals.data(dataName, defVal);
-		const storage = parseInt(data.storage);
-		const varName = this.evalMessage(data.varName, cache);
-		this.storeValue(result, storage, varName, cache);
-		this.callNextAction(cache);
-	},
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const dataName = this.evalMessage(data.dataName, cache)
+    const defVal = this.eval(this.evalMessage(data.defaultVal, cache), cache)
+    const result = Globals.data(dataName, defVal)
+    const storage = parseInt(data.storage)
+    const varName = this.evalMessage(data.varName, cache)
+    this.storeValue(result, storage, varName, cache)
+    this.callNextAction(cache)
+  },
 
-	mod: function() {}
-};
+  mod () {}
+}

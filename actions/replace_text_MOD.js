@@ -1,23 +1,23 @@
 module.exports = {
-	name: "Replace Text",
-	section: "Other Stuff",
+  name: 'Replace Text',
+  section: 'Other Stuff',
 
-	subtitle: function(data) {
-		const info = ["Replace the first result", "Replace all results"];
-		return `${info[data.info]}`;
-	},
+  subtitle (data) {
+    const info = ['Replace the first result', 'Replace all results']
+    return `${info[data.info]}`
+  },
 
-	variableStorage: function(data, varType) {
-		const type = parseInt(data.storage);
-		if (type !== varType) return;
-		let dataType = "String";
-		return ([data.varName, dataType]);
-	},
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage)
+    if (type !== varType) return
+    const dataType = 'String'
+    return ([data.varName, dataType])
+  },
 
-	fields: ["text", "text2", "text3", "info", "storage", "varName"],
+  fields: ['text', 'text2', 'text3', 'info', 'storage', 'varName'],
 
-	html: function(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 <div style="padding-top: 8px;">
 	Source Text:
 	<textarea id="text" rows="3" placeholder="Insert source text here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
@@ -51,40 +51,40 @@ module.exports = {
 		<input id="varName" class="round" type="text">
 	</div>
 </div>
-	`;
-	},
+	`
+  },
 
-	init: function() {},
+  init () {},
 
-	action: function(cache) {
-		const data = cache.actions[cache.index];
-		const storage = parseInt(data.storage);
-		const varName = this.evalMessage(data.varName, cache);
-		const text = this.evalMessage(data.text, cache);
-		const text2 = this.evalMessage(data.text2, cache);
-		const text3 = this.evalMessage(data.text3, cache);
-		const info = parseInt(data.info);
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const storage = parseInt(data.storage)
+    const varName = this.evalMessage(data.varName, cache)
+    const text = this.evalMessage(data.text, cache)
+    const text2 = this.evalMessage(data.text2, cache)
+    const text3 = this.evalMessage(data.text3, cache)
+    const info = parseInt(data.info)
 
-		let result;
-		switch(info) {
-			case 0:
-				result = text.replace(text2, text3);
-				break;
-			case 1:
-				const Mods = this.getMods();
-				const replacestr = Mods.require("replace-string");
-				result = replacestr(text, text2, text3);
-				break;
-			default:
-				break;
-		}
-		if (result !== undefined) {
-			const storage = parseInt(data.storage);
-			const varName = this.evalMessage(data.varName, cache);
-			this.storeValue(result, storage, varName, cache);
-		}
-		this.callNextAction(cache);
-	},
+    let result
+    switch (info) {
+      case 0:
+        result = text.replace(text2, text3)
+        break
+      case 1:
+        const Mods = this.getMods()
+        const replacestr = Mods.require('replace-string')
+        result = replacestr(text, text2, text3)
+        break
+      default:
+        break
+    }
+    if (result !== undefined) {
+      const storage = parseInt(data.storage)
+      const varName = this.evalMessage(data.varName, cache)
+      this.storeValue(result, storage, varName, cache)
+    }
+    this.callNextAction(cache)
+  },
 
-	mod: function() {}
-};
+  mod () {}
+}
