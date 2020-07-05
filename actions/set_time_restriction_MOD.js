@@ -10,7 +10,7 @@ module.exports = {
 	variableStorage: function(data, varType) {
 		const type = parseInt(data.storage);
 		if (type !== varType) return;
-		return ([data.varName, "Number"]);
+		return ([data.varName, "Second"]);
 	},
 
 	fields: ["measurement", "value", "save", "restrict", "iftrue", "iftrueVal", "iffalse", "iffalseVal", "storage", "varName"],
@@ -149,44 +149,50 @@ module.exports = {
 
 	action: function(cache) {
 		const data = cache.actions[cache.index];
-		const Files = this.getDBM().Files;
 		const value = parseInt(this.evalMessage(data.value, cache));
-		const msg = this.getMessage(0, "", cache);
 		if (isNaN(value)) {
 			console.error(value+" is not a valid number.");
 			return;
 		}
-
-		const Actions = cache.actions;
 		let cmd;
-		const allData = Files.data.commands;
-		Object.keys(allData).forEach(function(command) {
-			if (allData[command]) {
-				if (JSON.stringify(allData[command].actions) === JSON.stringify(Actions)) {
-					cmd = allData[command];
-				}
-			}
-		});
-		const timeLeft = this.TimeRestriction(msg, cmd, cache);
-
-		let result;
+		for (const command of this.getDBM().Files.data.commands) {
+			if (command && JSON.stringify(command.actions) == JSON.stringify(cache.actions)) {
+				cmd = command;
+				break;
+			};
+		};
+		const timeLeft = this.TimeRestriction(cache.msg, cmd, cache);
 		if (!timeLeft) {
-			result = false;
+			this.executeResults(false, data, cache);
 		} else {
 			const storage = parseInt(data.storage);
 			const varName2 = this.evalMessage(data.varName, cache);
 			this.storeValue(timeLeft, storage, varName2, cache);
-			result = true;
-		}
-		this.executeResults(result, data, cache);
+			this.executeResults(true, data, cache);
+		};
 	},
 
 	mod: function(DBM) {
-
-		const Files = DBM.Files;
 		let Cooldown;
-		DBM.Actions.TimeRestriction = function(msg, cmd, cache) {
+		DBM.Actions.LoadTimeRestriction = function(cache) {
+			Cooldown = this.getVariable(3, "DBMCooldown", cache);
+			if (typeof Cooldown == "undefined") {
+				Cooldown = {};
+			} else if (typeof Cooldown == "string") {
+				Cooldown = JSON.parse(Cooldown);
+			}
+			for (const command of Object.keys(Cooldown)) {
+				if (Cooldown[command].save == 1) {
+					delete Cooldown[command];
+				};
+			};
+		};
 
+		DBM.Actions.TimeRestriction = function(msg, cmd, cache) {
+			if (typeof Cooldown == "undefined") {
+				this.LoadTimeRestriction(cache);
+			}
+			const Files = DBM.Files;
 			let value = parseInt(this.evalMessage(cache.actions[cache.index].value, cache));
 			let measurement = parseInt(cache.actions[cache.index].measurement);
 			let restrict = parseInt(cache.actions[cache.index].restrict);
@@ -201,22 +207,12 @@ module.exports = {
 					value = value * 3600000;
 			}
 			let save = cache.actions[cache.index].save;
-			if (typeof Cooldown == "undefined" && save == 0) {
-				Cooldown = DBM.Actions.getVariable(3, "DBMCooldown", cache);
-			} else if (save == 1) {
-				this.storeValue(undefined, 3, "DBMCooldown", cache);
-				Files.saveGlobalVariable("DBMCooldown", undefined);
-			}
-			if (typeof Cooldown == "undefined") {
-				Cooldown = {};
-			} else if (typeof Cooldown == "string") {
-				Cooldown = JSON.parse(Cooldown);
-			}
+			
 			if (!Cooldown[cmd.name]) {
 				Cooldown[cmd.name] = {};
+				Cooldown[cmd.name].save = parseInt(save);
 			}
-			let now = new Date().getTime();
-
+			let now = Date.now();
 			let Command = Cooldown[cmd.name];
 			let cooldownAmount;
 			if (cmd.cooldown) {
@@ -244,10 +240,11 @@ module.exports = {
 						if (save == 0) Files.saveGlobalVariable("DBMCooldown", JSON.stringify(Cooldown));
 						return false;
 					}
+					break;
 				case 1:
 					let channelId;
-					if (typeof msg.channel.guild !== "undefined") {
-						channelId = msg.channel.guild.id;
+					if (typeof cache.server !== "undefined") {
+						channelId = cache.server.id;
 					} else {
 						channelId = msg.channel.id;
 					}
@@ -268,8 +265,8 @@ module.exports = {
 						if (save == 0) Files.saveGlobalVariable("DBMCooldown", JSON.stringify(Cooldown));
 						return false;
 					}
-			}
+					break;
+			};
 		};
 	}
-
 };
