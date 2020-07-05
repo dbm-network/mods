@@ -16,7 +16,7 @@ module.exports = {
 <div>
 	<div style="float: left; width: 35%;">
 		Member:<br>
-		<select id="member" class="round" onchange="glob.memberChange(this, 'varNameContainer')">
+		<select id="member" class="round" onchange="glob.user(this, 'varNameContainer')">
 			${data.members[isEvent ? 1 : 0]}
 			<option value="5">By ID</option>
 		</select>
@@ -50,7 +50,16 @@ module.exports = {
 	init: function() {
 		const { glob, document } = this;
 
-		glob.memberChange(document.getElementById("member"), "varNameContainer");
+		glob.user = function(element, container) {
+			if (element.value == 5) {
+				document.getElementById(container).childNodes[0].nodeValue = "User ID:"
+			} else {
+				document.getElementById(container).childNodes[0].nodeValue = "Variable Name:"
+			}
+			glob.memberChange(element, container);
+		}
+
+		glob.user(document.getElementById("member"), "varNameContainer");
 		glob.serverChange(document.getElementById("guild"), "varNameContainer2");
 	},
 
