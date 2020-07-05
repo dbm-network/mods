@@ -88,7 +88,7 @@ module.exports = {
 			</select><br>
 		</div>
 		<div id="Input2" style="display: null; padding-left: 5%; float: left; width: 65%;">
-			Result Format (Javascript String):<br>
+			Result Format (<a id="link" href='#'>Javascript String</a>):<br>
 			<input id="resultFormat" class="round" type="text" placeholder="Name + 'DataName' + DataValue"><br>
 		</div>
 	</div><br>
@@ -126,8 +126,12 @@ module.exports = {
 		const Input4 = document.getElementById("Input4");
 		const Result0 = document.getElementById("Result0");
 		const Result1 = document.getElementById("Result1");
-		const resultType = document.getElementById("resultType");
 		const rank = document.getElementById("rank");
+		const link = document.getElementById("link");
+
+		link.onclick = function () {
+			require("child_process").execSync(`start https://gist.github.com/LeonZ2019/72dd92c14fdb29afbc64151003d1d48e`);
+		};
 
 		glob.onChange0 = function(File) {
 			switch(parseInt(File.value)) {
@@ -193,18 +197,18 @@ module.exports = {
 		glob.onChange2(document.getElementById("resultType"));
 	},
 
-	action: function(cache) {
-		const Discord = require("discord.js");
+	action: async function(cache) {
+		const Client = this.getDBM().Bot.bot;
+		const Files = this.getDBM().Files;
 		const fastsort = require("fast-sort");
-		const fs = require("fs");
 		const data = cache.actions[cache.index];
 		const File = parseInt(data.File);
-		let file, serverType;
+		let file,serverType;
 		if (File == 0) {
 			serverType = parseInt(data.serverType);
-			file = JSON.parse(fs.readFileSync("./data/players.json", "utf8"));
+			file = Files.data.players;
 		} else {
-			file = JSON.parse(fs.readFileSync("./data/servers.json", "utf8"));
+			file = Files.data.servers;
 		}
 		let array0 = [];
 		let result = [];
@@ -222,37 +226,30 @@ module.exports = {
 		const rank = this.evalMessage(data.rank, cache);
 		const storage = parseInt(data.storage);
 		const varName = this.evalMessage(data.varName, cache);
-
-		let objectid, value, name;
+		let name;
 		for (const id in file) {
-			if (file[id][dataName] || typeof file[id][dataName] === "number") {
+			if (file[id][dataName] || !isNaN(file[id][dataName])) {
 				switch (File) {
 					case 0:
 						let object;
 						switch (serverType) {
 							case 0:
-								object = cache.msg.guild.members.get(id);
+								let server = cache.server;
+								if (server.memberCount != server.members.cache.size) await server.members.fetch();
+								object = server.members.cache.get(id);
 								break;
 							case 1:
-								object = this.getDBM().Bot.bot.users.find((element) => element.id === id);
+								object = Client.users.cache.get(id);
 								break;
 						}
-
 						if (object) {
-							objectid = object.id;
-							value = file[id][dataName];
 							name = (object.tag || object.user.tag);
-							array0.push({ id:objectid, data:value, name:name });
+							array0.push({ id:object.id, data:file[id][dataName], name:name });
 						}
 						break;
 					case 1:
-						object = this.getDBM().Bot.bot.guilds.find((element) => element.id === id);
-						if (object) {
-							objectid = object.guild.id;
-							value = file[id][dataName];
-							name = object.guild.name;
-							array0.push({ id:objectid, data:value, name:name });
-						}
+						object = Client.guilds.cache.get(id);
+						if (object) array0.push({ id:object.id, data:file[id][dataName], name:object.name });
 						break;
 				}
 			}
@@ -265,12 +262,11 @@ module.exports = {
 				result = fastsort(array0).asc((u) => parseInt(u.data));
 				break;
 		}
-		for (var i = 0; i < result.length; i++) {
+		for (let i = 0; i < result.length; i++) {
 			result[i].rank = i + 1;
 		}
 		switch (resultInfo) {
 			case 0:
-				let result0, Name, DataValue;
 				let array1 = [];
 				let resultFrom, resultTo;
 				switch (resultType) {
@@ -288,12 +284,18 @@ module.exports = {
 						break;
 
 				}
-				if (result.length < resultTo) {
+				if (result.length < resultTo || resultFrom >= resultTo) {
 					resultTo = result.length;
 				}
 				for (; resultFrom < resultTo; resultFrom++) {
-					Name = result[resultFrom].name;
-					DataValue = result[resultFrom].data;
+					let Name = result[resultFrom].name;
+					let DataValue = result[resultFrom].data;
+					let Member, User;
+					if (serverType == 0) {
+						Member = cache.server.members.cache.get(result[resultFrom].id);
+					} else {
+						User = Client.users.cache.get(result[resultFrom].id);
+					};
 					if (numberBoolean == 0) {
 						array1.push(eval(resultFormat) + "\n");
 					} else {
@@ -305,13 +307,8 @@ module.exports = {
 				break;
 			case 1:
 				if (rank) {
-					for (let i = 0; i < result.length; i++) {
-						if (result[i].id == rank) {
-							var result1 = result[i].rank;
-							this.storeValue(result1, storage, varName, cache);
-							break;
-						}
-					}
+					let found = result.find(res => res.id == rank);
+					if (found) this.storeValue(found.rank, storage, varName, cache);
 				}
 				break;
 		}
