@@ -13,14 +13,14 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-  <div>
-    Color:<br>
-    <input type="color" id="color" value="#f2f2f2">
-  </div><br>
-  <div style="padding-top: 8px;">
-    Message to send:<br>
-    <textarea id="tosend" rows="4" style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
-  </div>`
+<div>
+  Color:<br>
+  <input type="color" id="color" value="#f2f2f2">
+</div><br>
+<div style="padding-top: 8px;">
+  Message to send:<br>
+  <textarea id="tosend" rows="4" style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+</div>`
   },
 
   init () {},
