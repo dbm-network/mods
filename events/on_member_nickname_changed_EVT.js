@@ -1,31 +1,28 @@
 module.exports = {
-	name: "Member Nickname Changed MOD",
+  name: 'Member Nickname Changed MOD',
 
-	isEvent: true,
+  isEvent: true,
 
-	fields: ["Temp Variable Name (stores new nickname):", "Temp Variable Name (stores member object):"],
+  fields: ['Temp Variable Name (Stores new nickname):', 'Temp Variable Name (Stores member object):'],
 
-	mod: function(DBM) {
-		DBM.Mindlesscargo = DBM.Mindlesscargo || {};
-		DBM.Mindlesscargo.nicknameChanged = async function(oldMember, newMember) {
-			const { Bot, Actions } = DBM;
-			const events = Bot.$evts["Member Nickname Changed MOD"];
-			if(!events) return;
-			if (newMember.nickname === oldMember.nickname) return;
+  mod: function (DBM) {
+    DBM.Events = DBM.Events || {}
+    const { Bot, Actions } = DBM
+    DBM.Events.nicknameChanged = async function (oldMember, newMember) {
+      if (newMember.nickname === oldMember.nickname) return
+      const server = newMember.guild
+      for (const event of Bot.$evts['Member Nickname Changed MOD']) {
+        const temp = {}
+        if (event.temp) temp[event.temp] = newMember.nickname
+        if (event.temp2) temp[event.temp2] = newMember
+        Actions.invokeEvent(event, server, temp)
+      }
+    }
 
-			const server = newMember.guild;
-			for (const event of events) {
-				const temp = {};
-				if (event.temp) temp[event.temp] = newMember.nickname;
-				if (event.temp2) temp[event.temp2] = newMember;
-				Actions.invokeEvent(event, server, temp);
-			}
-		};
-
-		const onReady = DBM.Bot.onReady;
-		DBM.Bot.onReady = function(...params) {
-			DBM.Bot.bot.on("guildMemberUpdate", DBM.Mindlesscargo.nicknameChanged);
-			onReady.apply(this, ...params);
-		};
-	}
-};
+    const onReady = Bot.onReady
+    Bot.onReady = function (...params) {
+      Bot.bot.on('guildMemberUpdate', DBM.Events.nicknameChanged)
+      onReady.apply(this, ...params)
+    }
+  }
+}

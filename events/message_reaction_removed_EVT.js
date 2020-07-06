@@ -1,31 +1,29 @@
 module.exports = {
 
-	name: "Message Reaction Removed MOD",
+  name: 'Message Reaction Removed MOD',
 
-	isEvent: true,
+  isEvent: true,
 
-	fields: ["Reaction", "Member who Reacted"],
+  fields: ['Reaction (Temp Variable Name):', 'Member who Reacted (Temp Variable Name):'],
 
-	mod: function(DBM) {
-		DBM.RigidKeK = DBM.RigidKeK || {};
-		DBM.RigidKeK.reactionRemoved = function(reaction, member) {
-			const { Bot, Actions } = DBM;
-			const events = Bot.$evts["Message Reaction Removed MOD"];
-			if(!events) return;
-			for (let i = 0; i < events.length; i++) {
-				const event = events[i];
-				const server = reaction.message.guild;
-				const temp = {};
-				if(event.temp) temp[event.temp] = reaction;
-				if(event.temp2) temp[event.temp2] = member; // if people struggle to get guild member here:
-				//if(event.temp2) temp[event.temp2] = server.members.get(member.id);
-				Actions.invokeEvent(event, server, temp);
-			}
-		};
-		const onReady = DBM.Bot.onReady;
-		DBM.Bot.onReady = function(...params) {
-			DBM.Bot.bot.on("messageReactionRemove", DBM.RigidKeK.reactionRemoved);
-			onReady.apply(this, ...params);
-		};
-	}
-};
+  mod: function (DBM) {
+    DBM.Events = DBM.Events || {}
+    const { Bot, Actions } = DBM
+    DBM.Events.reactionRemoved = function (reaction, member) {
+      const server = reaction.message.guild
+      for (const event of Bot.$evts['Message Reaction Removed MOD']) {
+        const temp = {}
+
+        if (event.temp) temp[event.temp] = reaction
+        if (event.temp2) temp[event.temp2] = server.members.cache.get(member.id)
+
+        Actions.invokeEvent(event, server, temp)
+      }
+    }
+    const onReady = DBM.Bot.onReady
+    Bot.onReady = function (...params) {
+      Bot.bot.on('messageReactionRemove', DBM.Events.reactionRemoved)
+      onReady.apply(this, ...params)
+    }
+  }
+}

@@ -1,74 +1,36 @@
 module.exports = {
-	/**
-   * The author of the event.
-   * @type {string}
-  */
-	author: "Almeida",
 
-	/**
-   * The name of the event type on the editor.
-   * @type {string}
-  */
-	name: "Member Move Voice Channel",
+  author: 'Almeida',
 
-	/**
-   * Whether the object is of an event or not.
-   * @type {boolean}
-  */
-	isEvent: true,
+  name: 'Member Move Voice Channel',
 
-	/**
-   * The fields of the event (Variables); there can only be either: 0, 1 or 2.
-   * @type {Array<string>}
-  */
-	fields: [
-		"Temp Variable Name (stores member that entered the channel):",
-		"Temp Variable Name (stores channel that the member joined):",
-	],
+  isEvent: true,
 
-	/**
-   * The function that is ran when the software/bot starts.
-   * @param {Object<*>} DBM The DBM object.
-   * @return {void}
-   */
-	mod(DBM) {
-		DBM.MemberMoveVoiceChannel = DBM.MemberMoveVoiceChannel || {};
+  fields: ['Temp Variable Name (Stores member that entered the channel):', 'Temp Variable Name (Stores channel that the member joined):'],
 
-		const { Actions, Bot } = DBM;
+  mod: function (DBM) {
+    DBM.Events = DBM.Events || {}
+    const { Actions, Bot } = DBM
 
-		/**
-     * Runs through all the bots events and runs the one that apply.
-     * @param {User} oldUser The member before the voice state update.
-     * @param {User} newUser The member after the voice state update.
-     * @return {void}
-     */
-		DBM.MemberMoveVoiceChannel.callAllEvents = function(oldVoiceState, newVoiceState) {
-			const events = Bot.$evts["Member Move Voice Channel"];
-			if (!events) return;
+    DBM.Events.MemberMoveVoiceChannel = function (oldVoiceState, newVoiceState) {
+      const oldChannel = oldVoiceState.channel
+      const newChannel = newVoiceState.channel
+      const server = (oldChannel || newChannel).guild
+      if (!(!(oldChannel && !newChannel) && !(!oldChannel && newChannel) && oldChannel !== newChannel)) return
+      for (const event of Bot.$evts['Member Move Voice Channel']) {
+        const temp = {}
 
-			for (const event of events) {
-				const temp = {};
+        if (event.temp) temp[event.temp] = newVoiceState.member
+        if (event.temp2) temp[event.temp2] = newChannel
 
-				const oldChannel = oldVoiceState.channel;
-				const newChannel = newVoiceState.channel;
-				const server = (oldChannel || newChannel).guild;
+        Actions.invokeEvent(event, server, temp)
+      }
+    }
 
-				if (event.temp) temp[event.temp] = newVoiceState.member;
-				if (event.temp2) temp[event.temp2] = newChannel;
-
-				if (!(oldChannel && !newChannel) && !(!oldChannel && newChannel) && oldChannel != newChannel) {
-					Actions.invokeEvent(event, server, temp);
-				}
-			}
-		};
-
-		/*
-     * This is required so we have access to the Discord Client.
-     */
-		const onReady = DBM.Bot.onReady;
-		DBM.Bot.onReady = function(...params) {
-			DBM.Bot.bot.on("voiceStateUpdate", DBM.MemberMoveVoiceChannel.callAllEvents);
-			onReady.apply(this, ...params);
-		};
-	},
-};
+    const onReady = Bot.onReady
+    Bot.onReady = function (...params) {
+      Bot.bot.on('voiceStateUpdate', DBM.Events.MemberMoveVoiceChannel)
+      onReady.apply(this, ...params)
+    }
+  }
+}

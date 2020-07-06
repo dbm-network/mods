@@ -1,29 +1,25 @@
 module.exports = {
-	name: "Invite Delete",
+  name: 'Invite Delete',
 
-	isEvent: true,
+  isEvent: true,
 
-	fields: ["Temp Variable Name (stores invite code that was deleted):"],
+  fields: ['Temp Variable Name (Stores invite code that was deleted):'],
 
-	mod: function(DBM) {
-		DBM.LeonZ = DBM.LeonZ || {};
-		DBM.LeonZ.inviteDelete = function(invite) {
-			const { Bot, Actions } = DBM;
-			const events = Bot.$evts["Invite Delete"];
-			if(!events) return;
-			const server = invite.guild;
-			for (let i = 0; i < events.length; i++) {
-				const temp = {};
-				const event = events[i];
-				if(event.temp) temp[event.temp] = invite.code;
-				Actions.invokeEvent(event, server, temp);
-			}
-		};
-
-		const onReady = DBM.Bot.onReady;
-		DBM.Bot.onReady = function(...params) {
-			DBM.Bot.bot.on("inviteDelete", DBM.LeonZ.inviteDelete);
-			onReady.apply(this, ...params);
-		};
-	}
-};
+  mod: function (DBM) {
+    DBM.Events = DBM.Events || {}
+    const { Bot, Actions } = DBM
+    DBM.Events.inviteDelete = function (invite) {
+      const server = invite.guild
+      for (const event of Bot.$evts['Invite Delete']) {
+        const temp = {}
+        if (event.temp) temp[event.temp] = invite.code
+        Actions.invokeEvent(event, server, temp)
+      }
+    }
+    const onReady = Bot.onReady
+    Bot.onReady = function (...params) {
+      Bot.bot.on('inviteDelete', DBM.Events.inviteDelete)
+      onReady.apply(this, ...params)
+    }
+  }
+}

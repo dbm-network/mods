@@ -1,40 +1,31 @@
 module.exports = {
 
-	name: "Member Boosted Server",
+  name: 'Member Boosted Server',
 
-	isEvent: true,
+  isEvent: true,
 
-	fields: ["Member", "Guild"],
+  fields: ['Member (Temp Variable Name):'],
 
-	mod: function(DBM) {
-		DBM.RigidKeK = DBM.RigidKeK || {};
+  mod: function (DBM) {
+    DBM.Events = DBM.Events || {}
+    const { Bot, Actions } = DBM
+    DBM.Events.boostedGuild = function (old, recent) {
+      const server = recent.guild
+      if (!(!old.premiumSince && recent.premiumSince)) return
+      for (const event of Bot.$evts['Member Boosted Server']) {
+        const temp = {}
 
-		DBM.RigidKeK.boostedGuild = function(old, recent) {
-			const { Bot, Actions } = DBM;
+        if (event.temp) temp[event.temp] = recent
+        if (event.temp2) temp[event.temp2] = recent.guild
 
-			const events = Bot.$evts["Member Boosted Server"];
-			if(!events) return;
+        Actions.invokeEvent(event, server, temp)
+      }
+    }
 
-			if (!old.premiumSince && recent.premiumSince) {
-				for (let i = 0; i < events.length; i++) {
-					const event = events[i];
-					const temp = {};
-					if(event.temp) temp[event.temp] = recent;
-					if(event.temp2) temp[event.temp2] = recent.guild;
-
-					const server = null;
-
-					Actions.invokeEvent(event, server, temp);
-				}
-			}
-
-
-		};
-
-		const onReady = DBM.Bot.onReady;
-		DBM.Bot.onReady = function(...params) {
-			DBM.Bot.bot.on("guildMemberUpdate", DBM.RigidKeK.boostedGuild);
-			onReady.apply(this, ...params);
-		};
-	}
-};
+    const onReady = Bot.onReady
+    Bot.onReady = function (...params) {
+      Bot.bot.on('guildMemberUpdate', DBM.Events.boostedGuild)
+      onReady.apply(this, ...params)
+    }
+  }
+}
