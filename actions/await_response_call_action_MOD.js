@@ -15,8 +15,9 @@ class AwaitResponseCallAction {
 
   variableStorage (data, varType) {
     const type = parseInt(data.storage2)
+    const max = parseInt(data.max)
     if (type !== varType) return
-    return [data.varName2, 'Message List']
+    return [data.varName2, max === 1 ? 'Message' : 'Message List']
   }
 
   init () {
