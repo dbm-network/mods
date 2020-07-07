@@ -105,12 +105,11 @@ module.exports = {
     const headers = this.evalMessage(data.headers, cache)
 
     // if it fails the check, try to re-encode the url
-    if (!Mods.checkURL(url)) {
-      url = encodeURI(url)
-    }
+    if (!Mods.checkURL(url)) { url = encodeURI(url) }
 
     if (Mods.checkURL(url)) {
       try {
+        // eslint-disable-next-line no-inner-declarations
         function storeData (error, res, jsonData) {
           const statusCode = res ? res.statusCode : 200
           let errorJson

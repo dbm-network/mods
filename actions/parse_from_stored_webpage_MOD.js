@@ -100,6 +100,16 @@ module.exports = {
   },
 
   action (cache) {
+    function manageXmlParseError (msg, errorLevel, errorLog) {
+      if ((errorLog.errorLevel == null) || (errorLog.errorLevel < errorLevel)) {
+        errorLog.errorLevel = errorLevel
+      }
+      if (errorLog[errorLevel.toString()] == null) {
+        errorLog[errorLevel.toString()] = []
+      }
+      errorLog[errorLevel.toString()].push(msg)
+    }
+
     try {
       const Mods = this.getMods()
 
@@ -149,16 +159,6 @@ module.exports = {
               }
             }
           }).parseFromString(ent.decode(html))
-
-          function manageXmlParseError (msg, errorLevel, errorLog) {
-            if ((errorLog.errorLevel == null) || (errorLog.errorLevel < errorLevel)) {
-              errorLog.errorLevel = errorLevel
-            }
-            if (errorLog[errorLevel.toString()] == null) {
-              errorLog[errorLevel.toString()] = []
-            }
-            errorLog[errorLevel.toString()].push(msg)
-          }
 
           let nodes = []
           try {

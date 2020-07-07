@@ -104,6 +104,7 @@ module.exports = {
 
     const dataName = this.evalMessage(data.dataName, cache)
     const compare = parseInt(data.comparison)
+    const { Globals } = this.getDBM()
     const val1 = Globals.data(dataName)
     let val2 = this.evalMessage(data.value, cache)
     if (compare !== 6) val2 = this.eval(val2, cache)

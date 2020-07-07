@@ -10,7 +10,7 @@ module.exports = {
     const type = parseInt(data.storage)
     if (type !== varType) return
 
-    if (varType === typeof object) return [data.varName, 'JSON Object']
+    if (varType === 'object') return [data.varName, 'JSON Object']
 
     return [data.varName, `JSON ${varType} Value`]
   },
@@ -93,7 +93,6 @@ module.exports = {
   action (cache) {
     const Mods = this.getMods()
     const data = cache.actions[cache.index]
-    let result
     const varName = this.evalMessage(data.varName, cache)
     const storage = parseInt(data.storage)
     const type = parseInt(data.varStorage)
@@ -112,12 +111,12 @@ module.exports = {
         let outData = Mods.jsonPath(jsonData, path)
 
         // if it dont work, try to go backwards one path
-        if (outData == false) {
+        if (outData === false) {
           outData = Mods.jsonPath(jsonData, `$.${path}`)
         }
 
         // if it still dont work, try to go backwards two paths
-        if (outData == false) {
+        if (outData === false) {
           outData = Mods.jsonPath(jsonData, `$..${path}`)
         }
 
@@ -144,8 +143,8 @@ module.exports = {
           console.log(`WebAPI Parser: Error Invalid JSON, is the Path set correctly? [${path}]`)
         } else if (outValue.success != null || !outValue) {
           const errorJson = JSON.stringify({
-            error,
-            statusCode,
+            error: 'error',
+            statusCode: 0,
             success: false
           })
           this.storeValue(errorJson, storage, varName, cache)
