@@ -88,7 +88,7 @@ module.exports = {
         const cmd = this.$cmds[command]
         if (cmd) {
           const info = readFileSync('./data/blacklist.txt').toString()
-          if (!info.split('\n').includes(msg.member.id)) {
+          if (!info.split('\n').includes(msg.author.id)) {
             DBM.Actions.preformActions(msg, cmd)
             return true
           }
