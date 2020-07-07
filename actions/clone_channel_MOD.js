@@ -153,7 +153,7 @@ module.exports = {
         nsfw: data.nsfw === 1 ? channel.nsfw : false,
         topic: data.topic === 1 ? channel.topic : undefined,
         rateLimitPerUser: data.slowmode === 1 ? channel.slowmode : 0,
-        parent: data.categoryID ? cache.server.channels.get(this.evalMessage(data.categoryID, cache)) : null
+        parent: data.categoryID ? cache.server.channels.cache.get(this.evalMessage(data.categoryID, cache)) : null
       }
     }
 
