@@ -78,8 +78,8 @@ module.exports = {
       <div style="padding-left: 5%; float: left; width: 255px;">
         Interpretation Style:<br>
         <select id="interpretation" class="round">
-          <option value="0" selected>Evaluate Code First</option>
-          <option value="1">Evaluate Code Directly</option>
+          <option value="0">Evaluate Code First</option>
+          <option value="1" selected>Evaluate Code Directly</option>
         </select>
       </div>
     </div><br><br><br>
