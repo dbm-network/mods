@@ -48,6 +48,7 @@ module.exports = {
     const data = cache.actions[cache.index]
     const dataName = this.evalMessage(data.dataName, cache)
     const defVal = this.eval(this.evalMessage(data.defaultVal, cache), cache)
+    const { Globals } = this.getDBM()
     const result = Globals.data(dataName, defVal)
     const storage = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)

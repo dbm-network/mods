@@ -6,10 +6,6 @@ module.exports = {
     return `Store: ${data.varName} DebugMode: ${data.debugMode === '1' ? 'Enabled' : 'Disabled'}`
   },
 
-  subtitle (data) {
-    return `Store: ${data.varName} DebugMode: ${data.debugMode === '1' ? 'Enabled' : 'Disabled'}`
-  },
-
   variableStorage (data, varType) {
     const type = parseInt(data.storage)
     if (type !== varType) return
@@ -175,11 +171,11 @@ module.exports = {
       if (postJson) {
       // Test the json
         try {
-          const test = JSON.parse(JSON.stringify(postJson))
+          JSON.parse(JSON.stringify(postJson))
         } catch (error) {
           const errorJson = JSON.stringify({
             error,
-            statusCode,
+            statusCode: 0,
             success: false
           })
           console.error(error.stack ? error.stack : error)
@@ -212,7 +208,7 @@ module.exports = {
               const value = header[1] || 'Unknown'
               setHeaders[key] = value
 
-              if (_DEBUG) console.log(`Applied Header: ${lines[i]}`)
+              if (debugMode) console.log(`Applied Header: ${lines[i]}`)
             } else {
               console.error(`WebAPI: Error: Custom Header line ${lines[i]} is wrongly formatted. You must split the key from the value with a colon (:)`)
             }
@@ -228,9 +224,9 @@ module.exports = {
         }, (error, res, jsonData) => {
           try {
             if (error) {
-              var errorJson = JSON.stringify({
+              const errorJson = JSON.stringify({
                 error,
-                statusCode
+                statusCode: 0
               })
               Actions.storeValue(errorJson, storage, varName, cache)
 
@@ -244,9 +240,9 @@ module.exports = {
                 console.log(JSON.stringify(jsonData, null, 4))
               }
             } else {
-              var errorJson = JSON.stringify({
+              const errorJson = JSON.stringify({
                 error,
-                statusCode
+                statusCode: 0
               })
               Actions.storeValue(errorJson, storage, varName, cache)
 

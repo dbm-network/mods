@@ -25,7 +25,8 @@ module.exports = {
   action (cache) {
     const data = cache.actions[cache.index]
     const dataName = this.evalMessage(data.dataName, cache)
-    Global.delData(dataName)
+    const { Globals } = this.getDBM()
+    Globals.delData(dataName)
     this.callNextAction(cache)
   },
 
@@ -37,7 +38,7 @@ module.exports = {
       fs.writeFileSync(filePath, '{}')
     }
     DBM.Files.data.globals = JSON.parse(fs.readFileSync(filePath))
-    class GlobalsData {
+    class GlobalData {
       delData (name) {
         if (name && DBM.Files.data.globals[name]) {
           delete DBM.Files.data.globals[name]
@@ -50,7 +51,7 @@ module.exports = {
 
       data (name, defaultValue) {
         if (DBM.Files.data.globals[name] || defaultValue !== undefined) {
-          const data = (DBM.Files.data.globals[name]) ? DBM.Files.data.globals[name] : defaultValue
+          const data = DBM.Files.data.globals[name] ? DBM.Files.data.globals[name] : defaultValue
           return data
         }
         return null
@@ -64,6 +65,7 @@ module.exports = {
       }
 
       addData (name, value) {
+        const data = DBM.Files.data.globals
         if (data[name] === undefined) {
           this.setData(name, value)
         } else {
@@ -71,6 +73,7 @@ module.exports = {
         }
       }
     }
-    Globals = new GlobalsData()
+
+    DBM.Globals = new GlobalData()
   }
 }
