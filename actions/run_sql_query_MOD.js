@@ -336,23 +336,23 @@ module.exports = {
       switch (key) {
         case '0':
           res = 'mysql'
-          Mods.installModule('mysql2')
+          Mods.require('mysql2')
           break
         case '1':
           res = 'postgres'
-          Mods.installModule('pg-hstore')
+          Mods.require('pg-hstore')
           break
         case '2':
           res = 'mssql'
-          Mods.installModule('tedious')
+          Mods.require('tedious')
           break
         case '3':
           res = 'sqlite'
-          Mods.installModule('sqlite3')
+          Mods.require('sqlite3')
           break
         default:
           res = 'sqlite'
-          Mods.installModule('sqlite3')
+          Mods.require('sqlite3')
           break
       }
       return res
