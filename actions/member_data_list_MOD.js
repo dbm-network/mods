@@ -133,7 +133,7 @@ module.exports = {
             })
 
             try {
-              const user = msg.guild.members.get(result[i])
+              const user = msg.guild.members.cache.get(result[i])
               const { tag } = user.user
 
               list.push({
