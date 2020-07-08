@@ -15,13 +15,6 @@
   </a>
 </p>
 
-# Table of Contents
-
-- [Overview](#overview)
-- [Downloads](#downloads)
-
-## Overview
-
 DBM Mods is a community driven open source project meant to modify, extend, and improve [Discord Bot Maker](https://store.steampowered.com/app/682130/Discord_Bot_Maker/).
 
 # Downloads
