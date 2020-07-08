@@ -18,7 +18,7 @@ DBM Mods is a community driven open source project meant to modify, extend, and 
 
 This repository is not meant to be downloaded or cloned. Please follow the installation guide below.
 
-1. Download the [Events files](https://github.com/dbm-network/events/archive/master.zip)
+1. Download the [Events files](https://dbm-network.github.io/download-git/#/home?url=https://github.com/dbm-network/events/tree/master/events)
 2. Open your Steam Library and open the Softwares tab
 3. Right click Discord Bot Maker, then click Local Files &rarr; Browse Local Files
 4. Extract the `Events files` into your DBM folder, overwrite if prompted
