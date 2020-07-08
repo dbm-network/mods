@@ -98,25 +98,23 @@ module.exports = {
     glob.variableChange(document.getElementById('storage'), 'varNameContainer')
   },
 
-  action (cache) {
+  async action (cache) {
     const _this = this
     const data = cache.actions[cache.index]
-    const info = this.evalMessage(data.info)
     const type = parseInt(data.type)
 
     const Mods = this.getMods()
     const speedTest = Mods.require('speedtest-net')
 
     let result
-    (async () => {
-      try {
+    try {
       const test = await speedTest({ maxTime: 5000, acceptLicense: true })
       switch (type) {
         case 0:
-          result = test.download.bandwidth / 125000
+          data.info === 'downloadspeed' ? result = test.download.bandwidth / 125000 : result = test.upload.bandwidth / 125000
           break
         case 1:
-          result = test.upload.bandwidth / 125000
+          data.info === 'downloadspeed' ? result = test.download.bandwidth / 1000 : result = test.upload.bandwidth / 1000
           break
         default:
           break
@@ -128,11 +126,10 @@ module.exports = {
         _this.storeValue(result, storage, varName2, cache)
       }
       _this.callNextAction(cache)
-      } catch (err) {
-        console.log(`Error in Speed Test MOD: ${error}`)
-        _this.callNextAction(cache)
-      }
-    })();
+    } catch (err) {
+      console.log(`Error in Speed Test MOD: ${err}`)
+      _this.callNextAction(cache)
+    }
   },
 
   mod () {}
