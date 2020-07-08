@@ -1,20 +1,29 @@
-# DBM Events
+<p align="center">
+  <a title="DBM Network" href="https://discord.gg/3QxkZPK" target="_blank">
+    <img src="https://dl.dropboxusercontent.com/s/z9peiufx85vxxmj/events-banner.png" width="512" alt="DBM Network" />
+  </a>
+</p>
+<p align="center">
+  <a title="Contributors" href="https://github.com/dbm-network/mods/contributors" target="_blank">
+    <img src="https://img.shields.io/github/contributors/dbm-network/events.svg?style=flat-square" alt="Contributors" />
+  </a>
+  <a title="License" href="https://github.com/dbm-network/mods/blob/master/LICENSE.md" target="_blank">
+    <img src="https://img.shields.io/github/license/dbm-network/events.svg?style=flat-square" alt="License" />
+  </a>
+</p>
 
-Here you can find some Events for Discord Bot Maker!
-Feel free to use them in your bots. But, if you want to share this files, please, share the URL of this GitHub page, so that everyone can have everything up to date!
+DBM Mods is a community driven open source project meant to modify, extend, and improve [Discord Bot Maker](https://store.steampowered.com/app/682130/Discord_Bot_Maker/).
 
-Make sure to join the [DBM Network server](https://discord.gg/3QxkZPK
-) to stay updated and be able to suggest stuff! More information at: https://dbm-network.org/
+# Downloads
 
-## How to install the Events:
-1. Download this file: https://github.com/dbm-network/events/archive/master.zip
-2. Open ZIP and open the first (and only) folder
-3. Open your Steam Library and open the Softwares tab
-4. Choose Discord Bot Maker &rarr; Local Files &rarr; Browse Local Files
+This repository is not meant to be downloaded or cloned. Please follow the installation guide below.
+
+1. Download the [Events files](https://github.com/dbm-network/events/archive/master.zip)
+2. Open your Steam Library and open the Softwares tab
+3. Right click Discord Bot Maker, then click Local Files &rarr; Browse Local Files
+4. Extract the `Events files` into your DBM folder, overwrite if prompted
 5. Now within the DBM Program itself, select Project &rarr; Open Project Directory
-6. Now copy the files you downloaded out of the zip file into BOTH folders you just opened (*Please overwrite existing ones*)
+6. Extract the `Events files` into the Project folder (the one you just opened) as well, again overwriting if prompted.
 
+**You will need to repeat steps 5 and 6 for ALL of your DBM projects.**
 
-And that's it
-
-If you have any more questions: [Join our Discord](https://discord.gg/3QxkZPK) or make a ticket on the [Support Website](https://dbm-support.site/index.php?a=add&category=5).
