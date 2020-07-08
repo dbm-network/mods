@@ -106,16 +106,17 @@ module.exports = {
 
     const Mods = this.getMods()
     const speedTest = Mods.require('speedtest-net')
-    const test = speedTest({ maxTime: 5000 })
 
     let result
-    test.on(`${info}`, (speed) => {
+    (async () => {
+      try {
+      const test = await speedTest({ maxTime: 5000, acceptLicense: true })
       switch (type) {
         case 0:
-          result = speed
+          result = test.download.bandwidth / 125000
           break
         case 1:
-          result = (speed * 125).toFixed(2)
+          result = test.upload.bandwidth / 125000
           break
         default:
           break
@@ -127,12 +128,11 @@ module.exports = {
         _this.storeValue(result, storage, varName2, cache)
       }
       _this.callNextAction(cache)
-    })
-
-    test.on('error', (error) => {
-      console.log(`Error in Speed Test MOD: ${error}`)
-      _this.callNextAction(cache)
-    })
+      } catch (err) {
+        console.log(`Error in Speed Test MOD: ${error}`)
+        _this.callNextAction(cache)
+      }
+    })();
   },
 
   mod () {}
