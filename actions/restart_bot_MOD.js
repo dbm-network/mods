@@ -27,7 +27,8 @@ module.exports = {
     const filename = this.evalMessage(data.filename, cache)
     this.getDBM().Bot.bot.destroy()
     const child = require('child_process')
-    child.execSync(`node ${filename}`, { cwd: require('path').dirname(process.argv[1]), stdio: [0, 1, 2] }).catch((e) => console.log(`An error in Restart Bot MOD: ${e}`))
+    child.spawnSync('node', [filename], { cwd: process.cwd() })
+    process.exit()
   },
 
   mod () {}
