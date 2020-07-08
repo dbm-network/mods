@@ -28,7 +28,7 @@ module.exports = {
     this.getDBM().Bot.bot.destroy()
     const child = require('child_process')
     child.spawnSync('node', [filename], { cwd: process.cwd() })
-    process.exit(0)
+    process.exit()
   },
 
   mod () {}
