@@ -36,7 +36,7 @@ module.exports = {
   init () {},
 
   action (cache) {
-    const id = cache.actions[cache.index].jump_to_anchor
+    const id = this.evalMessage(cache.actions[cache.index].jump_to_anchor, cache)
     this.anchorJump(id, cache)
   },
 
