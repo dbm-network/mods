@@ -9,12 +9,13 @@ module.exports = {
     DBM.Events = DBM.Events || {}
     const { Bot, Actions } = DBM
     DBM.Events.roleRemoved = async function (oldMember, newMember) {
-      const oldRoles = oldMember.roles
-      const newRoles = newMember.roles
+      if (newMember.roles.cache.size > oldMember.roles.cache.size) return
+      const oldRoles = oldMember.roles.cache
+      const newRoles = newMember.roles.cache
 
       const difference = oldRoles.filter((role) => !newRoles.has(role.id)).first()
-      if (newMember.roles.size > oldMember.roles.size) return
       const server = newMember.guild
+      if (!Bot.$evts['Member Role Removed MOD']) return
       for (const event of Bot.$evts['Member Role Removed MOD']) {
         const temp = {}
 

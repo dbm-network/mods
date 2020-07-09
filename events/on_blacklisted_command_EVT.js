@@ -11,6 +11,7 @@ module.exports = {
     const { Bot, Actions } = DBM
     DBM.Events.blacklistedUserUse = function (user, message) {
       const server = user.guild || null
+      if (!Bot.$evts['On Blacklisted Command']) return
       for (const event of Bot.$evts['On Blacklisted Command']) {
         const temp = {}
 

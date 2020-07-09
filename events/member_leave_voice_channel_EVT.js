@@ -17,6 +17,7 @@ module.exports = {
       const newChannel = newVoiceState.channel
       const server = (oldChannel || newChannel).guild
       if (!(oldChannel && !newChannel)) return
+      if (!Bot.$evts['Member Leave Voice Channel']) return
       for (const event of Bot.$evts['Member Leave Voice Channel']) {
         const temp = {}
 
@@ -26,7 +27,7 @@ module.exports = {
         Actions.invokeEvent(event, server, temp)
       }
     }
-    const onReady = DBM.Bot.onReady
+    const onReady = Bot.onReady
     Bot.onReady = function (...params) {
       Bot.bot.on('voiceStateUpdate', DBM.Events.MemberLeaveVoiceChannel)
       onReady.apply(this, ...params)

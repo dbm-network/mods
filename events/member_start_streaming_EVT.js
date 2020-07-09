@@ -15,6 +15,7 @@ module.exports = {
       const newChannel = newVoiceState.channel
       if ((!oldChannel || !newChannel) || (oldVoiceState.streaming && !newVoiceState.streaming)) return
       const server = (oldChannel || newChannel).guild
+      if (!Bot.$evts['Member Start Streaming']) return
       for (const event of Bot.$evts['Member Start Streaming']) {
         const temp = {}
 

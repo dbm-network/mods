@@ -10,6 +10,7 @@ module.exports = {
     const { Bot, Actions } = DBM
     DBM.Events.inviteCreate = function (invite) {
       const server = invite.guild
+	  if (!Bot.$evts['Invite Create']) return
       for (const event of Bot.$evts['Invite Create']) {
         const temp = {}
         if (event.temp) temp[event.temp] = invite.code

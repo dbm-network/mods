@@ -11,12 +11,12 @@ module.exports = {
   mod (DBM) {
     DBM.Events = DBM.Events || {}
     const { Actions, Bot } = DBM
-
     DBM.Events.MemberJoinVoiceChannel = function (oldVoiceState, newVoiceState) {
       const oldChannel = oldVoiceState.channel
       const newChannel = newVoiceState.channel
       const server = (oldChannel || newChannel).guild
       if (!(!oldChannel && newChannel)) return
+      if (!Bot.$evts['Member Join Voice Channel']) return
       for (const event of Bot.$evts['Member Join Voice Channel']) {
         const temp = {}
 

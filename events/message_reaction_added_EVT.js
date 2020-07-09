@@ -10,8 +10,9 @@ module.exports = {
     DBM.Events = DBM.Events || {}
     const { Bot, Actions } = DBM
     DBM.Events.reactionAdded = function (reaction, member) {
-      const server = reaction.message.guild
-      const user = server.members.cache.get(member.id)
+      const server = reaction.message.guild || null
+      const user = server.members.cache.get(member.id) || member
+	  if (!Bot.$evts['Message Reaction Added MOD']) return
       for (const event of Bot.$evts['Message Reaction Added MOD']) {
         const temp = {}
 
@@ -22,10 +23,9 @@ module.exports = {
       }
     }
 
-    const onReady = DBM.Bot.onReady
-    DBM.Bot.onReady = function (...params) {
-      DBM.Bot.bot.on('messageReactionAdd', DBM.Events.reactionAdded)
-
+    const onReady = Bot.onReady
+    Bot.onReady = function (...params) {
+      Bot.bot.on('messageReactionAdd', DBM.Events.reactionAdded)
       onReady.apply(this, ...params)
     }
   }

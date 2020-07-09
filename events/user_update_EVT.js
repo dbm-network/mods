@@ -11,6 +11,7 @@ module.exports = {
     const { Bot, Actions } = DBM
 
     DBM.Events.callUserUpdate = function (pre, post) {
+      if (!Bot.$evts['User Update']) return
       for (const event of Bot.$evts['User Update']) {
         const temp = {}
 
