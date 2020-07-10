@@ -35,34 +35,7 @@ module.exports = {
 </p>`
   },
 
-  init () {
-    const { glob, document } = this
-
-    glob.onInput1 = function () {
-      const x = document.getElementById('url').value.replace(/(\/|\\)+$/, '').split('/')
-      const y = x[x.length - 1]
-
-      const arrayy = []
-      const regex = new RegExp(/\./, 'g')
-      let rE
-      while (rE = regex.exec(y)) {
-        arrayy.push(rE)
-      }
-
-      if (arrayy.length === 0 || !y.substring(arrayy[arrayy.length - 1].index + 1)) {
-        document.getElementById('fileName').placeholder = ''
-        document.getElementById('fileFormat').placeholder = ''
-      } else {
-        const fN = y.substring(0, arrayy[arrayy.length - 1].index)
-        const fF = y.substring(arrayy[arrayy.length - 1].index + 1)
-
-        document.getElementById('fileName').placeholder = fN
-        document.getElementById('fileFormat').placeholder = fF
-      }
-    }
-
-    glob.onInput1(document.getElementById('url'))
-  },
+  init () {},
 
   action (cache) {
     const data = cache.actions[cache.index]
