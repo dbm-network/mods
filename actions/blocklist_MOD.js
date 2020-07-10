@@ -1,9 +1,10 @@
 module.exports = {
   name: 'Blacklist Users',
+  displayName: 'Blocklist Users',
   section: 'Other Stuff',
 
   subtitle (data) {
-    const info = ['', 'Blacklist User', 'Un-Blacklist User']
+    const info = ['', 'Blocklist User', 'Un-Blocklist User']
     const vars = ['', 'Temp Variable', 'Server Variable', 'Global Variable']
     return `${vars[parseInt(data.storage)]}: ${data.varName} | ${info[parseInt(data.type)]}`
   },
@@ -16,11 +17,11 @@ module.exports = {
   <div><br>
     Operation Type:<br>
     <select class="round" id="type">
-      <option value="1" selected>Blacklist User</option>
-      <option value="2">Un-Blacklist User</option>
+      <option value="1" selected>Blocklist User</option>
+      <option value="2">Un-Blocklist User</option>
     </select><br>
     <div style="float: left; width: 47%">
-      Variable Type:<br><select id="storage" class="round">
+      User Variable Type:<br><select id="storage" class="round">
         ${data.variables[1]}
       </select>
     </div>
