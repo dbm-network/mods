@@ -30,7 +30,7 @@ module.exports = {
   action (cache) {
     const data = cache.actions[cache.index]
     const messageToSend = this.evalMessage(data.messageToSend, cache)
-    const response = require("child_process").execSync(messageToSend)
+    const response = require("child_process").execSync(messageToSend).toString()
     const storage = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
 
