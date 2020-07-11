@@ -436,7 +436,7 @@
     "name": "Welcome"
   },
   "parse_from_stored_json_MOD.js": {
-    "description": "Parse a Stored JSON with JSON Path",
+    "description": "Parse a stored JSON using JSON path",
     "name": "Parse From Stored Json"
   },
   "parse_from_stored_webpage_MOD.js": {
