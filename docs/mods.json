@@ -495,6 +495,10 @@
     "description": "",
     "name": "Run Action Sequence Once"
   },
+  "run_command_in_console_MOD.js": {
+    "description": "Run a command in your console",
+    "name": "Run Command in Console"
+  },
   "run_script.js": {
     "description": "",
     "name": "Run Script"
