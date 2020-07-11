@@ -92,7 +92,7 @@
     "name": "Canvas Edit Image Border"
   },
   "canvas_generate_progress_bar_MOD.js": {
-    "description": "Generate a progress bar using the cnanvas module",
+    "description": "Generate a progress bar using the canvas module",
     "name": "Canvas Generate Progress Bar"
   },
   "canvas_image_filter_MOD.js": {
@@ -494,6 +494,10 @@
   "run_action_sequence_once_MOD.js": {
     "description": "",
     "name": "Run Action Sequence Once"
+  },
+  "run_command_in_console_MOD.js": {
+    "description": "Run a command in your console",
+    "name": "Run Command in Console"
   },
   "run_script.js": {
     "description": "",
