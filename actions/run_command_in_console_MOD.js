@@ -10,20 +10,19 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-      <div>
-      <p>
-      Run a command in your console.<strong> THIS IS VERY DANGEROUS. SET THIS TO "BOT OWNER ONLY"</strong><br><br>
-      </p>
-      </div>
-      Command to run:
-      <input id="messageToSend" class="round" type="text"><br>
-      Store in:<br>
-      <select class="round" id="storage">
-      ${data.variables[0]}
-      </select><br>
-      Variable name:<br>
-      <input class="round" id="varName" />
-      `
+<div>
+  <p>
+    Run a command in your console.<strong> THIS IS VERY DANGEROUS. SET THIS TO "BOT OWNER ONLY"</strong><br><br>
+  </p>
+</div>
+Command to run:
+<input id="messageToSend" class="round" type="text"><br>
+Store in:<br>
+<select class="round" id="storage">
+  ${data.variables[0]}
+</select><br>
+Variable name:<br>
+<input class="round" id="varName" />`
   },
 
   init () {},
