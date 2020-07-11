@@ -1,190 +1,190 @@
 {
   "aaa_dbmmods_dependencies_MOD.js": {
-    "description": "Common dependencies used by other mods",
+    "description": "Common dependencies used by other mods.",
     "name": "Mods"
   },
   "action_list_comment_MOD.js": {
-    "description": "Add a comment in your actions list",
+    "description": "Add a comment in your actions list.",
     "name": "Comment"
   },
   "add_blank_field_MOD.js": {
-    "description": "Add a blank field in an embed",
+    "description": "Add a blank field in an embed.",
     "name": "Add Blank Embed Field"
   },
   "add_embed_field.js": {
-    "description": "Add a field in an embed",
+    "description": "Add a field in an embed.",
     "name": "Add Embed Field"
   },
   "age_calculator_MOD.js": {
-    "description": "Get a date from a specified timestamp",
+    "description": "Get age from a specified timestamp.",
     "name": "Age Calculator"
   },
   "anchor_create_MOD.js": {
-    "description": "Create an anchor",
+    "description": "Create an anchor.",
     "name": "Create Anchor"
   },
   "anchor_jump_MOD.js": {
-    "description": "Jump to an anchor",
+    "description": "Jump to an anchor.",
     "name": "Jump to Anchor"
   },
   "attach_image_to_embed_MOD.js": {
-    "description": "Attach a specified image to an embed",
+    "description": "Attach a specified image to an embed.",
     "name": "Attach Image To Embed"
   },
   "auto_help_MOD.js": {
-    "description": "Automatically creates a 'help' for each command",
+    "description": "Automatically creates a 'help' for each command.",
     "name": "Auto Help"
   },
   "await_reaction_call_action_MOD.js": {
-    "description": "Await a reaction from a member/user using a JavaScript filter",
+    "description": "Await a reaction from a member/user using a JavaScript filter.",
     "name": "Await Reaction Call Action"
   },
   "await_response_call_action_MOD.js": {
-    "description": "Await a message from a member/user using a JavaScript filter",
+    "description": "Await a message from a member/user using a JavaScript filter.",
     "name": "Await Response Call Action"
   },
   "ban_member.js": {
-    "description": "Ban a GuildMember",
+    "description": "Ban a Guild Member.",
     "name": "Ban Member"
   },
   "base_convert_MOD.js": {
-    "description": "Convert a base",
+    "description": "Convert a base.",
     "name": "Base Convert MOD"
   },
   "basic_math_operation_MOD.js": {
-    "description": "Have the bot do a basic math operation",
+    "description": "Do a basic math operation.",
     "name": "Basic Math Operation"
   },
   "blocklist_MOD.js": {
-    "description": "Blacklist or unblacklist users from using the bot",
+    "description": "Blocklist or unblocklist users from using bot commands.",
     "name": "Blacklist Users"
   },
   "botsfordiscord_stats_MOD.js": {
-    "description": "Sends statistics (server count) to botsfordiscord.com",
+    "description": "Sends statistics (server count) to botsfordiscord.com.",
     "name": "Send Stats to BFD"
   },
   "call_command_or_event.js": {
-    "description": "Call a command or event",
+    "description": "Call a command or event.",
     "name": "Call Command/Event"
   },
   "canvas_create_background_MOD.js": {
-    "description": "Create a background using the canvas module",
+    "description": "Create a background using the canvas module.",
     "name": "Canvas Create Background"
   },
   "canvas_create_image_MOD.js": {
-    "description": "Create an image using the canvas module",
+    "description": "Create an image using the canvas module.",
     "name": "Canvas Create Image"
   },
   "canvas_crop_image_MOD.js": {
-    "description": "Crop an image using the canvas module",
+    "description": "Crop an image using the canvas module.",
     "name": "Canvas Crop Image"
   },
   "canvas_draw_image_MOD.js": {
-    "description": "Draw an image on an image using the canvas module",
+    "description": "Draw an image on an image using the canvas module.",
     "name": "Canvas Draw Image on Image"
   },
   "canvas_draw_text_MOD.js": {
-    "description": "Draw some text on an image using the canvas module",
+    "description": "Draw some text on an image using the canvas module.",
     "name": "Canvas Draw Text on Image"
   },
   "canvas_edit_image_border_MOD.js": {
-    "description": "Edit an image border using the canvas module",
+    "description": "Edit an image border using the canvas module.",
     "name": "Canvas Edit Image Border"
   },
   "canvas_generate_progress_bar_MOD.js": {
-    "description": "Generate a progress bar using the cnanvas module",
+    "description": "Generate a progress bar using the cnanvas module.",
     "name": "Canvas Generate Progress Bar"
   },
   "canvas_image_filter_MOD.js": {
-    "description": "Filter an image using the canvas module",
+    "description": "Filter an image using the canvas module.",
     "name": "Canvas Image Filter"
   },
   "canvas_image_options_MOD.js": {
-    "description": "Configure image options using the canvas module",
+    "description": "Configure image options using the canvas module.",
     "name": "Canvas Image Options"
   },
   "canvas_save_image_MOD.js": {
-    "description": "Save an image using the canvas module",
+    "description": "Save an image using the canvas module.",
     "name": "Canvas Save Image"
   },
   "canvas_send_image_MOD.js": {
-    "description": "Send an image using the canvas module",
+    "description": "Send an image using the canvas module.",
     "name": "Canvas Send Image"
   },
   "change_prefix_MOD.js": {
-    "description": "Change your bot prefix globally",
+    "description": "Change your bot prefix globally.",
     "name": "Change Global Prefix"
   },
   "check_dbl_voted_MOD.js": {
-    "description": "Check if a member voted for your bot on DBL",
+    "description": "Check if a member voted for your bot on DBL.",
     "name": "Check DBL Voted"
   },
   "check_global_data_MOD.js": {
-    "description": "Check global data",
+    "description": "Check global data.",
     "name": "Check Global Data"
   },
   "check_if_command_exists_MOD.js": {
-    "description": "Check if a command exists in your project",
+    "description": "Check if a command exists in your bot.",
     "name": "Check If Command Exists"
   },
   "check_if_file_exists_MOD.js": {
-    "description": "Check if a specified file exists",
+    "description": "Check if a specified file exists.",
     "name": "Check if File Exists"
   },
   "check_if_member_MOD.js": {
-    "description": "Check if a specified member has a certain characteristic",
+    "description": "Check if a member has a certain characteristic.",
     "name": "Check If Member"
   },
   "check_if_message_MOD.js": {
-    "description": "Check if a message has a certain characteristic",
+    "description": "Check if a message has a certain characteristic.",
     "name": "Check If Message"
   },
   "check_if_user_reacted_MOD.js": {
-    "description": "Check if a user reacted to a message",
+    "description": "Check if a user reacted to a message.",
     "name": "Check If User Reacted"
   },
   "check_member_data.js": {
-    "description": "Check member data",
+    "description": "Check member data.",
     "name": "Check Member Data"
   },
   "check_parameters.js": {
-    "description": "Check if parameters have a certain characteristic",
+    "description": "Check if parameters have a certain characteristic.",
     "name": "Check Parameters"
   },
   "check_permissions_MOD.js": {
-    "description": "Check if something has specified permissions",
+    "description": "Check if a role has specified permissions.",
     "name": "Check Permissions"
   },
   "check_role_permissions_MOD.js": {
-    "description": "Check if a role has specified permissions",
+    "description": "Check if a role has specified permissions.",
     "name": "Check Role Permissions"
   },
   "check_server_data.js": {
-    "description": "Check server data",
+    "description": "Check server data.",
     "name": "Check Server Data"
   },
   "check_variable.js": {
-    "description": "Check a variable and compare it with a specified characteristic",
+    "description": "Check a variable and compare it with a specified characteristic.",
     "name": "Check Variable"
   },
   "cleverbot_MOD.js": {
-    "description": "Use cleverbot (the chatterbot web application)",
+    "description": "Use Cleverbot (The chatbot web application).",
     "name": "Cleverbot"
   },
   "clone_channel_MOD.js": {
-    "description": "Clone a specified channel",
+    "description": "Clone a specified channel.",
     "name": "Clone Channel MOD"
   },
   "color_from_image_MOD.js": {
-    "description": "Get the dominant color from an image",
+    "description": "Get the dominant color from an image.",
     "name": "Get Dominant Color"
   },
   "color_tool_MOD.js": {
-    "description": "Store a specified color in a variable",
+    "description": "Store a specified color in a variable.",
     "name": "Color"
   },
   "compare_permissions_MOD.js": {
-    "description": "Compare certain permissions",
+    "description": "Compare certain permissions.",
     "name": "Compare Permissions"
   },
   "control_global_data_MOD.js": {
@@ -192,251 +192,251 @@
     "name": "Control Global Data"
   },
   "control_permissons_MOD.js": {
-    "description": "Control certain permissions",
+    "description": "Control certain permissions.",
     "name": "Control Permissions"
   },
   "convert_list_to_text.js": {
-    "description": "Convert a specified list to text",
+    "description": "Convert a specified list to text.",
     "name": "Convert List to Text"
   },
   "convert_seconds_to_days_MOD.js": {
-    "description": "Convert seconds to days",
+    "description": "Convert seconds to days.",
     "name": "Convert Seconds To D/H/M/S"
   },
   "convert_text_to_list_MOD.js": {
-    "description": "Convert text to list",
+    "description": "Convert text to list.",
     "name": "Convert Text to List"
   },
   "convert_timestamp_to_date_MOD.js": {
-    "description": "Convert a timestamp to a date",
+    "description": "Convert a timestamp to a date.",
     "name": "Convert Timestamp to Date"
   },
   "convert_variable_MOD.js": {
-    "description": "Convert a variable",
+    "description": "Convert a variable to a different type.",
     "name": "Convert Variable"
   },
   "create_animated_emoji_MOD.js": {
-    "description": "Create an animated emoji",
+    "description": "Create an animated emoji.",
     "name": "Create Animated Emoji"
   },
   "create_category_MOD.js": {
-    "description": "Create a category",
+    "description": "Create a category.",
     "name": "Create Category Channel"
   },
   "create_embed_message.js": {
-    "description": "Create an embed message",
+    "description": "Create an embed message.",
     "name": "Create Embed Message"
   },
   "create_gif_MOD.js": {
-    "description": "Create a gif",
+    "description": "Create a gif.",
     "name": "Create GIF"
   },
   "create_permission_MOD.js": {
-    "description": "Create specified permissions",
+    "description": "Create a permissions object.",
     "name": "Create Permissions"
   },
   "create_server_MOD.js": {
-    "description": "Create a server",
+    "description": "Create a server.",
     "name": "Create Server"
   },
   "create_webhook_MOD.js": {
-    "description": "Create a webhook",
+    "description": "Create a webhook.",
     "name": "Create Webhook"
   },
   "custom_image_effects_MOD.js": {
-    "description": "Create custom image effects for a specified image",
+    "description": "Create custom image effects for a specified image.",
     "name": "Custom Image Effects"
   },
   "delete_bulk_messages_MOD.js": {
-    "description": "Delete bulk messages",
+    "description": "Delete bulk messages.",
     "name": "Delete Bulk Messages MOD"
   },
   "delete_global_data_MOD.js": {
-    "description": "Delete global data",
+    "description": "Delete global data.",
     "name": "Delete Global Data"
   },
   "delete_member_data_MOD.js": {
-    "description": "Delete member data",
+    "description": "Delete member data.",
     "name": "Delete Member Data"
   },
   "delete_server_data_MOD.js": {
-    "description": "Delete server data",
+    "description": "Delete server data.",
     "name": "Delete Server Data"
   },
   "delete_server_MOD.js": {
-    "description": "Delete a specified server",
+    "description": "Delete a specified server.",
     "name": "Delete Server"
   },
   "delete_webhook_MOD.js": {
-    "description": "Delete a webhook",
+    "description": "Delete a webhook.",
     "name": "Delete Webhook"
   },
   "description_MOD.js": {
-    "description": "Create a description for a specified command",
+    "description": "Create a description for a specified command.",
     "name": "Command Description"
   },
   "download_file_MOD.js": {
-    "description": "Download a file",
+    "description": "Download a file from a URL.",
     "name": "Download File"
   },
   "edit_channel_MOD.js": {
-    "description": "Edit a channel",
+    "description": "Edit a channel.",
     "name": "Edit Channel"
   },
   "edit_embed_object_MOD.js": {
-    "description": "Edit an embed",
+    "description": "Edit an embed.",
     "name": "Edit Embed Object"
   },
   "edit_emoji_MOD.js": {
-    "description": "Edit an emoji",
+    "description": "Edit an emoji.",
     "name": "Edit Emoji"
   },
   "edit_item_from_list_MOD.js": {
-    "description": "Edit an item from a list",
+    "description": "Edit an item in a list.",
     "name": "Edit Item from List MOD"
   },
   "edit_message.js": {
-    "description": "Edit a message",
+    "description": "Edit a message.",
     "name": "Edit Message"
   },
   "emit_event_MOD.js": {
-    "description": "Emit a specified event",
+    "description": "Emit a specified event.",
     "name": "Emit Event"
   },
   "file_control_MOD.js": {
-    "description": "Control a file",
+    "description": "Control a file.",
     "name": "File Control"
   },
   "filter_list_or_object_MOD.js": {
-    "description": "Filter a list or an object",
+    "description": "Filter a list or an object.",
     "name": "Filter List/Object"
   },
   "find_category_MOD.js": {
-    "description": "Find a specific category",
+    "description": "Find a specific category.",
     "name": "Find Category"
   },
   "find_emoji_in_msg_server_MOD.js": {
-    "description": "Find a custom emoji in the current server",
+    "description": "Find a custom emoji in the current server.",
     "name": "Find Custom Emoji in Current Server"
   },
   "find_invite_MOD.js": {
-    "description": "Find an invite",
+    "description": "Find an invite.",
     "name": "Find Invite"
   },
   "find_item_in_list_MOD.js": {
-    "description": "Find an item in a list",
+    "description": "Find an item in a list.",
     "name": "Find Item in List"
   },
   "find_member.js": {
-    "description": "Find a member in a guild",
+    "description": "Find a member in a guild.",
     "name": "Find Member"
   },
   "find_message_MOD.js": {
-    "description": "Find a message in a channel",
+    "description": "Find a message in a channel.",
     "name": "Find Message"
   },
   "find_reaction_MOD.js": {
-    "description": "Find a specified reaction",
+    "description": "Find a specified reaction.",
     "name": "Find Reaction"
   },
   "find_text_MOD.js": {
-    "description": "Find specified text",
+    "description": "Find specified text.",
     "name": "Find Text"
   },
   "find_webhook_MOD.js": {
-    "description": "Find a specified webhook",
+    "description": "Find a specified webhook.",
     "name": "Find Webhook"
   },
   "game_server_MOD.js": {
-    "description": "Store information about a specific game server",
+    "description": "Store information about a specific game server.",
     "name": "Store Game Server Info"
   },
   "generate_random_emoji_MOD.js": {
-    "description": "Generate a random emoji",
+    "description": "Generate a random emoji.",
     "name": "Generate Random Emoji"
   },
   "generate_random_hex_MOD.js": {
-    "description": "Generate a random hex color",
+    "description": "Generate a random hex color.",
     "name": "Generate Random Hex Color"
   },
   "generate_random_word_MOD.js": {
-    "description": "Generate random words",
+    "description": "Generate random words.",
     "name": "Generate Random Word(s)"
   },
   "get_command_description_MOD.js": {
-    "description": "Obtain a specified command's description",
+    "description": "Obtain a specified command's description.",
     "name": "Get Command Description"
   },
   "get_lyrics_MOD.js": {
-    "description": "Get song lyrics",
+    "description": "Get song lyrics.",
     "name": "Get Song Lyrics"
   },
   "get_stats_from_dbl_MOD.js": {
-    "description": "Get statistics of a specified bot from DBL",
+    "description": "Get statistics of a specified bot from DBL.",
     "name": "Get Bot Stats From DBL"
   },
   "get_stats_from_dbxyz_MOD.js": {
-    "description": "Get statistics of a specified bot from DBXYZ",
+    "description": "Get statistics of a specified bot from DBXYZ.",
     "name": "Get Bot Stats From DBXYZ"
   },
   "google_image_search_MOD.js": {
-    "description": "Search Google for an image",
+    "description": "Search Google for an image.",
     "name": "Google Image Search"
   },
   "google_search_MOD.js": {
-    "description": "Search google with a specified query",
+    "description": "Search google with a specified query.",
     "name": "Google Search"
   },
   "inspect_list_or_object_MOD.js": {
-    "description": "Inspect a list or an object",
+    "description": "Inspect a list or an object.",
     "name": "Inspect List/Object"
   },
   "jump_to_action_MOD.js": {
-    "description": "Jump to an action",
+    "description": "Jump to an action.",
     "name": "Jump to Action"
   },
   "leave_server_MOD.js": {
-    "description": "Leave a specified server",
+    "description": "Leave a specified server.",
     "name": "Leave Server"
   },
   "loop_queue_MOD.js": {
-    "description": "Loop the current queue",
+    "description": "Loop the current queue.",
     "name": "Loop Queue"
   },
   "loop_through_folder_MOD.js": {
-    "description": "Loop through a specific folder",
+    "description": "Loop through a specific folder.",
     "name": "Loop through Folder"
   },
   "math_operation_MOD.js": {
-    "description": "Have the bot complete a math operation",
+    "description": "Have the bot complete a math operation.",
     "name": "Math Operation"
   },
   "math_operation_plus_MOD.js": {
-    "description": "Have the bot complete more advanced math operations",
+    "description": "Have the bot complete more advanced math operations.",
     "name": "Math Operation Plus"
   },
   "member_data_list_MOD.js": {
-    "description": "",
+    "description": "Store list of Member Data by name.",
     "name": "Store Member Data List"
   },
   "merge_lists_MOD.js": {
-    "description": "",
+    "description": "Combine lists into a single one.",
     "name": "Merge Lists"
   },
   "mod_info_changelog_MOD.js": {
-    "description": "",
+    "description": "Shows the mods repository changelog.",
     "name": "Changelog"
   },
   "mod_info_license_MOD.js": {
-    "description": "",
+    "description": "Shows the mods license.",
     "name": "License"
   },
   "mod_info_MOD.js": {
-    "description": "",
+    "description": "Shows mods repository info.",
     "name": "Welcome"
   },
   "parse_from_stored_json_MOD.js": {
-    "description": "",
+    "description": "Parse a Stored JSON with JSON Path",
     "name": "Parse From Stored Json"
   },
   "parse_from_stored_webpage_MOD.js": {
@@ -444,11 +444,11 @@
     "name": "Parse From Stored Webpage"
   },
   "play_youtube.js": {
-    "description": "",
+    "description": "Plays a YouTube video on a voice connection.",
     "name": "Play YouTube Video"
   },
   "play_youtube_playlist_MOD.js": {
-    "description": "",
+    "description": "Plays a YouTube playlist on a voice connection.",
     "name": "Play YouTube Playlist"
   },
   "push_webhook_MOD.js": {
