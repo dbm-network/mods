@@ -55,7 +55,7 @@
     "description": "Have the bot do a basic math operation",
     "name": "Basic Math Operation"
   },
-  "blacklist_MOD.js": {
+  "blocklist_MOD.js": {
     "description": "Blacklist or unblacklist users from using the bot",
     "name": "Blacklist Users"
   },
