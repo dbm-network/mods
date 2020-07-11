@@ -7,11 +7,3 @@ insert_final_newline = true
 charset = utf-8
 end_of_line = crlf
 trim_trailing_whitespace = true
-
-[.eslintrc.yml]
-indent_style = space
-indent_size = 2
-
-[package.json]
-indent_style = space
-indent_size = 2
