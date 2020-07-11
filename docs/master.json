@@ -1,0 +1,786 @@
+{
+  "aaa_dbmmods_dependencies_MOD.js": {
+    "description": "Common dependencies used by other mods",
+    "name": "Mods"
+  },
+  "action_list_comment_MOD.js": {
+    "description": "",
+    "name": "Comment"
+  },
+  "add_blank_field_MOD.js": {
+    "description": "",
+    "name": "Add Blank Embed Field"
+  },
+  "add_embed_field.js": {
+    "description": "",
+    "name": "Add Embed Field"
+  },
+  "age_calculator_MOD.js": {
+    "description": "",
+    "name": "Age Calculator"
+  },
+  "anchor_create_MOD.js": {
+    "description": "",
+    "name": "Create Anchor"
+  },
+  "anchor_jump_MOD.js": {
+    "description": "",
+    "name": "Jump to Anchor"
+  },
+  "attach_image_to_embed_MOD.js": {
+    "description": "",
+    "name": "Attach Image To Embed"
+  },
+  "auto_help_MOD.js": {
+    "description": "",
+    "name": "Auto Help"
+  },
+  "await_reaction_call_action_MOD.js": {
+    "description": "",
+    "name": "Await Reaction Call Action"
+  },
+  "await_response_call_action_MOD.js": {
+    "description": "",
+    "name": "Await Response Call Action"
+  },
+  "ban_member.js": {
+    "description": "",
+    "name": "Ban Member"
+  },
+  "base_convert_MOD.js": {
+    "description": "",
+    "name": "Base Convert MOD"
+  },
+  "basic_math_operation_MOD.js": {
+    "description": "",
+    "name": "Basic Math Operation"
+  },
+  "blocklist_MOD.js": {
+    "description": "",
+    "name": "Blacklist Users"
+  },
+  "botsfordiscord_stats_MOD.js": {
+    "description": "",
+    "name": "Send Stats to BFD"
+  },
+  "call_command_or_event.js": {
+    "description": "",
+    "name": "Call Command/Event"
+  },
+  "canvas_create_background_MOD.js": {
+    "description": "",
+    "name": "Canvas Create Background"
+  },
+  "canvas_create_image_MOD.js": {
+    "description": "",
+    "name": "Canvas Create Image"
+  },
+  "canvas_crop_image_MOD.js": {
+    "description": "",
+    "name": "Canvas Crop Image"
+  },
+  "canvas_draw_image_MOD.js": {
+    "description": "",
+    "name": "Canvas Draw Image on Image"
+  },
+  "canvas_draw_text_MOD.js": {
+    "description": "",
+    "name": "Canvas Draw Text on Image"
+  },
+  "canvas_edit_image_border_MOD.js": {
+    "description": "",
+    "name": "Canvas Edit Image Border"
+  },
+  "canvas_generate_progress_bar_MOD.js": {
+    "description": "",
+    "name": "Canvas Generate Progress Bar"
+  },
+  "canvas_image_filter_MOD.js": {
+    "description": "",
+    "name": "Canvas Image Filter"
+  },
+  "canvas_image_options_MOD.js": {
+    "description": "",
+    "name": "Canvas Image Options"
+  },
+  "canvas_save_image_MOD.js": {
+    "description": "",
+    "name": "Canvas Save Image"
+  },
+  "canvas_send_image_MOD.js": {
+    "description": "",
+    "name": "Canvas Send Image"
+  },
+  "change_prefix_MOD.js": {
+    "description": "",
+    "name": "Change Global Prefix"
+  },
+  "check_dbl_voted_MOD.js": {
+    "description": "",
+    "name": "Check DBL Voted"
+  },
+  "check_global_data_MOD.js": {
+    "description": "",
+    "name": "Check Global Data"
+  },
+  "check_if_command_exists_MOD.js": {
+    "description": "",
+    "name": "Check If Command Exists"
+  },
+  "check_if_file_exists_MOD.js": {
+    "description": "",
+    "name": "Check if File Exists"
+  },
+  "check_if_member_MOD.js": {
+    "description": "",
+    "name": "Check If Member"
+  },
+  "check_if_message_MOD.js": {
+    "description": "",
+    "name": "Check If Message"
+  },
+  "check_if_user_reacted_MOD.js": {
+    "description": "",
+    "name": "Check If User Reacted"
+  },
+  "check_member_data.js": {
+    "description": "",
+    "name": "Check Member Data"
+  },
+  "check_parameters.js": {
+    "description": "",
+    "name": "Check Parameters"
+  },
+  "check_permissions_MOD.js": {
+    "description": "",
+    "name": "Check Permissions"
+  },
+  "check_role_permissions_MOD.js": {
+    "description": "",
+    "name": "Check Role Permissions"
+  },
+  "check_server_data.js": {
+    "description": "",
+    "name": "Check Server Data"
+  },
+  "check_variable.js": {
+    "description": "",
+    "name": "Check Variable"
+  },
+  "cleverbot_MOD.js": {
+    "description": "",
+    "name": "Cleverbot"
+  },
+  "clone_channel_MOD.js": {
+    "description": "",
+    "name": "Clone Channel MOD"
+  },
+  "color_from_image_MOD.js": {
+    "description": "",
+    "name": "Get Dominant Color"
+  },
+  "color_tool_MOD.js": {
+    "description": "",
+    "name": "Color"
+  },
+  "compare_permissions_MOD.js": {
+    "description": "",
+    "name": "Compare Permissions"
+  },
+  "control_global_data_MOD.js": {
+    "description": "",
+    "name": "Control Global Data"
+  },
+  "control_permissons_MOD.js": {
+    "description": "",
+    "name": "Control Permissions"
+  },
+  "convert_list_to_text.js": {
+    "description": "",
+    "name": "Convert List to Text"
+  },
+  "convert_seconds_to_days_MOD.js": {
+    "description": "",
+    "name": "Convert Seconds To D/H/M/S"
+  },
+  "convert_text_to_list_MOD.js": {
+    "description": "",
+    "name": "Convert Text to List"
+  },
+  "convert_timestamp_to_date_MOD.js": {
+    "description": "",
+    "name": "Convert Timestamp to Date"
+  },
+  "convert_variable_MOD.js": {
+    "description": "",
+    "name": "Convert Variable"
+  },
+  "create_animated_emoji_MOD.js": {
+    "description": "",
+    "name": "Create Animated Emoji"
+  },
+  "create_category_MOD.js": {
+    "description": "",
+    "name": "Create Category Channel"
+  },
+  "create_embed_message.js": {
+    "description": "",
+    "name": "Create Embed Message"
+  },
+  "create_gif_MOD.js": {
+    "description": "",
+    "name": "Create GIF"
+  },
+  "create_permission_MOD.js": {
+    "description": "",
+    "name": "Create Permissions"
+  },
+  "create_server_MOD.js": {
+    "description": "",
+    "name": "Create Server"
+  },
+  "create_webhook_MOD.js": {
+    "description": "",
+    "name": "Create Webhook"
+  },
+  "custom_image_effects_MOD.js": {
+    "description": "",
+    "name": "Custom Image Effects"
+  },
+  "delete_bulk_messages_MOD.js": {
+    "description": "",
+    "name": "Delete Bulk Messages MOD"
+  },
+  "delete_global_data_MOD.js": {
+    "description": "",
+    "name": "Delete Global Data"
+  },
+  "delete_member_data_MOD.js": {
+    "description": "",
+    "name": "Delete Member Data"
+  },
+  "delete_server_data_MOD.js": {
+    "description": "",
+    "name": "Delete Server Data"
+  },
+  "delete_server_MOD.js": {
+    "description": "",
+    "name": "Delete Server"
+  },
+  "delete_webhook_MOD.js": {
+    "description": "",
+    "name": "Delete Webhook"
+  },
+  "description_MOD.js": {
+    "description": "",
+    "name": "Command Description"
+  },
+  "download_file_MOD.js": {
+    "description": "",
+    "name": "Download File"
+  },
+  "edit_channel_MOD.js": {
+    "description": "",
+    "name": "Edit Channel"
+  },
+  "edit_embed_object_MOD.js": {
+    "description": "",
+    "name": "Edit Embed Object"
+  },
+  "edit_emoji_MOD.js": {
+    "description": "",
+    "name": "Edit Emoji"
+  },
+  "edit_item_from_list_MOD.js": {
+    "description": "",
+    "name": "Edit Item from List MOD"
+  },
+  "edit_message.js": {
+    "description": "",
+    "name": "Edit Message"
+  },
+  "emit_event_MOD.js": {
+    "description": "",
+    "name": "Emit Event"
+  },
+  "file_control_MOD.js": {
+    "description": "",
+    "name": "File Control"
+  },
+  "filter_list_or_object_MOD.js": {
+    "description": "",
+    "name": "Filter List/Object"
+  },
+  "find_category_MOD.js": {
+    "description": "",
+    "name": "Find Category"
+  },
+  "find_emoji_in_msg_server_MOD.js": {
+    "description": "",
+    "name": "Find Custom Emoji in Current Server"
+  },
+  "find_invite_MOD.js": {
+    "description": "",
+    "name": "Find Invite"
+  },
+  "find_item_in_list_MOD.js": {
+    "description": "",
+    "name": "Find Item in List"
+  },
+  "find_member.js": {
+    "description": "",
+    "name": "Find Member"
+  },
+  "find_message_MOD.js": {
+    "description": "",
+    "name": "Find Message"
+  },
+  "find_reaction_MOD.js": {
+    "description": "",
+    "name": "Find Reaction"
+  },
+  "find_text_MOD.js": {
+    "description": "",
+    "name": "Find Text"
+  },
+  "find_webhook_MOD.js": {
+    "description": "",
+    "name": "Find Webhook"
+  },
+  "game_server_MOD.js": {
+    "description": "",
+    "name": "Store Game Server Info"
+  },
+  "generate_random_emoji_MOD.js": {
+    "description": "",
+    "name": "Generate Random Emoji"
+  },
+  "generate_random_hex_MOD.js": {
+    "description": "",
+    "name": "Generate Random Hex Color"
+  },
+  "generate_random_word_MOD.js": {
+    "description": "",
+    "name": "Generate Random Word(s)"
+  },
+  "get_command_description_MOD.js": {
+    "description": "",
+    "name": "Get Command Description"
+  },
+  "get_lyrics_MOD.js": {
+    "description": "",
+    "name": "Get Song Lyrics"
+  },
+  "get_stats_from_dbl_MOD.js": {
+    "description": "",
+    "name": "Get Bot Stats From DBL"
+  },
+  "get_stats_from_dbxyz_MOD.js": {
+    "description": "",
+    "name": "Get Bot Stats From DBXYZ"
+  },
+  "google_image_search_MOD.js": {
+    "description": "",
+    "name": "Google Image Search"
+  },
+  "google_search_MOD.js": {
+    "description": "",
+    "name": "Google Search"
+  },
+  "inspect_list_or_object_MOD.js": {
+    "description": "",
+    "name": "Inspect List/Object"
+  },
+  "jump_to_action_MOD.js": {
+    "description": "",
+    "name": "Jump to Action"
+  },
+  "leave_server_MOD.js": {
+    "description": "",
+    "name": "Leave Server"
+  },
+  "loop_queue_MOD.js": {
+    "description": "",
+    "name": "Loop Queue"
+  },
+  "loop_through_folder_MOD.js": {
+    "description": "",
+    "name": "Loop through Folder"
+  },
+  "math_operation_MOD.js": {
+    "description": "",
+    "name": "Math Operation"
+  },
+  "math_operation_plus_MOD.js": {
+    "description": "",
+    "name": "Math Operation Plus"
+  },
+  "member_data_list_MOD.js": {
+    "description": "",
+    "name": "Store Member Data List"
+  },
+  "merge_lists_MOD.js": {
+    "description": "",
+    "name": "Merge Lists"
+  },
+  "mod_info_changelog_MOD.js": {
+    "description": "",
+    "name": "Changelog"
+  },
+  "mod_info_license_MOD.js": {
+    "description": "",
+    "name": "License"
+  },
+  "mod_info_MOD.js": {
+    "description": "",
+    "name": "Welcome"
+  },
+  "parse_from_stored_json_MOD.js": {
+    "description": "",
+    "name": "Parse From Stored Json"
+  },
+  "parse_from_stored_webpage_MOD.js": {
+    "description": "",
+    "name": "Parse From Stored Webpage"
+  },
+  "play_youtube.js": {
+    "description": "",
+    "name": "Play YouTube Video"
+  },
+  "play_youtube_playlist_MOD.js": {
+    "description": "",
+    "name": "Play YouTube Playlist"
+  },
+  "push_webhook_MOD.js": {
+    "description": "",
+    "name": "Send Message To Webhook"
+  },
+  "randomize_letters_MOD.js": {
+    "description": "",
+    "name": "Randomize Letters"
+  },
+  "read_file_MOD.js": {
+    "description": "",
+    "name": "Read File"
+  },
+  "remove_from_queue_MOD.js": {
+    "description": "",
+    "name": "Remove from Queue MOD"
+  },
+  "remove_message_reactions_MOD.js": {
+    "description": "",
+    "name": "Clear reactions from message"
+  },
+  "remove_reaction_MOD.js": {
+    "description": "",
+    "name": "Remove Reaction"
+  },
+  "repeat_string_MOD.js": {
+    "description": "",
+    "name": "Repeat String"
+  },
+  "replace_text_MOD.js": {
+    "description": "",
+    "name": "Replace Text"
+  },
+  "restart_bot_MOD.js": {
+    "description": "",
+    "name": "Restart Bot"
+  },
+  "revise_MOD.js": {
+    "description": "",
+    "name": "Revise"
+  },
+  "run_action_sequence_once_MOD.js": {
+    "description": "",
+    "name": "Run Action Sequence Once"
+  },
+  "run_script.js": {
+    "description": "",
+    "name": "Run Script"
+  },
+  "run_script_too_MOD.js": {
+    "description": "",
+    "name": "Run Script Too"
+  },
+  "run_sql_query_MOD.js": {
+    "description": "",
+    "name": "Run SQL Query"
+  },
+  "send_embed_message.js": {
+    "description": "",
+    "name": "Send Embed Message"
+  },
+  "send_embed_to_webhook_MOD.js": {
+    "description": "",
+    "name": "Send Embed to Webhook"
+  },
+  "send_gif_MOD.js": {
+    "description": "",
+    "name": "Send GIF"
+  },
+  "send_image_MOD.js": {
+    "description": "",
+    "name": "Send Image MOD"
+  },
+  "send_json_to_webapi_MOD.js": {
+    "description": "",
+    "name": "Send Json to WebAPI"
+  },
+  "send_mail_MOD.js": {
+    "description": "",
+    "name": "Send Mail"
+  },
+  "send_message.js": {
+    "description": "",
+    "name": "Send Message"
+  },
+  "send_message_to_console_MOD.js": {
+    "description": "",
+    "name": "Send Message to Console"
+  },
+  "send_stats_to_dbl_MOD.js": {
+    "description": "",
+    "name": "Sends Stats to DBL"
+  },
+  "set_afk_channel_MOD.js": {
+    "description": "",
+    "name": "Set AFK Channel"
+  },
+  "set_afk_timeout_MOD.js": {
+    "description": "",
+    "name": "Set AFK Timeout"
+  },
+  "set_bot_activity_MOD.js": {
+    "description": "",
+    "name": "Set Bot Activity"
+  },
+  "set_bot_typing_MOD.js": {
+    "description": "",
+    "name": "Bot Typing"
+  },
+  "set_channel_permissions.js": {
+    "description": "",
+    "name": "Set Channel Permissions"
+  },
+  "set_embed_footer_MOD.js": {
+    "description": "",
+    "name": "Set Embed Footer"
+  },
+  "set_member_voice_channel_perms_MOD.js": {
+    "description": "",
+    "name": "Set Member Voice Channel Perms"
+  },
+  "set_permissions_MOD.js": {
+    "description": "",
+    "name": "Set Permissions"
+  },
+  "set_role_perms_MOD.js": {
+    "description": "",
+    "name": "Set Role Permissions"
+  },
+  "set_role_voice_channel_perms_MOD.js": {
+    "description": "",
+    "name": "Set Role Voice Channel Perms"
+  },
+  "set_server_owner_MOD.js": {
+    "description": "",
+    "name": "Set Server Owner"
+  },
+  "set_slowmode_MOD.js": {
+    "description": "",
+    "name": "Set slowmode MOD"
+  },
+  "set_time_restriction_MOD.js": {
+    "description": "",
+    "name": "Set Time Restriction"
+  },
+  "set_voice_channel_permissions_MOD.js": {
+    "description": "",
+    "name": "Set Voice Channel Perms"
+  },
+  "shuffle_queue_MOD.js": {
+    "description": "",
+    "name": "Shuffle Queue MOD"
+  },
+  "skip_actions_MOD.js": {
+    "description": "",
+    "name": "Skip Actions"
+  },
+  "skip_queue.js": {
+    "description": "",
+    "name": "Skip Queue"
+  },
+  "slice_MOD.js": {
+    "description": "",
+    "name": "Slice"
+  },
+  "speed_test_MOD.js": {
+    "description": "",
+    "name": "Speed Test"
+  },
+  "split_MOD.js": {
+    "description": "",
+    "name": "Split"
+  },
+  "spotify_search_MOD.js": {
+    "description": "",
+    "name": "Spotify Search"
+  },
+  "start_rss_feed_MOD.js": {
+    "description": "",
+    "name": "RSS Feed Watcher"
+  },
+  "stop_bot_MOD.js": {
+    "description": "",
+    "name": "Stop Bot"
+  },
+  "stop_rss_feed_MOD.js": {
+    "description": "",
+    "name": "Stop RSS Feed Watcher"
+  },
+  "store_attachment_info_MOD.js": {
+    "description": "",
+    "name": "Store Attachment Info"
+  },
+  "store_audio_info_MOD.js": {
+    "description": "",
+    "name": "Store Audio Info"
+  },
+  "store_audit_log_info_MOD.js": {
+    "description": "",
+    "name": "Store Audit Log Info MOD"
+  },
+  "store_audit_log_list_MOD.js": {
+    "description": "",
+    "name": "Store Audit Log List MOD"
+  },
+  "store_bot_client_info_MOD.js": {
+    "description": "",
+    "name": "Store Bot Client Info"
+  },
+  "store_category_info_MOD.js": {
+    "description": "",
+    "name": "Store Category Info"
+  },
+  "store_channel_permissions_MOD.js": {
+    "description": "",
+    "name": "Store Channel Permissions"
+  },
+  "store_command_info_MOD.js": {
+    "description": "",
+    "name": "Store Command Info"
+  },
+  "store_data_list_MOD.js": {
+    "description": "",
+    "name": "Store Data List MOD"
+  },
+  "store_date_info_MOD.js": {
+    "description": "",
+    "name": "Store Date Info"
+  },
+  "store_date_info_plus_MOD.js": {
+    "description": "",
+    "name": "Store Date Info Plus"
+  },
+  "store_emoji_info_MOD.js": {
+    "description": "",
+    "name": "Store Emoji Info"
+  },
+  "store_game_info_MOD.js": {
+    "description": "",
+    "name": "Store Game Info"
+  },
+  "store_global_data_MOD.js": {
+    "description": "",
+    "name": "Store Global Data"
+  },
+  "store_html_from_webpage_MOD.js": {
+    "description": "",
+    "name": "Store HTML From Webpage"
+  },
+  "store_invite_info_MOD.js": {
+    "description": "",
+    "name": "Store Invite Info"
+  },
+  "store_json_from_webapi_MOD.js": {
+    "description": "",
+    "name": "Store Json From WebAPI"
+  },
+  "store_message_params_MOD.js": {
+    "description": "",
+    "name": "Store Message Params"
+  },
+  "store_permissions_Info_MOD.js": {
+    "description": "",
+    "name": "Store Permissions Info"
+  },
+  "store_reaction_info_MOD.js": {
+    "description": "",
+    "name": "Store Reaction Info"
+  },
+  "store_regex_matched_variable_MOD.js": {
+    "description": "",
+    "name": "Store Regex Matched Variable"
+  },
+  "store_role_info.js": {
+    "description": "",
+    "name": "Store Role Info"
+  },
+  "store_twitch_info_MOD.js": {
+    "description": "",
+    "name": "Store Twitch Info"
+  },
+  "store_utc_time_info_MOD.js": {
+    "description": "",
+    "name": "Store UTC Time Info"
+  },
+  "store_voice_channel_info.js": {
+    "description": "",
+    "name": "Store Voice Channel Info"
+  },
+  "store_webhook_info_MOD.js": {
+    "description": "",
+    "name": "Store Webhook Info"
+  },
+  "sync_channel_permissions_MOD.js": {
+    "description": "",
+    "name": "Sync Channel Permissions"
+  },
+  "translate_MOD.js": {
+    "description": "",
+    "name": "Translate"
+  },
+  "twitch_authentication_MOD.js": {
+    "description": "",
+    "name": "Twitch Authentication"
+  },
+  "typing_MOD.js": {
+    "description": "",
+    "name": "Bot Typing"
+  },
+  "un_pin_message_MOD.js": {
+    "description": "",
+    "name": "Un-Pin Message"
+  },
+  "urban_dictionary_MOD.js": {
+    "description": "",
+    "name": "Urban Dictionary Search"
+  },
+  "variable_pattern_MOD.js": {
+    "description": "",
+    "name": "Variable Pattern MOD"
+  },
+  "weather_MOD.js": {
+    "description": "",
+    "name": "Weather"
+  },
+  "youtube_info_MOD.js": {
+    "description": "",
+    "name": "Store YouTube Info"
+  },
+  "youtube_search_MOD.js": {
+    "description": "",
+    "name": "YouTube Search"
+  }
+}
