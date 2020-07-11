@@ -25,6 +25,7 @@ module.exports = {
     <input class="round" id="varName" />
     `
   },
+
   init () {},
 
   action (cache) {
