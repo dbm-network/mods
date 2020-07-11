@@ -157,7 +157,7 @@ module.exports = {
     } else {
       options.type = null
     }
-    if (typeof before === 'object' || !isNaN(before)) {
+    if (!isNaN(before) && before !== '') {
       options.before = before
     }
     if (limit && !isNaN(limit)) {
