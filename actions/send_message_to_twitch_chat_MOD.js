@@ -30,7 +30,7 @@ Message to send:<br>
     const oAuth = this.evalMessage(data.oAuth, cache)
     const username = this.evalMessage(data.username, cache)
 
-    const tmi = require('tmi.js')
+    const Tmi = require('tmi.js')
     const config = {
       options: {
         debug: true
@@ -46,8 +46,8 @@ Message to send:<br>
       channels: [channelToSendTo]
     }
 
-    const TMIClient = new tmi.client(config)
-    TMIClient.connect().then(() => TMIClient.say(channelToSendTo, messageToSend))
+    const tmiClient = new Tmi.client(config)
+    tmiClient.connect().then(() => tmiClient.say(channelToSendTo, messageToSend))
 
     this.callNextAction(cache)
   },
