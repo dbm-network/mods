@@ -15,12 +15,10 @@ module.exports = {
   },
 
   fields: ['WhichAPI', 'inputVarType', 'inputVarName', 'APIuser', 'APIkey', 'storage', 'varName2'],
-// Added option 2 with "cleverbot-free" in this mod
   html (isEvent, data) {
     return `
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
 <div>
-<p> Modded By Baiano </p>
   <div style="width: 45%; padding-top: 8px;">
     API:<br>
     <select id="WhichAPI" class="round">
@@ -139,17 +137,12 @@ module.exports = {
           _this.callNextAction(cache)
         })
         break
-		//Returning case 2 as cleverbot-free
 		case 2:
-        //requiring module "cleverbot-free" to use it
 		const uCleverbot = Mods.require("cleverbot-free")
-    //Using it as a promise
 		uCleverbot(Input).then(response => {
-      //Checking the response
 		     if (response !== undefined) {
               _this.storeValue(response, storage, varName2, cache)
             }else {
-              // if it dint got any response, it will be returning an error.
 				console.log("Cleverbot-free error! Have DBM installed the npm module `cleverbot-free`?")
 			}
 			_this.callNextAction(cache)
