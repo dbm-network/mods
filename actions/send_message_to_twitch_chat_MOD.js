@@ -8,7 +8,7 @@ module.exports = {
 
   fields: ['storage', 'varName', 'messageToSend', 'channelToSendTo', 'oAuth', 'username'],
 
-  html(isEvent, data) {
+  html (isEvent, data) {
     return `
 Channel to send to:<br>
 <input id='channelToSendTo' class='round' type='text'><br>
@@ -23,14 +23,14 @@ Message to send:<br>
 
   init () {},
 
-  action(cache) {
+  action (cache) {
     const data = cache.actions[cache.index]
     const messageToSend = this.evalMessage(data.messageToSend, cache)
     const channelToSendTo = this.evalMessage(data.channelToSendTo, cache)
     const oAuth = this.evalMessage(data.oAuth, cache)
     const username = this.evalMessage(data.username, cache)
 
-    const tmi = require('tmi.js')
+    const Tmi = require('tmi.js')
     const config = {
       options: {
         debug: true
@@ -46,7 +46,7 @@ Message to send:<br>
       channels: [channelToSendTo]
     }
 
-    const tmiClient = new tmi.client(config)
+    const tmiClient = new Tmi.client(config)
     tmiClient.connect().then(() => tmiClient.say(channelToSendTo, messageToSend))
 
     this.callNextAction(cache)
