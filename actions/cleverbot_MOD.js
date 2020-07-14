@@ -1,3 +1,4 @@
+// Cleverbot-free module added by Baiano#5596 <3 //
 module.exports = {
   name: 'Cleverbot',
   section: 'Other Stuff',
