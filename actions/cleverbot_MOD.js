@@ -1,6 +1,3 @@
-
-//ADDED cleverbot-free npm module - without any api key
-
 module.exports = {
   name: 'Cleverbot',
   section: 'Other Stuff',
