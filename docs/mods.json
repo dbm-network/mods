@@ -543,6 +543,10 @@
     "description": "",
     "name": "Send Message to Console"
   },
+  "send_message_to_twitch_chat_MOD.js": {
+    "description": "Send a message from your bot to a specified Twitch channel",
+    "name": "Send Message to Twitch Chat"
+  },
   "send_stats_to_dbl_MOD.js": {
     "description": "",
     "name": "Sends Stats to DBL"
