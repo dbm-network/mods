@@ -10,25 +10,15 @@ module.exports = {
 
   html(isEvent, data) {
     return `
-    <div>
-    <p>
-    Send a message to a Twitch chat!
-    </p>
-    </div>
-    <br>
-    Channel to send to:<br>
-    <input id='channelToSendTo' class='round' type='text'>
-    <br>
-    Username of the account sending the message:<br>
-    <input id='username' class='round' type='text'>
-    <br>
-    oAuth token for the account sending the message:<br>
-    <a href='https://twitchapps.com/tmi/'>Click here to get yours</a>
-    <br>
-    <input id='oAuth' class='round' type='text'>
-    <br>
-    Message to send:<br>
-    <input id='messageToSend' class='round type='text'>`
+Channel to send to:<br>
+<input id='channelToSendTo' class='round' type='text'><br>
+Username of the account sending the message:<br>
+<input id='username' class='round' type='text'><br>
+oAuth token for the account sending the message:<br>
+<a href='https://twitchapps.com/tmi/'>Click here to get yours</a><br>
+<input id='oAuth' class='round' type='text'><br>
+Message to send:<br>
+<input id='messageToSend' class='round type='text'>`
   },
 
   init () {},
