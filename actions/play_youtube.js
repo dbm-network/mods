@@ -89,7 +89,7 @@ module.exports = {
 
         Actions.callNextAction(cache)
       } catch (err) {
-        return console.error(`Action #${cache.index + 1} Play Yotube:\n${err}`)
+        return this.displayError(data, cache , err)
       }
     }
 
