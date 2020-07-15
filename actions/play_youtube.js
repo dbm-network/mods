@@ -89,7 +89,7 @@ module.exports = {
 
         Actions.callNextAction(cache)
       } catch (err) {
-        return this.displayError(data, cache , err)
+        return this.displayError(data, cache, err)
       }
     }
 
