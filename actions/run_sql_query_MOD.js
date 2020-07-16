@@ -401,7 +401,7 @@ module.exports = {
           }
         }
         if (query) {
-          sequelize.query(query).then((results, metadata) => {
+          sequelize.query(query, { type: Sequelize.QueryTypes.SELECT }).then((results) => {
             let jsonOut = false
             if (results && path !== undefined) {
               jsonOut = Mods.jsonPath(results, path)
