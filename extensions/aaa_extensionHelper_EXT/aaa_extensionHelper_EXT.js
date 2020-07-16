@@ -67,7 +67,6 @@ const extension = class Extension {
 
     html (data) {
         return `
-
 		`
     };
 
@@ -158,27 +157,27 @@ const extension = class Extension {
                 });
 
                 const nodeModulesPath = require("path").join(__dirname, "aaa_extensionHelper_EXT", projectName, "node_modules", packageName);
-                extensionHelper.log.error("(aaa_extensionHelper_EXT Auto Module Installer) ~ Successfully Installed " + packageName + ". Note you may need to restart your bot.");
+                extensionHelper.log.success("(aaa_extensionHelper_EXT Auto Module Installer) ~ Successfully Installed " + packageName + ". Note you may need to restart your bot.");
                 return require(nodeModulesPath);
             };
         };
 
         // Extension Auto Updater
-        // extensionHelper.autoUpdater = async function (data) {
-        //     const fetch = await extensionHelper.requireModule('node-fetch', "aaa_extensionHelper_EXT");
-        //     let depInfo = await fetch(data.depInfo).then(res => res.json());
-        //     let depFile = await fetch(data.depFile).then(res => res.text());
-        //     if (data.version === depInfo.version) {
-        //         extensionHelper.log.success(`${depInfo.name} is up to date!`);
-        //         return false
-        //     } else {
-        //         extensionHelper.log.warn(`${depInfo.name} is out of date. (aaa_extensionHelper_EXT Auto Updater) ~ Updating ${depInfo.name}`);
-        //         const filePath = require("path").join(__dirname, depInfo.file);
-        //         require("fs").writeFileSync(filePath, depFile);
-        //         extensionHelper.log.success(`Successfully updated ${depInfo.name}, please restart the bot.`);
-        //         return true;
-        //     };
-        // };
+        extensionHelper.autoUpdater = async function (data) {
+            const fetch = await extensionHelper.requireModule('node-fetch', "aaa_extensionHelper_EXT");
+            let depInfo = await fetch(data.depInfo).then(res => res.json());
+            let depFile = await fetch(data.depFile).then(res => res.text());
+            if (data.version === depInfo.version) {
+                extensionHelper.log.success(`${depInfo.name} is up to date!`);
+                return false
+            } else {
+                extensionHelper.log.warn(`${depInfo.name} is out of date. (aaa_extensionHelper_EXT Auto Updater) ~ Updating ${depInfo.name}`);
+                const filePath = require("path").join(__dirname, depInfo.file);
+                require("fs").writeFileSync(filePath, depFile);
+                extensionHelper.log.success(`Successfully updated ${depInfo.name}, please restart the bot.`);
+                return true;
+            };
+        };
 
         // Auto Updater v2
         // extensionHelper.autoUpdater = async function (data) {
@@ -186,11 +185,11 @@ const extension = class Extension {
         // };
 
         // Auto updates this extension
-        // extensionHelper.autoUpdater({
-        //     depInfo: "https://gist.githubusercontent.com/greatplainsmodding/cbcaf9da3a4ddb08bc06fad3f1f32aaf/raw/aaa_greatPlainsModdingDeps_EXT.json",
-        //     depFile: "https://gist.githubusercontent.com/greatplainsmodding/cbcaf9da3a4ddb08bc06fad3f1f32aaf/raw/aaa_greatPlainsModdingDeps_EXT.js",
-        //     version: "1.0.4"
-        // });
+        extensionHelper.autoUpdater({
+            depInfo: "https://gist.githubusercontent.com/greatplainsmodding/cbcaf9da3a4ddb08bc06fad3f1f32aaf/raw/aaa_greatPlainsModdingDeps_EXT.json",
+            depFile: "https://gist.githubusercontent.com/greatplainsmodding/cbcaf9da3a4ddb08bc06fad3f1f32aaf/raw/aaa_greatPlainsModdingDeps_EXT.js",
+            version: "1.0.4"
+        });
 
         // Export extensionHelper to be used in DBM.extensionHelper
         DBM.extensionHelper = extensionHelper;
