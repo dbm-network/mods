@@ -200,9 +200,9 @@ module.exports = {
         break
       case 1:
         if (data.count) {
-          result = msg.content.split(new RegExp(separator, 'g')).slice(ParamN).slice(0, count).join(separator) || undefined
+          result = msg.content.split(new RegExp(separator, 'g')).slice(ParamN).slice(0, count).join(new RegExp(separator, 'g')) || undefined
         } else {
-          result = msg.content.split(new RegExp(separator, 'g')).slice(ParamN).join(separator) || undefined
+          result = msg.content.split(new RegExp(separator, 'g')).slice(ParamN).join(new RegExp(separator, 'g')) || undefined
         }
         break
       case 2:
