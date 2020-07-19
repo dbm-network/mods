@@ -401,7 +401,7 @@ module.exports = {
           }
         }
         if (query) {
-          sequelize.query(query, { type: Sequelize.QueryTypes.SELECT }).then((results) => {
+          sequelize.query(query, { type: Object.keys(Sequelize.QueryTypes).find(type => query.startsWith(type)) || Sequelize.QueryTypes.RAW }).then((results, metadata) => {
             let jsonOut = false
             if (results && path !== undefined) {
               jsonOut = Mods.jsonPath(results, path)
