@@ -134,7 +134,7 @@ module.exports = {
     const _this = this
     const video = this.evalMessage(data.video, cache)
     const Mods = this.getMods()
-    const fetchVideoInfo = Mods.require('youtube-info')
+    const fetchVideoInfo = Mods.require('youtube-infofix')
     const TimeFormat = Mods.require('hh-mm-ss')
     const ytdl = Mods.require('ytdl-core')
     let result
