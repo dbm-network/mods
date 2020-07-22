@@ -80,10 +80,10 @@ module.exports = {
           value.placeholder = '1 = 1 second'
           break
         case 2:
-          value.placeholder = '1 = 60000 seconds'
+          value.placeholder = '1 = 60 seconds'
           break
         case 3:
-          value.placeholder = '1 = 3600000 seconds'
+          value.placeholder = '1 = 3600 seconds'
           break
       }
     }
@@ -185,6 +185,20 @@ module.exports = {
         if (Cooldown[command].save === 1) {
           delete Cooldown[command]
         }
+        if (Cooldown[command]) {
+          if (!DBM.Bot.$cmds[command]) {
+            delete Cooldown[command]
+          } else {
+            const action = DBM.Bot.$cmds[command].actions.find(a => a.name === 'Set Time Restriction')
+            if (action !== undefined) {
+              if (action.save === '1') {
+                delete Cooldown[command]
+              }
+            } else {
+              delete Cooldown[command]
+            }
+          }
+        }
       }
     }
 
@@ -206,60 +220,52 @@ module.exports = {
         case 3:
           value *= 3600000
       }
-      const { save } = cache.actions[cache.index]
-
       if (!Cooldown[cmd.name]) {
         Cooldown[cmd.name] = {}
-        Cooldown[cmd.name].save = parseInt(save)
       }
+      Cooldown[cmd.name].save = parseInt(cache.actions[cache.index].save)
+      Cooldown[cmd.name].cooldown = value
       const now = Date.now()
-      const Command = Cooldown[cmd.name]
-      let cooldownAmount
-      if (cmd.cooldown) {
-        cooldownAmount = cmd.cooldown
-      } else {
-        cooldownAmount = value
-        cmd.cooldown = value
-      }
       switch (restrict) {
         case 0:
-          if (typeof Command[msg.author.id] !== 'number') {
-            delete Command[msg.author.id]
+          if (typeof Cooldown[cmd.name][msg.author.id] !== 'number') {
+            delete Cooldown[cmd.name][msg.author.id]
           }
-          if (Command[msg.author.id]) {
-            const expirationTime = Command[msg.author.id] + cooldownAmount
+          if (Cooldown[cmd.name][msg.author.id]) {
+            const expirationTime = Cooldown[cmd.name][msg.author.id] + Cooldown[cmd.name].cooldown
             if (now < expirationTime) {
               return Math.ceil((expirationTime - now) / 1000)
             }
-            Command[msg.author.id] = now
-            if (save === 0) Files.saveGlobalVariable('DBMCooldown', JSON.stringify(Cooldown))
+            Cooldown[cmd.name][msg.author.id] = now
+            if (Cooldown[cmd.name].save === 0) Files.saveGlobalVariable('DBMCooldown', JSON.stringify(Cooldown))
             return false
           }
-          Command[msg.author.id] = now
-          if (save === 0) Files.saveGlobalVariable('DBMCooldown', JSON.stringify(Cooldown))
+          Cooldown[cmd.name][msg.author.id] = now
+          if (Cooldown[cmd.name].save === 0) Files.saveGlobalVariable('DBMCooldown', JSON.stringify(Cooldown))
           return false
-        case 1:
+        case 1: {
           let channelId
           if (typeof cache.server !== 'undefined') {
             channelId = cache.server.id
           } else {
             channelId = msg.channel.id
           }
-          if (typeof Command[msg.author.id] !== 'object') {
-            Command[msg.author.id] = {}
+          if (typeof Cooldown[cmd.name][msg.author.id] !== 'object') {
+            Cooldown[cmd.name][msg.author.id] = {}
           }
-          if (Command[msg.author.id][channelId]) {
-            const expirationTime = Command[msg.author.id][channelId] + cooldownAmount
+          if (Cooldown[cmd.name][msg.author.id][channelId]) {
+            const expirationTime = Cooldown[cmd.name][msg.author.id][channelId] + Cooldown[cmd.name].cooldown
             if (now < expirationTime) {
               return Math.ceil((expirationTime - now) / 1000)
             }
-            Command[msg.author.id][channelId] = now
-            if (save === 0) Files.saveGlobalVariable('DBMCooldown', JSON.stringify(Cooldown))
+            Cooldown[cmd.name][msg.author.id][channelId] = now
+            if (Cooldown[cmd.name].save === 0) Files.saveGlobalVariable('DBMCooldown', JSON.stringify(Cooldown))
             return false
           }
-          Command[msg.author.id][channelId] = now
-          if (save === 0) Files.saveGlobalVariable('DBMCooldown', JSON.stringify(Cooldown))
+          Cooldown[cmd.name][msg.author.id][channelId] = now
+          if (Cooldown[cmd.name].save === 0) Files.saveGlobalVariable('DBMCooldown', JSON.stringify(Cooldown))
           return false
+        }
       }
     }
   }
