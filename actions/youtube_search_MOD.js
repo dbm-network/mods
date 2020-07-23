@@ -265,7 +265,7 @@ module.exports = {
           let result
           switch (info0) {
             case 0: // Video ID
-              result = video.link.replace(`https://www.youtube.com/watch?v=`, '')
+              result = video.link.replace('https://www.youtube.com/watch?v=', '')
               break
             case 1: // Video URL
               result = video.link
@@ -277,7 +277,7 @@ module.exports = {
               result = video.description.replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&#39;/g, "'")
               break
             case 4: // Video Channel ID
-              result = video.author.ref.replace(`https://www.youtube.com/channel/`, '')
+              result = video.author.ref.replace('https://www.youtube.com/channel/', '')
               break
             case 5: // Video Channel URL
               result = video.author.ref
@@ -296,6 +296,7 @@ module.exports = {
               break
             case 10: // Video Views
               result = video.views
+              break
             case 11: // is live?
               result = video.live
               break
