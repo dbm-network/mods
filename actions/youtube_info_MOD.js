@@ -15,23 +15,23 @@ module.exports = {
       case 0: // Video ID
       case 2: // Video Title
       case 3: // Video Description
-      case 4: // Video Channel ID
-      case 6: // Video Channel Name
-      case 8: // Video Duration
-      case 9: // Video Publish Date
+      case 5: // Video Channel ID
+      case 4: // Video Channel Name
+      case 12: // Video Duration
+      case 21: // Video Publish Date
         dataType = 'Text'
         break
       case 1: // Video URL
-      case 5: // Video Channel URL
+      case 20: // Video Channel URL
         dataType = 'URL'
         break
-      case 7: // Video Thumbnail URL
+      case 6: // Video Thumbnail URL
         dataType = 'Image URL'
         break
-      case 11: // Video is live?
+      case 19: // Video is live?
         dataType = 'Boolean'
         break
-      case 10: // Video Views
+      case 13: // Video Views
         dataType = 'Number'
         break
     }
@@ -51,17 +51,17 @@ module.exports = {
     Source Info:<br>
     <select id="info" class="round">
       <option value="0">Video ID</option>
-      <option value="1" selected>Video URL</option>
+      <option value="1">Video URL</option>
       <option value="2">Video Title</option>
       <option value="3">Video Description</option>
-      <option value="4">Video Channel ID</option>
-      <option value="5">Video Channel URL</option>
-      <option value="6">Video Channel Name</option>
-      <option value="7">Video Thumbnail URL</option>
-      <option value="8">Video Duration</option>
-      <option value="9">Video Publish Date</option>
-      <option value="10">Video Views</option>
-      <option value="11">Video is Live?</option>
+      <option value="4">Video Channel Name</option>
+      <option value="5">Video Channel ID</option>
+      <option value="20">Video Channel URL</option>
+      <option value="6">Video Thumbnail URL</option>
+      <option value="12">Video Duration</option>
+      <option value="21">Video Publish Date</option>
+      <option value="13">Video Views</option>
+      <option value="19">Video is Live?</option>
     </select>
   </div>
   <div>
@@ -114,32 +114,32 @@ module.exports = {
         case 3: // Video Description
           result = video.description.replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&#39;/g, "'")
           break
-        case 4: // Video Channel ID
-          result = video.author.ref.replace('https://www.youtube.com/channel/', '')
-          break
-        case 5: // Video Channel URL
-          result = video.author.ref
-          break
-        case 6: // Video Channel Name
+        case 4: // Video Channel Name
           result = video.author.name
           break
-        case 7: // Thumbnail URL (Default)
+        case 5: // Video Channel ID
+          result = video.author.ref.replace('https://www.youtube.com/channel/', '')
+          break
+        case 6: // Thumbnail URL (Default)
           result = video.thumbnail
           break
-        case 8: // Video Duration
+        case 12: // Video Duration
           result = TimeFormat.toS(video.duration)
           break
-        case 9: // Video Publish Date
-          result = video.uploaded_at
-          break
-        case 10: // Video Views
+        case 13: // Video Views
           result = video.views
           break
-        case 11: // is live?
+        case 19: // is live?
           result = video.live
           break
+        case 20: // Video Channel URL
+          result = video.author.ref
+          break
+        case 21: // Video Publish Date
+          result = video.uploaded_at
+          break
         default:
-          return console.log('Please check your YouTube Search action... There is something wrong.')
+          break
       }
 
       if (result !== undefined) {
