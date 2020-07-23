@@ -2,7 +2,7 @@ module.exports = {
   name: 'YouTube Search',
   section: 'Audio Control',
 
-  subtitle (data) {
+  subtitle(data) {
     const videoInfo = ['Video ID', 'Video URL', 'Video Title', 'Video Description', 'Video Channel ID', 'Video Channel URL', 'Video Channel Name', 'Video Thumbnail URL', 'Video Duration', 'Video Publish Data', 'Video Views', 'Video is live?']
     const playlistInfo = ['Playlist ID', 'Playlist URL', 'Playlist Name', 'Playlist Description', 'Playlist Thumbnail URL (Default)', 'Playlist Thumbnail URL (Medium)', 'Playlist Thumbnail URL (High)', 'Playlist Channel ID', 'Playlist Channel URL', 'Playlist Channel Name', 'Playlist Channel Thumbnail URL (Default)', 'Playlist Channel Thumbnail URL (Medium)', 'Playlist Channel Thumbnail URL (High)', 'Video IDs', 'Video URLs', 'Video Titles', 'Video Descriptions', 'Video Channel IDs', 'Video Channel URls', 'Video Channel Names', 'Video Channel Thumbnail URLs (Default)', 'Video Channel Thumbnail URLs (Medium)', 'Video Channel Thumbnail URLs (High)', 'Video Thumbnail URLs (Default)', 'Video Thumbnail URLs (Medium)', 'Video Thumbnail URLs (High)', 'Video Positions', 'Video Publish Dates']
     if (parseInt(data.type) === 1) {
@@ -11,7 +11,7 @@ module.exports = {
     return `${videoInfo[parseInt(data.info0)]}`
   },
 
-  variableStorage (data, varType) {
+  variableStorage(data, varType) {
     const type = parseInt(data.storage)
     if (type !== varType) return
     let dataType = 'Unknown Type'
@@ -24,8 +24,8 @@ module.exports = {
           case 3: // Video Description
           case 4: // Video Channel ID
           case 6: // Video Channel Name
-          case 8: // Video Duration
-          case 9: // Video Publish Date
+          case 17: // Video Duration
+          case 18: // Video Publish Date
             dataType = 'Text'
             break
           case 1: // Video URL
@@ -35,10 +35,10 @@ module.exports = {
           case 7: // Video Thumbnail URL
             dataType = 'Image URL'
             break
-          case 11: // Video is live?
-            dataType = 'Boolean'
+          case 24: // Video is live?
+            dataT1ype = 'Boolean'
             break
-          case 10: // Video Views
+          case 19: // Video Views
             dataType = 'Number'
             break
         }
@@ -90,7 +90,7 @@ module.exports = {
 
   fields: ['type', 'input', 'info0', 'info1', 'apikey', 'results', 'storage', 'varName'],
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
   <div style="float: left; width: 30%; padding-top: 8px;">
@@ -115,10 +115,10 @@ module.exports = {
       <option value="5">Video Channel URL</option>
       <option value="6">Video Channel Name</option>
       <option value="7">Video Thumbnail URL</option>
-      <option value="8">Video Duration</option>
-      <option value="9">Video Publish Date</option>
-      <option value="10">Video Views</option>
-      <option value="11">Video is Live?</option>
+      <option value="17">Video Duration</option>
+      <option value="18">Video Publish Date</option>
+      <option value="19">Video Views</option>
+      <option value="24">Video is Live?</option>
     </select>
   </div>
   <div id="divinfo1"; style="float: left; width: 94%; padding-top: 8px;">
@@ -198,7 +198,7 @@ module.exports = {
 </div>`
   },
 
-  init () {
+  init() {
     const {
       glob,
       document
@@ -234,7 +234,7 @@ module.exports = {
     glob.onChange1(document.getElementById('type'))
   },
 
-  action (cache) {
+  action(cache) {
     const data = cache.actions[cache.index]
     const _this = this // This is needed sometimes.
     const Mods = this.getMods() // As always.
@@ -288,16 +288,16 @@ module.exports = {
             case 7: // Thumbnail URL (Default)
               result = video.thumbnail
               break
-            case 8: // Video Duration
+            case 17: // Video Duration
               result = TimeFormat.toS(video.duration)
               break
-            case 9: // Video Publish Date
+            case 18: // Video Publish Date
               result = video.uploaded_at
               break
-            case 10: // Video Views
+            case 19: // Video Views
               result = video.views
               break
-            case 11: // is live?
+            case 24: // is live?
               result = video.live
               break
             default:
@@ -431,6 +431,6 @@ module.exports = {
     }
   },
 
-  mod () {}
+  mod() { }
 
 }
