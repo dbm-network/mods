@@ -2,8 +2,8 @@ module.exports = {
   name: 'YouTube Search',
   section: 'Audio Control',
 
-  subtitle (data) {
-    const videoInfo = ['Video ID', 'Video URL', 'Video Title', 'Video Description', 'Video Channel ID', 'Video Channel URL', 'Video Channel Name', 'Video Channel Thumbnail URL (Default)', 'Video Channel Thumbnail URL (Medium)', 'Video Channel Thumbnail URL (High)', 'Video Thumbnail URL (Default)', 'Video Thumbnail URL (Medium)', 'Video Thumbnail URL (High)', 'Video Genre', 'Paid Video?', 'Unlisted Video?', 'Is Video Family Friendly?', 'Video Duration', 'Video Publish Data', 'Video Views', 'Allowed Video Regions', 'Video Comment Count', 'Video Like Count', 'Video Dislike Count']
+  subtitle(data) {
+    const videoInfo = ['Video ID', 'Video URL', 'Video Title', 'Video Description', 'Video Channel ID', 'Video Channel URL', 'Video Channel Name', 'Video Thumbnail URL', 'Video Duration', 'Video Publish Data', 'Video Views', 'Video is live?']
     const playlistInfo = ['Playlist ID', 'Playlist URL', 'Playlist Name', 'Playlist Description', 'Playlist Thumbnail URL (Default)', 'Playlist Thumbnail URL (Medium)', 'Playlist Thumbnail URL (High)', 'Playlist Channel ID', 'Playlist Channel URL', 'Playlist Channel Name', 'Playlist Channel Thumbnail URL (Default)', 'Playlist Channel Thumbnail URL (Medium)', 'Playlist Channel Thumbnail URL (High)', 'Video IDs', 'Video URLs', 'Video Titles', 'Video Descriptions', 'Video Channel IDs', 'Video Channel URls', 'Video Channel Names', 'Video Channel Thumbnail URLs (Default)', 'Video Channel Thumbnail URLs (Medium)', 'Video Channel Thumbnail URLs (High)', 'Video Thumbnail URLs (Default)', 'Video Thumbnail URLs (Medium)', 'Video Thumbnail URLs (High)', 'Video Positions', 'Video Publish Dates']
     if (parseInt(data.type) === 1) {
       return `${playlistInfo[parseInt(data.info1)]}`
@@ -11,88 +11,75 @@ module.exports = {
     return `${videoInfo[parseInt(data.info0)]}`
   },
 
-  variableStorage (data, varType) {
+  variableStorage(data, varType) {
     const type = parseInt(data.storage)
     if (type !== varType) return
     let dataType = 'Unknown Type'
     switch (parseInt(data.type)) {
-      case 0:// Video
+      case 0: // Video
         // ----------------------------
         switch (parseInt(data.info0)) {
-          case 0:// Video ID
-          case 2:// Video Title
-          case 3:// Video Description
-          case 4:// Video Channel ID
-          case 6:// Video Channel Name
-          case 13:// Video Genre
-          case 17:// Video Duration
-          case 18:// Video Publish Date
+          case 0: // Video ID
+          case 2: // Video Title
+          case 3: // Video Description
+          case 4: // Video Channel ID
+          case 6: // Video Channel Name
+          case 8: // Video Duration
+          case 9: // Video Publish Date
             dataType = 'Text'
             break
-          case 1:// Video URL
-          case 5:// Video Channel URL
+          case 1: // Video URL
+          case 5: // Video Channel URL
             dataType = 'URL'
             break
-          case 7:// Video Channel Thumbnail URL (Default)
-          case 8:// Video Channel Thumbnail URL (Medium)
-          case 9:// Video Channel Thumbnail URL (High)
-          case 10:// Video Thumbnail URL (Default)
-          case 11:// Video Thumbnail URL (Medium)
-          case 12:// Video Thumbnail URL (High)
+          case 7: // Video Thumbnail URL
             dataType = 'Image URL'
             break
-          case 14:// Paid Video?
-          case 15:// Unlisted Video?
-          case 16:// Is Video Family Friendly?
+          case 11: // Video is live?
             dataType = 'Boolean'
             break
-          case 19:// Video Views
-          case 21:// Video Comment Count
-          case 22:// Video Like Count
-          case 23:// Video Dislike Count
+          case 10: // Video Views
             dataType = 'Number'
             break
-          case 20:// Allowed Video Regions
-            dataType = 'List'
         }
         break
-      case 1:// Playlist
+      case 1: // Playlist
         // ----------------------------
         switch (parseInt(data.info1)) {
-          case 0:// Playlist ID
-          case 2:// Playlist Name
-          case 3:// Playlist Description
-          case 7:// Playlist Channel ID
-          case 9:// Playlist Channel Name
+          case 0: // Playlist ID
+          case 2: // Playlist Name
+          case 3: // Playlist Description
+          case 7: // Playlist Channel ID
+          case 9: // Playlist Channel Name
             dataType = 'Text'
             break
-          case 1:// Playlist URL
-          case 8:// Playlist Channel URL
+          case 1: // Playlist URL
+          case 8: // Playlist Channel URL
             dataType = 'URL'
             break
-          case 4:// Playlist Thumbnail URL (Default)
-          case 5:// Playlist Thumbnail URL (Medium)
-          case 6:// Playlist Thumbnail URL (High)
-          case 10:// Playlist Channel Thumbnail URL (Default)
-          case 11:// Playlist Channel Thumbnail URL (Medium)
-          case 12:// Playlist Channel Thumbnail URL (High)
+          case 4: // Playlist Thumbnail URL (Default)
+          case 5: // Playlist Thumbnail URL (Medium)
+          case 6: // Playlist Thumbnail URL (High)
+          case 10: // Playlist Channel Thumbnail URL (Default)
+          case 11: // Playlist Channel Thumbnail URL (Medium)
+          case 12: // Playlist Channel Thumbnail URL (High)
             dataType = 'Image URL'
             break
-          case 13:// Video IDs
-          case 14:// Video URLs
-          case 15:// Video Titles
-          case 16:// Video Descriptions
-          case 17:// Video Channel IDs
-          case 18:// Video Channel URLs
-          case 19:// Video Channel Names
-          case 20:// Video Channel Thumbnail URLs (Default)
-          case 21:// Video Channel Thumbnail URLs (Medium)
-          case 22:// Video Channel Thumbnail URLs (High)
-          case 23:// Video Thumbnail URLs (Default)
-          case 24:// Video Thumbnail URLs (Medium)
-          case 25:// Video Thumbnail URLs (High)
-          case 26:// Video Positions
-          case 27:// Video Publish Dates
+          case 13: // Video IDs
+          case 14: // Video URLs
+          case 15: // Video Titles
+          case 16: // Video Descriptions
+          case 17: // Video Channel IDs
+          case 18: // Video Channel URLs
+          case 19: // Video Channel Names
+          case 20: // Video Channel Thumbnail URLs (Default)
+          case 21: // Video Channel Thumbnail URLs (Medium)
+          case 22: // Video Channel Thumbnail URLs (High)
+          case 23: // Video Thumbnail URLs (Default)
+          case 24: // Video Thumbnail URLs (Medium)
+          case 25: // Video Thumbnail URLs (High)
+          case 26: // Video Positions
+          case 27: // Video Publish Dates
             dataType = 'List'
             break
         }
@@ -103,7 +90,7 @@ module.exports = {
 
   fields: ['type', 'input', 'info0', 'info1', 'apikey', 'results', 'storage', 'varName'],
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
   <div style="float: left; width: 30%; padding-top: 8px;">
@@ -127,23 +114,11 @@ module.exports = {
       <option value="4">Video Channel ID</option>
       <option value="5">Video Channel URL</option>
       <option value="6">Video Channel Name</option>
-      <option value="7">Video Channel Thumbnail URL (Default)</option>
-      <option value="8">Video Channel Thumbnail URL (Medium)</option>
-      <option value="9">Video Channel Thumbnail URL (High)</option>
-      <option value="10">Video Thumbnail URL (Default)</option>
-      <option value="11">Video Thumbnail URL (Medium)</option>
-      <option value="12">Video Thumbnail URL (High)</option>
-      <option value="13">Video Genre</option>
-      <option value="14">Paid Video?</option>
-      <option value="15">Unlisted Video?</option>
-      <option value="16">Is Video Family Friendly?</option>
-      <option value="17">Video Duration</option>
-      <option value="18">Video Publish Date</option>
-      <option value="19">Video Views</option>
-      <option value="20">Allowed Video Regions</option>
-      <option value="21">Video Comment Count</option>
-      <option value="22">Video Like Count</option>
-      <option value="23">Video Dislike Count</option>
+      <option value="7">Video Thumbnail URL</option>
+      <option value="8">Video Duration</option>
+      <option value="9">Video Publish Date</option>
+      <option value="10">Video Views</option>
+      <option value="11">Video is Live?</option>
     </select>
   </div>
   <div id="divinfo1"; style="float: left; width: 94%; padding-top: 8px;">
@@ -223,8 +198,11 @@ module.exports = {
 </div>`
   },
 
-  init () {
-    const { glob, document } = this
+  init() {
+    const {
+      glob,
+      document
+    } = this
     glob.variableChange(document.getElementById('storage'), 'varNameContainer')
     glob.onChange1 = function (event) {
       const id = parseInt(event.value)
@@ -242,7 +220,7 @@ module.exports = {
           playlist.style.display = 'none'
           playlistDiv.style.display = 'none'
           break
-        case 1:// Show: [Source Playlist Info], [Max Results] Hide: [Source Video Info]
+        case 1: // Show: [Source Playlist Info], [Max Results] Hide: [Source Video Info]
           result = 'Playlist'
           video.style.display = 'none'
           videoDiv.style.display = 'none'
@@ -256,18 +234,18 @@ module.exports = {
     glob.onChange1(document.getElementById('type'))
   },
 
-  action (cache) {
+  action(cache) {
     const data = cache.actions[cache.index]
     const _this = this // This is needed sometimes.
     const Mods = this.getMods() // As always.
-    const input = this.evalMessage(data.input, cache)// URL or Keywords
-    const apikey = this.evalMessage(data.apikey, cache)// Api Key
-    const type = parseInt(data.type)// 0: Video | 1: Playlist
-    const info0 = parseInt(data.info0)// Video
-    const info1 = parseInt(data.info1)// Playlist
-    const results = parseInt(data.results)// Number within 1 to 10
+    const input = this.evalMessage(data.input, cache) // URL or Keywords
+    const apikey = this.evalMessage(data.apikey, cache) // Api Key
+    const type = parseInt(data.type) // 0: Video | 1: Playlist
+    const info0 = parseInt(data.info0) // Video
+    const info1 = parseInt(data.info1) // Playlist
+    const results = parseInt(data.results) // Number within 1 to 10
     const YTapi = Mods.require('simple-youtube-api')
-    const ytinfo = Mods.require('youtube-info')
+    const ytsr = Mods.require('ytsr')
     const TimeFormat = Mods.require('hh-mm-ss')
 
     if (input === undefined || input === '') {
@@ -280,99 +258,49 @@ module.exports = {
     const YouTube = new YTapi(`${apikey}`)
 
     switch (type) {
-      case 0:// Video
-        YouTube.searchVideos(`${input}`, results).then((videos) => {
+      case 0: // Video\
+        ytsr(input, function (err, searchResults) {
+          if (err) console.error(err)
+          const video = searchResults.items[results - 1]
           let result
-          const video = videos[results - 1]
           switch (info0) {
-            case 0:// Video ID
-              result = video.id
+            case 0: // Video ID
+              result = video.link.replace(`https://www.youtube.com/watch?v=`, '')
               break
-            case 1:// Video URL
-              result = `https://www.youtube.com/watch?v=${video.id}`
+            case 1: // Video URL
+              result = video.link
               break
-            case 2:// Video Title
+            case 2: // Video Title
               result = video.title.replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&#39;/g, "'")
               break
-            case 3:// Video Description
+            case 3: // Video Description
               result = video.description.replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&#39;/g, "'")
               break
-            case 4:// Video Channel ID
-              result = video.channel.id
+            case 4: // Video Channel ID
+              result = video.author.ref.replace(`https://www.youtube.com/channel/`, '')
               break
-            case 5:// Video Channel URL
-              result = `https://www.youtube.com/channel/${video.channel.id}`
+            case 5: // Video Channel URL
+              result = video.author.ref
               break
-            case 6:// Video Channel Name
-              result = video.channel.title
+            case 6: // Video Channel Name
+              result = video.author.name
               break
-            case 7:// Video Channel Thumbnail URL (Default)
-              result = video.channel.raw.snippet.thumbnails.default.url
+            case 7: // Thumbnail URL (Default)
+              result = video.thumbnail
               break
-            case 8:// Video Channel Thumbnail URL (Medium)
-              result = video.channel.raw.snippet.thumbnails.medium.url
+            case 8: // Video Duration
+              result = TimeFormat.toS(video.duration)
               break
-            case 9:// Video Channel Thumbnail URL (High)
-              result = video.channel.raw.snippet.thumbnails.high.url
+            case 9: // Video Publish Date
+              result = video.uploaded_at
               break
-            case 10:// Thumbnail URL (Default)
-              result = video.thumbnails.default.url
-              break
-            case 11:// Thumbnail URL (Medium)
-              result = video.thumbnails.medium.url
-              break
-            case 12:// Thumbnail URL (High)
-              result = video.thumbnails.high.url
-              break
-            case 18:// Video Publish Date
-              result = video.publishedAt
+            case 10: // Video Views
+              result = video.views
+            case 11: // is live?
+              result = video.live
               break
             default:
-              ytinfo(`${video.id}`, (error, videoInfo) => {
-                let result2
-                if (error) { console.error(error) }
-                switch (info0) {
-                  case 13:// Video Genre
-                    result2 = videoInfo.genre
-                    break
-                  case 14:// Paid Video?
-                    result2 = videoInfo.paid
-                    break
-                  case 15:// Unlisted Video?
-                    result2 = videoInfo.unlisted
-                    break
-                  case 16:// Is Video Family Friendly?
-                    result2 = videoInfo.isFamilyFriendly
-                    break
-                  case 17:// Video Duration
-                    result2 = TimeFormat.fromS(parseInt(videoInfo.duration))
-                    break
-                  case 19:// Video Views
-                    result2 = parseInt(videoInfo.views)
-                    break
-                  case 20:// Allowed Video Regions
-                    result2 = videoInfo.regionsAllowed
-                    break
-                  case 21:// Video Comment Count
-                    result2 = parseInt(videoInfo.commentCount)
-                    break
-                  case 22:// Video Like Count
-                    result2 = parseInt(videoInfo.likeCount)
-                    break
-                  case 23:// Video Dislike Count
-                    result2 = parseInt(videoInfo.dislikeCount)
-                    break
-                  default:
-                    return console.log('Please check your YouTube Search action... There is something wrong.')
-                }
-                if (result2 !== undefined) {
-                  const storage = parseInt(data.storage)
-                  const varName = _this.evalMessage(data.varName, cache)
-                  _this.storeValue(result2, storage, varName, cache)
-                  _this.callNextAction(cache)
-                }
-              })
-              break
+              return console.log('Please check your YouTube Search action... There is something wrong.')
           }
           if (result !== undefined) {
             const storage = parseInt(data.storage)
@@ -380,50 +308,50 @@ module.exports = {
             _this.storeValue(result, storage, varName, cache)
             _this.callNextAction(cache)
           }
-        }).catch(console.error)
+        })
         break
-      case 1:// Playlist
+      case 1: // Playlist
         YouTube.searchPlaylists(`${input}`, results).then((playlists) => {
           let result
           const playlist = playlists[results - 1]
           switch (info1) {
-            case 0:// Playlist ID
+            case 0: // Playlist ID
               result = playlist.id
               break
-            case 1:// Playlist URL
+            case 1: // Playlist URL
               result = `https://www.youtube.com/playlist?list=${playlist.id}`
               break
-            case 2:// Playlist Name
+            case 2: // Playlist Name
               result = playlist.title.replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&#39;/g, "'")
               break
-            case 3:// Playlist Description
+            case 3: // Playlist Description
               result = playlist.description.replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&#39;/g, "'")
               break
-            case 4:// Playlist Thumbnail URL (Default)
+            case 4: // Playlist Thumbnail URL (Default)
               result = playlist.thumbnails.default.url
               break
-            case 5:// Playlist Thumbnail URL (Medium)
+            case 5: // Playlist Thumbnail URL (Medium)
               result = playlist.thumbnails.default.medium
               break
-            case 6:// Playlist Thumbnail URL (High)
+            case 6: // Playlist Thumbnail URL (High)
               result = playlist.thumbnails.default.high
               break
-            case 7:// Playlist Channel ID
+            case 7: // Playlist Channel ID
               result = playlist.channel.id
               break
-            case 8:// Playlist Channel URL
+            case 8: // Playlist Channel URL
               result = `https://www.youtube.com/channel/${playlist.channel.id}`
               break
-            case 9:// Playlist Channel Name
+            case 9: // Playlist Channel Name
               result = playlist.channel.title
               break
-            case 10:// Playlist Channel Thumbnail URL (Default)
+            case 10: // Playlist Channel Thumbnail URL (Default)
               result = playlist.channel.raw.snippet.thumbnails.default.url
               break
-            case 11:// Playlist Channel Thumbnail URL (Medium)
+            case 11: // Playlist Channel Thumbnail URL (Medium)
               result = playlist.channel.raw.snippet.thumbnails.medium.url
               break
-            case 12:// Playlist Channel Thumbnail URL (High)
+            case 12: // Playlist Channel Thumbnail URL (High)
               result = playlist.channel.raw.snippet.thumbnails.high.url
               break
             default:
@@ -431,49 +359,49 @@ module.exports = {
                 const result2 = []
                 videos.forEach((video, pos) => {
                   switch (info1) {
-                    case 13:// Video IDs
+                    case 13: // Video IDs
                       result2.push(video.id)
                       break
-                    case 14:// Video URLs
+                    case 14: // Video URLs
                       result2.push(`https://www.youtube.com/watch?v=${video.id}`)
                       break
-                    case 15:// Video Titles
+                    case 15: // Video Titles
                       result2.push(video.title.replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&#39;/g, "'"))
                       break
-                    case 16:// Video Descriptions
+                    case 16: // Video Descriptions
                       result2.push(video.description.replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&#39;/g, "'"))
                       break
-                    case 17:// Video Channel IDs
+                    case 17: // Video Channel IDs
                       result2.push(video.channel.id)
                       break
-                    case 18:// Video Channel URLs
+                    case 18: // Video Channel URLs
                       result2.push(`https://www.youtube.com/channel/${video.channel.id}`)
                       break
-                    case 19:// Video Channel Names
+                    case 19: // Video Channel Names
                       result2.push(video.channel.title)
                       break
-                    case 20:// Video Channel Thumbnail URLs (Default)
+                    case 20: // Video Channel Thumbnail URLs (Default)
                       result2.push(video.channel.raw.snippet.thumbnails.default.url)
                       break
-                    case 21:// Video Channel Thumbnail URLs (Medium)
+                    case 21: // Video Channel Thumbnail URLs (Medium)
                       result2.push(video.channel.raw.snippet.thumbnails.medium.url)
                       break
-                    case 22:// Video Channel Thumbnail URLs (High)
+                    case 22: // Video Channel Thumbnail URLs (High)
                       result2.push(video.channel.raw.snippet.thumbnails.high.url)
                       break
-                    case 23:// Video Thumbnail URLs (Default)
+                    case 23: // Video Thumbnail URLs (Default)
                       result2.push(video.thumbnails.default.url)
                       break
-                    case 24:// Video Thumbnail URLs (Medium)
+                    case 24: // Video Thumbnail URLs (Medium)
                       result2.push(video.thumbnails.medium.url)
                       break
-                    case 25:// Video Thumbnail URLs (High)
+                    case 25: // Video Thumbnail URLs (High)
                       result2.push(video.thumbnails.high.url)
                       break
-                    case 26:// Video Positions
+                    case 26: // Video Positions
                       result2.push(pos + 1)
                       break
-                    case 27:// Video Publish Dates
+                    case 27: // Video Publish Dates
                       result2.push(video.publishedAt)
                       break
                     default:
@@ -502,6 +430,6 @@ module.exports = {
     }
   },
 
-  mod () {}
+  mod() {}
 
 }
