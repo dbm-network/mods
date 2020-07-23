@@ -6,19 +6,19 @@ module.exports = {
     const videoInfo = ['Video ID', 'Video URL', 'Video Title', 'Video Description', 'Video Channel ID', 'Video Channel URL', 'Video Channel Name', 'Video Thumbnail URL', 'Video Duration', 'Video Publish Data', 'Video Views', 'Video is live?']
     const playlistInfo = ['Playlist ID', 'Playlist URL', 'Playlist Name', 'Playlist Description', 'Playlist Thumbnail URL (Default)', 'Playlist Thumbnail URL (Medium)', 'Playlist Thumbnail URL (High)', 'Playlist Channel ID', 'Playlist Channel URL', 'Playlist Channel Name', 'Playlist Channel Thumbnail URL (Default)', 'Playlist Channel Thumbnail URL (Medium)', 'Playlist Channel Thumbnail URL (High)', 'Video IDs', 'Video URLs', 'Video Titles', 'Video Descriptions', 'Video Channel IDs', 'Video Channel URls', 'Video Channel Names', 'Video Channel Thumbnail URLs (Default)', 'Video Channel Thumbnail URLs (Medium)', 'Video Channel Thumbnail URLs (High)', 'Video Thumbnail URLs (Default)', 'Video Thumbnail URLs (Medium)', 'Video Thumbnail URLs (High)', 'Video Positions', 'Video Publish Dates']
     if (parseInt (data.type) === 1) {
-      return `${playlistInfo[parseInt(data.info1)]}`
+      return `${playlistInfo[parseInt (data.info1)]}`
     }
-    return `${videoInfo[parseInt(data.info0)]}`
+    return `${videoInfo[parseInt (data.info0)]}`
   },
 
   variableStorage (data, varType) {
-    const type = parseInt(data.storage)
+    const type = parseInt (data.storage)
     if (type !== varType) return
     let dataType = 'Unknown Type'
-    switch (parseInt(data.type)) {
+    switch (parseInt (data.type)) {
       case 0: // Video
         // ----------------------------
-        switch (parseInt(data.info0)) {
+        switch (parseInt (data.info0)) {
           case 0: // Video ID
           case 2: // Video Title
           case 3: // Video Description
@@ -45,7 +45,7 @@ module.exports = {
         break
       case 1: // Playlist
         // ----------------------------
-        switch (parseInt(data.info1)) {
+        switch (parseInt (data.info1)) {
           case 0: // Playlist ID
           case 2: // Playlist Name
           case 3: // Playlist Description
