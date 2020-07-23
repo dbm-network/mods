@@ -99,7 +99,7 @@ module.exports = {
 
     ytsr(video, function (err, searchResults) {
       if (err) return console.error(err)
-      const video = searchResults.item[0]
+      const video = searchResults.items[0]
 
       switch (info) {
         case 0: // Video ID
