@@ -17,7 +17,7 @@ module.exports = {
 </div>
 Command to run:
 <input id="messageToSend" class="round" type="text"><br>
-Store in:<br>
+Store result in:<br>
 <select class="round" id="storage">
   ${data.variables[0]}
 </select><br>
