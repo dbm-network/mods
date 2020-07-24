@@ -4,7 +4,7 @@ module.exports = {
 
   subtitle (data) {
     const names = ['Same Channel', 'Mentioned Channel', 'Default Channel', 'Temp Variable', 'Server Variable', 'Global Variable']
-    const opt = ['Name', 'Topic', 'Position', 'Bitrate', 'User Limit', 'Category ID', 'Rate Limit Per User']
+    const opt = ['Name', 'Topic', 'Position', 'Bitrate', 'User Limit', 'Category ID', 'Rate Limit Per User', 'Set Channel NSFW', 'Remove Channel NSFW']
     return `${names[parseInt(data.storage)]} - ${opt[parseInt(data.toChange)]}`
   },
 
@@ -44,6 +44,8 @@ module.exports = {
       <option value="4">User Limit</option>
       <option value="5">Category ID</option>
       <option value="6">Rate Limit Per User</option>
+      <option value="7">Set Channel NSFW</option>
+      <option value="8">Remove Channel NSFW</option>
     </select>
   </div><br><br><br>
 <div>
@@ -95,6 +97,10 @@ module.exports = {
       channel.setParent(newState)
     } else if (toChange === 6) {
       channel.setRateLimitPerUser(newState)
+    } else if (toChange === 7) {
+      channel.setNSFW(true)
+    } else if (toChange === 8) {
+      channel.setNSFW(false)
     } else {
       console.log('Please update your edit_channel_MOD.js in your projects action folder!')
     }
