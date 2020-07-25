@@ -25,7 +25,7 @@ module.exports = {
     // Each item corresponds to each switch statement.
     const info = ['Item 1', 'Item 2', 'Item 3'];
     // What user sees when previewing actions box on bottom.
-    return `Made by TheRealPikachu#0001 and Shoot.Dot#0641`;
+    return `Input a timezone and retrieve it's current time.`;
   },
 
   // ---------------------------------------------------------------------
@@ -70,6 +70,8 @@ module.exports = {
 
   html: function(isEvent, data) {
     return `
+      <div><p>Made by TheRealPikachu#0001 + Shoot.Dot#0641.</p></div><br>
+      <div>
       <div style="width: 90%;">
         To Be Converted:<br>
         <input id="textbox" class="round" type="text">
@@ -130,12 +132,14 @@ action: function(cache) {
     msg.channel.send(newt3);
     msg.channel.send(newt4);*/
     const str = this.evalMessage(data.textbox, cache) ;
+    //const newStr = str.split("/");
     const timec = moment().tz(str).format("dddd, MMMM Do YYYY, h:mm:ss a");
 
     const storage = parseInt(data.storage);
     const varName = this.evalMessage(data.varName, cache);
     this.storeValue(timec, storage, varName, cache);
     this.callNextAction(cache);
+    
   },
 
  // ---------------------------------------------------------------------
@@ -149,3 +153,8 @@ action: function(cache) {
 
   mod: function(DBM) {},
 };
+
+// wait how do I convert lol
+// what do I input
+// hELP SHOOT! HELP
+//come in chat okok
