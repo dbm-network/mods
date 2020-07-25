@@ -1,3 +1,5 @@
+/* eslint-disable no-eval */
+/* eslint-disable eqeqeq */
 module.exports = {
   name: 'Delete Bulk Messages MOD',
   section: 'Messaging',
