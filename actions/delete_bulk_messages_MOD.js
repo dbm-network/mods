@@ -234,8 +234,8 @@ module.exports = {
             messages = await source.messages.fetch(options)
             lastId = messages.lastKey()
           }
-          let filtered
-          if (Con0) filtered = messages.filter(element => element.author.id != Con0.replace(/\D/g, ''))
+          let filtered = messages
+          if (Con0) filtered = filtered.filter(element => element.author.id != Con0.replace(/\D/g, ''))
           if (Con1) filtered = (filtered || messages).filter(element => element.author.id == Con1.replace(/\D/g, ''))
           if (Con2 !== '0') filtered = (filtered || messages).filter(element => (Con2 === '1') ? element.embeds.length === 0 : element.embeds.length !== 0)
           if (Con3) filtered = (filtered || messages).filter(element => element.content.includes(Con3))
