@@ -791,4 +791,8 @@
     "description": "",
     "name": "YouTube Search"
   }
+    "text_to_speech_MOD.js": {
+    "description": "",
+    "name": "Text To Speech"
+  },
 }
