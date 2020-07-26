@@ -16,7 +16,7 @@ module.exports = {
   fields: ['text', 'storage', 'varName'],
 
   html: function (isEvent, data) {
-    return 
+    return `
 <div>
   <p>Please pair this with Join Voice Channel & Play URL. Store Audio URL In stores an Audio URL. Please paste this in Play URL for full effect.</p>
 </div><br>
@@ -33,7 +33,7 @@ module.exports = {
 <div id="varNameContainer" style="float: right; width: 60%;">
   Variable Name:<br>
   <input id="varName" class="round" type="text">
-</div>
+</div>`
   },
 
   init: function () { },
