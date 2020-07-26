@@ -1,12 +1,12 @@
 module.exports = {
   name: 'Text To Speech',
   section: 'Messaging',
-
+ 
   subtitle: function(data) {
-    return 'Make your Discord bot talk.'
-   },
+    return `Make your Discord bot talk.`;
+  },
 
-  variableStorage: function(data, varType)  {
+  variableStorage: function(data, varType) {
     const type = parseInt(data.storage)
     if (type !== varType) return;
     const dataType = 'Audio URL'
@@ -15,7 +15,7 @@ module.exports = {
 
   fields: ['text', 'storage', 'varName'],
 
-  html: function(isEvent, data)  {
+  html: function(isEvent, data) {
   return `
     <div><p>Please pair this with Join Voice Channel & Play URL. Store Audio URL In stores an Audio URL. Please paste this in Play URL for full effect.</p></div><br>
     <div style="width: 90%;">
