@@ -24,6 +24,7 @@ module.exports = {
   action () {
     console.log('Stopped bot!')
     this.getDBM().Bot.bot.destroy()
+    process.exit()
   },
 
   mod () {}
