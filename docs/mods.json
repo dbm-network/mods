@@ -756,7 +756,7 @@
     "name": "Sync Channel Permissions"
   },
   "text_to_speech_MOD.js": {
-    "description": "",
+    "description": "Make your Discord bot talk",
     "name": "Text To Speech"
   },
   "translate_MOD.js": {
