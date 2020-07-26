@@ -791,4 +791,8 @@
     "description": "",
     "name": "YouTube Search"
   }
+  "aaa_dbmmods_dependencies_MOD.js": {
+    "description": "Common dependencies used by other mods",
+    "name": "Mods"
+  },
 }
