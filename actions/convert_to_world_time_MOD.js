@@ -43,7 +43,7 @@ module.exports = {
   action: function (cache) {
     const data = cache.actions[cache.index]
     const Mods = this.getMods()
-    var moment = Mods.require('moment-timezone')
+    const moment = Mods.require('moment-timezone')
     const str = this.evalMessage(data.textbox, cache)
     const timec = moment().tz(str).format('dddd, MMMM Do YYYY, h:mm:ss a')
     const storage = parseInt(data.storage)
