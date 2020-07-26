@@ -756,7 +756,7 @@
     "name": "Sync Channel Permissions"
   },
   "text_to_speech_MOD.js": {
-    "description": "Convert some text into speech (using Discord tts)",
+    "description": "Convert some text into TTS",
     "name": "Text To Speech"
   },
   "translate_MOD.js": {
