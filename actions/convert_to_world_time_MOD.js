@@ -1,13 +1,13 @@
 module.exports = {
- name: 'Convert To World Time',
- section: 'Other Stuff',
+  name: 'Convert To World Time',
+  section: 'Other Stuff',
 
- subtitle: function(data) {
-  return 'Input a timezone and retrieve its current time.';
- },
+  subtitle: function (data) {
+    return 'Input a timezone and retrieve its current time.'
+  },
 
- variableStorage: function(data, varType) {
-  const type = parseInt(data.storage);
+  variableStorage: function(data, varType) {
+    const type = parseInt(data.storage);
   if (type !== varType) return;
   const dataType = 'Time';
   return ([data.varName, dataType]);
