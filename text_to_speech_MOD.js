@@ -3,7 +3,6 @@ module.exports = {
   section: 'Messaging',
   
   subtitle: function(data) {
-    const info = ['Item 1', 'Item 2', 'Item 3'];
     return `Make your Discord bot talk.`;
   },
 
@@ -14,7 +13,7 @@ module.exports = {
     return ([data.varName, dataType]);
   },
 
-  fields: ['text', 'info', 'storage', 'varName'],
+  fields: ['text', 'storage', 'varName'],
 
   html: function(isEvent, data) {
   return `
