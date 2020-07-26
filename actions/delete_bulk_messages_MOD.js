@@ -1,5 +1,3 @@
-/* eslint-disable no-eval */
-/* eslint-disable eqeqeq */
 module.exports = {
   name: 'Delete Bulk Messages MOD',
   section: 'Messaging',
@@ -192,7 +190,7 @@ module.exports = {
     const varName = this.evalMessage(data.varName, cache)
     const source = this.getChannel(channel, varName, cache)
     if (!source) {
-      console.error('Channel do not exist!')
+      this.displayError(data, cache, 'Channel do not exist!')
       this.callNextAction(cache)
       return
     }
@@ -235,20 +233,29 @@ module.exports = {
             lastId = messages.lastKey()
           }
           let filtered = messages
-          if (Con0) filtered = filtered.filter(element => element.author.id != Con0.replace(/\D/g, ''))
-          if (Con1) filtered = (filtered || messages).filter(element => element.author.id == Con1.replace(/\D/g, ''))
-          if (Con2 !== '0') filtered = (filtered || messages).filter(element => (Con2 === '1') ? element.embeds.length === 0 : element.embeds.length !== 0)
-          if (Con3) filtered = (filtered || messages).filter(element => element.content.includes(Con3))
+          if (Con0) filtered = filtered.filter((e) => e.author.id !== Con0.replace(/\D/g, ''))
+          if (Con1) filtered = (filtered || messages).filter((e) => e.author.id === Con1.replace(/\D/g, ''))
+          if (Con2 !== '0') {
+            filtered = (filtered || messages).filter(
+              (e) => Con2 === '1' ? e.embeds.length === 0 : e.embeds.length !== 0
+            )
+          }
+          if (Con3) filtered = (filtered || messages).filter((e) => e.content.includes(Con3))
           if (Con4) {
             filtered = (filtered || messages).filter(function (message) {
               let result = false
               try {
+                // eslint-disable-next-line no-eval
                 result = !!eval(Con4)
-              } catch (e) {}
+              } catch {}
               return result
             })
           }
-          if (Con5 !== '0') filtered = (filtered || messages).filter(element => (Con5 === '1') ? element.attachments.size === 0 : element.attachments.size !== 0)
+          if (Con5 !== '0') {
+            filtered = (filtered || messages).filter(
+              (e) => Con5 === '1' ? e.attachments.size === 0 : e.attachments.size !== 0
+            )
+          }
           messagesFound = messagesFound.concat(filtered)
         }
         if (messagesFound.array) messagesFound = messagesFound.array()
@@ -258,8 +265,7 @@ module.exports = {
         const deleted = await source.bulkDelete(messagesFound)
         const storage = parseInt(data.storage)
         if (storage !== 0 && deleted) {
-          let result
-          (deleted.array) ? result = deleted.array() : result = deleted
+          let result = deleted.array ? deleted.array() : deleted
           if (deleted.length === 1) result = deleted[0]
           const varName = this.evalMessage(data.varName2, cache)
           this.storeValue(result, storage, varName, cache)
@@ -270,7 +276,7 @@ module.exports = {
         if (['You can only bulk delete messages that are under 14 days old.', 'Looping for 10 times. Stop searching messages.'].includes(err.message)) {
           this.executeResults(false, data, cache)
         } else {
-          this.displayError.bind(this, data, cache)
+          this.displayError(data, cache, err)
         }
       }
     } else {
