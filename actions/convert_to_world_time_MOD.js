@@ -41,6 +41,7 @@ module.exports = {
   init: function () {},
 
   action: function (cache) {
+
     const data = cache.actions[cache.index]
 
     const Mods = this.getMods()
@@ -52,8 +53,7 @@ module.exports = {
     const varName = this.evalMessage(data.varName, cache)
     this.storeValue(timec, storage, varName, cache)
     this.callNextAction(cache)
-
-},
-
+    
+  },
   mod: function () { }
 }
