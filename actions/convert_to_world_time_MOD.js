@@ -6,14 +6,14 @@ module.exports = {
     return 'Input a timezone and retrieve its current time.'
   },
 
-  variableStorage: function(data, varType) {
-    const type = parseInt(data.storage);
-  if (type !== varType) return;
-  const dataType = 'Time';
-  return ([data.varName, dataType]);
- },
+  variableStorage: function (data, varType) {
+    const type = parseInt(data.storage)
+    if (type !== varType) return
+    const dataType = 'Time'
+    return ([data.varName, dataType]);
+  },
 
- fields: ['textbox', 'info', 'storage', 'varName'],
+  fields: ['textbox', 'info', 'storage', 'varName'],
 
  html: function(isEvent, data) {
   return `
