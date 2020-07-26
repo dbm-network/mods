@@ -49,6 +49,6 @@ module.exports = {
     this.storeValue(play, storage, varName, cache)
     this.callNextAction(cache)
   },
-  
+
   mod () {}
 }
