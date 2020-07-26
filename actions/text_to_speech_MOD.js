@@ -18,7 +18,7 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div>
-  <p>Please pair this with Join Voice Channel & Play URL. Store Audio URL In stores an Audio URL. Please paste this in Play URL for full effect.</p>
+  <p>This action can not deal with texts which are over than 200 characters.</p>
 </div><br>
 <div style="width: 90%;">
   Message (to be converted to speech):<br>
