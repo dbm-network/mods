@@ -2,11 +2,11 @@ module.exports = {
   name: 'Text To Speech',
   section: 'Messaging',
 
-  subtitle: function (data) {
+  subtitle (data) {
     return 'Make your Discord bot talk.'
   },
 
-  variableStorage: function (data, varType) {
+  variableStorage (data, varType) {
     const type = parseInt(data.storage)
     if (type !== varType) return
     const dataType = 'Audio URL'
@@ -15,7 +15,7 @@ module.exports = {
 
   fields: ['text', 'storage', 'varName'],
 
-  html: function (isEvent, data) {
+  html (isEvent, data) {
     return `
 <div>
   <p>Please pair this with Join Voice Channel & Play URL. Store Audio URL In stores an Audio URL. Please paste this in Play URL for full effect.</p>
@@ -36,9 +36,9 @@ module.exports = {
 </div>`
   },
 
-  init: function () { },
+  init () {},
 
-  action: async function (cache) {
+  async action (cache) {
     const data = cache.actions[cache.index]
     const storage = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
@@ -49,5 +49,5 @@ module.exports = {
     this.storeValue(play, storage, varName, cache)
     this.callNextAction(cache)
   },
-  mod: function () { }
+  mod () {}
 }
