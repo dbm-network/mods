@@ -1,5 +1,4 @@
 module.exports = {
-
   name: 'Store YouTube Channel Info',
   section: 'Audio Control',
 
@@ -45,10 +44,9 @@ module.exports = {
       </div>`;
   },
 
-  init: function () { },
+  init: function () {},
   
   action: async function (cache) {
-
     const data = cache.actions[cache.index];
     const storage = parseInt(data.storage);
     const varName = this.evalMessage(data.varName, cache);
@@ -80,5 +78,5 @@ module.exports = {
     this.callNextAction(cache);
   },
 
-  mod: function (DBM) { },
+  mod: function () {},
 };
