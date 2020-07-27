@@ -24,7 +24,7 @@ module.exports = {
       case 2: // Shard's Ping On The Current Server
         dataType = 'Number'
         break
-      case 3: //Shard's ID On The Current Server
+      case 3: // Shard's ID On The Current Server
         dataType = 'Number'
         break
       case 4: // Total Number of Servers in Current Server's Shard
