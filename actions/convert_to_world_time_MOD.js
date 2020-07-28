@@ -50,5 +50,5 @@ module.exports = {
     this.callNextAction(cache)
   },
 
-  mod () { }
+  mod () {}
 }
