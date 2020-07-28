@@ -2,45 +2,45 @@ module.exports = {
   name: 'Convert To World Time',
   section: 'Other Stuff',
 
-  subtitle: function (data) {
+  subtitle (data) {
     return 'Input a timezone and retrieve its current time.'
   },
 
-  variableStorage: function (data, varType) {
+  variableStorage (data, varType) {
     const type = parseInt(data.storage)
     if (type !== varType) return
     const dataType = 'Time'
     return ([data.varName, dataType])
+	return ([data.varName, 'Time'])
   },
 
   fields: ['textbox', 'info', 'storage', 'varName'],
 
-  html: function (isEvent, data) {
+  html (isEvent, data) {
     return `
-     
 <div>
-    <div style="width: 90%;">
-        To Be Converted:<br>
-        <input id="textbox" class="round" type="text">
-    </div><br>
+  <div style="width: 90%;">
+    To Be Converted:<br>
+    <input id="textbox" class="round" type="text">
+  </div><br>
 </div><br>
 <div style="padding-top: 8px;">
-    <div style="float: left; width: 35%;">
-        Store Converted Time In:<br>
-        <select id="storage" class="round">
-            ${data.variables[1]}
-        </select>
-    </div>
-    <div id="varNameContainer" style="float: right; width: 60%;">
-        Variable Name:<br>
-        <input id="varName" class="round" type="text">
-    </div>
+  <div style="float: left; width: 35%;">
+    Store Converted Time In:<br>
+    <select id="storage" class="round">
+        ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text">
+  </div>
 </div>`
   },
 
-  init: function () {},
+  init () {},
 
-  action: function (cache) {
+  action (cache) {
     const data = cache.actions[cache.index]
     const Mods = this.getMods()
     const moment = Mods.require('moment-timezone')
@@ -51,5 +51,5 @@ module.exports = {
     this.storeValue(timec, storage, varName, cache)
     this.callNextAction(cache)
   },
-  mod: function () { }
+  mod () { }
 }
