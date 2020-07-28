@@ -41,11 +41,11 @@ module.exports = {
           Variable Name:<br>
           <input id="varName" class="round" type="text">
         </div>
-      </div>`;
+      </div>`
   },
 
   init: function () {},
-  
+
   action: async function (cache) {
     const data = cache.actions[cache.index];
     const storage = parseInt(data.storage);
