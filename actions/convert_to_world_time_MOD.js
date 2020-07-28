@@ -9,9 +9,7 @@ module.exports = {
   variableStorage (data, varType) {
     const type = parseInt(data.storage)
     if (type !== varType) return
-    const dataType = 'Time'
-    return ([data.varName, dataType])
-	return ([data.varName, 'Time'])
+    return ([data.varName, 'Time'])
   },
 
   fields: ['textbox', 'info', 'storage', 'varName'],
