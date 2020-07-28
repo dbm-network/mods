@@ -13,12 +13,8 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div style="float: left; width: 105%;">
-  YouTube Playlist URL:<br>
-  <input id="url" class="round" type="text" value="https://www.youtube.com/playlist?list=PLkfg3Bt9RE055BeP8DeDZSUCYxeSLnobe"><br>
-</div>
-<div style="float: left; width: 105%;">
-  API Key:<br>
-  <input id="apikey" class="round" type="text" placeholder="Insert your YouTube Data V3 API Key..."><br>
+  YouTube Playlist:<br>
+  <input id="url" class="round" type="text" placeholder="Insert your playlist URL or ID here"><br>
 </div>
 <div style="float: left; width: 49%;">
   Video Seek Positions:<br>
@@ -40,17 +36,18 @@ module.exports = {
     const data = cache.actions[cache.index]
     const { Audio } = this.getDBM()
     const Mods = this.getMods()
-    const YTapi = Mods.require('simple-youtube-api')
-    const apikey = this.evalMessage(data.apikey, cache)
-    const playlist = this.evalMessage(data.url, cache)
+    const url = this.evalMessage(data.url, cache)
+    const ytpl = Mods.require('ytpl')
+    // const moment = Mods.require('moment')
+    const { msg } = cache
     const options = {}
 
+    // const re = new RegExp('(^[0-9]?[0-9]:[0-9][0-9]:[0-9][0-9]$)')
+    // const re1 = new RegExp('(^[0-9]?[0-9]:[0-9][0-9]$)')
+
     // Check Input
-    if (playlist === undefined || playlist === '') {
+    if (!url) {
       return console.log('Please insert a playlist url!')
-    }
-    if (apikey === undefined || playlist === '') {
-      return console.log('Please insert an valid api key!')
     }
 
     // Check Options
@@ -72,21 +69,32 @@ module.exports = {
     } else {
       options.bitrate = 'auto'
     }
+    if (msg) {
+      options.requester = msg.author
+    }
 
-    // Load playlist
-    const YouTube = new YTapi(`${apikey}`)
+    ytpl(url, function (err, playlist) {
+      if (err) return this.displayError(data, cache, err)
 
-    YouTube.getPlaylist(`${playlist}`).then((playlist) => {
-      playlist.getVideos().then((videos) => {
-        videos.forEach((video) => {
-          const info = ['yt', options, `https://www.youtube.com/watch?v=${video.id}`]
-          if (video.id !== undefined) {
-            Audio.addToQueue(info, cache)
-          }
-        })
+      playlist.items.forEach(function (video) {
+        /* // This functionality is broken from going into the queue and i have 0 idea why thats happening. I left everything here in case someone figures it out in the future.
+let duration
+if (re.test(video.duration)) {
+duration = moment.duration(video.duration).asSeconds()
+} else if (re1.test(video.duration)) {
+duration = moment.duration(`00:${video.duration}`).asSeconds()
+} else (console.log('Error with duration in play youtube playlist'))
+
+options.title = video.title
+options.thumbnail = video.thumbnail
+options.duration = duration
+*/
+        const info = ['yt', options, video.url]
+        if (video.id !== undefined) {
+          Audio.addToQueue(info, cache)
+        }
       })
     })
-
     this.callNextAction(cache)
   },
 
