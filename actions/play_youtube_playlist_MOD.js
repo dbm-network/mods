@@ -12,22 +12,22 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-  <div style="float: left; width: 105%;">
-YouTube Playlist:<br>
-<input id="url" class="round" type="text" placeholder="Insert your playlist URL or ID here"><br>
-  </div>
-  <div style="float: left; width: 49%;">
-Video Seek Positions:<br>
-<input id="seek" class="round" type="text" value="0"><br>
-Video Volumes:<br>
-<input id="volume" class="round" type="text" placeholder="Leave blank for automatic..."><br>
-  </div>
-  <div style="float: right; width: 49%;">
-Video Passes:<br>
-<input id="passes" class="round" type="text" value="1"><br>
-Video Bitrates:<br>
-<input id="bitrate" class="round" type="text" placeholder="Leave blank for automatic..."><br>
-  </div>`
+<div style="float: left; width: 105%;">
+  YouTube Playlist:<br>
+  <input id="url" class="round" type="text" placeholder="Insert your playlist URL or ID here"><br>
+</div>
+<div style="float: left; width: 49%;">
+  Video Seek Positions:<br>
+  <input id="seek" class="round" type="text" value="0"><br>
+  Video Volumes:<br>
+  <input id="volume" class="round" type="text" placeholder="Leave blank for automatic..."><br>
+</div>
+<div style="float: right; width: 49%;">
+  Video Passes:<br>
+  <input id="passes" class="round" type="text" value="1"><br>
+  Video Bitrates:<br>
+  <input id="bitrate" class="round" type="text" placeholder="Leave blank for automatic..."><br>
+</div>`
   },
 
   init () {},
