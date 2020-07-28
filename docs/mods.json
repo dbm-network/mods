@@ -211,6 +211,10 @@
     "description": "Convert a timestamp to a date",
     "name": "Convert Timestamp to Date"
   },
+  "convert_to_world_time_MOD.js": {
+    "description": "Input a timezone and retrieve its current time",
+    "name": "Convert to World Time"
+	},
   "convert_variable_MOD.js": {
     "description": "Convert a variable",
     "name": "Convert Variable"
