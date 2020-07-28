@@ -46,7 +46,7 @@ module.exports = {
     // const re1 = new RegExp('(^[0-9]?[0-9]:[0-9][0-9]$)')
 
     // Check Input
-    if (url === undefined || url === '') {
+    if (!url) {
       return console.log('Please insert a playlist url!')
     }
 
