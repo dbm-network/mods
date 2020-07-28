@@ -48,28 +48,28 @@ module.exports = {
   action: async function (cache) {
     const data = cache.actions[cache.index]
     const storage = parseInt(data.storage)
-    const varName = this.evalMessage(data.varName, cache);
-    const INFO = parseInt(data.info);
-    const query = this.evalMessage(data.query, cache);
+    const varName = this.evalMessage(data.varName, cache)
+    const INFO = parseInt(data.info)
+    const query = this.evalMessage(data.query, cache)
     const Mods = this.getMods()
-    const getYoutubeChannelId = Mods.require('get-youtube-channel-id');
+    const getYoutubeChannelId = Mods.require('get-youtube-channel-id')
     var url = query
     var reezult = false
     reezult = await getYoutubeChannelId(url)
-    console.log(reezult);
+    console.log(reezult)
     if (reezult !== false) {
       if (reezult.error) {
-        console.log(`An error occurred, something is wrong with your action.`);
+        console.log('An error occurred, something is wrong with your action.')
       } else {
-        console.log(`Channel ID: ${reezult.id}`);
+        console.log('Channel ID: ${reezult.id}')
       }
     } else {
-      console.log('Invalid youtube channel URL');
+      console.log('Invalid youtube channel URL')
     }
 
     switch (INFO) {
       case 0:
-        result = reezult.id
+        const result = reezult.id
         break;
     }
 
