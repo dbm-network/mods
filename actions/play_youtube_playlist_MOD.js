@@ -74,7 +74,7 @@ module.exports = {
     }
 
     ytpl(url, function (err, playlist) {
-      if (err) this.displayError(data, cache, err)
+      if (err) return this.displayError(data, cache, err)
 
       playlist.items.forEach(function (video) {
         /* // This functionality is broken from going into the queue and i have 0 idea why thats happening. I left everything here in case someone figures it out in the future.
