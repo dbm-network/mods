@@ -34,7 +34,9 @@ module.exports = {
             <option value="3">Channel Location</option>
             <option value="4">Channel Description</option>
             <option value="5">Rounded Subscriber Count</option>
-            <option value="6">Is Family Friendly?</option>
+            <option value="6">Rounded View Count</option>
+            <option value="7">Is Family Friendly?</option>
+            <option value="7">Channel Keywords</option>
         </select>
       </div><br>
       <div style="padding-top: 8px;">
@@ -85,7 +87,13 @@ module.exports = {
         result = testresponse.approx.subscribers
         break;
       case 6:
+        result = testresponse.approx.views
+        break;
+      case 7:
         result = testresponse.privacy.familySafe
+        break;
+      case 7:
+        result = testresponse.keywords
         break;
     }
 
