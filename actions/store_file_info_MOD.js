@@ -94,7 +94,7 @@ module.exports = {
         case 'File Name':
           result = path.basename(filePath)
           break
-        }
+      }
       this.storeValue(result, storage, varName, cache)
     }
     this.callNextAction(cache)
