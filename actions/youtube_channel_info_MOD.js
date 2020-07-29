@@ -5,7 +5,7 @@ module.exports = {
 
   subtitle: function (data) {
     // Each item corresponds to each switch statement.
-
+    const INFO = ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5', 'Item 6', 'Item 7'];
     // What user sees when previewing actions box on bottom.
     return 'Stre information about a YouTube channel.'
   },
@@ -36,7 +36,7 @@ module.exports = {
             <option value="5">Subscriber Count</option>
             <option value="6">View Count</option>
             <option value="7">Is Family Friendly?</option>
-            <option value="7">Channel Keywords</option>
+            <option value="8">Channel Keywords</option>
         </select>
       </div><br>
       <div style="padding-top: 8px;">
@@ -91,7 +91,7 @@ module.exports = {
       case 7:
         result = testresponse.privacy.familySafe
         break;
-      case 7:
+      case 8:
         result = testresponse.keywords
         break;
     }
