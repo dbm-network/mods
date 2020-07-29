@@ -81,7 +81,7 @@ module.exports = {
           break
         case 'File Character Count':
           result = fs.readFileSync(filePath).toString().length
-           break
+          break
         case 'File Creation Date Timestamp':
           result = fs.statSync(filePath).mtimeMs
           break
@@ -94,7 +94,7 @@ module.exports = {
         case 'File Name':
           result = path.basename(filePath)
           break
-      }
+        }
       this.storeValue(result, storage, varName, cache)
     }
     this.callNextAction(cache)
