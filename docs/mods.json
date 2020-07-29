@@ -211,6 +211,10 @@
     "description": "Convert a timestamp to a date",
     "name": "Convert Timestamp to Date"
   },
+  "convert_to_world_time_MOD.js": {
+    "description": "Input a timezone and retrieve its current time",
+    "name": "Convert to World Time"
+	},
   "convert_variable_MOD.js": {
     "description": "Convert a variable",
     "name": "Convert Variable"
@@ -543,6 +547,10 @@
     "description": "",
     "name": "Send Message to Console"
   },
+  "send_message_to_twitch_chat_MOD.js": {
+    "description": "Send a message from your bot to a specified Twitch channel",
+    "name": "Send Message to Twitch Chat"
+  },
   "send_stats_to_dbl_MOD.js": {
     "description": "",
     "name": "Sends Stats to DBL"
@@ -754,6 +762,10 @@
   "sync_channel_permissions_MOD.js": {
     "description": "",
     "name": "Sync Channel Permissions"
+  },
+  "text_to_speech_MOD.js": {
+    "description": "Convert some text into TTS",
+    "name": "Text To Speech"
   },
   "translate_MOD.js": {
     "description": "",

@@ -85,6 +85,7 @@ class AwaitResponseCallAction {
 
   action (cache) {
     const data = cache.actions[cache.index]
+    const { Actions } = this.getDBM()
 
     const ch = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
@@ -105,11 +106,18 @@ class AwaitResponseCallAction {
         const { author, content } = msg
         let user
         let member
+        const tempVars = Actions.getActionVariable.bind(cache.temp);
+        const globalVars = Actions.getActionVariable.bind(Actions.global);
+        let serverVars = null;
         /* eslint-enable */
 
         if (message) {
           user = message.author
           member = message.member
+        }
+
+        if (cache.server) {
+          serverVars = Actions.getActionVariable.bind(Actions.server[server.id])
         }
 
         try {
@@ -124,7 +132,6 @@ class AwaitResponseCallAction {
           this.executeResults(true, data, cache)
         })
         .catch(() => this.executeResults(false, data, cache))
-        .catch((err) => console.error(err.stack || err))
     }
   }
 

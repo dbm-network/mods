@@ -3,7 +3,7 @@ module.exports = {
   section: 'Other Stuff',
 
   subtitle (data) {
-    const WhichAPI = ['cleverbot.io', 'cleverbot.com']
+    const WhichAPI = ['cleverbot.io', 'cleverbot.com', 'cleverbot-free']
     return `Speak with ${WhichAPI[parseInt(data.WhichAPI)]}!`
   },
 
@@ -15,7 +15,6 @@ module.exports = {
   },
 
   fields: ['WhichAPI', 'inputVarType', 'inputVarName', 'APIuser', 'APIkey', 'storage', 'varName2'],
-
   html (isEvent, data) {
     return `
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
@@ -25,6 +24,7 @@ module.exports = {
     <select id="WhichAPI" class="round">
       <option value="0" selected>Cleverbot.io (free)</option>
       <option value="1">Cleverbot.com (free trial)</option>
+      <option value="2">Cleverbot-Free (free)</option>
     </select>
   </div>
 </div><br>
@@ -42,11 +42,11 @@ module.exports = {
   <br><br><br>
   <div style="float: left; width: 80%; padding-top: 8px;">
     API User:<br>
-    <input id="APIuser" class="round" type="text" placeholder="Leave blank if you use cleverbot.com">
+    <input id="APIuser" class="round" type="text" placeholder="Leave blank if you use cleverbot.com or cleverbot-free">
   </div><br>
   <div style="float: left; width: 80%; padding-top: 8px;">
     API Key:<br>
-    <input id="APIkey" class="round" type="text">
+    <input id="APIkey" class="round" type="text" placeholder="Leave blank if you use cleverbot-free">
   </div>
   <br><br><br>
   <div style="float: left; width: 35%; padding-top: 8px;">
@@ -63,10 +63,12 @@ module.exports = {
   <div id="comment" style="padding-top: 30px; padding-top: 8px;">
     <p>
     <u>Which API should I use?</u><br>
+    CleverBot-Free is completely free and you dont need to use an API key. You can just use it without any API key.<br>
     Cleverbot.io is completely free. You only have to sign in with an email to get an API key. But that bot is a little bit dumb. It is asking you the same questions on every start etc.<br>
     Cleverbot.com is much more clever. But it is only free for 5000 calls/questions. If you want more, you'll have to pay (or create a new account).<br><br>
     Get cleverbot.io key: https://cleverbot.io/keys<br>
     Get cleverbot.com key: http://www.cleverbot.com/api<br>
+    See about CleverBot-Free: https://www.npmjs.com/package/cleverbot-free<br>
     Copy the links to your browser.<br>
     </p>
   </div>
@@ -131,6 +133,17 @@ module.exports = {
             _this.storeValue(response.output, storage, varName2, cache)
           } else {
             console.log("cleverbot.com doesn't like this. Check your API key and your input!")
+          }
+          _this.callNextAction(cache)
+        })
+        break
+      case 2:
+        const uCleverbot = Mods.require('cleverbot-free')
+        uCleverbot(Input).then(response => {
+          if (response !== undefined) {
+            _this.storeValue(response, storage, varName2, cache)
+          } else {
+            console.log('Cleverbot-free error! Have DBM installed the npm module "cleverbot-free"?')
           }
           _this.callNextAction(cache)
         })

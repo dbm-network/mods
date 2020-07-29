@@ -3,72 +3,48 @@ module.exports = {
   section: 'Audio Control',
 
   subtitle (data) {
-    const info = ['Video ID', 'Video URL', 'Video Title', 'Video Description', 'Video Owner', 'Video ChannelID', 'Video ThumbnailUrl', 'Video EmbedURL', 'Video Genre', 'Video Paid', 'Video Unlisted', 'Video isFamilyFriendly', 'Video Duration', 'Video Views', 'Video regionsAllowed', 'Video commentCount', 'Video  likeCount', 'Video  dislikeCount', 'Video  channelThumbnailUrl']
+    const info = ['Video ID', 'Video URL', 'Video Title', 'Video Description', 'Video Channel Name', 'Video Channel ID', 'Video Channel URL', 'Video Channel Avatar URL', 'Video Channel is Verified?', 'Video Channel Subscriber Count', 'Video is Unlisted?', 'Video is Family Friendly?', 'Video Duration', 'Available Countries', 'Video Like Count', 'Video Dislike Count', 'Video Thumbnail URL', 'Video Publish Date', 'Video Views', 'Video is Live?', 'Video Owner Viewing?', 'Video is Age Restricted?']
     return `YouTube ${info[parseInt(data.info)]}`
   },
 
   variableStorage (data, varType) {
     const type = parseInt(data.storage)
     if (type !== varType) return
-    const info = parseInt(data.info)
-    let dataType = 'Unknown YouTube Type'
-    switch (info) {
-      case 0:
-        dataType = 'YouTube Video ID'
+    let dataType = 'Unknown Type'
+    switch (parseInt(data.info)) {
+      case 0: // Video ID
+      case 2: // Video Title
+      case 3: // Video Description
+      case 5: // Video Channel ID
+      case 4: // Video Channel Name
+      case 12: // Video Duration
+      case 21: // Video Publish Date
+        dataType = 'Text'
         break
-      case 1:
-        dataType = 'YouTube Video URL'
+      case 1: // Video URL
+      case 20: // Video Channel URL
+      case 24: // Video Channel Avatar URL
+        dataType = 'URL'
         break
-      case 2:
-        dataType = 'YouTube Video Title'
+      case 6: // Video Thumbnail URL
+        dataType = 'Image URL'
         break
-      case 3:
-        dataType = 'YouTube Video Description'
+      case 19: // Video is live?
+      case 22: // Video Owner Viewing?
+      case 23: // Video is Age Restricted?
+      case 25: // Video Channel is Verified?
+      case 11: // Video is Family Friendly?
+      case 10: // Video is Unlisted?
+        dataType = 'Boolean'
         break
-      case 4:
-        dataType = 'YouTube Video Owner'
+      case 13: // Video Views
+      case 16: // Video Like Count
+      case 17: // Video Dislike Count
+      case 26: // Video Channel Subscriber Count
+        dataType = 'Number'
         break
-      case 5:
-        dataType = 'YouTube Video ChannelID'
-        break
-      case 6:
-        dataType = 'YouTube Video ThumbnailUrl'
-        break
-      case 7:
-        dataType = 'YouTube Video EmbedURL'
-        break
-      case 8:
-        dataType = 'YouTube Video Genre'
-        break
-      case 9:
-        dataType = 'YouTube Video Paid'
-        break
-      case 10:
-        dataType = 'YouTube Video Unlisted'
-        break
-      case 11:
-        dataType = 'YouTube Video isFamilyFriendly'
-        break
-      case 12:
-        dataType = 'YouTube Video Duration'
-        break
-      case 13:
-        dataType = 'YouTube Video Views'
-        break
-      case 14:
-        dataType = 'YouTube Video regionsAllowed'
-        break
-      case 15:
-        dataType = 'YouTube Video commentCount'
-        break
-      case 16:
-        dataType = 'YouTube Video likeCount'
-        break
-      case 17:
-        dataType = 'YouTube Video dislikeCount'
-        break
-      case 18:
-        dataType = 'YouTube Video channelThumbnailUrl'
+      case 14: // Available Countries
+        dataType = 'Object'
         break
     }
     return ([data.varName, dataType])
@@ -81,7 +57,7 @@ module.exports = {
 <div style="width: 550px; height: 350px; overflow-y: scroll;">
   <div style="width: 95%; padding-top: 8px;">
     Video to Search:<br>
-    <textarea id="video" rows="2" placeholder="Video ID or Video URL Goes here!" style="width: 95%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+    <textarea id="video" rows="2" placeholder="Video to search for goes here" style="width: 95%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
   </div>
   <div style="width: 95%; padding-top: 8px;">
     Source Info:<br>
@@ -90,21 +66,24 @@ module.exports = {
       <option value="1">Video URL</option>
       <option value="2">Video Title</option>
       <option value="3">Video Description</option>
-      <option value="4">Video Owner</option>
-      <option value="5">Video ChannelID</option>
-      <option value="6">Video ThumbnailUrl</option>
-      <option value="7">Video EmbedURL</option>
-      <option value="8">Video Genre</option>
-      <option value="9">Video Paid</option>
-      <option value="10">Video Unlisted</option>
-      <option value="11">Video isFamilyFriendly</option>
-      <option value="12">Video Duration(hh:mm:ss)</option>
+      <option value="4">Video Channel Name</option>
+      <option value="5">Video Channel ID</option>
+      <option value="6">Video Thumbnail URL</option>
+      <option value="20">Video Channel URL</option>
+      <option value="24">Video Channel Avatar URL</option>
+      <option value="25">Video Channel is Verified?</option>
+      <option value="26">Video Channel Subscriber Count</option>
+      <option value="10">Video is Unlisted?</option>
+      <option value="11">Video is Family Friendly?</option>
+      <option value="12">Video Duration</option>
       <option value="13">Video Views</option>
-      <option value="14">Video regionsAllowed</option>
-      <option value="15">Video commentCount</option>
-      <option value="16">Video likeCount</option>
-      <option value="17">Video dislikeCount</option>
-      <option value="18">Video channelThumbnailUrl</option>
+      <option value="14">Available Countries</option>
+      <option value="16">Video Like Count</option>
+      <option value="17">Video Dislike Count</option>
+      <option value="21">Video Publish Date</option>
+      <option value="19">Video is Live?</option>
+      <option value="22">Video Owner Viewing?</option>
+      <option value="23">Video is Age Restricted?</option>
     </select>
   </div>
   <div>
@@ -134,76 +113,84 @@ module.exports = {
     const _this = this
     const video = this.evalMessage(data.video, cache)
     const Mods = this.getMods()
-    const fetchVideoInfo = Mods.require('youtube-info')
-    const TimeFormat = Mods.require('hh-mm-ss')
+    const ytsr = Mods.require('ytsr')
     const ytdl = Mods.require('ytdl-core')
     let result
 
-    if (!video) return console.log('Please specify a video id to get video informations.')
+    if (!video) return console.log('Please specify a video to get video informations.')
 
-    const songID = ytdl.getVideoID(video)
-
-    fetchVideoInfo(songID, (err, videoInfo) => {
+    ytsr(video, async function (err, searchResults) {
       if (err) return console.error(err)
+      const sr = searchResults.items[0]
+      let video = await ytdl.getBasicInfo(sr.link)
+      video = video.videoDetails
 
       switch (info) {
-        case 0:
-          result = videoInfo.videoId
+        case 0: // Video ID
+          result = video.videoID
           break
-        case 1:
-          result = videoInfo.url
+        case 1: // Video URL
+          result = video.video_url
           break
-        case 2:
-          result = videoInfo.title
+        case 2: // Video Title
+          result = video.title.replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&#39;/g, "'")
           break
-        case 3:
-          result = videoInfo.description
+        case 3: // Video Description
+          result = video.description.replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&#39;/g, "'")
           break
-        case 4:
-          result = videoInfo.owner
+        case 4: // Video Channel Name
+          result = video.author.name
           break
-        case 5:
-          result = videoInfo.channelId
+        case 5: // Video Channel ID
+          result = video.author.id
           break
-        case 6:
-          result = videoInfo.thumbnailUrl
+        case 6: // Thumbnail URL (auto)
+          result = sr.thumbnail
           break
-        case 7:
-          result = videoInfo.embedURL
+        case 10: // Is unlisted
+          result = video.isUnlisted
           break
-        case 8:
-          result = videoInfo.genre
+        case 11: // Is family friendly?
+          result = video.isFamilySafe
           break
-        case 9:
-          result = videoInfo.paid
+        case 12: // Video Duration
+          result = video.lengthSeconds
           break
-        case 10:
-          result = videoInfo.unlisted
+        case 13: // Video Views
+          result = video.views
           break
-        case 11:
-          result = videoInfo.isFamilyFriendly
+        case 14: // Available Countries
+          result = video.availableCountries
           break
-        case 12:
-          result = TimeFormat.fromS(videoInfo.duration) // check documentation/parameters ==> https://www.npmjs.com/package/hh-mm-ss
-          // result = videoInfo.duration; just seconds =]]
+        case 16: // Like Count
+          result = video.likes
           break
-        case 13:
-          result = videoInfo.views
+        case 17: // Dislike Count
+          result = video.dislikes
           break
-        case 14:
-          result = videoInfo.regionsAllowed
+        case 19: // is live?
+          result = video.isLiveContent
           break
-        case 15:
-          result = videoInfo.commentCount
+        case 20: // Video Channel URL
+          result = video.author.ref
           break
-        case 16:
-          result = videoInfo.likeCount
+        case 21: // Video Publish Date
+          result = video.publishDate
           break
-        case 17:
-          result = videoInfo.dislikeCount
+        case 22: // Is owner Viewing?
+          result = video.sOwnerViewing
           break
-        case 18:
-          result = videoInfo.channelThumbnailUrl
+        case 23: // Age Restricted?
+          result = video.age_restricted
+          break
+        case 24: // Video Channel Avatar URL
+          result = video.author.avatar
+          break
+        case 25: // Is channel verified?
+          result = video.author.verified
+          break
+        case 26: // Video Channel Subscriber Count
+          result = video.author.subscriber_count
           break
         default:
           break

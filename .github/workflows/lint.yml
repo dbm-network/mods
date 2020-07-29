@@ -1,4 +1,4 @@
-name: Use ESLint to check for errors or code style irregularities
+name: CI
 
 on:
   pull_request:
@@ -15,7 +15,7 @@ jobs:
       matrix:
         node: ['12.x']
 
-    name: Test on node ${{ matrix.node }}
+    name: ESLint
 
     env:
       CI: true

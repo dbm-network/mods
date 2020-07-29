@@ -295,7 +295,7 @@ module.exports = {
       // write any init errors to errors.txt in dbm's main directory
       // eslint-disable-next-line no-undef
       alert(`[Run SQL Query] Error: \n\n ${error.message}\n\n Check \n ''${require('path').resolve('dbmmods_dbm_errors.txt')}' for more details.`)
-      require('fs').appendFileSync('dbmmods_dbm_errors.txt', `${new Date().toUTCString()} : ${error.stack}` ? error.stack : `${error}\n\n`)
+      require('fs').appendFileSync('dbmmods_dbm_errors.txt', `${new Date().toUTCString()} : ${error.stack ? error.stack : error}\n\n`)
     }
 
     glob.variableChange(document.getElementById('storage'), 'varNameContainer')
@@ -392,77 +392,61 @@ module.exports = {
         sequelize = new Sequelize(database || 'database', username || 'username', password || 'password', options)
       }
 
-      sequelize.authenticate()
-        .then(() => {
-          if (storeSourceConnStorage > 0 && storeSourceConnVarName && sourceConnStorage === 0) {
-            if (sequelize) {
-              const storedConnection = { hostname, port, database, sequelize }
-              if (DEBUG) console.log(`Storing connection for host '${storedConnection.hostname}:${storedConnection.port}' using database '${storedConnection.database}'`)
-              this.storeValue(storedConnection, storeSourceConnStorage, storeSourceConnVarName, cache)
+      sequelize.authenticate().then(() => {
+        if (storeSourceConnStorage > 0 && storeSourceConnVarName && sourceConnStorage === 0) {
+          if (sequelize) {
+            const storedConnection = { hostname, port, database, sequelize }
+            if (DEBUG) console.log(`Storing connection for host '${storedConnection.hostname}:${storedConnection.port}' using database '${storedConnection.database}'`)
+            this.storeValue(storedConnection, storeSourceConnStorage, storeSourceConnVarName, cache)
+          }
+        }
+        if (query) {
+          sequelize.query(query, { type: Object.keys(Sequelize.QueryTypes).find(type => query.toUpperCase().startsWith(type)) || Sequelize.QueryTypes.RAW }).then((results, metadata) => {
+            let jsonOut = false
+            if (results && path !== undefined) {
+              jsonOut = Mods.jsonPath(results, path)
+              // if it failed and if they didn't the required initial object, add it for them
+              if (jsonOut === false) jsonOut = Mods.jsonPath(results, ('$.').concat(path))
+              // if it failed still, try just pulling the first object
+              if (jsonOut === false) jsonOut = Mods.jsonPath(results, ('$.[0].').concat(path))
+              if (jsonOut) {
+                if (jsonOut.length === 1) jsonOut = jsonOut[0]
+                if (DEBUG) console.log(`Run SQL Query: JSON Data values starting from [${path}] stored to: [${varName}]`)
+                if (DEBUG) console.dir(jsonOut)
+              }
             }
-          }
-
-          if (query) {
-            const myQuery = sequelize.query(query)
-            myQuery.spread((results, metadata) => {
-              let jsonOut = false
-              if (results && path !== undefined) {
-                jsonOut = Mods.jsonPath(results, path)
-
-                // if it failed and if they didn't the required initial object, add it for them
-                if (jsonOut === false) {
-                  jsonOut = Mods.jsonPath(results, ('$.').concat(path))
-                }
-
-                // if it failed still, try just pulling the first object
-                if (jsonOut === false) {
-                  jsonOut = Mods.jsonPath(results, ('$.[0].').concat(path))
-                }
-
-                if (jsonOut) {
-                  if (DEBUG) console.log(`Run SQL Query: JSON Data values starting from [${path}] stored to: [${varName}]`)
-                  if (DEBUG) console.dir(jsonOut)
-                }
+            if (results && path === undefined && DEBUG) {
+              console.log('\nStored value(s);\r\n')
+              console.log('Key =  Json')
+              for (let i = 0; i < results.length; i++) {
+                console.log(`[${i}] = ${JSON.stringify(results[i])}`)
               }
-
-              if (results && path === undefined && DEBUG) {
-                console.log('\nStored value(s);\r\n')
-                console.log('Key =  Json')
-                for (let i = 0; i < results.length; i++) {
-                  console.log(`[${i}] = ${JSON.stringify(results[i])}`)
-                }
-
-                console.log('\r\nAppend the key that you want to store that value to the variable.')
-
-                const storageType = ['', 'tempVars', 'serverVars', 'globalVars']
-                const output = storageType[storage]
-
-                console.log('If not using the Path textbox in the mod, this is how to get special values.')
-                console.log(`Example \${${output}("${varName}")} to \${${output}("${varName}")[0]["${Object.keys(results[0])[0]}"]}`)
-                console.log(`Example Run Script ${output}("${varName}")["${Object.keys(results[0])[0]}"] or a place without \${}.\r\n`)
-
-                console.log('Append the path to the end after the key or use the Parse From Stored JSON mod,\nin order to get the value you want')
-                console.log(`Example \${${output}("${varName}")[key].path} or use the json path box in the mod UI.`)
-              }
-
-              const out = jsonOut || results
-              this.storeValue(stringifyOutput ? JSON.stringify(out) : out, storage, varName, cache)
-              this.callNextAction(cache)
-            })
-              .catch((err) => {
-                if (err && err.original) {
-                  this.storeValue({ message: err.original, error: err.original }, storage, varName, cache)
-                  console.error(err.original)
-                  this.callNextAction(cache)
-                }
-              })
-          } else {
+              console.log('\r\nAppend the key that you want to store that value to the variable.')
+              const storageType = ['', 'tempVars', 'serverVars', 'globalVars']
+              const output = storageType[storage]
+              console.log('If not using the Path textbox in the mod, this is how to get special values.')
+              console.log(`Example \${${output}("${varName}")} to \${${output}("${varName}")[0]["${Object.keys(results[0])[0]}"]}`)
+              console.log(`Example Run Script ${output}("${varName}")["${Object.keys(results[0])[0]}"] or a place without \${}.\r\n`)
+              console.log('Append the path to the end after the key or use the Parse From Stored JSON mod,\nin order to get the value you want')
+              console.log(`Example \${${output}("${varName}")[key].path} or use the json path box in the mod UI.`)
+            }
+            const out = jsonOut || results
+            this.storeValue(stringifyOutput ? JSON.stringify(out) : out, storage, varName, cache)
             this.callNextAction(cache)
-          }
-        }).catch((err) => {
-          console.log('Unable to connect to the database:')
-          console.error(err)
-        })
+          }).catch((err) => {
+            if (err && err.original) {
+              this.storeValue({ message: err.original, error: err.original }, storage, varName, cache)
+              console.error(err.original)
+              this.callNextAction(cache)
+            }
+          })
+        } else {
+          this.callNextAction(cache)
+        }
+      }).catch((err) => {
+        console.log('Unable to connect to the database:')
+        console.error(err)
+      })
     } catch (error) {
       console.log(`SQL Mod Error: ${error.stack ? error.stack : error}`)
     }

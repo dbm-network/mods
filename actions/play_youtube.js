@@ -73,12 +73,11 @@ module.exports = {
       if (msg) {
         options.requester = msg.author
       }
+      try {
+        const video = await ytdl.getInfo(url)
 
-      ytdl.getInfo(url, (err, video) => {
-        if (err) return console.error(`Action #${cache.index + 1} Play Yotube:\n${err}`)
-
-        options.title = video.title
-        options.duration = parseInt(video.length_seconds)
+        options.title = video.videoDetails.title
+        options.duration = parseInt(video.videoDetails.lengthSeconds)
         options.thumbnail = video.player_response.videoDetails.thumbnail.thumbnails[3].url
 
         const info = ['yt', options, url]
@@ -89,7 +88,9 @@ module.exports = {
         }
 
         Actions.callNextAction(cache)
-      })
+      } catch (err) {
+        return this.displayError(data, cache, err)
+      }
     }
 
     this.callNextAction(cache)
