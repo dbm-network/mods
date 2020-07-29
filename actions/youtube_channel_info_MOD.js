@@ -60,42 +60,42 @@ module.exports = {
     const query = this.evalMessage(data.query, cache)
     const Mods = this.getMods()
     const url = query
-    const reezult = false
+    const result = false
     const ytscrape = Mods.require('yt-scraper')
     const testresponse = await ytscrape.channelInfo(url)
     switch (INFO) {
       case 0:
-        result = reezult.id
-        break;
+        result = testresponse.id
+        break
       case 1:
         result = testresponse.name
-        break;
+        break
       case 2:
         result = testresponse.joined
-        break;
+        break
       case 3:
         result = testresponse.location
-        break;
+        break
       case 4:
         result = testresponse.description
-        break;
+        break
       case 5:
         result = testresponse.approx.subscribers
-        break;
+        break
       case 6:
         result = testresponse.approx.views
-        break;
+        break
       case 7:
         result = testresponse.privacy.familySafe
-        break;
+        break
       case 8:
         result = testresponse.keywords
-        break;
+        break
     }
 
     this.storeValue(result, storage, varName, cache)
     this.callNextAction(cache)
   },
 
-  mod () {},
-};
+  mod () {}
+}
