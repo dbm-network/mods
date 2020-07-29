@@ -5,16 +5,16 @@ module.exports = {
 
   subtitle: function (data) {
     // Each item corresponds to each switch statement.
-    const info = ['Item 1', 'Item 2', 'Item 3'];
+
     // What user sees when previewing actions box on bottom.
-    return `Store information about a YouTube channel.`;
+    return 'Stre information about a YouTube channel.'
   },
 
   variableStorage: function (data, varType) {
-    const type = parseInt(data.storage);
-    if (type !== varType) return;
-    const dataType = 'YouTube Channel Info';
-    return ([data.varName, dataType]);
+    const type = parseInt(data.storage)
+    if (type !== varType) return
+    const dataType = 'YouTube Channel Info'
+    return ([data.varName, dataType])
   },
 
   fields: ['query', 'info', 'storage', 'varName'],
@@ -50,11 +50,11 @@ module.exports = {
           Variable Name:<br>
           <input id="varName" class="round" type="text">
         </div>
-      </div>`;
+      </div>`
   },
 
   init: function () { },
-  
+
   action: async function (cache) {
     const data = cache.actions[cache.index];
     const storage = parseInt(data.storage);
