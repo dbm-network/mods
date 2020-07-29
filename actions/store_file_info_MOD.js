@@ -69,8 +69,7 @@ module.exports = {
     const filePath = this.evalMessage(data.filePath, cache)
     if (!filePath) {
       console.log('Insert a file path!')
-    } 
-    else {
+    } else {
       let result
       switch (info) {
         case 'File Size':
