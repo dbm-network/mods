@@ -33,8 +33,8 @@ module.exports = {
             <option value="2">Channel Creation Date</option>
             <option value="3">Channel Location</option>
             <option value="4">Channel Description</option>
-            <option value="5">Rounded Subscriber Count</option>
-            <option value="6">Rounded View Count</option>
+            <option value="5">Subscriber Count</option>
+            <option value="6">View Count</option>
             <option value="7">Is Family Friendly?</option>
             <option value="7">Channel Keywords</option>
         </select>
