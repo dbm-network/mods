@@ -10,7 +10,7 @@ module.exports = {
     if (type !== varType) return
     const info = data.info
     let dataType = 'Unknown type'
-    switch(info) {
+    switch (info) {
       case 'File Size':
         dataType = 'Number'
         break
@@ -69,37 +69,36 @@ module.exports = {
     const filePath = this.evalMessage(data.filePath, cache)
     if (!filePath) {
       console.log('Insert a file path!')
-    } else {
-
-    let result
-    switch (info) {
-      case 'File Size':
-        result = fs.statSync(filePath).size
-        break
-      case 'File Extension':
-        result = path.extname(/[^/]*$/.exec(filePath)[0])
-        break
-      case 'File Character Count':
-        result = fs.readFileSync(filePath).toString().length
-        break
-      case 'File Creation Date Timestamp':
-        result = fs.statSync(filePath).mtimeMs
-        break
-      case 'File Exists':
-        result = fs.existsSync(filePath)
-        break
-      case 'File Content':
-        result = fs.readFileSync(filePath).toString()
-        break
-      case 'File Name':
-        result = path.basename(filePath)
-        break
+    } 
+    else {
+      let result
+      switch (info) {
+        case 'File Size':
+          result = fs.statSync(filePath).size
+          break
+        case 'File Extension':
+          result = path.extname(/[^/]*$/.exec(filePath)[0])
+          break
+        case 'File Character Count':
+          result = fs.readFileSync(filePath).toString().length
+           break
+        case 'File Creation Date Timestamp':
+          result = fs.statSync(filePath).mtimeMs
+          break
+        case 'File Exists':
+          result = fs.existsSync(filePath)
+          break
+        case 'File Content':
+          result = fs.readFileSync(filePath).toString()
+          break
+        case 'File Name':
+          result = path.basename(filePath)
+          break
+      }
+      this.storeValue(result, storage, varName, cache)
     }
-    this.storeValue(result, storage, varName, cache)
-  }
     this.callNextAction(cache)
   },
   mod () {
-
   }
 }
