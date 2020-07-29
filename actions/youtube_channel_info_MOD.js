@@ -60,7 +60,7 @@ module.exports = {
     const query = this.evalMessage(data.query, cache)
     const Mods = this.getMods()
     const url = query
-    const result = false
+    let result = false
     const ytscrape = Mods.require('yt-scraper')
     const testresponse = await ytscrape.channelInfo(url)
     switch (INFO) {
