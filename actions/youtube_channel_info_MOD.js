@@ -66,30 +66,38 @@ module.exports = {
     switch (INFO) {
       case 0:
         result = testresponse.id
+        dataType = 'YouTube Channel ID'
         break
       case 1:
         result = testresponse.name
+        dataType = 'YouTube Channel Name'
         break
       case 2:
         result = testresponse.joined
+        dataType = 'YouTube Channel Creation Date'
         break
       case 3:
         result = testresponse.location
+        dataType = 'YouTube Channel Location'
         break
       case 4:
         result = testresponse.description
+        dataType = 'YouTube Channel Description'
         break
       case 5:
         result = testresponse.approx.subscribers
+        dataType = 'Subscriber Count'
         break
       case 6:
         result = testresponse.approx.views
+        dataType = 'View Count'
         break
       case 7:
         result = testresponse.privacy.familySafe
         break
       case 8:
         result = testresponse.keywords
+        dataType = 'YouTube Channel Keywords'
         break
     }
 
