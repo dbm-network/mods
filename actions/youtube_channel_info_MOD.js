@@ -56,23 +56,22 @@ module.exports = {
   init: function () { },
 
   action: async function (cache) {
-    const data = cache.actions[cache.index];
-    const storage = parseInt(data.storage);
-    const INFO = parseInt(data.info);
-    const varName = this.evalMessage(data.varName, cache);
-    const query = this.evalMessage(data.query, cache);
-    const Mods = this.getMods();
+    const data = cache.actions[cache.index]
+    const storage = parseInt(data.storage)
+    const INFO = parseInt(data.info)
+    const varName = this.evalMessage(data.varName, cache)
+    const query = this.evalMessage(data.query, cache)
+    const Mods = this.getMods()
     const url = query
     const reezult = false
     const ytscrape = Mods.require('yt-scraper')
     const testresponse = await ytscrape.channelInfo(url)
-	  console.log(testresponse.name)
     switch (INFO) {
       case 0:
         result = reezult.id;
         break;
       case 1:
-         result = testresponse.name;
+        result = testresponse.name;
         break;
       case 2:
         result = testresponse.joined;
