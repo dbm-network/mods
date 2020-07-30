@@ -37,26 +37,24 @@ module.exports = {
   },
   html (isEvent, data) {
     return `
-      File path (example:  <strong>./bot.js</strong>):
-      <input class='round' id='filePath' />
-      <br>
-      Info:
-      <select class='round' id='info'>
-      <option value='File Size'>File Size</option>
-      <option value='File Extension'>File Extension</option>
-      <option value='File Character Count'>File Character Count</option>
-      <option value='File Creation Date Timestamp'>File Creation Date Timestamp</option>
-      <option value='File Exists'>File Exists</option>
-      <option value='File Content'>File Content</option>
-      <option value='File Name'>File Name</option>
-      </select>
-      <br>
-      Store in:<br>
-      <select class='round' id='storage'>
-      ${data.variables[0]}
-      </select><br>
-      Variable name:<br>
-      <input class='round' id='varName' />`
+File path (example: <strong>./bot.js</strong>):
+<input class='round' id='filePath' /><br>
+Info:
+<select class='round' id='info'>
+  <option value='File Size'>File Size</option>
+  <option value='File Extension'>File Extension</option>
+  <option value='File Character Count'>File Character Count</option>
+  <option value='File Creation Date Timestamp'>File Creation Date Timestamp</option>
+  <option value='File Exists'>File Exists</option>
+  <option value='File Content'>File Content</option>
+  <option value='File Name'>File Name</option>
+</select><br>
+Store in:<br>
+<select class='round' id='storage'>
+  ${data.variables[0]}
+</select><br>
+Variable name:<br>
+<input class='round' id='varName' />`
   },
   init () {},
   action (cache) {
