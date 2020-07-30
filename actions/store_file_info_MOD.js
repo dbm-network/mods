@@ -1,6 +1,7 @@
 module.exports = {
   name: 'Store File Info',
   section: 'File Stuff',
+
   subtitle (data) {
     return `Store File Info - ${data.info}`
   },
