@@ -1,4 +1,3 @@
-  
 module.exports = {
 
   name: 'Store YouTube Channel Info',
