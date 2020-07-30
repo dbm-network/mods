@@ -10,9 +10,8 @@ module.exports = {
 
   variableStorage (data, varType) {
     if (data.storage !== varType) return
-    const info = data.info
     let dataType = 'Unknown type'
-    switch (info) {
+    switch (data.info) {
       case 'File Size':
         dataType = 'Number'
         break
