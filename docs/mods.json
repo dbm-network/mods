@@ -699,6 +699,10 @@
     "description": "",
     "name": "Store Emoji Info"
   },
+  "store_file_info_MOD.js": {
+    "description": "Store specific information about a file",
+    "name": "Store File Info"
+  },
   "store_game_info_MOD.js": {
     "description": "",
     "name": "Store Game Info"
