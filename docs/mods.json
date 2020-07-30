@@ -420,83 +420,83 @@
     "name": "Math Operation Plus"
   },
   "member_data_list_MOD.js": {
-    "description": "",
+    "description": "Store a list of data for members",
     "name": "Store Member Data List"
   },
   "merge_lists_MOD.js": {
-    "description": "",
+    "description": "Merge a list with another list",
     "name": "Merge Lists"
   },
   "mod_info_changelog_MOD.js": {
-    "description": "",
+    "description": "A changelog for modifications",
     "name": "Changelog"
   },
   "mod_info_license_MOD.js": {
-    "description": "",
+    "description": "A license for modifications",
     "name": "License"
   },
   "mod_info_MOD.js": {
-    "description": "",
+    "description": "A welcome/information message for modifications",
     "name": "Welcome"
   },
   "parse_from_stored_json_MOD.js": {
-    "description": "",
+    "description": "Parse from stored Json",
     "name": "Parse From Stored Json"
   },
   "parse_from_stored_webpage_MOD.js": {
-    "description": "",
+    "description": "Parse from a stored web-page",
     "name": "Parse From Stored Webpage"
   },
   "play_youtube.js": {
-    "description": "",
+    "description": "Play a specified YouTube video",
     "name": "Play YouTube Video"
   },
   "play_youtube_playlist_MOD.js": {
-    "description": "",
+    "description": "Play a specified YouTube playlist",
     "name": "Play YouTube Playlist"
   },
   "push_webhook_MOD.js": {
-    "description": "",
+    "description": "Send a message to a webhook",
     "name": "Send Message To Webhook"
   },
   "randomize_letters_MOD.js": {
-    "description": "",
+    "description": "Randomize letters of your choosing",
     "name": "Randomize Letters"
   },
   "read_file_MOD.js": {
-    "description": "",
+    "description": "Read a specific file",
     "name": "Read File"
   },
   "remove_from_queue_MOD.js": {
-    "description": "",
+    "description": "Remove an item from a queue",
     "name": "Remove from Queue MOD"
   },
   "remove_message_reactions_MOD.js": {
-    "description": "",
+    "description": "Clear reactions from a message",
     "name": "Clear reactions from message"
   },
   "remove_reaction_MOD.js": {
-    "description": "",
+    "description": "Remove a reaction from a message",
     "name": "Remove Reaction"
   },
   "repeat_string_MOD.js": {
-    "description": "",
+    "description": "Repeat a specified string",
     "name": "Repeat String"
   },
   "replace_text_MOD.js": {
-    "description": "",
+    "description": "Relpace text in a specified string",
     "name": "Replace Text"
   },
   "restart_bot_MOD.js": {
-    "description": "",
+    "description": "Restart your instance (client)",
     "name": "Restart Bot"
   },
   "revise_MOD.js": {
-    "description": "",
+    "description": "Revise a specified string",
     "name": "Revise"
   },
   "run_action_sequence_once_MOD.js": {
-    "description": "",
+    "description": "Run an action sequence one time in a command/event",
     "name": "Run Action Sequence Once"
   },
   "run_command_in_console_MOD.js": {
@@ -504,47 +504,47 @@
     "name": "Run Command in Console"
   },
   "run_script.js": {
-    "description": "",
+    "description": "Run customized JavaScript code in your bot",
     "name": "Run Script"
   },
   "run_script_too_MOD.js": {
-    "description": "",
+    "description": "Run customized JavaScript code from an external file in your bot",
     "name": "Run Script Too"
   },
   "run_sql_query_MOD.js": {
-    "description": "",
+    "description": "Run an SQL query to connect to your database",
     "name": "Run SQL Query"
   },
   "send_embed_message.js": {
-    "description": "",
+    "description": "Send an embed message",
     "name": "Send Embed Message"
   },
   "send_embed_to_webhook_MOD.js": {
-    "description": "",
+    "description": "Send an embed to a webhook",
     "name": "Send Embed to Webhook"
   },
   "send_gif_MOD.js": {
-    "description": "",
+    "description": "Send a specified gif to a channel",
     "name": "Send GIF"
   },
   "send_image_MOD.js": {
-    "description": "",
+    "description": "Send a specified image to a channel",
     "name": "Send Image MOD"
   },
   "send_json_to_webapi_MOD.js": {
-    "description": "",
+    "description": "Send Json to a web api",
     "name": "Send Json to WebAPI"
   },
   "send_mail_MOD.js": {
-    "description": "",
+    "description": "Send emails through your bot",
     "name": "Send Mail"
   },
   "send_message.js": {
-    "description": "",
+    "description": "Send a message to a channel",
     "name": "Send Message"
   },
   "send_message_to_console_MOD.js": {
-    "description": "",
+    "description": "Send a message to your console -- can have customized colors using the chalk module",
     "name": "Send Message to Console"
   },
   "send_message_to_twitch_chat_MOD.js": {
@@ -552,151 +552,151 @@
     "name": "Send Message to Twitch Chat"
   },
   "send_stats_to_dbl_MOD.js": {
-    "description": "",
+    "description": "Send statistics to the Discord Bot List website",
     "name": "Sends Stats to DBL"
   },
   "set_afk_channel_MOD.js": {
-    "description": "",
+    "description": "Set an AFK channel in a guild",
     "name": "Set AFK Channel"
   },
   "set_afk_timeout_MOD.js": {
-    "description": "",
+    "description": "Set the AFK timeout in a guild",
     "name": "Set AFK Timeout"
   },
   "set_bot_activity_MOD.js": {
-    "description": "",
+    "description": "Set the bot activity",
     "name": "Set Bot Activity"
   },
   "set_bot_typing_MOD.js": {
-    "description": "",
+    "description": "Set the bot typing to true or false",
     "name": "Bot Typing"
   },
   "set_channel_permissions.js": {
-    "description": "",
+    "description": "Set permissions for a specified channel",
     "name": "Set Channel Permissions"
   },
   "set_embed_footer_MOD.js": {
-    "description": "",
+    "description": "Create a footer on an embed",
     "name": "Set Embed Footer"
   },
   "set_member_voice_channel_perms_MOD.js": {
-    "description": "",
+    "description": "Set voice channel permissions for a member",
     "name": "Set Member Voice Channel Perms"
   },
   "set_permissions_MOD.js": {
-    "description": "",
+    "description": "Set permissions",
     "name": "Set Permissions"
   },
   "set_role_perms_MOD.js": {
-    "description": "",
+    "description": "Set permissions for a specified role",
     "name": "Set Role Permissions"
   },
   "set_role_voice_channel_perms_MOD.js": {
-    "description": "",
+    "description": "Set permissions for a role in a voice channel",
     "name": "Set Role Voice Channel Perms"
   },
   "set_server_owner_MOD.js": {
-    "description": "",
+    "description": "Set server owner",
     "name": "Set Server Owner"
   },
   "set_slowmode_MOD.js": {
-    "description": "",
+    "description": "Set slowmode for a channel",
     "name": "Set slowmode MOD"
   },
   "set_time_restriction_MOD.js": {
-    "description": "",
+    "description": "Set a cooldown for that command/event",
     "name": "Set Time Restriction"
   },
   "set_voice_channel_permissions_MOD.js": {
-    "description": "",
+    "description": "Set permissions for a voice channel",
     "name": "Set Voice Channel Perms"
   },
   "shuffle_queue_MOD.js": {
-    "description": "",
+    "description": "Shuffle a specified queue",
     "name": "Shuffle Queue MOD"
   },
   "skip_actions_MOD.js": {
-    "description": "",
+    "description": "Skip a specified amount of actions in the action sequence",
     "name": "Skip Actions"
   },
   "skip_queue.js": {
-    "description": "",
+    "description": "Skip the queue",
     "name": "Skip Queue"
   },
   "slice_MOD.js": {
-    "description": "",
+    "description": "Slice a string",
     "name": "Slice"
   },
   "speed_test_MOD.js": {
-    "description": "",
+    "description": "Test your internet speed",
     "name": "Speed Test"
   },
   "split_MOD.js": {
-    "description": "",
+    "description": "Split a string",
     "name": "Split"
   },
   "spotify_search_MOD.js": {
-    "description": "",
+    "description": "Search for a song/track/playlist on Spotify and get information based on the findings",
     "name": "Spotify Search"
   },
   "start_rss_feed_MOD.js": {
-    "description": "",
+    "description": "RSS feed",
     "name": "RSS Feed Watcher"
   },
   "stop_bot_MOD.js": {
-    "description": "",
+    "description": "Stop the instance (client)",
     "name": "Stop Bot"
   },
   "stop_rss_feed_MOD.js": {
-    "description": "",
+    "description": "Stop the RSS feed",
     "name": "Stop RSS Feed Watcher"
   },
   "store_attachment_info_MOD.js": {
-    "description": "",
+    "description": "Store information about an attachment",
     "name": "Store Attachment Info"
   },
   "store_audio_info_MOD.js": {
-    "description": "",
+    "description": "Store information about a specified audio",
     "name": "Store Audio Info"
   },
   "store_audit_log_info_MOD.js": {
-    "description": "",
+    "description": "Store information from a server's audit log",
     "name": "Store Audit Log Info MOD"
   },
   "store_audit_log_list_MOD.js": {
-    "description": "",
+    "description": "Store a list pertaining to a server's audit log",
     "name": "Store Audit Log List MOD"
   },
   "store_bot_client_info_MOD.js": {
-    "description": "",
+    "description": "Store information about your bot",
     "name": "Store Bot Client Info"
   },
   "store_category_info_MOD.js": {
-    "description": "",
+    "description": "Store information about a specified category",
     "name": "Store Category Info"
   },
   "store_channel_permissions_MOD.js": {
-    "description": "",
+    "description": "Set permissions for a channel",
     "name": "Store Channel Permissions"
   },
   "store_command_info_MOD.js": {
-    "description": "",
+    "description": "Store information about a command",
     "name": "Store Command Info"
   },
   "store_data_list_MOD.js": {
-    "description": "",
+    "description": "Store a list of data",
     "name": "Store Data List MOD"
   },
   "store_date_info_MOD.js": {
-    "description": "",
+    "description": "Store the current date",
     "name": "Store Date Info"
   },
   "store_date_info_plus_MOD.js": {
-    "description": "",
+    "description": "Store the current data -- more features",
     "name": "Store Date Info Plus"
   },
   "store_emoji_info_MOD.js": {
-    "description": "",
+    "description": "Store information about a specified emoji ",
     "name": "Store Emoji Info"
   },
   "store_file_info_MOD.js": {
@@ -704,63 +704,63 @@
     "name": "Store File Info"
   },
   "store_game_info_MOD.js": {
-    "description": "",
+    "description": "Store information about a game",
     "name": "Store Game Info"
   },
   "store_global_data_MOD.js": {
-    "description": "",
+    "description": "Store data globally",
     "name": "Store Global Data"
   },
   "store_html_from_webpage_MOD.js": {
-    "description": "",
+    "description": "Store HTML from a specified web-page",
     "name": "Store HTML From Webpage"
   },
   "store_invite_info_MOD.js": {
-    "description": "",
+    "description": "Store information about a specified invite",
     "name": "Store Invite Info"
   },
   "store_json_from_webapi_MOD.js": {
-    "description": "",
+    "description": "Store Json from a web api",
     "name": "Store Json From WebAPI"
   },
   "store_message_params_MOD.js": {
-    "description": "",
+    "description": "Store message parameters",
     "name": "Store Message Params"
   },
   "store_permissions_Info_MOD.js": {
-    "description": "",
+    "description": "Store information about permissions",
     "name": "Store Permissions Info"
   },
   "store_reaction_info_MOD.js": {
-    "description": "",
+    "description": "Store information pertaining to a reaction",
     "name": "Store Reaction Info"
   },
   "store_regex_matched_variable_MOD.js": {
-    "description": "",
+    "description": "Store regex matched to a variable",
     "name": "Store Regex Matched Variable"
   },
   "store_role_info.js": {
-    "description": "",
+    "description": "Store information pertaining to a role",
     "name": "Store Role Info"
   },
   "store_twitch_info_MOD.js": {
-    "description": "",
+    "description": "Store information about Twitch",
     "name": "Store Twitch Info"
   },
   "store_utc_time_info_MOD.js": {
-    "description": "",
+    "description": "Store UTC time information",
     "name": "Store UTC Time Info"
   },
   "store_voice_channel_info.js": {
-    "description": "",
+    "description": "Store information about a specified voice channel",
     "name": "Store Voice Channel Info"
   },
   "store_webhook_info_MOD.js": {
-    "description": "",
+    "description": "Store information about a webhook",
     "name": "Store Webhook Info"
   },
   "sync_channel_permissions_MOD.js": {
-    "description": "",
+    "description": "Sync permissions with a channel to its category",
     "name": "Sync Channel Permissions"
   },
   "text_to_speech_MOD.js": {
@@ -768,39 +768,39 @@
     "name": "Text To Speech"
   },
   "translate_MOD.js": {
-    "description": "",
+    "description": "Translate some text",
     "name": "Translate"
   },
   "twitch_authentication_MOD.js": {
-    "description": "",
+    "description": "Authenticate using Twitch",
     "name": "Twitch Authentication"
   },
   "typing_MOD.js": {
-    "description": "",
+    "description": "Set bot typing to trye or false",
     "name": "Bot Typing"
   },
   "un_pin_message_MOD.js": {
-    "description": "",
+    "description": "Un-pin a specified message",
     "name": "Un-Pin Message"
   },
   "urban_dictionary_MOD.js": {
-    "description": "",
+    "description": "Search the Urban Dictionary",
     "name": "Urban Dictionary Search"
   },
   "variable_pattern_MOD.js": {
-    "description": "",
+    "description": "get information on a variable pattern",
     "name": "Variable Pattern MOD"
   },
   "weather_MOD.js": {
-    "description": "",
+    "description": "get the weather information",
     "name": "Weather"
   },
   "youtube_info_MOD.js": {
-    "description": "",
+    "description": "Store information about YouTube",
     "name": "Store YouTube Info"
   },
   "youtube_search_MOD.js": {
-    "description": "",
+    "description": "Search YouTube",
     "name": "YouTube Search"
   }
 }
