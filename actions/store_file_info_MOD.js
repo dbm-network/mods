@@ -70,7 +70,7 @@ Variable name:<br>
     const varName = this.evalMessage(data.varName, cache)
     const filePath = this.evalMessage(data.filePath, cache)
     if (!filePath) {
-      console.log('Insert a file path!')
+      this.displayError('Insert a file path!')
     } else {
       let result
       switch (info) {
