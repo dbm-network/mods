@@ -36,6 +36,7 @@ module.exports = {
     }
     return ([data.varName, dataType])
   },
+  
   html (isEvent, data) {
     return `
 File path (example: <strong>./bot.js</strong>):
