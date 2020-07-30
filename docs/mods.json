@@ -736,7 +736,7 @@
     "name": "Store Role Info"
   },
   "store_shard_info.js": {
-    "description": "",
+    "description": "Shows shard information.",
     "name": "Store Shard Info"
   },
   "store_twitch_info_MOD.js": {
