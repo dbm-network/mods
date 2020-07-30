@@ -3,11 +3,11 @@ module.exports = {
   name: 'Store YouTube Channel Info',
   section: 'Audio Control',
 
-  subtitle: (data) {
+  subtitle (data) {
     return 'Store information about a YouTube channel.'
   },
 
-  variableStorage: function (data, varType) {
+  variableStorage (data, varType) {
     const type = parseInt(data.storage)
     if (type !== varType) return
     const dataType = 'YouTube Channel Info'
@@ -16,92 +16,94 @@ module.exports = {
 
   fields: ['query', 'info', 'storage', 'varName'],
 
-  html: function (isEvent, data) {
+  html (isEvent, data) {
     return `
-      <div style="width: 100%;">
-        YouTube Channel Name:<br>
-        <input id="query" class="round" type="text">
-      </div><br>
-      <div style="padding-top: 8px; width: 60%;">
-        Options:
-        <select id="info" class="round">
-            <option value="0" selected>Channel ID</option>
-            <option value="1">Channel URL</option>
-            <option value="2">Channel Name</option>
-            <option value="3">Channel Description</option>
-            <option value="4">Video Count</option>
-            <option value="5">Total Views Count</option>
-            <option value="6">Subscriber Count</option>
-            <option value="7">Channel Created at</option>
-            <option value="8">Channel Banner</option>
-            <option value="9">Channel Icon</option>
-        </select>
-      </div><br>
-      <div style="padding-top: 8px;">
-        <div style="float: left; width: 35%;">
-          Store In:<br>
-          <select id="storage" class="round">
-            ${data.variables[1]}
-          </select>
-        </div>
-        <div id="varNameContainer" style="float: right; width: 60%;">
-          Variable Name:<br>
-          <input id="varName" class="round" type="text">
-        </div>
-      </div>`
+<div style="width: 100%;">
+  YouTube Channel URL:<br>
+  <input id="query" class="round" type="text">
+</div><br>
+<div style="padding-top: 8px; width: 60%;">
+  Options:
+  <select id="info" class="round">
+    <option value="0" selected>Channel ID</option>
+    <option value="1">Channel Name</option>
+    <option value="2">Channel Creation Date</option>
+    <option value="3">Channel Location</option>
+    <option value="4">Channel Description</option>
+    <option value="5">Subscriber Count</option>
+    <option value="6">View Count</option>
+    <option value="7">Is Family Friendly?</option>
+    <option value="8">Channel Keywords</option>
+   </select>
+</div><br>
+<div style="padding-top: 8px;">
+  <div style="float: left; width: 35%;">
+    Store In:<br>
+    <select id="storage" class="round">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text">
+  </div>
+</div>`
   },
 
-  init: function () { },
+  init () { },
 
-  action: async function (cache) {
-    const data = cache.actions[cache.index];
+  async action (cache) {
+    const data = cache.actions[cache.index]
+    const storage = parseInt(data.storage)
+    const INFO = parseInt(data.info)
+    const varName = this.evalMessage(data.varName, cache)
+    const query = this.evalMessage(data.query, cache)
     const Mods = this.getMods()
-    const fetch = Mods.require('node-fetch')
+    const url = query
     let result = false
-    const storage = parseInt(data.storage);
-    const INFO = parseInt(data.info);
-    const varName = this.evalMessage(data.varName, cache);
-    const query = this.evalMessage(data.query, cache);
-    let base = "https://yt-scraper.eclipseapis.ga/api/v1/channel?q="
-    const url = base + query;
-    const final = fetch(url)
-    const parse = final.json()
+    const ytscrape = Mods.require('yt-scraper')
+    const testresponse = await ytscrape.channelInfo(url)
     switch (INFO) {
       case 0:
-        result = parse.info.id
+        result = testresponse.id
+        dataType = 'YouTube Channel ID'
         break
       case 1:
-         result = parse.info.url
+        result = testresponse.name
+        dataType = 'YouTube Channel Name'
         break
       case 2:
-        result = parse.info.title
+        result = testresponse.joined
+        dataType = 'YouTube Channel Creation Date'
         break
       case 3:
-        result = parse.info.description
+        result = testresponse.location
+        dataType = 'YouTube Channel Location'
         break
       case 4:
-        result = parse.info.videoCount
+        result = testresponse.description
+        dataType = 'YouTube Channel Description'
         break
       case 5:
-        result = parse.stats.views
+        result = testresponse.approx.subscribers
+        dataType = 'Subscriber Count'
         break
       case 6:
-        result = parse.stats.subscribers
+        result = testresponse.approx.views
+        dataType = 'View Count'
         break
       case 7:
-        result = parse.stats.date
+        result = testresponse.privacy.familySafe
         break
       case 8:
-        result = parse.banner
-        break
-      case 9:
-        result = parse.photo_FIXED
+        result = testresponse.keywords
+        dataType = 'YouTube Channel Keywords'
         break
     }
 
-    this.storeValue(result, storage, varName, cache);
-    this.callNextAction(cache);
+    this.storeValue(result, storage, varName, cache)
+    this.callNextAction(cache)
   },
 
-  mod: function (DBM) { },
-};
+  mod () {}
+}
