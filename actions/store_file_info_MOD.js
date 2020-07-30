@@ -5,7 +5,9 @@ module.exports = {
   subtitle (data) {
     return `Store File Info - ${data.info}`
   },
+
   fields: ['filePath', 'info', 'storage', 'varName'],
+
   variableStorage (data, varType) {
     const type = data.storage
     if (type !== varType) return
