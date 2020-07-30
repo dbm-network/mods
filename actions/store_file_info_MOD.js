@@ -9,8 +9,7 @@ module.exports = {
   fields: ['filePath', 'info', 'storage', 'varName'],
 
   variableStorage (data, varType) {
-    const type = data.storage
-    if (type !== varType) return
+    if (data.storage !== varType) return
     const info = data.info
     let dataType = 'Unknown type'
     switch (info) {
