@@ -96,6 +96,6 @@ Variable name:<br>
     }
     this.callNextAction(cache)
   },
-  mod () {
-  }
+
+  mod () {}
 }
