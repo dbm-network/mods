@@ -3,107 +3,107 @@ module.exports = {
   name: 'Store YouTube Channel Info',
   section: 'Audio Control',
 
-  subtitle (data) {
-    return 'Store information about a YouTube channel.'
+  subtitle: function (data) {
+    // Each item corresponds to each switch statement.
+    const info = ['Item 1', 'Item 2', 'Item 3'];
+    // What user sees when previewing actions box on bottom.
+    return `Store information about a YouTube channel.`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    const dataType = 'YouTube Channel Info'
-    return ([data.varName, dataType])
+  variableStorage: function (data, varType) {
+    const type = parseInt(data.storage);
+    if (type !== varType) return;
+    const dataType = 'YouTube Channel Info';
+    return ([data.varName, dataType]);
   },
 
   fields: ['query', 'info', 'storage', 'varName'],
 
-  html (isEvent, data) {
+  html: function (isEvent, data) {
     return `
-<div style="width: 100%;">
-  YouTube Channel URL:<br>
-  <input id="query" class="round" type="text">
-</div><br>
-<div style="padding-top: 8px; width: 60%;">
-  Options:
-  <select id="info" class="round">
-    <option value="0" selected>Channel ID</option>
-    <option value="1">Channel Name</option>
-    <option value="2">Channel Creation Date</option>
-    <option value="3">Channel Location</option>
-    <option value="4">Channel Description</option>
-    <option value="5">Subscriber Count</option>
-    <option value="6">View Count</option>
-    <option value="7">Is Family Friendly?</option>
-    <option value="8">Channel Keywords</option>
-   </select>
-</div><br>
-<div style="padding-top: 8px;">
-  <div style="float: left; width: 35%;">
-    Store In:<br>
-    <select id="storage" class="round">
-      ${data.variables[1]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text">
-  </div>
-</div>`
+      <div style="width: 100%;">
+        YouTube Channel Name:<br>
+        <input id="query" class="round" type="text">
+      </div><br>
+      <div style="padding-top: 8px; width: 60%;">
+        Options:
+        <select id="info" class="round">
+            <option value="0" selected>Channel ID</option>
+            <option value="1">Channel URL</option>
+            <option value="2">Channel Name</option>
+            <option value="3">Channel Description</option>
+            <option value="4">Video Count</option>
+            <option value="5">Total Views Count</option>
+            <option value="6">Subscriber Count</option>
+            <option value="7">Channel Created at</option>
+            <option value="8">Channel Banner</option>
+            <option value="9">Channel Icon</option>
+        </select>
+      </div><br>
+      <div style="padding-top: 8px;">
+        <div style="float: left; width: 35%;">
+          Store In:<br>
+          <select id="storage" class="round">
+            ${data.variables[1]}
+          </select>
+        </div>
+        <div id="varNameContainer" style="float: right; width: 60%;">
+          Variable Name:<br>
+          <input id="varName" class="round" type="text">
+        </div>
+      </div>`;
   },
 
-  init () { },
-
-  async action (cache) {
-    const data = cache.actions[cache.index]
-    const storage = parseInt(data.storage)
-    const INFO = parseInt(data.info)
-    const varName = this.evalMessage(data.varName, cache)
-    const query = this.evalMessage(data.query, cache)
+  init: function () { },
+  
+  action: async function (cache) {
+    const data = cache.actions[cache.index];
     const Mods = this.getMods()
-    const url = query
-    let result = false
-    const ytscrape = Mods.require('yt-scraper')
-    const testresponse = await ytscrape.channelInfo(url)
+    const fetch = Mods.require('node-fetch')
+    const storage = parseInt(data.storage);
+    const INFO = parseInt(data.info);
+    const varName = this.evalMessage(data.varName, cache);
+    const query = this.evalMessage(data.query, cache);
+    let base = "https://yt-scraper.eclipseapis.ga/api/v1/channel?q="
+    const url = base + query;
+    const final = fetch(url)
+    const parse = final.json()
     switch (INFO) {
       case 0:
-        result = testresponse.id
-        dataType = 'YouTube Channel ID'
+        result = parse.info.id
         break
       case 1:
-        result = testresponse.name
-        dataType = 'YouTube Channel Name'
+         result = parse.info.url
         break
       case 2:
-        result = testresponse.joined
-        dataType = 'YouTube Channel Creation Date'
+        result = parse.info.title
         break
       case 3:
-        result = testresponse.location
-        dataType = 'YouTube Channel Location'
+        result = parse.info.description
         break
       case 4:
-        result = testresponse.description
-        dataType = 'YouTube Channel Description'
+        result = parse.info.videoCount
         break
       case 5:
-        result = testresponse.approx.subscribers
-        dataType = 'Subscriber Count'
+        result = parse.stats.views
         break
       case 6:
-        result = testresponse.approx.views
-        dataType = 'View Count'
+        result = parse.stats.subscribers
         break
       case 7:
-        result = testresponse.privacy.familySafe
+        result = parse.stats.date
         break
       case 8:
-        result = testresponse.keywords
-        dataType = 'YouTube Channel Keywords'
+        result = parse.banner
+        break
+      case 9:
+        result = parse.photo_FIXED
         break
     }
 
-    this.storeValue(result, storage, varName, cache)
-    this.callNextAction(cache)
+    this.storeValue(result, storage, varName, cache);
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod: function (DBM) { },
+};
