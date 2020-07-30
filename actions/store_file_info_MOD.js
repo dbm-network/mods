@@ -58,7 +58,9 @@ Store in:<br>
 Variable name:<br>
 <input class='round' id='varName' />`
   },
+
   init () {},
+
   action (cache) {
     const data = cache.actions[cache.index]
     const storage = parseInt(data.storage)
