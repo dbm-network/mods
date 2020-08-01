@@ -15,7 +15,7 @@ module.exports = {
   fields: ['input', 'info', 'storage', 'varName'],
 
   html: function (isEvent, data) {
-  return `
+    return `
       <div style="width: 90%;">
         Text or Morse Code:<br>
         <input id="input" class="round" type="text">
@@ -41,28 +41,28 @@ module.exports = {
       </div>`
   },
 
-      init: function () {},
+  init: function () {},
 
-    action: function (cache) {
-      const data = cache.actions[cache.index]
-      const Mods = this.getMods()
-      const morsify = Mods.require('morsify')
-      const storage = parseInt(data.storage)
-      const INFO = parseInt(data.info)
-      const varName = this.evalMessage(data.varName, cache)
-      const input = this.evalMessage(data.input, cache)
-      let result = 0
-      switch (INFO) {
-          case 0:
-              result = morsify.encode(input)
-              break
-          case 1:
-              result = morsify.decode(input)
-              break
+  action: function (cache) {
+    const data = cache.actions[cache.index]
+    const Mods = this.getMods()
+    const morsify = Mods.require('morsify')
+    const storage = parseInt(data.storage)
+    const INFO = parseInt(data.info)
+    const varName = this.evalMessage(data.varName, cache)
+    const input = this.evalMessage(data.input, cache)
+    let result = 0
+    switch (INFO) {
+        case 0:
+            result = morsify.encode(input)
+            break
+        case 1:
+            result = morsify.decode(input)
+            break
       }
-      this.storeValue(result, storage, varName, cache)
-      this.callNextAction(cache)
-      },
+    this.storeValue(result, storage, varName, cache)
+    this.callNextAction(cache)
+    },
 
-    mod: function (DBM) {}
-  }
+  mod: function (DBM) {}
+}
