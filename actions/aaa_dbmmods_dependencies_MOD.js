@@ -282,10 +282,10 @@ const Mods = {
   // CSV Parser
   // RigidStudios
   CSV = {
-    canceler = '"'
-    divider = ','
+    canceler = '"',
+    divider = ',',
 
-    fs = require('fs')
+    fs = require('fs'),
 
     walkLine (line) {
       const chars = line.split('')
@@ -309,7 +309,7 @@ const Mods = {
         if (!(chars.length > i + 1)) columns.push(currentString)
       })
       return columns
-    }
+    },
 
     parse (string) {
       string = string.split('\n')
