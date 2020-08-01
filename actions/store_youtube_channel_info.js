@@ -5,7 +5,7 @@ module.exports = {
   section: 'YouTube Tools',
 
   subtitle: function (data) {
-    return `Store a YouTube channel's information.`
+    return 'Store a YouTube channel's information.'
   },
 
   variableStorage: function (data, varType) {
@@ -61,7 +61,7 @@ module.exports = {
     const Mods = this.getMods()
     const ytch = Mods.require('yt-channel-info')
     let result = 0
- 
+
     const maininfo = await ytch.getChannelInfo(channelId)
 
     switch (info) {
@@ -88,8 +88,8 @@ module.exports = {
         break
     }
 
-    this.storeValue(result, storage, varName, cache);
-    this.callNextAction(cache);
+    this.storeValue(result, storage, varName, cache)
+    this.callNextAction(cache)
   },
 
   mod: function (DBM) {}
