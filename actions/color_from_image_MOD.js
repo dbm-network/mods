@@ -58,7 +58,7 @@ module.exports = {
         try {
           const RGB = await getColorFromURL(url)
           result = `#${rgbToHex(RGB.join(', '))}`
-        } catch (error) {
+        } catch (_) {
           result = undefined
         }
         break
