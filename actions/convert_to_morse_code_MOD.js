@@ -1,21 +1,19 @@
 module.exports = {
-	
 	name: 'Morse Code',
 	section: 'Other Stuff.',
-  
 	subtitle: function (data) {
 	  return `Convert To Morse Code`
 	},
-  
+
 	variableStorage: function (data, varType) {
 	  const type = parseInt(data.storage)
 	  if (type !== varType) return
 	  const dataType = 'Morse Code'
 	  return ([data.varName, dataType])
 	},
-  
+
 	fields: ['input', 'info', 'storage', 'varName'],
-  
+
 	html: function (isEvent, data) {
 	  return `
 	  <div style="width: 90%;">
@@ -42,12 +40,9 @@ module.exports = {
 		</div>
 	  </div>`
 		},
-  
 
-  
-	init: function () {},
- 
-  
+  	init: function () {},
+
 	action: function (cache) {
 	  const data = cache.actions[cache.index]
 	  const Mods = this.getMods()
@@ -68,7 +63,7 @@ module.exports = {
 	  this.storeValue(result, storage, varName, cache)
 	  this.callNextAction(cache)
 	  },
-  
+
 	mod: function (DBM) {}
   }
-  
+ 
