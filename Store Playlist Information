@@ -131,8 +131,8 @@ module.exports = {
     const names = await ytlist(url, 'name')
     const namelist = JSON.stringify(names);
 
-    const data = await ytlist(url, ['id', 'name', 'url'])
-    const datalist = JSON.stringify(data);
+    const datas = await ytlist(url, ['id', 'name', 'url'])
+    const datalist = JSON.stringify(datas);
 
     const durationis = await ytlist(url, 'duration')
     const durationlist = JSON.stringify(durationis);
