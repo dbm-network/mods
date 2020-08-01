@@ -22,7 +22,7 @@ module.exports = {
   // ---------------------------------------------------------------------
 
   subtitle: function (data) {
-    return `Retrieve all videos from a YouTube channel.`
+    return 'Retrieve all videos from a YouTube channel.'
   },
 
   // ---------------------------------------------------------------------
@@ -107,18 +107,18 @@ module.exports = {
     const data = cache.actions[cache.index]
     const storage = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
-    const id= this.evalMessage(data.id, cache)
+    const id = this.evalMessage(data.id, cache)
     const Mods = this.getMods()
     const ytch = Mods.require('yt-channel-info')
     const channelId = id
     const sortBy = 'newest'
- 
+
     const videos = await ytch.getChannelVideos(channelId, sortBy)
     const items = videos.items
-    const finalizedresults = JSON.stringify(items);
+    const finalizedresults = JSON.stringify(items)
 
-    this.storeValue(finalizedresults, storage, varName, cache);
-    this.callNextAction(cache);
+    this.storeValue(finalizedresults, storage, varName, cache)
+    this.callNextAction(cache)
   },
   // ---------------finalresults--------------------------------------------------
   // Action Bot Mod
@@ -130,5 +130,5 @@ module.exports = {
   // ---------------------------------------------------------------------
 
   mod: function (DBM) {}
-  
+
 }
