@@ -1,19 +1,12 @@
 module.exports = {
 
-
   name: 'Store YouTube Channel Info',
 
-
-
   section: 'YouTube Tools',
-
-
 
   subtitle: function (data) {
     return `Store a YouTube channel's information.`
   },
-
-
 
   variableStorage: function (data, varType) {
     const type = parseInt(data.storage)
@@ -22,11 +15,7 @@ module.exports = {
     return ([data.varName, dataType])
   },
 
-
-
   fields: ['query', 'info', 'storage', 'varName'],
-
-
 
   html: function (isEvent, data) {
     return `
@@ -60,11 +49,7 @@ module.exports = {
 </div>`
   },
 
-
-
   init: function () {},
-
-
 
   action: async function (cache) {
     const data = cache.actions[cache.index]
@@ -75,6 +60,7 @@ module.exports = {
     const channelId = query
     const Mods = this.getMods()
     const ytch = Mods.require('yt-channel-info')
+    let result = 0
  
     const maininfo = await ytch.getChannelInfo(channelId)
 
@@ -105,8 +91,6 @@ module.exports = {
     this.storeValue(result, storage, varName, cache);
     this.callNextAction(cache);
   },
-
-
 
   mod: function (DBM) {}
 }
