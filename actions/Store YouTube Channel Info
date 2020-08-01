@@ -13,7 +13,7 @@ module.exports = {
   // This is the section the action will fall into.
   // ---------------------------------------------------------------------
 
-  section: 'Audio Control',
+  section: 'Other Stuff',
 
   // ---------------------------------------------------------------------
   // Action Subtitle
@@ -22,9 +22,6 @@ module.exports = {
   // ---------------------------------------------------------------------
 
   subtitle: function (data) {
-    // Each item corresponds to each switch statement.
-    const info = ['Item 1', 'Item 2', 'Item 3']
-    // What user sees when previewing actions box on bottom.
     return `Store a YouTube channel's information.`
   },
 
@@ -123,10 +120,8 @@ module.exports = {
     const varName = this.evalMessage(data.varName, cache)
     const query = this.evalMessage(data.query, cache)
     const info = parseInt(data.info)
-    const id = query
-    let result = 7
-    const channelId = id
-    const ytch = require('yt-channel-info')
+    const channelId = query
+    const ytch = Mods.require('yt-channel-info')
  
     const maininfo = await ytch.getChannelInfo(channelId)
 
