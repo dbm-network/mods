@@ -121,6 +121,7 @@ module.exports = {
     const query = this.evalMessage(data.query, cache)
     const info = parseInt(data.info)
     const channelId = query
+    const Mods = this.getMods()
     const ytch = Mods.require('yt-channel-info')
  
     const maininfo = await ytch.getChannelInfo(channelId)
