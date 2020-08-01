@@ -247,7 +247,7 @@ module.exports = {
               try {
                 // eslint-disable-next-line no-eval
                 result = !!eval(Con4)
-              } catch {}
+              } catch (_) {}
               return result
             })
           }
