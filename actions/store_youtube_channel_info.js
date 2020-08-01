@@ -5,7 +5,7 @@ module.exports = {
   section: 'YouTube Tools',
 
   subtitle: function (data) {
-    return 'Store a YouTube channel's information.'
+    return 'Store information about a YouTube channel.'
   },
 
   variableStorage: function (data, varType) {
