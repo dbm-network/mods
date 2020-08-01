@@ -6,7 +6,7 @@ const Mods = {
       require('child_process').execSync(`npm i ${moduleName}`)
       try {
         resolve(require(moduleName))
-      } catch {
+      } catch (_) {
         console.log(`Failed to Install ${moduleName}, please re-try or install manually with "npm i ${moduleName}"`)
       }
     })
@@ -15,7 +15,7 @@ const Mods = {
   require (moduleName) {
     try {
       return require(moduleName)
-    } catch (e) {
+    } catch (_) {
       this.installModule(moduleName)
       return require(moduleName)
     }
@@ -27,7 +27,7 @@ const Mods = {
     try {
       new URL(url)
       return true
-    } catch {
+    } catch (_) {
       return false
     }
   },
