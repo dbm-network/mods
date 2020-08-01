@@ -1,9 +1,9 @@
 module.exports = {
-	name: 'Morse Code',
-	section: 'Other Stuff.',
-	subtitle: function (data) {
-	  return `Convert To Morse Code`
-	},
+  name: 'Morse Code',
+  section: 'Other Stuff.',
+  subtitle: function (data) {
+	return `Convert To Morse Code`
+  },
 
 	variableStorage: function (data, varType) {
 	  const type = parseInt(data.storage)
@@ -66,4 +66,3 @@ module.exports = {
 
 	mod: function (DBM) {}
   }
- 
