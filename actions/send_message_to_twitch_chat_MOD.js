@@ -40,7 +40,7 @@ Message to send:<br>
         secure: true
       },
       identity: {
-        username: username,
+        username,
         password: oAuth
       },
       channels: [channelToSendTo]

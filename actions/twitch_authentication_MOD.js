@@ -2,7 +2,7 @@ module.exports = {
   name: 'Twitch Authentication',
   section: 'Other Stuff',
 
-  subtitle: function (data) {
+  subtitle (data) {
     if (data.client_id) {
       return `Authentication for client id : ${data.client_id}`
     } else {
@@ -10,7 +10,7 @@ module.exports = {
     }
   },
 
-  variableStorage: function (data, varType) {
+  variableStorage (data, varType) {
     const type = parseInt(data.storage)
     if (type !== varType) return
     let dataType
@@ -30,7 +30,7 @@ module.exports = {
 
   fields: ['client_id', 'client_secret', 'info', 'storage', 'varName', 'debug'],
 
-  html: function (isEvent, data) {
+  html (isEvent, data) {
     return `
 <div style="padding-top: 8px;">
   <div style="float: left; width: 104%;">
@@ -69,9 +69,9 @@ module.exports = {
 <input style="display: none" id="debug" value="true">`
   },
 
-  init: function () {},
+  init () {},
 
-  action: async function (cache) {
+  async action (cache) {
     const data = cache.actions[cache.index]
     const Mods = this.getMods()
     const fetch = Mods.require('node-fetch')
@@ -122,5 +122,5 @@ module.exports = {
     }
   },
 
-  mod: function () {}
+  mod () {}
 }
