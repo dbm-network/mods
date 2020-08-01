@@ -206,7 +206,7 @@ module.exports = {
         try {
           // eslint-disable-next-line no-eval
           return !!eval(js)
-        } catch {
+        } catch (_) {
           return false
         }
       }, {
