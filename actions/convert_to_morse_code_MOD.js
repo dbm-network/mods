@@ -9,13 +9,13 @@ module.exports = {
     const type = parseInt(data.storage)
     if (type !== varType) return
     const dataType = 'Morse Code'
-      return ([data.varName, dataType])
-    },
+    return ([data.varName, dataType])
+  },
 
-    fields: ['input', 'info', 'storage', 'varName'],
+  fields: ['input', 'info', 'storage', 'varName'],
 
-    html: function (isEvent, data) {
-      return `
+  html: function (isEvent, data) {
+  return `
       <div style="width: 90%;">
         Text or Morse Code:<br>
         <input id="input" class="round" type="text">
@@ -39,17 +39,17 @@ module.exports = {
           <input id="varName" class="round" type="text">
         </div>
       </div>`
-        },
+  },
 
       init: function () {},
 
     action: function (cache) {
       const data = cache.actions[cache.index]
       const Mods = this.getMods()
-      const morsify = Mods.require('morsify');
-      const storage = parseInt(data.storage);
-      const INFO = parseInt(data.info);
-      const varName = this.evalMessage(data.varName, cache);
+      const morsify = Mods.require('morsify')
+      const storage = parseInt(data.storage)
+      const INFO = parseInt(data.info)
+      const varName = this.evalMessage(data.varName, cache)
       const input = this.evalMessage(data.input, cache)
       let result = 0
       switch (INFO) {
