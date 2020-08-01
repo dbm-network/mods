@@ -13,7 +13,7 @@ module.exports = {
   // This is the section the action will fall into.
   // ---------------------------------------------------------------------
 
-  section: 'Other Stuff',
+  section: 'YouTube Tools',
 
   // ---------------------------------------------------------------------
   // Action Subtitle
