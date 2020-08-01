@@ -6,7 +6,7 @@ const Mods = {
       require('child_process').execSync(`npm i ${moduleName}`)
       try {
         resolve(require(moduleName))
-      } catch {
+      } catch (e) {
         console.log(`Failed to Install ${moduleName}, please re-try or install manually with "npm i ${moduleName}"`)
       }
     })
@@ -277,6 +277,54 @@ const Mods = {
         break
     }
     return false
+  },
+
+  // CSV Parser
+  // RigidStudios
+  CSV = {
+    canceler = '"'
+    divider = ','
+
+    fs = require('fs')
+
+    walkLine (line) {
+      const chars = line.split('')
+      // Contents of each column
+      const columns = []
+      let currentString = ''
+      chars.forEach((char, i) => {
+        if (char === this.divider) {
+          // Check whether encapsulated.
+          if (!((chars[i-1]===this.canceler && chars[i+1]===this.canceler))) {
+            // If not, Add to contents.
+            columns.push(currentString)
+            currentString = ''
+            return
+          } else {
+            currentString += char
+          }
+        } else {
+          currentString += char
+        }
+        if (!(chars.length > i + 1)) columns.push(currentString)
+      })
+      return columns
+    }
+
+    parse (string) {
+      string = string.split('\n')
+      const titles = this.walkLine(string[0])
+      const obj = {}
+      obj.lines = [titles]
+      for (let i = 1; i < string.length; i++) {
+        const result = this.walkLine(string[i])
+        if (result.length !== titles.length) {
+          return new Error(`CSV Invalid (l. ${i + 1})`)
+        };
+        obj.columns.push(result)
+      }
+      return obj;
+    }
   },
 
   setupMusic (DBM) {
