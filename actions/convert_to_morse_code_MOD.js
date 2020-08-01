@@ -53,16 +53,16 @@ module.exports = {
     const input = this.evalMessage(data.input, cache)
     let result = 0
     switch (INFO) {
-        case 0:
-            result = morsify.encode(input)
-            break
-        case 1:
-            result = morsify.decode(input)
-            break
+      case 0:
+        result = morsify.encode(input)
+        break
+      case 1:
+        result = morsify.decode(input)
+        break
       }
     this.storeValue(result, storage, varName, cache)
     this.callNextAction(cache)
-    },
+  },
 
   mod: function (DBM) {}
 }
