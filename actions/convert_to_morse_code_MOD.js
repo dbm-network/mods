@@ -59,7 +59,7 @@ module.exports = {
       case 1:
         result = morsify.decode(input)
         break
-      }
+    }
     this.storeValue(result, storage, varName, cache)
     this.callNextAction(cache)
   },
