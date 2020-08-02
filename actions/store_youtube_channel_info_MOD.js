@@ -1,7 +1,5 @@
 module.exports = {
-
   name: 'Store YouTube Channel Info',
-
   section: 'YouTube Tools',
 
   subtitle: function (data) {
