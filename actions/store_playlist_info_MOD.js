@@ -47,9 +47,9 @@ module.exports = {
 </div>`
   },
   
-  init: () {},
+  init () {},
 
-  action async function (cache) {
+  action: async function (cache) {
     const data = cache.actions[cache.index]
     const storage = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
