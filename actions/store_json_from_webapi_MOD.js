@@ -57,7 +57,7 @@ module.exports = {
   <div style="float: left; width: 70%;"><br>
     <div>
       <label for="reUse"><font color="white">Re-Use Previously Stored</font></label>
-      <select id="reUse" class="round">
+      <select id="reUse" class="round" onchange="glob.disallowAlert(this)">
         <option value="1" selected>Allow</option>
         <option value="0">Disallow</option>
       </select>
@@ -88,7 +88,13 @@ module.exports = {
         document.getElementById('showAuth').value = element.checked ? '1' : '0'
       }
     }
-
+    
+    glob.disallowAlert (element) {
+      if (element.value == "0") {
+        alert("Disabling this could lead to you being banned or rate limited by APIs, please be careful.")
+      }
+    }
+    
     glob.checkBox(document.getElementById('toggleAuth'), 'auth')
   },
 
