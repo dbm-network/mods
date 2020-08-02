@@ -89,7 +89,7 @@ module.exports = {
       }
     }
     
-    glob.disallowAlert (element) {
+    glob.disallowAlert = function (element) {
       if (element.value == "0") {
         alert("Disabling this could lead to you being banned or rate limited by APIs, please be careful.")
       }
