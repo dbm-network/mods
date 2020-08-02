@@ -8,7 +8,7 @@ module.exports = {
     return 'Store YouTube playlist information.'
   },
   
-  variableStorage: (data, varType) {
+  variableStorage (data, varType) {
     const type = parseInt(data.storage)
     if (type !== varType) return
     const dataType = 'Playlist Info'
