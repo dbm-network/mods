@@ -88,13 +88,14 @@ module.exports = {
         document.getElementById('showAuth').value = element.checked ? '1' : '0'
       }
     }
-    
+
     glob.disallowAlert = function (element) {
-      if (element.value == "0") {
-        alert("Disabling this could lead to you being banned or rate limited by APIs, please be careful.")
+      if (element.value === '0') {
+        // eslint-disable-next-line no-undef
+        alert('Disabling this could lead to you being banned or rate limited by APIs, please be careful.')
       }
     }
-    
+
     glob.checkBox(document.getElementById('toggleAuth'), 'auth')
   },
 
