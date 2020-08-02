@@ -4,10 +4,9 @@ module.exports = {
   section: 'YouTube Tools',
 
   subtitle (data) {
-    const INFO = ['Item 1', 'Item 2', 'Item 3']
     return 'Store YouTube playlist information.'
   },
-  
+
   variableStorage (data, varType) {
     const type = parseInt(data.storage)
     if (type !== varType) return
@@ -46,10 +45,10 @@ module.exports = {
   </div>
 </div>`
   },
-  
+
   init () {},
 
-  action: async function (cache) {
+  action async (cache) {
     const data = cache.actions[cache.index]
     const storage = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
@@ -77,19 +76,19 @@ module.exports = {
     switch (INFO) {
       case 0:
         result = datalist
-        break;
+        break
       case 1:
         result = urllist
-        break;
+        break
       case 2:
         result = namelist
-        break;
+        break
       case 3:
         result = durationlist
-        break;
+        break
       case 4:
         result = idlist
-        break;
+        break
     }
 
     this.storeValue(result, storage, varName, cache)
