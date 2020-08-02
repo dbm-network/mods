@@ -1,5 +1,4 @@
 module.exports = {
-
   name: 'Store Playlist Info',
   section: 'YouTube Tools',
 
