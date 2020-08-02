@@ -3,7 +3,7 @@ module.exports = {
   name: 'Store Playlist Info',
   section: 'YouTube Tools',
 
-  subtitle: (data) {
+  subtitle (data) {
     const INFO = ['Item 1', 'Item 2', 'Item 3']
     return 'Store YouTube playlist information.'
   },
@@ -17,7 +17,7 @@ module.exports = {
 
   fields: ['query', 'info', 'storage', 'varName'],
 
-  html: (isEvent, data) {
+  html (isEvent, data) {
     return `
 <div style="width: 90%;">
   Playlist URL:<br>
@@ -49,7 +49,7 @@ module.exports = {
   
   init: () {},
 
-  action: async function (cache) {
+  action async function (cache) {
     const data = cache.actions[cache.index]
     const storage = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
@@ -96,5 +96,5 @@ module.exports = {
     this.callNextAction(cache)
   },
 
-  mod: (DBM) {}
+  mod (DBM) {}
 }
