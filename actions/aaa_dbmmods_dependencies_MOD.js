@@ -27,7 +27,7 @@ const Mods = {
     try {
       new URL(url)
       return true
-    } catch {
+    } catch (e) {
       return false
     }
   },
@@ -281,12 +281,10 @@ const Mods = {
 
   // CSV Parser
   // RigidStudios
-  CSV = {
-    canceler = '"',
-    divider = ',',
-
-    fs = require('fs'),
-
+  CSV: {
+    canceler: '"',
+    divider: ',',
+    fs: require('fs'),
     walkLine (line) {
       const chars = line.split('')
       // Contents of each column
