@@ -1,13 +1,11 @@
-const { appendFileSync, readdirSync, writeFileSync } = require('fs')
-
-writeFileSync('master.json', '{\n')
+const { readdirSync, writeFileSync } = require('fs')
 
 const files = readdirSync('../actions')
+const mods = {}
 
 for (const file of files) {
-  const isLast = files.indexOf(file) === files.length - 1
-  const content = `  "${file}": {\n    "description": "",\n    "name": "${require(`../actions/${file}`).name}"\n  }${!isLast ? ',' : ''}\n`
-  appendFileSync('master.json', content)
+  const { name, section } = require(`../actions/${file}`)
+  mods[file] = { description: '', name, section }
 }
 
-appendFileSync('master.json', '}')
+writeFileSync('mods.json', JSON.stringify(mods, null, 2))
