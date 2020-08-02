@@ -23,9 +23,9 @@ module.exports = {
 
   subtitle: function (data) {
     // Each item corresponds to each switch statement.
-    const info = ['Item 1', 'Item 2', 'Item 3']
+    const INFO = ['Item 1', 'Item 2', 'Item 3']
     // What user sees when previewing actions box on bottom.
-    return `Store YouTube playlist information.`
+    return 'Store YouTube playlist information.'
   },
 
   // ---------------------------------------------------------------------
@@ -116,29 +116,29 @@ module.exports = {
   // ---------------------------------------------------------------------
 
   action: async function (cache) {
-    const data = cache.actions[cache.index];
-    const storage = parseInt(data.storage);
-    const varName = this.evalMessage(data.varName, cache);
-    const query = this.evalMessage(data.query, cache);
-    const INFO = parseInt(data.info);
+    const data = cache.actions[cache.index]
+    const storage = parseInt(data.storage)
+    const varName = this.evalMessage(data.varName, cache)
+    const query = this.evalMessage(data.query, cache)
+    const INFO = parseInt(data.info)
     const ytlist = require('youtube-playlist')
     const url = query
-    let result = 6
+    let result = 5
 
     const urls = await ytlist(url, 'url')
-    const urllist = JSON.stringify(urls);
+    const urllist = JSON.stringify(urls)
 
     const names = await ytlist(url, 'name')
-    const namelist = JSON.stringify(names);
+    const namelist = JSON.stringify(names)
 
     const datas = await ytlist(url, ['id', 'name', 'url'])
-    const datalist = JSON.stringify(datas);
+    const datalist = JSON.stringify(datas)
 
     const durationis = await ytlist(url, 'duration')
-    const durationlist = JSON.stringify(durationis);
+    const durationlist = JSON.stringify(durationis)
 
     const ids = await ytlist(url, 'id')
-    const idlist = JSON.stringify(ids);
+    const idlist = JSON.stringify(ids)
 
     switch (INFO) {
       case 0:
@@ -158,8 +158,8 @@ module.exports = {
         break;
     }
 
-    this.storeValue(result, storage, varName, cache);
-    this.callNextAction(cache);
+    this.storeValue(result, storage, varName, cache)
+    this.callNextAction(cache)
   },
 
   // ---------------------------------------------------------------------
