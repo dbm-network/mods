@@ -293,7 +293,7 @@ const Mods = {
       chars.forEach((char, i) => {
         if (char === this.divider) {
           // Check whether encapsulated.
-          if (!((chars[i-1]===this.canceler && chars[i+1]===this.canceler))) {
+          if (!((chars[i - 1] === this.canceler && chars[i + 1] === this.canceler))) {
             // If not, Add to contents.
             columns.push(currentString)
             currentString = ''
@@ -321,7 +321,7 @@ const Mods = {
         };
         obj.columns.push(result)
       }
-      return obj;
+      return obj
     }
   },
 
