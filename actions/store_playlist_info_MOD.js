@@ -8,10 +8,8 @@ module.exports = {
   },
 
   variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    const dataType = 'Playlist Info'
-    return ([data.varName, dataType])
+    if (parseInt(data.storage) !== varType) return
+    return ([data.varName, 'Playlist Info'])
   },
 
   fields: ['query', 'info', 'storage', 'varName'],
@@ -58,35 +56,30 @@ module.exports = {
     const url = query
     let result = 5
 
-    const urls = await ytlist(url, 'url')
-    const urllist = JSON.stringify(urls)
-
-    const names = await ytlist(url, 'name')
-    const namelist = JSON.stringify(names)
-
-    const datas = await ytlist(url, ['id', 'name', 'url'])
-    const datalist = JSON.stringify(datas)
-
-    const durationis = await ytlist(url, 'duration')
-    const durationlist = JSON.stringify(durationis)
-
-    const ids = await ytlist(url, 'id')
-    const idlist = JSON.stringify(ids)
-
     switch (INFO) {
       case 0:
+        const datas = await ytlist(url, ['id', 'name', 'url'])
+        const datalist = JSON.stringify(datas)
         result = datalist
         break
       case 1:
+        const urls = await ytlist(url, 'url')
+        const urllist = JSON.stringify(urls)
         result = urllist
         break
       case 2:
+        const names = await ytlist(url, 'name')
+        const namelist = JSON.stringify(names)
         result = namelist
         break
       case 3:
+        const durationis = await ytlist(url, 'duration')
+        const durationlist = JSON.stringify(durationis)
         result = durationlist
         break
       case 4:
+        const ids = await ytlist(url, 'id')
+        const idlist = JSON.stringify(ids)
         result = idlist
         break
     }
@@ -95,5 +88,5 @@ module.exports = {
     this.callNextAction(cache)
   },
 
-  mod (DBM) {}
+  mod () {}
 }
