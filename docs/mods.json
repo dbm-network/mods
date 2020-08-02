@@ -579,6 +579,11 @@
     "name": "Randomize Letters",
     "section": "Other Stuff"
   },
+  "read_CSV_MOD.js": {
+    "description": "Read data from a spreadsheet (CSV) file",
+    "name": "Read Spreadsheet",
+    "section": "Spreadsheet Stuff"
+  }
   "read_file_MOD.js": {
     "description": "Read a specific file",
     "name": "Read File",
