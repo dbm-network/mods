@@ -3,6 +3,7 @@
 **Status**
 
 - [ ] Code changes have been tested against the Discord API and the discord.js wrapper, or there are no code changes
+- [ ] Documentation has been added/modified, or there is nothing to change (docs/mods.json)
 
 **Semantic versioning classification:**
 

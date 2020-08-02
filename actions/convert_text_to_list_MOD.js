@@ -19,7 +19,7 @@ module.exports = {
     return `
 <div>
   <div style="float: left; width: 35%;">
-    Source Image:<br>
+    Source Text:<br>
     <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
       ${data.variables[1]}
     </select><br>

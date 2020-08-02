@@ -2,7 +2,7 @@ module.exports = {
   name: 'Store Twitch Info',
   section: 'Other Stuff',
 
-  subtitle: function (data) {
+  subtitle (data) {
     const sourceType = parseInt(data.type) // "Channel", "Stream", "Video" or "Game"
     const inputType = parseInt(data.inputtype) // "ID" or "Name"
 
@@ -80,7 +80,7 @@ module.exports = {
     return `Get "${infoList1[parseInt(infoNum1)]}" ${infoList2[parseInt(infoNum2)]}`
   },
 
-  variableStorage: function (data, varType) {
+  variableStorage (data, varType) {
     const type = parseInt(data.storage)
     const sourceType = parseInt(data.type) // "Channel", "Stream", "Video" or "Game"
     if (type !== varType) return
@@ -161,7 +161,7 @@ module.exports = {
 
   fields: ['wrexdiv', 'type', 'divinputtype', 'inputtype', 'divinput', 'input', 'divinfo1', 'info1', 'divinfo2', 'info2', 'divinfo3', 'info3', 'divinfo4', 'info4', 'clientid', 'token', 'results', 'divresults', 'storage', 'varName', 'cache'],
 
-  html: function (isEvent, data) {
+  html (isEvent, data) {
     return `
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
   <div style="float: left; width: 42%;">
@@ -323,7 +323,7 @@ module.exports = {
 </style>`
   },
 
-  init: function () {
+  init () {
     const { glob, document } = this
 
     try {
@@ -555,7 +555,7 @@ module.exports = {
     glob.variableChange(document.getElementById('storage'), 'varNameContainer')
   },
 
-  action: async function (cache) {
+  async action (cache) {
     const data = cache.actions[cache.index]
     const Mods = this.getMods()
     const fetch = Mods.require('node-fetch')
@@ -860,6 +860,6 @@ module.exports = {
     }
   },
 
-  mod: function () {}
+  mod () {}
 
 }
