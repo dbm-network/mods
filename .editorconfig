@@ -1,6 +1,7 @@
 root = true
 
 [*]
+<<<<<<< HEAD
 indent_style = tab
 indent_size = 4
 insert_final_newline = true
@@ -16,3 +17,11 @@ indent_size = 2
 [package.json]
 indent_style = space
 indent_size = 2
+=======
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+charset = utf-8
+end_of_line = crlf
+trim_trailing_whitespace = true
+>>>>>>> cbdbc6039136b7b39ebc9fcaaf43cdecb1598001

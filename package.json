@@ -1,12 +1,18 @@
 {
-  "name": "dbm-events",
-  "repository": "https://github.com/dbm-network/events",
+  "name": "mods",
+  "repository": "https://github.com/dbm-network/mods",
   "private": true,
   "license": "MIT",
   "scripts": {
-    "lint": "eslint events --fix"
+    "lint": "eslint actions",
+    "lint:fix": "eslint actions --fix"
   },
   "devDependencies": {
-    "eslint": "^7.2.0"
+    "eslint": "^6.8.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1"
   }
 }

@@ -1,11 +1,20 @@
 env:
+<<<<<<< HEAD
   es6: true
   node: true
 extends: eslint:recommended
+=======
+  commonjs: true
+  es6: true
+  node: true
+extends:
+  - standard
+>>>>>>> cbdbc6039136b7b39ebc9fcaaf43cdecb1598001
 globals:
   Atomics: readonly
   SharedArrayBuffer: readonly
 parserOptions:
+<<<<<<< HEAD
   ecmaVersion: 2020
 rules:
   arrow-parens:
@@ -57,3 +66,18 @@ rules:
     - error
     - never
   space-in-parens: error
+=======
+  ecmaVersion: 2019
+rules:
+  linebreak-style:
+    - error
+    - windows
+  object-shorthand:
+    - error
+    - always
+  no-case-declarations: off
+  no-new: off
+  no-prototype-builtins: off
+  no-useless-constructor: off
+  prefer-promise-reject-errors: off
+>>>>>>> cbdbc6039136b7b39ebc9fcaaf43cdecb1598001
