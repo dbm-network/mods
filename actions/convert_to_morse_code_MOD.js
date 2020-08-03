@@ -1,44 +1,43 @@
 module.exports = {
   name: 'Morse Code',
   section: 'Other Stuff.',
+  
   subtitle (data) {
     return 'Convert To Morse Code'
   },
 
   variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    const dataType = 'Morse Code'
-    return ([data.varName, dataType])
+    if (parseInt(data.storage) !== varType) return
+    return ([data.varName, 'Morse Code'])
   },
 
   fields: ['input', 'info', 'storage', 'varName'],
 
   html (isEvent, data) {
     return `
-      <div style="width: 90%;">
-        Text or Morse Code:<br>
-        <input id="input" class="round" type="text">
-      </div><br>
-      <div style="padding-top: 8px; width: 60%;">
-        Options:
-        <select id="info" class="round">
-        <option value="0" selected>Encode</option>
-        <option value="1">Decode</option>
-        </select>
-        </div><br>
-      <div style="padding-top: 8px;">
-        <div style="float: left; width: 35%;">
-          Store In:<br>
-          <select id="storage" class="round">
-            ${data.variables[1]}
-          </select>
-        </div>
-        <div id="varNameContainer" style="float: right; width: 60%;">
-          Variable Name:<br>
-          <input id="varName" class="round" type="text">
-        </div>
-      </div>`
+<div style="width: 90%;">
+  Text or Morse Code:<br>
+  <input id="input" class="round" type="text">
+</div><br>
+<div style="padding-top: 8px; width: 60%;">
+  Options:
+  <select id="info" class="round">
+    <option value="0" selected>Encode</option>
+    <option value="1">Decode</option>
+  </select>
+</div><br>
+<div style="padding-top: 8px;">
+  <div style="float: left; width: 35%;">
+    Store In:<br>
+    <select id="storage" class="round">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text">
+  </div>
+</div>`
   },
 
   init () {},
@@ -64,5 +63,5 @@ module.exports = {
     this.callNextAction(cache)
   },
 
-  mod (DBM) {}
+  mod () {}
 }
