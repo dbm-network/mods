@@ -1,46 +1,43 @@
 module.exports = {
-
   name: 'Pastebin',
-
   isCommandExtension: true,
-
   isEventExtension: true,
 
   fields: [],
+  defaultFields: {},
 
-  defaultFields: {
+  size () {
+    return { height: 425, width: 500 }
   },
 
-  size: function () {
-    return { width: 500, height: 425 }
-  },
-
-  html: function (data) {
+  html () {
     return `
-    <div style="float: left; width: 99%; margin-left: auto; margin-right: auto; padding:10px;">
-      <h2 style="text-align: center;">Pastebin</h2>
-      Status: <p id="status">Idle</p><br>
-      Type:
-      <select id="type" class="round">
-        <option value="none" selected>None</option>
-        <option value="post">Upload (Post)</option>
-        <option value="get">Download (Get)</option>
-      </select><br>
-      Key:
-      <input id="key" class="round" type="text"><br>
-      URL:
-      <input id="url" class="round" type="text"><br>
-      <p>
-        Get your api key here: <a href="#" onclick="require('child_process').execSync('start https://pastebin.com/api#1')">Click Here</a>
-      </p>
-    </div>
-    <p style="display: none" id="raw"></p>`
+<div style="float: left; width: 99%; margin-left: auto; margin-right: auto; padding:10px;">
+  <h2 style="text-align: center;">Pastebin</h2>
+  Status: <p id="status">Idle</p><br>
+  Type:
+  <select id="type" class="round">
+    <option value="none" selected>None</option>
+    <option value="post">Upload (Post)</option>
+    <option value="get">Download (Get)</option>
+  </select><br>
+  Key:
+  <input id="key" class="round" type="text"><br>
+  URL:
+  <input id="url" class="round" type="text"><br>
+  <p>
+    Get your api key here: <a href="#" onclick="require('child_process').execSync('start https://pastebin.com/api#1')">Click Here</a>
+  </p>
+</div>
+<p style="display: none" id="raw"></p>`
   },
 
-  init: function (document, data) {
-    var _this = this
+  init (document) {
     const fs = require('fs')
     const filepath = require('path').join(this.DBM._currentProject, 'package.json')
+
+    const { DBM } = this.DBM
+
     this.installedModules = Object.keys(JSON.parse(fs.readFileSync(filepath)).dependencies)
     if (this.installedModules.includes('pastebin-js') === false) {
       document.getElementById('status').innerHTML = 'Please close this window to install <b>pastebin-js</b>'
@@ -146,10 +143,10 @@ module.exports = {
     async function post (options) {
       try {
         let current
-        if (_this.DBM.currentSection === 'Commands') {
-          current = _this.DBM.$cmds[_this.DBM.currentId]
+        if (DBM.currentSection === 'Commands') {
+          current = DBM.$cmds[DBM.currentId]
         } else {
-          current = _this.DBM.$evts[_this.DBM.ecurrentId]
+          current = DBM.$evts[DBM.ecurrentId]
         }
         const pastebin = new PastebinAPI(options.key)
         const url = await pastebin.createPaste({ text: JSON.stringify(current), title: `${current.name}_${current._id}`, format: 'json', privacy: 1, expiration: '1M' })
@@ -164,7 +161,7 @@ module.exports = {
     }
   },
 
-  close: function (document, data) {
+  close (document) {
     if (this.installedModules.includes('pastebin-js') === false) {
       this.DBM.installSpecificModules(['pastebin-js'])
       return
@@ -187,7 +184,5 @@ module.exports = {
     this.DBM.reloadData()
   },
 
-  mod: function () {
-  }
-
+  mod () {}
 }
