@@ -1,23 +1,19 @@
 module.exports = {
-
   name: 'Message Reaction Removed MOD',
-
   isEvent: true,
 
   fields: ['Reaction (Temp Variable Name):', 'Member who Reacted (Temp Variable Name):'],
 
-  mod: function (DBM) {
+  mod (DBM) {
     DBM.Events = DBM.Events || {}
     const { Bot, Actions } = DBM
     DBM.Events.reactionRemoved = function (reaction, member) {
-      const server = reaction.message.guild || null
       if (!Bot.$evts['Message Reaction Removed MOD']) return
+      const server = reaction.message.guild || null
       for (const event of Bot.$evts['Message Reaction Removed MOD']) {
         const temp = {}
-
         if (event.temp) temp[event.temp] = reaction
         if (event.temp2) temp[event.temp2] = server.members.cache.get(member.id) || member
-
         Actions.invokeEvent(event, server, temp)
       }
     }

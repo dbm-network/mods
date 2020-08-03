@@ -1,16 +1,15 @@
 module.exports = {
   name: 'Invite Delete',
-
   isEvent: true,
 
   fields: ['Temp Variable Name (Stores invite code that was deleted):'],
 
-  mod: function (DBM) {
+  mod (DBM) {
     DBM.Events = DBM.Events || {}
     const { Bot, Actions } = DBM
     DBM.Events.inviteDelete = function (invite) {
+      if (!Bot.$evts['Invite Delete']) return
       const server = invite.guild
-	  if (!Bot.$evts['Invite Delete']) return
       for (const event of Bot.$evts['Invite Delete']) {
         const temp = {}
         if (event.temp) temp[event.temp] = invite.code

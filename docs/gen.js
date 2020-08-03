@@ -1,11 +1,11 @@
 const { readdirSync, writeFileSync } = require('fs')
 
-const files = readdirSync('../actions')
+const files = readdirSync('../events')
 const mods = {}
 
 for (const file of files) {
-  const { name, section } = require(`../actions/${file}`)
-  mods[file] = { description: '', name, section }
+  const { name } = require(`../events/${file}`)
+  mods[file] = { description: '', name }
 }
 
-writeFileSync('mods.json', JSON.stringify(mods, null, 2))
+writeFileSync('events.json', JSON.stringify(mods, null, 2))

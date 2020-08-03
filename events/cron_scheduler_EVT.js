@@ -1,9 +1,6 @@
 const myEvent = module.exports = {
-
   name: 'Cron Scheduler',
-
   displayName: 'Scheduled Event',
-
   isEvent: true,
 
   fields: [`
@@ -11,35 +8,21 @@ const myEvent = module.exports = {
 CRON String Input (<a href='#' onclick="require('child_process').execSync('start https://crontab.guru/')">https://crontab.guru/</a> | <a href='#' onclick="require('child_process').execSync('start https://crontab.guru/examples.html')">Examples</a> | By General Wrex. <a href='#' onclick="require('child_process').execSync('start https://donorbox.org/generalwrex')">Buy me a coffee?</a>)
 
 `,
-
 `
 
 Timezone (<a href='#' onclick="require('child_process').execSync('start https://en.wikipedia.org/wiki/List_of_tz_database_time_zones')">TZ Database names</a>| Example: America/New_York )
 
 `],
 
-  authors: ['GeneralWrex'],
-
-  version: '1.2.0',
-
-  changeLog: 'It now functions for server objects, aka find channel',
-
-  shortDescription: 'Adds cron functionality to DBM Bots.',
-
-  longDescription: '',
-
-  requiredNodeModules: [],
-
-  mod: function (DBM) {
+  mod (DBM) {
     const { Bot, Actions } = DBM
 
-    const Mods = DBM.Actions.getMods()
-
+    const Mods = Actions.getMods()
     const cron = Mods.require('node-cron')
 
     DBM.Events = DBM.Events || {}
 
-    const cronScheduler = DBM.Events.Cron_Scheduler = {}
+    const cronScheduler = DBM.Events.cronScheduler = {}
 
     cronScheduler.Jobs = {}
 
@@ -52,7 +35,6 @@ Timezone (<a href='#' onclick="require('child_process').execSync('start https://
 
       try {
         Intl.DateTimeFormat(undefined, { timeZone: tz })
-
         return true
       } catch (ex) {
         return false
@@ -109,5 +91,4 @@ Timezone (<a href='#' onclick="require('child_process').execSync('start https://
       onReady.apply(this, ...params)
     }
   }
-
-} // End of module
+}

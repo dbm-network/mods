@@ -1,12 +1,10 @@
 module.exports = {
-
   name: 'On Audio Start',
-
   isEvent: true,
 
   fields: ['Temp Variable Name (stores voice channel object)'],
 
-  mod: function (DBM) {
+  mod (DBM) {
     const playItem = DBM.Audio.playItem
     DBM.Audio.playItem = function (item, id) {
       playItem.bind(this)(...arguments)
