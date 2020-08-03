@@ -1,0 +1,14 @@
+{
+    "author": "Great Plains Modding",
+    "version": "1.0.0",
+    "name": "Leave Server",
+    "description": "Leaves the specified server.",
+    "section": "Dashboard",
+    "sectionID": "dashboard",
+    "dashboardMod": true,
+    "adminPanelMod": false,
+    "scriptFile": "index.js",
+    "size": {
+        "width": 500
+    }
+}

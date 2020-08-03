@@ -1,30 +1,25 @@
-<p align="center">
-  <a title="DBM Network" href="https://discord.gg/3QxkZPK" target="_blank">
-    <img src="https://i.imgur.com/U8Z1SPh.png" width="512" alt="DBM Network" />
-  </a>
-</p>
-<p align="center">
-  <a title="Contributors" href="https://github.com/dbm-network/mods/contributors" target="_blank">
-    <img src="https://img.shields.io/github/contributors/dbm-network/mods.svg?style=flat-square" alt="Contributors" />
-  </a>
-  <a title="Release" href="https://github.com/dbm-network/mods/releases" target="_blank">
-    <img src="https://img.shields.io/github/release/dbm-network/mods.svg?style=flat-square" alt="Latest Release" />
-  </a>
-  <a title="License" href="https://github.com/dbm-network/mods/blob/master/LICENSE.md" target="_blank">
-    <img src="https://img.shields.io/github/license/dbm-network/mods.svg?style=flat-square" alt="License" />
-  </a>
-</p>
+# Discord Bot Maker Extensions
 
-DBM Mods is a community driven open source project meant to modify, extend, and improve [Discord Bot Maker](https://store.steampowered.com/app/682130/Discord_Bot_Maker/).
+Here you can find some Extensions for [Discord Bot Maker](https://store.steampowered.com/app/682130/Discord_Bot_Maker/)! If you want to share these files, please, share the URL of this GitHub repository, so that everybody can have everything up to date!
 
-# Downloads
+Make sure to join the [DBM Network](https://discord.gg/3QxkZPK) server to stay updated and be able to suggest stuff! More information at: https://dbm-network.org/
 
-This repository is not meant to be downloaded or cloned. Please follow the installation guide below.
+# Available extensions
 
-1.  Inside Discord Bot Maker, click Project → Open Actions Directory
-2.  Download the [DBM Mods files](https://dbm-network.github.io/download-git/#/home?url=https://github.com/dbm-network/mods/tree/master/actions)
-    (There is no need to clone or download the Git repository)
-3.  Extract the contents of the .zip file into the actions folder you just opened
-    (Overwrite existing files if asked)
+## Dashboard
+*More information [here](/extensions/dbm_dashboard/).*
 
-**You will need to repeat this process for all of your projects**
+## Command Info
+Adds a custom `command_info` field to each command with a provided raw data for an automatic help command.
+[Download](https://dbm-network.github.io/download-git/#/home?url=https:%2F%2Fgithub.com%2Fdbm-network%2Fextensions%2Fblob%2Fmaster%2Fextensions%2Fcommand_info%2Fcommand_info_EXT.js)
+*More information [here](/extensions/command_info/).*
+
+## Multiple Bot Owners
+Allows a bot to have more than one owner.
+[Download](https://dbm-network.github.io/download-git/#/home?url=https://github.com/dbm-network/extensions/blob/master/extensions/multiple_bot_owners/multiple_bot_owners_EXT.js)
+*More information [here](/extensions/multiple_bot_owners/)*
+
+## Pastebin
+Allows a user to download or upload raw data from pastebin.
+[Download](https://dbm-network.github.io/download-git/#/home?url=https://github.com/dbm-network/extensions/blob/master/extensions/pastebin/pastebin_EXT.js)
+*More information [here](/extensions/pastebin/)*
