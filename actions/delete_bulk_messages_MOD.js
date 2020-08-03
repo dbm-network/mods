@@ -9,7 +9,7 @@ module.exports = {
 
   fields: ['channel', 'varName', 'count', 'type', 'option', 'msgid', 'Con0', 'Con1', 'Con2', 'Con3', 'Con4', 'Con5', 'iffalse', 'iffalseVal', 'storage', 'varName2'],
 
-  variableStorage: function (data, varType) {
+  variableStorage (data, varType) {
     const type = parseInt(data.storage)
     if (type !== varType) return
     return ([data.varName2, 'Message List'])
