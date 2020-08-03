@@ -1,7 +1,7 @@
 module.exports = {
   name: 'Morse Code',
   section: 'Other Stuff.',
-  
+
   subtitle (data) {
     return 'Convert To Morse Code'
   },
