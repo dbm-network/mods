@@ -3,7 +3,7 @@ module.exports = {
 
     section: "Server Control",
 
-    subtitle: function(data) {
+    subtitle(data) {
 		if (parseInt(data.controlType) === 1) {
             return "Delete server prefix"
         } else {
@@ -13,7 +13,7 @@ module.exports = {
 
     fields: ["server", "controlType", "varName", "prefix"],
 
-    html: function(isEvent, data) {
+    html(isEvent, data) {
 		return `
 <div>
 	<div style="float: left; width: 35%;">
