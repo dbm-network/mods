@@ -1,22 +1,20 @@
 const Mods = {
-  DBM: null,
-
-  installModule (moduleName) {
-    return new Promise((resolve) => {
-      require('child_process').execSync(`npm i ${moduleName}`)
-      try {
-        resolve(require(moduleName))
-      } catch {
-        console.log(`Failed to Install ${moduleName}, please re-try or install manually with "npm i ${moduleName}"`)
-      }
-    })
-  },
-
-  require (moduleName) {
-    try {
-      return require(moduleName)
-    } catch (e) {
-      this.installModule(moduleName)
+  require (moduleName, MaxinstallAttempts = 3) {
+    const fs = require('fs')
+    const path = require('path')
+    const { execSync } = require('child_process')
+    let installed = module.paths.some(module => fs.existsSync(path.join(module, moduleName)))
+    let attempts = 0
+    while (!installed && attempts < MaxinstallAttempts) {
+      console.log(`Attempting To install module '${moduleName}'. Please wait...`)
+      execSync(`npm i ${moduleName}`)
+      installed = module.paths.some(m => fs.existsSync(path.join(m, moduleName)))
+      attempts++
+    }
+    if (!installed) {
+      throw new Error(`Failed to install module '${moduleName}', please re-try or install manually with 'npm i ${moduleName}'. Attempt Number: ${attempts} out of ${MaxinstallAttempts}`)
+    } else {
+      if (attempts !== 0) console.log(`Succeed to install module '${moduleName}'`)
       return require(moduleName)
     }
   },
