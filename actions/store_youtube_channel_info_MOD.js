@@ -57,7 +57,7 @@ module.exports = {
     const info = parseInt(data.info)
     const Mods = this.getMods()
     const ytch = Mods.require('yt-channel-info')
-    let result = 0
+    let result
 
     const maininfo = await ytch.getChannelInfo(channelId)
 
