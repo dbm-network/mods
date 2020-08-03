@@ -2,7 +2,7 @@ module.exports = {
     name: "Server Prefixes",
     
     isCommandExtension: false,
-    isEventExtension: false,
+    isEventExtension: true,
     isEditorExtension: true,
 
     fields: ["debug"],
@@ -33,15 +33,15 @@ module.exports = {
 		</div>`
     },
 
-    init(document, data) {}, 
+    init() {}, 
 
     close(document, data) {
         data.debug = document.getElementById('debug').value;
     },
 
-    load(DBM, projectLoc) {},
+    load() {},
 
-    save(DBM, data, projectLoc) {
+    save() {
     },
 
     mod(DBM) {
