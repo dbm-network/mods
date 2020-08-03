@@ -12,7 +12,7 @@ module.exports = {
     return ([data.varName, 'JSON Object'])
   },
 
-  fields: ['token', 'user', 'pass', 'url', 'path', 'storage', 'varName', 'debugMode', 'headers'],
+  fields: ['token', 'user', 'pass', 'url', 'path', 'storage', 'varName', 'debugMode', 'headers', 'reUse'],
 
   html (isEvent, data) {
     return `
@@ -56,14 +56,24 @@ module.exports = {
   </div><br>
   <div style="float: left; width: 70%;"><br>
     <div>
-      <label for="debugMode"><font color="white">Debug Mode</font></label>
-      <select id="debugMode" class="round">
-        <option value="1" selected>Enabled</option>
-        <option value="0" >Disabled</option>
+      <label for="reUse"><font color="white">Re-Use Previously Stored</font></label>
+      <select id="reUse" class="round" onchange="glob.disallowAlert(this)">
+        <option value="1" selected>Allow</option>
+        <option value="0">Disallow</option>
       </select>
-      <text style="font-size: 60%;">Enables verbose printing to the console, disable to stop all but error printing</text>
+      <text style="font-size: 60%;">Toggles re-use of previously stored JSON from same URL.</text>
     </div>
   </div>
+  <div style="float: left; width: 70%;"><br>
+  <div>
+    <label for="debugMode"><font color="white">Debug Mode</font></label>
+    <select id="debugMode" class="round">
+      <option value="1" selected>Enabled</option>
+      <option value="0">Disabled</option>
+    </select>
+    <text style="font-size: 60%;">Enables verbose printing to the console, disable to stop all but error printing.</text>
+  </div>
+</div>
 </div>`
   },
 
@@ -76,6 +86,13 @@ module.exports = {
       if (type === 'auth') {
         document.getElementById('authSection').style.display = element.checked ? '' : 'none'
         document.getElementById('showAuth').value = element.checked ? '1' : '0'
+      }
+    }
+
+    glob.disallowAlert = function (element) {
+      if (element.value === '0') {
+        // eslint-disable-next-line no-undef
+        alert('Disabling this could lead to you being banned or rate limited by APIs, please be careful.')
       }
     }
 
@@ -100,6 +117,7 @@ module.exports = {
 
     const token = this.evalMessage(data.token, cache)
     const user = this.evalMessage(data.user, cache)
+    const reUse = parseInt(data.reUse)
     const pass = this.evalMessage(data.pass, cache)
 
     const headers = this.evalMessage(data.headers, cache)
@@ -164,7 +182,7 @@ module.exports = {
 
         const oldUrl = this.getVariable(1, `${url}_URL`, cache)
 
-        if (url === oldUrl) {
+        if (url === oldUrl && reUse === 1) {
           let jsonData
           let error
           const res = { statusCode: 200 }
