@@ -35,7 +35,7 @@ module.exports = {
 
     init(document, data) {}, 
 
-    close: function(document, data) {
+    close(document, data) {
         data.debug = document.getElementById('debug').value;
     },
 
