@@ -1,0 +1,86 @@
+{
+  "cron_scheduler_EVT.js": {
+    "description": "Cron functionality",
+    "name": "Cron Scheduler"
+  },
+  "delete_bulk_messages_EVT.js": {
+    "description": "",
+    "name": "Delete Bulk Messages"
+  },
+  "invite_create_EVT.js": {
+    "description": "",
+    "name": "Invite Create"
+  },
+  "invite_delete_EVT.js": {
+    "description": "",
+    "name": "Invite Delete"
+  },
+  "member_boosted_server_EVT.js": {
+    "description": "",
+    "name": "Member Boosted Server"
+  },
+  "member_join_voice_channel_EVT.js": {
+    "description": "",
+    "name": "Member Join Voice Channel"
+  },
+  "member_leave_voice_channel_EVT.js": {
+    "description": "",
+    "name": "Member Leave Voice Channel"
+  },
+  "member_move_voice_channel_EVT.js": {
+    "description": "",
+    "name": "Member Move Voice Channel"
+  },
+  "member_start_streaming_EVT.js": {
+    "description": "",
+    "name": "Member Start Streaming"
+  },
+  "member_stop_streaming_EVT.js": {
+    "description": "",
+    "name": "Member Stop Streaming"
+  },
+  "message_reaction_added_EVT.js": {
+    "description": "",
+    "name": "Message Reaction Added MOD"
+  },
+  "message_reaction_removed_EVT.js": {
+    "description": "",
+    "name": "Message Reaction Removed MOD"
+  },
+  "on_audio_end_EVT.js": {
+    "description": "",
+    "name": "On Audio End"
+  },
+  "on_audio_pause_EVT.js": {
+    "description": "",
+    "name": "On Audio Pause"
+  },
+  "on_audio_resume_EVT.js": {
+    "description": "",
+    "name": "On Audio Resume"
+  },
+  "on_audio_start_EVT.js": {
+    "description": "",
+    "name": "On Audio Start"
+  },
+  "on_audio_volume_change_EVT.js": {
+    "description": "",
+    "name": "On Volume Change"
+  },
+  "on_member_nickname_changed_EVT.js": {
+    "description": "",
+    "name": "Member Nickname Changed MOD"
+  },
+  "on_member_role_add_EVT.js": {
+    "description": "",
+    "name": "Member Role Added MOD"
+  },
+  "on_member_role_removed_EVT.js": {
+    "description": "",
+    "name": "Member Role Removed MOD"
+  },
+  "user_update_EVT.js": {
+    "description": "",
+    "name": "User Update"
+  }
+}

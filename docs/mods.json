@@ -69,11 +69,6 @@
     "name": "Basic Math Operation",
     "section": "Other Stuff"
   },
-  "blocklist_MOD.js": {
-    "description": "Blacklist or unblacklist users from using the bot",
-    "name": "Blacklist Users",
-    "section": "Other Stuff"
-  },
   "botsfordiscord_stats_MOD.js": {
     "description": "Sends statistics (server count) to botsfordiscord.com",
     "name": "Send Stats to BFD",
