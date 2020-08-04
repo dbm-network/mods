@@ -1,0 +1,13 @@
+{
+    "author": "Great Plains Modding",
+    "version": "1.0.0",
+    "name": "Bot Commands",
+    "description": "",
+    "section": "Bot Commands",
+    "sectionID": "bot-commands",
+    "dashboardMod": true,
+    "adminPanelMod": false,
+    "extensionMod": false,
+    "webFile": "index.ejs",
+    "scriptFiles": ["test_extension.js"]
+}

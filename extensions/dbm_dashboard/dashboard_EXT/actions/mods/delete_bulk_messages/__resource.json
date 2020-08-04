@@ -1,0 +1,15 @@
+{
+    "author": "AstinHighty",
+    "version": "1.5.0",
+    "name": "Delete Bulk Messages",
+    "description": "Exclude a certain number of messages from a channel",
+    "section": "Dashboard",
+    "sectionID": "dashboard",
+    "dashboardMod": true,
+    "adminPanelMod": false,
+    "scriptFile": "index.js",
+    "webFile": "index.ejs",
+    "size": {
+        "width": 600
+    }
+}

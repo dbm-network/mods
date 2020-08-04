@@ -1,0 +1,12 @@
+{
+    "author": "Great Plains Modding",
+    "version": "1.0.0",
+    "name": "Eval",
+    "description": "Run whatever JS code you want.",
+    "section": "Other",
+    "sectionID": "Other",
+    "dashboardMod": false,
+    "adminPanelMod": true,
+    "scriptFile": "index.js",
+    "webFile": "index.ejs"
+}
