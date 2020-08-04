@@ -62,7 +62,7 @@ module.exports = {
     const settingsPath = path.join('data', 'serverSettings.json')
 
     fs.readFile(settingsPath, 'utf8', (err, data) => {
-      if (err) return this.displayError.call(this, data, cache, err);
+      if (err) return this.displayError(data, cache, err)
       const json = JSON.parse(data)
       if (controlType === 0) {
         json[server.id] = prefix
@@ -73,7 +73,7 @@ module.exports = {
 
       fs.writeFile(settingsPath, JSON.stringify(json), (err) => {
         if (err) {
-          return this.displayError.call(this, data, cache, err)
+          return this.displayError(data, cache, err)
         } else {
           server.prefix = prefix
           this.callNextAction(cache)
