@@ -38,8 +38,7 @@ module.exports = {
 
   load () {},
 
-  save () {
-  },
+  save () {},
 
   mod (DBM) {
     const fs = require('fs')
