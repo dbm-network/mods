@@ -949,6 +949,11 @@
     "name": "Store Webhook Info",
     "section": "Webhook Control"
   },
+  "store_youtube_channel_info_MOD.js": {
+    "description": "Store information about a YouTube channel",
+    "name": "Store YouTube Channel Info",
+    "section": "YouTube Tools"
+  },
   "sync_channel_permissions_MOD.js": {
     "description": "Sync permissions with a channel to its category",
     "name": "Sync Channel Permissions",
