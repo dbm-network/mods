@@ -44,10 +44,7 @@ module.exports = {
 
     glob.serverChange(document.getElementById('server'), 'varNameContainer')
     glob.onChangeControl = function (controlType) {
-      switch (parseInt(controlType.value)) {
-        case 0: document.getElementById('prefixContainer').style.display = null; break
-        case 1: document.getElementById('prefixContainer').style.display = 'none'; break
-      }
+      document.getElementById('prefixContainer').style.display = [null, 'none'][parseInt(controlType.value)]
     }
 
     glob.onChangeControl(document.getElementById('controlType'))
