@@ -239,6 +239,11 @@
     "name": "Control Permissions",
     "section": "Permission Control"
   },
+	"control_server_prefix_MOD.js": {
+    "description": "Control the prefix for the server (Requires server_prefix_ETX.js)",
+    "name": "Control Server Prefix",
+    "section": "Server Control"
+  },
   "convert_list_to_text.js": {
     "description": "Convert a specified list to text",
     "name": "Convert List to Text",
