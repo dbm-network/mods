@@ -1,6 +1,5 @@
 module.exports = {
   name: 'Server Prefixes',
-
   isCommandExtension: false,
   isEventExtension: false,
   isEditorExtension: true,
