@@ -46,7 +46,6 @@ module.exports = {
     const { Bot, Files, Actions } = DBM
     const settingsPath = path.join('data', 'serverSettings.json')
 
-
     const loadPrefixes = function (debug) {
       const client = Bot.bot
       if (fs.existsSync(settingsPath)) {
