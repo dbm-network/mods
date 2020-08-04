@@ -1,12 +1,10 @@
 module.exports = {
-
   name: 'On Volume Change',
-
   isEvent: true,
 
   fields: ['Temp Variable Name (stores voice channel object)', 'Temp Variable Name (stores old volume [1 - 100])'],
 
-  mod: function (DBM) {
+  mod (DBM) {
     DBM.Events.onVolumeChange = function (guild, voiceChannel, oldVolume) {
       const { Bot, Actions } = DBM
       const events = Bot.$evts['On Volume Change']

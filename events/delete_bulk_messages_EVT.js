@@ -1,17 +1,15 @@
 module.exports = {
-
   name: 'Delete Bulk Messages',
-
   isEvent: true,
 
   fields: ['Temp Variable Name (stores list of messages):', 'Temp Variable Name (stores amount of messages):'],
 
-  mod: function (DBM) {
+  mod (DBM) {
     DBM.Events = DBM.Events || {}
     const { Bot, Actions } = DBM
     DBM.Events.messageDeleteBulk = function (messagesList) {
-      const server = messagesList.first().guild
       if (!Bot.$evts['Delete Bulk Messages']) return
+      const server = messagesList.first().guild
       for (const event of Bot.$evts['Delete Bulk Messages']) {
         const temp = {}
         if (event.temp) temp[event.temp] = messagesList.array()
