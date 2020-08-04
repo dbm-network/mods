@@ -20,7 +20,6 @@ module.exports = {
   <h2>Server Prefixes</h2><hr>
   <p>
     Requires <b><a href="#" onclick="require('child_process').execSync('start https://github.com/dbm-network/mods/tree/master/actions')">Control Server Prefix</a></b>
-
   </p>
   <label for="debug">Debug Mode:</label>
     <select id="debug" name="debug"><br>
