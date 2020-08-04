@@ -264,6 +264,11 @@
     "name": "Convert Timestamp to Date",
     "section": "Other Stuff"
   },
+  "convert_to_morse_code_MOD.js": {
+	  "description": "Convert Text to Morse code and Vice Versa",
+	  "name": "Convert to Morse code",
+	  "section": "Other Stuff"
+  },
   "convert_to_world_time_MOD.js": {
     "description": "Input a timezone and retrieve its current time",
     "name": "Convert to World Time",
@@ -948,6 +953,11 @@
     "description": "Store information about a webhook",
     "name": "Store Webhook Info",
     "section": "Webhook Control"
+  },
+  "store_youtube_channel_info_MOD.js": {
+    "description": "Store information about a YouTube channel",
+    "name": "Store YouTube Channel Info",
+    "section": "YouTube Tools"
   },
   "sync_channel_permissions_MOD.js": {
     "description": "Sync permissions with a channel to its category",
