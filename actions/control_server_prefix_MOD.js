@@ -36,8 +36,6 @@ module.exports = {
 <div id="prefixContainer" style="padding-top: 8px; width: 60%; float: right">
   Prefix:<br>
   <input id="prefix" class="round" type="text">
-</div><br>
-<div>
 </div>`
   },
 
