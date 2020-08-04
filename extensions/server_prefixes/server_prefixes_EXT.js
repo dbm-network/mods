@@ -19,7 +19,6 @@ module.exports = {
 <div style="float: left; width: 99%; margin-left: auto; margin-right: auto; padding:10px; text-align: center;">
   <h2>Server Prefixes</h2><hr>
   <p>
-    Created by <b>Mindlesscargo</b><br>
     Requires <b><a href="#" onclick="require('child_process').execSync('start https://github.com/dbm-network/mods/tree/master/actions')">control server prefix</a></b>
   </p>
   <label for="debug">Debug Mode:</label>
