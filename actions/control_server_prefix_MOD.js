@@ -59,7 +59,7 @@ module.exports = {
     const server = this.getServer(type, varName, cache)
     const controlType = parseInt(data.controlType)
     const prefix = this.evalMessage(data.prefix, cache)
-    const settingsPath = path.join('./', 'data', 'serverSettings.json')
+    const settingsPath = path.join('data', 'serverSettings.json')
 
     fs.readFile(settingsPath, 'utf8', (err, data) => {
       if (err) {
