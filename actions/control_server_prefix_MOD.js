@@ -1,6 +1,5 @@
 module.exports = {
   name: 'Control Server Prefix',
-
   section: 'Server Control',
 
   subtitle (data) {
