@@ -265,9 +265,9 @@
     "section": "Other Stuff"
   },
   "convert_to_morse_code_MOD.js": {
-	"description": "Convert Text to Morse code and Vice Versa",
-	"name": "Convert to Morse code",
-	"section": Other Stuff"
+	  "description": "Convert Text to Morse code and Vice Versa",
+	  "name": "Convert to Morse code",
+	  "section": "Other Stuff"
   },
   "convert_to_world_time_MOD.js": {
     "description": "Input a timezone and retrieve its current time",
