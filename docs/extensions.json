@@ -19,7 +19,7 @@
     "description": "",
     "name": "Pastebin"
   },
-    "server_prefixes_EXT.js": {
+  "server_prefixes_EXT.js": {
     "description": "Allow for server specific prefixes. Requires control_server_prefix_MOD.js",
     "name": "Server Prefixes"
   }
