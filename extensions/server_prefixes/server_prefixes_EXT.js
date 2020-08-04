@@ -44,7 +44,8 @@ module.exports = {
     const fs = require('fs')
     const path = require('path')
     const { Bot, Files, Actions } = DBM
-    const settingsPath = path.join('./', 'data', 'serverSettings.json')
+    const settingsPath = path.join('data', 'serverSettings.json')
+
 
     const loadPrefixes = function (debug) {
       const client = Bot.bot
