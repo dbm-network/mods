@@ -1,94 +1,94 @@
 module.exports = {
-    name: "Control Server Prefix",
+  name: 'Control Server Prefix',
 
-    section: "Server Control",
+  section: 'Server Control',
 
-    subtitle(data) {
-		if (parseInt(data.controlType) === 1) {
-            return "Delete server prefix"
-        } else {
-            return `Set server prefix: ${data.prefix}`
-        }
-    },
+  subtitle (data) {
+    if (parseInt(data.controlType) === 1) {
+      return 'Delete server prefix'
+    } else {
+      return `Set server prefix: ${data.prefix}`
+    }
+  },
 
-    fields: ["server", "controlType", "varName", "prefix"],
+  fields: ['server', 'controlType', 'varName', 'prefix'],
 
-    html(isEvent, data) {
-		return `
+  html (isEvent, data) {
+    return `
 <div>
-	<div style="float: left; width: 35%;">
-		Server:<br>
-		<select id="server" class="round" onchange="glob.serverChange(this, 'varNameContainer')">
-			${data.servers[isEvent ? 1 : 0]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="display: none; float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList">
-	</div>
+  <div style="float: left; width: 35%;">
+    Server:<br>
+    <select id="server" class="round" onchange="glob.serverChange(this, 'varNameContainer')">
+      ${data.servers[isEvent ? 1 : 0]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text" list="variableList">
+  </div>
 </div><br><br><br>
 <div style="padding-top: 8px; width: 35%; float: left">
-    Control Type:
-    <select id="controlType" class="round" onchange="glob.onChangeControl(this)">
-        <option value="0" title="Sets the prefix of the server">Set Prefix</option>
-        <option value="1" title="Sets the prefix to default prefix (settings)">Delete Prefix</option>
-    </select>
+  Control Type:
+  <select id="controlType" class="round" onchange="glob.onChangeControl(this)">
+    <option value="0" title="Sets the prefix of the server">Set Prefix</option>
+    <option value="1" title="Sets the prefix to default prefix (settings)">Delete Prefix</option>
+  </select>
 </div>
 <div id="prefixContainer" style="padding-top: 8px; width: 60%; float: right">
-	Prefix:<br>
-	<input id="prefix" class="round" type="text">
+  Prefix:<br>
+  <input id="prefix" class="round" type="text">
 </div><br>
 <div>
-</div>`;
-    },
+</div>`
+  },
 
-    init() {
-		const { glob, document } = this;
+  init () {
+    const { glob, document } = this
 
-        glob.serverChange(document.getElementById("server"), "varNameContainer");
-        glob.onChangeControl = function(controlType) {
-            switch (parseInt(controlType.value)) {
-                case 0: document.getElementById("prefixContainer").style.display = null; break
-                case 1: document.getElementById("prefixContainer").style.display = "none"; break;
-            }
+    glob.serverChange(document.getElementById('server'), 'varNameContainer')
+    glob.onChangeControl = function (controlType) {
+      switch (parseInt(controlType.value)) {
+        case 0: document.getElementById('prefixContainer').style.display = null; break
+        case 1: document.getElementById('prefixContainer').style.display = 'none'; break
+      }
+    }
+
+    glob.onChangeControl(document.getElementById('controlType'))
+  },
+
+  action (cache) {
+    const fs = require('fs')
+    const path = require('path')
+    const data = cache.actions[cache.index]
+    const type = parseInt(data.server)
+    const varName = this.evalMessage(data.varName, cache)
+    const server = this.getServer(type, varName, cache)
+    const controlType = parseInt(data.controlType)
+    const prefix = this.evalMessage(data.prefix, cache)
+    const settingsPath = path.join('./', 'data', 'serverSettings.json')
+
+    fs.readFile(settingsPath, 'utf8', (err, data) => {
+      if (err) {
+        this.displayError.bind(this, data, cache)
+      }
+      const json = JSON.parse(data)
+      if (controlType === 0) {
+        json[server.id] = prefix
+      } else if (controlType === 1 && json[server.id]) {
+        delete json[server.id]
+        delete server.prefix
+      }
+
+      fs.writeFile(settingsPath, JSON.stringify(json), (err) => {
+        if (err) {
+          this.displayError.bind(this, data, cache)
+        } else {
+          server.prefix = prefix
+          this.callNextAction(cache)
         }
-        
-        glob.onChangeControl(document.getElementById("controlType"))
-    },
-    
-    action(cache) {
-        const fs = require("fs");
-        const path = require("path");
-        const data = cache.actions[cache.index];
-        const type = parseInt(data.server);
-        const varName = this.evalMessage(data.varName, cache);
-        const server = this.getServer(type, varName, cache);
-        const controlType = parseInt(data.controlType);
-        const prefix = this.evalMessage(data.prefix, cache);
-        const settingsPath = path.join("./", "data", "serverSettings.json")
-        
-        fs.readFile(settingsPath, "utf8", (err, data) => {
-            if (err) {
-                this.displayError.bind(this, data, cache);
-            }
-            const json = JSON.parse(data);
-            if (controlType === 0) {
-                json[server.id] = prefix;
-            } else if (controlType === 1 && json[server.id]) {
-                delete json[server.id];
-                delete server.prefix;
-            }
+      })
+    })
+  },
 
-            fs.writeFile(settingsPath, JSON.stringify(json), (err) => {
-                if (err) {
-                    this.displayError.bind(this, data, cache);
-                } else {
-                    server.prefix = prefix;
-                    this.callNextAction(cache);
-                }
-            })
-        })
-    },
-
-    mod() {}
+  mod () {}
 }
