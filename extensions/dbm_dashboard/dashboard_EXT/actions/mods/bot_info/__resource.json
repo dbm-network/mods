@@ -1,0 +1,12 @@
+{
+    "author": "Great Plains Modding",
+    "version": "1.0.0",
+    "name": "Bot Info",
+    "description": "Returns bot info.",
+    "section": "Bot Info",
+    "sectionID": "bot-info",
+    "dashboardMod": true,
+    "adminPanelMod": true,
+    "scriptFile": "bot_info.js",
+    "webFile": "index.ejs"
+}
