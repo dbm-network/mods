@@ -52,8 +52,7 @@ module.exports = {
         console.log('Loading server prefixes...')
         fs.readFile(settingsPath, function (err, data) {
           if (err) {
-            console.log(err)
-            return
+            return console.log(err)
           }
           data = JSON.parse(data)
           const servers = Object.keys(data)
