@@ -959,6 +959,11 @@
     "name": "Store YouTube Channel Info",
     "section": "YouTube Tools"
   },
+  "store_playlist_info_MOD.js": {
+    "description": "Store information about a YouTube playlist",
+    "name": "Store Playlist Info",
+    "section": "YouTube Tools"
+  },
   "sync_channel_permissions_MOD.js": {
     "description": "Sync permissions with a channel to its category",
     "name": "Sync Channel Permissions",
