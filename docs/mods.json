@@ -239,6 +239,11 @@
     "name": "Control Permissions",
     "section": "Permission Control"
   },
+	"control_server_prefix_MOD.js": {
+    "description": "Control the prefix for the server (Requires server_prefix_ETX.js)",
+    "name": "Control Server Prefix",
+    "section": "Server Control"
+  },
   "convert_list_to_text.js": {
     "description": "Convert a specified list to text",
     "name": "Convert List to Text",
@@ -258,6 +263,11 @@
     "description": "Convert a timestamp to a date",
     "name": "Convert Timestamp to Date",
     "section": "Other Stuff"
+  },
+  "convert_to_morse_code_MOD.js": {
+	  "description": "Convert Text to Morse code and Vice Versa",
+	  "name": "Convert to Morse code",
+	  "section": "Other Stuff"
   },
   "convert_to_world_time_MOD.js": {
     "description": "Input a timezone and retrieve its current time",
@@ -943,6 +953,11 @@
     "description": "Store information about a webhook",
     "name": "Store Webhook Info",
     "section": "Webhook Control"
+  },
+  "store_youtube_channel_info_MOD.js": {
+    "description": "Store information about a YouTube channel",
+    "name": "Store YouTube Channel Info",
+    "section": "YouTube Tools"
   },
   "sync_channel_permissions_MOD.js": {
     "description": "Sync permissions with a channel to its category",
