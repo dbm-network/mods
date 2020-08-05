@@ -53,28 +53,23 @@ module.exports = {
     const INFO = parseInt(data.info)
     const ytlist = require('youtube-playlist')
     const url = query
-    let result = 5
+    let result
 
     switch (INFO) {
       case 0:
-        const datalist = await ytlist(url, ['id', 'name', 'url'])
-        result = datalist
+        result = await ytlist(url, ['id', 'name', 'url'])
         break
       case 1:
-        const urllist = await ytlist(url, 'url')
-        result = urllist
+        result = await ytlist(url, 'url')
         break
       case 2:
-        const namelist = await ytlist(url, 'name')
-        result = namelist
+        result = await ytlist(url, 'name')
         break
       case 3:
-        const durationlist = await ytlist(url, 'duration')
-        result = durationlist
+        result = await ytlist(url, 'duration')
         break
       case 4:
-        const idlist = await ytlist(url, 'id')
-        result = idlist
+        result = await ytlist(url, 'id')
         break
     }
 
