@@ -27,10 +27,9 @@ module.exports = {
     <option value="0" selected>Channel URL</option>
     <option value="1">Channel Name</option>
     <option value="2">Channel Description</option>
-    <option value="3">Channel Banner</option>
-    <option value="4">Subscriber Count</option>
-    <option value="5">Related Channels</option>
-    <option value="6">Is Family Friendly?</option>
+    <option value="3">Subscriber Count</option>
+    <option value="4">Related Channels</option>
+    <option value="5">Is Family Friendly?</option>
   </select>
 </div><br>
 <div style="padding-top: 8px;">
@@ -72,15 +71,12 @@ module.exports = {
         result = maininfo.description
         break
       case 3:
-        result = maininfo.authorBanners
-        break
-      case 4:
         result = maininfo.subscriberCount
         break
-      case 5:
+      case 4:
         result = maininfo.relatedChannels
         break
-      case 6:
+      case 5:
         result = maininfo.isFamilyFriendly
         break
     }
