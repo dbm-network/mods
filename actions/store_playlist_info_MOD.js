@@ -57,28 +57,23 @@ module.exports = {
 
     switch (INFO) {
       case 0:
-        const datas = await ytlist(url, ['id', 'name', 'url'])
-        const datalist = JSON.stringify(datas)
+        const datalist = await ytlist(url, ['id', 'name', 'url'])
         result = datalist
         break
       case 1:
-        const urls = await ytlist(url, 'url')
-        const urllist = JSON.stringify(urls)
+        const urllist = await ytlist(url, 'url')
         result = urllist
         break
       case 2:
-        const names = await ytlist(url, 'name')
-        const namelist = JSON.stringify(names)
+        const namelist = await ytlist(url, 'name')
         result = namelist
         break
       case 3:
-        const durationis = await ytlist(url, 'duration')
-        const durationlist = JSON.stringify(durationis)
+        const durationlist = await ytlist(url, 'duration')
         result = durationlist
         break
       case 4:
-        const ids = await ytlist(url, 'id')
-        const idlist = JSON.stringify(ids)
+        const idlist = await ytlist(url, 'id')
         result = idlist
         break
     }
