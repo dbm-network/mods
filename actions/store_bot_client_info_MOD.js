@@ -243,7 +243,7 @@ module.exports = {
         result = botClient.guilds.cache.size
         break
       case 4: // User Amount
-        result = botClient.users.cache.size
+        result = botClient.guilds.cache.map(guild => guild.memberCount).reduce((a, b) => a + b)
         break
       case 5: // Rounded Ping
         result = Math.round(botClient.ws.ping)
