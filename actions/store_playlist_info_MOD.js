@@ -51,7 +51,8 @@ module.exports = {
     const varName = this.evalMessage(data.varName, cache)
     const url = this.evalMessage(data.query, cache)
     const INFO = parseInt(data.info)
-    const ytlist = require('youtube-playlist')
+    const Mods = this.getMods()
+    const ytlist = Mods.require('youtube-playlist')
     let result
 
     switch (INFO) {
