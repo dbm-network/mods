@@ -919,6 +919,11 @@
     "name": "Store Permissions Info",
     "section": "Permission Control"
   },
+  "store_playlist_info_MOD.js": {
+    "description": "Store information about a YouTube playlist",
+    "name": "Store Playlist Info",
+    "section": "YouTube Tools"
+  },
   "store_reaction_info_MOD.js": {
     "description": "Store information pertaining to a reaction",
     "name": "Store Reaction Info",
