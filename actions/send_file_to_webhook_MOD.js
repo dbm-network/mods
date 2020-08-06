@@ -21,8 +21,8 @@ module.exports = {
   // This function generates the subtitle displayed next to the name.
   // ---------------------------------------------------------------------
 
-  subtitle: function (data) {
-    return `Send a file to a webhook.`
+  subtitle (data) {
+    return 'Send a file to a webhook.'
   },
 
   // ---------------------------------------------------------------------
@@ -31,7 +31,7 @@ module.exports = {
   // Stores the relevant variable info for the editor.
   // ---------------------------------------------------------------------
 
-  variableStorage: function (data, varType) {
+  variableStorage (data, varType) {
     const type = parseInt(data.storage)
     if (type !== varType) return
     const dataType = 'Number'
@@ -64,7 +64,7 @@ module.exports = {
   //                messages, servers, variables
   // ---------------------------------------------------------------------
 
-  html: function (isEvent, data) {
+  html (isEvent, data) {
     return `
 <div style="width: 90%;">
   Webhook URL:<br>
@@ -85,7 +85,7 @@ module.exports = {
   // functions for the DOM elements.
   // ---------------------------------------------------------------------
 
-  init: function () {},
+  init () {},
 
   // ---------------------------------------------------------------------
   // Action Bot Function
@@ -95,16 +95,16 @@ module.exports = {
   // so be sure to provide checks for variable existance.
   // ---------------------------------------------------------------------
 
-  action: function (cache) {
+  action (cache) {
     const data = cache.actions[cache.index]
     const url = this.evalMessage(data.url, cache)
     const filename = this.evalMessage(data.filename, cache)
     const Mods = this.getMods()
 
-    const { Webhook } = Mods.require('discord-webhook-node');
-    const hook = new Webhook(url);
- 
-    hook.sendFile(filename);
+    const { Webhook } = Mods.require('discord-webhook-node')
+    const hook = new Webhook(url)
+
+    hook.sendFile(filename)
 
     this.callNextAction(cache)
   },
@@ -118,5 +118,5 @@ module.exports = {
   // functions you wish to overwrite.
   // ---------------------------------------------------------------------
 
-  mod: function (DBM) {}
+  mod (DBM) {}
 }
