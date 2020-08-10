@@ -494,6 +494,11 @@
     "name": "Google Search",
     "section": "Other Stuff"
   },
+  "hex_to_rgb_MOD.js": {
+    "description": "Converts hex color code to RGB",
+    "name": "Hex To RGB",
+    "section": "Other Stuff"
+  },
   "inspect_list_or_object_MOD.js": {
     "description": "Inspect a list or an object",
     "name": "Inspect List/Object",
