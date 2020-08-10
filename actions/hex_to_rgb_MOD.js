@@ -1,5 +1,5 @@
 module.exports = {
-    name: "Hex to RGB",
+  name: "Hex to RGB",
     section: "Other Stuff",
     subtitle (data) {
     return `${data.varName} - Hex to RGB`
