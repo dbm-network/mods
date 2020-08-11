@@ -8,7 +8,7 @@ module.exports = {
 
   variableStorage (data, varType) {
     if (parseInt(data.storage) !== varType) return
-    return ([data.varName, 'Convert To Base64'])
+    return ([data.varName, 'String'])
   },
 
   fields: ['input', 'info', 'storage', 'varName'],
@@ -48,11 +48,11 @@ module.exports = {
     const base = Mods.require('base-64')
     const utf8 = Mods.require('utf8')
     const storage = parseInt(data.storage)
-    const INFO = parseInt(data.info)
+    const info = parseInt(data.info)
     const varName = this.evalMessage(data.varName, cache)
     const input = this.evalMessage(data.input, cache)
     let result = 0
-    switch (INFO) {
+    switch (info) {
       case 0:
         const encoded = utf8.encode(input);
         result = base.encode(encoded)
