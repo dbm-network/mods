@@ -24,10 +24,20 @@ module.exports = {
     const hexToConvert = this.evalMessage(data.hexToConvert, cache)
     const storage = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
-    function getRGB (color) {
-      if (color.length === 7) {
-        const r = parseInt(color.substr(1, 2),16)
-        const g = parseInt(color.substr(3, 2),16)
-        const b = parseInt(color.substr(5, 2),16)
+  function getRGB(color) {
+    if (color.length == 7) {
+        let r = parseInt(color.substr(1,2),16);
+        let g = parseInt(color.substr(3,2),16);
+        let b = parseInt(color.substr(5,2),16);
         return '('+r+', '+g+', '+b+')' ;
   } else {
+    console.log("Enter a correct value!");
+  }
+}
+  const rgbFinished = getRGB(hexToConvert);
+  this.storeValue(rgbFinished, storage, varName, cache);
+    this.callNextAction(cache);
+    },
+    mod () {
+    }
+}
