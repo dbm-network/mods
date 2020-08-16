@@ -44,22 +44,17 @@ module.exports = {
 
   action (cache) {
     const data = cache.actions[cache.index]
-    const Mods = this.getMods()
-    const base = Mods.require('base-64')
-    const utf8 = Mods.require('utf8')
     const storage = parseInt(data.storage)
     const info = parseInt(data.info)
     const varName = this.evalMessage(data.varName, cache)
     const input = this.evalMessage(data.input, cache)
-    let result = 0
+    let result
     switch (info) {
       case 0:
-        const encoded = utf8.encode(input);
-        result = base.encode(encoded)
+        result = new Buffer(input).toString('base64')
         break
       case 1:
-        const encoded = utf8.decode(input);
-        result = base.decode(encoded)
+        result = new Buffer(input, 'base64').toString()
         break
     }
     this.storeValue(result, storage, varName, cache)
@@ -67,4 +62,3 @@ module.exports = {
   },
 
   mod () {}
-}
