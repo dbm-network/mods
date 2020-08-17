@@ -21,7 +21,7 @@ module.exports = {
         let r = parseInt(color.substr(1,2),16);
         let g = parseInt(color.substr(3,2),16);
         let b = parseInt(color.substr(5,2),16);
-        return '('+r+', '+g+', '+b+')' ;
+        return '(`${r}, ${g}, ${b}`)' ;
       } else {
         console.log("Enter a correct value!");
       }
