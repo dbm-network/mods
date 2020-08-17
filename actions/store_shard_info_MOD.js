@@ -48,59 +48,57 @@ module.exports = {
     const client = this.getDBM().Bot.bot
     const data = cache.actions[cache.index]
     const info = parseInt(data.info)
-// Server Count - Total Shards
-client.shard.fetchClientValues('guilds.cache.size')
-.then(results => {
-const totalshardservercount = results.reduce((prev, guildCount) => prev + guildCount, 0)
 
-// Member Count - Total Shards
-client.shard.broadcastEval('this.guilds.cache.reduce((prev, guild) => prev + guild.memberCount, 0)')
-.then(results => {
-const totalshardmembercount = results.reduce((prev, memberCount) => prev + memberCount, 0)
+    client.shard.fetchClientValues('guilds.cache.size')
+      .then((r) => {
+        const shardGuildCount = r.reduce((p, c) => p + c, 0)
 
-// Shard's ID - Current Server
-const shardid2 = client.shard.ids
-const shardid = Number(shardid2) + 1
+        client.shard.broadcastEval('this.guilds.cache.reduce((p, g) => prev + g.memberCount, 0)')
+          .then((r) => {
+            const shardMemberCount = r.reduce((p, c) => p + c, 0)
 
-    if (!client) {
-      this.callNextAction(cache)
-      return
-    }
-    let result
-    switch (info) {
-      case 0: // Total Count of Servers in All Shards
-        result = totalshardservercount
-        break
-      case 1: // Total Count of Members in All Shards
-        result = totalshardmembercount
-        break
-      case 2: // Shard's Ping On The Current Server
-        result = client.shard.client.ws.ping
-        break
-      case 3: // Shard's ID On The Current Server
-        result = shardid
-        break
-        case 4: // Total Count of Servers in Current Server's Shard
-        result = client.guilds.cache.size
-        break
-        case 5: // Total Count of Members in Current Server's Shard
-        result = client.guilds.cache.array()[0].memberCount
-        break
-        case 6: // Total Server's List On The Current Server's Shard
-        result = client.shard.client.guilds.cache.array()
-        break
-      default:
-        break
-    }
+            const shardIDs = client.shard.ids
+            const shardID = Number(shardIDs) + 1
 
-    if (result !== undefined) {
-      const storage = parseInt(data.storage)
-      const varName2 = this.evalMessage(data.varName2, cache)
-      this.storeValue(result, storage, varName2, cache)
-    }
-    this.callNextAction(cache)
-  })
-})
+            if (!client) {
+              this.callNextAction(cache)
+              return
+            }
+            let result
+            switch (info) {
+              case 0: // Total Count of Servers in All Shards
+                result = shardGuildCount
+                break
+              case 1: // Total Count of Members in All Shards
+                result = shardMemberCount
+                break
+              case 2: // Shard's Ping On The Current Server
+                result = client.shard.client.ws.ping
+                break
+              case 3: // Shard's ID On The Current Server
+                result = shardID
+                break
+              case 4: // Total Count of Servers in Current Server's Shard
+                result = client.guilds.cache.size
+                break
+              case 5: // Total Count of Members in Current Server's Shard
+                result = client.guilds.cache.array()[0].memberCount
+                break
+              case 6: // Total Server's List On The Current Server's Shard
+                result = client.shard.client.guilds.cache.array()
+                break
+              default:
+                break
+            }
+
+            if (result !== undefined) {
+              const storage = parseInt(data.storage)
+              const varName2 = this.evalMessage(data.varName2, cache)
+              this.storeValue(result, storage, varName2, cache)
+            }
+            this.callNextAction(cache)
+          })
+      })
   },
 
   mod () {}
