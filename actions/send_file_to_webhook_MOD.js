@@ -7,10 +7,8 @@ module.exports = {
   },
 
   variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    const dataType = 'Number'
-    return ([data.varName, dataType])
+    if (parseInt(data.storage) !== varType) return
+    return ([data.varName, 'Number'])
   },
 
   fields: ['storage', 'varName', 'file'],
