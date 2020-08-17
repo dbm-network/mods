@@ -264,6 +264,11 @@
     "name": "Convert Timestamp to Date",
     "section": "Other Stuff"
   },
+  "convert_to_base64_MOD.js": {
+    "description": "Convert to Base64",
+    "name": "Convert To Base64",
+    "section": "Other Stuff"
+  },
   "convert_to_morse_code_MOD.js": {
 	  "description": "Convert Text to Morse code and Vice Versa",
 	  "name": "Convert to Morse code",
