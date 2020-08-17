@@ -19,13 +19,13 @@ module.exports = {
 <div style="float: left; width: 80%; padding-top: 8px;">
   Source Info:<br>
   <select id="info" class="round">
-     <option value="0">Total Count of Servers (in All Shards)</option>
-     <option value="1">Total Count of Members (in All Shards)</option>
-     <option value="2">Shard's Ping (On The Current Server)</option>
-     <option value="3">Shard's ID (On The Current Server)</option>
-     <option value="4">Total Number of Servers (in Current Server's Shard)</option>
-     <option value="5">Total Count of Members (in Current Server's Shard)</option>
-     <option value="6">Total Server's List (On The Current Server's Shard)</option>
+    <option value="0">Total Count of Servers (in All Shards)</option>
+    <option value="1">Total Count of Members (in All Shards)</option>
+    <option value="2">Shard's Ping (On The Current Server)</option>
+    <option value="3">Shard's ID (On The Current Server)</option>
+    <option value="4">Total Number of Servers (in Current Server's Shard)</option>
+    <option value="5">Total Count of Members (in Current Server's Shard)</option>
+    <option value="6">Total Server's List (On The Current Server's Shard)</option>
   </select>
 </div><br><br><br>
 <div>
