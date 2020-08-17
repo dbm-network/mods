@@ -53,8 +53,7 @@ module.exports = {
       files: [
         this.getLocalFile(this.evalMessage(data.file, cache))
       ]
-    })
-    this.callNextAction(cache)
+    }).then(() => this.callNextAction(cache))
   },
 
   mod () {}
