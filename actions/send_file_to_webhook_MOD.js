@@ -3,7 +3,7 @@ module.exports = {
   section: 'Webhook Control',
 
   subtitle (data) {
-    return `Send a file to a webhook`
+    return 'Send a file to a webhook'
   },
 
   variableStorage (data, varType) {
@@ -30,8 +30,8 @@ module.exports = {
   </div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
-	Local File URL:<br>
-	<input id="file" class="round" type="text" value="resources/"><br>
+  Local File URL:<br>
+  <input id="file" class="round" type="text" value="resources/"><br>
 </div>`
   },
 
@@ -39,25 +39,25 @@ module.exports = {
     const { glob, document } = this
 
     glob.refreshVariableList(document.getElementById('storage'))
-	},
+  },
 
   action (cache) {
     const data = cache.actions[cache.index]
     const storage = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
-    const filename = this.evalMessage(data.filename, cache)
+    //const filename = this.evalMessage(data.filename, cache)
     const Mods = this.getMods()
     const webhook = Mods.getWebhook(storage, varName, cache)
-		const options = {
-			files: [
-				this.getLocalFile(this.evalMessage(data.file, cache))
-			]
-		};
-	if (!webhook) {
-      this.callNextAction(cache)
-      return
+    const options = {
+        files: [
+            this.getLocalFile(this.evalMessage(data.file, cache))
+		]
+	}
+    if (!webhook) {
+        this.callNextAction(cache)
+    return
     }
-	webhook.send(options)
+    webhook.send(options)
     this.callNextAction(cache)
   },
 
