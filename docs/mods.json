@@ -664,6 +664,11 @@
     "name": "Send Embed to Webhook",
     "section": "Webhook Control"
   },
+  "send_file_to_webhook_MOD.js": {
+    "description": "Send a file to webhook",
+    "name": "Send File to Webhook",
+    "section": "Webhook Control"
+  },
   "send_gif_MOD.js": {
     "description": "Send a specified gif to a channel",
     "name": "Send GIF",
