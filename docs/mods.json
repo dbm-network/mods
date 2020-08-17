@@ -949,6 +949,10 @@
     "name": "Store Role Info",
     "section": "Role Control"
   },
+  "store_shard_info.js": {
+    "description": "Shows shard information.",
+    "name": "Store Shard Info"
+  },
   "store_twitch_info_MOD.js": {
     "description": "Store information about Twitch",
     "name": "Store Twitch Info",
