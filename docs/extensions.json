@@ -1,0 +1,26 @@
+{
+  "aaa_extensionHelper_EXT.js": {
+    "description": "Extension Helper",
+    "name": "Extension Helper"
+  },
+  "command_info_EXT.js": {
+    "description": "Adds additional fields to your commands for use in an automatic help command",
+    "name": "Command Info"
+  },
+  "dashboard_EXT.js": {
+    "description": "Discord Bot Maker Dashboard.",
+    "name": "Bot Dashboard"
+  },
+  "multiple_bot_owners_EXT.js": {
+    "description": "Allows the bot to have multiple owners.",
+    "name": "Multiple Bot Owners"
+  },
+  "pastebin_EXT.js": {
+    "description": "",
+    "name": "Pastebin"
+  },
+  "server_prefixes_EXT.js": {
+    "description": "Allow for server specific prefixes. Requires control_server_prefix_MOD.js",
+    "name": "Server Prefixes"
+  }
+}

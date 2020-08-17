@@ -1,35 +1,54 @@
 module.exports = {
   name: 'Await Reaction Call Action',
+  displayName: 'Await Reaction',
   section: 'Messaging',
 
-  subtitle (data) {
-    return `Await ${data.max} ${data.max === '1' ? 'reaction' : 'reactions'} for ${data.time} ${data.time === '1' ? 'milisecond' : 'miliseconds'}`
+  subtitle ({ max, time }) {
+    const getPlural = (n) => (n !== '1' ? 's' : '')
+    return `Await ${max} reaction${getPlural(max)} for ${time} millisecond${getPlural(time)}`
   },
 
   variableStorage (data, varType) {
-    const type = parseInt(data.storage2)
-    if (type !== varType) return
-    return ([data.varName2, 'Reaction List'])
+    if (parseInt(data.storage2) !== varType) return
+    return [data.varName2, `Reaction${parseInt(data.max) === 1 ? '' : ' List'}`]
   },
 
   fields: ['storage', 'varName', 'filter', 'max', 'time', 'maxEmojis', 'maxUsers', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal', 'storage2', 'varName2'],
 
   html (isEvent, data) {
     return `
-<div id="wrexdiv2" style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
-  <div class="codeblock" style="float: left; width: 88%; padding-top: 8px;">
-    <p>
-      <span style="color:white"><b>Filters Examples:</b><br><span style="color:#9b9b9b">
-      reaction.emoji.name === '😎'<br>
-      reaction.emoji.id === '1234567890'<br>
-      <br>
-      user.id === '1234567890'<br>
-      user.name === 'Mr.Gold'<br>
-      user.tag === 'Mr.Gold#9003'<br>
-      <br>
-      <u><span class="wrexlink" data-url="https://www.w3schools.com/js/js_comparisons.asp">JavaScript Comparison and Logical Operators</span></u>
-    </p>
-  </div><br><br><br><br><br><br><br><br><br><br><br>
+<div style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
+  <div>
+    <details>
+      <summary><span style="color: white"><b>Filter Examples:</b></summary>
+      <div class="codeblock">
+        <span style="color:#9b9b9b">
+          <span><b>Available variables:</b></span>
+          <li>author // The command author</li>
+          <li>server // Guild where the command was used</li><br>
+          <span><b>Message variables (Message that is being awaited):</b></span>
+          <li>author // The message author</li>
+          <li>msg // The message object</li>
+          <li>reaction // The reaction that was added</li><br>
+          <li>user // The user that reacted</li>
+          <span><b>Reaction Examples:</b></span>
+          <li>reaction.emoji.name === '👌'<br></li>
+          <li>['👍', '👎'].includes(reaction.emoji.name)</li>
+          <li>reaction.emoji.id === '514136831793823756'</li>
+          <li>reaction.emoji.id // Take any response</li><br>
+          <span><b>Author Examples:</b></span>
+          <li>author.id === '123467823521843898'</li>
+          <li>author.username === 'Clyde'</li>
+          <li>author.tag === 'Clyde#0000'</li>
+          <li>author.id === user.id</li><br>
+          <span><b>Reaction + Author examples:</b></span>
+          <li>reaction.emoji.name === '👍' && author.id === user.id // Take a 👍 reaction from the command message author</li>
+          <li>reaction.emoji.name === '👍' && author.id === tempVars('some variable') // Take a 👍 reaction from a member with an ID stored in a temp variable</li>
+          <a class="clickable" href="#" onclick="require('child_process').execSync('start https://www.w3schools.com/js/js_comparisons.asp')">JavaScript Comparison and Logical Operators</a>
+        </span>
+      </div><br>
+    </details>
+  </div><br>
   <div>
     <div style="float: left; width: 35%;">
       Source Message:<br>
@@ -44,7 +63,7 @@ module.exports = {
   </div><br><br><br>
   <div style="width: 567px; margin-top: 8px;">
     JavaScript Filter Eval: <span style="opacity: 0.5;">(JavaScript Strings)<br>
-    <input id="filter" class="round" type="text" value="reaction.emoji.name === '👌' && user.id === 'someID'">
+    <input id="filter" class="round" type="text" value="reaction.emoji.name === '👌' && author.id === user.id">
   </div><br>
   <div style="float: left; width: 50%;">
     Max Reactions:<br>
@@ -102,22 +121,23 @@ module.exports = {
         Variable Name:<br>
         <input id="varName2" class="round" type="text">
       </div>
-    </div><br><br><br><br>
+    </div><br><br><br>
   </div>
-  <style>
-    .codeblock {
-      margin: 4px; background-color: rgba(0,0,0,0.20); border-radius: 3.5px; border: 1px solid rgba(255,255,255,0.15); padding: 4px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; transition: border 175ms ease;
-    }
-    span.wrexlink {
-      color: #99b3ff;
-      text-decoration:underline;
-      cursor:pointer;
-    }
-    span.wrexlink:hover {
-      color:#4676b9;
-    }
-  </style>
-</div>`
+</div>
+<style>
+  .codeblock {
+    margin: 4px;
+    background-color: rgba(0,0,0,0.20);
+    border-radius: 3.5px;
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 4px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    transition: border 175ms ease;
+  }
+  .clickable:hover {
+    text-decoration: underline;
+  }
+</style>`
   },
 
   init () {
@@ -168,24 +188,11 @@ module.exports = {
     }
     glob.onChangeTrue(document.getElementById('iftrue'))
     glob.onChangeFalse(document.getElementById('iffalse'))
-
-    const wrexlinks = document.getElementsByClassName('wrexlink')
-    for (let x = 0; x < wrexlinks.length; x++) {
-      const wrexlink = wrexlinks[x]
-      var url = wrexlink.getAttribute('data-url')
-      if (url) {
-        wrexlink.setAttribute('title', url)
-        wrexlink.addEventListener('click', (e) => {
-          e.stopImmediatePropagation()
-          console.log(`Launching URL: [${url}] in your default browser.`)
-          require('child_process').execSync(`start ${url}`)
-        })
-      }
-    }
   },
 
   action (cache) {
     const data = cache.actions[cache.index]
+    const { Actions } = this.getDBM()
 
     const message = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
@@ -203,6 +210,23 @@ module.exports = {
       const time = parseInt(this.evalMessage(data.time, cache))
 
       msg.awaitReactions((reaction, user) => {
+        /* eslint-disable */
+        const { msg: message, server } = cache
+        const { author } = message
+        let member
+        const tempVars = Actions.getActionVariable.bind(cache.temp);
+        const globalVars = Actions.getActionVariable.bind(Actions.global);
+        let serverVars = null;
+        /* eslint-enable */
+
+        if (message) {
+          member = message.member
+        }
+
+        if (cache.server) {
+          serverVars = Actions.getActionVariable.bind(Actions.server[server.id])
+        }
+
         try {
           // eslint-disable-next-line no-eval
           return !!eval(js)
@@ -216,12 +240,11 @@ module.exports = {
         time,
         errors: ['time']
       })
-        .then((collected) => {
-          this.storeValue(collected.size === 1 ? collected.first() : collected.array(), storage, varName2, cache)
+        .then((c) => {
+          this.storeValue(c.size === 1 ? c.first() : c.array(), storage, varName2, cache)
           this.executeResults(true, data, cache)
         })
         .catch(() => this.executeResults(false, data, cache))
-        .catch((err) => console.error(err.stack || err))
     }
   },
 

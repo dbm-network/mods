@@ -14,14 +14,11 @@ class AwaitResponseCallAction {
   }
 
   variableStorage (data, varType) {
-    const type = parseInt(data.storage2)
-    const max = parseInt(data.max)
-    if (type !== varType) return
-    return [data.varName2, max === 1 ? 'Message' : 'Message List']
+    if (parseInt(data.storage2) !== varType) return
+    return [data.varName2, parseInt(data.max) === 1 ? 'Message' : 'Message List']
   }
 
   init () {
-    const { execSync } = require('child_process')
     const { glob, document } = this
 
     glob.channelChange(document.getElementById('storage'), 'varNameContainer')
@@ -68,19 +65,6 @@ class AwaitResponseCallAction {
     }
     glob.onChangeTrue(document.getElementById('iftrue'))
     glob.onChangeFalse(document.getElementById('iffalse'))
-
-    const wrexlinks = document.getElementsByClassName('wrexlink2')
-    for (let i = 0; i < wrexlinks.length; i++) {
-      const wrexlink = wrexlinks[i]
-      const url = wrexlink.getAttribute('data-url2')
-      if (url) {
-        wrexlink.setAttribute('title', url)
-        wrexlink.addEventListener('click', (e) => {
-          e.stopImmediatePropagation()
-          execSync(`start ${url}`)
-        })
-      }
-    }
   }
 
   action (cache) {
@@ -127,8 +111,8 @@ class AwaitResponseCallAction {
           return false
         }
       }, { max, time, errors: ['time'] })
-        .then((collected) => {
-          this.storeValue(collected.size === 1 ? collected.first() : collected.array(), storage, varName2, cache)
+        .then((c) => {
+          this.storeValue(c.size === 1 ? c.first() : c.array(), storage, varName2, cache)
           this.executeResults(true, data, cache)
         })
         .catch(() => this.executeResults(false, data, cache))
@@ -137,8 +121,8 @@ class AwaitResponseCallAction {
 
   html (isEvent, data) {
     return `
-<div id="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
-  <div>
+  <div style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
+    <div>
     <details>
       <summary><span style="color: white"><b>Filter Examples:</b></summary>
       <div class="codeblock">
@@ -165,9 +149,7 @@ class AwaitResponseCallAction {
           <span><b>Content + Author examples:</b></span>
           <li>content.length > 0 && author.id === user.id // Take any response from the command message author</li>
           <li>content.length > 0 && author.id === tempVars('some variable') // Take any response from a member with an ID stored in a temp variable</li>
-          <u>
-            <span class="wrexlink2" data-url2="https://www.w3schools.com/js/js_comparisons.asp">JavaScript Comparison and Logical Operators</span>
-          </u>
+          <a class="clickable" href="#" onclick="require('child_process').execSync('start https://www.w3schools.com/js/js_comparisons.asp')">JavaScript Comparison and Logical Operators</a>
         </span>
       </div><br>
     </details>
@@ -243,7 +225,8 @@ class AwaitResponseCallAction {
         </div>
       </div>
     </div>
-  </div>
+  </div><br><br><br>
+</div>
 <style>
   .codeblock {
     margin-right: 25px;
@@ -254,15 +237,8 @@ class AwaitResponseCallAction {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     transition: border 175ms ease;
   }
-
-  span.wrexlink2 {
-    color: #99b3ff;
+  .clickable:hover {
     text-decoration: underline;
-    cursor: pointer;
-  }
-
-  span.wrexlink2:hover {
-    color: #4676b9;
   }
 </style>`
   }

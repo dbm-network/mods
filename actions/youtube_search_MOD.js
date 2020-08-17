@@ -262,6 +262,9 @@ module.exports = {
         ytsr(input, function (err, searchResults) {
           if (err) console.error(err)
           const video = searchResults.items[results - 1]
+          if (!video) {
+            return _this.callNextAction(cache)
+          }
           let result
           switch (info0) {
             case 0: // Video ID
@@ -315,6 +318,9 @@ module.exports = {
         YouTube.searchPlaylists(`${input}`, results).then((playlists) => {
           let result
           const playlist = playlists[results - 1]
+          if (!playlist) {
+            return _this.callNextAction(cache)
+          }
           switch (info1) {
             case 0: // Playlist ID
               result = playlist.id

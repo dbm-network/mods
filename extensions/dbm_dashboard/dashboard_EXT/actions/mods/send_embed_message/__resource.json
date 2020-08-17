@@ -1,0 +1,15 @@
+{
+    "author": "Zoom",
+    "version": "1.0.0",
+    "name": "Send Embed Message",
+    "description": "Sends a custom embed to a server.",
+    "section": "Dashboard",
+    "sectionID": "dashboard",
+    "dashboardMod": true,
+    "adminPanelMod": true,
+    "scriptFile": "index.js",
+    "webFile": "index.ejs",
+    "size": {
+        "width": 1000
+    }
+}
