@@ -45,17 +45,16 @@ module.exports = {
     const data = cache.actions[cache.index]
     const storage = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
-    //const filename = this.evalMessage(data.filename, cache)
     const Mods = this.getMods()
     const webhook = Mods.getWebhook(storage, varName, cache)
     const options = {
-        files: [
-            this.getLocalFile(this.evalMessage(data.file, cache))
-		]
-	}
+    files: [
+        this.getLocalFile(this.evalMessage(data.file, cache))
+    ]
+    }
     if (!webhook) {
-        this.callNextAction(cache)
-    return
+      this.callNextAction(cache)
+      return
     }
     webhook.send(options)
     this.callNextAction(cache)
