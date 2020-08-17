@@ -2,7 +2,7 @@ module.exports = {
   name: 'Convert to Base64',
   section: 'Other Stuff',
 
-  subtitle (data) {
+  subtitle () {
     return 'Convert To Base64'
   },
 
@@ -51,10 +51,10 @@ module.exports = {
     let result
     switch (info) {
       case 0:
-        result = new Buffer(input).toString('base64')
+        result = Buffer.from(input).toString('base64')
         break
       case 1:
-        result = new Buffer(input, 'base64').toString()
+        result = Buffer.from(input, 'base64').toString()
         break
     }
     this.storeValue(result, storage, varName, cache)
