@@ -46,7 +46,7 @@ module.exports = {
     const storage = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
     const input = this.evalMessage(data.input, cache)
-	const size = this.evalMessage(data.size, cache)
+    const size = this.evalMessage(data.size, cache)
     const result = `https://singlecolorimage.com/get/${input}/${size}`
     this.storeValue(result, storage, varName, cache)
     this.callNextAction(cache)
