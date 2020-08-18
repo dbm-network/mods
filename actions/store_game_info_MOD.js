@@ -152,7 +152,7 @@ module.exports = {
 
     let result
     switch (info) {
-      case 0: 
+      case 0:
         result = mem.presence.activities[0].applicationID
         break
       case 1:
