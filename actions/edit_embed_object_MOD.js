@@ -578,7 +578,7 @@ module.exports = {
         embed.image = undefined
         break
       case 3:
-        embed.attachFile(`${imageUrl}/${imageUrl2}`)
+        embed.attachFiles([`${imageUrl}/${imageUrl2}`])
         embed.setImage(`attachment://${imageUrl2}`)
         break
     }
@@ -590,7 +590,7 @@ module.exports = {
         embed.thumbnail = undefined
         break
       case 3:
-        embed.attachFile(`${thumbUrl}/${thumbUrl2}`)
+        embed.attachFiles([`${thumbUrl}/${thumbUrl2}`])
         embed.setImage(`attachment://${thumbUrl2}`)
         break
     }
