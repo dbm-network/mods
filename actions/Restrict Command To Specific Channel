@@ -1,0 +1,45 @@
+module.exports = {
+
+  name: 'Restrict Command',
+  section: 'Channel Control',
+
+  subtitle (data) {
+    return `Restricting command to the channel with ID ${data.input}.`
+  },
+
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage)
+    if (type !== varType) return
+    const dataType = 'Number'
+    return ([data.varName, dataType])
+  },
+
+  fields: ['input'],
+
+  html (isEvent, data) {
+    return `
+<div>
+  <p>This should go above your other actions, it restricts your command to one channel.</p>
+</div><br>
+<div style="width: 90%;">
+  Restrict Command To:<br>
+  <input id="input" class="round" placeholder="Insert a channel ID here." type="text">
+</div><br>
+</div>`
+  },
+
+  init () {},
+
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const input = this.evalMessage(data.input, cache)
+    const msg = cache.msg;
+    if (input === msg.channel.id) {
+      this.callNextAction(cache);
+    } else {
+      return;
+    }
+  },
+
+  mod (DBM) {}
+}
