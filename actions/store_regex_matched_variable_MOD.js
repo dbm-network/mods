@@ -49,7 +49,7 @@ module.exports = {
         </select>
       </div>
       <div id="typeContainer" style="display: ; float: right; width: 60%;">
-        <br>Match: (Regex Builder)<a href="https://regex101.com/" target="_blank">https://regex101.com/</a>)
+        <br>Match: (Regex Builder)<a href="#" onclick="require('child_process').execSync('start https://regexr.com')">regexr.com</a>
         <input id="typeVariable" class="round" type="text">
       </div>
     </div>
