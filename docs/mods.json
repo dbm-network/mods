@@ -664,6 +664,11 @@
     "name": "Send Embed to Webhook",
     "section": "Webhook Control"
   },
+  "send_file_to_webhook_MOD.js": {
+    "description": "Send a file to webhook",
+    "name": "Send File to Webhook",
+    "section": "Webhook Control"
+  },
   "send_gif_MOD.js": {
     "description": "Send a specified gif to a channel",
     "name": "Send GIF",
@@ -943,6 +948,10 @@
     "description": "Store information pertaining to a role",
     "name": "Store Role Info",
     "section": "Role Control"
+  },
+  "store_shard_info.js": {
+    "description": "Shows shard information.",
+    "name": "Store Shard Info"
   },
   "store_twitch_info_MOD.js": {
     "description": "Store information about Twitch",
