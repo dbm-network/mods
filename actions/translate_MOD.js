@@ -17,17 +17,15 @@ module.exports = {
 
   html (isEvent, data) {
     return `
+<div style="width: 30%;">
+  Translate to:<br>
+  <input id="translateTo" placeholder="Should be 2 letters." class="round" type="text" maxlength="2"><br>
+</div>
 <div>
-  <div style="float: right; width: 60%;">
-    Translate to:<br>
-    <input id="translateTo" placeholder="Should be 2 letters." class="round" type="text" maxlength="2"><br>
-  </div>
-</div><br><br><br>
-<div style="padding-top: 8px;">
   Translate Message:<br>
   <textarea id="translateMessage" rows="9" placeholder="Insert message that you want to translate here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
-</div><br>
-<div>
+</div>
+<div stlye="padding-top: 30px;">
   <div style="float: left; width: 35%;">
     Store In:<br>
     <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
@@ -47,8 +45,7 @@ module.exports = {
     glob.variableChange(document.getElementById('storage'), 'varNameContainer')
   },
 
-  action (cache) {
-    const _this = this
+  async action (cache) {
     const data = cache.actions[cache.index]
     const translateTo = this.evalMessage(data.translateTo, cache)
     const translateMessage = this.evalMessage(data.translateMessage, cache)
@@ -61,17 +58,15 @@ module.exports = {
     const Mods = this.getMods()
     const translate = Mods.require('node-google-translate-skidz')
 
-    translate({
-      text: translateMessage,
-      target: translateTo
-    }, (result) => {
-      if (result.translation !== undefined) {
-        _this.storeValue(result.translation, storage, varName, cache)
-      }
-      _this.callNextAction(cache)
-    })
+    let result
+    try {
+      const { translation } = await translate(translateMessage, translateTo)
+      result = translation
+    } catch {}
+
+    if (result) this.storeValue(result, storage, varName, cache)
+    this.callNextAction(cache)
   },
 
   mod () {}
-
 }
