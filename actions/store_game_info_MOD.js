@@ -150,7 +150,7 @@ module.exports = {
       return
     }
 
-    let result
+    let result = null
     switch (info) {
       case 0:
         result = mem.presence.activities[0].applicationID
