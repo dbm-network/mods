@@ -4,15 +4,15 @@ module.exports = {
   section: 'Other Stuff',
 
   subtitle (data) {
-  return '${time[parseInt(data.type)]}';
+  return '${time[parseInt(data.type)]}'
 	},
 
 	variableStorage (data, varType) {
-		const type = parseInt(data.storage);
-		if(type !== varType) return;
-		let result = "Number";
+		const type = parseInt(data.storage)
+		if(type !== varType) return
+		let result = "Number"
 		if(data.type === "7") {
-			result = "Text";
+			result = "Text"
 		}
 		return ([data.varName, result]);
 	},
@@ -53,46 +53,46 @@ module.exports = {
 	init () {},
 
 	action (cache) {
-		const data = cache.actions[cache.index];
-		const type = parseInt(data.type);
-		const date = new Date();
-		let result;
+		const data = cache.actions[cache.index]
+		const type = parseInt(data.type)
+		const date = new Date()
+		let result
 		switch(type) {
 			case 0:
-				result = date.getFullYear();
-				break;
+				result = date.getFullYear()
+				break
 			case 1:
-				result = date.getMonth() + 1;
-				break;
+				result = date.getMonth() + 1
+				break
 			case 2:
-				result = date.getDate();
-				break;
+				result = date.getDate()
+				break
 			case 3:
-				result = date.getHours();
-				break;
+				result = date.getHours()
+				break
 			case 4:
-				result = date.getMinutes();
-				break;
+				result = date.getMinutes()
+				break
 			case 5:
-				result = date.getSeconds();
-				break;
+				result = date.getSeconds()
+				break
 			case 6:
-				result = date.getMiliseconds();
-				break;
+				result = date.getMiliseconds()
+				break
 			case 7:
-				const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-				result = months[(date.getMonth())];
+				const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+				result = months[(date.getMonth())]
 				break;
 			default:
 				break;
 		}
 		if(result !== undefined) {
-			const storage = parseInt(data.storage);
-			const varName = this.evalMessage(data.varName, cache);
-			this.storeValue(result, storage, varName, cache);
+			const storage = parseInt(data.storage)
+			const varName = this.evalMessage(data.varName, cache)
+			this.storeValue(result, storage, varName, cache)
 		}
-		this.callNextAction(cache);
+		this.callNextAction(cache)
 	},
 
 	mod () {}
-};
+}
