@@ -4,7 +4,7 @@ module.exports = {
   section: 'Other Stuff',
 
   subtitle (data) {
-    const time = ['Year', 'Month', 'Day of the Month', 'Hour', 'Minute', 'Second', 'Milisecond', 'Month Text'];
+    const time = ['Year', 'Month', 'Day of the Month', 'Hour', 'Minute', 'Second', 'Milisecond', 'Month Text']
     return `${time[parseInt(data.type)]}`
   },
 
@@ -15,7 +15,7 @@ module.exports = {
     if (data.type === '7') {
       result = 'Text'
     }
-    return ([data.varName, result]);
+    return ([data.varName, result])
   },
 
   fields: ['type', 'storage', 'varName'],
