@@ -1,11 +1,10 @@
 module.exports = {
 
-	name: "Store Time Info",
-	section: "Other Stuff",
+  name: 'Store Time Info',
+  section: 'Other Stuff',
 
-	subtitle (data) {
-		const time = ["Year", "Month", "Day of the Month", "Hour", "Minute", "Second", "Milisecond", "Month Text"];
-		return '${time[parseInt(data.type)]}';
+  subtitle (data) {
+  return '${time[parseInt(data.type)]}';
 	},
 
 	variableStorage (data, varType) {
