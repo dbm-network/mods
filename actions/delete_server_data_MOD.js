@@ -1,7 +1,6 @@
 module.exports = {
   name: 'Delete Server Data',
-
-  section: 'Deprecated',
+  section: 'Data',
 
   subtitle (data) {
     const servers = ['Current Server', 'Temp Variable', 'Server Variable', 'Global Variable']

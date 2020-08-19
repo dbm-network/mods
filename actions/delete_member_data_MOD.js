@@ -1,7 +1,6 @@
 module.exports = {
   name: 'Delete Member Data',
-
-  section: 'Deprecated',
+  section: 'Data',
 
   subtitle (data) {
     const members = ['Mentioned User', 'Command Author', 'Temp Variable', 'Server Variable', 'Global Variable']
