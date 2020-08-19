@@ -4,22 +4,23 @@ module.exports = {
   section: 'Other Stuff',
 
   subtitle (data) {
-  return '${time[parseInt(data.type)]}'
-	},
+    const time = ["Year", "Month", "Day of the Month", "Hour", "Minute", "Second", "Milisecond", "Month Text"];
+    return '${time[parseInt(data.type)]}'
+  },
 
-	variableStorage (data, varType) {
-		const type = parseInt(data.storage)
-		if(type !== varType) return
-		let result = "Number"
-		if(data.type === "7") {
-			result = "Text"
-		}
-		return ([data.varName, result]);
-	}
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage)
+    if(type !== varType) return
+    let result = "Number"
+    if(data.type === "7") {
+      result = "Text"
+    }
+    return ([data.varName, result]);
+  }
 
   fields: ["type", "storage", "varName"],
 
-  html (isEvent, data) {
+html (isEvent, data) {
     return `
 <div>
  <div style="padding-top: 8px; width: 70%;">
@@ -48,8 +49,7 @@ module.exports = {
     <input id="varName" class="round" type="text"><br>
   </div>
 </div>`
-  },
-
+},
   init () {},
 
   action (cache) {
