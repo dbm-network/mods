@@ -27,7 +27,7 @@ module.exports = {
         const g = parseInt(color.substr(3, 2), 16)
         const b = parseInt(color.substr(5, 2), 16)
         /* eslint no-template-curly-in-string: "error" */
-        return '${r}, ${g}, ${b}'
+        return `${r}, ${g}, ${b}`
       } else {
         console.log('Enter a correct value!')
       }
