@@ -49,53 +49,6 @@ module.exports = {
 </div>`
   },
 
-<<<<<<< HEAD
-	init () {},
-
-	action (cache) {
-		const data = cache.actions[cache.index]
-		const type = parseInt(data.type)
-		const date = new Date()
-		let result
-		switch(type) {
-			case 0:
-				result = date.getFullYear()
-				break
-			case 1:
-				result = date.getMonth() + 1
-				break
-			case 2:
-				result = date.getDate()
-				break
-			case 3:
-				result = date.getHours()
-				break
-			case 4:
-				result = date.getMinutes()
-				break
-			case 5:
-				result = date.getSeconds()
-				break
-			case 6:
-				result = date.getMiliseconds()
-				break
-			case 7:
-				const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-				result = months[(date.getMonth())]
-				break;
-			default:
-				break;
-		}
-		if(result !== undefined) {
-			const storage = parseInt(data.storage)
-			const varName = this.evalMessage(data.varName, cache)
-			this.storeValue(result, storage, varName, cache)
-		}
-		this.callNextAction(cache)
-	},
-
-	mod () {}
-=======
   init () {},
 
   action (cache) {
@@ -140,5 +93,4 @@ module.exports = {
     this.callNextAction(cache)
     },
   mod () {}
->>>>>>> b6d82fa... fixed Eslint
 }
