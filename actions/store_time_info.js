@@ -15,6 +15,7 @@ module.exports = {
 			result = "Text"
 		}
 		return ([data.varName, result]);
+	}
 
   fields: ["type", "storage", "varName"],
 
