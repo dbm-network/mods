@@ -1,7 +1,6 @@
 module.exports = {
   name: 'Delete Global Data',
-
-  section: 'Deprecated',
+  section: 'Data',
 
   subtitle (data) {
     return `Data : ${data.dataName ? data.dataName : 'All Data'}`

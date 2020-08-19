@@ -1,7 +1,6 @@
 module.exports = {
   name: 'Store Global Data',
-
-  section: 'Deprecated',
+  section: 'Data',
 
   subtitle (data) {
     const storage = ['', 'Temp Variable', 'Server Variable', 'Global Variable']
