@@ -10,7 +10,7 @@ module.exports = {
     DBM.Events.reactionAdded = function (reaction, member) {
       if (!Bot.$evts['Message Reaction Added MOD']) return
       const server = reaction.message.guild || null
-      let user = null
+      let user = member
       if (server) {
         user = server.members.cache.get(member.id)
       }
