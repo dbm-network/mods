@@ -24,7 +24,8 @@ module.exports = {
 
   init () {},
 
-  close (document, data) {},
+  close () {},
+
 
   load () {},
 
