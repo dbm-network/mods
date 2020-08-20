@@ -23,7 +23,7 @@ module.exports = {
 
     run: (DBM, req, res, next, Dashboard) => {
         let server = DBM.Bot.bot.guilds.cache.get(req.params.serverID);
-        
+
         if (!server) {
             res.redirect(`https://discordapp.com/oauth2/authorize?client_id=${DBM.Bot.bot.user.id}&scope=bot&permissions=2146958591&guild_id=${req.params.serverID}`);
             return {
@@ -31,19 +31,11 @@ module.exports = {
             };
         } else {
             if (!Dashboard.isUserGuildManager(req, res, next)) {
-                res.redirect('/dashboard/@me/servers');
+                res.redirect('/dashboard/@me/servers/n');
                 return {
                     skipRender: true
                 };
             }
-            // console.log(server.memberCount)
-            let owners = Dashboard.settings.owner;
-            if (!owners.includes(req.user.id)) {
-                res.redirect("/dashboard/@me");
-                return {
-                    skipRender: true
-                };
-            };
     
             let sections = [];
             let panelMods = [];
