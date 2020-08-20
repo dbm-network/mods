@@ -89,26 +89,30 @@ module.exports = {
   <div style="padding-top: 8px; width: 70%;">
     Source Info:<br>
     <select id="info" class="round">
-      <option value="0" selected>Game Application ID</option>
+      <option value="0">Game Application ID</option>
       <option value="1">Game Details</option>
-      <option value="2">Game Name</option>
+      <option value="2" selected>Game Name</option>
       <option value="3">Game State</option>
       <option value="4">Game Is Being Streamed?</option>
       <option value="5">Game Stream URL</option>
       <option value="6">Game Status Type</option>
-      <option value="13">Game Timestamp Start</option>
-      <option value="15">Game Timestamp End</option>
-      <option value="14">Game Party ID</option>
-      <option value="16">Game Party Size</option>
+      <optgroup label="Timestamps">
+        <option value="13">Game Timestamp Start</option>
+        <option value="15">Game Timestamp End</option>
+      </optgroup>
+      <optgroup label="Party">
+        <option value="14">Game Party ID</option>
+        <option value="16">Game Party Size</option>
+      </optgroup>
       <optgroup label="Assets Large Image">
-      <option value="7">Game Large Image ID</option>
-      <option value="8">Game Large Image URL</option>
+        <option value="7">Game Large Image ID</option>
+        <option value="8">Game Large Image URL</option>
       <option value="9">Game Large Image Text</option>
       </optgroup>
       <optgroup label="Assets Small Image">
-      <option value="10">Game Small Image ID</option>
-      <option value="11">Game Small Image URL</option>
-      <option value="12">Game Small Image Text</option>
+        <option value="10">Game Small Image ID</option>
+        <option value="11">Game Small Image URL</option>
+        <option value="12">Game Small Image Text</option>
       </optgroup>
     </select>
   </div>
@@ -141,151 +145,63 @@ module.exports = {
     const varName = this.evalMessage(data.varName, cache)
     const mem = this.getMember(member, varName, cache)
 
-    if (!mem) {
+    if (!mem || !mem.presence.activities[0]) {
       this.callNextAction(cache)
       return
     }
 
-    let result
+    let result = null
     switch (info) {
       case 0:
-        if (!mem.presence.game) {
-          result = 'null'
-        } else {
-          result = mem.presence.game.applicationID
-        }
+        result = mem.presence.activities[0].applicationID
         break
       case 1:
-        if (!mem.presence.game) {
-          result = 'null'
-        } else {
-          result = mem.presence.game.details
-        }
+        result = mem.presence.activities[0].details
         break
       case 2:
-        if (!mem.presence.game) {
-          result = 'null'
-        } else {
-          result = mem.presence.game.name
-        }
+        result = mem.presence.activities[0].name
         break
       case 3:
-        if (!mem.presence.game) {
-          result = 'null'
-        } else {
-          result = mem.presence.game.state
-        }
+        result = mem.presence.activities[0].state
         break
       case 4:
-        if (!mem.presence.game) {
-          result = 'null'
-        } else {
-          result = mem.presence.game.streaming
-        }
+        result = mem.presence.activities[0].streaming
         break
       case 5:
-        if (!mem.presence.game) {
-          result = 'null'
-        } else {
-          result = mem.presence.game.url
-        }
+        result = mem.presence.activities[0].url
         break
       case 6:
-        if (!mem.presence.game) {
-          result = 'null'
-        } else {
-          result = mem.presence.game.type
-        }
+        result = mem.presence.activities[0].type
         break
       case 7:
-        if (!mem.presence.game) {
-          result = 'null'
-        } else if (!mem.presence.game.assets) {
-          result = 'null'
-        } else {
-          result = mem.presence.game.assets.largeImage
-        }
+        result = mem.presence.activities[0].assets.largeImage || null
         break
       case 8:
-        if (!mem.presence.game) {
-          result = 'null'
-        } else if (!mem.presence.game.assets) {
-          result = 'null'
-        } else {
-          result = mem.presence.game.assets.largeImageURL
-        }
+        result = mem.presence.activities[0].assets.largeImageURL || null
         break
       case 9:
-        if (!mem.presence.game) {
-          result = 'null'
-        } else if (!mem.presence.game.assets) {
-          result = 'null'
-        } else {
-          result = mem.presence.game.assets.largeText
-        }
+        result = mem.presence.activities[0].assets.largeText || null
         break
       case 10:
-        if (!mem.presence.game) {
-          result = 'null'
-        } else if (!mem.presence.game.assets) {
-          result = 'null'
-        } else {
-          result = mem.presence.game.assets.smallImage
-        }
+        result = mem.presence.activities[0].assets.smallImage || null
         break
       case 11:
-        if (!mem.presence.game) {
-          result = 'null'
-        } else if (!mem.presence.game.assets) {
-          result = 'null'
-        } else {
-          result = mem.presence.game.assets.smallImageURL
-        }
+        result = mem.presence.activities[0].assets.smallImageURL || null
         break
       case 12:
-        if (!mem.presence.game) {
-          result = 'null'
-        } else if (!mem.presence.game.assets) {
-          result = 'null'
-        } else {
-          result = mem.presence.game.assets.smallText
-        }
+        result = mem.presence.activities[0].assets.smallText || null
         break
       case 13:
-        if (!mem.presence.game) {
-          result = 'null'
-        } else if (!mem.presence.game.timestamps) {
-          result = 'null'
-        } else {
-          result = mem.presence.game.timestamps.start
-        }
+        result = mem.presence.activities[0].timestamps.start || null
         break
       case 14:
-        if (!mem.presence.game) {
-          result = 'null'
-        } else if (!mem.presence.game.party) {
-          result = 'null'
-        } else {
-          result = mem.presence.game.party.id
-        }
+        result = mem.presence.activities[0].party.id || null
         break
       case 15:
-        if (!mem.presence.game) {
-          result = 'null'
-        } else if (!mem.presence.game.timestamps) {
-          result = 'null'
-        } else {
-          result = mem.presence.game.timestamps.end
-        }
+        result = mem.presence.activities[0].timestamps.end || null
         break
       case 16:
-        if (!mem.presence.game) {
-          result = 'null'
-        } else if (!mem.presence.game.party) {
-          result = 'null'
-        } else {
-          result = mem.presence.game.party.size
-        }
+        result = mem.presence.activities[0].party.size || null
         break
       default:
         break

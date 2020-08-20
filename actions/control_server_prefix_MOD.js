@@ -63,9 +63,9 @@ module.exports = {
     const prefix = this.evalMessage(data.prefix, cache)
     const settingsPath = path.join('data', 'serverSettings.json')
 
-    fs.readFile(settingsPath, 'utf8', (err, data) => {
+    fs.readFile(settingsPath, 'utf8', (err, file) => {
       if (err) return Actions.displayError(data, cache, err)
-      const json = JSON.parse(data)
+      const json = JSON.parse(file)
       if (controlType === 0) {
         json[server.id] = prefix
       } else if (controlType === 1 && json[server.id]) {
