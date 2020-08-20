@@ -31,7 +31,7 @@ module.exports = {
 
   init () {},
 
-  close (document, data) {
+  close(document, data) {
     data.debug = document.getElementById('debug').value
   },
 
@@ -56,10 +56,15 @@ module.exports = {
           data = JSON.parse(data)
           const servers = Object.keys(data)
           for (let server of servers) {
+            const serv = client.guilds.cache.map((g) => g.id)
             server = client.guilds.cache.get(server)
-            server.prefix = data[server.id]
-            if (parseInt(debug)) {
-              console.log(`Loaded server ${server.id} with prefix ${server.prefix}`)
+            if (serv.includes(servers)) {
+              server.prefix = data[server.id]
+              if (parseInt(debug)) {
+                console.log(`Loaded server ${server.id} with prefix ${server.prefix}`)
+              }
+            } else {
+              delete data[servers]
             }
           }
           console.log('Server prefixes loaded')
