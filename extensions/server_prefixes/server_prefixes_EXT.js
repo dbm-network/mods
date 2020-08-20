@@ -48,6 +48,11 @@ module.exports = {
                 })
                 console.log("Server prefixes loaded")
             })
+        } else {
+          console.log('Creating server settings file')
+          fs.writeFile(settingsPath, JSON.stringify({}), (err) => {
+            if (err) console.error(err)
+          })
         }
     }
 
