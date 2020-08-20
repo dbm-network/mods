@@ -1,7 +1,6 @@
 module.exports = {
   name: 'Control Global Data',
-
-  section: 'Deprecated',
+  section: 'Data',
 
   subtitle (data) {
     return `(${data.dataName}) ${data.changeType === '1' ? '+=' : '='} ${data.value}`

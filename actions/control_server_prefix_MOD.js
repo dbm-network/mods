@@ -55,15 +55,17 @@ module.exports = {
     const path = require('path')
     const data = cache.actions[cache.index]
     const type = parseInt(data.server)
+    const { Actions } = this.getDBM()
+
     const varName = this.evalMessage(data.varName, cache)
     const server = this.getServer(type, varName, cache)
     const controlType = parseInt(data.controlType)
     const prefix = this.evalMessage(data.prefix, cache)
     const settingsPath = path.join('data', 'serverSettings.json')
 
-    fs.readFile(settingsPath, 'utf8', (err, data) => {
-      if (err) return this.displayError(data, cache, err)
-      const json = JSON.parse(data)
+    fs.readFile(settingsPath, 'utf8', (err, file) => {
+      if (err) return Actions.displayError(data, cache, err)
+      const json = JSON.parse(file)
       if (controlType === 0) {
         json[server.id] = prefix
       } else if (controlType === 1 && json[server.id]) {
@@ -72,12 +74,9 @@ module.exports = {
       }
 
       fs.writeFile(settingsPath, JSON.stringify(json), (err) => {
-        if (err) {
-          return this.displayError(data, cache, err)
-        } else {
-          server.prefix = prefix
-          this.callNextAction(cache)
-        }
+        if (err) return Actions.displayError(data, cache, err)
+        server.prefix = prefix
+        Actions.callNextAction(cache)
       })
     })
   },

@@ -147,7 +147,7 @@
   "check_global_data_MOD.js": {
     "description": "Check global data",
     "name": "Check Global Data",
-    "section": "Deprecated"
+    "section": "Data"
   },
   "check_if_command_exists_MOD.js": {
     "description": "Check if a command exists in your project",
@@ -177,7 +177,7 @@
   "check_member_data.js": {
     "description": "Check member data",
     "name": "Check Member Data",
-    "section": "Deprecated"
+    "section": "Data"
   },
   "check_parameters.js": {
     "description": "Check if parameters have a certain characteristic",
@@ -197,7 +197,7 @@
   "check_server_data.js": {
     "description": "Check server data",
     "name": "Check Server Data",
-    "section": "Deprecated"
+    "section": "Data"
   },
   "check_variable.js": {
     "description": "Check a variable and compare it with a specified characteristic",
@@ -232,7 +232,7 @@
   "control_global_data_MOD.js": {
     "description": "Control global data",
     "name": "Control Global Data",
-    "section": "Deprecated"
+    "section": "Data"
   },
   "control_permissons_MOD.js": {
     "description": "Control certain permissions",
@@ -262,6 +262,11 @@
   "convert_timestamp_to_date_MOD.js": {
     "description": "Convert a timestamp to a date",
     "name": "Convert Timestamp to Date",
+    "section": "Other Stuff"
+  },
+  "convert_to_base64_MOD.js": {
+    "description": "Convert to Base64",
+    "name": "Convert To Base64",
     "section": "Other Stuff"
   },
   "convert_to_morse_code_MOD.js": {
@@ -327,17 +332,17 @@
   "delete_global_data_MOD.js": {
     "description": "Delete global data",
     "name": "Delete Global Data",
-    "section": "Deprecated"
+    "section": "Data"
   },
   "delete_member_data_MOD.js": {
     "description": "Delete member data",
     "name": "Delete Member Data",
-    "section": "Deprecated"
+    "section": "Data"
   },
   "delete_server_data_MOD.js": {
     "description": "Delete server data",
     "name": "Delete Server Data",
-    "section": "Deprecated"
+    "section": "Data"
   },
   "delete_server_MOD.js": {
     "description": "Delete a specified server",
@@ -664,6 +669,11 @@
     "name": "Send Embed to Webhook",
     "section": "Webhook Control"
   },
+  "send_file_to_webhook_MOD.js": {
+    "description": "Send a file to webhook",
+    "name": "Send File to Webhook",
+    "section": "Webhook Control"
+  },
   "send_gif_MOD.js": {
     "description": "Send a specified gif to a channel",
     "name": "Send GIF",
@@ -897,7 +907,7 @@
   "store_global_data_MOD.js": {
     "description": "Store data globally",
     "name": "Store Global Data",
-    "section": "Deprecated"
+    "section": "Data"
   },
   "store_html_from_webpage_MOD.js": {
     "description": "Store HTML from a specified web-page",
@@ -943,6 +953,10 @@
     "description": "Store information pertaining to a role",
     "name": "Store Role Info",
     "section": "Role Control"
+  },
+  "store_shard_info.js": {
+    "description": "Shows shard information.",
+    "name": "Store Shard Info"
   },
   "store_twitch_info_MOD.js": {
     "description": "Store information about Twitch",

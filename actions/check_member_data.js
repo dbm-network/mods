@@ -1,6 +1,6 @@
 module.exports = {
   name: 'Check Member Data',
-  section: 'Deprecated',
+  section: 'Data',
 
   subtitle (data) {
     const results = ['Continue Actions', 'Stop Action Sequence', 'Jump To Action', 'Jump Forward Actions', 'Jump to Anchor']

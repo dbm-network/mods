@@ -1,21 +1,29 @@
-name: CI
+name: Lint
 
 on:
   pull_request:
+    branches:
+      - master
     types:
       - opened
       - synchronize
       - reopened
+    paths:
+      - 'actions'
+      - 'events'
+      - 'extensions'
+  push:
+    branchers:
+      - master
+    paths:
+      - 'actions'
+      - 'events'
+      - 'extensions'
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node: ['12.x']
-
+  lint:
     name: ESLint
+    runs-on: ubuntu-latest
 
     env:
       CI: true
@@ -24,23 +32,23 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - name: Use Node.js ${{ matrix.node }}
+      - name: 'Setup Node'
         uses: actions/setup-node@v1
         with:
-          node-version: ${{ matrix.node }}
+          node-version: 12
 
       - uses: actions/cache@v1
         with:
           path: ~/.cache/yarn
           key: ${{ runner.os }}-yarn-${{ hashFiles(format('{0}{1}', github.workspace, '/yarn.lock')) }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
+          restore-keys: ${{ runner.os }}-yarn-
+
       - name: Install dependencies
         run: |
           yarn -v
-          yarn install --frozen-lockfile
-      - name: Lint files
+          yarn --frozen-lockfile
+
+      - name: Run ESLint
         run: |
-          yarn -v
           node -v
           yarn lint
