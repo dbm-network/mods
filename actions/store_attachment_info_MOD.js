@@ -8,7 +8,7 @@ class StoreAttachmentInfo {
   mod () {}
 
   subtitle ({ info }) {
-    const names = ["Attachment's URL", "Attachment File's Name", "ttachment's Height", "Attachment's Width", 'This option has been removed', "Attachment File's Size"]
+    const names = ["Attachment's URL", "Attachment File's Name", "Attachment's Height", "Attachment's Width", 'This option has been removed', "Attachment File's Size"]
     return `${names[parseInt(info)]}`
   }
 
