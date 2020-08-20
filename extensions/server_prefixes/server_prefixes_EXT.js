@@ -4,14 +4,12 @@ module.exports = {
   isEventExtension: false,
   isEditorExtension: true,
 
-  fields: ['debug'],
+  fields: [],
 
-  defaultFields: {
-    debug: 0
-  },
+  defaultFields: {},
 
   size () {
-    return { width: 500, height: 190 }
+    return { width: 500, height: 140 }
   },
 
   html (data) {
@@ -21,19 +19,12 @@ module.exports = {
   <p>
     Requires <b><a href="#" onclick="require('child_process').execSync('start https://github.com/dbm-network/mods/tree/master/actions')">Control Server Prefix</a></b>
   </p>
-  <label for="debug">Debug Mode:</label>
-    <select id="debug" name="debug"><br>
-      <option label="Disabled" value=0 ${parseInt(data.debug) === 0 ? 'selected=true' : ''}>
-      <option label="Enabled" value=1 ${parseInt(data.debug) === 1 ? 'selected=true' : ''}>
-    </select>
 </div>`
   },
 
   init () {},
 
-  close (document, data) {
-    data.debug = document.getElementById('debug').value
-  },
+  close (document, data) {},
 
   load () {},
 
@@ -45,31 +36,19 @@ module.exports = {
     const { Bot, Files, Actions } = DBM
     const settingsPath = path.join('data', 'serverSettings.json')
 
-    const loadPrefixes = function (debug) {
-      const client = Bot.bot
-      if (fs.existsSync(settingsPath)) {
-        console.log('Loading server prefixes...')
-        fs.readFile(settingsPath, function (err, data) {
-          if (err) {
-            return console.log(err)
-          }
-          data = JSON.parse(data)
-          const servers = Object.keys(data)
-          for (let server of servers) {
-            server = client.guilds.cache.get(server)
-            server.prefix = data[server.id]
-            if (parseInt(debug)) {
-              console.log(`Loaded server ${server.id} with prefix ${server.prefix}`)
-            }
-          }
-          console.log('Server prefixes loaded')
-        })
-      } else {
-        console.log('Creating server settings file')
-        fs.writeFile(settingsPath, JSON.stringify({}), (err) => {
-          if (err) console.error(err)
-        })
-      }
+    const loadPrefixes = function() {
+        const client = Bot.bot
+        if (fs.existsSync(settingsPath)) {
+            console.log("Loading server prefixes...")
+            fs.readFile(settingsPath, (err, data) => {
+                if (err) return console.log(err)
+                data = JSON.parse(data)
+                client.guilds.cache.forEach(server => {
+                    server.prefix = data[server.id]
+                })
+                console.log("Server prefixes loaded")
+            })
+        }
     }
 
     Bot.checkTag = function (msg) {
@@ -99,7 +78,7 @@ module.exports = {
 
     const onReady = Bot.onReady
     Bot.onReady = function (...params) {
-      loadPrefixes(Files.data.settings ? Files.data.settings['Server Prefixes'].customData['Server Prefixes'].debug : 0)
+      loadPrefixes()
       onReady.apply(this, ...params)
     }
   }
