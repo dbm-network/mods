@@ -10,8 +10,10 @@ module.exports = {
     DBM.Events.reactionAdded = function (reaction, member) {
       if (!Bot.$evts['Message Reaction Added MOD']) return
       const server = reaction.message.guild || null
-      if (!server) return; // Stops the event since it's clearly being triggered in the DMs.
-      const user = server.members.cache.get(member.id) || member
+      let user = null
+      if (server) {
+        user = server.members.cache.get(member.id)
+      }
       for (const event of Bot.$evts['Message Reaction Added MOD']) {
         const temp = {}
         if (event.temp) temp[event.temp] = reaction
