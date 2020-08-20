@@ -163,7 +163,7 @@ class FileControl {
       case 1: // Write File
         result = () => {
           if (fileName === '') throw new Error('File Name not Provided:')
-          fs.writeFileSync(fpath, itext, (err) => {
+          fs.writeFileSync(fpath, JSON.stringify(itext), (err) => {
             if (err) return console.log(`${lmg} writing: [${err}]`)
           })
         }
