@@ -182,7 +182,7 @@ class FileControl {
     const selector = document.getElementById('filetask')
     const targetfield = document.getElementById('inputArea')
     const targetfield2 = document.getElementById('lineInsert')
-    const toggle_stat = document.getElementById("toggle_status").checked
+    const togglestat = document.getElementById("toggle_status").checked
 
     selector.onclick = () => showInput()
 
@@ -233,7 +233,7 @@ class FileControl {
       case 1: // Write File
         result = () => {
           if (fileName === '') throw new Error('File Name not Provided:')
-          if (toggle_stat){
+          if (togglestat){
             fs.writeFileSync(fpath, JSON.stringify(itext), (err) => {
               if (err) return console.log(`${lmg} writing: [${err}]`)
             })
@@ -248,7 +248,7 @@ class FileControl {
       case 2: // Append File
         result = () => {
           if (fileName === '') throw new Error('File Name not Provided:')
-          if (toggle_stat){
+          if (togglestat){
             fs.appendFileSync(fpath, `${JSON.stringify(itext)}\r\n`, (err) => {
               if (err) return console.log(`${lmg} appending: [${err}]`)
             })
