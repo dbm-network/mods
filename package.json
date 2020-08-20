@@ -4,8 +4,8 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "lint": "eslint actions",
-    "lint:fix": "eslint actions --fix"
+    "lint": "eslint actions events extensions",
+    "lint:fix": "eslint actions events extensions --fix"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
