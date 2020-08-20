@@ -457,7 +457,7 @@ module.exports = {
                                 });
                             });
                         } else {
-                            Dashboard.app.get(routeData.routeURL, function (req, res) {
+                            Dashboard.app.get(routeData.routeURL, function (req, res, next) {
                                 let renderData = fileData.run(DBM, req, res, next, Dashboard);
                                 res.render(webFile, {
                                     data: renderData
