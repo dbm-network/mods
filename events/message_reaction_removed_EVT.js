@@ -10,11 +10,14 @@ module.exports = {
     DBM.Events.reactionRemoved = function (reaction, member) {
       if (!Bot.$evts['Message Reaction Removed MOD']) return
       const server = reaction.message.guild || null
-      if (!server) return; // Stops the event since it's clearly being triggered in the DMs.
+      let user = null
+      if (server) {
+        user = server.members.cache.get(member.id)
+      }
       for (const event of Bot.$evts['Message Reaction Removed MOD']) {
         const temp = {}
         if (event.temp) temp[event.temp] = reaction
-        if (event.temp2) temp[event.temp2] = server.members.cache.get(member.id) || member
+        if (event.temp2) temp[event.temp2] = user
         Actions.invokeEvent(event, server, temp)
       }
     }
