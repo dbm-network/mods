@@ -47,6 +47,68 @@ class FileControl {
   .hidden {
     display: none;
   }
+  /* The switch - the box around the slider */
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+  }
+
+  /* Hide default HTML checkbox */
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  /* The slider */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 1px;
+    bottom: 0px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+
+  input:checked + .slider {
+    background-color: #2196F3;
+  }
+
+  input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+
+  input:checked + .slider:before {
+    -webkit-transform: translateX(18px);
+    -ms-transform: translateX(18px);
+    transform: translateX(18px);
+  }
+
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+
+  .slider.round:before {
+    border-radius: 50%;
+  }
 </style>
 
 <div id="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;" onload="showInput()">
@@ -98,6 +160,13 @@ class FileControl {
         Input Text:<br>
         <textarea id="input" placeholder="Leave Blank For None." class="round" type="textarea" rows="10"></textarea><br><br><br><br><br><br><br><br><br><br><br>
       </div>
+      <div style="padding: 5px 10px 5px 5px">
+        <label class="switch">
+          <input type="checkbox" id="toggle_status">
+          <span  class="slider round"></span>
+        </label>
+        <span>Toogle this is your data contains Objects (Json, array, etc...)</span>
+      </div>
       <div id="lineInsert" class="" style="float: left; width: 65%;">
         Line to Insert at:<br>
         <input id="input2" placeholder="1 Adds content at the first line." class="round"></input>
@@ -113,6 +182,7 @@ class FileControl {
     const selector = document.getElementById('filetask')
     const targetfield = document.getElementById('inputArea')
     const targetfield2 = document.getElementById('lineInsert')
+    const toggle_stat = document.getElementById("toggle_status").checked
 
     selector.onclick = () => showInput()
 
@@ -163,18 +233,30 @@ class FileControl {
       case 1: // Write File
         result = () => {
           if (fileName === '') throw new Error('File Name not Provided:')
-          fs.writeFileSync(fpath, itext, (err) => {
-            if (err) return console.log(`${lmg} writing: [${err}]`)
-          })
+          if (toggle_stat){
+            fs.writeFileSync(fpath, JSON.stringify(itext), (err) => {
+              if (err) return console.log(`${lmg} writing: [${err}]`)
+            })
+          }else {
+            fs.writeFileSync(fpath, itext, (err) => {
+              if (err) return console.log(`${lmg} writing: [${err}]`)
+            })
+          } 
         }
         break
 
       case 2: // Append File
         result = () => {
           if (fileName === '') throw new Error('File Name not Provided:')
-          fs.appendFileSync(fpath, `${itext}\r\n`, (err) => {
-            if (err) return console.log(`${lmg} appending: [${err}]`)
-          })
+          if (toggle_stat){
+            fs.appendFileSync(fpath, `${JSON.stringify(itext)}\r\n`, (err) => {
+              if (err) return console.log(`${lmg} appending: [${err}]`)
+            })
+          }else {
+            fs.appendFileSync(fpath, `${itext}\r\n`, (err) => {
+              if (err) return console.log(`${lmg} appending: [${err}]`)
+            })
+          } 
         }
         break
 
