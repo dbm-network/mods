@@ -1,0 +1,48 @@
+name: Lint
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+  push:
+    branchers:
+      - master
+    paths:
+      - 'actions'
+      - 'events'
+      - 'extensions'
+
+jobs:
+  lint:
+    name: ESLint
+    runs-on: ubuntu-latest
+
+    env:
+      CI: true
+      NODE_OPTIONS: --max-old-space-size=4096
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: 'Setup Node'
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - uses: actions/cache@v1
+        with:
+          path: ~/.cache/yarn
+          key: ${{ runner.os }}-yarn-${{ hashFiles(format('{0}{1}', github.workspace, '/yarn.lock')) }}
+          restore-keys: ${{ runner.os }}-yarn-
+
+      - name: Install dependencies
+        run: |
+          yarn -v
+          yarn --frozen-lockfile
+
+      - name: Run ESLint
+        run: |
+          node -v
+          yarn lint

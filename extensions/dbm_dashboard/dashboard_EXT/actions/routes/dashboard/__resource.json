@@ -1,0 +1,11 @@
+{
+    "author": "Great Plains Modding",
+    "version": "1.0.0",
+    "name": "dashboard_route",
+    "scriptFiles": ["dashboard_route.js"],
+    "isCustom": false,
+    "routeURL": "/dashboard/@me",
+    "webFile": "index.ejs",
+    "cssFiles": ["main.css"],
+    "loginRequired": true
+}

@@ -1,0 +1,13 @@
+{
+    "author": "Great Plains Modding",
+    "version": "1.0.0",
+    "name": "home_route",
+    "description": "",
+    "dashboardMod": true,
+    "adminPanelMod": true,
+    "scriptFiles": ["home_route.js"],
+    "isCustom": false,
+    "routeURL": "/",
+    "webFile": "index.ejs",
+    "cssFiles": ["main.css"]
+}

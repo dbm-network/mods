@@ -1,0 +1,101 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= data.client.user.username %></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/dashboard_route/css/main.css">
+    <link rel="shortcut icon" href="<%= data.client.user.displayAvatarURL() || 'https://discordapp.com/assets/322c936a8c8be1b803cd94861bdfa868.png' %>"/>
+    <meta name="theme-color" content="#7289DA" />
+    <meta name="description" content="<%= data.settings.introText %>">
+</head>
+
+<body>
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 navHeader">
+        <h5 class="my-0 mr-md-auto headerBrand"><img style="height: 25px; padding-right: 10px;" src="<%= data.client.user.displayAvatarURL() || 'https://discordapp.com/assets/322c936a8c8be1b803cd94861bdfa868.png' %>" alt=""><%= data.client.user.username %></h5>
+        <nav class="my-2 my-md-0 mr-md-3 headerBrandNavButtons">
+            <% for (i = 0; i < data.settings.navItems.length; i++) { %>
+            <a class="p-2" href="<%= data.settings.navItems[i].link %>"><%= data.settings.navItems[i].name %></a>
+            <% } %>
+        </nav>
+    </div>
+    <section class="jumbotron text-center lightBackground">
+        <div class="container">
+            <img style="border-radius: 50%; width: 100px; height: 100px;"
+                src="<%= data.client.user.displayAvatarURL() || 'https://discordapp.com/assets/322c936a8c8be1b803cd94861bdfa868.png' %>"
+                alt="">
+            <h1 class="jumbotron-heading" style="color: #7289DA;"><%= data.client.user.username %></h1>
+            <p class="lead "><%= data.settings.introText %></p>
+            <p>
+                <a href="<%= data.settings.inviteLink %>" class="btn btn-primary my-2"
+                    style="background-color: #7289DA; width: 132px;">Invite Bot</a>
+                <a href="<%= data.settings.supportServer %>" class="btn btn-primary my-2"
+                    style="background-color: #7289DA; width: 132px;">Support Server</a>
+            </p>
+        </div>
+    </section>
+    <div style="height: 150px; overflow: hidden; margin-top: -100px;">
+        <svg viewBox="0 0 500 150" preserveAspectRatio="none" style="height: 100%; width: 100%;">
+            <path d="M0.00,49.98 C149.99,150.00 349.20,-49.98 500.00,49.98 L500.00,150.00 L0.00,150.00 Z"
+                style="stroke: none;fill: #23272A;"></path>
+        </svg>
+    </div>
+    <section class="text-center darkBackground">
+        <center>
+            <h1 class="title text-center" style="color: #7289DA">Manage Servers</h1>
+            <div class="guild-container">
+                <div class="serv-container">
+                    <% data.guilds.forEach((guild) => { %>
+                    <div title="<%= guild.name %>">
+                        <a href="/dashboard/@me/servers/<%= guild.id %>">
+                            <% if (guild.icon) { %>
+                            <img src="https://cdn.discordapp.com/icons/<%= guild.id %>/<%= guild.icon %>.png?size=2048"
+                                width="70px" height="70px" class="guild-icon" />
+                            <% } else { %>
+                            <canvas class="guild-icon"
+                                id="<%= guild.name.replace(/\w+/g, name => name[0]).replace(/\s/g, '') %>" width="70px"
+                                height="70px"></canvas>
+                            <script>
+                                function createIcone() {
+                                    const nameAcronym = document.getElementById(
+                                        "<%= guild.name.replace(/\w+/g, name => name[0]).replace(/\s/g, '')  %>"
+                                    ).getContext('2d');
+                                    nameAcronym.font = '30px Arial';
+                                    nameAcronym.textAlign = "center";
+                                    nameAcronym.fillStyle = "white";
+                                    nameAcronym.fillText(
+                                        "<%= guild.name.replace(/\w+/g, name => name[0]).replace(/\s/g, '')  %>",
+                                        25, 35);
+                                };
+                                createIcone();
+                            </script>
+                            <%}%>
+             </a>
+            </div>
+      <%});%>
+                    </div>
+                </div>
+        </center>
+        <div style="height: 150px; overflow: hidden;">
+            <svg viewBox="0 0 500 150" preserveAspectRatio="none" style="height: 100%; width: 100%;">
+                <path d="M0.00,49.98 C149.99,150.00 349.20,-49.98 500.00,49.98 L500.00,150.00 L0.00,150.00 Z"
+                    style="stroke: none;fill: #2C2F33;"></path>
+            </svg>
+        </div>
+    </section>
+    <section id="lightBackground" style="margin-top: -60px;">
+        <footer class="page-footer font-small">
+            <div class="container text-center text-md-left mt-5">
+                <div class="row mt-3">
+                    <h6 class="text-uppercase font-weight-bold featuresHeaderFooter"><%= data.client.user.username %></h6>
+                    <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 100%;">
+                    <p style="color: white; max-width: 900px;"><%= data.settings.footerText %></p>
+                </div>
+            </div>
+        </footer>
+    </section>
+</body>
+
+</html>

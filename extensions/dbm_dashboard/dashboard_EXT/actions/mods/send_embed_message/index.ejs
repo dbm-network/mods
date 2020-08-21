@@ -1,0 +1,130 @@
+<% if (data.isAdmin) { %>
+    <div class="form-row">
+        <div class="form-group col-md-6"
+            <p>Find Server By:</p>
+                <select class="form-control" name="serverType">
+                <option selected value="id">Guild ID</option>
+                <option value="name">Guild Name</option>
+            </select>
+        </div>
+        <div class="form-group col-md-6"
+            <p>Guild ID / Guild Name</p>
+            <input type="text" class="form-control" name="server" placeholder="Guild ID / Guild Name">
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <p>Find Channel By:</p>
+                <select class="form-control" name="channelType">
+                <option selected value="id">Guild ID</option>
+                <option value="name">Guild Name</option>
+            </select>
+        </div>
+        <div class="form-group col-md-6"
+            <p>Channel ID / Channel Name</p>
+            <input type="text" class="form-control" name="channel" placeholder="Channel ID / Channel Name">
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <p>Title:</p>
+            <input class="form-control" name="title" required>
+        </div>
+        <div class="form-group col-md-6">
+            <p>URL:</p>
+            <input class="form-control" name="url" placeholder="Leave blank for no URL">
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <p>Author:</p>
+            <input class="form-control" name="author" required>
+        </div>
+        <div class="form-group col-md-6">
+            <p>Author Picture:</p>
+            <input class="form-control" name="authorpic" placeholder="Leave blank for no picture">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <p>Embed Color: <code>*Use HEX when putting in color. Type "RANDOM" for a random color</code></p>
+        <input style="min-width: 100%" class="form-control" name="color" placeholder="Leave blank for no color">
+    </div>
+
+    <div class="form-group">
+        <p>Description:</p>
+        <textarea style="width: 100%" class="form-control" name="description" rows="4" style="min-width: 100%"></textarea>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <p>Footer:</p>
+            <input class="form-control" name="footer" rows="4" placeholder="Leave blank for no footer">
+        </div>
+        <div class="form-group col-md-6">
+            <p>Footer URL:</p>
+            <input class="form-control" name="footerurl" rows="4" placeholder="Leave blank for no URL">
+        </div>
+    </div>
+    `
+    <% } else { %>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <p>Find Channel By:</p>
+                <select class="form-control" name="channelType">
+                <option selected value="id">Channel ID</option>
+                <option value="name">Channel Name</option>
+            </select>
+        </div>
+        <div class="form-group col-md-6"
+            <p>Channel ID / Channel Name</p>
+            <input type="text" class="form-control" name="channel" placeholder="Channel ID / Channel Name">
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <p>Title:</p>
+            <input class="form-control" name="title" required>
+        </div>
+        <div class="form-group col-md-6">
+            <p>URL:</p>
+            <input class="form-control" name="url" placeholder="Leave blank for no URL">
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <p>Author:</p>
+            <input class="form-control" name="author" required>
+        </div>
+        <div class="form-group col-md-6">
+            <p>Author Picture:</p>
+            <input class="form-control" name="authorpic" placeholder="Leave blank for no picture">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <p>Embed Color: <code>*Use HEX when putting in color. Type "RANDOM" for a random color</code></p>
+        <input style="min-width: 100%" class="form-control" name="color" placeholder="Leave blank for no color">
+    </div>
+
+    <div class="form-group">
+        <p>Description:</p>
+        <textarea style="width: 100%" class="form-control" name="description" rows="4" style="min-width: 100%"></textarea>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <p>Footer:</p>
+            <input class="form-control" name="footer" rows="4" placeholder="Leave blank for no footer">
+        </div>
+        <div class="form-group col-md-6">
+            <p>Footer URL:</p>
+            <input class="form-control" name="footerurl" rows="4" placeholder="Leave blank for no URL">
+        </div>
+    </div>
+<% } %>

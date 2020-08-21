@@ -1,0 +1,13 @@
+{
+    "author": "Great Plains Modding",
+    "version": "1.0.0",
+    "name": "profile_route",
+    "description": "",
+    "dashboardMod": true,
+    "adminPanelMod": true,
+    "scriptFiles": ["profile_route.js"],
+    "isCustom": false,
+    "routeURL": "/",
+    "webFile": "index.ejs",
+    "cssFiles": ["main.css"]
+}
