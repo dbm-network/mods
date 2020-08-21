@@ -5,12 +5,12 @@ module.exports = {
 
     try {
       if (!server) {
-        if (req.body.serverType == 'id') server = DBM.Bot.bot.guilds.cache.find(server => server.id === req.body.server)
+        if (req.body.serverType === 'id') server = DBM.Bot.bot.guilds.cache.find(server => server.id === req.body.server)
         if (!server) server = DBM.Bot.bot.guilds.cache.find(server => server.name === req.body.server)
         if (!server) return 'I couldn\'t find this server, please make sure you have the right ID or name.'
       }
 
-      if (req.body.channelType == 'id') channel = server.channels.find(channel => channel.id === req.body.channel)
+      if (req.body.channelType === 'id') channel = server.channels.find(channel => channel.id === req.body.channel)
       if (!channel) channel = DBM.Bot.bot.guilds.cache.find(channel => channel.name === req.body.channel)
       if (!channel) return 'I couldn\'t find this channel, please make sure you have the right ID or name.'
 
