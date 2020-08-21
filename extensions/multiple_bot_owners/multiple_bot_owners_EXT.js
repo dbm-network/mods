@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 module.exports = {
   name: 'Multiple Bot Owners',
   version: '1.0.0',
@@ -75,6 +76,7 @@ module.exports = {
 
       let botOwners = []
 
+      // eslint-disable-next-line no-inner-declarations
       function loadOwners () {
         if (!fs.existsSync(filepath)) {
           fs.writeFileSync(filepath, JSON.stringify(botOwners))
@@ -89,13 +91,14 @@ module.exports = {
         })
       }
 
+      // eslint-disable-next-line no-inner-declarations
       function addOwnerHTML (owner) {
         document.getElementById('current-owners').innerHTML += `
-				<div class="field has-addons" id="${owner}_DIV"> <input id="${owner}_INPUT" class="input" type="text" placeholder="User ID" disabled
-				value="${owner}">
-					<div class="control"> <a class="button is-info" onclick="document.delOwner(document.getElementById('${owner}_INPUT'))"> <i class="fas fa-minus"></i> </a> </div>
-				</div>
-				`
+          <div class="field has-addons" id="${owner}_DIV"> <input id="${owner}_INPUT" class="input" type="text" placeholder="User ID" disabled
+          value="${owner}">
+          <div class="control"> <a class="button is-info" onclick="document.delOwner(document.getElementById('${owner}_INPUT'))"> <i class="fas fa-minus"></i> </a> </div>
+          </div>
+        `
       }
 
       document.delOwner = function (element) {
