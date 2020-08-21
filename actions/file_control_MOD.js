@@ -212,7 +212,7 @@ class FileControl {
     const dirName = path.normalize(this.evalMessage(data.filepath, cache))
     const fileName = this.evalMessage(data.filename, cache)
     const line = parseInt(this.evalMessage(data.input2, cache))
-    const togglestat = this.evalMessage(data.togglestatus.checked,cache)
+    const togglestat = this.evalMessage(data.togglestatus.checked, cache)
 
     const fpath = path.join(dirName, fileName + data.format)
     const task = parseInt(data.filetask)
@@ -233,30 +233,30 @@ class FileControl {
       case 1: // Write File
         result = () => {
           if (fileName === '') throw new Error('File Name not Provided:')
-          if (togglestat){
+          if (togglestat) {
             fs.writeFileSync(fpath, JSON.stringify(itext), (err) => {
               if (err) return console.log(`${lmg} writing: [${err}]`)
             })
-          }else {
+          } else {
             fs.writeFileSync(fpath, itext, (err) => {
               if (err) return console.log(`${lmg} writing: [${err}]`)
             })
-          } 
+          }
         }
         break
 
       case 2: // Append File
         result = () => {
           if (fileName === '') throw new Error('File Name not Provided:')
-          if (togglestat){
+          if (togglestat) {
             fs.appendFileSync(fpath, `${JSON.stringify(itext)}\r\n`, (err) => {
               if (err) return console.log(`${lmg} appending: [${err}]`)
             })
-          }else {
+          } else {
             fs.appendFileSync(fpath, `${itext}\r\n`, (err) => {
               if (err) return console.log(`${lmg} appending: [${err}]`)
             })
-          } 
+          }
         }
         break
 
