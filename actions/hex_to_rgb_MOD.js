@@ -41,13 +41,13 @@ module.exports = {
         const g = parseInt(hexToConvert.substr(3, 2), 16)
         const b = parseInt(hexToConvert.substr(5, 2), 16)
         /* eslint no-template-curly-in-string: "error" */
-        return `${r}, ${g}, ${b}`
+        const getRGB = `${r}, ${g}, ${b}`
       } else {
         console.log('Enter a correct value!')
       }
     }
 
-    const rgbFinished = getRGB(hexToConvert)
+    const rgbFinished = getRGB
     this.storeValue(rgbFinished, storage, varName, cache)
     this.callNextAction(cache)
   },
