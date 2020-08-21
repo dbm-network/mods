@@ -1,5 +1,4 @@
 module.exports = {
-
   name: 'Hex to RGB',
   section: 'Other Stuff',
 
