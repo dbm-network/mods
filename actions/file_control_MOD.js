@@ -212,7 +212,7 @@ class FileControl {
     const dirName = path.normalize(this.evalMessage(data.filepath, cache))
     const fileName = this.evalMessage(data.filename, cache)
     const line = parseInt(this.evalMessage(data.input2, cache))
-    const togglestat = data.togglestatus.checked
+    const togglestat = data.togglestatus
 
     const fpath = path.join(dirName, fileName + data.format)
     const task = parseInt(data.filetask)
