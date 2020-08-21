@@ -28,7 +28,7 @@ module.exports = {
     <input id="varName" class="round" type="text">
   </div>
 </div>`
- },
+  },
 
   init () {},
 
