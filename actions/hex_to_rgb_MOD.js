@@ -30,18 +30,16 @@ module.exports = {
   },
 
   init () {},
-
   action (cache) {
     const data = cache.actions[cache.index]
     const hexToConvert = this.evalMessage(data.hexToConvert, cache)
     const storage = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
-    function getRGB (color) {
-      if (color.length === 7) {
+      if (hexToConvert.length === 7) {
         /* eslint-disable no-unused-vars */
-        const r = parseInt(color.substr(1, 2), 16)
-        const g = parseInt(color.substr(3, 2), 16)
-        const b = parseInt(color.substr(5, 2), 16)
+        const r = parseInt(hexToConvert.substr(1, 2), 16)
+        const g = parseInt(hexToConvert.substr(3, 2), 16)
+        const b = parseInt(hexToConvert.substr(5, 2), 16)
         /* eslint no-template-curly-in-string: "error" */
         return `${r}, ${g}, ${b}`
       } else {
