@@ -162,7 +162,7 @@ class FileControl {
       </div>
       <div style="padding: 5px 10px 5px 5px">
         <label class="switch">
-          <input type="checkbox" id="togglestatus">
+          <input onclick="if(checked){value='yes'}else{value='no'}"type="checkbox" id="togglestatus" value = 'no'>
           <span  class="slider round"></span>
         </label>
         <span>Toogle this is your data contains Objects (Json, array, etc...)</span>
@@ -233,7 +233,7 @@ class FileControl {
       case 1: // Write File
         result = () => {
           if (fileName === '') throw new Error('File Name not Provided:')
-          if (togglestat) {
+          if (togglestat === 'yes') {
             fs.writeFileSync(fpath, JSON.stringify(itext), (err) => {
               if (err) return console.log(`${lmg} writing: [${err}]`)
             })
@@ -248,7 +248,7 @@ class FileControl {
       case 2: // Append File
         result = () => {
           if (fileName === '') throw new Error('File Name not Provided:')
-          if (togglestat) {
+          if (togglestat === 'yes') {
             fs.appendFileSync(fpath, `${JSON.stringify(itext)}\r\n`, (err) => {
               if (err) return console.log(`${lmg} appending: [${err}]`)
             })
