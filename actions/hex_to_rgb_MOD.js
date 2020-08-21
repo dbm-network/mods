@@ -10,8 +10,25 @@ module.exports = {
   fields: ['storage', 'varName', 'hexToConvert'],
 
   html (isEvent, data) {
-    return `Hex to convert (example: #F0F0F0):<br><input id="hexToConvert" class="round" type="text" /><br><br>Store in:<br><select class="round" id="storage">${data.variables[0]}</select><br><br>Variable name:<br><input class="round" id="varName" type="text" />`
-  },
+    return `
+    </div>
+  <div id="hexToConvert" style="float: right; width: 60%;">
+    Hex Code To Convert:<br>
+    <input id="varName" class="round" type="text">
+  </div>
+<div style="padding-top: 8px;">
+  <div style="float: left; width: 35%;">
+    Store In:<br>
+    <select id="storage" class="round">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text">
+  </div>
+</div>`
+ },
 
   init () {},
 
