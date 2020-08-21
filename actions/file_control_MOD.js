@@ -162,7 +162,7 @@ class FileControl {
       </div>
       <div style="padding: 5px 10px 5px 5px">
         <label class="switch">
-          <input type="checkbox" id="toggle_status">
+          <input type="checkbox" id="togglestatus">
           <span  class="slider round"></span>
         </label>
         <span>Toogle this is your data contains Objects (Json, array, etc...)</span>
@@ -182,7 +182,6 @@ class FileControl {
     const selector = document.getElementById('filetask')
     const targetfield = document.getElementById('inputArea')
     const targetfield2 = document.getElementById('lineInsert')
-    const togglestat = document.getElementById("toggle_status").checked
 
     selector.onclick = () => showInput()
 
@@ -213,6 +212,7 @@ class FileControl {
     const dirName = path.normalize(this.evalMessage(data.filepath, cache))
     const fileName = this.evalMessage(data.filename, cache)
     const line = parseInt(this.evalMessage(data.input2, cache))
+    const togglestat = this.evalMessage(data.togglestatus.checked,cache)
 
     const fpath = path.join(dirName, fileName + data.format)
     const task = parseInt(data.filetask)
