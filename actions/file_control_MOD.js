@@ -165,7 +165,7 @@ class FileControl {
           <input onclick="if(checked){value='yes'}else{value='no'}"type="checkbox" id="togglestatus" value = 'no'>
           <span  class="slider round"></span>
         </label>
-        <span>Toogle this is your data contains Objects (Json, array, etc...)</span>
+        <span>Toogle this if your data contains Objects (Json, array, etc...)</span>
       </div>
       <div id="lineInsert" class="" style="float: left; width: 65%;">
         Line to Insert at:<br>
