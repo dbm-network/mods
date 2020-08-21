@@ -182,6 +182,10 @@ class FileControl {
     const selector = document.getElementById('filetask')
     const targetfield = document.getElementById('inputArea')
     const targetfield2 = document.getElementById('lineInsert')
+    var vall = document.getElementById("togglestatus").value;
+    if(vall === 'yes'){
+        document.getElementById("togglestatus").checked = true;
+    };
 
     selector.onclick = () => showInput()
 
