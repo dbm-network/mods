@@ -323,13 +323,16 @@ module.exports = {
     const express = await DBM.extensionHelper.requireModule('express', 'dashboard_EXT')
     const bodyParser = await DBM.extensionHelper.requireModule('body-parser', 'dashboard_EXT')
     const cookieParser = await DBM.extensionHelper.requireModule('cookie-parser', 'dashboard_EXT')
+    // eslint-disable-next-line no-unused-vars
     const ejs = await DBM.extensionHelper.requireModule('ejs', 'dashboard_EXT')
     const Strategy = await DBM.extensionHelper.requireModule('passport-discord', 'dashboard_EXT')
     const session = await DBM.extensionHelper.requireModule('express-session', 'dashboard_EXT')
+    // eslint-disable-next-line no-unused-vars
     const path = await DBM.extensionHelper.requireModule('path', 'dashboard_EXT')
     const passport = await DBM.extensionHelper.requireModule('passport', 'dashboard_EXT')
     const chalk = await DBM.extensionHelper.requireModule('chalk', 'dashboard_EXT')
     const figlet = await DBM.extensionHelper.requireModule('figlet', 'dashboard_EXT')
+    // eslint-disable-next-line no-unused-vars
     const url = await require('url')
 
     Dashboard.app = express()
@@ -430,6 +433,7 @@ module.exports = {
         const routeData = require(require('path').join(Dashboard.Actions.routeLocation, dir, '__resource.json'))
         if (routeData.isCustom) {
           routeData.scriptFiles.forEach(file => {
+            // eslint-disable-next-line no-unused-vars
             const fileData = require(require('path').join(Dashboard.Actions.routeLocation, dir, file))
           })
         } else {
@@ -495,7 +499,7 @@ module.exports = {
     }
 
     Dashboard.isUserGuildManager = function (req, res, next) {
-      for (guild of req.user.guilds) {
+      for (const guild of req.user.guilds) {
         if (guild.id === req.params.serverID) {
           if ((guild.permissions & 2146958591) === 2146958591) return true
         };
@@ -598,6 +602,7 @@ module.exports = {
           failureRedirect: '/'
         }),
         function (req, res, next) {
+          // eslint-disable-next-line no-unused-expressions
           req.user.commandExecuted
           res.redirect('/dashboard/@me')
         }
@@ -629,7 +634,7 @@ module.exports = {
     DBM.Bot.onReady = async function () {
       Dashboard.scopes = ['identify', 'guilds']
 
-      if (!Dashboard.verifyConfig().length == 0) {
+      if (!Dashboard.verifyConfig().length === 0) {
         console.log('-------------------------------------------------------------------------------------------------')
         console.log(chalk.yellow(figlet.textSync('DBM Dashboard', {
           horizontalLayout: 'full'
@@ -657,7 +662,7 @@ module.exports = {
       Dashboard.loadRoutes()
       Dashboard.loadExtensions()
 
-      if (DBM.Bot.bot.ws.shards.get(0).id == 0) {
+      if (DBM.Bot.bot.ws.shards.get(0).id === 0) {
         Dashboard.app.listen(Dashboard.settings.port, () => Dashboard.onReady())
       };
 
