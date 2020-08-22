@@ -26,7 +26,6 @@ module.exports = {
 
   close () {},
 
-
   load () {},
 
   save () {},
@@ -37,24 +36,24 @@ module.exports = {
     const { Bot, Files, Actions } = DBM
     const settingsPath = path.join('data', 'serverSettings.json')
 
-    const loadPrefixes = function() {
-        const client = Bot.bot
-        if (fs.existsSync(settingsPath)) {
-            console.log("Loading server prefixes...")
-            fs.readFile(settingsPath, (err, data) => {
-                if (err) return console.log(err)
-                data = JSON.parse(data)
-                client.guilds.cache.forEach(server => {
-                    server.prefix = data[server.id]
-                })
-                console.log("Server prefixes loaded")
-            })
-        } else {
-          console.log('Creating server settings file')
-          fs.writeFile(settingsPath, JSON.stringify({}), (err) => {
-            if (err) console.error(err)
+    const loadPrefixes = function () {
+      const client = Bot.bot
+      if (fs.existsSync(settingsPath)) {
+        console.log('Loading server prefixes...')
+        fs.readFile(settingsPath, (err, data) => {
+          if (err) return console.log(err)
+          data = JSON.parse(data)
+          client.guilds.cache.forEach(server => {
+            server.prefix = data[server.id]
           })
-        }
+          console.log('Server prefixes loaded')
+        })
+      } else {
+        console.log('Creating server settings file')
+        fs.writeFile(settingsPath, JSON.stringify({}), (err) => {
+          if (err) console.error(err)
+        })
+      }
     }
 
     Bot.checkTag = function (msg) {
