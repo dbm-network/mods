@@ -25,25 +25,26 @@ module.exports = {
     const onReady = Bot.onReady
     Bot.onReady = function (...params) {
       // To not over-consume memory.
-      if (!Bot.$evts['Invite Used']) return
-      setTimeout(() => {
-        Bot.bot.guilds.cache.forEach(g => {
-          g.fetchInvites().then(invites => {
-            guildInvites[g.id] = invites
+      if (Bot.$evts['Invite Used']) {
+        setTimeout(() => {
+          Bot.bot.guilds.cache.forEach(g => {
+            g.fetchInvites().then(invites => {
+              guildInvites[g.id] = invites
+            })
+          })
+        }, 1000)
+        Bot.bot.on('guildMemberAdd', DBM.Events.inviteUsed)
+        Bot.bot.on('inviteDelete', inv => {
+          inv.guild.fetchInvites().then(invites => {
+            guildInvites[inv.guild.id] = invites
           })
         })
-      }, 1000)
-      Bot.bot.on('guildMemberAdd', DBM.Events.inviteUsed)
-      Bot.bot.on('inviteDelete', inv => {
-        inv.guild.fetchInvites().then(invites => {
-          guildInvites[inv.guild.id] = invites
+        Bot.bot.on('inviteCreate', inv => {
+          inv.guild.fetchInvites().then(invites => {
+            guildInvites[inv.guild.id] = invites
+          })
         })
-      })
-      Bot.bot.on('inviteCreate', inv => {
-        inv.guild.fetchInvites().then(invites => {
-          guildInvites[inv.guild.id] = invites
-        })
-      })
+      }
       onReady.apply(this, ...params)
     }
   }
