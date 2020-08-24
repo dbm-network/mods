@@ -7,7 +7,7 @@ module.exports = {
   mod (DBM) {
     DBM.Events.onVolumeChange = function (guild, voiceChannel, oldVolume) {
       const { Bot, Actions } = DBM
-      if (!Bot.$evts['On Volume Change'])
+      if (!Bot.$evts['On Volume Change']) return
       for (const event of Bot.$evts['On Volume Change']) {
         const temp = {}
         if (event.temp) temp[event.temp] = voiceChannel
