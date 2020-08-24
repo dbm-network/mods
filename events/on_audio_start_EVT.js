@@ -37,7 +37,7 @@ module.exports = {
     }
     DBM.Events.onAudioStart = function (server, voiceChannel) {
       const { Bot, Actions } = DBM
-      if (!Bot.$evts['On Audio Start'])
+      if (!Bot.$evts['On Audio Start']) return
       for (const event of Bot.$evts['On Audio Start']) {
         const temp = {}
         if (event.temp) temp[event.temp] = voiceChannel
