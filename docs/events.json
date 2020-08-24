@@ -52,23 +52,23 @@
     "name": "Message Reaction Removed MOD"
   },
   "on_audio_end_EVT.js": {
-    "description": "",
+    "description": "Triggers when audio stops playing",
     "name": "On Audio End"
   },
   "on_audio_pause_EVT.js": {
-    "description": "",
+    "description": "Triggers when audio is paused",
     "name": "On Audio Pause"
   },
   "on_audio_resume_EVT.js": {
-    "description": "",
+    "description": "Triggers when audio resumes playing",
     "name": "On Audio Resume"
   },
   "on_audio_start_EVT.js": {
-    "description": "",
+    "description": "Triggers when audio begins playing",
     "name": "On Audio Start"
   },
   "on_audio_volume_change_EVT.js": {
-    "description": "",
+    "description": "Triggers when audio volume is changed",
     "name": "On Volume Change"
   },
   "on_member_nickname_changed_EVT.js": {
