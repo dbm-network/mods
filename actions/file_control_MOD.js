@@ -162,8 +162,8 @@ class FileControl {
       </div>
       <div style="padding: 5px 10px 5px 5px">
         <label class="switch">
-          <input onclick="if(checked){value='yes'}else{value='no'}"type="checkbox" id="togglestatus" value = 'no'>
-          <span  class="slider round"></span>
+          <input onclick="if(checked){value='yes'}else{value='no'}" type="checkbox" id="togglestatus" value='no'>
+          <span class="slider round"></span>
         </label>
         <span>Toogle this if your data contains Objects (Json, array, etc...)</span>
       </div>
