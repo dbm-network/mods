@@ -1,5 +1,8 @@
 # DBM Dashboard
 
+  CURRENTLY NOT WORKING, MAIN FILE HAS BEEN REMOVED
+
+
 > You can find user created mods [here](https://github.com/greatplainsmodding/DBM-Dashboard-Mods).<br>
 > Want to try out new features? You can install the beta version [here](https://github.com/greatplainsmodding/DBM-Dashboard)<br>
 > If you find any bugs please report them [here](https://github.com/greatplainsmodding/DBM-Dashboard/issues).
