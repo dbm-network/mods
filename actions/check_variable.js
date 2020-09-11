@@ -172,7 +172,7 @@ module.exports = {
           }
           break
         case 6:
-          result = Boolean(val1.match(new RegExp(`^${val2}$`, 'i')))
+          result = Boolean(`/${val2}/`.test(val1)) //shouldn't be incase-sensitive
           break
         case 7:
           result = val1.length > val2
@@ -190,7 +190,7 @@ module.exports = {
           result = val1.endsWith(val2)
           break
         case 12:
-          result = Boolean(val1.match(new RegExp(val2)))
+          result = Boolean(`/^${val2}$/`.test(val1))
           break
         case 13:
           result = val1 <= val2
