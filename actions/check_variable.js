@@ -172,7 +172,7 @@ module.exports = {
           }
           break
         case 6:
-          result = Boolean(`/${val2}/`.test(val1)) //shouldn't be incase-sensitive
+          result = Boolean(`/${val2}/`.test(val1)) //shouldn't be incase-sensitive & also shouldnt have '^$' since it isnt a full match.
           break
         case 7:
           result = val1.length > val2
