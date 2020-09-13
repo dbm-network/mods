@@ -57,7 +57,7 @@ module.exports = {
     }
 
     Bot.checkTag = function (msg) {
-      const tag = msg.guild.prefix || Files.data.settings.tag
+      const tag = msg.channel.type === 'dm' ? Files.data.settings.tag : msg.guild.prefix || Files.data.settings.tag
       const separator = Files.data.settings.separator || '\\s+'
       const content = msg.content.split(new RegExp(separator))[0]
       if (content.startsWith(tag)) {
