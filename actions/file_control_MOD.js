@@ -180,9 +180,9 @@ class FileControl {
       const selected = selector[selector.selectedIndex].value
       const selected2 = selector2[selector2.selectedIndex].value
       if (selected2 === '.json') {
-        document.getElementById('visibot').style.display = "block";
-      }else {
-        document.getElementById('visibot').style.display = "none";
+        document.getElementById('visibot').style.display = 'block'
+      } else {
+        document.getElementById('visibot').style.display = 'none'
       }
       if (selected === '0' || selected === '3') { // Hides "Input Text"
         targetfield.classList.add('hidden')
