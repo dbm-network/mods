@@ -2,7 +2,6 @@ class FileControl {
   constructor (params) {
     this.name = 'File Control'
     this.section = 'File Stuff'
-    this.fields = ['input', 'format', 'filename', 'filepath', 'filetask', 'input2']
     this.fields = ['input', 'format', 'filename', 'filepath', 'filetask', 'input2', 'togglestatus']
   }
 
