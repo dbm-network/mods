@@ -9,6 +9,7 @@ class FileControl {
     const filetasks = ['Create', 'Write', 'Append into', 'Delete', 'Insert into']
     return `${filetasks[parseInt(data.filetask)]} ${data.filename}${data.format}`
   }
+  
   html () {
     return `
 <style>
@@ -161,6 +162,7 @@ class FileControl {
     </div>
   </div>
 </div>`
+    
   }
   init () {
     const { document } = this
@@ -193,6 +195,7 @@ class FileControl {
       } else {
         targetfield2.classList.remove('hidden')
       }
+      
     }
   }
   action (cache) {
@@ -292,7 +295,7 @@ class FileControl {
     }
     this.callNextAction(cache)
   }
-  
+
   mod () {}
 }
 
