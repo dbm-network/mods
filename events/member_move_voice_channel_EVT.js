@@ -12,8 +12,9 @@ module.exports = {
       if (!Bot.$evts['Member Move Voice Channel']) return
       const oldChannel = oldVoiceState.channel
       const newChannel = newVoiceState.channel
-      const server = (oldChannel || newChannel).guild
-      if (oldChannel && newChannel && oldChannel.id !== newChannel.id) return
+      if (!oldChannel.id || !newChannel.id) return // If one of the channels doesn't exist, they didn't move. (Objects may still be present)
+      const server = newChannel.guild
+      if (oldChannel.id !== newChannel.id) return // If the ID isn't the same
       for (const event of Bot.$evts['Member Move Voice Channel']) {
         const temp = {}
         if (event.temp) temp[event.temp] = newVoiceState.member
