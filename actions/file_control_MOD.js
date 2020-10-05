@@ -218,7 +218,7 @@ class FileControl {
     switch (task) {
       case 0: // Create File
         result = async () => {
-          if (fileName === '') return this.callNextAction(cache)
+          if (fileName === '') return
           fs.writeFileSync(fpath, '', (err) => {
             if (err) return console.log(`${lmg} creating: [${err}]`)
           })
