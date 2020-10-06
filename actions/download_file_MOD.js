@@ -61,7 +61,7 @@ module.exports = {
     ws.on('open', () => {
       http.get(url, (res) => res.pipe(ws))
     })
-    
+
     this.callNextAction(cache)
   },
 
