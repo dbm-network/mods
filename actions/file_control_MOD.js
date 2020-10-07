@@ -162,7 +162,7 @@ class FileControl {
     </div>
   </div>
 </div>`
-}
+  }
 
   init () {
     const { document } = this
