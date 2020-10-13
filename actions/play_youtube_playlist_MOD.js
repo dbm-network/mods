@@ -8,7 +8,7 @@ module.exports = {
     return `${data.url}`
   },
 
-  fields: ['url', 'apikey', 'seek', 'volume', 'passes', 'bitrate'],
+  fields: ['url', 'seek', 'volume', 'passes', 'bitrate', 'maxvid'],
 
   html (isEvent, data) {
     return `
@@ -21,6 +21,8 @@ module.exports = {
   <input id="seek" class="round" type="text" value="0"><br>
   Video Volumes:<br>
   <input id="volume" class="round" type="text" placeholder="Leave blank for automatic..."><br>
+    Max Videos to Queue from Playlist:<br>
+    <input id="maxvid" class="round" type="text" placeholder="Defaults to 250 videos"><br>
 </div>
 <div style="float: right; width: 49%;">
   Video Passes:<br>
@@ -34,66 +36,61 @@ module.exports = {
 
   action (cache) {
     const data = cache.actions[cache.index]
-    const { Audio } = this.getDBM()
+    const { Actions, Audio } = this.getDBM()
     const Mods = this.getMods()
     const url = this.evalMessage(data.url, cache)
+    var maxvideos = this.evalMessage(data.maxvid, cache)
     const ytpl = Mods.require('ytpl')
-    // const moment = Mods.require('moment')
+    const ytdl = Mods.require('ytdl-core')
     const { msg } = cache
-    const options = {}
-
-    // const re = new RegExp('(^[0-9]?[0-9]:[0-9][0-9]:[0-9][0-9]$)')
-    // const re1 = new RegExp('(^[0-9]?[0-9]:[0-9][0-9]$)')
 
     // Check Input
     if (!url) {
       return console.log('Please insert a playlist url!')
     }
+    if (!maxvideos) {
+        maxvideos = 250
+    }
 
     // Check Options
     if (data.seek) {
-      options.seek = parseInt(this.evalMessage(data.seek, cache))
+        var seek = parseInt(this.evalMessage(data.seek, cache))
     }
     if (data.volume) {
-      options.volume = parseInt(this.evalMessage(data.volume, cache)) / 100
+        var vol = parseInt(this.evalMessage(data.volume, cache)) / 100
     } else if (cache.server) {
-      options.volume = Audio.volumes[cache.server.id] || 0.5
+        vol = Audio.volumes[cache.server.id] || 0.5
     } else {
-      options.volume = 0.5
+        vol = 0.5
     }
     if (data.passes) {
-      options.passes = parseInt(this.evalMessage(data.passes, cache))
+        var passes = parseInt(this.evalMessage(data.passes, cache))
     }
     if (data.bitrate) {
-      options.bitrate = parseInt(this.evalMessage(data.bitrate, cache))
+        var bitrate = parseInt(this.evalMessage(data.bitrate, cache))
     } else {
-      options.bitrate = 'auto'
+        bitrate = 'auto'
     }
     if (msg) {
-      options.requester = msg.author
+        var requester = msg.author
     }
-
-    ytpl(url, function (err, playlist) {
-      if (err) return this.displayError(data, cache, err)
-
-      playlist.items.forEach(function (video) {
-        /* // This functionality is broken from going into the queue and i have 0 idea why thats happening. I left everything here in case someone figures it out in the future.
-let duration
-if (re.test(video.duration)) {
-duration = moment.duration(video.duration).asSeconds()
-} else if (re1.test(video.duration)) {
-duration = moment.duration(`00:${video.duration}`).asSeconds()
-} else (console.log('Error with duration in play youtube playlist'))
-
-options.title = video.title
-options.thumbnail = video.thumbnail
-options.duration = duration
-*/
-        const info = ['yt', options, video.url]
-        if (video.id !== undefined) {
-          Audio.addToQueue(info, cache)
-        }
-      })
+    var watermark = 'highWaterMark: 1' //idk what this does, but the queue data has it, so i might as well add it in case someone needs it
+    
+    ytpl(url, {limit: maxvideos}).then((playlist) => {
+        playlist.items.forEach(async(video) => { //have to do it async so the await can work, side effect of the playlist being added being shuffled
+            
+            if(video.id !== undefined) {
+                const videod = await ytdl.getInfo(video.url_simple)
+                    
+                        var title = videod.videoDetails.title
+                        var duration = parseInt(videod.videoDetails.lengthSeconds) //you need to use ytdl for this, ytpl doesn't have a way to get the duration in seconds
+                        var thumbnail = videod.player_response.videoDetails.thumbnail.thumbnails[3].url
+                    
+                        var info = ['yt', {seek, vol, passes, bitrate, requester, title, duration, thumbnail, watermark}, video.url_simple] //setting the "options" second value here fixes an issue where all items added to the queue from a playlist have the title, duration, thumbnail, and so on of the last one added to the queue from said playlist
+                    
+                        Audio.addToQueue(info, cache)
+            }
+        })
     })
     this.callNextAction(cache)
   },
