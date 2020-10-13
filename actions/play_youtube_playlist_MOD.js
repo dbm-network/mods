@@ -36,7 +36,7 @@ module.exports = {
 
   action (cache) {
     const data = cache.actions[cache.index]
-    const { Actions, Audio } = this.getDBM()
+    const { Audio } = this.getDBM()
     const Mods = this.getMods()
     const url = this.evalMessage(data.url, cache)
     var maxvideos = this.evalMessage(data.maxvid, cache)
