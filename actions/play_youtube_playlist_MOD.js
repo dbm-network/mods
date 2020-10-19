@@ -54,39 +54,39 @@ module.exports = {
 
     // Check Options
     if (data.seek) {
-        var seek = parseInt(this.evalMessage(data.seek, cache))
+      var seek = parseInt(this.evalMessage(data.seek, cache))
     }
     if (data.volume) {
-        var vol = parseInt(this.evalMessage(data.volume, cache)) / 100
+      var vol = parseInt(this.evalMessage(data.volume, cache)) / 100
     } else if (cache.server) {
-        vol = Audio.volumes[cache.server.id] || 0.5
+      vol = Audio.volumes[cache.server.id] || 0.5
     } else {
-        vol = 0.5
+      vol = 0.5
     }
     if (data.passes) {
-        var passes = parseInt(this.evalMessage(data.passes, cache))
+      var passes = parseInt(this.evalMessage(data.passes, cache))
     }
     if (data.bitrate) {
-        var bitrate = parseInt(this.evalMessage(data.bitrate, cache))
+      var bitrate = parseInt(this.evalMessage(data.bitrate, cache))
     } else {
-        bitrate = 'auto'
+      bitrate = 'auto'
     }
     if (msg) {
-        var requester = msg.author
+      var requester = msg.author
     }
-    var watermark = 'highWaterMark: 1' //idk what this does, but the queue data has it, so i might as well add it in case someone needs it
+    var watermark = 'highWaterMark: 1' // idk what this does, but the queue data has it, so i might as well add it in case someone needs it
     
     ytpl(url, {limit: maxvideos}).then((playlist) => {
-        playlist.items.forEach(async(video) => { //have to do it async so the await can work, side effect of the playlist being added being shuffled
+        playlist.items.forEach(async(video) => { // have to do it async so the await can work, side effect of the playlist being added being shuffled
             
             if(video.id !== undefined) {
                 const videod = await ytdl.getInfo(video.url_simple)
                     
                         var title = videod.videoDetails.title
-                        var duration = parseInt(videod.videoDetails.lengthSeconds) //you need to use ytdl for this, ytpl doesn't have a way to get the duration in seconds
+                        var duration = parseInt(videod.videoDetails.lengthSeconds) // you need to use ytdl for this, ytpl doesn't have a way to get the duration in seconds
                         var thumbnail = videod.player_response.videoDetails.thumbnail.thumbnails[3].url
                     
-                        var info = ['yt', {seek, vol, passes, bitrate, requester, title, duration, thumbnail, watermark}, video.url_simple] //setting the "options" second value here fixes an issue where all items added to the queue from a playlist have the title, duration, thumbnail, and so on of the last one added to the queue from said playlist
+                        var info = ['yt', {seek, vol, passes, bitrate, requester, title, duration, thumbnail, watermark}, video.url_simple] // setting the "options" second value here fixes an issue where all items added to the queue from a playlist have the title, duration, thumbnail, and so on of the last one added to the queue from said playlist
                     
                         Audio.addToQueue(info, cache)
             }
