@@ -75,17 +75,16 @@ module.exports = {
       var requester = msg.author
     }
     var watermark = 'highWaterMark: 1' // idk what this does, but the queue data has it, so i might as well add it in case someone needs it
-    ytpl(url, {limit: maxvideos}).then((playlist) => {
-      
-      playlist.items.forEach( async(video) => { // have to do it async so the await can work, side effect of the playlist being added being shuffled
-        if (video.id !== undefined) {
+    ytpl(url, {limit: maxvideos}).then((playlist) => { 
+      playlist.items.forEach(async (video) => { // have to do it async so the await can work, side effect of the playlist being added being shuffled
+        if (video.id !== undefined) { 
           const videod = await ytdl.getInfo(video.url_simple)
           var title = videod.videoDetails.title
           var duration = parseInt(videod.videoDetails.lengthSeconds) // you need to use ytdl for this, ytpl doesn't have a way to get the duration in seconds
           var thumbnail = videod.player_response.videoDetails.thumbnail.thumbnails[3].url
-          var info = ['yt', {seek, vol, passes, bitrate, requester, title, duration, thumbnail, watermark}, video.url_simple] // setting the "options" second value here fixes an issue where all items added to the queue from a playlist have the title, duration, thumbnail, and so on of the last one added to the queue from said playlist   
+          var info = ['yt', { seek, vol, passes, bitrate, requester, title, duration, thumbnail, watermark }, video.url_simple] // setting the "options" second value here fixes an issue where all items added to the queue from a playlist have the title, duration, thumbnail, and so on of the last one added to the queue from said playlist
           Audio.addToQueue(info, cache)
-          }
+        }
       })
     })
     this.callNextAction(cache)
