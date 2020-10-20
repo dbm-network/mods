@@ -82,9 +82,9 @@ module.exports = {
           var title = videod.videoDetails.title
           var duration = parseInt(videod.videoDetails.lengthSeconds) // you need to use ytdl for this, ytpl doesn't have a way to get the duration in seconds
           var thumbnail = videod.player_response.videoDetails.thumbnail.thumbnails[3].url
-          var info = ['yt', {seek, vol, passes, bitrate, requester, title, duration, thumbnail, watermark}, video.url_simple] // setting the "options" second value here fixes an issue where all items added to the queue from a playlist have the title, duration, thumbnail, and so on of the last one added to the queue from said playlist
+          var info = ['yt', { seek, vol, passes, bitrate, requester, title, duration, thumbnail, watermark }, video.url_simple] // setting the "options" second value here fixes an issue where all items added to the queue from a playlist have the title, duration, thumbnail, and so on of the last one added to the queue from said playlist
           Audio.addToQueue(info, cache)
-          }
+        }
       })
     })
     this.callNextAction(cache)
