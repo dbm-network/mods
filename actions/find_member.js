@@ -126,8 +126,8 @@ module.exports = {
     const info = parseInt(data.info)
     const find = this.evalMessage(data.find, cache)
     const find2 = parseInt(data.find2)
-    if (server.memberCount !== server.members.cache.size) server.members.fetch()
-    const members = server.members.cache
+    if (server.memberCount !== server.members.size) server.members.fetch()
+    const members = server.members
     const users = this.getDBM().Bot.bot.users.cache
     let result
     switch (info) {
