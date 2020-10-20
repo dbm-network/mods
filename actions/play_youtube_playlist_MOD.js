@@ -36,13 +36,13 @@ module.exports = {
 
   action (cache) {
     const data = cache.actions[cache.index]
-    const {Audio} = this.getDBM()
+    const { Audio } = this.getDBM()
     const Mods = this.getMods()
     const url = this.evalMessage(data.url, cache)
     var maxvideos = this.evalMessage(data.maxvid, cache)
     const ytpl = Mods.require('ytpl')
     const ytdl = Mods.require('ytdl-core')
-    const {msg} = cache
+    const { msg } = cache
 
     // Check Input
     if (!url) {
@@ -75,11 +75,9 @@ module.exports = {
       var requester = msg.author
     }
     var watermark = 'highWaterMark: 1' // idk what this does, but the queue data has it, so i might as well add it in case someone needs it
-    ytpl(url, {limit: maxvideos}).then((playlist) => {
-
-      playlist.items.forEach( async(video) => { // have to do it async so the await can work, side effect of the playlist being added being shuffled
+    ytpl(url, { limit: maxvideos }).then((playlist) => {
+      playlist.items.forEach(async (video) => { // have to do it async so the await can work, side effect of the playlist being added being shuffled
         if (video.id !== undefined) {
-
           const videod = await ytdl.getInfo(video.url_simple)
           var title = videod.videoDetails.title
           var duration = parseInt(videod.videoDetails.lengthSeconds) // you need to use ytdl for this, ytpl doesn't have a way to get the duration in seconds
@@ -91,6 +89,5 @@ module.exports = {
     })
     this.callNextAction(cache)
   },
-
   mod () {}
 }
