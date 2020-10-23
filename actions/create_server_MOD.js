@@ -70,7 +70,7 @@ module.exports = {
   action (cache) {
     const data = cache.actions[cache.index]
     const serverName = this.evalMessage(data.serverName, cache)
-    const botClient = this.getDBM().Bot.bot.user
+    const botClient = this.getDBM().Bot.bot
 
     if (!serverName) {
       this.callNextAction(cache)
