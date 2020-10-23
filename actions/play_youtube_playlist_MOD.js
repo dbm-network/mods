@@ -79,10 +79,10 @@ module.exports = {
       playlist.items.forEach(async (video) => { // have to do it async so the await can work, side effect of the playlist being added being shuffled
         if (video.id !== undefined) {
           const videod = await ytdl.getInfo(video.url_simple)
-          let title = videod.videoDetails.title
-          let duration = parseInt(videod.videoDetails.lengthSeconds) // you need to use ytdl for this, ytpl doesn't have a way to get the duration in seconds
-          let thumbnail = videod.player_response.videoDetails.thumbnail.thumbnails[3].url
-          let info = ['yt', { seek, vol, passes, bitrate, requester, title, duration, thumbnail, watermark }, video.url_simple] // setting the "options" second value here fixes an issue where all items added to the queue from a playlist have the title, duration, thumbnail, and so on of the last one added to the queue from said playlist
+          const title = videod.videoDetails.title
+          const duration = parseInt(videod.videoDetails.lengthSeconds) // you need to use ytdl for this, ytpl doesn't have a way to get the duration in seconds
+          const thumbnail = videod.player_response.videoDetails.thumbnail.thumbnails[3].url
+          const info = ['yt', { seek, vol, passes, bitrate, requester, title, duration, thumbnail, watermark }, video.url_simple] // setting the "options" second value here fixes an issue where all items added to the queue from a playlist have the title, duration, thumbnail, and so on of the last one added to the queue from said playlist
           Audio.addToQueue(info, cache)
         }
       })
