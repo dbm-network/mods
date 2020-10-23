@@ -39,8 +39,8 @@ module.exports = {
     const { Audio } = this.getDBM()
     const Mods = this.getMods()
     const url = this.evalMessage(data.url, cache)
-    var maxvideos = this.evalMessage(data.maxvid, cache)
-    const ytpl = Mods.require('ytpl')
+    let maxvideos = this.evalMessage(data.maxvid, cache)
+    const ytpl = Mods.require('ytpl') // be sure you have the latest YTPL, this was modified with 1.0.1 in mind
     const ytdl = Mods.require('ytdl-core')
     const { msg } = cache
 
@@ -74,15 +74,15 @@ module.exports = {
     if (msg) {
       var requester = msg.author
     }
-    var watermark = 'highWaterMark: 1' // idk what this does, but the queue data has it, so i might as well add it in case someone needs it
+    const watermark = 'highWaterMark: 1' // idk what this does, but the queue data has it, so i might as well add it in case someone needs it
     ytpl(url, { limit: maxvideos }).then((playlist) => {
       playlist.items.forEach(async (video) => { // have to do it async so the await can work, side effect of the playlist being added being shuffled
         if (video.id !== undefined) {
           const videod = await ytdl.getInfo(video.url_simple)
-          var title = videod.videoDetails.title
-          var duration = parseInt(videod.videoDetails.lengthSeconds) // you need to use ytdl for this, ytpl doesn't have a way to get the duration in seconds
-          var thumbnail = videod.player_response.videoDetails.thumbnail.thumbnails[3].url
-          var info = ['yt', { seek, vol, passes, bitrate, requester, title, duration, thumbnail, watermark }, video.url_simple] // setting the "options" second value here fixes an issue where all items added to the queue from a playlist have the title, duration, thumbnail, and so on of the last one added to the queue from said playlist
+          let title = videod.videoDetails.title
+          let duration = parseInt(videod.videoDetails.lengthSeconds) // you need to use ytdl for this, ytpl doesn't have a way to get the duration in seconds
+          let thumbnail = videod.player_response.videoDetails.thumbnail.thumbnails[3].url
+          let info = ['yt', { seek, vol, passes, bitrate, requester, title, duration, thumbnail, watermark }, video.url_simple] // setting the "options" second value here fixes an issue where all items added to the queue from a playlist have the title, duration, thumbnail, and so on of the last one added to the queue from said playlist
           Audio.addToQueue(info, cache)
         }
       })
