@@ -4,29 +4,29 @@ module.exports = {
   //
   // This is the name of the action displayed in the editor.
   // ---------------------------------------------------------------------
-  
+
   name: 'Add Member Role',
-  
+
   // ---------------------------------------------------------------------
   // Action Section
   //
   // This is the section the action will fall into.
   // ---------------------------------------------------------------------
-  
+
   section: 'Member Control',
-  
+
   // ---------------------------------------------------------------------
   // Action Subtitle
   //
   // This function generates the subtitle displayed next to the name.
   // ---------------------------------------------------------------------
-  
+
   subtitle(data) {
-    const roles = ['Mentioned Role', '1st Author Role', '1st Server Role', 'Temp Variable', 'Server Variable', 'Global Variable']
-    const channels = ['Mentioned User', 'Command Author', 'Temp Variable', 'Server Variable', 'Global Variable']
-    return `${channels[parseInt(data.member)]} - ${roles[parseInt(data.role)]}`
+    const roles = ['Mentioned Role', '1st Author Role', '1st Server Role', 'Temp Variable', 'Server Variable', 'Global Variable'];
+    const channels = ['Mentioned User', 'Command Author', 'Temp Variable', 'Server Variable', 'Global Variable'];
+    return `${channels[parseInt(data.member)]} - ${roles[parseInt(data.role)]}`;
   },
-  
+
   // ---------------------------------------------------------------------
   // Action Fields
   //
@@ -34,9 +34,9 @@ module.exports = {
   // by creating elements with corresponding IDs in the HTML. These
   // are also the names of the fields stored in the action's JSON data.
   // ---------------------------------------------------------------------
-  
+
   fields: ['member', 'varName2', 'role', 'varName', 'reason'],
-  
+
   // ---------------------------------------------------------------------
   // Command HTML
   //
@@ -52,7 +52,7 @@ module.exports = {
   // The names are: sendTargets, members, roles, channels,
   //        messages, servers, variables
   // ---------------------------------------------------------------------
-  
+
   html(isEvent, data) {
     return `
   <div>
@@ -82,9 +82,9 @@ module.exports = {
   <div>
     Reason:
     <input id='reason' placeholder='Optional' class='round' type='text'>
-  </div>`
+  </div>`;
   },
-  
+
   // ---------------------------------------------------------------------
   // Action Editor Init Code
   //
@@ -92,17 +92,17 @@ module.exports = {
   // is also run. This helps add modifications or setup reactionary
   // functions for the DOM elements.
   // ---------------------------------------------------------------------
-  
+
   init() {
     const {
-    glob,
-    document
-    } = this
-  
-    glob.roleChange(document.getElementById('role'), 'varNameContainer')
-    glob.memberChange(document.getElementById('member'), 'varNameContainer2')
+      glob,
+      document,
+    } = this;
+
+    glob.roleChange(document.getElementById('role'), 'varNameContainer');
+    glob.memberChange(document.getElementById('member'), 'varNameContainer2');
   },
-  
+
   // ---------------------------------------------------------------------
   // Action Bot Function
   //
@@ -110,27 +110,27 @@ module.exports = {
   // Keep in mind event calls won't have access to the 'msg' parameter,
   // so be sure to provide checks for variable existance.
   // ---------------------------------------------------------------------
-  
+
   action(cache) {
-    const data = cache.actions[cache.index]
-    const storage = parseInt(data.role)
-    const varName = this.evalMessage(data.varName, cache)
-    const role = this.getRole(storage, varName, cache)
-    const storage2 = parseInt(data.member)
-    const varName2 = this.evalMessage(data.varName2, cache)
-    const member = this.getMember(storage2, varName2, cache)
-    const reason = this.evalMessage(data.reason, cache)
+    const data = cache.actions[cache.index];
+    const storage = parseInt(data.role);
+    const varName = this.evalMessage(data.varName, cache);
+    const role = this.getRole(storage, varName, cache);
+    const storage2 = parseInt(data.member);
+    const varName2 = this.evalMessage(data.varName2, cache);
+    const member = this.getMember(storage2, varName2, cache);
+    const reason = this.evalMessage(data.reason, cache);
     if (Array.isArray(member)) {
-    this.callListFunc(member.map((m) => m.roles), 'add', [role, reason]).then(() => this.callNextAction(cache))
+      this.callListFunc(member.map((m) => m.roles), 'add', [role, reason]).then(() => this.callNextAction(cache));
     } else if (this.dest(member, 'roles', 'add')) {
-    member.roles.add(role, reason)
-      .then(() => this.callNextAction(cache))
-      .catch(this.displayError.bind(this, data, cache))
+      member.roles.add(role, reason)
+        .then(() => this.callNextAction(cache))
+        .catch(this.displayError.bind(this, data, cache));
     } else {
-    this.callNextAction(cache)
+      this.callNextAction(cache);
     }
   },
-  
+
   // ---------------------------------------------------------------------
   // Action Bot Mod
   //
@@ -139,6 +139,6 @@ module.exports = {
   // In order to reduce conflictions between mods, be sure to alias
   // functions you wish to overwrite.
   // ---------------------------------------------------------------------
-  
-  mod() {}
-  } // End of module
+
+  mod() {},
+}; // End of module
