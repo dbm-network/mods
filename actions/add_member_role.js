@@ -5,7 +5,7 @@ module.exports = {
   // This is the name of the action displayed in the editor.
   // ---------------------------------------------------------------------
 
-  name: "Add Member Role",
+  name: 'Add Member Role',
 
   // ---------------------------------------------------------------------
   // Action Section
@@ -13,7 +13,7 @@ module.exports = {
   // This is the section the action will fall into.
   // ---------------------------------------------------------------------
 
-  section: "Member Control",
+  section: 'Member Control',
 
   // ---------------------------------------------------------------------
   // Action Subtitle
@@ -21,10 +21,10 @@ module.exports = {
   // This function generates the subtitle displayed next to the name.
   // ---------------------------------------------------------------------
 
-  subtitle: function(data) {
-    const roles = ["Mentioned Role", "1st Author Role", "1st Server Role", "Temp Variable", "Server Variable", "Global Variable"];
-    const channels = ["Mentioned User", "Command Author", "Temp Variable", "Server Variable", "Global Variable"];
-    return `${channels[parseInt(data.member)]} - ${roles[parseInt(data.role)]}`;
+  subtitle: function (data) {
+    const roles = ['Mentioned Role', '1st Author Role', '1st Server Role', 'Temp Variable', 'Server Variable', 'Global Variable']
+    const channels = ['Mentioned User', 'Command Author', 'Temp Variable', 'Server Variable', 'Global Variable']
+    return `${channels[parseInt(data.member)]} - ${roles[parseInt(data.role)]}`
   },
 
   // ---------------------------------------------------------------------
@@ -35,7 +35,7 @@ module.exports = {
   // are also the names of the fields stored in the action's JSON data.
   // ---------------------------------------------------------------------
 
-  fields: ["member", "varName2", "role", "varName", "reason"],
+  fields: ['member', 'varName2', 'role', 'varName', 'reason'],
 
   // ---------------------------------------------------------------------
   // Command HTML
@@ -43,46 +43,46 @@ module.exports = {
   // This function returns a string containing the HTML used for
   // editting actions.
   //
-  // The "isEvent" parameter will be true if this action is being used
+  // The 'isEvent' parameter will be true if this action is being used
   // for an event. Due to their nature, events lack certain information,
   // so edit the HTML to reflect this.
   //
-  // The "data" parameter stores constants for select elements to use.
+  // The 'data' parameter stores constants for select elements to use.
   // Each is an array: index 0 for commands, index 1 for events.
   // The names are: sendTargets, members, roles, channels,
-  //                messages, servers, variables
+  //        messages, servers, variables
   // ---------------------------------------------------------------------
 
-  html: function(isEvent, data) {
+  html: function (isEvent, data) {
     return `
 <div>
-	<div style="float: left; width: 35%;">
-		Source Role:<br>
-		<select id="role" class="round" onchange="glob.roleChange(this, 'varNameContainer')">
-			${data.roles[isEvent ? 1 : 0]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="display: none; float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList"><br>
-	</div>
+  <div style='float: left width: 35%'>
+    Source Role:<br>
+    <select id='role' class='round' onchange='glob.roleChange(this, 'varNameContainer')'>
+      ${data.roles[isEvent ? 1 : 0]}
+    </select>
+  </div>
+  <div id='varNameContainer' style='display: none float: right width: 60%'>
+    Variable Name:<br>
+    <input id='varName' class='round' type='text' list='variableList'><br>
+  </div>
 </div><br><br><br>
-<div style="padding-top: 8px;">
-	<div style="float: left; width: 35%;">
-		Member:<br>
-		<select id="member" class="round" onchange="glob.memberChange(this, 'varNameContainer2')">
-			${data.members[isEvent ? 1 : 0]}
-		</select>
-	</div>
-	<div id="varNameContainer2" style="display: none; float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName2" class="round" type="text" list="variableList"><br>
-	</div>
+<div style='padding-top: 8px'>
+  <div style='float: left width: 35%'>
+    Member:<br>
+    <select id='member' class='round' onchange='glob.memberChange(this, 'varNameContainer2')'>
+      ${data.members[isEvent ? 1 : 0]}
+    </select>
+  </div>
+  <div id='varNameContainer2' style='display: none float: right width: 60%'>
+    Variable Name:<br>
+    <input id='varName2' class='round' type='text' list='variableList'><br>
+  </div>
 </div><br><br><br>
 <div>
   Reason:
-  <input id="reason" placeholder="Optional" class="round" type="text">
-</div>`;
+  <input id='reason' placeholder='Optional' class='round' type='text'>
+</div>`
   },
 
   // ---------------------------------------------------------------------
@@ -93,41 +93,41 @@ module.exports = {
   // functions for the DOM elements.
   // ---------------------------------------------------------------------
 
-  init: function() {
+  init: function () {
     const {
       glob,
       document
-    } = this;
+    } = this
 
-    glob.roleChange(document.getElementById("role"), "varNameContainer");
-    glob.memberChange(document.getElementById("member"), "varNameContainer2");
+    glob.roleChange(document.getElementById('role'), 'varNameContainer')
+    glob.memberChange(document.getElementById('member'), 'varNameContainer2')
   },
 
   // ---------------------------------------------------------------------
   // Action Bot Function
   //
   // This is the function for the action within the Bot's Action class.
-  // Keep in mind event calls won't have access to the "msg" parameter,
+  // Keep in mind event calls won't have access to the 'msg' parameter,
   // so be sure to provide checks for variable existance.
   // ---------------------------------------------------------------------
 
-  action: function(cache) {
-    const data = cache.actions[cache.index];
-    const storage = parseInt(data.role);
-    const varName = this.evalMessage(data.varName, cache);
-    const role = this.getRole(storage, varName, cache);
-    const storage2 = parseInt(data.member);
-    const varName2 = this.evalMessage(data.varName2, cache);
-    const member = this.getMember(storage2, varName2, cache);
-    const reason = this.evalMessage(data.reason, cache);
+  action: function (cache) {
+    const data = cache.actions[cache.index]
+    const storage = parseInt(data.role)
+    const varName = this.evalMessage(data.varName, cache)
+    const role = this.getRole(storage, varName, cache)
+    const storage2 = parseInt(data.member)
+    const varName2 = this.evalMessage(data.varName2, cache)
+    const member = this.getMember(storage2, varName2, cache)
+    const reason = this.evalMessage(data.reason, cache)
     if (Array.isArray(member)) {
-      this.callListFunc(member.map((m) => m.roles), "add", [role, reason]).then(() => this.callNextAction(cache));
-    } else if (this.dest(member, "roles", "add")) {
+      this.callListFunc(member.map((m) => m.roles), 'add', [role, reason]).then(() => this.callNextAction(cache))
+    } else if (this.dest(member, 'roles', 'add')) {
       member.roles.add(role, reason)
         .then(() => this.callNextAction(cache))
-        .catch(this.displayError.bind(this, data, cache));
+        .catch(this.displayError.bind(this, data, cache))
     } else {
-      this.callNextAction(cache);
+      this.callNextAction(cache)
     }
   },
 
@@ -140,5 +140,5 @@ module.exports = {
   // functions you wish to overwrite.
   // ---------------------------------------------------------------------
 
-  mod: function() {}
-}; // End of module
+  mod: function () { }
+} // End of module
