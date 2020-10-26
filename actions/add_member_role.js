@@ -82,7 +82,7 @@ module.exports = {
   <div>
     Reason:
     <input id='reason' placeholder='Optional' class='round' type='text'>
-  </div>`;
+  </div>`
   },
 
   // ---------------------------------------------------------------------
@@ -96,7 +96,7 @@ module.exports = {
   init () {
     const {
       glob,
-      document,
+      document
     } = this
 
     glob.roleChange(document.getElementById('role'), 'varNameContainer')
@@ -140,5 +140,5 @@ module.exports = {
   // functions you wish to overwrite.
   // ---------------------------------------------------------------------
 
-  mod () {},
-}; // End of module
+  mod () {}
+} // End of module
