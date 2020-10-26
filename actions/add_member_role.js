@@ -21,7 +21,7 @@ module.exports = {
 	// This function generates the subtitle displayed next to the name.
 	// ---------------------------------------------------------------------
   
-	subtitle (data) {
+	subtitle(data) {
 	  const roles = ['Mentioned Role', '1st Author Role', '1st Server Role', 'Temp Variable', 'Server Variable', 'Global Variable']
 	  const channels = ['Mentioned User', 'Command Author', 'Temp Variable', 'Server Variable', 'Global Variable']
 	  return `${channels[parseInt(data.member)]} - ${roles[parseInt(data.role)]}`
@@ -53,36 +53,36 @@ module.exports = {
 	//        messages, servers, variables
 	// ---------------------------------------------------------------------
   
-	html (isEvent, data) {
+	html(isEvent, data) {
 	  return `
-  <div>
-	<div style='float: left width: 35%'>
-	  Source Role:<br>
-	  <select id='role' class='round' onchange='glob.roleChange(this, 'varNameContainer')'>
-		${data.roles[isEvent ? 1 : 0]}
-	  </select>
-	</div>
-	<div id='varNameContainer' style='display: none float: right width: 60%'>
-	  Variable Name:<br>
-	  <input id='varName' class='round' type='text' list='variableList'><br>
-	</div>
-  </div><br><br><br>
-  <div style='padding-top: 8px'>
-	<div style='float: left width: 35%'>
-	  Member:<br>
-	  <select id='member' class='round' onchange='glob.memberChange(this, 'varNameContainer2')'>
-		${data.members[isEvent ? 1 : 0]}
-	  </select>
-	</div>
-	<div id='varNameContainer2' style='display: none float: right width: 60%'>
-	  Variable Name:<br>
-	  <input id='varName2' class='round' type='text' list='variableList'><br>
-	</div>
-  </div><br><br><br>
-  <div>
-	Reason:
-	<input id='reason' placeholder='Optional' class='round' type='text'>
-  </div>`
+	<div>
+	  <div style='float: left width: 35%'>
+		Source Role:<br>
+		<select id='role' class='round' onchange='glob.roleChange(this, 'varNameContainer')'>
+		  ${data.roles[isEvent ? 1 : 0]}
+		</select>
+	  </div>
+	  <div id='varNameContainer' style='display: none float: right width: 60%'>
+		Variable Name:<br>
+		<input id='varName' class='round' type='text' list='variableList'><br>
+	  </div>
+	</div><br><br><br>
+	<div style='padding-top: 8px'>
+	  <div style='float: left width: 35%'>
+		Member:<br>
+		<select id='member' class='round' onchange='glob.memberChange(this, 'varNameContainer2')'>
+		  ${data.members[isEvent ? 1 : 0]}
+		</select>
+	  </div>
+	  <div id='varNameContainer2' style='display: none float: right width: 60%'>
+		Variable Name:<br>
+		<input id='varName2' class='round' type='text' list='variableList'><br>
+	  </div>
+	</div><br><br><br>
+	<div>
+	  Reason:
+	  <input id='reason' placeholder='Optional' class='round' type='text'>
+	</div>`
 	},
   
 	// ---------------------------------------------------------------------
@@ -93,7 +93,7 @@ module.exports = {
 	// functions for the DOM elements.
 	// ---------------------------------------------------------------------
   
-	init () {
+	init() {
 	  const {
 		glob,
 		document
@@ -111,7 +111,7 @@ module.exports = {
 	// so be sure to provide checks for variable existance.
 	// ---------------------------------------------------------------------
   
-	action (cache) {
+	action(cache) {
 	  const data = cache.actions[cache.index]
 	  const storage = parseInt(data.role)
 	  const varName = this.evalMessage(data.varName, cache)
@@ -140,5 +140,5 @@ module.exports = {
 	// functions you wish to overwrite.
 	// ---------------------------------------------------------------------
   
-	mod () { }
+	mod() {}
   } // End of module
