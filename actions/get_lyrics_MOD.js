@@ -11,19 +11,19 @@ module.exports = {
     const type = parseInt(data.storage)
     if (type !== varType) return
     const info = parseInt(data.info)
-    let dataType = 'Unknown Song Type'
+    let dataType = 'Unknown Type'
     switch (info) {
       case 0:
-        dataType = 'Song Name'
+        dataType = 'String'
         break
       case 1:
-        dataType = 'Song Artist'
+        dataType = 'String'
         break
       case 2:
-        dataType = 'Song Lyrics'
+        dataType = 'String'
         break
       case 3:
-        dataType = 'Song URL'
+        dataType = 'URL'
         break
     }
     return ([data.varName, dataType])
@@ -119,9 +119,9 @@ module.exports = {
     const Mods = this.getMods()
     const analyrics = Mods.require('analyrics')
 
-    analyrics.setToken(`${geniustoken}`)
+    analyrics.setToken(geniustoken)
 
-    analyrics.getSong(`${songname}`, (song) => {
+    analyrics.getSong(songname, (song) => {
       let result
       switch (info) {
         case 0:

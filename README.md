@@ -1,6 +1,6 @@
 <p align="center">
-  <a title="DBM Network" href="https://discord.gg/3QxkZPK" target="_blank">
-    <img src="https://i.imgur.com/U8Z1SPh.png" width="512" alt="DBM Network" />
+  <a title="DBM Mods" href="https://discord.gg/3QxkZPK" target="_blank">
+    <img src="https://dl.dropboxusercontent.com/s/h1bscek2emoa1p2/mods-logo-dark.png" width="200" alt="DBM Mods" />
   </a>
 </p>
 <p align="center">

@@ -7,7 +7,8 @@ module.exports = {
       'Playing',
       'Listening to',
       'Watching',
-      'Streaming Twitch'
+      'Streaming Twitch',
+      'Competing'
     ]
 
     const stats = ['Online', 'Idle', 'Invisible', 'Do Not Disturb']
@@ -29,6 +30,7 @@ module.exports = {
           <option value="1">Listening to</option>
           <option value="2">Watching</option>
           <option value="3">Streaming Twitch</option>
+          <option value="4">Competing</option>
         </select>
       </div>
       <div style="width: 50%; padding-left: 10px">
@@ -124,6 +126,9 @@ module.exports = {
           break
         case 3:
           target = 'STREAMING'
+          break
+        case 4:
+          target = 'COMPETING'
           break
       }
     }

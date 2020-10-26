@@ -1,1 +1,8 @@
 * text=auto eol=crlf
+
+/.github export-ignore
+/docs export-ignore
+.editorconfig export-ignore
+.eslintrc.yml export-ignore
+.gitignore export-ignore
+package.json export-ignore
