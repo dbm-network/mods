@@ -21,7 +21,7 @@ module.exports = {
 	// This function generates the subtitle displayed next to the name.
 	//---------------------------------------------------------------------
 
-	subtitle: function(data) {
+	subtitle: function (data) {
 		const roles = ["Mentioned Role", "1st Author Role", "1st Server Role", "Temp Variable", "Server Variable", "Global Variable"];
 		const channels = ["Mentioned User", "Command Author", "Temp Variable", "Server Variable", "Global Variable"];
 		return `${channels[parseInt(data.member)]} - ${roles[parseInt(data.role)]}`;
@@ -53,7 +53,7 @@ module.exports = {
 	//                messages, servers, variables
 	//---------------------------------------------------------------------
 
-	html: function(isEvent, data) {
+	html: function (isEvent, data) {
 		return `
 <div>
 	<div style="float: left; width: 35%;">
@@ -93,7 +93,7 @@ module.exports = {
 	// functions for the DOM elements.
 	//---------------------------------------------------------------------
 
-	init: function() {
+	init: function () {
 		const { glob, document } = this;
 
 		glob.roleChange(document.getElementById("role"), "varNameContainer");
@@ -108,7 +108,7 @@ module.exports = {
 	// so be sure to provide checks for variable existance.
 	//---------------------------------------------------------------------
 
-	action: function(cache) {
+	action: function (cache) {
 		const data = cache.actions[cache.index];
 		const storage = parseInt(data.role);
 		const varName = this.evalMessage(data.varName, cache);
@@ -117,9 +117,9 @@ module.exports = {
 		const varName2 = this.evalMessage(data.varName2, cache);
 		const member = this.getMember(storage2, varName2, cache);
 		const reason = this.evalMessage(data.reason, cache);
-		if(Array.isArray(member)) {
+		if (Array.isArray(member)) {
 			this.callListFunc(member.map((m) => m.roles), "add", [role, reason]).then(() => this.callNextAction(cache));
-		} else if(this.dest(member, "roles", "add")) {
+		} else if (this.dest(member, "roles", "add")) {
 			member.roles.add(role, reason)
 				.then(() => this.callNextAction(cache))
 				.catch(this.displayError.bind(this, data, cache));
@@ -137,5 +137,5 @@ module.exports = {
 	// functions you wish to overwrite.
 	//---------------------------------------------------------------------
 
-	mod: function() {}
+	mod: function () { }
 }; // End of module
