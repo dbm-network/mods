@@ -43,7 +43,7 @@ module.exports = {
     const varName = this.evalMessage(data.varName, cache)
     const server = this.getServer(type, varName, cache)
     const dataName = this.evalMessage(data.dataName, cache)
-    if (server) {
+    if (!server) {
       this.callNextAction(cache)
       return
     }
