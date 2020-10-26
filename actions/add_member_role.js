@@ -22,9 +22,9 @@ module.exports = {
   // ---------------------------------------------------------------------
 
   subtitle(data) {
-    const roles = ['Mentioned Role', '1st Author Role', '1st Server Role', 'Temp Variable', 'Server Variable', 'Global Variable'];
-    const channels = ['Mentioned User', 'Command Author', 'Temp Variable', 'Server Variable', 'Global Variable'];
-    return `${channels[parseInt(data.member)]} - ${roles[parseInt(data.role)]}`;
+    const roles = ['Mentioned Role', '1st Author Role', '1st Server Role', 'Temp Variable', 'Server Variable', 'Global Variable']
+    const channels = ['Mentioned User', 'Command Author', 'Temp Variable', 'Server Variable', 'Global Variable']
+    return `${channels[parseInt(data.member)]} - ${roles[parseInt(data.role)]}`
   },
 
   // ---------------------------------------------------------------------
@@ -82,7 +82,7 @@ module.exports = {
   <div>
     Reason:
     <input id='reason' placeholder='Optional' class='round' type='text'>
-  </div>`;
+  </div>`
   },
 
   // ---------------------------------------------------------------------
@@ -97,10 +97,10 @@ module.exports = {
     const {
       glob,
       document,
-    } = this;
+    } = this
 
-    glob.roleChange(document.getElementById('role'), 'varNameContainer');
-    glob.memberChange(document.getElementById('member'), 'varNameContainer2');
+    glob.roleChange(document.getElementById('role'), 'varNameContainer')
+    glob.memberChange(document.getElementById('member'), 'varNameContainer2')
   },
 
   // ---------------------------------------------------------------------
@@ -112,22 +112,22 @@ module.exports = {
   // ---------------------------------------------------------------------
 
   action(cache) {
-    const data = cache.actions[cache.index];
-    const storage = parseInt(data.role);
-    const varName = this.evalMessage(data.varName, cache);
-    const role = this.getRole(storage, varName, cache);
-    const storage2 = parseInt(data.member);
-    const varName2 = this.evalMessage(data.varName2, cache);
-    const member = this.getMember(storage2, varName2, cache);
-    const reason = this.evalMessage(data.reason, cache);
+    const data = cache.actions[cache.index]
+    const storage = parseInt(data.role)
+    const varName = this.evalMessage(data.varName, cache)
+    const role = this.getRole(storage, varName, cache)
+    const storage2 = parseInt(data.member)
+    const varName2 = this.evalMessage(data.varName2, cache)
+    const member = this.getMember(storage2, varName2, cache)
+    const reason = this.evalMessage(data.reason, cache)
     if (Array.isArray(member)) {
       this.callListFunc(member.map((m) => m.roles), 'add', [role, reason]).then(() => this.callNextAction(cache));
     } else if (this.dest(member, 'roles', 'add')) {
       member.roles.add(role, reason)
         .then(() => this.callNextAction(cache))
-        .catch(this.displayError.bind(this, data, cache));
+        .catch(this.displayError.bind(this, data, cache))
     } else {
-      this.callNextAction(cache);
+      this.callNextAction(cache)
     }
   },
 
