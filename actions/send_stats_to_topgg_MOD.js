@@ -14,7 +14,7 @@ module.exports = {
 <div id="modinfo">
   <div style="float: left; width: 99%; padding-top: 8px;">
     Your Top.gg Token:<br>
-    <input id="dblToken" class="round" type="text">
+    <input id="TopggToken" class="round" type="text">
   </div><br>
   <div style="float: left; width: 90%; padding-top: 8px;">
     Info to Send:<br>
@@ -33,7 +33,7 @@ module.exports = {
 
   async action (cache) {
     const data = cache.actions[cache.index]
-    const token = this.evalMessage(data.dblToken, cache)
+    const token = this.evalMessage(data.TopggToken, cache)
     const info = parseInt(data.info)
     const Mods = this.getMods()
     const fetch = Mods.require('node-fetch')

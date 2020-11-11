@@ -7,7 +7,7 @@ module.exports = {
     return `If True: ${results[parseInt(data.iftrue)]} ~ If False: ${results[parseInt(data.iffalse)]}`
   },
 
-  fields: ['member', 'apitoken', 'varName', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal'],
+  fields: ['member', 'TopggToken', 'varName', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal'],
 
   html (isEvent, data) {
     return `
@@ -26,7 +26,7 @@ module.exports = {
 <div>
   <div style="float: left; width: 89%;">
     Top.gg API Token:<br>
-    <input id="apitoken" class="round" type="text">
+    <input id="TopggToken" class="round" type="text">
   </div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
@@ -97,17 +97,17 @@ module.exports = {
 
   action (cache) {
     const data = cache.actions[cache.index]
-    const apitoken = this.evalMessage(data.apitoken, cache)
+    const TopggToken = this.evalMessage(data.TopggToken, cache)
     const type = parseInt(data.member)
     const varName = this.evalMessage(data.varName, cache)
     const member = this.getMember(type, varName, cache)
 
     const Mods = this.getMods()
     const DBL = Mods.require('dblapi.js')
-    const dbl = new DBL(apitoken)
+    const dbl = new DBL(TopggToken)
 
-    if (!apitoken) {
-      console.log('ERROR! Please provide an API token for Top.gg!')
+    if (!TopggToken) {
+      console.log('ERROR! Please provide an API Token for Top.gg!')
     }
 
     dbl.hasVoted(member.user.id).then((voted) => this.executeResults(voted, data, cache))

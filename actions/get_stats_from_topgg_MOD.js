@@ -1,5 +1,5 @@
 module.exports = {
-  name: 'Get Bot Stats From DBL',
+  name: 'Get Bot Stats From Top.gg',
   section: 'Other Stuff',
 
   subtitle (data) {
@@ -10,7 +10,7 @@ module.exports = {
   variableStorage (data, varType) {
     const type = parseInt(data.storage)
     if (type !== varType) return
-    let dataType = 'A DBL Stat'
+    let dataType = 'A Top.gg Stat'
     const info = parseInt(data.info)
     switch (info) {
       case 0:
@@ -89,8 +89,8 @@ module.exports = {
     <input id="botID" class="round" type="text">
   </div><br>
   <div style="float: left; width: 99%; padding-top: 8px;">
-    Your DBL Token:<br>
-    <input id="token" class="round" type="text">
+    Your Top.gg Token:<br>
+    <input id="TopggToken" class="round" type="text">
   </div><br>
   <div style="float: left; width: 90%; padding-top: 8px;">
     Source Info:<br>
@@ -130,8 +130,7 @@ module.exports = {
   </div><br><br><br><br>
   <div id="commentSection" style="padding-top: 8px;">
     <p>
-      Some options will only work for certified or special bots. You better use some check variables to check if they exist.
-      <b>Note:</b> DBL is going to update the API and you'll need a token after the update!
+      Some options will only work for certified or special bots. You should use some check variables to check if they exist.
     </p>
   </div>
 </div>`
@@ -147,14 +146,14 @@ module.exports = {
     const data = cache.actions[cache.index]
     const botID = this.evalMessage(data.botID, cache)
     const info = parseInt(data.info)
-    const dblToken = this.evalMessage(data.token, cache)
+    const TopggToken = this.evalMessage(data.token, cache)
 
     const Mods = this.getMods()
     const fetch = Mods.require('node-fetch')
 
     fetch(`https://top.gg/api/bots/${botID}`, {
       method: 'GET',
-      headers: { Authorization: dblToken || '' }
+      headers: { Authorization: TopggToken || '' }
     })
       .then((res) => res.json())
       .then((r) => {
