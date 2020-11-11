@@ -242,9 +242,6 @@ class FileControl {
       case 2: // Append File
         result = () => {
           if (fileName === '') throw new Error('File Name not Provided:')
-          fs.appendFileSync(fpath, `${itext}\r\n`, (err) => {
-            if (err) return console.log(`${lmg} appending: [${err}]`)
-          })
           if (togglestat === 'yes') {
             fs.appendFileSync(fpath, `${JSON.stringify(itext)}\r\n`, (err) => {
               if (err) return console.log(`${lmg} appending: [${err}]`)
