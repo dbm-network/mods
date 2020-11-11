@@ -1,5 +1,5 @@
 module.exports = {
-  name: 'Sends Stats to DBL',
+  name: 'Sends Stats to Top.gg',
   section: 'Other Stuff',
 
   subtitle (data) {
@@ -7,13 +7,13 @@ module.exports = {
     return `Send ${info[parseInt(data.info)]} to DBL!`
   },
 
-  fields: ['dblToken', 'info'],
+  fields: ['TopggToken', 'info'],
 
   html () {
     return `
 <div id="modinfo">
   <div style="float: left; width: 99%; padding-top: 8px;">
-    Your DBL Token:<br>
+    Your Top.gg Token:<br>
     <input id="dblToken" class="round" type="text">
   </div><br>
   <div style="float: left; width: 90%; padding-top: 8px;">

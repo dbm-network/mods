@@ -1,5 +1,5 @@
 module.exports = {
-  name: 'Check DBL Voted',
+  name: 'Check Top.gg Voted',
   section: 'Conditions',
 
   subtitle (data) {
@@ -25,7 +25,7 @@ module.exports = {
 </div><br><br><br>
 <div>
   <div style="float: left; width: 89%;">
-    DBL API Token:<br>
+    Top.gg API Token:<br>
     <input id="apitoken" class="round" type="text">
   </div>
 </div><br><br><br>
@@ -107,7 +107,7 @@ module.exports = {
     const dbl = new DBL(apitoken)
 
     if (!apitoken) {
-      console.log('ERROR! Please provide an API token for DBL!')
+      console.log('ERROR! Please provide an API token for Top.gg!')
     }
 
     dbl.hasVoted(member.user.id).then((voted) => this.executeResults(voted, data, cache))
