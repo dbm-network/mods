@@ -5,12 +5,7 @@ module.exports = {
     subtitle (data) {
       return `${data.webhookName}`
     },
-  
-    variableStorage (data, varType) {
-      const type = parseInt(data.storage2)
-      if (type !== varType) return
-      return ([data.varName2, 'Webhook'])
-    },
+
   
     fields: ['webhookName', 'webhookIcon', 'webhook', 'varName'],
   
@@ -41,8 +36,7 @@ module.exports = {
   
     init () {
       const { glob, document } = this
-      glob.channelChange(document.getElementById('storage'), 'varNameContainer')
-      glob.variableChange(document.getElementById('storage2'), 'varNameContainer2')
+      glob.channelChange(document.getElementById('webhook'))
     },
   
     action (cache) {
