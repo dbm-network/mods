@@ -29,7 +29,10 @@ export function html(isEvent, data) {
   </div>`
 }
 export function init() {
-  const { glob, document } = this
+  const {
+    glob,
+    document
+  } = this
   glob.channelChange(document.getElementById('webhook'))
 }
 export function action(cache) {
@@ -41,12 +44,13 @@ export function action(cache) {
   if (wh) {
     const avatar = this.evalMessage(data.webhookIcon, cache)
     const name = this.evalMessage(data.webhookName, cache)
-    wh.send('', { avatarURL: avatar })
+    wh.send('', {
+      avatarURL: avatar
+    })
     wh.name = name
     this.callNextAction(cache)
   } else {
     this.callNextAction(cache)
   }
 }
-export function mod() { }
-  
+export function mod() {}
