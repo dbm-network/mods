@@ -79,7 +79,7 @@ module.exports = {
     }
     return ([data.varName, dataType])
   },
-  fields: ['botID', 'token', 'info', 'storage', 'varName'],
+  fields: ['botID', 'topggToken', 'info', 'storage', 'varName'],
 
   html (isEvent, data) {
     return `
@@ -90,7 +90,7 @@ module.exports = {
   </div><br>
   <div style="float: left; width: 99%; padding-top: 8px;">
     Your Top.gg Token:<br>
-    <input id="TopggToken" class="round" type="text">
+    <input id="topggToken" class="round" type="text">
   </div><br>
   <div style="float: left; width: 90%; padding-top: 8px;">
     Source Info:<br>
@@ -146,14 +146,14 @@ module.exports = {
     const data = cache.actions[cache.index]
     const botID = this.evalMessage(data.botID, cache)
     const info = parseInt(data.info)
-    const TopggToken = this.evalMessage(data.token, cache)
+    const token = this.evalMessage(data.topggToken, cache)
 
     const Mods = this.getMods()
     const fetch = Mods.require('node-fetch')
 
     fetch(`https://top.gg/api/bots/${botID}`, {
       method: 'GET',
-      headers: { Authorization: TopggToken || '' }
+      headers: { Authorization: token || '' }
     })
       .then((res) => res.json())
       .then((r) => {
