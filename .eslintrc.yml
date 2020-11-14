@@ -21,4 +21,3 @@ rules:
   no-prototype-builtins: off
   no-useless-constructor: off
   prefer-promise-reject-errors: off
-  
