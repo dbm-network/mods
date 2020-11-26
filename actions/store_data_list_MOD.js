@@ -282,6 +282,10 @@ module.exports = {
             break
           case 2:
             resultFrom = parseInt(this.evalMessage(data.resultFrom, cache))
+            resultTo = result.length
+            break
+          case 3:
+            resultFrom = parseInt(this.evalMessage(data.resultFrom, cache))
             resultTo = parseInt(this.evalMessage(data.resultTo, cache))
             break
         }
