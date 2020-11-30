@@ -62,6 +62,8 @@ module.exports = {
     const controlType = parseInt(data.controlType)
     const prefix = this.evalMessage(data.prefix, cache)
     const settingsPath = path.join('data', 'serverSettings.json')
+    
+    if (!fs.existsSync(settingsPath)) return Actions.displayError(data, cache, "You must have the server_prefixes_EXT.js extension installed to use this action")
 
     fs.readFile(settingsPath, 'utf8', (err, file) => {
       if (err) return Actions.displayError(data, cache, err)
