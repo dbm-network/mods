@@ -1,11 +1,13 @@
-export const name = 'Edit Webhook'
-export const section = 'Webhook Control'
-export function subtitle (data) {
-  return `${data.webhookName}`
-}
-export const fields = ['webhookName', 'webhookIcon', 'webhook', 'varName']
-export function html (isEvent, data) {
-  return `
+module.exports = {
+  name: 'Edit Webhook',
+  section: 'Webhook Control',
+  subtitle (data) {
+    return `${data.webhookName}`
+  },
+  fields: ['webhookName', 'webhookIcon', 'webhook', 'varName'],
+
+  html (isEvent, data) {
+    return `
       <div style="float: left; width: 35%;">
       Source Webhook:<br>
       <select id="webhook" class="round" onchange="glob.refreshVariableList(this)">
@@ -28,30 +30,30 @@ export function html (isEvent, data) {
   </div><br>
   <div>
   </div>`
+  },
+
+  init () {
+    const { glob, document } = this
+    glob.channelChange(document.getElementById('webhook'))
+  },
+
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const webhook = parseInt(data.webhook)
+    const varName = this.evalMessage(data.varName, cache)
+    const Mods = this.getMods()
+    const wh = Mods.getWebhook(webhook, varName, cache)
+    if (wh) {
+      const avatar = this.evalMessage(data.webhookIcon, cache)
+      const name = this.evalMessage(data.webhookName, cache)
+      wh.send('', {
+        avatarURL: avatar
+      })
+      wh.name = name
+      this.callNextAction(cache)
+    } else {
+      this.callNextAction(cache)
+    }
+  },
+  mod () {}
 }
-export function init () {
-  const {
-    glob,
-    document
-  } = this
-  glob.channelChange(document.getElementById('webhook'))
-}
-export function action (cache) {
-  const data = cache.actions[cache.index]
-  const webhook = parseInt(data.webhook)
-  const varName = this.evalMessage(data.varName, cache)
-  const Mods = this.getMods()
-  const wh = Mods.getWebhook(webhook, varName, cache)
-  if (wh) {
-    const avatar = this.evalMessage(data.webhookIcon, cache)
-    const name = this.evalMessage(data.webhookName, cache)
-    wh.send('', {
-      avatarURL: avatar
-    })
-    wh.name = name
-    this.callNextAction(cache)
-  } else {
-    this.callNextAction(cache)
-  }
-}
-export function mod () {}
