@@ -46,9 +46,11 @@ module.exports = {
     if (wh) {
       const avatar = this.evalMessage(data.webhookIcon, cache)
       const name = this.evalMessage(data.webhookName, cache)
-      wh.send('', {
-        avatarURL: avatar
-      })
+      if (avatar) {
+        wh.send('', {
+          avatarURL: avatar
+        })
+      }
       wh.name = name
       this.callNextAction(cache)
     } else {
