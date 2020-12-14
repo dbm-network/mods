@@ -53,10 +53,8 @@ module.exports = {
       } else if (name) {
         wh.edit({ name })
       }
-      this.callNextAction(cache)
-    } else {
-      this.callNextAction(cache)
     }
+    this.callNextAction(cache)
   },
   mod () {}
 }
