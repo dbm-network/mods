@@ -46,10 +46,11 @@ module.exports = {
     if (wh) {
       const avatar = this.evalMessage(data.webhookIcon, cache)
       const name = this.evalMessage(data.webhookName, cache)
-      if (avatar) {
+      if (avatar && name) {
+        wh.edit({ avatar, name })
+      } else if (avatar) {
         wh.edit({ avatar })
-      }
-      if (name) {
+      } else if (name) {
         wh.edit({ name })
       }
       this.callNextAction(cache)
