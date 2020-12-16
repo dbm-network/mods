@@ -389,6 +389,11 @@
     "name": "Edit Message",
     "section": "Messaging"
   },
+  "edit_webhook.js": {
+    "description": "Edit a webhook",
+    "name": "Edit Webhook",
+    "section": "Webhook Control"
+  },
   "emit_event_MOD.js": {
     "description": "Emit a specified event",
     "name": "Emit Event",
