@@ -519,6 +519,11 @@
     "name": "Leave Server",
     "section": "Bot Client Control"
   },
+  "local_database_MOD.js": {
+    "description": "Store & Get data from a database on the same machine as the bot.",
+    "name": "Local Database",
+    "section": "Database"
+  },
   "loop_queue_MOD.js": {
     "description": "Loop the current queue",
     "name": "Loop Queue",
