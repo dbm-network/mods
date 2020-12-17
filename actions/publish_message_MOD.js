@@ -56,7 +56,7 @@ module.exports = {
     const message = this.getMessage(parseInt(data.message), varName, cache)
     const child = require('child_process')
     const command = 'npm list discord.js'
-    const djsversionoutput = child.execSync(command).toString().replace(/\n|\s/g, '').match(/discord\.js\@(\d+\.\d+\.\d+)/)
+    const djsversionoutput = child.execSync(command).toString().replace(/\n|\s/g, '').match(/discord\.js@(\d+\.\d+\.\d+)/)
 
     if (!message) return
     if (!message.crosspost) throw new Error(`You need at least Discord.js version 12.4.0 to use this mod. Your Discord.js version is: ${djsversionoutput[1]}`)
