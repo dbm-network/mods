@@ -28,7 +28,7 @@ module.exports = {
   },
   // ----------------------------------------------------------------------------------
 
-  run: (DBM, req, res, next, Dashboard) => {
+  run: (DBM, req, res, Dashboard) => {
     const owners = Dashboard.settings.owner
     if (!owners.includes(req.user.id)) {
       res.redirect('/dashboard/@me')
