@@ -1,22 +1,22 @@
 module.exports = {
- name: 'Announce/Publish Message',
- section: 'Messaging',
- 
- subtitle (data) {
-  const message = ["Command Message", "Temp Variable", "Server Variable", "Global Variable"];
-  return `${message[parseInt(data.message)]}`;
- },
- 
- variableStorage (data, varType) {
-  const type = parseInt(data.storage);
-  if (type !== varType) return;
-  return ([data.varName2, 'Message']);
- },
- 
- fields: ['message', 'varName', 'storage', 'varName2'],
- 
- html (isEvent, data) {
-  return `
+  name: 'Announce/Publish Message',
+  section: 'Messaging',
+
+  subtitle (data) {
+    const message = ['Command Message', 'Temp Variable', 'Server Variable', 'Global Variable']
+    return `${message[parseInt(data.message)]}`
+  },
+
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage)
+    if (type !== varType) return
+    return ([data.varName2, 'Message'])
+  },
+
+  fields: ['message', 'varName', 'storage', 'varName2'],
+
+  html (isEvent, data) {
+    return `
 <div>
  <div style="float: left; width: 35%;">
   Source Message:<br>
@@ -41,33 +41,33 @@ module.exports = {
   <input id="varName2" class="round" type="text"><br>
  </div>
 </div>`
- },
- 
- init () {
-  const { glob, document } = this;
-  
-  glob.sendTargetChange(document.getElementById('message'), 'varNameContainer');
-  glob.variableChange(document.getElementById('storage'), 'varNameContainer2');
- },
- 
- action (cache) {
-  const data = cache.actions[cache.index];
-  const varName = this.evalMessage(data.varName, cache);
-  const message = this.getMessage(parseInt(data.message), varName, cache);
-  const child = require('child_process');
-  const command = "npm list discord.js";
-  const djsversionoutput = child.execSync(command).toString().replace(/\n|\s/g, '').match(/discord\.js\@(\d+\.\d+\.\d+)/);
-  
-  if (!message) return;
-  if (!message.crosspost) throw new Error(`You need at least Discord.js version 12.4.0 to use this mod. Your Discord.js version is: ${djsversionoutput[1]}`);
-  
-  message.crosspost().then((msg) => {
-   const varName2 = this.evalMessage(data.varName2, cache);
-   const storage = parseInt(data.storage);
-   this.storeValue(msg, storage, varName2, cache);
-   this.callNextAction(cache);
-  }).catch(console.error);
- },
- 
- mod () {}
+  },
+
+  init () {
+    const { glob, document } = this
+
+    glob.sendTargetChange(document.getElementById('message'), 'varNameContainer')
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer2')
+  },
+
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const varName = this.evalMessage(data.varName, cache)
+    const message = this.getMessage(parseInt(data.message), varName, cache)
+    const child = require('child_process')
+    const command = 'npm list discord.js'
+    const djsversionoutput = child.execSync(command).toString().replace(/\n|\s/g, '').match(/discord\.js\@(\d+\.\d+\.\d+)/)
+
+    if (!message) return
+    if (!message.crosspost) throw new Error(`You need at least Discord.js version 12.4.0 to use this mod. Your Discord.js version is: ${djsversionoutput[1]}`)
+
+    message.crosspost().then((msg) => {
+      const varName2 = this.evalMessage(data.varName2, cache)
+      const storage = parseInt(data.storage)
+      this.storeValue(msg, storage, varName2, cache)
+      this.callNextAction(cache)
+    }).catch(console.error)
+  },
+
+  mod () {}
 }
