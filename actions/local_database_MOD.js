@@ -262,59 +262,60 @@ module.exports = {
       case 'enmap': // enmap
         (async () => {
           const value = splitpath.slice(2, splitpath.length)
-          const Enmap = new db({ name: splitpath[0] })
-          console.log(Enmap)
+          // eslint-disable-next-line new-cap
+          const enmap = new db({ name: splitpath[0] })
+          console.log(enmap)
           switch (dboperation) {
             case 'get':
-              output = Enmap.get(splitpath[1], (value.length === 0) ? null : value)
+              output = enmap.get(splitpath[1], (value.length === 0) ? null : value)
               break
             case 'store':
-              output = Enmap.set(splitpath[1], dbvalue, (value.length === 0) ? null : value)
+              output = enmap.set(splitpath[1], dbvalue, (value.length === 0) ? null : value)
               break
             case 'delete':
-              output = Enmap.delete(splitpath[1], (value.length === 0) ? null : value)
+              output = enmap.delete(splitpath[1], (value.length === 0) ? null : value)
               break
             case 'has':
-              output = Enmap.has(splitpath[1], (value.length === 0) ? null : value)
+              output = enmap.has(splitpath[1], (value.length === 0) ? null : value)
               break
             case 'size':
-              output = Enmap.size
+              output = enmap.size
               break
             case 'count':
-              output = Enmap.count
+              output = enmap.count
               break
             case 'push':
-              output = Enmap.push(splitpath[1], dbvalue, (value.length === 0) ? null : value)
+              output = enmap.push(splitpath[1], dbvalue, (value.length === 0) ? null : value)
               break
             case 'remove':
-              output = Enmap.remove(splitpath[1], dbvalue, (value.length === 0) ? null : value)
+              output = enmap.remove(splitpath[1], dbvalue, (value.length === 0) ? null : value)
               break
             case 'increment':
-              output = Enmap.inc(splitpath[1], (value.length === 0) ? null : value)
+              output = enmap.inc(splitpath[1], (value.length === 0) ? null : value)
               break
             case 'decrement':
-              output = Enmap.dec(splitpath[1], (value.length === 0) ? null : value)
+              output = enmap.dec(splitpath[1], (value.length === 0) ? null : value)
               break
             case 'fetcheverything':
-              output = Enmap.fetchEverything()
+              output = enmap.fetchEverything()
               break
             case 'indexes':
-              output = Enmap.indexes
+              output = enmap.indexes
               break
             case 'ensure':
-              output = Enmap.ensure(splitpath[1], dbvalue, (value.length === 0) ? null : value)
+              output = enmap.ensure(splitpath[1], dbvalue, (value.length === 0) ? null : value)
               break
             case 'clear':
-              output = Enmap.clear()
+              output = enmap.clear()
               break
             case 'array':
-              output = Enmap.array()
+              output = enmap.array()
               break
             case 'randomkey':
-              output = Enmap.randomKey(parseInt(dbpath) || 1)
+              output = enmap.randomKey(parseInt(dbpath) || 1)
               break
             case 'defer':
-              output = await Enmap.defer
+              output = await enmap.defer
               break
           }
           finished()
@@ -322,7 +323,7 @@ module.exports = {
         break
     }
 
-    function finished () { // Easy way to hand-wave away and synchronous or asynchronous callback function.
+    function finished () { // Easy way to hand-wave away any synchronous or asynchronous callback function.
       const varName = functhis.evalMessage(data.varName, cache)
       const storage = parseInt(data.storage)
       functhis.storeValue(output, storage, varName, cache)
