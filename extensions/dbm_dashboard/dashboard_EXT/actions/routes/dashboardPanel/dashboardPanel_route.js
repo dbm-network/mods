@@ -5,9 +5,13 @@ module.exports = {
   init: async (DBM, Dashboard) => {
     Dashboard.app.post('/api/:serverID/execute/:command', (req, res) => {
       if (!req.user) return res.redirect('/dashboard/@me')
+      if (!DBM.Bot.bot.guilds.cache.get(req.params.serverID).members.cache.get(req.user.id).hasPermission({ checkAdmin: true })) {
+        res.redirect('/dashboard/@me')
+      };
 
       const commandName = req.params.command.toLowerCase().replace(/ /g, '_')
       const command = Dashboard.Actions.mods.get(commandName)
+
       if (command && commandName) {
         const path = require('path').join(__dirname, '../../mods', commandName, command.scriptFile)
         const commandFound = require(path)
@@ -21,21 +25,21 @@ module.exports = {
   },
   // ----------------------------------------------------------------------------------
 
-  run: (DBM, req, res, next, Dashboard) => {
+  run: (DBM, req, res, Dashboard) => {
     const server = DBM.Bot.bot.guilds.cache.get(req.params.serverID)
-
     if (!server) {
       res.redirect(`https://discordapp.com/oauth2/authorize?client_id=${DBM.Bot.bot.user.id}&scope=bot&permissions=2146958591&guild_id=${req.params.serverID}`)
       return {
         skipRender: true
       }
     } else {
-      if (!Dashboard.isUserGuildManager(req, res, next)) {
-        res.redirect('/dashboard/@me/servers/n')
+      if (!DBM.Bot.bot.guilds.cache.get(req.params.serverID).members.cache.get(req.user.id).hasPermission({ checkAdmin: true })) {
+        res.redirect('/dashboard/@me')
+
         return {
           skipRender: true
         }
-      }
+      };
 
       const sections = []
       const panelMods = []

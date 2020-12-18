@@ -7,7 +7,7 @@ module.exports = {
   },
   // ----------------------------------------------------------------------------------
 
-  run: (DBM, req, res, next, Dashboard) => {
+  run: (DBM, req, res, Dashboard) => {
     return {
       navItems: Dashboard.settings.navItems,
       features: Dashboard.settings.features,
