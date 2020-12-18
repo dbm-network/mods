@@ -217,7 +217,7 @@ module.exports = {
         wait('dboperation', 50) // used b/c custom html isn't immediately available.
     },
 
-    action(cache) {
+    async action(cache) {
         const functhis = this
         const data = cache.actions[cache.index]
         const dboperation = data.dboperation
@@ -237,102 +237,100 @@ module.exports = {
             functhis.callNextAction(cache)
         }
 		
-		(async () => {
-			switch (dbformat) {
-				case 'quick.db': // quick.db
+		switch (dbformat) {
+			case 'quick.db': // quick.db
+				switch (dboperation) {
+					case 'get':
+						output = db.get(dbpath)
+						break
+					case 'store':
+						output = db.set(dbpath, dbvalue)
+						break
+					case 'delete':
+						output = db.delete(dbpath)
+						break
+					case 'has':
+						output = db.has(dbpath)
+						break
+					case 'add':
+						output = db.add(dbpath, dbvalue)
+						break
+					case 'subtract':
+						output = db.subtract(dbpath, dbvalue)
+						break
+					case 'push':
+						output = db.push(dbpath, dbvalue)
+						break
+					case 'all':
+						output = db.all()
+						break
+				}
+				finished()
+				break
+			case 'enmap': // enmap
+				(async () => {
+					const value = splitpath.slice(2, splitpath.length)
+					// eslint-disable-next-line new-cap
+					const enmap = new db({
+						name: splitpath[0]
+					})
 					switch (dboperation) {
 						case 'get':
-							output = db.get(dbpath)
+							output = enmap.get(splitpath[1], (value.length === 0) ? null : value)
 							break
 						case 'store':
-							output = db.set(dbpath, dbvalue)
+							output = enmap.set(splitpath[1], dbvalue, (value.length === 0) ? null : value)
 							break
 						case 'delete':
-							output = db.delete(dbpath)
+							output = enmap.delete(splitpath[1], (value.length === 0) ? null : value)
 							break
 						case 'has':
-							output = db.has(dbpath)
+							output = enmap.has(splitpath[1], (value.length === 0) ? null : value)
 							break
-						case 'add':
-							output = db.add(dbpath, dbvalue)
+						case 'size':
+							output = enmap.size
 							break
-						case 'subtract':
-							output = db.subtract(dbpath, dbvalue)
+						case 'count':
+							output = enmap.count
 							break
 						case 'push':
-							output = db.push(dbpath, dbvalue)
+							output = enmap.push(splitpath[1], dbvalue, (value.length === 0) ? null : value)
 							break
-						case 'all':
-							output = db.all()
+						case 'remove':
+							output = enmap.remove(splitpath[1], dbvalue, (value.length === 0) ? null : value)
+							break
+						case 'increment':
+							output = enmap.inc(splitpath[1], (value.length === 0) ? null : value)
+							break
+						case 'decrement':
+							output = enmap.dec(splitpath[1], (value.length === 0) ? null : value)
+							break
+						case 'fetcheverything':
+							output = enmap.fetchEverything()
+							break
+						case 'indexes':
+							output = enmap.indexes
+							break
+						case 'ensure':
+							output = enmap.ensure(splitpath[1], dbvalue, (value.length === 0) ? null : value)
+							break
+						case 'clear':
+							output = enmap.clear()
+							break
+						case 'array':
+							output = enmap.array()
+							break
+						case 'randomkey':
+							output = enmap.randomKey(parseInt(dbpath) || 1)
+							break
+						case 'defer':
+							output = await enmap.defer
 							break
 					}
 					finished()
-					break
-				case 'enmap': // enmap
-					(async () => {
-						const value = splitpath.slice(2, splitpath.length)
-						// eslint-disable-next-line new-cap
-						const enmap = new db({
-							name: splitpath[0]
-						})
-						switch (dboperation) {
-							case 'get':
-								output = enmap.get(splitpath[1], (value.length === 0) ? null : value)
-								break
-							case 'store':
-								output = enmap.set(splitpath[1], dbvalue, (value.length === 0) ? null : value)
-								break
-							case 'delete':
-								output = enmap.delete(splitpath[1], (value.length === 0) ? null : value)
-								break
-							case 'has':
-								output = enmap.has(splitpath[1], (value.length === 0) ? null : value)
-								break
-							case 'size':
-								output = enmap.size
-								break
-							case 'count':
-								output = enmap.count
-								break
-							case 'push':
-								output = enmap.push(splitpath[1], dbvalue, (value.length === 0) ? null : value)
-								break
-							case 'remove':
-								output = enmap.remove(splitpath[1], dbvalue, (value.length === 0) ? null : value)
-								break
-							case 'increment':
-								output = enmap.inc(splitpath[1], (value.length === 0) ? null : value)
-								break
-							case 'decrement':
-								output = enmap.dec(splitpath[1], (value.length === 0) ? null : value)
-								break
-							case 'fetcheverything':
-								output = enmap.fetchEverything()
-								break
-							case 'indexes':
-								output = enmap.indexes
-								break
-							case 'ensure':
-								output = enmap.ensure(splitpath[1], dbvalue, (value.length === 0) ? null : value)
-								break
-							case 'clear':
-								output = enmap.clear()
-								break
-							case 'array':
-								output = enmap.array()
-								break
-							case 'randomkey':
-								output = enmap.randomKey(parseInt(dbpath) || 1)
-								break
-							case 'defer':
-								output = await enmap.defer
-								break
-						}
-						finished()
-					})()
-					break
-			}
-		})()
+				})()
+				break
+		}
     },
 
     mod() {}
