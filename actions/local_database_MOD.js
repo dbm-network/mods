@@ -264,7 +264,6 @@ module.exports = {
           const value = splitpath.slice(2, splitpath.length)
           // eslint-disable-next-line new-cap
           const enmap = new db({ name: splitpath[0] })
-          console.log(enmap)
           switch (dboperation) {
             case 'get':
               output = enmap.get(splitpath[1], (value.length === 0) ? null : value)
