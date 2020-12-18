@@ -8,9 +8,8 @@ module.exports = {
   },
 
   variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    return ([data.varName, 'Object'])
+    if (parseInt(data.storage) !== varType) return
+    return [data.varName, 'Object']
   },
 
   fields: ['dbformat', 'dboperation', 'dbpath', 'dbvalue', 'storage', 'varName'],
@@ -119,7 +118,8 @@ module.exports = {
      <option value="delete">Delete</option>`
           break
       }
-      selectStr += '</select>'; docStr += '</div>'
+      selectStr += '</select>';
+      docStr += '</div>'
       updateContents('dboperation', selectStr)
       updateContents('docs', docStr)
 
@@ -330,7 +330,5 @@ module.exports = {
     }
   },
 
-  mod (DBM) {
-  }
-
-} // End of module
+  mod () {}
+}
