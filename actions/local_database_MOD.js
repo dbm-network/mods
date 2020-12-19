@@ -268,67 +268,65 @@ module.exports = {
 				finished()
 				break
 			case 'enmap': // enmap
-				(async () => {
-					const value = splitpath.slice(2, splitpath.length)
-					// eslint-disable-next-line new-cap
-					const enmap = new db({
-						name: splitpath[0]
-					})
-					switch (dboperation) {
-						case 'get':
-							output = enmap.get(splitpath[1], (value.length === 0) ? null : value)
-							break
-						case 'store':
-							output = enmap.set(splitpath[1], dbvalue, (value.length === 0) ? null : value)
-							break
-						case 'delete':
-							output = enmap.delete(splitpath[1], (value.length === 0) ? null : value)
-							break
-						case 'has':
-							output = enmap.has(splitpath[1], (value.length === 0) ? null : value)
-							break
-						case 'size':
-							output = enmap.size
-							break
-						case 'count':
-							output = enmap.count
-							break
-						case 'push':
-							output = enmap.push(splitpath[1], dbvalue, (value.length === 0) ? null : value)
-							break
-						case 'remove':
-							output = enmap.remove(splitpath[1], dbvalue, (value.length === 0) ? null : value)
-							break
-						case 'increment':
-							output = enmap.inc(splitpath[1], (value.length === 0) ? null : value)
-							break
-						case 'decrement':
-							output = enmap.dec(splitpath[1], (value.length === 0) ? null : value)
-							break
-						case 'fetcheverything':
-							output = enmap.fetchEverything()
-							break
-						case 'indexes':
-							output = enmap.indexes
-							break
-						case 'ensure':
-							output = enmap.ensure(splitpath[1], dbvalue, (value.length === 0) ? null : value)
-							break
-						case 'clear':
-							output = enmap.clear()
-							break
-						case 'array':
-							output = enmap.array()
-							break
-						case 'randomkey':
-							output = enmap.randomKey(parseInt(dbpath) || 1)
-							break
-						case 'defer':
-							output = await enmap.defer
-							break
-					}
-					finished()
-				})()
+				const value = splitpath.slice(2, splitpath.length)
+				// eslint-disable-next-line new-cap
+				const enmap = new db({
+					name: splitpath[0]
+				})
+				switch (dboperation) {
+					case 'get':
+						output = enmap.get(splitpath[1], (value.length === 0) ? null : value)
+						break
+					case 'store':
+						output = enmap.set(splitpath[1], dbvalue, (value.length === 0) ? null : value)
+						break
+					case 'delete':
+						output = enmap.delete(splitpath[1], (value.length === 0) ? null : value)
+						break
+					case 'has':
+						output = enmap.has(splitpath[1], (value.length === 0) ? null : value)
+						break
+					case 'size':
+						output = enmap.size
+						break
+					case 'count':
+						output = enmap.count
+						break
+					case 'push':
+						output = enmap.push(splitpath[1], dbvalue, (value.length === 0) ? null : value)
+						break
+					case 'remove':
+						output = enmap.remove(splitpath[1], dbvalue, (value.length === 0) ? null : value)
+						break
+					case 'increment':
+						output = enmap.inc(splitpath[1], (value.length === 0) ? null : value)
+						break
+					case 'decrement':
+						output = enmap.dec(splitpath[1], (value.length === 0) ? null : value)
+						break
+					case 'fetcheverything':
+						output = enmap.fetchEverything()
+						break
+					case 'indexes':
+						output = enmap.indexes
+						break
+					case 'ensure':
+						output = enmap.ensure(splitpath[1], dbvalue, (value.length === 0) ? null : value)
+						break
+					case 'clear':
+						output = enmap.clear()
+						break
+					case 'array':
+						output = enmap.array()
+						break
+					case 'randomkey':
+						output = enmap.randomKey(parseInt(dbpath) || 1)
+						break
+					case 'defer':
+						output = await enmap.defer
+						break
+				}
+				finished()
 				break
 		}
     },
