@@ -218,7 +218,6 @@ module.exports = {
   },
 
   async action (cache) {
-    const functhis = this
     const data = cache.actions[cache.index]
     const dboperation = data.dboperation
     const dbpath = this.evalMessage(data.dbpath, cache)
@@ -229,13 +228,6 @@ module.exports = {
     let output
 
     if (!dbpath || !splitpath[0]) throw new Error('No DB path provided.')
-
-    function finished () { // Easy way to hand-wave away any synchronous or asynchronous callback function.
-      const varName = functhis.evalMessage(data.varName, cache)
-      const storage = parseInt(data.storage)
-      functhis.storeValue(output, storage, varName, cache)
-      functhis.callNextAction(cache)
-    }
 
     switch (dbformat) {
       case 'quick.db': // quick.db
@@ -265,7 +257,6 @@ module.exports = {
             output = db.all()
             break
         }
-        finished()
         break
       case 'enmap': // enmap
         const value = splitpath.slice(2, splitpath.length)
@@ -326,9 +317,13 @@ module.exports = {
             output = await enmap.defer
             break
         }
-        finished()
         break
     }
+    
+    const varName = this.evalMessage(data.varName, cache)
+    const storage = parseInt(data.storage)
+    this.storeValue(output, storage, varName, cache)
+    this.callNextAction(cache)
   },
 
   mod () {}
