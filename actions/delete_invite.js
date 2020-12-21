@@ -21,8 +21,8 @@ module.exports = {
     <textarea class="round" id="invite" rows="1" placeholder="Code or URL | e.g abcdef or discord.gg/abcdef" style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
   </div><br>
   <div style="padding-top: 8px;">
-    Source Invite:<br>
-    <textarea class="round" id="reason" rows="2" placeholder="Insert a reason.." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+    Reason:<br>
+    <textarea class="round" id="reason" rows="1" placeholder="Insert a reason.." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
   </div><br>
 </div>`
   },
@@ -38,7 +38,7 @@ module.exports = {
     client
       .fetchInvite(invite)
       .catch(console.error)
-      .then(async (invite) => {
+      .then((invite) => {
         if (!invite) this.callNextAction(cache)
 
         invite.delete(reason)
