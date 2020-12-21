@@ -39,16 +39,14 @@ module.exports = {
     const { Audio } = this.getDBM()
     const Mods = this.getMods()
     const url = this.evalMessage(data.url, cache)
-    let maxvideos = this.evalMessage(data.maxvid, cache)
+    const maxvideos = this.evalMessage(data.maxvid, cache) || 250
     const ytpl = Mods.require('ytpl') // be sure you have the latest YTPL, this was modified with 2.0.3 in mind
     const { msg } = cache
+    const options = {}
 
     // Check Input
     if (!url) {
       return console.log('Please insert a playlist url!')
-    }
-    if (!maxvideos) {
-      maxvideos = 250
     }
 
     // Check Options
@@ -56,11 +54,11 @@ module.exports = {
       var seek = parseInt(this.evalMessage(data.seek, cache))
     }
     if (data.volume) {
-      var vol = parseInt(this.evalMessage(data.volume, cache)) / 100
+      options.volume = parseInt(this.evalMessage(data.volume, cache)) / 100
     } else if (cache.server) {
-      vol = Audio.volumes[cache.server.id] || 0.5
+      options.volume = Audio.volumes[cache.server.id] || 0.5
     } else {
-      vol = 0.5
+      options.volume = 0.5
     }
     if (data.passes) {
       var passes = parseInt(this.evalMessage(data.passes, cache))
@@ -80,8 +78,7 @@ module.exports = {
           const title = video.title
           const duration = parseInt(video.durationSec)
           const thumbnail = video.bestThumbnail.url
-          const info = ['yt', { seek, vol, passes, bitrate, requester, title, duration, thumbnail, watermark }, video.shortUrl] // setting the "options" second value here fixes an issue where all items added to the queue from a playlist have the title, duration, thumbnail, and so on of the last one added to the queue from said playlist
-          Audio.addToQueue(info, cache)
+          Audio.addToQueue(['yt', { seek, options, passes, bitrate, requester, title, duration, thumbnail, watermark }, video.shortUrl], cache)
         }
       })
     })
