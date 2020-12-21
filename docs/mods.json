@@ -589,9 +589,9 @@
     "name": "Play YouTube Playlist",
     "section": "Audio Control"
   },
-  "publish_message_MOD.js": {
-    "description": "Publishes a message. You need to have sent the message first!",
-    "name": "Announce/Publish Message",
+  "crosspost_message_MOD.js": {
+    "description": "Crossposts a message. You need to have sent the message first!",
+    "name": "Crosspost Message",
     "section": "Messaging"
   },
   "push_webhook_MOD.js": {
