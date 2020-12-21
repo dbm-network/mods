@@ -42,7 +42,9 @@ module.exports = {
     const maxvideos = this.evalMessage(data.maxvid, cache) || 250
     const ytpl = Mods.require('ytpl') // be sure you have the latest YTPL, this was modified with 2.0.3 in mind
     const { msg } = cache
-    const options = {}
+    const options = {
+      watermark: 'highWaterMark: 1' // idk what this does, but the queue data has it, so i might as well add it in case someone needs it
+    }
 
     // Check Input
     if (!url) {
@@ -51,7 +53,7 @@ module.exports = {
 
     // Check Options
     if (data.seek) {
-      var seek = parseInt(this.evalMessage(data.seek, cache))
+      options.seek = parseInt(this.evalMessage(data.seek, cache))
     }
     if (data.volume) {
       options.volume = parseInt(this.evalMessage(data.volume, cache)) / 100
@@ -61,28 +63,28 @@ module.exports = {
       options.volume = 0.5
     }
     if (data.passes) {
-      var passes = parseInt(this.evalMessage(data.passes, cache))
+      options.passes = parseInt(this.evalMessage(data.passes, cache))
     }
     if (data.bitrate) {
-      var bitrate = parseInt(this.evalMessage(data.bitrate, cache))
+      options.bitrate = parseInt(this.evalMessage(data.bitrate, cache))
     } else {
-      bitrate = 'auto'
+      options.bitrate = 'auto'
     }
     if (msg) {
-      var requester = msg.author
+      options.requester = msg.author
     }
-    const watermark = 'highWaterMark: 1' // idk what this does, but the queue data has it, so i might as well add it in case someone needs it
     ytpl(url, { limit: maxvideos }).then((playlist) => {
       playlist.items.forEach((video) => {
         if (video.id !== undefined) {
           const title = video.title
           const duration = parseInt(video.durationSec)
           const thumbnail = video.bestThumbnail.url
-          Audio.addToQueue(['yt', { seek, options, passes, bitrate, requester, title, duration, thumbnail, watermark }, video.shortUrl], cache)
+          Audio.addToQueue(['yt', { ...options, title, duration, thumbnail }, video.shortUrl], cache)
         }
       })
     })
     this.callNextAction(cache)
   },
+
   mod () {}
 }
