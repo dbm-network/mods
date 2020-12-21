@@ -1,5 +1,5 @@
 module.exports = {
-  name: 'Announce/Publish Message',
+  name: 'Crosspost Message',
   section: 'Messaging',
 
   subtitle (data) {
