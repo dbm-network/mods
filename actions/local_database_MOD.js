@@ -319,7 +319,7 @@ module.exports = {
         }
         break
     }
-    
+
     const varName = this.evalMessage(data.varName, cache)
     const storage = parseInt(data.storage)
     this.storeValue(output, storage, varName, cache)
