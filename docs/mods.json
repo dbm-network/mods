@@ -339,6 +339,11 @@
     "name": "Delete Global Data",
     "section": "Data"
   },
+  "delete_invite.js": {
+    "description": "Delete Invite",
+    "name": "Delete Invite",
+    "section": "Invite Control"
+  },
   "delete_member_data_MOD.js": {
     "description": "Delete member data",
     "name": "Delete Member Data",
