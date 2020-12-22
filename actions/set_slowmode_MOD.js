@@ -59,9 +59,9 @@ module.exports = {
         channel.setRateLimitPerUser(amount)
       }
     } else {
-      this.callNextAction(cache)
       console.log("This channel isn't a channel.")
     }
+    this.callNextAction(cache)
   },
 
   mod () {}

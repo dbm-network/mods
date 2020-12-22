@@ -334,6 +334,11 @@
     "name": "Delete Global Data",
     "section": "Data"
   },
+  "delete_invite.js": {
+    "description": "Delete Invite",
+    "name": "Delete Invite",
+    "section": "Invite Control"
+  },
   "delete_member_data_MOD.js": {
     "description": "Delete member data",
     "name": "Delete Member Data",
@@ -388,6 +393,11 @@
     "description": "Edit a message",
     "name": "Edit Message",
     "section": "Messaging"
+  },
+  "edit_webhook.js": {
+    "description": "Edit a webhook",
+    "name": "Edit Webhook",
+    "section": "Webhook Control"
   },
   "emit_event_MOD.js": {
     "description": "Emit a specified event",
