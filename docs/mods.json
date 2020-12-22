@@ -319,6 +319,11 @@
     "name": "Create Webhook",
     "section": "Webhook Control"
   },
+  "crosspost_message_MOD.js": {
+    "description": "Crossposts a message. You need to have sent the message first!",
+    "name": "Crosspost Message",
+    "section": "Messaging"
+  },
   "custom_image_effects_MOD.js": {
     "description": "Create custom image effects for a specified image",
     "name": "Custom Image Effects",
@@ -588,11 +593,6 @@
     "description": "Play a specified YouTube playlist",
     "name": "Play YouTube Playlist",
     "section": "Audio Control"
-  },
-  "crosspost_message_MOD.js": {
-    "description": "Crossposts a message. You need to have sent the message first!",
-    "name": "Crosspost Message",
-    "section": "Messaging"
   },
   "push_webhook_MOD.js": {
     "description": "Send a message to a webhook",
