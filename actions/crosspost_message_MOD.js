@@ -54,7 +54,7 @@ module.exports = {
     const varName = this.evalMessage(data.varName, cache)
     const message = this.getMessage(parseInt(data.message), varName, cache)
 
-    if (!message) return
+    if (!message) throw new Error('No message found to crosspost.')
     if (!message.crosspost) throw new Error('You need at least Discord.js version 12.4.0 to use this mod.')
 
     message.crosspost().then((msg) => {
