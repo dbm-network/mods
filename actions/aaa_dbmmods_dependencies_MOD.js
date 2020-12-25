@@ -367,7 +367,73 @@ const Mods = {
         this.dispatchers[id]._eventSetup = true
       }
     }
-  }
+  },
+
+  setupMinimalErrors (DBM) {
+    /**
+     * Converts an usual Error into a brief one
+     * @param {Error} error
+     */
+    function minimizeError (error) {
+      if (!error) return ''
+      const importantStack = error.stack
+        .split('\n')
+        .filter((log) => log.includes('['))
+        .map((log) =>
+          log.replace('at Object.action [as ', '').split(']').shift().trim()
+        )
+        .map((log, i) => (i === 0 ? `  -> at ${log}` : ` -> after ${log}`))
+
+      // Add error name to the top of the message
+      importantStack.unshift(error + '')
+
+      return importantStack.join('\n') + '\n'
+    }
+
+    DBM.Actions.displayError = function (data, cache, err) {
+      const dbm = this.getErrorString(data, cache)
+      console.error(dbm + ':\n' + minimizeError(err))
+      DBM.Events.onError(dbm, err.stack ? err.stack : err, cache)
+    }
+
+    DBM.Actions.eval = function (content, cache) {
+      if (!content) return false
+      const DBM = this.getDBM()
+      const tempVars = this.getActionVariable.bind(cache.temp)
+      let serverVars = null
+      if (cache.server) {
+        serverVars = this.getActionVariable.bind(this.server[cache.server.id])
+      }
+      const globalVars = this.getActionVariable.bind(this.global)
+      const msg = cache.msg
+      const server = cache.server
+      const client = DBM.Bot.bot
+      const bot = DBM.Bot.bot
+      const me = server ? server.me : null
+      let user = '',
+        member = '',
+        mentionedUser = '',
+        mentionedChannel = '',
+        defaultChannel = ''
+      if (msg) {
+        user = msg.author
+        member = msg.member
+        if (msg.mentions) {
+          mentionedUser = msg.mentions.users.first() || ''
+          mentionedChannel = msg.mentions.channels.first() || ''
+        }
+      }
+      if (server) {
+        defaultChannel = server.getDefaultChannel()
+      }
+      try {
+        return eval(content)
+      } catch (e) {
+        console.error(minimizeError(e))
+        return false
+      }
+    }
+  },
 }
 
 module.exports = {
@@ -376,7 +442,7 @@ module.exports = {
 
   html () {
     return `
-    <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
+    <div id ='wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
       <p>
         <u>DBM Mods Dependencies:</u><br><br>
         This isn't an action, but it is required for the actions under this category.<br><br>
@@ -395,6 +461,8 @@ module.exports = {
     DBM.Mods = function () {
       return Mods
     }
+
+    DBM.Mods.minimizeError()
   },
 
   getMods () {
