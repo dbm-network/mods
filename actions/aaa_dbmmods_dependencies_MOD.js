@@ -462,7 +462,7 @@ module.exports = {
       return Mods
     }
 
-    DBM.Mods.setupMinimalErrors(DBM)
+    Mods.setupMinimalErrors(DBM)
   },
 
   getMods () {
