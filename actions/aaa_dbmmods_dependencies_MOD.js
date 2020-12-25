@@ -410,11 +410,11 @@ const Mods = {
       const client = DBM.Bot.bot
       const bot = DBM.Bot.bot
       const me = server ? server.me : null
-      let user = '',
-        member = '',
-        mentionedUser = '',
-        mentionedChannel = '',
-        defaultChannel = ''
+      let user = ''
+      let member = ''
+      let mentionedUser = ''
+      let mentionedChannel = ''
+      let defaultChannel = ''
       if (msg) {
         user = msg.author
         member = msg.member
@@ -433,7 +433,7 @@ const Mods = {
         return false
       }
     }
-  },
+  }
 }
 
 module.exports = {
@@ -442,7 +442,7 @@ module.exports = {
 
   html () {
     return `
-    <div id ='wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
+    <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
       <p>
         <u>DBM Mods Dependencies:</u><br><br>
         This isn't an action, but it is required for the actions under this category.<br><br>
