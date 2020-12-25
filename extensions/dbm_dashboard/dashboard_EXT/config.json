@@ -1,10 +1,10 @@
 {
     "port": "3000",
     "isBotSharded": false,
-    "tokenSecret": "",
+    "tokenSecret": "randomStringHere",
     "clientSecret": "",
     "callbackURL": "http://localhost:3000/dashboard/callback",
-    "owner": ["384187414584754176"],
+    "owner": ["384187414584754176", "384187414584754176"],
     "inviteLink": "/dashboard/@me",
     "supportServer": "https://discord.gg/3QxkZPK",
     "introText": "You can replace this text with whatever you want. After you do that this will automatically show up on your website!",
@@ -23,15 +23,12 @@
     }],
     "features": [{
         "name": "Feature One",
-        "description": "this is an example feature"
-    },{
+        "description": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quia consequatur impedit labore numquam sequi tempore, perferendis incidunt suscipit pariatur, in quisquam error itaque optio! Dolore odio obcaecati enim amet! Architecto?"
+    }, {
         "name": "Feature Two",
-        "description": "this is an example feature"
-    },{
+        "description": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quia consequatur impedit labore numquam sequi tempore, perferendis incidunt suscipit pariatur, in quisquam error itaque optio! Dolore odio obcaecati enim amet! Architecto?"
+    }, {
         "name": "Feature Three",
-        "description": "this is an example feature"
-    },{
-        "name": "Feature Four",
-        "description": "this is an example feature"
+        "description": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quia consequatur impedit labore numquam sequi tempore, perferendis incidunt suscipit pariatur, in quisquam error itaque optio! Dolore odio obcaecati enim amet! Architecto?"
     }]
 }

@@ -319,6 +319,11 @@
     "name": "Create Webhook",
     "section": "Webhook Control"
   },
+  "crosspost_message_MOD.js": {
+    "description": "Crossposts a message. You need to have sent the message first!",
+    "name": "Crosspost Message",
+    "section": "Messaging"
+  },
   "custom_image_effects_MOD.js": {
     "description": "Create custom image effects for a specified image",
     "name": "Custom Image Effects",
@@ -333,6 +338,11 @@
     "description": "Delete global data",
     "name": "Delete Global Data",
     "section": "Data"
+  },
+  "delete_invite.js": {
+    "description": "Delete Invite",
+    "name": "Delete Invite",
+    "section": "Invite Control"
   },
   "delete_member_data_MOD.js": {
     "description": "Delete member data",
@@ -388,6 +398,11 @@
     "description": "Edit a message",
     "name": "Edit Message",
     "section": "Messaging"
+  },
+  "edit_webhook.js": {
+    "description": "Edit a webhook",
+    "name": "Edit Webhook",
+    "section": "Webhook Control"
   },
   "emit_event_MOD.js": {
     "description": "Emit a specified event",
@@ -513,6 +528,11 @@
     "description": "Leave a specified server",
     "name": "Leave Server",
     "section": "Bot Client Control"
+  },
+  "local_database_MOD.js": {
+    "description": "Store & Get data from a database on the same machine as the bot.",
+    "name": "Local Database",
+    "section": "Database"
   },
   "loop_queue_MOD.js": {
     "description": "Loop the current queue",

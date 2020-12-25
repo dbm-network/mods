@@ -8,7 +8,7 @@
     <title><%= data.client.user.username %> | Admin Panel</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="/dashboardPanel_route/css/main.css">
-    <link rel="shortcut icon" href="<%= data.client.user.displayAvatarURL() || 'https://discordapp.com/assets/322c936a8c8be1b803cd94861bdfa868.png' %>"/>
+    <link rel="shortcut icon" href="<%= data.client.user.avatarURL() || 'https://discordapp.com/assets/322c936a8c8be1b803cd94861bdfa868.png' %>"/>
     <meta name="theme-color" content="#7289DA" />
     <meta name="description" content="<%= data.settings.introText %>">
 </head>
@@ -25,7 +25,7 @@
     <section class="jumbotron text-center lightBackground">
         <div class="container">
             <img style="border-radius: 50%; width: 100px; height: 100px;"
-                src="<%= data.client.user.displayAvatarURL() || 'https://discordapp.com/assets/322c936a8c8be1b803cd94861bdfa868.png' %>"
+                src="<%= data.client.user.avatarURL() || 'https://discordapp.com/assets/322c936a8c8be1b803cd94861bdfa868.png' %>"
                 alt="">
             <h1 class="jumbotron-heading" style="color: #7289DA;"><%= data.client.user.username %></h1>
             <p class="lead "><%= data.settings.introText %></p>
@@ -63,10 +63,10 @@
                             <a class="list-group-item list-group-item-action" id="list-<%= extension.sectionID %>" data-toggle="list" href="#<%= extension.sectionID %>" role="tab" aria-controls="webPanel" style="background-color: #2C2F33; color: white;"><%= extension.section %></a>
                         <% }
                     }) %>
-                    <a class="list-group-item list-group-item-action" id="list-webPanel" data-toggle="list"
+                    <!-- <a class="list-group-item list-group-item-action" id="list-webPanel" data-toggle="list"
                         href="#webPanel" role="tab" aria-controls="webPanel"
                         style="background-color: #2C2F33; color: white;">Web Panel
-                    </a>
+                    </a> -->
                 </div>
             </div>
 
