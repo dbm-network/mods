@@ -7,14 +7,14 @@
     <title><%= data.client.user.username %></title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="/home_route/css/main.css">
-    <link rel="shortcut icon" href="<%= data.client.user.displayAvatarURL() || 'https://discordapp.com/assets/322c936a8c8be1b803cd94861bdfa868.png' %>" />
+    <link rel="shortcut icon" href="<%= data.client.user.avatarURL() || 'https://discordapp.com/assets/322c936a8c8be1b803cd94861bdfa868.png' %>" />
     <meta name="theme-color" content="#7289DA" />
     <meta name="description" content="">
 </head>
 
 <body>
     <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 navHeader">
-        <h5 class="my-0 mr-md-auto headerBrand"><img style="height: 25px; padding-right: 10px;" src="<%= data.client.user.displayAvatarURL() || 'https://discordapp.com/assets/322c936a8c8be1b803cd94861bdfa868.png' %>" alt=""><%= data.client.user.username %></h5>
+        <h5 class="my-0 mr-md-auto headerBrand"><img style="height: 25px; padding-right: 10px;" src="<%= data.client.user.avatarURL() || 'https://discordapp.com/assets/322c936a8c8be1b803cd94861bdfa868.png' %>" alt=""><%= data.client.user.username %></h5>
         <nav class="my-2 my-md-0 mr-md-3 headerBrandNavButtons">
             <% for (i = 0; i < data.navItems.length; i++) { %>
             <a class="p-2" href="<%= data.navItems[i].link %>"><%= data.navItems[i].name %></a>
@@ -24,7 +24,7 @@
     <section class="jumbotron text-center lightBackground">
         <div class="container">
             <img style="border-radius: 50%; width: 100px; height: 100px;"
-                src="<%= data.client.user.displayAvatarURL() || 'https://discordapp.com/assets/322c936a8c8be1b803cd94861bdfa868.png' %>" alt="">
+                src="<%= data.client.user.avatarURL() || 'https://discordapp.com/assets/322c936a8c8be1b803cd94861bdfa868.png' %>" alt="">
             <h1 class="jumbotron-heading" style="color: #7289DA;"><%= data.client.user.username %></h1>
             <p class="lead "><%- data.introText %></p>
             <p>

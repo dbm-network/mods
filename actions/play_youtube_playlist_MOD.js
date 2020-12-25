@@ -8,7 +8,7 @@ module.exports = {
     return `${data.url}`
   },
 
-  fields: ['url', 'apikey', 'seek', 'volume', 'passes', 'bitrate'],
+  fields: ['url', 'seek', 'volume', 'passes', 'bitrate', 'maxvid'],
 
   html (isEvent, data) {
     return `
@@ -21,6 +21,8 @@ module.exports = {
   <input id="seek" class="round" type="text" value="0"><br>
   Video Volumes:<br>
   <input id="volume" class="round" type="text" placeholder="Leave blank for automatic..."><br>
+    Max Videos to Queue from Playlist:<br>
+    <input id="maxvid" class="round" type="text" placeholder="Defaults to 250 videos"><br>
 </div>
 <div style="float: right; width: 49%;">
   Video Passes:<br>
@@ -37,13 +39,12 @@ module.exports = {
     const { Audio } = this.getDBM()
     const Mods = this.getMods()
     const url = this.evalMessage(data.url, cache)
-    const ytpl = Mods.require('ytpl')
-    // const moment = Mods.require('moment')
+    const maxvideos = this.evalMessage(data.maxvid, cache) || 250
+    const ytpl = Mods.require('ytpl') // be sure you have the latest YTPL, this was modified with 2.0.3 in mind
     const { msg } = cache
-    const options = {}
-
-    // const re = new RegExp('(^[0-9]?[0-9]:[0-9][0-9]:[0-9][0-9]$)')
-    // const re1 = new RegExp('(^[0-9]?[0-9]:[0-9][0-9]$)')
+    const options = {
+      watermark: 'highWaterMark: 1' // idk what this does, but the queue data has it, so i might as well add it in case someone needs it
+    }
 
     // Check Input
     if (!url) {
@@ -72,26 +73,13 @@ module.exports = {
     if (msg) {
       options.requester = msg.author
     }
-
-    ytpl(url, function (err, playlist) {
-      if (err) return this.displayError(data, cache, err)
-
-      playlist.items.forEach(function (video) {
-        /* // This functionality is broken from going into the queue and i have 0 idea why thats happening. I left everything here in case someone figures it out in the future.
-let duration
-if (re.test(video.duration)) {
-duration = moment.duration(video.duration).asSeconds()
-} else if (re1.test(video.duration)) {
-duration = moment.duration(`00:${video.duration}`).asSeconds()
-} else (console.log('Error with duration in play youtube playlist'))
-
-options.title = video.title
-options.thumbnail = video.thumbnail
-options.duration = duration
-*/
-        const info = ['yt', options, video.url]
+    ytpl(url, { limit: maxvideos }).then((playlist) => {
+      playlist.items.forEach((video) => {
         if (video.id !== undefined) {
-          Audio.addToQueue(info, cache)
+          const title = video.title
+          const duration = parseInt(video.durationSec)
+          const thumbnail = video.bestThumbnail.url
+          Audio.addToQueue(['yt', { ...options, title, duration, thumbnail }, video.shortUrl], cache)
         }
       })
     })
