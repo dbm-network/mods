@@ -46,9 +46,6 @@ module.exports = {
   html (_isEvent, data) {
     return `
       <div style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
-        <center>
-          <p style="color:grey; font-size:12px;">Action modified by DBM Mods. By Wrex and Michael.</p>
-        </center>
         <div style="float: left; width: 50%; padding-top: 0px;">
           <label>Title:</label>
           <input id="title" class="round" type="text" />
@@ -114,7 +111,7 @@ module.exports = {
             id="text"
             class="round"
             type="text"
-            placeholder="Insert your utc timestamp string..."
+            placeholder="UTC timestamp string"
           />
         </div>
         <div
@@ -123,7 +120,6 @@ module.exports = {
         >
           <div style="display: table-cell;">
             <label>Year:</label>
-            <br />
             <input id="year" class="round" type="text" />
           </div>
           <div style="display: table-cell;">
@@ -131,39 +127,31 @@ module.exports = {
             <input id="month" class="round" type="text" />
           </div>
           <div style="display: table-cell;">
-            Day:
-            <br />
+            <label>Day:</label>
             <input id="day" class="round" type="text" />
           </div>
           <div style="display: table-cell;">
-            Hour:
-            <br />
+            <label>Hour:</label>
             <input id="hour" class="round" type="text" />
           </div>
           <div style="display: table-cell;">
-            Minute:
-            <br />
+            <label>Minute:</label>
             <input id="minute" class="round" type="text" />
           </div>
           <div style="display: table-cell;">
-            Second:
-            <br />
+            <label>Second:</label>
             <input id="second" class="round" type="text" />
           </div>
         </div>
         <div>
           <div style="float: left; width: 35%;">
-            <br />
-            Store In:
-            <br />
+            <label>Store In:</label>
             <select id="storage" class="round">
               ${data.variables[1]}
             </select>
           </div>
           <div id="varNameContainer" style="float: right; width: 60%;">
-            <br />
-            Variable Name:
-            <br />
+            <label>Variable Name:</label>
             <input id="varName" class="round" type="text" />
             <br />
           </div>
@@ -196,11 +184,13 @@ module.exports = {
             Incorrect input: Year: [2019] Month: [8] Day: [ ] Hour: [6] Minute: [ ] Second: [ ]
           </p>
         </div>
-      </div>
+        <div id="author-note">Action modified by Wrex and Michael.</div>
       <style>
-      input, select { margin-bottom: 10px }
-      #timestampDivDebug { float: left; width: 45%; display: none; }
+        input, select, textarea { margin-bottom: 10px }
+        #timestampDivDebug { float: left; width: 45%; display: none; }
+        #author-note { color: grey; float: left; width: 100%; text-align:center; }
       </style>
+      </div>
     `
   },
 
