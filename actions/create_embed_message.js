@@ -9,124 +9,199 @@ module.exports = {
   variableStorage (data, varType) {
     const type = parseInt(data.storage)
     if (type !== varType) return
-    return ([data.varName, 'Embed Object'])
+    return [data.varName, 'Embed Object']
   },
 
-  fields: ['title', 'author', 'color', 'url', 'authorIcon', 'authorUrl', 'imageUrl', 'thumbUrl', 'timestamp', 'debug', 'timestamp1', 'timestamp2', 'text', 'year', 'month', 'day', 'hour', 'minute', 'second', 'note1', 'note2', 'storage', 'varName'],
+  fields: [
+    'title',
+    'author',
+    'color',
+    'url',
+    'authorIcon',
+    'authorUrl',
+    'imageUrl',
+    'thumbUrl',
+    'description',
+    'timestamp',
+    'debug',
+    'timestamp1',
+    'timestamp2',
+    'text',
+    'year',
+    'month',
+    'day',
+    'hour',
+    'minute',
+    'second',
+    'note1',
+    'note2',
+    'storage',
+    'varName'
+  ],
 
-  html (isEvent, data) {
+  size () {
+    return { width: 550, height: 350 }
+  },
+
+  html (_isEvent, data) {
     return `
-<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
-<div>
-  <p>
-    This action has been modified by DBM Mods.
-  </p>
-</div>
-<div style="float: left; width: 50%; padding-top: 16px;">
-  Title:<br>
-  <input id="title" class="round" type="text"><br>
-  Author Name:<br>
-  <input id="author" class="round" type="text" placeholder="Leave blank to disallow author!"><br>
-  Author URL:<br>
-  <input id="authorUrl" class="round" type="text" placeholder="Leave blank for none!"><br>
-  Author Icon URL:<br>
-  <input id="authorIcon" class="round" type="text" placeholder="Leave blank for none!"><br>
-</div>
-<div style="float: right; width: 50%; padding-top: 16px;">
-  Color:<br>
-  <input id="color" class="round" type="text" placeholder="Leave blank for default!"><br>
-  URL:<br>
-  <input id="url" class="round" type="text" placeholder="Leave blank for none!"><br>
-  Image URL:<br>
-  <input id="imageUrl" class="round" type="text" placeholder="Leave blank for none!"><br>
-  Thumbnail URL:<br>
-  <input id="thumbUrl" class="round" type="text" placeholder="Leave blank for none!"><br>
-</div>
-<div id="timestampDiv" style="float: left; width: 45%; display: none;">
-  Timestamp:<br>
-  <select id="timestamp" class="round" onchange="glob.onChange1(this)">
-    <option value="false" selected>No Timestamp</option>
-    <option value="true">Current Timestamp</option>
-    <option value="string">String Timestamp</option>
-    <option value="custom">Custom Timestamp</option>
-  </select>
-</div>
-<div id="timestampDivDebug" style="float: left; width: 45%; display: none;">
-  Timestamp:<br>
-  <select id="timestampDebug" class="round" onchange="glob.onChange1(this)">
-    <option value="false" selected>No Timestamp</option>
-    <option value="true">Current Timestamp</option>
-  </select>
-</div>
-<div style="float: right; width: 50%; padding-right: 26px;">
-  Debug:<br>
-  <select id="debug" class="round" onchange="glob.onChange2(this)">
-    <option value="false" selected>No - More options</option>
-    <option value="true">Yes - More stable</option>
-  </select>
-</div>
-<div id="timestamp1" class="round" style="float: left; width: 104.6%; padding-top: 16px; display: none;">
-  UTC Timestamp:<br>
-  <input id="text" class="round" type="text" placeholder="Insert your utc timestamp string...">
-</div>
-<div id="timestamp2" style="padding-top: 16px; display: table; width: 95.5%;">
-  <div style="display: table-cell;">
-    Year:<br>
-    <input id="year" class="round" type="text">
-  </div>
-  <div style="display: table-cell;">
-    Month:<br>
-    <input id="month" class="round" type="text">
-  </div>
-  <div style="display: table-cell;">
-    Day:<br>
-    <input id="day" class="round" type="text">
-  </div>
-  <div style="display: table-cell;">
-    Hour:<br>
-    <input id="hour" class="round" type="text">
-  </div>
-  <div style="display: table-cell;">
-    Minute:<br>
-    <input id="minute" class="round" type="text">
-  </div>
-  <div style="display: table-cell;">
-    Second:<br>
-    <input id="second" class="round" type="text">
-  </div>
-</div>
-<div>
-  <div style="float: left; width: 35%;">
-    <br>Store In:<br>
-    <select id="storage" class="round">
-      ${data.variables[1]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="float: right; width: 60%;">
-    <br>Variable Name:<br>
-    <input id="varName" class="round" type="text"><br>
-  </div>
-</div>
-<div id="note1" style="float: left; padding-top: 8px; width: 100%; display: none;">
-  <h2>
-    String Timestamp<br>
-  </h2>
-  <p>
-    This setting works with time formats like "March 03, 1973 11:13:00" or "100000000000" (milliseconds).<br>
-  </p>
-</div>
-<div id="note2" style="float: left; padding-top: 8px; width: 100%; display: none;">
-  <h2>
-    Custom Timestamp<br>
-  </h2>
-  <p>
-    Correct input:<br>
-    Year: [2019] Month: [8] Day: [10] Hour: [ ] Minute: [ ] Second: [ ]<br>
-    Incorrect input:<br>
-    Year: [2019] Month: [8] Day: [ ] Hour: [6] Minute: [ ] Second: [ ]<br>
-  </p>
-</div>
-</div>`
+      <div style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
+        <center>
+          <p style="color:grey; font-size:12px;">Action modified by DBM Mods. By Wrex and Michael.</p>
+        </center>
+        <div style="float: left; width: 50%; padding-top: 0px;">
+          <label>Title:</label>
+          <input id="title" class="round" type="text" />
+          <label>Author Name:</label>
+          <input id="author" class="round" type="text" />
+          <label>Author URL:</label>
+          <input id="authorUrl" class="round" type="text" />
+          <label>Author Icon URL:</label>
+          <input id="authorIcon" class="round" type="text" />
+        </div>
+        <div style="float: right; width: 50%; padding-top: 0px;">
+          <label>Color:</label>
+          <input id="color" class="round" type="text" />
+          <label>URL:</label>
+          <input id="url" class="round" type="text" />
+          <label>Image URL:</label>
+          <input id="imageUrl" class="round" type="text" />
+          <label>Thumbnail URL:</label>
+          <input id="thumbUrl" class="round" type="text" />
+        </div>
+        <div>
+          <label>Description:</label>
+          <textarea id="description" rows="10" style="width: 95.5%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+        </div>
+        <div id="timestampDiv" style="float: left; width: 45%; display: none;">
+          <label>Timestamp:</label>
+          <select id="timestamp" class="round" onchange="glob.onChange1(this)">
+            <option value="false" selected>No Timestamp</option>
+            <option value="true">Current Timestamp</option>
+            <option value="string">String Timestamp</option>
+            <option value="custom">Custom Timestamp</option>
+          </select>
+        </div>
+        <div id="timestampDivDebug">
+          <label>Timestamp:</label>
+          <select
+            id="timestampDebug"
+            class="round"
+            onchange="glob.onChange1(this)"
+          >
+            <option value="false" selected>
+              No Timestamp
+            </option>
+            <option value="true">Current Timestamp</option>
+          </select>
+        </div>
+        <div style="float: right; width: 50%; padding-right: 26px;">
+          <label>Debug:</label>
+          <select id="debug" class="round" onchange="glob.onChange2(this)">
+            <option value="false" selected>
+              No - More options
+            </option>
+            <option value="true">Yes - More stable</option>
+          </select>
+        </div>
+        <div
+          id="timestamp1"
+          class="round"
+          style="float: left; width: 104.6%; padding-top: 16px; display: none;"
+        >
+          <label>UTC Timestamp:</label>
+          <input
+            id="text"
+            class="round"
+            type="text"
+            placeholder="Insert your utc timestamp string..."
+          />
+        </div>
+        <div
+          id="timestamp2"
+          style="padding-top: 16px; display: table; width: 95.5%;"
+        >
+          <div style="display: table-cell;">
+            <label>Year:</label>
+            <br />
+            <input id="year" class="round" type="text" />
+          </div>
+          <div style="display: table-cell;">
+            <label>Month:</label>
+            <input id="month" class="round" type="text" />
+          </div>
+          <div style="display: table-cell;">
+            Day:
+            <br />
+            <input id="day" class="round" type="text" />
+          </div>
+          <div style="display: table-cell;">
+            Hour:
+            <br />
+            <input id="hour" class="round" type="text" />
+          </div>
+          <div style="display: table-cell;">
+            Minute:
+            <br />
+            <input id="minute" class="round" type="text" />
+          </div>
+          <div style="display: table-cell;">
+            Second:
+            <br />
+            <input id="second" class="round" type="text" />
+          </div>
+        </div>
+        <div>
+          <div style="float: left; width: 35%;">
+            <br />
+            Store In:
+            <br />
+            <select id="storage" class="round">
+              ${data.variables[1]}
+            </select>
+          </div>
+          <div id="varNameContainer" style="float: right; width: 60%;">
+            <br />
+            Variable Name:
+            <br />
+            <input id="varName" class="round" type="text" />
+            <br />
+          </div>
+        </div>
+        <div
+          id="note1"
+          style="float: left; padding-top: 8px; width: 100%; display: none;"
+        >
+          <h2>
+            String Timestamp
+            <br />
+          </h2>
+          <p>
+            This setting works with time formats like "March 03, 1973 11:13:00"
+            or "100000000000" (milliseconds).
+            <br />
+          </p>
+        </div>
+        <div
+          id="note2"
+          style="float: left; padding-top: 8px; width: 100%; display: none;"
+        >
+          <h3>
+            Custom Timestamp
+            <br />
+          </h3>
+          <p>
+            Correct input: Year: [2019] Month: [8] Day: [10] Hour: [ ] Minute: [ ] Second: [ ]
+            <br />
+            Incorrect input: Year: [2019] Month: [8] Day: [ ] Hour: [6] Minute: [ ] Second: [ ]
+          </p>
+        </div>
+      </div>
+      <style>
+      input, select { margin-bottom: 10px }
+      #timestampDivDebug { float: left; width: 45%; display: none; }
+      </style>
+    `
   },
 
   init () {
@@ -143,7 +218,6 @@ module.exports = {
 
     glob.onChange1 = function () {
       if (debug.value === 'false') {
-        authorUrl.placeholder = 'Leave blank for none!'
         switch (timestamp.value) {
           case 'false':
           case 'true':
@@ -181,7 +255,8 @@ module.exports = {
           timestamp2.style.display = 'none'
           note.style.display = 'none'
           note2.style.display = 'none'
-          authorUrl.placeholder = 'Unavaible!'
+          authorUrl.placeholder = 'Unavailable!'
+          authorUrl.disabled = true
           break
       }
       glob.onChange1()
@@ -227,7 +302,11 @@ module.exports = {
       }
       // Author Name
       if (data.author) {
-        embed.setAuthor(this.evalMessage(data.author, cache), this.evalMessage(data.authorIcon, cache), this.evalMessage(data.authorUrl, cache))
+        embed.setAuthor(
+          this.evalMessage(data.author, cache),
+          this.evalMessage(data.authorIcon, cache),
+          this.evalMessage(data.authorUrl, cache)
+        )
       }
       // Color
       if (data.color) {
@@ -241,6 +320,11 @@ module.exports = {
       if (data.thumbUrl) {
         embed.setThumbnail(this.evalMessage(data.thumbUrl, cache))
       }
+      // Description
+      if (data.description) {
+        embed.setDescription(this.evalMessage(data.description, cache))
+      }
+
       // Timestamp
       switch (timestamp) {
         case 'false':
@@ -253,11 +337,22 @@ module.exports = {
             embed.setTimestamp(new Date(`${text}`))
           } else {
             embed.setTimestamp()
-            console.log('Invaild UTC timestamp! Changed from [String Timestamp] to [Current Timestamp].')
+            console.log(
+              'Invaild UTC timestamp! Changed from [String Timestamp] to [Current Timestamp].'
+            )
           }
           break
         case 'custom':
-          embed.setTimestamp(new Date(year || null, month || null, day || null, hour || null, minute || null, second || null))
+          embed.setTimestamp(
+            new Date(
+              year || null,
+              month || null,
+              day || null,
+              hour || null,
+              minute || null,
+              second || null
+            )
+          )
           break
         default:
           embed.setTimestamp()
@@ -274,7 +369,10 @@ module.exports = {
         embed.setURL(this.evalMessage(data.url, cache))
       }
       if (data.author && data.authorIcon) {
-        embed.setAuthor(this.evalMessage(data.author, cache), this.evalMessage(data.authorIcon, cache))
+        embed.setAuthor(
+          this.evalMessage(data.author, cache),
+          this.evalMessage(data.authorIcon, cache)
+        )
       }
       if (data.color) {
         embed.setColor(this.evalMessage(data.color, cache))
