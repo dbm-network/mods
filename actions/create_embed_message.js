@@ -12,32 +12,7 @@ module.exports = {
     return [data.varName, 'Embed Object']
   },
 
-  fields: [
-    'title',
-    'author',
-    'color',
-    'url',
-    'authorIcon',
-    'authorUrl',
-    'imageUrl',
-    'thumbUrl',
-    'description',
-    'timestamp',
-    'debug',
-    'timestamp1',
-    'timestamp2',
-    'text',
-    'year',
-    'month',
-    'day',
-    'hour',
-    'minute',
-    'second',
-    'note1',
-    'note2',
-    'storage',
-    'varName'
-  ],
+  fields: ['title', 'author', 'color', 'url', 'authorIcon', 'authorUrl', 'imageUrl', 'thumbUrl', 'description', 'timestamp', 'debug', 'timestamp1', 'timestamp2', 'text', 'year', 'month', 'day', 'hour', 'minute', 'second', 'note1', 'note2', 'storage', 'varName'],
 
   size () {
     return { width: 550, height: 350 }
@@ -292,11 +267,7 @@ module.exports = {
       }
       // Author Name
       if (data.author) {
-        embed.setAuthor(
-          this.evalMessage(data.author, cache),
-          this.evalMessage(data.authorIcon, cache),
-          this.evalMessage(data.authorUrl, cache)
-        )
+        embed.setAuthor(this.evalMessage(data.author, cache), this.evalMessage(data.authorIcon, cache), this.evalMessage(data.authorUrl, cache))
       }
       // Color
       if (data.color) {
@@ -327,22 +298,11 @@ module.exports = {
             embed.setTimestamp(new Date(`${text}`))
           } else {
             embed.setTimestamp()
-            console.log(
-              'Invaild UTC timestamp! Changed from [String Timestamp] to [Current Timestamp].'
-            )
+            console.log('Invaild UTC timestamp! Changed from [String Timestamp] to [Current Timestamp].')
           }
           break
         case 'custom':
-          embed.setTimestamp(
-            new Date(
-              year || null,
-              month || null,
-              day || null,
-              hour || null,
-              minute || null,
-              second || null
-            )
-          )
+          embed.setTimestamp(new Date(year || null, month || null, day || null, hour || null, minute || null, second || null))
           break
         default:
           embed.setTimestamp()
@@ -359,10 +319,7 @@ module.exports = {
         embed.setURL(this.evalMessage(data.url, cache))
       }
       if (data.author && data.authorIcon) {
-        embed.setAuthor(
-          this.evalMessage(data.author, cache),
-          this.evalMessage(data.authorIcon, cache)
-        )
+        embed.setAuthor(this.evalMessage(data.author, cache), this.evalMessage(data.authorIcon, cache))
       }
       if (data.color) {
         embed.setColor(this.evalMessage(data.color, cache))
