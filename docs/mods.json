@@ -19,11 +19,6 @@
     "name": "Add Embed Field",
     "section": "Embed Message"
   },
-  "age_calculator_MOD.js": {
-    "description": "Get a date from a specified timestamp",
-    "name": "Age Calculator",
-    "section": "Other Stuff"
-  },
   "anchor_create_MOD.js": {
     "description": "Create an anchor",
     "name": "Create Anchor",
