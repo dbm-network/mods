@@ -416,6 +416,7 @@ const Mods = {
       let mentionedUser = ''
       let mentionedChannel = ''
       let defaultChannel = ''
+      /* eslint-enable no-unused-vars */
       if (msg) {
         user = msg.author
         member = msg.member
@@ -427,8 +428,8 @@ const Mods = {
       if (server) {
         defaultChannel = server.getDefaultChannel()
       }
-      /* eslint-enable no-unused-vars */
       try {
+        // eslint-disable-next-line no-eval
         return eval(content)
       } catch (e) {
         console.error(minimizeError(e))
