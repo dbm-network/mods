@@ -399,6 +399,7 @@ const Mods = {
     DBM.Actions.eval = function (content, cache) {
       if (!content) return false
       const DBM = this.getDBM()
+      /* eslint-disable no-unused-vars */
       const tempVars = this.getActionVariable.bind(cache.temp)
       let serverVars = null
       if (cache.server) {
@@ -426,6 +427,7 @@ const Mods = {
       if (server) {
         defaultChannel = server.getDefaultChannel()
       }
+      /* eslint-enable no-unused-vars */
       try {
         return eval(content)
       } catch (e) {
