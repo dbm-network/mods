@@ -53,7 +53,7 @@ module.exports = {
       .then((r) => {
         const shardGuildCount = r.reduce((p, c) => p + c, 0)
 
-        client.shard.broadcastEval('this.guilds.cache.reduce((p, g) => prev + g.memberCount, 0)')
+        client.shard.broadcastEval('this.guilds.cache.reduce((p, g) => p + g.memberCount, 0)')
           .then((r) => {
             const shardMemberCount = r.reduce((p, c) => p + c, 0)
 
