@@ -83,6 +83,10 @@
     "description": "Triggers when a member's role is removed",
     "name": "Member Role Removed MOD"
   },
+  "on_topgg_vote_EVT.js": {
+    "description": "Triggers when a user votes on topgg. Requires extension",
+    "name": "On Top.gg Vote"
+  },
   "user_update_EVT.js": {
     "description": "Triggers when a user is updated (Avatar/Username...)",
     "name": "User Update"
