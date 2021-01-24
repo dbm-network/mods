@@ -1,7 +1,5 @@
 # Top.gg Api Extension
 
-## Preview
-
 ## Setup
 1. [Get your public ip address](https://www.whatismyip.com/)
 2. Choose a port for your webhook (Default is 5000)
