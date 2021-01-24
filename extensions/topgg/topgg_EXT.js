@@ -8,7 +8,7 @@ module.exports = {
 
   defaultFields: {
     port: 5000,
-    token: ''
+    token: 'password'
   },
 
   size () {
