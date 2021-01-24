@@ -56,7 +56,7 @@ module.exports = {
         Events.onTopggVote(req.vote.user, req.vote)
       })
       app.listen(data.port)
-      if (app) console.log(`Watching for votes at port ${data.port}`) 
+      if (app) console.log(`Watching for votes at port ${data.port}`)
       onReady.apply(this, ...params)
     }
   }
