@@ -22,5 +22,9 @@
   "server_prefixes_EXT.js": {
     "description": "Allow for server specific prefixes. Requires control_server_prefix_MOD.js",
     "name": "Server Prefixes"
+  },
+  "topgg_EXT.js": {
+    "description": "Allows usage of on_topgg_vote_EVT.js",
+    "name": "Top.gg Api"
   }
 }
