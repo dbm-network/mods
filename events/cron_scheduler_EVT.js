@@ -18,7 +18,7 @@ Timezone (<a href='#' onclick="require('child_process').execSync('start https://
     const { Bot, Actions } = DBM
 
     const Mods = Actions.getMods()
-    const cron = Mods.require('node-cron')
+    const cron = Mods.require('node-cron-no-open-collective')
 
     DBM.Events = DBM.Events || {}
 
