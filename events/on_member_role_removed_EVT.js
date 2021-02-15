@@ -9,7 +9,7 @@ module.exports = {
     const { Bot, Actions } = DBM
     DBM.Events.roleRemoved = async function (oldMember, newMember) {
       if (!Bot.$evts['Member Role Removed MOD']) return
-      if (newMember.roles.cache.size > oldMember.roles.cache.size) return
+      if (newMember.roles.cache.size >= oldMember.roles.cache.size) return
       const oldRoles = oldMember.roles.cache
       const newRoles = newMember.roles.cache
 
