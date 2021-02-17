@@ -14,7 +14,6 @@ module.exports = {
         if (event.temp2) temp[event.temp2] = vote
         const servers = Bot.bot.guilds.cache.array()
         Actions.invokeEvent(event, null, temp)
-        }
       };
     }
   }
