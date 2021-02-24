@@ -4,7 +4,7 @@ Insert the desired owner's Discord ID, It **MUST** be the discord id, not the na
 (Right click -> Copy ID on the users name with developer mode enabled) 
 Once you click the + to add the id, you may close the extension and restart your bot. 
 
-Failure to restart your bot will result in the the user to not have Bot Owner Only status
+Failure to restart your bot will result in the user to not have Bot Owner Only status
 
 ![Picture of interface](https://i.imgur.com/uvpmbKY.png)
 
