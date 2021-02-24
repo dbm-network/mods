@@ -12,12 +12,7 @@ module.exports = {
         const temp = {}
         if (event.temp) temp[event.temp] = user
         if (event.temp2) temp[event.temp2] = vote
-        const servers = Bot.bot.guilds.cache.array()
-        for (const server of servers) {
-          if (server) {
-            Actions.invokeEvent(event, server, temp)
-          }
-        }
+        Actions.invokeEvent(event, null, temp)
       };
     }
   }
