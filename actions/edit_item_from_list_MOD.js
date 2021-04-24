@@ -45,7 +45,7 @@ module.exports = {
     const storage = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
     const list = this.getVariable(storage, varName, cache)
-    const position = parseInt(this.evalMessage(data.position))
+    const position = parseInt(this.evalMessage(data.position, cache))
     const val = this.evalMessage(data.value, cache)
     if (list.length > position) {
       list[position] = val
