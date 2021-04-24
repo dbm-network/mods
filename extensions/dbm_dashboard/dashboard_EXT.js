@@ -251,7 +251,7 @@ module.exports = {
     const Dashboard = {}
     Dashboard.version = '1.1.5'
 
-    Dashboard.updateExtension = () => {
+    Dashboard.updateExtension = async () => {
       const filePath = path.join(__dirname, 'aaa_extensionHelper_EXT.js');
 
       // auto install extensionHelper if not exists.
