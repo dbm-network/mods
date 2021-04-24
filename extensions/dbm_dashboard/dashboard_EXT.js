@@ -1,5 +1,3 @@
-const fs = require('fs')
-const path = require('path')
 module.exports = {
 
   /*
@@ -234,6 +232,8 @@ module.exports = {
   // ---------------------------------------------------------------------
 
   mod: async (DBM) => {
+    const fs = require('fs')
+    const path = require('path')
     const chalk = await DBM.extensionHelper.requireModule('chalk', 'dashboard_EXT')
     const fetch = await DBM.extensionHelper.requireModule('node-fetch', 'dashboard_EXT')
 
@@ -327,10 +327,10 @@ module.exports = {
       if (!dataName) return console.log('storeData("fileName", "dataName", "data")')
 
       try {
-        if (!fs.existsSync(path.join(__dirname, 'dashboard_EXT'))) {
-          fs.mkdirSync(path.join(__dirname, 'dashboard_EXT'))
+        if (!fs.existsSync(require('path').join(__dirname, 'dashboard_EXT'))) {
+          fs.mkdirSync(require('path').join(__dirname, 'dashboard_EXT'))
         };
-        const path = path.join(__dirname, 'dashboard_EXT', `${fileName}.json`)
+        const path = require('path').join(__dirname, 'dashboard_EXT', `${fileName}.json`)
         if (!fs.existsSync(path)) {
           let data = {}
           data = JSON.stringify(data)
@@ -349,10 +349,10 @@ module.exports = {
 
     Dashboard.retrieveData = function (fileName, dataName) {
       try {
-        if (!fs.existsSync(path.join(__dirname, 'dashboard_EXT'))) {
-          fs.mkdirSync(path.join(__dirname, 'dashboard_EXT'))
+        if (!fs.existsSync(require('path').join(__dirname, 'dashboard_EXT'))) {
+          fs.mkdirSync(require('path').join(__dirname, 'dashboard_EXT'))
         };
-        const path = path.join(__dirname, 'dashboard_EXT', `${fileName}.json`)
+        const path = require('path').join(__dirname, 'dashboard_EXT', `${fileName}.json`)
         if (!fs.existsSync(path)) {
           let data = {}
           data = JSON.stringify(data)
@@ -367,10 +367,10 @@ module.exports = {
 
     Dashboard.retrieveFile = function (fileName) {
       try {
-        if (!fs.existsSync(path.join(__dirname, 'dashboard_EXT'))) {
-          fs.mkdirSync(path.join(__dirname, 'dashboard_EXT'))
+        if (!fs.existsSync(require('path').join(__dirname, 'dashboard_EXT'))) {
+          fs.mkdirSync(require('path').join(__dirname, 'dashboard_EXT'))
         };
-        const path = path.join(__dirname, 'dashboard_EXT', `${fileName}.json`)
+        const path = require('path').join(__dirname, 'dashboard_EXT', `${fileName}.json`)
         if (!fs.existsSync(path)) {
           let data = {}
           data = JSON.stringify(data)
