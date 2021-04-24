@@ -55,6 +55,9 @@ module.exports = {
 	html: function(isEvent, data) {
 		return `
 <div>
+	<p>
+	<b>Mod Info:</b> DBM List are Javascript Arrays. The first element/item will always be 0.
+	</p>
 	<div style="float: left; width: 35%;">
 		Source List:<br>
 		<select id="storage" class="round" onchange="glob.refreshVariableList(this)">
