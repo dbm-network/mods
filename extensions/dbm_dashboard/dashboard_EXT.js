@@ -7,8 +7,8 @@ module.exports = {
         - Description: Contains multiple stuff needed for my mods / extensions / events.
     */
 
-  authors: ['Great Plains Modding'],
-  version: '1.1.1',
+  authors: ['Great Plains Modding', 'danno3817'],
+  version: '1.1.2',
   changeLog: '',
   shortDescription: 'Discord Bot Maker Dashboard.',
   longDescription: '',
@@ -79,7 +79,7 @@ module.exports = {
   // Returns the size of the extension dialog.
   // ---------------------------------------------------------------------
 
-  size () {
+  size: () => {
     return {
       width: 700,
       height: 620
@@ -93,7 +93,7 @@ module.exports = {
   // the context menu dialog.
   // ---------------------------------------------------------------------
 
-  html (data) {
+  html: (data) => {
     try {
       return `
             <div class="ui cards" style="margin: 0; padding: 0; width: 100%;">
@@ -141,7 +141,7 @@ module.exports = {
   // functions for the DOM elements.
   // ---------------------------------------------------------------------
 
-  init (DBM) {
+  init: (DBM) =>  {
 
   },
 
@@ -151,7 +151,7 @@ module.exports = {
   // When the dialog is closed, this is called. Use it to save the data.
   // ---------------------------------------------------------------------
 
-  close (document, data) {
+  close: (document, data) =>  {
     data.port = String(document.getElementById('port').value)
     data.clientSecret = String(document.getElementById('clientSecret').value)
     data.callbackURL = String(document.getElementById('callbackURL').value)
@@ -198,7 +198,7 @@ module.exports = {
   // The "DBM" parameter is the global variable. Store loaded data within it.
   // ---------------------------------------------------------------------
 
-  load (DBM, projectLoc) {},
+  load: (DBM, projectLoc) =>  {},
 
   // ---------------------------------------------------------------------
   // Extension On Save
@@ -215,7 +215,7 @@ module.exports = {
   // etc...
   // ---------------------------------------------------------------------
 
-  save (DBM, data, projectLoc) {
+  save: (DBM, data, projectLoc) =>  {
 
   },
 
@@ -235,7 +235,13 @@ module.exports = {
   // Classes can be retrieved also using it: `const { Actions, Event } = DBM;`
   // ---------------------------------------------------------------------
 
-  async mod (DBM) {
+  mod: async (DBM) => {
+    const url = require('url');
+    const fs = require('fs');
+    const path = require('path');
+    const chalk = await DBM.extensionHelper.requireModule('chalk', 'dashboard_EXT')
+    const fetch = await DBM.extensionHelper.requireModule('node-fetch', 'dashboard_EXT');
+
     /******************************************************
          * DBM Dashboard
          * Version 1.0.5
@@ -245,46 +251,50 @@ module.exports = {
     const Dashboard = {}
     Dashboard.version = '1.1.5'
 
-    // ----------------------------------------------------------------------------------
-    // Check for great plains modding dependencies //
-    const fetch = DBM.extensionHelper.requireModule('node-fetch', 'dashboard_EXT')
-    const filePath = require('path').join(__dirname, 'aaa_extensionHelper_EXT.js')
-    if (!require('fs').existsSync(filePath)) {
-      // if Great Plains Modding Deps is missing then install it //
-      console.log(DBM.extensionHelper.requireModule('chalk', 'dashboard_EXT').red('aaa_extensionHelper_EXT.js is missing ~ Auto installing it.'))
-      const url = await 'https://raw.githubusercontent.com/dbm-network/extensions/master/extensions/aaa_extensionHelper_EXT/aaa_extensionHelper_EXT.js'
-      await fetch(url).then(res => res.text()).then(depFile => require('fs').writeFileSync(filePath, depFile))
-      DBM.extensionHelper = require(filePath)
-      DBM.extensionHelper.mod(DBM)
-      console.log(DBM.extensionHelper.requireModule('chalk').green('Successfully installed aaa_extensionHelper_EXT.js, note you may need to restart your bot.'))
-      setTimeout(function () {}, 1000)
-    };
+    Dashboard.updateExtension = () => {
+      const filePath = path.join(__dirname, 'aaa_extensionHelper_EXT.js');
 
-    // check for and updates
-    DBM.extensionHelper.autoUpdater({
-      depInfo: 'https://gist.githubusercontent.com/greatplainsmodding/977cdd45030fc0af1017b493b738cde1/raw/dashboard_EXT.json',
-      depFile: 'https://gist.githubusercontent.com/greatplainsmodding/977cdd45030fc0af1017b493b738cde1/raw/dashboard_EXT.js',
-      version: Dashboard.version
-    })
-    // ----------------------------------------------------------------------------------
+      // auto install extensionHelper if not exists.
+      if (!fs.existsSync(filepath)) {
+        console.log(chalk.red('aaa_extensionHelper_EXT.js is missing ~ Auto installing it.'))
+        const url = await 'https://raw.githubusercontent.com/dbm-network/extensions/master/extensions/aaa_extensionHelper_EXT/aaa_extensionHelper_EXT.js'
+
+        await fetch(url).then(res => res.text()).then(depFile => require('fs').writeFileSync(filePath, depFile))
+
+        DBM.extensionHelper = require(filePath)
+        DBM.extensionHelper.mod(DBM)
+        console.log(chalk.green('Successfully installed aaa_extensionHelper_EXT.js, note you may need to restart your bot.'))
+        setTimeout(function () {}, 1000)
+      }
+
+      // check for and updates
+      DBM.extensionHelper.autoUpdater({
+        depInfo: 'https://gist.githubusercontent.com/greatplainsmodding/977cdd45030fc0af1017b493b738cde1/raw/dashboard_EXT.json',
+        depFile: 'https://raw.githubusercontent.com/dbm-network/mods/master/extensions/dbm_dashboard/dashboard_EXT.js',
+        version: Dashboard.version
+      })
+    }
 
     Dashboard.checkActions = async function () {
       try {
-        const fetch = require('node-fetch')
+        const modsDirectory = path.join(__dirname, 'dashboard_EXT', 'actions', 'mods')
+        if (!fs.existsSync()) {
+          fs.mkdirSync(modsDirectory, { recursive: true })
+        }
         DBM.extensionHelper.log.warn('(DBM Dashboard ~ Auto Installer) Checking for new and updated actions.')
         const modsFetched = await fetch('https://api.github.com/repos/greatplainsmodding/DBM-Dashboard-Mods/git/trees/master').then(res => res.json().then(data => data.tree))
         if (!modsFetched) return
         for (const mod of modsFetched) {
-          const filePath = require('path').join(__dirname, 'dashboard_EXT', 'actions', 'mods', mod.path)
-          if (!require('fs').existsSync(filePath)) {
+          const filePath = path.join(modsDirectory, mod.path)
+          if (!fs.existsSync(filePath)) {
             console.log(chalk.yellow('(DBM Dashboard) ~ Auto Mod Install: ' + mod.path))
             const fetchedMod = await fetch(mod.url).then(res => res.json().then(data => data.tree))
-            require('fs').mkdirSync(require('path').join(__dirname, 'dashboard_EXT', 'actions', 'mods', mod.path))
+            fs.mkdirSync(filePath, { recursive: true })
             for (const file of fetchedMod) {
-              const filePath = require('path').join(__dirname, 'dashboard_EXT', 'actions', 'mods', mod.path, file.path)
-              if (!require('fs').existsSync(filePath)) {
+              const filePath = path.join(filePath, file.path)
+              if (!fs.existsSync(filePath)) {
                 const modFile = await fetch('https://raw.githubusercontent.com/greatplainsmodding/DBM-Dashboard-Mods/master/' + mod.path + '/' + file.path).then(res => res.text())
-                require('fs').writeFileSync(filePath, modFile)
+                'fs'.writeFileSync(filePath, modFile)
                 console.log(chalk.green('Successfully downloaded ' + file.path))
               }
             }
@@ -295,7 +305,6 @@ module.exports = {
       }
     }
 
-    // ----------------------------------------------------------------------------------
     // require needed modules //
     const express = await DBM.extensionHelper.requireModule('express', 'dashboard_EXT')
     const bodyParser = await DBM.extensionHelper.requireModule('body-parser', 'dashboard_EXT')
@@ -303,47 +312,41 @@ module.exports = {
     await DBM.extensionHelper.requireModule('ejs', 'dashboard_EXT')
     const Strategy = await DBM.extensionHelper.requireModule('passport-discord', 'dashboard_EXT')
     const session = await DBM.extensionHelper.requireModule('express-session', 'dashboard_EXT')
-    await DBM.extensionHelper.requireModule('path', 'dashboard_EXT')
     const passport = await DBM.extensionHelper.requireModule('passport', 'dashboard_EXT')
-    const chalk = await DBM.extensionHelper.requireModule('chalk', 'dashboard_EXT')
     const figlet = await DBM.extensionHelper.requireModule('figlet', 'dashboard_EXT')
-    await require('url')
 
     Dashboard.app = express()
-    // ----------------------------------------------------------------------------------
 
-    // ----------------------------------------------------------------------------------
+    // require local files for later use //
     Dashboard.Actions = {}
-    Dashboard.settings = require(require('path').join(__dirname, 'dashboard_EXT', 'config.json'))
-    Dashboard.Actions.modsLocation = require('path').join(__dirname, 'dashboard_EXT', 'actions', 'mods')
-    Dashboard.Actions.routeLocation = require('path').join(__dirname, 'dashboard_EXT', 'actions', 'routes')
-    Dashboard.Actions.extensionLocation = require('path').join(__dirname, 'dashboard_EXT', 'actions', 'extensions')
+    Dashboard.settings = require(path.join(__dirname, 'dashboard_EXT', 'config.json'))
+    Dashboard.Actions.modsLocation = path.join(__dirname, 'dashboard_EXT', 'actions', 'mods')
+    Dashboard.Actions.routeLocation = path.join(__dirname, 'dashboard_EXT', 'actions', 'routes')
+    Dashboard.Actions.extensionLocation = path.join(__dirname, 'dashboard_EXT', 'actions', 'extensions')
 
     Dashboard.Actions.mods = new Map()
     Dashboard.Actions.extensions = new Map()
-    // ----------------------------------------------------------------------------------
 
-    // ----------------------------------------------------------------------------------
 
     Dashboard.storeData = function (fileName, dataName, data) {
       if (!fileName) return console.log('storeData("fileName", "dataName", "data")')
       if (!dataName) return console.log('storeData("fileName", "dataName", "data")')
 
       try {
-        if (!require('fs').existsSync(require('path').join(__dirname, 'dashboard_EXT'))) {
-          require('fs').mkdirSync(require('path').join(__dirname, 'dashboard_EXT'))
+        if (!fs.existsSync(path.join(__dirname, 'dashboard_EXT'))) {
+          fs.mkdirSync(path.join(__dirname, 'dashboard_EXT'))
         };
-        const path = require('path').join(__dirname, 'dashboard_EXT', `${fileName}.json`)
-        if (!require('fs').existsSync(path)) {
+        const path = path.join(__dirname, 'dashboard_EXT', `${fileName}.json`)
+        if (!fs.existsSync(path)) {
           let data = {}
           data = JSON.stringify(data)
-          require('fs').writeFileSync(path, data)
+          fs.writeFileSync(path, data)
         };
 
-        let jsonFile = require(require('path').join(__dirname, 'dashboard_EXT', `${fileName}.json`))
+        let jsonFile = require(path.join(__dirname, 'dashboard_EXT', `${fileName}.json`))
         jsonFile[dataName] = data
         jsonFile = JSON.stringify(jsonFile)
-        require('fs').writeFileSync(path, jsonFile, 'utf8')
+        fs.writeFileSync(path, jsonFile, 'utf8')
         return jsonFile
       } catch (error) {
         console.log(error)
@@ -352,16 +355,16 @@ module.exports = {
 
     Dashboard.retrieveData = function (fileName, dataName) {
       try {
-        if (!require('fs').existsSync(require('path').join(__dirname, 'dashboard_EXT'))) {
-          require('fs').mkdirSync(require('path').join(__dirname, 'dashboard_EXT'))
+        if (!fs.existsSync(path.join(__dirname, 'dashboard_EXT'))) {
+          fs.mkdirSync(path.join(__dirname, 'dashboard_EXT'))
         };
-        const path = require('path').join(__dirname, 'dashboard_EXT', `${fileName}.json`)
-        if (!require('fs').existsSync(path)) {
+        const path = path.join(__dirname, 'dashboard_EXT', `${fileName}.json`)
+        if (!fs.existsSync(path)) {
           let data = {}
           data = JSON.stringify(data)
-          require('fs').writeFileSync(path, data)
+          fs.writeFileSync(path, data)
         };
-        const jsonFile = require(require('path').join(__dirname, 'dashboard_EXT', `${fileName}.json`))
+        const jsonFile = require(path.join(__dirname, 'dashboard_EXT', `${fileName}.json`))
         return jsonFile[dataName]
       } catch (error) {
         console.error(error)
@@ -370,17 +373,17 @@ module.exports = {
 
     Dashboard.retrieveFile = function (fileName) {
       try {
-        if (!require('fs').existsSync(require('path').join(__dirname, 'dashboard_EXT'))) {
-          require('fs').mkdirSync(require('path').join(__dirname, 'dashboard_EXT'))
+        if (!fs.existsSync(path.join(__dirname, 'dashboard_EXT'))) {
+          fs.mkdirSync(path.join(__dirname, 'dashboard_EXT'))
         };
-        const path = require('path').join(__dirname, 'dashboard_EXT', `${fileName}.json`)
-        if (!require('fs').existsSync(path)) {
+        const path = path.join(__dirname, 'dashboard_EXT', `${fileName}.json`)
+        if (!fs.existsSync(path)) {
           let data = {}
           data = JSON.stringify(data)
-          require('fs').writeFileSync(path, data)
+          fs.writeFileSync(path, data)
           return {}
         };
-        const jsonFile = require(require('path').join(__dirname, 'dashboard_EXT', `${fileName}.json`))
+        const jsonFile = require(path.join(__dirname, 'dashboard_EXT', `${fileName}.json`))
         return jsonFile
       } catch (error) {
         console.error(error)
@@ -388,14 +391,14 @@ module.exports = {
     }
 
     Dashboard.loadMods = function () {
-      require('fs').readdirSync(Dashboard.Actions.modsLocation).forEach(dir => {
-        const modData = require(require('path').join(Dashboard.Actions.modsLocation, dir, '__resource.json'))
+      fs.readdirSync(Dashboard.Actions.modsLocation).forEach(dir => {
+        const modData = require(path.join(Dashboard.Actions.modsLocation, dir, '__resource.json'))
         Dashboard.Actions.mods.set(dir, modData)
 
         if (modData.cssFiles) {
           modData.cssFiles.forEach(cssFile => {
             Dashboard.app.get(`/${modData.name}/css/${cssFile}`, function (req, res) {
-              res.sendFile(require('path').join(__dirname, 'dashboard_EXT', 'actions', 'mods', dir, cssFile))
+              res.sendFile(path.join(__dirname, 'dashboard_EXT', 'actions', 'mods', dir, cssFile))
             })
           })
         };
@@ -403,21 +406,21 @@ module.exports = {
     }
 
     Dashboard.loadRoutes = function () {
-      require('fs').readdirSync(Dashboard.Actions.routeLocation).forEach(dir => {
-        const routeData = require(require('path').join(Dashboard.Actions.routeLocation, dir, '__resource.json'))
+      fs.readdirSync(Dashboard.Actions.routeLocation).forEach(dir => {
+        const routeData = require(path.join(Dashboard.Actions.routeLocation, dir, '__resource.json'))
         if (routeData.isCustom) {
           // routeData.scriptFiles.forEach(file => {
-          //   const fileData = require(require('path').join(Dashboard.Actions.routeLocation, dir, file))
+          //   const fileData = require(path').join(Dashboard.Actions.routeLocation, dir, file))
           // })
         } else {
           routeData.scriptFiles.forEach(file => {
-            const fileData = require(require('path').join(Dashboard.Actions.routeLocation, dir, file))
+            const fileData = require(path.join(Dashboard.Actions.routeLocation, dir, file))
             fileData.init(DBM, Dashboard)
-            const webFile = require('path').join(__dirname, 'dashboard_EXT', 'actions', 'routes', dir, routeData.webFile)
+            const webFile = path.join(__dirname, 'dashboard_EXT', 'actions', 'routes', dir, routeData.webFile)
             if (routeData.cssFiles) {
               routeData.cssFiles.forEach(cssFile => {
                 Dashboard.app.get(`/${routeData.name}/css/${cssFile}`, function (req, res) {
-                  res.sendFile(require('path').join(__dirname, 'dashboard_EXT', 'actions', 'routes', dir, cssFile))
+                  res.sendFile(path.join(__dirname, 'dashboard_EXT', 'actions', 'routes', dir, cssFile))
                 })
               })
             };
@@ -443,20 +446,20 @@ module.exports = {
     }
 
     Dashboard.loadExtensions = function () {
-      require('fs').readdirSync(Dashboard.Actions.extensionLocation).forEach(dir => {
-        const extensionData = require(require('path').join(Dashboard.Actions.extensionLocation, dir, '__resource.json'))
+      fs.readdirSync(Dashboard.Actions.extensionLocation).forEach(dir => {
+        const extensionData = require(path.join(Dashboard.Actions.extensionLocation, dir, '__resource.json'))
         Dashboard.Actions.extensions.set(dir, extensionData)
 
         if (extensionData.cssFiles) {
           extensionData.cssFiles.forEach(cssFile => {
             Dashboard.app.get(`/${extensionData.name}/css/${cssFile}`, function (req, res) {
-              res.sendFile(require('path').join(__dirname, 'dashboard_EXT', 'actions', 'mods', dir, cssFile))
+              res.sendFile(path.join(__dirname, 'dashboard_EXT', 'actions', 'mods', dir, cssFile))
             })
           })
         };
 
         extensionData.scriptFiles.forEach(file => {
-          const extensionFile = require(require('path').join(Dashboard.Actions.extensionLocation, dir, file))
+          const extensionFile = require(path.join(Dashboard.Actions.extensionLocation, dir, file))
           extensionFile.init(DBM, Dashboard)
         })
       })
@@ -496,15 +499,15 @@ module.exports = {
         Dashboard.app.post('/setup', (req, res) => {
           console.log(req.body)
         })
-        console.log(require('chalk').red('Please navigate to http://localhost:3000 to complete the setup.'))
+        console.log(chalk.red('Please navigate to http://localhost:3000 to complete the setup.'))
         return errors
       } else {
         if (!settings.port) errors.push('Invalid port, please check your config.')
         if (!settings.tokenSecret) {
-          const filePath = require('path').join(__dirname, 'dashboard_EXT', 'config.json')
+          const filePath = path.join(__dirname, 'dashboard_EXT', 'config.json')
           settings.tokenSecret = Dashboard.randomString()
           settings = JSON.stringify(settings)
-          require('fs').writeFileSync(filePath, settings, 'utf8')
+          fs.writeFileSync(filePath, settings, 'utf8')
         }
         if (!settings.clientSecret) errors.push('Invalid client secret, please check your config.')
         if (!settings.callbackURL) errors.push('Invalid callback url, please check your config.')
@@ -514,8 +517,8 @@ module.exports = {
 
     Dashboard.appSettings = function () {
       Dashboard.app.set('view engine', 'ejs')
-      Dashboard.app.use(express.static(require('path').join(__dirname, 'dashboard_EXT', 'public')))
-      Dashboard.app.set('views', require('path').join(__dirname, 'dashboard_EXT', 'views'))
+      Dashboard.app.use(express.static(path.join(__dirname, 'dashboard_EXT', 'public')))
+      Dashboard.app.set('views', path.join(__dirname, 'dashboard_EXT', 'views'))
       Dashboard.app.use(cookieParser(Dashboard.settings.tokenSecret))
       Dashboard.app.use(session({
         secret: Dashboard.settings.tokenSecret,
