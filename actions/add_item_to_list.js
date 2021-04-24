@@ -56,7 +56,7 @@ module.exports = {
 		return `
 <div>
 	<p>
-	<b>Mod Info:</b> DBM List are Javascript Arrays. The first element/item will always be 0.
+	<b>Mod Info:</b> DBM Lists are Javascript Arrays. The first element/item will always be 0.
 	</p>
 	<div style="float: left; width: 35%;">
 		Source List:<br>
