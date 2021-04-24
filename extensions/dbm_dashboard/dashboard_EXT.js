@@ -1,3 +1,5 @@
+const fs = require('fs')
+const path = require('path')
 module.exports = {
 
   /*
@@ -141,9 +143,7 @@ module.exports = {
   // functions for the DOM elements.
   // ---------------------------------------------------------------------
 
-  init: (DBM) =>  {
-
-  },
+  init: (DBM) => {},
 
   // ---------------------------------------------------------------------
   // Extension Dialog Close Code
@@ -151,7 +151,7 @@ module.exports = {
   // When the dialog is closed, this is called. Use it to save the data.
   // ---------------------------------------------------------------------
 
-  close: (document, data) =>  {
+  close: (document, data) => {
     data.port = String(document.getElementById('port').value)
     data.clientSecret = String(document.getElementById('clientSecret').value)
     data.callbackURL = String(document.getElementById('callbackURL').value)
@@ -198,7 +198,7 @@ module.exports = {
   // The "DBM" parameter is the global variable. Store loaded data within it.
   // ---------------------------------------------------------------------
 
-  load: (DBM, projectLoc) =>  {},
+  load: (DBM, projectLoc) => {},
 
   // ---------------------------------------------------------------------
   // Extension On Save
@@ -215,9 +215,7 @@ module.exports = {
   // etc...
   // ---------------------------------------------------------------------
 
-  save: (DBM, data, projectLoc) =>  {
-
-  },
+  save: (DBM, data, projectLoc) => {},
 
   // ---------------------------------------------------------------------
   // Editor Extension Bot Mod
@@ -236,11 +234,8 @@ module.exports = {
   // ---------------------------------------------------------------------
 
   mod: async (DBM) => {
-    const url = require('url');
-    const fs = require('fs');
-    const path = require('path');
     const chalk = await DBM.extensionHelper.requireModule('chalk', 'dashboard_EXT')
-    const fetch = await DBM.extensionHelper.requireModule('node-fetch', 'dashboard_EXT');
+    const fetch = await DBM.extensionHelper.requireModule('node-fetch', 'dashboard_EXT')
 
     /******************************************************
          * DBM Dashboard
@@ -252,10 +247,10 @@ module.exports = {
     Dashboard.version = '1.1.5'
 
     Dashboard.updateExtension = async () => {
-      const filePath = path.join(__dirname, 'aaa_extensionHelper_EXT.js');
+      const filePath = path.join(__dirname, 'aaa_extensionHelper_EXT.js')
 
       // auto install extensionHelper if not exists.
-      if (!fs.existsSync(filepath)) {
+      if (!fs.existsSync(filePath)) {
         console.log(chalk.red('aaa_extensionHelper_EXT.js is missing ~ Auto installing it.'))
         const url = await 'https://raw.githubusercontent.com/dbm-network/extensions/master/extensions/aaa_extensionHelper_EXT/aaa_extensionHelper_EXT.js'
 
@@ -291,7 +286,7 @@ module.exports = {
             const fetchedMod = await fetch(mod.url).then(res => res.json().then(data => data.tree))
             fs.mkdirSync(filePath, { recursive: true })
             for (const file of fetchedMod) {
-              const filePath = path.join(filePath, file.path)
+              const filePath = path.join(modsDirectory, mod.path, file.path)
               if (!fs.existsSync(filePath)) {
                 const modFile = await fetch('https://raw.githubusercontent.com/greatplainsmodding/DBM-Dashboard-Mods/master/' + mod.path + '/' + file.path).then(res => res.text())
                 'fs'.writeFileSync(filePath, modFile)
@@ -326,7 +321,6 @@ module.exports = {
 
     Dashboard.Actions.mods = new Map()
     Dashboard.Actions.extensions = new Map()
-
 
     Dashboard.storeData = function (fileName, dataName, data) {
       if (!fileName) return console.log('storeData("fileName", "dataName", "data")')
