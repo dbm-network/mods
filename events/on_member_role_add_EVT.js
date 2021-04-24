@@ -11,7 +11,7 @@ module.exports = {
 
     DBM.Events.roleAdded = async function (oldMember, newMember) {
       if (!Bot.$evts['Member Role Added MOD']) return
-      if (newMember.roles.cache.size < oldMember.roles.cache.size) return
+      if (newMember.roles.cache.size <= oldMember.roles.cache.size) return
       const server = newMember.guild
 
       const oldRoles = oldMember.roles.cache

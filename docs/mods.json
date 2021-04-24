@@ -19,11 +19,6 @@
     "name": "Add Embed Field",
     "section": "Embed Message"
   },
-  "age_calculator_MOD.js": {
-    "description": "Get a date from a specified timestamp",
-    "name": "Age Calculator",
-    "section": "Other Stuff"
-  },
   "anchor_create_MOD.js": {
     "description": "Create an anchor",
     "name": "Create Anchor",
@@ -319,6 +314,11 @@
     "name": "Create Webhook",
     "section": "Webhook Control"
   },
+  "crosspost_message_MOD.js": {
+    "description": "Crossposts a message. You need to have sent the message first!",
+    "name": "Crosspost Message",
+    "section": "Messaging"
+  },
   "custom_image_effects_MOD.js": {
     "description": "Create custom image effects for a specified image",
     "name": "Custom Image Effects",
@@ -523,6 +523,11 @@
     "description": "Leave a specified server",
     "name": "Leave Server",
     "section": "Bot Client Control"
+  },
+  "local_database_MOD.js": {
+    "description": "Store & Get data from a database on the same machine as the bot.",
+    "name": "Local Database",
+    "section": "Database"
   },
   "loop_queue_MOD.js": {
     "description": "Loop the current queue",
