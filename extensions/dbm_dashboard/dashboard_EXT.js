@@ -95,21 +95,7 @@ module.exports = {
     }
   },
 
-  // ---------------------------------------------------------------------
-  // Extension Dialog Init Code
-  //
-  // When the HTML is first applied to the extension dialog, this code
-  // is also run. This helps add modifications or setup reactionary
-  // functions for the DOM elements.
-  // ---------------------------------------------------------------------
-
   init: (DBM) => {},
-
-  // ---------------------------------------------------------------------
-  // Extension Dialog Close Code
-  //
-  // When the dialog is closed, this is called. Use it to save the data.
-  // ---------------------------------------------------------------------
 
   close: (document, data) => {
     data.port = String(document.getElementById('port').value)
