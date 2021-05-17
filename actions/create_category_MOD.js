@@ -1,5 +1,5 @@
 module.exports = {
-  name: 'Create Category',
+  name: 'Create Category Channel',
   section: 'Channel Control',
 
   subtitle (data) {

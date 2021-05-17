@@ -1,5 +1,5 @@
 module.exports = {
-  name: 'Get Bot Stats From Top.gg',
+  name: 'Get Bot Stats From DBL',
   section: 'Other Stuff',
 
   subtitle (data) {
@@ -10,7 +10,7 @@ module.exports = {
   variableStorage (data, varType) {
     const type = parseInt(data.storage)
     if (type !== varType) return
-    let dataType = 'A Top.gg Stat'
+    let dataType = 'A DBL Stat'
     const info = parseInt(data.info)
     switch (info) {
       case 0:
@@ -79,7 +79,7 @@ module.exports = {
     }
     return ([data.varName, dataType])
   },
-  fields: ['botID', 'topggToken', 'info', 'storage', 'varName'],
+  fields: ['botID', 'token', 'info', 'storage', 'varName'],
 
   html (isEvent, data) {
     return `
@@ -89,8 +89,8 @@ module.exports = {
     <input id="botID" class="round" type="text">
   </div><br>
   <div style="float: left; width: 99%; padding-top: 8px;">
-    Your Top.gg Token:<br>
-    <input id="topggToken" class="round" type="text">
+    Your DBL Token:<br>
+    <input id="token" class="round" type="text">
   </div><br>
   <div style="float: left; width: 90%; padding-top: 8px;">
     Source Info:<br>
@@ -130,7 +130,8 @@ module.exports = {
   </div><br><br><br><br>
   <div id="commentSection" style="padding-top: 8px;">
     <p>
-      Some options will only work for certified or special bots. You should use some check variables to check if they exist.
+      Some options will only work for certified or special bots. You better use some check variables to check if they exist.
+      <b>Note:</b> DBL is going to update the API and you'll need a token after the update!
     </p>
   </div>
 </div>`
@@ -146,14 +147,14 @@ module.exports = {
     const data = cache.actions[cache.index]
     const botID = this.evalMessage(data.botID, cache)
     const info = parseInt(data.info)
-    const token = this.evalMessage(data.topggToken, cache)
+    const dblToken = this.evalMessage(data.token, cache)
 
     const Mods = this.getMods()
     const fetch = Mods.require('node-fetch')
 
     fetch(`https://top.gg/api/bots/${botID}`, {
       method: 'GET',
-      headers: { Authorization: token || '' }
+      headers: { Authorization: dblToken || '' }
     })
       .then((res) => res.json())
       .then((r) => {
