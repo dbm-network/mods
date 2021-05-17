@@ -39,6 +39,7 @@ module.exports = {
   </div><br><br>
   JSON Path: (Leave blank to store everything)<br>
   Supports the usage of JSON Path (Regex)<br>
+  You do not need to add the x.<br>
   More info here <br>
   http://goessner.net/articles/JsonPath/index.html#e2<br><br>
   <input id="path" class="round"; style="width: 75%;" type="text">
