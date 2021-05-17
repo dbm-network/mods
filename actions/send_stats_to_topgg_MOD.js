@@ -1,20 +1,20 @@
 module.exports = {
-  name: 'Sends Stats to DBL',
+  name: 'Sends Stats to Top.gg',
   section: 'Other Stuff',
 
   subtitle (data) {
     const info = ['Only Server Count', 'Shard & Server Count']
-    return `Send ${info[parseInt(data.info)]} to DBL!`
+    return `Send ${info[parseInt(data.info)]} to Top.gg!`
   },
 
-  fields: ['dblToken', 'info'],
+  fields: ['topggToken', 'info'],
 
   html () {
     return `
 <div id="modinfo">
   <div style="float: left; width: 99%; padding-top: 8px;">
-    Your DBL Token:<br>
-    <input id="dblToken" class="round" type="text">
+    Your Top.gg Token:<br>
+    <input id="topggToken" class="round" type="text">
   </div><br>
   <div style="float: left; width: 90%; padding-top: 8px;">
     Info to Send:<br>
@@ -33,7 +33,7 @@ module.exports = {
 
   async action (cache) {
     const data = cache.actions[cache.index]
-    const token = this.evalMessage(data.dblToken, cache)
+    const token = this.evalMessage(data.topggToken, cache)
     const info = parseInt(data.info)
     const Mods = this.getMods()
     const fetch = Mods.require('node-fetch')
