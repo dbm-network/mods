@@ -154,6 +154,11 @@
     "name": "Check if File Exists",
     "section": "File Stuff"
   },
+  "check_if_member_has_role_MOD.js": {
+    "description": "Check if a specified member has a certain role and can jump to anchor",
+    "name": "Check if Member Has Role MOD",
+    "section": "Conditions"
+  },
   "check_if_member_MOD.js": {
     "description": "Check if a specified member has a certain characteristic",
     "name": "Check If Member",
