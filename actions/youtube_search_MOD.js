@@ -289,7 +289,7 @@ module.exports = {
             result = video.author.bestAvatar.url
             break
           case 14: // Video Channel Verified
-            result - video.author.verified
+            result = video.author.verified
             break
           case 15: // Video Channel Owner Badges
             result = video.author.ownerBadges
