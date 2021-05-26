@@ -48,7 +48,7 @@ module.exports = {
     const play = await tts.getAudioUrl(text, {
       lang: 'en',
       slow: false,
-      host: 'https://translate.google.com',
+      host: 'https://translate.google.com'
     })
     this.storeValue(play, storage, varName, cache)
     this.callNextAction(cache)
