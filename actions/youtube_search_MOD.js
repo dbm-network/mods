@@ -1,4 +1,3 @@
-/* eslint-disable no-case-declarations */
 module.exports = {
   name: 'YouTube Search',
   section: 'Audio Control',
@@ -258,11 +257,12 @@ module.exports = {
 
     switch (type) {
       case 0: // Video
-      const search_results = await ytsr(input);
-      if (!search_results) return this.callNextAction(cache);
-      const video = search_results.items[results - 1];
-      if (!video) return this.callNextAction(cache);
+        const searchResults = await ytsr(input)
+        if (!searchResults) return this.callNextAction(cache)
+        const video = searchResults.items[results - 1]
+        if (!video) return this.callNextAction(cache)
         let result
+
         switch (info0) {
           case 0: // Video ID
             result = video.id
@@ -323,10 +323,10 @@ module.exports = {
         }
         break
       case 1: // Playlist
-      if (apikey === undefined || apikey === '') {
-        return console.log('Please provide a valid api key.');
-      }
-      const YouTube = new YTapi(`${apikey}`);
+        if (apikey === undefined || apikey === '') {
+          return console.log('Please provide a valid api key.')
+        }
+        const YouTube = new YTapi(`${apikey}`)
         YouTube.searchPlaylists(`${input}`, results).then((playlists) => {
           let result
           const playlist = playlists[results - 1]
