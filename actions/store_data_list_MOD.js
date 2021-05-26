@@ -200,7 +200,7 @@ module.exports = {
   async action (cache) {
     const Client = this.getDBM().Bot.bot
     const { Files } = this.getDBM()
-    const fastsort = require('fast-sort')
+    const { sort: fastsort } = require('fast-sort')
     const data = cache.actions[cache.index]
     const File = parseInt(data.File)
     let file
