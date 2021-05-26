@@ -12,7 +12,7 @@ module.exports = {
       if (!Bot.$evts['Member Leave Voice Channel']) return
       const oldChannel = oldVoiceState.channel
       const newChannel = newVoiceState.channel
-      const server = (oldChannel || newChannel).guild
+      const server = (oldVoiceState || newVoiceState).guild
       if (!(oldChannel && !newChannel)) return
       for (const event of Bot.$evts['Member Leave Voice Channel']) {
         const temp = {}
