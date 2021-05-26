@@ -264,63 +264,63 @@ module.exports = {
       if (!video) return this.callNextAction(cache);
         let result
         switch (info0) {
-            case 0: // Video ID
-              result = video.id
-              break
-            case 1: // Video URL
-              result = video.url
-              break
-            case 2: // Video Title
-              result = video.title.replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&#39;/g, "'")
-              break
-            case 3: // Video Description
-              result = video.description.replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&#39;/g, "'")
-              break
-            case 4: // Video Channel ID
-              result = video.author.channelID
-              break
-            case 5: // Video Channel URL
-              result = video.author.url
-              break
-            case 6: // Video Channel Name
-              result = video.author.name
-              break
-            case 7: // Video Channel Avatar
-              result = video.author.bestAvatar.url
-              break
-            case 14: // Video Channel Verified
-              result - video.author.verified
-              break
-            case 15: // Video Channel Owner Badges
-              result = video.author.ownerBadges
-              break
-            case 8: // Thumbnail URL
-              result = video.bestThumbnail.url
-              break
-            case 9: // Video Duration
-              result = TimeFormat.toS(video.duration)
-              break
-            case 10: // Video Publish Date
-              result = video.uploadedAt
-              break
-            case 11: // Video Views
-              result = video.views
-              break
-            case 12: // is live?
-              result = video.isLive
-              break
-            case 13: // is Upcoming?
-              result = video.isUpcoming
-              break
-            default:
-              return console.log('Please check your YouTube Search action... There is something wrong.')
-          }
-          if (result !== undefined) {
-            const storage = parseInt(data.storage)
-            const varName = this.evalMessage(data.varName, cache)
-            this.storeValue(result, storage, varName, cache)
-            this.callNextAction(cache)
-          }
+          case 0: // Video ID
+            result = video.id
+            break
+          case 1: // Video URL
+            result = video.url
+            break
+          case 2: // Video Title
+            result = video.title.replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&#39;/g, "'")
+            break
+          case 3: // Video Description
+            result = video.description.replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&#39;/g, "'")
+            break
+          case 4: // Video Channel ID
+            result = video.author.channelID
+            break
+          case 5: // Video Channel URL
+            result = video.author.url
+            break
+          case 6: // Video Channel Name
+            result = video.author.name
+            break
+          case 7: // Video Channel Avatar
+            result = video.author.bestAvatar.url
+            break
+          case 14: // Video Channel Verified
+            result - video.author.verified
+            break
+          case 15: // Video Channel Owner Badges
+            result = video.author.ownerBadges
+            break
+          case 8: // Thumbnail URL
+            result = video.bestThumbnail.url
+            break
+          case 9: // Video Duration
+            result = TimeFormat.toS(video.duration)
+            break
+          case 10: // Video Publish Date
+            result = video.uploadedAt
+            break
+          case 11: // Video Views
+            result = video.views
+            break
+          case 12: // is live?
+            result = video.isLive
+            break
+          case 13: // is Upcoming?
+            result = video.isUpcoming
+            break
+          default:
+            return console.log('Please check your YouTube Search action... There is something wrong.')
+        }
+        if (result !== undefined) {
+          const storage = parseInt(data.storage)
+          const varName = this.evalMessage(data.varName, cache)
+          this.storeValue(result, storage, varName, cache)
+          this.callNextAction(cache)
+        }
         break
       case 1: // Playlist
       if (apikey === undefined || apikey === '') {
