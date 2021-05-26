@@ -200,7 +200,7 @@ module.exports = {
   async action (cache) {
     const Client = this.getDBM().Bot.bot
     const { Files } = this.getDBM()
-    const { sort } = require('fast-sort')
+    const { sort: fastsort } = require('fast-sort')
     const data = cache.actions[cache.index]
     const File = parseInt(data.File)
     let file
@@ -257,10 +257,10 @@ module.exports = {
     }
     switch (sort) {
       case 0:
-        result = sort(array0).desc((u) => parseInt(u.data))
+        result = fastsort(array0).desc((u) => parseInt(u.data))
         break
       case 1:
-        result = sort(array0).asc((u) => parseInt(u.data))
+        result = fastsort(array0).asc((u) => parseInt(u.data))
         break
     }
     for (let i = 0; i < result.length; i++) {
