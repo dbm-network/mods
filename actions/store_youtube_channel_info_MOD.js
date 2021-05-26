@@ -2,7 +2,7 @@ module.exports = {
   name: 'Store YouTube Channel Info',
   section: 'YouTube Tools',
 
-  subtitle (data) {
+  subtitle () {
     return 'Store information about a YouTube channel.'
   },
 
@@ -30,6 +30,10 @@ module.exports = {
     <option value="3">Subscriber Count</option>
     <option value="4">Related Channels</option>
     <option value="5">Is Family Friendly?</option>
+    <option value="6">Channel Banners</option>
+    <option value="7">Author Thumbnails</option>
+    <option value="8">Channel is Verified?</option>
+    <option value="9">Channel Allowed Regions</option>
   </select>
 </div><br>
 <div style="padding-top: 8px;">
@@ -58,26 +62,38 @@ module.exports = {
     const ytch = Mods.require('yt-channel-info')
     let result
 
-    const maininfo = await ytch.getChannelInfo(channelId)
+    const channel = await ytch.getChannelInfo(channelId)
 
     switch (info) {
       case 0:
-        result = maininfo.authorUrl
+        result = channel.authorUrl
         break
       case 1:
-        result = maininfo.author
+        result = channel.author
         break
       case 2:
-        result = maininfo.description
+        result = channel.description
         break
       case 3:
-        result = maininfo.subscriberCount
+        result = channel.subscriberCount
         break
       case 4:
-        result = maininfo.relatedChannels
+        result = channel.relatedChannels
         break
       case 5:
-        result = maininfo.isFamilyFriendly
+        result = channel.isFamilyFriendly
+        break
+      case 6:
+        result = channel.authorBanners
+        break
+      case 7:
+        result = channel.authorThumbnails
+        break
+      case 8:
+        result = channel.isVerified
+        break
+      case 9:
+        result = channel.allowedRegions
         break
     }
 
