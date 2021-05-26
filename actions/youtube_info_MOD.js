@@ -201,6 +201,6 @@ module.exports = {
       this.storeValue(result, storage, varName2, cache)
     }
     this.callNextAction(cache)
-},
+  },
   mod () {}
 }
