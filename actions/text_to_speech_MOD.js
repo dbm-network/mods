@@ -13,7 +13,7 @@ module.exports = {
     return ([data.varName, dataType])
   },
 
-  fields: ['text', 'storage', 'varName'],
+  fields: ['text', 'lang', 'storage', 'varName'],
 
   html (isEvent, data) {
     return `
@@ -23,6 +23,10 @@ module.exports = {
 <div style="width: 90%;">
   Message (to be converted to speech):<br>
   <input id="text" class="round" type="text">
+</div><br>
+<div style="width: 90%;">
+  Language:<br>
+  <input id="lang" class="round" type="text">
 </div><br>
 <div style="float: left; width: 35%;">
   Store Audio URL In:<br>
@@ -43,10 +47,11 @@ module.exports = {
     const storage = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
     const text = this.evalMessage(data.text, cache)
+    const lang = this.evalMessage(data.lang, cache)
     const Mods = this.getMods()
     const tts = Mods.require('google-tts-api')
     const play = await tts.getAudioUrl(text, {
-      lang: 'en',
+      lang: lang,
       slow: false,
       host: 'https://translate.google.com'
     })
