@@ -103,7 +103,7 @@ module.exports = {
     const debug = parseInt(data.debu)
     const Mods = this.getMods()
 
-    const fastsort = Mods.require('fast-sort')
+    const { sort: fastsort } = Mods.require('fast-sort')
     const { JSONPath } = Mods.require('jsonpath-plus')
     const fs = require('fs')
     let file = fs.readFileSync('./data/players.json', 'utf8')
