@@ -326,8 +326,8 @@ module.exports = {
         if (apikey === undefined || apikey === '') {
           return console.log('Please provide a valid api key.')
         }
-        const YouTube = new YTapi(`${apikey}`)
-        YouTube.searchPlaylists(`${input}`, results).then((playlists) => {
+        const YouTube = new YTapi(apikey)
+        YouTube.searchPlaylists(input, results).then((playlists) => {
           let result
           const playlist = playlists[results - 1]
           if (!playlist) {
