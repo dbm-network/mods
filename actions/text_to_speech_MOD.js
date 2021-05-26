@@ -45,7 +45,11 @@ module.exports = {
     const text = this.evalMessage(data.text, cache)
     const Mods = this.getMods()
     const tts = Mods.require('google-tts-api')
-    const play = await tts(text, 'en', 1)
+    const play = await tts.getAudioUrl(text, {
+      lang: 'en',
+      slow: false,
+      host: 'https://translate.google.com',
+    })
     this.storeValue(play, storage, varName, cache)
     this.callNextAction(cache)
   },
