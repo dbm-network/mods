@@ -1,6 +1,6 @@
 module.exports = {
   name: 'Store YouTube Info',
-  section: 'Audio Control',
+  section: 'YouTube Tools',
 
   subtitle (data) {
     const info = ['Video ID', 'Video URL', 'Video Title', 'Video Description', 'Video Channel Name', 'Video Channel ID', 'Video Channel URL', 'Video Channel Avatar URL', 'Video Channel is Verified?', 'Video Channel Subscriber Count', 'Video is Unlisted?', 'Video is Family Friendly?', 'Video Duration', 'Available Countries', 'Video Like Count', 'Video Dislike Count', 'Video Thumbnail URL', 'Video Publish Date', 'Video Views', 'Video is Live?', 'Video Owner Viewing?', 'Video is Age Restricted?']
