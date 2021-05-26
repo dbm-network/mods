@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 module.exports = {
   name: 'YouTube Search',
   section: 'Audio Control',
@@ -114,11 +115,14 @@ module.exports = {
       <option value="4">Video Channel ID</option>
       <option value="5">Video Channel URL</option>
       <option value="6">Video Channel Name</option>
-      <option value="7">Video Thumbnail URL</option>
-      <option value="17">Video Duration</option>
-      <option value="18">Video Publish Date</option>
-      <option value="19">Video Views</option>
-      <option value="24">Video is Live?</option>
+      <option value="7">Video Channel Avatar URL</option>
+      <option value="8">Video Thumbnail URL</option>
+      <option value="9">Video Duration</option>
+      <option value="10">Video Publish Date</option>
+      <option value="11">Video Views</option>
+      <option value="12">Video is Live?</option>
+      <option value="13">Video is Upcoming?</option>
+      <option value="14">Video Badges</option>
     </select>
   </div>
   <div id="divinfo1"; style="float: left; width: 94%; padding-top: 8px;">
@@ -181,7 +185,7 @@ module.exports = {
   </div>
   <div id="divapikey" style="float: left; width: 104%; padding-top: 8px;">
     API Key:<br>
-    <input id="apikey" class="round" type="text" placeholder="Insert your YouTube Data V3 API Key...">
+    <input id="apikey" class="round" type="text" placeholder="Insert your YouTube Data V3 API Key... (Not needed for search)">
   </div>
   <div>
     <div style="float: left; width: 35%;  padding-top: 8px;">
@@ -234,7 +238,7 @@ module.exports = {
     glob.onChange1(document.getElementById('type'))
   },
 
-  action (cache) {
+  async action (cache) {
     const data = cache.actions[cache.index]
     const _this = this // This is needed sometimes.
     const Mods = this.getMods() // As always.
@@ -251,27 +255,20 @@ module.exports = {
     if (input === undefined || input === '') {
       return console.log('Please provide a url or some keywords to search for.')
     }
-    if (apikey === undefined || apikey === '') {
-      return console.log('Please provide a valid api key.')
-    }
-
-    const YouTube = new YTapi(`${apikey}`)
 
     switch (type) {
-      case 0: // Video\
-        ytsr(input, function (err, searchResults) {
-          if (err) console.error(err)
-          const video = searchResults.items[results - 1]
-          if (!video) {
-            return _this.callNextAction(cache)
-          }
-          let result
-          switch (info0) {
+      case 0: // Video
+      const search_results = await ytsr(input);
+      if (!search_results) return this.callNextAction(cache);
+      const video = search_results.items[results - 1];
+      if (!video) return this.callNextAction(cache);
+        let result
+        switch (info0) {
             case 0: // Video ID
-              result = video.link.replace('https://www.youtube.com/watch?v=', '')
+              result = video.id
               break
             case 1: // Video URL
-              result = video.link
+              result = video.url
               break
             case 2: // Video Title
               result = video.title.replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&#39;/g, "'")
@@ -280,41 +277,56 @@ module.exports = {
               result = video.description.replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&#39;/g, "'")
               break
             case 4: // Video Channel ID
-              result = video.author.ref.replace('https://www.youtube.com/channel/', '')
+              result = video.author.channelID
               break
             case 5: // Video Channel URL
-              result = video.author.ref
+              result = video.author.url
               break
             case 6: // Video Channel Name
               result = video.author.name
               break
-            case 7: // Thumbnail URL (Default)
-              result = video.thumbnail
+            case 7: // Video Channel Avatar
+              result = video.author.bestAvatar.url
               break
-            case 17: // Video Duration
+            case 14: // Video Channel Verified
+              result - video.author.verified
+              break
+            case 15: // Video Channel Owner Badges
+              result = video.author.ownerBadges
+              break
+            case 8: // Thumbnail URL
+              result = video.bestThumbnail.url
+              break
+            case 9: // Video Duration
               result = TimeFormat.toS(video.duration)
               break
-            case 18: // Video Publish Date
-              result = video.uploaded_at
+            case 10: // Video Publish Date
+              result = video.uploadedAt
               break
-            case 19: // Video Views
+            case 11: // Video Views
               result = video.views
               break
-            case 24: // is live?
-              result = video.live
+            case 12: // is live?
+              result = video.isLive
+              break
+            case 13: // is Upcoming?
+              result = video.isUpcoming
               break
             default:
               return console.log('Please check your YouTube Search action... There is something wrong.')
           }
           if (result !== undefined) {
             const storage = parseInt(data.storage)
-            const varName = _this.evalMessage(data.varName, cache)
-            _this.storeValue(result, storage, varName, cache)
-            _this.callNextAction(cache)
+            const varName = this.evalMessage(data.varName, cache)
+            this.storeValue(result, storage, varName, cache)
+            this.callNextAction(cache)
           }
-        })
         break
       case 1: // Playlist
+      if (apikey === undefined || apikey === '') {
+        return console.log('Please provide a valid api key.');
+      }
+      const YouTube = new YTapi(`${apikey}`);
         YouTube.searchPlaylists(`${input}`, results).then((playlists) => {
           let result
           const playlist = playlists[results - 1]
