@@ -53,6 +53,8 @@ module.exports = {
       case 12:
         dataType = 'Boolean'
         break
+      default:
+        break
     }
     return ([data.varName2, dataType])
   },
@@ -114,7 +116,6 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.emojiChange(document.getElementById('emoji'))
   },
 
@@ -125,11 +126,12 @@ module.exports = {
     const info = parseInt(data.info)
     const Mods = this.getMods()
     const emo = Mods.getEmoji(emoji, varName, cache)
-    if (!Mods) return
+
     if (!emo) {
       console.log('This is not a emoji')
       this.callNextAction(cache)
     }
+
     let result
     switch (info) {
       case 0:
