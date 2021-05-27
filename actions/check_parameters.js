@@ -10,7 +10,6 @@ module.exports = {
   fields: ['condition', 'comparison', 'value', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal'],
 
   html (isEvent, data) {
-    /* eslint-disable no-useless-escape */
     return `
 <div>
   <p>This action has been modified by DBM Mods.</p>
@@ -27,10 +26,10 @@ module.exports = {
     Comparison:<br>
     <select id="comparison" class="round">
       <option value="0" selected>=</option>
-      <option value="1">\<</option>
-      <option value="2">\></option>
-      <option value="3">\>=</option>
-      <option value="4">\<=</option>
+      <option value="1"><</option>
+      <option value="2">></option>
+      <option value="3">>=</option>
+      <option value="4"><=</option>
     </select>
   </div>
   <div style="padding-left: 5%; float: left; width: 25%;">
@@ -41,7 +40,6 @@ module.exports = {
 <div style="padding-top: 8px;">
   ${data.conditions[0]}
 </div>`
-    /* eslint-enable no-useless-escape */
   },
 
   init () {
@@ -124,6 +122,8 @@ module.exports = {
         case 3:
           value = msg.mentions.roles.array().length
           break
+        default:
+          break
       }
       const comparison = parseInt(data.comparison)
       const value2 = parseInt(data.value)
@@ -143,6 +143,8 @@ module.exports = {
           break
         case 4:
           result = value <= value2
+          break
+        default:
           break
       }
     }
