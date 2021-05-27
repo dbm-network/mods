@@ -83,7 +83,6 @@ module.exports = {
 
   action (cache) {
     const data = cache.actions[cache.index]
-
     const fs = require('fs')
     const jp = this.getMods().require('jsonpath')
 
@@ -101,10 +100,7 @@ module.exports = {
 
     let result
 
-    if (commandName === '') {
-      console.log("Please put something in 'Command Name' in the 'Check If Command Exists' action...")
-      return
-    }
+    if (commandName === '') return console.log("Please put something in 'Command Name' in the 'Check If Command Exists' action...")
 
     const check = commands.indexOf(commandName)
     const check2 = commandsAliases.indexOf(commandName)
