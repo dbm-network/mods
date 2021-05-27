@@ -18,6 +18,9 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div>
+  <div>
+  This action has been modified by DBM Mods.
+  </div><br>
   <div style="float: left; width: 35%;">
     Source Image:<br>
     <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
