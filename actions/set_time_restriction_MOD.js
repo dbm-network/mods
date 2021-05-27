@@ -85,22 +85,23 @@ module.exports = {
         case 3:
           value.placeholder = '1 = 3600 seconds'
           break
+        default:
+          break
       }
     }
+
     const option = document.createElement('OPTION')
     option.value = '4'
     option.text = 'Jump to Anchor'
     const iffalse = document.getElementById('iffalse')
-    if (iffalse.length === 4) {
-      iffalse.add(option)
-    }
+    if (iffalse.length === 4) iffalse.add(option)
+
     const option2 = document.createElement('OPTION')
     option2.value = '4'
     option2.text = 'Jump to Anchor'
     const iftrue = document.getElementById('iftrue')
-    if (iftrue.length === 4) {
-      iftrue.add(option2)
-    }
+    if (iftrue.length === 4) iftrue.add(option2)
+
     glob.onChangeTrue = function (event) {
       switch (parseInt(event.value)) {
         case 0:
@@ -118,6 +119,8 @@ module.exports = {
         case 4:
           document.getElementById('iftrueName').innerHTML = 'Anchor ID'
           document.getElementById('iftrueContainer').style.display = null
+          break
+        default:
           break
       }
     }
@@ -150,10 +153,9 @@ module.exports = {
   action (cache) {
     const data = cache.actions[cache.index]
     const value = parseInt(this.evalMessage(data.value, cache))
-    if (isNaN(value)) {
-      console.error(`${value} is not a valid number.`)
-      return
-    }
+  
+    if (isNaN(value)) return console.error(`${value} is not a valid number.`)
+    
     let cmd
     for (const command of this.getDBM().Files.data.commands) {
       if (command && JSON.stringify(command.actions) === JSON.stringify(cache.actions)) {
@@ -161,6 +163,7 @@ module.exports = {
         break
       }
     }
+
     const timeLeft = this.TimeRestriction(cache.msg, cmd, cache)
     if (!timeLeft) {
       this.executeResults(false, data, cache)
@@ -203,9 +206,7 @@ module.exports = {
     }
 
     DBM.Actions.TimeRestriction = function (msg, cmd, cache) {
-      if (typeof Cooldown === 'undefined') {
-        this.LoadTimeRestriction(cache)
-      }
+      if (typeof Cooldown === 'undefined') this.LoadTimeRestriction(cache)
       const { Files } = DBM
       let value = parseInt(this.evalMessage(cache.actions[cache.index].value, cache))
       const measurement = parseInt(cache.actions[cache.index].measurement)
@@ -219,10 +220,12 @@ module.exports = {
           break
         case 3:
           value *= 3600000
+          break
+        default:
+          break
       }
-      if (!Cooldown[cmd.name]) {
-        Cooldown[cmd.name] = {}
-      }
+
+      if (!Cooldown[cmd.name]) Cooldown[cmd.name] = {}
       Cooldown[cmd.name].save = parseInt(cache.actions[cache.index].save)
       Cooldown[cmd.name].cooldown = value
       const now = Date.now()
@@ -266,6 +269,8 @@ module.exports = {
           if (Cooldown[cmd.name].save === 0) Files.saveGlobalVariable('DBMCooldown', JSON.stringify(Cooldown))
           return false
         }
+        default:
+          break
       }
     }
   }
