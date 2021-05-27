@@ -64,14 +64,16 @@ module.exports = {
 
     let result
     switch (info) {
-      case 0:
+      case 0: {
         result = text.replace(text2, text3)
         break
-      case 1:
+      }
+      case 1: {
         const Mods = this.getMods()
         const replacestr = Mods.require('replace-string')
         result = replacestr(text, text2, text3)
         break
+      }
       default:
         break
     }
