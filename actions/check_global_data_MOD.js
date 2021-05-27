@@ -136,6 +136,8 @@ module.exports = {
       case 6:
         result = Boolean(val1.match(new RegExp(`^${val2}$`, 'i')))
         break
+      default:
+        break
     }
     this.executeResults(result, data, cache)
   },
