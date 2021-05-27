@@ -16,7 +16,7 @@ module.exports = {
     }
     return `${data.serverAfkTime} Seconds`
   },
-  
+
   fields: ['server', 'varName', 'serverAfkTime'],
 
   html (isEvent, data) {
