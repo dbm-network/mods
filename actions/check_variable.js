@@ -143,62 +143,61 @@ module.exports = {
     const varName = this.evalMessage(data.varName, cache)
     const variable = this.getVariable(type, varName, cache)
     let result = false
-    if (variable) {
-      const val1 = variable
-      const compare = parseInt(data.comparison)
-      let val2 = this.evalMessage(data.value, cache)
-      if (compare !== 6) val2 = this.eval(val2, cache)
-      if (val2 === false) val2 = this.evalMessage(data.value, cache)
-      switch (compare) {
-        case 0:
-          result = val1 !== undefined
-          break
-        case 1:
-          // eslint-disable-next-line eqeqeq
-          result = val1 == val2
-          break
-        case 2:
-          result = val1 === val2
-          break
-        case 3:
-          result = val1 < val2
-          break
-        case 4:
-          result = val1 > val2
-          break
-        case 5:
-          if (typeof (val1.includes) === 'function') {
-            result = val1.includes(val2)
-          }
-          break
-        case 6:
-          result = Boolean(val1.match(new RegExp(`^${val2}$`, 'i')))
-          break
-        case 7:
-          result = val1.length > val2
-          break
-        case 8:
-          result = val1.length < val2
-          break
-        case 9:
-          result = val1.length === val2
-          break
-        case 10:
-          result = val1.startsWith(val2)
-          break
-        case 11:
-          result = val1.endsWith(val2)
-          break
-        case 12:
-          result = Boolean(val1.match(new RegExp(val2)))
-          break
-        case 13:
-          result = val1 <= val2
-          break
-        case 14:
-          result = val1 >= val2
-          break
-      }
+    const val1 = variable
+    const compare = parseInt(data.comparison)
+    let val2 = this.evalMessage(data.value, cache)
+    if (compare !== 6) val2 = this.eval(val2, cache)
+    switch (compare) {
+    case 0:
+        result = val1 !== undefined
+        break
+      case 1:
+        // eslint-disable-next-line eqeqeq
+        result = val1 == val2
+        break
+      case 2:
+        result = val1 === val2
+        break
+      case 3:
+        result = val1 < val2
+        break
+      case 4:
+        result = val1 > val2
+        break
+      case 5:
+        if (typeof (val1.includes) === 'function') {
+          result = val1.includes(val2)
+        }
+        break
+      case 6:
+        result = Boolean(val1.match(new RegExp(`^${val2}$`, 'i')))
+        break
+      case 7:
+        result = val1.length > val2
+        break
+      case 8:
+        result = val1.length < val2
+        break
+      case 9:
+        result = val1.length === val2
+        break
+      case 10:
+        result = val1.startsWith(val2)
+        break
+      case 11:
+        result = val1.endsWith(val2)
+        break
+      case 12:
+        result = Boolean(val1.match(new RegExp(val2)))
+        break
+      case 13:
+        result = val1 <= val2
+        break
+      case 14:
+        result = val1 >= val2
+        break
+      default:
+        break
     }
     this.executeResults(result, data, cache)
   },
@@ -209,10 +208,11 @@ module.exports = {
       if (result) {
         const type = parseInt(data.iftrue)
         switch (type) {
-          case 0:
+          case 0: {
             this.callNextAction(cache)
             break
-          case 2:
+          }
+          case 2: {
             const val = parseInt(this.evalMessage(data.iftrueVal, cache))
             const index = Math.max(val - 1, 0)
             if (cache.actions[index]) {
@@ -220,7 +220,8 @@ module.exports = {
               this.callNextAction(cache)
             }
             break
-          case 3:
+          }
+          case 3: {
             const amnt = parseInt(this.evalMessage(data.iftrueVal, cache))
             const index2 = cache.index + amnt + 1
             if (cache.actions[index2]) {
@@ -228,13 +229,15 @@ module.exports = {
               this.callNextAction(cache)
             }
             break
-          case 4:
+          }
+          case 4: {
             const id = this.evalMessage(data.iftrueVal, cache)
             const anchorIndex = cache.actions.findIndex((a) => a.name === 'Create Anchor' && a.anchor_id === id)
             if (anchorIndex === -1) throw new Error(errors['404'])
             cache.index = anchorIndex - 1
             this.callNextAction(cache)
             break
+          }
           default:
             break
         }
@@ -244,7 +247,7 @@ module.exports = {
           case 0:
             this.callNextAction(cache)
             break
-          case 2:
+          case 2: {
             const val = parseInt(this.evalMessage(data.iffalseVal, cache))
             const index = Math.max(val - 1, 0)
             if (cache.actions[index]) {
@@ -252,7 +255,8 @@ module.exports = {
               this.callNextAction(cache)
             }
             break
-          case 3:
+          }
+          case 3: {
             const amnt = parseInt(this.evalMessage(data.iffalseVal, cache))
             const index2 = cache.index + amnt + 1
             if (cache.actions[index2]) {
@@ -260,13 +264,15 @@ module.exports = {
               this.callNextAction(cache)
             }
             break
-          case 4:
+          }
+          case 4: {
             const id = this.evalMessage(data.iffalseVal, cache)
             const anchorIndex = cache.actions.findIndex((a) => a.name === 'Create Anchor' && a.anchor_id === id)
             if (anchorIndex === -1) throw new Error(errors['404'])
             cache.index = anchorIndex - 1
             this.callNextAction(cache)
             break
+          }
           default:
             break
         }
