@@ -86,10 +86,9 @@ module.exports = {
     const varName = this.evalMessage(data.varName, cache)
     const server = this.getServer(type, varName, cache)
     const channel = this.getVoiceChannel(afkchannel, varName2, cache)
-    if (!channel) {
-      this.callNextAction(cache)
-      return
-    }
+
+    if (!channel) return this.callNextAction(cache)
+
     if (Array.isArray(server)) {
       this.callListFunc(server, 'setAFKChannel', channel).then(() => {
         this.callNextAction(cache)
@@ -98,9 +97,8 @@ module.exports = {
       server.setAFKChannel(channel).then(() => {
         this.callNextAction(cache)
       }).catch(this.displayError.bind(this, data, cache))
-    } else {
-      this.callNextAction(cache)
     }
+    this.callNextAction(cache)
   },
 
   mod () {}
