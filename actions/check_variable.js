@@ -141,14 +141,13 @@ module.exports = {
     const data = cache.actions[cache.index]
     const type = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
-    const variable = this.getVariable(type, varName, cache)
+    const val1 = this.getVariable(type, varName, cache)
     let result = false
-    const val1 = variable
     const compare = parseInt(data.comparison)
     let val2 = this.evalMessage(data.value, cache)
     if (compare !== 6) val2 = this.eval(val2, cache)
     switch (compare) {
-    case 0:
+      case 0:
         result = val1 !== undefined
         break
       case 1:
