@@ -1,14 +1,12 @@
-class FileControl {
-  constructor (params) {
-    this.name = 'File Control'
-    this.section = 'File Stuff'
-    this.fields = ['input', 'format', 'filename', 'filepath', 'filetask', 'input2', 'togglestatus']
-  }
+module.exports = {
+  name: 'File Control',
+  section: 'File Stuff',
+  fields: ['input', 'format', 'filename', 'filepath', 'filetask', 'input2', 'togglestatus'],
 
   subtitle (data) {
     const filetasks = ['Create', 'Write', 'Append into', 'Delete', 'Insert into']
     return `${filetasks[parseInt(data.filetask)]} ${data.filename}${data.format}`
-  }
+  },
 
   html () {
     return `
@@ -162,7 +160,7 @@ class FileControl {
     </div>
   </div>
 </div>`
-  }
+  },
 
   init () {
     const { document } = this
@@ -171,9 +169,7 @@ class FileControl {
     const targetfield = document.getElementById('inputArea')
     const targetfield2 = document.getElementById('lineInsert')
     var vall = document.getElementById('togglestatus').value
-    if (vall === 'yes') {
-      document.getElementById('togglestatus').checked = true
-    };
+    if (vall === 'yes') document.getElementById('togglestatus').checked = true
 
     selector.onclick = () => showInput()
 
@@ -196,7 +192,7 @@ class FileControl {
         targetfield2.classList.remove('hidden')
       }
     }
-  }
+  },
 
   action (cache) {
     const fs = require('fs')
@@ -288,9 +284,6 @@ class FileControl {
       return console.error(`ERROR ${err.stack || err}`)
     }
     this.callNextAction(cache)
-  }
-
+  },
   mod () {}
 }
-
-module.exports = new FileControl()
