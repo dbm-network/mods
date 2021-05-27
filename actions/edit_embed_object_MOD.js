@@ -458,7 +458,7 @@ module.exports = {
     }
 
     const varName = document.getElementById('varName')
-    glob.onChange13 = function (Edit13) {
+    glob.onChange13 = function () {
       const list = document.getElementById('variableList')
       if (list.children.length === 0) return
       const dataType = list.options
@@ -601,7 +601,7 @@ module.exports = {
           embed.author.url = authorUrl
         }
         if (Edit8 === 1 && authorIcon !== undefined) {
-          embed.author.icon_url = authorIcon
+          embed.author.iconURL = authorIcon
         }
       }
     } else {
@@ -616,16 +616,16 @@ module.exports = {
         embed.author.url = undefined
       }
       if (authorIcon !== undefined && Edit8 === 1 && embed.author !== undefined) {
-        embed.author.icon_url = authorIcon
+        embed.author.iconURL = authorIcon
       } else if (Edit8 === 2) {
-        embed.author.icon_url = undefined
+        embed.author.iconURL = undefined
       }
     }
     if (embed.footer === undefined) {
       if (Edit9 === 1 && footer !== undefined) {
         embed.setFooter(footer)
         if (Edit10 === 1 && footerIcon !== undefined) {
-          embed.footer.icon_url = footerIcon
+          embed.footer.iconURL = footerIcon
         }
       }
     } else {
@@ -635,17 +635,17 @@ module.exports = {
         embed.footer.text = undefined
       }
       if (footerIcon !== undefined && Edit10 === 1) {
-        embed.footer.icon_url = footerIcon
+        embed.footer.iconURL = footerIcon
       } else if (Edit10 !== 0) {
-        embed.footer.icon_url = undefined
+        embed.footer.iconURL = undefined
       }
     }
     switch (Edit10) {
       case 1:
-        embed.footer.icon_url = footerIcon
+        embed.footer.iconURL = footerIcon
         break
       case 2:
-        embed.footer.icon_url = undefined
+        embed.footer.iconURL = undefined
         break
     }
     switch (Edit11) {
@@ -684,7 +684,7 @@ module.exports = {
       case 3:
         embed.fields = []
         break
-      case 4:
+      case 4: {
         const field = {}
         field.name = fieldName
         field.value = fieldDescription
@@ -699,6 +699,7 @@ module.exports = {
         }
         embed.fields.splice(fieldNum, 0, field)
         break
+      }
     }
     this.storeValue(embed, storage, varName, cache)
     this.callNextAction(cache)
