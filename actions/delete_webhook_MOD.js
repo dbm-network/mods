@@ -41,10 +41,11 @@ module.exports = {
         this.callNextAction(cache)
       })
     } else if (webhook && webhook.delete) {
-      webhook.delete().then((webhook) => {
-        this.callNextAction(cache)
-      })
-      .catch(this.displayError.bind(this, data, cache))
+      webhook.delete()
+        .then((webhook) => {
+          this.callNextAction(cache)
+        })
+        .catch(this.displayError.bind(this, data, cache))
     }
     this.callNextAction(cache)
   },
