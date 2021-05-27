@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 module.exports = {
   name: 'Store Data List MOD',
   section: 'Other Stuff',
@@ -203,14 +204,14 @@ module.exports = {
     const { sort: fastsort } = require('fast-sort')
     const data = cache.actions[cache.index]
     const File = parseInt(data.File)
-    let file
+    let file = Files.data.servers
     let serverType
+
     if (File === 0) {
       serverType = parseInt(data.serverType)
       file = Files.data.players
-    } else {
-      file = Files.data.servers
     }
+
     const array0 = []
     let result = []
     const dataName = this.evalMessage(data.dataName, cache)
@@ -218,40 +219,43 @@ module.exports = {
     const numberBoolean = parseInt(data.numberBoolean)
     const resultInfo = parseInt(data.resultInfo)
     let resultFormat = String(this.evalMessage(data.resultFormat, cache))
-    if (resultInfo === 0) {
-      if (!resultFormat) {
-        resultFormat = String('Name + " " + DataValue')
-      }
-    }
+    if (resultInfo === 0 && !resultFormat) resultFormat = String('Name + " " + DataValue')
+
     const resultType = parseInt(data.resultType)
     const rank = this.evalMessage(data.rank, cache)
     const storage = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
     let name
+    let object
+  
     for (const id in file) {
       if (file[id][dataName] || !isNaN(file[id][dataName])) {
         switch (File) {
-          case 0:
+          case 0: {
             let object
             switch (serverType) {
-              case 0:
+              case 0: {
                 const { server } = cache
                 if (server.memberCount !== server.members.cache.size) await server.members.fetch()
                 object = server.members.cache.get(id)
                 break
-              case 1:
+              }
+              case 1: {
                 object = Client.users.cache.get(id)
                 break
+              }
             }
             if (object) {
               name = (object.tag || object.user.tag)
               array0.push({ id: object.id, data: file[id][dataName], name })
             }
             break
-          case 1:
+          }
+          case 1: {
             object = Client.guilds.cache.get(id)
             if (object) array0.push({ id: object.id, data: file[id][dataName], name: object.name })
             break
+          }
         }
       }
     }
@@ -267,7 +271,7 @@ module.exports = {
       result[i].rank = i + 1
     }
     switch (resultInfo) {
-      case 0:
+      case 0: {
         let array1 = []
         let resultFrom; let
           resultTo
@@ -293,12 +297,10 @@ module.exports = {
           resultTo = result.length
         }
         for (; resultFrom < resultTo; resultFrom++) {
-          /* eslint-disable */
           const Name = result[resultFrom].name
           const DataValue = result[resultFrom].data
           let Member
           let User
-          /* eslint-enable */
           if (serverType === 0) {
             Member = cache.server.members.cache.get(result[resultFrom].id)
           } else {
@@ -315,12 +317,14 @@ module.exports = {
         array1 = array1.join('')
         this.storeValue(array1, storage, varName, cache)
         break
-      case 1:
+      }
+      case 1: {
         if (rank) {
           const found = result.find((res) => res.id === rank)
           if (found) this.storeValue(found.rank, storage, varName, cache)
         }
         break
+      }
     }
     this.callNextAction(cache)
   },
