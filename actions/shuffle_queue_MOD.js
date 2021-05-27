@@ -27,7 +27,6 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.serverChange(document.getElementById('server'), 'varNameContainer')
   },
 
@@ -39,9 +38,8 @@ module.exports = {
     const targetServer = this.getServer(server, varName, cache)
 
     let queue
-    if (targetServer) {
-      queue = Audio.queue[targetServer.id]
-    }
+    if (targetServer) queue = Audio.queue[targetServer.id]
+
     if (queue && queue.length > 1) {
       const temp = JSON.stringify(queue)
       while (JSON.stringify(queue) === temp) {
