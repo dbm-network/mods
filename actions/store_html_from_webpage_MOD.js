@@ -1,3 +1,6 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-constant-condition */
+/* eslint-disable no-unused-vars */
 module.exports = {
   name: 'Store HTML From Webpage',
   section: 'HTML/XML Things',
