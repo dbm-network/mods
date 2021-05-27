@@ -101,9 +101,7 @@ module.exports = {
     const varName = this.evalMessage(data.varName, cache)
     const role = this.getRole(storage, varName, cache)
     let result
-    if (role) {
-      result = role.permissions.has(data.permission)
-    }
+    if (role) result = role.permissions.has(data.permission)
     this.executeResults(result, data, cache)
   },
 
