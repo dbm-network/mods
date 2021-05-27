@@ -46,6 +46,8 @@ module.exports = {
       case 11:
         dataType = 'String'
         break
+      default:
+        break
     }
     return ([data.varName, dataType])
   },
@@ -89,7 +91,6 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.variableChange(document.getElementById('storage'), 'varNameContainer')
   },
 
