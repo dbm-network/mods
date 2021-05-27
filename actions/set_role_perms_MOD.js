@@ -98,7 +98,7 @@ module.exports = {
           this.callListFunc(role, 'setPermissions', [role.id, options]).then(() => {
             this.callNextAction(cache)
           })
-        } 
+        }
         if (data.state === '0') {
           role.setPermissions(2146958847, reason).then(() => {
             this.callNextAction(cache)
