@@ -256,7 +256,7 @@ module.exports = {
     }
 
     switch (type) {
-      case 0: // Video
+      case 0: { // Video
         const searchResults = await ytsr(input)
         if (!searchResults) return this.callNextAction(cache)
         const video = searchResults.items[results - 1]
@@ -322,7 +322,8 @@ module.exports = {
           this.callNextAction(cache)
         }
         break
-      case 1: // Playlist
+      }
+      case 1: { // Playlist
         if (apikey === undefined || apikey === '') {
           return console.log('Please provide a valid api key.')
         }
@@ -444,6 +445,7 @@ module.exports = {
           }
         }).catch(console.error)
         break
+      }
       default:
         return console.log('Please check your YouTube Search action... There is something wrong.')
     }
