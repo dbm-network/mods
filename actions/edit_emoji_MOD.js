@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 module.exports = {
   name: 'Edit Emoji',
   section: 'Emoji Control',
@@ -38,13 +39,12 @@ module.exports = {
   action (cache) {
     const data = cache.actions[cache.index]
     const emojiData = {}
-    if (data.emojiName) {
-      emojiData.name = this.evalMessage(data.emojiName, cache)
-    }
+    if (data.emojiName) emojiData.name = this.evalMessage(data.emojiName, cache)
     const storage = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
     const Mods = this.getMods()
     const emoji = Mods.getEmoji(storage, varName, cache)
+
     if (Array.isArray(emoji)) {
       this.callListFunc(emoji, 'edit', [emojiData]).then(() => {
         this.callNextAction(cache)
@@ -53,9 +53,8 @@ module.exports = {
       emoji.edit(emojiData).then((emoji) => {
         this.callNextAction(cache)
       }).catch(this.displayError.bind(this, data, cache))
-    } else {
-      this.callNextAction(cache)
     }
+    this.callNextAction(cache)
   },
 
   mod () {}
