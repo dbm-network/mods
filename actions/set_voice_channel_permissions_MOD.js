@@ -67,8 +67,6 @@ module.exports = {
       }).catch(this.displayError.bind(this, data, cache))
     }
     this.callNextAction(cache)
-    
   },
-
   mod () {}
 }
