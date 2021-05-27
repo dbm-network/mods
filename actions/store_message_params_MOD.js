@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 module.exports = {
   name: 'Store Message Params',
   section: 'Messaging',
