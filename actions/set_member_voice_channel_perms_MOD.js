@@ -56,7 +56,6 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.voiceChannelChange(document.getElementById('vchannel'), 'varNameContainer')
     glob.memberChange(document.getElementById('member'), 'varNameContainer2')
   },
@@ -81,9 +80,8 @@ module.exports = {
       } else {
         this.callNextAction(cache)
       }
-    } else {
-      this.callNextAction(cache)
     }
+    this.callNextAction(cache)
   },
 
   mod () {}
