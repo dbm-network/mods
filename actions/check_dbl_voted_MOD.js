@@ -106,9 +106,7 @@ module.exports = {
     const DBL = Mods.require('dblapi.js')
     const dbl = new DBL(apitoken)
 
-    if (!apitoken) {
-      console.log('ERROR! Please provide an API token for DBL!')
-    }
+    if (!apitoken) return console.log('ERROR! Please provide an API token for DBL!')
 
     dbl.hasVoted(member.user.id).then((voted) => this.executeResults(voted, data, cache))
   },
