@@ -24,6 +24,8 @@ module.exports = {
       case 2:
         dataType = 'Authentication Object'
         break
+      default:
+        break
     }
     return ([data.varName, dataType])
   },
@@ -80,6 +82,7 @@ module.exports = {
     const info = parseInt(data.info)
     const url = `https://id.twitch.tv/oauth2/token?client_id=${clientID}&client_secret=${clientSecret}&grant_type=client_credentials&scope=user:edit+user:read:email`
     const oldUrl = this.getVariable(1, `${url}_URL`, cache)
+
     if (oldUrl && oldUrl === url) {
       const json = this.getVariable(1, url, cache)
       getInfo.call(this, json)
@@ -110,6 +113,8 @@ module.exports = {
           break
         case 2:
           result = json
+          break
+        default:
           break
       }
       if (result) {
