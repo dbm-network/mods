@@ -254,7 +254,7 @@ module.exports = {
             break
         }
         break
-      case 'enmap': // enmap
+      case 'enmap': { // enmap
         const value = splitpath.slice(2, splitpath.length)
         const enmap = new db({
           name: splitpath[0]
@@ -313,6 +313,7 @@ module.exports = {
             break
         }
         break
+      }
     }
 
     const varName = this.evalMessage(data.varName, cache)
