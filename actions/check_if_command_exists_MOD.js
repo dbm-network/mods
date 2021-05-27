@@ -109,11 +109,7 @@ module.exports = {
     const check = commands.indexOf(commandName)
     const check2 = commandsAliases.indexOf(commandName)
 
-    if (check !== -1 || check2 !== -1) {
-      result = true
-    } else {
-      result = false
-    }
+    check !== -1 || check2 !== -1 ? result = true : result = false;
 
     this.executeResults(result, data, cache)
   },
