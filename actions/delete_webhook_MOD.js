@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 module.exports = {
   name: 'Delete Webhook',
   section: 'Webhook Control',
@@ -25,7 +26,6 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.refreshVariableList(document.getElementById('webhook'))
   },
 
@@ -35,6 +35,7 @@ module.exports = {
     const varName = this.evalMessage(data.varName, cache)
     const Mods = this.getMods()
     const webhook = Mods.getWebhook(storage, varName, cache)
+
     if (Array.isArray(webhook)) {
       this.callListFunc(webhook, 'delete', []).then(() => {
         this.callNextAction(cache)
@@ -42,10 +43,10 @@ module.exports = {
     } else if (webhook && webhook.delete) {
       webhook.delete().then((webhook) => {
         this.callNextAction(cache)
-      }).catch(this.displayError.bind(this, data, cache))
-    } else {
-      this.callNextAction(cache)
+      })
+      .catch(this.displayError.bind(this, data, cache))
     }
+    this.callNextAction(cache)
   },
 
   mod () {}
