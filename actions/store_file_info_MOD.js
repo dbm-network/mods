@@ -68,35 +68,34 @@ Variable name:<br>
     const fs = require('fs')
     const varName = this.evalMessage(data.varName, cache)
     const filePath = this.evalMessage(data.filePath, cache)
-    if (!filePath) {
-      this.displayError('Insert a file path!')
-    } else {
-      let result
-      switch (info) {
-        case 'File Size':
-          result = fs.statSync(filePath).size
-          break
-        case 'File Extension':
-          result = path.extname(/[^/]*$/.exec(filePath)[0])
-          break
-        case 'File Character Count':
-          result = fs.readFileSync(filePath).toString().length
-          break
-        case 'File Creation Date Timestamp':
-          result = fs.statSync(filePath).mtimeMs
-          break
-        case 'File Exists':
-          result = fs.existsSync(filePath)
-          break
-        case 'File Content':
-          result = fs.readFileSync(filePath).toString()
-          break
-        case 'File Name':
-          result = path.basename(filePath)
-          break
-      }
-      this.storeValue(result, storage, varName, cache)
+
+    if (!filePath) return this.displayError('Insert a file path!')
+
+    let result
+    switch (info) {
+      case 'File Size':
+        result = fs.statSync(filePath).size
+        break
+      case 'File Extension':
+        result = path.extname(/[^/]*$/.exec(filePath)[0])
+        break
+      case 'File Character Count':
+        result = fs.readFileSync(filePath).toString().length
+        break
+      case 'File Creation Date Timestamp':
+        result = fs.statSync(filePath).mtimeMs
+        break
+      case 'File Exists':
+        result = fs.existsSync(filePath)
+        break
+      case 'File Content':
+        result = fs.readFileSync(filePath).toString()
+        break
+      case 'File Name':
+        result = path.basename(filePath)
+        break
     }
+    this.storeValue(result, storage, varName, cache)
     this.callNextAction(cache)
   },
 
