@@ -153,9 +153,9 @@ module.exports = {
   action (cache) {
     const data = cache.actions[cache.index]
     const value = parseInt(this.evalMessage(data.value, cache))
-  
+
     if (isNaN(value)) return console.error(`${value} is not a valid number.`)
-    
+
     let cmd
     for (const command of this.getDBM().Files.data.commands) {
       if (command && JSON.stringify(command.actions) === JSON.stringify(cache.actions)) {
