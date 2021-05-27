@@ -210,18 +210,16 @@ module.exports = {
         const { author, content } = msg
         let user
         let member
-        const tempVars = Actions.getActionVariable.bind(cache.temp);
-        const globalVars = Actions.getActionVariable.bind(Actions.global);
-        let serverVars = null;
+        const tempVars = Actions.getActionVariable.bind(cache.temp)
+        const globalVars = Actions.getActionVariable.bind(Actions.global)
+        let serverVars = null
 
         if (message) {
           user = message.author
           member = message.member
         }
 
-        if (cache.server) {
-          serverVars = Actions.getActionVariable.bind(Actions.server[server.id])
-        }
+        if (cache.server) serverVars = Actions.getActionVariable.bind(Actions.server[server.id])
 
         try {
           // eslint-disable-next-line no-eval
