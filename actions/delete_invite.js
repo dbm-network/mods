@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 module.exports = {
   name: 'Delete Invite',
   section: 'Invite Control',
@@ -40,7 +41,6 @@ module.exports = {
       .catch(console.error)
       .then((invite) => {
         if (!invite) this.callNextAction(cache)
-
         invite.delete(reason)
       })
 
