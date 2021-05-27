@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 module.exports = {
   name: 'Call Command/Event',
   section: 'Other Stuff',
