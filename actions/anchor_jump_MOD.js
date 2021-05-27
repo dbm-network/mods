@@ -1,6 +1,5 @@
 module.exports = {
   name: 'Jump to Anchor',
-
   section: 'Other Stuff',
 
   subtitle (data) {
