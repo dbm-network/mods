@@ -121,15 +121,15 @@ module.exports = {
   action (cache) {
     const data = cache.actions[cache.index]
     const { server } = cache
-    if (!server) {
-      this.callNextAction(cache)
-      return
-    }
     const storage = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
     const auditLog = this.getVariable(storage, varName, cache)
+
+    if (!server) return this.callNextAction(cache)
+
     let result = false
     let position
+
     switch (parseInt(data.info)) {
       case 0:
         result = auditLog.id
@@ -202,14 +202,14 @@ module.exports = {
           result = undefined
         }
         break
+      default:
+        break
     }
+
     const storage2 = parseInt(data.storage2)
     const varName2 = this.evalMessage(data.varName2, cache)
-    if (result && result !== undefined) {
-      this.storeValue(result, storage2, varName2, cache)
-    }
+    if (result && result !== undefined) this.storeValue(result, storage2, varName2, cache)
     this.callNextAction(cache)
   },
-
   mod () {}
 }
