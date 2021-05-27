@@ -98,7 +98,7 @@ module.exports = {
     const Mods = this.getMods()
 
     switch (WhichAPI) {
-      case 0:
+      case 0: {
         const ioAPIuser = this.evalMessage(data.APIuser, cache)
         const ioAPIkey = this.evalMessage(data.APIkey, cache)
         if (!ioAPIuser) return console.log('Please enter a valid API User key from cleverbot.io!')
@@ -107,6 +107,7 @@ module.exports = {
         const CleverBotIO = Mods.require('cleverbot.io')
         const CLEVERBOT = new CleverBotIO(ioAPIuser, ioAPIkey)
 
+        // eslint-disable-next-line no-unused-vars
         CLEVERBOT.create((err, session) => {
           if (err) return console.log(`ERROR with cleverbot.io: ${err}`)
           CLEVERBOT.ask(Input, (err, response) => {
@@ -120,7 +121,8 @@ module.exports = {
         })
 
         break
-      case 1:
+      }
+      case 1: {
         const CleverBotCOM = Mods.require('cleverbot-node')
         const clbot = new CleverBotCOM()
         const comAPIkey = this.evalMessage(data.APIkey, cache)
@@ -137,7 +139,8 @@ module.exports = {
           _this.callNextAction(cache)
         })
         break
-      case 2:
+      }
+      case 2: {
         const uCleverbot = Mods.require('cleverbot-free')
         uCleverbot(Input).then(response => {
           if (response !== undefined) {
@@ -147,6 +150,9 @@ module.exports = {
           }
           _this.callNextAction(cache)
         })
+        break
+      }
+      default:
         break
     }
   },
