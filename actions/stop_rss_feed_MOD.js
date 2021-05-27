@@ -6,9 +6,6 @@ module.exports = {
     return `${data.url}`
   },
 
-  variableStorage (data, varType) {
-  },
-
   fields: ['storage', 'varName'],
 
   html (isEvent, data) {
