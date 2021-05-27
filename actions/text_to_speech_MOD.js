@@ -2,7 +2,7 @@ module.exports = {
   name: 'Text To Speech',
   section: 'Messaging',
 
-  subtitle (data) {
+  subtitle () {
     return 'Make your Discord bot talk.'
   },
 
@@ -50,6 +50,7 @@ module.exports = {
     const language = this.evalMessage(data.lang, cache)
     const Mods = this.getMods()
     const tts = Mods.require('google-tts-api')
+
     const play = await tts.getAudioUrl(text, {
       lang: language,
       slow: false,
