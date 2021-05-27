@@ -89,8 +89,9 @@ module.exports = {
     const inputData = this.getVariable(inputStorage, inputVarName, cache)
 
     if (inputData) {
-      let regex; let outputData; let
-        jsonData
+      let regex
+      let outputData
+      let jsonData
       switch (type) {
         case 0:
           try {
