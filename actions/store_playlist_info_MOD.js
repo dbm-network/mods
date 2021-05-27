@@ -2,7 +2,7 @@ module.exports = {
   name: 'Store Playlist Info',
   section: 'YouTube Tools',
 
-  subtitle (data) {
+  subtitle () {
     return 'Store YouTube playlist information.'
   },
 
@@ -70,6 +70,8 @@ module.exports = {
         break
       case 4:
         result = await ytlist(url, 'id')
+        break
+      default:
         break
     }
 
