@@ -85,11 +85,8 @@ module.exports = {
     const fs = require('fs')
     const path = this.evalMessage(data.filename, cache)
     let result
-    if (path) {
-      result = fs.existsSync(path)
-    } else {
-      console.log('Path is missing.')
-    }
+
+    path ? result = fs.existsSync(path) : console.log('Path is missing.')
     this.executeResults(result, data, cache)
   },
 
