@@ -8,7 +8,7 @@ module.exports = {
 
   fields: ['description', 'restrictedTo'],
 
-  html (isEvent, data) {
+  html () {
     return `
 <div width="540" height="360" overflow-y="scroll">
   <div style="padding-top: 8px;">
