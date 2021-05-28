@@ -42,10 +42,10 @@ module.exports = {
     if (!channel.parent) return this.callNextAction(cache)
 
     channel.lockPermissions()
-    .then(() => {
-      this.callNextAction(cache)
-    })
-    .catch(this.displayError.bind(this, data, cache))
+      .then(() => {
+        this.callNextAction(cache)
+      })
+      .catch(this.displayError.bind(this, data, cache))
   },
 
   mod () {}
