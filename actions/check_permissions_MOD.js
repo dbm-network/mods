@@ -1,6 +1,5 @@
 module.exports = {
   name: 'Check Permissions',
-
   section: 'Permission Control',
 
   subtitle (data) {

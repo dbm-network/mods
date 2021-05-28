@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 module.exports = {
   name: 'Stop Bot',
   section: 'Bot Client Control',

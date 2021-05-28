@@ -36,7 +36,6 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.serverChange(document.getElementById('server'), 'varNameContainer')
   },
 
@@ -48,11 +47,9 @@ module.exports = {
     const targetServer = this.getServer(server, varName, cache)
     const position = parseInt(this.evalMessage(data.position, cache))
     const amount = parseInt(this.evalMessage(data.amount, cache))
-
     let queue
-    if (targetServer) {
-      queue = Audio.queue[targetServer.id]
-    }
+
+    if (targetServer) queue = Audio.queue[targetServer.id]
     if (queue && queue.length >= 1 && queue.length > amount + position) {
       queue.splice(position, amount)
       Audio.queue[targetServer.id] = queue

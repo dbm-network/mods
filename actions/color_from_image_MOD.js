@@ -2,7 +2,7 @@ module.exports = {
   name: 'Get Dominant Color',
   section: 'Image Editing',
 
-  subtitle (data) {
+  subtitle () {
     return 'Get dominant color from URL'
   },
 

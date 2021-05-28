@@ -44,7 +44,6 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.channelChange(document.getElementById('storage'), 'varNameContainer')
   },
 
@@ -55,11 +54,7 @@ module.exports = {
     const channel = this.getChannel(storage, varName, cache)
 
     try {
-      if (data.typing === '0') {
-        channel.startTyping()
-      } else {
-        channel.stopTyping(true)
-      }
+      data.typing === '0' ? channel.startTyping() : channel.stopTyping()
     } catch (e) {
       console.error(`ERROR! ${e}${e.stack}`)
     }

@@ -135,7 +135,7 @@ module.exports = {
         result = msg.mentions.everyone
         break
       default:
-        console.log('Err! Check if the action "Check If Message" is set correctly! ~~Cap')
+        console.log('Error! Check if the action "Check If Message" is set correctly!')
         break
     }
     this.executeResults(result, data, cache)

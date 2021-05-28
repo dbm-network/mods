@@ -2,7 +2,7 @@ module.exports = {
   name: 'Clear reactions from message',
   section: 'Reaction Control',
 
-  subtitle (data) {
+  subtitle () {
     return 'Remove reactions from Message'
   },
 
@@ -26,7 +26,6 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.messageChange(document.getElementById('storage'), 'varNameContainer')
   },
 
@@ -35,6 +34,7 @@ module.exports = {
     const storage = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
     const message = this.getMessage(storage, varName, cache)
+
     if (Array.isArray(message)) {
       this.callListFunc(message.map((m) => m.reactions), 'removeAll', []).then(() => {
         this.callNextAction(cache)
@@ -43,9 +43,8 @@ module.exports = {
       message.reactions.removeAll().then(() => {
         this.callNextAction(cache)
       }).catch(this.displayError.bind(this, data, cache))
-    } else {
-      this.callNextAction(cache)
     }
+    this.callNextAction(cache)
   },
 
   mod () {}

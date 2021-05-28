@@ -76,6 +76,8 @@ module.exports = {
       case 20:
         dataType = 'Discriminator'
         break
+      default:
+        break
     }
     return ([data.varName, dataType])
   },
@@ -222,6 +224,8 @@ module.exports = {
             break
           case 20:
             result = r.discriminator
+            break
+          default:
             break
         }
 

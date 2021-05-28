@@ -191,9 +191,8 @@ module.exports = {
         console.log('ERROR: Please input activity in "Set Bot Activity MOD"')
         this.callNextAction(cache)
       }
-    } else {
-      this.callNextAction(cache)
     }
+    this.callNextAction(cache)
   },
 
   mod () {}

@@ -41,6 +41,8 @@ module.exports = {
       case 11:
         dataType = 'Guild Object'
         break
+      default:
+        break
     }
     return ([data.varName2, dataType])
   },
@@ -99,7 +101,6 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.voiceChannelChange(document.getElementById('channel'), 'varNameContainer')
   },
 
@@ -109,10 +110,9 @@ module.exports = {
     const varName = this.evalMessage(data.varName, cache)
     const info = parseInt(data.info)
     const targetChannel = this.getVoiceChannel(channel, varName, cache)
-    if (!targetChannel) {
-      this.callNextAction(cache)
-      return
-    }
+
+    if (!targetChannel) return this.callNextAction(cache)
+
     let result
     switch (info) {
       case 0:
@@ -160,14 +160,13 @@ module.exports = {
       default:
         break
     }
+
     if (result !== undefined) {
       const storage = parseInt(data.storage)
       const varName2 = this.evalMessage(data.varName2, cache)
       this.storeValue(result, storage, varName2, cache)
-      this.callNextAction(cache)
-    } else {
-      this.callNextAction(cache)
     }
+    this.callNextAction(cache)
   },
 
   mod () {}

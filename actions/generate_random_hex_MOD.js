@@ -2,7 +2,7 @@ module.exports = {
   name: 'Generate Random Hex Color',
   section: 'Other Stuff',
 
-  subtitle (data) {
+  subtitle () {
     return 'Generates random hex color code'
   },
 
@@ -40,6 +40,7 @@ module.exports = {
     const data = cache.actions[cache.index]
     const type = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
+
     const code = '000000'.replace(/0/g, () => (~~(Math.random() * 16)).toString(16))
     this.storeValue(`#${code}`, type, varName, cache)
     this.callNextAction(cache)

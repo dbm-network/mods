@@ -8,7 +8,7 @@ module.exports = {
 
   fields: ['call'],
 
-  html (isEvent, data) {
+  html () {
     return `
 <div>
   <div id="varNameContainer" style="float: left; width: 60%;">

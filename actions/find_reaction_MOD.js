@@ -57,7 +57,6 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.messageChange(document.getElementById('message'), 'varNameContainer')
   },
 
@@ -77,6 +76,8 @@ module.exports = {
       case 1:
         result = msg.reactions.cache.find((r) => r.emoji.name === emoji)
         break
+      default:
+        break
     }
 
     if (result !== undefined) {
@@ -86,9 +87,8 @@ module.exports = {
         this.storeValue(react, storage, varName2, cache)
         this.callNextAction(cache)
       })
-    } else {
-      this.callNextAction(cache)
     }
+    this.callNextAction(cache)
   },
 
   mod () {}

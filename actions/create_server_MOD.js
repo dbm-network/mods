@@ -72,10 +72,7 @@ module.exports = {
     const serverName = this.evalMessage(data.serverName, cache)
     const botClient = this.getDBM().Bot.bot
 
-    if (!serverName) {
-      this.callNextAction(cache)
-      return
-    }
+    if (!serverName) return this.callNextAction(cache)
 
     const region = data.serverRegion
 

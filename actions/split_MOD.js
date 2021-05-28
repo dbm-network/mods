@@ -2,7 +2,7 @@ module.exports = {
   name: 'Split',
   section: 'Other Stuff',
 
-  subtitle (data) {
+  subtitle () {
     return 'Split anything!'
   },
 
@@ -40,7 +40,6 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.variableChange(document.getElementById('storage'), 'varNameContainer')
   },
 
@@ -48,6 +47,7 @@ module.exports = {
     const data = cache.actions[cache.index]
     const texttosplit = this.evalMessage(data.split, cache)
     const spliton = this.evalMessage(data.spliton, cache)
+
     if (!texttosplit) return console.log('No text has been given for getting split.')
     if (!spliton) return console.log('Something is missing...')
 

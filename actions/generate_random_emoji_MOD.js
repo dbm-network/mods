@@ -2,7 +2,7 @@ module.exports = {
   name: 'Generate Random Emoji',
   section: 'Other Stuff',
 
-  subtitle (data) {
+  subtitle () {
     return "Generate emoji's"
   },
 
@@ -37,9 +37,9 @@ module.exports = {
     const data = cache.actions[cache.index]
     const storage = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
-
     const Mods = this.getMods()
     const emoji = Mods.require('node-emoji')
+
     const res = emoji.random()
     this.storeValue(res.emoji, storage, varName, cache)
     this.callNextAction(cache)

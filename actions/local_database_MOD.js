@@ -1,7 +1,6 @@
 module.exports = {
   name: 'Local Database',
   section: 'Database',
-  version: '1.0.0',
 
   subtitle (data) {
     return `[${data.dbformat}] ${data.dboperation} ${data.dbpath || '<b><i>No path entered</i></b>'}`
@@ -64,10 +63,7 @@ module.exports = {
   },
 
   init () {
-    const {
-      glob,
-      document
-    } = this
+    const { glob, document } = this
 
     function updateVisibility (id, visible) {
       document.getElementById(id).style.display = (visible) ? null : 'none'
@@ -258,7 +254,7 @@ module.exports = {
             break
         }
         break
-      case 'enmap': // enmap
+      case 'enmap': { // enmap
         const value = splitpath.slice(2, splitpath.length)
         // eslint-disable-next-line new-cap
         const enmap = new db({
@@ -318,6 +314,7 @@ module.exports = {
             break
         }
         break
+      }
     }
 
     const varName = this.evalMessage(data.varName, cache)

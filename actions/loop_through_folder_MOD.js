@@ -49,6 +49,7 @@ module.exports = {
     const path = this.evalMessage(data.filename, cache)
     const { readdirSync } = require('fs')
     let output = {}
+
     try {
       if (path) {
         output = readdirSync(path)

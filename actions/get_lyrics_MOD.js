@@ -115,6 +115,7 @@ module.exports = {
     const info = parseInt(data.info)
     const geniustoken = this.evalMessage(data.key, cache)
     const songname = this.evalMessage(data.song, cache)
+    if (!geniustoken) return console.log('Please set your token in Get Lyrics Action!')
 
     const Mods = this.getMods()
     const analyrics = Mods.require('analyrics')

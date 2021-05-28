@@ -43,20 +43,18 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.channelChange(document.getElementById('storage'), 'varNameContainer')
   },
 
   action (cache) {
     const data = cache.actions[cache.index]
     const { server } = cache
-    if (!server) {
-      this.callNextAction(cache)
-      return
-    }
     const storage = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
     const channel = this.getChannel(storage, varName, cache)
+
+    if (!server) return this.callNextAction(cache)
+
     const options = {}
     options[data.permission] = Boolean(data.state === '0')
     if (Array.isArray(channel)) {
@@ -67,10 +65,8 @@ module.exports = {
       channel.updateOverwrite(server.id, options).then(() => {
         this.callNextAction(cache)
       }).catch(this.displayError.bind(this, data, cache))
-    } else {
-      this.callNextAction(cache)
     }
+    this.callNextAction(cache)
   },
-
   mod () {}
 }

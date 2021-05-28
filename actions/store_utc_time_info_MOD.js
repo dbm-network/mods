@@ -51,6 +51,7 @@ module.exports = {
     const data = cache.actions[cache.index]
     const type = parseInt(data.type)
     let result
+
     switch (type) {
       case 0:
         result = new Date().getUTCFullYear()
@@ -76,6 +77,7 @@ module.exports = {
       default:
         break
     }
+
     if (result !== undefined) {
       const storage = parseInt(data.storage)
       const varName = this.evalMessage(data.varName, cache)

@@ -42,23 +42,27 @@ module.exports = {
     const loop = parseInt(data.loop)
 
     switch (status) {
-      case 0:// Enable
+      case 0: // Enable
         switch (loop) {
-          case 0:// Loop Queue
+          case 0: // Loop Queue
             Audio.loopQueue[server.id] = true
             break
-          case 1:// Loop Item
+          case 1: // Loop Item
             Audio.loopItem[server.id] = true
+            break
+          default:
             break
         }
         break
-      case 1:// Disable
+      case 1: // Disable
         switch (loop) {
-          case 0:// Loop Queue
+          case 0: // Loop Queue
             Audio.loopQueue[server.id] = false
             break
-          case 1:// Loop Item
+          case 1: // Loop Item
             Audio.loopItem[server.id] = false
+            break
+          default:
             break
         }
         break
