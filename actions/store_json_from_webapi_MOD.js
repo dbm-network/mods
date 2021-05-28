@@ -72,7 +72,7 @@ module.exports = {
       <option value="1" selected>Enabled</option>
       <option value="0">Disabled</option>
     </select>
-    <text style="font-size: 60%;">Enables verbose printing to the console, disable to stop all but error printing.</text>
+    <text style="font-size: 60%;">Enables printing to console, disable to remove all messages. Turn on to see errors.</text>
   </div>
 </div>
 </div>`
@@ -80,7 +80,6 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.variableChange(document.getElementById('storage'), 'varNameContainer')
 
     glob.checkBox = function (element, type) {
@@ -102,25 +101,18 @@ module.exports = {
 
   action (cache) {
     const _this = this
-
     const data = cache.actions[cache.index]
-
     const Mods = this.getMods()
     const request = Mods.require('request')
-
     const _DEBUG = parseInt(data.debugMode)
-
     const storage = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
-
     let url = this.evalMessage(data.url, cache)
     const path = this.evalMessage(data.path, cache)
-
     const token = this.evalMessage(data.token, cache)
     const user = this.evalMessage(data.user, cache)
     const reUse = parseInt(data.reUse)
     const pass = this.evalMessage(data.pass, cache)
-
     const headers = this.evalMessage(data.headers, cache)
 
     // if it fails the check, try to re-encode the url
@@ -136,7 +128,7 @@ module.exports = {
             errorJson = JSON.stringify({ error, statusCode })
             _this.storeValue(errorJson, storage, varName, cache)
 
-            console.error(`WebAPI: Error: ${errorJson} stored to: [${varName}]`)
+            if (_DEBUG) console.error(`WebAPI: Error: ${errorJson} stored to: [${varName}]`)
           } else if (path) {
             const outData = Mods.jsonPath(jsonData, path)
 
@@ -147,24 +139,24 @@ module.exports = {
             } catch (error) {
               errorJson = JSON.stringify({ error, statusCode, success: false })
               _this.storeValue(errorJson, storage, varName, cache)
-              console.error(error.stack ? error.stack : error)
+              if (_DEBUG) console.error(error.stack ? error.stack : error)
             }
 
             // eslint-disable-next-line no-eval
             const outValue = eval(JSON.stringify(outData), cache)
 
             if (!outData) {
-              console.error(`WebAPI: Error: ${errorJson} NO JSON data returned. Check the URL: ${url}`)
               errorJson = JSON.stringify({ error: 'No JSON Data Returned', statusCode: 0 })
               _this.storeValue(errorJson, storage, varName, cache)
+              if (_DEBUG) console.error(`WebAPI: Error: ${errorJson} NO JSON data returned. Check the URL: ${url}`)
             } else if (outData.success != null) {
               errorJson = JSON.stringify({ error, statusCode, success: false })
               _this.storeValue(errorJson, storage, varName, cache)
-              console.log(`WebAPI: Error Invalid JSON, is the Path and/or URL set correctly? [${path}]`)
+              if (_DEBUG) console.log(`WebAPI: Error Invalid JSON, is the Path and/or URL set correctly? [${path}]`)
             } else if (outValue.success != null || !outValue) {
               errorJson = JSON.stringify({ error, statusCode, success: false })
               _this.storeValue(errorJson, storage, varName, cache)
-              console.log(`WebAPI: Error Invalid JSON, is the Path and/or URL set correctly? [${path}]`)
+              if (_DEBUG) console.log(`WebAPI: Error Invalid JSON, is the Path and/or URL set correctly? [${path}]`)
             } else {
               _this.storeValue(outValue, storage, varName, cache)
               _this.storeValue(jsonData, 1, url, cache)
@@ -216,7 +208,7 @@ module.exports = {
 
                 if (_DEBUG) console.log(`Applied Header: ${lines[i]}`)
               } else {
-                console.error(`WebAPI: Error: Custom Header line ${lines[i]} is wrongly formatted. You must split the key from the value with a colon (:)`)
+                if (_DEBUG) console.error(`WebAPI: Error: Custom Header line ${lines[i]} is wrongly formatted. You must split the key from the value with a colon (:)`)
               }
             }
           }
@@ -234,7 +226,7 @@ module.exports = {
           }, (error, res, jsonData) => storeData(error, res, jsonData))
         }
       } catch (err) {
-        console.error(err.stack ? err.stack : err)
+        if (_DEBUG) console.error(err.stack ? err.stack : err)
       }
     } else {
       console.error(`URL [${url}] Is Not Valid`)
