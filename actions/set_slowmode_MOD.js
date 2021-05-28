@@ -52,6 +52,7 @@ module.exports = {
     const amount = this.evalMessage(data.amount, cache)
     const reason = this.evalMessage(data.reason, cache)
     const { type } = channel
+
     if (type === 'text') {
       if (reason !== null) {
         channel.setRateLimitPerUser(amount, reason)

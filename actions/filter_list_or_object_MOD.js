@@ -1,5 +1,6 @@
 module.exports = {
   name: 'Filter List/Object',
+  displayName: 'Filter List or Object',
   section: 'Lists and Loops',
 
   subtitle (data) {
@@ -110,23 +111,24 @@ module.exports = {
       const valueDiv = document.getElementById('valueDiv')
       const valueDiv2 = document.getElementById('valueDiv2')
       const value = document.getElementById('value')
+
       switch (parseInt(document.getElementById('type').value)) {
-        case 0:// Exists
+        case 0: // Exists
           value.placeholder = ''
           valueDiv.style.display = 'none'
           valueDiv2.style.display = null
           break
-        case 6:// Regex
+        case 6: // Regex
           value.placeholder = "('My'|'Regex')"
           valueDiv.style.display = null
           valueDiv2.style.display = null
           break
-        case 7:// Full Regex
+        case 7: // Full Regex
           value.placeholder = "/('My'|'Regex')\\w+/igm"
           valueDiv.style.display = null
           valueDiv2.style.display = null
           break
-        default:// Other Stuff
+        default: // Other Stuff
           value.placeholder = ''
           valueDiv.style.display = null
           valueDiv2.style.display = null
@@ -141,7 +143,6 @@ module.exports = {
 
   action (cache) {
     const data = cache.actions[cache.index]
-
     const storage = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
     const variable = this.getVariable(storage, varName, cache)
@@ -151,93 +152,93 @@ module.exports = {
 
     if (value2 !== '' && value2 !== undefined) {
       switch (parseInt(data.type)) {
-        case 0:// Exists
+        case 0: // Exists
           result = variable.filter((item) => item[value2] !== undefined && item[value2] !== null)
           break
-        case 1:// Equals
+        case 1: // Equals
           // eslint-disable-next-line eqeqeq
           result = variable.filter((item) => item[value2] == value)
           break
-        case 2:// Equals Exactly
+        case 2: // Equals Exactly
           result = variable.filter((item) => item[value2] === value)
           break
-        case 3:// Less Than
+        case 3: // Less Than
           result = variable.filter((item) => item[value2] < value)
           break
-        case 4:// Greater Than
+        case 4: // Greater Than
           result = variable.filter((item) => item[value2] > value)
           break
-        case 5:// Includes
+        case 5: // Includes
           result = variable.filter((item) => item[value2].indexOf(value))
           break
-        case 6:// Regex
+        case 6: // Regex
           result = variable.filter((item) => item[value2].match(new RegExp(`^${value}$`, 'i')))
           break
-        case 7:// Full Regex
+        case 7: // Full Regex
           result = variable.filter((item) => item[value2].match(new RegExp(value)))
           break
-        case 8:// Bigger Length
+        case 8: // Bigger Length
           result = variable.filter((item) => item[value2].length > value)
           break
-        case 9:// Smaller Length
+        case 9: // Smaller Length
           result = variable.filter((item) => item[value2].length < value)
           break
-        case 10:// Equals Length
+        case 10: // Equals Length
           result = variable.filter((item) => item[value2].length === value)
           break
-        case 11:// Starts With
+        case 11: // Starts With
           result = variable.filter((item) => item[value2].startsWith(value))
           break
-        case 12:// Ends With
+        case 12: // Ends With
           result = variable.filter((item) => item[value2].endsWith(value))
           break
-        default:// Mistake in RawData
-          return console.log('Please check your Filter List/Object action! There is something wrong...')
+        default: // Mistake in RawData
+          return console.log('Please check your Filter List or Object action! There is something wrong.')
       }
     } else {
       switch (parseInt(data.type)) {
-        case 0:// Exists
+        case 0: // Exists
           result = variable.filter((item) => item !== undefined && item !== null)
           break
-        case 1:// Equals
+        case 1: // Equals
           // eslint-disable-next-line eqeqeq
           result = variable.filter((item) => item == value)
           break
-        case 2:// Equals Exactly
+        case 2: // Equals Exactly
           result = variable.filter((item) => item === value)
           break
-        case 3:// Less Than
+        case 3: // Less Than
           result = variable.filter((item) => item < value)
           break
-        case 4:// Greater Than
+        case 4: // Greater Than
           result = variable.filter((item) => item > value)
           break
-        case 5:// Includes
+        case 5: // Includes
           result = variable.filter((item) => item.indexOf(value))
           break
-        case 6:// Regex
+        case 6: // Regex
           result = variable.filter((item) => item.match(new RegExp(`^${value}$`, 'i')))
           break
-        case 7:// Full Regex
+        case 7: // Full Regex
           result = variable.filter((item) => item.match(new RegExp(value)))
           break
-        case 8:// Bigger Length
+        case 8: // Bigger Length
           result = variable.filter((item) => item.length > value)
           break
-        case 9:// Smaller Length
+        case 9: // Smaller Length
           result = variable.filter((item) => item.length < value)
           break
-        case 10:// Equals Length
+        case 10: // Equals Length
           result = variable.filter((item) => item.length === value)
           break
-        case 11:// Starts With
+        case 11: // Starts With
           result = variable.filter((item) => item.startsWith(value))
           break
-        case 12:// Ends With
+        case 12: // Ends With
           result = variable.filter((item) => item.endsWith(value))
           break
-        default:// Mistake in RawData
-          return console.log('Please check your Filter List/Object action! There is something wrong...')
+        default: // Mistake in RawData
+          return console.log('Please check your Filter List or Object action! There is something wrong.')
       }
     }
 

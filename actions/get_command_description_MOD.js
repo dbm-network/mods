@@ -1,16 +1,14 @@
-class GetCommandDescription {
-  constructor (params) {
-    this.name = 'Get Command Description'
-    this.displayName = 'Get Command Description'
-    this.section = 'Other Stuff'
-    this.fields = ['findBy', 'commandData', 'saveTo', 'varName']
-  }
+module.exports = {
+  name: 'Get Command Description',
+  displayName: 'Get Command Description',
+  section: 'Other Stuff',
+  fields: ['findBy', 'commandData', 'saveTo', 'varName'],
 
   subtitle () {
     return 'Get Command Description'
-  }
+  },
 
-  html (isEvent, data) {
+  html () {
     return `
 <div width="540" style="height: auto;" overflow-y="scroll">
   <div style="float: left; width: 35%;">
@@ -37,9 +35,9 @@ class GetCommandDescription {
     <input type="text" id="varName" class="round" placeholder="Variable Name"></input>
   </div>
 </div>`
-  }
+  },
 
-  init () {}
+  init () {},
 
   action (cache) {
     const data = cache.actions[cache.index]
@@ -96,9 +94,7 @@ class GetCommandDescription {
     }
 
     this.callNextAction(cache)
-  }
+  },
 
   mod () {}
 }
-
-module.exports = new GetCommandDescription()

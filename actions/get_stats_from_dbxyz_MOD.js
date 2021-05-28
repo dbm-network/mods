@@ -61,6 +61,8 @@ module.exports = {
       case 15:
         dataType = 'Vanity Url'
         break
+      default:
+        break
     }
     return ([data.varName, dataType])
   },
@@ -177,6 +179,8 @@ module.exports = {
             break
           case 15:
             result = r.body.vanity_url
+            break
+          default:
             break
         }
 

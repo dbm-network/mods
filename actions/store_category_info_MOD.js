@@ -135,7 +135,6 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.refreshVariableList(document.getElementById('category'))
   },
 
@@ -145,10 +144,8 @@ module.exports = {
     const varName = this.evalMessage(data.varName, cache)
     const info = parseInt(data.info)
     const targetCategory = this.getVariable(category, varName, cache)
-    if (!targetCategory) {
-      this.callNextAction(cache)
-      return
-    }
+    if (!targetCategory) return this.callNextAction(cache)
+
     let result
     switch (info) {
       case 0:

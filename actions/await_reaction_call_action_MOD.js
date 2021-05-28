@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 module.exports = {
   name: 'Await Reaction Call Action',
   displayName: 'Await Reaction',
@@ -210,22 +211,15 @@ module.exports = {
       const time = parseInt(this.evalMessage(data.time, cache))
 
       msg.awaitReactions((reaction, user) => {
-        /* eslint-disable */
         const { msg: message, server } = cache
         const { author } = message
         let member
-        const tempVars = Actions.getActionVariable.bind(cache.temp);
-        const globalVars = Actions.getActionVariable.bind(Actions.global);
-        let serverVars = null;
-        /* eslint-enable */
+        const tempVars = Actions.getActionVariable.bind(cache.temp)
+        const globalVars = Actions.getActionVariable.bind(Actions.global)
+        let serverVars = null
 
-        if (message) {
-          member = message.member
-        }
-
-        if (cache.server) {
-          serverVars = Actions.getActionVariable.bind(Actions.server[server.id])
-        }
+        if (message) member = message.member
+        if (cache.server) serverVars = Actions.getActionVariable.bind(Actions.server[server.id])
 
         try {
           // eslint-disable-next-line no-eval

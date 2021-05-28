@@ -12,6 +12,7 @@ module.exports = {
     if (type !== varType) return
     const info = parseInt(data.info)
     let dataType = 'Webhook Info'
+
     switch (info) {
       case 0:
         dataType = 'ID'
@@ -33,6 +34,8 @@ module.exports = {
         break
       case 6:
         dataType = 'URL'
+        break
+      default:
         break
     }
     return ([data.varName2, dataType])
@@ -82,7 +85,6 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.refreshVariableList(document.getElementById('webhook'))
   },
 
@@ -94,6 +96,7 @@ module.exports = {
     const Mods = this.getMods()
     const wh = Mods.getWebhook(webhook, varName, cache)
     let result
+
     switch (info) {
       case 0:
         result = wh.channelID
@@ -119,6 +122,7 @@ module.exports = {
       default:
         break
     }
+
     if (result !== undefined) {
       const storage = parseInt(data.storage)
       const varName2 = this.evalMessage(data.varName2, cache)

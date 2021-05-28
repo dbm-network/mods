@@ -2,7 +2,7 @@ module.exports = {
   name: 'Merge Lists',
   section: 'Lists and Loops',
 
-  subtitle (data) {
+  subtitle () {
     return 'Merge two lists together'
   },
 
@@ -79,10 +79,10 @@ module.exports = {
       const varName3 = this.evalMessage(data.varName3, cache)
       const storage3 = parseInt(data.storage3)
       this.storeValue(result, storage3, varName3, cache)
-      return this.callNextAction(cache)
+      this.callNextAction(cache)
     }
     console.log('Issue with merge lists mod!')
-    return this.callNextAction(cache)
+    this.callNextAction(cache)
   },
 
   mod () {}

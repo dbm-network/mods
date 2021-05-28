@@ -1,6 +1,5 @@
 module.exports = {
   name: 'Store Permissions Info',
-
   section: 'Permission Control',
 
   subtitle (data) {
@@ -54,6 +53,8 @@ module.exports = {
       case 32:
       case 33:
         dataType = 'Boolean'
+        break
+      default:
         break
     }
     return ([data.varName2, dataType])
@@ -153,11 +154,13 @@ module.exports = {
     let result = false
     const storage2 = parseInt(data.storage2)
     const varName2 = this.evalMessage(data.varName2, cache)
+
     if ((!permissions.allow && ![2, 3].includes(info)) || (!permissions.disallow && [2, 3].includes(info))) {
       this.storeValue(result, storage2, varName2, cache)
       this.callNextAction(cache)
       return
     }
+
     switch (info) {
       case 0:
         result = permissions.allow.bitfield
@@ -261,15 +264,15 @@ module.exports = {
       case 33:
         result = permissions.allow.has('PRIORITY_SPEAKER')
         break
+      default:
+        break
     }
-    console.log(result)
+
     if (typeof result !== 'undefined') {
       this.storeValue(result, storage2, varName2, cache)
     }
     this.callNextAction(cache)
   },
-
-  mod (DBM) {
+  mod () {
   }
-
 }

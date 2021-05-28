@@ -118,20 +118,18 @@ module.exports = {
       case 7:
         result = parseInt(jp.query(command, '$..name').length) - 1 === '' ? 'none' : parseInt(jp.query(command, '$..name').length) - 1
         break
+      default:
+        break
     }
 
-    if (!result) {
-      result = 'invalid'
-    }
+    if (!result) result = 'invalid'
 
     if (result !== undefined) {
       const storage = parseInt(data.storage)
       const varName = this.evalMessage(data.varName, cache)
       this.storeValue(result, storage, varName, cache)
     }
-
     this.callNextAction(cache)
   },
-
   mod () {}
 }

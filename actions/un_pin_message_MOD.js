@@ -28,7 +28,6 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.messageChange(document.getElementById('storage'), 'varNameContainer')
   },
 
@@ -37,17 +36,18 @@ module.exports = {
     const storage = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
     const message = this.getMessage(storage, varName, cache)
+
     if (Array.isArray(message)) {
-      this.callListFunc(message, 'unpin', []).then(() => {
-        this.callNextAction(cache)
-      })
+      this.callListFunc(message, 'unpin', [])
+        .then(() => {
+          this.callNextAction(cache)
+        })
     } else if (message && message.unpin) {
       message.unpin()
         .then(() => this.callNextAction(cache))
         .catch(this.displayError.bind(this, data, cache))
-    } else {
-      this.callNextAction(cache)
     }
+    this.callNextAction(cache)
   },
 
   mod () {}

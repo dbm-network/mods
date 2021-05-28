@@ -46,9 +46,8 @@ module.exports = {
       targetServer.delete().then(() => {
         this.callNextAction(cache)
       }).catch(this.displayError.bind(this, data, cache))
-    } else {
-      this.callNextAction(cache)
     }
+    this.callNextAction(cache)
   },
 
   mod () {}

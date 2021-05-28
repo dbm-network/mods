@@ -30,7 +30,6 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.refreshVariableList(document.getElementById('webhook'))
   },
 
@@ -41,13 +40,13 @@ module.exports = {
     const Mods = this.getMods()
     const wh = Mods.getWebhook(webhook, varName, cache)
     const message = this.evalMessage(data.message, cache)
+
     if (!wh) {
       console.log('Push Webhook ERROR: idk...')
       this.callNextAction(cache)
-    } else {
-      wh.send(message)
-      this.callNextAction(cache)
     }
+    wh.send(message)
+    this.callNextAction(cache)
   },
 
   mod () {}

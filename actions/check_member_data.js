@@ -170,6 +170,8 @@ module.exports = {
         case 11:
           result = val1.endsWith(val2)
           break
+        default:
+          break
       }
     }
     this.executeResults(result, data, cache)

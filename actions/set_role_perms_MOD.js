@@ -98,8 +98,8 @@ module.exports = {
           this.callListFunc(role, 'setPermissions', [role.id, options]).then(() => {
             this.callNextAction(cache)
           })
-        } else if (role && role.setPermissions) {
-        } if (data.state === '0') {
+        }
+        if (data.state === '0') {
           role.setPermissions(2146958847, reason).then(() => {
             this.callNextAction(cache)
           }).catch(this.displayError.bind(this, data, cache))
@@ -107,12 +107,10 @@ module.exports = {
           role.setPermissions([0], reason).then(() => {
             this.callNextAction(cache)
           }).catch(this.displayError.bind(this, data, cache))
-        } else {
-          this.callNextAction(cache)
         }
-      } else {
         this.callNextAction(cache)
       }
+      this.callNextAction(cache)
     }
 
     let result
@@ -218,8 +216,8 @@ module.exports = {
         this.callListFunc(role, 'setPermissions', [role.id, options]).then(() => {
           this.callNextAction(cache)
         })
-      } else if (role && role.setPermissions) {
-      } if (data.state === '0') {
+      }
+      if (data.state === '0') {
         const perms = role.permissions
         role.setPermissions([perms, result], reason).then(() => {
           this.callNextAction(cache)
@@ -229,12 +227,10 @@ module.exports = {
         role.setPermissions([perms2], reason).then(() => {
           this.callNextAction(cache)
         }).catch(this.displayError.bind(this, data, cache))
-      } else {
-        this.callNextAction(cache)
       }
-    } else {
       this.callNextAction(cache)
     }
+    this.callNextAction(cache)
   },
 
   mod () {}

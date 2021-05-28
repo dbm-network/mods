@@ -53,7 +53,6 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.variableChange(document.getElementById('storage'), 'varNameContainer')
   },
 
@@ -65,7 +64,7 @@ module.exports = {
 
     if (!wordtoFind) return console.log('Find Text MOD: Text to find is missing!')
     if (!text) return console.log('Find Text MOD: Source text is missing!')
-    if (!text.includes(wordtoFind)) { console.log(`Find Text MOD: The requested text wasn't found in the source text!\nSource text: ${text}\nText to find: ${wordtoFind}`) }
+    if (!text.includes(wordtoFind)) console.log(`Find Text MOD: The requested text wasn't found in the source text!\nSource text: ${text}\nText to find: ${wordtoFind}`)
 
     let result
     switch (position) {
@@ -74,6 +73,8 @@ module.exports = {
         break
       case 1:
         result = wordtoFind.length + text.indexOf(wordtoFind)
+        break
+      default:
         break
     }
 

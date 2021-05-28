@@ -56,7 +56,6 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.voiceChannelChange(document.getElementById('vchannel'), 'varNameContainer')
     glob.roleChange(document.getElementById('role'), 'varNameContainer2')
   },
@@ -70,18 +69,18 @@ module.exports = {
     const varName2 = this.evalMessage(data.varName2, cache)
     const role = this.getRole(storage2, varName2, cache)
     const options = {}
+
     options[data.permission] = data.state === '0' ? true : (data.state === '2' ? false : null)
+
     if (role && role.id) {
       if (channel && channel.updateOverwrite) {
         channel.updateOverwrite(role.id, options).then(() => {
           this.callNextAction(cache)
         }).catch(this.displayError.bind(this, data, cache))
-      } else {
-        this.callNextAction(cache)
       }
-    } else {
       this.callNextAction(cache)
     }
+    this.callNextAction(cache)
   },
 
   mod () {}

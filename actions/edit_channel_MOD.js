@@ -58,7 +58,6 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.channelChange(document.getElementById('storage'), 'varNameContainer')
   },
 
@@ -102,7 +101,7 @@ module.exports = {
     } else if (toChange === 8) {
       channel.setNSFW(false)
     } else {
-      console.log('Please update your edit_channel_MOD.js in your projects action folder!')
+      console.log('Something went wrong with Edit_Channel_Mod. Please check your action!')
     }
     this.callNextAction(cache)
   },

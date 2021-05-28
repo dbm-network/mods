@@ -26,7 +26,6 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.serverChange(document.getElementById('server'), 'varNameContainer')
   },
 
@@ -35,6 +34,7 @@ module.exports = {
     const type = parseInt(data.server)
     const varName = this.evalMessage(data.varName, cache)
     const server = this.getServer(type, varName, cache)
+
     if (Array.isArray(server)) {
       this.callListFunc(server, 'leave').then(() => {
         this.callNextAction(cache)
@@ -43,9 +43,8 @@ module.exports = {
       server.leave().then(() => {
         this.callNextAction(cache)
       }).catch(this.displayError.bind(this, data, cache))
-    } else {
-      this.callNextAction(cache)
     }
+    this.callNextAction(cache)
   },
 
   mod () {}

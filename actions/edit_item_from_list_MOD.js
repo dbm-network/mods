@@ -1,5 +1,6 @@
 module.exports = {
   name: 'Edit Item from List MOD',
+  displayName: 'Edit Item from List',
   section: 'Lists and Loops',
 
   subtitle (data) {
@@ -36,7 +37,6 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.refreshVariableList(document.getElementById('storage'))
   },
 
@@ -47,9 +47,8 @@ module.exports = {
     const list = this.getVariable(storage, varName, cache)
     const position = parseInt(this.evalMessage(data.position, cache))
     const val = this.evalMessage(data.value, cache)
-    if (list.length > position) {
-      list[position] = val
-    }
+
+    if (list.length > position) list[position] = val
     this.callNextAction(cache)
   },
 

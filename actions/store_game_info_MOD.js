@@ -65,6 +65,8 @@ module.exports = {
       case 16:
         dataType = 'Number'
         break
+      default:
+        break
     }
     return ([data.varName2, dataType])
   },
@@ -145,10 +147,7 @@ module.exports = {
     const varName = this.evalMessage(data.varName, cache)
     const mem = this.getMember(member, varName, cache)
 
-    if (!mem || !mem.presence.activities[0]) {
-      this.callNextAction(cache)
-      return
-    }
+    if (!mem || !mem.presence.activities[0]) return this.callNextAction(cache)
 
     let result = null
     switch (info) {
