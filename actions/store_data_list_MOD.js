@@ -227,7 +227,7 @@ module.exports = {
     const varName = this.evalMessage(data.varName, cache)
     let name
     let object
-  
+
     for (const id in file) {
       if (file[id][dataName] || !isNaN(file[id][dataName])) {
         switch (File) {
