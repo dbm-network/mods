@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 module.exports = {
   name: 'Store Data List MOD',
+  displayName: 'Store Data List',
   section: 'Other Stuff',
 
   subtitle (data) {
