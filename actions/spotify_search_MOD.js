@@ -382,8 +382,8 @@ module.exports = {
     if (!clientId && !clientSecret) return console.log('Please input your client credentials in Spotify Search Mod!')
 
     const spotifyApi = new SpotifyWebApi({
-      clientId: clientId,
-      clientSecret: clientSecret
+      clientId,
+      clientSecret
     })
 
     spotifyApi.clientCredentialsGrant().then(
