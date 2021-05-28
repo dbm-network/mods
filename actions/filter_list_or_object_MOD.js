@@ -1,6 +1,6 @@
 module.exports = {
   name: 'Filter List/Object',
-  displayName: 'Filer List or Object',
+  displayName: 'Filter List or Object',
   section: 'Lists and Loops',
 
   subtitle (data) {
