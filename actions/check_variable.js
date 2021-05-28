@@ -148,7 +148,8 @@ module.exports = {
     if (compare !== 6) val2 = this.eval(val2, cache)
     switch (compare) {
       case 0:
-        result = val1 !== undefined
+        // eslint-disable-next-line eqeqeq
+        result = val1 != undefined
         break
       case 1:
         // eslint-disable-next-line eqeqeq
