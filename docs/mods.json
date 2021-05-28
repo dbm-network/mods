@@ -1046,7 +1046,7 @@
   "youtube_info_MOD.js": {
     "description": "Store information about YouTube",
     "name": "Store YouTube Info",
-    "section": "Audio Control"
+    "section": "YouTube Tools"
   },
   "youtube_search_MOD.js": {
     "description": "Search YouTube",
