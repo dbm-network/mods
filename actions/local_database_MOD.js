@@ -256,6 +256,7 @@ module.exports = {
         break
       case 'enmap': { // enmap
         const value = splitpath.slice(2, splitpath.length)
+        // eslint-disable-next-line new-cap
         const enmap = new db({
           name: splitpath[0]
         })
