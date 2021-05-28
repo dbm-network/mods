@@ -1,5 +1,4 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef, no-unused-vars */
 module.exports = {
   name: 'Delete Global Data',
   section: 'Data',
