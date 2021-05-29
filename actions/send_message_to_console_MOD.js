@@ -31,13 +31,13 @@ module.exports = {
     const data = cache.actions[cache.index]
     const send = this.evalMessage(data.tosend, cache)
 
-    if (send.length > 0) {
-      const color = this.evalMessage(data.color, cache)
-      console.log(chalk.hex(color)(send))
+    if (!send || send.length < 1) {
+      console.log(chalk.gray(`Please provide something to log: Action #${cache.index + 1}`))
       this.callNextAction(cache)
     }
 
-    console.log(chalk.gray(`Please provide something to log: Action #${cache.index + 1}`))
+    const color = this.evalMessage(data.color, cache)
+    console.log(chalk.hex(color)(send))
     this.callNextAction(cache)
   },
 
