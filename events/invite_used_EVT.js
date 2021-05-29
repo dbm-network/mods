@@ -11,7 +11,7 @@ module.exports = {
     DBM.Events.inviteUsed = function (member) {
       if (!Bot.$evts['Invite Used']) return
       const server = member.guild
-      if (g.me.hasPermission('MANAGE_GUILD')) {
+      if (server.me.hasPermission('MANAGE_GUILD')) {
         server.fetchInvites().then(invites => {
           const prior = guildInvites[server.id]
           const used = prior.filter((c) => c.uses < invites.get(c.code).uses).first()
@@ -57,5 +57,3 @@ module.exports = {
     }
   }
 }
-
-
