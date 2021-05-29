@@ -39,14 +39,14 @@ module.exports = {
         }, 1000)
         Bot.bot.on('guildMemberAdd', DBM.Events.inviteUsed)
         Bot.bot.on('inviteDelete', inv => {
-          if (g.me.hasPermission('MANAGE_GUILD')) {
+          if (inv.guild.me.hasPermission('MANAGE_GUILD')) {
             inv.guild.fetchInvites().then(invites => {
               guildInvites[inv.guild.id] = invites
             })
           }
         })
         Bot.bot.on('inviteCreate', inv => {
-          if (g.me.hasPermission('MANAGE_GUILD')) {
+          if (inv.guild.me.hasPermission('MANAGE_GUILD')) {
             inv.guild.fetchInvites().then(invites => {
               guildInvites[inv.guild.id] = invites
             })
