@@ -11,16 +11,18 @@ module.exports = {
     DBM.Events.inviteUsed = function (member) {
       if (!Bot.$evts['Invite Used']) return
       const server = member.guild
-      server.fetchInvites().then(invites => {
-        const prior = guildInvites[server.id]
-        const used = prior.filter((c) => c.uses < invites.get(c.code).uses).first()
-        for (const event of Bot.$evts['Invite Delete']) {
-          const temp = {}
-          if (event.temp) temp[event.temp] = used.code
-          if (event.temp2) temp[event.temp2] = used.guild
-          Actions.invokeEvent(event, server, temp)
-        }
-      })
+      if (g.me.hasPermission('MANAGE_GUILD')) {
+        server.fetchInvites().then(invites => {
+          const prior = guildInvites[server.id]
+          const used = prior.filter((c) => c.uses < invites.get(c.code).uses).first()
+          for (const event of Bot.$evts['Invite Used']) {
+            const temp = {}
+            if (event.temp) temp[event.temp] = used.code
+            if (event.temp2) temp[event.temp2] = used.guild
+            Actions.invokeEvent(event, server, temp)
+          }
+        })
+      }
     }
     const onReady = Bot.onReady
     Bot.onReady = function (...params) {
@@ -28,24 +30,32 @@ module.exports = {
       if (Bot.$evts['Invite Used']) {
         setTimeout(() => {
           Bot.bot.guilds.cache.forEach(g => {
-            g.fetchInvites().then(invites => {
-              guildInvites[g.id] = invites
-            })
+            if (g.me.hasPermission('MANAGE_GUILD')) {
+              g.fetchInvites().then(invites => {
+                guildInvites[g.id] = invites
+              })
+            }
           })
         }, 1000)
         Bot.bot.on('guildMemberAdd', DBM.Events.inviteUsed)
         Bot.bot.on('inviteDelete', inv => {
-          inv.guild.fetchInvites().then(invites => {
-            guildInvites[inv.guild.id] = invites
-          })
+          if (g.me.hasPermission('MANAGE_GUILD')) {
+            inv.guild.fetchInvites().then(invites => {
+              guildInvites[inv.guild.id] = invites
+            })
+          }
         })
         Bot.bot.on('inviteCreate', inv => {
-          inv.guild.fetchInvites().then(invites => {
-            guildInvites[inv.guild.id] = invites
-          })
+          if (g.me.hasPermission('MANAGE_GUILD')) {
+            inv.guild.fetchInvites().then(invites => {
+              guildInvites[inv.guild.id] = invites
+            })
+          }
         })
       }
       onReady.apply(this, ...params)
     }
   }
 }
+
+
