@@ -13,6 +13,7 @@ module.exports = {
       const newChannel = newVoiceState.channel
       if ((!oldChannel || !oldVoiceState.streaming) || (newChannel && newVoiceState.streaming)) return
       const server = (oldChannel || newChannel).guild
+
       for (const event of Bot.$evts['Member Stop Streaming']) {
         const temp = {}
         if (event.temp) temp[event.temp] = oldChannel
@@ -20,6 +21,7 @@ module.exports = {
         Actions.invokeEvent(event, server, temp)
       }
     }
+
     const onReady = Bot.onReady
     Bot.onReady = function (...params) {
       Bot.bot.on('voiceStateUpdate', DBM.Events.offStream)

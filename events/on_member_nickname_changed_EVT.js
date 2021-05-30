@@ -1,5 +1,6 @@
 module.exports = {
   name: 'Member Nickname Changed MOD',
+  displayName: 'Member Nickname Changed',
   isEvent: true,
 
   fields: ['Temp Variable Name (Stores new nickname):', 'Temp Variable Name (Stores member object):'],

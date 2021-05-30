@@ -26,7 +26,7 @@ module.exports = {
             DBM.Events.onAudioResume(guild, voiceChannel)
           }
         }
-        dispatcher.on('volumeChange', function (oldVolume, newVolme) {
+        dispatcher.on('volumeChange', function (oldVolume) {
           DBM.Events.onVolumeChange(guild, voiceChannel, oldVolume)
         })
         DBM.Events.onAudioStart(guild, voiceChannel)

@@ -10,6 +10,7 @@ module.exports = {
     DBM.Events.messageDeleteBulk = function (messagesList) {
       if (!Bot.$evts['Delete Bulk Messages']) return
       const server = messagesList.first().guild
+
       for (const event of Bot.$evts['Delete Bulk Messages']) {
         const temp = {}
         if (event.temp) temp[event.temp] = messagesList.array()
@@ -17,6 +18,7 @@ module.exports = {
         Actions.invokeEvent(event, server, temp)
       }
     }
+
     const onReady = Bot.onReady
     Bot.onReady = function (...params) {
       Bot.bot.on('messageDeleteBulk', DBM.Events.messageDeleteBulk)
