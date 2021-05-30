@@ -157,7 +157,6 @@ module.exports = {
           wrexlink.setAttribute('title', url)
           wrexlink.addEventListener('click', (e) => {
             e.stopImmediatePropagation()
-            console.log(`Launching URL: [${url}] in your default browser.`)
             require('child_process').execSync(`start ${url}`)
           })
         }
@@ -190,19 +189,11 @@ module.exports = {
     const varName2 = this.evalMessage(data.varName2, cache)
     const TimeFormat = this.getMods().require('hh-mm-ss')
     const info = parseInt(data.info)
-
     const { Audio } = this.getDBM()
-
     const targetServer = this.getServer(server, varName2, cache)
-    if (!targetServer) {
-      this.callNextAction(cache)
-      return
-    }
 
-    if (!Audio) {
-      this.callNextAction(cache)
-      return
-    }
+    if (!targetServer) return this.callNextAction(cache)
+    if (!Audio) return this.callNextAction(cache)
 
     let result
     switch (info) {

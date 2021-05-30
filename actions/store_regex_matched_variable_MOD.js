@@ -95,7 +95,6 @@ module.exports = {
           try {
             if (typeVariable) {
               regex = new RegExp(typeVariable, 'i')
-
               if (regex.test(inputData)) {
 
                 outputData = inputData.match(regex)
@@ -104,7 +103,7 @@ module.exports = {
                   jsonData = JSON.stringify(outputData)
 
                   const storageType = ['', 'tempVars', 'serverVars', 'globalVars']
-                  const out = storageType[storage]
+                  // const out = storageType[storage]
 
                   this.storeValue(this.eval(jsonData, cache), storage, varName, cache)
                 }

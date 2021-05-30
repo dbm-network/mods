@@ -86,7 +86,7 @@ module.exports = {
     result.fetch().then((react) => {
       this.storeValue(react, storage, varName2, cache)
       this.callNextAction(cache)
-    })    
+    })
   },
 
   mod () {}

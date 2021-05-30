@@ -44,13 +44,13 @@ module.exports = {
     const client = this.getDBM().Bot.bot
 
     client.fetchInvite(invite)
-    .catch(console.error)
-    .then((invite) => {
-      const storage = parseInt(data.storage)
-      const varName = this.evalMessage(data.varName, cache)
-      this.storeValue(invite, storage, varName, cache)
-      this.callNextAction(cache)
-    })
+      .catch(console.error)
+      .then((invite) => {
+        const storage = parseInt(data.storage)
+        const varName = this.evalMessage(data.varName, cache)
+        this.storeValue(invite, storage, varName, cache)
+        this.callNextAction(cache)
+      })
   },
 
   mod () {}
