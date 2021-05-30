@@ -55,7 +55,7 @@ module.exports = {
 
     if (type !== 'text') return this.callNextAction(cache)
 
-    reason !== null ? channel.setRateLimitPerUser(amount, reason) : channel.setRateLimitPerUser(amount)
+    channel.setRateLimitPerUser(amount, reason)
 
     this.callNextAction(cache)
   },
