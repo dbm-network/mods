@@ -1,4 +1,4 @@
-/* eslint no-unused-vars */
+/* eslint-disable no-unused-vars */
 module.exports = {
   name: 'Store Data List MOD',
   displayName: 'Store Data List',
