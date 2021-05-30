@@ -3,13 +3,13 @@ module.exports = {
   section: 'Other Stuff',
 
   subtitle (data) {
-    if (data.toSend.length > 0) {
-      return `<font color="${data.color}">${data.toSend}</font>`
+    if (data.tosend.length > 0) {
+      return `<font color="${data.color}">${data.tosend}</font>`
     }
     return 'Please enter a message!'
   },
 
-  fields: ['toSend', 'color'],
+  fields: ['tosend', 'color'],
 
   html () {
     return `
@@ -19,7 +19,7 @@ module.exports = {
 </div><br>
 <div style="padding-top: 8px;">
   Message to send:<br>
-  <textarea id="toSend" rows="4" style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+  <textarea id="tosend" rows="4" style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
 </div>`
   },
 
@@ -29,11 +29,11 @@ module.exports = {
     const Mods = this.getMods()
     const chalk = Mods.require('chalk')
     const data = cache.actions[cache.index]
-    const send = this.evalMessage(data.toSend, cache)
+    const send = this.evalMessage(data.tosend, cache)
 
     if (!send || send.length < 1) {
       console.log(chalk.gray(`Please provide something to log: Action #${cache.index + 1}`))
-      return this.callNextAction(cache)
+      this.callNextAction(cache)
     }
 
     const color = this.evalMessage(data.color, cache)

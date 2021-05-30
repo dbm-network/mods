@@ -3,7 +3,7 @@ module.exports = {
   section: 'Other Stuff',
 
   subtitle (data) {
-    return `Find "${data.wordToFind}"`
+    return `Find "${data.wordtoFind}"`
   },
 
   variableStorage (data, varType) {
@@ -12,13 +12,13 @@ module.exports = {
     const dataType = 'Number'
     return ([data.varName, dataType])
   },
-  fields: ['text', 'wordToFind', 'position', 'storage', 'varName'],
+  fields: ['text', 'wordtoFind', 'position', 'storage', 'varName'],
 
   html (isEvent, data) {
     return `
 <div style="float: left; width: 65%; padding-top: 8px;">
   Text to Find:
-  <input id="wordToFind" class="round" type="text">
+  <input id="wordtoFind" class="round" type="text">
 </div>
 <div style="float: left; width: 29%; padding-top: 8px;">
   Position:<br>
@@ -59,12 +59,12 @@ module.exports = {
   action (cache) {
     const data = cache.actions[cache.index]
     const text = this.evalMessage(data.text, cache)
-    const wordToFind = this.evalMessage(data.wordToFind, cache)
+    const wordToFind = this.evalMessage(data.wordtoFind, cache)
     const position = parseInt(data.position)
 
     if (!wordToFind) return console.log('Find Text MOD: Text to find is missing!')
     if (!text) return console.log('Find Text MOD: Source text is missing!')
-    if (!text.includes(wordToFind)) console.log(`Find Text MOD: The requested text wasn't found in the source text!\nSource text: ${text}\nText to find: ${wordToFind}`)
+    if (!text.includes(wordtoFind)) console.log(`Find Text MOD: The requested text wasn't found in the source text!\nSource text: ${text}\nText to find: ${wordToFind}`)
 
     let result
     switch (position) {
@@ -72,7 +72,7 @@ module.exports = {
         result = text.indexOf(wordToFind)
         break
       case 1:
-        result = wordToFind.length + text.indexOf(wordToFind)
+        result = wordtoFind.length + text.indexOf(wordToFind)
         break
       default:
         break
