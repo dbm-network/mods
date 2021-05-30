@@ -192,8 +192,7 @@ module.exports = {
     const { Audio } = this.getDBM()
     const targetServer = this.getServer(server, varName2, cache)
 
-    if (!targetServer) return this.callNextAction(cache)
-    if (!Audio) return this.callNextAction(cache)
+    if (!targetServer || !Audio) return this.callNextAction(cache)
 
     let result
     switch (info) {
