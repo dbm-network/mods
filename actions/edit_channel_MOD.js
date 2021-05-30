@@ -96,7 +96,7 @@ module.exports = {
         channel.edit({ bitrate: parseInt(newState) })
         break
       case 4:
-        channel.edit({ userLimit: parseInt(newState) })
+        channel.edit({ userLimit: parseInt(newState, 10) })
         break
       case 5:
         channel.setParent(newState)
