@@ -59,7 +59,7 @@ module.exports = {
   </div><br>
 </div>
 <style>
-  /* Embed CSS code by Mr.Gold */
+  /* Embed CSS code */
   .embed {
     position: relative;
   }
@@ -94,7 +94,6 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.variableChange(document.getElementById('storage'), 'varNameContainer')
   },
 

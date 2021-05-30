@@ -1,6 +1,4 @@
-/* eslint-disable no-undef */
 /* eslint-disable no-constant-condition */
-/* eslint-disable no-unused-vars */
 module.exports = {
   name: 'Store HTML From Webpage',
   section: 'HTML/XML Things',
@@ -58,7 +56,7 @@ module.exports = {
     }
 
     try {
-      const Mods = require(require('path').join(__dirname, 'aaa_wrexmods_dependencies_MOD.js')).getMods()
+      const Mods = this.getMods()
 
       const valid = document.getElementById('valid')
       const url = document.getElementById('url')
@@ -77,7 +75,7 @@ module.exports = {
         }
       }
     } catch (error) {
-      // write any init errors to errors.txt in dbm's main directory
+      // write any init errors to errors.txt in dbms' main directory
       require('fs').appendFile('errors.txt', error.stack ? error.stack : `${error}\r\n`)
     }
 
@@ -95,9 +93,7 @@ module.exports = {
 
       let url = this.evalMessage(data.url, cache)
 
-      if (!Mods.checkURL(url)) {
-        url = encodeURI(url)
-      }
+      if (!Mods.checkURL(url)) url = encodeURI(url)
 
       if (Mods.checkURL(url)) {
         const request = Mods.require('request')

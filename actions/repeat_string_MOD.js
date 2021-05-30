@@ -19,11 +19,11 @@ module.exports = {
 <div>
   <div>
     String:<br>
-    <input placeholder="String or varible" id="girdi" class="round" type="text">
+    <input placeholder="String or variable" id="girdi" class="round" type="text">
   </div><br>
   <div>
     Times:<br>
-    <input placeholder="Number or varible" id="xtimes" class="round" type="text">
+    <input placeholder="Number or variable" id="xtimes" class="round" type="text">
   </div>
 </div><br>
 <div>

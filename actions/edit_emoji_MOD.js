@@ -32,7 +32,6 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.emojiChange(document.getElementById('storage'))
   },
 

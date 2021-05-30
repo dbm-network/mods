@@ -41,10 +41,8 @@ module.exports = {
     const wh = Mods.getWebhook(webhook, varName, cache)
     const message = this.evalMessage(data.message, cache)
 
-    if (!wh) {
-      console.log('Push Webhook ERROR: idk...')
-      this.callNextAction(cache)
-    }
+    if (!wh) return this.callNextAction(cache)
+
     wh.send(message)
     this.callNextAction(cache)
   },

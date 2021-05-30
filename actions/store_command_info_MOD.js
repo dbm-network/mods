@@ -27,6 +27,8 @@ module.exports = {
       case 7:
         dataType = 'Number'
         break
+      default:
+        break
     }
     return ([data.varName, dataType])
   },

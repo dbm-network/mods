@@ -56,15 +56,9 @@ module.exports = {
     const varName2 = this.evalMessage(data.varName2, cache)
     const member = this.getMember(type, varName2, cache)
 
-    if (!Mods) return
-    if (!rea) {
-      console.log('This is not a reaction')
-      this.callNextAction(cache)
-    }
+    if (!rea) return this.callNextAction(cache)
 
-    if (member) {
-      rea.users.remove(member)
-    }
+    if (member) rea.users.remove(member)
     this.callNextAction(cache)
   },
 

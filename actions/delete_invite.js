@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 module.exports = {
   name: 'Delete Invite',
   section: 'Invite Control',
@@ -14,7 +13,7 @@ module.exports = {
 
   fields: ['invite', 'storage', 'varName'],
 
-  html (isEvent, data) {
+  html () {
     return `
 <div>
   <div style="padding-top: 8px;">

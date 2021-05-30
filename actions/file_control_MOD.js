@@ -151,7 +151,7 @@ module.exports = {
           <input onclick="if(checked){value='yes'}else{value='no'}" type="checkbox" id="togglestatus" value='no'>
           <span class="slider round"></span>
         </label>
-        <span>Toogle this if your data contains Objects (Json, array, etc...)</span>
+        <span>Toggle this if your data contains Objects (Json, array, etc...)</span>
       </div>
       <div id="lineInsert" class="" style="float: left; width: 65%;">
         Line to Insert at:<br>
@@ -168,8 +168,8 @@ module.exports = {
     const selector2 = document.getElementById('format')
     const targetfield = document.getElementById('inputArea')
     const targetfield2 = document.getElementById('lineInsert')
-    var vall = document.getElementById('togglestatus').value
-    if (vall === 'yes') document.getElementById('togglestatus').checked = true
+    var val1 = document.getElementById('togglestatus').value
+    if (val1 === 'yes') document.getElementById('togglestatus').checked = true
 
     selector.onclick = () => showInput()
 
@@ -263,6 +263,8 @@ module.exports = {
           if (!fs.existsSync(dirName)) this.callNextAction(cache)
           if (err) return console.log(`${lmg} deleting: [${err}]`)
         })
+        break
+      default:
         break
     }
     function ensureDirExists (dirPath, cb) {

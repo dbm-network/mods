@@ -45,6 +45,8 @@ module.exports = {
       case 12:
         dataType = 'Number'
         break
+      default:
+        break
     }
     return ([data.varName2, dataType])
   },
@@ -103,7 +105,6 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.roleChange(document.getElementById('role'), 'varNameContainer')
   },
 
@@ -113,10 +114,8 @@ module.exports = {
     const varName = this.evalMessage(data.varName, cache)
     const info = parseInt(data.info)
     const targetRole = this.getRole(role, varName, cache)
-    if (!targetRole) {
-      this.callNextAction(cache)
-      return
-    }
+    if (!targetRole) return this.callNextAction(cache)
+
     let result
     switch (info) {
       case 0:

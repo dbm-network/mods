@@ -133,6 +133,8 @@ module.exports = {
           html: textvalue
         }
         break
+      default:
+        break
     }
 
     transporter.sendMail(mailOptions, (error) => {
@@ -140,7 +142,6 @@ module.exports = {
         console.log(error)
         _this.executeResults(false, data, cache)
       } else {
-        console.log(`Email successfully sent to: ${mailto}`)
         _this.callNextAction(cache)
       }
     })

@@ -70,17 +70,7 @@ module.exports = {
     const list = this.getList(storage, varName, cache)
     const item = this.evalMessage(data.item, cache)
 
-    let result
-    let loop = 0
-
-    while (loop < list.length) {
-      if (list[loop] === item) {
-        result = loop
-        break
-      } else {
-        ++loop
-      }
-    }
+    const result = list.findIndex(i => i === item)
 
     if (result !== undefined) {
       const varName2 = this.evalMessage(data.varName2, cache)

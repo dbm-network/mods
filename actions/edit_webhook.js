@@ -43,16 +43,17 @@ module.exports = {
     const varName = this.evalMessage(data.varName, cache)
     const Mods = this.getMods()
     const wh = Mods.getWebhook(webhook, varName, cache)
-    if (wh) {
-      const avatar = this.evalMessage(data.webhookIcon, cache)
-      const name = this.evalMessage(data.webhookName, cache)
-      if (avatar && name) {
-        wh.edit({ avatar, name })
-      } else if (avatar) {
-        wh.edit({ avatar })
-      } else if (name) {
-        wh.edit({ name })
-      }
+
+    if (!wh) return this.callNextAction(cache)
+
+    const avatar = this.evalMessage(data.webhookIcon, cache)
+    const name = this.evalMessage(data.webhookName, cache)
+    if (avatar && name) {
+      wh.edit({ avatar, name })
+    } else if (avatar) {
+      wh.edit({ avatar })
+    } else if (name) {
+      wh.edit({ name })
     }
     this.callNextAction(cache)
   },

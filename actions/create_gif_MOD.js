@@ -47,10 +47,7 @@ module.exports = {
       gif = obj
     }
 
-    if (!gif.includes('.gif')) {
-      console.log("This isn't a GIF")
-      this.callNextAction(cache)
-    }
+    if (!gif.includes('.gif')) return this.callNextAction(cache)
 
     const varName = this.evalMessage(data.varName, cache)
     const storage = parseInt(data.storage)

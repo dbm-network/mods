@@ -3,7 +3,7 @@ module.exports = {
   section: 'Other Stuff',
 
   subtitle (data) {
-    const info = ['Addition', 'Subtraction', 'Multiplication', 'Division', 'Round', 'Round to S.F.', 'Absolute', 'Ceil', 'Floor', 'Factorial', 'Raised by (Exponents)', 'Rooted by (Roots)', 'Sine', 'Cosine', 'Tangent', 'Arc Sine', 'Arc Cosine', 'Arc Tangent', '% Of Number', 'Increase By %', 'Decrease By %', 'Value of Pi', 'Value of Eulers number']
+    const info = ['Addition', 'Subtraction', 'Multiplication', 'Division', 'Round', 'Round to S.F.', 'Absolute', 'Ceil', 'Floor', 'Factorial', 'Raised by (Exponents)', 'Rooted by (Roots)', 'Sine', 'Cosine', 'Tangent', 'Arc Sine', 'Arc Cosine', 'Arc Tangent', '% Of Number', 'Increase By %', 'Decrease By %', 'Value of Pi', 'Value of Euler\'s number']
     return `${info[data.info]}`
   },
 
@@ -47,7 +47,7 @@ module.exports = {
       <option value="19">Increase Number By %</option>
       <option value="20">Decrease Number By %</option>
       <option value="21">Value of Pi</option>
-      <option value="22">Value of Eulers number</option>
+      <option value="22">Value of Euler's number</option>
   </select>
 </div><br>
 <div id="SecondNum" style="width: 90%;">

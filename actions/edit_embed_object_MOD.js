@@ -474,10 +474,7 @@ module.exports = {
 
     function filter (dataType) {
       for (let i = 0; i < dataType.length; i++) {
-        console.log(dataType[i].value)
-        console.log(varName.value)
         if (dataType[i].value === varName.value) {
-          console.log(i)
           return dataType[i]
         }
       }
@@ -503,10 +500,8 @@ module.exports = {
     const storage = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
     const embed = this.getVariable(storage, varName, cache)
-    if (!embed) {
-      this.callNextAction(cache)
-      return
-    }
+    if (!embed) return this.callNextAction(cache)
+
     const Edit0 = parseInt(data.Edit0)
     const Edit1 = parseInt(data.Edit1)
     const Edit2 = parseInt(data.Edit2)
@@ -545,6 +540,8 @@ module.exports = {
       case 2:
         embed.title = undefined
         break
+      default:
+        break
     }
     switch (Edit1) {
       case 1:
@@ -552,6 +549,8 @@ module.exports = {
         break
       case 2:
         embed.url = undefined
+        break
+      default:
         break
     }
     switch (Edit2) {
@@ -561,6 +560,8 @@ module.exports = {
       case 2:
         embed.description = undefined
         break
+      default:
+        break
     }
     switch (Edit3) {
       case 1:
@@ -568,6 +569,8 @@ module.exports = {
         break
       case 2:
         embed.color = undefined
+        break
+      default:
         break
     }
     switch (Edit4) {
@@ -581,6 +584,8 @@ module.exports = {
         embed.attachFiles([`${imageUrl}/${imageUrl2}`])
         embed.setImage(`attachment://${imageUrl2}`)
         break
+      default:
+        break
     }
     switch (Edit5) {
       case 1:
@@ -592,6 +597,8 @@ module.exports = {
       case 3:
         embed.attachFiles([`${thumbUrl}/${thumbUrl2}`])
         embed.setImage(`attachment://${thumbUrl2}`)
+        break
+      default:
         break
     }
     if (embed.author === undefined) {
@@ -647,6 +654,8 @@ module.exports = {
       case 2:
         embed.footer.iconURL = undefined
         break
+      default:
+        break
     }
     switch (Edit11) {
       case 1:
@@ -662,6 +671,8 @@ module.exports = {
       case 3:
         embed.timestamp = undefined
         break
+      default:
+        break
     }
     switch (Edit12) {
       case 1:
@@ -674,6 +685,8 @@ module.exports = {
               break
             case 2:
               embed.fields[fieldNum].inline = false
+              break
+            default:
               break
           }
         }
@@ -696,10 +709,14 @@ module.exports = {
           case 2:
             field.inline = false
             break
+          default:
+            break
         }
         embed.fields.splice(fieldNum, 0, field)
         break
       }
+      default:
+        break
     }
     this.storeValue(embed, storage, varName, cache)
     this.callNextAction(cache)

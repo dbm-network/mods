@@ -81,16 +81,14 @@ module.exports = {
     option.value = '4'
     option.text = 'Jump to Anchor'
     const iffalse = document.getElementById('iffalse')
-    if (iffalse.length === 4) {
-      iffalse.add(option)
-    }
+    if (iffalse.length === 4) iffalse.add(option)
+
     const option2 = document.createElement('OPTION')
     option2.value = '4'
     option2.text = 'Jump to Anchor'
     const iftrue = document.getElementById('iftrue')
-    if (iftrue.length === 4) {
-      iftrue.add(option2)
-    }
+    if (iftrue.length === 4) iftrue.add(option2)
+
     glob.onChangeTrue = function (event) {
       switch (parseInt(event.value)) {
         case 0:
@@ -142,10 +140,12 @@ module.exports = {
     const type = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
     const val1 = this.getVariable(type, varName, cache)
-    let result = false
+
     const compare = parseInt(data.comparison)
     let val2 = this.evalMessage(data.value, cache)
     if (compare !== 6) val2 = this.eval(val2, cache)
+    let result = false
+
     switch (compare) {
       case 0:
         // eslint-disable-next-line eqeqeq
@@ -165,9 +165,7 @@ module.exports = {
         result = val1 > val2
         break
       case 5:
-        if (typeof (val1.includes) === 'function') {
-          result = val1.includes(val2)
-        }
+        if (typeof (val1.includes) === 'function') result = val1.includes(val2)
         break
       case 6:
         result = Boolean(val1.match(new RegExp(`^${val2}$`, 'i')))

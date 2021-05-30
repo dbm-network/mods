@@ -1,5 +1,6 @@
 module.exports = {
   name: 'Store Audit Log Info MOD',
+  displayName: 'Store Audit Log Info',
   section: 'Server Control',
 
   subtitle (data) {
@@ -36,6 +37,8 @@ module.exports = {
         break
       case 5:
         dataType = 'Date'
+        break
+      default:
         break
     }
     return ([data.varName2, dataType])

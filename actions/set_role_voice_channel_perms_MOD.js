@@ -56,6 +56,7 @@ module.exports = {
 
   init () {
     const { glob, document } = this
+
     glob.voiceChannelChange(document.getElementById('vchannel'), 'varNameContainer')
     glob.roleChange(document.getElementById('role'), 'varNameContainer2')
   },
