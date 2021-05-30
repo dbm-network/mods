@@ -10,15 +10,25 @@ module.exports = {
 
   html () {
     return `
-Channel to send to:<br>
-<input id='channelToSendTo' class='round' type='text'><br>
-Username of the account sending the message:<br>
-<input id='username' class='round' type='text'><br>
-oAuth token for the account sending the message:<br>
-<a href='https://twitchapps.com/tmi/'>Click here to get yours</a><br>
-<input id='oAuth' class='round' type='text'><br>
-Message to send:<br>
-<input id='messageToSend' class='round type='text'>`
+<div>
+  <div>
+    Channel to send to:<br>
+    <input id='channelToSendTo' class='round' type='text'><br>
+  </div><br>
+  <div>
+    Username of the account sending the message:<br>
+    <input id='username' class='round' type='text'><br>
+  </div><br>
+  <div>
+    oAuth token for the account sending the message:<br>
+    <a href='https://twitchapps.com/tmi/'>Click here to get yours</a><br>
+    <input id='oAuth' class='round' type='text'><br>
+  </div><br>
+  <div>
+    Message to send:<br>
+    <input id='messageToSend' class='round type='text'>
+  </div>
+</div>`
   },
 
   init () {},

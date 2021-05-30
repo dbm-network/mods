@@ -34,9 +34,7 @@ Variable name:<br>
     const storage = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
 
-    if (response) {
-      this.storeValue(response, storage, varName, cache)
-    }
+    if (response) this.storeValue(response, storage, varName, cache)
     this.callNextAction(cache)
   },
 

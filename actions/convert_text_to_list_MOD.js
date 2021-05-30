@@ -51,7 +51,6 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.refreshVariableList(document.getElementById('storage'))
   },
 
@@ -62,13 +61,10 @@ module.exports = {
     const text = this.getVariable(storage, varName, cache)
     const separator = this.evalMessage(data.separator, cache)
     const params = text.split(new RegExp(separator))
-    if (params.length === 0) {
-      console.log('Convert Text to List: Text is empty.')
-    } else {
-      const storage2 = parseInt(data.storage2)
-      const varName2 = this.evalMessage(data.varName2, cache)
-      this.storeValue(params, storage2, varName2, cache)
-    }
+
+    const storage2 = parseInt(data.storage2)
+    const varName2 = this.evalMessage(data.varName2, cache)
+    this.storeValue(params, storage2, varName2, cache)
 
     this.callNextAction(cache)
   },

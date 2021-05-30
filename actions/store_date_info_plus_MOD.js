@@ -178,6 +178,8 @@ module.exports = {
         case 12:
           result = date.format('X')
           break
+        default:
+          break
       }
     } else {
       result = date.format(buildInput)

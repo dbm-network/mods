@@ -78,7 +78,6 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.roleChange(document.getElementById('role'), 'varNameContainer')
   },
 

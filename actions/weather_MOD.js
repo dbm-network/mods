@@ -108,7 +108,7 @@ module.exports = {
     const degreeType2 = this.evalMessage(data.degreeType, cache)
     const _this = this
 
-    if (!city) return console.log('Please specify a city to get weather informations.')
+    if (!city) return console.error('Please specify a city to get weather information.')
 
     const Mods = this.getMods()
     const weather = Mods.require('weather-js')

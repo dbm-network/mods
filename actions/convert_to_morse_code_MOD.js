@@ -47,16 +47,19 @@ module.exports = {
     const Mods = this.getMods()
     const morsify = Mods.require('morsify')
     const storage = parseInt(data.storage)
-    const INFO = parseInt(data.info)
+    const info = parseInt(data.info)
     const varName = this.evalMessage(data.varName, cache)
     const input = this.evalMessage(data.input, cache)
-    let result = 0
-    switch (INFO) {
+    let result
+
+    switch (info) {
       case 0:
         result = morsify.encode(input)
         break
       case 1:
         result = morsify.decode(input)
+        break
+      default:
         break
     }
     this.storeValue(result, storage, varName, cache)

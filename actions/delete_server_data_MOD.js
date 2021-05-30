@@ -33,7 +33,6 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.serverChange(document.getElementById('server'), 'varNameContainer')
   },
 
@@ -43,10 +42,9 @@ module.exports = {
     const varName = this.evalMessage(data.varName, cache)
     const server = this.getServer(type, varName, cache)
     const dataName = this.evalMessage(data.dataName, cache)
-    if (!server) {
-      this.callNextAction(cache)
-      return
-    }
+
+    if (!server) return this.callNextAction(cache)
+
     server.delData(dataName)
     this.callNextAction(cache)
   },

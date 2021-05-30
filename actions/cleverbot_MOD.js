@@ -63,7 +63,7 @@ module.exports = {
   <div id="comment" style="padding-top: 30px; padding-top: 8px;">
     <p>
     <u>Which API should I use?</u><br>
-    CleverBot-Free is completely free and you dont need to use an API key. You can just use it without any API key.<br>
+    CleverBot-Free is completely free and you don't need to use an API key. You can just use it without any API key.<br>
     Cleverbot.io is completely free. You only have to sign in with an email to get an API key. But that bot is a little bit dumb. It is asking you the same questions on every start etc.<br>
     Cleverbot.com is much more clever. But it is only free for 5000 calls/questions. If you want more, you'll have to pay (or create a new account).<br><br>
     Get cleverbot.io key: https://cleverbot.io/keys<br>

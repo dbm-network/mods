@@ -61,7 +61,7 @@ module.exports = {
     position: relative;
   }
 
-  embedleftline { /* <embedleftline></embedleftline> OR if you wan't to change the Color: <embedleftline style="background-color: #HEXCODE;"></embedleftline> */
+  embedleftline { /* <embedleftline></embedleftline> OR if you want to change the Color: <embedleftline style="background-color: #HEXCODE;"></embedleftline> */
     background-color: #eee;
     width: 4px;
     border-radius: 3px 0 0 3px;
@@ -117,7 +117,7 @@ module.exports = {
         this.storeValue(result, storage, varName2, cache)
       }
     } catch (err) {
-      console.log(`Error in Speed Test MOD: ${err}`)
+      console.log(`Error in Speed Test Mod: ${err}`)
     } finally {
       this.callNextAction(cache)
     }

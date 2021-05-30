@@ -103,10 +103,7 @@ module.exports = {
     const storage = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
     const embed = this.getVariable(storage, varName, cache)
-    if (!embed) {
-      this.callNextAction(cache)
-      return
-    }
+    if (!embed) return this.callNextAction(cache)
 
     const messageContent = this.evalMessage(data.messageContent, cache)
     const channel = parseInt(data.channel)
@@ -119,7 +116,7 @@ module.exports = {
       target.send(messageContent, { embed })
         .then((msg) => {
           if (msg && varName3) this.storeValue(msg, storage3, varName3, cache)
-          this.callNextAction(cache)
+          return this.callNextAction(cache)
         })
         .catch((err) => {
           if (err.message === 'Cannot send messages to this user') {

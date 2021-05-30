@@ -66,20 +66,21 @@ module.exports = {
   action (cache) {
     const data = cache.actions[cache.index]
     const { server } = cache
-    if (this.dest(server, 'emojis', 'create')) {
-      const type = parseInt(data.storage)
-      const varName = this.evalMessage(data.varName, cache)
-      const gif = this.getVariable(type, varName, cache)
-      const name = this.evalMessage(data.emojiName, cache)
-      server.emojis.create(gif, name).then((emoji) => {
-        const varName2 = this.evalMessage(data.varName2, cache)
-        const storage = parseInt(data.storage2)
-        this.storeValue(emoji, storage, varName2, cache)
-        this.callNextAction(cache)
-      }).catch(this.displayError.bind(this, data, cache))
-    } else {
+
+    if (!this.dest(server, 'emojis', 'create')) return this.callnextAction(cache)
+
+    const type = parseInt(data.storage)
+    const varName = this.evalMessage(data.varName, cache)
+    const gif = this.getVariable(type, varName, cache)
+    const name = this.evalMessage(data.emojiName, cache)
+
+    server.emojis.create(gif, name).then((emoji) => {
+      const varName2 = this.evalMessage(data.varName2, cache)
+      const storage = parseInt(data.storage2)
+      this.storeValue(emoji, storage, varName2, cache)
       this.callNextAction(cache)
-    }
+    })
+      .catch(this.displayError.bind(this, data, cache))
   },
 
   mod () {}

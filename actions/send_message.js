@@ -100,7 +100,9 @@ module.exports = {
     const varName = this.evalMessage(data.varName, cache)
     const target = this.getSendTarget(channel, varName, cache)
     const { message } = data
+
     if (!target || !message) return
+
     if (Array.isArray(target)) {
       this.callListFunc(target, 'send', [this.evalMessage(message, cache)]).then((msg) => {
         const varName2 = this.evalMessage(data.varName2, cache)

@@ -43,6 +43,7 @@ module.exports = {
     const storage = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
     const embed = this.getVariable(storage, varName, cache)
+
     if (embed && embed.setFooter) {
       embed.setFooter(this.evalMessage(data.message, cache), this.evalMessage(data.footerIcon, cache))
     }

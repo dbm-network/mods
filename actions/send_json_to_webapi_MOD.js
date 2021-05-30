@@ -163,9 +163,7 @@ module.exports = {
 
     const postJson = this.evalMessage(data.postJson, cache)
 
-    if (!Mods.checkURL(url)) {
-      url = encodeURI(url)
-    }
+    if (!Mods.checkURL(url)) url = encodeURI(url)
 
     if (Mods.checkURL(url)) {
       if (postJson) {

@@ -38,25 +38,23 @@ Name:<br>
 
   init () {
     const { glob, document } = this
-
     glob.variableChange(document.getElementById('storage'), 'varNameContainer')
   },
 
   action (cache) {
     const data = cache.actions[cache.index]
     const { server } = cache
-    if (this.dest(server, 'channels', 'create')) {
-      const name = this.evalMessage(data.channelName, cache)
-      const position = parseInt(data.position)
-      const storage = parseInt(data.storage)
-      server.channels.create(name, { type: 'category', position }).then((channel) => {
-        const varName = this.evalMessage(data.varName, cache)
-        this.storeValue(channel, storage, varName, cache)
-        this.callNextAction(cache)
-      }).catch(this.displayError.bind(this, data, cache))
-    } else {
+    if (!this.dest(server, 'channels', 'create')) return this.callnextAction(cache)
+
+    const name = this.evalMessage(data.channelName, cache)
+    const position = parseInt(data.position)
+    const storage = parseInt(data.storage)
+    server.channels.create(name, { type: 'category', position }).then((channel) => {
+      const varName = this.evalMessage(data.varName, cache)
+      this.storeValue(channel, storage, varName, cache)
       this.callNextAction(cache)
-    }
+    })
+      .catch(this.displayError.bind(this, data, cache))
   },
 
   mod () {}

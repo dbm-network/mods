@@ -45,15 +45,14 @@ module.exports = {
     const Mods = this.getMods()
     const webhook = Mods.getWebhook(storage, varName, cache)
 
-    if (!webhook) {
-      this.callNextAction(cache)
-      return
-    }
+    if (!webhook) return this.callNextAction(cache)
+
     webhook.send({
       files: [
         this.getLocalFile(this.evalMessage(data.file, cache))
       ]
-    }).then(() => this.callNextAction(cache))
+    })
+      .then(() => this.callNextAction(cache))
   },
 
   mod () {}

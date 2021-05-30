@@ -62,7 +62,7 @@ module.exports = {
   </div><br><br>
 </div>
 <style>
-  /* EliteArtz Embed CSS code */
+  /* Embed CSS code */
   .embed {
     position: relative;
   }
@@ -135,9 +135,7 @@ module.exports = {
     const storage = parseInt(data.storage)
     this.storeValue(result, storage, varName, cache)
 
-    if (data.behavior === '0') {
-      this.callNextAction(cache)
-    }
+    if (data.behavior === '0') this.callNextAction(cache)
   },
 
   mod () {}

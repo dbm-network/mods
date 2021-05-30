@@ -43,7 +43,9 @@ module.exports = {
     const invite = this.evalMessage(data.invite, cache)
     const client = this.getDBM().Bot.bot
 
-    client.fetchInvite(invite).catch(console.error).then((invite) => {
+    client.fetchInvite(invite)
+    .catch(console.error)
+    .then((invite) => {
       const storage = parseInt(data.storage)
       const varName = this.evalMessage(data.varName, cache)
       this.storeValue(invite, storage, varName, cache)

@@ -66,7 +66,6 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.channelChange(document.getElementById('channel'), 'varNameContainer')
   },
 

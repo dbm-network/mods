@@ -141,7 +141,7 @@ module.exports = {
         if (result === 'Nov') result = 11
         if (result === 'Dec') result = 12
         if (result === date.slice(4, 7)) {
-          console.log('An error occured on "Store Date Info (Month Number)"')
+          console.log('An error occurred on "Store Date Info (Month Number)"')
           this.callNextAction(cache)
         }
         break

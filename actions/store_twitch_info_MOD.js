@@ -296,7 +296,7 @@ module.exports = {
         <u>API Info:</u><br>
         You will need a <span class="wrexlink" data-url="https://dev.twitch.tv/console/apps">Twitch Applications</span> to use this mod!<br><br>
         <u>Client ID Introductions:</u><br>
-        To get a client id: login through Twitch, create a new application. Then insert your favourite application name & some url (this could be your GitHub page).<br>
+        To get a client id: login through Twitch, create a new application. Then insert your favorite application name & some url (this could be your GitHub page).<br>
         Then select the category "Application Integration" down below and click on create! You should now be in your application list again.<br>
         You need to edit your application once more to copy the client id.<br><br>
         <u>API Limitations:</u><br>
@@ -364,7 +364,7 @@ module.exports = {
           })
         }
       }
-    } catch (error) { // Write any init errors to errors.txt in dbm's main directory
+    } catch (error) { // Write any init errors to errors.txt in dbms' main directory
       require('fs').appendFile('errors.txt', error.stack ? error.stack : error + '\r\n')
     }
 

@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 module.exports = {
   name: 'Store Data List MOD',
   displayName: 'Store Data List',
@@ -293,6 +292,8 @@ module.exports = {
             resultFrom = parseInt(this.evalMessage(data.resultFrom, cache))
             resultTo = parseInt(this.evalMessage(data.resultTo, cache))
             break
+          default:
+            break
         }
         if (result.length < resultTo || resultFrom >= resultTo) {
           resultTo = result.length
@@ -326,6 +327,8 @@ module.exports = {
         }
         break
       }
+      default:
+        break
     }
     this.callNextAction(cache)
   },

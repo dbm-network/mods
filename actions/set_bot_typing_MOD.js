@@ -44,7 +44,6 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.channelChange(document.getElementById('storage'), 'varNameContainer')
   },
 

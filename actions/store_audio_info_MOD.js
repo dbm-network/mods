@@ -91,7 +91,7 @@ module.exports = {
     position: relative;
   }
 
-  embedleftline { /* <embedleftline></embedleftline> OR if you wan't to change the Color: <embedleftline style="background-color: #HEXCODE;"></embedleftline> */
+  embedleftline { /* <embedleftline></embedleftline> OR if you want to change the Color: <embedleftline style="background-color: #HEXCODE;"></embedleftline> */
     background-color: #eee;
     width: 4px;
     border-radius: 3px 0 0 3px;
@@ -180,7 +180,6 @@ module.exports = {
       glob.variableChange(document.getElementById('storage'), 'varNameContainer')
       glob.serverChange(document.getElementById('server'), 'varNameContainer2')
     } catch (error) {
-      // eslint-disable-next-line no-undef
       alert(`Store Audio Info Init Error:\n\n${error}`)
     }
   },

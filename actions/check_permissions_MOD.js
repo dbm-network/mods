@@ -138,16 +138,14 @@ module.exports = {
     option.value = '4'
     option.text = 'Jump to Anchor'
     const iffalse = document.getElementById('iffalse')
-    if (iffalse.length === 4) {
-      iffalse.add(option)
-    }
+    if (iffalse.length === 4) iffalse.add(option)
+
     const option2 = document.createElement('OPTION')
     option2.value = '4'
     option2.text = 'Jump to Anchor'
     const iftrue = document.getElementById('iftrue')
-    if (iftrue.length === 4) {
-      iftrue.add(option2)
-    }
+    if (iftrue.length === 4) iftrue.add(option2)
+
     glob.onChangeTrue = function (event) {
       switch (parseInt(event.value)) {
         case 0:
@@ -200,6 +198,7 @@ module.exports = {
     const permsArray = ['ADMINISTRATOR', 'CREATE_INSTANT_INVITE', 'KICK_MEMBERS', 'BAN_MEMBERS', 'MANAGE_CHANNELS', 'MANAGE_GUILD', 'ADD_REACTIONS', 'VIEW_AUDIT_LOG', 'PRIORITY_SPEAKER', 'STREAM', 'VIEW_CHANNEL', 'SEND_MESSAGES', 'SEND_TTS_MESSAGES', 'MANAGE_MESSAGES', 'EMBED_LINKS', 'ATTACH_FILES', 'READ_MESSAGE_HISTORY', 'MENTION_EVERYONE', 'USE_EXTERNAL_EMOJIS', 'CONNECT', 'SPEAK', 'MUTE_MEMBERS', 'DEAFEN_MEMBERS', 'MOVE_MEMBERS', 'USE_VAD', 'CHANGE_NICKNAME', 'MANAGE_NICKNAMES', 'MANAGE_ROLES', 'MANAGE_WEBHOOKS', 'MANAGE_EMOJIS']
     const yes = []
     const no = []
+
     permsArray.forEach((perms) => {
       if (data[perms] === 'Allow') {
         (permissions.allow.has(perms)) ? yes.push(perms) : no.push(perms)
@@ -209,14 +208,12 @@ module.exports = {
         (permissions.allow.has(perms) || permissions.disallow.has(perms)) ? no.push(perms) : yes.push(perms)
       }
     })
+
     const storage2 = parseInt(data.storage2)
     const varName2 = this.evalMessage(data.varName2, cache)
     if (storage2 && varName2 && no.length !== 0) this.storeValue(no, storage2, varName2, cache)
-    if (no.length >= 1) {
-      this.executeResults(false, data, cache)
-    } else {
-      this.executeResults(true, data, cache)
-    }
+
+    no.length > 0 ? this.executeResults(false, data, cache) : this.executeResults(true, data, cache)
   },
 
   mod () {}
