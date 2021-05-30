@@ -213,7 +213,7 @@ module.exports = {
     const varName2 = this.evalMessage(data.varName2, cache)
     if (storage2 && varName2 && no.length !== 0) this.storeValue(no, storage2, varName2, cache)
 
-    no.length > 0 ? this.executeResults(false, data, cache) : this.executeResults(true, data, cache)
+    this.executeResults(no.length <= 0, data, cache)
   },
 
   mod () {}
