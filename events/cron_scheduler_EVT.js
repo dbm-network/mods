@@ -55,7 +55,7 @@ module.exports = {
 
           if (Object.keys(cronScheduler.Jobs)) console.log(`[Cron Scheduler] ${Object.keys(cronScheduler.Jobs).length} Jobs Scheduled.`)
         } catch (error) {
-            console.error(`Event error: ${error}`)
+          console.error(`Event error: ${error}`)
         }
       }
     }
