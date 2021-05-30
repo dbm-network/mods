@@ -64,7 +64,7 @@ module.exports = {
 
     if (!wordToFind) return console.log('Find Text MOD: Text to find is missing!')
     if (!text) return console.log('Find Text MOD: Source text is missing!')
-    if (!text.includes(wordtoFind)) console.log(`Find Text MOD: The requested text wasn't found in the source text!\nSource text: ${text}\nText to find: ${wordToFind}`)
+    if (!text.includes(wordToFind)) console.log(`Find Text MOD: The requested text wasn't found in the source text!\nSource text: ${text}\nText to find: ${wordToFind}`)
 
     let result
     switch (position) {
@@ -72,7 +72,7 @@ module.exports = {
         result = text.indexOf(wordToFind)
         break
       case 1:
-        result = wordtoFind.length + text.indexOf(wordToFind)
+        result = wordToFind.length + text.indexOf(wordToFind)
         break
       default:
         break
