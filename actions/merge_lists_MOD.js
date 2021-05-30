@@ -80,7 +80,6 @@ module.exports = {
       const varName3 = this.evalMessage(data.varName3, cache)
       const storage3 = parseInt(data.storage3)
       this.storeValue(result, storage3, varName3, cache)
-      return this.callNextAction(cache)
     }
 
     this.callNextAction(cache)
