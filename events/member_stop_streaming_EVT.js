@@ -7,6 +7,7 @@ module.exports = {
   mod (DBM) {
     DBM.Events = DBM.Events || {}
     const { Bot, Actions } = DBM
+
     DBM.Events.offStream = function (oldVoiceState, newVoiceState) {
       if (!Bot.$evts['Member Stop Streaming']) return
       const oldChannel = oldVoiceState.channel

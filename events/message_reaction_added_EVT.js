@@ -8,6 +8,7 @@ module.exports = {
   mod (DBM) {
     DBM.Events = DBM.Events || {}
     const { Bot, Actions } = DBM
+
     DBM.Events.reactionAdded = function (reaction, member) {
       if (!Bot.$evts['Message Reaction Added MOD']) return
       const server = reaction.message.guild || null

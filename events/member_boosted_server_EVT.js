@@ -7,6 +7,7 @@ module.exports = {
   mod (DBM) {
     DBM.Events = DBM.Events || {}
     const { Bot, Actions } = DBM
+
     DBM.Events.boostedGuild = function (old, recent) {
       if (!Bot.$evts['Member Boosted Server']) return
       const server = recent.guild

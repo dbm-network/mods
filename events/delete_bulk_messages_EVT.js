@@ -7,6 +7,7 @@ module.exports = {
   mod (DBM) {
     DBM.Events = DBM.Events || {}
     const { Bot, Actions } = DBM
+
     DBM.Events.messageDeleteBulk = function (messagesList) {
       if (!Bot.$evts['Delete Bulk Messages']) return
       const server = messagesList.first().guild

@@ -7,7 +7,6 @@ module.exports = {
 
   mod (DBM) {
     DBM.Events = DBM.Events || {}
-
     const { Bot, Actions } = DBM
 
     DBM.Events.roleAdded = async function (oldMember, newMember) {
@@ -31,7 +30,6 @@ module.exports = {
     const onReady = Bot.onReady
     Bot.onReady = function (...params) {
       Bot.bot.on('guildMemberUpdate', DBM.Events.roleAdded)
-
       onReady.apply(this, ...params)
     }
   }

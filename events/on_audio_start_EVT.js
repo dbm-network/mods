@@ -35,6 +35,7 @@ module.exports = {
         })
       }
     }
+
     DBM.Events.onAudioStart = function (server, voiceChannel) {
       const { Bot, Actions } = DBM
       if (!Bot.$evts['On Audio Start']) return
@@ -42,7 +43,7 @@ module.exports = {
         const temp = {}
         if (event.temp) temp[event.temp] = voiceChannel
         Actions.invokeEvent(event, server, temp)
-      };
+      }
     }
   }
 }

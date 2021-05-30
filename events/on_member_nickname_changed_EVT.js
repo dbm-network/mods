@@ -8,6 +8,7 @@ module.exports = {
   mod (DBM) {
     DBM.Events = DBM.Events || {}
     const { Bot, Actions } = DBM
+
     DBM.Events.nicknameChanged = async function (oldMember, newMember) {
       if (!Bot.$evts['Member Nickname Changed MOD']) return
       if (newMember.nickname === oldMember.nickname) return
