@@ -3,9 +3,9 @@ module.exports = {
   displayName: 'Scheduled Event',
   isEvent: true,
 
-  fields: [`CRON String Input (<a href='#' onclick="require('child_process').execSync('start https://crontab.guru/')">https://crontab.guru/</a> | <a href='#' onclick="require('child_process').execSync('start https://crontab.guru/examples.html')">Examples</a>`, `Timezone (<a href='#' onclick="require('child_process').execSync('start https://en.wikipedia.org/wiki/List_of_tz_database_time_zones')">TZ Database names</a>| Example: America/New_York )`],
+  fields: [`CRON String Input (<a href='#' onclick='require('child_process').execSync('start https://crontab.guru/')'>https://crontab.guru/</a> | <a href='#' onclick='require('child_process').execSync('start https://crontab.guru/examples.html')'>Examples</a>`, `Timezone (<a href='#' onclick='require('child_process').execSync('start https://en.wikipedia.org/wiki/List_of_tz_database_time_zones')'>TZ Database names</a> | Example: America/New_York )`],
 
-  mod(DBM) {
+  mod (DBM) {
     const { Bot, Actions } = DBM
     const Mods = Actions.getMods()
     const cron = Mods.require('node-cron')
@@ -14,7 +14,7 @@ module.exports = {
     DBM.Events.cronScheduler = {}
     cronScheduler.Jobs = {}
 
-    cronScheduler.isValidTimeZone = function(tz) {
+    cronScheduler.isValidTimeZone = function (tz) {
       if (!tz) return true
       if (!Intl || !Intl.DateTimeFormat().resolvedOptions().timeZone) {
         throw new Error('Time zones are not available in this environment')
@@ -30,7 +30,7 @@ module.exports = {
       }
     }
 
-    cronScheduler.setupCrons = function() {
+    cronScheduler.setupCrons = function () {
       if (!Bot.$evts['Cron Scheduler']) return
 
       for (const event of Bot.$evts['Cron Scheduler']) {
@@ -61,7 +61,7 @@ module.exports = {
     }
 
     const onReady = DBM.Bot.onReady
-    DBM.Bot.onReady = function(...params) {
+    DBM.Bot.onReady = function (...params) {
       cronScheduler.setupCrons()
       onReady.apply(this, ...params)
     }
