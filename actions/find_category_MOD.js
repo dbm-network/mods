@@ -44,10 +44,9 @@ module.exports = {
 </div><br><br><br>
 <p>You can store and edit a category using the channel actions "Store Channel Info", "Edit Channel" or "Set Channel Permission".</p>
 
-<!-- Don't forget to copy the style below with the html above!
-This was made by EliteArtz!-->
+<!-- Don't forget to copy the style below with the html above!-->
 <style>
-  /* EliteArtz Embed CSS code */
+  /* Embed CSS code */
   .embed {
     position: relative;
   }
@@ -114,7 +113,6 @@ This was made by EliteArtz!-->
       const storage = parseInt(data.storage)
       const varName = this.evalMessage(data.varName, cache)
       this.storeValue(result, storage, varName, cache)
-      this.callNextAction(cache)
     }
     this.callNextAction(cache)
   },

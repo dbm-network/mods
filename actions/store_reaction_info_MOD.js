@@ -102,10 +102,7 @@ module.exports = {
     const Mods = this.getMods()
     const rea = Mods.getReaction(reaction, varName, cache)
 
-    if (!rea) {
-      console.log('This is not a reaction')
-      this.callNextAction(cache)
-    }
+    if (!rea) return this.callNextAction(cache)
 
     let result
     switch (info) {

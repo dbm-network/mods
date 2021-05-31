@@ -48,10 +48,7 @@ module.exports = {
     const texttosplit = this.evalMessage(data.split, cache)
     const spliton = this.evalMessage(data.spliton, cache)
 
-    if (!texttosplit || !spliton) {
-      console.log('Something went wrong with spit mod. (Missing text or split)')
-      return this.callNextAction(cache)
-    }
+    if (!texttosplit || !spliton) return this.callNextAction(cache)
 
     const result = texttosplit.split(spliton)
     const storage = parseInt(data.storage)

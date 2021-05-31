@@ -95,30 +95,10 @@ module.exports = {
           try {
             if (typeVariable) {
               regex = new RegExp(typeVariable, 'i')
-
               if (regex.test(inputData)) {
-                console.log(`Store Regex Match: Valid Regex (RegEx String: ${typeVariable})`)
-
                 outputData = inputData.match(regex)
-
                 if (outputData) {
                   jsonData = JSON.stringify(outputData)
-
-                  console.log(`Store Regex Match: Match Stored as JSON: ${jsonData}`)
-
-                  console.log('Match Results;\r\n')
-
-                  for (let i = 0; i < outputData.length; i++) {
-                    console.log(`[${i}] = ${outputData[i]}`)
-                  }
-
-                  console.log('\r\nAppend the key that you want to store that value to the variable.')
-
-                  const storageType = ['', 'tempVars', 'serverVars', 'globalVars']
-                  const out = storageType[storage]
-
-                  console.log(`Example \${${out}("${varName}")} to \${${out}("${varName}")[key]}`)
-                  console.log(`${varName}[key] if not using it as a template`)
                   this.storeValue(this.eval(jsonData, cache), storage, varName, cache)
                 }
               } else {
@@ -134,15 +114,10 @@ module.exports = {
           try {
             if (typeVariable) {
               regex = new RegExp(typeVariable, 'g')
-
-              console.log(`Store Regex Match: Replacing With: ${typeVariable}`)
-
               if (inputData) {
                 outputData = inputData.replace(regex, typeVariable)
-
                 if (outputData) {
                   jsonData = JSON.stringify(outputData)
-                  console.log(`Store Regex Match: Stored as JSON: ${jsonData}`)
                   this.storeValue(this.eval(jsonData, cache), storage, varName, cache)
                 }
               }

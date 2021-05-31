@@ -193,11 +193,12 @@ module.exports = {
     const channel = parseInt(data.channel)
     const varName = this.evalMessage(data.varName, cache)
     const source = this.getChannel(channel, varName, cache)
+
     if (!source) {
-      this.displayError(data, cache, 'Channel do not exist!')
-      this.callNextAction(cache)
-      return
+      this.displayError(data, cache, 'Channel does not exist!')
+      return this.callNextAction(cache)
     }
+
     const options = {}
     const msgid = parseInt(this.evalMessage(data.msgid, cache))
     switch (parseInt(data.option)) {
@@ -210,7 +211,10 @@ module.exports = {
       case 3:
         options.around = msgid
         break
+      default:
+        break
     }
+
     options.limit = 100
     const limit = Math.min(parseInt(this.evalMessage(data.count, cache)), 100)
     if (this.dest(source, 'messages', 'fetch')) {
@@ -276,7 +280,6 @@ module.exports = {
         }
         this.callNextAction(cache)
       } catch (err) {
-        console.error(err)
         if (['You can only bulk delete messages that are under 14 days old.', 'Looping for 10 times. Stop searching messages.'].includes(err.message)) {
           this.executeResults(false, data, cache)
         } else {

@@ -49,12 +49,15 @@ module.exports = {
     const varName = this.evalMessage(data.varName, cache)
     const input = this.evalMessage(data.input, cache)
     let result
+
     switch (info) {
       case 0:
         result = Buffer.from(input).toString('base64')
         break
       case 1:
         result = Buffer.from(input, 'base64').toString()
+        break
+      default:
         break
     }
     this.storeValue(result, storage, varName, cache)

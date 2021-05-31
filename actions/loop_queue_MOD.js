@@ -27,7 +27,7 @@ module.exports = {
 </div>
 <div style="float: left; width: 100%; padding-top: 8px;">
   <p>
-    Please put the Welcome action into a Bot Initalization event to be able to store the current song!
+    Please put the Welcome action into a Bot Initialization event to be able to store the current song!
   </p>
 </div>`
   },
@@ -65,6 +65,8 @@ module.exports = {
           default:
             break
         }
+        break
+      default:
         break
     }
 

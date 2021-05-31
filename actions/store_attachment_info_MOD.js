@@ -1,16 +1,12 @@
-class StoreAttachmentInfo {
-  constructor () {
-    this.name = 'Store Attachment Info'
-    this.section = 'Messaging'
-    this.fields = ['storage', 'varName', 'info', 'storage2', 'varName2']
-  }
-
-  mod () {}
+module.exports = {
+  name: 'Store Attachment Info',
+  section: 'Messaging',
+  fields: ['storage', 'varName', 'info', 'storage2', 'varName2'],
 
   subtitle ({ info }) {
     const names = ["Attachment's URL", "Attachment File's Name", "Attachment's Height", "Attachment's Width", 'This option has been removed', "Attachment File's Size"]
     return `${names[parseInt(info)]}`
-  }
+  },
 
   variableStorage (data, varType) {
     const type = parseInt(data.storage2)
@@ -26,7 +22,7 @@ class StoreAttachmentInfo {
     ][info] || 'Message Attachment (Unknown) Info'
 
     return ([data.varName2, dataType])
-  }
+  },
 
   html (isEvent, data) {
     return `
@@ -60,13 +56,13 @@ class StoreAttachmentInfo {
   Variable Name:<br>
   <input id="varName2" class="round" type="text"><br>
 </div>`
-  }
+  },
 
   init () {
     const { document, glob } = this
     glob.messageChange(document.getElementById('storage'), 'varNameContainer')
     glob.variableChange(document.getElementById('storage2'), 'varNameContainer2')
-  }
+  },
 
   action (cache) {
     const data = cache.actions[cache.index]
@@ -96,7 +92,7 @@ class StoreAttachmentInfo {
       }
     }
     this.callNextAction(cache)
-  }
-}
+  },
 
-module.exports = new StoreAttachmentInfo()
+  mod () {}
+}

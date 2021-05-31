@@ -53,15 +53,10 @@ module.exports = {
     const reason = this.evalMessage(data.reason, cache)
     const { type } = channel
 
-    if (type === 'text') {
-      if (reason !== null) {
-        channel.setRateLimitPerUser(amount, reason)
-      } else {
-        channel.setRateLimitPerUser(amount)
-      }
-    } else {
-      console.log("This channel isn't a channel.")
-    }
+    if (type !== 'text') return this.callNextAction(cache)
+
+    channel.setRateLimitPerUser(amount, reason)
+
     this.callNextAction(cache)
   },
 

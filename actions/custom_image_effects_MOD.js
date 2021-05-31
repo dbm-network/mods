@@ -41,7 +41,6 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.refreshVariableList(document.getElementById('storage'))
   },
 
@@ -56,10 +55,8 @@ module.exports = {
 
     const Jimp = require('jimp')
 
-    if (!image) {
-      this.callNextAction(cache)
-      return
-    }
+    if (!image) return this.callNextAction(cache)
+
     Jimp.read(image, (err, image1) => {
       if (err) return console.error('Error with custom image effects: ', err)
       const effect = parseInt(data.effect)
@@ -83,6 +80,8 @@ module.exports = {
             _this.storeValue(image2, storage, varName, cache)
             _this.callNextAction(cache)
           })
+          break
+        default:
           break
       }
     })

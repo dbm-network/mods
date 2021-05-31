@@ -33,7 +33,6 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.memberChange(document.getElementById('member'), 'varNameContainer')
   },
 
@@ -43,6 +42,7 @@ module.exports = {
     const varName = this.evalMessage(data.varName, cache)
     const member = this.getMember(type, varName, cache)
     const dataName = this.evalMessage(data.dataName, cache)
+
     member.delData(dataName)
     this.callNextAction(cache)
   },

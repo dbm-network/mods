@@ -7,6 +7,12 @@ extends:
 globals:
   Atomics: readonly
   SharedArrayBuffer: readonly
+  process: readonly
+  member: readonly
+  server: readonly
+  cache: readonly
+  alert: readonly
+  Audio: readonly
 parserOptions:
   ecmaVersion: 2019
 rules:

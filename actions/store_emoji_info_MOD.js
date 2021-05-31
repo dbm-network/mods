@@ -127,10 +127,7 @@ module.exports = {
     const Mods = this.getMods()
     const emo = Mods.getEmoji(emoji, varName, cache)
 
-    if (!emo) {
-      console.log('This is not a emoji')
-      this.callNextAction(cache)
-    }
+    if (!emo) return this.callNextAction(cache)
 
     let result
     switch (info) {

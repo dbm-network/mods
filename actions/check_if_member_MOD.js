@@ -150,10 +150,10 @@ module.exports = {
         result = this.dest(member.voice, 'deaf')
         break
       case 9:
-        result = member.user.id === msg.author.id
+        result = member.id === msg.author.id
         break
       case 10:
-        result = member.user.id === msg.guild.ownerID
+        result = member.id === msg.guild.ownerID
         break
       default:
         console.log('Please check your "Check if Member" action! There is something wrong...')

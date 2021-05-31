@@ -55,10 +55,7 @@ module.exports = {
     const varName = this.evalMessage(data.varName, cache)
     const image = this.getVariable(storage, varName, cache)
 
-    if (!image) {
-      this.callNextAction(cache)
-      return
-    }
+    if (!image) return this.callNextAction(cache)
 
     const channel = parseInt(data.channel)
     const varName2 = this.evalMessage(data.varName2, cache)

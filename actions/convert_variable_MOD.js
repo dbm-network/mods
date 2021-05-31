@@ -91,7 +91,6 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.refreshVariableList(document.getElementById('storage'))
   },
 
@@ -121,7 +120,10 @@ module.exports = {
       case 4:
         result = variable.toString().toLowerCase()
         break
+      default:
+        break
     }
+
     if (result !== undefined) {
       const storage2 = parseInt(data.storage2)
       const varName2 = this.evalMessage(data.varName2, cache)

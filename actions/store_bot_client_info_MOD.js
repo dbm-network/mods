@@ -1,10 +1,9 @@
-/* eslint-disable no-undef */
 module.exports = {
   name: 'Store Bot Client Info',
   section: 'Bot Client Control',
 
   subtitle (data) {
-    const info = ['Uptime in Milliseconds', 'Ready At?', 'Ping', 'Guild Amount', 'User Amount', 'Rounded Ping', 'Uptime in Seconds', 'Uptime in Minutes', "Bot's Token", 'Voice Connections Amount', 'Total Amount of Channels', 'Total Amount of Emojis', 'This option has been removed', 'Uptime in Days', 'Uptime in Days (Rounded)', 'Memory (RAM) Usage', 'Bot Guilds Objects', 'Bot Guilds Names', 'Bot Guilds IDs', 'Bot Current Prefix', 'Bot Client ID', 'Discord JS Version', 'Uptime in Hours', 'Refreshing Uptime in Days', 'Refreshing Uptime in Hours', 'Refreshing Uptime in Minutes', 'Refreshing Uptime in Seconds', 'Memory (RAM) Usage in MB', "Bot's OS (Process Platform)", 'CPU Usage in MB', "Bot's Directory", 'Node JS Version', 'Amount of Commands', 'Amount of Events', 'Ready At ? [timestamp]', 'CPU Core Count', 'Total Memory (GB)', 'Total Memory (MB)', 'Available Memory (GB)', 'Available Memory (MB)', 'Available Memory (%)', 'Used Memory (GB)', 'Used Memory (MB)', 'Used Memory (%)', 'Bot Owner ID', 'Are Commands Case Sensitive?', 'Last Message ID']
+    const info = ['Uptime in Milliseconds', 'Ready At?', 'Ping', 'Guild Amount', 'User Amount', 'Rounded Ping', 'Uptime in Seconds', 'Uptime in Minutes', "Bots' Token", 'Voice Connections Amount', 'Total Amount of Channels', 'Total Amount of Emojis', 'This option has been removed', 'Uptime in Days', 'Uptime in Days (Rounded)', 'Memory (RAM) Usage', 'Bot Guilds Objects', 'Bot Guilds Names', 'Bot Guilds IDs', 'Bot Current Prefix', 'Bot Client ID', 'Discord JS Version', 'Uptime in Hours', 'Refreshing Uptime in Days', 'Refreshing Uptime in Hours', 'Refreshing Uptime in Minutes', 'Refreshing Uptime in Seconds', 'Memory (RAM) Usage in MB', "Bots' OS (Process Platform)", 'CPU Usage in MB', "Bots' Directory", 'Node JS Version', 'Amount of Commands', 'Amount of Events', 'Ready At ? [timestamp]', 'CPU Core Count', 'Total Memory (GB)', 'Total Memory (MB)', 'Available Memory (GB)', 'Available Memory (MB)', 'Available Memory (%)', 'Used Memory (GB)', 'Used Memory (MB)', 'Used Memory (%)', 'Bot Owner ID', 'Are Commands Case Sensitive?', 'Last Message ID']
     return `Bot Client - ${info[parseInt(data.info)]}`
   },
 
@@ -38,7 +37,7 @@ module.exports = {
       case 7: // Uptime in Minutes
         dataType = 'Number'
         break
-      case 8: // Bot's Token
+      case 8: // Bots' Token
         dataType = 'Token'
         break
       case 9: // Voice Connections Amount
@@ -95,13 +94,13 @@ module.exports = {
       case 27: // Memory (RAM) Usage in MB
         dataType = 'Number'
         break
-      case 28: // Bot's OS (Process Platform)
+      case 28: // Bots' OS (Process Platform)
         dataType = 'OS Name'
         break
       case 29: // CPU Usage in MB
         dataType = 'Number'
         break
-      case 30: // Bot's Directory
+      case 30: // Bots' Directory
         dataType = 'Directory'
         break
       case 31: // Node JS Version
@@ -166,7 +165,7 @@ module.exports = {
       <option value="16">Bot Guilds Objects</option>
       <option value="17">Bot Guilds Names</option>
       <option value="18">Bot Guilds IDs</option>
-    <optgroup label="Bot Informations">
+    <optgroup label="Bot Information">
       <option value="19">Bot Current Prefix</option>
       <option value="20">Bot Client ID</option>
       <option value="44">Bot Owner ID</option>
@@ -188,7 +187,7 @@ module.exports = {
       <option value="42">Used Memory (MB)</option>
       <option value="43">Used Memory (%)</option>
     </optgroup>
-    <optgroup label="Bot Measurments">
+    <optgroup label="Bot Measurements">
       <option value="27">Memory (RAM) Usage in MB</option>
       <option value="1">Ready at</option>
       <option value="34">Ready at [unix timestamp]</option>
@@ -225,10 +224,9 @@ module.exports = {
     const data = cache.actions[cache.index]
     const info = parseInt(data.info)
     const msToDay = 1000 * 60 * 60 * 24
-    if (!botClient) {
-      this.callNextAction(cache)
-      return
-    }
+
+    if (!botClient) return this.callNextAction(cache)
+
     let result
     switch (info) {
       case 0: // Uptime in Milliseconds //Deprecated in 1.8.5
@@ -255,7 +253,7 @@ module.exports = {
       case 7: // Uptime in Minutes // Deprecated in 1.8.5
         result = Math.floor(botClient.uptime / 1000 / 60)
         break
-      case 8: // Bot's Token
+      case 8: // Bots' Token
         result = botClient.token
         break
       case 45: // Are Commands Case Sensitive?
@@ -321,7 +319,7 @@ module.exports = {
       case 27:// Memory (RAM) Usage in MB
         result = (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)
         break
-      case 28: // Bot's OS (Process Platform)
+      case 28: // Bots' OS (Process Platform)
         if (process.platform) {
           const { platform } = process
           if (platform === 'win32') result = 'Windows'
@@ -336,7 +334,7 @@ module.exports = {
       case 29: // CPU Usage in MB
         result = (process.cpuUsage().user / 1024 / 1024).toFixed(2)
         break
-      case 30: // Bot's Directory
+      case 30: // Bots' Directory
         result = process.cwd()
         break
       case 31: // Node JS Version

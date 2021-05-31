@@ -48,16 +48,14 @@ module.exports = {
     option.value = '4'
     option.text = 'Jump to Anchor'
     const iffalse = document.getElementById('iffalse')
-    if (iffalse.length === 4) {
-      iffalse.add(option)
-    }
+    if (iffalse.length === 4) iffalse.add(option)
+
     const option2 = document.createElement('OPTION')
     option2.value = '4'
     option2.text = 'Jump to Anchor'
     const iftrue = document.getElementById('iftrue')
-    if (iftrue.length === 4) {
-      iftrue.add(option2)
-    }
+    if (iftrue.length === 4) iftrue.add(option2)
+
     glob.onChangeTrue = function (event) {
       switch (parseInt(event.value)) {
         case 0:
@@ -106,6 +104,7 @@ module.exports = {
     const data = cache.actions[cache.index]
     const { msg } = cache
     let result = false
+
     if (msg && msg.content.length > 0) {
       const condition = parseInt(data.condition)
       let value = 0
@@ -125,6 +124,7 @@ module.exports = {
         default:
           break
       }
+
       const comparison = parseInt(data.comparison)
       const value2 = parseInt(data.value)
       switch (comparison) {

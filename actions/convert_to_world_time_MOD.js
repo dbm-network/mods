@@ -43,7 +43,9 @@ module.exports = {
     const Mods = this.getMods()
     const moment = Mods.require('moment-timezone')
     const str = this.evalMessage(data.textbox, cache)
+
     const timec = moment().tz(str).format('dddd, MMMM Do YYYY, h:mm:ss a')
+
     const storage = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
     this.storeValue(timec, storage, varName, cache)

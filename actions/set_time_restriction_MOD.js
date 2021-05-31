@@ -23,7 +23,7 @@ module.exports = {
     <div style="float: left; width: 35%;">
       Time Measurement:<br>
       <select id="measurement" class="round" onchange="glob.onChange(this)">
-        <option value="0">Miliseconds</option>
+        <option value="0">Milliseconds</option>
         <option value="1" selected>Seconds</option>
         <option value="2">Minutes</option>
         <option value="3">Hours</option>
@@ -71,6 +71,7 @@ module.exports = {
   init () {
     const { glob, document } = this
     const value = document.getElementById('value')
+
     glob.onChange = function (Measurement) {
       switch (parseInt(Measurement.value)) {
         case 0:

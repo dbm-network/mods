@@ -26,7 +26,7 @@ module.exports = {
   Translate Message:<br>
   <textarea id="translateMessage" rows="9" placeholder="Insert message that you want to translate here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
 </div>
-<div stlye="padding-top: 30px;">
+<div style="padding-top: 30px;">
   <div style="float: left; width: 35%;">
     Store In:<br>
     <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">

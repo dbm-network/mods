@@ -140,7 +140,7 @@ module.exports = {
     let options
     if (channel.type === 'voice') {
       options = {
-        positon: data.position === 1 ? channel.position : 0,
+        position: data.position === 1 ? channel.position : 0,
         permissionOverwrites: data.permission === 1 ? channel.permissionOverwrites : [],
         userLimit: data.userLimit === 1 ? channel.userLimit : 0,
         bitrate: data.bitrate === 1 ? channel.bitrate : 64,

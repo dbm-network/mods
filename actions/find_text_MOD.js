@@ -59,20 +59,20 @@ module.exports = {
   action (cache) {
     const data = cache.actions[cache.index]
     const text = this.evalMessage(data.text, cache)
-    const wordtoFind = this.evalMessage(data.wordtoFind, cache)
+    const wordToFind = this.evalMessage(data.wordtoFind, cache)
     const position = parseInt(data.position)
 
-    if (!wordtoFind) return console.log('Find Text MOD: Text to find is missing!')
+    if (!wordToFind) return console.log('Find Text MOD: Text to find is missing!')
     if (!text) return console.log('Find Text MOD: Source text is missing!')
-    if (!text.includes(wordtoFind)) console.log(`Find Text MOD: The requested text wasn't found in the source text!\nSource text: ${text}\nText to find: ${wordtoFind}`)
+    if (!text.includes(wordToFind)) console.log(`Find Text MOD: The requested text wasn't found in the source text!\nSource text: ${text}\nText to find: ${wordToFind}`)
 
     let result
     switch (position) {
       case 0:
-        result = text.indexOf(wordtoFind)
+        result = text.indexOf(wordToFind)
         break
       case 1:
-        result = wordtoFind.length + text.indexOf(wordtoFind)
+        result = wordToFind.length + text.indexOf(wordToFind)
         break
       default:
         break

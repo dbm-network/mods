@@ -130,6 +130,8 @@ module.exports = {
         case 4:
           target = 'COMPETING'
           break
+        default:
+          break
       }
     }
 
@@ -147,6 +149,8 @@ module.exports = {
           break
         case 3:
           statustarget = 'dnd'
+          break
+        default:
           break
       }
     }

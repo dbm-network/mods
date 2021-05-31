@@ -132,8 +132,8 @@ module.exports = {
         break
       }
       case 4: {
-        var front = variable.slice(0, parseInt(info2))
-        var end = variable.slice(parseInt(info2))
+        const front = variable.slice(0, parseInt(info2))
+        const end = variable.slice(parseInt(info2))
         result = front + value + end
         break
       }
@@ -149,6 +149,8 @@ module.exports = {
         result = variable.slice(value, 1 + parseInt(value))
         break
       }
+      default:
+        break
     }
     if (result) {
       const storage2 = parseInt(data.storage2)

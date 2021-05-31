@@ -28,7 +28,6 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.serverChange(document.getElementById('server'), 'varNameContainer')
   },
 
