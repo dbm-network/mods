@@ -3,7 +3,10 @@ module.exports = {
   displayName: 'Scheduled Event',
   isEvent: true,
 
-  fields: ['CRON String Input (<a href=\'#\' onclick=\'require(\'child_process\').execSync(\'start https://crontab.guru/\')\'>https://crontab.guru/</a> | <a href=\'#\' onclick=\'require(\'child_process\').execSync(\'start https://crontab.guru/examples.html\')\'>Examples</a>', 'Timezone (<a href=\'#\' onclick=\'require(\'child_process\').execSync(\'start https://en.wikipedia.org/wiki/List_of_tz_database_time_zones\')\'>TZ Database names</a> | Example: America/New_York )'],
+  fields: [
+    'CRON String Input (<a href="#" onclick="require(\'child_process\').execSync(\'start https://crontab.guru\')">crontab.guru</a> | <a href="#" onclick="require(\'child_process\').execSync(\'start https://crontab.guru/examples.html\')">Examples</a>',
+    'Timezone (<a href="#" onclick="require(\'child_process\').execSync(\'start https://en.wikipedia.org/wiki/List_of_tz_database_time_zones\')">TZ Database names</a> | Example: America/New_York )'
+  ],
 
   mod (DBM) {
     const { Bot, Actions } = DBM
