@@ -14,6 +14,7 @@ module.exports = {
       const newChannel = newVoiceState.channel
       if (!oldChannel || !newChannel || !oldChannel.id || !newChannel.id || oldChannel.id === newChannel.id) return
       const server = newChannel.guild
+
       for (const event of Bot.$evts['Member Move Voice Channel']) {
         const temp = {}
         if (event.temp) temp[event.temp] = newVoiceState.member

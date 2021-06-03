@@ -7,10 +7,12 @@ module.exports = {
   mod (DBM) {
     DBM.Events = DBM.Events || {}
     const { Bot, Actions } = DBM
+
     DBM.Events.boostedGuild = function (old, recent) {
       if (!Bot.$evts['Member Boosted Server']) return
       const server = recent.guild
       if (!(!old.premiumSince && recent.premiumSince)) return
+
       for (const event of Bot.$evts['Member Boosted Server']) {
         const temp = {}
         if (event.temp) temp[event.temp] = recent
@@ -18,6 +20,7 @@ module.exports = {
         Actions.invokeEvent(event, server, temp)
       }
     }
+
     const onReady = Bot.onReady
     Bot.onReady = function (...params) {
       Bot.bot.on('guildMemberUpdate', DBM.Events.boostedGuild)

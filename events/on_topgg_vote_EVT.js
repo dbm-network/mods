@@ -13,7 +13,7 @@ module.exports = {
         if (event.temp) temp[event.temp] = user
         if (event.temp2) temp[event.temp2] = vote
         Actions.invokeEvent(event, null, temp)
-      };
+      }
     }
   }
 }
