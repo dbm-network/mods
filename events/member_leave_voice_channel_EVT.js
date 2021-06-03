@@ -7,13 +7,14 @@ module.exports = {
   mod (DBM) {
     DBM.Events = DBM.Events || {}
     const { Actions, Bot } = DBM
-
     DBM.Events.memberLeaveVoiceChannel = function (oldVoiceState, newVoiceState) {
       if (!Bot.$evts['Member Leave Voice Channel']) return
       const oldChannel = oldVoiceState.channel
       const newChannel = newVoiceState.channel
-      const server = (oldChannel || newChannel).guild
-      if (!(oldChannel && !newChannel)) return
+      if (!oldChannel || newChannel) return
+
+      const server = oldChannel.guild
+
       for (const event of Bot.$evts['Member Leave Voice Channel']) {
         const temp = {}
         if (event.temp) temp[event.temp] = oldVoiceState.member
