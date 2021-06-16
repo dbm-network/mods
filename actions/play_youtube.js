@@ -86,7 +86,6 @@ module.exports = {
         } else if (cache.server && cache.server.id !== undefined) {
           Audio.playItem(info, cache.server.id)
         }
-
       } catch (err) {
         return this.displayError(data, cache, err)
       }
