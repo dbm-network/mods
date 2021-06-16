@@ -10,7 +10,7 @@ module.exports = {
 
   fields: ['url', 'seek', 'volume', 'passes', 'bitrate', 'type'],
 
-  html (isEvent, data) {
+  html () {
     return `
 <div>
   <p>This action has been modified by DBM Mods.</p>
@@ -44,7 +44,7 @@ module.exports = {
 
   async action (cache) {
     const data = cache.actions[cache.index]
-    const { Actions, Audio } = this.getDBM()
+    const { Audio } = this.getDBM()
     const Mods = this.getMods()
     const ytdl = Mods.require('ytdl-core')
     const url = this.evalMessage(data.url, cache)
@@ -87,7 +87,6 @@ module.exports = {
           Audio.playItem(info, cache.server.id)
         }
 
-        Actions.callNextAction(cache)
       } catch (err) {
         return this.displayError(data, cache, err)
       }
