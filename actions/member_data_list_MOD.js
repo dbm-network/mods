@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+/* eslint-disable no-eval */
 module.exports = {
   name: 'Store Member Data List',
   section: 'Member Control',
