@@ -102,7 +102,7 @@ module.exports = {
     const data = cache.actions[cache.index]
     const Actions = this.getDBM().Actions
     const Mods = this.getMods()
-    const got = Mods.require('got')
+    const fetch = Mods.require('node-fetch')
     const debugMode = parseInt(data.debugMode)
     const storage = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
@@ -212,14 +212,16 @@ module.exports = {
             }
           }
           if (token) setHeaders.Authorization = `Bearer ${token}`
-          const options = {
-            headers: setHeaders,
-            username: user,
-            password: pass
-          }
+          if (user || pass) setHeaders.Authorization = `Basic ${Buffer.from(user + ":" + pass).toString('base64')}`
+          const options = { headers: setHeaders }
 
-          const response = await got(url, options)
-          storeData('', response, JSON.parse(response.body))
+          try {
+            const response = await fetch(url, options)
+            const json = await response.json()
+            storeData('', response, json)
+          } catch (err) {
+            if (debugMode) console.error(err.stack ? err.stack : err)
+          }
         }
       } catch (err) {
         if (debugMode) console.error(err.stack ? err.stack : err)
