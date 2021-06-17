@@ -15,9 +15,9 @@ module.exports = {
         server.fetchInvites().then(invites => {
           const prior = guildInvites[server.id]
           const used = prior.filter((c) => c.uses < invites.get(c.code).uses).first()
+          if (!used) return
           for (const event of Bot.$evts['Invite Used']) {
             const temp = {}
-            if (!used) return
             if (event.temp) temp[event.temp] = used.code
             if (event.temp2) temp[event.temp2] = used.guild
             Actions.invokeEvent(event, server, temp)
