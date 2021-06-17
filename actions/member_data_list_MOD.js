@@ -99,11 +99,11 @@ module.exports = {
     const selectionsnum = parseInt(data.numbefstselect)
 
     const en = this.evalMessage(data.end, cache)
-    const sort = parseInt(data.sort)
+    const sortType = parseInt(data.sort)
     const debug = parseInt(data.debu)
     const Mods = this.getMods()
 
-    const { sort: fastsort } = Mods.require('fast-sort')
+    const { sort } = Mods.require('fast-sort')
     const { JSONPath } = Mods.require('jsonpath-plus')
     const fs = require('fs')
     let file = fs.readFileSync('./data/players.json', 'utf8')
@@ -141,30 +141,32 @@ module.exports = {
                 name2: result2
               })
             } catch (err) {
-              if (debug === 0) console.log(err)
+              if (debug === 0) console.error(err)
             }
           }
-          switch (sort) {
+
+          switch (sortType) {
             case 1:
-              result = fastsort(list).desc((u) => parseInt(u.name2))
+              result = sort(list).desc(u => parseInt(u.name2))
               break
             case 2:
-              result = fastsort(list).asc((u) => parseInt(u.name2))
+              result = sort(list).asc(u => parseInt(u.name2))
               break
             case 0:
               result = list
+              break
+            default:
               break
           }
 
           let result2 = JSON.stringify(result)
           let getres = parseInt(this.evalMessage(data.getresults, cache))
 
-          if (!getres) {
-            getres = result.length
-          }
+          if (!getres) getres = result.length
+          if (getres > result.length) getres = result.length
 
           for (let i = 0; i < getres; i++) {
-            result2 = JSON.stringify(list[i])
+            result2 = JSON.stringify(result[i])
 
             try {
               const file = JSON.parse(result2)
@@ -201,7 +203,7 @@ module.exports = {
                   break
               }
             } catch (err) {
-              if (debug === 0) console.log(err)
+              if (debug === 0) console.error(err)
             }
 
             list4 = list2.join('')
@@ -210,7 +212,7 @@ module.exports = {
           this.storeValue(list4, storage, varName2, cache)
           this.callNextAction(cache)
         } catch (err) {
-          if (debug === 0) console.log(err)
+          if (debug === 0) console.error(err)
         }
       }
     }
