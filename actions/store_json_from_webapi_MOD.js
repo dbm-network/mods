@@ -98,11 +98,11 @@ module.exports = {
     glob.checkBox(document.getElementById('toggleAuth'), 'auth')
   },
 
-  action (cache) {
-    const _this = this
+  async action (cache) {
     const data = cache.actions[cache.index]
+    const Actions = this.getDBM().Actions
     const Mods = this.getMods()
-    const request = Mods.require('request')
+    const got = require('got')
     const debugMode = parseInt(data.debugMode)
     const storage = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
@@ -125,7 +125,7 @@ module.exports = {
           let errorJson
           if (error) {
             errorJson = JSON.stringify({ error, statusCode })
-            _this.storeValue(errorJson, storage, varName, cache)
+            Actions.storeValue(errorJson, storage, varName, cache)
 
             if (debugMode) console.error(`WebAPI: Error: ${errorJson} stored to: [${varName}]`)
           } else if (path) {
@@ -137,39 +137,38 @@ module.exports = {
               JSON.parse(JSON.stringify(outData))
             } catch (error) {
               errorJson = JSON.stringify({ error, statusCode, success: false })
-              _this.storeValue(errorJson, storage, varName, cache)
+              Actions.storeValue(errorJson, storage, varName, cache)
               if (debugMode) console.error(error.stack ? error.stack : error)
             }
 
-            // eslint-disable-next-line no-eval
             const outValue = eval(JSON.stringify(outData), cache)
 
             if (!outData) {
               errorJson = JSON.stringify({ error: 'No JSON Data Returned', statusCode: 0 })
-              _this.storeValue(errorJson, storage, varName, cache)
+              Actions.storeValue(errorJson, storage, varName, cache)
               if (debugMode) console.error(`WebAPI: Error: ${errorJson} NO JSON data returned. Check the URL: ${url}`)
             } else if (outData.success != null) {
               errorJson = JSON.stringify({ error, statusCode, success: false })
-              _this.storeValue(errorJson, storage, varName, cache)
+              Actions.storeValue(errorJson, storage, varName, cache)
               if (debugMode) console.log(`WebAPI: Error Invalid JSON, is the Path and/or URL set correctly? [${path}]`)
             } else if (outValue.success != null || !outValue) {
               errorJson = JSON.stringify({ error, statusCode, success: false })
-              _this.storeValue(errorJson, storage, varName, cache)
+              Actions.storeValue(errorJson, storage, varName, cache)
               if (debugMode) console.log(`WebAPI: Error Invalid JSON, is the Path and/or URL set correctly? [${path}]`)
             } else {
-              _this.storeValue(outValue, storage, varName, cache)
-              _this.storeValue(jsonData, 1, url, cache)
-              _this.storeValue(url, 1, `${url}_URL`, cache)
+              Actions.storeValue(outValue, storage, varName, cache)
+              Actions.storeValue(jsonData, 1, url, cache)
+              Actions.storeValue(url, 1, `${url}_URL`, cache)
               if (debugMode) console.log(`WebAPI: JSON Data values starting from [${path}] stored to: [${varName}]`)
             }
           } else {
             if (debugMode) console.dir(jsonData)
-            _this.storeValue(jsonData, storage, varName, cache)
-            _this.storeValue(jsonData, 1, url, cache)
-            _this.storeValue(url, 1, `${url}_URL`, cache)
+            Actions.storeValue(jsonData, storage, varName, cache)
+            Actions.storeValue(jsonData, 1, url, cache)
+            Actions.storeValue(url, 1, `${url}_URL`, cache)
             if (debugMode) console.log(`WebAPI: JSON Data Object stored to: [${varName}]`)
           }
-          _this.callNextAction(cache)
+          Actions.callNextAction(cache)
         }
 
         const oldUrl = this.getVariable(1, `${url}_URL`, cache)
@@ -211,18 +210,16 @@ module.exports = {
               }
             }
           }
-
-          request.get({
-            url,
-            json: true,
+          if (token) setHeaders.Authorization = `Bearer ${token}`
+          const options = {
             headers: setHeaders,
-            auth: {
-              bearer: token,
-              user,
-              pass,
-              sendImmediately: false
-            }
-          }, (error, res, jsonData) => storeData(error, res, jsonData))
+            username: user,
+            password: pass,
+          }
+
+          const response = await got(url, options)
+          storeData('', response, JSON.parse(response.body))
+
         }
       } catch (err) {
         if (debugMode) console.error(err.stack ? err.stack : err)
@@ -232,7 +229,5 @@ module.exports = {
     }
   },
 
-  mod (DBM) {
-    DBM.Actions['Store Variable From WebAPI'] = DBM.Actions['Store Json From WebAPI']
-  }
+  mod () {}
 }
