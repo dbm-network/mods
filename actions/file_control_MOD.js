@@ -184,7 +184,7 @@ module.exports = {
     function showInput () {
       const selected = selector[selector.selectedIndex].value
       const selected2 = selector2[selector2.selectedIndex].value
-      if (selected2 === '.json' && selected !== "5") {
+      if (selected2 === '.json' && selected !== '5') {
         document.getElementById('visibot').style.display = 'block'
       } else {
         document.getElementById('visibot').style.display = 'none'
@@ -232,7 +232,7 @@ module.exports = {
         fs.writeFileSync(fpath, '', (err) => {
           if (err) return console.log(`${lmg} creating: [${err}]`)
         })
-      break
+        break
       case 1: // Write File
         if (fileName === '') throw new Error('File Name not Provided:')
         if (togglestat === 'yes') {
@@ -244,7 +244,7 @@ module.exports = {
             if (err) return console.log(`${lmg} writing: [${err}]`)
           })
         }
-      break
+        break
       case 2: // Append File
         if (fileName === '') throw new Error('File Name not Provided:')
         if (togglestat === 'yes') {
@@ -256,13 +256,13 @@ module.exports = {
             if (err) return console.log(`${lmg} appending: [${err}]`)
           })
         }
-      break
+        break
       case 4: // Insert Line to File
         if (fileName === '') throw new Error('File Name not Provided:')
         insertLine(fpath).content(itext).at(line).then((err) => {
           if (err) return console.log(`${lmg} inserting: [${err}]`)
         })
-      break
+        break
       case 3: // Delete File
         fs.unlink(fpath, (err) => {
           if (!fs.existsSync(dirName)) this.callNextAction(cache)
