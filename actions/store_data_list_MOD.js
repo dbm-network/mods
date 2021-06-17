@@ -6,7 +6,7 @@ module.exports = {
 
   subtitle (data) {
     const files = ['players.json', 'servers.json']
-    return `${files[parseInt(data.File)]} - ${(data.dataName)}`
+    return `${files[parseInt(data.File)]} - ${data.dataName}`
   },
 
   variableStorage (data, varType) {
@@ -22,10 +22,24 @@ module.exports = {
         dataType = 'Number'
         break
     }
-    return ([data.varName, dataType])
+    return [data.varName, dataType]
   },
 
-  fields: ['File', 'serverType', 'dataName', 'sort', 'numberBoolean', 'resultFormat', 'resultInfo', 'rank', 'resultType', 'resultFrom', 'resultTo', 'varName', 'storage'],
+  fields: [
+    'File',
+    'serverType',
+    'dataName',
+    'sort',
+    'numberBoolean',
+    'resultFormat',
+    'resultInfo',
+    'rank',
+    'resultType',
+    'resultFrom',
+    'resultTo',
+    'varName',
+    'storage'
+  ],
 
   html (isEvent, data) {
     return `
@@ -132,7 +146,9 @@ module.exports = {
     const link = document.getElementById('link')
 
     link.onclick = function () {
-      require('child_process').execSync('start https://gist.github.com/LeonZ2019/72dd92c14fdb29afbc64151003d1d48e')
+      require('child_process').execSync(
+        'start https://gist.github.com/LeonZ2019/72dd92c14fdb29afbc64151003d1d48e'
+      )
     }
 
     glob.onChange0 = function (File) {
@@ -220,7 +236,7 @@ module.exports = {
     const numberBoolean = parseInt(data.numberBoolean)
     const resultInfo = parseInt(data.resultInfo)
     let resultFormat = String(this.evalMessage(data.resultFormat, cache))
-    if (resultInfo === 0 && !resultFormat) resultFormat = String('Name + " " + DataValue')
+    if (resultInfo === 0 && !resultFormat) { resultFormat = String('Name + " " + DataValue') }
 
     const resultType = parseInt(data.resultType)
     const rank = this.evalMessage(data.rank, cache)
@@ -237,7 +253,7 @@ module.exports = {
             switch (serverType) {
               case 0: {
                 const { server } = cache
-                if (server.memberCount !== server.members.cache.size) await server.members.fetch()
+                if (server.memberCount !== server.members.cache.size) { await server.members.fetch() }
                 object = server.members.cache.get(id)
                 break
               }
@@ -247,14 +263,20 @@ module.exports = {
               }
             }
             if (object) {
-              name = (object.tag || object.user.tag)
+              name = object.tag || object.user.tag
               array0.push({ id: object.id, data: file[id][dataName], name })
             }
             break
           }
           case 1: {
             object = Client.guilds.cache.get(id)
-            if (object) array0.push({ id: object.id, data: file[id][dataName], name: object.name })
+            if (object) {
+              array0.push({
+                id: object.id,
+                data: file[id][dataName],
+                name: object.name
+              })
+            }
             break
           }
         }
@@ -274,8 +296,8 @@ module.exports = {
     switch (resultInfo) {
       case 0: {
         let array1 = []
-        let resultFrom; let
-          resultTo
+        let resultFrom
+        let resultTo
         switch (resultType) {
           case 0:
             resultFrom = 0
@@ -310,10 +332,8 @@ module.exports = {
             User = Client.users.cache.get(result[resultFrom].id)
           }
           if (numberBoolean === 0) {
-            // eslint-disable-next-line no-eval
             array1.push(`${eval(resultFormat)}\n`)
           } else {
-            // eslint-disable-next-line no-eval
             array1.push(`${result[resultFrom].rank + eval(resultFormat)}\n`)
           }
         }

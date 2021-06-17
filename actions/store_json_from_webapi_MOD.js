@@ -9,10 +9,21 @@ module.exports = {
   variableStorage (data, varType) {
     const type = parseInt(data.storage)
     if (type !== varType) return
-    return ([data.varName, 'JSON Object'])
+    return [data.varName, 'JSON Object']
   },
 
-  fields: ['token', 'user', 'pass', 'url', 'path', 'storage', 'varName', 'debugMode', 'headers', 'reUse'],
+  fields: [
+    'token',
+    'user',
+    'pass',
+    'url',
+    'path',
+    'storage',
+    'varName',
+    'debugMode',
+    'headers',
+    'reUse'
+  ],
 
   html (isEvent, data) {
     return `
@@ -84,14 +95,18 @@ module.exports = {
 
     glob.checkBox = function (element, type) {
       if (type === 'auth') {
-        document.getElementById('authSection').style.display = element.checked ? '' : 'none'
+        document.getElementById('authSection').style.display = element.checked
+          ? ''
+          : 'none'
         document.getElementById('showAuth').value = element.checked ? '1' : '0'
       }
     }
 
     glob.disallowAlert = function (element) {
       if (element.value === '0') {
-        alert('Disabling this could lead to you being banned or rate limited by APIs, please be careful.')
+        alert(
+          'Disabling this could lead to you being banned or rate limited by APIs, please be careful.'
+        )
       }
     }
 
@@ -115,7 +130,9 @@ module.exports = {
     const headers = this.evalMessage(data.headers, cache)
 
     // if it fails the check, try to re-encode the url
-    if (!Mods.checkURL(url)) { url = encodeURI(url) }
+    if (!Mods.checkURL(url)) {
+      url = encodeURI(url)
+    }
 
     if (Mods.checkURL(url)) {
       try {
@@ -127,7 +144,11 @@ module.exports = {
             errorJson = JSON.stringify({ error, statusCode })
             Actions.storeValue(errorJson, storage, varName, cache)
 
-            if (debugMode) console.error(`WebAPI: Error: ${errorJson} stored to: [${varName}]`)
+            if (debugMode) {
+              console.error(
+                `WebAPI: Error: ${errorJson} stored to: [${varName}]`
+              )
+            }
           } else if (path) {
             const outData = Mods.jsonPath(jsonData, path)
 
@@ -141,33 +162,51 @@ module.exports = {
               if (debugMode) console.error(error.stack ? error.stack : error)
             }
 
-            // eslint-disable-next-line no-eval
             const outValue = eval(JSON.stringify(outData), cache)
 
             if (!outData) {
-              errorJson = JSON.stringify({ error: 'No JSON Data Returned', statusCode: 0 })
+              errorJson = JSON.stringify({
+                error: 'No JSON Data Returned',
+                statusCode: 0
+              })
               Actions.storeValue(errorJson, storage, varName, cache)
-              if (debugMode) console.error(`WebAPI: Error: ${errorJson} NO JSON data returned. Check the URL: ${url}`)
+              if (debugMode) {
+                console.error(
+                  `WebAPI: Error: ${errorJson} NO JSON data returned. Check the URL: ${url}`
+                )
+              }
             } else if (outData.success != null) {
               errorJson = JSON.stringify({ error, statusCode, success: false })
               Actions.storeValue(errorJson, storage, varName, cache)
-              if (debugMode) console.log(`WebAPI: Error Invalid JSON, is the Path and/or URL set correctly? [${path}]`)
+              if (debugMode) {
+                console.log(
+                  `WebAPI: Error Invalid JSON, is the Path and/or URL set correctly? [${path}]`
+                )
+              }
             } else if (outValue.success != null || !outValue) {
               errorJson = JSON.stringify({ error, statusCode, success: false })
               Actions.storeValue(errorJson, storage, varName, cache)
-              if (debugMode) console.log(`WebAPI: Error Invalid JSON, is the Path and/or URL set correctly? [${path}]`)
+              if (debugMode) {
+                console.log(
+                  `WebAPI: Error Invalid JSON, is the Path and/or URL set correctly? [${path}]`
+                )
+              }
             } else {
               Actions.storeValue(outValue, storage, varName, cache)
               Actions.storeValue(jsonData, 1, url, cache)
               Actions.storeValue(url, 1, `${url}_URL`, cache)
-              if (debugMode) console.log(`WebAPI: JSON Data values starting from [${path}] stored to: [${varName}]`)
+              if (debugMode) {
+                console.log(
+                  `WebAPI: JSON Data values starting from [${path}] stored to: [${varName}]`
+                )
+              }
             }
           } else {
             if (debugMode) console.dir(jsonData)
             Actions.storeValue(jsonData, storage, varName, cache)
             Actions.storeValue(jsonData, 1, url, cache)
             Actions.storeValue(url, 1, `${url}_URL`, cache)
-            if (debugMode) console.log(`WebAPI: JSON Data Object stored to: [${varName}]`)
+            if (debugMode) { console.log(`WebAPI: JSON Data Object stored to: [${varName}]`) }
           }
           Actions.callNextAction(cache)
         }
@@ -185,7 +224,11 @@ module.exports = {
             error = err
           }
 
-          if (debugMode) console.log('WebAPI: Using previously stored json data from the initial store json action within this command.')
+          if (debugMode) {
+            console.log(
+              'WebAPI: Using previously stored json data from the initial store json action within this command.'
+            )
+          }
 
           storeData(error, res, jsonData)
         } else {
@@ -207,12 +250,20 @@ module.exports = {
 
                 if (debugMode) console.log(`Applied Header: ${lines[i]}`)
               } else {
-                if (debugMode) console.error(`WebAPI: Error: Custom Header line ${lines[i]} is wrongly formatted. You must split the key from the value with a colon (:)`)
+                if (debugMode) {
+                  console.error(
+                    `WebAPI: Error: Custom Header line ${lines[i]} is wrongly formatted. You must split the key from the value with a colon (:)`
+                  )
+                }
               }
             }
           }
           if (token) setHeaders.Authorization = `Bearer ${token}`
-          if (user && pass) setHeaders.Authorization = `Basic ${Buffer.from(user + ':' + pass).toString('base64')}`
+          if (user && pass) {
+            setHeaders.Authorization = `Basic ${Buffer.from(
+              user + ':' + pass
+            ).toString('base64')}`
+          }
 
           try {
             const response = await fetch(url, { headers: setHeaders })

@@ -5,19 +5,32 @@ module.exports = {
   subtitle (data) {
     const info = parseInt(data.info)
     if (info === 0) {
-      return data.color ? `Create with Color ${data.color}` : 'No color background has create'
-    } if (info === 1) {
-      return data.gradient ? `Create with Gradient ${data.gradient}` : 'No gradient background has create'
+      return data.color
+        ? `Create with Color ${data.color}`
+        : 'No color background has create'
+    }
+    if (info === 1) {
+      return data.gradient
+        ? `Create with Gradient ${data.gradient}`
+        : 'No gradient background has create'
     }
   },
 
   variableStorage (data, varType) {
     const type = parseInt(data.storage)
     if (type !== varType) return
-    return ([data.varName, 'Image'])
+    return [data.varName, 'Image']
   },
 
-  fields: ['width', 'height', 'info', 'gradient', 'color', 'storage', 'varName'],
+  fields: [
+    'width',
+    'height',
+    'info',
+    'gradient',
+    'color',
+    'storage',
+    'varName'
+  ],
 
   html (isEvent, data) {
     return `
@@ -103,11 +116,12 @@ module.exports = {
         ctx.fill()
         break
       case 1:
-        // eslint-disable-next-line no-eval
         eval(String(this.evalMessage(data.gradient, cache)))
         break
     }
-    const result = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream')
+    const result = canvas
+      .toDataURL('image/png')
+      .replace('image/png', 'image/octet-stream')
     const varName = this.evalMessage(data.varName, cache)
     const storage = parseInt(data.storage)
     this.storeValue(result, storage, varName, cache)

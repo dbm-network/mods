@@ -15,7 +15,14 @@ module.exports = {
     return [data.varName, `JSON ${varType} Value`]
   },
 
-  fields: ['behavior', 'varStorage', 'jsonObjectVarName', 'path', 'storage', 'varName'],
+  fields: [
+    'behavior',
+    'varStorage',
+    'jsonObjectVarName',
+    'path',
+    'storage',
+    'varName'
+  ],
 
   html (isEvent, data) {
     return `
@@ -130,7 +137,6 @@ module.exports = {
           console.error(error.stack ? error.stack : error)
         }
 
-        // eslint-disable-next-line no-eval
         const outValue = eval(JSON.stringify(outData), cache)
 
         if (outData.success != null || outValue.success != null) {
@@ -140,7 +146,9 @@ module.exports = {
             success: false
           })
           this.storeValue(errorJson, storage, varName, cache)
-          console.log(`WebAPI Parser: Error Invalid JSON, is the Path set correctly? [${path}]`)
+          console.log(
+            `WebAPI Parser: Error Invalid JSON, is the Path set correctly? [${path}]`
+          )
         } else if (outValue.success != null || !outValue) {
           const errorJson = JSON.stringify({
             error: 'error',
@@ -148,10 +156,16 @@ module.exports = {
             success: false
           })
           this.storeValue(errorJson, storage, varName, cache)
-          console.log(`WebAPI Parser: Error Invalid JSON, is the Path set correctly? [${path}]`)
+          console.log(
+            `WebAPI Parser: Error Invalid JSON, is the Path set correctly? [${path}]`
+          )
         } else {
           this.storeValue(outValue, storage, varName, cache)
-          if (DEBUG) console.log(`WebAPI Parser: JSON Data values starting from [${path}] stored to: [${varName}]`)
+          if (DEBUG) {
+            console.log(
+              `WebAPI Parser: JSON Data values starting from [${path}] stored to: [${varName}]`
+            )
+          }
         }
       }
     } catch (error) {
@@ -161,7 +175,9 @@ module.exports = {
         success: false
       })
       this.storeValue(errorJson, storage, varName, cache)
-      console.error(`WebAPI Parser: Error: ${errorJson} stored to: [${varName}]`)
+      console.error(
+        `WebAPI Parser: Error: ${errorJson} stored to: [${varName}]`
+      )
     }
 
     if (data.behavior === '0') {
