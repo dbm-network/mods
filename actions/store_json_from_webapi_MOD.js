@@ -212,7 +212,7 @@ module.exports = {
             }
           }
           if (token) setHeaders.Authorization = `Bearer ${token}`
-          if (user || pass) setHeaders.Authorization = `Basic ${Buffer.from(user + ":" + pass).toString('base64')}`
+          if (user || pass) setHeaders.Authorization = `Basic ${Buffer.from(user + ':' + pass).toString('base64')}`
           const options = { headers: setHeaders }
 
           try {
