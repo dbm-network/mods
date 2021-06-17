@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-eval */
 module.exports = {
   name: 'Store Member Data List',
   section: 'Member Control',
@@ -183,6 +181,7 @@ module.exports = {
                 json: file
               })
 
+              /* eslint-disable */
               const username = res2
               const result = res
               eval(`${st}`)
@@ -190,6 +189,7 @@ module.exports = {
               eval(`${en}`)
               const en2 = eval(en)
               const st2 = eval(st)
+              /* eslint-enable */
 
               list5.push('easter egg :eyes:')
               switch (selectionsnum) {
