@@ -228,41 +228,41 @@ module.exports = {
 
     switch (task) {
       case 0: // Create File
-          if (fileName === '') break
-          fs.writeFileSync(fpath, '', (err) => {
-            if (err) return console.log(`${lmg} creating: [${err}]`)
-          })
-        break
+        if (fileName === '') break
+        fs.writeFileSync(fpath, '', (err) => {
+          if (err) return console.log(`${lmg} creating: [${err}]`)
+        })
+      break
       case 1: // Write File
-          if (fileName === '') throw new Error('File Name not Provided:')
-          if (togglestat === 'yes') {
-            fs.writeFileSync(fpath, JSON.stringify(itext), (err) => {
-              if (err) return console.log(`${lmg} writing: [${err}]`)
-            })
-          } else {
-            fs.writeFileSync(fpath, itext, (err) => {
-              if (err) return console.log(`${lmg} writing: [${err}]`)
-            })
-          }
-        break
-      case 2: // Append File
-          if (fileName === '') throw new Error('File Name not Provided:')
-          if (togglestat === 'yes') {
-            fs.appendFileSync(fpath, `${JSON.stringify(itext)}\r\n`, (err) => {
-              if (err) return console.log(`${lmg} appending: [${err}]`)
-            })
-          } else {
-            fs.appendFileSync(fpath, `${itext}\r\n`, (err) => {
-              if (err) return console.log(`${lmg} appending: [${err}]`)
-            })
-          }
-        break
-      case 4: // Insert Line to File
-          if (fileName === '') throw new Error('File Name not Provided:')
-          insertLine(fpath).content(itext).at(line).then((err) => {
-            if (err) return console.log(`${lmg} inserting: [${err}]`)
+        if (fileName === '') throw new Error('File Name not Provided:')
+        if (togglestat === 'yes') {
+          fs.writeFileSync(fpath, JSON.stringify(itext), (err) => {
+            if (err) return console.log(`${lmg} writing: [${err}]`)
           })
-        break
+        } else {
+          fs.writeFileSync(fpath, itext, (err) => {
+            if (err) return console.log(`${lmg} writing: [${err}]`)
+          })
+        }
+      break
+      case 2: // Append File
+        if (fileName === '') throw new Error('File Name not Provided:')
+        if (togglestat === 'yes') {
+          fs.appendFileSync(fpath, `${JSON.stringify(itext)}\r\n`, (err) => {
+            if (err) return console.log(`${lmg} appending: [${err}]`)
+          })
+        } else {
+          fs.appendFileSync(fpath, `${itext}\r\n`, (err) => {
+            if (err) return console.log(`${lmg} appending: [${err}]`)
+          })
+        }
+      break
+      case 4: // Insert Line to File
+        if (fileName === '') throw new Error('File Name not Provided:')
+        insertLine(fpath).content(itext).at(line).then((err) => {
+          if (err) return console.log(`${lmg} inserting: [${err}]`)
+        })
+      break
       case 3: // Delete File
         fs.unlink(fpath, (err) => {
           if (!fs.existsSync(dirName)) this.callNextAction(cache)
@@ -280,9 +280,7 @@ module.exports = {
 
     try {
       if (dirName) {
-        fs.ensureDir(path.normalize(dirName), err => {
-          if (err) console.error(err)
-        })
+        fs.ensureDirSync(path.normalize(dirName)).catch(console.error)
       } else {
         throw new Error('you did not set a file path, please go back and check your work.')
       }
