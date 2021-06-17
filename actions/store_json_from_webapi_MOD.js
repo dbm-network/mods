@@ -215,8 +215,7 @@ module.exports = {
           if (user && pass) setHeaders.Authorization = `Basic ${Buffer.from(user + ':' + pass).toString('base64')}`
 
           try {
-            const response = await fetch(url, { headers: setHeaders })
-            const json = await response.json()
+            const json = await fetch(url, { headers: setHeaders }).then((r) => r.json())
             storeData('', response, json)
           } catch (err) {
             if (debugMode) console.error(err.stack || err)
