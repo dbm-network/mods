@@ -141,6 +141,7 @@ module.exports = {
               if (debugMode) console.error(error.stack ? error.stack : error)
             }
 
+            // eslint-disable-next-line no-eval
             const outValue = eval(JSON.stringify(outData), cache)
 
             if (!outData) {
@@ -214,12 +215,11 @@ module.exports = {
           const options = {
             headers: setHeaders,
             username: user,
-            password: pass,
+            password: pass
           }
 
           const response = await got(url, options)
           storeData('', response, JSON.parse(response.body))
-
         }
       } catch (err) {
         if (debugMode) console.error(err.stack ? err.stack : err)
