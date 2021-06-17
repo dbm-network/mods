@@ -212,19 +212,18 @@ module.exports = {
             }
           }
           if (token) setHeaders.Authorization = `Bearer ${token}`
-          if (user || pass) setHeaders.Authorization = `Basic ${Buffer.from(user + ':' + pass).toString('base64')}`
-          const options = { headers: setHeaders }
+          if (user && pass) setHeaders.Authorization = `Basic ${Buffer.from(user + ':' + pass).toString('base64')}`
 
           try {
-            const response = await fetch(url, options)
+            const response = await fetch(url, { headers: setHeaders })
             const json = await response.json()
             storeData('', response, json)
           } catch (err) {
-            if (debugMode) console.error(err.stack ? err.stack : err)
+            if (debugMode) console.error(err.stack ||  err)
           }
         }
       } catch (err) {
-        if (debugMode) console.error(err.stack ? err.stack : err)
+        if (debugMode) console.error(err.stack || err)
       }
     } else {
       if (debugMode) console.error(`URL [${url}] Is Not Valid`)
