@@ -219,7 +219,7 @@ module.exports = {
             const json = await response.json()
             storeData('', response, json)
           } catch (err) {
-            if (debugMode) console.error(err.stack ||  err)
+            if (debugMode) console.error(err.stack || err)
           }
         }
       } catch (err) {
