@@ -62,7 +62,7 @@ module.exports = {
         console.error(err)
       }
     } else {
-      throw Error(`HTML Parser - URL [${url}] Is Not Valid`)
+      console.error(`HTML Parser - URL [${url}] Is Not Valid`)
     }
   },
 
