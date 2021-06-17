@@ -222,7 +222,6 @@ module.exports = {
         if (cache.server) serverVars = Actions.getActionVariable.bind(Actions.server[server.id])
 
         try {
-          // eslint-disable-next-line no-eval
           return !!eval(js)
         } catch (_) {
           return false

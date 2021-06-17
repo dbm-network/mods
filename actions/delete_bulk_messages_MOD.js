@@ -253,7 +253,6 @@ module.exports = {
             filtered = (filtered || messages).filter(function (message) {
               let result = false
               try {
-                // eslint-disable-next-line no-eval
                 result = !!eval(Con4)
               } catch {}
               return result
