@@ -42,7 +42,7 @@ module.exports = {
 
   async action (cache) {
     const Mods = this.getMods()
-    const got = Mods.require('got')
+    const fetch = Mods.require('node-fetch')
 
     const data = cache.actions[cache.index]
 
@@ -55,15 +55,15 @@ module.exports = {
 
     if (Mods.checkURL(url)) {
       try {
-        const response = await got(url)
-        const html = response.body
+        const response = await fetch(url)
+        const html = await response.text()
         this.storeValue(html.trim(), storage, varName, cache)
         this.callNextAction(cache)
       } catch (err) {
         console.error(err)
       }
     } else {
-      console.error(`HTML Parser - URL [${url}] Is Not Valid`)
+      throw Error(`HTML Parser - URL [${url}] Is Not Valid`)
     }
   },
 
