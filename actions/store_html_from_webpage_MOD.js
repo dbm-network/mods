@@ -55,8 +55,7 @@ module.exports = {
 
     if (Mods.checkURL(url)) {
       try {
-        const response = await fetch(url)
-        const html = await response.text()
+        const html = await fetch(url).then((r) => r.text())
         this.storeValue(html.trim(), storage, varName, cache)
         this.callNextAction(cache)
       } catch (err) {
