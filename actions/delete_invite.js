@@ -13,7 +13,7 @@ module.exports = {
 
   fields: ['invite', 'storage', 'varName'],
 
-  html (isEvent, data) {
+  html () {
     return `
 <div>
   <div style="padding-top: 8px;">
@@ -40,7 +40,6 @@ module.exports = {
       .catch(console.error)
       .then((invite) => {
         if (!invite) this.callNextAction(cache)
-
         invite.delete(reason)
       })
 

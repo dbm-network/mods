@@ -63,7 +63,7 @@ module.exports = {
   <div id="comment" style="padding-top: 30px; padding-top: 8px;">
     <p>
     <u>Which API should I use?</u><br>
-    CleverBot-Free is completely free and you dont need to use an API key. You can just use it without any API key.<br>
+    CleverBot-Free is completely free and you don't need to use an API key. You can just use it without any API key.<br>
     Cleverbot.io is completely free. You only have to sign in with an email to get an API key. But that bot is a little bit dumb. It is asking you the same questions on every start etc.<br>
     Cleverbot.com is much more clever. But it is only free for 5000 calls/questions. If you want more, you'll have to pay (or create a new account).<br><br>
     Get cleverbot.io key: https://cleverbot.io/keys<br>
@@ -98,7 +98,7 @@ module.exports = {
     const Mods = this.getMods()
 
     switch (WhichAPI) {
-      case 0:
+      case 0: {
         const ioAPIuser = this.evalMessage(data.APIuser, cache)
         const ioAPIkey = this.evalMessage(data.APIkey, cache)
         if (!ioAPIuser) return console.log('Please enter a valid API User key from cleverbot.io!')
@@ -107,6 +107,7 @@ module.exports = {
         const CleverBotIO = Mods.require('cleverbot.io')
         const CLEVERBOT = new CleverBotIO(ioAPIuser, ioAPIkey)
 
+        // eslint-disable-next-line no-unused-vars
         CLEVERBOT.create((err, session) => {
           if (err) return console.log(`ERROR with cleverbot.io: ${err}`)
           CLEVERBOT.ask(Input, (err, response) => {
@@ -120,7 +121,8 @@ module.exports = {
         })
 
         break
-      case 1:
+      }
+      case 1: {
         const CleverBotCOM = Mods.require('cleverbot-node')
         const clbot = new CleverBotCOM()
         const comAPIkey = this.evalMessage(data.APIkey, cache)
@@ -137,7 +139,8 @@ module.exports = {
           _this.callNextAction(cache)
         })
         break
-      case 2:
+      }
+      case 2: {
         const uCleverbot = Mods.require('cleverbot-free')
         uCleverbot(Input).then(response => {
           if (response !== undefined) {
@@ -147,6 +150,9 @@ module.exports = {
           }
           _this.callNextAction(cache)
         })
+        break
+      }
+      default:
         break
     }
   },

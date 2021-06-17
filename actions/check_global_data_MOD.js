@@ -1,6 +1,5 @@
 module.exports = {
   name: 'Check Global Data',
-
   section: 'Data',
 
   subtitle (data) {
@@ -45,16 +44,14 @@ module.exports = {
     option.value = '4'
     option.text = 'Jump to Anchor'
     const iffalse = document.getElementById('iffalse')
-    if (iffalse.length === 4) {
-      iffalse.add(option)
-    }
+    if (iffalse.length === 4) iffalse.add(option)
+
     const option2 = document.createElement('OPTION')
     option2.value = '4'
     option2.text = 'Jump to Anchor'
     const iftrue = document.getElementById('iftrue')
-    if (iftrue.length === 4) {
-      iftrue.add(option2)
-    }
+    if (iftrue.length === 4) iftrue.add(option2)
+
     glob.onChangeTrue = function (event) {
       switch (parseInt(event.value)) {
         case 0:
@@ -101,7 +98,6 @@ module.exports = {
 
   action (cache) {
     const data = cache.actions[cache.index]
-
     const dataName = this.evalMessage(data.dataName, cache)
     const compare = parseInt(data.comparison)
     const { Globals } = this.getDBM()
@@ -135,6 +131,8 @@ module.exports = {
         break
       case 6:
         result = Boolean(val1.match(new RegExp(`^${val2}$`, 'i')))
+        break
+      default:
         break
     }
     this.executeResults(result, data, cache)

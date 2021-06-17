@@ -47,17 +47,14 @@ module.exports = {
     const data = cache.actions[cache.index]
     const id = this.evalMessage(data.id, cache)
     const token = this.evalMessage(data.token, cache)
-
     const result = new DiscordJS.WebhookClient(id, token)
 
     if (result !== undefined) {
       const storage = parseInt(data.storage)
       const varName = this.evalMessage(data.varName, cache)
       this.storeValue(result, storage, varName, cache)
-      this.callNextAction(cache)
-    } else {
-      this.callNextAction(cache)
     }
+    this.callNextAction(cache)
   },
 
   mod () {}

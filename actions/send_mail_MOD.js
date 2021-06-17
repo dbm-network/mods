@@ -9,7 +9,7 @@ module.exports = {
 
   fields: ['username', 'password', 'mailto', 'subject', 'type', 'text', 'iffalse', 'iffalseVal', 'hostname', 'portname', 'sec'],
 
-  html (isEvent, data) {
+  html () {
     return `
 <div style="width: 550px; height: 350px; overflow-y: scroll;">
   <div>
@@ -133,14 +133,15 @@ module.exports = {
           html: textvalue
         }
         break
+      default:
+        break
     }
 
-    transporter.sendMail(mailOptions, (error, info) => {
+    transporter.sendMail(mailOptions, (error) => {
       if (error) {
         console.log(error)
         _this.executeResults(false, data, cache)
       } else {
-        console.log(`Email successfully sent to: ${mailto}`)
         _this.callNextAction(cache)
       }
     })

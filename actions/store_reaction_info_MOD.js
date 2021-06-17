@@ -38,6 +38,8 @@ module.exports = {
       case 7:
         dataType = 'User'
         break
+      default:
+        break
     }
     return ([data.varName2, dataType])
   },
@@ -89,7 +91,6 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.refreshVariableList(document.getElementById('reaction'))
   },
 
@@ -100,43 +101,50 @@ module.exports = {
     const info = parseInt(data.info)
     const Mods = this.getMods()
     const rea = Mods.getReaction(reaction, varName, cache)
-    if (!Mods) return
-    if (!rea) {
-      console.log('This is not a reaction')
-      this.callNextAction(cache)
-    }
+
+    if (!rea) return this.callNextAction(cache)
+
     let result
     switch (info) {
-      case 0:
+      case 0: {
         result = rea.message // Message Object
         break
-      case 1:
+      }
+      case 1: {
         result = !!rea.me // This bot reacted?
         break
-      case 2:
+      }
+      case 2: {
         result = rea.users.cache.array() // All users who reacted list
         break
-      case 3:
+      }
+      case 3: {
         result = rea.emoji.name // Emoji (/Reaction) name
         break
-      case 4:
+      }
+      case 4: {
         result = rea.count // Number (user+bots) who reacted like this
         break
-      case 5:
+      }
+      case 5: {
         const firstid = rea.users.cache.firstKey() // Stores first user ID reacted
         result = cache.server.members.cache.get(firstid)
         break
-      case 6:
+      }
+      case 6: {
         const randomid = rea.users.cache.randomKey() // Stores random user ID reacted
         result = cache.server.members.cache.get(randomid)
         break
-      case 7:
+      }
+      case 7: {
         const lastid = rea.users.cache.lastKey() // Stores last user ID reacted
         result = cache.server.members.cache.get(lastid)
         break
+      }
       default:
         break
     }
+
     if (result !== undefined) {
       const storage = parseInt(data.storage)
       const varName2 = this.evalMessage(data.varName2, cache)
@@ -144,6 +152,5 @@ module.exports = {
     }
     this.callNextAction(cache)
   },
-
   mod () {}
 }

@@ -12,7 +12,7 @@ module.exports = {
         const temp = {}
         if (event.temp) temp[event.temp] = voiceChannel
         Actions.invokeEvent(event, guild, temp)
-      };
+      }
     }
   }
 }

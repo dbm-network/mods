@@ -2,7 +2,7 @@ module.exports = {
   name: 'Get Dominant Color',
   section: 'Image Editing',
 
-  subtitle (data) {
+  subtitle () {
     return 'Get dominant color from URL'
   },
 
@@ -53,6 +53,7 @@ module.exports = {
     const info = parseInt(data.info)
     const url = this.evalMessage(data.find, cache)
     let result
+
     switch (info) {
       case 0:
         try {

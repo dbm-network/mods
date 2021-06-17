@@ -181,7 +181,7 @@ module.exports = {
           timestamp2.style.display = 'none'
           note.style.display = 'none'
           note2.style.display = 'none'
-          authorUrl.placeholder = 'Unavaible!'
+          authorUrl.placeholder = 'Unavailable!'
           break
       }
       glob.onChange1()
@@ -211,10 +211,7 @@ module.exports = {
     const storage = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
 
-    if (!varName) {
-      this.callNextAction(cache)
-      return
-    }
+    if (!varName) return this.callNextAction(cache)
 
     if (debug !== 'true') {
       // Title
@@ -253,7 +250,7 @@ module.exports = {
             embed.setTimestamp(new Date(`${text}`))
           } else {
             embed.setTimestamp()
-            console.log('Invaild UTC timestamp! Changed from [String Timestamp] to [Current Timestamp].')
+            console.log('Invalid UTC timestamp! Changed from [String Timestamp] to [Current Timestamp].')
           }
           break
         case 'custom':

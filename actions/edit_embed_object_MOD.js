@@ -458,7 +458,7 @@ module.exports = {
     }
 
     const varName = document.getElementById('varName')
-    glob.onChange13 = function (Edit13) {
+    glob.onChange13 = function () {
       const list = document.getElementById('variableList')
       if (list.children.length === 0) return
       const dataType = list.options
@@ -474,10 +474,7 @@ module.exports = {
 
     function filter (dataType) {
       for (let i = 0; i < dataType.length; i++) {
-        console.log(dataType[i].value)
-        console.log(varName.value)
         if (dataType[i].value === varName.value) {
-          console.log(i)
           return dataType[i]
         }
       }
@@ -503,10 +500,8 @@ module.exports = {
     const storage = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
     const embed = this.getVariable(storage, varName, cache)
-    if (!embed) {
-      this.callNextAction(cache)
-      return
-    }
+    if (!embed) return this.callNextAction(cache)
+
     const Edit0 = parseInt(data.Edit0)
     const Edit1 = parseInt(data.Edit1)
     const Edit2 = parseInt(data.Edit2)
@@ -545,6 +540,8 @@ module.exports = {
       case 2:
         embed.title = undefined
         break
+      default:
+        break
     }
     switch (Edit1) {
       case 1:
@@ -552,6 +549,8 @@ module.exports = {
         break
       case 2:
         embed.url = undefined
+        break
+      default:
         break
     }
     switch (Edit2) {
@@ -561,6 +560,8 @@ module.exports = {
       case 2:
         embed.description = undefined
         break
+      default:
+        break
     }
     switch (Edit3) {
       case 1:
@@ -568,6 +569,8 @@ module.exports = {
         break
       case 2:
         embed.color = undefined
+        break
+      default:
         break
     }
     switch (Edit4) {
@@ -581,6 +584,8 @@ module.exports = {
         embed.attachFiles([`${imageUrl}/${imageUrl2}`])
         embed.setImage(`attachment://${imageUrl2}`)
         break
+      default:
+        break
     }
     switch (Edit5) {
       case 1:
@@ -593,6 +598,8 @@ module.exports = {
         embed.attachFiles([`${thumbUrl}/${thumbUrl2}`])
         embed.setImage(`attachment://${thumbUrl2}`)
         break
+      default:
+        break
     }
     if (embed.author === undefined) {
       if (Edit6 === 1 && author !== undefined) {
@@ -601,7 +608,7 @@ module.exports = {
           embed.author.url = authorUrl
         }
         if (Edit8 === 1 && authorIcon !== undefined) {
-          embed.author.icon_url = authorIcon
+          embed.author.iconURL = authorIcon
         }
       }
     } else {
@@ -616,16 +623,16 @@ module.exports = {
         embed.author.url = undefined
       }
       if (authorIcon !== undefined && Edit8 === 1 && embed.author !== undefined) {
-        embed.author.icon_url = authorIcon
+        embed.author.iconURL = authorIcon
       } else if (Edit8 === 2) {
-        embed.author.icon_url = undefined
+        embed.author.iconURL = undefined
       }
     }
     if (embed.footer === undefined) {
       if (Edit9 === 1 && footer !== undefined) {
         embed.setFooter(footer)
         if (Edit10 === 1 && footerIcon !== undefined) {
-          embed.footer.icon_url = footerIcon
+          embed.footer.iconURL = footerIcon
         }
       }
     } else {
@@ -635,17 +642,19 @@ module.exports = {
         embed.footer.text = undefined
       }
       if (footerIcon !== undefined && Edit10 === 1) {
-        embed.footer.icon_url = footerIcon
+        embed.footer.iconURL = footerIcon
       } else if (Edit10 !== 0) {
-        embed.footer.icon_url = undefined
+        embed.footer.iconURL = undefined
       }
     }
     switch (Edit10) {
       case 1:
-        embed.footer.icon_url = footerIcon
+        embed.footer.iconURL = footerIcon
         break
       case 2:
-        embed.footer.icon_url = undefined
+        embed.footer.iconURL = undefined
+        break
+      default:
         break
     }
     switch (Edit11) {
@@ -662,6 +671,8 @@ module.exports = {
       case 3:
         embed.timestamp = undefined
         break
+      default:
+        break
     }
     switch (Edit12) {
       case 1:
@@ -675,6 +686,8 @@ module.exports = {
             case 2:
               embed.fields[fieldNum].inline = false
               break
+            default:
+              break
           }
         }
         break
@@ -684,7 +697,7 @@ module.exports = {
       case 3:
         embed.fields = []
         break
-      case 4:
+      case 4: {
         const field = {}
         field.name = fieldName
         field.value = fieldDescription
@@ -696,8 +709,13 @@ module.exports = {
           case 2:
             field.inline = false
             break
+          default:
+            break
         }
         embed.fields.splice(fieldNum, 0, field)
+        break
+      }
+      default:
         break
     }
     this.storeValue(embed, storage, varName, cache)

@@ -46,6 +46,8 @@ module.exports = {
       case 10:
         dataType = 'number'
         break
+      default:
+        break
     }
     return ([data.varName, dataType])
   },

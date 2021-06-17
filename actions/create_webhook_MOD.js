@@ -52,6 +52,7 @@ module.exports = {
 
   init () {
     const { glob, document } = this
+
     glob.channelChange(document.getElementById('storage'), 'varNameContainer')
     glob.variableChange(document.getElementById('storage2'), 'varNameContainer2')
   },
@@ -61,18 +62,19 @@ module.exports = {
     const storage = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
     const channel = this.getChannel(storage, varName, cache)
-    if (channel && channel.createWebhook) {
-      const avatar = this.evalMessage(data.webhookIcon, cache)
-      const name = this.evalMessage(data.webhookName, cache)
-      channel.createWebhook(name, { avatar }).then((webhook) => {
+
+    if (!channel && !channel.createWebhook) return this.callNextAction(cache)
+
+    const avatar = this.evalMessage(data.webhookIcon, cache)
+    const name = this.evalMessage(data.webhookName, cache)
+    channel.createWebhook(name, { avatar })
+      .then((webhook) => {
         const storage2 = parseInt(data.storage2)
         const varName2 = this.evalMessage(data.varName2, cache)
         this.storeValue(webhook, storage2, varName2, cache)
         this.callNextAction(cache)
-      }).catch(this.displayError.bind(this, data, cache))
-    } else {
-      this.callNextAction(cache)
-    }
+      })
+      .catch(this.displayError.bind(this, data, cache))
   },
 
   mod () {}

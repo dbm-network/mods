@@ -359,9 +359,11 @@ module.exports = {
   action (cache) {
     const data = cache.actions[cache.index]
     const _this = this
+    const Mods = this.getMods()
+    const SpotifyWebApi = Mods.require('spotify-web-api-node')
 
-    const cclientid = this.evalMessage(data.clientid, cache)
-    const cclientsecret = this.evalMessage(data.clientsecret, cache)
+    const clientId = this.evalMessage(data.clientid, cache)
+    const clientSecret = this.evalMessage(data.clientsecret, cache)
 
     const searchtype = parseInt(data.search)
     const value = this.evalMessage(data.varName, cache)
@@ -377,11 +379,11 @@ module.exports = {
     const storage = parseInt(data.storage)
     const varName2 = this.evalMessage(data.varName2, cache)
 
-    const SpotifyWebApi = require('spotify-web-api-node')
+    if (!clientId && !clientSecret) return console.log('Please input your client credentials in Spotify Search Mod!')
 
     const spotifyApi = new SpotifyWebApi({
-      clientId: cclientid,
-      clientSecret: cclientsecret
+      clientId,
+      clientSecret
     })
 
     spotifyApi.clientCredentialsGrant().then(

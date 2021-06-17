@@ -17,6 +17,7 @@ module.exports = {
         Actions.invokeEvent(event, null, temp)
       }
     }
+
     const onReady = Bot.onReady
     Bot.onReady = function (...params) {
       Bot.bot.on('userUpdate', DBM.Events.callUserUpdate)

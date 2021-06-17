@@ -1,123 +1,19 @@
-class AwaitResponseCallAction {
-  constructor () {
-    this.name = 'Await Response Call Action'
-    this.section = 'Messaging'
-    this.displayName = 'Await Response'
-    this.fields = ['storage', 'varName', 'filter', 'max', 'time', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal', 'storage2', 'varName2']
-  }
-
-  mod () {}
+/* eslint-disable no-unused-vars */
+module.exports = {
+  name: 'Await Response Call Action',
+  displayName: 'Await Response',
+  section: 'Messaging',
+  fields: ['storage', 'varName', 'filter', 'max', 'time', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal', 'storage2', 'varName2'],
 
   subtitle ({ max, time }) {
     const getPlural = (n) => (n !== '1' ? 's' : '')
     return `Await ${max} message${getPlural(max)} for ${time} millisecond${getPlural(time)}`
-  }
+  },
 
   variableStorage (data, varType) {
     if (parseInt(data.storage2) !== varType) return
     return [data.varName2, parseInt(data.max) === 1 ? 'Message' : 'Message List']
-  }
-
-  init () {
-    const { glob, document } = this
-
-    glob.channelChange(document.getElementById('storage'), 'varNameContainer')
-    glob.variableChange(document.getElementById('storage2'), 'varNameContainer2')
-    glob.onChangeTrue = function (event) {
-      switch (parseInt(event.value)) {
-        case 0:
-        case 1:
-          document.getElementById('iftrueContainer').style.display = 'none'
-          break
-        case 2:
-          document.getElementById('iftrueName').innerHTML = 'Action Number'
-          document.getElementById('iftrueContainer').style.display = null
-          break
-        case 3:
-          document.getElementById('iftrueName').innerHTML = 'Number of Actions to Skip'
-          document.getElementById('iftrueContainer').style.display = null
-          break
-        case 4:
-          document.getElementById('iftrueName').innerHTML = 'Anchor ID'
-          document.getElementById('iftrueContainer').style.display = null
-          break
-      }
-    }
-    glob.onChangeFalse = function (event) {
-      switch (parseInt(event.value)) {
-        case 0:
-        case 1:
-          document.getElementById('iffalseContainer').style.display = 'none'
-          break
-        case 2:
-          document.getElementById('iffalseName').innerHTML = 'Action Number'
-          document.getElementById('iffalseContainer').style.display = null
-          break
-        case 3:
-          document.getElementById('iffalseName').innerHTML = 'Number of Actions to Skip'
-          document.getElementById('iffalseContainer').style.display = null
-          break
-        case 4:
-          document.getElementById('iffalseName').innerHTML = 'Anchor ID'
-          document.getElementById('iffalseContainer').style.display = null
-          break
-      }
-    }
-    glob.onChangeTrue(document.getElementById('iftrue'))
-    glob.onChangeFalse(document.getElementById('iffalse'))
-  }
-
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const { Actions } = this.getDBM()
-
-    const ch = parseInt(data.storage)
-    const varName = this.evalMessage(data.varName, cache)
-    const channel = this.getChannel(ch, varName, cache)
-
-    const storage = parseInt(data.storage2)
-    const varName2 = this.evalMessage(data.varName2, cache)
-
-    if (channel) {
-      const js = String(this.evalMessage(data.filter, cache))
-
-      const max = parseInt(this.evalMessage(data.max, cache))
-      const time = parseInt(this.evalMessage(data.time, cache))
-
-      channel.awaitMessages((msg) => {
-        /* eslint-disable */
-        const { msg: message, server } = cache
-        const { author, content } = msg
-        let user
-        let member
-        const tempVars = Actions.getActionVariable.bind(cache.temp);
-        const globalVars = Actions.getActionVariable.bind(Actions.global);
-        let serverVars = null;
-        /* eslint-enable */
-
-        if (message) {
-          user = message.author
-          member = message.member
-        }
-
-        if (cache.server) {
-          serverVars = Actions.getActionVariable.bind(Actions.server[server.id])
-        }
-
-        try {
-          // eslint-disable-next-line no-eval
-          return !!eval(js)
-        } catch (_) {
-          return false
-        }
-      }, { max, time, errors: ['time'] })
-        .then((c) => {
-          this.storeValue(c.size === 1 ? c.first() : c.array(), storage, varName2, cache)
-          this.executeResults(true, data, cache)
-        })
-        .catch(() => this.executeResults(false, data, cache))
-    }
-  }
+  },
 
   html (isEvent, data) {
     return `
@@ -241,7 +137,103 @@ class AwaitResponseCallAction {
     text-decoration: underline;
   }
 </style>`
-  }
-}
+  },
 
-module.exports = new AwaitResponseCallAction()
+  init () {
+    const { glob, document } = this
+
+    glob.channelChange(document.getElementById('storage'), 'varNameContainer')
+    glob.variableChange(document.getElementById('storage2'), 'varNameContainer2')
+    glob.onChangeTrue = function (event) {
+      switch (parseInt(event.value)) {
+        case 0:
+        case 1:
+          document.getElementById('iftrueContainer').style.display = 'none'
+          break
+        case 2:
+          document.getElementById('iftrueName').innerHTML = 'Action Number'
+          document.getElementById('iftrueContainer').style.display = null
+          break
+        case 3:
+          document.getElementById('iftrueName').innerHTML = 'Number of Actions to Skip'
+          document.getElementById('iftrueContainer').style.display = null
+          break
+        case 4:
+          document.getElementById('iftrueName').innerHTML = 'Anchor ID'
+          document.getElementById('iftrueContainer').style.display = null
+          break
+      }
+    }
+    glob.onChangeFalse = function (event) {
+      switch (parseInt(event.value)) {
+        case 0:
+        case 1:
+          document.getElementById('iffalseContainer').style.display = 'none'
+          break
+        case 2:
+          document.getElementById('iffalseName').innerHTML = 'Action Number'
+          document.getElementById('iffalseContainer').style.display = null
+          break
+        case 3:
+          document.getElementById('iffalseName').innerHTML = 'Number of Actions to Skip'
+          document.getElementById('iffalseContainer').style.display = null
+          break
+        case 4:
+          document.getElementById('iffalseName').innerHTML = 'Anchor ID'
+          document.getElementById('iffalseContainer').style.display = null
+          break
+      }
+    }
+    glob.onChangeTrue(document.getElementById('iftrue'))
+    glob.onChangeFalse(document.getElementById('iffalse'))
+  },
+
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const { Actions } = this.getDBM()
+
+    const ch = parseInt(data.storage)
+    const varName = this.evalMessage(data.varName, cache)
+    const channel = this.getChannel(ch, varName, cache)
+
+    const storage = parseInt(data.storage2)
+    const varName2 = this.evalMessage(data.varName2, cache)
+
+    if (channel) {
+      const js = String(this.evalMessage(data.filter, cache))
+
+      const max = parseInt(this.evalMessage(data.max, cache))
+      const time = parseInt(this.evalMessage(data.time, cache))
+
+      channel.awaitMessages((msg) => {
+        const { msg: message, server } = cache
+        const { author, content } = msg
+        let user
+        let member
+        const tempVars = Actions.getActionVariable.bind(cache.temp)
+        const globalVars = Actions.getActionVariable.bind(Actions.global)
+        let serverVars = null
+
+        if (message) {
+          user = message.author
+          member = message.member
+        }
+
+        if (cache.server) serverVars = Actions.getActionVariable.bind(Actions.server[server.id])
+
+        try {
+          // eslint-disable-next-line no-eval
+          return !!eval(js)
+        } catch (_) {
+          return false
+        }
+      }, { max, time, errors: ['time'] })
+        .then((c) => {
+          this.storeValue(c.size === 1 ? c.first() : c.array(), storage, varName2, cache)
+          this.executeResults(true, data, cache)
+        })
+        .catch(() => this.executeResults(false, data, cache))
+    }
+  },
+  mod () {}
+}

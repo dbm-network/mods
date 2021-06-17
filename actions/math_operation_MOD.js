@@ -19,11 +19,11 @@ module.exports = {
   html (isEvent, data) {
     return `
 <div>
-  <div style="float: right; width: 60%; padding-top: 8px;">
+  <div style="width: 60%; padding-top: 8px;">
     <p><u>Note:</u><br>
-    Get more informations <a href="https://www.w3schools.com/js/js_math.asp">here</a>.
-  </div><br>
-</div><br><br><br>
+    Get more information <a href="https://www.w3schools.com/js/js_math.asp">here</a>.
+  </div>
+</div><br>
 <div style="padding-top: 8px;">
   Source Number:
   <textarea id="num" rows="2" placeholder="Insert number(s) here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
@@ -64,10 +64,8 @@ module.exports = {
     const num = parseFloat(this.evalMessage(data.math, cache).replace(/,/g, ''))
     const info = parseInt(data.info)
 
-    if (!num) {
-      console.log('There is no number!')
-      this.callNextAction(cache)
-    }
+    if (!num) return this.callNextAction(cache)
+
     let result
     switch (info) {
       case 0:

@@ -103,10 +103,7 @@ module.exports = {
     const storage = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
     const embed = this.getVariable(storage, varName, cache)
-    if (!embed) {
-      this.callNextAction(cache)
-      return
-    }
+    if (!embed) return this.callNextAction(cache)
 
     const messageContent = this.evalMessage(data.messageContent, cache)
     const channel = parseInt(data.channel)

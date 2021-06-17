@@ -62,16 +62,14 @@ module.exports = {
     option.value = '4'
     option.text = 'Jump to Anchor'
     const iffalse = document.getElementById('iffalse')
-    if (iffalse.length === 4) {
-      iffalse.add(option)
-    }
+    if (iffalse.length === 4) iffalse.add(option)
+
     const option2 = document.createElement('OPTION')
     option2.value = '4'
     option2.text = 'Jump to Anchor'
     const iftrue = document.getElementById('iftrue')
-    if (iftrue.length === 4) {
-      iftrue.add(option2)
-    }
+    if (iftrue.length === 4) iftrue.add(option2)
+
     glob.onChangeTrue = function (event) {
       switch (parseInt(event.value)) {
         case 0:
@@ -123,6 +121,7 @@ module.exports = {
     const varName = this.evalMessage(data.varName, cache)
     const member = this.getMember(type, varName, cache)
     let result = false
+
     if (member && member.data) {
       const dataName = this.evalMessage(data.dataName, cache)
       const val1 = member.data(dataName)
@@ -130,6 +129,7 @@ module.exports = {
       let val2 = this.evalMessage(data.value, cache)
       if (compare !== 6) val2 = this.eval(val2, cache)
       if (val2 === false) val2 = this.evalMessage(data.value, cache)
+
       switch (compare) {
         case 0:
           result = val1 !== undefined
@@ -169,6 +169,8 @@ module.exports = {
           break
         case 11:
           result = val1.endsWith(val2)
+          break
+        default:
           break
       }
     }

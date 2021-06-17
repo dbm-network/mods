@@ -58,7 +58,6 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.channelChange(document.getElementById('storage'), 'varNameContainer')
   },
 
@@ -83,27 +82,38 @@ module.exports = {
         break
     }
 
-    if (toChange === 1) {
-      channel.edit({ topic: newState })
-    } else if (toChange === 0) {
-      channel.edit({ name: newState })
-    } else if (toChange === 2) {
-      channel.edit({ position: newState })
-    } else if (toChange === 3) {
-      channel.edit({ bitrate: parseInt(newState) })
-    } else if (toChange === 4) {
-      channel.edit({ userLimit: parseInt(newState) })
-    } else if (toChange === 5) {
-      channel.setParent(newState)
-    } else if (toChange === 6) {
-      channel.setRateLimitPerUser(newState)
-    } else if (toChange === 7) {
-      channel.setNSFW(true)
-    } else if (toChange === 8) {
-      channel.setNSFW(false)
-    } else {
-      console.log('Please update your edit_channel_MOD.js in your projects action folder!')
+    switch (toChange) {
+      case 0:
+        channel.edit({ name: newState })
+        break
+      case 1:
+        channel.edit({ topic: newState })
+        break
+      case 2:
+        channel.edit({ position: newState })
+        break
+      case 3:
+        channel.edit({ bitrate: parseInt(newState, 10) })
+        break
+      case 4:
+        channel.edit({ userLimit: parseInt(newState, 10) })
+        break
+      case 5:
+        channel.setParent(newState)
+        break
+      case 6:
+        channel.setRateLimitPerUser(newState)
+        break
+      case 7:
+        channel.setNSFW(true)
+        break
+      case 8:
+        channel.setNSFW(false)
+        break
+      default:
+        break
     }
+
     this.callNextAction(cache)
   },
 

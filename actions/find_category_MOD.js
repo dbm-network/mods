@@ -44,10 +44,9 @@ module.exports = {
 </div><br><br><br>
 <p>You can store and edit a category using the channel actions "Store Channel Info", "Edit Channel" or "Set Channel Permission".</p>
 
-<!-- Don't forget to copy the style below with the html above!
-This was made by EliteArtz!-->
+<!-- Don't forget to copy the style below with the html above!-->
 <style>
-  /* EliteArtz Embed CSS code */
+  /* Embed CSS code */
   .embed {
     position: relative;
   }
@@ -92,15 +91,13 @@ This was made by EliteArtz!-->
 
   action (cache) {
     const { server } = cache
-    if (!server || !server.channels) {
-      this.callNextAction(cache)
-      return
-    }
+    if (!server || !server.channels) return this.callNextAction(cache)
     const data = cache.actions[cache.index]
     const info = parseInt(data.info)
     const find = this.evalMessage(data.find, cache)
     const channels = server.channels.cache.filter((s) => s.type === 'category')
     let result
+
     switch (info) {
       case 0:
         result = channels.get(find)
@@ -111,14 +108,13 @@ This was made by EliteArtz!-->
       default:
         break
     }
+
     if (result !== undefined) {
       const storage = parseInt(data.storage)
       const varName = this.evalMessage(data.varName, cache)
       this.storeValue(result, storage, varName, cache)
-      this.callNextAction(cache)
-    } else {
-      this.callNextAction(cache)
     }
+    this.callNextAction(cache)
   },
 
   mod () {}

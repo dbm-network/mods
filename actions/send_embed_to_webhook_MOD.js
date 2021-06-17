@@ -53,15 +53,7 @@ module.exports = {
     const varName2 = this.evalMessage(data.varName2, cache)
     const embed2 = this.getVariable(storage2, varName2, cache)
 
-    if (!embed2) {
-      this.callNextAction(cache)
-      return
-    }
-
-    if (!webhook) {
-      this.callNextAction(cache)
-      return
-    }
+    if (!embed2 || !webhook) return this.callNextAction(cache)
 
     webhook.send(embed2)
     this.callNextAction(cache)

@@ -134,24 +134,26 @@ module.exports = {
   action (cache) {
     const data = cache.actions[cache.index]
     const { server } = cache
-    if (!server) {
-      this.callNextAction(cache)
-      return
-    }
     const member = parseInt(data.storage)
+
+    if (!server) return this.callNextAction(cache)
+
     let mem
     switch (member) {
       case 0:
         break
-      default:
+      default: {
         const varName = this.evalMessage(data.varName, cache)
         mem = this.getMember(member - 1, varName, cache)
         break
+      }
     }
+
     const before = this.evalMessage(data.before, cache)
     const limit = parseInt(this.evalMessage(data.limit, cache))
     const type = parseInt(data.type)
     const options = {}
+
     if (type !== 0) {
       options.type = type
     } else {
@@ -166,6 +168,7 @@ module.exports = {
     if (mem) {
       options.user = mem
     }
+
     const result = []
     server.fetchAuditLogs(options).then((audits) => {
       audits.entries.forEach((entry) => {

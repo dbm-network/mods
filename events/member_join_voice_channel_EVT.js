@@ -11,8 +11,9 @@ module.exports = {
       if (!Bot.$evts['Member Join Voice Channel']) return
       const oldChannel = oldVoiceState.channel
       const newChannel = newVoiceState.channel
-      const server = (oldChannel || newChannel).guild
-      if (!(!oldChannel && newChannel)) return
+      if (oldChannel || !newChannel) return
+
+      const server = newChannel.guild
       for (const event of Bot.$evts['Member Join Voice Channel']) {
         const temp = {}
         if (event.temp) temp[event.temp] = newVoiceState.member
@@ -26,5 +27,4 @@ module.exports = {
       onReady.apply(this, ...params)
     }
   }
-
 }

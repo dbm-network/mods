@@ -13,7 +13,7 @@ module.exports = {
         if (event.temp) temp[event.temp] = voiceChannel
         if (event.temp2) temp[event.temp2] = oldVolume
         Actions.invokeEvent(event, guild, temp)
-      };
+      }
     }
   }
 }

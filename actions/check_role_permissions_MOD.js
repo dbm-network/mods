@@ -40,16 +40,14 @@ module.exports = {
     option.value = '4'
     option.text = 'Jump to Anchor'
     const iffalse = document.getElementById('iffalse')
-    if (iffalse.length === 4) {
-      iffalse.add(option)
-    }
+    if (iffalse.length === 4) iffalse.add(option)
+
     const option2 = document.createElement('OPTION')
     option2.value = '4'
     option2.text = 'Jump to Anchor'
     const iftrue = document.getElementById('iftrue')
-    if (iftrue.length === 4) {
-      iftrue.add(option2)
-    }
+    if (iftrue.length === 4) iftrue.add(option2)
+
     glob.onChangeTrue = function (event) {
       switch (parseInt(event.value)) {
         case 0:
@@ -101,9 +99,8 @@ module.exports = {
     const varName = this.evalMessage(data.varName, cache)
     const role = this.getRole(storage, varName, cache)
     let result
-    if (role) {
-      result = role.permissions.has(data.permission)
-    }
+
+    if (role) result = role.permissions.has(data.permission)
     this.executeResults(result, data, cache)
   },
 

@@ -107,37 +107,49 @@ module.exports = {
     const info = parseInt(data.info)
     const value = this.evalMessage(data.value, cache)
     let result
+
     if (info === 0 || info === 1 || info === 4) {
       var info2 = this.evalMessage(data.info2, cache)
     }
+
     switch (info) {
-      case 0:
+      case 0: {
         const parts = variable.toString().split('.')
         parts[0] = parts[0].replace(new RegExp(`\\B(?=(.{${info2}})+(?!.))`, 'g'), value)
         result = parts.join('.')
         break
-      case 1:
+      }
+      case 1: {
         result = variable.replace(new RegExp(info2, 'g'), value)
         break
-      case 2:
+      }
+      case 2: {
         result = `${value}${variable}`
         break
-      case 3:
+      }
+      case 3: {
         result = `${variable}${value}`
         break
-      case 4:
-        var front = variable.slice(0, parseInt(info2))
-        var end = variable.slice(parseInt(info2))
+      }
+      case 4: {
+        const front = variable.slice(0, parseInt(info2))
+        const end = variable.slice(parseInt(info2))
         result = front + value + end
         break
-      case 5:
+      }
+      case 5: {
         result = variable.slice(0, value)
         break
-      case 6:
+      }
+      case 6: {
         result = variable.slice(-1 * parseInt(value))
         break
-      case 7:
+      }
+      case 7: {
         result = variable.slice(value, 1 + parseInt(value))
+        break
+      }
+      default:
         break
     }
     if (result) {

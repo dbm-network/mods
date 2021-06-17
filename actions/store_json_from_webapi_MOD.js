@@ -39,6 +39,7 @@ module.exports = {
   </div><br><br>
   JSON Path: (Leave blank to store everything)<br>
   Supports the usage of JSON Path (Regex)<br>
+  You don't need to add the x. of JSON Path<br>
   More info here <br>
   http://goessner.net/articles/JsonPath/index.html#e2<br><br>
   <input id="path" class="round"; style="width: 75%;" type="text">
@@ -71,7 +72,7 @@ module.exports = {
       <option value="1" selected>Enabled</option>
       <option value="0">Disabled</option>
     </select>
-    <text style="font-size: 60%;">Enables verbose printing to the console, disable to stop all but error printing.</text>
+    <text style="font-size: 60%;">Enables printing to console, disable to remove all messages. Turn on to see errors.</text>
   </div>
 </div>
 </div>`
@@ -79,7 +80,6 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.variableChange(document.getElementById('storage'), 'varNameContainer')
 
     glob.checkBox = function (element, type) {
@@ -91,7 +91,6 @@ module.exports = {
 
     glob.disallowAlert = function (element) {
       if (element.value === '0') {
-        // eslint-disable-next-line no-undef
         alert('Disabling this could lead to you being banned or rate limited by APIs, please be careful.')
       }
     }
@@ -99,27 +98,20 @@ module.exports = {
     glob.checkBox(document.getElementById('toggleAuth'), 'auth')
   },
 
-  action (cache) {
-    const _this = this
-
+  async action (cache) {
     const data = cache.actions[cache.index]
-
+    const Actions = this.getDBM().Actions
     const Mods = this.getMods()
-    const request = Mods.require('request')
-
-    const _DEBUG = parseInt(data.debugMode)
-
+    const fetch = Mods.require('node-fetch')
+    const debugMode = parseInt(data.debugMode)
     const storage = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
-
     let url = this.evalMessage(data.url, cache)
     const path = this.evalMessage(data.path, cache)
-
     const token = this.evalMessage(data.token, cache)
     const user = this.evalMessage(data.user, cache)
     const reUse = parseInt(data.reUse)
     const pass = this.evalMessage(data.pass, cache)
-
     const headers = this.evalMessage(data.headers, cache)
 
     // if it fails the check, try to re-encode the url
@@ -133,51 +125,51 @@ module.exports = {
           let errorJson
           if (error) {
             errorJson = JSON.stringify({ error, statusCode })
-            _this.storeValue(errorJson, storage, varName, cache)
+            Actions.storeValue(errorJson, storage, varName, cache)
 
-            console.error(`WebAPI: Error: ${errorJson} stored to: [${varName}]`)
+            if (debugMode) console.error(`WebAPI: Error: ${errorJson} stored to: [${varName}]`)
           } else if (path) {
             const outData = Mods.jsonPath(jsonData, path)
 
-            if (_DEBUG) console.dir(outData)
+            if (debugMode) console.dir(outData)
 
             try {
               JSON.parse(JSON.stringify(outData))
             } catch (error) {
               errorJson = JSON.stringify({ error, statusCode, success: false })
-              _this.storeValue(errorJson, storage, varName, cache)
-              console.error(error.stack ? error.stack : error)
+              Actions.storeValue(errorJson, storage, varName, cache)
+              if (debugMode) console.error(error.stack ? error.stack : error)
             }
 
             // eslint-disable-next-line no-eval
             const outValue = eval(JSON.stringify(outData), cache)
 
             if (!outData) {
-              console.error(`WebAPI: Error: ${errorJson} NO JSON data returned. Check the URL: ${url}`)
               errorJson = JSON.stringify({ error: 'No JSON Data Returned', statusCode: 0 })
-              _this.storeValue(errorJson, storage, varName, cache)
+              Actions.storeValue(errorJson, storage, varName, cache)
+              if (debugMode) console.error(`WebAPI: Error: ${errorJson} NO JSON data returned. Check the URL: ${url}`)
             } else if (outData.success != null) {
               errorJson = JSON.stringify({ error, statusCode, success: false })
-              _this.storeValue(errorJson, storage, varName, cache)
-              console.log(`WebAPI: Error Invalid JSON, is the Path and/or URL set correctly? [${path}]`)
+              Actions.storeValue(errorJson, storage, varName, cache)
+              if (debugMode) console.log(`WebAPI: Error Invalid JSON, is the Path and/or URL set correctly? [${path}]`)
             } else if (outValue.success != null || !outValue) {
               errorJson = JSON.stringify({ error, statusCode, success: false })
-              _this.storeValue(errorJson, storage, varName, cache)
-              console.log(`WebAPI: Error Invalid JSON, is the Path and/or URL set correctly? [${path}]`)
+              Actions.storeValue(errorJson, storage, varName, cache)
+              if (debugMode) console.log(`WebAPI: Error Invalid JSON, is the Path and/or URL set correctly? [${path}]`)
             } else {
-              _this.storeValue(outValue, storage, varName, cache)
-              _this.storeValue(jsonData, 1, url, cache)
-              _this.storeValue(url, 1, `${url}_URL`, cache)
-              if (_DEBUG) console.log(`WebAPI: JSON Data values starting from [${path}] stored to: [${varName}]`)
+              Actions.storeValue(outValue, storage, varName, cache)
+              Actions.storeValue(jsonData, 1, url, cache)
+              Actions.storeValue(url, 1, `${url}_URL`, cache)
+              if (debugMode) console.log(`WebAPI: JSON Data values starting from [${path}] stored to: [${varName}]`)
             }
           } else {
-            if (_DEBUG) console.dir(jsonData)
-            _this.storeValue(jsonData, storage, varName, cache)
-            _this.storeValue(jsonData, 1, url, cache)
-            _this.storeValue(url, 1, `${url}_URL`, cache)
-            if (_DEBUG) console.log(`WebAPI: JSON Data Object stored to: [${varName}]`)
+            if (debugMode) console.dir(jsonData)
+            Actions.storeValue(jsonData, storage, varName, cache)
+            Actions.storeValue(jsonData, 1, url, cache)
+            Actions.storeValue(url, 1, `${url}_URL`, cache)
+            if (debugMode) console.log(`WebAPI: JSON Data Object stored to: [${varName}]`)
           }
-          _this.callNextAction(cache)
+          Actions.callNextAction(cache)
         }
 
         const oldUrl = this.getVariable(1, `${url}_URL`, cache)
@@ -193,7 +185,7 @@ module.exports = {
             error = err
           }
 
-          if (_DEBUG) console.log('WebAPI: Using previously stored json data from the initial store json action within this command.')
+          if (debugMode) console.log('WebAPI: Using previously stored json data from the initial store json action within this command.')
 
           storeData(error, res, jsonData)
         } else {
@@ -213,34 +205,30 @@ module.exports = {
                 const value = header[1] || 'Unknown'
                 setHeaders[key] = value
 
-                if (_DEBUG) console.log(`Applied Header: ${lines[i]}`)
+                if (debugMode) console.log(`Applied Header: ${lines[i]}`)
               } else {
-                console.error(`WebAPI: Error: Custom Header line ${lines[i]} is wrongly formatted. You must split the key from the value with a colon (:)`)
+                if (debugMode) console.error(`WebAPI: Error: Custom Header line ${lines[i]} is wrongly formatted. You must split the key from the value with a colon (:)`)
               }
             }
           }
+          if (token) setHeaders.Authorization = `Bearer ${token}`
+          if (user && pass) setHeaders.Authorization = `Basic ${Buffer.from(user + ':' + pass).toString('base64')}`
 
-          request.get({
-            url,
-            json: true,
-            headers: setHeaders,
-            auth: {
-              bearer: token,
-              user,
-              pass,
-              sendImmediately: false
-            }
-          }, (error, res, jsonData) => storeData(error, res, jsonData))
+          try {
+            const response = await fetch(url, { headers: setHeaders })
+            const json = await response.json()
+            storeData('', response, json)
+          } catch (err) {
+            if (debugMode) console.error(err.stack || err)
+          }
         }
       } catch (err) {
-        console.error(err.stack ? err.stack : err)
+        if (debugMode) console.error(err.stack || err)
       }
     } else {
-      console.error(`URL [${url}] Is Not Valid`)
+      if (debugMode) console.error(`URL [${url}] Is Not Valid`)
     }
   },
 
-  mod (DBM) {
-    DBM.Actions['Store Variable From WebAPI'] = DBM.Actions['Store Json From WebAPI']
-  }
+  mod () {}
 }

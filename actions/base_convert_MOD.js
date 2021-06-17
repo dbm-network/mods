@@ -1,5 +1,6 @@
 module.exports = {
   name: 'Base Convert MOD',
+  displayName: 'Base Convert',
   section: 'Other Stuff',
 
   subtitle (data) {

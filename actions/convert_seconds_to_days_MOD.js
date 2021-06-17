@@ -34,33 +34,24 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.variableChange(document.getElementById('storage'), 'varNameContainer')
   },
 
   action (cache) {
     const data = cache.actions[cache.index]
     const time = this.evalMessage(data.time, cache)
-    let d
-    let h
-    let m
-    let s
-    let result
 
-    if (isNaN(time)) {
-      console.log('Please insert a number')
-    } else {
-      s = time
+    if (isNaN(time)) return this.callNextAction(cache)
 
-      m = Math.floor(s / 60)
-      s %= 60
-      h = Math.floor(m / 60)
-      m %= 60
-      d = Math.floor(h / 24)
-      h %= 24
+    let s = time
+    let m = Math.floor(s / 60)
+    s %= 60
+    let h = Math.floor(m / 60)
+    m %= 60
+    const d = Math.floor(h / 24)
+    h %= 24
 
-      result = `${d}d ${h}h ${m}m ${s}s`
-    }
+    let result = `${d}d ${h}h ${m}m ${s}s`
 
     if (result.toString() === 'Invalid Date') result = undefined
 

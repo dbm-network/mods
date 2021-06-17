@@ -27,7 +27,7 @@ module.exports = {
 </div>
 <div style="float: left; width: 100%; padding-top: 8px;">
   <p>
-    Please put the Welcome action into a Bot Initalization event to be able to store the current song!
+    Please put the Welcome action into a Bot Initialization event to be able to store the current song!
   </p>
 </div>`
   },
@@ -42,25 +42,31 @@ module.exports = {
     const loop = parseInt(data.loop)
 
     switch (status) {
-      case 0:// Enable
+      case 0: // Enable
         switch (loop) {
-          case 0:// Loop Queue
+          case 0: // Loop Queue
             Audio.loopQueue[server.id] = true
             break
-          case 1:// Loop Item
+          case 1: // Loop Item
             Audio.loopItem[server.id] = true
+            break
+          default:
             break
         }
         break
-      case 1:// Disable
+      case 1: // Disable
         switch (loop) {
-          case 0:// Loop Queue
+          case 0: // Loop Queue
             Audio.loopQueue[server.id] = false
             break
-          case 1:// Loop Item
+          case 1: // Loop Item
             Audio.loopItem[server.id] = false
             break
+          default:
+            break
         }
+        break
+      default:
         break
     }
 

@@ -56,7 +56,6 @@ module.exports = {
     const path = parseInt(data.path)
     const _this = this
     const stor = storage + varName
-    console.log(stor)
     const Mods = this.getMods()
     const { JSONPath } = Mods.require('jsonpath-plus')
     const Watcher = Mods.require('feed-watcher')

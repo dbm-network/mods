@@ -8,17 +8,27 @@ module.exports = {
 
   fields: ['storage', 'varName', 'messageToSend', 'channelToSendTo', 'oAuth', 'username'],
 
-  html (isEvent, data) {
+  html () {
     return `
-Channel to send to:<br>
-<input id='channelToSendTo' class='round' type='text'><br>
-Username of the account sending the message:<br>
-<input id='username' class='round' type='text'><br>
-oAuth token for the account sending the message:<br>
-<a href='https://twitchapps.com/tmi/'>Click here to get yours</a><br>
-<input id='oAuth' class='round' type='text'><br>
-Message to send:<br>
-<input id='messageToSend' class='round type='text'>`
+<div>
+  <div>
+    Channel to send to:<br>
+    <input id='channelToSendTo' class='round' type='text'><br>
+  </div><br>
+  <div>
+    Username of the account sending the message:<br>
+    <input id='username' class='round' type='text'><br>
+  </div><br>
+  <div>
+    oAuth token for the account sending the message:<br>
+    <a href='https://twitchapps.com/tmi/'>Click here to get yours</a><br>
+    <input id='oAuth' class='round' type='text'><br>
+  </div><br>
+  <div>
+    Message to send:<br>
+    <input id='messageToSend' class='round type='text'>
+  </div>
+</div>`
   },
 
   init () {},
@@ -29,6 +39,10 @@ Message to send:<br>
     const channelToSendTo = this.evalMessage(data.channelToSendTo, cache)
     const oAuth = this.evalMessage(data.oAuth, cache)
     const username = this.evalMessage(data.username, cache)
+
+    if (!channelToSendTo) return console.log('Please input the ChannelToSendTo in Twitch Chat Action.')
+    if (!oAuth) return console.log('Please input your oAuth token in Twitch Chat Action.')
+    if (!username) return console.log('Please input your username in Twitch Chat Action.')
 
     const { Client } = require('tmi.js')
     const config = {

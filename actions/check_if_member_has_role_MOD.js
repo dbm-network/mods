@@ -1,5 +1,6 @@
 module.exports = {
-  name: 'Check DBL Voted',
+  name: 'Check If Member has Role MOD',
+  displayName: 'Check If Member has Role',
   section: 'Conditions',
 
   subtitle (data) {
@@ -7,7 +8,7 @@ module.exports = {
     return `If True: ${results[parseInt(data.iftrue)]} ~ If False: ${results[parseInt(data.iffalse)]}`
   },
 
-  fields: ['member', 'apitoken', 'varName', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal'],
+  fields: ['member', 'varName', 'role', 'varName2', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal'],
 
   html (isEvent, data) {
     return `
@@ -21,16 +22,23 @@ module.exports = {
   <div id="varNameContainer" style="display: none; float: right; width: 60%;">
     Variable Name:<br>
     <input id="varName" class="round" type="text" list="variableList"><br>
+    </div>
+  </div><br><br><br>
+  <div style="padding-top: 8px;">
+    <div style="float: left; width: 35%;">
+      Source Role:<br>
+      <select id="role" class="round" name="second-list" onchange="glob.roleChange(this, 'varNameContainer2')">
+        ${data.roles[isEvent ? 1 : 0]}
+      </select>
+    </div>
+    <div id="varNameContainer2" style="display: none; float: right; width: 60%;">
+      Variable Name:<br>
+      <input id="varName2" class="round" type="text" list="variableList2"><br>
+    </div>
+  </div><br><br><br>
+  <div style="padding-top: 8px;">
+    ${data.conditions[0]}
   </div>
-</div><br><br><br>
-<div>
-  <div style="float: left; width: 89%;">
-    DBL API Token:<br>
-    <input id="apitoken" class="round" type="text">
-  </div>
-</div><br><br><br>
-<div style="padding-top: 8px;">
-  ${data.conditions[0]}
 </div>`
   },
 
@@ -89,25 +97,37 @@ module.exports = {
       }
     }
     glob.memberChange(document.getElementById('member'), 'varNameContainer')
+    glob.roleChange(document.getElementById('role'), 'varNameContainer2')
     glob.onChangeTrue(document.getElementById('iftrue'))
     glob.onChangeFalse(document.getElementById('iffalse'))
   },
 
   action (cache) {
     const data = cache.actions[cache.index]
-    const apitoken = this.evalMessage(data.apitoken, cache)
+
     const type = parseInt(data.member)
     const varName = this.evalMessage(data.varName, cache)
     const member = this.getMember(type, varName, cache)
 
-    const Mods = this.getMods()
-    const TopGG = Mods.require('@top.gg/sdk')
+    const type2 = parseInt(data.role)
+    const varName2 = this.evalMessage(data.varName2, cache)
+    const role = this.getRole(type2, varName2, cache)
 
-    if (!apitoken) return console.log('ERROR! Please provide an API token for DBL!')
-
-    const api = new TopGG.Api(apitoken)
-    api.hasVoted(member.id)
-      .then((voted) => this.executeResults(voted, data, cache))
+    let result = false
+    if (role) {
+      if (Array.isArray(member)) {
+        result = member.every(function (mem) {
+          if (this.dest(mem, 'roles', 'cache')) {
+            return mem.roles.cache.has(role.id)
+          } else {
+            return false
+          }
+        })
+      } else if (this.dest(member, 'roles', 'cache')) {
+        result = member.roles.cache.has(role.id)
+      }
+    }
+    this.executeResults(result, data, cache)
   },
 
   mod () {}

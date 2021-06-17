@@ -1,3 +1,4 @@
+/* eslint-disable no-empty */
 module.exports = {
   name: 'Translate',
   section: 'Other Stuff',
@@ -25,7 +26,7 @@ module.exports = {
   Translate Message:<br>
   <textarea id="translateMessage" rows="9" placeholder="Insert message that you want to translate here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
 </div>
-<div stlye="padding-top: 30px;">
+<div style="padding-top: 30px;">
   <div style="float: left; width: 35%;">
     Store In:<br>
     <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
@@ -41,7 +42,6 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.variableChange(document.getElementById('storage'), 'varNameContainer')
   },
 
@@ -52,11 +52,11 @@ module.exports = {
     const storage = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
 
-    if (!translateTo || translateTo.length > 2) return console.log('Translate to can only be 2 letters.')
-    if (!translateMessage) return console.log('You need to write something to translate.')
-
     const Mods = this.getMods()
     const translate = Mods.require('node-google-translate-skidz')
+
+    if (!translateTo || translateTo.length > 2) return console.log('Translate to can only be 2 letters.')
+    if (!translateMessage) return console.log('You need to write something to translate.')
 
     let result
     try {

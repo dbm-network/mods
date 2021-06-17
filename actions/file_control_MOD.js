@@ -1,14 +1,12 @@
-class FileControl {
-  constructor (params) {
-    this.name = 'File Control'
-    this.section = 'File Stuff'
-    this.fields = ['input', 'format', 'filename', 'filepath', 'filetask', 'input2', 'togglestatus']
-  }
+module.exports = {
+  name: 'File Control',
+  section: 'File Stuff',
+  fields: ['input', 'format', 'filename', 'filepath', 'filepath2', 'filetask', 'input2', 'togglestatus'],
 
   subtitle (data) {
-    const filetasks = ['Create', 'Write', 'Append into', 'Delete', 'Insert into']
+    const filetasks = ['Create', 'Write', 'Append into', 'Delete', 'Insert into', 'Copy']
     return `${filetasks[parseInt(data.filetask)]} ${data.filename}${data.format}`
-  }
+  },
 
   html () {
     return `
@@ -124,6 +122,7 @@ class FileControl {
             <option value="2" title="Add the content to the end of the file" selected>Append</option>
             <option value="4" title="Inserts a line in a specific place in the file">Insert</option>
             <option value="3" title="Deletes a file, Be VERY carefull with this option">Delete</option>
+            <option value="5" title="Copies a file">Copy</option>
           </select>
         </div>
         <div style="display: flex; flex-direction: column; flex: 8;">
@@ -136,6 +135,12 @@ class FileControl {
         <div style="float: left; width: 100%;">
           File Path:<br>
           <textarea class="round col-100" id="filepath" title="./ represents the bots root directory. Use instead of an absolute path > C:/path/to/bot/" placeholder="Example Path = ./logs/date/example-date/" class="round" type="textarea" rows="3"></textarea><br>
+        </div>
+    </div>
+    <div id ="newPath" style="padding: 5px 10px 5px 5px">
+        <div style="float: left; width: 100%;">
+          New File Path:<br>
+          <textarea class="round col-100" id="filepath2" placeholder="Example Path = ./logs/date/example-date/" class="round" type="textarea" rows="3"></textarea><br>
         </div>
     </div>
     <div style="padding: 5px 10px 5px 5px">
@@ -153,7 +158,7 @@ class FileControl {
           <input onclick="if(checked){value='yes'}else{value='no'}" type="checkbox" id="togglestatus" value='no'>
           <span class="slider round"></span>
         </label>
-        <span>Toogle this if your data contains Objects (Json, array, etc...)</span>
+        <span>Toggle this if your data contains Objects (Json, array, etc...)</span>
       </div>
       <div id="lineInsert" class="" style="float: left; width: 65%;">
         Line to Insert at:<br>
@@ -162,7 +167,7 @@ class FileControl {
     </div>
   </div>
 </div>`
-  }
+  },
 
   init () {
     const { document } = this
@@ -170,117 +175,112 @@ class FileControl {
     const selector2 = document.getElementById('format')
     const targetfield = document.getElementById('inputArea')
     const targetfield2 = document.getElementById('lineInsert')
-    var vall = document.getElementById('togglestatus').value
-    if (vall === 'yes') {
-      document.getElementById('togglestatus').checked = true
-    };
+    const targetField3 = document.getElementById('newPath')
+    var val1 = document.getElementById('togglestatus').value
+    if (val1 === 'yes') document.getElementById('togglestatus').checked = true
 
     selector.onclick = () => showInput()
 
     function showInput () {
       const selected = selector[selector.selectedIndex].value
       const selected2 = selector2[selector2.selectedIndex].value
-      if (selected2 === '.json') {
+      if (selected2 === '.json' && selected !== '5') {
         document.getElementById('visibot').style.display = 'block'
       } else {
         document.getElementById('visibot').style.display = 'none'
       }
-      if (selected === '0' || selected === '3') { // Hides "Input Text"
+      if (selected === '0' || selected === '3' || selected === '5') { // Hides "Input Text"
         targetfield.classList.add('hidden')
       } else {
         targetfield.classList.remove('hidden')
       }
-      if (selected === '0' || selected === '1' || selected === '2' || selected === '3') { // Hides "Line to Insert at"
+      if (selected === '0' || selected === '1' || selected === '2' || selected === '3' || selected === '5') { // Hides "Line to Insert at"
         targetfield2.classList.add('hidden')
       } else {
         targetfield2.classList.remove('hidden')
       }
+      if (selected === '5') { // Hides "New File Path"
+        targetField3.classList.remove('hidden')
+      } else {
+        targetField3.classList.add('hidden')
+      }
     }
-  }
+  },
 
   action (cache) {
-    const fs = require('fs')
     const path = require('path')
     const Mods = this.getMods()
-    const mkdirp = Mods.require('mkdirp')
+    const fs = Mods.require('fs-extra')
     const insertLine = Mods.require('insert-line')
+
     const data = cache.actions[cache.index]
     const dirName = path.normalize(this.evalMessage(data.filepath, cache))
+    const dirName2 = path.normalize(this.evalMessage(data.filepath2, cache))
     const fileName = this.evalMessage(data.filename, cache)
     const line = parseInt(this.evalMessage(data.input2, cache))
     const togglestat = data.togglestatus
 
     const fpath = path.join(dirName, fileName + data.format)
+    const fpath2 = path.join(dirName2, fileName + data.format)
     const task = parseInt(data.filetask)
     const itext = this.evalMessage(data.input, cache)
     const lmg = 'Something went wrong while'
-    let result
+
     switch (task) {
       case 0: // Create File
-        result = async () => {
-          if (fileName === '') return
-          fs.writeFileSync(fpath, '', (err) => {
-            if (err) return console.log(`${lmg} creating: [${err}]`)
-          })
-        }
+        if (fileName === '') break
+        fs.writeFileSync(fpath, '', (err) => {
+          if (err) return console.log(`${lmg} creating: [${err}]`)
+        })
         break
       case 1: // Write File
-        result = () => {
-          if (fileName === '') throw new Error('File Name not Provided:')
-          if (togglestat === 'yes') {
-            fs.writeFileSync(fpath, JSON.stringify(itext), (err) => {
-              if (err) return console.log(`${lmg} writing: [${err}]`)
-            })
-          } else {
-            fs.writeFileSync(fpath, itext, (err) => {
-              if (err) return console.log(`${lmg} writing: [${err}]`)
-            })
-          }
-        }
-        break
-
-      case 2: // Append File
-        result = () => {
-          if (fileName === '') throw new Error('File Name not Provided:')
-          if (togglestat === 'yes') {
-            fs.appendFileSync(fpath, `${JSON.stringify(itext)}\r\n`, (err) => {
-              if (err) return console.log(`${lmg} appending: [${err}]`)
-            })
-          } else {
-            fs.appendFileSync(fpath, `${itext}\r\n`, (err) => {
-              if (err) return console.log(`${lmg} appending: [${err}]`)
-            })
-          }
-        }
-        break
-
-      case 4: // Insert Line to File
-        result = () => {
-          if (fileName === '') throw new Error('File Name not Provided:')
-          insertLine(fpath).content(itext).at(line).then((err) => {
-            if (err) return console.log(`${lmg} inserting: [${err}]`)
+        if (fileName === '') throw new Error('File Name not Provided:')
+        if (togglestat === 'yes') {
+          fs.writeFileSync(fpath, JSON.stringify(itext), (err) => {
+            if (err) return console.log(`${lmg} writing: [${err}]`)
+          })
+        } else {
+          fs.writeFileSync(fpath, itext, (err) => {
+            if (err) return console.log(`${lmg} writing: [${err}]`)
           })
         }
         break
+      case 2: // Append File
+        if (fileName === '') throw new Error('File Name not Provided:')
+        if (togglestat === 'yes') {
+          fs.appendFileSync(fpath, `${JSON.stringify(itext)}\r\n`, (err) => {
+            if (err) return console.log(`${lmg} appending: [${err}]`)
+          })
+        } else {
+          fs.appendFileSync(fpath, `${itext}\r\n`, (err) => {
+            if (err) return console.log(`${lmg} appending: [${err}]`)
+          })
+        }
+        break
+      case 4: // Insert Line to File
+        if (fileName === '') throw new Error('File Name not Provided:')
+        insertLine(fpath).content(itext).at(line).then((err) => {
+          if (err) return console.log(`${lmg} inserting: [${err}]`)
+        })
+        break
       case 3: // Delete File
-        result = () => fs.unlink(fpath, (err) => {
+        fs.unlink(fpath, (err) => {
           if (!fs.existsSync(dirName)) this.callNextAction(cache)
           if (err) return console.log(`${lmg} deleting: [${err}]`)
         })
         break
+      case 5: // Copy File
+        fs.copy(fpath, fpath2, err => {
+          if (err) console.error(`${lmg} copying: [${err}]`)
+        })
+        break
+      default:
+        break
     }
-    function ensureDirExists (dirPath, cb) {
-      const dirname = path.normalize(dirPath)
-      if (!fs.existsSync(dirname)) {
-        mkdirp(dirname, { recursive: true }, cb)
-        return true
-      }
-      cb(null, '')
-      return false
-    }
+
     try {
       if (dirName) {
-        ensureDirExists(dirName, result)
+        fs.ensureDirSync(path.normalize(dirName)).catch(console.error)
       } else {
         throw new Error('you did not set a file path, please go back and check your work.')
       }
@@ -288,9 +288,6 @@ class FileControl {
       return console.error(`ERROR ${err.stack || err}`)
     }
     this.callNextAction(cache)
-  }
-
+  },
   mod () {}
 }
-
-module.exports = new FileControl()

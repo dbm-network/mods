@@ -57,7 +57,6 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.messageChange(document.getElementById('message'), 'varNameContainer')
   },
 
@@ -77,18 +76,17 @@ module.exports = {
       case 1:
         result = msg.reactions.cache.find((r) => r.emoji.name === emoji)
         break
+      default:
+        break
     }
 
-    if (result !== undefined) {
-      const storage = parseInt(data.storage)
-      const varName2 = this.evalMessage(data.varName2, cache)
-      result.fetch().then((react) => {
-        this.storeValue(react, storage, varName2, cache)
-        this.callNextAction(cache)
-      })
-    } else {
+    if (result === undefined) return this.callNextAction(cache)
+    const storage = parseInt(data.storage)
+    const varName2 = this.evalMessage(data.varName2, cache)
+    result.fetch().then((react) => {
+      this.storeValue(react, storage, varName2, cache)
       this.callNextAction(cache)
-    }
+    })
   },
 
   mod () {}

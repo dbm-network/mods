@@ -46,6 +46,8 @@ module.exports = {
       case 11:
         dataType = 'String'
         break
+      default:
+        break
     }
     return ([data.varName, dataType])
   },
@@ -89,7 +91,6 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.variableChange(document.getElementById('storage'), 'varNameContainer')
   },
 
@@ -140,7 +141,7 @@ module.exports = {
         if (result === 'Nov') result = 11
         if (result === 'Dec') result = 12
         if (result === date.slice(4, 7)) {
-          console.log('An error occured on "Store Date Info (Month Number)"')
+          console.log('An error occurred on "Store Date Info (Month Number)"')
           this.callNextAction(cache)
         }
         break

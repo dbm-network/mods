@@ -42,6 +42,8 @@ module.exports = {
       case 10:
         dataType = 'Voice Channel List'
         break
+      default:
+        break
     }
     return ([data.varName2, dataType])
   },
@@ -101,7 +103,7 @@ module.exports = {
     position: relative;
   }
 
-  embedleftline { /* <embedleftline></embedleftline> OR if you wan't to change the Color: <embedleftline style="background-color: #HEXCODE;"></embedleftline> */
+  embedleftline { /* <embedleftline></embedleftline> OR if you want to change the Color: <embedleftline style="background-color: #HEXCODE;"></embedleftline> */
     background-color: #eee;
     width: 4px;
     border-radius: 3px 0 0 3px;
@@ -135,7 +137,6 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.refreshVariableList(document.getElementById('category'))
   },
 
@@ -145,10 +146,8 @@ module.exports = {
     const varName = this.evalMessage(data.varName, cache)
     const info = parseInt(data.info)
     const targetCategory = this.getVariable(category, varName, cache)
-    if (!targetCategory) {
-      this.callNextAction(cache)
-      return
-    }
+    if (!targetCategory) return this.callNextAction(cache)
+
     let result
     switch (info) {
       case 0:

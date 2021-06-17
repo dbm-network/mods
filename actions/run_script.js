@@ -286,9 +286,7 @@ module.exports = {
     } else {
       this.eval(code, cache)
     }
-    if (data.behavior === '0') {
-      this.callNextAction(cache)
-    }
+    if (data.behavior === '0') this.callNextAction(cache)
   },
 
   mod () {}

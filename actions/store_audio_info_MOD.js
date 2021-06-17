@@ -91,7 +91,7 @@ module.exports = {
     position: relative;
   }
 
-  embedleftline { /* <embedleftline></embedleftline> OR if you wan't to change the Color: <embedleftline style="background-color: #HEXCODE;"></embedleftline> */
+  embedleftline { /* <embedleftline></embedleftline> OR if you want to change the Color: <embedleftline style="background-color: #HEXCODE;"></embedleftline> */
     background-color: #eee;
     width: 4px;
     border-radius: 3px 0 0 3px;
@@ -157,7 +157,6 @@ module.exports = {
           wrexlink.setAttribute('title', url)
           wrexlink.addEventListener('click', (e) => {
             e.stopImmediatePropagation()
-            console.log(`Launching URL: [${url}] in your default browser.`)
             require('child_process').execSync(`start ${url}`)
           })
         }
@@ -180,7 +179,6 @@ module.exports = {
       glob.variableChange(document.getElementById('storage'), 'varNameContainer')
       glob.serverChange(document.getElementById('server'), 'varNameContainer2')
     } catch (error) {
-      // eslint-disable-next-line no-undef
       alert(`Store Audio Info Init Error:\n\n${error}`)
     }
   },
@@ -191,19 +189,10 @@ module.exports = {
     const varName2 = this.evalMessage(data.varName2, cache)
     const TimeFormat = this.getMods().require('hh-mm-ss')
     const info = parseInt(data.info)
-
     const { Audio } = this.getDBM()
-
     const targetServer = this.getServer(server, varName2, cache)
-    if (!targetServer) {
-      this.callNextAction(cache)
-      return
-    }
 
-    if (!Audio) {
-      this.callNextAction(cache)
-      return
-    }
+    if (!targetServer || !Audio) return this.callNextAction(cache)
 
     let result
     switch (info) {

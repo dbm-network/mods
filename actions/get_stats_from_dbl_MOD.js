@@ -4,7 +4,7 @@ module.exports = {
 
   subtitle (data) {
     const info = ['Invite URL', 'GitHub Repository URL', 'Website URL', 'Long Description', 'Short Description', 'Prefix', 'Library', 'Avatar URL', 'Approved On', 'Support Server Invite URL', 'Server Count', 'Shard Count', 'Vanity URL', 'Guild ID(s)', 'Servers on Shards', 'Monthly Vote Count', 'Total Vote Count', 'Owner ID(s)', 'Tag(s)', 'Username', 'Discriminator']
-    return `Get Bot's ${info[parseInt(data.info)]}`
+    return `Get Bots' ${info[parseInt(data.info)]}`
   },
 
   variableStorage (data, varType) {
@@ -76,6 +76,8 @@ module.exports = {
       case 20:
         dataType = 'Discriminator'
         break
+      default:
+        break
     }
     return ([data.varName, dataType])
   },
@@ -85,7 +87,7 @@ module.exports = {
     return `
 <div id="modinfo">
   <div style="float: left; width: 99%; padding-top: 8px;">
-    Bot's ID (Must be ID):<br>
+    Bots' ID (Must be ID):<br>
     <input id="botID" class="round" type="text">
   </div><br>
   <div style="float: left; width: 99%; padding-top: 8px;">
@@ -114,8 +116,8 @@ module.exports = {
     <option value="16">Total Vote Count</option>
     <option value="17">Owner ID(s)</option>
     <option value="18">Tag(s)</option>
-    <option value="19">Bot's Username</option>
-    <option value="20">Bot's Discriminator</option>
+    <option value="19">Bots' Username</option>
+    <option value="20">Bots' Discriminator</option>
   </select>
   </div><br>
   <div style="float: left; width: 35%; padding-top: 8px;">
@@ -222,6 +224,8 @@ module.exports = {
             break
           case 20:
             result = r.discriminator
+            break
+          default:
             break
         }
 

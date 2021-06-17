@@ -52,6 +52,7 @@ module.exports = {
     const info = parseInt(data.info)
     const find = this.evalMessage(data.find, cache)
     let result
+
     switch (info) {
       case 0:
         result = server.emojis.cache.get(find)
@@ -62,6 +63,7 @@ module.exports = {
       default:
         break
     }
+
     if (result !== undefined) {
       const storage = parseInt(data.storage)
       const varName = this.evalMessage(data.varName, cache)

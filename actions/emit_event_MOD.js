@@ -1,11 +1,8 @@
-class EmitEvent {
-  constructor () {
-    this.name = 'Emit Event'
-    this.section = 'Bot Client Control'
-    this.fields = ['eventType', 'firstArg', 'secondArg']
-  }
-
-  mod () {}
+/* eslint-disable no-empty */
+module.exports = {
+  name: 'Emit Event',
+  section: 'Bot Client Control',
+  fields: ['eventType', 'firstArg', 'secondArg'],
 
   subtitle ({ eventType }) {
     let DiscordJS
@@ -15,7 +12,7 @@ class EmitEvent {
 
     const events = Object.values(DiscordJS.Constants.Events).sort()
     return events.includes(eventType) ? `Emits a ${eventType} event` : 'Not emitting antyhing'
-  }
+  },
 
   init () {
     const { execSync } = require('child_process')
@@ -33,22 +30,7 @@ class EmitEvent {
         })
       }
     }
-  }
-
-  action (cache) {
-    const data = cache.actions[cache.index]
-
-    const { DiscordJS } = this.getDBM()
-    const events = Object.values(DiscordJS.Constants.Events).sort()
-    const event = this.evalMessage(data.eventType)
-    if (!events.includes(event)) return console.error(`${this.name} (#${cache.index + 1}): Unkown event type.`)
-
-    const firstArg = this.evalMessage(data.firstArg, cache)
-    const secondArg = this.evalMessage(data.secondArg, cache)
-
-    const client = this.getDBM().Bot.bot
-    client.emit(event, firstArg, secondArg)
-  }
+  },
 
   html () {
     let DiscordJS
@@ -118,7 +100,21 @@ class EmitEvent {
     color: #4676b9;
   }
 </style>`
-  }
-}
+  },
 
-module.exports = new EmitEvent()
+  action (cache) {
+    const data = cache.actions[cache.index]
+
+    const { DiscordJS } = this.getDBM()
+    const events = Object.values(DiscordJS.Constants.Events).sort()
+    const event = this.evalMessage(data.eventType)
+    if (!events.includes(event)) return console.error(`${this.name} (#${cache.index + 1}): Unkown event type.`)
+
+    const firstArg = this.evalMessage(data.firstArg, cache)
+    const secondArg = this.evalMessage(data.secondArg, cache)
+
+    const client = this.getDBM().Bot.bot
+    client.emit(event, firstArg, secondArg)
+  },
+  mod () {}
+}

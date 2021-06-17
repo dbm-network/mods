@@ -39,9 +39,11 @@ module.exports = {
               infoName1 = 'Login Name'
             } else {
               infoName1 = 'ID'
-            };
+            }
             break
-        };
+          default:
+            break
+        }
         break
       case 1:
         infoList1 = list2 // Stream
@@ -64,9 +66,11 @@ module.exports = {
           case 1:
             infoName1 = 'Name'
             break
-        };
+        }
         break
-    };
+      default:
+        break
+    }
 
     infoList2.push(`from ${infoName2} ${infoName1} "${data.input.toString()}"`)
     infoList2.push('')
@@ -75,7 +79,7 @@ module.exports = {
       infoNum2 = 1
     } else {
       infoNum2 = 0
-    };
+    }
 
     return `Get "${infoList1[parseInt(infoNum1)]}" ${infoList2[parseInt(infoNum2)]}`
   },
@@ -106,7 +110,9 @@ module.exports = {
         case 7:
           dataType = 'Image URL'
           break
-      };
+        default:
+          break
+      }
     } else if (sourceType === 1) { // Source Type: Stream
       var info2 = parseInt(data.info2)
       switch (info2) {
@@ -132,9 +138,11 @@ module.exports = {
         case 4:
         case 11: dataType = 'List'
           break
+        default:
+          break
       }
     } else if (sourceType === 2) { // Source Type: Video
-      /* var info3 = parseInt(data.info3); */
+      /* var info3 = parseInt(data.info3) */
       dataType = 'List'
     } else if (sourceType === 3) { // Source Type: Game
       var info4 = parseInt(data.info4)
@@ -153,8 +161,10 @@ module.exports = {
         case 5:
           dataType = 'List'
           break
-      };
-    };
+        default:
+          break
+      }
+    }
 
     return ([data.varName, dataType])
   },
@@ -163,8 +173,8 @@ module.exports = {
 
   html (isEvent, data) {
     return `
-<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
-  <div style="float: left; width: 42%;">
+<div id ="wrexdiv" style="width: 550px height: 350px overflow-y: scroll overflow-x: hidden">
+  <div style="float: left width: 42%">
     <br>Source Type:<br>
     <select id="type" class="round" onchange="glob.onChange1(this)">
       <option value="0" selected>Channel Info</option>
@@ -173,18 +183,18 @@ module.exports = {
       <option value="3">Game Info</option>
     </select>
   </div>
-  <div id="divinputtype" style="padding-left: 5%; float: left; width: 52%; display: none;">
+  <div id="divinputtype" style="padding-left: 5% float: left width: 52% display: none">
     <br>Input Type:<br>
-    <select id="inputtype" class="round" onchange="glob.onChange2(this)" style="display: none;">
+    <select id="inputtype" class="round" onchange="glob.onChange2(this)" style="display: none">
       <option value="0" selected>ID</option>
       <option value="1">Name</option>
     </select>
   </div>
-  <div id="divinput" style="float: left; width: 99%; padding-top: 8px;">
+  <div id="divinput" style="float: left width: 99% padding-top: 8px">
     <span id="tempName1">User</span> <span id="tempName2">ID</span>:<br>
-    <textarea id="input" rows="2" placeholder="Please insert the needed information..." style="width: 95%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+    <textarea id="input" rows="2" placeholder="Please insert the needed information..." style="width: 95% font-family: monospace white-space: nowrap resize: none"></textarea>
   </div>
-  <div id="divinfo1"; style="float: left; width: 94%; padding-top: 8px; display: none;" onchange="glob.onChange3(this)">
+  <div id="divinfo1" style="float: left width: 94% padding-top: 8px display: none" onchange="glob.onChange3(this)">
     Source Channel Info:<br>
     <select id="info1" class="round">
       <option value="0">User ID</option>
@@ -200,7 +210,7 @@ module.exports = {
       <option value="10">Channel Following Count</option>
     </select>
   </div>
-  <div id="divinfo2"; style="float: left; width: 94%; padding-top: 8px; display: none;">
+  <div id="divinfo2" style="float: left width: 94% padding-top: 8px display: none">
     Source Stream Info:<br>
     <select id="info2" class="round">
       <option value="5">Is Live?</option>
@@ -218,7 +228,7 @@ module.exports = {
       <option value="11">Tag IDs</option>
     </select>
   </div>
-  <div id="divinfo3"; style="float: left; width: 94%; padding-top: 8px; display: none;">
+  <div id="divinfo3" style="float: left width: 94% padding-top: 8px display: none">
     Source Video Info:<br>
     <select id="info3" class="round">
       <option value="1">User ID</option>
@@ -238,7 +248,7 @@ module.exports = {
       <option value="14">Video Durations in Seconds</option>
     </select>
   </div>
-  <div id="divinfo4"; style="float: left; width: 94%; padding-top: 8px; display: none;" onchange="glob.onChange4(this)">
+  <div id="divinfo4" style="float: left width: 94% padding-top: 8px display: none" onchange="glob.onChange4(this)">
     Source Game Info:<br>
     <select id="info4" class="round">
       <option value="0">Game ID</option>
@@ -249,44 +259,44 @@ module.exports = {
       <option value="5">Popular Games List (Game Box Art URLs)</option>
     </select>
   </div>
-  <div style="float: left; width: 50%; padding-top: 8px;">
+  <div style="float: left width: 50% padding-top: 8px">
     Client ID:<br>
     <input id="clientid" class="round" type="text" placeholder="Insert your Twitch Application Client ID...">
   </div>
-  <div style="float: right; width: 50%; padding-top: 8px;">
+  <div style="float: right width: 50% padding-top: 8px">
     Access Token:<br>
     <input id="token" class="round" type="text" placeholder="Insert your Twitch Application Access Token...">
   </div>
-  <div id="divresults" style="float: left; width: 95%; padding-top: 8px; display: none;">
+  <div id="divresults" style="float: left width: 95% padding-top: 8px display: none">
     Max Results:<br>
     <input id="results" class="round" type="text" placeholder="Default: 20 | Max: 100">
   </div>
   <div>
-    <div style="float: left; width: 35%;  padding-top: 8px;">
+    <div style="float: left width: 35%  padding-top: 8px">
       Store In:<br>
       <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
         ${data.variables[1]}
       </select>
     </div>
-    <div id="varNameContainer" style="float: right; width: 60%; padding-top: 8px;">
+    <div id="varNameContainer" style="float: right width: 60% padding-top: 8px">
       Variable Name:<br>
       <input id="varName" class="round" type="text"><br>
     </div>
   </div>
   <div>
-    <div style="float: left; width: 60%; padding-top: 8px;">
+    <div style="float: left width: 60% padding-top: 8px">
       Read From Cache:<br>
       <select id="cache" class="round">
         <option value="true" selected>True</option>
         <option value="false">False (Recache)</option>
       </select>
     </div>
-    <div style="float: left; padding-top: 8px;">
+    <div style="float: left padding-top: 8px">
       <p>
         <u>API Info:</u><br>
         You will need a <span class="wrexlink" data-url="https://dev.twitch.tv/console/apps">Twitch Applications</span> to use this mod!<br><br>
         <u>Client ID Introductions:</u><br>
-        To get a client id: login through Twitch, create a new application. Then insert your favourite application name & some url (this could be your GitHub page).<br>
+        To get a client id: login through Twitch, create a new application. Then insert your favorite application name & some url (this could be your GitHub page).<br>
         Then select the category "Application Integration" down below and click on create! You should now be in your application list again.<br>
         You need to edit your application once more to copy the client id.<br><br>
         <u>API Limitations:</u><br>
@@ -302,23 +312,23 @@ module.exports = {
 </div>
 <style>
   span.wrexlink {
-    color: #99b3ff;
-    text-decoration:underline;
-    cursor:pointer;
+    color: #99b3ff
+    text-decoration:underline
+    cursor:pointer
   }
 
   span.wrexlink:hover {
-    color:#4676b9;
+    color:#4676b9
   }
 
   span.wrexlink2 {
-    color: #99b3ff;
-    text-decoration:underline;
-    cursor:pointer;
+    color: #99b3ff
+    text-decoration:underline
+    cursor:pointer
   }
 
   span.wrexlink2:hover {
-    color:#4676b9;
+    color:#4676b9
   }
 </style>`
   },
@@ -354,7 +364,7 @@ module.exports = {
           })
         }
       }
-    } catch (error) { // Write any init errors to errors.txt in dbm's main directory
+    } catch (error) { // Write any init errors to errors.txt in dbms' main directory
       require('fs').appendFile('errors.txt', error.stack ? error.stack : error + '\r\n')
     }
 
@@ -398,8 +408,8 @@ module.exports = {
           info3.style.display = 'none'
           infoDiv4.style.display = 'none'
           info4.style.display = 'none'
-          /* inputType.style.display = null;
-          inputTypeDiv.style.display = null; */
+          /* inputType.style.display = null
+          inputTypeDiv.style.display = null */
           results.style.display = 'none'
           resultsDiv.style.display = 'none'
           break
@@ -444,7 +454,7 @@ module.exports = {
           } else {
             inputType.style.display = 'none'
             inputTypeDiv.style.display = 'none'
-          };
+          }
           infoDiv1.style.display = 'none'
           info1.style.display = 'none'
           infoDiv2.style.display = 'none'
@@ -453,10 +463,12 @@ module.exports = {
           info3.style.display = 'none'
           infoDiv4.style.display = null
           info4.style.display = null
-          /* inputType.style.display = null;
-          inputTypeDiv.style.display = null; */
+          /* inputType.style.display = null
+          inputTypeDiv.style.display = null */
           results.style.display = 'none'
           resultsDiv.style.display = 'none'
+          break
+        default:
           break
       }
 
@@ -481,6 +493,8 @@ module.exports = {
               result = 'ID'
             }
             break
+          default:
+            break
         }
       } else if ([1, 3].includes(id1)) {
         switch (id2) {
@@ -489,6 +503,9 @@ module.exports = {
             break
           case 1:
             result = 'Name'
+            break
+          default:
+            break
         }
       } else {
         result = 'ID'
@@ -595,6 +612,8 @@ module.exports = {
       case 3:
         infoType = parseInt(data.info4)
         break
+      default:
+        break
     }
 
     let url = api
@@ -647,6 +666,8 @@ module.exports = {
             case 10:
               result = json.total
               break
+            default:
+              break
           }
           this.storeValue(result, storage, varName, cache)
         } else if (json && json.message) {
@@ -664,7 +685,7 @@ module.exports = {
         json = await getApi.call(this, url)
         if (json && json.data.length !== 0) {
           let result
-          const iso2 = [{ code: 'ab', name: 'Abkhaz' }, { code: 'aa', name: 'Afar' }, { code: 'af', name: 'Afrikaans' }, { code: 'ak', name: 'Akan' }, { code: 'sq', name: 'Albanian' }, { code: 'am', name: 'Amharic' }, { code: 'ar', name: 'Arabic' }, { code: 'an', name: 'Aragonese' }, { code: 'hy', name: 'Armenian' }, { code: 'as', name: 'Assamese' }, { code: 'av', name: 'Avaric' }, { code: 'ae', name: 'Avestan' }, { code: 'ay', name: 'Aymara' }, { code: 'az', name: 'Azerbaijani' }, { code: 'bm', name: 'Bambara' }, { code: 'ba', name: 'Bashkir' }, { code: 'eu', name: 'Basque' }, { code: 'be', name: 'Belarusian' }, { code: 'bn', name: 'Bengali; Bangla' }, { code: 'bh', name: 'Bihari' }, { code: 'bi', name: 'Bislama' }, { code: 'bs', name: 'Bosnian' }, { code: 'br', name: 'Breton' }, { code: 'bg', name: 'Bulgarian' }, { code: 'my', name: 'Burmese' }, { code: 'ca', name: 'Catalan; Valencian' }, { code: 'ch', name: 'Chamorro' }, { code: 'ce', name: 'Chechen' }, { code: 'ny', name: 'Chichewa; Chewa; Nyanja' }, { code: 'zh', name: 'Chinese' }, { code: 'cv', name: 'Chuvash' }, { code: 'kw', name: 'Cornish' }, { code: 'co', name: 'Corsican' }, { code: 'cr', name: 'Cree' }, { code: 'hr', name: 'Croatian' }, { code: 'cs', name: 'Czech' }, { code: 'da', name: 'Danish' }, { code: 'dv', name: 'Divehi; Dhivehi; Maldivian;' }, { code: 'nl', name: 'Dutch' }, { code: 'dz', name: 'Dzongkha' }, { code: 'en', name: 'English' }, { code: 'eo', name: 'Esperanto' }, { code: 'et', name: 'Estonian' }, { code: 'ee', name: 'Ewe' }, { code: 'fo', name: 'Faroese' }, { code: 'fj', name: 'Fijian' }, { code: 'fi', name: 'Finnish' }, { code: 'fr', name: 'French' }, { code: 'ff', name: 'Fula; Fulah; Pulaar; Pular' }, { code: 'gl', name: 'Galician' }, { code: 'ka', name: 'Georgian' }, { code: 'de', name: 'German' }, { code: 'el', name: 'Greek, Modern' }, { code: 'gn', name: 'GuaranÃ­' }, { code: 'gu', name: 'Gujarati' }, { code: 'ht', name: 'Haitian; Haitian Creole' }, { code: 'ha', name: 'Hausa' }, { code: 'he', name: 'Hebrew (modern)' }, { code: 'hz', name: 'Herero' }, { code: 'hi', name: 'Hindi' }, { code: 'ho', name: 'Hiri Motu' }, { code: 'hu', name: 'Hungarian' }, { code: 'ia', name: 'Interlingua' }, { code: 'id', name: 'Indonesian' }, { code: 'ie', name: 'Interlingue' }, { code: 'ga', name: 'Irish' }, { code: 'ig', name: 'Igbo' }, { code: 'ik', name: 'Inupiaq' }, { code: 'io', name: 'Ido' }, { code: 'is', name: 'Icelandic' }, { code: 'it', name: 'Italian' }, { code: 'iu', name: 'Inuktitut' }, { code: 'ja', name: 'Japanese' }, { code: 'jv', name: 'Javanese' }, { code: 'kl', name: 'Kalaallisut, Greenlandic' }, { code: 'kn', name: 'Kannada' }, { code: 'kr', name: 'Kanuri' }, { code: 'ks', name: 'Kashmiri' }, { code: 'kk', name: 'Kazakh' }, { code: 'km', name: 'Khmer' }, { code: 'ki', name: 'Kikuyu, Gikuyu' }, { code: 'rw', name: 'Kinyarwanda' }, { code: 'ky', name: 'Kyrgyz' }, { code: 'kv', name: 'Komi' }, { code: 'kg', name: 'Kongo' }, { code: 'ko', name: 'Korean' }, { code: 'ku', name: 'Kurdish' }, { code: 'kj', name: 'Kwanyama, Kuanyama' }, { code: 'la', name: 'Latin' }, { code: 'lb', name: 'Luxembourgish, Letzeburgesch' }, { code: 'lg', name: 'Ganda' }, { code: 'li', name: 'Limburgish, Limburgan, Limburger' }, { code: 'ln', name: 'Lingala' }, { code: 'lo', name: 'Lao' }, { code: 'lt', name: 'Lithuanian' }, { code: 'lu', name: 'Luba-Katanga' }, { code: 'lv', name: 'Latvian' }, { code: 'gv', name: 'Manx' }, { code: 'mk', name: 'Macedonian' }, { code: 'mg', name: 'Malagasy' }, { code: 'ms', name: 'Malay' }, { code: 'ml', name: 'Malayalam' }, { code: 'mt', name: 'Maltese' }, { code: 'mi', name: 'MÄori' }, { code: 'mr', name: 'Marathi (MarÄá¹­hÄ«)' }, { code: 'mh', name: 'Marshallese' }, { code: 'mn', name: 'Mongolian' }, { code: 'na', name: 'Nauru' }, { code: 'nv', name: 'Navajo, Navaho' }, { code: 'nb', name: 'Norwegian BokmÃ¥l' }, { code: 'nd', name: 'North Ndebele' }, { code: 'ne', name: 'Nepali' }, { code: 'ng', name: 'Ndonga' }, { code: 'nn', name: 'Norwegian Nynorsk' }, { code: 'no', name: 'Norwegian' }, { code: 'ii', name: 'Nuosu' }, { code: 'nr', name: 'South Ndebele' }, { code: 'oc', name: 'Occitan' }, { code: 'oj', name: 'Ojibwe, Ojibwa' }, { code: 'cu', name: 'Old Church Slavonic, Church Slavic, Church Slavonic, Old Bulgarian, Old Slavonic' }, { code: 'om', name: 'Oromo' }, { code: 'or', name: 'Oriya' }, { code: 'os', name: 'Ossetian, Ossetic' }, { code: 'pa', name: 'Panjabi, Punjabi' }, { code: 'pi', name: 'PÄli' }, { code: 'fa', name: 'Persian (Farsi)' }, { code: 'pl', name: 'Polish' }, { code: 'ps', name: 'Pashto, Pushto' }, { code: 'pt', name: 'Portuguese' }, { code: 'qu', name: 'Quechua' }, { code: 'rm', name: 'Romansh' }, { code: 'rn', name: 'Kirundi' }, { code: 'ro', name: 'Romanian, [])' }, { code: 'ru', name: 'Russian' }, { code: 'sa', name: 'Sanskrit (Saá¹ská¹›ta)' }, { code: 'sc', name: 'Sardinian' }, { code: 'sd', name: 'Sindhi' }, { code: 'se', name: 'Northern Sami' }, { code: 'sm', name: 'Samoan' }, { code: 'sg', name: 'Sango' }, { code: 'sr', name: 'Serbian' }, { code: 'gd', name: 'Scottish Gaelic; Gaelic' }, { code: 'sn', name: 'Shona' }, { code: 'si', name: 'Sinhala, Sinhalese' }, { code: 'sk', name: 'Slovak' }, { code: 'sl', name: 'Slovene' }, { code: 'so', name: 'Somali' }, { code: 'st', name: 'Southern Sotho' }, { code: 'az', name: 'South Azerbaijani' }, { code: 'es', name: 'Spanish; Castilian' }, { code: 'su', name: 'Sundanese' }, { code: 'sw', name: 'Swahili' }, { code: 'ss', name: 'Swati' }, { code: 'sv', name: 'Swedish' }, { code: 'ta', name: 'Tamil' }, { code: 'te', name: 'Telugu' }, { code: 'tg', name: 'Tajik' }, { code: 'th', name: 'Thai' }, { code: 'ti', name: 'Tigrinya' }, { code: 'bo', name: 'Tibetan Standard, Tibetan, Central' }, { code: 'tk', name: 'Turkmen' }, { code: 'tl', name: 'Tagalog' }, { code: 'tn', name: 'Tswana' }, { code: 'to', name: 'Tonga (Tonga Islands)' }, { code: 'tr', name: 'Turkish' }, { code: 'ts', name: 'Tsonga' }, { code: 'tt', name: 'Tatar' }, { code: 'tw', name: 'Twi' }, { code: 'ty', name: 'Tahitian' }, { code: 'ug', name: 'Uyghur, Uighur' }, { code: 'uk', name: 'Ukrainian' }, { code: 'ur', name: 'Urdu' }, { code: 'uz', name: 'Uzbek' }, { code: 've', name: 'Venda' }, { code: 'vi', name: 'Vietnamese' }, { code: 'vo', name: 'VolapÃ¼k' }, { code: 'wa', name: 'Walloon' }, { code: 'cy', name: 'Welsh' }, { code: 'wo', name: 'Wolof' }, { code: 'fy', name: 'Western Frisian' }, { code: 'xh', name: 'Xhosa' }, { code: 'yi', name: 'Yiddish' }, { code: 'yo', name: 'Yoruba' }, { code: 'za', name: 'Zhuang, Chuang' }, { code: 'zu', name: 'Zulu' }]
+          const iso2 = [{ code: 'ab', name: 'Abkhaz' }, { code: 'aa', name: 'Afar' }, { code: 'af', name: 'Afrikaans' }, { code: 'ak', name: 'Akan' }, { code: 'sq', name: 'Albanian' }, { code: 'am', name: 'Amharic' }, { code: 'ar', name: 'Arabic' }, { code: 'an', name: 'Aragonese' }, { code: 'hy', name: 'Armenian' }, { code: 'as', name: 'Assamese' }, { code: 'av', name: 'Avaric' }, { code: 'ae', name: 'Avestan' }, { code: 'ay', name: 'Aymara' }, { code: 'az', name: 'Azerbaijani' }, { code: 'bm', name: 'Bambara' }, { code: 'ba', name: 'Bashkir' }, { code: 'eu', name: 'Basque' }, { code: 'be', name: 'Belarusian' }, { code: 'bn', name: 'Bengali Bangla' }, { code: 'bh', name: 'Bihari' }, { code: 'bi', name: 'Bislama' }, { code: 'bs', name: 'Bosnian' }, { code: 'br', name: 'Breton' }, { code: 'bg', name: 'Bulgarian' }, { code: 'my', name: 'Burmese' }, { code: 'ca', name: 'Catalan Valencian' }, { code: 'ch', name: 'Chamorro' }, { code: 'ce', name: 'Chechen' }, { code: 'ny', name: 'Chichewa Chewa Nyanja' }, { code: 'zh', name: 'Chinese' }, { code: 'cv', name: 'Chuvash' }, { code: 'kw', name: 'Cornish' }, { code: 'co', name: 'Corsican' }, { code: 'cr', name: 'Cree' }, { code: 'hr', name: 'Croatian' }, { code: 'cs', name: 'Czech' }, { code: 'da', name: 'Danish' }, { code: 'dv', name: 'Divehi Dhivehi Maldivian' }, { code: 'nl', name: 'Dutch' }, { code: 'dz', name: 'Dzongkha' }, { code: 'en', name: 'English' }, { code: 'eo', name: 'Esperanto' }, { code: 'et', name: 'Estonian' }, { code: 'ee', name: 'Ewe' }, { code: 'fo', name: 'Faroese' }, { code: 'fj', name: 'Fijian' }, { code: 'fi', name: 'Finnish' }, { code: 'fr', name: 'French' }, { code: 'ff', name: 'Fula Fulah Pulaar Pular' }, { code: 'gl', name: 'Galician' }, { code: 'ka', name: 'Georgian' }, { code: 'de', name: 'German' }, { code: 'el', name: 'Greek, Modern' }, { code: 'gn', name: 'GuaranÃ­' }, { code: 'gu', name: 'Gujarati' }, { code: 'ht', name: 'Haitian Haitian Creole' }, { code: 'ha', name: 'Hausa' }, { code: 'he', name: 'Hebrew (modern)' }, { code: 'hz', name: 'Herero' }, { code: 'hi', name: 'Hindi' }, { code: 'ho', name: 'Hiri Motu' }, { code: 'hu', name: 'Hungarian' }, { code: 'ia', name: 'Interlingua' }, { code: 'id', name: 'Indonesian' }, { code: 'ie', name: 'Interlingue' }, { code: 'ga', name: 'Irish' }, { code: 'ig', name: 'Igbo' }, { code: 'ik', name: 'Inupiaq' }, { code: 'io', name: 'Ido' }, { code: 'is', name: 'Icelandic' }, { code: 'it', name: 'Italian' }, { code: 'iu', name: 'Inuktitut' }, { code: 'ja', name: 'Japanese' }, { code: 'jv', name: 'Javanese' }, { code: 'kl', name: 'Kalaallisut, Greenlandic' }, { code: 'kn', name: 'Kannada' }, { code: 'kr', name: 'Kanuri' }, { code: 'ks', name: 'Kashmiri' }, { code: 'kk', name: 'Kazakh' }, { code: 'km', name: 'Khmer' }, { code: 'ki', name: 'Kikuyu, Gikuyu' }, { code: 'rw', name: 'Kinyarwanda' }, { code: 'ky', name: 'Kyrgyz' }, { code: 'kv', name: 'Komi' }, { code: 'kg', name: 'Kongo' }, { code: 'ko', name: 'Korean' }, { code: 'ku', name: 'Kurdish' }, { code: 'kj', name: 'Kwanyama, Kuanyama' }, { code: 'la', name: 'Latin' }, { code: 'lb', name: 'Luxembourgish, Letzeburgesch' }, { code: 'lg', name: 'Ganda' }, { code: 'li', name: 'Limburgish, Limburgan, Limburger' }, { code: 'ln', name: 'Lingala' }, { code: 'lo', name: 'Lao' }, { code: 'lt', name: 'Lithuanian' }, { code: 'lu', name: 'Luba-Katanga' }, { code: 'lv', name: 'Latvian' }, { code: 'gv', name: 'Manx' }, { code: 'mk', name: 'Macedonian' }, { code: 'mg', name: 'Malagasy' }, { code: 'ms', name: 'Malay' }, { code: 'ml', name: 'Malayalam' }, { code: 'mt', name: 'Maltese' }, { code: 'mi', name: 'MÄori' }, { code: 'mr', name: 'Marathi (MarÄá¹­hÄ«)' }, { code: 'mh', name: 'Marshallese' }, { code: 'mn', name: 'Mongolian' }, { code: 'na', name: 'Nauru' }, { code: 'nv', name: 'Navajo, Navaho' }, { code: 'nb', name: 'Norwegian BokmÃ¥l' }, { code: 'nd', name: 'North Ndebele' }, { code: 'ne', name: 'Nepali' }, { code: 'ng', name: 'Ndonga' }, { code: 'nn', name: 'Norwegian Nynorsk' }, { code: 'no', name: 'Norwegian' }, { code: 'ii', name: 'Nuosu' }, { code: 'nr', name: 'South Ndebele' }, { code: 'oc', name: 'Occitan' }, { code: 'oj', name: 'Ojibwe, Ojibwa' }, { code: 'cu', name: 'Old Church Slavonic, Church Slavic, Church Slavonic, Old Bulgarian, Old Slavonic' }, { code: 'om', name: 'Oromo' }, { code: 'or', name: 'Oriya' }, { code: 'os', name: 'Ossetian, Ossetic' }, { code: 'pa', name: 'Panjabi, Punjabi' }, { code: 'pi', name: 'PÄli' }, { code: 'fa', name: 'Persian (Farsi)' }, { code: 'pl', name: 'Polish' }, { code: 'ps', name: 'Pashto, Pushto' }, { code: 'pt', name: 'Portuguese' }, { code: 'qu', name: 'Quechua' }, { code: 'rm', name: 'Romansh' }, { code: 'rn', name: 'Kirundi' }, { code: 'ro', name: 'Romanian, [])' }, { code: 'ru', name: 'Russian' }, { code: 'sa', name: 'Sanskrit (Saá¹ská¹›ta)' }, { code: 'sc', name: 'Sardinian' }, { code: 'sd', name: 'Sindhi' }, { code: 'se', name: 'Northern Sami' }, { code: 'sm', name: 'Samoan' }, { code: 'sg', name: 'Sango' }, { code: 'sr', name: 'Serbian' }, { code: 'gd', name: 'Scottish Gaelic Gaelic' }, { code: 'sn', name: 'Shona' }, { code: 'si', name: 'Sinhala, Sinhalese' }, { code: 'sk', name: 'Slovak' }, { code: 'sl', name: 'Slovene' }, { code: 'so', name: 'Somali' }, { code: 'st', name: 'Southern Sotho' }, { code: 'az', name: 'South Azerbaijani' }, { code: 'es', name: 'Spanish Castilian' }, { code: 'su', name: 'Sundanese' }, { code: 'sw', name: 'Swahili' }, { code: 'ss', name: 'Swati' }, { code: 'sv', name: 'Swedish' }, { code: 'ta', name: 'Tamil' }, { code: 'te', name: 'Telugu' }, { code: 'tg', name: 'Tajik' }, { code: 'th', name: 'Thai' }, { code: 'ti', name: 'Tigrinya' }, { code: 'bo', name: 'Tibetan Standard, Tibetan, Central' }, { code: 'tk', name: 'Turkmen' }, { code: 'tl', name: 'Tagalog' }, { code: 'tn', name: 'Tswana' }, { code: 'to', name: 'Tonga (Tonga Islands)' }, { code: 'tr', name: 'Turkish' }, { code: 'ts', name: 'Tsonga' }, { code: 'tt', name: 'Tatar' }, { code: 'tw', name: 'Twi' }, { code: 'ty', name: 'Tahitian' }, { code: 'ug', name: 'Uyghur, Uighur' }, { code: 'uk', name: 'Ukrainian' }, { code: 'ur', name: 'Urdu' }, { code: 'uz', name: 'Uzbek' }, { code: 've', name: 'Venda' }, { code: 'vi', name: 'Vietnamese' }, { code: 'vo', name: 'VolapÃ¼k' }, { code: 'wa', name: 'Walloon' }, { code: 'cy', name: 'Welsh' }, { code: 'wo', name: 'Wolof' }, { code: 'fy', name: 'Western Frisian' }, { code: 'xh', name: 'Xhosa' }, { code: 'yi', name: 'Yiddish' }, { code: 'yo', name: 'Yoruba' }, { code: 'za', name: 'Zhuang, Chuang' }, { code: 'zu', name: 'Zulu' }]
           switch (infoType) {
             case 0:
               result = json.data[0].id
@@ -678,7 +699,7 @@ module.exports = {
             case 3:
               result = json.data[0].game_id
               break
-            // case 4: result = json.data[0].community_ids; break;
+            // case 4: result = json.data[0].community_ids break
             case 5:
               result = Boolean(json.data[0] !== undefined)
               break
@@ -697,7 +718,7 @@ module.exports = {
             case 10:
               result = json.data[0].thumbnail_url.replace('{width}', '1920').replace('{height}', '1280')
               break
-            case 11:
+            case 11: {
               url = `${api}streams/tags?broadcaster_id=${json.data[0].user_id}`
               const respond = await getApi.call(this, url)
               if (respond && respond.data) {
@@ -708,7 +729,8 @@ module.exports = {
                 console.log(`No results for ${input}.`)
               }
               break
-            case 12:
+            }
+            case 12: {
               url = `${api}games?id=${json.data[0].game_id}`
               const respond12 = await getApi.call(this, url)
               if (respond12 && respond12.data) {
@@ -719,6 +741,7 @@ module.exports = {
                 console.log(`No results for ${input}`)
               }
               break
+            }
             default:
               console.log('Please update mod or the input from dbm!!!')
           }
@@ -734,7 +757,7 @@ module.exports = {
         json = await getApi.call(this, url)
         if (json && json.data.length !== 0) {
           let result
-          const iso2 = [{ code: 'ab', name: 'Abkhaz' }, { code: 'aa', name: 'Afar' }, { code: 'af', name: 'Afrikaans' }, { code: 'ak', name: 'Akan' }, { code: 'sq', name: 'Albanian' }, { code: 'am', name: 'Amharic' }, { code: 'ar', name: 'Arabic' }, { code: 'an', name: 'Aragonese' }, { code: 'hy', name: 'Armenian' }, { code: 'as', name: 'Assamese' }, { code: 'av', name: 'Avaric' }, { code: 'ae', name: 'Avestan' }, { code: 'ay', name: 'Aymara' }, { code: 'az', name: 'Azerbaijani' }, { code: 'bm', name: 'Bambara' }, { code: 'ba', name: 'Bashkir' }, { code: 'eu', name: 'Basque' }, { code: 'be', name: 'Belarusian' }, { code: 'bn', name: 'Bengali; Bangla' }, { code: 'bh', name: 'Bihari' }, { code: 'bi', name: 'Bislama' }, { code: 'bs', name: 'Bosnian' }, { code: 'br', name: 'Breton' }, { code: 'bg', name: 'Bulgarian' }, { code: 'my', name: 'Burmese' }, { code: 'ca', name: 'Catalan; Valencian' }, { code: 'ch', name: 'Chamorro' }, { code: 'ce', name: 'Chechen' }, { code: 'ny', name: 'Chichewa; Chewa; Nyanja' }, { code: 'zh', name: 'Chinese' }, { code: 'cv', name: 'Chuvash' }, { code: 'kw', name: 'Cornish' }, { code: 'co', name: 'Corsican' }, { code: 'cr', name: 'Cree' }, { code: 'hr', name: 'Croatian' }, { code: 'cs', name: 'Czech' }, { code: 'da', name: 'Danish' }, { code: 'dv', name: 'Divehi; Dhivehi; Maldivian;' }, { code: 'nl', name: 'Dutch' }, { code: 'dz', name: 'Dzongkha' }, { code: 'en', name: 'English' }, { code: 'eo', name: 'Esperanto' }, { code: 'et', name: 'Estonian' }, { code: 'ee', name: 'Ewe' }, { code: 'fo', name: 'Faroese' }, { code: 'fj', name: 'Fijian' }, { code: 'fi', name: 'Finnish' }, { code: 'fr', name: 'French' }, { code: 'ff', name: 'Fula; Fulah; Pulaar; Pular' }, { code: 'gl', name: 'Galician' }, { code: 'ka', name: 'Georgian' }, { code: 'de', name: 'German' }, { code: 'el', name: 'Greek, Modern' }, { code: 'gn', name: 'GuaranÃ­' }, { code: 'gu', name: 'Gujarati' }, { code: 'ht', name: 'Haitian; Haitian Creole' }, { code: 'ha', name: 'Hausa' }, { code: 'he', name: 'Hebrew (modern)' }, { code: 'hz', name: 'Herero' }, { code: 'hi', name: 'Hindi' }, { code: 'ho', name: 'Hiri Motu' }, { code: 'hu', name: 'Hungarian' }, { code: 'ia', name: 'Interlingua' }, { code: 'id', name: 'Indonesian' }, { code: 'ie', name: 'Interlingue' }, { code: 'ga', name: 'Irish' }, { code: 'ig', name: 'Igbo' }, { code: 'ik', name: 'Inupiaq' }, { code: 'io', name: 'Ido' }, { code: 'is', name: 'Icelandic' }, { code: 'it', name: 'Italian' }, { code: 'iu', name: 'Inuktitut' }, { code: 'ja', name: 'Japanese' }, { code: 'jv', name: 'Javanese' }, { code: 'kl', name: 'Kalaallisut, Greenlandic' }, { code: 'kn', name: 'Kannada' }, { code: 'kr', name: 'Kanuri' }, { code: 'ks', name: 'Kashmiri' }, { code: 'kk', name: 'Kazakh' }, { code: 'km', name: 'Khmer' }, { code: 'ki', name: 'Kikuyu, Gikuyu' }, { code: 'rw', name: 'Kinyarwanda' }, { code: 'ky', name: 'Kyrgyz' }, { code: 'kv', name: 'Komi' }, { code: 'kg', name: 'Kongo' }, { code: 'ko', name: 'Korean' }, { code: 'ku', name: 'Kurdish' }, { code: 'kj', name: 'Kwanyama, Kuanyama' }, { code: 'la', name: 'Latin' }, { code: 'lb', name: 'Luxembourgish, Letzeburgesch' }, { code: 'lg', name: 'Ganda' }, { code: 'li', name: 'Limburgish, Limburgan, Limburger' }, { code: 'ln', name: 'Lingala' }, { code: 'lo', name: 'Lao' }, { code: 'lt', name: 'Lithuanian' }, { code: 'lu', name: 'Luba-Katanga' }, { code: 'lv', name: 'Latvian' }, { code: 'gv', name: 'Manx' }, { code: 'mk', name: 'Macedonian' }, { code: 'mg', name: 'Malagasy' }, { code: 'ms', name: 'Malay' }, { code: 'ml', name: 'Malayalam' }, { code: 'mt', name: 'Maltese' }, { code: 'mi', name: 'MÄori' }, { code: 'mr', name: 'Marathi (MarÄá¹­hÄ«)' }, { code: 'mh', name: 'Marshallese' }, { code: 'mn', name: 'Mongolian' }, { code: 'na', name: 'Nauru' }, { code: 'nv', name: 'Navajo, Navaho' }, { code: 'nb', name: 'Norwegian BokmÃ¥l' }, { code: 'nd', name: 'North Ndebele' }, { code: 'ne', name: 'Nepali' }, { code: 'ng', name: 'Ndonga' }, { code: 'nn', name: 'Norwegian Nynorsk' }, { code: 'no', name: 'Norwegian' }, { code: 'ii', name: 'Nuosu' }, { code: 'nr', name: 'South Ndebele' }, { code: 'oc', name: 'Occitan' }, { code: 'oj', name: 'Ojibwe, Ojibwa' }, { code: 'cu', name: 'Old Church Slavonic, Church Slavic, Church Slavonic, Old Bulgarian, Old Slavonic' }, { code: 'om', name: 'Oromo' }, { code: 'or', name: 'Oriya' }, { code: 'os', name: 'Ossetian, Ossetic' }, { code: 'pa', name: 'Panjabi, Punjabi' }, { code: 'pi', name: 'PÄli' }, { code: 'fa', name: 'Persian (Farsi)' }, { code: 'pl', name: 'Polish' }, { code: 'ps', name: 'Pashto, Pushto' }, { code: 'pt', name: 'Portuguese' }, { code: 'qu', name: 'Quechua' }, { code: 'rm', name: 'Romansh' }, { code: 'rn', name: 'Kirundi' }, { code: 'ro', name: 'Romanian, [])' }, { code: 'ru', name: 'Russian' }, { code: 'sa', name: 'Sanskrit (Saá¹ská¹›ta)' }, { code: 'sc', name: 'Sardinian' }, { code: 'sd', name: 'Sindhi' }, { code: 'se', name: 'Northern Sami' }, { code: 'sm', name: 'Samoan' }, { code: 'sg', name: 'Sango' }, { code: 'sr', name: 'Serbian' }, { code: 'gd', name: 'Scottish Gaelic; Gaelic' }, { code: 'sn', name: 'Shona' }, { code: 'si', name: 'Sinhala, Sinhalese' }, { code: 'sk', name: 'Slovak' }, { code: 'sl', name: 'Slovene' }, { code: 'so', name: 'Somali' }, { code: 'st', name: 'Southern Sotho' }, { code: 'az', name: 'South Azerbaijani' }, { code: 'es', name: 'Spanish; Castilian' }, { code: 'su', name: 'Sundanese' }, { code: 'sw', name: 'Swahili' }, { code: 'ss', name: 'Swati' }, { code: 'sv', name: 'Swedish' }, { code: 'ta', name: 'Tamil' }, { code: 'te', name: 'Telugu' }, { code: 'tg', name: 'Tajik' }, { code: 'th', name: 'Thai' }, { code: 'ti', name: 'Tigrinya' }, { code: 'bo', name: 'Tibetan Standard, Tibetan, Central' }, { code: 'tk', name: 'Turkmen' }, { code: 'tl', name: 'Tagalog' }, { code: 'tn', name: 'Tswana' }, { code: 'to', name: 'Tonga (Tonga Islands)' }, { code: 'tr', name: 'Turkish' }, { code: 'ts', name: 'Tsonga' }, { code: 'tt', name: 'Tatar' }, { code: 'tw', name: 'Twi' }, { code: 'ty', name: 'Tahitian' }, { code: 'ug', name: 'Uyghur, Uighur' }, { code: 'uk', name: 'Ukrainian' }, { code: 'ur', name: 'Urdu' }, { code: 'uz', name: 'Uzbek' }, { code: 've', name: 'Venda' }, { code: 'vi', name: 'Vietnamese' }, { code: 'vo', name: 'VolapÃ¼k' }, { code: 'wa', name: 'Walloon' }, { code: 'cy', name: 'Welsh' }, { code: 'wo', name: 'Wolof' }, { code: 'fy', name: 'Western Frisian' }, { code: 'xh', name: 'Xhosa' }, { code: 'yi', name: 'Yiddish' }, { code: 'yo', name: 'Yoruba' }, { code: 'za', name: 'Zhuang, Chuang' }, { code: 'zu', name: 'Zulu' }]
+          const iso2 = [{ code: 'ab', name: 'Abkhaz' }, { code: 'aa', name: 'Afar' }, { code: 'af', name: 'Afrikaans' }, { code: 'ak', name: 'Akan' }, { code: 'sq', name: 'Albanian' }, { code: 'am', name: 'Amharic' }, { code: 'ar', name: 'Arabic' }, { code: 'an', name: 'Aragonese' }, { code: 'hy', name: 'Armenian' }, { code: 'as', name: 'Assamese' }, { code: 'av', name: 'Avaric' }, { code: 'ae', name: 'Avestan' }, { code: 'ay', name: 'Aymara' }, { code: 'az', name: 'Azerbaijani' }, { code: 'bm', name: 'Bambara' }, { code: 'ba', name: 'Bashkir' }, { code: 'eu', name: 'Basque' }, { code: 'be', name: 'Belarusian' }, { code: 'bn', name: 'Bengali Bangla' }, { code: 'bh', name: 'Bihari' }, { code: 'bi', name: 'Bislama' }, { code: 'bs', name: 'Bosnian' }, { code: 'br', name: 'Breton' }, { code: 'bg', name: 'Bulgarian' }, { code: 'my', name: 'Burmese' }, { code: 'ca', name: 'Catalan Valencian' }, { code: 'ch', name: 'Chamorro' }, { code: 'ce', name: 'Chechen' }, { code: 'ny', name: 'Chichewa Chewa Nyanja' }, { code: 'zh', name: 'Chinese' }, { code: 'cv', name: 'Chuvash' }, { code: 'kw', name: 'Cornish' }, { code: 'co', name: 'Corsican' }, { code: 'cr', name: 'Cree' }, { code: 'hr', name: 'Croatian' }, { code: 'cs', name: 'Czech' }, { code: 'da', name: 'Danish' }, { code: 'dv', name: 'Divehi Dhivehi Maldivian' }, { code: 'nl', name: 'Dutch' }, { code: 'dz', name: 'Dzongkha' }, { code: 'en', name: 'English' }, { code: 'eo', name: 'Esperanto' }, { code: 'et', name: 'Estonian' }, { code: 'ee', name: 'Ewe' }, { code: 'fo', name: 'Faroese' }, { code: 'fj', name: 'Fijian' }, { code: 'fi', name: 'Finnish' }, { code: 'fr', name: 'French' }, { code: 'ff', name: 'Fula Fulah Pulaar Pular' }, { code: 'gl', name: 'Galician' }, { code: 'ka', name: 'Georgian' }, { code: 'de', name: 'German' }, { code: 'el', name: 'Greek, Modern' }, { code: 'gn', name: 'GuaranÃ­' }, { code: 'gu', name: 'Gujarati' }, { code: 'ht', name: 'Haitian Haitian Creole' }, { code: 'ha', name: 'Hausa' }, { code: 'he', name: 'Hebrew (modern)' }, { code: 'hz', name: 'Herero' }, { code: 'hi', name: 'Hindi' }, { code: 'ho', name: 'Hiri Motu' }, { code: 'hu', name: 'Hungarian' }, { code: 'ia', name: 'Interlingua' }, { code: 'id', name: 'Indonesian' }, { code: 'ie', name: 'Interlingue' }, { code: 'ga', name: 'Irish' }, { code: 'ig', name: 'Igbo' }, { code: 'ik', name: 'Inupiaq' }, { code: 'io', name: 'Ido' }, { code: 'is', name: 'Icelandic' }, { code: 'it', name: 'Italian' }, { code: 'iu', name: 'Inuktitut' }, { code: 'ja', name: 'Japanese' }, { code: 'jv', name: 'Javanese' }, { code: 'kl', name: 'Kalaallisut, Greenlandic' }, { code: 'kn', name: 'Kannada' }, { code: 'kr', name: 'Kanuri' }, { code: 'ks', name: 'Kashmiri' }, { code: 'kk', name: 'Kazakh' }, { code: 'km', name: 'Khmer' }, { code: 'ki', name: 'Kikuyu, Gikuyu' }, { code: 'rw', name: 'Kinyarwanda' }, { code: 'ky', name: 'Kyrgyz' }, { code: 'kv', name: 'Komi' }, { code: 'kg', name: 'Kongo' }, { code: 'ko', name: 'Korean' }, { code: 'ku', name: 'Kurdish' }, { code: 'kj', name: 'Kwanyama, Kuanyama' }, { code: 'la', name: 'Latin' }, { code: 'lb', name: 'Luxembourgish, Letzeburgesch' }, { code: 'lg', name: 'Ganda' }, { code: 'li', name: 'Limburgish, Limburgan, Limburger' }, { code: 'ln', name: 'Lingala' }, { code: 'lo', name: 'Lao' }, { code: 'lt', name: 'Lithuanian' }, { code: 'lu', name: 'Luba-Katanga' }, { code: 'lv', name: 'Latvian' }, { code: 'gv', name: 'Manx' }, { code: 'mk', name: 'Macedonian' }, { code: 'mg', name: 'Malagasy' }, { code: 'ms', name: 'Malay' }, { code: 'ml', name: 'Malayalam' }, { code: 'mt', name: 'Maltese' }, { code: 'mi', name: 'MÄori' }, { code: 'mr', name: 'Marathi (MarÄá¹­hÄ«)' }, { code: 'mh', name: 'Marshallese' }, { code: 'mn', name: 'Mongolian' }, { code: 'na', name: 'Nauru' }, { code: 'nv', name: 'Navajo, Navaho' }, { code: 'nb', name: 'Norwegian BokmÃ¥l' }, { code: 'nd', name: 'North Ndebele' }, { code: 'ne', name: 'Nepali' }, { code: 'ng', name: 'Ndonga' }, { code: 'nn', name: 'Norwegian Nynorsk' }, { code: 'no', name: 'Norwegian' }, { code: 'ii', name: 'Nuosu' }, { code: 'nr', name: 'South Ndebele' }, { code: 'oc', name: 'Occitan' }, { code: 'oj', name: 'Ojibwe, Ojibwa' }, { code: 'cu', name: 'Old Church Slavonic, Church Slavic, Church Slavonic, Old Bulgarian, Old Slavonic' }, { code: 'om', name: 'Oromo' }, { code: 'or', name: 'Oriya' }, { code: 'os', name: 'Ossetian, Ossetic' }, { code: 'pa', name: 'Panjabi, Punjabi' }, { code: 'pi', name: 'PÄli' }, { code: 'fa', name: 'Persian (Farsi)' }, { code: 'pl', name: 'Polish' }, { code: 'ps', name: 'Pashto, Pushto' }, { code: 'pt', name: 'Portuguese' }, { code: 'qu', name: 'Quechua' }, { code: 'rm', name: 'Romansh' }, { code: 'rn', name: 'Kirundi' }, { code: 'ro', name: 'Romanian, [])' }, { code: 'ru', name: 'Russian' }, { code: 'sa', name: 'Sanskrit (Saá¹ská¹›ta)' }, { code: 'sc', name: 'Sardinian' }, { code: 'sd', name: 'Sindhi' }, { code: 'se', name: 'Northern Sami' }, { code: 'sm', name: 'Samoan' }, { code: 'sg', name: 'Sango' }, { code: 'sr', name: 'Serbian' }, { code: 'gd', name: 'Scottish Gaelic Gaelic' }, { code: 'sn', name: 'Shona' }, { code: 'si', name: 'Sinhala, Sinhalese' }, { code: 'sk', name: 'Slovak' }, { code: 'sl', name: 'Slovene' }, { code: 'so', name: 'Somali' }, { code: 'st', name: 'Southern Sotho' }, { code: 'az', name: 'South Azerbaijani' }, { code: 'es', name: 'Spanish Castilian' }, { code: 'su', name: 'Sundanese' }, { code: 'sw', name: 'Swahili' }, { code: 'ss', name: 'Swati' }, { code: 'sv', name: 'Swedish' }, { code: 'ta', name: 'Tamil' }, { code: 'te', name: 'Telugu' }, { code: 'tg', name: 'Tajik' }, { code: 'th', name: 'Thai' }, { code: 'ti', name: 'Tigrinya' }, { code: 'bo', name: 'Tibetan Standard, Tibetan, Central' }, { code: 'tk', name: 'Turkmen' }, { code: 'tl', name: 'Tagalog' }, { code: 'tn', name: 'Tswana' }, { code: 'to', name: 'Tonga (Tonga Islands)' }, { code: 'tr', name: 'Turkish' }, { code: 'ts', name: 'Tsonga' }, { code: 'tt', name: 'Tatar' }, { code: 'tw', name: 'Twi' }, { code: 'ty', name: 'Tahitian' }, { code: 'ug', name: 'Uyghur, Uighur' }, { code: 'uk', name: 'Ukrainian' }, { code: 'ur', name: 'Urdu' }, { code: 'uz', name: 'Uzbek' }, { code: 've', name: 'Venda' }, { code: 'vi', name: 'Vietnamese' }, { code: 'vo', name: 'VolapÃ¼k' }, { code: 'wa', name: 'Walloon' }, { code: 'cy', name: 'Welsh' }, { code: 'wo', name: 'Wolof' }, { code: 'fy', name: 'Western Frisian' }, { code: 'xh', name: 'Xhosa' }, { code: 'yi', name: 'Yiddish' }, { code: 'yo', name: 'Yoruba' }, { code: 'za', name: 'Zhuang, Chuang' }, { code: 'zu', name: 'Zulu' }]
           switch (infoType) {
             case 0:
               result = json.data.map(video => { return video.id })
@@ -788,20 +811,22 @@ module.exports = {
                 return duration.asSeconds()
               })
               break
-          };
+            default:
+              break
+          }
           this.storeValue(result, storage, varName, cache)
         } else if (json && json.message) {
           console.error(json)
         } else {
           console.log(`No results for ${input}.`)
-        };
+        }
         break
       case 3: // Game
         if (infoType < 3) {
           (inputType === 0) ? url += `games?id=${input}` : url += `games?name=${input}`
         } else {
           url += `games/top?limit=${searchResults}`
-        };
+        }
         json = await getApi.call(this, url)
         if (json && json.data.length !== 0) {
           let result
@@ -824,6 +849,8 @@ module.exports = {
             case 5:
               result = json.data.map(game => game.box_art_url.replace('{width}', '1300').replace('{height}', '1730'))
               break
+            default:
+              break
           }
           this.storeValue(result, storage, varName, cache)
         } else if (json && json.message) {
@@ -831,6 +858,8 @@ module.exports = {
         } else {
           console.log(`No results for ${input}.`)
         }
+        break
+      default:
         break
     }
     this.callNextAction(cache)

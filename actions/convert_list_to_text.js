@@ -67,7 +67,6 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.listChange(document.getElementById('list'), 'varNameContainer')
   },
 

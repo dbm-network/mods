@@ -1,6 +1,6 @@
+/* eslint-disable no-unused-vars */
 module.exports = {
   name: 'Create Permissions',
-
   section: 'Permission Control',
 
   subtitle (data) {
@@ -201,10 +201,11 @@ module.exports = {
     const { Permissions } = this.getDBM().DiscordJS
     let permissions = {}
     switch (type) {
-      case 0:
+      case 0: {
         permissions = new Permissions(this.evalMessage(data.bitFields, cache))
         break
-      case 1:
+      }
+      case 1: {
         const permsArray = ['ADMINISTRATOR', 'CREATE_INSTANT_INVITE', 'KICK_MEMBERS', 'BAN_MEMBERS', 'MANAGE_CHANNELS', 'MANAGE_GUILD', 'ADD_REACTIONS', 'VIEW_AUDIT_LOG', 'PRIORITY_SPEAKER', 'STREAM', 'VIEW_CHANNEL', 'SEND_MESSAGES', 'SEND_TTS_MESSAGES', 'MANAGE_MESSAGES', 'EMBED_LINKS', 'ATTACH_FILES', 'READ_MESSAGE_HISTORY', 'MENTION_EVERYONE', 'USE_EXTERNAL_EMOJIS', 'CONNECT', 'SPEAK', 'MUTE_MEMBERS', 'DEAFEN_MEMBERS', 'MOVE_MEMBERS', 'USE_VAD', 'CHANGE_NICKNAME', 'MANAGE_NICKNAMES', 'MANAGE_ROLES', 'MANAGE_WEBHOOKS', 'MANAGE_EMOJIS']
         const allow = []
         const disallow = []
@@ -221,6 +222,9 @@ module.exports = {
         if (allow.length !== 0) permissions.allow = new Permissions(allow)
         if (disallow.length !== 0) permissions.disallow = new Permissions(disallow)
         if (inherit.length !== 0) permissions.inherit = inherit
+        break
+      }
+      default:
         break
     }
     const storage = parseInt(data.storage)

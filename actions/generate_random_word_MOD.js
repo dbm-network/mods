@@ -55,6 +55,7 @@ module.exports = {
     const wps = parseInt(this.evalMessage(data.wps, cache))
     const min = parseInt(this.evalMessage(data.min, cache))
     const max = parseInt(this.evalMessage(data.max, cache)) + 1
+
     if (isNaN(min)) {
       console.log(`Error with Generate Random Word(s), Action #${cache.index}: min is not a number`)
       this.callNextAction(cache)
@@ -64,11 +65,11 @@ module.exports = {
     } else if (isNaN(wps)) {
       console.log(`Error with Generate Random Word(s), Action #${cache.index}: Words Per Sentence is not a number`)
       this.callNextAction(cache)
-    } else {
-      const words = randomWords({ min, max, wordsPerString: wps })
-      this.storeValue(words, type, varName, cache)
-      this.callNextAction(cache)
     }
+
+    const words = randomWords({ min, max, wordsPerString: wps })
+    this.storeValue(words, type, varName, cache)
+    this.callNextAction(cache)
   },
 
   mod () {}

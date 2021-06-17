@@ -60,10 +60,8 @@ module.exports = {
             const shardIDs = client.shard.ids
             const shardID = Number(shardIDs) + 1
 
-            if (!client) {
-              this.callNextAction(cache)
-              return
-            }
+            if (!client) return this.callNextAction(cache)
+
             let result
             switch (info) {
               case 0: // Total Count of Servers in All Shards

@@ -292,7 +292,7 @@ module.exports = {
         }
       }
     } catch (error) {
-      // write any init errors to errors.txt in dbm's main directory
+      // write any init errors to errors.txt in dbms' main directory
       // eslint-disable-next-line no-undef
       alert(`[Run SQL Query] Error: \n\n ${error.message}\n\n Check \n ''${require('path').resolve('dbmmods_dbm_errors.txt')}' for more details.`)
       require('fs').appendFileSync('dbmmods_dbm_errors.txt', `${new Date().toUTCString()} : ${error.stack ? error.stack : error}\n\n`)

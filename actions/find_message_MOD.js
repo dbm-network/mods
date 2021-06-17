@@ -66,7 +66,6 @@ module.exports = {
 
   init () {
     const { glob, document } = this
-
     glob.channelChange(document.getElementById('channel'), 'varNameContainer')
   },
 
@@ -77,13 +76,10 @@ module.exports = {
     const info = parseInt(data.info)
     const search = this.evalMessage(data.search, cache)
     const targetChannel = this.getChannel(channel, varName, cache)
-    if (!targetChannel) {
-      this.callNextAction(cache)
-      return
-    }
-
     const storage = parseInt(data.storage)
     const varName2 = this.evalMessage(data.varName2, cache)
+
+    if (!targetChannel) return this.callNextAction(cache)
 
     switch (info) {
       case 0:

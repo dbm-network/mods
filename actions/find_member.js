@@ -118,10 +118,8 @@ module.exports = {
 
   action (cache) {
     const { server } = cache
-    if (!server || !server.members) {
-      this.callNextAction(cache)
-      return
-    }
+    if (!server || !server.members) return this.callNextAction(cache)
+
     const data = cache.actions[cache.index]
     const info = parseInt(data.info)
     const find = this.evalMessage(data.find, cache)
@@ -130,6 +128,7 @@ module.exports = {
     const members = server.members.cache
     const users = this.getDBM().Bot.bot.users.cache
     let result
+
     switch (info) {
       case 0:
         result = members.get(find)

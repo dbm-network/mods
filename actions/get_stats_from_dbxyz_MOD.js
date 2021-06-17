@@ -1,16 +1,17 @@
 module.exports = {
   name: 'Get Bot Stats From DBXYZ',
+  displayName: 'Get Bot Stats From Discord Boats',
   section: 'Other Stuff',
 
   subtitle (data) {
     const info = ['Bot ID', 'Bot Name', 'Prefix', 'Bots Lib', 'Server Count', 'Short Description', 'Description', 'Avatar', 'Owner ID', 'Owner Name', 'Invite', 'Support Server', 'Website', 'Waiting For Review', 'Certified?', 'Vanity Url']
-    return `Get Bot's ${info[parseInt(data.info)]}`
+    return `Get Bots' ${info[parseInt(data.info)]}`
   },
 
   variableStorage (data, varType) {
     const type = parseInt(data.storage)
     if (type !== varType) return
-    let dataType = 'A DBXYZ Stat'
+    let dataType = 'A Discord Boats Stat'
     const info = parseInt(data.info)
     switch (info) {
       case 0:
@@ -61,6 +62,8 @@ module.exports = {
       case 15:
         dataType = 'Vanity Url'
         break
+      default:
+        break
     }
     return ([data.varName, dataType])
   },
@@ -70,7 +73,7 @@ module.exports = {
     return `
 <div id="modinfo">
   <div style="float: left; width: 99%; padding-top: 8px;">
-    Bot's ID (Must be ID):<br>
+    Bots' ID (Must be ID):<br>
     <input id="botID" class="round" type="text">
   </div><br>
   <div style="float: left; width: 90%; padding-top: 8px;">
@@ -126,7 +129,7 @@ module.exports = {
     const Mods = this.getMods()
     const sf = Mods.require('snekfetch')
 
-    sf.get(`https://discordboats.xyz/api/bot/${botID}`)
+    sf.get(`https://discord.boats/api/bot/${botID}`)
       .then((r) => {
         let result
         switch (info) {
@@ -178,6 +181,8 @@ module.exports = {
           case 15:
             result = r.body.vanity_url
             break
+          default:
+            break
         }
 
         if (result !== undefined) {
@@ -188,7 +193,7 @@ module.exports = {
         this.callNextAction(cache)
       })
       .catch((e) => {
-        console.log(`Get Stats From DBXYZ Error:\n${e.stack || e}`)
+        console.log(`Get Stats From Discord Boats Error:\n${e.stack || e}`)
       })
   },
 

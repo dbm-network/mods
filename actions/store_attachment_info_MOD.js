@@ -1,16 +1,12 @@
-class StoreAttachmentInfo {
-  constructor () {
-    this.name = 'Store Attachment Info'
-    this.section = 'Messaging'
-    this.fields = ['storage', 'varName', 'info', 'storage2', 'varName2']
-  }
-
-  mod () {}
+module.exports = {
+  name: 'Store Attachment Info',
+  section: 'Messaging',
+  fields: ['storage', 'varName', 'info', 'storage2', 'varName2'],
 
   subtitle ({ info }) {
     const names = ["Attachment's URL", "Attachment File's Name", "Attachment's Height", "Attachment's Width", 'This option has been removed', "Attachment File's Size"]
     return `${names[parseInt(info)]}`
-  }
+  },
 
   variableStorage (data, varType) {
     const type = parseInt(data.storage2)
@@ -26,45 +22,7 @@ class StoreAttachmentInfo {
     ][info] || 'Message Attachment (Unknown) Info'
 
     return ([data.varName2, dataType])
-  }
-
-  init () {
-    const { document, glob } = this
-
-    glob.messageChange(document.getElementById('storage'), 'varNameContainer')
-    glob.variableChange(document.getElementById('storage2'), 'varNameContainer2')
-  }
-
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const storage = parseInt(data.storage)
-    const varName = this.evalMessage(data.varName, cache)
-    const message = this.getMessage(storage, varName, cache)
-    const info = parseInt(data.info)
-
-    const attachments = message.attachments.array()
-
-    if (attachments.length > 0) {
-      const attachment = attachments[0]
-
-      const result = [
-        attachment.url,
-        attachment.name,
-        attachment.height,
-        attachment.width,
-        null,
-        Math.floor(attachment.size / 1000)
-      ][info]
-
-      if (result !== undefined) {
-        const storage2 = parseInt(data.storage2)
-        const varName2 = this.evalMessage(data.varName2, cache)
-        this.storeValue(result, storage2, varName2, cache)
-      }
-    }
-
-    this.callNextAction(cache)
-  }
+  },
 
   html (isEvent, data) {
     return `
@@ -98,7 +56,43 @@ class StoreAttachmentInfo {
   Variable Name:<br>
   <input id="varName2" class="round" type="text"><br>
 </div>`
-  }
-}
+  },
 
-module.exports = new StoreAttachmentInfo()
+  init () {
+    const { document, glob } = this
+    glob.messageChange(document.getElementById('storage'), 'varNameContainer')
+    glob.variableChange(document.getElementById('storage2'), 'varNameContainer2')
+  },
+
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const storage = parseInt(data.storage)
+    const varName = this.evalMessage(data.varName, cache)
+    const message = this.getMessage(storage, varName, cache)
+    const info = parseInt(data.info)
+
+    const attachments = message.attachments.array()
+
+    if (attachments.length > 0) {
+      const attachment = attachments[0]
+
+      const result = [
+        attachment.url,
+        attachment.name,
+        attachment.height,
+        attachment.width,
+        null,
+        Math.floor(attachment.size / 1000)
+      ][info]
+
+      if (result !== undefined) {
+        const storage2 = parseInt(data.storage2)
+        const varName2 = this.evalMessage(data.varName2, cache)
+        this.storeValue(result, storage2, varName2, cache)
+      }
+    }
+    this.callNextAction(cache)
+  },
+
+  mod () {}
+}
