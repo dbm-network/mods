@@ -978,6 +978,11 @@
     "name": "Store Twitch Info",
     "section": "Other Stuff"
   },
+  "store_user_info_MOD.js": {
+    "description": "Store user information",
+    "name": "Store User Info",
+    "section": "User Control"
+  },
   "store_utc_time_info_MOD.js": {
     "description": "Store UTC time information",
     "name": "Store UTC Time Info",
