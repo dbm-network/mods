@@ -12,14 +12,7 @@ module.exports = {
     const type = parseInt(data.storage)
     if (type !== varType) return
     const info = parseInt(data.info)
-    let dataType = 'Unknown Type'
-    switch (info) {
-      case 0:
-        dataType = 'Server User'
-        break
-      default:
-        break
-    }
+    let dataType = data.info[info]
     return ([data.varName2, dataType])
   },
 
