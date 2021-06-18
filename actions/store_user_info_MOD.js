@@ -76,10 +76,7 @@ module.exports = {
   },
 
   init () {
-    const {
-      glob,
-      document
-    } = this
+    const { glob, document } = this
 
     glob.memberChange(document.getElementById('user'), 'varNameContainer')
   },
@@ -169,5 +166,5 @@ module.exports = {
     this.callNextAction(cache)
   },
 
-  mod: function () {}
+  mod () {}
 }
