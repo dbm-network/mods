@@ -21,7 +21,7 @@ module.exports = {
     return `
 <div><p>This action has been modified by DBM Mods.</p></div><br>
 <div style="float: left;">
-  <select id="find2" onchange="glob.change()">
+  <select id="find2" onchange="glob.change()" class="round">
     <option value="0" selected>Find Member (current server only)</option>
     <option value="1">Find User (all servers)</option>
   </select>
