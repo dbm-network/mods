@@ -202,10 +202,8 @@ module.exports = {
   },
 
   init () {
-    const {
-      glob,
-      document
-    } = this
+    const { glob, document } = this
+
     glob.variableChange(document.getElementById('storage'), 'varNameContainer')
     glob.onChange1 = function (event) {
       const id = parseInt(event.value)
@@ -239,7 +237,7 @@ module.exports = {
 
   async action (cache) {
     const data = cache.actions[cache.index]
-    const _this = this // This is needed sometimes.
+    const Actions = this // This is needed sometimes.
     const Mods = this.getMods() // As always.
     const input = this.evalMessage(data.input, cache) // URL or Keywords
     const apikey = this.evalMessage(data.apikey, cache) // Api Key
@@ -252,7 +250,8 @@ module.exports = {
     const TimeFormat = Mods.require('hh-mm-ss')
 
     if (input === undefined || input === '') {
-      return console.log('Please provide a url or some keywords to search for.')
+      console.error('Please provide a url or some keywords to search for.')
+      return this.callNextAction(cache)
     }
 
     switch (type) {
@@ -313,7 +312,8 @@ module.exports = {
             result = video.isUpcoming
             break
           default:
-            return console.log('Please check your YouTube Search action... There is something wrong.')
+            console.error('Please check your YouTube Search action... There is something wrong.')
+            break
         }
         if (result !== undefined) {
           const storage = parseInt(data.storage)
@@ -324,16 +324,14 @@ module.exports = {
         break
       }
       case 1: { // Playlist
-        if (apikey === undefined || apikey === '') {
-          return console.log('Please provide a valid api key.')
-        }
+        if (apikey === undefined || apikey === '') return console.error('Please provide a valid api key for YouTube Search Playlist.')
+
         const YouTube = new YTapi(apikey)
         YouTube.searchPlaylists(input, results).then((playlists) => {
           let result
           const playlist = playlists[results - 1]
-          if (!playlist) {
-            return _this.callNextAction(cache)
-          }
+          if (!playlist) return Actions.callNextAction(cache)
+
           switch (info1) {
             case 0: // Playlist ID
               result = playlist.id
@@ -425,30 +423,33 @@ module.exports = {
                       result2.push(video.publishedAt)
                       break
                     default:
-                      return console.log('Please check your YouTube Search action... There is something wrong.')
+                      console.error('Please check your YouTube Search action... There is something wrong.')
+                      break
                   }
                 })
                 if (result2.length > 0) {
                   const storage = parseInt(data.storage)
-                  const varName = _this.evalMessage(data.varName, cache)
-                  _this.storeValue(result2, storage, varName, cache)
-                  _this.callNextAction(cache)
+                  const varName = Actions.evalMessage(data.varName, cache)
+                  Actions.storeValue(result2, storage, varName, cache)
+                  Actions.callNextAction(cache)
                 }
               })
               break
           }
           if (result !== undefined) {
             const storage = parseInt(data.storage)
-            const varName = _this.evalMessage(data.varName, cache)
-            _this.storeValue(result, storage, varName, cache)
-            _this.callNextAction(cache)
+            const varName = Actions.evalMessage(data.varName, cache)
+            Actions.storeValue(result, storage, varName, cache)
+            Actions.callNextAction(cache)
           }
         }).catch(console.error)
         break
       }
       default:
-        return console.log('Please check your YouTube Search action... There is something wrong.')
+        console.log('Please check your YouTube Search action... There is something wrong.')
+        break
     }
+    Actions.callNextAction(cache)
   },
 
   mod () {}
