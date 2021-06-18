@@ -211,7 +211,9 @@ module.exports = {
           }
         }
 
-        const jsonData = await fetch(url, { method, body: JSON.stringify(postJson), headers: setHeaders})
+        const response = await fetch(url, { method, body: JSON.stringify(postJson), headers: setHeaders })
+        const jsonData = await response.json()
+
         try {
           if (jsonData) {
             Actions.storeValue(jsonData, storage, varName, cache)
