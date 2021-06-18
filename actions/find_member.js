@@ -108,7 +108,6 @@ module.exports = {
           }
         }
       } catch (err) {
-        // eslint-disable-next-line no-undef
         alert(err)
       }
     }
