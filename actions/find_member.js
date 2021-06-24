@@ -21,7 +21,7 @@ module.exports = {
     return `
 <div><p>This action has been modified by DBM Mods.</p></div><br>
 <div style="float: left;">
-  <select id="find2" onchange="glob.change()">
+  <select id="find2" onchange="glob.change()" class="round">
     <option value="0" selected>Find Member (current server only)</option>
     <option value="1">Find User (all servers)</option>
   </select>
@@ -108,7 +108,6 @@ module.exports = {
           }
         }
       } catch (err) {
-        // eslint-disable-next-line no-undef
         alert(err)
       }
     }
@@ -116,7 +115,7 @@ module.exports = {
     glob.onChangeFalse(document.getElementById('iffalse'))
   },
 
-  action (cache) {
+  async action (cache) {
     const { server } = cache
     if (!server || !server.members) return this.callNextAction(cache)
 
@@ -131,7 +130,7 @@ module.exports = {
 
     switch (info) {
       case 0:
-        result = members.get(find)
+        result = members.get(find) || users.get(find) || await this.getDBM().Bot.bot.users.fetch(find)
         break
       case 1:
         result = find2 === 0
