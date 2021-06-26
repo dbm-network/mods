@@ -106,13 +106,12 @@ module.exports = {
     const storage = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
     const variable = this.getVariable(storage, varName, cache)
+    let result
 
-    if (typeof variable !== 'object') {
-      return console.log('Please choose a valid list or object to inspect!')
-    }
+    if (typeof variable !== 'object') return console.log('Please choose a valid list or object to inspect!')
 
     try {
-      var result = util.inspect(variable, { depth: (depth > 0 ? depth : 0) })
+      result = util.inspect(variable, { depth: (depth > 0 ? depth : 0) })
     } catch (error) {
       if (error) {
         console.error(error)

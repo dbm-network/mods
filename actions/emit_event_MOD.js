@@ -11,7 +11,7 @@ module.exports = {
     } catch (_) {}
 
     const events = Object.values(DiscordJS.Constants.Events).sort()
-    return events.includes(eventType) ? `Emits a ${eventType} event` : 'Not emitting antyhing'
+    return events.includes(eventType) ? `Emits a ${eventType} event` : 'Not emitting anything'
   },
 
   init () {
@@ -43,8 +43,8 @@ module.exports = {
 
     return `
 <div id="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
-  ${events ? `
-    <div style="padding-top: 8px;">
+  ${events
+    ? `<div style="padding-top: 8px;">
       <details>
         <summary><span style="color: white"><b>Available event types (click to expand)</b></summary>
         <div class="codeblock">
@@ -55,7 +55,8 @@ module.exports = {
             You can learn more about what events take what arguments on the <u><span class="wrexlink2" data-url2="${docs}">discord.js documentation.</span></u>
           </p>
       </details>
-    </div>` : ''}
+    </div>`
+    : ''}
   <div class="container">
     Event Type:<br>
     <input id="eventType" class="round" type="text" value="error">
@@ -108,7 +109,7 @@ module.exports = {
     const { DiscordJS } = this.getDBM()
     const events = Object.values(DiscordJS.Constants.Events).sort()
     const event = this.evalMessage(data.eventType)
-    if (!events.includes(event)) return console.error(`${this.name} (#${cache.index + 1}): Unkown event type.`)
+    if (!events.includes(event)) return console.error(`${this.name} (#${cache.index + 1}): Unknown event type.`)
 
     const firstArg = this.evalMessage(data.firstArg, cache)
     const secondArg = this.evalMessage(data.secondArg, cache)

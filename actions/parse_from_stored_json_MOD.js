@@ -44,7 +44,7 @@ module.exports = {
             Variable Name:<br>
             <input id="jsonObjectVarName" class="round" type="text" list="variableList">
         </div><br><br><br>
-        <div id="pathContainer" tyle="padding-top: 8px;">
+        <div id="pathContainer" style="padding-top: 8px;">
             JSON Path: (supports the usage of <a href="http://goessner.net/articles/JsonPath/index.html#e2" target="_blank">JSON Path (Regex)</a>)<br>
             <input id="path" class="round" ;" type="text"><br>
         </div>
@@ -117,12 +117,12 @@ module.exports = {
       if (path && jsonData) {
         let outData = Mods.jsonPath(jsonData, path)
 
-        // if it dont work, try to go backwards one path
+        // if it don't work, try to go backwards one path
         if (outData === false) {
           outData = Mods.jsonPath(jsonData, `$.${path}`)
         }
 
-        // if it still dont work, try to go backwards two paths
+        // if it still don't work, try to go backwards two paths
         if (outData === false) {
           outData = Mods.jsonPath(jsonData, `$..${path}`)
         }

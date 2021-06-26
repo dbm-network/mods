@@ -116,17 +116,18 @@ module.exports = {
       const list2 = []
       let list4 = []
       const list5 = []
+      let result
 
       if (val !== undefined) {
         file = JSON.parse(file)
         try {
           const list = []
-          var result = JSONPath({
+          result = JSONPath({
             path: `$.[?(@${dataName} || @${dataName} > -9999999999999999999999999999999999999999999999999999999)]*~`,
             json: file
           })
 
-          for (var i = 0; i < result.length; i++) {
+          for (let i = 0; i < result.length; i++) {
             const result2 = JSONPath({
               path: `$.${result[i]}${dataName}`,
               json: file
@@ -197,9 +198,7 @@ module.exports = {
                   list2.push(`${st2 + middle + en2}\n`)
                   break
                 case 2:
-                  var num = list5.length
-                  var numbef = this.evalMessage(data.numbefst2, cache)
-                  list2.push(`${num + numbef} ${st2}${middle}${en2}\n`)
+                  list2.push(`${list5.length + this.evalMessage(data.numbefst2, cache)} ${st2}${middle}${en2}\n`)
                   break
               }
             } catch (err) {
