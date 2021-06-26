@@ -176,7 +176,7 @@ module.exports = {
     const targetfield = document.getElementById('inputArea')
     const targetfield2 = document.getElementById('lineInsert')
     const targetField3 = document.getElementById('newPath')
-    const val1 = document.getElementById('togglestatus').value
+    var val1 = document.getElementById('togglestatus').value
     if (val1 === 'yes') document.getElementById('togglestatus').checked = true
 
     selector.onclick = () => showInput()
@@ -229,32 +229,34 @@ module.exports = {
     switch (task) {
       case 0: // Create File
         if (fileName === '') break
-        fs.writeFileSync(fpath, '', (err) => {
-          if (err) return console.log(`${lmg} creating: [${err}]`)
-        })
+        try {
+          fs.writeFileSync(fpath, '')
+        } catch (err) {
+          return console.error(`${lmg} creating: [${err}]`)
+        }
         break
       case 1: // Write File
         if (fileName === '') throw new Error('File Name not Provided:')
-        if (togglestat === 'yes') {
-          fs.writeFileSync(fpath, JSON.stringify(itext), (err) => {
-            if (err) return console.log(`${lmg} writing: [${err}]`)
-          })
-        } else {
-          fs.writeFileSync(fpath, itext, (err) => {
-            if (err) return console.log(`${lmg} writing: [${err}]`)
-          })
+        try {
+          if (togglestat === 'yes') {
+            fs.writeFileSync(fpath, JSON.stringify(itext))
+          } else {
+            fs.writeFileSync(fpath, itext)
+          }
+        } catch (err) {
+          return console.error(`${lmg} writing: [${err}]`)
         }
         break
       case 2: // Append File
         if (fileName === '') throw new Error('File Name not Provided:')
-        if (togglestat === 'yes') {
-          fs.appendFileSync(fpath, `${JSON.stringify(itext)}\r\n`, (err) => {
-            if (err) return console.log(`${lmg} appending: [${err}]`)
-          })
-        } else {
-          fs.appendFileSync(fpath, `${itext}\r\n`, (err) => {
-            if (err) return console.log(`${lmg} appending: [${err}]`)
-          })
+        try {
+          if (togglestat === 'yes') {
+            fs.appendFileSync(fpath, `${JSON.stringify(itext)}\r\n`)
+          } else {
+            fs.appendFileSync(fpath, `${itext}\r\n`)
+          }
+        } catch (err) {
+          return console.error(`${lmg} appending: [${err}]`)
         }
         break
       case 4: // Insert Line to File
@@ -264,15 +266,19 @@ module.exports = {
         })
         break
       case 3: // Delete File
-        fs.unlink(fpath, (err) => {
-          if (!fs.existsSync(dirName)) this.callNextAction(cache)
-          if (err) return console.log(`${lmg} deleting: [${err}]`)
-        })
+        try {
+          fs.unlinkSync(fpath)
+          if (!fs.existsSync(dirName)) return this.callNextAction(cache)
+        } catch (err) {
+          return console.error(`${lmg} deleting: [${err}]`)
+        }
         break
       case 5: // Copy File
-        fs.copy(fpath, fpath2, err => {
-          if (err) console.error(`${lmg} copying: [${err}]`)
-        })
+        try {
+          fs.copySync(fpath, fpath2)
+        } catch (err) {
+          return console.error(`${lmg} copying: [${err}]`)
+        }
         break
       default:
         break
@@ -280,7 +286,7 @@ module.exports = {
 
     try {
       if (dirName) {
-        fs.ensureDirSync(path.normalize(dirName))
+        fs.ensureDirSync(path.normalize(dirName)).catch(console.error)
       } else {
         throw new Error('you did not set a file path, please go back and check your work.')
       }
@@ -289,5 +295,6 @@ module.exports = {
     }
     this.callNextAction(cache)
   },
+
   mod () {}
 }
