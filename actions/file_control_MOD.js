@@ -187,9 +187,7 @@ module.exports = {
   },
 
   init () {
-    const {
-      document
-    } = this
+    const { document } = this
     const selector = document.getElementById('filetask')
     const selector2 = document.getElementById('format')
     const targetfield = document.getElementById('inputArea')
@@ -279,7 +277,6 @@ module.exports = {
           break
         case 5: // Copy File
           fs.copySync(fpath, fpath2)
-          // return console.error(`${lmg} copying: [${err}]`)
           break
         default:
           break
