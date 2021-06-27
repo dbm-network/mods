@@ -111,7 +111,7 @@ module.exports = {
     if (typeof variable !== 'object') return console.log('Please choose a valid list or object to inspect!')
 
     try {
-      result = util.inspect(variable, { depth: (depth > 0 ? depth : 0) })
+      result = util.inspect(variable, { depth: depth > 0 ? depth : 0 })
     } catch (error) {
       if (error) {
         console.error(error)
