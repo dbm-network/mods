@@ -3,7 +3,7 @@ module.exports = {
   section: 'Variable Things',
 
   subtitle (data) {
-    const info = ['Number (Int)', 'Number (Float)', 'String', 'Uppercased String', 'Lowercased String']
+    const info = ['Number (Parsing Int)', 'Parsing Number (Parsing Float)', 'String', 'Uppercased String', 'Lowercased String', 'Number (Int)', 'Number (Float)']
     return `Conversion Type: ${info[parseInt(data.conversion)]}`
   },
 
@@ -119,6 +119,12 @@ module.exports = {
         break
       case 4:
         result = variable.toString().toLowerCase()
+        break
+      case 5:
+        result = parseInt(Number(variable))
+        break
+      case 6:
+        result = Number(variable)
         break
       default:
         break
