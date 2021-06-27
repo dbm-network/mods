@@ -120,8 +120,6 @@ module.exports = {
       <option value="10">Video Publish Date</option>
       <option value="11">Video Views</option>
       <option value="12">Video is Live?</option>
-      <option value="13">Video is Upcoming?</option>
-      <option value="14">Video Badges</option>
     </select>
   </div>
   <div id="divinfo1"; style="float: left; width: 94%; padding-top: 8px;">
@@ -237,28 +235,30 @@ module.exports = {
 
   async action (cache) {
     const data = cache.actions[cache.index]
-    const Actions = this // This is needed sometimes.
-    const Mods = this.getMods() // As always.
+    const { Actions } = this.getDBM()
+    const Mods = this.getMods()
     const input = this.evalMessage(data.input, cache) // URL or Keywords
     const apikey = this.evalMessage(data.apikey, cache) // Api Key
     const type = parseInt(data.type) // 0: Video | 1: Playlist
     const info0 = parseInt(data.info0) // Video
     const info1 = parseInt(data.info1) // Playlist
-    const results = parseInt(data.results) // Number within 1 to 10
+    const results = parseInt(data.results)
+    const { Client } = Mods.require('youtubei')
+    const youtubei = new Client()
     const YTapi = Mods.require('simple-youtube-api')
-    const ytsr = Mods.require('ytsr')
-    const TimeFormat = Mods.require('hh-mm-ss')
 
-    if (input === undefined || input === '') {
+    if (!input) {
       console.error('Please provide a url or some keywords to search for.')
       return this.callNextAction(cache)
     }
 
     switch (type) {
       case 0: { // Video
-        const searchResults = await ytsr(input)
+        const searchResults = await youtubei.search(input, { type: 'video' })
         if (!searchResults) return this.callNextAction(cache)
-        const video = searchResults.items[results - 1]
+        const compact = searchResults[results - 1] // Video Compact from search results
+        if (!compact) return this.callNextAction(cache)
+        const video = await youtubei.getVideo(compact.id) // Get the actual full video info from the ID
         if (!video) return this.callNextAction(cache)
         let result
 
@@ -267,52 +267,42 @@ module.exports = {
             result = video.id
             break
           case 1: // Video URL
-            result = video.url
+            result = `https://www.youtube.com/watch?v=${video.id}`
             break
           case 2: // Video Title
-            result = video.title.replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&#39;/g, "'")
+            result = video.title
             break
           case 3: // Video Description
-            result = video.description.replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&#39;/g, "'")
+            result = video.description
             break
           case 4: // Video Channel ID
-            result = video.author.channelID
+            result = video.channel.id
             break
           case 5: // Video Channel URL
-            result = video.author.url
+            result = `https://www.youtube.com/channel/${video.channel.id}`
             break
           case 6: // Video Channel Name
-            result = video.author.name
+            result = video.channel.name
             break
           case 7: // Video Channel Avatar
-            result = video.author.bestAvatar.url
-            break
-          case 14: // Video Channel Verified
-            result = video.author.verified
-            break
-          case 15: // Video Channel Owner Badges
-            result = video.author.ownerBadges
+            result = video.channel.thumbnails[video.channel.thumbnails.length - 1].url
             break
           case 8: // Thumbnail URL
-            result = video.bestThumbnail.url
+            result = video.thumbnails[video.thumbnails.length - 1].url
             break
           case 9: // Video Duration
-            result = TimeFormat.toS(video.duration)
+            result = video.duration
             break
           case 10: // Video Publish Date
-            result = video.uploadedAt
+            result = video.uploadDate
             break
           case 11: // Video Views
             result = video.views
             break
           case 12: // is live?
-            result = video.isLive
-            break
-          case 13: // is Upcoming?
-            result = video.isUpcoming
+            result = video.isLiveContent
             break
           default:
-            console.error('Please check your YouTube Search action... There is something wrong.')
             break
         }
         if (result !== undefined) {
@@ -446,7 +436,6 @@ module.exports = {
         break
       }
       default:
-        console.log('Please check your YouTube Search action... There is something wrong.')
         break
     }
     Actions.callNextAction(cache)
