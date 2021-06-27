@@ -4,8 +4,8 @@ module.exports = {
 
   subtitle (data) {
     const users = ['Mentioned User', 'Command Author', 'Temp Variable', 'Server Variable', 'Global Variable']
-    const info = ['User Object', 'User ID', 'Username', 'User Status', 'User Avatar URL', 'User Last Message', 'User Last Message ID', 'User Playing Status Name', 'User Custom Status', 'User Discriminator', 'User Tag', 'User Created At', 'User Created Timestamp', 'User Flags List', 'User Client Status']
-    return `${users[parseInt(data.user)]} - ${info[parseInt(data.info)]}`
+    const info = ['Object', 'ID', 'Username', 'Status', 'Avatar URL', 'Last Message', 'Last Message ID', 'Playing Status Name', 'Custom Status', 'Discriminator', 'Tag', 'Created At', 'Created Timestamp', 'Flags List', 'Client Status']
+    return `${users[parseInt(data.user)]} - User ${info[parseInt(data.info)]}`
   },
 
   variableStorage (data, varType) {
