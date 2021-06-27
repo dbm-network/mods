@@ -939,6 +939,11 @@
     "name": "Store Json From WebAPI",
     "section": "JSON Things"
   },
+  "store_message_info.js": {
+    "description": "Store Message Info",
+    "name": "Store Message Info",
+    "section": "Messaging"
+  },
   "store_message_params_MOD.js": {
     "description": "Store message parameters",
     "name": "Store Message Params",

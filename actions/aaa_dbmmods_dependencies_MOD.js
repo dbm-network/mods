@@ -7,7 +7,7 @@ const Mods = {
       try {
         resolve(require(moduleName))
       } catch {
-        console.log(`Failed to Install ${moduleName}, please re-try or install manually with "npm i ${moduleName}"`)
+        console.error(`Failed to Install ${moduleName}, please re-try or install manually with "npm i ${moduleName}"`)
       }
     })
   },
@@ -30,106 +30,6 @@ const Mods = {
     } catch {
       return false
     }
-  },
-
-  runPostJson (url, json, returnJson = true, callback) {
-    const request = this.require('request')
-    const options = {
-      method: 'POST',
-      url,
-      json
-    }
-
-    request(options, (err, res, data) => {
-      if (callback && typeof callback === 'function') callback(err, res ? res.statusCode : 200, data)
-    })
-  },
-
-  /*
-    var json = {
-    "permission_overwrites": [],
-    "name": tempVars("myChannel"),
-    "parent_id": null,
-    "nsfw": false,
-    "position": 0,
-    "guild_id": msg.guild.id,
-    "type": 4
-  }
-  */
-
-  // this.getMods().executeDiscordJSON("POST", "guilds/" + msg.guild.id + "/channels", json, this.getDBM(), cache)
-  executeDiscordJSON (type, urlPath, json, DBM, cache, callback) {
-    return new Promise((resolve, reject) => {
-      const request = this.require('request')
-      const options = {
-        headers: { Authorization: `Bot ${DBM.Files.data.settings.token}` },
-        url: `https://discordapp.com/api/v6/${urlPath}`,
-        method: type,
-        json
-      }
-
-      request(options, (err, res, data) => {
-        const statusCode = res ? res.statusCode : 200
-
-        if (err) reject({ err, statusCode, data }); else resolve({ err, statusCode, data })
-
-        if (callback && typeof callback === 'function') callback(err, statusCode, data)
-      })
-    })
-  },
-
-  runPublicRequest (url, returnJson = false, callback, token, user, pass) {
-    const request = this.require('request')
-
-    request.get({
-      url,
-      json: returnJson,
-      headers: { 'User-Agent': 'Other' },
-      auth: {
-        bearer: token,
-        user,
-        pass,
-        sendImmediately: false
-      }
-    }, (err, res, data) => {
-      const statusCode = res ? res.statusCode : 200
-
-      if (callback && typeof callback === 'function') callback(err, statusCode, data)
-    })
-  },
-
-  runBearerTokenRequest (url, returnJson = false, bearerToken, callback) {
-    const request = this.require('request')
-
-    request.get({
-      url,
-      json: returnJson,
-      auth: { bearer: bearerToken },
-      headers: { 'User-Agent': 'Other' }
-    }, (err, res, data) => {
-      const statusCode = res ? res.statusCode : 200
-
-      if (callback && typeof callback === 'function') callback(err, statusCode, data)
-    })
-  },
-
-  runBasicAuthRequest (url, returnJson = false, username, password, callback) {
-    const request = this.require('request')
-
-    request.get({
-      url,
-      json: returnJson,
-      auth: {
-        user: username,
-        pass: password,
-        sendImmediately: false
-      },
-      headers: { 'User-Agent': 'Other' }
-    }, (err, res, data) => {
-      const statusCode = res ? res.statusCode : 200
-
-      if (callback && typeof callback === 'function') callback(err, statusCode, data)
-    })
   },
 
   jsonPath (obj, expr, arg) {
