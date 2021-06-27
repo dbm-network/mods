@@ -24,7 +24,6 @@ module.exports = {
       case 5:
       case 7:
       case 8:
-      case 14:
         dataType = 'Text'
         break
       case 4:
@@ -46,6 +45,7 @@ module.exports = {
         dataType = 'Timestamp'
         break
       case 13:
+      case 14:
         dataType = 'List'
         break
       default:
@@ -81,7 +81,7 @@ module.exports = {
         <option value="4">User Avatar URL</option>
         <option value="5">User Last Message</option>
         <option value="6">User Last Message ID</option>
-        <option value="7">User Playing Status Name</option>
+        <option value="7">User Playing Status Name</option> 
         <option value="8">User Custom Status</option>
         <option value="9">User Discriminator</option>
         <option value="10">User Tag</option>
