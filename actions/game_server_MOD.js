@@ -41,13 +41,6 @@ module.exports = {
     return `
   <div style="width: 550px; height: 350px; overflow-y: scroll;">
   <div>
-  <div class="embed">
-    <embedleftline style="background-color: #2b9696;"></embedleftline>
-    <div class="embedinfo">
-      <span class="embed-auth"><u>Mod Info:</u><br>Made by <b>${this.author}</b></span><br>
-      <span class="embed-desc">${this.short_description}<br>Version: ${this.version}</span>
-    </div>
-  </div><br>
   <div style="float: left; width: 50%; padding-top: 8px;">
     Server IP:<br>
     <textarea id="serverip" rows="2" placeholder="mc.example.com" style="width: 90%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
@@ -382,10 +375,7 @@ module.exports = {
   },
 
   init () {
-    const {
-      glob,
-      document
-    } = this
+    const { glob, document } = this
 
     glob.variableChange(document.getElementById('storage'), 'varNameContainer')
   },
