@@ -91,7 +91,7 @@ module.exports = {
         dataType = 'Last Message ID'
         break
       case 47: // CPU Load Average
-        dataType = 'CPU Average Array'
+        dataType = 'Average CPU Usage Array'
         break
     }
     return ([data.varName2, dataType])
