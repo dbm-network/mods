@@ -201,7 +201,7 @@ module.exports = {
     function showInput () {
       const selected = selector[selector.selectedIndex].value
       const selected2 = selector2[selector2.selectedIndex].value
-      if (selected2 === '.json' && selected !== '5') {
+      if (selected2 === '.json' && selected !== '5' || selected2 === '.json' && selected !== '4') {
         document.getElementById('visibot').style.display = 'block'
       } else {
         document.getElementById('visibot').style.display = 'none'
