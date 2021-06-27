@@ -10,7 +10,46 @@ module.exports = {
 
   variableStorage (data, varType) {
     if (parseInt(data.storage) !== varType) return
-    const dataType = data.info[parseInt(data.info)]
+    const info = parseInt(data.info)
+    let dataType = 'Unknown Type'
+    switch (info) {
+      case 0:
+        dataType = 'User'
+        break
+      case 1:
+        dataType = 'User ID'
+        break
+      case 2:
+      case 3:
+      case 5:
+      case 7:
+      case 8:
+      case 14:
+        dataType = 'Text'
+        break
+      case 4:
+        dataType = 'Image URL'
+        break
+      case 6:
+        dataType = 'Message ID'
+        break
+      case 9:
+        dataType = 'User Discriminator'
+        break
+      case 10:
+        dataType = 'User Tag'
+        break
+      case 11:
+        dataType = 'Date'
+        break
+      case 12:
+        dataType = 'Timestamp'
+      case 13:
+        dataType = 'List'
+        break
+      default:
+        break
+    }
     return ([data.varName2, dataType])
   },
 
