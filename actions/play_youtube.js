@@ -46,7 +46,7 @@ module.exports = {
     const data = cache.actions[cache.index]
     const { Audio } = this.getDBM()
     const Mods = this.getMods()
-    const { Client } = Mods.require('youtubei')
+    const { Client} = Mods.require('youtubei')
     const youtube = new Client()
     const url = this.evalMessage(data.url, cache)
     const { msg } = cache
@@ -78,7 +78,7 @@ module.exports = {
 
         options.title = video.title
         options.duration = video.duration
-        options.thumbnail = `https://i.ytimg.com/vi/${video.id}/maxresdefault.jpg`
+        options.thumbnail = video.thumbnails[video.thumbnails.length - 1].url
 
         const info = ['yt', options, url]
         if (data.type === '0') {
