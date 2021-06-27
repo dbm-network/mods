@@ -137,7 +137,7 @@ module.exports = {
         result = user.createdAt
         break
       case 12: // User Created Timestamp
-        result = this.dest(user, 'createdTimestamp')
+        result = user.createdTimestamp
         break
       case 13: // User Flags
         const flags = this.dest(user, 'flags')
