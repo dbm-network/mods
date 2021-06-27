@@ -10,7 +10,7 @@ module.exports = {
   variableStorage (data, varType) {
     const type = parseInt(data.storage2)
     const prse2 = parseInt(data.conversion)
-    const info2 = ['Number', 'Number', 'String', 'String', 'String']
+    const info2 = ['Number', 'Number', 'String', 'String', 'String', 'Number', 'Number']
     if (type !== varType) return
     return ([data.varName2, info2[prse2]])
   },
@@ -35,11 +35,13 @@ module.exports = {
   <div style="padding-top: 8px; width: 35%;">
     Conversion Type:<br>
     <select id="conversion" class="round">
-      <option value="0" selected>Number (Int)</option>
-      <option value="1">Number (Float)</option>
+      <option value="0" selected>Number (Parsing Int)</option>
+      <option value="1">Number (Parsing Float)</option>
       <option value="2">String</option>
       <option value="3">Uppercased String</option>
       <option value="4">Lowercased String</option>
+      <option value="5">Number (Int)</option>
+      <option value="6">Number (Float)</option>
     </select>
   </div>
 </div><br>
