@@ -44,6 +44,7 @@ module.exports = {
         break
       case 12:
         dataType = 'Timestamp'
+        break
       case 13:
         dataType = 'List'
         break
