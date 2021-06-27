@@ -211,10 +211,10 @@ module.exports = {
       } else {
         targetfield.classList.remove('hidden')
       }
-      if (selected === '0' || selected === '1' || selected === '2' || selected === '3' || selected === '5') { // Hides "Line to Insert at"
-        targetfield2.classList.add('hidden')
-      } else {
+      if (selected === '4') {
         targetfield2.classList.remove('hidden')
+      } else {
+        targetfield2.classList.add('hidden') // Hides "Line to Insert at"
       }
       if (selected === '5') { // Hides "New File Path"
         targetField3.classList.remove('hidden')
@@ -273,7 +273,6 @@ module.exports = {
           break
         case 3: // Delete File
           fs.unlinkSync(fpath)
-          if (!fs.existsSync(dirName)) return this.callNextAction(cache)
           break
         case 5: // Copy File
           fs.copySync(fpath, fpath2)
@@ -288,7 +287,7 @@ module.exports = {
 
     try {
       if (dirName) {
-        fs.ensureDirSync(path.normalize(dirName)).catch(console.error)
+        fs.ensureDirSync(path.normalize(dirName))
       } else {
         throw new Error('you did not set a file path, please go back and check your work.')
       }
