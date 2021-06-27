@@ -135,7 +135,7 @@ module.exports = {
     </optgroup>
     <optgroup label="System Measurements">
       <option value="29">CPU Usage (MB)</option>
-      <option value="47">Average Cpu Usage [1m, 5m, 15m] (%)</option>
+      <option value="47">Average CPU Usage [1m, 5m, 15m] (%)</option>
       <option value="48">Cpu Usage (%)</option>
       <option value="35">CPU Core Count</option>
       <option value="36">Total Memory (GB)</option>
