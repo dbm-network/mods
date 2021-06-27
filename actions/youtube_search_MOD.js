@@ -255,7 +255,7 @@ module.exports = {
         if (!searchResults) return this.callNextAction(cache)
         const compact = searchResults[results - 1] // Video Compact from search results
         if (!compact) return this.callNextAction(cache)
-        const video = youtubei.getVideo(compact.id) // Get the actual full video info from the ID
+        const video = await youtubei.getVideo(compact.id) // Get the actual full video info from the ID
         if (!video) return this.callNextAction(cache)
         let result
 
@@ -282,10 +282,10 @@ module.exports = {
             result = video.channel.name
             break
           case 7: // Video Channel Avatar
-            result = video.channel.thumbnails[2].url
+            result = video.channel.thumbnails[video.channel.thumbnails.length - 1].url
             break
           case 8: // Thumbnail URL
-            result = `https://i.ytimg.com/vi/${video.id}/maxresdefault.jpg`
+            result = video.thumbnails[video.thumbnails.length - 1].url
             break
           case 9: // Video Duration
             result = video.duration
