@@ -87,60 +87,60 @@ module.exports = {
     return `
 <div>
 <p>This action has been modified by DBM Mods.</p>
-	<div style="float: left; width: 35%;">
-		Source Message:<br>
-		<select id="message" class="round" onchange="glob.messageChange(this, 'varNameContainer')">
-			${data.messages[isEvent ? 1 : 0]}
-		</select>
-	</div>
-	<div id="varNameContainer" style="display: none; float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName" class="round" type="text" list="variableList"><br>
-	</div>
+  <div style="float: left; width: 35%;">
+    Source Message:<br>
+    <select id="message" class="round" onchange="glob.messageChange(this, 'varNameContainer')">
+      ${data.messages[isEvent ? 1 : 0]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName" class="round" type="text" list="variableList"><br>
+  </div>
 </div><br><br><br>
 <div>
-	<div style="padding-top: 8px; width: 70%;">
-		Source Info:<br>
-		<select id="info" class="round">
-			<option value="0" selected>Message Object</option>
-			<option value="1">Message ID</option>
-			<option value="2">Message Text</option>
-			<option value="3">Message Author</option>
-			<option value="4">Message Channel</option>
-			<option value="5">Message Timestamp</option>
-			<option value="6">Message Is Pinned?</option>
+  <div style="padding-top: 8px; width: 70%;">
+    Source Info:<br>
+    <select id="info" class="round">
+      <option value="0" selected>Message Object</option>
+      <option value="1">Message ID</option>
+      <option value="2">Message Text</option>
+      <option value="3">Message Author</option>
+      <option value="4">Message Channel</option>
+      <option value="5">Message Timestamp</option>
+      <option value="6">Message Is Pinned?</option>
       <option value="7">Message Is TTS?</option>
       <option value="8">Message Attachments List</option>
-			<option value="9">Message Edits</option>
-			<option value="12">Messages Reactions Count</option>
-			<option value="13">Messages Mentioned Users List</option>
-			<option value="14">Messages Mentioned Users Count</option>
-			<option value="15">Message URL</option>
-			<option value="16">Message Creation Date</option>
-			<option value="17">Message Content Length</option>
-			<option value="18">Message Attachments Count</option>
-			<option value="19">Message Guild</option>
-			<option value="20">Message Type</option>
-			<option value="21">Message Webhook ID</option>
-			<option value="22">Message Embed Object</option>
+      <option value="9">Message Edits</option>
+      <option value="12">Messages Reactions Count</option>
+      <option value="13">Messages Mentioned Users List</option>
+      <option value="14">Messages Mentioned Users Count</option>
+      <option value="15">Message URL</option>
+      <option value="16">Message Creation Date</option>
+      <option value="17">Message Content Length</option>
+      <option value="18">Message Attachments Count</option>
+      <option value="19">Message Guild</option>
+      <option value="20">Message Type</option>
+      <option value="21">Message Webhook ID</option>
+      <option value="22">Message Embed Object</option>
       <option value='23'>Message Mentioned Channels List</option>
       <option value='24'>Message Mentioned Channels Count</option>
       <option value='25'>Message Mentioned Roles List</option>
       <option value='26'>Message Mentioned Roles Count</option>
-		</select>
-	</div>
+    </select>
+  </div>
 </div><br>
 <div>
-	<div style="float: left; width: 35%;">
-		Store In:<br>
-		<select id="storage" class="round">
-			${data.variables[1]}
-		</select>
-	</div>
-	<div id="varNameContainer2" style="float: right; width: 60%;">
-		Variable Name:<br>
-		<input id="varName2" class="round" type="text"><br>
-	</div>
+  <div style="float: left; width: 35%;">
+    Store In:<br>
+    <select id="storage" class="round">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="varNameContainer2" style="float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="varName2" class="round" type="text"><br>
+  </div>
 </div>`
   },
 
