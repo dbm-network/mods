@@ -144,13 +144,13 @@ module.exports = {
 </div>`
   },
 
-  init: function () {
+  init () {
     const { glob, document } = this
 
     glob.messageChange(document.getElementById('message'), 'varNameContainer')
   },
 
-  action: function (cache) {
+  action (cache) {
     const data = cache.actions[cache.index]
     const message = parseInt(data.message)
     const varName = this.evalMessage(data.varName, cache)
@@ -247,5 +247,5 @@ module.exports = {
     this.callNextAction(cache)
   },
 
-  mod: function () {}
+  mod () {}
 }
