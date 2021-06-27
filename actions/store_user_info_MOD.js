@@ -75,10 +75,10 @@ module.exports = {
 
   action (cache) {
     const data = cache.actions[cache.index]
-    const dUser = parseInt(data.user)
+    const userType = parseInt(data.user)
     const varName = this.evalMessage(data.varName, cache)
     const info = parseInt(data.info)
-    let user = this.getMember(dUser, varName, cache)
+    let user = this.getMember(userType, varName, cache)
     if (!user) return this.callNextAction(cache)
     if (user.user) user = user.user
 
