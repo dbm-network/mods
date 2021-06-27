@@ -107,10 +107,9 @@ module.exports = {
     const info = parseInt(data.info)
     const value = this.evalMessage(data.value, cache)
     let result
+    let info2
 
-    if (info === 0 || info === 1 || info === 4) {
-      var info2 = this.evalMessage(data.info2, cache)
-    }
+    if (info === 0 || info === 1 || info === 4) info2 = this.evalMessage(data.info2, cache)
 
     switch (info) {
       case 0: {
@@ -152,6 +151,7 @@ module.exports = {
       default:
         break
     }
+
     if (result) {
       const storage2 = parseInt(data.storage2)
       const varName2 = this.evalMessage(data.varName2, cache)

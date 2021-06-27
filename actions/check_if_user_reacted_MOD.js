@@ -114,7 +114,7 @@ module.exports = {
 
     let result
     if (Array.isArray(member)) {
-      result = member.every(function (user) {
+      result = member.every(user => {
         if (this.dest(reaction, 'users', 'cache') && user) {
           return reaction.users.cache.has(user.id)
         }

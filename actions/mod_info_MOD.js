@@ -1,9 +1,10 @@
 module.exports = {
   name: 'Welcome',
   section: '#Mod Information',
+  version: '1.9.8',
 
   subtitle () {
-    return 'Put this into a Bot Initalization event for music!'
+    return 'Put this into a Bot Initialization event for music!'
   },
 
   fields: ['mods'],
@@ -169,7 +170,8 @@ span.discord_code_blocks {
           Quinten<br>
           Rafied<br>
           lucasboss45<br>
-          Dominus_Marceau
+          Dominus_Marceau<br>
+          TheMonDon
         </span>
       </div>
     </div>
@@ -233,14 +235,14 @@ span.discord_code_blocks {
           }
         })
     } catch (error) {
-      // write any init errors to errors.txt in dbm's main directory
-      require('fs').appendFile('errors.txt', error.stack ? error.stack : `${error}\r\n`)
+      // write any init errors to errors.txt in dbms' main directory
+      require('fs').appendFile('errors.txt', error.stack || `${error}\r\n`)
     }
 
     const wrexlinks = document.getElementsByClassName('wrexlink')
     for (let x = 0; x < wrexlinks.length; x++) {
       const wrexlink = wrexlinks[x]
-      var url = wrexlink.getAttribute('data-url')
+      const url = wrexlink.getAttribute('data-url')
       if (url) {
         wrexlink.addEventListener('click', (e) => {
           e.stopImmediatePropagation()
@@ -254,7 +256,7 @@ span.discord_code_blocks {
     const wrexlinks2 = document.getElementsByClassName('wrexlink2')
     for (let x2 = 0; x2 < wrexlinks2.length; x2++) {
       const wrexlink2 = wrexlinks2[x2]
-      var url2 = wrexlink2.getAttribute('data-url2')
+      const url2 = wrexlink2.getAttribute('data-url2')
       if (url2) {
         wrexlink2.setAttribute('title', url2)
         wrexlink2.addEventListener('click', (e2) => {
@@ -269,7 +271,7 @@ span.discord_code_blocks {
     const wrexlinks3 = document.getElementsByClassName('wrexlink3')
     for (let x3 = 0; x3 < wrexlinks3.length; x3++) {
       const wrexlink3 = wrexlinks3[x3]
-      var url3 = wrexlink3.getAttribute('data-url3')
+      const url3 = wrexlink3.getAttribute('data-url3')
       if (url3) {
         wrexlink3.setAttribute('title', url3)
         wrexlink3.addEventListener('click', (e3) => {

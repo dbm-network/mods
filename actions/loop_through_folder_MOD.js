@@ -55,10 +55,10 @@ module.exports = {
         output = readdirSync(path)
         this.storeValue(output, parseInt(data.storage), this.evalMessage(data.varName2, cache), cache)
       } else {
-        console.log('Path is missing.')
+        console.log('Loop Through Folder: Path is missing.')
       }
     } catch (err) {
-      console.error(`ERROR!${err.stack}` ? err.stack : err)
+      console.error(`Error: ${err.stack || err}`)
     }
     this.callNextAction(cache)
   },

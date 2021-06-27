@@ -16,12 +16,12 @@ module.exports = {
     const list3 = ['Video IDs', 'User IDs', 'User Display Names', 'Video Titles', 'Video Descriptions', 'Video Creation Dates', 'Video Publish Dates', 'Video URLs', 'Video Thumbnail URLs', 'Videos Viewable?', 'Video Viewcounts', 'Video Languages', 'Video Types', 'Video Durations', 'Video Durations in Seconds']// Video Info
     const list4 = ['Game ID', 'Game Name', 'Game Box Art URL', 'Popular Games List (Game IDs)', 'Popular Games List (Game Names)', 'Popular Games List (Game Box Art URLs)']// Game Info
 
-    var infoNum1 = 0
-    var infoNum2
-    var infoList1 = []
-    var infoList2 = []
-    var infoName1 = ''
-    var infoName2 = ''
+    let infoNum1 = 0
+    let infoNum2
+    let infoList1 = []
+    const infoList2 = []
+    let infoName1 = ''
+    let infoName2 = ''
 
     switch (sourceType) { // "Channel", "Stream", "Video" or "Game"
       case 0:
@@ -88,10 +88,10 @@ module.exports = {
     const type = parseInt(data.storage)
     const sourceType = parseInt(data.type) // "Channel", "Stream", "Video" or "Game"
     if (type !== varType) return
-    var dataType = 'Unknown Type'
+    let dataType = 'Unknown Type'
 
     if (sourceType === 0) { // Source Type: Channel
-      var info1 = parseInt(data.info1)
+      const info1 = parseInt(data.info1)
       switch (info1) {
         case 0:
         case 8:
@@ -114,7 +114,7 @@ module.exports = {
           break
       }
     } else if (sourceType === 1) { // Source Type: Stream
-      var info2 = parseInt(data.info2)
+      const info2 = parseInt(data.info2)
       switch (info2) {
         case 0:
         case 1:
@@ -145,7 +145,7 @@ module.exports = {
       /* var info3 = parseInt(data.info3) */
       dataType = 'List'
     } else if (sourceType === 3) { // Source Type: Game
-      var info4 = parseInt(data.info4)
+      const info4 = parseInt(data.info4)
       switch (info4) {
         case 0:
           dataType = 'Number'
@@ -337,10 +337,10 @@ module.exports = {
     const { glob, document } = this
 
     try {
-      var wrexlinks = document.getElementsByClassName('wrexlink')
-      for (var x = 0; x < wrexlinks.length; x++) {
-        var wrexlink = wrexlinks[x]
-        var url = wrexlink.getAttribute('data-url')
+      const wrexlinks = document.getElementsByClassName('wrexlink')
+      for (let x = 0; x < wrexlinks.length; x++) {
+        const wrexlink = wrexlinks[x]
+        const url = wrexlink.getAttribute('data-url')
         if (url) {
           wrexlink.setAttribute('title', url)
           wrexlink.addEventListener('click', function (e) {
@@ -351,10 +351,10 @@ module.exports = {
         }
       }
 
-      var wrexlinks2 = document.getElementsByClassName('wrexlink2')
-      for (var x2 = 0; x2 < wrexlinks2.length; x2++) {
-        var wrexlink2 = wrexlinks2[x2]
-        var url2 = wrexlink2.getAttribute('data-url2')
+      const wrexlinks2 = document.getElementsByClassName('wrexlink2')
+      for (let x2 = 0; x2 < wrexlinks2.length; x2++) {
+        const wrexlink2 = wrexlinks2[x2]
+        const url2 = wrexlink2.getAttribute('data-url2')
         if (url2) {
           wrexlink2.setAttribute('title', url2)
           wrexlink2.addEventListener('click', function (e2) {
@@ -386,8 +386,8 @@ module.exports = {
       const inputList2 = ['ID', 'Name']// List for "switch": "case 3"
 
       // Change HTML Stuff
-      var result1 = ''
-      var result2 = ''
+      let result1 = ''
+      let result2 = ''
       switch (id1) {
         case 0: // User & Channel
           result1 = 'User'
@@ -480,7 +480,7 @@ module.exports = {
       const id1 = parseInt(document.getElementById('type').value) // Source Type: "Channel", "Stream", "Video" or "Game"
       const id2 = parseInt(document.getElementById('inputtype').value) // Input Type
 
-      var result = ''
+      let result = ''
       if (id1 === 0) {
         switch (id2) {
           case 0:
@@ -520,7 +520,7 @@ module.exports = {
       const inputTypeDiv = document.getElementById('divinputtype') // Div of InputType
       const inputList1 = ['ID', 'Login Name'] // List for "case 0"
 
-      var result2 = ''
+      let result2 = ''
       if (id4 < 9) {
         inputType.style.display = null
         inputTypeDiv.style.display = null
