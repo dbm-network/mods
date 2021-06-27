@@ -140,7 +140,7 @@ module.exports = {
         result = user.createdTimestamp
         break
       case 13: // User Flags
-        const flags = this.dest(user, 'flags')
+        const flags = user.flags
         result = flags && flags.toArray()
         break
       case 14: // User Status
