@@ -46,7 +46,8 @@ module.exports = {
     const data = cache.actions[cache.index]
     const { Audio } = this.getDBM()
     const Mods = this.getMods()
-    const ytdl = Mods.require('ytdl-core')
+    const { Client} = Mods.require('youtubei')
+    const youtube = new Client()
     const url = this.evalMessage(data.url, cache)
     const { msg } = cache
     const options = {}
@@ -70,15 +71,14 @@ module.exports = {
       } else {
         options.bitrate = 'auto'
       }
-      if (msg) {
-        options.requester = msg.author
-      }
-      try {
-        const video = await ytdl.getInfo(url)
+      if (msg) options.requester = msg.author
 
-        options.title = video.videoDetails.title
-        options.duration = parseInt(video.videoDetails.lengthSeconds)
-        options.thumbnail = video.player_response.videoDetails.thumbnail.thumbnails[3].url
+      try {
+        const video = await youtube.getVideo(url)
+
+        options.title = video.title
+        options.duration = video.duration
+        options.thumbnail = `https://i.ytimg.com/vi/${video.id}/maxresdefault.jpg`
 
         const info = ['yt', options, url]
         if (data.type === '0') {
