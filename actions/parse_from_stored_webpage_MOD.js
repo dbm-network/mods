@@ -80,7 +80,7 @@ module.exports = {
       const wrexlinks = document.getElementsByClassName('wrexlink')
       for (let x = 0; x < wrexlinks.length; x++) {
         const wrexlink = wrexlinks[x]
-        var url = wrexlink.getAttribute('data-url')
+        const url = wrexlink.getAttribute('data-url')
         if (url) {
           wrexlink.setAttribute('title', url)
           wrexlink.addEventListener('click', (e) => {
@@ -91,7 +91,7 @@ module.exports = {
         }
       }
     } catch (error) {
-      // write any init errors to errors.txt in dbm's main directory
+      // write any init errors to errors.txt in dbms' main directory
       require('fs').appendFile('errors.txt', error.stack ? error.stack : `${error}\r\n`)
     }
 
@@ -223,7 +223,7 @@ module.exports = {
         console.error(`Path [${myXPath}] Is Not Valid`)
       }
     } catch (error) {
-      console.error(`Webpage Things:  Error: ${error.stack}` ? error.stack : error)
+      console.error(`Webpage Things:  Error: ${error.stack || error}`)
     }
   },
 
