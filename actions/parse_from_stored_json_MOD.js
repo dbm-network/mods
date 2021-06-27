@@ -117,7 +117,7 @@ module.exports = {
       if (path && jsonData) {
         let outData = Mods.jsonPath(jsonData, path)
 
-        // if it don't work, try to go backwards one path
+        // if it doesn't work, try to go back one path
         if (outData === false) {
           outData = Mods.jsonPath(jsonData, `$.${path}`)
         }
