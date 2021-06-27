@@ -3,12 +3,12 @@ module.exports = {
   section: 'File Stuff',
   fields: ['input', 'format', 'filename', 'filepath', 'filepath2', 'filetask', 'input2', 'togglestatus'],
 
-  subtitle(data) {
+  subtitle (data) {
     const filetasks = ['Create', 'Write', 'Append into', 'Delete', 'Insert into', 'Copy']
     return `${filetasks[parseInt(data.filetask)]} ${data.filename}${data.format}`
   },
 
-  html() {
+  html () {
     return `
     <style>
     ::-webkit-scrollbar {
@@ -186,7 +186,7 @@ module.exports = {
   </div>`
   },
 
-  init() {
+  init () {
     const {
       document
     } = this
@@ -200,7 +200,7 @@ module.exports = {
 
     selector.onclick = () => showInput()
 
-    function showInput() {
+    function showInput () {
       const selected = selector[selector.selectedIndex].value
       const selected2 = selector2[selector2.selectedIndex].value
       if (selected2 === '.json' && selected !== '5') {
@@ -226,7 +226,7 @@ module.exports = {
     }
   },
 
-  action(cache) {
+  action (cache) {
     const path = require('path')
     const Mods = this.getMods()
     const fs = Mods.require('fs-extra')
@@ -301,5 +301,5 @@ module.exports = {
     this.callNextAction(cache)
   },
 
-  mod() {}
+  mod () {}
 }
