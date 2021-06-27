@@ -134,7 +134,7 @@ module.exports = {
         result = user.tag
         break
       case 11: // User Created At
-        result = this.dest(user, 'createdAt')
+        result = user.createdAt
         break
       case 12: // User Created Timestamp
         result = this.dest(user, 'createdTimestamp')
