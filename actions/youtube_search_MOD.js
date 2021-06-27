@@ -247,7 +247,10 @@ module.exports = {
     const youtubei = new Client()
     const YTapi = Mods.require('simple-youtube-api')
 
-    if (input === undefined || input === '') return console.error('Please provide a url or some keywords to search for.') && this.callNextAction(cache)
+    if (!input) {
+      console.error('Please provide a url or some keywords to search for.')
+      return this.callNextAction(cache)
+    }
 
     switch (type) {
       case 0: { // Video
