@@ -131,7 +131,7 @@ module.exports = {
         result = this.dest(user, 'discriminator')
         break
       case 10: // User Tag
-        result = this.dest(user, 'tag')
+        result = user.tag
         break
       case 11: // User Created At
         result = this.dest(user, 'createdAt')
