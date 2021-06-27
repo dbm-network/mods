@@ -251,19 +251,11 @@ module.exports = {
           break
         case 1: // Write File
           if (fileName === '') throw new Error('File Name not Provided:')
-          if (togglestat === 'yes') {
-            fs.writeFileSync(fpath, JSON.stringify(itext))
-          } else {
-            fs.writeFileSync(fpath, itext)
-          }
+          fs.writeFileSync(fpath, togglestat === 'yes' ? JSON.stringify(itext) : itext)
           break
         case 2: // Append File
           if (fileName === '') throw new Error('File Name not Provided:')
-          if (togglestat === 'yes') {
-            fs.appendFileSync(fpath, `${JSON.stringify(itext)}\r\n`)
-          } else {
-            fs.appendFileSync(fpath, `${itext}\r\n`)
-          }
+          fs.appendFileSync(fpath, `${togglestat === 'yes' ? JSON.stringify(itext) : itext}\r\n`)
           break
         case 4: // Insert Line to File
           if (fileName === '') throw new Error('File Name not Provided:')
