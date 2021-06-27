@@ -251,7 +251,7 @@ module.exports = {
 
     switch (type) {
       case 0: { // Video
-        const searchResults = await youtubei.search(input, { type: 'video' }) // Search for the video
+        const searchResults = await youtubei.search(input, { type: 'video' })
         if (!searchResults) return this.callNextAction(cache)
         const compact = searchResults[results - 1] // Video Compact from search results
         if (!compact) return this.callNextAction(cache)
