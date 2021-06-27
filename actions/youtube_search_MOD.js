@@ -235,7 +235,7 @@ module.exports = {
 
   async action (cache) {
     const data = cache.actions[cache.index]
-    const { Actions } = this.getDBM() 
+    const { Actions } = this.getDBM()
     const Mods = this.getMods()
     const input = this.evalMessage(data.input, cache) // URL or Keywords
     const apikey = this.evalMessage(data.apikey, cache) // Api Key
