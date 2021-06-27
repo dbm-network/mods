@@ -119,11 +119,7 @@ module.exports = {
           this.callNextAction(cache)
         })
         .catch((err) => {
-          if (err.message === 'Cannot send messages to this user') {
-            this.executeResults(false, data, cache)
-          } else {
-            this.displayError.bind(this, data, cache)
-          }
+          this.executeResults(false, data, cache)
         })
     } else {
       this.callNextAction(cache)
