@@ -128,7 +128,7 @@ module.exports = {
         }
         break
       case 9: // User Discriminator
-        result = this.dest(user, 'discriminator')
+        result = user.discriminator
         break
       case 10: // User Tag
         result = user.tag
