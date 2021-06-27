@@ -10,8 +10,7 @@ module.exports = {
 
   variableStorage (data, varType) {
     if (parseInt(data.storage) !== varType) return
-    const info = parseInt(data.info)
-    const dataType = data.info[info]
+    const dataType = data.info[parseInt(data.info)]
     return ([data.varName2, dataType])
   },
 
@@ -20,50 +19,50 @@ module.exports = {
   html (isEvent, data) {
     return `
   <div>
-      <div style="float: left; width: 35%">
-          Source User:<br>
-          <select id="user" class="round" onchange="glob.memberChange(this, 'varNameContainer')">
-          ${data.members[isEvent ? 1 : 0]}
-          </select>
-      </div>
-      <div id="varNameContainer" style="display: none; float: right; width: 60%">
-          Variable Name:<br>
-          <input id="varName" class="round" type="text" list="variableList"><br>
-      </div>
+    <div style="float: left; width: 35%">
+      Source User:<br>
+      <select id="user" class="round" onchange="glob.memberChange(this, 'varNameContainer')">
+        ${data.members[isEvent ? 1 : 0]}
+      </select>
+    </div>
+    <div id="varNameContainer" style="display: none; float: right; width: 60%">
+      Variable Name:<br>
+      <input id="varName" class="round" type="text" list="variableList"><br>
+    </div>
   </div><br><br><br>
   <div>
-      <div style="padding-top: 8px; width: 70%">
-          Source Info:<br>
-          <select id="info" class="round">
-              <option value="0" selected>User Object</option>
-              <option value="1">User ID</option>
-              <option value="2">Username</option>
-              <option value="3">User Status</option>
-              <option value="4">User Avatar URL</option>
-              <option value="5">User Last Message</option>
-              <option value="6">User Last Message ID</option>
-                <option value="7">User Playing Status Name</option>
-                <option value="8">User Custom Status</option>
-                <option value="9">User Discriminator</option>
-                <option value="10">User Tag</option>
-                <option value="11">User Created At</option>
-                <option value="12">User Created Timestamp</option>
-                <option value="13">User Flags List</option>
-                <option value="14">User Client Status</option>'
-          </select>
-      </div>
+    <div style="padding-top: 8px; width: 70%">
+      Source Info:<br>
+      <select id="info" class="round">
+        <option value="0" selected>User Object</option>
+        <option value="1">User ID</option>
+        <option value="2">Username</option>
+        <option value="3">User Status</option>
+        <option value="4">User Avatar URL</option>
+        <option value="5">User Last Message</option>
+        <option value="6">User Last Message ID</option>
+        <option value="7">User Playing Status Name</option>
+        <option value="8">User Custom Status</option>
+        <option value="9">User Discriminator</option>
+        <option value="10">User Tag</option>
+        <option value="11">User Created At</option>
+        <option value="12">User Created Timestamp</option>
+        <option value="13">User Flags List</option>
+        <option value="14">User Client Status</option>'
+      </select>
+    </div>
   </div><br>
   <div>
-      <div style="float: left; width: 35%">
-          Store In:<br>
-          <select id="storage" class="round">
-              ${data.variables[1]}
-          </select>
-      </div>
-      <div id="varNameContainer2" style="float: right; width: 60%">
-          Variable Name:<br>
-          <input id="varName2" class="round" type="text"><br>
-      </div>
+    <div style="float: left; width: 35%">
+      Store In:<br>
+      <select id="storage" class="round">
+        ${data.variables[1]}
+      </select>
+    </div>
+    <div id="varNameContainer2" style="float: right; width: 60%">
+      Variable Name:<br>
+      <input id="varName2" class="round" type="text"><br>
+    </div>
   </div>`
   },
 
