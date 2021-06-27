@@ -118,7 +118,7 @@ module.exports = {
           if (msg && varName3) this.storeValue(msg, storage3, varName3, cache)
           this.callNextAction(cache)
         })
-        .catch((err) => {
+        .catch(() => {
           this.executeResults(false, data, cache)
         })
     } else {
