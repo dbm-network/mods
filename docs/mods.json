@@ -939,6 +939,11 @@
     "name": "Store Json From WebAPI",
     "section": "JSON Things"
   },
+  "store_message_info.js": {
+    "description": "Store Message Info",
+    "name": "Store Message Info",
+    "section": "Messaging"
+  },
   "store_message_params_MOD.js": {
     "description": "Store message parameters",
     "name": "Store Message Params",
@@ -977,6 +982,11 @@
     "description": "Store information about Twitch",
     "name": "Store Twitch Info",
     "section": "Other Stuff"
+  },
+  "store_user_info_MOD.js": {
+    "description": "Store user information",
+    "name": "Store User Info",
+    "section": "User Control"
   },
   "store_utc_time_info_MOD.js": {
     "description": "Store UTC time information",

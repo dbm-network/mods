@@ -114,7 +114,7 @@ module.exports = {
     const wrexlinks = document.getElementsByClassName('wrexlink')
     for (let x = 0; x < wrexlinks.length; x++) {
       const wrexlink = wrexlinks[x]
-      var url = wrexlink.getAttribute('data-url')
+      const url = wrexlink.getAttribute('data-url')
       if (url) {
         wrexlink.setAttribute('title', url)
         wrexlink.addEventListener('click', (e) => {

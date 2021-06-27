@@ -3,7 +3,7 @@ module.exports = {
   section: 'Bot Client Control',
 
   subtitle (data) {
-    const info = ['Uptime in Milliseconds', 'Ready At?', 'Ping', 'Guild Amount', 'User Amount', 'Rounded Ping', 'Uptime in Seconds', 'Uptime in Minutes', "Bots' Token", 'Voice Connections Amount', 'Total Amount of Channels', 'Total Amount of Emojis', 'This option has been removed', 'Uptime in Days', 'Uptime in Days (Rounded)', 'Memory (RAM) Usage', 'Bot Guilds Objects', 'Bot Guilds Names', 'Bot Guilds IDs', 'Bot Current Prefix', 'Bot Client ID', 'Discord JS Version', 'Uptime in Hours', 'Refreshing Uptime in Days', 'Refreshing Uptime in Hours', 'Refreshing Uptime in Minutes', 'Refreshing Uptime in Seconds', 'Memory (RAM) Usage in MB', "Bots' OS (Process Platform)", 'CPU Usage in MB', "Bots' Directory", 'Node JS Version', 'Amount of Commands', 'Amount of Events', 'Ready At ? [timestamp]', 'CPU Core Count', 'Total Memory (GB)', 'Total Memory (MB)', 'Available Memory (GB)', 'Available Memory (MB)', 'Available Memory (%)', 'Used Memory (GB)', 'Used Memory (MB)', 'Used Memory (%)', 'Bot Owner ID', 'Are Commands Case Sensitive?', 'Last Message ID']
+    const info = ['Uptime in Milliseconds', 'Ready At?', 'Ping', 'Guild Amount', 'User Amount', 'Rounded Ping', 'Uptime in Seconds', 'Uptime in Minutes', "Bots' Token", 'Voice Connections Amount', 'Total Amount of Channels', 'Total Amount of Emojis', 'This option has been removed', 'Uptime in Days', 'Uptime in Days (Rounded)', 'Memory (RAM) Usage', 'Bot Guilds Objects', 'Bot Guilds Names', 'Bot Guilds IDs', 'Bot Current Prefix', 'Bot Client ID', 'Discord JS Version', 'Uptime in Hours', 'Refreshing Uptime in Days', 'Refreshing Uptime in Hours', 'Refreshing Uptime in Minutes', 'Refreshing Uptime in Seconds', 'Memory (RAM) Usage in MB', "Bots' OS (Process Platform)", 'CPU Usage in MB', 'Average CPU Usage (%)', 'CPU Usage (%)', "Bots' Directory", 'Node JS Version', 'Amount of Commands', 'Amount of Events', 'Ready At ? [timestamp]', 'CPU Core Count', 'Total Memory (GB)', 'Total Memory (MB)', 'Available Memory (GB)', 'Available Memory (MB)', 'Available Memory (%)', 'Used Memory (GB)', 'Used Memory (MB)', 'Used Memory (%)', 'Bot Owner ID', 'Are Commands Case Sensitive?', 'Last Message ID']
     return `Bot Client - ${info[parseInt(data.info)]}`
   },
 
@@ -14,49 +14,39 @@ module.exports = {
     let dataType = 'Unknown Type'
     switch (info) {
       case 0: // Uptime in Milliseconds
+      case 22: // Uptime in Hours
+      case 27: // Memory (RAM) Usage in MB
+      case 29: // CPU Usage in MB
+      case 32: // Amount of Commands
+      case 33: // Amount of Events
+      case 34: // Ready At ? [Timestamp]
+      case 35: // CPU Core Amount
+      case 36: // Total Memory (GB)
+      case 37: // Total Memory (MB)
+      case 38: // Available Memory (GB)
+      case 39: // Available Memory (MB)
+      case 40: // Available Memory (%)
+      case 41: // Used Memory (GB)
+      case 42: // Used Memory (MB)
+      case 43: // Used Memory (%)
+      case 48: // CPU Usage (%)
+      case 2: // Ping
+      case 3: // Guild Amount
+      case 4: // User Amount
+      case 5: // Rounded Ping
+      case 6: // Uptime in Seconds
+      case 7: // Uptime in Minutes
+      case 9: // Voice Connections Amount
+      case 10: // Total Amount of Channels
+      case 11: // Total Amount of Emojis
+      case 15: // Memory (Ram) Usage
         dataType = 'Number'
         break
       case 1: // Ready At
         dataType = 'Date'
         break
-      case 2: // Ping
-        dataType = 'Number'
-        break
-      case 3: // Guild Amount
-        dataType = 'Number'
-        break
-      case 4: // User Amount
-        dataType = 'Number'
-        break
-      case 5: // Rounded Ping
-        dataType = 'Number'
-        break
-      case 6: // Uptime in Seconds
-        dataType = 'Number'
-        break
-      case 7: // Uptime in Minutes
-        dataType = 'Number'
-        break
       case 8: // Bots' Token
         dataType = 'Token'
-        break
-      case 9: // Voice Connections Amount
-        dataType = 'Number'
-        break
-      case 10: // Total Amount of Channels
-        dataType = 'Number'
-        break
-      case 11: // Total Amount of Emojis
-        dataType = 'Number'
-        break
-      case 13: // Uptime in Days
-        dataType = 'Time'
-        break
-      case 14: // Uptime in Days (Rounded)
-        dataType = 'Time'
-        break
-      case 15: // Memory (Ram) Usage
-        dataType = 'Number'
         break
       case 16: // Bot Guilds Objects
         dataType = 'Guild'
@@ -73,58 +63,23 @@ module.exports = {
       case 20: // Bot Client ID
         dataType = 'Bot ID'
         break
-      case 21: // Discord JS Version
-        dataType = 'Version Number'
-        break
-      case 22: // Uptime in Hours
-        dataType = 'Number'
-        break
+      case 13: // Uptime in Days
+      case 14: // Uptime in Days (Rounded)
       case 23: // Refreshing Uptime in Days
-        dataType = 'Time'
-        break
       case 24: // Refreshing Uptime in Hours
-        dataType = 'Time'
-        break
       case 25: // Refreshing Uptime in Minutes
+      case 26: // Refreshing Uptime in Seconds
         dataType = 'Time'
-        break
-      case 26: // Refreshing Uptime in  Seconds
-        dataType = 'Time'
-        break
-      case 27: // Memory (RAM) Usage in MB
-        dataType = 'Number'
         break
       case 28: // Bots' OS (Process Platform)
         dataType = 'OS Name'
         break
-      case 29: // CPU Usage in MB
-        dataType = 'Number'
-        break
       case 30: // Bots' Directory
         dataType = 'Directory'
         break
+      case 21: // Discord JS Version
       case 31: // Node JS Version
         dataType = 'Version Number'
-        break
-      case 32: // Amount of Commands
-        dataType = 'Number'
-        break
-      case 33: // Amount of Events
-        dataType = 'Number'
-        break
-      case 34: // Ready At ? [Timestamp]
-        dataType = 'Number'
-        break
-      case 35: // CPU Core Amount
-      case 36: // Total Memory (GB)
-      case 37: // Total Memory (MB)
-      case 38: // Available Memory (GB)
-      case 39: // Available Memory (MB)
-      case 40: // Available Memory (%)
-      case 41: // Used Memory (GB)
-      case 42: // Used Memory (MB)
-      case 43: // Used Memory (%)
-        dataType = 'Number'
         break
       case 44: // Bot Owner ID
         dataType = 'Bot Owner ID'
@@ -134,6 +89,9 @@ module.exports = {
         break
       case 46: // Last Message ID
         dataType = 'Last Message ID'
+        break
+      case 47: // CPU Load Average
+        dataType = 'Average CPU Usage Array'
         break
     }
     return ([data.varName2, dataType])
@@ -177,6 +135,8 @@ module.exports = {
     </optgroup>
     <optgroup label="System Measurements">
       <option value="29">CPU Usage (MB)</option>
+      <option value="47">Average CPU Usage [1m, 5m, 15m] (%)</option>
+      <option value="48">CPU Usage (%)</option>
       <option value="35">CPU Core Count</option>
       <option value="36">Total Memory (GB)</option>
       <option value="37">Total Memory (MB)</option>
@@ -220,6 +180,7 @@ module.exports = {
     const botClient = this.getDBM().Bot.bot
     const Bot = this.getDBM().Bot
     const os = require('os')
+    if (process.platform === 'win32') this.getMods().require('loadavg-windows') // Make loadavg work on windows.
     const DBM = this.getDBM()
     const data = cache.actions[cache.index]
     const info = parseInt(data.info)
@@ -256,12 +217,6 @@ module.exports = {
       case 8: // Bots' Token
         result = botClient.token
         break
-      case 45: // Are Commands Case Sensitive?
-        result = Bot._caseSensitive
-        break
-      case 46: // Last Message ID
-        result = botClient.user.lastMessageID
-        break
       case 9: // Voice Connections Amount
         result = botClient.voice.connections.size
         break
@@ -295,13 +250,10 @@ module.exports = {
       case 20: // Bot Client ID
         result = DBM.Files.data.settings.client
         break
-      case 44: // Bot Owner ID
-        result = DBM.Files.data.settings.ownerId
-        break
       case 21: // Discord JS Version
         result = DBM.DiscordJS.version
         break
-      case 22:// Uptime in Hours // Deprecated in 1.8.5
+      case 22: // Uptime in Hours // Deprecated in 1.8.5
         result = Math.floor(botClient.uptime / 1000 / 60 / 60)
         break
       case 23: // Refreshing Uptime in Days
@@ -316,7 +268,7 @@ module.exports = {
       case 26: // Refreshing Uptime in  Seconds
         result = Math.round(process.uptime() % 60)
         break
-      case 27:// Memory (RAM) Usage in MB
+      case 27: // Memory (RAM) Usage in MB
         result = (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)
         break
       case 28: // Bots' OS (Process Platform)
@@ -376,9 +328,25 @@ module.exports = {
       case 43: // Used Memory (%)
         result = Math.floor(((os.totalmem() - os.freemem()) / os.totalmem()) * 100)
         break
+      case 44: // Bot Owner ID
+        result = DBM.Files.data.settings.ownerId
+        break
+      case 45: // Are Commands Case Sensitive?
+        result = Bot._caseSensitive
+        break
+      case 46: // Last Message ID
+        result = botClient.user.lastMessageID
+        break
+      case 47: // CPU Usage Average [1m, 5m, 15m]
+        result = os.loadavg()
+        break
+      case 48: // Current CPU Usage
+        result = os.loadavg[0]
+        break
       default:
         break
     }
+
     if (result !== undefined) {
       const storage = parseInt(data.storage)
       const varName2 = this.evalMessage(data.varName2, cache)
