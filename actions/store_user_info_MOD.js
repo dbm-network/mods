@@ -81,7 +81,7 @@ module.exports = {
         <option value="4">User Avatar URL</option>
         <option value="5">User Last Message</option>
         <option value="6">User Last Message ID</option>
-        <option value="7">User Playing Status Name</option> 
+        <option value="7">User Playing Status Name</option>
         <option value="8">User Custom Status</option>
         <option value="9">User Discriminator</option>
         <option value="10">User Tag</option>
@@ -133,12 +133,19 @@ module.exports = {
         result = user.username
         break
       case 3: // User Status
-        if (this.dest(user.presence, 'status')) {
-          const status = user.presence.status
-          if (status === 'online') result = 'Online'
-          else if (status === 'offline') result = 'Offline'
-          else if (status === 'idle') result = 'Idle'
-          else if (status === 'dnd') result = 'Do Not Disturb'
+        switch (user.presence?.status) {
+          case 'online':
+            result = 'Online'
+            break
+          case 'offline':
+            result = 'Offline'
+            break
+          case 'idle':
+            result = 'Idle'
+            break
+          case 'dnd':
+            result = 'Do Not Disturb'
+            break
         }
         break
       case 4: // User Avatar
@@ -155,16 +162,12 @@ module.exports = {
         result = user.lastMessageID
         break
       case 7: // User Activities
-        if (this.dest(user.presence, 'activities')) {
-          const status = user.presence.activities.filter((s) => s.type !== 'CUSTOM_STATUS')
-          result = status && this.dest(status[0], 'name')
-        }
+        result = user.presence?.activities?.filter?.((s) => s?.type !== 'CUSTOM_STATUS')
+        result = result?.[0]?.name
         break
       case 8: // User Custom Status
-        if (this.dest(user.presence, 'activities')) {
-          const status = user.presence.activities.filter((s) => this.dest(s, 'type') === 'CUSTOM_STATUS')
-          result = status && this.dest(status[0], 'state')
-        }
+        result = user.presence?.activities?.filter?.((s) => s?.type === 'CUSTOM_STATUS')
+        result = result?.[0]?.state
         break
       case 9: // User Discriminator
         result = user.discriminator
@@ -179,12 +182,11 @@ module.exports = {
         result = user.createdTimestamp
         break
       case 13: // User Flags
-        const flags = user.flags
-        result = flags && flags.toArray()
+        result = user.flags?.toArray() ?? []
         break
       case 14: // User Status
-        const status = this.dest(user.presence, 'clientStatus')
-        result = status && Object.keys(status)
+        const status = user.presence?.clientStatus
+        result = Object.keys(status ?? {})
         break
       default:
         break

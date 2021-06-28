@@ -116,15 +116,9 @@ module.exports = {
     let result = false
     if (role) {
       if (Array.isArray(member)) {
-        result = member.every(function (mem) {
-          if (this.dest(mem, 'roles', 'cache')) {
-            return mem.roles.cache.has(role.id)
-          } else {
-            return false
-          }
-        })
-      } else if (this.dest(member, 'roles', 'cache')) {
-        result = member.roles.cache.has(role.id)
+        result = member.every((mem) => mem?.roles?.cache?.has?.(role.id) === true)
+      } else {
+        result = member?.roles?.cache?.has?.(role.id) === true
       }
     }
     this.executeResults(result, data, cache)

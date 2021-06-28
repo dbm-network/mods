@@ -123,7 +123,7 @@ module.exports = {
     let result = false
     switch (info) {
       case 0:
-        result = this.dest(member.user, 'bot') || member.bot
+        result = member.user?.bot ?? member.bot
         break
       case 1:
         result = member.bannable
@@ -132,10 +132,10 @@ module.exports = {
         result = member.kickable
         break
       case 3:
-        result = !!this.dest(member.voice, 'speaking')
+        result = member.voice?.speaking ?? false
         break
       case 4:
-        result = !!this.dest(member.voice, 'channel')
+        result = member.voice?.channel ?? false
         break
       case 5:
         result = member.manageable
@@ -150,10 +150,10 @@ module.exports = {
         }
         break
       case 7:
-        result = !!this.dest(member.voice, 'mute')
+        result = member.voice?.mute ?? false
         break
       case 8:
-        result = !!this.dest(member.voice, 'deaf')
+        result = member.voice?.deaf ?? false
         break
       case 9:
         result = member.id === msg.author.id

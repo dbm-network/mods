@@ -44,7 +44,7 @@ Name:<br>
   action (cache) {
     const data = cache.actions[cache.index]
     const { server } = cache
-    if (!this.dest(server, 'channels', 'create')) return this.callnextAction(cache)
+    if (server?.channels?.create === undefined) return this.callnextAction(cache)
 
     const name = this.evalMessage(data.channelName, cache)
     const position = parseInt(data.position)
