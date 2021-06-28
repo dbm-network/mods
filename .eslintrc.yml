@@ -14,7 +14,7 @@ globals:
   alert: readonly
   Audio: readonly
 parserOptions:
-  ecmaVersion: 2019
+  ecmaVersion: 2020
 rules:
   linebreak-style:
     - error
