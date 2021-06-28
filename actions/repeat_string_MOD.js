@@ -49,7 +49,7 @@ module.exports = {
     const girdi = this.evalMessage(data.girdi, cache)
     const xtimes = this.evalMessage(data.xtimes, cache)
 
-    this.storeValue(girdi.toString().repeat(Number(xtimes)), type, varName, cache)
+    this.storeValue(girdi.repeat(Number(xtimes)), type, varName, cache)
     this.callNextAction(cache)
   },
 
