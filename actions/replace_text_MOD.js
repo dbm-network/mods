@@ -58,23 +58,17 @@ module.exports = {
   action (cache) {
     const data = cache.actions[cache.index]
     const text = this.evalMessage(data.text, cache)
-    const text2 = this.evalMessage(data.text2, cache)
-    const text3 = this.evalMessage(data.text3, cache)
+    const oldValue = this.evalMessage(data.text2, cache)
+    const newValue = this.evalMessage(data.text3, cache)
     const info = parseInt(data.info)
 
     let result
     switch (info) {
-      case 0: {
-        result = text.replace(text2, text3)
+      case 0:
+        result = text.replace(oldValue, newValue)
         break
-      }
-      case 1: {
-        const Mods = this.getMods()
-        const replacestr = Mods.require('replace-string')
-        result = replacestr(text, text2, text3)
-        break
-      }
-      default:
+      case 1:
+        result = text.split(oldValue).join(newValue)
         break
     }
     if (result !== undefined) {
