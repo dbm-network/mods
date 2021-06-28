@@ -19,7 +19,7 @@ module.exports = {
 <div>
   <div>
     String:<br>
-    <input placeholder="String or variable" id="girdi" class="round" type="text">
+    <input placeholder="Text or variable" id="girdi" class="round" type="text">
   </div><br>
   <div>
     Times:<br>
@@ -49,10 +49,7 @@ module.exports = {
     const girdi = this.evalMessage(data.girdi, cache)
     const xtimes = this.evalMessage(data.xtimes, cache)
 
-    const Mods = this.getMods()
-    const repeat = Mods.require('repeat-string')
-    const val = repeat(girdi, xtimes)
-    this.storeValue(val, type, varName, cache)
+    this.storeValue(girdi.repeat(Number(xtimes)), type, varName, cache)
     this.callNextAction(cache)
   },
 
