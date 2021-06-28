@@ -133,7 +133,7 @@ module.exports = {
         break
       case 3:
         result = member.voice.speaking || false
-        break;
+        break
       case 4:
         result = !!this.dest(member.voice, 'channel')
         break
