@@ -52,7 +52,7 @@ module.exports = {
       const out = array.join(' ').trim()
       this.storeValue(out.substr(0, 1).toUpperCase() + out.substr(1), storage, varName2, cache)
     } catch (err) {
-      console.log(`ERROR! ${err.stack || err}`)
+      console.log(`ERROR! ${err.stack ?? err}`)
     }
     this.callNextAction(cache)
   },

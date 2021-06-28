@@ -120,7 +120,7 @@ module.exports = {
         index: 0,
         temp: cache.temp,
         server: cache.server,
-        msg: (cache.msg || null)
+        msg: cache.msg ?? null
       }
       if (data.type === 'true') {
         cache2.callback = function () {

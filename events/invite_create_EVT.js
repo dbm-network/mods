@@ -5,7 +5,7 @@ module.exports = {
   fields: ['Temp Variable Name (stores invite code):', 'Temp Variable Name (stores creator of invite):'],
 
   mod (DBM) {
-    DBM.Events = DBM.Events || {}
+    DBM.Events = DBM.Events ?? {}
     const { Bot, Actions } = DBM
     DBM.Events.inviteCreate = function (invite) {
       if (!Bot.$evts['Invite Create']) return

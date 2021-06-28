@@ -156,7 +156,7 @@ module.exports = {
 
     fetch(`https://top.gg/api/bots/${botID}`, {
       method: 'GET',
-      headers: { Authorization: dblToken || '' }
+      headers: { Authorization: dblToken ?? '' }
     })
       .then((res) => res.json())
       .then((r) => {

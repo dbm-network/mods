@@ -146,26 +146,26 @@ module.exports = {
 
     permsArray.forEach((perms) => {
       if (data[perms] === 'Allow') {
-        if (!permissions.allow || !permissions.allow.has(perms)) {
+        if (!permissions.allow?.has?.(perms) !== true) {
           if (!permissions.allow) permissions.allow = new Permissions()
           permissions.allow.add(perms)
         }
-        if (permissions.disallow && permissions.disallow.has(perms)) permissions.disallow.remove(perms)
-        if (permissions.inherit && permissions.inherit.includes(perms)) permissions.inherit.splice(permissions.inherit.indexOf(perms), 1)
+        if (permissions.disallow?.has?.(perms) === true) permissions.disallow.remove(perms)
+        if (permissions.inherit?.includes?.(perms) === true) permissions.inherit.splice(permissions.inherit.indexOf(perms), 1)
       } else if (data[perms] === 'Disallow') {
-        if (!permissions.disallow || !permissions.disallow.has(perms)) {
+        if (permissions.disallow?.has?.(perms) !== true) {
           if (!permissions.disallow) permissions.disallow = new Permissions()
           permissions.disallow.add(perms)
         }
-        if (permissions.allow && permissions.allow.has(perms)) permissions.allow.remove(perms)
-        if (permissions.inherit && permissions.inherit.includes(perms)) permissions.inherit.splice(permissions.inherit.indexOf(perms), 1)
+        if (permissions.allow?.has?.(perms) === true) permissions.allow.remove(perms)
+        if (permissions.inherit?.includes?.(perms) === true) permissions.inherit.splice(permissions.inherit.indexOf(perms), 1)
       } else if (data[perms] === 'Inherit') {
-        if (!permissions.inherit || !permissions.inherit.has(perms)) {
+        if (permissions.inherit?.has?.(perms) !== true) {
           if (!permissions.inherit) permissions.inherit = []
           permissions.inherit.push(perms)
         }
-        if (permissions.disallow.has(perms)) permissions.disallow.remove(perms)
-        if (permissions.allow.has(perms)) permissions.allow.remove(perms)
+        if (permissions.disallow?.has?.(perms) === true) permissions.disallow.remove(perms)
+        if (permissions.allow?.has?.(perms) === true) permissions.allow.remove(perms)
       }
     })
     this.storeValue(permissions, storage, varName, cache)

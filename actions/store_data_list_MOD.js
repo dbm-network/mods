@@ -263,7 +263,7 @@ module.exports = {
               }
             }
             if (object) {
-              name = object.tag || object.user.tag
+              name = object.tag ?? object.user.tag
               array0.push({ id: object.id, data: file[id][dataName], name })
             }
             break

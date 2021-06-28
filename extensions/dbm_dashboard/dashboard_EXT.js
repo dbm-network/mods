@@ -734,7 +734,7 @@ module.exports = {
       )
     }
 
-    const dashboardOnReady = DBM.Bot.onReady || {}
+    const dashboardOnReady = DBM.Bot.onReady ?? {}
     DBM.Bot.onReady = async function () {
       Dashboard.scopes = ['identify', 'guilds']
 

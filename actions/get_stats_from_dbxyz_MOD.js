@@ -193,7 +193,7 @@ module.exports = {
         this.callNextAction(cache)
       })
       .catch((e) => {
-        console.log(`Get Stats From Discord Boats Error:\n${e.stack || e}`)
+        console.log(`Get Stats From Discord Boats Error:\n${e.stack ?? e}`)
       })
   },
 

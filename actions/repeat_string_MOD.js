@@ -3,7 +3,7 @@ module.exports = {
   section: 'Other Stuff',
 
   subtitle (data) {
-    return `${data.xtimes || '0'}x "${data.girdi || 'None'}"`
+    return `${data.xtimes ?? '0'}x "${data.girdi || 'None'}"`
   },
 
   variableStorage (data, varType) {

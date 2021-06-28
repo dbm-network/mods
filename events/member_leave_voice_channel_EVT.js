@@ -5,7 +5,7 @@ module.exports = {
   fields: ['Temp Variable Name (Stores member that entered the channel):', 'Temp Variable Name (Stores channel that the member left):'],
 
   mod (DBM) {
-    DBM.Events = DBM.Events || {}
+    DBM.Events = DBM.Events ?? {}
     const { Actions, Bot } = DBM
     DBM.Events.memberLeaveVoiceChannel = function (oldVoiceState, newVoiceState) {
       if (!Bot.$evts['Member Leave Voice Channel']) return

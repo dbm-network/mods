@@ -5,7 +5,7 @@ module.exports = {
   fields: ['Member (Temp Variable Name):'],
 
   mod (DBM) {
-    DBM.Events = DBM.Events || {}
+    DBM.Events = DBM.Events ?? {}
     const { Bot, Actions } = DBM
 
     DBM.Events.boostedGuild = function (old, recent) {

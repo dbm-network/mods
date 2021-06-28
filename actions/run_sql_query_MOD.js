@@ -430,7 +430,7 @@ module.exports = {
               console.log('Append the path to the end after the key or use the Parse From Stored JSON mod,\nin order to get the value you want')
               console.log(`Example \${${output}("${varName}")[key].path} or use the json path box in the mod UI.`)
             }
-            const out = jsonOut || results
+            const out = jsonOut ?? results
             this.storeValue(stringifyOutput ? JSON.stringify(out) : out, storage, varName, cache)
             this.callNextAction(cache)
           }).catch((err) => {

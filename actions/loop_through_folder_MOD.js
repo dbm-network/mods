@@ -58,7 +58,7 @@ module.exports = {
         console.log('Loop Through Folder: Path is missing.')
       }
     } catch (err) {
-      console.error(`Error: ${err.stack || err}`)
+      console.error(`Error: ${err.stack ?? err}`)
     }
     this.callNextAction(cache)
   },

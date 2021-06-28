@@ -6,7 +6,7 @@ module.exports = {
   fields: ['Temp Variable Name (Stores role object):', 'Temp Variable Name (Stores member object):'],
 
   mod (DBM) {
-    DBM.Events = DBM.Events || {}
+    DBM.Events = DBM.Events ?? {}
     const { Bot, Actions } = DBM
 
     DBM.Events.roleAdded = async function (oldMember, newMember) {

@@ -7,7 +7,7 @@ module.exports = {
 
   subtitle (data) {
     const channels = ['Same Channel', 'Mentioned Channel', '1st Server Channel', 'Temp Variable', 'Server Variable', 'Global Variable']
-    return `Delete ${data.count} messages from ${channels[parseInt(data.channel)] || 'Nothing'}`
+    return `Delete ${data.count} messages from ${channels[parseInt(data.channel)] ?? 'Nothing'}`
   },
 
   fields: ['channel', 'varName', 'count', 'type', 'option', 'msgid', 'Con0', 'Con1', 'Con2', 'Con3', 'Con4', 'Con5', 'iffalse', 'iffalseVal', 'storage', 'varName2'],
@@ -236,7 +236,7 @@ module.exports = {
         times++
         if (times === 10) return this.executeResults(false, data, cache)
         let messages
-        if (lastId && (messagesFound.length || messagesFound.size) < limit) {
+        if (lastId && (messagesFound.length ?? messagesFound.size ?? 0) < limit) {
           options.before = lastId
           messages = await source.messages.fetch(options)
         } else {
@@ -245,15 +245,15 @@ module.exports = {
         }
         let filtered = messages
         if (Con0) filtered = filtered.filter((e) => e.author.id !== Con0.replace(/\D/g, ''))
-        if (Con1) filtered = (filtered || messages).filter((e) => e.author.id === Con1.replace(/\D/g, ''))
+        if (Con1) filtered = (filtered ?? messages).filter((e) => e.author.id === Con1.replace(/\D/g, ''))
         if (Con2 !== '0') {
-          filtered = (filtered || messages).filter(
+          filtered = (filtered ?? messages).filter(
             (e) => Con2 === '1' ? e.embeds.length === 0 : e.embeds.length !== 0
           )
         }
-        if (Con3) filtered = (filtered || messages).filter((e) => e.content.includes(Con3))
+        if (Con3) filtered = (filtered ?? messages).filter((e) => e.content.includes(Con3))
         if (Con4) {
-          filtered = (filtered || messages).filter(() => {
+          filtered = (filtered ?? messages).filter(() => {
             let result = false
             try {
               result = !!eval(Con4)
@@ -263,7 +263,7 @@ module.exports = {
           })
         }
         if (Con5 !== '0') {
-          filtered = (filtered || messages).filter(
+          filtered = (filtered ?? messages).filter(
             (e) => Con5 === '1' ? e.attachments.size === 0 : e.attachments.size !== 0
           )
         }

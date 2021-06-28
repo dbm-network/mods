@@ -19,7 +19,7 @@ module.exports = {
       'Number',
       null,
       'File Size'
-    ][info] || 'Message Attachment (Unknown) Info'
+    ][info] ?? 'Message Attachment (Unknown) Info'
 
     return ([data.varName2, dataType])
   },

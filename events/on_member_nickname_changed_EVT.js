@@ -6,7 +6,7 @@ module.exports = {
   fields: ['Temp Variable Name (Stores new nickname):', 'Temp Variable Name (Stores member object):'],
 
   mod (DBM) {
-    DBM.Events = DBM.Events || {}
+    DBM.Events = DBM.Events ?? {}
     const { Bot, Actions } = DBM
 
     DBM.Events.nicknameChanged = async function (oldMember, newMember) {

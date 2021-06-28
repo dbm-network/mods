@@ -5,7 +5,7 @@ module.exports = {
   fields: ['User Before Update (Temp Variable Name):', 'User After Update (Temp Variable Name):'],
 
   mod (DBM) {
-    DBM.Events = DBM.Events || {}
+    DBM.Events = DBM.Events ?? {}
     const { Bot, Actions } = DBM
 
     DBM.Events.callUserUpdate = function (pre, post) {

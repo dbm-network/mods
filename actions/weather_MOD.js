@@ -114,7 +114,7 @@ module.exports = {
     const weather = Mods.require('weather-js')
 
     weather.find({ search: city, degreeType: degreeType2 }, (err, response) => {
-      if (err || !response || response.length < 1) {
+      if (err || (response?.length ?? 0) < 1) {
         const storage = parseInt(data.storage)
         const varName2 = _this.evalMessage(data.varName, cache)
         _this.storeValue(undefined, storage, varName2, cache)

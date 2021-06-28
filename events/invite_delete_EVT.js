@@ -5,7 +5,7 @@ module.exports = {
   fields: ['Temp Variable Name (Stores invite code that was deleted):'],
 
   mod (DBM) {
-    DBM.Events = DBM.Events || {}
+    DBM.Events = DBM.Events ?? {}
     const { Bot, Actions } = DBM
     DBM.Events.inviteDelete = function (invite) {
       if (!Bot.$evts['Invite Delete']) return
