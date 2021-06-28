@@ -147,7 +147,7 @@ module.exports = {
         result = !!this.dest(member.voice, 'mute')
         break
       case 8:
-        result = this.dest(member.voice, 'deaf') || false
+        result = !!this.dest(member.voice, 'deaf')
         break
       case 9:
         result = member.id === msg.author.id
