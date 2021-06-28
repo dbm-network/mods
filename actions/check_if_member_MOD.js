@@ -144,7 +144,7 @@ module.exports = {
         result = member.id === Files.data.settings.ownerId
         break
       case 7:
-        result = this.dest(member.voice, 'mute') || false
+        result = !!this.dest(member.voice, 'mute')
         break
       case 8:
         result = this.dest(member.voice, 'deaf') || false
