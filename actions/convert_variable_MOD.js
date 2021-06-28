@@ -8,8 +8,6 @@ module.exports = {
   },
 
   variableStorage (data, varType) {
-    const type = parseInt(data.storage2)
-    const prse2 = parseInt(data.conversion)
     const info2 = ['Number', 'Number', 'String', 'String', 'String', 'Number', 'Number']
     if (parseInt(data.storage2) !== varType) return
     return ([data.varName2, info2[parseInt(data.conversion)]])
