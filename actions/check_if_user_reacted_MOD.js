@@ -114,7 +114,7 @@ module.exports = {
 
     let result
     if (Array.isArray(member)) {
-      result = member.every((user) => reaction?.users?.cache?.has(user.id) === true)
+      result = member.every((user) => reaction?.users?.cache?.has?.(user.id) === true)
     } else {
       result = reaction?.users?.cache?.has?.(member.id) === true
     }
