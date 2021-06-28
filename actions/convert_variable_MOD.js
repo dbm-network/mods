@@ -3,16 +3,14 @@ module.exports = {
   section: 'Variable Things',
 
   subtitle (data) {
-    const info = ['Number (Int)', 'Number (Float)', 'String', 'Uppercased String', 'Lowercased String']
+    const info = ['Number (Parsing Int)', 'Number (Parsing Float)', 'String', 'Uppercased String', 'Lowercased String', 'Number (Int)', 'Number (Float)']
     return `Conversion Type: ${info[parseInt(data.conversion)]}`
   },
 
   variableStorage (data, varType) {
-    const type = parseInt(data.storage2)
-    const prse2 = parseInt(data.conversion)
-    const info2 = ['Number', 'Number', 'String', 'String', 'String']
-    if (type !== varType) return
-    return ([data.varName2, info2[prse2]])
+    const info2 = ['Number', 'Number', 'String', 'String', 'String', 'Number', 'Number']
+    if (parseInt(data.storage2) !== varType) return
+    return ([data.varName2, info2[parseInt(data.conversion)]])
   },
 
   fields: ['storage', 'varName', 'conversion', 'storage2', 'varName2'],
@@ -35,11 +33,13 @@ module.exports = {
   <div style="padding-top: 8px; width: 35%;">
     Conversion Type:<br>
     <select id="conversion" class="round">
-      <option value="0" selected>Number (Int)</option>
-      <option value="1">Number (Float)</option>
+      <option value="0" selected>Number (Parsing Int)</option>
+      <option value="1">Number (Parsing Float)</option>
       <option value="2">String</option>
       <option value="3">Uppercased String</option>
       <option value="4">Lowercased String</option>
+      <option value="5">Number (Int)</option>
+      <option value="6">Number (Float)</option>
     </select>
   </div>
 </div><br>
@@ -119,6 +119,12 @@ module.exports = {
         break
       case 4:
         result = variable.toString().toLowerCase()
+        break
+      case 5:
+        result = parseInt(Number(variable))
+        break
+      case 6:
+        result = Number(variable)
         break
       default:
         break
