@@ -30,10 +30,10 @@ module.exports = {
       <option value="0" selected>Is Bot?</option>
       <option value="1">Is Bannable?</option>
       <option value="2">Is Kickable?</option>
-      <!-- option value="3">Is Speaking?</option --!>
+      <option value="3">Is Speaking?</option>
       <option value="4">Is In Voice Channel?</option>
       <option value="5">Is User Manageable?</option>
-          <option value="6">Is Bot Owner?</option>
+      <option value="6">Is Bot Owner?</option>
       <option value="7">Is Muted?</option>
       <option value="8">Is Deafened?</option>
       ${!isEvent && '<option value="9">Is Command Author?</option>'}
@@ -131,9 +131,9 @@ module.exports = {
       case 2:
         result = member.kickable
         break
-        // case 3:
-        // result = Boolean(member.speaking);
-        // break; //Do not ask me why this is not working... ~Lasse
+      case 3:
+        result = member.voice.speaking || false
+        break;
       case 4:
         result = !!this.dest(member.voice, 'channel')
         break
@@ -144,10 +144,10 @@ module.exports = {
         result = member.id === Files.data.settings.ownerId
         break
       case 7:
-        result = this.dest(member.voice, 'mute')
+        result = this.dest(member.voice, 'mute') || false
         break
       case 8:
-        result = this.dest(member.voice, 'deaf')
+        result = this.dest(member.voice, 'deaf') || false
         break
       case 9:
         result = member.id === msg.author.id
