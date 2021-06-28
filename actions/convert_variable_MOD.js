@@ -11,8 +11,8 @@ module.exports = {
     const type = parseInt(data.storage2)
     const prse2 = parseInt(data.conversion)
     const info2 = ['Number', 'Number', 'String', 'String', 'String', 'Number', 'Number']
-    if (type !== varType) return
-    return ([data.varName2, info2[prse2]])
+    if (parseInt(data.storage2) !== varType) return
+    return ([data.varName2, info2[parseInt(data.conversion)]])
   },
 
   fields: ['storage', 'varName', 'conversion', 'storage2', 'varName2'],
