@@ -117,7 +117,7 @@ module.exports = {
 
   async action (cache) {
     const { server } = cache
-    if (!server || !server.members) return this.callNextAction(cache)
+    if (server?.members === undefined) return this.callNextAction(cache)
 
     const data = cache.actions[cache.index]
     const info = parseInt(data.info)
@@ -130,7 +130,7 @@ module.exports = {
 
     switch (info) {
       case 0:
-        result = members.get(find) || users.get(find) || await this.getDBM().Bot.bot.users.fetch(find)
+        result = members.get(find) ?? users.get(find) ?? await this.getDBM().Bot.bot.users.fetch(find)
         break
       case 1:
         result = find2 === 0

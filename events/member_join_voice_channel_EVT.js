@@ -5,7 +5,7 @@ module.exports = {
   fields: ['Temp Variable Name (stores member that entered the channel):', 'Temp Variable Name (stores channel that the member joined):'],
 
   mod (DBM) {
-    DBM.Events = DBM.Events || {}
+    DBM.Events = DBM.Events ?? {}
     const { Actions, Bot } = DBM
     DBM.Events.memberJoinVoiceChannel = function (oldVoiceState, newVoiceState) {
       if (!Bot.$evts['Member Join Voice Channel']) return

@@ -70,7 +70,7 @@ This action has been modified by DBM Mods.<br>
     const varName2 = this.evalMessage(data.varName2, cache)
     const guildType = parseInt(data.guild)
     const server = this.getServer(guildType, varName2, cache)
-    const reason = this.evalMessage(data.reason, cache) || ''
+    const reason = this.evalMessage(data.reason, cache) ?? ''
     const days = parseInt(this.evalMessage(data.days, cache))
     const member = type === 5 ? this.evalMessage(varName) : this.getMember(type, varName, cache)
     if (guildType !== 0) {

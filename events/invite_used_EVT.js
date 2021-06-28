@@ -5,7 +5,7 @@ module.exports = {
   fields: ['Temp Variable Name (Stores invite code that was used):', 'Temp Variable Name (Stores guild):'],
 
   mod (DBM) {
-    DBM.Events = DBM.Events || {}
+    DBM.Events = DBM.Events ?? {}
     const { Bot, Actions } = DBM
     const guildInvites = {}
     DBM.Events.inviteUsed = function (member) {

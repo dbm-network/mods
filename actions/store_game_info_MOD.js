@@ -147,7 +147,7 @@ module.exports = {
     const varName = this.evalMessage(data.varName, cache)
     const mem = this.getMember(member, varName, cache)
 
-    if (!mem || !mem.presence.activities[0]) return this.callNextAction(cache)
+    if (mem.presence?.activities?.[0] === undefined) return this.callNextAction(cache)
 
     let result = null
     switch (info) {
@@ -173,34 +173,34 @@ module.exports = {
         result = mem.presence.activities[0].type
         break
       case 7:
-        result = mem.presence.activities[0].assets.largeImage || null
+        result = mem.presence.activities[0].assets?.largeImage ?? null
         break
       case 8:
-        result = mem.presence.activities[0].assets.largeImageURL || null
+        result = mem.presence.activities[0].assets?.largeImageURL ?? null
         break
       case 9:
-        result = mem.presence.activities[0].assets.largeText || null
+        result = mem.presence.activities[0].assets?.largeText ?? null
         break
       case 10:
-        result = mem.presence.activities[0].assets.smallImage || null
+        result = mem.presence.activities[0].assets?.smallImage ?? null
         break
       case 11:
-        result = mem.presence.activities[0].assets.smallImageURL || null
+        result = mem.presence.activities[0].assets?.smallImageURL ?? null
         break
       case 12:
-        result = mem.presence.activities[0].assets.smallText || null
+        result = mem.presence.activities[0].assets?.smallText ?? null
         break
       case 13:
-        result = mem.presence.activities[0].timestamps.start || null
+        result = mem.presence.activities[0].timestamps?.start ?? null
         break
       case 14:
-        result = mem.presence.activities[0].party.id || null
+        result = mem.presence.activities[0].party?.id ?? null
         break
       case 15:
-        result = mem.presence.activities[0].timestamps.end || null
+        result = mem.presence.activities[0].timestamps?.end ?? null
         break
       case 16:
-        result = mem.presence.activities[0].party.size || null
+        result = mem.presence.activities[0].party?.size ?? null
         break
       default:
         break

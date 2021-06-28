@@ -5,7 +5,7 @@ module.exports = {
   fields: ['Temp Variable Name (Store voice channel):', 'Temp Variable Name (Store streaming member object):'],
 
   mod (DBM) {
-    DBM.Events = DBM.Events || {}
+    DBM.Events = DBM.Events ?? {}
     const { Bot, Actions } = DBM
 
     DBM.Events.onStream = function (oldVoiceState, newVoiceState) {
@@ -13,7 +13,7 @@ module.exports = {
       const oldChannel = oldVoiceState.channel
       const newChannel = newVoiceState.channel
       if ((!oldChannel || !newChannel) || (oldVoiceState.streaming && !newVoiceState.streaming)) return
-      const server = (oldChannel || newChannel).guild
+      const server = (oldChannel ?? newChannel).guild
 
       for (const event of Bot.$evts['Member Start Streaming']) {
         const temp = {}

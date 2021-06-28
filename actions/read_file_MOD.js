@@ -51,7 +51,7 @@ module.exports = {
         console.log('File path is missing from read file mod!')
       }
     } catch (err) {
-      console.error(`ERROR! ${err.stack || err}`)
+      console.error(`ERROR! ${err.stack ?? err}`)
     }
     this.callNextAction(cache)
   },

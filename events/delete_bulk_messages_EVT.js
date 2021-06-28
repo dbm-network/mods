@@ -5,7 +5,7 @@ module.exports = {
   fields: ['Temp Variable Name (stores list of messages):', 'Temp Variable Name (stores amount of messages):'],
 
   mod (DBM) {
-    DBM.Events = DBM.Events || {}
+    DBM.Events = DBM.Events ?? {}
     const { Bot, Actions } = DBM
 
     DBM.Events.messageDeleteBulk = function (messagesList) {

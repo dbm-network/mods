@@ -409,7 +409,7 @@ module.exports = {
           result = state.map
           break
         case 2:
-          result = state.raw.numplayers || state.players.length
+          result = state.raw.numplayers ?? state.players.length
           break
         case 3:
           result = state.raw.numbots

@@ -33,7 +33,7 @@ module.exports = {
       queue = Audio.queue[server.id]
       if (Audio.playingnow !== undefined) {
         playingnow = Audio.playingnow[server.id]
-        loopQueue = Audio.loopQueue[server.id] || false
+        loopQueue = Audio.loopQueue[server.id] ?? false
       }
     }
 

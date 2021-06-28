@@ -5,14 +5,14 @@ module.exports = {
   fields: ['Temp Variable Name (Stores member that entered the channel):', 'Temp Variable Name (Stores channel that the member joined):'],
 
   mod (DBM) {
-    DBM.Events = DBM.Events || {}
+    DBM.Events = DBM.Events ?? {}
     const { Actions, Bot } = DBM
 
     DBM.Events.memberMoveVoiceChannel = function (oldVoiceState, newVoiceState) {
       if (!Bot.$evts['Member Move Voice Channel']) return
       const oldChannel = oldVoiceState.channel
       const newChannel = newVoiceState.channel
-      if (!oldChannel || !newChannel || !oldChannel.id || !newChannel.id || oldChannel.id === newChannel.id) return
+      if (!oldChannel?.id || !newChannel?.id || oldChannel.id === newChannel.id) return
       const server = newChannel.guild
 
       for (const event of Bot.$evts['Member Move Voice Channel']) {

@@ -14,46 +14,46 @@ module.exports = {
     ::-webkit-scrollbar {
       width: 10px !important;
     }
-  
+
     ::-webkit-scrollbar-track {
       background: inherit !important;
     }
-  
+
     ::-webkit-scrollbar-thumb:hover {
       background: #3c4035 !important;
     }
-  
+
     .col-20l {
       float: left;
       width: 20%;
     }
-  
+
     .col-17l {
       float: left;
       width: 17%;
     }
-  
+
     textarea {
       float: left;
       width: 100%;
       resize: 1;
       padding: 4px 8px;
     }
-  
+
     span.wrexlink {
       color: #99b3ff;
       text-decoration: underline;
       cursor: pointer;
     }
-  
+
     span.wrexlink:hover {
       color: #4676b9;
     }
-  
+
     .hidden {
       display: none;
     }
-  
+
     /* The switch - the box around the slider */
     .switch {
       position: relative;
@@ -61,14 +61,14 @@ module.exports = {
       width: 40px;
       height: 20px;
     }
-  
+
     /* Hide default HTML checkbox */
     .switch input {
       opacity: 0;
       width: 0;
       height: 0;
     }
-  
+
     /* The slider */
     .slider {
       position: absolute;
@@ -81,7 +81,7 @@ module.exports = {
       -webkit-transition: .4s;
       transition: .4s;
     }
-  
+
     .slider:before {
       position: absolute;
       content: "";
@@ -93,26 +93,26 @@ module.exports = {
       -webkit-transition: .4s;
       transition: .4s;
     }
-  
+
     input:checked+.slider {
       background-color: #2196F3;
     }
-  
+
     input:focus+.slider {
       box-shadow: 0 0 1px #2196F3;
     }
-  
+
     input:checked+.slider:before {
       -webkit-transform: translateX(18px);
       -ms-transform: translateX(18px);
       transform: translateX(18px);
     }
-  
+
     /* Rounded sliders */
     .slider.round {
       border-radius: 34px;
     }
-  
+
     .slider.round:before {
       border-radius: 50%;
     }
@@ -284,7 +284,7 @@ module.exports = {
         throw new Error('you did not set a file path, please go back and check your work.')
       }
     } catch (err) {
-      return console.error(`ERROR ${err.stack || err}`)
+      return console.error(`ERROR ${err.stack ?? err}`)
     }
     this.callNextAction(cache)
   },
