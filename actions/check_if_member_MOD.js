@@ -120,6 +120,9 @@ module.exports = {
     const { Files } = this.getDBM()
     const { msg } = cache
 
+    const fs = require('fs')
+    const path = require('path')
+
     let result = false
     switch (info) {
       case 0:
@@ -141,7 +144,13 @@ module.exports = {
         result = member.manageable
         break
       case 6:
-        result = member.id === Files.data.settings.ownerId
+        const filepath = path.join(__dirname, '../data', 'multiple_bot_owners.json')
+        if (!fs.existsSync(filepath)) {
+          result = member.id === Files.data.settings.ownerId
+        } else {
+          const botOwners = JSON.parse(fs.readFileSync(filepath, 'utf8'))
+          result = botOwners.includes(msg.author.id) || msg.author.id === Files.data.settings.ownerId
+        }
         break
       case 7:
         result = !!this.dest(member.voice, 'mute')
