@@ -147,7 +147,7 @@ module.exports = {
         result = !!member.voice?.mute
         break
       case 8:
-        result = member.voice?.deaf ?? false
+        result = !!member.voice?.deaf
         break
       case 9:
         result = member.id === msg.author.id
