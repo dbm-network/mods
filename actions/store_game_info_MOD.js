@@ -143,64 +143,63 @@ module.exports = {
     const data = cache.actions[cache.index]
     const info = parseInt(data.info)
 
-    const member = parseInt(data.member)
     const varName = this.evalMessage(data.varName, cache)
-    const mem = this.getMember(member, varName, cache)
-
-    if (mem.presence?.activities?.[0] === undefined) return this.callNextAction(cache)
+    const member = this.getMember(parseInt(data.member), varName, cache)
+    const activity = member?.presence.activities[0]
+    if (!activity) return this.callNextAction(cache)
 
     let result = null
     switch (info) {
       case 0:
-        result = mem.presence.activities[0].applicationID
+        result = activity.applicationID
         break
       case 1:
-        result = mem.presence.activities[0].details
+        result = activity.details
         break
       case 2:
-        result = mem.presence.activities[0].name
+        result = activity.name
         break
       case 3:
-        result = mem.presence.activities[0].state
+        result = activity.state
         break
       case 4:
-        result = mem.presence.activities[0].streaming
+        result = activity.streaming
         break
       case 5:
-        result = mem.presence.activities[0].url
+        result = activity.url
         break
       case 6:
-        result = mem.presence.activities[0].type
+        result = activity.type
         break
       case 7:
-        result = mem.presence.activities[0].assets?.largeImage ?? null
+        result = activity.assets?.largeImage ?? null
         break
       case 8:
-        result = mem.presence.activities[0].assets?.largeImageURL ?? null
+        result = activity.assets?.largeImageURL ?? null
         break
       case 9:
-        result = mem.presence.activities[0].assets?.largeText ?? null
+        result = activity.assets?.largeText ?? null
         break
       case 10:
-        result = mem.presence.activities[0].assets?.smallImage ?? null
+        result = activity.assets?.smallImage ?? null
         break
       case 11:
-        result = mem.presence.activities[0].assets?.smallImageURL ?? null
+        result = activity.assets?.smallImageURL ?? null
         break
       case 12:
-        result = mem.presence.activities[0].assets?.smallText ?? null
+        result = activity.assets?.smallText ?? null
         break
       case 13:
-        result = mem.presence.activities[0].timestamps?.start ?? null
+        result = activity.timestamps?.start ?? null
         break
       case 14:
-        result = mem.presence.activities[0].party?.id ?? null
+        result = activity.party?.id ?? null
         break
       case 15:
-        result = mem.presence.activities[0].timestamps?.end ?? null
+        result = activity.timestamps?.end ?? null
         break
       case 16:
-        result = mem.presence.activities[0].party?.size ?? null
+        result = activity.party?.size ?? null
         break
       default:
         break
