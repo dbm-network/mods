@@ -150,7 +150,7 @@ module.exports = {
         }
         break
       case 7:
-        result = member.voice?.mute ?? false
+        result = !!member.voice?.mute
         break
       case 8:
         result = member.voice?.deaf ?? false
