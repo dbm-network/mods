@@ -91,7 +91,7 @@ module.exports = {
 
   action (cache) {
     const { server } = cache
-    if (server?.channels === undefined) return this.callNextAction(cache)
+    if (!server) return this.callNextAction(cache)
     const data = cache.actions[cache.index]
     const info = parseInt(data.info)
     const find = this.evalMessage(data.find, cache)
