@@ -39,6 +39,7 @@ module.exports = {
       this.callListFunc(message.map((m) => m.reactions), 'removeAll', [])
         .then(() => this.callNextAction(cache))
     } else {
+      // eslint-disable-next-line no-unused-expressions
       message?.reactions.removeAll()
         .then(() => this.callNextAction(cache))
         .catch(this.displayError.bind(this, data, cache))
