@@ -66,7 +66,7 @@ module.exports = {
   action (cache) {
     const data = cache.actions[cache.index]
     const { server } = cache
-    if (server?.emojis?.create === undefined) return this.callnextAction(cache)
+    if (!server) return this.callNextAction(cache)
 
     const type = parseInt(data.storage)
     const varName = this.evalMessage(data.varName, cache)
