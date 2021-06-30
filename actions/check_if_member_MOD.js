@@ -144,7 +144,7 @@ module.exports = {
         result = member.id === Files.data.settings.ownerId
         break
       case 7:
-        result = member.voice?.mute ?? false
+        result = !!member.voice?.mute
         break
       case 8:
         result = member.voice?.deaf ?? false
