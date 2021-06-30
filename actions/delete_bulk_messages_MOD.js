@@ -217,7 +217,8 @@ module.exports = {
 
     options.limit = 100
     const limit = Math.min(parseInt(this.evalMessage(data.count, cache)), 100)
-    if (source?.messages?.fetch === undefined) return this.callNextAction(cache)
+    if (!source) return this.callNextAction(cache)
+
     try {
       const Con0 = this.evalMessage(data.Con0, cache)
       const Con1 = this.evalMessage(data.Con1, cache)
