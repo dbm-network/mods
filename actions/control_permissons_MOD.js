@@ -164,7 +164,7 @@ module.exports = {
           if (!permissions.inherit) permissions.inherit = []
           permissions.inherit.push(perms)
         }
-        if (permissions.disallow?.has?.(perms) === true) permissions.disallow.remove(perms)
+        if (permissions.disallow?.has(perms)) permissions.disallow.remove(perms)
         if (permissions.allow?.has?.(perms) === true) permissions.allow.remove(perms)
       }
     })
