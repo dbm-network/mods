@@ -160,7 +160,7 @@ module.exports = {
         if (permissions.allow?.has(perms)) permissions.allow.remove(perms)
         if (permissions.inherit?.includes(perms)) permissions.inherit.splice(permissions.inherit.indexOf(perms), 1)
       } else if (data[perms] === 'Inherit') {
-        if (permissions.inherit?.has?.(perms) !== true) {
+        if (!permissions.inherit?.has(perms)) {
           if (!permissions.inherit) permissions.inherit = []
           permissions.inherit.push(perms)
         }
