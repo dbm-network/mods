@@ -149,7 +149,7 @@ module.exports = {
           result = member.id === Files.data.settings.ownerId
         } else {
           const botOwners = JSON.parse(fs.readFileSync(filePath, 'utf8'))
-          result = botOwners.includes(msg.author.id) || member.id === Files.data.settings.ownerId
+          result = botOwners.includes(member.id) || member.id === Files.data.settings.ownerId
         }
         break
       case 7:
