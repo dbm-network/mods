@@ -144,11 +144,11 @@ module.exports = {
         result = member.manageable
         break
       case 6:
-        const filepath = path.join(__dirname, '../data', 'multiple_bot_owners.json')
-        if (!fs.existsSync(filepath)) {
+        const filePath = path.join(__dirname, '../data', 'multiple_bot_owners.json')
+        if (!fs.existsSync(filePath)) {
           result = member.id === Files.data.settings.ownerId
         } else {
-          const botOwners = JSON.parse(fs.readFileSync(filepath, 'utf8'))
+          const botOwners = JSON.parse(fs.readFileSync(filePath, 'utf8'))
           result = botOwners.includes(msg.author.id) || msg.author.id === Files.data.settings.ownerId
         }
         break
