@@ -185,8 +185,7 @@ module.exports = {
         result = user.flags?.toArray() ?? []
         break
       case 14: // User Status
-        const status = user.presence?.clientStatus
-        result = Object.keys(status ?? {})
+        result = Object.keys(user.presence?.clientStatus ?? {})
         break
       default:
         break
