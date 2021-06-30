@@ -162,11 +162,11 @@ module.exports = {
         result = user.lastMessageID
         break
       case 7: // User Activities
-        result = user.presence?.activities?.filter?.((s) => s?.type !== 'CUSTOM_STATUS')
+        result = user.presence.activities.filter((s) => s.type !== 'CUSTOM_STATUS')
         result = result?.[0]?.name
         break
       case 8: // User Custom Status
-        result = user.presence?.activities?.filter?.((s) => s?.type === 'CUSTOM_STATUS')
+        result = user.presence.activities.filter((s) => s.type === 'CUSTOM_STATUS')
         result = result?.[0]?.state
         break
       case 9: // User Discriminator
@@ -185,7 +185,7 @@ module.exports = {
         result = user.flags?.toArray() ?? []
         break
       case 14: // User Status
-        result = Object.keys(user.presence?.clientStatus ?? {})
+        result = Object.keys(user.presence.clientStatus ?? {})
         break
       default:
         break
