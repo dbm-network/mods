@@ -132,7 +132,7 @@ module.exports = {
         result = member.kickable
         break
       case 3:
-        result = member.voice?.speaking ?? false
+        result = !!member.voice?.speaking
         break
       case 4:
         result = member.voice?.channel ?? false
