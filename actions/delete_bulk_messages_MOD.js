@@ -288,6 +288,5 @@ module.exports = {
     }
   },
 
-  mod () {
-  }
+  mod () {}
 }
