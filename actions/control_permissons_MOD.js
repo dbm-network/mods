@@ -153,7 +153,7 @@ module.exports = {
         if (permissions.disallow?.has(perms)) permissions.disallow.remove(perms)
         if (permissions.inherit?.includes(perms)) permissions.inherit.splice(permissions.inherit.indexOf(perms), 1)
       } else if (data[perms] === 'Disallow') {
-        if (permissions.disallow?.has?.(perms) !== true) {
+        if (!permissions.disallow?.has(perms)) {
           if (!permissions.disallow) permissions.disallow = new Permissions()
           permissions.disallow.add(perms)
         }
