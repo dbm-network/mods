@@ -135,7 +135,7 @@ module.exports = {
         result = !!member.voice?.speaking
         break
       case 4:
-        result = member.voice?.channel ?? false
+        result = !!member.voice?.channel
         break
       case 5:
         result = member.manageable
