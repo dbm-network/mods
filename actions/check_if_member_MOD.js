@@ -120,9 +120,6 @@ module.exports = {
     const { Files } = this.getDBM()
     const { msg } = cache
 
-    const fs = require('fs')
-    const path = require('path')
-
     let result = false
     switch (info) {
       case 0:
@@ -144,6 +141,8 @@ module.exports = {
         result = member.manageable
         break
       case 6:
+        const fs = require('fs')
+        const path = require('path')
         const filePath = path.join(__dirname, '../data', 'multiple_bot_owners.json')
         if (!fs.existsSync(filePath)) {
           result = member.id === Files.data.settings.ownerId
