@@ -146,7 +146,7 @@ module.exports = {
 
     permsArray.forEach((perms) => {
       if (data[perms] === 'Allow') {
-        if (!permissions.allow?.has?.(perms) !== true) {
+        if (!permissions.allow?.has(perms)) {
           if (!permissions.allow) permissions.allow = new Permissions()
           permissions.allow.add(perms)
         }
