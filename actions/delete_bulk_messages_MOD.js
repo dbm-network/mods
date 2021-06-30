@@ -132,10 +132,7 @@ module.exports = {
   },
 
   init () {
-    const {
-      glob,
-      document
-    } = this
+    const { glob, document } = this
     document.getElementById('link').onclick = function () {
       require('child_process').execSync('start https://gist.github.com/LeonZ2019/336a20a85f8c37e5d9273d0c690040e6')
     }
