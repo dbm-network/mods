@@ -165,7 +165,7 @@ module.exports = {
           permissions.inherit.push(perms)
         }
         if (permissions.disallow?.has(perms)) permissions.disallow.remove(perms)
-        if (permissions.allow?.has?.(perms) === true) permissions.allow.remove(perms)
+        if (permissions.allow?.has(perms)) permissions.allow.remove(perms)
       }
     })
     this.storeValue(permissions, storage, varName, cache)
