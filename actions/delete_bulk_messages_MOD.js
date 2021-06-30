@@ -252,12 +252,11 @@ module.exports = {
         if (Con3) filtered = (filtered ?? messages).filter((e) => e.content.includes(Con3))
         if (Con4) {
           filtered = (filtered ?? messages).filter(() => {
-            let result = false
             try {
-              result = !!eval(Con4)
+              return !!eval(Con4)
             } catch {
+              return false
             }
-            return result
           })
         }
         if (Con5 !== '0') {
