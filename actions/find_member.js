@@ -117,7 +117,7 @@ module.exports = {
 
   async action (cache) {
     const { server } = cache
-    if (server?.members === undefined) return this.callNextAction(cache)
+    if (!server) return this.callNextAction(cache)
 
     const data = cache.actions[cache.index]
     const info = parseInt(data.info)
