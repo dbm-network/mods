@@ -273,7 +273,7 @@ module.exports = {
       const deleted = await source.bulkDelete(messagesFound)
       const storage = parseInt(data.storage)
       if (storage !== 0 && deleted) {
-        let result = deleted.array ? deleted.array() : deleted
+        let result = Array.isArray(deleted) ? deleted : deleted.array()
         if (deleted.length === 1) result = deleted[0]
         const varName = this.evalMessage(data.varName2, cache)
         this.storeValue(result, storage, varName, cache)
