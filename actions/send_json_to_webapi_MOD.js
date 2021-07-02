@@ -211,7 +211,7 @@ module.exports = {
           }
         }
 
-        const jsonData = await fetch(url, { method, body: JSON.stringify(postJson), headers: setHeaders }).then((r) => r.json())
+        const jsonData = await fetch(url, { method, body: postJson, headers: setHeaders }).then((r) => r.json())
 
         try {
           if (jsonData) {
