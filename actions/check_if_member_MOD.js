@@ -141,7 +141,13 @@ module.exports = {
         result = member.manageable
         break
       case 6:
-        result = member.id === Files.data.settings.ownerId
+        const fs = require('fs')
+        const filePath = require('path').join(__dirname, '../data', 'multiple_bot_owners.json')
+        if (!fs.existsSync(filePath)) {
+          result = member.id === Files.data.settings.ownerId
+        } else {
+          result = JSON.parse(fs.readFileSync(filePath, 'utf8')).includes(member.id) || member.id === Files.data.settings.ownerId
+        }
         break
       case 7:
         result = !!this.dest(member.voice, 'mute')
