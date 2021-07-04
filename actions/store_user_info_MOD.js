@@ -165,8 +165,7 @@ module.exports = {
         result = user.presence.activities.find((s) => s.type !== 'CUSTOM_STATUS')?.[0]?.name
         break
       case 8: // User Custom Status
-        result = user.presence.activities.filter((s) => s.type === 'CUSTOM_STATUS')
-        result = result?.[0]?.state
+        result = user.presence.activities.find((s) => s.type === 'CUSTOM_STATUS')?.[0]?.state
         break
       case 9: // User Discriminator
         result = user.discriminator
