@@ -162,8 +162,7 @@ module.exports = {
         result = user.lastMessageID
         break
       case 7: // User Activities
-        result = user.presence.activities.filter((s) => s.type !== 'CUSTOM_STATUS')
-        result = result?.[0]?.name
+        result = user.presence.activities.find((s) => s.type !== 'CUSTOM_STATUS')?.[0]?.name
         break
       case 8: // User Custom Status
         result = user.presence.activities.filter((s) => s.type === 'CUSTOM_STATUS')
