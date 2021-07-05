@@ -118,7 +118,7 @@ module.exports = {
       if (Array.isArray(member)) {
         result = member.every((mem) => mem?.roles.cache.has(role.id))
       } else {
-        result = !!member?.roles?.cache.has(role.id)
+        result = !!member?.roles.cache.has(role.id)
       }
     }
     this.executeResults(result, data, cache)
