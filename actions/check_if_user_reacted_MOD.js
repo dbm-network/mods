@@ -116,7 +116,7 @@ module.exports = {
     if (Array.isArray(member)) {
       result = member.every((user) => reaction?.users?.cache.has(user.id))
     } else {
-      result = !!reaction?.users?.cache.has(member.id)
+      result = !!reaction?.users.cache.has(member.id)
     }
     this.executeResults(result, data, cache)
   },
