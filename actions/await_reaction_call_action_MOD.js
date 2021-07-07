@@ -71,7 +71,7 @@ module.exports = {
     <input id="max" class="round" type="text" value="1" placeholder="Optional"><br>
   </div>
   <div style="float: left; width: 49%;">
-    Max Time (miliseconds):<br>
+    Max Time (milliseconds):<br>
     <input id="time" class="round" type="text" value="60000" placeholder="Optional"><br>
   </div><br><br><br>
   <div style="float: left; width: 50%;">
@@ -212,14 +212,17 @@ module.exports = {
 
       msg.awaitReactions((reaction, user) => {
         const { msg: message, server } = cache
-        const { author } = message
         let member
+        let author
         const tempVars = Actions.getActionVariable.bind(cache.temp)
         const globalVars = Actions.getActionVariable.bind(Actions.global)
         let serverVars = null
 
-        if (message) member = message.member
-        if (cache.server) serverVars = Actions.getActionVariable.bind(Actions.server[server.id])
+        if (message) {
+          member = message.member
+          author = message.author
+        }
+        if (server) serverVars = Actions.getActionVariable.bind(Actions.server[server.id])
 
         try {
           return !!eval(js)
