@@ -219,11 +219,11 @@ module.exports = {
           member = message.member
         }
 
-        if (cache.server) serverVars = Actions.getActionVariable.bind(Actions.server[server.id])
+        if (server) serverVars = Actions.getActionVariable.bind(Actions.server[server.id])
 
         try {
           return !!eval(js)
-        } catch (_) {
+        } catch {
           return false
         }
       }, { max, time, errors: ['time'] })
