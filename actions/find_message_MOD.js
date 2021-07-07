@@ -81,7 +81,7 @@ module.exports = {
 
     if (!targetChannel) return this.callNextAction(cache)
     if (!search) {
-      console.error('Error: Please input something to search for in find_message_mod.')
+      console.error('Error: Please input something to search for in the Find Message action.')
       return this.callNextAction(cache)
     }
 
