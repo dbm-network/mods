@@ -80,6 +80,10 @@ module.exports = {
     const varName2 = this.evalMessage(data.varName2, cache)
 
     if (!targetChannel) return this.callNextAction(cache)
+    if (!search) {
+      console.error('Error: Please input something to search for in the Find Message action.')
+      return this.callNextAction(cache)
+    }
 
     switch (info) {
       case 0:
