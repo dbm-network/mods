@@ -11,7 +11,7 @@ module.exports = {
 	//
 	// This is the section the action will fall into.
 	//---------------------------------------------------------------------
-	section: "Messaging",
+	section: "Embed Message",
 
 	//---------------------------------------------------------------------
 	// Action Subtitle
