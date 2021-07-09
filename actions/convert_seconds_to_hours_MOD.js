@@ -48,6 +48,8 @@ module.exports = {
     s %= 60
     let h = Math.floor(m / 60)
     m %= 60
+    let useless = Math.floor(useless / 24)
+    h %= 24
 
     let result = `${h}:${m}:${s}`
 
