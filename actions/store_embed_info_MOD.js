@@ -1,6 +1,5 @@
 module.exports = {
 	//---------------------------------------------------------------------
-	// Action Name
 	//
 	// This is the name of the action displayed in the editor.
 	//---------------------------------------------------------------------
@@ -165,45 +164,45 @@ module.exports = {
 		const message = parseInt(data.message);
 		const varName = this.evalMessage(data.varName, cache);
 		const info = parseInt(data.info);
-		const msg = this.getMessage(message, varName, cache);
-		if(!msg) {
+		const embed = this.getVariable(message, varName, cache);
+		if(!embed) {
 			this.callNextAction(cache);
 			return;
 		}
 		let result;
 		switch(info) {
 			case 0:
-				result = msg;
+				result = embed;
 				break;
 			case 1:
-				result = msg.title;
+				result = embed.title;
 				break;
 			case 2:
-				result = msg.description;
+				result = embed.description;
 				break;
 			case 3:
-				result = msg.author.name;
+				result = embed.author.name;
 				break;
 			case 4:
-				result = msg.author.iconURL;
+				result = embed.author.iconURL;
 				break;
 			case 5:
-				result = msg.thumbnail;
+				result = embed.thumbnail.url;
 				break;
 			case 6:
-				result = msg.footer.text;
+				result = embed.footer.text;
 				break;
 			case 7:
-				result = msg.footer.iconURL;
+				result = embed.footer.iconURL;
 				break;
 			case 8:
-				result = msg.image.url;
+				result = embed.image.url;
 				break;
 			case 9:
-				result = msg.color;
+				result = embed.color;
 				break;
 			case 12:
-				result = msg.fields;
+				result = embed.fields;
 				break;
             default:
                 break;
