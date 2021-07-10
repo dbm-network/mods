@@ -39,7 +39,7 @@ module.exports = {
 
   action (cache) {
     const data = cache.actions[cache.index]
-    const time = this.evalMessage(data.time, cache)
+    const time = Number(this.evalMessage(data.time, cache))
 
     if (isNaN(time)) return this.callNextAction(cache)
 
