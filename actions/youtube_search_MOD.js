@@ -309,7 +309,7 @@ module.exports = {
           const storage = parseInt(data.storage)
           const varName = this.evalMessage(data.varName, cache)
           this.storeValue(result, storage, varName, cache)
-          this.callNextAction(cache)
+          return this.callNextAction(cache)
         }
         break
       }
@@ -421,7 +421,7 @@ module.exports = {
                   const storage = parseInt(data.storage)
                   const varName = Actions.evalMessage(data.varName, cache)
                   Actions.storeValue(result2, storage, varName, cache)
-                  Actions.callNextAction(cache)
+                  return Actions.callNextAction(cache)
                 }
               })
               break
@@ -430,7 +430,7 @@ module.exports = {
             const storage = parseInt(data.storage)
             const varName = Actions.evalMessage(data.varName, cache)
             Actions.storeValue(result, storage, varName, cache)
-            Actions.callNextAction(cache)
+            return Actions.callNextAction(cache)
           }
         }).catch(console.error)
         break
