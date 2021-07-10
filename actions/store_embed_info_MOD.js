@@ -1,6 +1,6 @@
 module.exports = {
 	// ---------------------------------------------------------------------
-    // Action Name
+	// Action Name
 	//
 	// This is the name of the action displayed in the editor.
 	// ---------------------------------------------------------------------
