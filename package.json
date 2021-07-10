@@ -1,18 +1,18 @@
 {
+  "$schema": "https://json.schemastore.org/package",
   "name": "mods",
   "repository": "https://github.com/dbm-network/mods",
   "private": true,
   "license": "MIT",
   "scripts": {
-    "lint": "eslint actions events extensions",
-    "lint:fix": "eslint actions events extensions --fix"
+    "lint": "eslint --cache actions events extensions",
+    "lint:fix": "eslint --fix actions events extensions"
   },
   "devDependencies": {
-    "eslint": "^6.8.0",
-    "eslint-config-standard": "^14.1.1",
-    "eslint-plugin-import": "^2.22.0",
+    "eslint": "^7.30.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1"
+    "eslint-plugin-promise": "^5.1.0"
   }
 }
