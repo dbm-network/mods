@@ -26,9 +26,8 @@ module.exports = {
 
   variableStorage(data, varType) {
     if (parseInt(data.storage, 10) !== varType) return;
-    const info = parseInt(data.info, 10);
     let dataType = 'Unknown Type';
-    switch (info) {
+    switch (parseInt(data.info, 10)) {
       case 0:
         dataType = 'User';
         break;

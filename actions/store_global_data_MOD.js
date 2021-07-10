@@ -8,14 +8,13 @@ module.exports = {
   },
 
   variableStorage(data, varType) {
-    const type = parseInt(data.storage, 10);
-    if (type !== varType) return;
+    if (parseInt(data.storage, 10) !== varType) return;
     return [data.varName, 'Unknown Type'];
   },
 
   fields: ['dataName', 'defaultVal', 'storage', 'varName'],
 
-  html(isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div style="padding-top: 8px;">
   <div style="float: left; width: 40%;">

@@ -9,14 +9,13 @@ module.exports = {
   },
 
   variableStorage(data, varType) {
-    const type = parseInt(data.storage3, 10);
-    if (type !== varType) return;
+    if (parseInt(data.storage3, 10) !== varType) return;
     return [data.varName3, 'Array of Permissions'];
   },
 
   fields: ['storage', 'varName', 'storage2', 'varName2', 'storage3', 'varName3'],
 
-  html(isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div>
   <div style="float: left; width: 35%;">

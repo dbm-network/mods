@@ -33,7 +33,7 @@ module.exports = {
     'varName',
   ],
 
-  html(isEvent, data) {
+  html(_isEvent, data) {
     data.conditions[0] = data.conditions[0]
       .replace(/If True/g, 'If Cooldown is Active')
       .replace(/If False/g, 'If Cooldown is Not Active');

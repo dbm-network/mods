@@ -76,8 +76,7 @@ module.exports = {
   },
 
   variableStorage(data, varType) {
-    const type = parseInt(data.storage, 10);
-    if (type !== varType) return;
+    if (parseInt(data.storage, 10) !== varType) return;
     const info1 = parseInt(data.info1, 10);
     const info2 = parseInt(data.info2, 10);
     const info3 = parseInt(data.info3, 10);
@@ -273,7 +272,7 @@ module.exports = {
     'varName2',
   ],
 
-  html(isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
   <div style="width: 95%; padding-top: 8px;">

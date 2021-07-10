@@ -139,10 +139,8 @@ module.exports = {
   },
 
   variableStorage(data, varType) {
-    const type = parseInt(data.storage, 10);
-    if (type !== varType) return;
-    const dataType = itemList[parseInt(data.info, 10)].type || 'Unknown Type';
-    return [data.varName, dataType];
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName, itemList[parseInt(data.info, 10)].type || 'Unknown Type'];
   },
 
   init() {

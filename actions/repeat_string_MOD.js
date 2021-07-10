@@ -7,14 +7,13 @@ module.exports = {
   },
 
   variableStorage(data, varType) {
-    const type = parseInt(data.storage, 10);
-    if (type !== varType) return;
-    return [data.varName, 'Text'];
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName, 'String'];
   },
 
   fields: ['storage', 'varName', 'girdi', 'xtimes'],
 
-  html(isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div>
   <div>

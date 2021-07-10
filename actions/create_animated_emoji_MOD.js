@@ -13,7 +13,7 @@ module.exports = {
 
   fields: ['emojiName', 'storage', 'varName', 'storage2', 'varName2'],
 
-  html(isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div style="width: 90%;">
   Animated Emoji Name:<br>

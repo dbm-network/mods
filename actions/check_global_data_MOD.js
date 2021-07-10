@@ -15,7 +15,7 @@ module.exports = {
 
   fields: ['dataName', 'comparison', 'value', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal', 'Jump to Anchor'],
 
-  html(isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div style="padding-top: 8px;">
   <div style="float: left; width: 50%;">

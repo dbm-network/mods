@@ -13,7 +13,8 @@ module.exports = {
   },
 
   fields: ['WhichAPI', 'inputVarType', 'inputVarName', 'APIuser', 'APIkey', 'storage', 'varName2'],
-  html(isEvent, data) {
+
+  html(_isEvent, data) {
     return `
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
 <div>

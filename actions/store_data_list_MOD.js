@@ -10,11 +10,9 @@ module.exports = {
   },
 
   variableStorage(data, varType) {
-    const type = parseInt(data.storage, 10);
-    if (type !== varType) return;
-    const resultInfo = parseInt(data.resultInfo, 10);
+    if (parseInt(data.storage, 10) !== varType) return;
     let dataType = 'Unknown Type';
-    switch (resultInfo) {
+    switch (parseInt(data.resultInfo, 10)) {
       case 0:
         dataType = 'List';
         break;
@@ -41,7 +39,7 @@ module.exports = {
     'storage',
   ],
 
-  html(isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div style="width: 550px; height: 350px; overflow-y: scroll;">
   <div>

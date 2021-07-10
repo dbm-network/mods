@@ -9,9 +9,8 @@ module.exports = {
   },
 
   variableStorage(data, varType) {
-    const type = parseInt(data.storage, 10);
     const op1 = ['Member', 'User'];
-    if (type !== varType) return;
+    if (parseInt(data.storage, 10) !== varType) return;
     return [data.varName, `Server ${op1[parseInt(data.find2, 10)]}`];
   },
 

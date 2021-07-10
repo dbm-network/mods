@@ -32,15 +32,13 @@ module.exports = {
   },
 
   variableStorage(data, varType) {
-    const type = parseInt(data.storage, 10);
-    if (type !== varType) return;
-    const dataType = 'Number';
-    return [data.varName, dataType];
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName, 'Number'];
   },
 
   fields: ['FirstNumber', 'info', 'SecondNumber', 'storage', 'varName'],
 
-  html(isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div id="FirstNum" style="width: 90%;">
   First Number:<br>

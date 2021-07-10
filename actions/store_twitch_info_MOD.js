@@ -136,9 +136,8 @@ module.exports = {
   },
 
   variableStorage(data, varType) {
-    const type = parseInt(data.storage, 10);
     const sourceType = parseInt(data.type, 10); // "Channel", "Stream", "Video" or "Game"
-    if (type !== varType) return;
+    if (parseInt(data.storage, 10) !== varType) return;
     let dataType = 'Unknown Type';
 
     if (sourceType === 0) {

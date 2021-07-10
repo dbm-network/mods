@@ -9,7 +9,7 @@ module.exports = {
 
   fields: ['dataName'],
 
-  html(isEvent, data) {
+  html() {
     return `
 <div style="padding-top: 8px;">
   <div style="float: left; width: 80%;">

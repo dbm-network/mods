@@ -8,7 +8,7 @@ module.exports = {
 
   fields: ['storage', 'varName', 'storage2', 'varName2'],
 
-  html(isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div style="padding-top: 8px;">
   <div style="float: left; width: 35%;">

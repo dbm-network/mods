@@ -20,12 +20,9 @@ module.exports = {
   },
 
   variableStorage(data, varType) {
-    const type = parseInt(data.storage, 10);
-    if (type !== varType) return;
-    const info = parseInt(data.info, 10);
+    if (parseInt(data.storage, 10) !== varType) return;
     let dataType = 'Unknown Weather Type';
-
-    switch (info) {
+    switch (parseInt(data.info, 10)) {
       case 0:
         dataType = 'Temperature';
         break;

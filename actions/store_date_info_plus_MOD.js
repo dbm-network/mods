@@ -25,15 +25,13 @@ module.exports = {
   },
 
   variableStorage(data, varType) {
-    const type = parseInt(data.storage, 10);
-    if (type !== varType) return;
-    const dataType = 'Date';
-    return [data.varName, dataType];
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName, 'Date'];
   },
 
   fields: ['sourceDate', 'dateLanguage', 'modeStorage', 'info', 'buildInput', 'storage', 'varName'],
 
-  html(isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div style="float: left; width: 62%">
   Source Date:<br>

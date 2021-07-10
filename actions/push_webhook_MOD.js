@@ -8,7 +8,7 @@ module.exports = {
 
   fields: ['webhook', 'varName', 'message'],
 
-  html(isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div>
   <div style="float: left; width: 35%;">

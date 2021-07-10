@@ -36,7 +36,8 @@ module.exports = {
     }
     return [data.varName, dataType];
   },
-  html(isEvent, data) {
+
+  html(_isEvent, data) {
     return `
 File path (example: <strong>./bot.js</strong>):
 <input class='round' id='filePath' /><br>

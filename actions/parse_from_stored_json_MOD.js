@@ -7,17 +7,14 @@ module.exports = {
   },
 
   variableStorage(data, varType) {
-    const type = parseInt(data.storage, 10);
-    if (type !== varType) return;
-
+    if (parseInt(data.storage, 10) !== varType) return;
     if (varType === 'object') return [data.varName, 'JSON Object'];
-
     return [data.varName, `JSON ${varType} Value`];
   },
 
   fields: ['behavior', 'varStorage', 'jsonObjectVarName', 'path', 'storage', 'varName'],
 
-  html(isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div style="margin: 0; overflow-y: none;">
     <div>

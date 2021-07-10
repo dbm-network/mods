@@ -7,15 +7,13 @@ module.exports = {
   },
 
   variableStorage(data, varType) {
-    const type = parseInt(data.storage, 10);
-    if (type !== varType) return;
-    const dataType = 'Revised Result';
-    return [data.varName2, dataType];
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName2, 'Revised Result'];
   },
 
   fields: ['reviser', 'storage', 'varName2'],
 
-  html(isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div>
   <div style="width: 70%;">

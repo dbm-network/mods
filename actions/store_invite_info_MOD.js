@@ -20,11 +20,9 @@ module.exports = {
   },
 
   variableStorage(data, varType) {
-    const type = parseInt(data.storage, 10);
-    if (type !== varType) return;
-    const info = parseInt(data.info, 10);
+    if (parseInt(data.storage, 10) !== varType) return;
     let dataType = 'Unknown Type';
-    switch (info) {
+    switch (parseInt(data.info, 10)) {
       case 0:
         dataType = 'Object';
         break;
@@ -66,7 +64,7 @@ module.exports = {
 
   fields: ['invite', 'info', 'storage', 'varName'],
 
-  html(isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div style="padding-top: 8px;">
   Source Invite:<br>

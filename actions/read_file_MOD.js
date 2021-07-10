@@ -7,15 +7,13 @@ module.exports = {
   },
 
   variableStorage(data, varType) {
-    const type = parseInt(data.storage, 10);
-    if (type !== varType) return;
-    const dataType = 'File';
-    return [data.varName2, dataType];
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName2, 'File'];
   },
 
   fields: ['filename', 'storage', 'varName2'],
 
-  html(isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div>
   <div style="float: left; width: 60%">

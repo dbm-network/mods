@@ -7,15 +7,13 @@ module.exports = {
   },
 
   variableStorage(data, varType) {
-    const type = parseInt(data.storage, 10);
-    if (type !== varType) return;
-    const dataType = 'Audio URL';
-    return [data.varName, dataType];
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName, 'Audio URL'];
   },
 
   fields: ['text', 'lang', 'storage', 'varName'],
 
-  html(isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div>
   <p>This action can not deal with texts which are over than 200 characters.</p>

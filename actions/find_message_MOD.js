@@ -16,8 +16,7 @@ module.exports = {
   },
 
   variableStorage(data, varType) {
-    const type = parseInt(data.storage, 10);
-    if (type !== varType) return;
+    if (parseInt(data.storage, 10) !== varType) return;
     return [data.varName2, 'Message'];
   },
 

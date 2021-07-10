@@ -54,8 +54,7 @@ module.exports = {
   },
 
   variableStorage(data, varType) {
-    const type = parseInt(data.storage, 10);
-    if (type !== varType) return;
+    if (parseInt(data.storage, 10) !== varType) return;
     let dataType = 'Unknown Type';
     switch (parseInt(data.type, 10)) {
       case 0: // Video
@@ -132,7 +131,7 @@ module.exports = {
 
   fields: ['type', 'input', 'info0', 'info1', 'apikey', 'results', 'storage', 'varName'],
 
-  html(isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
   <div style="float: left; width: 30%; padding-top: 8px;">

@@ -17,11 +17,9 @@ module.exports = {
   },
 
   variableStorage(data, varType) {
-    const type = parseInt(data.storage, 10);
-    if (type !== varType) return;
-    const info = parseInt(data.info, 10);
+    if (parseInt(data.storage, 10) !== varType) return;
     let dataType = 'Unknown Urban Dictionary Result';
-    switch (info) {
+    switch (parseInt(data.info, 10)) {
       case 0:
         dataType = 'U.D. Definition';
         break;
@@ -49,7 +47,7 @@ module.exports = {
 
   fields: ['string', 'info', 'storage', 'varName'],
 
-  html(isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div style="width: 550px; height: 350px; overflow-y: scroll;">
   <div style="width: 100%; padding-top: 8px;">

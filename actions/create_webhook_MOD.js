@@ -7,14 +7,13 @@ module.exports = {
   },
 
   variableStorage(data, varType) {
-    const type = parseInt(data.storage2, 10);
-    if (type !== varType) return;
+    if (parseInt(data.storage2, 10) !== varType) return;
     return [data.varName2, 'Webhook'];
   },
 
   fields: ['webhookName', 'webhookIcon', 'storage', 'varName', 'storage2', 'varName2'],
 
-  html(isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div style="width: 90%;">
   Webhook Name:<br>

@@ -58,11 +58,9 @@ module.exports = {
   },
 
   variableStorage(data, varType) {
-    const type = parseInt(data.storage, 10);
-    if (type !== varType) return;
-    const info = parseInt(data.info, 10);
+    if (parseInt(data.storage, 10) !== varType) return;
     let dataType = 'Unknown Type';
-    switch (info) {
+    switch (parseInt(data.info, 10)) {
       case 0: // Uptime in Milliseconds
       case 22: // Uptime in Hours
       case 27: // Memory (RAM) Usage in MB
@@ -149,7 +147,7 @@ module.exports = {
 
   fields: ['info', 'storage', 'varName2'],
 
-  html(isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div style="float: left; width: 80%; padding-top: 8px;">
   Source Info:<br>

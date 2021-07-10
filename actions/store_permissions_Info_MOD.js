@@ -17,14 +17,12 @@ module.exports = {
   },
 
   variableStorage(data, varType) {
-    const info = parseInt(data.info, 10);
-    const type = parseInt(data.storage2, 10);
-    if (type !== varType) return;
+    if (parseInt(data.storage2, 10) !== varType) return;
     let dataType;
-    switch (info) {
+    switch (parseInt(data.info, 10)) {
       case 0:
       case 2:
-        dataType = 'Permissions Bitfields';
+        dataType = 'Permission Bitfield';
         break;
       case 1:
       case 3:

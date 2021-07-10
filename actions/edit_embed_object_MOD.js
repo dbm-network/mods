@@ -8,8 +8,7 @@ module.exports = {
   },
 
   variableStorage(data, varType) {
-    const type = parseInt(data.storage, 10);
-    if (type !== varType) return;
+    if (parseInt(data.storage, 10) !== varType) return;
     return [data.varName, 'Embed Object'];
   },
 
@@ -49,7 +48,7 @@ module.exports = {
     'fieldInline',
   ],
 
-  html(isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div style="width: 550px; height: 350px; overflow-y: scroll;">
   <div style="padding-top: 8px;">

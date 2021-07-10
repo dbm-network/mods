@@ -8,11 +8,9 @@ module.exports = {
   },
 
   variableStorage(data, varType) {
-    const type = parseInt(data.storage, 10);
-    if (type !== varType) return;
-    const info = parseInt(data.info, 10);
+    if (parseInt(data.storage, 10) !== varType) return;
     let dataType = 'Unknown Google Type';
-    switch (info) {
+    switch (parseInt(data.info, 10)) {
       case 0:
         dataType = 'Google Result Title';
         break;
@@ -28,7 +26,7 @@ module.exports = {
 
   fields: ['string', 'apikey', 'clientid', 'info', 'resultNo', 'storage', 'varName'],
 
-  html(isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div style="height: 350px; width: 550px; overflow-y: scroll;">
   <div style="width: 95%; padding-top: 2px;">

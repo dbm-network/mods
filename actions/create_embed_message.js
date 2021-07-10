@@ -37,7 +37,7 @@ module.exports = {
     'varName',
   ],
 
-  html(isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
 <div>

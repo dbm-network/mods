@@ -22,7 +22,7 @@ module.exports = {
 
   fields: ['info', 'storage', 'varName2'],
 
-  html(isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div style="float: left; width: 80%; padding-top: 8px;">
   Source Info:<br>

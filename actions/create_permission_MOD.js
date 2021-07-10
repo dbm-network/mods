@@ -74,7 +74,7 @@ module.exports = {
     'MANAGE_EMOJIS',
   ],
 
-  html(isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div style="width: 550px; height: 350px; overflow-y: scroll;">
   <div style="padding-top: 8px;">

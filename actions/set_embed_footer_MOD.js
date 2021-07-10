@@ -8,7 +8,7 @@ module.exports = {
 
   fields: ['storage', 'varName', 'message', 'footerIcon'],
 
-  html(isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div>
   <div style="float: left; width: 35%;">

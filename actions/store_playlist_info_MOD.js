@@ -13,7 +13,7 @@ module.exports = {
 
   fields: ['query', 'info', 'storage', 'varName'],
 
-  html(isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div style="width: 90%;">
   Playlist URL:<br>

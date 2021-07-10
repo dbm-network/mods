@@ -13,22 +13,19 @@ module.exports = {
   },
 
   variableStorage(data, varType) {
-    const type = parseInt(data.storage, 10);
-    if (type !== varType) return;
-    let dataType;
+    if (parseInt(data.storage, 10) !== varType) return;
+    let dataType = 'Unknown Data Type';
     if (data.info === 'downloadspeed') {
       dataType = 'Download Speed';
     } else if (data.info === 'uploadspeed') {
       dataType = 'Upload Speed';
-    } else {
-      dataType = 'Unknown Data Type';
     }
     return [data.varName, dataType];
   },
 
   fields: ['info', 'type', 'storage', 'varName'],
 
-  html(isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div style="float: left; width: 50%; padding-top: 8px;">
   Speed:<br>

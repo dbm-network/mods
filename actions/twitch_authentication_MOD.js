@@ -10,8 +10,7 @@ module.exports = {
   },
 
   variableStorage(data, varType) {
-    const type = parseInt(data.storage, 10);
-    if (type !== varType) return;
+    if (parseInt(data.storage, 10) !== varType) return;
     let dataType;
     switch (parseInt(data.info, 10)) {
       case 0:
@@ -22,8 +21,6 @@ module.exports = {
         break;
       case 2:
         dataType = 'Authentication Object';
-        break;
-      default:
         break;
     }
     return [data.varName, dataType];

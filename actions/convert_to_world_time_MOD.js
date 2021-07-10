@@ -13,7 +13,7 @@ module.exports = {
 
   fields: ['textbox', 'info', 'storage', 'varName'],
 
-  html(isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div>
   <div style="width: 90%;">

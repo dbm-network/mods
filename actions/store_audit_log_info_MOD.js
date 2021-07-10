@@ -24,11 +24,9 @@ module.exports = {
   },
 
   variableStorage(data, varType) {
-    const type = parseInt(data.storage2, 10);
-    if (type !== varType) return;
-    const info = parseInt(data.info, 10);
+    if (parseInt(data.storage2, 10) !== varType) return;
     let dataType = 'Unknown Type';
-    switch (info) {
+    switch (parseInt(data.info, 10)) {
       case 0:
       case 6:
       case 7:
@@ -60,7 +58,7 @@ module.exports = {
 
   fields: ['storage', 'varName', 'info', 'position', 'storage2', 'varName2'],
 
-  html(isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div>
   <div style="float: left; width: 35%;">

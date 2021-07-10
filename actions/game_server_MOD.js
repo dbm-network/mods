@@ -17,11 +17,9 @@ module.exports = {
   },
 
   variableStorage(data, varType) {
-    const type = parseInt(data.storage, 10);
-    if (type !== varType) return;
-    const info = parseInt(data.info, 10);
+    if (parseInt(data.storage, 10) !== varType) return;
     let dataType = 'Unknown Type';
-    switch (info) {
+    switch (parseInt(data.info, 10)) {
       case 0:
         dataType = 'Server Name';
         break;
@@ -46,7 +44,7 @@ module.exports = {
 
   fields: ['serverip', 'serverport', 'game', 'info', 'storage', 'varName'],
 
-  html(isEvent, data) {
+  html(_isEvent, data) {
     return `
   <div style="width: 550px; height: 350px; overflow-y: scroll;">
   <div>

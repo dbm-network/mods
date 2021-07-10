@@ -26,11 +26,9 @@ module.exports = {
   },
 
   variableStorage(data, varType) {
-    const type = parseInt(data.storage, 10);
-    if (type !== varType) return;
+    if (parseInt(data.storage, 10) !== varType) return;
     let dataType = 'A Discord Boats Stat';
-    const info = parseInt(data.info, 10);
-    switch (info) {
+    switch (parseInt(data.info, 10)) {
       case 0:
         dataType = 'Bot ID';
         break;

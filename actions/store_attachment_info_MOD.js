@@ -16,13 +16,11 @@ module.exports = {
   },
 
   variableStorage(data, varType) {
-    const type = parseInt(data.storage2, 10);
-    if (type !== varType) return;
-
-    const info = parseInt(data.info, 10);
-    const dataType = ['URL', 'File Name', 'Number', null, 'File Size'][info] || 'Message Attachment (Unknown) Info';
-
-    return [data.varName2, dataType];
+    if (parseInt(data.storage2, 10) !== varType) return;
+    return [
+      data.varName2,
+      ['URL', 'File Name', 'Number', null, 'File Size'][parseInt(data.info, 10)] || 'Message Attachment (Unknown) Info',
+    ];
   },
 
   html(isEvent, data) {

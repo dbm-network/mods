@@ -10,7 +10,7 @@ module.exports = {
 
   fields: ['webhook', 'varName'],
 
-  html(isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div style="float: left; width: 35%;">
   Source Webhook:<br>

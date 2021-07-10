@@ -30,11 +30,9 @@ module.exports = {
   },
 
   variableStorage(data, varType) {
-    const type = parseInt(data.storage, 10);
-    if (type !== varType) return;
+    if (parseInt(data.storage, 10) !== varType) return;
     let dataType = 'A DBL Stat';
-    const info = parseInt(data.info, 10);
-    switch (info) {
+    switch (parseInt(data.info, 10)) {
       case 0:
         dataType = 'Invite URL';
         break;
@@ -105,7 +103,7 @@ module.exports = {
   },
   fields: ['botID', 'token', 'info', 'storage', 'varName'],
 
-  html(isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div id="modinfo">
   <div style="float: left; width: 99%; padding-top: 8px;">
