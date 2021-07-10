@@ -552,7 +552,7 @@ module.exports = {
     Dashboard.randomString = function () {
       let string = ''
       const randomChar = 'abcdefghijklmnopqrstuvwxyz0123456789'
-      for (var i = 0; i < 50; i++) {
+      for (let i = 0; i < 50; i++) {
         string += randomChar.charAt(
           Math.floor(Math.random() * randomChar.length)
         )

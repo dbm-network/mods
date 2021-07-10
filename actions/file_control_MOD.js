@@ -193,7 +193,7 @@ module.exports = {
     const targetfield = document.getElementById('inputArea')
     const targetfield2 = document.getElementById('lineInsert')
     const targetField3 = document.getElementById('newPath')
-    var val1 = document.getElementById('togglestatus').value
+    const val1 = document.getElementById('togglestatus').value
     if (val1 === 'yes') document.getElementById('togglestatus').checked = true
 
     selector.onclick = () => showInput()
