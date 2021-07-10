@@ -1,8 +1,9 @@
-* text=auto eol=crlf
+* text=auto eol=lf
 
 /.github export-ignore
 /docs export-ignore
 .editorconfig export-ignore
 .eslintrc.yml export-ignore
 .gitignore export-ignore
+package-lock.json export-ignore
 package.json export-ignore
