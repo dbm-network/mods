@@ -2,19 +2,19 @@ module.exports = {
   name: 'Find Invite',
   section: 'Invite Control',
 
-  subtitle (data) {
-    return `${data.invite}`
+  subtitle(data) {
+    return `${data.invite}`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    return ([data.varName, 'Invite'])
+  variableStorage(data, varType) {
+    const type = parseInt(data.storage, 10);
+    if (type !== varType) return;
+    return [data.varName, 'Invite'];
   },
 
   fields: ['invite', 'storage', 'varName'],
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
 <div>
   <div style="padding-top: 8px;">
@@ -33,25 +33,26 @@ module.exports = {
     Variable Name:<br>
     <input id="varName" class="round" type="text">
   </div>
-</div>`
+</div>`;
   },
 
-  init () {},
+  init() {},
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const invite = this.evalMessage(data.invite, cache)
-    const client = this.getDBM().Bot.bot
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const invite = this.evalMessage(data.invite, cache);
+    const client = this.getDBM().Bot.bot;
 
-    client.fetchInvite(invite)
+    client
+      .fetchInvite(invite)
       .then((invite) => {
-        const storage = parseInt(data.storage)
-        const varName = this.evalMessage(data.varName, cache)
-        this.storeValue(invite, storage, varName, cache)
-        this.callNextAction(cache)
+        const storage = parseInt(data.storage, 10);
+        const varName = this.evalMessage(data.varName, cache);
+        this.storeValue(invite, storage, varName, cache);
+        this.callNextAction(cache);
       })
-      .catch(console.error)
+      .catch(console.error);
   },
 
-  mod () {}
-}
+  mod() {},
+};

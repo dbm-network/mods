@@ -2,14 +2,14 @@ module.exports = {
   name: 'Canvas Crop Image',
   section: 'Image Editing',
 
-  subtitle (data) {
-    const storeTypes = ['', 'Temp Variable', 'Server Variable', 'Global Variable']
-    return `${storeTypes[parseInt(data.storage)]} (${data.varName})`
+  subtitle(data) {
+    const storeTypes = ['', 'Temp Variable', 'Server Variable', 'Global Variable'];
+    return `${storeTypes[parseInt(data.storage, 10)]} (${data.varName})`;
   },
 
   fields: ['storage', 'varName', 'align', 'align2', 'width', 'height', 'positionx', 'positiony'],
 
-  html (isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div>
   <div style="float: left; width: 45%;">
@@ -72,144 +72,149 @@ module.exports = {
     Position Y:<br>
     <input id="positiony" class="round" type="text" value="0"><br>
   </div>
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
+  init() {
+    const { glob, document } = this;
 
-    const position = document.getElementById('position')
-    const specific = document.getElementById('specific')
+    const position = document.getElementById('position');
+    const specific = document.getElementById('specific');
 
-    glob.onChange0 = function (event) {
-      if (parseInt(event.value) === 9) {
-        position.style.display = null
-        specific.style.display = null
+    glob.onChange0 = function onChange0(event) {
+      if (parseInt(event.value, 10) === 9) {
+        position.style.display = null;
+        specific.style.display = null;
       } else {
-        position.style.display = 'none'
-        specific.style.display = 'none'
+        position.style.display = 'none';
+        specific.style.display = 'none';
       }
-    }
+    };
 
-    glob.refreshVariableList(document.getElementById('storage'))
-    glob.onChange0(document.getElementById('align'))
+    glob.refreshVariableList(document.getElementById('storage'));
+    glob.onChange0(document.getElementById('align'));
   },
 
-  action (cache) {
-    const Canvas = require('canvas')
-    const data = cache.actions[cache.index]
-    const storage = parseInt(data.storage)
-    const varName = this.evalMessage(data.varName, cache)
-    const imagedata = this.getVariable(storage, varName, cache)
+  action(cache) {
+    const Canvas = require('canvas');
+    const data = cache.actions[cache.index];
+    const storage = parseInt(data.storage, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    const imagedata = this.getVariable(storage, varName, cache);
     if (!imagedata) {
-      this.callNextAction(cache)
-      return
+      this.callNextAction(cache);
+      return;
     }
-    const image = new Canvas.Image()
-    image.src = imagedata
-    let cropw = this.evalMessage(data.width, cache)
-    let croph = this.evalMessage(data.height, cache)
+    const image = new Canvas.Image();
+    image.src = imagedata;
+    let cropw = this.evalMessage(data.width, cache);
+    let croph = this.evalMessage(data.height, cache);
     if (cropw.endsWith('%')) {
-      cropw = image.width * parseFloat(cropw) / 100
+      cropw = (image.width * parseFloat(cropw)) / 100;
     } else {
-      cropw = parseFloat(cropw)
+      cropw = parseFloat(cropw);
     }
     if (croph.endsWith('%')) {
-      croph = image.height * parseFloat(croph) / 100
+      croph = (image.height * parseFloat(croph)) / 100;
     } else {
-      croph = parseFloat(croph)
+      croph = parseFloat(croph);
     }
-    const align = parseInt(data.align)
-    let positionx
-    let positiony
+    const align = parseInt(data.align, 10);
+    let positionx;
+    let positiony;
     switch (align) {
       case 0:
-        positionx = 0
-        positiony = 0
-        break
+        positionx = 0;
+        positiony = 0;
+        break;
       case 1:
-        positionx = (cropw / 2) - (image.width / 2)
-        positiony = 0
-        break
+        positionx = cropw / 2 - image.width / 2;
+        positiony = 0;
+        break;
       case 2:
-        positionx = cropw - image.width
-        positiony = 0
-        break
+        positionx = cropw - image.width;
+        positiony = 0;
+        break;
       case 3:
-        positionx = 0
-        positiony = (croph / 2) - (image.height / 2)
-        break
+        positionx = 0;
+        positiony = croph / 2 - image.height / 2;
+        break;
       case 4:
-        positionx = (cropw / 2) - (image.width / 2)
-        positiony = (croph / 2) - (image.height / 2)
-        break
+        positionx = cropw / 2 - image.width / 2;
+        positiony = croph / 2 - image.height / 2;
+        break;
       case 5:
-        positionx = cropw - image.width
-        positiony = (croph / 2) - (image.height / 2)
-        break
+        positionx = cropw - image.width;
+        positiony = croph / 2 - image.height / 2;
+        break;
       case 6:
-        positionx = 0
-        positiony = croph - image.height
-        break
+        positionx = 0;
+        positiony = croph - image.height;
+        break;
       case 7:
-        positionx = (cropw / 2) - (image.width / 2)
-        positiony = croph - image.height
-        break
+        positionx = cropw / 2 - image.width / 2;
+        positiony = croph - image.height;
+        break;
       case 8:
-        positionx = cropw - image.width
-        positiony = croph - image.height
-        break
-      case 9:
-        const align2 = parseInt(data.align2)
-        const pX = parseFloat(this.evalMessage(data.positionx, cache))
-        const pY = parseFloat(this.evalMessage(data.positiony, cache))
+        positionx = cropw - image.width;
+        positiony = croph - image.height;
+        break;
+      case 9: {
+        const align2 = parseInt(data.align2, 10);
+        const pX = parseFloat(this.evalMessage(data.positionx, cache));
+        const pY = parseFloat(this.evalMessage(data.positiony, cache));
         switch (align2) {
           case 0:
-            positionx = -pX
-            positiony = -pY
-            break
+            positionx = -pX;
+            positiony = -pY;
+            break;
           case 1:
-            positionx = -(pX - (cropw / 2))
-            positiony = -pY
-            break
+            positionx = -(pX - cropw / 2);
+            positiony = -pY;
+            break;
           case 2:
-            positionx = -(pX - cropw)
-            positiony = -pY
-            break
+            positionx = -(pX - cropw);
+            positiony = -pY;
+            break;
           case 3:
-            positionx = -pX
-            positiony = -(pY - (croph / 2))
-            break
+            positionx = -pX;
+            positiony = -(pY - croph / 2);
+            break;
           case 4:
-            positionx = -(pX - (cropw / 2))
-            positiony = -(pY - (croph / 2))
-            break
+            positionx = -(pX - cropw / 2);
+            positiony = -(pY - croph / 2);
+            break;
           case 5:
-            positionx = -(pX - cropw)
-            positiony = -(pY - (croph / 2))
-            break
+            positionx = -(pX - cropw);
+            positiony = -(pY - croph / 2);
+            break;
           case 6:
-            positionx = -pX
-            positiony = -(pY - croph)
-            break
+            positionx = -pX;
+            positiony = -(pY - croph);
+            break;
           case 7:
-            positionx = -(pX - (cropw / 2))
-            positiony = -(pY - croph)
-            break
+            positionx = -(pX - cropw / 2);
+            positiony = -(pY - croph);
+            break;
           case 8:
-            positionx = -(pX - cropw)
-            positiony = -(pY - croph)
-            break
+            positionx = -(pX - cropw);
+            positiony = -(pY - croph);
+            break;
+          default:
+            break;
         }
-        break
+        break;
+      }
+      default:
+        break;
     }
-    const canvas = Canvas.createCanvas(cropw, croph)
-    const ctx = canvas.getContext('2d')
-    ctx.drawImage(image, positionx, positiony)
-    const result = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream')
-    this.storeValue(result, storage, varName, cache)
-    this.callNextAction(cache)
+    const canvas = Canvas.createCanvas(cropw, croph);
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(image, positionx, positiony);
+    const result = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
+    this.storeValue(result, storage, varName, cache);
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

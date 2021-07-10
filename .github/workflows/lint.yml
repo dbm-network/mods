@@ -10,9 +10,9 @@ on:
     branches:
       - master
     paths:
-      - "actions"
-      - "events"
-      - "extensions"
+      - 'actions'
+      - 'events'
+      - 'extensions'
 
 jobs:
   lint:
@@ -25,7 +25,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
-          cache: "npm"
+          cache: 'npm'
           node-version: 12
 
       - name: Install dependencies

@@ -2,15 +2,15 @@ module.exports = {
   name: 'Un-Pin Message',
   section: 'Messaging',
 
-  subtitle (data) {
-    const names = ['Command Message', 'Temp Variable', 'Server Variable', 'Global Variable']
-    const index = parseInt(data.storage)
-    return data.storage === '0' ? `Un-Pin ${names[index]}` : `Un-Pin ${names[index]} (${data.varName})`
+  subtitle(data) {
+    const names = ['Command Message', 'Temp Variable', 'Server Variable', 'Global Variable'];
+    const index = parseInt(data.storage, 10);
+    return data.storage === '0' ? `Un-Pin ${names[index]}` : `Un-Pin ${names[index]} (${data.varName})`;
   },
 
   fields: ['storage', 'varName'],
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
 <div>
   <div style="float: left; width: 35%;">
@@ -23,32 +23,32 @@ module.exports = {
     Variable Name:<br>
     <input id="varName" class="round" type="text" list="variableList"><br>
   </div>
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
-    glob.messageChange(document.getElementById('storage'), 'varNameContainer')
+  init() {
+    const { glob, document } = this;
+    glob.messageChange(document.getElementById('storage'), 'varNameContainer');
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const storage = parseInt(data.storage)
-    const varName = this.evalMessage(data.varName, cache)
-    const message = this.getMessage(storage, varName, cache)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const storage = parseInt(data.storage, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    const message = this.getMessage(storage, varName, cache);
 
     if (Array.isArray(message)) {
-      this.callListFunc(message, 'unpin', [])
-        .then(() => {
-          this.callNextAction(cache)
-        })
+      this.callListFunc(message, 'unpin', []).then(() => {
+        this.callNextAction(cache);
+      });
     } else if (message && message.unpin) {
-      message.unpin()
+      message
+        .unpin()
         .then(() => this.callNextAction(cache))
-        .catch(this.displayError.bind(this, data, cache))
+        .catch(this.displayError.bind(this, data, cache));
     }
-    this.callNextAction(cache)
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

@@ -2,14 +2,16 @@ module.exports = {
   name: 'Set Server Owner',
   section: 'Server Control',
 
-  subtitle (data) {
-    const members = ['Mentioned User', 'Command Author', 'Temp Variable', 'Server Variable', 'Global Variable']
-    return `${members[data.member]} ${data.member < 2 ? '' : `- ${data.varName2}`} ${!data.reason ? '' : `with Reason: <i>${data.reason}<i>`}`
+  subtitle(data) {
+    const members = ['Mentioned User', 'Command Author', 'Temp Variable', 'Server Variable', 'Global Variable'];
+    return `${members[data.member]} ${data.member < 2 ? '' : `- ${data.varName2}`} ${
+      !data.reason ? '' : `with Reason: <i>${data.reason}<i>`
+    }`;
   },
 
   fields: ['server', 'varName', 'member', 'varName2', 'reason'],
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
 <div>
   <div style="float: left; width: 35%;">
@@ -38,41 +40,44 @@ module.exports = {
 <div style="padding-top: 8px;">
   Reason:<br>
   <textarea id="reason" rows="2" placeholder="Insert reason here... (optional)" style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
+  init() {
+    const { glob, document } = this;
 
-    glob.serverChange(document.getElementById('server'), 'varNameContainer')
-    glob.memberChange(document.getElementById('member'), 'varNameContainer2')
+    glob.serverChange(document.getElementById('server'), 'varNameContainer');
+    glob.memberChange(document.getElementById('member'), 'varNameContainer2');
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
+  action(cache) {
+    const data = cache.actions[cache.index];
 
-    const type = parseInt(data.server)
-    const varName = this.evalMessage(data.varName, cache)
-    const server = this.getServer(type, varName, cache)
+    const type = parseInt(data.server, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    const server = this.getServer(type, varName, cache);
 
-    const member = parseInt(data.member)
-    const varName2 = this.evalMessage(data.varName2, cache)
-    const mem = this.getMember(member, varName2, cache)
+    const member = parseInt(data.member, 10);
+    const varName2 = this.evalMessage(data.varName2, cache);
+    const mem = this.getMember(member, varName2, cache);
 
-    const reason = this.evalMessage(data.reason, cache)
+    const reason = this.evalMessage(data.reason, cache);
 
     if (Array.isArray(server)) {
       this.callListFunc(server, 'setOwner', [mem]).then(() => {
-        this.callNextAction(cache)
-      })
+        this.callNextAction(cache);
+      });
     } else if (server && server.setOwner) {
-      server.setOwner(mem, reason).then(() => {
-        this.callNextAction(cache)
-      }).catch(this.displayError.bind(this, data, cache))
+      server
+        .setOwner(mem, reason)
+        .then(() => {
+          this.callNextAction(cache);
+        })
+        .catch(this.displayError.bind(this, data, cache));
     } else {
-      this.callNextAction(cache)
+      this.callNextAction(cache);
     }
   },
 
-  mod () {}
-}
+  mod() {},
+};

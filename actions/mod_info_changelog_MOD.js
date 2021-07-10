@@ -2,13 +2,13 @@ module.exports = {
   name: 'Changelog',
   section: '#Mod Information',
 
-  subtitle () {
-    return 'Does nothing - Click "Edit" for more information'
+  subtitle() {
+    return 'Does nothing - Click "Edit" for more information';
   },
 
   fields: [],
 
-  html () {
+  html() {
     return `
 <div>
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
@@ -331,12 +331,12 @@ module.exports = {
     ● Update discord.js (Check the video)<br>
     ● Bug fixes<br>
     ● https://youtu.be/mrrtj5nlV58
-</div>`
+</div>`;
   },
 
-  init () {},
+  init() {},
 
-  action () {},
+  action() {},
 
-  mod () {}
-}
+  mod() {},
+};

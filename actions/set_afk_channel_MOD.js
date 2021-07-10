@@ -2,14 +2,21 @@ module.exports = {
   name: 'Set AFK Channel',
   section: 'Server Control',
 
-  subtitle (data) {
-    const channels = ["Command Author's Voice Ch.", "Mentioned User's Voice Ch.", 'Default Voice Channel', 'Temp Variable', 'Server Variable', 'Global Variable']
-    return `${channels[parseInt(data.afkchannel)]}`
+  subtitle(data) {
+    const channels = [
+      "Command Author's Voice Ch.",
+      "Mentioned User's Voice Ch.",
+      'Default Voice Channel',
+      'Temp Variable',
+      'Server Variable',
+      'Global Variable',
+    ];
+    return `${channels[parseInt(data.afkchannel, 10)]}`;
   },
 
   fields: ['server', 'varName', 'afkchannel', 'varNameChannel'],
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
 <div>
   <div style="float: left; width: 35%;">
@@ -68,38 +75,41 @@ module.exports = {
   span { /* Only making the text look, nice! */
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   }
-</style>`
+</style>`;
   },
 
-  init () {
-    const { glob, document } = this
+  init() {
+    const { glob, document } = this;
 
-    glob.serverChange(document.getElementById('server'), 'varNameContainer')
-    glob.voiceChannelChange(document.getElementById('afkchannel'), 'varNameContainerr')
+    glob.serverChange(document.getElementById('server'), 'varNameContainer');
+    glob.voiceChannelChange(document.getElementById('afkchannel'), 'varNameContainerr');
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const type = parseInt(data.server)
-    const afkchannel = parseInt(data.afkchannel)
-    const varName2 = this.evalMessage(data.varNameChannel, cache)
-    const varName = this.evalMessage(data.varName, cache)
-    const server = this.getServer(type, varName, cache)
-    const channel = this.getVoiceChannel(afkchannel, varName2, cache)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const type = parseInt(data.server, 10);
+    const afkchannel = parseInt(data.afkchannel, 10);
+    const varName2 = this.evalMessage(data.varNameChannel, cache);
+    const varName = this.evalMessage(data.varName, cache);
+    const server = this.getServer(type, varName, cache);
+    const channel = this.getVoiceChannel(afkchannel, varName2, cache);
 
-    if (!channel) return this.callNextAction(cache)
+    if (!channel) return this.callNextAction(cache);
 
     if (Array.isArray(server)) {
       this.callListFunc(server, 'setAFKChannel', channel).then(() => {
-        this.callNextAction(cache)
-      })
+        this.callNextAction(cache);
+      });
     } else if (server && server.setAFKChannel) {
-      server.setAFKChannel(channel).then(() => {
-        this.callNextAction(cache)
-      }).catch(this.displayError.bind(this, data, cache))
+      server
+        .setAFKChannel(channel)
+        .then(() => {
+          this.callNextAction(cache);
+        })
+        .catch(this.displayError.bind(this, data, cache));
     }
-    this.callNextAction(cache)
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

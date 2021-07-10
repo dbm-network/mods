@@ -2,18 +2,18 @@ module.exports = {
   name: 'Morse Code',
   section: 'Other Stuff',
 
-  subtitle (data) {
-    return 'Convert To Morse Code'
+  subtitle() {
+    return 'Convert To Morse Code';
   },
 
-  variableStorage (data, varType) {
-    if (parseInt(data.storage) !== varType) return
-    return ([data.varName, 'Morse Code'])
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName, 'Morse Code'];
   },
 
   fields: ['input', 'info', 'storage', 'varName'],
 
-  html (isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div style="width: 90%;">
   Text or Morse Code:<br>
@@ -37,34 +37,34 @@ module.exports = {
     Variable Name:<br>
     <input id="varName" class="round" type="text">
   </div>
-</div>`
+</div>`;
   },
 
-  init () {},
+  init() {},
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const Mods = this.getMods()
-    const morsify = Mods.require('morsify')
-    const storage = parseInt(data.storage)
-    const info = parseInt(data.info)
-    const varName = this.evalMessage(data.varName, cache)
-    const input = this.evalMessage(data.input, cache)
-    let result
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const Mods = this.getMods();
+    const morsify = Mods.require('morsify');
+    const storage = parseInt(data.storage, 10);
+    const info = parseInt(data.info, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    const input = this.evalMessage(data.input, cache);
+    let result;
 
     switch (info) {
       case 0:
-        result = morsify.encode(input)
-        break
+        result = morsify.encode(input);
+        break;
       case 1:
-        result = morsify.decode(input)
-        break
+        result = morsify.decode(input);
+        break;
       default:
-        break
+        break;
     }
-    this.storeValue(result, storage, varName, cache)
-    this.callNextAction(cache)
+    this.storeValue(result, storage, varName, cache);
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

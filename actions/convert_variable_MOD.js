@@ -2,20 +2,28 @@ module.exports = {
   name: 'Convert Variable',
   section: 'Variable Things',
 
-  subtitle (data) {
-    const info = ['Number (Parsing Int)', 'Number (Parsing Float)', 'String', 'Uppercased String', 'Lowercased String', 'Number (Int)', 'Number (Float)']
-    return `Conversion Type: ${info[parseInt(data.conversion)]}`
+  subtitle(data) {
+    const info = [
+      'Number (Parsing Int)',
+      'Number (Parsing Float)',
+      'String',
+      'Uppercased String',
+      'Lowercased String',
+      'Number (Int)',
+      'Number (Float)',
+    ];
+    return `Conversion Type: ${info[parseInt(data.conversion, 10)]}`;
   },
 
-  variableStorage (data, varType) {
-    const info2 = ['Number', 'Number', 'String', 'String', 'String', 'Number', 'Number']
-    if (parseInt(data.storage2) !== varType) return
-    return ([data.varName2, info2[parseInt(data.conversion)]])
+  variableStorage(data, varType) {
+    const info2 = ['Number', 'Number', 'String', 'String', 'String', 'Number', 'Number'];
+    if (parseInt(data.storage2, 10) !== varType) return;
+    return [data.varName2, info2[parseInt(data.conversion, 10)]];
   },
 
   fields: ['storage', 'varName', 'conversion', 'storage2', 'varName2'],
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
 <div>
   <div style="float: left; width: 35%;">
@@ -86,57 +94,57 @@ module.exports = {
   span.embed-desc {
     color: rgb(128, 128, 128);
   }
-</style>`
+</style>`;
   },
 
-  init () {
-    const { glob, document } = this
-    glob.refreshVariableList(document.getElementById('storage'))
+  init() {
+    const { glob, document } = this;
+    glob.refreshVariableList(document.getElementById('storage'));
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
+  action(cache) {
+    const data = cache.actions[cache.index];
 
-    const storage = parseInt(data.storage)
-    const varName = this.evalMessage(data.varName, cache)
-    const variable = this.getVariable(storage, varName, cache)
-    const conversion = parseInt(data.conversion)
+    const storage = parseInt(data.storage, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    const variable = this.getVariable(storage, varName, cache);
+    const conversion = parseInt(data.conversion, 10);
 
-    let result
+    let result;
 
     switch (conversion) {
       case 0:
-        result = parseInt(variable)
-        break
+        result = parseInt(variable, 10);
+        break;
       case 1:
-        result = parseFloat(variable)
-        break
+        result = parseFloat(variable);
+        break;
       case 2:
-        result = variable.toString()
-        break
+        result = variable.toString();
+        break;
       case 3:
-        result = variable.toString().toUpperCase()
-        break
+        result = variable.toString().toUpperCase();
+        break;
       case 4:
-        result = variable.toString().toLowerCase()
-        break
+        result = variable.toString().toLowerCase();
+        break;
       case 5:
-        result = parseInt(Number(variable))
-        break
+        result = parseInt(Number(variable), 10);
+        break;
       case 6:
-        result = Number(variable)
-        break
+        result = Number(variable);
+        break;
       default:
-        break
+        break;
     }
 
     if (result !== undefined) {
-      const storage2 = parseInt(data.storage2)
-      const varName2 = this.evalMessage(data.varName2, cache)
-      this.storeValue(result, storage2, varName2, cache)
+      const storage2 = parseInt(data.storage2, 10);
+      const varName2 = this.evalMessage(data.varName2, cache);
+      this.storeValue(result, storage2, varName2, cache);
     }
-    this.callNextAction(cache)
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

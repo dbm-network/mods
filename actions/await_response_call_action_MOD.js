@@ -1,21 +1,34 @@
 /* eslint-disable no-unused-vars */
+
 module.exports = {
   name: 'Await Response Call Action',
   displayName: 'Await Response',
   section: 'Messaging',
-  fields: ['storage', 'varName', 'filter', 'max', 'time', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal', 'storage2', 'varName2'],
+  fields: [
+    'storage',
+    'varName',
+    'filter',
+    'max',
+    'time',
+    'iftrue',
+    'iftrueVal',
+    'iffalse',
+    'iffalseVal',
+    'storage2',
+    'varName2',
+  ],
 
-  subtitle ({ max, time }) {
-    const getPlural = (n) => (n !== '1' ? 's' : '')
-    return `Await ${max} message${getPlural(max)} for ${time} millisecond${getPlural(time)}`
+  subtitle({ max, time }) {
+    const getPlural = (n) => (n !== '1' ? 's' : '');
+    return `Await ${max} message${getPlural(max)} for ${time} millisecond${getPlural(time)}`;
   },
 
-  variableStorage (data, varType) {
-    if (parseInt(data.storage2) !== varType) return
-    return [data.varName2, parseInt(data.max) === 1 ? 'Message' : 'Message List']
+  variableStorage(data, varType) {
+    if (parseInt(data.storage2, 10) !== varType) return;
+    return [data.varName2, parseInt(data.max, 10) === 1 ? 'Message' : 'Message List'];
   },
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
   <div style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
     <div>
@@ -54,7 +67,9 @@ module.exports = {
     <div style="margin-right: 25px">
       <div style="float: left; width: 35%;">
         Source Channel:<br>
-        <select id="storage" class="round" onchange="glob.channelChange(this, 'varNameContainer')">${data.channels[isEvent ? 1 : 0]}</select>
+        <select id="storage" class="round" onchange="glob.channelChange(this, 'varNameContainer')">${
+          data.channels[isEvent ? 1 : 0]
+        }</select>
       </div>
       <div id="varNameContainer" style="display: none; float: right; width: 60%;">
         Variable Name:<br>
@@ -113,7 +128,9 @@ module.exports = {
       <div>
         <div style="float: left; width: 35%;">
           Store Message/List To:<br>
-          <select id="storage2" class="round" onchange="glob.variableChange(this, 'varNameContainer2')">${data.variables[0]}</select>
+          <select id="storage2" class="round" onchange="glob.variableChange(this, 'varNameContainer2')">${
+            data.variables[0]
+          }</select>
         </div>
         <div id="varNameContainer2" style="display: block; float: right; width: 58%; margin-right: 25px;">
           Variable Name:<br>
@@ -136,103 +153,111 @@ module.exports = {
   .clickable:hover {
     text-decoration: underline;
   }
-</style>`
+</style>`;
   },
 
-  init () {
-    const { glob, document } = this
+  init() {
+    const { glob, document } = this;
 
-    glob.channelChange(document.getElementById('storage'), 'varNameContainer')
-    glob.variableChange(document.getElementById('storage2'), 'varNameContainer2')
-    glob.onChangeTrue = function (event) {
-      switch (parseInt(event.value)) {
+    glob.channelChange(document.getElementById('storage'), 'varNameContainer');
+    glob.variableChange(document.getElementById('storage2'), 'varNameContainer2');
+    glob.onChangeTrue = function onChangeTrue(event) {
+      switch (parseInt(event.value, 10)) {
         case 0:
         case 1:
-          document.getElementById('iftrueContainer').style.display = 'none'
-          break
+          document.getElementById('iftrueContainer').style.display = 'none';
+          break;
         case 2:
-          document.getElementById('iftrueName').innerHTML = 'Action Number'
-          document.getElementById('iftrueContainer').style.display = null
-          break
+          document.getElementById('iftrueName').innerHTML = 'Action Number';
+          document.getElementById('iftrueContainer').style.display = null;
+          break;
         case 3:
-          document.getElementById('iftrueName').innerHTML = 'Number of Actions to Skip'
-          document.getElementById('iftrueContainer').style.display = null
-          break
+          document.getElementById('iftrueName').innerHTML = 'Number of Actions to Skip';
+          document.getElementById('iftrueContainer').style.display = null;
+          break;
         case 4:
-          document.getElementById('iftrueName').innerHTML = 'Anchor ID'
-          document.getElementById('iftrueContainer').style.display = null
-          break
+          document.getElementById('iftrueName').innerHTML = 'Anchor ID';
+          document.getElementById('iftrueContainer').style.display = null;
+          break;
+        default:
+          break;
       }
-    }
-    glob.onChangeFalse = function (event) {
-      switch (parseInt(event.value)) {
+    };
+    glob.onChangeFalse = function onChangeFalse(event) {
+      switch (parseInt(event.value, 10)) {
         case 0:
         case 1:
-          document.getElementById('iffalseContainer').style.display = 'none'
-          break
+          document.getElementById('iffalseContainer').style.display = 'none';
+          break;
         case 2:
-          document.getElementById('iffalseName').innerHTML = 'Action Number'
-          document.getElementById('iffalseContainer').style.display = null
-          break
+          document.getElementById('iffalseName').innerHTML = 'Action Number';
+          document.getElementById('iffalseContainer').style.display = null;
+          break;
         case 3:
-          document.getElementById('iffalseName').innerHTML = 'Number of Actions to Skip'
-          document.getElementById('iffalseContainer').style.display = null
-          break
+          document.getElementById('iffalseName').innerHTML = 'Number of Actions to Skip';
+          document.getElementById('iffalseContainer').style.display = null;
+          break;
         case 4:
-          document.getElementById('iffalseName').innerHTML = 'Anchor ID'
-          document.getElementById('iffalseContainer').style.display = null
-          break
+          document.getElementById('iffalseName').innerHTML = 'Anchor ID';
+          document.getElementById('iffalseContainer').style.display = null;
+          break;
+        default:
+          break;
       }
-    }
-    glob.onChangeTrue(document.getElementById('iftrue'))
-    glob.onChangeFalse(document.getElementById('iffalse'))
+    };
+    glob.onChangeTrue(document.getElementById('iftrue'));
+    glob.onChangeFalse(document.getElementById('iffalse'));
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const { Actions } = this.getDBM()
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const { Actions } = this.getDBM();
 
-    const ch = parseInt(data.storage)
-    const varName = this.evalMessage(data.varName, cache)
-    const channel = this.getChannel(ch, varName, cache)
+    const ch = parseInt(data.storage, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    const channel = this.getChannel(ch, varName, cache);
 
-    const storage = parseInt(data.storage2)
-    const varName2 = this.evalMessage(data.varName2, cache)
+    const storage = parseInt(data.storage2, 10);
+    const varName2 = this.evalMessage(data.varName2, cache);
 
     if (channel) {
-      const js = String(this.evalMessage(data.filter, cache))
+      const js = String(this.evalMessage(data.filter, cache));
 
-      const max = parseInt(this.evalMessage(data.max, cache))
-      const time = parseInt(this.evalMessage(data.time, cache))
+      const max = parseInt(this.evalMessage(data.max, cache), 10);
+      const time = parseInt(this.evalMessage(data.time, cache), 10);
 
-      channel.awaitMessages((msg) => {
-        const { msg: message, server } = cache
-        const { author, content } = msg
-        let user
-        let member
-        const tempVars = Actions.getActionVariable.bind(cache.temp)
-        const globalVars = Actions.getActionVariable.bind(Actions.global)
-        let serverVars = null
+      channel
+        .awaitMessages(
+          (msg) => {
+            const { msg: message, server } = cache;
+            const { author, content } = msg;
+            let user;
+            let member;
+            const tempVars = Actions.getActionVariable.bind(cache.temp);
+            const globalVars = Actions.getActionVariable.bind(Actions.global);
+            let serverVars = null;
 
-        if (message) {
-          user = message.author
-          member = message.member
-        }
+            if (message) {
+              user = message.author;
+              member = message.member;
+            }
 
-        if (server) serverVars = Actions.getActionVariable.bind(Actions.server[server.id])
+            if (server) serverVars = Actions.getActionVariable.bind(Actions.server[server.id]);
 
-        try {
-          return !!eval(js)
-        } catch {
-          return false
-        }
-      }, { max, time, errors: ['time'] })
+            try {
+              return Boolean(eval(js));
+            } catch {
+              return false;
+            }
+          },
+          { max, time, errors: ['time'] },
+        )
         .then((c) => {
-          this.storeValue(c.size === 1 ? c.first() : c.array(), storage, varName2, cache)
-          this.executeResults(true, data, cache)
+          this.storeValue(c.size === 1 ? c.first() : c.array(), storage, varName2, cache);
+          this.executeResults(true, data, cache);
         })
-        .catch(() => this.executeResults(false, data, cache))
+        .catch(() => this.executeResults(false, data, cache));
     }
   },
-  mod () {}
-}
+  mod() {},
+};
