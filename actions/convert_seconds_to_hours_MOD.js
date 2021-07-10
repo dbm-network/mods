@@ -43,12 +43,10 @@ module.exports = {
 
     if (isNaN(time)) return this.callNextAction(cache)
 
-    let s = time
-    let m = Math.floor(s / 60)
-    s %= 60
-    let h = Math.floor(m / 60)
+    const s = time % 60
+    let m = Math.floor(time / 60)
+    const h = Math.floor(m / 60) % 24
     m %= 60
-    h %= 24
 
     let result = `${h}:${m}:${s}`
 
