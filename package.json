@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint --cache actions events extensions",
-    "lint:fix": "eslint --fix actions events extensions"
+    "lint:fix": "eslint --fix --cache actions events extensions"
   },
   "devDependencies": {
     "eslint": "^7.30.0",
