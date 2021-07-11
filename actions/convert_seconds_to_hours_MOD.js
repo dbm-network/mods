@@ -7,8 +7,7 @@ module.exports = {
   },
 
   variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
+    if (parseInt(data.storage) !== varType) return
     return ([data.varName, 'Date'])
   },
 
