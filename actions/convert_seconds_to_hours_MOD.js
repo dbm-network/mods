@@ -22,7 +22,7 @@ module.exports = {
 <div style="float: left; width: 35%; padding-top: 8px;">
   Store Result In:<br>
   <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-  ${data.variables[0]}
+    ${data.variables[0]}
   </select>
 </div>
 <div id="varNameContainer" style="float: right; display: none; width: 60%; padding-top: 8px;">
