@@ -7,7 +7,8 @@ module.exports = {
   },
 
   variableStorage (data, varType) {
-    if (parseInt(data.storage) !== varType) return
+    const type = parseInt(data.storage)
+    if (type !== varType) return
     return ([data.varName, 'Date'])
   },
 
@@ -22,7 +23,7 @@ module.exports = {
 <div style="float: left; width: 35%; padding-top: 8px;">
   Store Result In:<br>
   <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-    ${data.variables[0]}
+  ${data.variables[0]}
   </select>
 </div>
 <div id="varNameContainer" style="float: right; display: none; width: 60%; padding-top: 8px;">
@@ -38,14 +39,16 @@ module.exports = {
 
   action (cache) {
     const data = cache.actions[cache.index]
-    const time = Number(this.evalMessage(data.time, cache))
+    const time = this.evalMessage(data.time, cache)
 
     if (isNaN(time)) return this.callNextAction(cache)
 
-    const s = time % 60
-    let m = Math.floor(time / 60)
-    const h = Math.floor(m / 60) % 24
+    let s = time
+    let m = Math.floor(s / 60)
+    s %= 60
+    let h = Math.floor(m / 60)
     m %= 60
+    h %= 24
 
     let result = `${h}:${m}:${s}`
 
