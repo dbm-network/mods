@@ -2,13 +2,13 @@ module.exports = {
   name: 'Auto Help',
   section: 'Other Stuff',
 
-  subtitle (data) {
-    return `Included? ${data.Include} | ${data.Category}: ${data.Description}`
+  subtitle(data) {
+    return `Included? ${data.Include} | ${data.Category}: ${data.Description}`;
   },
 
   fields: ['Category', 'Description', 'Include'],
 
-  html () {
+  html() {
     return `
 <div>
   <p>
@@ -27,20 +27,20 @@ module.exports = {
     <option value="Yes">Yes</option>
     <option value="No">No</option>
   </select>
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
+  init() {
+    const { glob, document } = this;
 
-    glob.sendTargetChange(document.getElementById('Category'), 'varNameContainer')
-    glob.sendTargetChange(document.getElementById('Description'), 'varNameContainer')
-    glob.sendTargetChange(document.getElementById('Include'), 'varNameContainer')
+    glob.sendTargetChange(document.getElementById('Category'), 'varNameContainer');
+    glob.sendTargetChange(document.getElementById('Description'), 'varNameContainer');
+    glob.sendTargetChange(document.getElementById('Include'), 'varNameContainer');
   },
 
-  action (cache) {
-    this.callNextAction(cache)
+  action(cache) {
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

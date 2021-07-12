@@ -2,13 +2,13 @@ module.exports = {
   name: 'Command Description',
   section: 'Other Stuff',
 
-  subtitle () {
-    return 'Command Description'
+  subtitle() {
+    return 'Command Description';
   },
 
   fields: ['description', 'restrictedTo'],
 
-  html () {
+  html() {
     return `
 <div width="540" height="360" overflow-y="scroll">
   <div style="padding-top: 8px;">
@@ -22,14 +22,14 @@ module.exports = {
       <option value="botOwner">Bot Owner</option>
     </select>
   </div>
-</div>`
+</div>`;
   },
 
-  init () {},
+  init() {},
 
-  action (cache) {
-    this.callNextAction(cache)
+  action(cache) {
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

@@ -3,50 +3,62 @@ module.exports = {
   displayName: 'Store Audit Log Info',
   section: 'Server Control',
 
-  subtitle (data) {
-    const storage = ['', 'Temp Variable', 'Server Variable', 'Global Variable']
-    const info = ['Audit Log Id', 'Action', 'Executor', 'Target', 'Target Type', 'Creation Date', 'Creation Timestamp', 'Total Key Change', 'Key Change', 'Old Value', 'New Value', 'Reason', 'Extra Data']
-    return `${storage[parseInt(data.storage)]} ${data.varName} - ${info[parseInt(data.info)]}`
+  subtitle(data) {
+    const storage = ['', 'Temp Variable', 'Server Variable', 'Global Variable'];
+    const info = [
+      'Audit Log Id',
+      'Action',
+      'Executor',
+      'Target',
+      'Target Type',
+      'Creation Date',
+      'Creation Timestamp',
+      'Total Key Change',
+      'Key Change',
+      'Old Value',
+      'New Value',
+      'Reason',
+      'Extra Data',
+    ];
+    return `${storage[parseInt(data.storage, 10)]} ${data.varName} - ${info[parseInt(data.info, 10)]}`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage2)
-    if (type !== varType) return
-    const info = parseInt(data.info)
-    let dataType = 'Unknown Type'
-    switch (info) {
+  variableStorage(data, varType) {
+    if (parseInt(data.storage2, 10) !== varType) return;
+    let dataType = 'Unknown Type';
+    switch (parseInt(data.info, 10)) {
       case 0:
       case 6:
       case 7:
-        dataType = 'Number'
-        break
+        dataType = 'Number';
+        break;
       case 1:
-        dataType = 'Audit Log Action'
-        break
+        dataType = 'Audit Log Action';
+        break;
       case 2:
       case 3:
       case 12:
-        dataType = 'Object'
-        break
+        dataType = 'Object';
+        break;
       case 4:
       case 8:
       case 9:
       case 10:
       case 11:
-        dataType = 'Text'
-        break
+        dataType = 'Text';
+        break;
       case 5:
-        dataType = 'Date'
-        break
+        dataType = 'Date';
+        break;
       default:
-        break
+        break;
     }
-    return ([data.varName2, dataType])
+    return [data.varName2, dataType];
   },
 
   fields: ['storage', 'varName', 'info', 'position', 'storage2', 'varName2'],
 
-  html (isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div>
   <div style="float: left; width: 35%;">
@@ -97,122 +109,122 @@ module.exports = {
     Variable Name:<br>
     <input id="varName2" class="round" type="text">
   </div>
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
-    const keyholder = document.getElementById('keyholder')
+  init() {
+    const { glob, document } = this;
+    const keyholder = document.getElementById('keyholder');
 
-    glob.onChange0 = function (info) {
-      switch (parseInt(info.value)) {
+    glob.onChange0 = function onChange0(info) {
+      switch (parseInt(info.value, 10)) {
         case 8:
         case 9:
         case 10:
-          keyholder.style.display = null
-          break
+          keyholder.style.display = null;
+          break;
         default:
-          keyholder.style.display = 'none'
-          break
+          keyholder.style.display = 'none';
+          break;
       }
-    }
+    };
 
-    glob.onChange0(document.getElementById('info'))
-    glob.refreshVariableList(document.getElementById('storage'))
+    glob.onChange0(document.getElementById('info'));
+    glob.refreshVariableList(document.getElementById('storage'));
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const { server } = cache
-    const storage = parseInt(data.storage)
-    const varName = this.evalMessage(data.varName, cache)
-    const auditLog = this.getVariable(storage, varName, cache)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const { server } = cache;
+    const storage = parseInt(data.storage, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    const auditLog = this.getVariable(storage, varName, cache);
 
-    if (!server) return this.callNextAction(cache)
+    if (!server) return this.callNextAction(cache);
 
-    let result = false
-    let position
+    let result = false;
+    let position;
 
-    switch (parseInt(data.info)) {
+    switch (parseInt(data.info, 10)) {
       case 0:
-        result = auditLog.id
-        break
+        result = auditLog.id;
+        break;
       case 1:
-        result = auditLog.action
+        result = auditLog.action;
         if (!result || typeof result === 'undefined') {
           if (auditLog.target.bot && auditLog.targetType === 'USER') {
-            result = 'ADD_BOT'
+            result = 'ADD_BOT';
           } else if (auditLog.targetType === 'MESSAGE') {
-            result = 'CHANNEL_MESSAGE_UPDATE'
+            result = 'CHANNEL_MESSAGE_UPDATE';
           }
         }
-        break
+        break;
       case 2:
-        result = server.members.cache.get(auditLog.executor.id)
-        break
+        result = server.members.cache.get(auditLog.executor.id);
+        break;
       case 3:
         if (auditLog.target.constructor.name === 'User') {
-          result = server.members.cache.get(auditLog.executor.id)
+          result = server.members.cache.get(auditLog.executor.id);
         } else {
-          result = auditLog.target
+          result = auditLog.target;
         }
-        break
+        break;
       case 4:
-        result = auditLog.targetType
-        break
+        result = auditLog.targetType;
+        break;
       case 5:
-        result = auditLog.createdAt
-        break
+        result = auditLog.createdAt;
+        break;
       case 6:
-        result = auditLog.createdTimestamp
-        break
+        result = auditLog.createdTimestamp;
+        break;
       case 7:
         if (auditLog.changes !== null) {
-          result = auditLog.changes.length
+          result = auditLog.changes.length;
         } else {
-          result = undefined
+          result = undefined;
         }
-        break
+        break;
       case 8:
-        position = parseInt(this.evalMessage(data.position, cache))
-        if (!isNaN(position) && auditLog.changes != null && position <= auditLog.changes.length) {
-          result = auditLog.changes[position].key
+        position = parseInt(this.evalMessage(data.position, cache), 10);
+        if (!isNaN(position) && auditLog.changes !== null && position <= auditLog.changes.length) {
+          result = auditLog.changes[position].key;
         }
-        break
+        break;
       case 9:
-        position = parseInt(this.evalMessage(data.position, cache))
-        if (!isNaN(position) && auditLog.changes != null && position <= auditLog.changes.length) {
-          result = auditLog.changes[position].old
+        position = parseInt(this.evalMessage(data.position, cache), 10);
+        if (!isNaN(position) && auditLog.changes !== null && position <= auditLog.changes.length) {
+          result = auditLog.changes[position].old;
         }
-        break
+        break;
       case 10:
-        position = parseInt(this.evalMessage(data.position, cache))
-        if (!isNaN(position) && auditLog.changes != null && position <= auditLog.changes.length) {
-          result = auditLog.changes[position].new
+        position = parseInt(this.evalMessage(data.position, cache), 10);
+        if (!isNaN(position) && auditLog.changes !== null && position <= auditLog.changes.length) {
+          result = auditLog.changes[position].new;
         }
-        break
+        break;
       case 11:
-        if (auditLog.reason != null) {
-          result = auditLog.reason
+        if (auditLog.reason !== null) {
+          result = auditLog.reason;
         } else {
-          result = undefined
+          result = undefined;
         }
-        break
+        break;
       case 12:
-        if (auditLog.reason != null) {
-          result = auditLog.extra
+        if (auditLog.reason !== null) {
+          result = auditLog.extra;
         } else {
-          result = undefined
+          result = undefined;
         }
-        break
+        break;
       default:
-        break
+        break;
     }
 
-    const storage2 = parseInt(data.storage2)
-    const varName2 = this.evalMessage(data.varName2, cache)
-    if (result && result !== undefined) this.storeValue(result, storage2, varName2, cache)
-    this.callNextAction(cache)
+    const storage2 = parseInt(data.storage2, 10);
+    const varName2 = this.evalMessage(data.varName2, cache);
+    if (result && result !== undefined) this.storeValue(result, storage2, varName2, cache);
+    this.callNextAction(cache);
   },
-  mod () {}
-}
+  mod() {},
+};

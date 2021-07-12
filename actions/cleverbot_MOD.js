@@ -2,20 +2,19 @@ module.exports = {
   name: 'Cleverbot',
   section: 'Other Stuff',
 
-  subtitle (data) {
-    const WhichAPI = ['cleverbot.io', 'cleverbot.com', 'cleverbot-free']
-    return `Speak with ${WhichAPI[parseInt(data.WhichAPI)]}!`
+  subtitle(data) {
+    const WhichAPI = ['cleverbot.io', 'cleverbot.com', 'cleverbot-free'];
+    return `Speak with ${WhichAPI[parseInt(data.WhichAPI, 10)]}!`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    const dataType = 'Clever Response'
-    return ([data.varName2, dataType])
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName2, 'Clever Response'];
   },
 
   fields: ['WhichAPI', 'inputVarType', 'inputVarName', 'APIuser', 'APIkey', 'storage', 'varName2'],
-  html (isEvent, data) {
+
+  html(_isEvent, data) {
     return `
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
 <div>
@@ -72,90 +71,90 @@ module.exports = {
     Copy the links to your browser.<br>
     </p>
   </div>
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
+  init() {
+    const { glob, document } = this;
 
-    glob.variableChange(document.getElementById('inputVarType'), 'varNameContainer')
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer2')
+    glob.variableChange(document.getElementById('inputVarType'), 'varNameContainer');
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer2');
   },
 
-  action (cache) {
-    const _this = this
+  action(cache) {
+    const { Actions } = this.getDBM();
 
-    const data = cache.actions[cache.index]
-    const WhichAPI = parseInt(data.WhichAPI)
+    const data = cache.actions[cache.index];
+    const WhichAPI = parseInt(data.WhichAPI, 10);
 
-    const type = parseInt(data.inputVarType)
-    const inVar = this.evalMessage(data.inputVarName, cache)
-    const Input = this.getVariable(type, inVar, cache)
+    const type = parseInt(data.inputVarType, 10);
+    const inVar = this.evalMessage(data.inputVarName, cache);
+    const Input = this.getVariable(type, inVar, cache);
 
-    const storage = parseInt(data.storage)
-    const varName2 = this.evalMessage(data.varName2, cache)
+    const storage = parseInt(data.storage, 10);
+    const varName2 = this.evalMessage(data.varName2, cache);
 
-    const Mods = this.getMods()
+    const Mods = this.getMods();
 
     switch (WhichAPI) {
       case 0: {
-        const ioAPIuser = this.evalMessage(data.APIuser, cache)
-        const ioAPIkey = this.evalMessage(data.APIkey, cache)
-        if (!ioAPIuser) return console.log('Please enter a valid API User key from cleverbot.io!')
-        if (!ioAPIkey) return console.log('Please enter a valid API Key from cleverbot.io!')
+        const ioAPIuser = this.evalMessage(data.APIuser, cache);
+        const ioAPIkey = this.evalMessage(data.APIkey, cache);
+        if (!ioAPIuser) return console.log('Please enter a valid API User key from cleverbot.io!');
+        if (!ioAPIkey) return console.log('Please enter a valid API Key from cleverbot.io!');
 
-        const CleverBotIO = Mods.require('cleverbot.io')
-        const CLEVERBOT = new CleverBotIO(ioAPIuser, ioAPIkey)
+        const CleverBotIO = Mods.require('cleverbot.io');
+        const CLEVERBOT = new CleverBotIO(ioAPIuser, ioAPIkey);
 
         // eslint-disable-next-line no-unused-vars
         CLEVERBOT.create((err, session) => {
-          if (err) return console.log(`ERROR with cleverbot.io: ${err}`)
+          if (err) return console.log(`ERROR with cleverbot.io: ${err}`);
           CLEVERBOT.ask(Input, (err, response) => {
-            if (err) return console.log(`ERROR with cleverbot.io: ${err}`)
+            if (err) return console.log(`ERROR with cleverbot.io: ${err}`);
             // Saving
             if (response !== undefined) {
-              _this.storeValue(response, storage, varName2, cache)
+              Actions.storeValue(response, storage, varName2, cache);
             }
-            _this.callNextAction(cache)
-          })
-        })
+            Actions.callNextAction(cache);
+          });
+        });
 
-        break
+        break;
       }
       case 1: {
-        const CleverBotCOM = Mods.require('cleverbot-node')
-        const clbot = new CleverBotCOM()
-        const comAPIkey = this.evalMessage(data.APIkey, cache)
+        const CleverBotCOM = Mods.require('cleverbot-node');
+        const clbot = new CleverBotCOM();
+        const comAPIkey = this.evalMessage(data.APIkey, cache);
 
-        if (!comAPIkey) return console.log('Please enter a valid API Key from cleverbot.com!')
-        clbot.configure({ botapi: comAPIkey })
+        if (!comAPIkey) return console.log('Please enter a valid API Key from cleverbot.com!');
+        clbot.configure({ botapi: comAPIkey });
 
         clbot.write(Input, (response) => {
           if (response.output !== undefined) {
-            _this.storeValue(response.output, storage, varName2, cache)
+            Actions.storeValue(response.output, storage, varName2, cache);
           } else {
-            console.log("cleverbot.com doesn't like this. Check your API key and your input!")
+            console.log("cleverbot.com doesn't like this. Check your API key and your input!");
           }
-          _this.callNextAction(cache)
-        })
-        break
+          Actions.callNextAction(cache);
+        });
+        break;
       }
       case 2: {
-        const uCleverbot = Mods.require('cleverbot-free')
-        uCleverbot(Input).then(response => {
+        const uCleverbot = Mods.require('cleverbot-free');
+        uCleverbot(Input).then((response) => {
           if (response !== undefined) {
-            _this.storeValue(response, storage, varName2, cache)
+            Actions.storeValue(response, storage, varName2, cache);
           } else {
-            console.log('Cleverbot-free error! Have DBM installed the npm module "cleverbot-free"?')
+            console.log('Cleverbot-free error! Have DBM installed the npm module "cleverbot-free"?');
           }
-          _this.callNextAction(cache)
-        })
-        break
+          Actions.callNextAction(cache);
+        });
+        break;
       }
       default:
-        break
+        break;
     }
   },
 
-  mod () {}
-}
+  mod() {},
+};

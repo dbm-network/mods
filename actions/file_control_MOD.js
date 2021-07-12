@@ -3,12 +3,12 @@ module.exports = {
   section: 'File Stuff',
   fields: ['input', 'format', 'filename', 'filepath', 'filepath2', 'filetask', 'input2', 'togglestatus'],
 
-  subtitle (data) {
-    const filetasks = ['Create', 'Write', 'Append into', 'Delete', 'Insert into', 'Copy']
-    return `${filetasks[parseInt(data.filetask)]} ${data.filename}${data.format}`
+  subtitle(data) {
+    const filetasks = ['Create', 'Write', 'Append into', 'Delete', 'Insert into', 'Copy'];
+    return `${filetasks[parseInt(data.filetask, 10)]} ${data.filename}${data.format}`;
   },
 
-  html () {
+  html() {
     return `
     <style>
     ::-webkit-scrollbar {
@@ -183,111 +183,116 @@ module.exports = {
         </div>
       </div>
     </div>
-  </div>`
+  </div>`;
   },
 
-  init () {
-    const { document } = this
-    const selector = document.getElementById('filetask')
-    const selector2 = document.getElementById('format')
-    const targetfield = document.getElementById('inputArea')
-    const targetfield2 = document.getElementById('lineInsert')
-    const targetField3 = document.getElementById('newPath')
-    const val1 = document.getElementById('togglestatus').value
-    if (val1 === 'yes') document.getElementById('togglestatus').checked = true
+  init() {
+    const { document } = this;
+    const selector = document.getElementById('filetask');
+    const selector2 = document.getElementById('format');
+    const targetfield = document.getElementById('inputArea');
+    const targetfield2 = document.getElementById('lineInsert');
+    const targetField3 = document.getElementById('newPath');
+    const val1 = document.getElementById('togglestatus').value;
+    if (val1 === 'yes') document.getElementById('togglestatus').checked = true;
 
-    selector.onclick = () => showInput()
-
-    function showInput () {
-      const selected = selector[selector.selectedIndex].value
-      const selected2 = selector2[selector2.selectedIndex].value
+    function showInput() {
+      const selected = selector[selector.selectedIndex].value;
+      const selected2 = selector2[selector2.selectedIndex].value;
       if (selected2 === '.json' && (selected !== '5' || selected !== '4')) {
-        document.getElementById('visibot').style.display = 'block'
+        document.getElementById('visibot').style.display = 'block';
       } else {
-        document.getElementById('visibot').style.display = 'none'
+        document.getElementById('visibot').style.display = 'none';
       }
-      if (selected === '0' || selected === '3' || selected === '5') { // Hides "Input Text"
-        targetfield.classList.add('hidden')
+      if (selected === '0' || selected === '3' || selected === '5') {
+        // Hides "Input Text"
+        targetfield.classList.add('hidden');
       } else {
-        targetfield.classList.remove('hidden')
+        targetfield.classList.remove('hidden');
       }
       if (selected === '4') {
-        targetfield2.classList.remove('hidden')
+        targetfield2.classList.remove('hidden');
       } else {
-        targetfield2.classList.add('hidden') // Hides "Line to Insert at"
+        targetfield2.classList.add('hidden'); // Hides "Line to Insert at"
       }
-      if (selected === '5') { // Hides "New File Path"
-        targetField3.classList.remove('hidden')
+      if (selected === '5') {
+        // Hides "New File Path"
+        targetField3.classList.remove('hidden');
       } else {
-        targetField3.classList.add('hidden')
+        targetField3.classList.add('hidden');
       }
     }
+
+    selector.onclick = () => showInput();
   },
 
-  action (cache) {
-    const path = require('path')
-    const Mods = this.getMods()
-    const fs = Mods.require('fs-extra')
-    const insertLine = Mods.require('insert-line')
+  action(cache) {
+    const path = require('path');
+    const Mods = this.getMods();
+    const fs = Mods.require('fs-extra');
+    const insertLine = Mods.require('insert-line');
 
-    const data = cache.actions[cache.index]
-    const dirName = path.normalize(this.evalMessage(data.filepath, cache))
-    const dirName2 = path.normalize(this.evalMessage(data.filepath2, cache))
-    const fileName = this.evalMessage(data.filename, cache)
-    const line = parseInt(this.evalMessage(data.input2, cache))
-    const togglestat = data.togglestatus
+    const data = cache.actions[cache.index];
+    const dirName = path.normalize(this.evalMessage(data.filepath, cache));
+    const dirName2 = path.normalize(this.evalMessage(data.filepath2, cache));
+    const fileName = this.evalMessage(data.filename, cache);
+    const line = parseInt(this.evalMessage(data.input2, cache), 10);
+    const togglestat = data.togglestatus;
 
-    const fpath = path.join(dirName, fileName + data.format)
-    const fpath2 = path.join(dirName2, fileName + data.format)
-    const task = parseInt(data.filetask)
-    const itext = this.evalMessage(data.input, cache)
-    const lmg = 'Something went wrong while'
+    const fpath = path.join(dirName, fileName + data.format);
+    const fpath2 = path.join(dirName2, fileName + data.format);
+    const task = parseInt(data.filetask, 10);
+    const itext = this.evalMessage(data.input, cache);
+    const lmg = 'Something went wrong while';
 
     try {
       switch (task) {
         case 0: // Create File
-          if (fileName === '') break
-          fs.writeFileSync(fpath, '')
-          break
+          if (fileName === '') break;
+          fs.writeFileSync(fpath, '');
+          break;
         case 1: // Write File
-          if (fileName === '') throw new Error('File Name not Provided:')
-          fs.writeFileSync(fpath, togglestat === 'yes' ? JSON.stringify(itext) : itext)
-          break
+          if (fileName === '') throw new Error('File Name not Provided:');
+          fs.writeFileSync(fpath, togglestat === 'yes' ? JSON.stringify(itext) : itext);
+          break;
         case 2: // Append File
-          if (fileName === '') throw new Error('File Name not Provided:')
-          fs.appendFileSync(fpath, `${togglestat === 'yes' ? JSON.stringify(itext) : itext}\r\n`)
-          break
+          if (fileName === '') throw new Error('File Name not Provided:');
+          fs.appendFileSync(fpath, `${togglestat === 'yes' ? JSON.stringify(itext) : itext}\r\n`);
+          break;
         case 4: // Insert Line to File
-          if (fileName === '') throw new Error('File Name not Provided:')
-          insertLine(fpath).content(itext).at(line).then((err) => {
-            if (err) return console.error(`${lmg} inserting: [${err}]`)
-          })
-          break
+          if (fileName === '') throw new Error('File Name not Provided:');
+          insertLine(fpath)
+            .content(itext)
+            .at(line)
+            .then((err) => {
+              if (err) return console.error(`${lmg} inserting: [${err}]`);
+            });
+          break;
         case 3: // Delete File
-          fs.unlinkSync(fpath)
-          break
+          fs.unlinkSync(fpath);
+          break;
         case 5: // Copy File
-          fs.copySync(fpath, fpath2)
-          break
+          fs.copySync(fpath, fpath2);
+          break;
         default:
-          break
+          break;
       }
     } catch (err) {
-      const type = ['creating', 'writing', 'appending', 'deleting', 'copying'][task]
-      return console.error(`${lmg} ${type} [${err}]`)
+      const type = ['creating', 'writing', 'appending', 'deleting', 'copying'][task];
+      return console.error(`${lmg} ${type} [${err}]`);
     }
 
     try {
       if (dirName) {
-        fs.ensureDirSync(path.normalize(dirName))
+        fs.ensureDirSync(path.normalize(dirName));
       } else {
-        throw new Error('you did not set a file path, please go back and check your work.')
+        throw new Error('you did not set a file path, please go back and check your work.');
       }
     } catch (err) {
-      return console.error(`ERROR ${err.stack ?? err}`)
+      return console.error(`ERROR ${err.stack ?? err}`);
     }
-    this.callNextAction(cache)
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

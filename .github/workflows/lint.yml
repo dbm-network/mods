@@ -10,9 +10,9 @@ on:
     branches:
       - master
     paths:
-      - "actions"
-      - "events"
-      - "extensions"
+      - actions
+      - events
+      - extensions
 
 jobs:
   lint:
@@ -25,11 +25,14 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
-          cache: "npm"
-          node-version: 12
+          cache: npm
+          node-version: 14
 
       - name: Install dependencies
-        run: yarn --frozen-lockfile
+        run: npm ci
 
       - name: Run ESLint
-        run: yarn lint
+        run: npm run lint
+
+      - name: Run Prettier
+        run: npm run prettier:check

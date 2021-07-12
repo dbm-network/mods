@@ -2,86 +2,114 @@ module.exports = {
   name: 'Store Message Info',
   section: 'Messaging',
 
-  subtitle (data) {
-    const message = ['Command Message', 'Temp Variable', 'Server Variable', 'Global Variable']
-    const info = ['Message Object', 'Message ID', 'Message Text', 'Message Author', 'Message Channel', 'Message Timestamp', 'Message is Pinned', 'Message is TTS', 'Message Attachments List', 'Message Edits', '', '', 'Messages Reactions Count', 'Mentioned Users List', 'Mentioned Users Count', 'Message URL', 'Message Creation Date', 'Message Content Length', 'Message Attachments Count', 'Message Guild', 'Message Type', 'Message Webhook ID', 'Message Embed Object', 'Mentioned Channels List', 'Mentioned Channels Count', 'Mentioned Roles list', 'Mentioned Roles Count']
-    return `${message[parseInt(data.message)]} - ${info[parseInt(data.info)]}`
+  subtitle(data) {
+    const message = ['Command Message', 'Temp Variable', 'Server Variable', 'Global Variable'];
+    const info = [
+      'Message Object',
+      'Message ID',
+      'Message Text',
+      'Message Author',
+      'Message Channel',
+      'Message Timestamp',
+      'Message is Pinned',
+      'Message is TTS',
+      'Message Attachments List',
+      'Message Edits',
+      '',
+      '',
+      'Messages Reactions Count',
+      'Mentioned Users List',
+      'Mentioned Users Count',
+      'Message URL',
+      'Message Creation Date',
+      'Message Content Length',
+      'Message Attachments Count',
+      'Message Guild',
+      'Message Type',
+      'Message Webhook ID',
+      'Message Embed Object',
+      'Mentioned Channels List',
+      'Mentioned Channels Count',
+      'Mentioned Roles list',
+      'Mentioned Roles Count',
+    ];
+    return `${message[parseInt(data.message, 10)]} - ${info[parseInt(data.info, 10)]}`;
   },
 
-  variableStorage (data, varType) {
-    if (parseInt(data.storage) !== varType) return
-    let dataType = 'Unknown Type'
-    switch (parseInt(data.info)) {
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    let dataType = 'Unknown Type';
+    switch (parseInt(data.info, 10)) {
       case 0:
-        dataType = 'Message'
-        break
+        dataType = 'Message';
+        break;
       case 1:
-        dataType = 'Message ID'
-        break
+        dataType = 'Message ID';
+        break;
       case 2:
-        dataType = 'Text'
-        break
+        dataType = 'Text';
+        break;
       case 3:
-        dataType = 'Server Member'
-        break
+        dataType = 'Server Member';
+        break;
       case 4:
-        dataType = 'Channel'
-        break
+        dataType = 'Channel';
+        break;
       case 5:
-        dataType = 'Text'
-        break
+        dataType = 'Text';
+        break;
       case 6:
       case 7:
-        dataType = 'Boolean'
-        break
+        dataType = 'Boolean';
+        break;
       case 8:
-        dataType = 'Date'
-        break
+        dataType = 'Date';
+        break;
       case 9:
-        dataType = 'Messages List'
-        break
+        dataType = 'Messages List';
+        break;
       case 13:
       case 23:
       case 25:
-        dataType = 'Array'
-        break
+        dataType = 'Array';
+        break;
       case 14:
-        dataType = 'Number'
-        break
+        dataType = 'Number';
+        break;
       case 15:
-        dataType = 'URL'
-        break
+        dataType = 'URL';
+        break;
       case 16:
-        dataType = 'Date'
-        break
+        dataType = 'Date';
+        break;
       case 12:
       case 17:
       case 18:
       case 24:
       case 26:
-        dataType = 'Number'
-        break
+        dataType = 'Number';
+        break;
       case 19:
-        dataType = 'Guild'
-        break
+        dataType = 'Guild';
+        break;
       case 20:
-        dataType = 'Message Type'
-        break
+        dataType = 'Message Type';
+        break;
       case 21:
-        dataType = 'Webhook ID'
-        break
+        dataType = 'Webhook ID';
+        break;
       case 22:
-        dataType = 'Embed Message'
-        break
+        dataType = 'Embed Message';
+        break;
       default:
-        break
+        break;
     }
-    return ([data.varName2, dataType])
+    return [data.varName2, dataType];
   },
 
   fields: ['message', 'varName', 'info', 'storage', 'varName2'],
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
 <div>
 <p>This action has been modified by DBM Mods.</p>
@@ -139,111 +167,111 @@ module.exports = {
     Variable Name:<br>
     <input id="varName2" class="round" type="text"><br>
   </div>
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
+  init() {
+    const { glob, document } = this;
 
-    glob.messageChange(document.getElementById('message'), 'varNameContainer')
+    glob.messageChange(document.getElementById('message'), 'varNameContainer');
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const message = parseInt(data.message)
-    const varName = this.evalMessage(data.varName, cache)
-    const info = parseInt(data.info)
-    const msg = this.getMessage(message, varName, cache)
-    if (!msg) return this.callNextAction(cache)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const message = parseInt(data.message, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    const info = parseInt(data.info, 10);
+    const msg = this.getMessage(message, varName, cache);
+    if (!msg) return this.callNextAction(cache);
 
-    let result
+    let result;
     switch (info) {
       case 0:
-        result = msg
-        break
+        result = msg;
+        break;
       case 1:
-        result = msg.id
-        break
+        result = msg.id;
+        break;
       case 2:
-        result = msg.content
-        break
+        result = msg.content;
+        break;
       case 3:
-        result = msg.member || msg.author
-        break
+        result = msg.member || msg.author;
+        break;
       case 4:
-        result = msg.channel
-        break
+        result = msg.channel;
+        break;
       case 5:
-        result = msg.createdTimestamp
-        break
+        result = msg.createdTimestamp;
+        break;
       case 6:
-        result = msg.pinned
-        break
+        result = msg.pinned;
+        break;
       case 7:
-        result = msg.tts
-        break
+        result = msg.tts;
+        break;
       case 8:
-        result = msg.attachments.array()
-        break
+        result = msg.attachments.array();
+        break;
       case 9:
-        result = msg.edits
-        break
+        result = msg.edits;
+        break;
       case 12:
-        result = msg.reactions.cache.size
-        break
+        result = msg.reactions.cache.size;
+        break;
       case 13:
-        result = msg.mentions.users.array()
-        break
+        result = msg.mentions.users.array();
+        break;
       case 14:
-        result = msg.mentions.users.size
-        break
+        result = msg.mentions.users.size;
+        break;
       case 15:
-        result = msg.url
-        break
+        result = msg.url;
+        break;
       case 16:
-        result = msg.createdAt
-        break
+        result = msg.createdAt;
+        break;
       case 17:
-        result = msg.content.length
-        break
+        result = msg.content.length;
+        break;
       case 18:
-        result = msg.attachments.size
-        break
+        result = msg.attachments.size;
+        break;
       case 19:
-        result = msg.guild
-        break
+        result = msg.guild;
+        break;
       case 20:
-        result = msg.type
-        break
+        result = msg.type;
+        break;
       case 21:
-        result = msg.webhookID
-        break
+        result = msg.webhookID;
+        break;
       case 22:
-        result = msg.embeds[0]
-        break
+        result = msg.embeds[0];
+        break;
       case 23:
-        result = msg.mentions.channels.array()
-        break
+        result = msg.mentions.channels.array();
+        break;
       case 24:
-        result = msg.mentions.channels.size
-        break
+        result = msg.mentions.channels.size;
+        break;
       case 25:
-        result = msg.mentions.roles.array()
-        break
+        result = msg.mentions.roles.array();
+        break;
       case 26:
-        result = msg.mentions.roles.size
-        break
+        result = msg.mentions.roles.size;
+        break;
       default:
-        break
+        break;
     }
 
     if (result !== undefined) {
-      const storage = parseInt(data.storage)
-      const varName2 = this.evalMessage(data.varName2, cache)
-      this.storeValue(result, storage, varName2, cache)
+      const storage = parseInt(data.storage, 10);
+      const varName2 = this.evalMessage(data.varName2, cache);
+      this.storeValue(result, storage, varName2, cache);
     }
-    this.callNextAction(cache)
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

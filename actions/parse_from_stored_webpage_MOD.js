@@ -2,19 +2,18 @@ module.exports = {
   name: 'Parse From Stored Webpage',
   section: 'HTML/XML Things',
 
-  subtitle (data) {
-    return ` Var: ${data.varName} Path: ${data.xpath}`
+  subtitle(data) {
+    return ` Var: ${data.varName} Path: ${data.xpath}`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    return ([data.varName, 'String'])
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName, 'String'];
   },
 
   fields: ['debugMode', 'xpath', 'source', 'sourceVarName', 'storage', 'varName'],
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
   <div>
@@ -70,162 +69,165 @@ module.exports = {
   span.wrexlink:hover {
     color:#4676b9;
   }
-</style>`
+</style>`;
   },
 
-  init () {
-    const { glob, document } = this
+  init() {
+    const { glob, document } = this;
 
     try {
-      const wrexlinks = document.getElementsByClassName('wrexlink')
+      const wrexlinks = document.getElementsByClassName('wrexlink');
       for (let x = 0; x < wrexlinks.length; x++) {
-        const wrexlink = wrexlinks[x]
-        const url = wrexlink.getAttribute('data-url')
+        const wrexlink = wrexlinks[x];
+        const url = wrexlink.getAttribute('data-url');
         if (url) {
-          wrexlink.setAttribute('title', url)
+          wrexlink.setAttribute('title', url);
           wrexlink.addEventListener('click', (e) => {
-            e.stopImmediatePropagation()
-            console.log(`Launching URL: [${url}] in your default browser.`)
-            require('child_process').execSync(`start ${url}`)
-          })
+            e.stopImmediatePropagation();
+            console.log(`Launching URL: [${url}] in your default browser.`);
+            require('child_process').execSync(`start ${url}`);
+          });
         }
       }
     } catch (error) {
       // write any init errors to errors.txt in dbms' main directory
-      require('fs').appendFile('errors.txt', error.stack ? error.stack : `${error}\r\n`)
+      require('fs').appendFile('errors.txt', error.stack ? error.stack : `${error}\r\n`);
     }
 
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer')
-    glob.variableChange(document.getElementById('source'), 'sourceVarNameContainer')
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
+    glob.variableChange(document.getElementById('source'), 'sourceVarNameContainer');
   },
 
-  action (cache) {
-    function manageXmlParseError (msg, errorLevel, errorLog) {
-      if ((errorLog.errorLevel == null) || (errorLog.errorLevel < errorLevel)) {
-        errorLog.errorLevel = errorLevel
+  action(cache) {
+    function manageXmlParseError(msg, errorLevel, errorLog) {
+      if (errorLog.errorLevel === null || errorLog.errorLevel < errorLevel) {
+        errorLog.errorLevel = errorLevel;
       }
-      if (errorLog[errorLevel.toString()] == null) {
-        errorLog[errorLevel.toString()] = []
+      if (errorLog[errorLevel.toString()] === null) {
+        errorLog[errorLevel.toString()] = [];
       }
-      errorLog[errorLevel.toString()].push(msg)
+      errorLog[errorLevel.toString()].push(msg);
     }
 
     try {
-      const Mods = this.getMods()
+      const Mods = this.getMods();
 
-      const data = cache.actions[cache.index]
+      const data = cache.actions[cache.index];
 
-      const sourceVarName = this.evalMessage(data.sourceVarName, cache)
-      const source = parseInt(data.source)
-      const varName = this.evalMessage(data.varName, cache)
-      const storage = parseInt(data.storage)
+      const sourceVarName = this.evalMessage(data.sourceVarName, cache);
+      const source = parseInt(data.source, 10);
+      const varName = this.evalMessage(data.varName, cache);
+      const storage = parseInt(data.storage, 10);
 
-      const DEBUG = parseInt(data.debugMode)
+      const DEBUG = parseInt(data.debugMode, 10);
 
-      const myXPath = this.evalMessage(data.xpath, cache)
+      const myXPath = this.evalMessage(data.xpath, cache);
 
-      const html = this.getVariable(source, sourceVarName, cache)
+      const html = this.getVariable(source, sourceVarName, cache);
 
-      const xpath = Mods.require('xpath')
-      const DOM = Mods.require('xmldom').DOMParser
-      const ent = Mods.require('ent')
+      const xpath = Mods.require('xpath');
+      const DOM = Mods.require('xmldom').DOMParser;
+      const ent = Mods.require('ent');
 
       if (myXPath) {
         // check for errors
-        let errored = false
+        let errored = false;
         try {
-          xpath.evaluate(myXPath, null, null, null)
+          xpath.evaluate(myXPath, null, null, null);
         } catch (error) {
-          errored = error
-          if (!error.toString().includes('nodeType')) console.error(`Invalid XPath: [${myXPath}] (${(error || '')})`)
+          errored = error;
+          if (!error.toString().includes('nodeType')) console.error(`Invalid XPath: [${myXPath}] (${error || ''})`);
         }
 
         if (html) {
-          const mylocator = {}
-          const parseLog = { errorLevel: 0 }
+          const mylocator = {};
+          const parseLog = { errorLevel: 0 };
           const doc = new DOM({
             locator: mylocator,
             errorHandler: {
               warning: (msg) => {
-                manageXmlParseError(msg, 1, parseLog)
+                manageXmlParseError(msg, 1, parseLog);
               },
               error: (msg) => {
-                manageXmlParseError(msg, 2, parseLog)
-                if (DEBUG) console.log(`XMLDOMError: ${msg}`)
+                manageXmlParseError(msg, 2, parseLog);
+                if (DEBUG) console.log(`XMLDOMError: ${msg}`);
               },
               fatalError: (msg) => {
-                manageXmlParseError(msg, 3, parseLog)
-                if (DEBUG) console.log(`FATAL XMLDOMError: ${msg}`)
-              }
-            }
-          }).parseFromString(ent.decode(html))
+                manageXmlParseError(msg, 3, parseLog);
+                if (DEBUG) console.log(`FATAL XMLDOMError: ${msg}`);
+              },
+            },
+          }).parseFromString(ent.decode(html));
 
-          let nodes = []
+          let nodes = [];
           try {
-            nodes = xpath.select(myXPath, doc)
+            nodes = xpath.select(myXPath, doc);
 
             if (nodes && nodes.length > 0) {
-              const out = []
+              const out = [];
               nodes.forEach((node) => {
-                const name = node.name || 'Text Value'
-                const value = node.value ? node.value : node.toString()
+                const name = node.name || 'Text Value';
+                const value = node.value ? node.value : node.toString();
 
                 if (DEBUG) {
-                  console.log('====================================')
-                  console.log(`Source String: ${node.toString()}`)
-                  console.log('====================================')
+                  console.log('====================================');
+                  console.log(`Source String: ${node.toString()}`);
+                  console.log('====================================');
                   // console.log("Parent Node Name: " +  .name);
-                  console.log(`Name: ${name}`)
-                  console.log(`Line Number: ${node.lineNumber}`)
-                  console.log(`Column Number: ${node.columnNumber}`)
-                  console.log(`Parsed Value: ${value.trim()}`)
-                  console.log('====================================\n')
+                  console.log(`Name: ${name}`);
+                  console.log(`Line Number: ${node.lineNumber}`);
+                  console.log(`Column Number: ${node.columnNumber}`);
+                  console.log(`Parsed Value: ${value.trim()}`);
+                  console.log('====================================\n');
                 }
 
-                out.push(value.trim())
-              })
+                out.push(value.trim());
+              });
 
               if (out.length > 1 && DEBUG) {
-                console.log('Stored value(s);\r\n')
+                console.log('Stored value(s);\r\n');
 
                 for (let i = 0; i < out.length; i++) {
-                  console.log(`[${i}] = ${out[i]}`)
+                  console.log(`[${i}] = ${out[i]}`);
                 }
 
-                console.log('\r\nAppend the key that you want to store that value to the variable.')
+                console.log('\r\nAppend the key that you want to store that value to the variable.');
 
-                const storageType = ['', 'tempVars', 'serverVars', 'globalVars']
-                const output = storageType[storage]
+                const storageType = ['', 'tempVars', 'serverVars', 'globalVars'];
+                const output = storageType[storage];
 
-                console.log(`Example \${${output}("${varName}")} to \${${output}("${varName}")[key]}`)
-                console.log(`${varName}[key] if not using it as a template\r\n`)
+                console.log(`Example \${${output}("${varName}")} to \${${output}("${varName}")[key]}`);
+                console.log(`${varName}[key] if not using it as a template\r\n`);
               }
 
-              this.storeValue(out, storage, varName, cache)
-              if (DEBUG) console.log(`Stored value(s) [${out}] to  [${varName}] `)
+              this.storeValue(out, storage, varName, cache);
+              if (DEBUG) console.log(`Stored value(s) [${out}] to  [${varName}] `);
 
-              this.callNextAction(cache)
+              this.callNextAction(cache);
             } else {
-              console.error(`Could not store a value from path ${myXPath}, Check that the path is valid!\n`)
-              if (DEBUG) console.info(`parsestatus ==> ${parseLog.errorLevel}\nlocator:${mylocator.columnNumber}/${mylocator.lineNumber}`)
+              console.error(`Could not store a value from path ${myXPath}, Check that the path is valid!\n`);
+              if (DEBUG)
+                console.info(
+                  `parsestatus ==> ${parseLog.errorLevel}\nlocator:${mylocator.columnNumber}/${mylocator.lineNumber}`,
+                );
 
-              this.storeValue(errored || undefined, storage, varName, cache)
-              this.callNextAction(cache)
+              this.storeValue(errored || undefined, storage, varName, cache);
+              this.callNextAction(cache);
             }
           } catch (error) {
-            this.storeValue(errored || undefined, storage, varName, cache)
-            this.callNextAction(cache)
+            this.storeValue(errored || undefined, storage, varName, cache);
+            this.callNextAction(cache);
           }
         } else {
-          console.error('HTML data Is Not Valid!')
+          console.error('HTML data Is Not Valid!');
         }
       } else {
-        console.error(`Path [${myXPath}] Is Not Valid`)
+        console.error(`Path [${myXPath}] Is Not Valid`);
       }
     } catch (error) {
-      console.error(`Webpage Things:  Error: ${error.stack || error}`)
+      console.error(`Webpage Things:  Error: ${error.stack || error}`);
     }
   },
 
-  mod () {}
-}
+  mod() {},
+};

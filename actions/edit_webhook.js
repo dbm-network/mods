@@ -1,12 +1,12 @@
 module.exports = {
   name: 'Edit Webhook',
   section: 'Webhook Control',
-  subtitle (data) {
-    return `${data.webhookName}`
+  subtitle(data) {
+    return `${data.webhookName}`;
   },
   fields: ['webhookName', 'webhookIcon', 'webhook', 'varName'],
 
-  html (isEvent, data) {
+  html(_isEvent, data) {
     return `
       <div style="float: left; width: 35%;">
       Source Webhook:<br>
@@ -29,33 +29,33 @@ module.exports = {
     <input id="webhookIcon" class="round" type="text">
   </div><br>
   <div>
-  </div>`
+  </div>`;
   },
 
-  init () {
-    const { glob, document } = this
-    glob.channelChange(document.getElementById('webhook'))
+  init() {
+    const { glob, document } = this;
+    glob.channelChange(document.getElementById('webhook'));
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const webhook = parseInt(data.webhook)
-    const varName = this.evalMessage(data.varName, cache)
-    const Mods = this.getMods()
-    const wh = Mods.getWebhook(webhook, varName, cache)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const webhook = parseInt(data.webhook, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    const Mods = this.getMods();
+    const wh = Mods.getWebhook(webhook, varName, cache);
 
-    if (!wh) return this.callNextAction(cache)
+    if (!wh) return this.callNextAction(cache);
 
-    const avatar = this.evalMessage(data.webhookIcon, cache)
-    const name = this.evalMessage(data.webhookName, cache)
+    const avatar = this.evalMessage(data.webhookIcon, cache);
+    const name = this.evalMessage(data.webhookName, cache);
     if (avatar && name) {
-      wh.edit({ avatar, name })
+      wh.edit({ avatar, name });
     } else if (avatar) {
-      wh.edit({ avatar })
+      wh.edit({ avatar });
     } else if (name) {
-      wh.edit({ name })
+      wh.edit({ name });
     }
-    this.callNextAction(cache)
+    this.callNextAction(cache);
   },
-  mod () {}
-}
+  mod() {},
+};

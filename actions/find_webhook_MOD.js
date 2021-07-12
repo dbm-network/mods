@@ -2,19 +2,18 @@ module.exports = {
   name: 'Find Webhook',
   section: 'Webhook Control',
 
-  subtitle (data) {
-    return `${data.id}`
+  subtitle(data) {
+    return `${data.id}`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    return ([data.varName, 'Webhook'])
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName, 'Webhook'];
   },
 
   fields: ['id', 'token', 'storage', 'varName'],
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
 <div>
   <div style="float: left; width: 40%;">
@@ -37,25 +36,25 @@ module.exports = {
     Variable Name:<br>
     <input id="varName" class="round" type="text">
   </div>
-</div>`
+</div>`;
   },
 
-  init () {},
+  init() {},
 
-  action (cache) {
-    const { DiscordJS } = this.getDBM()
-    const data = cache.actions[cache.index]
-    const id = this.evalMessage(data.id, cache)
-    const token = this.evalMessage(data.token, cache)
-    const result = new DiscordJS.WebhookClient(id, token)
+  action(cache) {
+    const { DiscordJS } = this.getDBM();
+    const data = cache.actions[cache.index];
+    const id = this.evalMessage(data.id, cache);
+    const token = this.evalMessage(data.token, cache);
+    const result = new DiscordJS.WebhookClient(id, token);
 
     if (result !== undefined) {
-      const storage = parseInt(data.storage)
-      const varName = this.evalMessage(data.varName, cache)
-      this.storeValue(result, storage, varName, cache)
+      const storage = parseInt(data.storage, 10);
+      const varName = this.evalMessage(data.varName, cache);
+      this.storeValue(result, storage, varName, cache);
     }
-    this.callNextAction(cache)
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

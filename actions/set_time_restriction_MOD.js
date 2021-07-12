@@ -2,21 +2,41 @@ module.exports = {
   name: 'Set Time Restriction',
   section: 'Other Stuff',
 
-  subtitle (data) {
-    const results = ['Continue Actions', 'Stop Action Sequence', 'Jump To Action', 'Jump Forward Actions', 'Jump to Anchor']
-    return `Cooldown | If True: ${results[parseInt(data.iftrue)]} ~ If False: ${results[parseInt(data.iffalse)]}`
+  subtitle(data) {
+    const results = [
+      'Continue Actions',
+      'Stop Action Sequence',
+      'Jump To Action',
+      'Jump Forward Actions',
+      'Jump to Anchor',
+    ];
+    return `Cooldown | If True: ${results[parseInt(data.iftrue, 10)]} ~ If False: ${
+      results[parseInt(data.iffalse, 10)]
+    }`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    return ([data.varName, 'Seconds'])
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName, 'Seconds'];
   },
 
-  fields: ['measurement', 'value', 'save', 'restrict', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal', 'storage', 'varName'],
+  fields: [
+    'measurement',
+    'value',
+    'save',
+    'restrict',
+    'iftrue',
+    'iftrueVal',
+    'iffalse',
+    'iffalseVal',
+    'storage',
+    'varName',
+  ],
 
-  html (isEvent, data) {
-    data.conditions[0] = data.conditions[0].replace(/If True/g, 'If Cooldown is Active').replace(/If False/g, 'If Cooldown is Not Active')
+  html(_isEvent, data) {
+    data.conditions[0] = data.conditions[0]
+      .replace(/If True/g, 'If Cooldown is Active')
+      .replace(/If False/g, 'If Cooldown is Not Active');
     return `
 <div>
   <div style="padding-top: 8px;">
@@ -65,214 +85,216 @@ module.exports = {
       <input id="varName" class="round" type="text"><br>
     </div>
   </div>
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
-    const value = document.getElementById('value')
+  init() {
+    const { glob, document } = this;
+    const value = document.getElementById('value');
 
-    glob.onChange = function (Measurement) {
-      switch (parseInt(Measurement.value)) {
+    glob.onChange = function onChange(Measurement) {
+      switch (parseInt(Measurement.value, 10)) {
         case 0:
-          value.placeholder = '1000 = 1 second'
-          break
+          value.placeholder = '1000 = 1 second';
+          break;
         case 1:
-          value.placeholder = '1 = 1 second'
-          break
+          value.placeholder = '1 = 1 second';
+          break;
         case 2:
-          value.placeholder = '1 = 60 seconds'
-          break
+          value.placeholder = '1 = 60 seconds';
+          break;
         case 3:
-          value.placeholder = '1 = 3600 seconds'
-          break
+          value.placeholder = '1 = 3600 seconds';
+          break;
         default:
-          break
+          break;
       }
-    }
+    };
 
-    const option = document.createElement('OPTION')
-    option.value = '4'
-    option.text = 'Jump to Anchor'
-    const iffalse = document.getElementById('iffalse')
-    if (iffalse.length === 4) iffalse.add(option)
+    const option = document.createElement('OPTION');
+    option.value = '4';
+    option.text = 'Jump to Anchor';
+    const iffalse = document.getElementById('iffalse');
+    if (iffalse.length === 4) iffalse.add(option);
 
-    const option2 = document.createElement('OPTION')
-    option2.value = '4'
-    option2.text = 'Jump to Anchor'
-    const iftrue = document.getElementById('iftrue')
-    if (iftrue.length === 4) iftrue.add(option2)
+    const option2 = document.createElement('OPTION');
+    option2.value = '4';
+    option2.text = 'Jump to Anchor';
+    const iftrue = document.getElementById('iftrue');
+    if (iftrue.length === 4) iftrue.add(option2);
 
-    glob.onChangeTrue = function (event) {
-      switch (parseInt(event.value)) {
+    glob.onChangeTrue = function onChangeTrue(event) {
+      switch (parseInt(event.value, 10)) {
         case 0:
         case 1:
-          document.getElementById('iftrueContainer').style.display = 'none'
-          break
+          document.getElementById('iftrueContainer').style.display = 'none';
+          break;
         case 2:
-          document.getElementById('iftrueName').innerHTML = 'Action Number'
-          document.getElementById('iftrueContainer').style.display = null
-          break
+          document.getElementById('iftrueName').innerHTML = 'Action Number';
+          document.getElementById('iftrueContainer').style.display = null;
+          break;
         case 3:
-          document.getElementById('iftrueName').innerHTML = 'Number of Actions to Skip'
-          document.getElementById('iftrueContainer').style.display = null
-          break
+          document.getElementById('iftrueName').innerHTML = 'Number of Actions to Skip';
+          document.getElementById('iftrueContainer').style.display = null;
+          break;
         case 4:
-          document.getElementById('iftrueName').innerHTML = 'Anchor ID'
-          document.getElementById('iftrueContainer').style.display = null
-          break
+          document.getElementById('iftrueName').innerHTML = 'Anchor ID';
+          document.getElementById('iftrueContainer').style.display = null;
+          break;
         default:
-          break
+          break;
       }
-    }
-    glob.onChangeFalse = function (event) {
-      switch (parseInt(event.value)) {
+    };
+    glob.onChangeFalse = function onChangeFalse(event) {
+      switch (parseInt(event.value, 10)) {
         case 0:
         case 1:
-          document.getElementById('iffalseContainer').style.display = 'none'
-          break
+          document.getElementById('iffalseContainer').style.display = 'none';
+          break;
         case 2:
-          document.getElementById('iffalseName').innerHTML = 'Action Number'
-          document.getElementById('iffalseContainer').style.display = null
-          break
+          document.getElementById('iffalseName').innerHTML = 'Action Number';
+          document.getElementById('iffalseContainer').style.display = null;
+          break;
         case 3:
-          document.getElementById('iffalseName').innerHTML = 'Number of Actions to Skip'
-          document.getElementById('iffalseContainer').style.display = null
-          break
+          document.getElementById('iffalseName').innerHTML = 'Number of Actions to Skip';
+          document.getElementById('iffalseContainer').style.display = null;
+          break;
         case 4:
-          document.getElementById('iffalseName').innerHTML = 'Anchor ID'
-          document.getElementById('iffalseContainer').style.display = null
-          break
+          document.getElementById('iffalseName').innerHTML = 'Anchor ID';
+          document.getElementById('iffalseContainer').style.display = null;
+          break;
+        default:
+          break;
       }
-    }
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer')
-    glob.onChangeTrue(document.getElementById('iftrue'))
-    glob.onChangeFalse(document.getElementById('iffalse'))
-    glob.onChange(document.getElementById('Measurement'))
+    };
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
+    glob.onChangeTrue(document.getElementById('iftrue'));
+    glob.onChangeFalse(document.getElementById('iffalse'));
+    glob.onChange(document.getElementById('Measurement'));
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const value = parseInt(this.evalMessage(data.value, cache))
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const value = parseInt(this.evalMessage(data.value, cache), 10);
 
-    if (isNaN(value)) return console.error(`${value} is not a valid number.`)
+    if (isNaN(value)) return console.error(`${value} is not a valid number.`);
 
-    let cmd
+    let cmd;
     for (const command of this.getDBM().Files.data.commands) {
       if (command && JSON.stringify(command.actions) === JSON.stringify(cache.actions)) {
-        cmd = command
-        break
+        cmd = command;
+        break;
       }
     }
 
-    const timeLeft = this.TimeRestriction(cache.msg, cmd, cache)
+    const timeLeft = this.TimeRestriction(cache.msg, cmd, cache);
     if (!timeLeft) {
-      this.executeResults(false, data, cache)
+      this.executeResults(false, data, cache);
     } else {
-      const storage = parseInt(data.storage)
-      const varName2 = this.evalMessage(data.varName, cache)
-      this.storeValue(timeLeft, storage, varName2, cache)
-      this.executeResults(true, data, cache)
+      const storage = parseInt(data.storage, 10);
+      const varName2 = this.evalMessage(data.varName, cache);
+      this.storeValue(timeLeft, storage, varName2, cache);
+      this.executeResults(true, data, cache);
     }
   },
 
-  mod (DBM) {
-    let Cooldown
-    DBM.Actions.LoadTimeRestriction = function (cache) {
-      Cooldown = this.getVariable(3, 'DBMCooldown', cache)
+  mod(DBM) {
+    let Cooldown;
+    DBM.Actions.LoadTimeRestriction = function LoadTimeRestriction(cache) {
+      Cooldown = this.getVariable(3, 'DBMCooldown', cache);
       if (typeof Cooldown === 'undefined') {
-        Cooldown = {}
+        Cooldown = {};
       } else if (typeof Cooldown === 'string') {
-        Cooldown = JSON.parse(Cooldown)
+        Cooldown = JSON.parse(Cooldown);
       }
       for (const command of Object.keys(Cooldown)) {
         if (Cooldown[command].save === 1) {
-          delete Cooldown[command]
+          delete Cooldown[command];
         }
         if (Cooldown[command]) {
           if (!DBM.Bot.$cmds[command]) {
-            delete Cooldown[command]
+            delete Cooldown[command];
           } else {
-            const action = DBM.Bot.$cmds[command].actions.find(a => a.name === 'Set Time Restriction')
+            const action = DBM.Bot.$cmds[command].actions.find((a) => a.name === 'Set Time Restriction');
             if (action !== undefined) {
               if (action.save === '1') {
-                delete Cooldown[command]
+                delete Cooldown[command];
               }
             } else {
-              delete Cooldown[command]
+              delete Cooldown[command];
             }
           }
         }
       }
-    }
+    };
 
-    DBM.Actions.TimeRestriction = function (msg, cmd, cache) {
-      if (typeof Cooldown === 'undefined') this.LoadTimeRestriction(cache)
-      const { Files } = DBM
-      let value = parseInt(this.evalMessage(cache.actions[cache.index].value, cache))
-      const measurement = parseInt(cache.actions[cache.index].measurement)
-      const restrict = parseInt(cache.actions[cache.index].restrict)
+    DBM.Actions.TimeRestriction = function TimeRestriction(msg, cmd, cache) {
+      if (typeof Cooldown === 'undefined') this.LoadTimeRestriction(cache);
+      const { Files } = DBM;
+      let value = parseInt(this.evalMessage(cache.actions[cache.index].value, cache), 10);
+      const measurement = parseInt(cache.actions[cache.index].measurement, 10);
+      const restrict = parseInt(cache.actions[cache.index].restrict, 10);
       switch (measurement) {
         case 1:
-          value *= 1000
-          break
+          value *= 1000;
+          break;
         case 2:
-          value *= 60000
-          break
+          value *= 60000;
+          break;
         case 3:
-          value *= 3600000
-          break
+          value *= 3600000;
+          break;
         default:
-          break
+          break;
       }
 
-      if (!Cooldown[cmd.name]) Cooldown[cmd.name] = {}
-      Cooldown[cmd.name].save = parseInt(cache.actions[cache.index].save)
-      Cooldown[cmd.name].cooldown = value
-      const now = Date.now()
+      if (!Cooldown[cmd.name]) Cooldown[cmd.name] = {};
+      Cooldown[cmd.name].save = parseInt(cache.actions[cache.index].save, 10);
+      Cooldown[cmd.name].cooldown = value;
+      const now = Date.now();
       switch (restrict) {
         case 0:
           if (typeof Cooldown[cmd.name][msg.author.id] !== 'number') {
-            delete Cooldown[cmd.name][msg.author.id]
+            delete Cooldown[cmd.name][msg.author.id];
           }
           if (Cooldown[cmd.name][msg.author.id]) {
-            const expirationTime = Cooldown[cmd.name][msg.author.id] + Cooldown[cmd.name].cooldown
+            const expirationTime = Cooldown[cmd.name][msg.author.id] + Cooldown[cmd.name].cooldown;
             if (now < expirationTime) {
-              return Math.ceil((expirationTime - now) / 1000)
+              return Math.ceil((expirationTime - now) / 1000);
             }
-            Cooldown[cmd.name][msg.author.id] = now
-            if (Cooldown[cmd.name].save === 0) Files.saveGlobalVariable('DBMCooldown', JSON.stringify(Cooldown))
-            return false
+            Cooldown[cmd.name][msg.author.id] = now;
+            if (Cooldown[cmd.name].save === 0) Files.saveGlobalVariable('DBMCooldown', JSON.stringify(Cooldown));
+            return false;
           }
-          Cooldown[cmd.name][msg.author.id] = now
-          if (Cooldown[cmd.name].save === 0) Files.saveGlobalVariable('DBMCooldown', JSON.stringify(Cooldown))
-          return false
+          Cooldown[cmd.name][msg.author.id] = now;
+          if (Cooldown[cmd.name].save === 0) Files.saveGlobalVariable('DBMCooldown', JSON.stringify(Cooldown));
+          return false;
         case 1: {
-          let channelId
+          let channelId;
           if (typeof cache.server !== 'undefined') {
-            channelId = cache.server.id
+            channelId = cache.server.id;
           } else {
-            channelId = msg.channel.id
+            channelId = msg.channel.id;
           }
           if (typeof Cooldown[cmd.name][msg.author.id] !== 'object') {
-            Cooldown[cmd.name][msg.author.id] = {}
+            Cooldown[cmd.name][msg.author.id] = {};
           }
           if (Cooldown[cmd.name][msg.author.id][channelId]) {
-            const expirationTime = Cooldown[cmd.name][msg.author.id][channelId] + Cooldown[cmd.name].cooldown
+            const expirationTime = Cooldown[cmd.name][msg.author.id][channelId] + Cooldown[cmd.name].cooldown;
             if (now < expirationTime) {
-              return Math.ceil((expirationTime - now) / 1000)
+              return Math.ceil((expirationTime - now) / 1000);
             }
-            Cooldown[cmd.name][msg.author.id][channelId] = now
-            if (Cooldown[cmd.name].save === 0) Files.saveGlobalVariable('DBMCooldown', JSON.stringify(Cooldown))
-            return false
+            Cooldown[cmd.name][msg.author.id][channelId] = now;
+            if (Cooldown[cmd.name].save === 0) Files.saveGlobalVariable('DBMCooldown', JSON.stringify(Cooldown));
+            return false;
           }
-          Cooldown[cmd.name][msg.author.id][channelId] = now
-          if (Cooldown[cmd.name].save === 0) Files.saveGlobalVariable('DBMCooldown', JSON.stringify(Cooldown))
-          return false
+          Cooldown[cmd.name][msg.author.id][channelId] = now;
+          if (Cooldown[cmd.name].save === 0) Files.saveGlobalVariable('DBMCooldown', JSON.stringify(Cooldown));
+          return false;
         }
         default:
-          break
+          break;
       }
-    }
-  }
-}
+    };
+  },
+};

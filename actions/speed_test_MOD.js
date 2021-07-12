@@ -2,32 +2,30 @@ module.exports = {
   name: 'Speed Test',
   section: 'Other Stuff',
 
-  subtitle (data) {
+  subtitle(data) {
     if (data.info === 'downloadspeed') {
-      return 'Speed Test - Download Speed'
-    } if (data.info === 'uploadspeed') {
-      return 'Speed Test - Upload Speed'
+      return 'Speed Test - Download Speed';
     }
-    return 'Error in subtitles.'
+    if (data.info === 'uploadspeed') {
+      return 'Speed Test - Upload Speed';
+    }
+    return 'Error in subtitles.';
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    let dataType
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    let dataType = 'Unknown Data Type';
     if (data.info === 'downloadspeed') {
-      dataType = 'Download Speed'
+      dataType = 'Download Speed';
     } else if (data.info === 'uploadspeed') {
-      dataType = 'Upload Speed'
-    } else {
-      dataType = 'Unknown Data Type'
+      dataType = 'Upload Speed';
     }
-    return ([data.varName, dataType])
+    return [data.varName, dataType];
   },
 
   fields: ['info', 'type', 'storage', 'varName'],
 
-  html (isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div style="float: left; width: 50%; padding-top: 8px;">
   Speed:<br>
@@ -90,38 +88,38 @@ module.exports = {
   span {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   }
-</style>`
+</style>`;
   },
 
-  init () {
-    const { glob, document } = this
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer')
+  init() {
+    const { glob, document } = this;
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
   },
 
-  async action (cache) {
-    const data = cache.actions[cache.index]
-    const type = parseInt(data.type)
-    const Mods = this.getMods()
-    const speedTest = Mods.require('speedtest-net')
+  async action(cache) {
+    const data = cache.actions[cache.index];
+    const type = parseInt(data.type, 10);
+    const Mods = this.getMods();
+    const speedTest = Mods.require('speedtest-net');
 
     try {
-      const test = await speedTest({ maxTime: 5000, acceptLicense: true })
+      const test = await speedTest({ maxTime: 5000, acceptLicense: true });
 
-      let result = data.info === 'downloadspeed' ? test.download.bandwidth : test.upload.bandwidth
-      if (type === 0) result /= 125000
-      else if (type === 1) result /= 1000
+      let result = data.info === 'downloadspeed' ? test.download.bandwidth : test.upload.bandwidth;
+      if (type === 0) result /= 125000;
+      else if (type === 1) result /= 1000;
 
       if (result !== undefined) {
-        const storage = parseInt(data.storage)
-        const varName2 = this.evalMessage(data.varName, cache)
-        this.storeValue(result, storage, varName2, cache)
+        const storage = parseInt(data.storage, 10);
+        const varName2 = this.evalMessage(data.varName, cache);
+        this.storeValue(result, storage, varName2, cache);
       }
     } catch (err) {
-      console.log(`Error in Speed Test Mod: ${err}`)
+      console.log(`Error in Speed Test Mod: ${err}`);
     } finally {
-      this.callNextAction(cache)
+      this.callNextAction(cache);
     }
   },
 
-  mod () {}
-}
+  mod() {},
+};

@@ -2,17 +2,16 @@ module.exports = {
   name: 'Control Server Prefix',
   section: 'Server Control',
 
-  subtitle (data) {
-    if (parseInt(data.controlType) === 1) {
-      return 'Delete server prefix'
-    } else {
-      return `Set server prefix: ${data.prefix}`
+  subtitle(data) {
+    if (parseInt(data.controlType, 10) === 1) {
+      return 'Delete server prefix';
     }
+    return `Set server prefix: ${data.prefix}`;
   },
 
   fields: ['server', 'controlType', 'varName', 'prefix'],
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
 <div>
   <div style="float: left; width: 35%;">
@@ -36,52 +35,57 @@ module.exports = {
 <div id="prefixContainer" style="padding-top: 8px; width: 60%; float: right">
   Prefix:<br>
   <input id="prefix" class="round" type="text">
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
+  init() {
+    const { glob, document } = this;
 
-    glob.serverChange(document.getElementById('server'), 'varNameContainer')
-    glob.onChangeControl = function (controlType) {
-      document.getElementById('prefixContainer').style.display = [null, 'none'][parseInt(controlType.value)]
-    }
+    glob.serverChange(document.getElementById('server'), 'varNameContainer');
+    glob.onChangeControl = function onChangeControl(controlType) {
+      document.getElementById('prefixContainer').style.display = [null, 'none'][parseInt(controlType.value, 10)];
+    };
 
-    glob.onChangeControl(document.getElementById('controlType'))
+    glob.onChangeControl(document.getElementById('controlType'));
   },
 
-  action (cache) {
-    const fs = require('fs')
-    const path = require('path')
-    const data = cache.actions[cache.index]
-    const type = parseInt(data.server)
-    const { Actions } = this.getDBM()
+  action(cache) {
+    const fs = require('fs');
+    const path = require('path');
+    const data = cache.actions[cache.index];
+    const type = parseInt(data.server, 10);
+    const { Actions } = this.getDBM();
 
-    const varName = this.evalMessage(data.varName, cache)
-    const server = this.getServer(type, varName, cache)
-    const controlType = parseInt(data.controlType)
-    const prefix = this.evalMessage(data.prefix, cache)
-    const settingsPath = path.join('data', 'serverSettings.json')
+    const varName = this.evalMessage(data.varName, cache);
+    const server = this.getServer(type, varName, cache);
+    const controlType = parseInt(data.controlType, 10);
+    const prefix = this.evalMessage(data.prefix, cache);
+    const settingsPath = path.join('data', 'serverSettings.json');
 
-    if (!fs.existsSync(settingsPath)) return Actions.displayError(data, cache, 'You must have the server_prefixes_EXT.js extension installed to use this action')
+    if (!fs.existsSync(settingsPath))
+      return Actions.displayError(
+        data,
+        cache,
+        'You must have the server_prefixes_EXT.js extension installed to use this action',
+      );
 
     fs.readFile(settingsPath, 'utf8', (err, file) => {
-      if (err) return Actions.displayError(data, cache, err)
-      const json = JSON.parse(file)
+      if (err) return Actions.displayError(data, cache, err);
+      const json = JSON.parse(file);
       if (controlType === 0) {
-        json[server.id] = prefix
+        json[server.id] = prefix;
       } else if (controlType === 1 && json[server.id]) {
-        delete json[server.id]
-        delete server.prefix
+        delete json[server.id];
+        delete server.prefix;
       }
 
       fs.writeFile(settingsPath, JSON.stringify(json), (err) => {
-        if (err) return Actions.displayError(data, cache, err)
-        server.prefix = prefix
-        Actions.callNextAction(cache)
-      })
-    })
+        if (err) return Actions.displayError(data, cache, err);
+        server.prefix = prefix;
+        Actions.callNextAction(cache);
+      });
+    });
   },
 
-  mod () {}
-}
+  mod() {},
+};

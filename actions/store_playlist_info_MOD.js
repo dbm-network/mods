@@ -2,18 +2,18 @@ module.exports = {
   name: 'Store Playlist Info',
   section: 'YouTube Tools',
 
-  subtitle () {
-    return 'Store YouTube playlist information.'
+  subtitle() {
+    return 'Store YouTube playlist information.';
   },
 
-  variableStorage (data, varType) {
-    if (parseInt(data.storage) !== varType) return
-    return ([data.varName, 'Playlist Info'])
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName, 'Playlist Info'];
   },
 
   fields: ['query', 'info', 'storage', 'varName'],
 
-  html (isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div style="width: 90%;">
   Playlist URL:<br>
@@ -40,44 +40,44 @@ module.exports = {
     Variable Name:<br>
     <input id="varName" class="round" type="text">
   </div>
-</div>`
+</div>`;
   },
 
-  init () {},
+  init() {},
 
-  async action (cache) {
-    const data = cache.actions[cache.index]
-    const storage = parseInt(data.storage)
-    const varName = this.evalMessage(data.varName, cache)
-    const url = this.evalMessage(data.query, cache)
-    const INFO = parseInt(data.info)
-    const Mods = this.getMods()
-    const ytlist = Mods.require('youtube-playlist')
-    let result
+  async action(cache) {
+    const data = cache.actions[cache.index];
+    const storage = parseInt(data.storage, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    const url = this.evalMessage(data.query, cache);
+    const INFO = parseInt(data.info, 10);
+    const Mods = this.getMods();
+    const ytlist = Mods.require('youtube-playlist');
+    let result;
 
     switch (INFO) {
       case 0:
-        result = await ytlist(url, ['id', 'name', 'url'])
-        break
+        result = await ytlist(url, ['id', 'name', 'url']);
+        break;
       case 1:
-        result = await ytlist(url, 'url')
-        break
+        result = await ytlist(url, 'url');
+        break;
       case 2:
-        result = await ytlist(url, 'name')
-        break
+        result = await ytlist(url, 'name');
+        break;
       case 3:
-        result = await ytlist(url, 'duration')
-        break
+        result = await ytlist(url, 'duration');
+        break;
       case 4:
-        result = await ytlist(url, 'id')
-        break
+        result = await ytlist(url, 'id');
+        break;
       default:
-        break
+        break;
     }
 
-    this.storeValue(result, storage, varName, cache)
-    this.callNextAction(cache)
+    this.storeValue(result, storage, varName, cache);
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

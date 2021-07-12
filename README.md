@@ -23,10 +23,10 @@ This repository is not meant to be downloaded or cloned. Please follow the insta
 
 1.  Download the package you need:
 
-| Package    |                                                         Download Link                                                        |
-|------------|:----------------------------------------------------------------------------------------------------------------------------:|
-| Actions    | [Download](https://dbm-network.github.io/download-git/#/home?url=https://github.com/dbm-network/mods/tree/master/actions)    |
-| Events     | [Download](https://dbm-network.github.io/download-git/#/home?url=https://github.com/dbm-network/mods/tree/master/events)     |
+| Package    |                                                        Download Link                                                         |
+| ---------- | :--------------------------------------------------------------------------------------------------------------------------: |
+| Actions    |  [Download](https://dbm-network.github.io/download-git/#/home?url=https://github.com/dbm-network/mods/tree/master/actions)   |
+| Events     |   [Download](https://dbm-network.github.io/download-git/#/home?url=https://github.com/dbm-network/mods/tree/master/events)   |
 | Extensions | [Download](https://dbm-network.github.io/download-git/#/home?url=https://github.com/dbm-network/mods/tree/master/extensions) |
 
 2.  In the top bar of Discord Bot Maker, click Project → Open Directory of your corresponding package (e.g. Open Actions Directory)

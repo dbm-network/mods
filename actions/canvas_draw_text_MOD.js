@@ -2,13 +2,13 @@ module.exports = {
   name: 'Canvas Draw Text on Image',
   section: 'Image Editing',
 
-  subtitle (data) {
-    return `${data.text}`
+  subtitle(data) {
+    return `${data.text}`;
   },
 
   fields: ['storage', 'varName', 'x', 'y', 'fontPath', 'fontColor', 'fontSize', 'align', 'text'],
 
-  html (isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div style="float: left; width: 50%;">
   Source Image:<br>
@@ -45,87 +45,90 @@ module.exports = {
 <div>
   Text:<br>
   <textarea id="text" rows="2" placeholder="Insert text here..." style="width: 95%; white-space: nowrap; resize: none;"></textarea>
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
+  init() {
+    const { glob, document } = this;
 
-    glob.refreshVariableList(document.getElementById('storage'))
+    glob.refreshVariableList(document.getElementById('storage'));
   },
 
-  action (cache) {
-    const Canvas = require('canvas')
-    const opentype = require('opentype.js')
-    const data = cache.actions[cache.index]
-    const storage = parseInt(data.storage)
-    const varName = this.evalMessage(data.varName, cache)
-    const imagedata = this.getVariable(storage, varName, cache)
+  action(cache) {
+    const Canvas = require('canvas');
+    const opentype = require('opentype.js');
+    const data = cache.actions[cache.index];
+    const storage = parseInt(data.storage, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    const imagedata = this.getVariable(storage, varName, cache);
     if (!imagedata) {
-      this.callNextAction(cache)
-      return
+      this.callNextAction(cache);
+      return;
     }
-    const fontPath = this.evalMessage(data.fontPath, cache)
-    let fontColor = this.evalMessage(data.fontColor, cache)
+    const fontPath = this.evalMessage(data.fontPath, cache);
+    let fontColor = this.evalMessage(data.fontColor, cache);
     if (!fontColor.startsWith('#')) {
-      fontColor = `#${fontColor}`
+      fontColor = `#${fontColor}`;
     }
-    let fontSize = parseInt(this.evalMessage(data.fontSize, cache))
-    if (isNaN(fontSize)) {
-      fontSize = 10
+    let fontSize = parseInt(this.evalMessage(data.fontSize, cache), 10);
+    if (Number.isNaN(fontSize)) {
+      fontSize = 10;
     }
-    const align = parseInt(data.align)
-    let x = parseFloat(this.evalMessage(data.x, cache))
-    let y = parseFloat(this.evalMessage(data.y, cache))
-    const text = this.evalMessage(data.text, cache)
-    const image = new Canvas.Image()
-    image.src = imagedata
-    const canvas = Canvas.createCanvas(image.width, image.height)
-    const ctx = canvas.getContext('2d')
-    ctx.drawImage(image, 0, 0, image.width, image.height)
-    const font = opentype.loadSync(fontPath)
-    const textpath = font.getPath(text, 0, 0, fontSize)
-    const bounder = textpath.getBoundingBox()
-    const width = bounder.x2 - bounder.x1
-    const height = bounder.y2 - bounder.y1
+    const align = parseInt(data.align, 10);
+    let x = parseFloat(this.evalMessage(data.x, cache));
+    let y = parseFloat(this.evalMessage(data.y, cache));
+    const text = this.evalMessage(data.text, cache);
+    const image = new Canvas.Image();
+    image.src = imagedata;
+    const canvas = Canvas.createCanvas(image.width, image.height);
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(image, 0, 0, image.width, image.height);
+    const font = opentype.loadSync(fontPath);
+    const textpath = font.getPath(text, 0, 0, fontSize);
+    const bounder = textpath.getBoundingBox();
+    const width = bounder.x2 - bounder.x1;
+    const height = bounder.y2 - bounder.y1;
     switch (align) {
       case 1:
-        x -= width / 2
-        break
+        x -= width / 2;
+        break;
       case 2:
-        x -= width
-        break
+        x -= width;
+        break;
       case 3:
-        y -= height / 2
-        break
+        y -= height / 2;
+        break;
       case 4:
-        x -= width / 2
-        y -= height / 2
-        break
+        x -= width / 2;
+        y -= height / 2;
+        break;
       case 5:
-        x -= width
-        y -= height / 2
-        break
+        x -= width;
+        y -= height / 2;
+        break;
       case 6:
-        y -= height
-        break
+        y -= height;
+        break;
       case 7:
-        x -= width / 2
-        y -= height
-        break
+        x -= width / 2;
+        y -= height;
+        break;
       case 8:
-        x -= width
-        y -= height
+        x -= width;
+        y -= height;
+        break;
+      default:
+        break;
     }
-    x -= bounder.x1
-    y -= bounder.y1
-    const Path = font.getPath(text, x, y, fontSize)
-    Path.fill = fontColor
-    Path.draw(ctx)
-    const result = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream')
-    this.storeValue(result, storage, varName, cache)
-    this.callNextAction(cache)
+    x -= bounder.x1;
+    y -= bounder.y1;
+    const Path = font.getPath(text, x, y, fontSize);
+    Path.fill = fontColor;
+    Path.draw(ctx);
+    const result = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
+    this.storeValue(result, storage, varName, cache);
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

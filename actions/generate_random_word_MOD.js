@@ -2,19 +2,18 @@ module.exports = {
   name: 'Generate Random Word(s)',
   section: 'Other Stuff',
 
-  subtitle () {
-    return 'Generate Random Word(s)'
+  subtitle() {
+    return 'Generate Random Word(s)';
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    return ([data.varName, 'Text'])
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName, 'Text'];
   },
 
   fields: ['storage', 'varName', 'min', 'max', 'wps'],
 
-  html (isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div>
   <div style="float: left; width: 45%;">
@@ -41,36 +40,36 @@ module.exports = {
     Variable Name:<br>
     <input id="varName" class="round" type="text">
   </div>
-</div>`
+</div>`;
   },
 
-  init () {},
+  init() {},
 
-  action (cache) {
-    const Mods = this.getMods()
-    const randomWords = Mods.require('random-words')
-    const data = cache.actions[cache.index]
-    const type = parseInt(data.storage)
-    const varName = this.evalMessage(data.varName, cache)
-    const wps = parseInt(this.evalMessage(data.wps, cache))
-    const min = parseInt(this.evalMessage(data.min, cache))
-    const max = parseInt(this.evalMessage(data.max, cache)) + 1
+  action(cache) {
+    const Mods = this.getMods();
+    const randomWords = Mods.require('random-words');
+    const data = cache.actions[cache.index];
+    const type = parseInt(data.storage, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    const wps = parseInt(this.evalMessage(data.wps, cache), 10);
+    const min = parseInt(this.evalMessage(data.min, cache), 10);
+    const max = parseInt(this.evalMessage(data.max, cache), 10) + 1;
 
     if (isNaN(min)) {
-      console.log(`Error with Generate Random Word(s), Action #${cache.index}: min is not a number`)
-      this.callNextAction(cache)
+      console.log(`Error with Generate Random Word(s), Action #${cache.index}: min is not a number`);
+      return this.callNextAction(cache);
     } else if (isNaN(max)) {
-      console.log(`Error with Generate Random Word(s), Action #${cache.index}: max is not a number`)
-      this.callNextAction(cache)
+      console.log(`Error with Generate Random Word(s), Action #${cache.index}: max is not a number`);
+      return this.callNextAction(cache);
     } else if (isNaN(wps)) {
-      console.log(`Error with Generate Random Word(s), Action #${cache.index}: Words Per Sentence is not a number`)
-      this.callNextAction(cache)
+      console.log(`Error with Generate Random Word(s), Action #${cache.index}: Words Per Sentence is not a number`);
+      return this.callNextAction(cache);
     }
 
-    const words = randomWords({ min, max, wordsPerString: wps })
-    this.storeValue(words, type, varName, cache)
-    this.callNextAction(cache)
+    const words = randomWords({ min, max, wordsPerString: wps });
+    this.storeValue(words, type, varName, cache);
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};
