@@ -1,24 +1,48 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-empty */
+
 module.exports = {
   name: 'Delete Bulk Messages MOD',
-  isplayName: 'Delete Bulk Messages',
+  displayName: 'Delete Bulk Messages',
   section: 'Messaging',
 
-  subtitle (data) {
-    const channels = ['Same Channel', 'Mentioned Channel', '1st Server Channel', 'Temp Variable', 'Server Variable', 'Global Variable']
-    return `Delete ${data.count} messages from ${channels[parseInt(data.channel)] || 'Nothing'}`
+  subtitle(data) {
+    const channels = [
+      'Same Channel',
+      'Mentioned Channel',
+      '1st Server Channel',
+      'Temp Variable',
+      'Server Variable',
+      'Global Variable',
+    ];
+    return `Delete ${data.count} messages from ${channels[parseInt(data.channel, 10)] || 'Nothing'}`;
   },
 
-  fields: ['channel', 'varName', 'count', 'type', 'option', 'msgid', 'Con0', 'Con1', 'Con2', 'Con3', 'Con4', 'Con5', 'iffalse', 'iffalseVal', 'storage', 'varName2'],
+  fields: [
+    'channel',
+    'varName',
+    'count',
+    'type',
+    'option',
+    'msgid',
+    'Con0',
+    'Con1',
+    'Con2',
+    'Con3',
+    'Con4',
+    'Con5',
+    'iffalse',
+    'iffalseVal',
+    'storage',
+    'varName2',
+  ],
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    return ([data.varName2, 'Message List'])
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName2, 'Message List'];
   },
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
   <div style="width: 550px; height: 350px; overflow-y: scroll;">
     <div>
@@ -128,167 +152,174 @@ module.exports = {
         <input id="iffalseVal" class="round" type="text">
       </div>
     </div>
-  </div>`
+  </div>`;
   },
 
-  init () {
-    const { glob, document } = this
-    document.getElementById('link').onclick = function () {
-      require('child_process').execSync('start https://gist.github.com/LeonZ2019/336a20a85f8c37e5d9273d0c690040e6')
-    }
+  init() {
+    const { glob, document } = this;
+    document.getElementById('link').onclick = function onclick() {
+      require('child_process').execSync('start https://gist.github.com/LeonZ2019/336a20a85f8c37e5d9273d0c690040e6');
+    };
 
-    glob.onChangeFalse = function (event) {
-      switch (parseInt(event.value)) {
+    glob.onChangeFalse = function onChangeFalse(event) {
+      switch (parseInt(event.value, 10)) {
         case 0:
         case 1:
-          document.getElementById('iffalseContainer').style.display = 'none'
-          break
+          document.getElementById('iffalseContainer').style.display = 'none';
+          break;
         case 2:
-          document.getElementById('iffalseName').innerHTML = 'Action Number'
-          document.getElementById('iffalseContainer').style.display = null
-          break
+          document.getElementById('iffalseName').innerHTML = 'Action Number';
+          document.getElementById('iffalseContainer').style.display = null;
+          break;
         case 3:
-          document.getElementById('iffalseName').innerHTML = 'Number of Actions to Skip'
-          document.getElementById('iffalseContainer').style.display = null
-          break
+          document.getElementById('iffalseName').innerHTML = 'Number of Actions to Skip';
+          document.getElementById('iffalseContainer').style.display = null;
+          break;
         case 4:
-          document.getElementById('iffalseName').innerHTML = 'Anchor ID'
-          document.getElementById('iffalseContainer').style.display = null
-          break
+          document.getElementById('iffalseName').innerHTML = 'Anchor ID';
+          document.getElementById('iffalseContainer').style.display = null;
+          break;
+        default:
+          break;
       }
-    }
-    glob.onChange1 = function (type) {
-      const value = parseInt(type.value)
-      const placeholder = document.getElementById('filterPlaceHolder')
-      const placeholder2 = document.getElementById('filterPlaceHolder2')
-      const placeholder3 = document.getElementById('filterPlaceHolder3')
+    };
+    glob.onChange1 = function onChange1(type) {
+      const value = parseInt(type.value, 10);
+      const placeholder = document.getElementById('filterPlaceHolder');
+      const placeholder2 = document.getElementById('filterPlaceHolder2');
+      const placeholder3 = document.getElementById('filterPlaceHolder3');
       if (value === 0) {
-        placeholder.style.display = 'none'
-        placeholder2.style.display = 'none'
-        placeholder3.style.display = 'none'
+        placeholder.style.display = 'none';
+        placeholder2.style.display = 'none';
+        placeholder3.style.display = 'none';
       } else {
-        placeholder.style.display = null
-        placeholder2.style.display = null
-        placeholder3.style.display = null
+        placeholder.style.display = null;
+        placeholder2.style.display = null;
+        placeholder3.style.display = null;
       }
-    }
-    glob.onChange2 = function (event) {
-      const value = parseInt(event.value)
-      const varNameInput = document.getElementById('varNameContainer2')
+    };
+    glob.onChange2 = function onChange2(event) {
+      const value = parseInt(event.value, 10);
+      const varNameInput = document.getElementById('varNameContainer2');
       if (value === 0) {
-        varNameInput.style.display = 'none'
+        varNameInput.style.display = 'none';
       } else {
-        varNameInput.style.display = null
+        varNameInput.style.display = null;
       }
-    }
-    glob.channelChange(document.getElementById('channel'), 'varNameContainer')
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer3')
-    glob.onChange1(document.getElementById('type'))
-    glob.onChange2(document.getElementById('option'))
-    glob.onChangeFalse(document.getElementById('iffalse'))
+    };
+    glob.channelChange(document.getElementById('channel'), 'varNameContainer');
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer3');
+    glob.onChange1(document.getElementById('type'));
+    glob.onChange2(document.getElementById('option'));
+    glob.onChangeFalse(document.getElementById('iffalse'));
   },
 
-  async action (cache) {
-    const data = cache.actions[cache.index]
-    const channel = parseInt(data.channel)
-    const varName = this.evalMessage(data.varName, cache)
-    const source = this.getChannel(channel, varName, cache)
+  async action(cache) {
+    const data = cache.actions[cache.index];
+    const channel = parseInt(data.channel, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    const source = this.getChannel(channel, varName, cache);
 
     if (!source) {
-      this.displayError(data, cache, 'Channel does not exist!')
-      return this.callNextAction(cache)
+      this.displayError(data, cache, 'Channel does not exist!');
+      return this.callNextAction(cache);
     }
 
-    const options = {}
-    const msgid = parseInt(this.evalMessage(data.msgid, cache))
-    switch (parseInt(data.option)) {
+    const options = {};
+    const msgid = parseInt(this.evalMessage(data.msgid, cache), 10);
+    switch (parseInt(data.option, 10)) {
       case 1:
-        options.before = msgid
-        break
+        options.before = msgid;
+        break;
       case 2:
-        options.after = msgid
-        break
+        options.after = msgid;
+        break;
       case 3:
-        options.around = msgid
-        break
+        options.around = msgid;
+        break;
       default:
-        break
+        break;
     }
 
-    options.limit = 100
-    const limit = Math.min(parseInt(this.evalMessage(data.count, cache)), 100)
+    options.limit = 100;
+    const limit = Math.min(parseInt(this.evalMessage(data.count, cache), 10), 100);
     if (this.dest(source, 'messages', 'fetch')) {
       try {
-        const Con0 = this.evalMessage(data.Con0, cache)
-        const Con1 = this.evalMessage(data.Con1, cache)
-        const Con2 = this.evalMessage(data.Con2, cache)
-        const Con3 = this.evalMessage(data.Con3, cache)
-        const Con4 = this.evalMessage(data.Con4, cache)
-        const Con5 = this.evalMessage(data.Con5, cache)
-        const { Collection } = this.getDBM().DiscordJS
-        let messagesFound = new Collection()
-        let lastId
-        let times = 0
+        const Con0 = this.evalMessage(data.Con0, cache);
+        const Con1 = this.evalMessage(data.Con1, cache);
+        const Con2 = this.evalMessage(data.Con2, cache);
+        const Con3 = this.evalMessage(data.Con3, cache);
+        const Con4 = this.evalMessage(data.Con4, cache);
+        const Con5 = this.evalMessage(data.Con5, cache);
+        const { Collection } = this.getDBM().DiscordJS;
+        let messagesFound = new Collection();
+        let lastId;
+        let times = 0;
         while (times === 0 || (messagesFound && messagesFound.size < limit)) {
-          times++
-          if (times === 10) throw Error('Looping for 10 times. Stop searching messages.')
-          let messages
+          times++;
+          if (times === 10) throw Error('Looping for 10 times. Stop searching messages.');
+          let messages;
           if (lastId && (messagesFound.length || messagesFound.size) < limit) {
-            options.before = lastId
-            messages = await source.messages.fetch(options)
+            options.before = lastId;
+            messages = await source.messages.fetch(options);
           } else {
-            messages = await source.messages.fetch(options)
-            lastId = messages.lastKey()
+            messages = await source.messages.fetch(options);
+            lastId = messages.lastKey();
           }
-          let filtered = messages
-          if (Con0) filtered = filtered.filter((e) => e.author.id !== Con0.replace(/\D/g, ''))
-          if (Con1) filtered = (filtered || messages).filter((e) => e.author.id === Con1.replace(/\D/g, ''))
+          let filtered = messages;
+          if (Con0) filtered = filtered.filter((e) => e.author.id !== Con0.replace(/\D/g, ''));
+          if (Con1) filtered = (filtered || messages).filter((e) => e.author.id === Con1.replace(/\D/g, ''));
           if (Con2 !== '0') {
-            filtered = (filtered || messages).filter(
-              (e) => Con2 === '1' ? e.embeds.length === 0 : e.embeds.length !== 0
-            )
+            filtered = (filtered || messages).filter((e) =>
+              Con2 === '1' ? e.embeds.length === 0 : e.embeds.length !== 0,
+            );
           }
-          if (Con3) filtered = (filtered || messages).filter((e) => e.content.includes(Con3))
+          if (Con3) filtered = (filtered || messages).filter((e) => e.content.includes(Con3));
           if (Con4) {
-            filtered = (filtered || messages).filter(function (message) {
-              let result = false
+            filtered = (filtered || messages).filter((message) => {
+              let result = false;
               try {
-                result = !!eval(Con4)
+                result = Boolean(eval(Con4));
               } catch {}
-              return result
-            })
+              return result;
+            });
           }
           if (Con5 !== '0') {
-            filtered = (filtered || messages).filter(
-              (e) => Con5 === '1' ? e.attachments.size === 0 : e.attachments.size !== 0
-            )
+            filtered = (filtered || messages).filter((e) =>
+              Con5 === '1' ? e.attachments.size === 0 : e.attachments.size !== 0,
+            );
           }
-          messagesFound = messagesFound.concat(filtered)
+          messagesFound = messagesFound.concat(filtered);
         }
-        if (messagesFound.array) messagesFound = messagesFound.array()
+        if (messagesFound.array) messagesFound = messagesFound.array();
         if (messagesFound.length > limit) {
-          messagesFound.splice(limit)
+          messagesFound.splice(limit);
         }
-        const deleted = await source.bulkDelete(messagesFound)
-        const storage = parseInt(data.storage)
+        const deleted = await source.bulkDelete(messagesFound);
+        const storage = parseInt(data.storage, 10);
         if (storage !== 0 && deleted) {
-          let result = deleted.array ? deleted.array() : deleted
-          if (deleted.length === 1) result = deleted[0]
-          const varName = this.evalMessage(data.varName2, cache)
-          this.storeValue(result, storage, varName, cache)
+          let result = deleted.array ? deleted.array() : deleted;
+          if (deleted.length === 1) result = deleted[0];
+          const varName = this.evalMessage(data.varName2, cache);
+          this.storeValue(result, storage, varName, cache);
         }
-        this.callNextAction(cache)
+        this.callNextAction(cache);
       } catch (err) {
-        if (['You can only bulk delete messages that are under 14 days old.', 'Looping for 10 times. Stop searching messages.'].includes(err.message)) {
-          this.executeResults(false, data, cache)
+        if (
+          [
+            'You can only bulk delete messages that are under 14 days old.',
+            'Looping for 10 times. Stop searching messages.',
+          ].includes(err.message)
+        ) {
+          this.executeResults(false, data, cache);
         } else {
-          this.displayError(data, cache, err)
+          this.displayError(data, cache, err);
         }
       }
     } else {
-      this.callNextAction(cache)
+      this.callNextAction(cache);
     }
   },
 
-  mod () {}
-}
+  mod() {},
+};

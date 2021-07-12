@@ -2,19 +2,31 @@ module.exports = {
   name: 'Store Member Data List',
   section: 'Member Control',
 
-  subtitle (data) {
-    return `${[(data.dataName)]}`
+  subtitle(data) {
+    return `${[data.dataName]}`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    return ([data.varName2, 'Array'])
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName2, 'Array'];
   },
 
-  fields: ['debu', 'numbefst2', 'numbefst', 'numbefstselect', 'sort', 'start', 'middle', 'end', 'getresults', 'dataName', 'varName2', 'storage'],
+  fields: [
+    'debu',
+    'numbefst2',
+    'numbefst',
+    'numbefstselect',
+    'sort',
+    'start',
+    'middle',
+    'end',
+    'getresults',
+    'dataName',
+    'varName2',
+    'storage',
+  ],
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
 <div id="wrexdiv2" style="width: 550px; height: 350px; overflow-y: scroll;">
   <div>
@@ -71,151 +83,151 @@ module.exports = {
     <option value="0" selected>Debug</option>
     <option value="1" selected>Don't Debug</option>
   </select>
-</div>`
+</div>`;
   },
 
-  init () {
-    const { document, glob } = this
-    glob.onChange1 = function (event) {
-      const value = parseInt(event.value)
-      const dom = document.getElementById('numbefst')
+  init() {
+    const { document, glob } = this;
+    glob.onChange1 = function onChange1(event) {
+      const value = parseInt(event.value, 10);
+      const dom = document.getElementById('numbefst');
 
       if (value === 1) {
-        dom.style.display = 'none'
+        dom.style.display = 'none';
       } else if (value === 2) {
-        dom.style.display = null
+        dom.style.display = null;
       }
-    }
-    glob.onChange1(document.getElementById('numbefstselect'))
+    };
+    glob.onChange1(document.getElementById('numbefstselect'));
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const { msg } = cache
-    const storage = parseInt(data.storage)
-    const varName2 = this.evalMessage(data.varName2, cache)
-    const st = this.evalMessage(data.start, cache)
-    const mid = this.evalMessage(data.middle, cache)
-    const selectionsnum = parseInt(data.numbefstselect)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const { msg } = cache;
+    const storage = parseInt(data.storage, 10);
+    const varName2 = this.evalMessage(data.varName2, cache);
+    const st = this.evalMessage(data.start, cache);
+    const mid = this.evalMessage(data.middle, cache);
+    const selectionsnum = parseInt(data.numbefstselect, 10);
 
-    const en = this.evalMessage(data.end, cache)
-    const sortType = parseInt(data.sort)
-    const debug = parseInt(data.debu)
-    const Mods = this.getMods()
+    const en = this.evalMessage(data.end, cache);
+    const sortType = parseInt(data.sort, 10);
+    const debug = parseInt(data.debu, 10);
+    const Mods = this.getMods();
 
-    const { sort } = Mods.require('fast-sort')
-    const { JSONPath } = Mods.require('jsonpath-plus')
-    const fs = require('fs')
-    let file = fs.readFileSync('./data/players.json', 'utf8')
+    const { sort } = Mods.require('fast-sort');
+    const { JSONPath } = Mods.require('jsonpath-plus');
+    const fs = require('fs');
+    let file = fs.readFileSync('./data/players.json', 'utf8');
 
     if (file) {
-      let dataName = this.evalMessage(data.dataName, cache)
-      dataName = `${'[' + "'"}${dataName}'` + ']'
+      let dataName = this.evalMessage(data.dataName, cache);
+      dataName = `['${dataName}']`;
 
-      const val = this.evalMessage(data.value, cache)
-      const list2 = []
-      let list4 = []
-      const list5 = []
-      let result
+      const val = this.evalMessage(data.value, cache);
+      const list2 = [];
+      let list4 = [];
+      const list5 = [];
+      let result;
 
       if (val !== undefined) {
-        file = JSON.parse(file)
+        file = JSON.parse(file);
         try {
-          const list = []
+          const list = [];
           result = JSONPath({
             path: `$.[?(@${dataName} || @${dataName} > -9999999999999999999999999999999999999999999999999999999)]*~`,
-            json: file
-          })
+            json: file,
+          });
 
           for (let i = 0; i < result.length; i++) {
             const result2 = JSONPath({
               path: `$.${result[i]}${dataName}`,
-              json: file
-            })
+              json: file,
+            });
 
             try {
-              const user = msg.guild.members.cache.get(result[i])
-              const { tag } = user.user
+              const user = msg.guild.members.cache.get(result[i]);
+              const { tag } = user.user;
 
               list.push({
                 id: tag,
-                name2: result2
-              })
+                name2: result2,
+              });
             } catch (err) {
-              if (debug === 0) console.error(err)
+              if (debug === 0) console.error(err);
             }
           }
 
           switch (sortType) {
             case 1:
-              result = sort(list).desc(u => parseInt(u.name2))
-              break
+              result = sort(list).desc((u) => parseInt(u.name2, 10));
+              break;
             case 2:
-              result = sort(list).asc(u => parseInt(u.name2))
-              break
+              result = sort(list).asc((u) => parseInt(u.name2, 10));
+              break;
             case 0:
-              result = list
-              break
+              result = list;
+              break;
             default:
-              break
+              break;
           }
 
-          let result2 = JSON.stringify(result)
-          let getres = parseInt(this.evalMessage(data.getresults, cache))
+          let result2 = JSON.stringify(result);
+          let getres = parseInt(this.evalMessage(data.getresults, cache), 10);
 
-          if (!getres) getres = result.length
-          if (getres > result.length) getres = result.length
+          if (!getres) getres = result.length;
+          if (getres > result.length) getres = result.length;
 
           for (let i = 0; i < getres; i++) {
-            result2 = JSON.stringify(result[i])
+            result2 = JSON.stringify(result[i]);
 
             try {
-              const file = JSON.parse(result2)
+              const file = JSON.parse(result2);
 
               const res = JSONPath({
                 path: '$..name2',
-                json: file
-              })
+                json: file,
+              });
 
               const res2 = JSONPath({
                 path: '$..id',
-                json: file
-              })
+                json: file,
+              });
 
               /* eslint-disable */
-              const username = res2
-              const result = res
-              eval(`${st}`)
-              const middle = ` ${mid} `
-              eval(`${en}`)
-              const en2 = eval(en)
-              const st2 = eval(st)
+              const username = res2;
+              const result = res;
+              eval(`${st}`);
+              const middle = ` ${mid} `;
+              eval(`${en}`);
+              const en2 = eval(en);
+              const st2 = eval(st);
               /* eslint-enable */
 
-              list5.push('easter egg :eyes:')
+              list5.push('easter egg :eyes:');
               switch (selectionsnum) {
                 case 1:
-                  list2.push(`${st2 + middle + en2}\n`)
-                  break
+                  list2.push(`${st2 + middle + en2}\n`);
+                  break;
                 case 2:
-                  list2.push(`${list5.length + this.evalMessage(data.numbefst2, cache)} ${st2}${middle}${en2}\n`)
-                  break
+                  list2.push(`${list5.length + this.evalMessage(data.numbefst2, cache)} ${st2}${middle}${en2}\n`);
+                  break;
               }
             } catch (err) {
-              if (debug === 0) console.error(err)
+              if (debug === 0) console.error(err);
             }
 
-            list4 = list2.join('')
+            list4 = list2.join('');
           }
 
-          this.storeValue(list4, storage, varName2, cache)
-          this.callNextAction(cache)
+          this.storeValue(list4, storage, varName2, cache);
+          this.callNextAction(cache);
         } catch (err) {
-          if (debug === 0) console.error(err)
+          if (debug === 0) console.error(err);
         }
       }
     }
   },
 
-  mod () {}
-}
+  mod() {},
+};

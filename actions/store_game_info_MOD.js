@@ -2,78 +2,94 @@ module.exports = {
   name: 'Store Game Info',
   section: 'Member Control',
 
-  subtitle (data) {
-    const members = ['Mentioned User', 'Command Author', 'Temp Variable', 'Server Variable', 'Global Variable']
-    const info = ['Game Application ID', 'Game Details', 'Game Name', 'Game State', 'Game Is Being Streamed?', 'Game Stream URL', 'Game Status Type', 'Game Large Image ID', 'Game Large Image URL', 'Game Large Image Text', 'Game Small Image ID', 'Game Small Image URL', 'Game Small Image Text', 'Game Timestamp Start', 'Game Party ID', 'Game Timestamp End', 'Game Party Size']
-    return `${members[parseInt(data.member)]} - ${info[parseInt(data.info)]}`
+  subtitle(data) {
+    const members = ['Mentioned User', 'Command Author', 'Temp Variable', 'Server Variable', 'Global Variable'];
+    const info = [
+      'Game Application ID',
+      'Game Details',
+      'Game Name',
+      'Game State',
+      'Game Is Being Streamed?',
+      'Game Stream URL',
+      'Game Status Type',
+      'Game Large Image ID',
+      'Game Large Image URL',
+      'Game Large Image Text',
+      'Game Small Image ID',
+      'Game Small Image URL',
+      'Game Small Image Text',
+      'Game Timestamp Start',
+      'Game Party ID',
+      'Game Timestamp End',
+      'Game Party Size',
+    ];
+    return `${members[parseInt(data.member, 10)]} - ${info[parseInt(data.info, 10)]}`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    const info = parseInt(data.info)
-    let dataType = 'Unknown Type'
-    switch (info) {
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    let dataType = 'Unknown Type';
+    switch (parseInt(data.info, 10)) {
       case 0:
-        dataType = 'Application ID'
-        break
+        dataType = 'Application ID';
+        break;
       case 1:
-        dataType = 'Text'
-        break
+        dataType = 'Text';
+        break;
       case 2:
-        dataType = 'Text'
-        break
+        dataType = 'Text';
+        break;
       case 3:
-        dataType = 'Text'
-        break
+        dataType = 'Text';
+        break;
       case 4:
-        dataType = 'Boolean'
-        break
+        dataType = 'Boolean';
+        break;
       case 5:
-        dataType = 'Stream URL'
-        break
+        dataType = 'Stream URL';
+        break;
       case 6:
-        dataType = 'Number'
-        break
+        dataType = 'Number';
+        break;
       case 7:
-        dataType = 'Large Image ID'
-        break
+        dataType = 'Large Image ID';
+        break;
       case 8:
-        dataType = 'Large Image URL'
-        break
+        dataType = 'Large Image URL';
+        break;
       case 9:
-        dataType = 'Large Image Text'
-        break
+        dataType = 'Large Image Text';
+        break;
       case 10:
-        dataType = 'Small Image ID'
-        break
+        dataType = 'Small Image ID';
+        break;
       case 11:
-        dataType = 'Small Image URL'
-        break
+        dataType = 'Small Image URL';
+        break;
       case 12:
-        dataType = 'Small Image Text'
-        break
+        dataType = 'Small Image Text';
+        break;
       case 13:
-        dataType = 'Date'
-        break
+        dataType = 'Date';
+        break;
       case 14:
-        dataType = 'Party ID'
-        break
+        dataType = 'Party ID';
+        break;
       case 15:
-        dataType = 'Date'
-        break
+        dataType = 'Date';
+        break;
       case 16:
-        dataType = 'Number'
-        break
+        dataType = 'Number';
+        break;
       default:
-        break
+        break;
     }
-    return ([data.varName2, dataType])
+    return [data.varName2, dataType];
   },
 
   fields: ['member', 'varName', 'info', 'storage', 'varName2'],
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
 <div>
   <div style="float: left; width: 35%;">
@@ -130,89 +146,89 @@ module.exports = {
     Variable Name:<br>
     <input id="varName2" class="round" type="text"><br>
   </div>
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
+  init() {
+    const { glob, document } = this;
 
-    glob.memberChange(document.getElementById('member'), 'varNameContainer')
+    glob.memberChange(document.getElementById('member'), 'varNameContainer');
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const info = parseInt(data.info)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const info = parseInt(data.info, 10);
 
-    const member = parseInt(data.member)
-    const varName = this.evalMessage(data.varName, cache)
-    const mem = this.getMember(member, varName, cache)
+    const member = parseInt(data.member, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    const mem = this.getMember(member, varName, cache);
 
-    if (!mem || !mem.presence.activities[0]) return this.callNextAction(cache)
+    if (!mem || !mem.presence.activities[0]) return this.callNextAction(cache);
 
-    let result = null
+    let result = null;
     switch (info) {
       case 0:
-        result = mem.presence.activities[0].applicationID
-        break
+        result = mem.presence.activities[0].applicationID;
+        break;
       case 1:
-        result = mem.presence.activities[0].details
-        break
+        result = mem.presence.activities[0].details;
+        break;
       case 2:
-        result = mem.presence.activities[0].name
-        break
+        result = mem.presence.activities[0].name;
+        break;
       case 3:
-        result = mem.presence.activities[0].state
-        break
+        result = mem.presence.activities[0].state;
+        break;
       case 4:
-        result = mem.presence.activities[0].streaming
-        break
+        result = mem.presence.activities[0].streaming;
+        break;
       case 5:
-        result = mem.presence.activities[0].url
-        break
+        result = mem.presence.activities[0].url;
+        break;
       case 6:
-        result = mem.presence.activities[0].type
-        break
+        result = mem.presence.activities[0].type;
+        break;
       case 7:
-        result = mem.presence.activities[0].assets.largeImage || null
-        break
+        result = mem.presence.activities[0].assets.largeImage || null;
+        break;
       case 8:
-        result = mem.presence.activities[0].assets.largeImageURL || null
-        break
+        result = mem.presence.activities[0].assets.largeImageURL || null;
+        break;
       case 9:
-        result = mem.presence.activities[0].assets.largeText || null
-        break
+        result = mem.presence.activities[0].assets.largeText || null;
+        break;
       case 10:
-        result = mem.presence.activities[0].assets.smallImage || null
-        break
+        result = mem.presence.activities[0].assets.smallImage || null;
+        break;
       case 11:
-        result = mem.presence.activities[0].assets.smallImageURL || null
-        break
+        result = mem.presence.activities[0].assets.smallImageURL || null;
+        break;
       case 12:
-        result = mem.presence.activities[0].assets.smallText || null
-        break
+        result = mem.presence.activities[0].assets.smallText || null;
+        break;
       case 13:
-        result = mem.presence.activities[0].timestamps.start || null
-        break
+        result = mem.presence.activities[0].timestamps.start || null;
+        break;
       case 14:
-        result = mem.presence.activities[0].party.id || null
-        break
+        result = mem.presence.activities[0].party.id || null;
+        break;
       case 15:
-        result = mem.presence.activities[0].timestamps.end || null
-        break
+        result = mem.presence.activities[0].timestamps.end || null;
+        break;
       case 16:
-        result = mem.presence.activities[0].party.size || null
-        break
+        result = mem.presence.activities[0].party.size || null;
+        break;
       default:
-        break
+        break;
     }
 
     if (result !== undefined) {
-      const storage = parseInt(data.storage)
-      const varName2 = this.evalMessage(data.varName2, cache)
-      this.storeValue(result, storage, varName2, cache)
+      const storage = parseInt(data.storage, 10);
+      const varName2 = this.evalMessage(data.varName2, cache);
+      this.storeValue(result, storage, varName2, cache);
     }
-    this.callNextAction(cache)
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

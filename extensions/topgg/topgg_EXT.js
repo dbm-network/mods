@@ -8,14 +8,14 @@ module.exports = {
 
   defaultFields: {
     port: 5000,
-    token: 'password'
+    token: 'password',
   },
 
-  size () {
-    return { width: 480, height: 325 }
+  size() {
+    return { width: 480, height: 325 };
   },
 
-  html (data) {
+  html(data) {
     return `
 <div style="float: left; width: 99%; margin-left: auto; margin-right: auto; padding:10px; text-align: center;">
   <h2>Top.gg API Events</h2><hr>
@@ -26,38 +26,38 @@ module.exports = {
 
   <label for"token">Webhook Authorization</label>
   <input id="token" class="round" value=${data.token}></input><br>
-</div>`
+</div>`;
   },
 
-  init () {},
+  init() {},
 
-  close (document, data) {
-    data.port = document.getElementById('port').value
-    data.token = document.getElementById('token').value
+  close(document, data) {
+    data.port = document.getElementById('port').value;
+    data.token = document.getElementById('token').value;
   },
 
-  load () {},
+  load() {},
 
-  save () {},
+  save() {},
 
-  mod (DBM) {
-    const { Bot, Actions, Files, Events } = DBM
-    const Mods = Actions.getMods()
-    const express = Mods.require('express')
-    const Topgg = Mods.require('@top-gg/sdk')
+  mod(DBM) {
+    const { Bot, Actions, Files, Events } = DBM;
+    const Mods = Actions.getMods();
+    const express = Mods.require('express');
+    const Topgg = Mods.require('@top-gg/sdk');
 
-    const app = express()
+    const app = express();
 
-    const onReady = Bot.onReady
-    Bot.onReady = function (...params) {
-      const data = Files.data.settings['Top.gg Api'].customData['Top.gg Api']
-      const webhook = new Topgg.Webhook(data.token)
-      app.post('/dblwebhook', webhook.middleware(), (req, res) => {
-        Events.onTopggVote(req.vote.user, req.vote)
-      })
-      app.listen(data.port)
-      if (app) console.log(`Watching for votes at port ${data.port}`)
-      onReady.apply(this, ...params)
-    }
-  }
-}
+    const { onReady } = Bot;
+    Bot.onReady = function topggOnReady(...params) {
+      const data = Files.data.settings['Top.gg Api'].customData['Top.gg Api'];
+      const webhook = new Topgg.Webhook(data.token);
+      app.post('/dblwebhook', webhook.middleware(), (req) => {
+        Events.onTopggVote(req.vote.user, req.vote);
+      });
+      app.listen(data.port);
+      if (app) console.log(`Watching for votes at port ${data.port}`);
+      onReady.apply(this, ...params);
+    };
+  },
+};

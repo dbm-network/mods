@@ -4,11 +4,11 @@ module.exports = {
   section: 'Other Stuff',
   fields: ['findBy', 'commandData', 'saveTo', 'varName'],
 
-  subtitle () {
-    return 'Get Command Description'
+  subtitle() {
+    return 'Get Command Description';
   },
 
-  html () {
+  html() {
     return `
 <div width="540" style="height: auto;" overflow-y="scroll">
   <div style="float: left; width: 35%;">
@@ -34,67 +34,71 @@ module.exports = {
     Variable Name:<br>
     <input type="text" id="varName" class="round" placeholder="Variable Name"></input>
   </div>
-</div>`
+</div>`;
   },
 
-  init () {},
+  init() {},
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const { findBy, saveTo } = data
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const { findBy, saveTo } = data;
 
-    const findByValue = data.commandData
-    const saveToName = data.varName
+    const findByValue = data.commandData;
+    const saveToName = data.varName;
 
-    const { Files } = this.getDBM()
-    const { commands } = Files.data
+    const { Files } = this.getDBM();
+    const { commands } = Files.data;
 
     if (findBy === 'id') {
-      let cmd
+      let cmd;
 
       for (let i = 0; i < commands.length; i++) {
-        cmd = commands[i]
-        if (!cmd) { continue }
+        cmd = commands[i];
+        if (!cmd) {
+          continue;
+        }
         if (cmd && cmd._id === findByValue) {
           for (let j = 0; j < cmd.actions.length; j++) {
-            const action = cmd.actions[j]
+            const action = cmd.actions[j];
             if (action.name === 'Command Description') {
-              this.storeValue(action.description, Number(saveTo), saveToName, cache)
-              this.callNextAction(cache)
-              return
+              this.storeValue(action.description, Number(saveTo), saveToName, cache);
+              this.callNextAction(cache);
+              return;
             }
-            console.log(action.name)
+            console.log(action.name);
           }
         }
       }
 
-      this.storeValue(null, Number(saveTo), saveToName, cache)
-      this.callNextAction(cache)
+      this.storeValue(null, Number(saveTo), saveToName, cache);
+      this.callNextAction(cache);
     } else if (findBy === 'name') {
-      let cmd
+      let cmd;
 
       for (let i = 0; i < commands.length; i++) {
-        cmd = commands[i]
-        if (!cmd) { continue }
+        cmd = commands[i];
+        if (!cmd) {
+          continue;
+        }
         if (cmd && cmd.name === findByValue) {
           for (let j = 0; j < cmd.actions.length; j++) {
-            const action = cmd.actions[j]
+            const action = cmd.actions[j];
             if (action.name === 'Command Description') {
-              this.storeValue(action.description, Number(saveTo), saveToName, cache)
-              this.callNextAction(cache)
-              return
+              this.storeValue(action.description, Number(saveTo), saveToName, cache);
+              this.callNextAction(cache);
+              return;
             }
-            console.log(action.name)
+            console.log(action.name);
           }
         }
       }
 
-      this.storeValue(null, Number(saveTo), saveToName, cache)
-      this.callNextAction(cache)
+      this.storeValue(null, Number(saveTo), saveToName, cache);
+      this.callNextAction(cache);
     }
 
-    this.callNextAction(cache)
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

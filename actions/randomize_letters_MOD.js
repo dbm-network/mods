@@ -2,19 +2,17 @@ module.exports = {
   name: 'Randomize Letters',
   section: 'Other Stuff',
 
-  subtitle (data) {
-    return `Randomize [${data.input}]`
+  subtitle(data) {
+    return `Randomize [${data.input}]`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    const dataType = 'Randomized Letters'
-    return ([data.varName, dataType])
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName, 'Text'];
   },
   fields: ['input', 'wordLength', 'storage', 'varName'],
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
 <div id="modinfo">
   <div style="float: left; width: 60%; padding-top: 8px;">
@@ -46,30 +44,30 @@ module.exports = {
     ?: Custom characters (pass a string of custom characters to the options)
     </p>
   </div>
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer')
+  init() {
+    const { glob, document } = this;
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const Input = this.evalMessage(data.input, cache)
-    const wordLength = this.evalMessage(data.wordLength, cache)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const Input = this.evalMessage(data.input, cache);
+    const wordLength = this.evalMessage(data.wordLength, cache);
 
-    if (!Input) return console.log('Please specify letters to randomize.')
-    if (!wordLength) return console.log('Please specify amount of randomized letters.')
+    if (!Input) return console.log('Please specify letters to randomize.');
+    if (!wordLength) return console.log('Please specify amount of randomized letters.');
 
-    const randomize = this.getMods().require('randomatic')
-    const random = randomize(Input, wordLength)
+    const randomize = this.getMods().require('randomatic');
+    const random = randomize(Input, wordLength);
 
-    const storage = parseInt(data.storage)
-    const varName = this.evalMessage(data.varName, cache)
-    this.storeValue(random, storage, varName, cache)
-    this.callNextAction(cache)
+    const storage = parseInt(data.storage, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    this.storeValue(random, storage, varName, cache);
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

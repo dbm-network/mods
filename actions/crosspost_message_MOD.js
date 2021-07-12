@@ -2,19 +2,19 @@ module.exports = {
   name: 'Crosspost Message',
   section: 'Messaging',
 
-  subtitle (data) {
-    const message = ['Command Message', 'Temp Variable', 'Server Variable', 'Global Variable']
-    return `${message[parseInt(data.message)]}`
+  subtitle(data) {
+    const message = ['Command Message', 'Temp Variable', 'Server Variable', 'Global Variable'];
+    return `${message[parseInt(data.message, 10)]}`;
   },
 
-  variableStorage (data, varType) {
-    if (parseInt(data.storage) !== varType) return
-    return [data.varName2, 'Message']
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName2, 'Message'];
   },
 
   fields: ['message', 'varName', 'storage', 'varName2'],
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
 <div>
  <div style="float: left; width: 35%;">
@@ -39,31 +39,34 @@ module.exports = {
   Variable Name:<br>
   <input id="varName2" class="round" type="text"><br>
  </div>
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
+  init() {
+    const { glob, document } = this;
 
-    glob.sendTargetChange(document.getElementById('message'), 'varNameContainer')
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer2')
+    glob.sendTargetChange(document.getElementById('message'), 'varNameContainer');
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer2');
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const varName = this.evalMessage(data.varName, cache)
-    const message = this.getMessage(parseInt(data.message), varName, cache)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const varName = this.evalMessage(data.varName, cache);
+    const message = this.getMessage(parseInt(data.message, 10), varName, cache);
 
-    if (!message) return this.callNextAction(cache)
-    if (!message.crosspost) throw new Error('You need at least Discord.js version 12.4.0 to use this mod.')
+    if (!message) return this.callNextAction(cache);
+    if (!message.crosspost) throw new Error('You need at least Discord.js version 12.4.0 to use this mod.');
 
-    message.crosspost().then((msg) => {
-      const varName2 = this.evalMessage(data.varName2, cache)
-      const storage = parseInt(data.storage)
-      this.storeValue(msg, storage, varName2, cache)
-      this.callNextAction(cache)
-    }).catch(console.error)
+    message
+      .crosspost()
+      .then((msg) => {
+        const varName2 = this.evalMessage(data.varName2, cache);
+        const storage = parseInt(data.storage, 10);
+        this.storeValue(msg, storage, varName2, cache);
+        this.callNextAction(cache);
+      })
+      .catch(console.error);
   },
 
-  mod () {}
-}
+  mod() {},
+};

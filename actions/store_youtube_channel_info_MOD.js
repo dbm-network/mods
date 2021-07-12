@@ -2,20 +2,20 @@ module.exports = {
   name: 'Store YouTube Channel Info',
   section: 'YouTube Tools',
 
-  subtitle () {
-    return 'Store information about a YouTube channel.'
+  subtitle() {
+    return 'Store information about a YouTube channel.';
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    const dataType = 'YouTube Channel Info'
-    return ([data.varName, dataType])
+  variableStorage(data, varType) {
+    const type = parseInt(data.storage, 10);
+    if (type !== varType) return;
+    const dataType = 'YouTube Channel Info';
+    return [data.varName, dataType];
   },
 
   fields: ['query', 'info', 'storage', 'varName'],
 
-  html (isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div style="width: 90%;">
   YouTube Channel ID:<br>
@@ -47,59 +47,59 @@ module.exports = {
     Variable Name:<br>
     <input id="varName" class="round" type="text">
   </div>
-</div>`
+</div>`;
   },
 
-  init () {},
+  init() {},
 
-  async action (cache) {
-    const data = cache.actions[cache.index]
-    const storage = parseInt(data.storage)
-    const varName = this.evalMessage(data.varName, cache)
-    const channelId = this.evalMessage(data.query, cache)
-    const info = parseInt(data.info)
-    const Mods = this.getMods()
-    const ytch = Mods.require('yt-channel-info')
-    let result
+  async action(cache) {
+    const data = cache.actions[cache.index];
+    const storage = parseInt(data.storage, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    const channelId = this.evalMessage(data.query, cache);
+    const info = parseInt(data.info, 10);
+    const Mods = this.getMods();
+    const ytch = Mods.require('yt-channel-info');
+    let result;
 
-    const channel = await ytch.getChannelInfo(channelId)
+    const channel = await ytch.getChannelInfo(channelId);
 
     switch (info) {
       case 0:
-        result = channel.authorUrl
-        break
+        result = channel.authorUrl;
+        break;
       case 1:
-        result = channel.author
-        break
+        result = channel.author;
+        break;
       case 2:
-        result = channel.description
-        break
+        result = channel.description;
+        break;
       case 3:
-        result = channel.subscriberCount
-        break
+        result = channel.subscriberCount;
+        break;
       case 4:
-        result = channel.relatedChannels
-        break
+        result = channel.relatedChannels;
+        break;
       case 5:
-        result = channel.isFamilyFriendly
-        break
+        result = channel.isFamilyFriendly;
+        break;
       case 6:
-        result = channel.authorBanners
-        break
+        result = channel.authorBanners;
+        break;
       case 7:
-        result = channel.authorThumbnails
-        break
+        result = channel.authorThumbnails;
+        break;
       case 8:
-        result = channel.isVerified
-        break
+        result = channel.isVerified;
+        break;
       case 9:
-        result = channel.allowedRegions
-        break
+        result = channel.allowedRegions;
+        break;
     }
 
-    this.storeValue(result, storage, varName, cache)
-    this.callNextAction(cache)
+    this.storeValue(result, storage, varName, cache);
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

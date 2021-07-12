@@ -2,51 +2,58 @@ module.exports = {
   name: 'Store Reaction Info',
   section: 'Reaction Control',
 
-  subtitle (data) {
-    const reaction = ['You cheater!', 'Temp Variable', 'Server Variable', 'Global Variable']
-    const info = ['Message Object', 'Bot reacted?', 'Users Who Reacted List', 'Emoji Name', 'Reaction Count', 'First User to React', 'Random User to React', 'Last User to React']
-    return `${reaction[parseInt(data.reaction)]} - ${info[parseInt(data.info)]}`
+  subtitle(data) {
+    const reaction = ['You cheater!', 'Temp Variable', 'Server Variable', 'Global Variable'];
+    const info = [
+      'Message Object',
+      'Bot reacted?',
+      'Users Who Reacted List',
+      'Emoji Name',
+      'Reaction Count',
+      'First User to React',
+      'Random User to React',
+      'Last User to React',
+    ];
+    return `${reaction[parseInt(data.reaction, 10)]} - ${info[parseInt(data.info, 10)]}`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    const info = parseInt(data.info)
-    let dataType = 'Unknown Type'
-    switch (info) {
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    let dataType = 'Unknown Type';
+    switch (parseInt(data.info, 10)) {
       case 0:
-        dataType = 'Message'
-        break
+        dataType = 'Message';
+        break;
       case 1:
-        dataType = 'Boolean'
-        break
+        dataType = 'Boolean';
+        break;
       case 2:
-        dataType = 'List'
-        break
+        dataType = 'List';
+        break;
       case 3:
-        dataType = 'String'
-        break
+        dataType = 'String';
+        break;
       case 4:
-        dataType = 'Number'
-        break
+        dataType = 'Number';
+        break;
       case 5:
-        dataType = 'User'
-        break
+        dataType = 'User';
+        break;
       case 6:
-        dataType = 'User'
-        break
+        dataType = 'User';
+        break;
       case 7:
-        dataType = 'User'
-        break
+        dataType = 'User';
+        break;
       default:
-        break
+        break;
     }
-    return ([data.varName2, dataType])
+    return [data.varName2, dataType];
   },
 
   fields: ['reaction', 'varName', 'info', 'storage', 'varName2'],
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
 <div>
   <div style="float: left; width: 35%;">
@@ -86,71 +93,71 @@ module.exports = {
     Variable Name:<br>
     <input id="varName2" class="round" type="text"><br>
   </div>
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
-    glob.refreshVariableList(document.getElementById('reaction'))
+  init() {
+    const { glob, document } = this;
+    glob.refreshVariableList(document.getElementById('reaction'));
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const reaction = parseInt(data.reaction)
-    const varName = this.evalMessage(data.varName, cache)
-    const info = parseInt(data.info)
-    const Mods = this.getMods()
-    const rea = Mods.getReaction(reaction, varName, cache)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const reaction = parseInt(data.reaction, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    const info = parseInt(data.info, 10);
+    const Mods = this.getMods();
+    const rea = Mods.getReaction(reaction, varName, cache);
 
-    if (!rea) return this.callNextAction(cache)
+    if (!rea) return this.callNextAction(cache);
 
-    let result
+    let result;
     switch (info) {
       case 0: {
-        result = rea.message // Message Object
-        break
+        result = rea.message; // Message Object
+        break;
       }
       case 1: {
-        result = !!rea.me // This bot reacted?
-        break
+        result = Boolean(rea.me); // This bot reacted?
+        break;
       }
       case 2: {
-        result = rea.users.cache.array() // All users who reacted list
-        break
+        result = rea.users.cache.array(); // All users who reacted list
+        break;
       }
       case 3: {
-        result = rea.emoji.name // Emoji (/Reaction) name
-        break
+        result = rea.emoji.name; // Emoji (/Reaction) name
+        break;
       }
       case 4: {
-        result = rea.count // Number (user+bots) who reacted like this
-        break
+        result = rea.count; // Number (user+bots) who reacted like this
+        break;
       }
       case 5: {
-        const firstid = rea.users.cache.firstKey() // Stores first user ID reacted
-        result = cache.server.members.cache.get(firstid)
-        break
+        const firstid = rea.users.cache.firstKey(); // Stores first user ID reacted
+        result = cache.server.members.cache.get(firstid);
+        break;
       }
       case 6: {
-        const randomid = rea.users.cache.randomKey() // Stores random user ID reacted
-        result = cache.server.members.cache.get(randomid)
-        break
+        const randomid = rea.users.cache.randomKey(); // Stores random user ID reacted
+        result = cache.server.members.cache.get(randomid);
+        break;
       }
       case 7: {
-        const lastid = rea.users.cache.lastKey() // Stores last user ID reacted
-        result = cache.server.members.cache.get(lastid)
-        break
+        const lastid = rea.users.cache.lastKey(); // Stores last user ID reacted
+        result = cache.server.members.cache.get(lastid);
+        break;
       }
       default:
-        break
+        break;
     }
 
     if (result !== undefined) {
-      const storage = parseInt(data.storage)
-      const varName2 = this.evalMessage(data.varName2, cache)
-      this.storeValue(result, storage, varName2, cache)
+      const storage = parseInt(data.storage, 10);
+      const varName2 = this.evalMessage(data.varName2, cache);
+      this.storeValue(result, storage, varName2, cache);
     }
-    this.callNextAction(cache)
+    this.callNextAction(cache);
   },
-  mod () {}
-}
+  mod() {},
+};

@@ -2,14 +2,20 @@ module.exports = {
   name: 'Check Member Data',
   section: 'Data',
 
-  subtitle (data) {
-    const results = ['Continue Actions', 'Stop Action Sequence', 'Jump To Action', 'Jump Forward Actions', 'Jump to Anchor']
-    return `If True: ${results[parseInt(data.iftrue)]} ~ If False: ${results[parseInt(data.iffalse)]}`
+  subtitle(data) {
+    const results = [
+      'Continue Actions',
+      'Stop Action Sequence',
+      'Jump To Action',
+      'Jump Forward Actions',
+      'Jump to Anchor',
+    ];
+    return `If True: ${results[parseInt(data.iftrue, 10)]} ~ If False: ${results[parseInt(data.iffalse, 10)]}`;
   },
 
   fields: ['member', 'varName', 'dataName', 'comparison', 'value', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal'],
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
 <div><p>This action has been modified by DBM Mods.</p></div><br>
 <div>
@@ -53,129 +59,133 @@ module.exports = {
 </div>
 <div style="padding-top: 16px;">
   ${data.conditions[0]}
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
-    const option = document.createElement('OPTION')
-    option.value = '4'
-    option.text = 'Jump to Anchor'
-    const iffalse = document.getElementById('iffalse')
-    if (iffalse.length === 4) iffalse.add(option)
+  init() {
+    const { glob, document } = this;
+    const option = document.createElement('OPTION');
+    option.value = '4';
+    option.text = 'Jump to Anchor';
+    const iffalse = document.getElementById('iffalse');
+    if (iffalse.length === 4) iffalse.add(option);
 
-    const option2 = document.createElement('OPTION')
-    option2.value = '4'
-    option2.text = 'Jump to Anchor'
-    const iftrue = document.getElementById('iftrue')
-    if (iftrue.length === 4) iftrue.add(option2)
+    const option2 = document.createElement('OPTION');
+    option2.value = '4';
+    option2.text = 'Jump to Anchor';
+    const iftrue = document.getElementById('iftrue');
+    if (iftrue.length === 4) iftrue.add(option2);
 
-    glob.onChangeTrue = function (event) {
-      switch (parseInt(event.value)) {
+    glob.onChangeTrue = function onChangeTrue(event) {
+      switch (parseInt(event.value, 10)) {
         case 0:
         case 1:
-          document.getElementById('iftrueContainer').style.display = 'none'
-          break
+          document.getElementById('iftrueContainer').style.display = 'none';
+          break;
         case 2:
-          document.getElementById('iftrueName').innerHTML = 'Action Number'
-          document.getElementById('iftrueContainer').style.display = null
-          break
+          document.getElementById('iftrueName').innerHTML = 'Action Number';
+          document.getElementById('iftrueContainer').style.display = null;
+          break;
         case 3:
-          document.getElementById('iftrueName').innerHTML = 'Number of Actions to Skip'
-          document.getElementById('iftrueContainer').style.display = null
-          break
+          document.getElementById('iftrueName').innerHTML = 'Number of Actions to Skip';
+          document.getElementById('iftrueContainer').style.display = null;
+          break;
         case 4:
-          document.getElementById('iftrueName').innerHTML = 'Anchor ID'
-          document.getElementById('iftrueContainer').style.display = null
-          break
+          document.getElementById('iftrueName').innerHTML = 'Anchor ID';
+          document.getElementById('iftrueContainer').style.display = null;
+          break;
+        default:
+          break;
       }
-    }
-    glob.onChangeFalse = function (event) {
-      switch (parseInt(event.value)) {
+    };
+    glob.onChangeFalse = function onChangeFalse(event) {
+      switch (parseInt(event.value, 10)) {
         case 0:
         case 1:
-          document.getElementById('iffalseContainer').style.display = 'none'
-          break
+          document.getElementById('iffalseContainer').style.display = 'none';
+          break;
         case 2:
-          document.getElementById('iffalseName').innerHTML = 'Action Number'
-          document.getElementById('iffalseContainer').style.display = null
-          break
+          document.getElementById('iffalseName').innerHTML = 'Action Number';
+          document.getElementById('iffalseContainer').style.display = null;
+          break;
         case 3:
-          document.getElementById('iffalseName').innerHTML = 'Number of Actions to Skip'
-          document.getElementById('iffalseContainer').style.display = null
-          break
+          document.getElementById('iffalseName').innerHTML = 'Number of Actions to Skip';
+          document.getElementById('iffalseContainer').style.display = null;
+          break;
         case 4:
-          document.getElementById('iffalseName').innerHTML = 'Anchor ID'
-          document.getElementById('iffalseContainer').style.display = null
-          break
+          document.getElementById('iffalseName').innerHTML = 'Anchor ID';
+          document.getElementById('iffalseContainer').style.display = null;
+          break;
+        default:
+          break;
       }
-    }
-    glob.memberChange(document.getElementById('member'), 'varNameContainer')
-    glob.onChangeTrue(document.getElementById('iftrue'))
-    glob.onChangeFalse(document.getElementById('iffalse'))
+    };
+    glob.memberChange(document.getElementById('member'), 'varNameContainer');
+    glob.onChangeTrue(document.getElementById('iftrue'));
+    glob.onChangeFalse(document.getElementById('iffalse'));
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const type = parseInt(data.member)
-    const varName = this.evalMessage(data.varName, cache)
-    const member = this.getMember(type, varName, cache)
-    let result = false
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const type = parseInt(data.member, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    const member = this.getMember(type, varName, cache);
+    let result = false;
 
     if (member && member.data) {
-      const dataName = this.evalMessage(data.dataName, cache)
-      const val1 = member.data(dataName)
-      const compare = parseInt(data.comparison)
-      let val2 = this.evalMessage(data.value, cache)
-      if (compare !== 6) val2 = this.eval(val2, cache)
-      if (val2 === false) val2 = this.evalMessage(data.value, cache)
+      const dataName = this.evalMessage(data.dataName, cache);
+      const val1 = member.data(dataName);
+      const compare = parseInt(data.comparison, 10);
+      let val2 = this.evalMessage(data.value, cache);
+      if (compare !== 6) val2 = this.eval(val2, cache);
+      if (val2 === false) val2 = this.evalMessage(data.value, cache);
 
       switch (compare) {
         case 0:
-          result = val1 !== undefined
-          break
+          result = val1 !== undefined;
+          break;
         case 1:
           // eslint-disable-next-line eqeqeq
-          result = val1 == val2
-          break
+          result = val1 == val2;
+          break;
         case 2:
-          result = val1 === val2
-          break
+          result = val1 === val2;
+          break;
         case 3:
-          result = val1 < val2
-          break
+          result = val1 < val2;
+          break;
         case 4:
-          result = val1 > val2
-          break
+          result = val1 > val2;
+          break;
         case 5:
-          if (typeof (val1.includes) === 'function') {
-            result = val1.includes(val2)
+          if (typeof val1.includes === 'function') {
+            result = val1.includes(val2);
           }
-          break
+          break;
         case 6:
-          result = Boolean(val1.match(new RegExp(`^${val2}$`, 'i')))
-          break
+          result = Boolean(val1.match(new RegExp(`^${val2}$`, 'i')));
+          break;
         case 7:
-          result = val1.length > val2
-          break
+          result = val1.length > val2;
+          break;
         case 8:
-          result = val1.length < val2
-          break
+          result = val1.length < val2;
+          break;
         case 9:
-          result = val1.length === val2
-          break
+          result = val1.length === val2;
+          break;
         case 10:
-          result = val1.startsWith(val2)
-          break
+          result = val1.startsWith(val2);
+          break;
         case 11:
-          result = val1.endsWith(val2)
-          break
+          result = val1.endsWith(val2);
+          break;
         default:
-          break
+          break;
       }
     }
-    this.executeResults(result, data, cache)
+    this.executeResults(result, data, cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

@@ -2,59 +2,69 @@ module.exports = {
   name: 'Store Invite Info',
   section: 'Channel Control',
 
-  subtitle (data) {
-    const info = ['Channel Object', 'Invite Creator', 'Creation Date', 'Expiration Date', 'Guild Object', 'Max. Uses', 'Is Temporary?', 'URL for Invite', 'Times Used', 'Invite server member count', 'Invite code']
-    return `Store ${info[parseInt(data.info)]} from Invite`
+  subtitle(data) {
+    const info = [
+      'Channel Object',
+      'Invite Creator',
+      'Creation Date',
+      'Expiration Date',
+      'Guild Object',
+      'Max. Uses',
+      'Is Temporary?',
+      'URL for Invite',
+      'Times Used',
+      'Invite server member count',
+      'Invite code',
+    ];
+    return `Store ${info[parseInt(data.info, 10)]} from Invite`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    const info = parseInt(data.info)
-    let dataType = 'Unknown Type'
-    switch (info) {
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    let dataType = 'Unknown Type';
+    switch (parseInt(data.info, 10)) {
       case 0:
-        dataType = 'Object'
-        break
+        dataType = 'Object';
+        break;
       case 1:
-        dataType = 'User'
-        break
+        dataType = 'User';
+        break;
       case 2:
-        dataType = 'date'
-        break
+        dataType = 'date';
+        break;
       case 3:
-        dataType = 'date'
-        break
+        dataType = 'date';
+        break;
       case 4:
-        dataType = 'Guild'
-        break
+        dataType = 'Guild';
+        break;
       case 5:
-        dataType = 'number'
-        break
+        dataType = 'number';
+        break;
       case 6:
-        dataType = 'boolean'
-        break
+        dataType = 'boolean';
+        break;
       case 7:
-        dataType = 'string'
-        break
+        dataType = 'string';
+        break;
       case 8:
-        dataType = 'number'
-        break
+        dataType = 'number';
+        break;
       case 9:
-        dataType = 'number'
-        break
+        dataType = 'number';
+        break;
       case 10:
-        dataType = 'number'
-        break
+        dataType = 'number';
+        break;
       default:
-        break
+        break;
     }
-    return ([data.varName, dataType])
+    return [data.varName, dataType];
   },
 
   fields: ['invite', 'info', 'storage', 'varName'],
 
-  html (isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div style="padding-top: 8px;">
   Source Invite:<br>
@@ -85,75 +95,69 @@ module.exports = {
 <div id="varNameContainer" style="float: right; display: none; width: 60%; padding-top: 8px;">
   Variable Name:<br>
   <input id="varName" class="round" type="text">
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
+  init() {
+    const { glob, document } = this;
 
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer')
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const invite = this.evalMessage(data.invite, cache)
-    const info = parseInt(data.info)
+  async action(cache) {
+    const data = cache.actions[cache.index];
+    const invite = this.evalMessage(data.invite, cache);
+    const info = parseInt(data.info, 10);
+    const storage = parseInt(data.storage, 10);
+    const varName = this.evalMessage(data.varName, cache);
 
-    const storage = parseInt(data.storage)
-    const varName = this.evalMessage(data.varName, cache)
+    const inviteInfo = await this.getDBM().Bot.bot.fetchInvite(invite).catch(console.error);
+    if (!inviteInfo) return this.callNextAction(cache);
 
-    const client = this.getDBM().Bot.bot
-
-    client.fetchInvite(invite).catch(console.error).then(doThis.bind(this))
-
-    function doThis (invite) {
-      if (!invite) this.callNextAction(cache)
-
-      let result
-      switch (info) {
-        case 0:
-          result = invite.channel
-          break
-        case 1:
-          result = invite.inviter
-          break
-        case 2:
-          result = invite.createdAt
-          break
-        case 3:
-          result = invite.expiresAt
-          break
-        case 4:
-          result = invite.guild
-          break
-        case 5:
-          result = invite.maxUses
-          break
-        case 6:
-          result = invite.temporary
-          break
-        case 7:
-          result = invite.url
-          break
-        case 8:
-          result = invite.uses
-          break
-        case 9:
-          result = invite.memberCount
-          break
-        case 10:
-          result = invite.code
-          break
-        default:
-          break
-      }
-
-      if (result !== undefined) {
-        this.storeValue(result, storage, varName, cache)
-      }
-      this.callNextAction(cache)
+    let result;
+    switch (info) {
+      case 0:
+        result = invite.channel;
+        break;
+      case 1:
+        result = invite.inviter;
+        break;
+      case 2:
+        result = invite.createdAt;
+        break;
+      case 3:
+        result = invite.expiresAt;
+        break;
+      case 4:
+        result = invite.guild;
+        break;
+      case 5:
+        result = invite.maxUses;
+        break;
+      case 6:
+        result = invite.temporary;
+        break;
+      case 7:
+        result = invite.url;
+        break;
+      case 8:
+        result = invite.uses;
+        break;
+      case 9:
+        result = invite.memberCount;
+        break;
+      case 10:
+        result = invite.code;
+        break;
+      default:
+        break;
     }
+
+    if (result !== undefined) {
+      this.storeValue(result, storage, varName, cache);
+    }
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

@@ -2,20 +2,18 @@ module.exports = {
   name: 'Slice',
   section: 'Other Stuff',
 
-  subtitle () {
-    return 'Slice anything!'
+  subtitle() {
+    return 'Slice anything!';
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    const dataType = 'Sliced Result'
-    return ([data.varName, dataType])
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName, 'Sliced Result'];
   },
 
   fields: ['slice', 'startingNumber', 'sliceLength', 'storage', 'varName'],
 
-  html (isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div>
   Slice Text:<br>
@@ -44,34 +42,34 @@ module.exports = {
   example text: you are the best<br>
   If you want to slice <b>you</b>, starting number = 0, slice length = 3.
   </p>
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
+  init() {
+    const { glob, document } = this;
 
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer')
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const type = parseInt(data.storage)
-    const varName = this.evalMessage(data.varName, cache)
-    const sliceText = this.evalMessage(data.slice, cache)
-    const startingFrom = parseInt(this.evalMessage(data.startingNumber, cache))
-    const sliceLength = parseInt(this.evalMessage(data.sliceLength, cache))
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const type = parseInt(data.storage, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    const sliceText = this.evalMessage(data.slice, cache);
+    const startingFrom = parseInt(this.evalMessage(data.startingNumber, cache), 10);
+    const sliceLength = parseInt(this.evalMessage(data.sliceLength, cache), 10);
 
-    if (startingFrom < 0) return console.log('Your number can not be less than 0.')
-    if (sliceLength === 0) return console.log('Slice length can not be 0.')
-    if (!sliceText) return console.log('Please write something to slice.')
-    if (!startingFrom && startingFrom !== 0) return console.log('Please write a starting number.')
-    if (!sliceLength) return console.log('Slice length can not be empty')
+    if (startingFrom < 0) return console.log('Your number can not be less than 0.');
+    if (sliceLength === 0) return console.log('Slice length can not be 0.');
+    if (!sliceText) return console.log('Please write something to slice.');
+    if (!startingFrom && startingFrom !== 0) return console.log('Please write a starting number.');
+    if (!sliceLength) return console.log('Slice length can not be empty');
 
-    const result = `${sliceText}`.slice(`${startingFrom}`, `${sliceLength + startingFrom}`)
+    const result = `${sliceText}`.slice(`${startingFrom}`, `${sliceLength + startingFrom}`);
 
-    this.storeValue(result, type, varName, cache)
-    this.callNextAction(cache)
+    this.storeValue(result, type, varName, cache);
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

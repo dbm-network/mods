@@ -2,19 +2,42 @@ module.exports = {
   name: 'Create Embed Message',
   section: 'Embed Message',
 
-  subtitle (data) {
-    return `${data.title}`
+  subtitle(data) {
+    return `${data.title}`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    return ([data.varName, 'Embed Object'])
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName, 'Embed Object'];
   },
 
-  fields: ['title', 'author', 'color', 'url', 'authorIcon', 'authorUrl', 'imageUrl', 'thumbUrl', 'timestamp', 'debug', 'timestamp1', 'timestamp2', 'text', 'year', 'month', 'day', 'hour', 'minute', 'second', 'note1', 'note2', 'storage', 'varName'],
+  fields: [
+    'title',
+    'author',
+    'color',
+    'url',
+    'authorIcon',
+    'authorUrl',
+    'imageUrl',
+    'thumbUrl',
+    'timestamp',
+    'debug',
+    'timestamp1',
+    'timestamp2',
+    'text',
+    'year',
+    'month',
+    'day',
+    'hour',
+    'minute',
+    'second',
+    'note1',
+    'note2',
+    'storage',
+    'varName',
+  ],
 
-  html (isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
 <div>
@@ -126,169 +149,175 @@ module.exports = {
     Year: [2019] Month: [8] Day: [ ] Hour: [6] Minute: [ ] Second: [ ]<br>
   </p>
 </div>
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
-    const timestampDiv = document.getElementById('timestampDiv')
-    const timestamp = document.getElementById('timestamp')
-    const timestampDivDebug = document.getElementById('timestampDivDebug')
-    const debug = document.getElementById('debug')
-    const timestamp1 = document.getElementById('timestamp1')
-    const timestamp2 = document.getElementById('timestamp2')
-    const note = document.getElementById('note1')
-    const note2 = document.getElementById('note2')
-    const authorUrl = document.getElementById('authorUrl')
+  init() {
+    const { glob, document } = this;
+    const timestampDiv = document.getElementById('timestampDiv');
+    const timestamp = document.getElementById('timestamp');
+    const timestampDivDebug = document.getElementById('timestampDivDebug');
+    const debug = document.getElementById('debug');
+    const timestamp1 = document.getElementById('timestamp1');
+    const timestamp2 = document.getElementById('timestamp2');
+    const note = document.getElementById('note1');
+    const note2 = document.getElementById('note2');
+    const authorUrl = document.getElementById('authorUrl');
 
-    glob.onChange1 = function () {
+    glob.onChange1 = function onChange1() {
       if (debug.value === 'false') {
-        authorUrl.placeholder = 'Leave blank for none!'
+        authorUrl.placeholder = 'Leave blank for none!';
         switch (timestamp.value) {
           case 'false':
           case 'true':
-            timestamp1.style.display = 'none'
-            timestamp2.style.display = 'none'
-            note.style.display = 'none'
-            note2.style.display = 'none'
-            break
+            timestamp1.style.display = 'none';
+            timestamp2.style.display = 'none';
+            note.style.display = 'none';
+            note2.style.display = 'none';
+            break;
           case 'string':
-            timestamp1.style.display = 'table'
-            timestamp2.style.display = 'none'
-            note.style.display = null
-            note2.style.display = 'none'
-            break
+            timestamp1.style.display = 'table';
+            timestamp2.style.display = 'none';
+            note.style.display = null;
+            note2.style.display = 'none';
+            break;
           case 'custom':
-            timestamp1.style.display = 'none'
-            timestamp2.style.display = 'table'
-            note.style.display = 'none'
-            note2.style.display = null
-            break
+            timestamp1.style.display = 'none';
+            timestamp2.style.display = 'table';
+            note.style.display = 'none';
+            note2.style.display = null;
+            break;
         }
       }
-    }
+    };
 
-    glob.onChange2 = function () {
+    glob.onChange2 = function onChange2() {
       switch (debug.value) {
         case 'false':
-          timestampDiv.style.display = null
-          timestampDivDebug.style.display = 'none'
-          break
+          timestampDiv.style.display = null;
+          timestampDivDebug.style.display = 'none';
+          break;
         case 'true':
-          timestampDiv.style.display = 'none'
-          timestampDivDebug.style.display = null
-          timestamp1.style.display = 'none'
-          timestamp2.style.display = 'none'
-          note.style.display = 'none'
-          note2.style.display = 'none'
-          authorUrl.placeholder = 'Unavailable!'
-          break
+          timestampDiv.style.display = 'none';
+          timestampDivDebug.style.display = null;
+          timestamp1.style.display = 'none';
+          timestamp2.style.display = 'none';
+          note.style.display = 'none';
+          note2.style.display = 'none';
+          authorUrl.placeholder = 'Unavailable!';
+          break;
       }
-      glob.onChange1()
-    }
+      glob.onChange1();
+    };
 
-    document.getElementById('timestamp')
-    document.getElementById('debug')
+    document.getElementById('timestamp');
+    document.getElementById('debug');
 
-    glob.onChange1(document.getElementById('timestamp'))
-    glob.onChange2(document.getElementById('debug'))
+    glob.onChange1(document.getElementById('timestamp'));
+    glob.onChange2(document.getElementById('debug'));
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const { DiscordJS } = this.getDBM()
-    const embed = new DiscordJS.MessageEmbed()
-    const text = this.evalMessage(data.text, cache)
-    const year = parseInt(this.evalMessage(data.year, cache))
-    const month = parseInt(this.evalMessage(data.month, cache) - 1)
-    const day = parseInt(this.evalMessage(data.day, cache))
-    const hour = parseInt(this.evalMessage(data.hour, cache))
-    const minute = parseInt(this.evalMessage(data.minute, cache))
-    const second = parseInt(this.evalMessage(data.second, cache))
-    const timestamp = this.evalMessage(data.timestamp, cache)
-    const timestampDebug = this.evalMessage(data.timestampDebug, cache)
-    const debug = this.evalMessage(data.debug)
-    const storage = parseInt(data.storage)
-    const varName = this.evalMessage(data.varName, cache)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const { DiscordJS } = this.getDBM();
+    const embed = new DiscordJS.MessageEmbed();
+    const text = this.evalMessage(data.text, cache);
+    const year = parseInt(this.evalMessage(data.year, cache), 10);
+    const month = parseInt(this.evalMessage(data.month, cache) - 1, 10);
+    const day = parseInt(this.evalMessage(data.day, cache), 10);
+    const hour = parseInt(this.evalMessage(data.hour, cache), 10);
+    const minute = parseInt(this.evalMessage(data.minute, cache), 10);
+    const second = parseInt(this.evalMessage(data.second, cache), 10);
+    const timestamp = this.evalMessage(data.timestamp, cache);
+    const timestampDebug = this.evalMessage(data.timestampDebug, cache);
+    const debug = this.evalMessage(data.debug);
+    const storage = parseInt(data.storage, 10);
+    const varName = this.evalMessage(data.varName, cache);
 
-    if (!varName) return this.callNextAction(cache)
+    if (!varName) return this.callNextAction(cache);
 
     if (debug !== 'true') {
       // Title
       if (data.title) {
-        embed.setTitle(this.evalMessage(data.title, cache))
+        embed.setTitle(this.evalMessage(data.title, cache));
       }
       // URL
       if (data.url) {
-        embed.setURL(this.evalMessage(data.url, cache))
+        embed.setURL(this.evalMessage(data.url, cache));
       }
       // Author Name
       if (data.author) {
-        embed.setAuthor(this.evalMessage(data.author, cache), this.evalMessage(data.authorIcon, cache), this.evalMessage(data.authorUrl, cache))
+        embed.setAuthor(
+          this.evalMessage(data.author, cache),
+          this.evalMessage(data.authorIcon, cache),
+          this.evalMessage(data.authorUrl, cache),
+        );
       }
       // Color
       if (data.color) {
-        embed.setColor(this.evalMessage(data.color, cache))
+        embed.setColor(this.evalMessage(data.color, cache));
       }
       // Image URL
       if (data.imageUrl) {
-        embed.setImage(this.evalMessage(data.imageUrl, cache))
+        embed.setImage(this.evalMessage(data.imageUrl, cache));
       }
       // Thumbnail URL
       if (data.thumbUrl) {
-        embed.setThumbnail(this.evalMessage(data.thumbUrl, cache))
+        embed.setThumbnail(this.evalMessage(data.thumbUrl, cache));
       }
       // Timestamp
       switch (timestamp) {
         case 'false':
-          break
+          break;
         case 'true':
-          embed.setTimestamp()
-          break
+          embed.setTimestamp();
+          break;
         case 'string':
           if (text.length > 0) {
-            embed.setTimestamp(new Date(`${text}`))
+            embed.setTimestamp(new Date(`${text}`));
           } else {
-            embed.setTimestamp()
-            console.log('Invalid UTC timestamp! Changed from [String Timestamp] to [Current Timestamp].')
+            embed.setTimestamp();
+            console.log('Invalid UTC timestamp! Changed from [String Timestamp] to [Current Timestamp].');
           }
-          break
+          break;
         case 'custom':
-          embed.setTimestamp(new Date(year || null, month || null, day || null, hour || null, minute || null, second || null))
-          break
+          embed.setTimestamp(
+            new Date(year || null, month || null, day || null, hour || null, minute || null, second || null),
+          );
+          break;
         default:
-          embed.setTimestamp()
-          break
+          embed.setTimestamp();
+          break;
       }
 
-      this.storeValue(embed, storage, varName, cache)
-      this.callNextAction(cache)
+      this.storeValue(embed, storage, varName, cache);
+      this.callNextAction(cache);
     } else {
       if (data.title) {
-        embed.setTitle(this.evalMessage(data.title, cache))
+        embed.setTitle(this.evalMessage(data.title, cache));
       }
       if (data.url) {
-        embed.setURL(this.evalMessage(data.url, cache))
+        embed.setURL(this.evalMessage(data.url, cache));
       }
       if (data.author && data.authorIcon) {
-        embed.setAuthor(this.evalMessage(data.author, cache), this.evalMessage(data.authorIcon, cache))
+        embed.setAuthor(this.evalMessage(data.author, cache), this.evalMessage(data.authorIcon, cache));
       }
       if (data.color) {
-        embed.setColor(this.evalMessage(data.color, cache))
+        embed.setColor(this.evalMessage(data.color, cache));
       }
       if (data.imageUrl) {
-        embed.setImage(this.evalMessage(data.imageUrl, cache))
+        embed.setImage(this.evalMessage(data.imageUrl, cache));
       }
       if (data.thumbUrl) {
-        embed.setThumbnail(this.evalMessage(data.thumbUrl, cache))
+        embed.setThumbnail(this.evalMessage(data.thumbUrl, cache));
       }
       if (timestampDebug === 'true') {
-        embed.setTimestamp()
+        embed.setTimestamp();
       }
-      this.storeValue(embed, storage, varName, cache)
-      this.callNextAction(cache)
+      this.storeValue(embed, storage, varName, cache);
+      this.callNextAction(cache);
     }
   },
 
-  mod () {}
-}
+  mod() {},
+};

@@ -6,17 +6,18 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint --cache actions events extensions",
-    "lint:fix": "eslint --fix --cache actions events extensions"
+    "lint:fix": "eslint --fix --cache actions events extensions",
+    "prettier:check": "prettier --check **/*.{js,json,yml}",
+    "prettier:fix": "prettier --write **/*.{js,json,yml}"
+  },
+  "engines": {
+    "npm": "7"
   },
   "devDependencies": {
     "eslint": "^7.30.0",
-    "eslint-config-standard": "^16.0.3",
-    "eslint-plugin-import": "^2.23.4",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^5.1.0"
-  },
-  "engines": {
-    "node": "12",
-    "npm": "7"
+    "eslint-config-aqua": "^9.0.2",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "prettier": "^2.3.2"
   }
 }

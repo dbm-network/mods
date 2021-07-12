@@ -2,42 +2,49 @@ module.exports = {
   name: 'Store Game Server Info',
   section: 'Other Stuff',
 
-  subtitle (data) {
-    const info = ['Server Name', 'Map', 'Number Of Players', 'Number Of Bots', 'Max Players', 'Server Tags', 'Does Server Have Password?', 'Server Player List']
-    return `${info[parseInt(data.info)]}`
+  subtitle(data) {
+    const info = [
+      'Server Name',
+      'Map',
+      'Number Of Players',
+      'Number Of Bots',
+      'Max Players',
+      'Server Tags',
+      'Does Server Have Password?',
+      'Server Player List',
+    ];
+    return `${info[parseInt(data.info, 10)]}`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    const info = parseInt(data.info)
-    let dataType = 'Unknown Type'
-    switch (info) {
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    let dataType = 'Unknown Type';
+    switch (parseInt(data.info, 10)) {
       case 0:
-        dataType = 'Server Name'
-        break
+        dataType = 'Server Name';
+        break;
       case 1:
-        dataType = 'Map'
-        break
+        dataType = 'Map';
+        break;
       case 2:
-        dataType = 'Number'
-        break
+        dataType = 'Number';
+        break;
       case 3:
-        dataType = 'Number'
-        break
+        dataType = 'Number';
+        break;
       case 4:
-        dataType = 'Server Tags'
-        break
+        dataType = 'Server Tags';
+        break;
       case 5:
-        dataType = 'Boolean'
-        break
+        dataType = 'Boolean';
+        break;
     }
-    return ([data.varName, dataType])
+    return [data.varName, dataType];
   },
 
   fields: ['serverip', 'serverport', 'game', 'info', 'storage', 'varName'],
 
-  html (isEvent, data) {
+  html(_isEvent, data) {
     return `
   <div style="width: 550px; height: 350px; overflow-y: scroll;">
   <div>
@@ -371,73 +378,75 @@ module.exports = {
   span { /* Only making the text look, nice! */
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   }
-</style>`
+</style>`;
   },
 
-  init () {
-    const { glob, document } = this
+  init() {
+    const { glob, document } = this;
 
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer')
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
   },
 
-  action (cache) {
-    const _this = this
-    const data = cache.actions[cache.index]
-    const info = parseInt(data.info)
-    const gametype = this.evalMessage(data.game, cache)
-    const ip = this.evalMessage(data.serverip, cache)
-    const port = this.evalMessage(data.serverport, cache)
+  action(cache) {
+    const { Actions } = this.getDBM();
+    const data = cache.actions[cache.index];
+    const info = parseInt(data.info, 10);
+    const gametype = this.evalMessage(data.game, cache);
+    const ip = this.evalMessage(data.serverip, cache);
+    const port = this.evalMessage(data.serverport, cache);
 
-    const Mods = this.getMods()
-    const Gamedig = Mods.require('gamedig')
+    const Mods = this.getMods();
+    const Gamedig = Mods.require('gamedig');
 
-    if (!ip) return console.log('Please provide Server IP & Port.')
+    if (!ip) return console.log('Please provide Server IP & Port.');
 
     Gamedig.query({
       type: gametype,
       host: ip,
       port,
       maxAttempts: 3,
-      attemptTimeout: 25000
-    }).then((state) => {
-      let result
-      switch (info) {
-        case 0:
-          result = state.name
-          break
-        case 1:
-          result = state.map
-          break
-        case 2:
-          result = state.raw.numplayers || state.players.length
-          break
-        case 3:
-          result = state.raw.numbots
-          break
-        case 4:
-          result = state.maxplayers
-          break
-        case 5:
-          result = state.raw.tags
-          break
-        case 6:
-          result = state.password
-          break
-        case 7:
-          result = state.players.map((a) => a.name)
-          break
-        default:
-          break
-      }
+      attemptTimeout: 25000,
+    })
+      .then((state) => {
+        let result;
+        switch (info) {
+          case 0:
+            result = state.name;
+            break;
+          case 1:
+            result = state.map;
+            break;
+          case 2:
+            result = state.raw.numplayers || state.players.length;
+            break;
+          case 3:
+            result = state.raw.numbots;
+            break;
+          case 4:
+            result = state.maxplayers;
+            break;
+          case 5:
+            result = state.raw.tags;
+            break;
+          case 6:
+            result = state.password;
+            break;
+          case 7:
+            result = state.players.map((a) => a.name);
+            break;
+          default:
+            break;
+        }
 
-      if (result !== undefined) {
-        const storage = parseInt(data.storage)
-        const varName2 = _this.evalMessage(data.varName, cache)
-        _this.storeValue(result, storage, varName2, cache)
-      }
-      _this.callNextAction(cache)
-    }).catch((error) => console.log(`Game Server Info: ${error}`))
+        if (result !== undefined) {
+          const storage = parseInt(data.storage, 10);
+          const varName2 = Actions.evalMessage(data.varName, cache);
+          Actions.storeValue(result, storage, varName2, cache);
+        }
+        Actions.callNextAction(cache);
+      })
+      .catch((error) => console.log(`Game Server Info: ${error}`));
   },
 
-  mod () {}
-}
+  mod() {},
+};

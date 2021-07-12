@@ -2,21 +2,19 @@ module.exports = {
   name: 'Inspect List/Object',
   section: 'Lists and Loops',
 
-  subtitle (data) {
-    const storages = ['', 'Temp Variable', 'Server Variable', 'Global Variable']
-    return `Inspect ${storages[parseInt(data.storage)]} "${data.varName}"`
+  subtitle(data) {
+    const storages = ['', 'Temp Variable', 'Server Variable', 'Global Variable'];
+    return `Inspect ${storages[parseInt(data.storage, 10)]} "${data.varName}"`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage2)
-    if (type !== varType) return
-    const dataType = 'Text'
-    return ([data.varName2, dataType])
+  variableStorage(data, varType) {
+    if (parseInt(data.storage2, 10) !== varType) return;
+    return [data.varName2, 'Text'];
   },
 
   fields: ['storage', 'varName', 'depth', 'storage2', 'varName2'],
 
-  html (isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
   <div>
@@ -89,42 +87,42 @@ module.exports = {
   span.embed-desc {
     color: rgb(128, 128, 128);
   }
-</style>`
+</style>`;
   },
 
-  init () {
-    const { glob, document } = this
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer')
+  init() {
+    const { glob, document } = this;
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
+  action(cache) {
+    const data = cache.actions[cache.index];
 
-    const Mods = this.getMods()
-    const util = Mods.require('util')
-    const depth = parseInt(data.depth)
-    const storage = parseInt(data.storage)
-    const varName = this.evalMessage(data.varName, cache)
-    const variable = this.getVariable(storage, varName, cache)
-    let result
+    const Mods = this.getMods();
+    const util = Mods.require('util');
+    const depth = parseInt(data.depth, 10);
+    const storage = parseInt(data.storage, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    const variable = this.getVariable(storage, varName, cache);
+    let result;
 
-    if (typeof variable !== 'object') return console.log('Please choose a valid list or object to inspect!')
+    if (typeof variable !== 'object') return console.log('Please choose a valid list or object to inspect!');
 
     try {
-      result = util.inspect(variable, { depth: depth > 0 ? depth : 0 })
+      result = util.inspect(variable, { depth: depth > 0 ? depth : 0 });
     } catch (error) {
       if (error) {
-        console.error(error)
+        console.error(error);
       }
     }
 
     if (result !== undefined) {
-      const storage2 = parseInt(data.storage2)
-      const varName2 = this.evalMessage(data.varName2, cache)
-      this.storeValue(result, storage2, varName2, cache)
+      const storage2 = parseInt(data.storage2, 10);
+      const varName2 = this.evalMessage(data.varName2, cache);
+      this.storeValue(result, storage2, varName2, cache);
     }
-    this.callNextAction(cache)
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

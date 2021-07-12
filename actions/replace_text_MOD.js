@@ -2,21 +2,19 @@ module.exports = {
   name: 'Replace Text',
   section: 'Other Stuff',
 
-  subtitle (data) {
-    const info = ['Replace the first result', 'Replace all results']
-    return `${info[data.info]}`
+  subtitle(data) {
+    const info = ['Replace the first result', 'Replace all results'];
+    return `${info[data.info]}`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    const dataType = 'String'
-    return ([data.varName, dataType])
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName, 'String'];
   },
 
   fields: ['text', 'text2', 'text3', 'info', 'storage', 'varName'],
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
 <div style="padding-top: 8px;">
   Source Text:
@@ -50,34 +48,34 @@ module.exports = {
     Variable Name:<br>
     <input id="varName" class="round" type="text">
   </div>
-</div>`
+</div>`;
   },
 
-  init () {},
+  init() {},
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const text = this.evalMessage(data.text, cache)
-    const oldValue = this.evalMessage(data.text2, cache)
-    const newValue = this.evalMessage(data.text3, cache)
-    const info = parseInt(data.info)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const text = this.evalMessage(data.text, cache);
+    const oldValue = this.evalMessage(data.text2, cache);
+    const newValue = this.evalMessage(data.text3, cache);
+    const info = parseInt(data.info, 10);
 
-    let result
+    let result;
     switch (info) {
       case 0:
-        result = text.replace(oldValue, newValue)
-        break
+        result = text.replace(oldValue, newValue);
+        break;
       case 1:
-        result = text.split(oldValue).join(newValue)
-        break
+        result = text.split(oldValue).join(newValue);
+        break;
     }
     if (result !== undefined) {
-      const storage = parseInt(data.storage)
-      const varName = this.evalMessage(data.varName, cache)
-      this.storeValue(result, storage, varName, cache)
+      const storage = parseInt(data.storage, 10);
+      const varName = this.evalMessage(data.varName, cache);
+      this.storeValue(result, storage, varName, cache);
     }
-    this.callNextAction(cache)
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

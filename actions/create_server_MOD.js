@@ -2,19 +2,18 @@ module.exports = {
   name: 'Create Server',
   section: 'Server Control',
 
-  subtitle (data) {
-    return `${data.serverName}`
+  subtitle(data) {
+    return `${data.serverName}`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    return ([data.varName, 'Server'])
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName, 'Server'];
   },
 
   fields: ['serverName', 'serverRegion', 'storage', 'varName'],
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
 <div style="padding-top: 8px;">
   <div style="float: left; width: 560px;">
@@ -38,30 +37,31 @@ module.exports = {
       <b>NOTE:</b> <span style="color:red">This is only available to bots in less than 10 servers!</span>
     </p>
   </div>
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer')
+  init() {
+    const { glob, document } = this;
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const serverName = this.evalMessage(data.serverName, cache)
-    const botClient = this.getDBM().Bot.bot
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const serverName = this.evalMessage(data.serverName, cache);
+    const botClient = this.getDBM().Bot.bot;
 
-    if (!serverName) return this.callNextAction(cache)
+    if (!serverName) return this.callNextAction(cache);
 
-    botClient.guilds.create(serverName)
+    botClient.guilds
+      .create(serverName)
       .then((server) => {
-        const storage = parseInt(data.storage)
-        const varName = this.evalMessage(data.varName, cache)
-        this.storeValue(server, storage, varName, cache)
-        this.callNextAction(cache)
+        const storage = parseInt(data.storage, 10);
+        const varName = this.evalMessage(data.varName, cache);
+        this.storeValue(server, storage, varName, cache);
+        this.callNextAction(cache);
       })
-      .catch(this.displayError.bind(this, data, cache))
+      .catch(this.displayError.bind(this, data, cache));
   },
 
-  mod () {}
-}
+  mod() {},
+};

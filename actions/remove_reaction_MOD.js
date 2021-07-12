@@ -2,14 +2,14 @@ module.exports = {
   name: 'Remove Reaction',
   section: 'Reaction Control',
 
-  subtitle (data) {
-    const names = ['Mentioned User', 'Command Author', 'Temp Variable', 'Server Variable', 'Global Variable']
-    return `${names[parseInt(data.member)]}`
+  subtitle(data) {
+    const names = ['Mentioned User', 'Command Author', 'Temp Variable', 'Server Variable', 'Global Variable'];
+    return `${names[parseInt(data.member, 10)]}`;
   },
 
   fields: ['reaction', 'varName', 'member', 'varName2'],
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
 <div>
   <div style="float: left; width: 35%;">
@@ -34,33 +34,33 @@ module.exports = {
     Variable Name:<br>
     <input id="varName2" class="round" type="text" list="variableList"><br>
   </div>
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
+  init() {
+    const { glob, document } = this;
 
-    glob.refreshVariableList(document.getElementById('reaction'))
-    glob.memberChange(document.getElementById('member'), 'varNameContainer2')
+    glob.refreshVariableList(document.getElementById('reaction'));
+    glob.memberChange(document.getElementById('member'), 'varNameContainer2');
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
+  action(cache) {
+    const data = cache.actions[cache.index];
 
-    const reaction = parseInt(data.reaction)
-    const varName = this.evalMessage(data.varName, cache)
-    const Mods = this.getMods()
-    const rea = Mods.getReaction(reaction, varName, cache)
+    const reaction = parseInt(data.reaction, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    const Mods = this.getMods();
+    const rea = Mods.getReaction(reaction, varName, cache);
 
-    const type = parseInt(data.member)
-    const varName2 = this.evalMessage(data.varName2, cache)
-    const member = this.getMember(type, varName2, cache)
+    const type = parseInt(data.member, 10);
+    const varName2 = this.evalMessage(data.varName2, cache);
+    const member = this.getMember(type, varName2, cache);
 
-    if (!rea) return this.callNextAction(cache)
+    if (!rea) return this.callNextAction(cache);
 
-    if (member) rea.users.remove(member)
-    this.callNextAction(cache)
+    if (member) rea.users.remove(member);
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

@@ -2,19 +2,18 @@ module.exports = {
   name: 'Create Webhook',
   section: 'Webhook Control',
 
-  subtitle (data) {
-    return `${data.webhookName}`
+  subtitle(data) {
+    return `${data.webhookName}`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage2)
-    if (type !== varType) return
-    return ([data.varName2, 'Webhook'])
+  variableStorage(data, varType) {
+    if (parseInt(data.storage2, 10) !== varType) return;
+    return [data.varName2, 'Webhook'];
   },
 
   fields: ['webhookName', 'webhookIcon', 'storage', 'varName', 'storage2', 'varName2'],
 
-  html (isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div style="width: 90%;">
   Webhook Name:<br>
@@ -47,35 +46,36 @@ module.exports = {
     Variable Name:<br>
     <input id="varName2" class="round" type="text">
   </div>
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
+  init() {
+    const { glob, document } = this;
 
-    glob.channelChange(document.getElementById('storage'), 'varNameContainer')
-    glob.variableChange(document.getElementById('storage2'), 'varNameContainer2')
+    glob.channelChange(document.getElementById('storage'), 'varNameContainer');
+    glob.variableChange(document.getElementById('storage2'), 'varNameContainer2');
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const storage = parseInt(data.storage)
-    const varName = this.evalMessage(data.varName, cache)
-    const channel = this.getChannel(storage, varName, cache)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const storage = parseInt(data.storage, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    const channel = this.getChannel(storage, varName, cache);
 
-    if (!channel && !channel.createWebhook) return this.callNextAction(cache)
+    if (!channel && !channel.createWebhook) return this.callNextAction(cache);
 
-    const avatar = this.evalMessage(data.webhookIcon, cache)
-    const name = this.evalMessage(data.webhookName, cache)
-    channel.createWebhook(name, { avatar })
+    const avatar = this.evalMessage(data.webhookIcon, cache);
+    const name = this.evalMessage(data.webhookName, cache);
+    channel
+      .createWebhook(name, { avatar })
       .then((webhook) => {
-        const storage2 = parseInt(data.storage2)
-        const varName2 = this.evalMessage(data.varName2, cache)
-        this.storeValue(webhook, storage2, varName2, cache)
-        this.callNextAction(cache)
+        const storage2 = parseInt(data.storage2, 10);
+        const varName2 = this.evalMessage(data.varName2, cache);
+        this.storeValue(webhook, storage2, varName2, cache);
+        this.callNextAction(cache);
       })
-      .catch(this.displayError.bind(this, data, cache))
+      .catch(this.displayError.bind(this, data, cache));
   },
 
-  mod () {}
-}
+  mod() {},
+};

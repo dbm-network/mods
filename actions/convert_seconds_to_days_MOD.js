@@ -2,19 +2,18 @@ module.exports = {
   name: 'Convert Seconds To D/H/M/S',
   section: 'Other Stuff',
 
-  subtitle (data) {
-    return `Convert ${data.time}`
+  subtitle(data) {
+    return `Convert ${data.time}`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    return ([data.varName, 'Date'])
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName, 'Date'];
   },
 
   fields: ['time', 'storage', 'varName'],
 
-  html (isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div style="float: left; width: 70%; padding-top: 8px;">
   Seconds to Convert:
@@ -29,39 +28,39 @@ module.exports = {
 <div id="varNameContainer" style="float: right; display: none; width: 60%; padding-top: 8px;">
   Variable Name:<br>
   <input id="varName" class="round" type="text">
-</div><br><br>`
+</div><br><br>`;
   },
 
-  init () {
-    const { glob, document } = this
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer')
+  init() {
+    const { glob, document } = this;
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const time = this.evalMessage(data.time, cache)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const time = this.evalMessage(data.time, cache);
 
-    if (isNaN(time)) return this.callNextAction(cache)
+    if (isNaN(time)) return this.callNextAction(cache);
 
-    let s = time
-    let m = Math.floor(s / 60)
-    s %= 60
-    let h = Math.floor(m / 60)
-    m %= 60
-    const d = Math.floor(h / 24)
-    h %= 24
+    let s = time;
+    let m = Math.floor(s / 60);
+    s %= 60;
+    let h = Math.floor(m / 60);
+    m %= 60;
+    const d = Math.floor(h / 24);
+    h %= 24;
 
-    let result = `${d}d ${h}h ${m}m ${s}s`
+    let result = `${d}d ${h}h ${m}m ${s}s`;
 
-    if (result.toString() === 'Invalid Date') result = undefined
+    if (result.toString() === 'Invalid Date') result = undefined;
 
     if (result !== undefined) {
-      const storage = parseInt(data.storage)
-      const varName = this.evalMessage(data.varName, cache)
-      this.storeValue(result, storage, varName, cache)
+      const storage = parseInt(data.storage, 10);
+      const varName = this.evalMessage(data.varName, cache);
+      this.storeValue(result, storage, varName, cache);
     }
-    this.callNextAction(cache)
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

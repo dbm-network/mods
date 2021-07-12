@@ -2,13 +2,13 @@ module.exports = {
   name: 'Add Embed Field',
   section: 'Embed Message',
 
-  subtitle (data) {
-    return `${data.name} - ${data.message}`
+  subtitle(data) {
+    return `${data.name} - ${data.message}`;
   },
 
   fields: ['storage', 'varName', 'fieldName', 'message', 'inline'],
 
-  html (isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div><p>This action has been modified by DBM Mods. Use [Title](Link) to mask links here.</p></div><br>
 <div>
@@ -39,25 +39,25 @@ module.exports = {
 <div style="padding-top: 8px;">
   Field Description:<br>
   <textarea id="message" rows="7.5" placeholder="Insert message here... (Optional)" style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
-</div>`
+</div>`;
   },
 
-  init () {},
+  init() {},
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const storage = parseInt(data.storage)
-    const varName = this.evalMessage(data.varName, cache)
-    const embed = this.getVariable(storage, varName, cache)
-    const name = this.evalMessage(data.fieldName, cache)
-    const message = this.evalMessage(data.message, cache)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const storage = parseInt(data.storage, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    const embed = this.getVariable(storage, varName, cache);
+    const name = this.evalMessage(data.fieldName, cache);
+    const message = this.evalMessage(data.message, cache);
 
-    const inline = Boolean(data.inline === '0')
+    const inline = Boolean(data.inline === '0');
     if (embed && embed.addField) {
-      embed.addField(name || '\u200B', message || '\u200B', inline)
+      embed.addField(name || '\u200B', message || '\u200B', inline);
     }
-    this.callNextAction(cache)
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};
