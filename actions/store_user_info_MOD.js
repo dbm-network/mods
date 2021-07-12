@@ -178,10 +178,10 @@ module.exports = {
         break;
       case 7: // User Activities
         result = user.presence.activities.find((s) => s.type !== 'CUSTOM_STATUS')?.[0]?.name;
-        break
+        break;
       case 8: // User Custom Status
         result = user.presence.activities.find((s) => s.type === 'CUSTOM_STATUS')?.[0]?.state;
-        break
+        break;
       case 9: // User Discriminator
         result = user.discriminator;
         break;
@@ -193,13 +193,13 @@ module.exports = {
         break;
       case 12: // User Created Timestamp
         result = user.createdTimestamp;
-        break
+        break;
       case 13: // User Flags
         result = user.flags?.toArray() ?? [];
-        break
+        break;
       case 14: // User Status
         result = Object.keys(user.presence.clientStatus ?? {});
-        break
+        break;
       default:
         break;
     }

@@ -30,7 +30,7 @@ module.exports = {
         console.log(`${prefix} is not valid! Try again!`);
       }
     } catch (err) {
-      console.log(`ERROR! ${err.stack ?? err}`)
+      console.log(`ERROR! ${err.stack ?? err}`);
     }
     this.callNextAction(cache);
   },

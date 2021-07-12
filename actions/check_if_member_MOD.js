@@ -142,11 +142,11 @@ module.exports = {
         result = member.kickable;
         break;
       case 3:
-        result = !!member.voice?.speaking
-        break
+        result = Boolean(member.voice?.speaking);
+        break;
       case 4:
-        result = !!member.voice?.channel
-        break
+        result = Boolean(member.voice?.channel);
+        break;
       case 5:
         result = member.manageable;
         break;
@@ -163,11 +163,11 @@ module.exports = {
         break;
       }
       case 7:
-        result = !!member.voice?.mute
-        break
+        result = Boolean(member.voice?.mute);
+        break;
       case 8:
-        result = !!member.voice?.deaf
-        break
+        result = Boolean(member.voice?.deaf);
+        break;
       case 9:
         result = member.id === msg.author.id;
         break;

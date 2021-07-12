@@ -123,7 +123,7 @@ module.exports = {
         temp: cache.temp,
         server: cache.server,
         msg: cache.msg ?? null,
-      }
+      };
       if (data.type === 'true') {
         cache2.callback = function callback() {
           this.callNextAction(cache);

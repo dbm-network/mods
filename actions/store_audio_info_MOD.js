@@ -211,7 +211,7 @@ module.exports = {
         break;
       case 5:
         result = Audio.queue[targetServer.id]?.length; // queue length
-        break
+        break;
       case 6:
         result = Audio.dispatchers[targetServer.id]?.streams?.opus?._options?.rate ?? 0; // bitrate
         break;
@@ -220,25 +220,25 @@ module.exports = {
         break;
       case 9:
         result = Audio.playingnow[targetServer.id]?.[2]; // Current song url
-        break
+        break;
       case 10:
         result = Audio.queue[targetServer.id] && Audio.queue[targetServer.id].map((q) => q[1])[0].requester; // Requested person of next song in queue
         break;
       case 11:
         result = Audio.playingnow[targetServer.id]?.[1]?.requester; // Requested person of current song
-        break
+        break;
       case 12:
         result = Audio.queue[targetServer.id] && Audio.queue[targetServer.id].map((q) => q[1])[0].title; // Title of next song in queue
         break;
       case 13:
         result = Audio.playingnow[targetServer.id]?.[1]?.title; // Title of current song
-        break
+        break;
       case 14:
         result = TimeFormat.fromS(Audio.playingnow[targetServer.id]?.[1]?.duration); // Current song duration
         break;
       case 15:
         result = Audio.playingnow[targetServer.id]?.[1]?.thumbnail; // Current Song Thumbnail URL
-        break
+        break;
       default:
         break;
     }

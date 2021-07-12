@@ -131,8 +131,8 @@ module.exports = {
 
     switch (info) {
       case 0:
-        result = members.get(find) ?? users.get(find) ?? await this.getDBM().Bot.bot.users.fetch(find)
-        break
+        result = members.get(find) ?? users.get(find) ?? (await this.getDBM().Bot.bot.users.fetch(find));
+        break;
       case 1:
         result = find2 === 0 ? members.find((m) => m.user.username === find) : users.find((u) => u.username === find);
         break;
