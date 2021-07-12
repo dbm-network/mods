@@ -76,12 +76,12 @@ module.exports = {
     if (role && role.id) {
       if (channel && channel.updateOverwrite) {
         channel.updateOverwrite(role.id, options).then(() => {
-          this.callNextAction(cache)
+          return this.callNextAction(cache)
         }).catch(this.displayError.bind(this, data, cache))
       }
-      this.callNextAction(cache)
+      return this.callNextAction(cache)
     }
-    this.callNextAction(cache)
+    return this.callNextAction(cache)
   },
 
   mod () {}
