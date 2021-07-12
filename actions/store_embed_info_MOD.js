@@ -1,23 +1,23 @@
 module.exports = {
-	// ---------------------------------------------------------------------
-	// Action Name
-	//
-	// This is the name of the action displayed in the editor.
-	// ---------------------------------------------------------------------
+  // ---------------------------------------------------------------------
+  // Action Name
+  //
+  // This is the name of the action displayed in the editor.
+  // ---------------------------------------------------------------------
 	name: "Store Embed Info",
 
-	//---------------------------------------------------------------------
-	// Action Section
-	//
-	// This is the section the action will fall into.
-	//---------------------------------------------------------------------
-	section: "Embed Message",
+  //---------------------------------------------------------------------
+  // Action Section
+  //
+  // This is the section the action will fall into.
+  //---------------------------------------------------------------------
+  section: "Embed Message",
 
-	//---------------------------------------------------------------------
-	// Action Subtitle
-	//
-	// This function generates the subtitle displayed next to the name.
-	//---------------------------------------------------------------------
+  //---------------------------------------------------------------------
+  // Action Subtitle
+  //
+  // This function generates the subtitle displayed next to the name.
+  //---------------------------------------------------------------------
 	subtitle: function(data) {
 		const message = ["Command Message","Temp Variable", "Server Variable", "Global Variable"];
 		const info = ["Embed Object", "Embed Title", "Embed Description", "Embed Author Name", "Embed Author Icon URL", "Embed Thumbnail", "Embed Footer", "Embed Footer Icon URL", "Embed Image URL", "Embed Color", "", "", "Embed Fields", "", "", "", "", "", "", "", "", ""];
