@@ -160,7 +160,6 @@ module.exports = {
     let options;
     if (channel.type === 'voice') {
       options = {
-        position: data.position === 1 ? channel.position : 0,
         permissionOverwrites: data.permission === 1 ? channel.permissionOverwrites : [],
         userLimit: data.userLimit === 1 ? channel.userLimit : 0,
         bitrate: data.bitrate === 1 ? channel.bitrate : 64,
@@ -168,7 +167,6 @@ module.exports = {
       };
     } else if (channel.type === 'text') {
       options = {
-        position: data.position === 1 ? channel.position : 0,
         permissionOverwrites: data.permission === 1 ? channel.permissionOverwrites : [],
         nsfw: data.nsfw === 1 ? channel.nsfw : false,
         topic: data.topic === 1 ? channel.topic : undefined,
@@ -180,6 +178,7 @@ module.exports = {
     if (server && channel) {
       channel
         .clone(options)
+        .then((clonedChannel) => clonedChannel.setPosition(data.position === 1 ? channel.position : 0))
         .then((newChannel) => {
           const storage2 = parseInt(data.storage2, 10);
           const varName2 = this.evalMessage(data.varName2, cache);
