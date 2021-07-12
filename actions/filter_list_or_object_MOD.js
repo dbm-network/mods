@@ -3,21 +3,19 @@ module.exports = {
   displayName: 'Filter List or Object',
   section: 'Lists and Loops',
 
-  subtitle (data) {
-    const storages = ['', 'Temp Variable', 'Server Variable', 'Global Variable']
-    return `Filter ${storages[parseInt(data.storage)]} "${data.varName}"`
+  subtitle(data) {
+    const storages = ['', 'Temp Variable', 'Server Variable', 'Global Variable'];
+    return `Filter ${storages[parseInt(data.storage, 10)]} "${data.varName}"`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage2)
-    if (type !== varType) return
-    const dataType = 'List / Object'
-    return ([data.varName2, dataType])
+  variableStorage(data, varType) {
+    if (parseInt(data.storage2, 10) !== varType) return;
+    return [data.varName2, 'List / Object'];
   },
 
   fields: ['storage', 'varName', 'type', 'value', 'value2', 'storage2', 'varName2'],
 
-  html (isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
   <div>
@@ -83,172 +81,175 @@ module.exports = {
   span.wrexlink:hover {
     color:#4676b9;
   }
-</style>`
+</style>`;
   },
 
-  init () {
-    const { glob, document } = this
+  init() {
+    const { glob, document } = this;
 
     try {
-      const wrexlinks = document.getElementsByClassName('wrexlink')
+      const wrexlinks = document.getElementsByClassName('wrexlink');
       for (let x = 0; x < wrexlinks.length; x++) {
-        const wrexlink = wrexlinks[x]
-        const url = wrexlink.getAttribute('data-url')
+        const wrexlink = wrexlinks[x];
+        const url = wrexlink.getAttribute('data-url');
         if (url) {
-          wrexlink.setAttribute('title', url)
+          wrexlink.setAttribute('title', url);
           wrexlink.addEventListener('click', (e) => {
-            e.stopImmediatePropagation()
-            console.log(`Launching URL: [${url}] in your default browser.`)
-            require('child_process').execSync(`start ${url}`)
-          })
+            e.stopImmediatePropagation();
+            console.log(`Launching URL: [${url}] in your default browser.`);
+            require('child_process').execSync(`start ${url}`);
+          });
         }
       }
     } catch (error) {
-      require('fs').appendFile('errors.txt', error.stack ? error.stack : `${error}\r\n`)
+      require('fs').appendFile('errors.txt', error.stack ? error.stack : `${error}\r\n`);
     }
 
-    glob.onChange1 = function () {
-      const valueDiv = document.getElementById('valueDiv')
-      const valueDiv2 = document.getElementById('valueDiv2')
-      const value = document.getElementById('value')
+    glob.onChange1 = function onChange1() {
+      const valueDiv = document.getElementById('valueDiv');
+      const valueDiv2 = document.getElementById('valueDiv2');
+      const value = document.getElementById('value');
 
-      switch (parseInt(document.getElementById('type').value)) {
+      switch (parseInt(document.getElementById('type').value, 10)) {
         case 0: // Exists
-          value.placeholder = ''
-          valueDiv.style.display = 'none'
-          valueDiv2.style.display = null
-          break
+          value.placeholder = '';
+          valueDiv.style.display = 'none';
+          valueDiv2.style.display = null;
+          break;
         case 6: // Regex
-          value.placeholder = "('My'|'Regex')"
-          valueDiv.style.display = null
-          valueDiv2.style.display = null
-          break
+          value.placeholder = "('My'|'Regex')";
+          valueDiv.style.display = null;
+          valueDiv2.style.display = null;
+          break;
         case 7: // Full Regex
-          value.placeholder = "/('My'|'Regex')\\w+/igm"
-          valueDiv.style.display = null
-          valueDiv2.style.display = null
-          break
-        default: // Other Stuff
-          value.placeholder = ''
-          valueDiv.style.display = null
-          valueDiv2.style.display = null
-          break
+          value.placeholder = "/('My'|'Regex')\\w+/igm";
+          valueDiv.style.display = null;
+          valueDiv2.style.display = null;
+          break;
+        default:
+          // Other Stuff
+          value.placeholder = '';
+          valueDiv.style.display = null;
+          valueDiv2.style.display = null;
+          break;
       }
-    }
+    };
 
-    glob.onChange1(document.getElementById('type'))
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer')
-    glob.variableChange(document.getElementById('storage2'), 'varNameContainer2')
+    glob.onChange1(document.getElementById('type'));
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
+    glob.variableChange(document.getElementById('storage2'), 'varNameContainer2');
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const storage = parseInt(data.storage)
-    const varName = this.evalMessage(data.varName, cache)
-    const variable = this.getVariable(storage, varName, cache)
-    const value = this.evalMessage(data.value, cache) // Filter To
-    const value2 = this.evalMessage(data.value2, cache) // Filter From
-    let result
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const storage = parseInt(data.storage, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    const variable = this.getVariable(storage, varName, cache);
+    const value = this.evalMessage(data.value, cache); // Filter To
+    const value2 = this.evalMessage(data.value2, cache); // Filter From
+    let result;
 
     if (value2 !== '' && value2 !== undefined) {
-      switch (parseInt(data.type)) {
+      switch (parseInt(data.type, 10)) {
         case 0: // Exists
-          result = variable.filter((item) => item[value2] !== undefined && item[value2] !== null)
-          break
+          result = variable.filter((item) => item[value2] !== undefined && item[value2] !== null);
+          break;
         case 1: // Equals
           // eslint-disable-next-line eqeqeq
-          result = variable.filter((item) => item[value2] == value)
-          break
+          result = variable.filter((item) => item[value2] == value);
+          break;
         case 2: // Equals Exactly
-          result = variable.filter((item) => item[value2] === value)
-          break
+          result = variable.filter((item) => item[value2] === value);
+          break;
         case 3: // Less Than
-          result = variable.filter((item) => item[value2] < value)
-          break
+          result = variable.filter((item) => item[value2] < value);
+          break;
         case 4: // Greater Than
-          result = variable.filter((item) => item[value2] > value)
-          break
+          result = variable.filter((item) => item[value2] > value);
+          break;
         case 5: // Includes
-          result = variable.filter((item) => item[value2].indexOf(value))
-          break
+          result = variable.filter((item) => item[value2].indexOf(value));
+          break;
         case 6: // Regex
-          result = variable.filter((item) => item[value2].match(new RegExp(`^${value}$`, 'i')))
-          break
+          result = variable.filter((item) => item[value2].match(new RegExp(`^${value}$`, 'i')));
+          break;
         case 7: // Full Regex
-          result = variable.filter((item) => item[value2].match(new RegExp(value)))
-          break
+          result = variable.filter((item) => item[value2].match(new RegExp(value)));
+          break;
         case 8: // Bigger Length
-          result = variable.filter((item) => item[value2].length > value)
-          break
+          result = variable.filter((item) => item[value2].length > value);
+          break;
         case 9: // Smaller Length
-          result = variable.filter((item) => item[value2].length < value)
-          break
+          result = variable.filter((item) => item[value2].length < value);
+          break;
         case 10: // Equals Length
-          result = variable.filter((item) => item[value2].length === value)
-          break
+          result = variable.filter((item) => item[value2].length === value);
+          break;
         case 11: // Starts With
-          result = variable.filter((item) => item[value2].startsWith(value))
-          break
+          result = variable.filter((item) => item[value2].startsWith(value));
+          break;
         case 12: // Ends With
-          result = variable.filter((item) => item[value2].endsWith(value))
-          break
-        default: // Mistake in RawData
-          return console.log('Please check your Filter List or Object action! There is something wrong.')
+          result = variable.filter((item) => item[value2].endsWith(value));
+          break;
+        default:
+          // Mistake in RawData
+          return console.log('Please check your Filter List or Object action! There is something wrong.');
       }
     } else {
-      switch (parseInt(data.type)) {
+      switch (parseInt(data.type, 10)) {
         case 0: // Exists
-          result = variable.filter((item) => item !== undefined && item !== null)
-          break
+          result = variable.filter((item) => item !== undefined && item !== null);
+          break;
         case 1: // Equals
           // eslint-disable-next-line eqeqeq
-          result = variable.filter((item) => item == value)
-          break
+          result = variable.filter((item) => item == value);
+          break;
         case 2: // Equals Exactly
-          result = variable.filter((item) => item === value)
-          break
+          result = variable.filter((item) => item === value);
+          break;
         case 3: // Less Than
-          result = variable.filter((item) => item < value)
-          break
+          result = variable.filter((item) => item < value);
+          break;
         case 4: // Greater Than
-          result = variable.filter((item) => item > value)
-          break
+          result = variable.filter((item) => item > value);
+          break;
         case 5: // Includes
-          result = variable.filter((item) => item.indexOf(value))
-          break
+          result = variable.filter((item) => item.indexOf(value));
+          break;
         case 6: // Regex
-          result = variable.filter((item) => item.match(new RegExp(`^${value}$`, 'i')))
-          break
+          result = variable.filter((item) => item.match(new RegExp(`^${value}$`, 'i')));
+          break;
         case 7: // Full Regex
-          result = variable.filter((item) => item.match(new RegExp(value)))
-          break
+          result = variable.filter((item) => item.match(new RegExp(value)));
+          break;
         case 8: // Bigger Length
-          result = variable.filter((item) => item.length > value)
-          break
+          result = variable.filter((item) => item.length > value);
+          break;
         case 9: // Smaller Length
-          result = variable.filter((item) => item.length < value)
-          break
+          result = variable.filter((item) => item.length < value);
+          break;
         case 10: // Equals Length
-          result = variable.filter((item) => item.length === value)
-          break
+          result = variable.filter((item) => item.length === value);
+          break;
         case 11: // Starts With
-          result = variable.filter((item) => item.startsWith(value))
-          break
+          result = variable.filter((item) => item.startsWith(value));
+          break;
         case 12: // Ends With
-          result = variable.filter((item) => item.endsWith(value))
-          break
-        default: // Mistake in RawData
-          return console.log('Please check your Filter List or Object action! There is something wrong.')
+          result = variable.filter((item) => item.endsWith(value));
+          break;
+        default:
+          // Mistake in RawData
+          return console.log('Please check your Filter List or Object action! There is something wrong.');
       }
     }
 
     if (result !== undefined) {
-      const storage2 = parseInt(data.storage2)
-      const varName2 = this.evalMessage(data.varName2, cache)
-      this.storeValue(result, storage2, varName2, cache)
+      const storage2 = parseInt(data.storage2, 10);
+      const varName2 = this.evalMessage(data.varName2, cache);
+      this.storeValue(result, storage2, varName2, cache);
     }
-    this.callNextAction(cache)
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

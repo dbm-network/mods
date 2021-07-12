@@ -2,19 +2,18 @@ module.exports = {
   name: 'Loop through Folder',
   section: 'Lists and Loops',
 
-  subtitle () {
-    return 'Loops through folder, and turns filenames into array'
+  subtitle() {
+    return 'Loops through folder, and turns filenames into array';
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    return ([data.varName2, 'Array'])
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName2, 'Array'];
   },
 
   fields: ['filename', 'storage', 'varName2'],
 
-  html (isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div>
   <p>
@@ -39,29 +38,29 @@ module.exports = {
     Variable Name:<br>
     <input id="varName2" class="round" type="text"><br>
   </div>
-</div>`
+</div>`;
   },
 
-  init () {},
+  init() {},
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const path = this.evalMessage(data.filename, cache)
-    const { readdirSync } = require('fs')
-    let output = {}
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const path = this.evalMessage(data.filename, cache);
+    const { readdirSync } = require('fs');
+    let output = {};
 
     try {
       if (path) {
-        output = readdirSync(path)
-        this.storeValue(output, parseInt(data.storage), this.evalMessage(data.varName2, cache), cache)
+        output = readdirSync(path);
+        this.storeValue(output, parseInt(data.storage, 10), this.evalMessage(data.varName2, cache), cache);
       } else {
-        console.log('Loop Through Folder: Path is missing.')
+        console.log('Loop Through Folder: Path is missing.');
       }
     } catch (err) {
-      console.error(`Error: ${err.stack || err}`)
+      console.error(`Error: ${err.stack || err}`);
     }
-    this.callNextAction(cache)
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

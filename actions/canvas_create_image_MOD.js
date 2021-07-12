@@ -2,19 +2,18 @@ module.exports = {
   name: 'Canvas Create Image',
   section: 'Image Editing',
 
-  subtitle (data) {
-    return `${data.url}`
+  subtitle(data) {
+    return `${data.url}`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    return ([data.varName, 'Image'])
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName, 'Image'];
   },
 
   fields: ['url', 'storage', 'varName'],
 
-  html (isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div>
   Local/Web URL:<br>
@@ -31,26 +30,25 @@ module.exports = {
     Variable Name:<br>
     <input id="varName" class="round" type="text"><br>
   </div>
-</div>`
+</div>`;
   },
 
-  init () {
-  },
+  init() {},
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const Canvas = require('canvas')
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const Canvas = require('canvas');
     Canvas.loadImage(this.evalMessage(data.url, cache)).then((image) => {
-      const canvas = Canvas.createCanvas(image.width, image.height)
-      const ctx = canvas.getContext('2d')
-      ctx.drawImage(image, 0, 0, image.width, image.height)
-      const result = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream')
-      const varName = this.evalMessage(data.varName, cache)
-      const storage = parseInt(data.storage)
-      this.storeValue(result, storage, varName, cache)
-      this.callNextAction(cache)
-    })
+      const canvas = Canvas.createCanvas(image.width, image.height);
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(image, 0, 0, image.width, image.height);
+      const result = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
+      const varName = this.evalMessage(data.varName, cache);
+      const storage = parseInt(data.storage, 10);
+      this.storeValue(result, storage, varName, cache);
+      this.callNextAction(cache);
+    });
   },
 
-  mod () {}
-}
+  mod() {},
+};

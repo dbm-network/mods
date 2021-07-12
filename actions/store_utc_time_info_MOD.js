@@ -2,20 +2,27 @@ module.exports = {
   name: 'Store UTC Time Info',
   section: 'Other Stuff',
 
-  subtitle (data) {
-    const time = ['UTC Year', 'UTC Month', 'UTC Day of the Month', 'UTC Hour', 'UTC Minute', 'UTC Second', 'UTC Millisecond']
-    return `${time[parseInt(data.type)]}`
+  subtitle(data) {
+    const time = [
+      'UTC Year',
+      'UTC Month',
+      'UTC Day of the Month',
+      'UTC Hour',
+      'UTC Minute',
+      'UTC Second',
+      'UTC Millisecond',
+    ];
+    return `${time[parseInt(data.type, 10)]}`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    return ([data.varName, 'Number'])
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName, 'Number'];
   },
 
   fields: ['type', 'storage', 'varName'],
 
-  html (isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div>
   <div style="padding-top: 8px; width: 70%;">
@@ -42,49 +49,49 @@ module.exports = {
     Variable Name:<br>
     <input id="varName" class="round" type="text"><br>
   </div>
-</div>`
+</div>`;
   },
 
-  init () {},
+  init() {},
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const type = parseInt(data.type)
-    let result
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const type = parseInt(data.type, 10);
+    let result;
 
     switch (type) {
       case 0:
-        result = new Date().getUTCFullYear()
-        break
+        result = new Date().getUTCFullYear();
+        break;
       case 1:
-        result = new Date().getUTCMonth() + 1
-        break
+        result = new Date().getUTCMonth() + 1;
+        break;
       case 2:
-        result = new Date().getUTCDate()
-        break
+        result = new Date().getUTCDate();
+        break;
       case 3:
-        result = new Date().getUTCHours()
-        break
+        result = new Date().getUTCHours();
+        break;
       case 4:
-        result = new Date().getUTCMinutes()
-        break
+        result = new Date().getUTCMinutes();
+        break;
       case 5:
-        result = new Date().getUTCSeconds()
-        break
+        result = new Date().getUTCSeconds();
+        break;
       case 6:
-        result = new Date().getUTCMilliseconds()
-        break
+        result = new Date().getUTCMilliseconds();
+        break;
       default:
-        break
+        break;
     }
 
     if (result !== undefined) {
-      const storage = parseInt(data.storage)
-      const varName = this.evalMessage(data.varName, cache)
-      this.storeValue(result, storage, varName, cache)
+      const storage = parseInt(data.storage, 10);
+      const varName = this.evalMessage(data.varName, cache);
+      this.storeValue(result, storage, varName, cache);
     }
-    this.callNextAction(cache)
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

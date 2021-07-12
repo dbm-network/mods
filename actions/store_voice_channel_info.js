@@ -2,54 +2,74 @@ module.exports = {
   name: 'Store Voice Channel Info',
   section: 'Channel Control',
 
-  subtitle (data) {
-    const channels = ["Command Author's Voice Ch.", "Mentioned User's Voice Ch.", 'Default Voice Channel', 'Temp Variable', 'Server Variable', 'Global Variable']
-    const info = ['Voice Channel Object', 'Voice Channel ID', 'Voice Channel Name', 'Voice Channel Position', 'Voice Channel User Limit', 'Voice Channel Bitrate', 'Bot can speak?', 'Bot can join?', 'Bot can delete VC?', 'Members connected', 'Is VC Full', 'VC Guild', 'Can Bot Manage', 'VC Parent']
-    return `${channels[parseInt(data.channel)]} - ${info[parseInt(data.info)]}`
+  subtitle(data) {
+    const channels = [
+      "Command Author's Voice Ch.",
+      "Mentioned User's Voice Ch.",
+      'Default Voice Channel',
+      'Temp Variable',
+      'Server Variable',
+      'Global Variable',
+    ];
+    const info = [
+      'Voice Channel Object',
+      'Voice Channel ID',
+      'Voice Channel Name',
+      'Voice Channel Position',
+      'Voice Channel User Limit',
+      'Voice Channel Bitrate',
+      'Bot can speak?',
+      'Bot can join?',
+      'Bot can delete VC?',
+      'Members connected',
+      'Is VC Full',
+      'VC Guild',
+      'Can Bot Manage',
+      'VC Parent',
+    ];
+    return `${channels[parseInt(data.channel, 10)]} - ${info[parseInt(data.info, 10)]}`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    const info = parseInt(data.info)
-    let dataType = 'Unknown Type'
-    switch (info) {
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    let dataType = 'Unknown Type';
+    switch (parseInt(data.info, 10)) {
       case 0:
-        dataType = 'Voice Channel'
-        break
+        dataType = 'Voice Channel';
+        break;
       case 1:
-        dataType = 'Voice Channel ID'
-        break
+        dataType = 'Voice Channel ID';
+        break;
       case 2:
-        dataType = 'Text'
-        break
+        dataType = 'Text';
+        break;
       case 3:
       case 4:
       case 5:
-        dataType = 'Number'
-        break
+        dataType = 'Number';
+        break;
       case 6:
       case 7:
       case 8:
       case 10:
       case 12:
-        dataType = 'Boolean'
-        break
+        dataType = 'Boolean';
+        break;
       case 9:
-        dataType = 'Array'
-        break
+        dataType = 'Array';
+        break;
       case 11:
-        dataType = 'Guild Object'
-        break
+        dataType = 'Guild Object';
+        break;
       default:
-        break
+        break;
     }
-    return ([data.varName2, dataType])
+    return [data.varName2, dataType];
   },
 
   fields: ['channel', 'varName', 'info', 'storage', 'varName2'],
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
 <div><p>This action has been modified by DBM Mods.</p></div><br>
 <div>
@@ -96,78 +116,78 @@ module.exports = {
     Variable Name:<br>
     <input id="varName2" class="round" type="text"><br>
   </div>
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
-    glob.voiceChannelChange(document.getElementById('channel'), 'varNameContainer')
+  init() {
+    const { glob, document } = this;
+    glob.voiceChannelChange(document.getElementById('channel'), 'varNameContainer');
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const channel = parseInt(data.channel)
-    const varName = this.evalMessage(data.varName, cache)
-    const info = parseInt(data.info)
-    const targetChannel = this.getVoiceChannel(channel, varName, cache)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const channel = parseInt(data.channel, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    const info = parseInt(data.info, 10);
+    const targetChannel = this.getVoiceChannel(channel, varName, cache);
 
-    if (!targetChannel) return this.callNextAction(cache)
+    if (!targetChannel) return this.callNextAction(cache);
 
-    let result
+    let result;
     switch (info) {
       case 0:
-        result = targetChannel
-        break
+        result = targetChannel;
+        break;
       case 1:
-        result = targetChannel.id
-        break
+        result = targetChannel.id;
+        break;
       case 2:
-        result = targetChannel.name
-        break
+        result = targetChannel.name;
+        break;
       case 3:
-        result = targetChannel.position
-        break
+        result = targetChannel.position;
+        break;
       case 4:
-        result = targetChannel.userLimit
-        break
+        result = targetChannel.userLimit;
+        break;
       case 5:
-        result = targetChannel.bitrate
-        break
+        result = targetChannel.bitrate;
+        break;
       case 6:
-        result = targetChannel.speakable
-        break
+        result = targetChannel.speakable;
+        break;
       case 7:
-        result = targetChannel.joinable
-        break
+        result = targetChannel.joinable;
+        break;
       case 8:
-        result = targetChannel.deletable
-        break
+        result = targetChannel.deletable;
+        break;
       case 9:
-        result = targetChannel.members.array()
-        break
+        result = targetChannel.members.array();
+        break;
       case 10:
-        result = targetChannel.full
-        break
+        result = targetChannel.full;
+        break;
       case 11:
-        result = targetChannel.guild
-        break
+        result = targetChannel.guild;
+        break;
       case 12:
-        result = targetChannel.manageable
-        break
+        result = targetChannel.manageable;
+        break;
       case 13:
-        result = targetChannel.parent
-        break
+        result = targetChannel.parent;
+        break;
       default:
-        break
+        break;
     }
 
     if (result !== undefined) {
-      const storage = parseInt(data.storage)
-      const varName2 = this.evalMessage(data.varName2, cache)
-      this.storeValue(result, storage, varName2, cache)
+      const storage = parseInt(data.storage, 10);
+      const varName2 = this.evalMessage(data.varName2, cache);
+      this.storeValue(result, storage, varName2, cache);
     }
-    this.callNextAction(cache)
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

@@ -2,17 +2,24 @@ module.exports = {
   name: 'Bot Typing',
   section: 'Bot Client Control',
 
-  subtitle (data) {
-    const names = ['Same Channel', 'Mentioned Channel', 'Default Channel', 'Temp Variable', 'Server Variable', 'Global Variable']
-    const names2 = ['Starts Typing', 'Stops Typing']
-    const index2 = parseInt(data.typing)
-    const index = parseInt(data.storage)
-    return index < 3 ? `${names[index]} - ${names2[index2]}` : `${names[index]} - ${data.varName} - ${names2[index2]}`
+  subtitle(data) {
+    const names = [
+      'Same Channel',
+      'Mentioned Channel',
+      'Default Channel',
+      'Temp Variable',
+      'Server Variable',
+      'Global Variable',
+    ];
+    const names2 = ['Starts Typing', 'Stops Typing'];
+    const index2 = parseInt(data.typing, 10);
+    const index = parseInt(data.storage, 10);
+    return index < 3 ? `${names[index]} - ${names2[index2]}` : `${names[index]} - ${data.varName} - ${names2[index2]}`;
   },
 
   fields: ['storage', 'varName', 'typing'],
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
 <div>
   <div style="float: left; width: 35%;">
@@ -39,28 +46,28 @@ module.exports = {
   <p>
     You can stop the typing with <b>Stop Typing</b>
   </p>
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
-    glob.channelChange(document.getElementById('storage'), 'varNameContainer')
+  init() {
+    const { glob, document } = this;
+    glob.channelChange(document.getElementById('storage'), 'varNameContainer');
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const storage = parseInt(data.storage)
-    const varName = this.evalMessage(data.VarName, cache)
-    const channel = this.getChannel(storage, varName, cache)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const storage = parseInt(data.storage, 10);
+    const varName = this.evalMessage(data.VarName, cache);
+    const channel = this.getChannel(storage, varName, cache);
 
     try {
-      data.typing === '0' ? channel.startTyping() : channel.stopTyping()
+      data.typing === '0' ? channel.startTyping() : channel.stopTyping();
     } catch (e) {
-      console.error(`ERROR! ${e}${e.stack}`)
+      console.error(`ERROR! ${e}${e.stack}`);
     }
 
-    this.callNextAction(cache)
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

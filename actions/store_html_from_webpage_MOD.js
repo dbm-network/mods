@@ -2,19 +2,18 @@ module.exports = {
   name: 'Store HTML From Webpage',
   section: 'HTML/XML Things',
 
-  subtitle (data) {
-    return `URL: ${data.url}`
+  subtitle(data) {
+    return `URL: ${data.url}`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    return ([data.varName, 'HTML Webpage'])
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName, 'HTML Webpage'];
   },
 
   fields: ['url', 'storage', 'varName'],
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
   <div>
     <div style="float: left; width: 95%;">
@@ -31,40 +30,40 @@ module.exports = {
       Storage Variable Name:<br>
       <input id="varName" class="round" type="text">
     </div>
-  </div>`
+  </div>`;
   },
 
-  init () {
-    const { glob, document } = this
+  init() {
+    const { glob, document } = this;
 
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer')
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
   },
 
-  async action (cache) {
-    const Mods = this.getMods()
-    const fetch = Mods.require('node-fetch')
+  async action(cache) {
+    const Mods = this.getMods();
+    const fetch = Mods.require('node-fetch');
 
-    const data = cache.actions[cache.index]
+    const data = cache.actions[cache.index];
 
-    const varName = this.evalMessage(data.varName, cache)
-    const storage = parseInt(data.storage)
+    const varName = this.evalMessage(data.varName, cache);
+    const storage = parseInt(data.storage, 10);
 
-    let url = this.evalMessage(data.url, cache)
+    let url = this.evalMessage(data.url, cache);
 
-    if (!Mods.checkURL(url)) url = encodeURI(url)
+    if (!Mods.checkURL(url)) url = encodeURI(url);
 
     if (Mods.checkURL(url)) {
       try {
-        const html = await fetch(url).then((r) => r.text())
-        this.storeValue(html.trim(), storage, varName, cache)
-        this.callNextAction(cache)
+        const html = await fetch(url).then((r) => r.text());
+        this.storeValue(html.trim(), storage, varName, cache);
+        this.callNextAction(cache);
       } catch (err) {
-        console.error(err)
+        console.error(err);
       }
     } else {
-      console.error(`HTML Parser - URL [${url}] Is Not Valid`)
+      console.error(`HTML Parser - URL [${url}] Is Not Valid`);
     }
   },
 
-  mod () {}
-}
+  mod() {},
+};

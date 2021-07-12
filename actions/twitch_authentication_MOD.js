@@ -2,37 +2,33 @@ module.exports = {
   name: 'Twitch Authentication',
   section: 'Other Stuff',
 
-  subtitle (data) {
+  subtitle(data) {
     if (data.client_id) {
-      return `Authentication for client id : ${data.client_id}`
-    } else {
-      return 'Authentication'
+      return `Authentication for client id : ${data.client_id}`;
     }
+    return 'Authentication';
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    let dataType
-    switch (parseInt(data.info)) {
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    let dataType;
+    switch (parseInt(data.info, 10)) {
       case 0:
-        dataType = 'Access Token'
-        break
+        dataType = 'Access Token';
+        break;
       case 1:
-        dataType = 'Expires in Seconds'
-        break
+        dataType = 'Expires in Seconds';
+        break;
       case 2:
-        dataType = 'Authentication Object'
-        break
-      default:
-        break
+        dataType = 'Authentication Object';
+        break;
     }
-    return ([data.varName, dataType])
+    return [data.varName, dataType];
   },
 
   fields: ['client_id', 'client_secret', 'info', 'storage', 'varName', 'debug'],
 
-  html (isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div style="padding-top: 8px;">
   <div style="float: left; width: 104%;">
@@ -68,64 +64,68 @@ module.exports = {
     <input id="varName" class="round" type="text"><br>
   </div>
 </div>
-<input style="display: none" id="debug" value="true">`
+<input style="display: none" id="debug" value="true">`;
   },
 
-  init () {},
+  init() {},
 
-  async action (cache) {
-    const data = cache.actions[cache.index]
-    const Mods = this.getMods()
-    const fetch = Mods.require('node-fetch')
-    const clientID = this.evalMessage(data.client_id, cache)
-    const clientSecret = this.evalMessage(data.client_secret, cache)
-    const info = parseInt(data.info)
-    const url = `https://id.twitch.tv/oauth2/token?client_id=${clientID}&client_secret=${clientSecret}&grant_type=client_credentials&scope=user:edit+user:read:email`
-    const oldUrl = this.getVariable(1, `${url}_URL`, cache)
+  async action(cache) {
+    const data = cache.actions[cache.index];
+    const Mods = this.getMods();
+    const fetch = Mods.require('node-fetch');
+    const clientID = this.evalMessage(data.client_id, cache);
+    const clientSecret = this.evalMessage(data.client_secret, cache);
+    const info = parseInt(data.info, 10);
+    const url = `https://id.twitch.tv/oauth2/token?client_id=${clientID}&client_secret=${clientSecret}&grant_type=client_credentials&scope=user:edit+user:read:email`;
+    const oldUrl = this.getVariable(1, `${url}_URL`, cache);
 
-    if (oldUrl && oldUrl === url) {
-      const json = this.getVariable(1, url, cache)
-      getInfo.call(this, json)
-    } else {
-      const res = await fetch(url, { method: 'POST' })
-      if (res.ok) {
-        const json = await res.json()
-        if (json.error) {
-          console.error(json)
-        } else {
-          this.storeValue(json, 1, url, cache)
-          this.storeValue(url, 1, `${url}_URL`, cache)
-          getInfo.call(this, json)
-        }
-      } else {
-        console.error('Twitch Authentication: something wrong, please try again.')
-      }
-    }
-
-    function getInfo (json) {
-      let result
+    function getInfo(json) {
+      let result;
       switch (info) {
         case 0:
-          result = json.access_token
-          break
+          result = json.access_token;
+          break;
         case 1:
-          result = json.expires_in
-          break
+          result = json.expires_in;
+          break;
         case 2:
-          result = json
-          break
+          result = json;
+          break;
         default:
-          break
+          break;
       }
+
       if (result) {
-        const storage = parseInt(data.storage)
-        const varName = this.evalMessage(data.varName, cache)
-        this.storeValue(result, storage, varName, cache)
-        if (data.debug) console.log('Twitch Authentication: Reminder: Please do save variable, don\'t request access token too many times')
+        const storage = parseInt(data.storage, 10);
+        const varName = this.evalMessage(data.varName, cache);
+        this.storeValue(result, storage, varName, cache);
+        if (data.debug)
+          console.log(
+            "Twitch Authentication: Reminder: Please do save variable, don't request access token too many times",
+          );
       }
-      this.callNextAction(cache)
+      this.callNextAction(cache);
+    }
+
+    if (oldUrl && oldUrl === url) {
+      const json = this.getVariable(1, url, cache);
+      getInfo.call(this, json);
+    } else {
+      const res = await fetch(url, { method: 'POST' });
+      if (res.ok) {
+        const json = await res.json();
+        if (json.error) {
+          console.error(json);
+        } else {
+          this.storeValue(json, 1, url, cache);
+          this.storeValue(url, 1, `${url}_URL`, cache);
+          getInfo.call(this, json);
+        }
+      } else {
+        console.error('Twitch Authentication: something wrong, please try again.');
+      }
     }
   },
 
-  mod () {}
-}
+  mod() {},
+};

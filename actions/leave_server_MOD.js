@@ -2,13 +2,13 @@ module.exports = {
   name: 'Leave Server',
   section: 'Bot Client Control',
 
-  subtitle (data) {
-    return 'Leaves a server'
+  subtitle() {
+    return 'Leaves a server';
   },
 
   fields: ['server', 'varName'],
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
 <div>
   <div style="float: left; width: 35%;">
@@ -21,31 +21,34 @@ module.exports = {
     Variable Name:<br>
     <input id="varName" class="round" type="text" list="variableList">
   </div>
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
-    glob.serverChange(document.getElementById('server'), 'varNameContainer')
+  init() {
+    const { glob, document } = this;
+    glob.serverChange(document.getElementById('server'), 'varNameContainer');
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const type = parseInt(data.server)
-    const varName = this.evalMessage(data.varName, cache)
-    const server = this.getServer(type, varName, cache)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const type = parseInt(data.server, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    const server = this.getServer(type, varName, cache);
 
     if (Array.isArray(server)) {
       this.callListFunc(server, 'leave').then(() => {
-        this.callNextAction(cache)
-      })
+        this.callNextAction(cache);
+      });
     } else if (server && server.leave) {
-      server.leave().then(() => {
-        this.callNextAction(cache)
-      }).catch(this.displayError.bind(this, data, cache))
+      server
+        .leave()
+        .then(() => {
+          this.callNextAction(cache);
+        })
+        .catch(this.displayError.bind(this, data, cache));
     }
-    this.callNextAction(cache)
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

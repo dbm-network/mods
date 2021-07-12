@@ -4,47 +4,50 @@ module.exports = {
   section: 'Bot Client Control',
   fields: ['eventType', 'firstArg', 'secondArg'],
 
-  subtitle ({ eventType }) {
-    let DiscordJS
+  subtitle({ eventType }) {
+    let DiscordJS;
     try {
-      DiscordJS = require('discord.js')
+      DiscordJS = require('discord.js');
     } catch (_) {}
 
-    const events = Object.values(DiscordJS.Constants.Events).sort()
-    return events.includes(eventType) ? `Emits a ${eventType} event` : 'Not emitting anything'
+    const events = Object.values(DiscordJS.Constants.Events).sort();
+    return events.includes(eventType) ? `Emits a ${eventType} event` : 'Not emitting anything';
   },
 
-  init () {
-    const { execSync } = require('child_process')
-    const { document } = this
+  init() {
+    const { execSync } = require('child_process');
+    const { document } = this;
 
-    const wrexlinks = document.getElementsByClassName('wrexlink2')
+    const wrexlinks = document.getElementsByClassName('wrexlink2');
     for (let i = 0; i < wrexlinks.length; i++) {
-      const wrexlink = wrexlinks[i]
-      const url = wrexlink.getAttribute('data-url2')
+      const wrexlink = wrexlinks[i];
+      const url = wrexlink.getAttribute('data-url2');
       if (url) {
-        wrexlink.setAttribute('title', url)
+        wrexlink.setAttribute('title', url);
         wrexlink.addEventListener('click', (e) => {
-          e.stopImmediatePropagation()
-          execSync(`start ${url}`)
-        })
+          e.stopImmediatePropagation();
+          execSync(`start ${url}`);
+        });
       }
     }
   },
 
-  html () {
-    let DiscordJS
+  html() {
+    let DiscordJS;
     try {
-      DiscordJS = require('discord.js')
+      DiscordJS = require('discord.js');
     } catch (_) {}
 
-    const events = DiscordJS && Object.values(DiscordJS.Constants.Events).sort()
-    const docs = `https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-${(events && events[0]) || 'channelCreate'}`
+    const events = DiscordJS && Object.values(DiscordJS.Constants.Events).sort();
+    const docs = `https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-${
+      (events && events[0]) || 'channelCreate'
+    }`;
 
     return `
 <div id="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
-  ${events
-    ? `<div style="padding-top: 8px;">
+  ${
+    events
+      ? `<div style="padding-top: 8px;">
       <details>
         <summary><span style="color: white"><b>Available event types (click to expand)</b></summary>
         <div class="codeblock">
@@ -56,7 +59,8 @@ module.exports = {
           </p>
       </details>
     </div>`
-    : ''}
+      : ''
+  }
   <div class="container">
     Event Type:<br>
     <input id="eventType" class="round" type="text" value="error">
@@ -100,22 +104,22 @@ module.exports = {
   span.wrexlink2:hover {
     color: #4676b9;
   }
-</style>`
+</style>`;
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
+  action(cache) {
+    const data = cache.actions[cache.index];
 
-    const { DiscordJS } = this.getDBM()
-    const events = Object.values(DiscordJS.Constants.Events).sort()
-    const event = this.evalMessage(data.eventType)
-    if (!events.includes(event)) return console.error(`${this.name} (#${cache.index + 1}): Unknown event type.`)
+    const { DiscordJS } = this.getDBM();
+    const events = Object.values(DiscordJS.Constants.Events).sort();
+    const event = this.evalMessage(data.eventType);
+    if (!events.includes(event)) return console.error(`${this.name} (#${cache.index + 1}): Unknown event type.`);
 
-    const firstArg = this.evalMessage(data.firstArg, cache)
-    const secondArg = this.evalMessage(data.secondArg, cache)
+    const firstArg = this.evalMessage(data.firstArg, cache);
+    const secondArg = this.evalMessage(data.secondArg, cache);
 
-    const client = this.getDBM().Bot.bot
-    client.emit(event, firstArg, secondArg)
+    const client = this.getDBM().Bot.bot;
+    client.emit(event, firstArg, secondArg);
   },
-  mod () {}
-}
+  mod() {},
+};

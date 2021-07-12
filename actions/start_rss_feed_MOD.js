@@ -2,19 +2,18 @@ module.exports = {
   name: 'RSS Feed Watcher',
   section: 'Other Stuff',
 
-  subtitle (data) {
-    return `${data.url}`
+  subtitle(data) {
+    return `${data.url}`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    return ([data.varName, 'RSS Feed'])
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName, 'RSS Feed'];
   },
 
   fields: ['path', 'url', 'storage', 'varName'],
 
-  html (isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div style="padding-top: 8px;">
   <div style="float:left">
@@ -43,28 +42,28 @@ module.exports = {
       </div>
     </div>
   </div>
-</div>`
+</div>`;
   },
 
-  init () {},
+  init() {},
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const url = this.evalMessage(data.url, cache)
-    const varName = this.evalMessage(data.varName, cache)
-    const storage = parseInt(data.storage)
-    const path = parseInt(data.path)
-    const _this = this
-    const stor = storage + varName
-    const Mods = this.getMods()
-    const { JSONPath } = Mods.require('jsonpath-plus')
-    const Watcher = Mods.require('feed-watcher')
-    const feed = url
-    const interval = 10 // seconds
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const url = this.evalMessage(data.url, cache);
+    const varName = this.evalMessage(data.varName, cache);
+    const storage = parseInt(data.storage, 10);
+    const path = parseInt(data.path, 10);
+    const { Actions } = this.getDBM();
+    const stor = storage + varName;
+    const Mods = this.getMods();
+    const { JSONPath } = Mods.require('jsonpath-plus');
+    const Watcher = Mods.require('feed-watcher');
+    const feed = url;
+    const interval = 10; // seconds
 
     // if not interval is passed, 60s would be set as default interval.
-    const watcher = new Watcher(feed, interval)
-    this.storeValue(watcher, storage, stor, cache)
+    const watcher = new Watcher(feed, interval);
+    this.storeValue(watcher, storage, stor, cache);
 
     // Check for new entries every n seconds.
     watcher.on('new entries', (entries) => {
@@ -72,23 +71,23 @@ module.exports = {
         if (path) {
           const res = JSONPath({
             path,
-            json: entry
-          })
-          _this.storeValue(res, storage, varName, cache)
+            json: entry,
+          });
+          Actions.storeValue(res, storage, varName, cache);
         } else if (!path) {
-          _this.storeValue(entry, storage, varName, cache)
+          Actions.storeValue(entry, storage, varName, cache);
         }
-        _this.callNextAction(cache)
-      })
-    })
+        Actions.callNextAction(cache);
+      });
+    });
 
     watcher
       .start()
       .then(() => {
-        console.log('Starting watching...')
+        console.log('Starting watching...');
       })
-      .catch(console.error)
+      .catch(console.error);
   },
 
-  mod () {}
-}
+  mod() {},
+};

@@ -14,8 +14,8 @@ const itemList = [
   { name: 'Title of Next Song URL', type: 'Title String' },
   { name: 'Title of Current Song URL', type: 'Title String' },
   { name: 'Duration of Current Song URL', type: 'Duration' },
-  { name: 'Current Song Thumbnail URL', type: 'Url' }
-]
+  { name: 'Current Song Thumbnail URL', type: 'Url' },
+];
 
 module.exports = {
   name: 'Store Audio Info',
@@ -23,7 +23,7 @@ module.exports = {
 
   fields: ['server', 'info', 'storage', 'varName', 'varName2'],
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
 <style>
   table.scroll {
@@ -130,127 +130,125 @@ module.exports = {
   span.wrexlink:hover {
     color:#4676b9;
   }
-</style>`
+</style>`;
   },
 
-  subtitle (data) {
-    const servers = ['Current Server', 'Temp Variable', 'Server Variable', 'Global Variable']
-    return `${servers[parseInt(data.server)]} - ${itemList[parseInt(data.info)].name}`
+  subtitle(data) {
+    const servers = ['Current Server', 'Temp Variable', 'Server Variable', 'Global Variable'];
+    return `${servers[parseInt(data.server, 10)]} - ${itemList[parseInt(data.info, 10)].name}`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    const dataType = itemList[parseInt(data.info)].type || 'Unknown Type'
-    return ([data.varName, dataType])
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName, itemList[parseInt(data.info, 10)].type || 'Unknown Type'];
   },
 
-  init () {
+  init() {
     try {
-      const { glob, document } = this
+      const { glob, document } = this;
 
-      const wrexlinks = document.getElementsByClassName('wrexlink')
+      const wrexlinks = document.getElementsByClassName('wrexlink');
       for (let x = 0; x < wrexlinks.length; x++) {
-        const wrexlink = wrexlinks[x]; const
-          url = wrexlink.getAttribute('data-url')
+        const wrexlink = wrexlinks[x];
+        const url = wrexlink.getAttribute('data-url');
         if (url) {
-          wrexlink.setAttribute('title', url)
+          wrexlink.setAttribute('title', url);
           wrexlink.addEventListener('click', (e) => {
-            e.stopImmediatePropagation()
-            require('child_process').execSync(`start ${url}`)
-          })
+            e.stopImmediatePropagation();
+            require('child_process').execSync(`start ${url}`);
+          });
         }
       }
 
-      const select = document.getElementById('info')
+      const select = document.getElementById('info');
       if (select.length === 0) {
         for (let i = 0; i < itemList.length; i++) {
-          const item = itemList[i]
+          const item = itemList[i];
 
-          const option = document.createElement('option')
-          if (i === 0) option.className = 'selected'
-          option.value = i
-          option.text = item.name
+          const option = document.createElement('option');
+          if (i === 0) option.className = 'selected';
+          option.value = i;
+          option.text = item.name;
 
-          select.add(option)
+          select.add(option);
         }
       }
 
-      glob.variableChange(document.getElementById('storage'), 'varNameContainer')
-      glob.serverChange(document.getElementById('server'), 'varNameContainer2')
+      glob.variableChange(document.getElementById('storage'), 'varNameContainer');
+      glob.serverChange(document.getElementById('server'), 'varNameContainer2');
     } catch (error) {
-      alert(`Store Audio Info Init Error:\n\n${error}`)
+      alert(`Store Audio Info Init Error:\n\n${error}`);
     }
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const server = parseInt(data.server)
-    const varName2 = this.evalMessage(data.varName2, cache)
-    const TimeFormat = this.getMods().require('hh-mm-ss')
-    const info = parseInt(data.info)
-    const { Audio } = this.getDBM()
-    const targetServer = this.getServer(server, varName2, cache)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const server = parseInt(data.server, 10);
+    const varName2 = this.evalMessage(data.varName2, cache);
+    const TimeFormat = this.getMods().require('hh-mm-ss');
+    const info = parseInt(data.info, 10);
+    const { Audio } = this.getDBM();
+    const targetServer = this.getServer(server, varName2, cache);
 
-    if (!targetServer || !Audio) return this.callNextAction(cache)
+    if (!targetServer || !Audio) return this.callNextAction(cache);
 
-    let result
+    let result;
     switch (info) {
       case 0:
-        result = (Audio.volumes[targetServer.id] && parseInt(Audio.volumes[targetServer.id]) * 100) || 50 // volume
-        break
+        result = (Audio.volumes[targetServer.id] && parseInt(Audio.volumes[targetServer.id], 10) * 100) || 50; // volume
+        break;
       case 1:
-        result = !!Audio.dispatchers[targetServer.id] // is playing
-        break
+        result = Boolean(Audio.dispatchers[targetServer.id]); // is playing
+        break;
       case 2:
-        result = this.dest(Audio.dispatchers[targetServer.id], 'startTime') || 0 // when the music first started playing
-        break
+        result = this.dest(Audio.dispatchers[targetServer.id], 'startTime') || 0; // when the music first started playing
+        break;
       case 3:
-        result = Audio.queue[targetServer.id] && Audio.queue[targetServer.id].map((q) => q[2]) // the queue list
-        break
+        result = Audio.queue[targetServer.id] && Audio.queue[targetServer.id].map((q) => q[2]); // the queue list
+        break;
       case 4:
-        result = Audio.queue[targetServer.id] && Audio.queue[targetServer.id].map((q) => q[2])[0] // next item in queue
-        break
+        result = Audio.queue[targetServer.id] && Audio.queue[targetServer.id].map((q) => q[2])[0]; // next item in queue
+        break;
       case 5:
-        result = this.dest(Audio.queue[targetServer.id], 'length') // queue length
-        break
+        result = this.dest(Audio.queue[targetServer.id], 'length'); // queue length
+        break;
       case 6:
-        result = this.dest(Audio.dispatchers[targetServer.id], 'streams', 'opus', '_options', 'rate') || 0 // bitrate
-        break
+        result = this.dest(Audio.dispatchers[targetServer.id], 'streams', 'opus', '_options', 'rate') || 0; // bitrate
+        break;
       case 8:
-        result = this.dest(Audio.dispatchers[targetServer.id], 'player', 'streamingData', 'timestamp') || 0 // seek position
-        break
+        result = this.dest(Audio.dispatchers[targetServer.id], 'player', 'streamingData', 'timestamp') || 0; // seek position
+        break;
       case 9:
-        result = this.dest(Audio.playingnow[targetServer.id], 2) // Current song url
-        break
+        result = this.dest(Audio.playingnow[targetServer.id], 2); // Current song url
+        break;
       case 10:
-        result = Audio.queue[targetServer.id] && Audio.queue[targetServer.id].map((q) => q[1])[0].requester // Requested person of next song in queue
-        break
+        result = Audio.queue[targetServer.id] && Audio.queue[targetServer.id].map((q) => q[1])[0].requester; // Requested person of next song in queue
+        break;
       case 11:
-        result = this.dest(Audio.playingnow[targetServer.id], 1, 'requester') // Requested person of current song
-        break
+        result = this.dest(Audio.playingnow[targetServer.id], 1, 'requester'); // Requested person of current song
+        break;
       case 12:
-        result = Audio.queue[targetServer.id] && Audio.queue[targetServer.id].map((q) => q[1])[0].title // Title of next song in queue
-        break
+        result = Audio.queue[targetServer.id] && Audio.queue[targetServer.id].map((q) => q[1])[0].title; // Title of next song in queue
+        break;
       case 13:
-        result = this.dest(Audio.playingnow[targetServer.id], 1, 'title') // Title of current song
-        break
+        result = this.dest(Audio.playingnow[targetServer.id], 1, 'title'); // Title of current song
+        break;
       case 14:
-        result = TimeFormat.fromS(this.dest(Audio.playingnow[targetServer.id], 1, 'duration')) // Current song duration
-        break
+        result = TimeFormat.fromS(this.dest(Audio.playingnow[targetServer.id], 1, 'duration')); // Current song duration
+        break;
       case 15:
-        result = this.dest(Audio.playingnow[targetServer.id], 1, 'thumbnail') // Current Song Thumbnail URL
-        break
+        result = this.dest(Audio.playingnow[targetServer.id], 1, 'thumbnail'); // Current Song Thumbnail URL
+        break;
       default:
-        break
+        break;
     }
     if (result !== undefined) {
-      const storage = parseInt(data.storage)
-      const varName = this.evalMessage(data.varName, cache)
-      this.storeValue(result, storage, varName, cache)
+      const storage = parseInt(data.storage, 10);
+      const varName = this.evalMessage(data.varName, cache);
+      this.storeValue(result, storage, varName, cache);
     }
-    this.callNextAction(cache)
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

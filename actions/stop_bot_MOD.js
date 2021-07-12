@@ -2,13 +2,13 @@ module.exports = {
   name: 'Stop Bot',
   section: 'Bot Client Control',
 
-  subtitle () {
-    return 'Stops bot'
+  subtitle() {
+    return 'Stops bot';
   },
 
   fields: [],
 
-  html () {
+  html() {
     return `
 <div>
   <p>
@@ -16,16 +16,16 @@ module.exports = {
     This action stops the bot. You cannot restart it with a command after this action is ran!<br>
     Choose the permissions for this command/event carefully!
   </p>
-</div>`
+</div>`;
   },
 
-  init () {},
+  init() {},
 
-  action () {
-    console.log('Stopped bot!')
-    this.getDBM().Bot.bot.destroy()
-    process.exit()
+  action() {
+    console.log('Stopped bot!');
+    this.getDBM().Bot.bot.destroy();
+    process.exit();
   },
 
-  mod () {}
-}
+  mod() {},
+};

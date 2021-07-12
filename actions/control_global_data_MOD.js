@@ -2,13 +2,13 @@ module.exports = {
   name: 'Control Global Data',
   section: 'Data',
 
-  subtitle (data) {
-    return `(${data.dataName}) ${data.changeType === '1' ? '+=' : '='} ${data.value}`
+  subtitle(data) {
+    return `(${data.dataName}) ${data.changeType === '1' ? '+=' : '='} ${data.value}`;
   },
 
   fields: ['dataName', 'changeType', 'value'],
 
-  html () {
+  html() {
     return `
 <div style="padding-top: 8px;">
   <div style="float: left; width: 50%;">
@@ -26,32 +26,31 @@ module.exports = {
 <div style="padding-top: 8px;">
   Value:<br>
   <input id="value" class="round" type="text" name="is-eval"><br>
-</div>`
+</div>`;
   },
 
-  init () {
-  },
+  init() {},
 
-  action (cache) {
-    const data = cache.actions[cache.index]
+  action(cache) {
+    const data = cache.actions[cache.index];
 
-    const dataName = this.evalMessage(data.dataName, cache)
-    const isAdd = data.changeType === '1'
-    const { Globals } = this.getDBM()
+    const dataName = this.evalMessage(data.dataName, cache);
+    const isAdd = data.changeType === '1';
+    const { Globals } = this.getDBM();
 
-    let val = this.evalMessage(data.value, cache)
+    let val = this.evalMessage(data.value, cache);
     try {
-      val = this.eval(val, cache)
+      val = this.eval(val, cache);
     } catch (e) {
-      this.displayError(data, cache, e)
+      this.displayError(data, cache, e);
     }
     if (isAdd) {
-      Globals.addData(dataName, val)
+      Globals.addData(dataName, val);
     } else {
-      Globals.setData(dataName, val)
+      Globals.setData(dataName, val);
     }
-    this.callNextAction(cache)
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

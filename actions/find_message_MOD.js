@@ -2,21 +2,27 @@ module.exports = {
   name: 'Find Message',
   section: 'Messaging',
 
-  subtitle (data) {
-    const channels = ['Same Channel', 'Mentioned Channel', '1st Server Channel', 'Temp Variable', 'Server Variable', 'Global Variable']
-    const info = ['Find by Content', 'Find by ID']
-    return `${channels[parseInt(data.channel)]} - ${info[parseInt(data.info)]}`
+  subtitle(data) {
+    const channels = [
+      'Same Channel',
+      'Mentioned Channel',
+      '1st Server Channel',
+      'Temp Variable',
+      'Server Variable',
+      'Global Variable',
+    ];
+    const info = ['Find by Content', 'Find by ID'];
+    return `${channels[parseInt(data.channel, 10)]} - ${info[parseInt(data.info, 10)]}`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    return ([data.varName2, 'Message'])
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName2, 'Message'];
   },
 
   fields: ['channel', 'varName', 'info', 'search', 'storage', 'varName2'],
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
 <div>
@@ -61,58 +67,64 @@ module.exports = {
   <u>Note:</u><br>
   This mod can only find messages by <b>content</b> within the last 100 messages.<br>
   If there are multiple messages with the same content, the bot is always using the oldest message (after start).
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
-    glob.channelChange(document.getElementById('channel'), 'varNameContainer')
+  init() {
+    const { glob, document } = this;
+    glob.channelChange(document.getElementById('channel'), 'varNameContainer');
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const channel = parseInt(data.channel)
-    const varName = this.evalMessage(data.varName, cache)
-    const info = parseInt(data.info)
-    const search = this.evalMessage(data.search, cache)
-    const targetChannel = this.getChannel(channel, varName, cache)
-    const storage = parseInt(data.storage)
-    const varName2 = this.evalMessage(data.varName2, cache)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const channel = parseInt(data.channel, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    const info = parseInt(data.info, 10);
+    const search = this.evalMessage(data.search, cache);
+    const targetChannel = this.getChannel(channel, varName, cache);
+    const storage = parseInt(data.storage, 10);
+    const varName2 = this.evalMessage(data.varName2, cache);
 
-    if (!targetChannel) return this.callNextAction(cache)
+    if (!targetChannel) return this.callNextAction(cache);
     if (!search) {
-      console.error('Error: Please input something to search for in the Find Message action.')
-      return this.callNextAction(cache)
+      console.error('Error: Please input something to search for in the Find Message action.');
+      return this.callNextAction(cache);
     }
 
     switch (info) {
       case 0:
-        targetChannel.messages.fetch({ limit: 100 }).then((messages) => {
-          const message = messages.find((el) => el.content.includes(search))
-          if (message !== undefined) {
-            this.storeValue(message, storage, varName2, cache)
-          }
-          this.callNextAction(cache)
-        }).catch((err) => {
-          console.error(err)
-          this.callNextAction(cache)
-        })
-        break
+        targetChannel.messages
+          .fetch({ limit: 100 })
+          .then((messages) => {
+            const message = messages.find((el) => el.content.includes(search));
+            if (message !== undefined) {
+              this.storeValue(message, storage, varName2, cache);
+            }
+            this.callNextAction(cache);
+          })
+          .catch((err) => {
+            console.error(err);
+            this.callNextAction(cache);
+          });
+        break;
       case 1:
-        targetChannel.messages.fetch(search).then((message) => {
-          if (message !== undefined) {
-            this.storeValue(message, storage, varName2, cache)
-          }
-          this.callNextAction(cache)
-        }).catch((err) => {
-          console.error(err)
-          this.callNextAction(cache)
-        })
-        break
+        targetChannel.messages
+          .fetch(search)
+          .then((message) => {
+            if (message !== undefined) {
+              this.storeValue(message, storage, varName2, cache);
+            }
+            this.callNextAction(cache);
+          })
+          .catch((err) => {
+            console.error(err);
+            this.callNextAction(cache);
+          });
+        break;
       default:
-        this.callNextAction(cache)
+        this.callNextAction(cache);
     }
   },
 
-  mod () {}
-}
+  mod() {},
+};

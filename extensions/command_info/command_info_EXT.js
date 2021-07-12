@@ -9,17 +9,17 @@ module.exports = {
   defaultFields: {
     category: 'None',
     description: 'No Description',
-    include: 'No'
+    include: 'No',
   },
 
-  size () {
-    return { height: 425, width: 500 }
+  size() {
+    return { height: 425, width: 500 };
   },
 
-  html (data) {
-    let options = '<option value="Yes">Yes</option><option value="No">No</option>'
+  html(data) {
+    let options = '<option value="Yes">Yes</option><option value="No">No</option>';
     if (data.include === 'No') {
-      options = '<option value="No">No</option><option value="Yes">Yes</option>'
+      options = '<option value="No">No</option><option value="Yes">Yes</option>';
     }
 
     return `
@@ -39,16 +39,16 @@ module.exports = {
   <select style="width:33%;" id="include" class="round">
     ${options}
   </select>
-</div>`
+</div>`;
   },
 
-  init () {},
+  init() {},
 
-  close (document, data) {
-    data.category = document.getElementById('category').value
-    data.description = document.getElementById('description').value
-    data.include = document.getElementById('include').value
+  close(document, data) {
+    data.category = document.getElementById('category').value;
+    data.description = document.getElementById('description').value;
+    data.include = document.getElementById('include').value;
   },
 
-  mod () {}
-}
+  mod() {},
+};

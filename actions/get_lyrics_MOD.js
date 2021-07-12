@@ -2,36 +2,34 @@ module.exports = {
   name: 'Get Song Lyrics',
   section: 'Other Stuff',
 
-  subtitle (data) {
-    const info = ['Title', 'Artist', 'Lyrics', 'URL']
-    return `Get Lyrics - ${info[parseInt(data.info)]}`
+  subtitle(data) {
+    const info = ['Title', 'Artist', 'Lyrics', 'URL'];
+    return `Get Lyrics - ${info[parseInt(data.info, 10)]}`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    const info = parseInt(data.info)
-    let dataType = 'Unknown Type'
-    switch (info) {
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    let dataType = 'Unknown Type';
+    switch (parseInt(data.info, 10)) {
       case 0:
-        dataType = 'String'
-        break
+        dataType = 'String';
+        break;
       case 1:
-        dataType = 'String'
-        break
+        dataType = 'String';
+        break;
       case 2:
-        dataType = 'String'
-        break
+        dataType = 'String';
+        break;
       case 3:
-        dataType = 'URL'
-        break
+        dataType = 'URL';
+        break;
     }
-    return ([data.varName, dataType])
+    return [data.varName, dataType];
   },
 
   fields: ['song', 'key', 'info', 'storage', 'varName'],
 
-  html (isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div style="width: 550px; height: 350px; overflow-y: scroll;">
   <div>
@@ -101,53 +99,53 @@ module.exports = {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   }
   </style>
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer')
+  init() {
+    const { glob, document } = this;
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
   },
 
-  action (cache) {
-    const _this = this
-    const data = cache.actions[cache.index]
-    const info = parseInt(data.info)
-    const geniustoken = this.evalMessage(data.key, cache)
-    const songname = this.evalMessage(data.song, cache)
-    if (!geniustoken) return console.log('Please set your token in Get Lyrics Action!')
+  action(cache) {
+    const { Actions } = this.getDBM();
+    const data = cache.actions[cache.index];
+    const info = parseInt(data.info, 10);
+    const geniustoken = this.evalMessage(data.key, cache);
+    const songname = this.evalMessage(data.song, cache);
+    if (!geniustoken) return console.log('Please set your token in Get Lyrics Action!');
 
-    const Mods = this.getMods()
-    const analyrics = Mods.require('analyrics')
+    const Mods = this.getMods();
+    const analyrics = Mods.require('analyrics');
 
-    analyrics.setToken(geniustoken)
+    analyrics.setToken(geniustoken);
 
     analyrics.getSong(songname, (song) => {
-      let result
+      let result;
       switch (info) {
         case 0:
-          result = song.title
-          break
+          result = song.title;
+          break;
         case 1:
-          result = song.artist
-          break
+          result = song.artist;
+          break;
         case 2:
-          result = song.lyrics
-          break
+          result = song.lyrics;
+          break;
         case 3:
-          result = song.url
-          break
+          result = song.url;
+          break;
         default:
-          break
+          break;
       }
       if (result !== undefined) {
-        const storage = parseInt(data.storage)
-        const varName2 = _this.evalMessage(data.varName, cache)
-        _this.storeValue(result, storage, varName2, cache)
+        const storage = parseInt(data.storage, 10);
+        const varName2 = Actions.evalMessage(data.varName, cache);
+        Actions.storeValue(result, storage, varName2, cache);
       }
-      _this.callNextAction(cache)
-    })
+      Actions.callNextAction(cache);
+    });
   },
 
-  mod () {}
-}
+  mod() {},
+};

@@ -2,15 +2,17 @@ module.exports = {
   name: 'Custom Image Effects',
   section: 'Image Editing',
 
-  subtitle (data) {
-    const storeTypes = ['', 'Temp Variable', 'Server Variable', 'Global Variable']
-    const effect = ['Custom Blur', 'Custom Pixelate']
-    return `${storeTypes[parseInt(data.storage)]} (${data.varName}) -> ${effect[parseInt(data.effect)]} ${data.intensity}`
+  subtitle(data) {
+    const storeTypes = ['', 'Temp Variable', 'Server Variable', 'Global Variable'];
+    const effect = ['Custom Blur', 'Custom Pixelate'];
+    return `${storeTypes[parseInt(data.storage, 10)]} (${data.varName}) -> ${effect[parseInt(data.effect, 10)]} ${
+      data.intensity
+    }`;
   },
 
   fields: ['storage', 'varName', 'effect', 'intensity'],
 
-  html (isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div>
   <div style="float: left; width: 45%;">
@@ -36,56 +38,56 @@ module.exports = {
     Intensity:<br>
     <input id="intensity" class="round" type="text"><br>
   </div>
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
-    glob.refreshVariableList(document.getElementById('storage'))
+  init() {
+    const { glob, document } = this;
+    glob.refreshVariableList(document.getElementById('storage'));
   },
 
-  action (cache) {
-    const _this = this
-    const data = cache.actions[cache.index]
+  action(cache) {
+    const { Actions } = this.getDBM();
+    const data = cache.actions[cache.index];
 
-    const storage = parseInt(data.storage)
-    const varName = this.evalMessage(data.varName, cache)
-    const image = this.getVariable(storage, varName, cache)
-    const intensity = parseInt(data.intensity)
+    const storage = parseInt(data.storage, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    const image = this.getVariable(storage, varName, cache);
+    const intensity = parseInt(data.intensity, 10);
 
-    const Jimp = require('jimp')
+    const Jimp = require('jimp');
 
-    if (!image) return this.callNextAction(cache)
+    if (!image) return this.callNextAction(cache);
 
     Jimp.read(image, (err, image1) => {
-      if (err) return console.error('Error with custom image effects: ', err)
-      const effect = parseInt(data.effect)
+      if (err) return console.error('Error with custom image effects: ', err);
+      const effect = parseInt(data.effect, 10);
       switch (effect) {
         case 0:
-          image1.blur(intensity)
+          image1.blur(intensity);
 
           image1.getBuffer(Jimp.MIME_PNG, (error, image2) => {
-            if (err) return console.error('Error with custom image effects: ', error)
+            if (err) return console.error('Error with custom image effects: ', error);
 
-            _this.storeValue(image2, storage, varName, cache)
-            _this.callNextAction(cache)
-          })
+            Actions.storeValue(image2, storage, varName, cache);
+            Actions.callNextAction(cache);
+          });
 
-          break
+          break;
         case 1:
-          image1.pixelate(intensity)
+          image1.pixelate(intensity);
           image1.getBuffer(Jimp.MIME_PNG, (error, image2) => {
-            if (err) return console.error('Error with custom image effects: ', error)
+            if (err) return console.error('Error with custom image effects: ', error);
 
-            _this.storeValue(image2, storage, varName, cache)
-            _this.callNextAction(cache)
-          })
-          break
+            Actions.storeValue(image2, storage, varName, cache);
+            Actions.callNextAction(cache);
+          });
+          break;
         default:
-          break
+          break;
       }
-    })
+    });
   },
 
-  mod () {}
-}
+  mod() {},
+};

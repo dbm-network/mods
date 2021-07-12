@@ -2,88 +2,108 @@ module.exports = {
   name: 'Get Bot Stats From DBL',
   section: 'Other Stuff',
 
-  subtitle (data) {
-    const info = ['Invite URL', 'GitHub Repository URL', 'Website URL', 'Long Description', 'Short Description', 'Prefix', 'Library', 'Avatar URL', 'Approved On', 'Support Server Invite URL', 'Server Count', 'Shard Count', 'Vanity URL', 'Guild ID(s)', 'Servers on Shards', 'Monthly Vote Count', 'Total Vote Count', 'Owner ID(s)', 'Tag(s)', 'Username', 'Discriminator']
-    return `Get Bots' ${info[parseInt(data.info)]}`
+  subtitle(data) {
+    const info = [
+      'Invite URL',
+      'GitHub Repository URL',
+      'Website URL',
+      'Long Description',
+      'Short Description',
+      'Prefix',
+      'Library',
+      'Avatar URL',
+      'Approved On',
+      'Support Server Invite URL',
+      'Server Count',
+      'Shard Count',
+      'Vanity URL',
+      'Guild ID(s)',
+      'Servers on Shards',
+      'Monthly Vote Count',
+      'Total Vote Count',
+      'Owner ID(s)',
+      'Tag(s)',
+      'Username',
+      'Discriminator',
+    ];
+    return `Get Bots' ${info[parseInt(data.info, 10)]}`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    let dataType = 'A DBL Stat'
-    const info = parseInt(data.info)
-    switch (info) {
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    let dataType = 'A DBL Stat';
+    switch (parseInt(data.info, 10)) {
       case 0:
-        dataType = 'Invite URL'
-        break
+        dataType = 'Invite URL';
+        break;
       case 1:
-        dataType = 'GitHub Repository URL'
-        break
+        dataType = 'GitHub Repository URL';
+        break;
       case 2:
-        dataType = 'Website URL'
-        break
+        dataType = 'Website URL';
+        break;
       case 3:
-        dataType = 'Long Description'
-        break
+        dataType = 'Long Description';
+        break;
       case 4:
-        dataType = 'Short Description'
-        break
+        dataType = 'Short Description';
+        break;
       case 5:
-        dataType = 'Prefix'
-        break
+        dataType = 'Prefix';
+        break;
       case 6:
-        dataType = 'Library'
-        break
+        dataType = 'Library';
+        break;
       case 7:
-        dataType = 'Avatar URL'
-        break
+        dataType = 'Avatar URL';
+        break;
       case 8:
-        dataType = 'Approved On'
-        break
+        dataType = 'Approved On';
+        break;
       case 9:
-        dataType = 'Support Server Invite URL'
-        break
+        dataType = 'Support Server Invite URL';
+        break;
       case 10:
-        dataType = 'Server Count'
-        break
+        dataType = 'Server Count';
+        break;
       case 11:
-        dataType = 'Shard Count'
-        break
+        dataType = 'Shard Count';
+        break;
       case 12:
-        dataType = 'Vanity URL'
-        break
+        dataType = 'Vanity URL';
+        break;
       case 13:
-        dataType = 'Guild ID(s)'
-        break
+        dataType = 'Guild ID(s)';
+        break;
       case 14:
-        dataType = 'Servers on Shards'
-        break
+        dataType = 'Servers on Shards';
+        break;
       case 15:
-        dataType = 'Monthly Vote Count'
-        break
+        dataType = 'Monthly Vote Count';
+        break;
       case 16:
-        dataType = 'Total Vote Count'
-        break
+        dataType = 'Total Vote Count';
+        break;
       case 17:
-        dataType = 'Owner ID(s)'
-        break
+        dataType = 'Owner ID(s)';
+        break;
       case 18:
-        dataType = 'Tag(s)'
-        break
+        dataType = 'Tag(s)';
+        break;
       case 19:
-        dataType = 'Username'
-        break
+        dataType = 'Username';
+        break;
       case 20:
-        dataType = 'Discriminator'
-        break
+        dataType = 'Discriminator';
+        break;
       default:
-        break
+        break;
     }
-    return ([data.varName, dataType])
+    return [data.varName, dataType];
   },
   fields: ['botID', 'token', 'info', 'storage', 'varName'],
 
-  html (isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div id="modinfo">
   <div style="float: left; width: 99%; padding-top: 8px;">
@@ -136,105 +156,105 @@ module.exports = {
       <b>Note:</b> DBL is going to update the API and you'll need a token after the update!
     </p>
   </div>
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
+  init() {
+    const { glob, document } = this;
 
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer')
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const botID = this.evalMessage(data.botID, cache)
-    const info = parseInt(data.info)
-    const dblToken = this.evalMessage(data.token, cache)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const botID = this.evalMessage(data.botID, cache);
+    const info = parseInt(data.info, 10);
+    const dblToken = this.evalMessage(data.token, cache);
 
-    const Mods = this.getMods()
-    const fetch = Mods.require('node-fetch')
+    const Mods = this.getMods();
+    const fetch = Mods.require('node-fetch');
 
     fetch(`https://top.gg/api/bots/${botID}`, {
       method: 'GET',
-      headers: { Authorization: dblToken || '' }
+      headers: { Authorization: dblToken || '' },
     })
       .then((res) => res.json())
       .then((r) => {
-        let result
+        let result;
         switch (info) {
           case 0:
-            result = r.invite
-            break
+            result = r.invite;
+            break;
           case 1:
-            result = r.github
-            break
+            result = r.github;
+            break;
           case 2:
-            result = r.website
-            break
+            result = r.website;
+            break;
           case 3:
-            result = r.longdesc
-            break
+            result = r.longdesc;
+            break;
           case 4:
-            result = r.shortdesc
-            break
+            result = r.shortdesc;
+            break;
           case 5:
-            result = r.prefix
-            break
+            result = r.prefix;
+            break;
           case 6:
-            result = r.lib
-            break
+            result = r.lib;
+            break;
           case 7:
-            result = `https://cdn.discordapp.com/avatars/${botID}/${r.avatar}.png`
-            break
+            result = `https://cdn.discordapp.com/avatars/${botID}/${r.avatar}.png`;
+            break;
           case 8:
-            result = r.date
-            break
+            result = r.date;
+            break;
           case 9:
-            result = r.support
-            break
+            result = r.support;
+            break;
           case 10:
-            result = r.server_count
-            break
+            result = r.server_count;
+            break;
           case 11:
-            result = r.shard_count
-            break
+            result = r.shard_count;
+            break;
           case 12:
-            result = r.vanity
-            break
+            result = r.vanity;
+            break;
           case 13:
-            result = r.guilds
-            break
+            result = r.guilds;
+            break;
           case 14:
-            result = r.shards
-            break
+            result = r.shards;
+            break;
           case 15:
-            result = r.monthlyPoints
-            break
+            result = r.monthlyPoints;
+            break;
           case 16:
-            result = r.points
-            break
+            result = r.points;
+            break;
           case 17:
-            result = r.owners
-            break
+            result = r.owners;
+            break;
           case 18:
-            result = r.tags
-            break
+            result = r.tags;
+            break;
           case 19:
-            result = r.username
-            break
+            result = r.username;
+            break;
           case 20:
-            result = r.discriminator
-            break
+            result = r.discriminator;
+            break;
           default:
-            break
+            break;
         }
 
-        const storage = parseInt(data.storage)
-        const varName = this.evalMessage(data.varName, cache)
-        this.storeValue(result, storage, varName, cache)
-        this.callNextAction(cache)
-      })
+        const storage = parseInt(data.storage, 10);
+        const varName = this.evalMessage(data.varName, cache);
+        this.storeValue(result, storage, varName, cache);
+        this.callNextAction(cache);
+      });
   },
 
-  mod () {}
-}
+  mod() {},
+};

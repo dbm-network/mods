@@ -2,14 +2,16 @@ module.exports = {
   name: 'Attach Image To Embed',
   section: 'Embed Message',
 
-  subtitle (data) {
-    const array = ['Temp Variable', 'Server Variable', 'Global Variable']
-    return `Attach (${array[data.imagestorage - 1]} ${data.imagevarName}) to Embed (${array[data.embedstorage - 1]} ${data.embedvarName}) (${data.filename || 'image.png'})`
+  subtitle(data) {
+    const array = ['Temp Variable', 'Server Variable', 'Global Variable'];
+    return `Attach (${array[data.imagestorage - 1]} ${data.imagevarName}) to Embed (${array[data.embedstorage - 1]} ${
+      data.embedvarName
+    }) (${data.filename || 'image.png'})`;
   },
 
   fields: ['embedstorage', 'embedvarName', 'imagestorage', 'imagevarName', 'filename'],
 
-  html (isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div>
   <div style="float: left; width: 35%;">
@@ -38,33 +40,33 @@ module.exports = {
     Image File Name:<br>
     <input id="filename" class="round" type="text" placeholder="image.png"><br>
   </div>
-</div>`
+</div>`;
   },
 
-  init () {},
+  init() {},
 
-  action (cache) {
-    const data = cache.actions[cache.index]
+  action(cache) {
+    const data = cache.actions[cache.index];
 
-    const embedstorage = parseInt(data.embedstorage)
-    const embedvarName = this.evalMessage(data.embedvarName, cache)
-    const embed = this.getVariable(embedstorage, embedvarName, cache)
+    const embedstorage = parseInt(data.embedstorage, 10);
+    const embedvarName = this.evalMessage(data.embedvarName, cache);
+    const embed = this.getVariable(embedstorage, embedvarName, cache);
 
-    const imagestorage = parseInt(data.imagestorage)
-    const imagevarName = this.evalMessage(data.imagevarName, cache)
-    const image = this.getVariable(imagestorage, imagevarName, cache)
+    const imagestorage = parseInt(data.imagestorage, 10);
+    const imagevarName = this.evalMessage(data.imagevarName, cache);
+    const image = this.getVariable(imagestorage, imagevarName, cache);
 
-    const filename = data.filename || 'image.png'
+    const filename = data.filename || 'image.png';
 
-    const DBM = this.getDBM()
-    const { Images } = DBM
+    const DBM = this.getDBM();
+    const { Images } = DBM;
 
     Images.createBuffer(image).then((buffer) => {
-      const attachment = new DBM.DiscordJS.MessageAttachment(buffer, filename)
-      embed.attachFiles([attachment])
-      this.callNextAction(cache)
-    })
+      const attachment = new DBM.DiscordJS.MessageAttachment(buffer, filename);
+      embed.attachFiles([attachment]);
+      this.callNextAction(cache);
+    });
   },
 
-  mod () {}
-}
+  mod() {},
+};
