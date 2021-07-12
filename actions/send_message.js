@@ -2,20 +2,28 @@ module.exports = {
   name: 'Send Message',
   section: 'Messaging',
 
-  subtitle (data) {
-    const channels = ['Same Channel', 'Command Author', 'Mentioned User', 'Mentioned Channel', 'Default Channel (Top Channel)', 'Temp Variable', 'Server Variable', 'Global Variable']
-    return `${channels[parseInt(data.channel)]}: "${data.message.replace(/[\n\r]+/, '')}"`
+  subtitle(data) {
+    const channels = [
+      'Same Channel',
+      'Command Author',
+      'Mentioned User',
+      'Mentioned Channel',
+      'Default Channel (Top Channel)',
+      'Temp Variable',
+      'Server Variable',
+      'Global Variable',
+    ];
+    return `${channels[parseInt(data.channel, 10)]}: "${data.message.replace(/[\n\r]+/, '')}"`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    return ([data.varName2, 'Message'])
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName2, 'Message'];
   },
 
   fields: ['channel', 'varName', 'message', 'storage', 'varName2', 'iffalse', 'iffalseVal'],
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
 <div style="width: 550px; height: 350px; overflow-y: scroll;">
   <div><p>This action has been modified by DBM Mods.</p></div><br>
@@ -63,66 +71,69 @@ module.exports = {
       <input id="iffalseVal" class="round" type="text">
     </div>
   </div>
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
+  init() {
+    const { glob, document } = this;
 
-    glob.onChangeFalse = function (event) {
-      switch (parseInt(event.value)) {
+    glob.onChangeFalse = function onChangeFalse(event) {
+      switch (parseInt(event.value, 10)) {
         case 0:
         case 1:
-          document.getElementById('iffalseContainer').style.display = 'none'
-          break
+          document.getElementById('iffalseContainer').style.display = 'none';
+          break;
         case 2:
-          document.getElementById('iffalseName').innerHTML = 'Action Number'
-          document.getElementById('iffalseContainer').style.display = null
-          break
+          document.getElementById('iffalseName').innerHTML = 'Action Number';
+          document.getElementById('iffalseContainer').style.display = null;
+          break;
         case 3:
-          document.getElementById('iffalseName').innerHTML = 'Number of Actions to Skip'
-          document.getElementById('iffalseContainer').style.display = null
-          break
+          document.getElementById('iffalseName').innerHTML = 'Number of Actions to Skip';
+          document.getElementById('iffalseContainer').style.display = null;
+          break;
         case 4:
-          document.getElementById('iffalseName').innerHTML = 'Anchor ID'
-          document.getElementById('iffalseContainer').style.display = null
-          break
+          document.getElementById('iffalseName').innerHTML = 'Anchor ID';
+          document.getElementById('iffalseContainer').style.display = null;
+          break;
+        default:
+          break;
       }
-    }
-    glob.sendTargetChange(document.getElementById('channel'), 'varNameContainer')
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer2')
-    glob.onChangeFalse(document.getElementById('iffalse'))
+    };
+    glob.sendTargetChange(document.getElementById('channel'), 'varNameContainer');
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer2');
+    glob.onChangeFalse(document.getElementById('iffalse'));
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const channel = parseInt(data.channel)
-    const varName = this.evalMessage(data.varName, cache)
-    const target = this.getSendTarget(channel, varName, cache)
-    const { message } = data
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const channel = parseInt(data.channel, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    const target = this.getSendTarget(channel, varName, cache);
+    const { message } = data;
 
-    if (!target || !message) return
+    if (!target || !message) return;
 
     if (Array.isArray(target)) {
       this.callListFunc(target, 'send', [this.evalMessage(message, cache)]).then((msg) => {
-        const varName2 = this.evalMessage(data.varName2, cache)
-        const storage = parseInt(data.storage)
-        this.storeValue(msg, storage, varName2, cache)
-        this.callNextAction(cache)
-      })
+        const varName2 = this.evalMessage(data.varName2, cache);
+        const storage = parseInt(data.storage, 10);
+        this.storeValue(msg, storage, varName2, cache);
+        this.callNextAction(cache);
+      });
     } else if (target && target.send) {
-      target.send(this.evalMessage(message, cache))
+      target
+        .send(this.evalMessage(message, cache))
         .then((msg) => {
-          const varName2 = this.evalMessage(data.varName2, cache)
-          const storage = parseInt(data.storage)
-          this.storeValue(msg, storage, varName2, cache)
-          this.callNextAction(cache)
+          const varName2 = this.evalMessage(data.varName2, cache);
+          const storage = parseInt(data.storage, 10);
+          this.storeValue(msg, storage, varName2, cache);
+          this.callNextAction(cache);
         })
-        .catch(() => this.executeResults(false, data, cache))
+        .catch(() => this.executeResults(false, data, cache));
     } else {
-      this.callNextAction(cache)
+      this.callNextAction(cache);
     }
   },
 
-  mod () {}
-}
+  mod() {},
+};

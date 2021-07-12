@@ -2,14 +2,14 @@ module.exports = {
   name: 'Shuffle Queue MOD',
   section: 'Audio Control',
 
-  subtitle (data) {
-    const servers = ['Current Server', 'Temp Variable', 'Server Variable', 'Global Variable']
-    return `Shuffle Queue of ${servers[parseInt(data.server)]}`
+  subtitle(data) {
+    const servers = ['Current Server', 'Temp Variable', 'Server Variable', 'Global Variable'];
+    return `Shuffle Queue of ${servers[parseInt(data.server, 10)]}`;
   },
 
   fields: ['server', 'varName'],
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
 <div>
   <div style="float: left; width: 35%;">
@@ -22,33 +22,33 @@ module.exports = {
     Variable Name:<br>
     <input id="varName" class="round" type="text" list="variableList"><br>
   </div>
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
-    glob.serverChange(document.getElementById('server'), 'varNameContainer')
+  init() {
+    const { glob, document } = this;
+    glob.serverChange(document.getElementById('server'), 'varNameContainer');
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const { Audio } = this.getDBM()
-    const server = parseInt(data.server)
-    const varName = this.evalMessage(data.varName, cache)
-    const targetServer = this.getServer(server, varName, cache)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const { Audio } = this.getDBM();
+    const server = parseInt(data.server, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    const targetServer = this.getServer(server, varName, cache);
 
-    let queue
-    if (targetServer) queue = Audio.queue[targetServer.id]
+    let queue;
+    if (targetServer) queue = Audio.queue[targetServer.id];
 
     if (queue && queue.length > 1) {
-      const temp = JSON.stringify(queue)
+      const temp = JSON.stringify(queue);
       while (JSON.stringify(queue) === temp) {
-        queue.sort(() => Math.random() - 0.5)
+        queue.sort(() => Math.random() - 0.5);
       }
-      Audio.queue[targetServer.id] = queue
+      Audio.queue[targetServer.id] = queue;
     }
-    this.callNextAction(cache)
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

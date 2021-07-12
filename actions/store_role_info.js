@@ -2,58 +2,78 @@ module.exports = {
   name: 'Store Role Info',
   section: 'Role Control',
 
-  subtitle (data) {
-    const roles = ['Mentioned Role', '1st Author Role', '1st Server Role', 'Temp Variable', 'Server Variable', 'Global Variable']
-    const info = ['Role Object', 'Role ID', 'Role Name', 'Role Color', 'Role Position', 'Role Timestamp', 'Role Is Mentionable?', 'Role Is Separate From Others?', 'Role Is Managed?', 'Role Member List', 'Role Creation Date', 'Role Permissions', 'Role Members Amount', 'Role Permissions List']
-    return `${roles[parseInt(data.role)]} - ${info[parseInt(data.info)]}`
+  subtitle(data) {
+    const roles = [
+      'Mentioned Role',
+      '1st Author Role',
+      '1st Server Role',
+      'Temp Variable',
+      'Server Variable',
+      'Global Variable',
+    ];
+    const info = [
+      'Role Object',
+      'Role ID',
+      'Role Name',
+      'Role Color',
+      'Role Position',
+      'Role Timestamp',
+      'Role Is Mentionable?',
+      'Role Is Separate From Others?',
+      'Role Is Managed?',
+      'Role Member List',
+      'Role Creation Date',
+      'Role Permissions',
+      'Role Members Amount',
+      'Role Permissions List',
+    ];
+    return `${roles[parseInt(data.role, 10)]} - ${info[parseInt(data.info, 10)]}`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    const info = parseInt(data.info)
-    let dataType = 'Unknown Type'
-    switch (info) {
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    let dataType = 'Unknown Type';
+    switch (parseInt(data.info, 10)) {
       case 0:
-        dataType = 'Role'
-        break
+        dataType = 'Role';
+        break;
       case 1:
-        dataType = 'Role ID'
-        break
+        dataType = 'Role ID';
+        break;
       case 2:
-        dataType = 'Text'
-        break
+        dataType = 'Text';
+        break;
       case 3:
-        dataType = 'Color'
-        break
+        dataType = 'Color';
+        break;
       case 4:
       case 5:
-        dataType = 'Text'
-        break
+        dataType = 'Text';
+        break;
       case 6:
       case 7:
       case 8:
-        dataType = 'Boolean'
-        break
+        dataType = 'Boolean';
+        break;
       case 9:
-        dataType = 'Member List'
-        break
+        dataType = 'Member List';
+        break;
       case 10:
-        dataType = 'Date'
-        break
+        dataType = 'Date';
+        break;
       case 11:
       case 12:
-        dataType = 'Number'
-        break
+        dataType = 'Number';
+        break;
       default:
-        break
+        break;
     }
-    return ([data.varName2, dataType])
+    return [data.varName2, dataType];
   },
 
   fields: ['role', 'varName', 'info', 'storage', 'varName2'],
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
 <div><p>This action has been modified by DBM Mods.</p></div><br>
 <div>
@@ -100,76 +120,76 @@ module.exports = {
     Variable Name:<br>
     <input id="varName2" class="round" type="text"><br>
   </div>
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
-    glob.roleChange(document.getElementById('role'), 'varNameContainer')
+  init() {
+    const { glob, document } = this;
+    glob.roleChange(document.getElementById('role'), 'varNameContainer');
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const role = parseInt(data.role)
-    const varName = this.evalMessage(data.varName, cache)
-    const info = parseInt(data.info)
-    const targetRole = this.getRole(role, varName, cache)
-    if (!targetRole) return this.callNextAction(cache)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const role = parseInt(data.role, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    const info = parseInt(data.info, 10);
+    const targetRole = this.getRole(role, varName, cache);
+    if (!targetRole) return this.callNextAction(cache);
 
-    let result
+    let result;
     switch (info) {
       case 0:
-        result = targetRole
-        break
+        result = targetRole;
+        break;
       case 1:
-        result = targetRole.id
-        break
+        result = targetRole.id;
+        break;
       case 2:
-        result = targetRole.name
-        break
+        result = targetRole.name;
+        break;
       case 3:
-        result = targetRole.hexColor
-        break
+        result = targetRole.hexColor;
+        break;
       case 4:
-        result = targetRole.position
-        break
+        result = targetRole.position;
+        break;
       case 5:
-        result = targetRole.createdTimestamp
-        break
+        result = targetRole.createdTimestamp;
+        break;
       case 6:
-        result = targetRole.mentionable
-        break
+        result = targetRole.mentionable;
+        break;
       case 7:
-        result = targetRole.hoist
-        break
+        result = targetRole.hoist;
+        break;
       case 8:
-        result = targetRole.managed
-        break
+        result = targetRole.managed;
+        break;
       case 9:
-        result = targetRole.members.array()
-        break
+        result = targetRole.members.array();
+        break;
       case 10:
-        result = targetRole.createdAt
-        break
+        result = targetRole.createdAt;
+        break;
       case 11:
-        result = targetRole.permissions.toArray()
-        break
+        result = targetRole.permissions.toArray();
+        break;
       case 12:
-        result = targetRole.members.size
-        break
+        result = targetRole.members.size;
+        break;
       case 13:
-        result = targetRole.permissions.toArray().join(', ').replace(/_/g, ' ').toLowerCase()
-        break
+        result = targetRole.permissions.toArray().join(', ').replace(/_/g, ' ').toLowerCase();
+        break;
       default:
-        break
+        break;
     }
     if (result !== undefined) {
-      const storage = parseInt(data.storage)
-      const varName2 = this.evalMessage(data.varName2, cache)
-      this.storeValue(result, storage, varName2, cache)
+      const storage = parseInt(data.storage, 10);
+      const varName2 = this.evalMessage(data.varName2, cache);
+      this.storeValue(result, storage, varName2, cache);
     }
-    this.callNextAction(cache)
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

@@ -2,20 +2,30 @@ module.exports = {
   name: 'Convert List to Text',
   section: 'Lists and Loops',
 
-  subtitle (data) {
-    const list = ['Server Members', 'Server Channels', 'Server Roles', 'Server Emojis', 'All Bot Servers', 'Mentioned User Roles', 'Command Author Roles', 'Temp Variable', 'Server Variable', 'Global Variable']
-    return `Convert ${list[parseInt(data.list)]} to Text`
+  subtitle(data) {
+    const list = [
+      'Server Members',
+      'Server Channels',
+      'Server Roles',
+      'Server Emojis',
+      'All Bot Servers',
+      'Mentioned User Roles',
+      'Command Author Roles',
+      'Temp Variable',
+      'Server Variable',
+      'Global Variable',
+    ];
+    return `Convert ${list[parseInt(data.list, 10)]} to Text`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    return ([data.varName2, 'Text'])
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName2, 'Text'];
   },
 
   fields: ['list', 'varName', 'start', 'middle', 'end', 'storage', 'varName2', 'sort'],
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
 <div><p>This action has been modified by DBM Mods.</p></div><br>
 <div>
@@ -62,43 +72,43 @@ module.exports = {
     Variable Name:<br>
     <input id="varName2" class="round" type="text">
   </div>
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
-    glob.listChange(document.getElementById('list'), 'varNameContainer')
+  init() {
+    const { glob, document } = this;
+    glob.listChange(document.getElementById('list'), 'varNameContainer');
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const storage = parseInt(data.list)
-    const varName = this.evalMessage(data.varName, cache)
-    let list = this.getList(storage, varName, cache)
-    const sort = parseInt(data.sort)
-    if (sort === 0) list = list.sort()
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const storage = parseInt(data.list, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    let list = this.getList(storage, varName, cache);
+    const sort = parseInt(data.sort, 10);
+    if (sort === 0) list = list.sort();
 
-    const start = this.evalMessage(data.start, cache).replace('\\n', '\n')
-    const middle = this.evalMessage(data.middle, cache).replace('\\n', '\n')
-    const end = this.evalMessage(data.end, cache).replace('\\n', '\n')
-    let result = ''
+    const start = this.evalMessage(data.start, cache).replace('\\n', '\n');
+    const middle = this.evalMessage(data.middle, cache).replace('\\n', '\n');
+    const end = this.evalMessage(data.end, cache).replace('\\n', '\n');
+    let result = '';
 
     for (let i = 0; i < list.length; i++) {
       if (i === 0) {
-        result += start + String(list[i]) + end
+        result += start + String(list[i]) + end;
       } else {
-        result += start + middle + String(list[i]) + end
+        result += start + middle + String(list[i]) + end;
       }
     }
 
     if (result) {
-      const varName2 = this.evalMessage(data.varName2, cache)
-      const storage2 = parseInt(data.storage)
-      this.storeValue(result, storage2, varName2, cache)
+      const varName2 = this.evalMessage(data.varName2, cache);
+      const storage2 = parseInt(data.storage, 10);
+      this.storeValue(result, storage2, varName2, cache);
     }
 
-    this.callNextAction(cache)
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

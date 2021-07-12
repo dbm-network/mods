@@ -2,13 +2,19 @@ module.exports = {
   name: 'Create Anchor',
   section: 'Other Stuff',
 
-  subtitle (data) {
-    return data.description ? `<font color="${data.color}">${data.description}</font>` : `Create ${data.anchor_id ? `the "<font color="${data.color}">${data.anchor_id}</font>" anchor at the current position!` : 'an anchor!'}`
+  subtitle(data) {
+    return data.description
+      ? `<font color="${data.color}">${data.description}</font>`
+      : `Create ${
+          data.anchor_id
+            ? `the "<font color="${data.color}">${data.anchor_id}</font>" anchor at the current position!`
+            : 'an anchor!'
+        }`;
   },
 
   fields: ['anchor_id', 'color', 'description'],
 
-  html () {
+  html() {
     return `
 <div>
   <p>
@@ -30,14 +36,14 @@ module.exports = {
     Description:<br>
     <input type="text" class="round" id="description">
   </div>
-</div>`
+</div>`;
   },
 
-  init () {},
+  init() {},
 
-  action (cache) {
-    this.callNextAction(cache)
+  action(cache) {
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

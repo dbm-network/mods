@@ -2,13 +2,13 @@ module.exports = {
   name: 'Download File',
   section: 'File Stuff',
 
-  subtitle (data) {
-    return `From: ${data.url} to ${data.filePath}/${data.fileName || 'download'}.${data.fileFormat || 'txt'}`
+  subtitle(data) {
+    return `From: ${data.url} to ${data.filePath}/${data.fileName || 'download'}.${data.fileFormat || 'txt'}`;
   },
 
   fields: ['url', 'fileName', 'fileFormat', 'filePath'],
 
-  html () {
+  html() {
     return `
 <div style="float: left;">
   Web URL:<br>
@@ -32,38 +32,38 @@ module.exports = {
   <u><b><span style="color: white;">NOTE:</span></b></u><br>
   In File Path, "./" represents the path to your bot folder<br>
   File Name and File Format are automatic but you can change them
-</p>`
+</p>`;
   },
 
-  init () {},
+  init() {},
 
-  action (cache) {
-    const data = cache.actions[cache.index]
+  action(cache) {
+    const data = cache.actions[cache.index];
 
-    let url = this.evalMessage(data.url, cache)
-    const fileName = this.evalMessage(data.fileName, cache)
-    const fileFormat = this.evalMessage(data.fileFormat, cache)
-    const filePath = this.evalMessage(data.filePath, cache)
-    const Mods = this.getMods()
-    const http = require('https')
-    const fs = require('fs')
-    const path = `${filePath}/${fileName || 'download'}.${fileFormat || 'txt'}`
+    let url = this.evalMessage(data.url, cache);
+    const fileName = this.evalMessage(data.fileName, cache);
+    const fileFormat = this.evalMessage(data.fileFormat, cache);
+    const filePath = this.evalMessage(data.filePath, cache);
+    const Mods = this.getMods();
+    const http = require('https');
+    const fs = require('fs');
+    const path = `${filePath}/${fileName || 'download'}.${fileFormat || 'txt'}`;
 
     if (!Mods.checkURL(url)) {
-      url = encodeURI(url)
+      url = encodeURI(url);
     }
 
     if (!fs.existsSync(path)) {
-      fs.writeFileSync(path, '')
+      fs.writeFileSync(path, '');
     }
 
-    const ws = fs.createWriteStream(path)
+    const ws = fs.createWriteStream(path);
     ws.on('open', () => {
-      http.get(url, (res) => res.pipe(ws))
-    })
+      http.get(url, (res) => res.pipe(ws));
+    });
 
-    this.callNextAction(cache)
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

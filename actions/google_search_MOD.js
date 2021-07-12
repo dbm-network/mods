@@ -2,33 +2,31 @@ module.exports = {
   name: 'Google Search',
   section: 'Other Stuff',
 
-  subtitle (data) {
-    const info = ['Title', 'URL', 'Snippet']
-    return `Google Result ${info[parseInt(data.info)]}`
+  subtitle(data) {
+    const info = ['Title', 'URL', 'Snippet'];
+    return `Google Result ${info[parseInt(data.info, 10)]}`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    const info = parseInt(data.info)
-    let dataType = 'Unknown Google Type'
-    switch (info) {
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    let dataType = 'Unknown Google Type';
+    switch (parseInt(data.info, 10)) {
       case 0:
-        dataType = 'Google Result Title'
-        break
+        dataType = 'Google Result Title';
+        break;
       case 1:
-        dataType = 'Google Result URL'
-        break
+        dataType = 'Google Result URL';
+        break;
       case 2:
-        dataType = 'Google Result Snippet'
-        break
+        dataType = 'Google Result Snippet';
+        break;
     }
-    return ([data.varName, dataType])
+    return [data.varName, dataType];
   },
 
   fields: ['string', 'info', 'resultNo', 'storage', 'varName'],
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
 <div style="width: 95%; padding-top: 8px;">
   String(s) to Search on Google:<br>
@@ -66,53 +64,55 @@ module.exports = {
   <div id="varNameContainer" style="float: right; width: 53%; padding-top: 8px;">
     Variable Name:<br>
     <input id="varName" class="round" type="text"><br>
-  </div>`
+  </div>`;
   },
 
-  init () {
-    const { glob, document } = this
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer')
+  init() {
+    const { glob, document } = this;
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const info = parseInt(data.info)
-    const string = this.evalMessage(data.string, cache).replace(/[\u{0080}-\u{FFFF}]/gu, '') // The replace thing is very new, it's just replacing the invalid characters so command won't stuck when you use other languages.
-    const resultNumber = parseInt(data.resultNo)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const info = parseInt(data.info, 10);
+    const string = this.evalMessage(data.string, cache).replace(/[\u{0080}-\u{FFFF}]/gu, ''); // The replace thing is very new, it's just replacing the invalid characters so command won't stuck when you use other languages.
+    const resultNumber = parseInt(data.resultNo, 10);
 
-    if (!string) return console.log('Please write something to Google it!')
+    if (!string) return console.log('Please write something to Google it!');
 
-    const Mods = this.getMods()
-    const googleIt = Mods.require('google-it')
+    const Mods = this.getMods();
+    const googleIt = Mods.require('google-it');
 
-    googleIt({ query: `${string}`, 'no-display': 1, limit: 10 }).then((results) => {
-      let result
-      switch (info) {
-        case 0:
-          result = results[resultNumber].title
-          break
-        case 1:
-          result = results[resultNumber].link
-          break
-        case 2:
-          result = results[resultNumber].snippet
-          break
-        default:
-          break
-      }
-      if (result !== undefined) {
-        const storage = parseInt(data.storage)
-        const varName2 = this.evalMessage(data.varName, cache)
-        this.storeValue(result, storage, varName2, cache)
-        this.callNextAction(cache)
-      } else {
-        this.callNextAction(cache)
-      }
-    }).catch((e) => {
-      console.log(`An error in Google Search MOD: ${e}`)
-      this.callNextAction(cache)
-    })
+    googleIt({ query: `${string}`, 'no-display': 1, limit: 10 })
+      .then((results) => {
+        let result;
+        switch (info) {
+          case 0:
+            result = results[resultNumber].title;
+            break;
+          case 1:
+            result = results[resultNumber].link;
+            break;
+          case 2:
+            result = results[resultNumber].snippet;
+            break;
+          default:
+            break;
+        }
+        if (result !== undefined) {
+          const storage = parseInt(data.storage, 10);
+          const varName2 = this.evalMessage(data.varName, cache);
+          this.storeValue(result, storage, varName2, cache);
+          this.callNextAction(cache);
+        } else {
+          this.callNextAction(cache);
+        }
+      })
+      .catch((e) => {
+        console.log(`An error in Google Search MOD: ${e}`);
+        this.callNextAction(cache);
+      });
   },
 
-  mod () {}
-}
+  mod() {},
+};

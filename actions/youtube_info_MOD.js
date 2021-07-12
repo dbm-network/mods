@@ -2,16 +2,38 @@ module.exports = {
   name: 'Store YouTube Info',
   section: 'YouTube Tools',
 
-  subtitle (data) {
-    const info = ['Video ID', 'Video URL', 'Video Title', 'Video Description', 'Video Channel Name', 'Video Channel ID', 'Video Channel URL', 'Video Channel Avatar URL', 'Video Channel is Verified?', 'Video Channel Subscriber Count', 'Video is Unlisted?', 'Video is Family Friendly?', 'Video Duration', 'Available Countries', 'Video Like Count', 'Video Dislike Count', 'Video Thumbnail URL', 'Video Publish Date', 'Video Views', 'Video is Live?', 'Video Owner Viewing?', 'Video is Age Restricted?']
-    return `YouTube ${info[parseInt(data.info)]}`
+  subtitle(data) {
+    const info = [
+      'Video ID',
+      'Video URL',
+      'Video Title',
+      'Video Description',
+      'Video Channel Name',
+      'Video Channel ID',
+      'Video Channel URL',
+      'Video Channel Avatar URL',
+      'Video Channel is Verified?',
+      'Video Channel Subscriber Count',
+      'Video is Unlisted?',
+      'Video is Family Friendly?',
+      'Video Duration',
+      'Available Countries',
+      'Video Like Count',
+      'Video Dislike Count',
+      'Video Thumbnail URL',
+      'Video Publish Date',
+      'Video Views',
+      'Video is Live?',
+      'Video Owner Viewing?',
+      'Video is Age Restricted?',
+    ];
+    return `YouTube ${info[parseInt(data.info, 10)]}`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    let dataType = 'Unknown Type'
-    switch (parseInt(data.info)) {
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    let dataType = 'Unknown Type';
+    switch (parseInt(data.info, 10)) {
       case 0: // Video ID
       case 2: // Video Title
       case 3: // Video Description
@@ -19,40 +41,40 @@ module.exports = {
       case 4: // Video Channel Name
       case 12: // Video Duration
       case 21: // Video Publish Date
-        dataType = 'Text'
-        break
+        dataType = 'Text';
+        break;
       case 1: // Video URL
       case 20: // Video Channel URL
       case 24: // Video Channel Avatar URL
-        dataType = 'URL'
-        break
+        dataType = 'URL';
+        break;
       case 6: // Video Thumbnail URL
-        dataType = 'Image URL'
-        break
+        dataType = 'Image URL';
+        break;
       case 19: // Video is live?
       case 22: // Video Owner Viewing?
       case 23: // Video is Age Restricted?
       case 25: // Video Channel is Verified?
       case 11: // Video is Family Friendly?
       case 10: // Video is Unlisted?
-        dataType = 'Boolean'
-        break
+        dataType = 'Boolean';
+        break;
       case 13: // Video Views
       case 16: // Video Like Count
       case 17: // Video Dislike Count
       case 26: // Video Channel Subscriber Count
-        dataType = 'Number'
-        break
+        dataType = 'Number';
+        break;
       case 14: // Available Countries
-        dataType = 'Object'
-        break
+        dataType = 'Object';
+        break;
     }
-    return ([data.varName, dataType])
+    return [data.varName, dataType];
   },
 
   fields: ['video', 'info', 'storage', 'varName'],
 
-  html (isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div style="width: 550px; height: 350px; overflow-y: scroll;">
   <div style="width: 95%; padding-top: 8px;">
@@ -98,109 +120,115 @@ module.exports = {
       <input id="varName" class="round" type="text"><br>
     </div>
   </div>
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
+  init() {
+    const { glob, document } = this;
 
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer')
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
   },
 
-  async action (cache) {
-    const data = cache.actions[cache.index]
-    const info = parseInt(data.info)
-    const input = this.evalMessage(data.video, cache)
-    const Mods = this.getMods()
-    const ytsr = Mods.require('ytsr')
-    const ytdl = Mods.require('ytdl-core')
-    let result
+  async action(cache) {
+    const data = cache.actions[cache.index];
+    const info = parseInt(data.info, 10);
+    const input = this.evalMessage(data.video, cache);
+    const Mods = this.getMods();
+    const ytsr = Mods.require('ytsr');
+    const ytdl = Mods.require('ytdl-core');
+    let result;
 
-    if (!input) return console.log('Please specify a video to get video informations.')
+    if (!input) return console.log('Please specify a video to get video informations.');
 
-    const searchResults = await ytsr(input)
-    if (!searchResults) return this.callNextAction(cache)
-    const sr = searchResults.items[0]
-    if (!sr) return this.callNextAction(cache)
-    let video = await ytdl.getBasicInfo(sr.url)
-    video = video.videoDetails
+    const searchResults = await ytsr(input);
+    if (!searchResults) return this.callNextAction(cache);
+    const sr = searchResults.items[0];
+    if (!sr) return this.callNextAction(cache);
+    let video = await ytdl.getBasicInfo(sr.url);
+    video = video.videoDetails;
 
     switch (info) {
       case 0: // Video ID
-        result = video.videoID
-        break
+        result = video.videoID;
+        break;
       case 1: // Video URL
-        result = video.video_url
-        break
+        result = video.video_url;
+        break;
       case 2: // Video Title
-        result = video.title.replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&#39;/g, "'")
-        break
+        result = video.title
+          .replace(/&quot;/g, '"')
+          .replace(/&amp;/g, '&')
+          .replace(/&#39;/g, "'");
+        break;
       case 3: // Video Description
-        result = video.description.replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&#39;/g, "'")
-        break
+        result = video.description
+          .replace(/&quot;/g, '"')
+          .replace(/&amp;/g, '&')
+          .replace(/&#39;/g, "'");
+        break;
       case 4: // Video Channel Name
-        result = video.author.name
-        break
+        result = video.author.name;
+        break;
       case 5: // Video Channel ID
-        result = video.author.id
-        break
+        result = video.author.id;
+        break;
       case 6: // Thumbnail URL (auto)
-        result = sr.thumbnail
-        break
+        result = sr.thumbnail;
+        break;
       case 10: // Is unlisted
-        result = video.isUnlisted
-        break
+        result = video.isUnlisted;
+        break;
       case 11: // Is family friendly?
-        result = video.isFamilySafe
-        break
+        result = video.isFamilySafe;
+        break;
       case 12: // Video Duration
-        result = video.lengthSeconds
-        break
+        result = video.lengthSeconds;
+        break;
       case 13: // Video Views
-        result = video.views
-        break
+        result = video.views;
+        break;
       case 14: // Available Countries
-        result = video.availableCountries
-        break
+        result = video.availableCountries;
+        break;
       case 16: // Like Count
-        result = video.likes
-        break
+        result = video.likes;
+        break;
       case 17: // Dislike Count
-        result = video.dislikes
-        break
+        result = video.dislikes;
+        break;
       case 19: // is live?
-        result = video.isLiveContent
-        break
+        result = video.isLiveContent;
+        break;
       case 20: // Video Channel URL
-        result = video.author.ref
-        break
+        result = video.author.ref;
+        break;
       case 21: // Video Publish Date
-        result = video.publishDate
-        break
+        result = video.publishDate;
+        break;
       case 22: // Is owner Viewing?
-        result = video.sOwnerViewing
-        break
+        result = video.sOwnerViewing;
+        break;
       case 23: // Age Restricted?
-        result = video.age_restricted
-        break
+        result = video.age_restricted;
+        break;
       case 24: // Video Channel Avatar URL
-        result = video.author.avatar
-        break
+        result = video.author.avatar;
+        break;
       case 25: // Is channel verified?
-        result = video.author.verified
-        break
+        result = video.author.verified;
+        break;
       case 26: // Video Channel Subscriber Count
-        result = video.author.subscriber_count
-        break
+        result = video.author.subscriber_count;
+        break;
       default:
-        break
+        break;
     }
     if (result !== undefined) {
-      const storage = parseInt(data.storage)
-      const varName2 = this.evalMessage(data.varName, cache)
-      this.storeValue(result, storage, varName2, cache)
+      const storage = parseInt(data.storage, 10);
+      const varName2 = this.evalMessage(data.varName, cache);
+      this.storeValue(result, storage, varName2, cache);
     }
-    this.callNextAction(cache)
+    this.callNextAction(cache);
   },
-  mod () {}
-}
+  mod() {},
+};

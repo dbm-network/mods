@@ -3,14 +3,14 @@ module.exports = {
   name: 'Edit Emoji',
   section: 'Emoji Control',
 
-  subtitle (data) {
-    const emoji = ['You cheater!', 'Temp Variable', 'Server Variable', 'Global Variable']
-    return `${emoji[parseInt(data.storage)]}`
+  subtitle(data) {
+    const emoji = ['You cheater!', 'Temp Variable', 'Server Variable', 'Global Variable'];
+    return `${emoji[parseInt(data.storage, 10)]}`;
   },
 
   fields: ['storage', 'varName', 'emojiName'],
 
-  html (isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div>
   <div style="float: left; width: 35%;">
@@ -27,34 +27,32 @@ module.exports = {
 <div style="padding-top: 8px;">
   Emoji Name:<br>
   <input id="emojiName" placeholder="Leave blank to not edit!" class="round" type="text">
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
-    glob.emojiChange(document.getElementById('storage'))
+  init() {
+    const { glob, document } = this;
+    glob.emojiChange(document.getElementById('storage'));
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const emojiData = {}
-    if (data.emojiName) emojiData.name = this.evalMessage(data.emojiName, cache)
-    const storage = parseInt(data.storage)
-    const varName = this.evalMessage(data.varName, cache)
-    const Mods = this.getMods()
-    const emoji = Mods.getEmoji(storage, varName, cache)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const emojiData = {};
+    if (data.emojiName) emojiData.name = this.evalMessage(data.emojiName, cache);
+    const storage = parseInt(data.storage, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    const Mods = this.getMods();
+    const emoji = Mods.getEmoji(storage, varName, cache);
 
     if (Array.isArray(emoji)) {
-      this.callListFunc(emoji, 'edit', [emojiData]).then(() => {
-        this.callNextAction(cache)
-      })
+      this.callListFunc(emoji, 'edit', [emojiData]).then(() => this.callNextAction(cache));
     } else if (emoji && emoji.edit) {
-      emoji.edit(emojiData).then((emoji) => {
-        this.callNextAction(cache)
-      }).catch(this.displayError.bind(this, data, cache))
+      emoji
+        .edit(emojiData)
+        .then(() => this.callNextAction(cache))
+        .catch(this.displayError.bind(this, data, cache));
     }
-    this.callNextAction(cache)
   },
 
-  mod () {}
-}
+  mod() {},
+};

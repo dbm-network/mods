@@ -2,14 +2,14 @@ module.exports = {
   name: 'Canvas Image Options',
   section: 'Image Editing',
 
-  subtitle (data) {
-    const storeTypes = ['', 'Temp Variable', 'Server Variable', 'Global Variable']
-    return `${storeTypes[parseInt(data.storage)]} (${data.varName})`
+  subtitle(data) {
+    const storeTypes = ['', 'Temp Variable', 'Server Variable', 'Global Variable'];
+    return `${storeTypes[parseInt(data.storage, 10)]} (${data.varName})`;
   },
 
   fields: ['storage', 'varName', 'mirror', 'rotation', 'width', 'height'],
 
-  html (isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div>
   <div style="float: left; width: 45%;">
@@ -47,98 +47,100 @@ module.exports = {
     Scale Height (direct size or percent):<br>
     <input id="height" class="round" type="text" value="100%"><br>
   </div>
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
+  init() {
+    const { glob, document } = this;
 
-    glob.refreshVariableList(document.getElementById('storage'))
+    glob.refreshVariableList(document.getElementById('storage'));
   },
 
-  action (cache) {
-    const Canvas = require('canvas')
-    const data = cache.actions[cache.index]
-    const storage = parseInt(data.storage)
-    const varName = this.evalMessage(data.varName, cache)
-    const imagedata = this.getVariable(storage, varName, cache)
+  action(cache) {
+    const Canvas = require('canvas');
+    const data = cache.actions[cache.index];
+    const storage = parseInt(data.storage, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    const imagedata = this.getVariable(storage, varName, cache);
     if (!imagedata) {
-      this.callNextAction(cache)
-      return
+      this.callNextAction(cache);
+      return;
     }
-    const image = new Canvas.Image()
-    image.src = imagedata
-    const minfo = parseInt(data.mirror)
-    const degrees = parseInt(data.rotation)
-    const radian = Math.PI / 180 * degrees
-    const scalex = this.evalMessage(data.width, cache)
-    const scaley = this.evalMessage(data.height, cache)
-    let imagew = image.width
-    let imageh = image.height
-    let scalew = 1
-    let scaleh = 1
-    let mirrorw = 1
-    let mirrorh = 1
-    rotate(radian)
-    mirror(minfo)
-    scale(scalex, scaley)
-    scalew *= mirrorw
-    scaleh *= mirrorh
-    const canvas = Canvas.createCanvas(imagew, imageh)
-    const ctx = canvas.getContext('2d')
-    ctx.clearRect(0, 0, imagew, imageh)
-    ctx.save()
-    ctx.translate(imagew / 2, imageh / 2)
-    ctx.rotate(radian)
-    ctx.scale(scalew, scaleh)
-    ctx.drawImage(image, -image.width / 2, -image.height / 2)
-    ctx.restore()
-    const result = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream')
-    this.storeValue(result, storage, varName, cache)
-    this.callNextAction(cache)
-
-    function rotate (r) {
-      const imagex = imagew * Math.abs(Math.cos(r)) + imageh * Math.abs(Math.sin(r))
-      const imagey = imageh * Math.abs(Math.cos(r)) + imagew * Math.abs(Math.sin(r))
-      imagew = imagex
-      imageh = imagey
+    const image = new Canvas.Image();
+    image.src = imagedata;
+    const minfo = parseInt(data.mirror, 10);
+    const degrees = parseInt(data.rotation, 10);
+    const radian = (Math.PI / 180) * degrees;
+    const scalex = this.evalMessage(data.width, cache);
+    const scaley = this.evalMessage(data.height, cache);
+    let imagew = image.width;
+    let imageh = image.height;
+    let scalew = 1;
+    let scaleh = 1;
+    let mirrorw = 1;
+    let mirrorh = 1;
+    function rotate(r) {
+      const imagex = imagew * Math.abs(Math.cos(r)) + imageh * Math.abs(Math.sin(r));
+      const imagey = imageh * Math.abs(Math.cos(r)) + imagew * Math.abs(Math.sin(r));
+      imagew = imagex;
+      imageh = imagey;
     }
-    function scale (w, h) {
+    function scale(w, h) {
       if (w.endsWith('%')) {
-        const percent = w.replace('%', '')
-        scalew = parseInt(percent) / 100
+        const percent = w.replace('%', '');
+        scalew = parseInt(percent, 10) / 100;
       } else {
-        scalew = parseInt(w) / imagew
+        scalew = parseInt(w, 10) / imagew;
       }
       if (h.endsWith('%')) {
-        const percent = h.replace('%', '')
-        scaleh = parseInt(percent) / 100
+        const percent = h.replace('%', '');
+        scaleh = parseInt(percent, 10) / 100;
       } else {
-        scaleh = parseInt(h) / imageh
+        scaleh = parseInt(h, 10) / imageh;
       }
-      imagew *= scalew
-      imageh *= scaleh
+      imagew *= scalew;
+      imageh *= scaleh;
     }
-    function mirror (m) {
+    function mirror(m) {
       switch (m) {
         case 0:
-          mirrorw = 1
-          mirrorh = 1
-          break
+          mirrorw = 1;
+          mirrorh = 1;
+          break;
         case 1:
-          mirrorw = -1
-          mirrorh = 1
-          break
+          mirrorw = -1;
+          mirrorh = 1;
+          break;
         case 2:
-          mirrorw = 1
-          mirrorh = -1
-          break
+          mirrorw = 1;
+          mirrorh = -1;
+          break;
         case 3:
-          mirrorw = -1
-          mirrorh = -1
+          mirrorw = -1;
+          mirrorh = -1;
+          break;
+        default:
+          break;
       }
     }
+    rotate(radian);
+    mirror(minfo);
+    scale(scalex, scaley);
+    scalew *= mirrorw;
+    scaleh *= mirrorh;
+    const canvas = Canvas.createCanvas(imagew, imageh);
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, imagew, imageh);
+    ctx.save();
+    ctx.translate(imagew / 2, imageh / 2);
+    ctx.rotate(radian);
+    ctx.scale(scalew, scaleh);
+    ctx.drawImage(image, -image.width / 2, -image.height / 2);
+    ctx.restore();
+    const result = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
+    this.storeValue(result, storage, varName, cache);
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

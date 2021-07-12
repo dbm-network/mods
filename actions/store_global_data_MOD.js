@@ -2,20 +2,19 @@ module.exports = {
   name: 'Store Global Data',
   section: 'Data',
 
-  subtitle (data) {
-    const storage = ['', 'Temp Variable', 'Server Variable', 'Global Variable']
-    return `${storage[parseInt(data.storage)]} (${data.varName})`
+  subtitle(data) {
+    const storage = ['', 'Temp Variable', 'Server Variable', 'Global Variable'];
+    return `${storage[parseInt(data.storage, 10)]} (${data.varName})`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    return ([data.varName, 'Unknown Type'])
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName, 'Unknown Type'];
   },
 
   fields: ['dataName', 'defaultVal', 'storage', 'varName'],
 
-  html (isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div style="padding-top: 8px;">
   <div style="float: left; width: 40%;">
@@ -38,22 +37,22 @@ module.exports = {
     Variable Name:<br>
     <input id="varName" class="round" type="text"><br>
   </div>
-</div>`
+</div>`;
   },
 
-  init () {},
+  init() {},
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const dataName = this.evalMessage(data.dataName, cache)
-    const defVal = this.eval(this.evalMessage(data.defaultVal, cache), cache)
-    const { Globals } = this.getDBM()
-    const result = Globals.data(dataName, defVal)
-    const storage = parseInt(data.storage)
-    const varName = this.evalMessage(data.varName, cache)
-    this.storeValue(result, storage, varName, cache)
-    this.callNextAction(cache)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const dataName = this.evalMessage(data.dataName, cache);
+    const defVal = this.eval(this.evalMessage(data.defaultVal, cache), cache);
+    const { Globals } = this.getDBM();
+    const result = Globals.data(dataName, defVal);
+    const storage = parseInt(data.storage, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    this.storeValue(result, storage, varName, cache);
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

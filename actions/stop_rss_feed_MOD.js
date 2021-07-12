@@ -2,13 +2,13 @@ module.exports = {
   name: 'Stop RSS Feed Watcher',
   section: 'Other Stuff',
 
-  subtitle (data) {
-    return `${data.url}`
+  subtitle(data) {
+    return `${data.url}`;
   },
 
   fields: ['storage', 'varName'],
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
 <div>
   <div style="float: left; width: 35%;">
@@ -21,22 +21,22 @@ module.exports = {
     Variable Name:<br>
     <input id="varName" class="round" type="text" list="variableList"><br>
   </div>
-</div>`
+</div>`;
   },
 
-  init () {},
+  init() {},
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const varName = this.evalMessage(data.varName, cache)
-    const storage = parseInt(data.storage)
-    const stor = storage + varName
-    const res = this.getVariable(storage, stor, cache)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const varName = this.evalMessage(data.varName, cache);
+    const storage = parseInt(data.storage, 10);
+    const stor = storage + varName;
+    const res = this.getVariable(storage, stor, cache);
 
-    res.stop()
+    res.stop();
 
-    this.callNextAction(cache)
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

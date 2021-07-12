@@ -3,20 +3,18 @@ module.exports = {
   displayName: 'Base Convert',
   section: 'Other Stuff',
 
-  subtitle (data) {
-    return `Base ${(data.basef)} to Base ${(data.baset)}`
+  subtitle(data) {
+    return `Base ${data.basef} to Base ${data.baset}`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    const dataType = 'Number'
-    return ([data.varName, dataType])
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName, 'Number'];
   },
 
   fields: ['num', 'basef', 'baset', 'storage', 'varName'],
 
-  html (isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div style="float: left; width: 100%;">
   Number:<br>
@@ -43,32 +41,32 @@ module.exports = {
     Variable Name:<br>
     <input id="varName" class="round" type="text">
   </div>
-</div>`
+</div>`;
   },
 
-  init () {},
+  init() {},
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const num = this.evalMessage(data.num, cache)
-    const basef = parseInt(data.basef)
-    const baset = parseInt(data.baset)
-    let result
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const num = this.evalMessage(data.num, cache);
+    const basef = parseInt(data.basef, 10);
+    const baset = parseInt(data.baset, 10);
+    let result;
     if (basef > 1 && basef <= 36 && baset > 1 && baset <= 36) {
-      const base = parseInt(num, basef)
-      if (!isNaN(base)) {
-        result = base.toString(baset).toUpperCase()
+      const base = parseInt(num, basef, 10);
+      if (!Number.isNaN(base)) {
+        result = base.toString(baset).toUpperCase();
       } else {
-        console.log(`Invalid input, ${num} not Base-${basef}`)
+        console.log(`Invalid input, ${num} not Base-${basef}`);
       }
     }
     if (result !== undefined) {
-      const storage = parseInt(data.storage)
-      const varName = this.evalMessage(data.varName, cache)
-      this.storeValue(result, storage, varName, cache)
+      const storage = parseInt(data.storage, 10);
+      const varName = this.evalMessage(data.varName, cache);
+      this.storeValue(result, storage, varName, cache);
     }
-    this.callNextAction(cache)
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

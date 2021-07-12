@@ -2,14 +2,14 @@ module.exports = {
   name: 'Loop Queue',
   section: 'Audio Control',
 
-  subtitle (data) {
-    const actions = ['Loop Whole Queue', 'Loop Current Item']
-    return `${actions[parseInt(data.loop)]}`
+  subtitle(data) {
+    const actions = ['Loop Whole Queue', 'Loop Current Item'];
+    return `${actions[parseInt(data.loop, 10)]}`;
   },
 
   fields: ['status', 'loop'],
 
-  html (isEvent, data) {
+  html() {
     return `
 <div style="float: left; width: 45%; padding-top: 8px;">
   Loop Setting:<br>
@@ -29,52 +29,52 @@ module.exports = {
   <p>
     Please put the Welcome action into a Bot Initialization event to be able to store the current song!
   </p>
-</div>`
+</div>`;
   },
 
-  init () {},
+  init() {},
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const { Audio } = this.getDBM()
-    const { server } = cache
-    const status = parseInt(data.status)
-    const loop = parseInt(data.loop)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const { Audio } = this.getDBM();
+    const { server } = cache;
+    const status = parseInt(data.status, 10);
+    const loop = parseInt(data.loop, 10);
 
     switch (status) {
       case 0: // Enable
         switch (loop) {
           case 0: // Loop Queue
-            Audio.loopQueue[server.id] = true
-            break
+            Audio.loopQueue[server.id] = true;
+            break;
           case 1: // Loop Item
-            Audio.loopItem[server.id] = true
-            break
+            Audio.loopItem[server.id] = true;
+            break;
           default:
-            break
+            break;
         }
-        break
+        break;
       case 1: // Disable
         switch (loop) {
           case 0: // Loop Queue
-            Audio.loopQueue[server.id] = false
-            break
+            Audio.loopQueue[server.id] = false;
+            break;
           case 1: // Loop Item
-            Audio.loopItem[server.id] = false
-            break
+            Audio.loopItem[server.id] = false;
+            break;
           default:
-            break
+            break;
         }
-        break
+        break;
       default:
-        break
+        break;
     }
 
-    this.callNextAction(cache)
+    this.callNextAction(cache);
   },
 
-  mod (DBM) {
-    const Mods = DBM.Actions.getMods()
-    Mods.setupMusic(DBM)
-  }
-}
+  mod(DBM) {
+    const Mods = DBM.Actions.getMods();
+    Mods.setupMusic(DBM);
+  },
+};

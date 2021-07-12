@@ -2,19 +2,18 @@ module.exports = {
   name: 'Split',
   section: 'Other Stuff',
 
-  subtitle () {
-    return 'Split anything!'
+  subtitle() {
+    return 'Split anything!';
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    const dataType = 'Sliced Result'
-    return ([data.varName, dataType])
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName, 'String'];
   },
+
   fields: ['split', 'spliton', 'storage', 'varName'],
 
-  html (isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
   <div id="modinfo">
@@ -35,27 +34,27 @@ module.exports = {
     Variable Name:<br>
     <input id="varName" class="round" type="text"><br>
   </div>
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer')
+  init() {
+    const { glob, document } = this;
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const texttosplit = this.evalMessage(data.split, cache)
-    const spliton = this.evalMessage(data.spliton, cache)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const texttosplit = this.evalMessage(data.split, cache);
+    const spliton = this.evalMessage(data.spliton, cache);
 
-    if (!texttosplit || !spliton) return this.callNextAction(cache)
+    if (!texttosplit || !spliton) return this.callNextAction(cache);
 
-    const result = texttosplit.split(spliton)
-    const storage = parseInt(data.storage)
-    const varName = this.evalMessage(data.varName, cache)
-    this.storeValue(result, storage, varName, cache)
-    this.callNextAction(cache)
+    const result = texttosplit.split(spliton);
+    const storage = parseInt(data.storage, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    this.storeValue(result, storage, varName, cache);
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

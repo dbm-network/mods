@@ -2,19 +2,18 @@ module.exports = {
   name: 'Convert Timestamp to Date',
   section: 'Other Stuff',
 
-  subtitle (data) {
-    return `Convert ${data.time}`
+  subtitle(data) {
+    return `Convert ${data.time}`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    return ([data.varName, 'Date'])
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName, 'Date'];
   },
 
   fields: ['time', 'storage', 'varName'],
 
-  html (isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div style="float: right; width: 60%; padding-top: 8px;">
   <p><u>Note:</u><br>
@@ -37,35 +36,35 @@ module.exports = {
 <div style="text-align: center; float: left; width: 100%; padding-top: 8px;">
   <p><b>Recommended formats:</b></p>
   <img src="https://i.imgur.com/fZXXgFa.png" alt="Timestamp Formats" />
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer')
+  init() {
+    const { glob, document } = this;
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const Mods = this.getMods()
-    const toDate = Mods.require('normalize-date')
-    const time = this.evalMessage(data.time, cache)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const Mods = this.getMods();
+    const toDate = Mods.require('normalize-date');
+    const time = this.evalMessage(data.time, cache);
 
-    let result
+    let result;
     if (/^\d+(?:\.\d*)?$/.exec(time)) {
-      result = toDate((+time).toFixed(3))
+      result = toDate(Number(time).toFixed(3));
     } else {
-      result = toDate(time)
+      result = toDate(time);
     }
-    if (result.toString() === 'Invalid Date') result = undefined
+    if (result.toString() === 'Invalid Date') result = undefined;
 
     if (result !== undefined) {
-      const storage = parseInt(data.storage)
-      const varName = this.evalMessage(data.varName, cache)
-      this.storeValue(result, storage, varName, cache)
+      const storage = parseInt(data.storage, 10);
+      const varName = this.evalMessage(data.varName, cache);
+      this.storeValue(result, storage, varName, cache);
     }
-    this.callNextAction(cache)
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

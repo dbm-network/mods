@@ -2,21 +2,43 @@ module.exports = {
   name: 'Math Operation Plus',
   section: 'Other Stuff',
 
-  subtitle (data) {
-    const info = ['Addition', 'Subtraction', 'Multiplication', 'Division', 'Round', 'Round to S.F.', 'Absolute', 'Ceil', 'Floor', 'Factorial', 'Raised by (Exponents)', 'Rooted by (Roots)', 'Sine', 'Cosine', 'Tangent', 'Arc Sine', 'Arc Cosine', 'Arc Tangent', '% Of Number', 'Increase By %', 'Decrease By %', 'Value of Pi', 'Value of Euler\'s number']
-    return `${info[data.info]}`
+  subtitle(data) {
+    const info = [
+      'Addition',
+      'Subtraction',
+      'Multiplication',
+      'Division',
+      'Round',
+      'Round to S.F.',
+      'Absolute',
+      'Ceil',
+      'Floor',
+      'Factorial',
+      'Raised by (Exponents)',
+      'Rooted by (Roots)',
+      'Sine',
+      'Cosine',
+      'Tangent',
+      'Arc Sine',
+      'Arc Cosine',
+      'Arc Tangent',
+      '% Of Number',
+      'Increase By %',
+      'Decrease By %',
+      'Value of Pi',
+      "Value of Euler's number",
+    ];
+    return `${info[data.info]}`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    const dataType = 'Number'
-    return ([data.varName, dataType])
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName, 'Number'];
   },
 
   fields: ['FirstNumber', 'info', 'SecondNumber', 'storage', 'varName'],
 
-  html (isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div id="FirstNum" style="width: 90%;">
   First Number:<br>
@@ -65,134 +87,129 @@ module.exports = {
     Variable Name:<br>
     <input id="varName" class="round" type="text">
   </div>
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
+  init() {
+    const { glob, document } = this;
 
-    glob.onChange1 = function (event) {
-      const value = parseInt(event.value)
-      const dom = document.getElementById('SecondNum')
-      const dom2 = document.getElementById('FirstNum')
+    glob.onChange1 = function onChange1(event) {
+      const value = parseInt(event.value, 10);
+      const dom = document.getElementById('SecondNum');
+      const dom2 = document.getElementById('FirstNum');
 
-      if (
-        (value >= 0 && value <= 3) ||
-        [5, 10, 11].includes(value) ||
-        (value >= 18 && value <= 20)
-      ) {
-        dom.style.display = null
+      if ((value >= 0 && value <= 3) || [5, 10, 11].includes(value) || (value >= 18 && value <= 20)) {
+        dom.style.display = null;
       } else {
-        dom.style.display = 'none'
+        dom.style.display = 'none';
       }
 
       if (value < 21) {
-        dom2.style.display = null
+        dom2.style.display = null;
       } else {
-        dom2.style.display = 'none'
+        dom2.style.display = 'none';
       }
-    }
-    glob.onChange1(document.getElementById('info'))
+    };
+    glob.onChange1(document.getElementById('info'));
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    let FN = parseFloat(this.evalMessage(data.FirstNumber, cache).replace(/,/g, ''))
-    const SN = parseFloat(this.evalMessage(data.SecondNumber, cache).replace(/,/g, ''))
-    const info = parseInt(data.info)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    let FN = parseFloat(this.evalMessage(data.FirstNumber, cache).replace(/,/g, ''));
+    const SN = parseFloat(this.evalMessage(data.SecondNumber, cache).replace(/,/g, ''));
+    const info = parseInt(data.info, 10);
 
-    let result
+    let result;
     switch (info) {
       case 0:
-        result = FN + SN
-        break
+        result = FN + SN;
+        break;
       case 1:
-        result = FN - SN
-        break
+        result = FN - SN;
+        break;
       case 2:
-        result = FN * SN
-        break
+        result = FN * SN;
+        break;
       case 3:
-        result = FN / SN
-        break
+        result = FN / SN;
+        break;
       case 4:
-        result = Math.round(FN)
-        break
+        result = Math.round(FN);
+        break;
       case 5:
-        result = FN.toPrecision(SN)
-        break
+        result = FN.toPrecision(SN);
+        break;
       case 6:
-        result = Math.abs(FN)
-        break
+        result = Math.abs(FN);
+        break;
       case 7:
-        result = Math.ceil(FN)
-        break
+        result = Math.ceil(FN);
+        break;
       case 8:
-        result = Math.floor(FN)
-        break
+        result = Math.floor(FN);
+        break;
       case 9:
         if (FN === 0) {
-          result = 1
+          result = 1;
         }
         if (FN < 0) {
-          result = undefined
+          result = undefined;
         }
-        for (let i = FN; --i;) {
-          FN *= i
+        for (let i = FN; --i; ) {
+          FN *= i;
         }
-        result = FN
-        break
+        result = FN;
+        break;
       case 10:
-        result = Math.pow(FN, SN)
-        break
+        result = Math.pow(FN, SN);
+        break;
       case 11:
-        result = Math.pow(FN, 1 / SN)
-        break
+        result = Math.pow(FN, 1 / SN);
+        break;
       case 12:
-        result = Math.sin(FN)
-        break
+        result = Math.sin(FN);
+        break;
       case 13:
-        result = Math.cos(FN)
-        break
+        result = Math.cos(FN);
+        break;
       case 14:
-        result = Math.tan(FN)
-        break
+        result = Math.tan(FN);
+        break;
       case 15:
-        result = Math.asin(FN)
-        break
+        result = Math.asin(FN);
+        break;
       case 16:
-        result = Math.acos(FN)
-        break
+        result = Math.acos(FN);
+        break;
       case 17:
-        result = Math.atan(FN)
-        break
+        result = Math.atan(FN);
+        break;
       case 18:
-        result = (FN * SN) / 100
-        break
+        result = (FN * SN) / 100;
+        break;
       case 19:
-        result = (FN * SN) / 100 + FN
-        break
+        result = (FN * SN) / 100 + FN;
+        break;
       case 20:
-        const DN = 100 - SN
-        result = (FN * DN) / 100
-        break
+        result = (FN * (100 - SN)) / 100;
+        break;
       case 21:
-        result = Math.PI
-        break
+        result = Math.PI;
+        break;
       case 22:
-        result = Math.E
-        break
+        result = Math.E;
+        break;
       default:
-        break
+        break;
     }
 
     if (result !== undefined) {
-      const storage = parseInt(data.storage)
-      const varName = this.evalMessage(data.varName, cache)
-      this.storeValue(result, storage, varName, cache)
+      const storage = parseInt(data.storage, 10);
+      const varName = this.evalMessage(data.varName, cache);
+      this.storeValue(result, storage, varName, cache);
     }
-    this.callNextAction(cache)
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

@@ -2,21 +2,27 @@ module.exports = {
   name: 'Set slowmode MOD',
   section: 'Channel Control',
 
-  subtitle (data) {
-    const names = ['Same Channel', 'Mentioned Channel', 'Default Channel', 'Temp Variable', 'Server Variable', 'Global Variable']
-    const index = parseInt(data.storage)
-    return index < 3 ? `Set slowmode : ${names[index]}` : `Set slowmode : ${names[index]} - ${data.varName}`
+  subtitle(data) {
+    const names = [
+      'Same Channel',
+      'Mentioned Channel',
+      'Default Channel',
+      'Temp Variable',
+      'Server Variable',
+      'Global Variable',
+    ];
+    const index = parseInt(data.storage, 10);
+    return index < 3 ? `Set slowmode : ${names[index]}` : `Set slowmode : ${names[index]} - ${data.varName}`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage2)
-    if (type !== varType) return
-    return ([data.varName2, 'Channel'])
+  variableStorage(data, varType) {
+    if (parseInt(data.storage2, 10) !== varType) return;
+    return [data.varName2, 'Channel'];
   },
 
   fields: ['storage', 'varName', 'varName2', 'amount', 'reason'],
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
 <div style="padding-top: 8px;">
   <div style="float: left; width: 35%;" padding-top: 16px;">
@@ -41,24 +47,24 @@ module.exports = {
   <div id="varNameContainer2" style="display: none; padding-left: 5%; float: left; width: 65%;">
     Variable Name:<br>
     <input id="varName2" class="round" type="text">
-  </div>`
+  </div>`;
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const storage = parseInt(data.storage)
-    const varName = this.evalMessage(data.varName, cache)
-    const channel = this.getChannel(storage, varName, cache)
-    const amount = this.evalMessage(data.amount, cache)
-    const reason = this.evalMessage(data.reason, cache)
-    const { type } = channel
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const storage = parseInt(data.storage, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    const channel = this.getChannel(storage, varName, cache);
+    const amount = this.evalMessage(data.amount, cache);
+    const reason = this.evalMessage(data.reason, cache);
+    const { type } = channel;
 
-    if (type !== 'text') return this.callNextAction(cache)
+    if (type !== 'text') return this.callNextAction(cache);
 
-    channel.setRateLimitPerUser(amount, reason)
+    channel.setRateLimitPerUser(amount, reason);
 
-    this.callNextAction(cache)
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

@@ -3,15 +3,22 @@ module.exports = {
 
   section: 'Permission Control',
 
-  subtitle (data) {
-    const roles = ['Mentioned Role', '1st Author Role', '1st Server Role', 'Temp Variable', 'Server Variable', 'Global Variable']
-    const way = ['Update', 'Set']
-    return `${way[data.way]} ${roles[data.storage]} ${!data.reason ? '' : `with Reason: <i>${data.reason}<i>`}`
+  subtitle(data) {
+    const roles = [
+      'Mentioned Role',
+      '1st Author Role',
+      '1st Server Role',
+      'Temp Variable',
+      'Server Variable',
+      'Global Variable',
+    ];
+    const way = ['Update', 'Set'];
+    return `${way[data.way]} ${roles[data.storage]} ${!data.reason ? '' : `with Reason: <i>${data.reason}<i>`}`;
   },
 
   fields: ['way', 'storage', 'varName', 'storage2', 'varName2', 'reason'],
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
 <div style="padding-top: 8px;">
   <div style="float: left; width: 60%;">
@@ -49,47 +56,50 @@ module.exports = {
 <div style="padding-top: 8px;">
   Reason:<br>
   <textarea id="reason" rows="2" placeholder="Insert reason here... (optional)" style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
+  init() {
+    const { glob, document } = this;
 
-    glob.roleChange(document.getElementById('storage'), 'varNameContainer')
-    glob.refreshVariableList(document.getElementById('storage2'))
+    glob.roleChange(document.getElementById('storage'), 'varNameContainer');
+    glob.refreshVariableList(document.getElementById('storage2'));
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const storage = parseInt(data.storage)
-    const varName = this.evalMessage(data.varName, cache)
-    const storage2 = parseInt(data.storage2)
-    const varName2 = this.evalMessage(data.varName2, cache)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const storage = parseInt(data.storage, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    const storage2 = parseInt(data.storage2, 10);
+    const varName2 = this.evalMessage(data.varName2, cache);
 
-    const role = this.getRole(storage, varName, cache)
-    let permissions = this.getVariable(storage2, varName2, cache)
-    const reason = this.evalMessage(data.reason, cache)
-    const way = parseInt(data.way)
+    const role = this.getRole(storage, varName, cache);
+    let permissions = this.getVariable(storage2, varName2, cache);
+    const reason = this.evalMessage(data.reason, cache);
+    const way = parseInt(data.way, 10);
 
     if (way === 0) {
-      const { Permissions } = this.getDBM().DiscordJS
-      const tempPermissions = new Permissions()
-      tempPermissions.add(role.permissions)
+      const { Permissions } = this.getDBM().DiscordJS;
+      const tempPermissions = new Permissions();
+      tempPermissions.add(role.permissions);
       if (permissions.allow) {
-        tempPermissions.add(permissions.allow)
+        tempPermissions.add(permissions.allow);
       }
       if (permissions.disallow) {
-        tempPermissions.remove(permissions.disallow)
+        tempPermissions.remove(permissions.disallow);
       }
-      permissions = tempPermissions
+      permissions = tempPermissions;
     } else {
-      permissions = permissions.allow
+      permissions = permissions.allow;
     }
 
-    role.setPermissions(permissions, reason).then(() => {
-      this.callNextAction(cache)
-    }).catch(this.displayError.bind(this, data, cache))
+    role
+      .setPermissions(permissions, reason)
+      .then(() => {
+        this.callNextAction(cache);
+      })
+      .catch(this.displayError.bind(this, data, cache));
   },
 
-  mod () {}
-}
+  mod() {},
+};

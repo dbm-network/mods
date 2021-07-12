@@ -1,37 +1,21 @@
 {
   "$schema": "https://json.schemastore.org/eslintrc",
   "env": {
-    "commonjs": true,
-    "es6": true,
-    "node": true
-  },
-  "extends": [
-    "standard"
-  ],
-  "globals": {
-    "alert": "readonly",
-    "Atomics": "readonly",
-    "Audio": "readonly",
-    "cache": "readonly",
-    "member": "readonly",
-    "process": "readonly",
-    "server": "readonly",
-    "SharedArrayBuffer": "readonly"
+    "browser": true
   },
   "parserOptions": {
     "ecmaVersion": 2019
   },
+  "extends": "aqua/prettier/node",
+  "ignorePatterns": ["node_modules/*"],
   "rules": {
-    "linebreak-style": 2,
-    "no-case-declarations": 0,
+    "func-name-matching": 0,
+    "no-alert": 0,
+    "no-catch-shadow": 0,
     "no-eval": 0,
-    "no-new": 0,
-    "no-prototype-builtins": 0,
+    "no-negated-condition": 0,
     "no-useless-constructor": 0,
-    "object-shorthand": [
-      2,
-      "always"
-    ],
-    "prefer-promise-reject-errors": 0
+    "prefer-destructuring": 0,
+    "prefer-rest-params": 0
   }
 }

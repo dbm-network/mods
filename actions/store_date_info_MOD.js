@@ -2,59 +2,70 @@ module.exports = {
   name: 'Store Date Info',
   section: 'Other Stuff',
 
-  subtitle (data) {
-    const info = ['Day of the Week', 'Month of the Year', 'Unix Timestamp', '', 'Day Number', 'Year', 'Full Time', 'Hour', 'Month Number', 'Minute', 'Second', 'Timezone']
-    return `Store ${info[parseInt(data.info)]} from Date`
+  subtitle(data) {
+    const info = [
+      'Day of the Week',
+      'Month of the Year',
+      'Unix Timestamp',
+      '',
+      'Day Number',
+      'Year',
+      'Full Time',
+      'Hour',
+      'Month Number',
+      'Minute',
+      'Second',
+      'Timezone',
+    ];
+    return `Store ${info[parseInt(data.info, 10)]} from Date`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    const info = parseInt(data.info)
-    let dataType = 'Unknown Type'
-    switch (info) {
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    let dataType = 'Unknown Type';
+    switch (parseInt(data.info, 10)) {
       case 0:
-        dataType = 'String'
-        break
+        dataType = 'String';
+        break;
       case 1:
-        dataType = 'String'
-        break
+        dataType = 'String';
+        break;
       case 2:
-        dataType = 'Number'
-        break
+        dataType = 'Number';
+        break;
       case 4:
-        dataType = 'Number'
-        break
+        dataType = 'Number';
+        break;
       case 5:
-        dataType = 'Number'
-        break
+        dataType = 'Number';
+        break;
       case 6:
-        dataType = 'String'
-        break
+        dataType = 'String';
+        break;
       case 7:
-        dataType = 'Number'
-        break
+        dataType = 'Number';
+        break;
       case 8:
-        dataType = 'Number'
-        break
+        dataType = 'Number';
+        break;
       case 9:
-        dataType = 'Number'
-        break
+        dataType = 'Number';
+        break;
       case 10:
-        dataType = 'Number'
-        break
+        dataType = 'Number';
+        break;
       case 11:
-        dataType = 'String'
-        break
+        dataType = 'String';
+        break;
       default:
-        break
+        break;
     }
-    return ([data.varName, dataType])
+    return [data.varName, dataType];
   },
 
   fields: ['date', 'info', 'storage', 'varName'],
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
 <div style="padding-top: 8px;">
   Source Date:<br>
@@ -86,84 +97,86 @@ module.exports = {
 <div id="varNameContainer" style="float: right; display: none; width: 60%; padding-top: 8px;">
   Variable Name:<br>
   <input id="varName" class="round" type="text">
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer')
+  init() {
+    const { glob, document } = this;
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const date = this.evalMessage(data.date, cache)
-    const info = parseInt(data.info)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const date = this.evalMessage(data.date, cache);
+    const info = parseInt(data.info, 10);
     if (isNaN(Date.parse(date))) {
-      console.log('Invalid Date ! Check that your date is valid. A Date generally looks like the one stored in "Creation Date" of a server. (variables works)')
-      this.callNextAction(cache)
+      console.log(
+        'Invalid Date ! Check that your date is valid. A Date generally looks like the one stored in "Creation Date" of a server. (variables works)',
+      );
+      this.callNextAction(cache);
     }
 
-    let result
+    let result;
     switch (info) {
       case 0:
-        result = date.slice(0, 3)
-        break
+        result = date.slice(0, 3);
+        break;
       case 1:
-        result = date.slice(4, 7)
-        break
+        result = date.slice(4, 7);
+        break;
       case 2:
-        result = parseInt(Date.parse(date) / 1000)
-        break
+        result = parseInt(Date.parse(date) / 1000, 10);
+        break;
       case 4:
-        result = parseInt(date.slice(8, 10))
-        break
+        result = parseInt(date.slice(8, 10), 10);
+        break;
       case 5:
-        result = parseInt(date.slice(11, 15))
-        break
+        result = parseInt(date.slice(11, 15), 10);
+        break;
       case 6:
-        result = date.slice(16, 24)
-        break
+        result = date.slice(16, 24);
+        break;
       case 7:
-        result = (date.slice(16, 18))
-        break
+        result = date.slice(16, 18);
+        break;
       case 8:
-        result = date.slice(4, 7)
-        if (result === 'Jan') result = 1
-        if (result === 'Feb') result = 2
-        if (result === 'Mar') result = 3
-        if (result === 'Apr') result = 4
-        if (result === 'May') result = 5
-        if (result === 'Jun') result = 6
-        if (result === 'Jul') result = 7
-        if (result === 'Aug') result = 8
-        if (result === 'Sep') result = 9
-        if (result === 'Oct') result = 10
-        if (result === 'Nov') result = 11
-        if (result === 'Dec') result = 12
+        result = date.slice(4, 7);
+        if (result === 'Jan') result = 1;
+        if (result === 'Feb') result = 2;
+        if (result === 'Mar') result = 3;
+        if (result === 'Apr') result = 4;
+        if (result === 'May') result = 5;
+        if (result === 'Jun') result = 6;
+        if (result === 'Jul') result = 7;
+        if (result === 'Aug') result = 8;
+        if (result === 'Sep') result = 9;
+        if (result === 'Oct') result = 10;
+        if (result === 'Nov') result = 11;
+        if (result === 'Dec') result = 12;
         if (result === date.slice(4, 7)) {
-          console.log('An error occurred on "Store Date Info (Month Number)"')
-          this.callNextAction(cache)
+          console.log('An error occurred on "Store Date Info (Month Number)"');
+          this.callNextAction(cache);
         }
-        break
+        break;
       case 9:
-        result = date.slice(19, 21)
-        break
+        result = date.slice(19, 21);
+        break;
       case 10:
-        result = date.slice(22, 24)
-        break
+        result = date.slice(22, 24);
+        break;
       case 11:
-        result = `GMT${date.slice(28, 29)}${parseInt(date.slice(29, 33)) / 100}`
-        break
+        result = `GMT${date.slice(28, 29)}${parseInt(date.slice(29, 33), 10) / 100}`;
+        break;
       default:
-        break
+        break;
     }
     if (result !== undefined) {
-      const storage = parseInt(data.storage)
-      const varName = this.evalMessage(data.varName, cache)
-      this.storeValue(result, storage, varName, cache)
+      const storage = parseInt(data.storage, 10);
+      const varName = this.evalMessage(data.varName, cache);
+      this.storeValue(result, storage, varName, cache);
     }
-    this.callNextAction(cache)
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

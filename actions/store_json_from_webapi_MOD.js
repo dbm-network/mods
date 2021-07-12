@@ -2,30 +2,18 @@ module.exports = {
   name: 'Store Json From WebAPI',
   section: 'JSON Things',
 
-  subtitle (data) {
-    return `${data.varName}`
+  subtitle(data) {
+    return `${data.varName}`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    return [data.varName, 'JSON Object']
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName, 'JSON Object'];
   },
 
-  fields: [
-    'token',
-    'user',
-    'pass',
-    'url',
-    'path',
-    'storage',
-    'varName',
-    'debugMode',
-    'headers',
-    'reUse'
-  ],
+  fields: ['token', 'user', 'pass', 'url', 'path', 'storage', 'varName', 'debugMode', 'headers', 'reUse'],
 
-  html (isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
   <div style="float: left; width: 95%;">
@@ -86,200 +74,184 @@ module.exports = {
     <text style="font-size: 60%;">Enables printing to console, disable to remove all messages. Turn on to see errors.</text>
   </div>
 </div>
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer')
+  init() {
+    const { glob, document } = this;
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
 
-    glob.checkBox = function (element, type) {
+    glob.checkBox = function checkBox(element, type) {
       if (type === 'auth') {
-        document.getElementById('authSection').style.display = element.checked
-          ? ''
-          : 'none'
-        document.getElementById('showAuth').value = element.checked ? '1' : '0'
+        document.getElementById('authSection').style.display = element.checked ? '' : 'none';
+        document.getElementById('showAuth').value = element.checked ? '1' : '0';
       }
-    }
+    };
 
-    glob.disallowAlert = function (element) {
+    glob.disallowAlert = function disallowAlert(element) {
       if (element.value === '0') {
-        alert(
-          'Disabling this could lead to you being banned or rate limited by APIs, please be careful.'
-        )
+        alert('Disabling this could lead to you being banned or rate limited by APIs, please be careful.');
       }
-    }
+    };
 
-    glob.checkBox(document.getElementById('toggleAuth'), 'auth')
+    glob.checkBox(document.getElementById('toggleAuth'), 'auth');
   },
 
-  async action (cache) {
-    const data = cache.actions[cache.index]
-    const Actions = this.getDBM().Actions
-    const Mods = this.getMods()
-    const fetch = Mods.require('node-fetch')
-    const debugMode = parseInt(data.debugMode)
-    const storage = parseInt(data.storage)
-    const varName = this.evalMessage(data.varName, cache)
-    let url = this.evalMessage(data.url, cache)
-    const path = this.evalMessage(data.path, cache)
-    const token = this.evalMessage(data.token, cache)
-    const user = this.evalMessage(data.user, cache)
-    const reUse = parseInt(data.reUse)
-    const pass = this.evalMessage(data.pass, cache)
-    const headers = this.evalMessage(data.headers, cache)
+  async action(cache) {
+    const data = cache.actions[cache.index];
+    const { Actions } = this.getDBM();
+    const Mods = this.getMods();
+    const fetch = Mods.require('node-fetch');
+    const debugMode = parseInt(data.debugMode, 10);
+    const storage = parseInt(data.storage, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    let url = this.evalMessage(data.url, cache);
+    const path = this.evalMessage(data.path, cache);
+    const token = this.evalMessage(data.token, cache);
+    const user = this.evalMessage(data.user, cache);
+    const reUse = parseInt(data.reUse, 10);
+    const pass = this.evalMessage(data.pass, cache);
+    const headers = this.evalMessage(data.headers, cache);
 
     // if it fails the check, try to re-encode the url
     if (!Mods.checkURL(url)) {
-      url = encodeURI(url)
+      url = encodeURI(url);
     }
 
     if (Mods.checkURL(url)) {
       try {
         // eslint-disable-next-line no-inner-declarations
-        function storeData (error, res, jsonData) {
-          const statusCode = res ? res.statusCode : 200
-          let errorJson
+        function storeData(error, res, jsonData) {
+          const statusCode = res ? res.statusCode : 200;
+          let errorJson;
           if (error) {
-            errorJson = JSON.stringify({ error, statusCode })
-            Actions.storeValue(errorJson, storage, varName, cache)
+            errorJson = JSON.stringify({ error, statusCode });
+            Actions.storeValue(errorJson, storage, varName, cache);
 
             if (debugMode) {
-              console.error(
-                `WebAPI: Error: ${errorJson} stored to: [${varName}]`
-              )
+              console.error(`WebAPI: Error: ${errorJson} stored to: [${varName}]`);
             }
           } else if (path) {
-            const outData = Mods.jsonPath(jsonData, path)
+            const outData = Mods.jsonPath(jsonData, path);
 
-            if (debugMode) console.dir(outData)
+            if (debugMode) console.dir(outData);
 
             try {
-              JSON.parse(JSON.stringify(outData))
+              JSON.parse(JSON.stringify(outData));
             } catch (error) {
-              errorJson = JSON.stringify({ error, statusCode, success: false })
-              Actions.storeValue(errorJson, storage, varName, cache)
-              if (debugMode) console.error(error.stack ? error.stack : error)
+              errorJson = JSON.stringify({ error, statusCode, success: false });
+              Actions.storeValue(errorJson, storage, varName, cache);
+              if (debugMode) console.error(error.stack ? error.stack : error);
             }
 
-            const outValue = eval(JSON.stringify(outData), cache)
+            const outValue = eval(JSON.stringify(outData), cache);
 
             if (!outData) {
               errorJson = JSON.stringify({
                 error: 'No JSON Data Returned',
-                statusCode: 0
-              })
-              Actions.storeValue(errorJson, storage, varName, cache)
+                statusCode: 0,
+              });
+              Actions.storeValue(errorJson, storage, varName, cache);
               if (debugMode) {
-                console.error(
-                  `WebAPI: Error: ${errorJson} NO JSON data returned. Check the URL: ${url}`
-                )
+                console.error(`WebAPI: Error: ${errorJson} NO JSON data returned. Check the URL: ${url}`);
               }
+              // eslint-disable-next-line no-eq-null
             } else if (outData.success != null) {
-              errorJson = JSON.stringify({ error, statusCode, success: false })
-              Actions.storeValue(errorJson, storage, varName, cache)
+              errorJson = JSON.stringify({ error, statusCode, success: false });
+              Actions.storeValue(errorJson, storage, varName, cache);
               if (debugMode) {
-                console.log(
-                  `WebAPI: Error Invalid JSON, is the Path and/or URL set correctly? [${path}]`
-                )
+                console.log(`WebAPI: Error Invalid JSON, is the Path and/or URL set correctly? [${path}]`);
               }
+              // eslint-disable-next-line no-eq-null
             } else if (outValue.success != null || !outValue) {
-              errorJson = JSON.stringify({ error, statusCode, success: false })
-              Actions.storeValue(errorJson, storage, varName, cache)
+              errorJson = JSON.stringify({ error, statusCode, success: false });
+              Actions.storeValue(errorJson, storage, varName, cache);
               if (debugMode) {
-                console.log(
-                  `WebAPI: Error Invalid JSON, is the Path and/or URL set correctly? [${path}]`
-                )
+                console.log(`WebAPI: Error Invalid JSON, is the Path and/or URL set correctly? [${path}]`);
               }
             } else {
-              Actions.storeValue(outValue, storage, varName, cache)
-              Actions.storeValue(jsonData, 1, url, cache)
-              Actions.storeValue(url, 1, `${url}_URL`, cache)
+              Actions.storeValue(outValue, storage, varName, cache);
+              Actions.storeValue(jsonData, 1, url, cache);
+              Actions.storeValue(url, 1, `${url}_URL`, cache);
               if (debugMode) {
-                console.log(
-                  `WebAPI: JSON Data values starting from [${path}] stored to: [${varName}]`
-                )
+                console.log(`WebAPI: JSON Data values starting from [${path}] stored to: [${varName}]`);
               }
             }
           } else {
-            if (debugMode) console.dir(jsonData)
-            Actions.storeValue(jsonData, storage, varName, cache)
-            Actions.storeValue(jsonData, 1, url, cache)
-            Actions.storeValue(url, 1, `${url}_URL`, cache)
-            if (debugMode) { console.log(`WebAPI: JSON Data Object stored to: [${varName}]`) }
+            if (debugMode) console.dir(jsonData);
+            Actions.storeValue(jsonData, storage, varName, cache);
+            Actions.storeValue(jsonData, 1, url, cache);
+            Actions.storeValue(url, 1, `${url}_URL`, cache);
+            if (debugMode) {
+              console.log(`WebAPI: JSON Data Object stored to: [${varName}]`);
+            }
           }
-          Actions.callNextAction(cache)
+          Actions.callNextAction(cache);
         }
 
-        const oldUrl = this.getVariable(1, `${url}_URL`, cache)
+        const oldUrl = this.getVariable(1, `${url}_URL`, cache);
 
         if (url === oldUrl && reUse === 1) {
-          let jsonData
-          let error
-          const res = { statusCode: 200 }
+          let jsonData;
+          let error;
+          const res = { statusCode: 200 };
 
           try {
-            jsonData = this.getVariable(1, url, cache)
+            jsonData = this.getVariable(1, url, cache);
           } catch (err) {
-            error = err
+            error = err;
           }
 
           if (debugMode) {
             console.log(
-              'WebAPI: Using previously stored json data from the initial store json action within this command.'
-            )
+              'WebAPI: Using previously stored json data from the initial store json action within this command.',
+            );
           }
 
-          storeData(error, res, jsonData)
+          storeData(error, res, jsonData);
         } else {
-          const setHeaders = {}
+          const setHeaders = {};
 
           // set default required header
-          setHeaders['User-Agent'] = 'Other'
+          setHeaders['User-Agent'] = 'Other';
 
           // Because headers are a dictionary ;)
           if (headers) {
-            const lines = String(headers).split('\n')
+            const lines = String(headers).split('\n');
             for (let i = 0; i < lines.length; i++) {
-              const header = lines[i].split(':')
+              const header = lines[i].split(':');
 
               if (lines[i].includes(':') && header.length > 0) {
-                const key = header[0] || 'Unknown'
-                const value = header[1] || 'Unknown'
-                setHeaders[key] = value
+                const key = header[0] || 'Unknown';
+                const value = header[1] || 'Unknown';
+                setHeaders[key] = value;
 
-                if (debugMode) console.log(`Applied Header: ${lines[i]}`)
-              } else {
-                if (debugMode) {
-                  console.error(
-                    `WebAPI: Error: Custom Header line ${lines[i]} is wrongly formatted. You must split the key from the value with a colon (:)`
-                  )
-                }
+                if (debugMode) console.log(`Applied Header: ${lines[i]}`);
+              } else if (debugMode) {
+                console.error(
+                  `WebAPI: Error: Custom Header line ${lines[i]} is wrongly formatted. You must split the key from the value with a colon (:)`,
+                );
               }
             }
           }
-          if (token) setHeaders.Authorization = `Bearer ${token}`
+          if (token) setHeaders.Authorization = `Bearer ${token}`;
           if (user && pass) {
-            setHeaders.Authorization = `Basic ${Buffer.from(
-              user + ':' + pass
-            ).toString('base64')}`
+            setHeaders.Authorization = `Basic ${Buffer.from(`${user}:${pass}`).toString('base64')}`;
           }
 
           try {
-            const response = await fetch(url, { headers: setHeaders })
-            const json = await response.json()
-            storeData('', response, json)
+            const response = await fetch(url, { headers: setHeaders });
+            const json = await response.json();
+            storeData('', response, json);
           } catch (err) {
-            if (debugMode) console.error(err.stack || err)
+            if (debugMode) console.error(err.stack || err);
           }
         }
       } catch (err) {
-        if (debugMode) console.error(err.stack || err)
+        if (debugMode) console.error(err.stack || err);
       }
-    } else {
-      if (debugMode) console.error(`URL [${url}] Is Not Valid`)
-    }
+    } else if (debugMode) console.error(`URL [${url}] Is Not Valid`);
   },
 
-  mod () {}
-}
+  mod() {},
+};

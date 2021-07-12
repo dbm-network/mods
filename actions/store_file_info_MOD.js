@@ -2,41 +2,42 @@ module.exports = {
   name: 'Store File Info',
   section: 'File Stuff',
 
-  subtitle (data) {
-    return `Store File Info - ${data.info}`
+  subtitle(data) {
+    return `Store File Info - ${data.info}`;
   },
 
   fields: ['filePath', 'info', 'storage', 'varName'],
 
-  variableStorage (data, varType) {
-    if (data.storage !== varType) return
-    let dataType = 'Unknown type'
+  variableStorage(data, varType) {
+    if (data.storage !== varType) return;
+    let dataType = 'Unknown type';
     switch (data.info) {
       case 'File Size':
-        dataType = 'Number'
-        break
+        dataType = 'Number';
+        break;
       case 'File Extension':
-        dataType = 'String'
-        break
+        dataType = 'String';
+        break;
       case 'File Character Count':
-        dataType = 'Number'
-        break
+        dataType = 'Number';
+        break;
       case 'File Creation Date Timestamp':
-        dataType = 'Timestamp'
-        break
+        dataType = 'Timestamp';
+        break;
       case 'File Exists':
-        dataType = 'Boolean'
-        break
+        dataType = 'Boolean';
+        break;
       case 'File Content':
-        dataType = 'String'
-        break
+        dataType = 'String';
+        break;
       case 'File Name':
-        dataType = 'String'
-        break
+        dataType = 'String';
+        break;
     }
-    return ([data.varName, dataType])
+    return [data.varName, dataType];
   },
-  html (isEvent, data) {
+
+  html(_isEvent, data) {
     return `
 File path (example: <strong>./bot.js</strong>):
 <input class='round' id='filePath' /><br>
@@ -55,49 +56,49 @@ Store in:<br>
   ${data.variables[0]}
 </select><br>
 Variable name:<br>
-<input class='round' id='varName' />`
+<input class='round' id='varName' />`;
   },
 
-  init () {},
+  init() {},
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const storage = parseInt(data.storage)
-    const info = data.info
-    const path = require('path')
-    const fs = require('fs')
-    const varName = this.evalMessage(data.varName, cache)
-    const filePath = this.evalMessage(data.filePath, cache)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const storage = parseInt(data.storage, 10);
+    const { info } = data;
+    const path = require('path');
+    const fs = require('fs');
+    const varName = this.evalMessage(data.varName, cache);
+    const filePath = this.evalMessage(data.filePath, cache);
 
-    if (!filePath) return this.displayError('Insert a file path!')
+    if (!filePath) return this.displayError('Insert a file path!');
 
-    let result
+    let result;
     switch (info) {
       case 'File Size':
-        result = fs.statSync(filePath).size
-        break
+        result = fs.statSync(filePath).size;
+        break;
       case 'File Extension':
-        result = path.extname(/[^/]*$/.exec(filePath)[0])
-        break
+        result = path.extname(/[^/]*$/.exec(filePath)[0]);
+        break;
       case 'File Character Count':
-        result = fs.readFileSync(filePath).toString().length
-        break
+        result = fs.readFileSync(filePath).toString().length;
+        break;
       case 'File Creation Date Timestamp':
-        result = fs.statSync(filePath).mtimeMs
-        break
+        result = fs.statSync(filePath).mtimeMs;
+        break;
       case 'File Exists':
-        result = fs.existsSync(filePath)
-        break
+        result = fs.existsSync(filePath);
+        break;
       case 'File Content':
-        result = fs.readFileSync(filePath).toString()
-        break
+        result = fs.readFileSync(filePath).toString();
+        break;
       case 'File Name':
-        result = path.basename(filePath)
-        break
+        result = path.basename(filePath);
+        break;
     }
-    this.storeValue(result, storage, varName, cache)
-    this.callNextAction(cache)
+    this.storeValue(result, storage, varName, cache);
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

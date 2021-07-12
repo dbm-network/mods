@@ -2,14 +2,20 @@ module.exports = {
   name: 'Check Parameters',
   section: 'Conditions',
 
-  subtitle (data) {
-    const results = ['Continue Actions', 'Stop Action Sequence', 'Jump To Action', 'Jump Forward Actions', 'Jump to Anchor']
-    return `If True: ${results[parseInt(data.iftrue)]} ~ If False: ${results[parseInt(data.iffalse)]}`
+  subtitle(data) {
+    const results = [
+      'Continue Actions',
+      'Stop Action Sequence',
+      'Jump To Action',
+      'Jump Forward Actions',
+      'Jump to Anchor',
+    ];
+    return `If True: ${results[parseInt(data.iftrue, 10)]} ~ If False: ${results[parseInt(data.iffalse, 10)]}`;
   },
 
   fields: ['condition', 'comparison', 'value', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal'],
 
-  html (isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div>
   <p>This action has been modified by DBM Mods.</p>
@@ -39,117 +45,121 @@ module.exports = {
 </div><br><br><br>
 <div style="padding-top: 8px;">
   ${data.conditions[0]}
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
-    const option = document.createElement('OPTION')
-    option.value = '4'
-    option.text = 'Jump to Anchor'
-    const iffalse = document.getElementById('iffalse')
-    if (iffalse.length === 4) iffalse.add(option)
+  init() {
+    const { glob, document } = this;
+    const option = document.createElement('OPTION');
+    option.value = '4';
+    option.text = 'Jump to Anchor';
+    const iffalse = document.getElementById('iffalse');
+    if (iffalse.length === 4) iffalse.add(option);
 
-    const option2 = document.createElement('OPTION')
-    option2.value = '4'
-    option2.text = 'Jump to Anchor'
-    const iftrue = document.getElementById('iftrue')
-    if (iftrue.length === 4) iftrue.add(option2)
+    const option2 = document.createElement('OPTION');
+    option2.value = '4';
+    option2.text = 'Jump to Anchor';
+    const iftrue = document.getElementById('iftrue');
+    if (iftrue.length === 4) iftrue.add(option2);
 
-    glob.onChangeTrue = function (event) {
-      switch (parseInt(event.value)) {
+    glob.onChangeTrue = function onChangeTrue(event) {
+      switch (parseInt(event.value, 10)) {
         case 0:
         case 1:
-          document.getElementById('iftrueContainer').style.display = 'none'
-          break
+          document.getElementById('iftrueContainer').style.display = 'none';
+          break;
         case 2:
-          document.getElementById('iftrueName').innerHTML = 'Action Number'
-          document.getElementById('iftrueContainer').style.display = null
-          break
+          document.getElementById('iftrueName').innerHTML = 'Action Number';
+          document.getElementById('iftrueContainer').style.display = null;
+          break;
         case 3:
-          document.getElementById('iftrueName').innerHTML = 'Number of Actions to Skip'
-          document.getElementById('iftrueContainer').style.display = null
-          break
+          document.getElementById('iftrueName').innerHTML = 'Number of Actions to Skip';
+          document.getElementById('iftrueContainer').style.display = null;
+          break;
         case 4:
-          document.getElementById('iftrueName').innerHTML = 'Anchor ID'
-          document.getElementById('iftrueContainer').style.display = null
-          break
+          document.getElementById('iftrueName').innerHTML = 'Anchor ID';
+          document.getElementById('iftrueContainer').style.display = null;
+          break;
+        default:
+          break;
       }
-    }
-    glob.onChangeFalse = function (event) {
-      switch (parseInt(event.value)) {
+    };
+    glob.onChangeFalse = function onChangeFalse(event) {
+      switch (parseInt(event.value, 10)) {
         case 0:
         case 1:
-          document.getElementById('iffalseContainer').style.display = 'none'
-          break
+          document.getElementById('iffalseContainer').style.display = 'none';
+          break;
         case 2:
-          document.getElementById('iffalseName').innerHTML = 'Action Number'
-          document.getElementById('iffalseContainer').style.display = null
-          break
+          document.getElementById('iffalseName').innerHTML = 'Action Number';
+          document.getElementById('iffalseContainer').style.display = null;
+          break;
         case 3:
-          document.getElementById('iffalseName').innerHTML = 'Number of Actions to Skip'
-          document.getElementById('iffalseContainer').style.display = null
-          break
+          document.getElementById('iffalseName').innerHTML = 'Number of Actions to Skip';
+          document.getElementById('iffalseContainer').style.display = null;
+          break;
         case 4:
-          document.getElementById('iffalseName').innerHTML = 'Anchor ID'
-          document.getElementById('iffalseContainer').style.display = null
-          break
+          document.getElementById('iffalseName').innerHTML = 'Anchor ID';
+          document.getElementById('iffalseContainer').style.display = null;
+          break;
+        default:
+          break;
       }
-    }
-    glob.onChangeTrue(document.getElementById('iftrue'))
-    glob.onChangeFalse(document.getElementById('iffalse'))
+    };
+    glob.onChangeTrue(document.getElementById('iftrue'));
+    glob.onChangeFalse(document.getElementById('iffalse'));
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const { msg } = cache
-    let result = false
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const { msg } = cache;
+    let result = false;
 
     if (msg && msg.content.length > 0) {
-      const condition = parseInt(data.condition)
-      let value = 0
+      const condition = parseInt(data.condition, 10);
+      let value = 0;
       switch (condition) {
         case 0:
-          value = msg.content.split(/\s+/).length - 1
-          break
+          value = msg.content.split(/\s+/).length - 1;
+          break;
         case 1:
-          value = msg.mentions.members.array().length
-          break
+          value = msg.mentions.members.array().length;
+          break;
         case 2:
-          value = msg.mentions.channels.array().length
-          break
+          value = msg.mentions.channels.array().length;
+          break;
         case 3:
-          value = msg.mentions.roles.array().length
-          break
+          value = msg.mentions.roles.array().length;
+          break;
         default:
-          break
+          break;
       }
 
-      const comparison = parseInt(data.comparison)
-      const value2 = parseInt(data.value)
+      const comparison = parseInt(data.comparison, 10);
+      const value2 = parseInt(data.value, 10);
       switch (comparison) {
         case 0:
           // eslint-disable-next-line eqeqeq
-          result = value == value2
-          break
+          result = value == value2;
+          break;
         case 1:
-          result = value < value2
-          break
+          result = value < value2;
+          break;
         case 2:
-          result = value > value2
-          break
+          result = value > value2;
+          break;
         case 3:
-          result = value >= value2
-          break
+          result = value >= value2;
+          break;
         case 4:
-          result = value <= value2
-          break
+          result = value <= value2;
+          break;
         default:
-          break
+          break;
       }
     }
-    this.executeResults(result, data, cache)
+    this.executeResults(result, data, cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

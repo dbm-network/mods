@@ -2,15 +2,22 @@ module.exports = {
   name: 'Set Member Voice Channel Perms',
   section: 'Channel Control',
 
-  subtitle (data) {
-    const names = ["Command Author's Voice Ch.", "Mentioned User's Voice Ch.", 'Default Voice Channel', 'Temp Variable', 'Server Variable', 'Global Variable']
-    const index = parseInt(data.vchannel)
-    return index < 3 ? `${names[index]}` : `${names[index]} - ${data.varName}`
+  subtitle(data) {
+    const names = [
+      "Command Author's Voice Ch.",
+      "Mentioned User's Voice Ch.",
+      'Default Voice Channel',
+      'Temp Variable',
+      'Server Variable',
+      'Global Variable',
+    ];
+    const index = parseInt(data.vchannel, 10);
+    return index < 3 ? `${names[index]}` : `${names[index]} - ${data.varName}`;
   },
 
   fields: ['vchannel', 'varName', 'member', 'varName2', 'permission', 'state'],
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
 <div>
   <div style="float: left; width: 35%;">
@@ -51,38 +58,41 @@ module.exports = {
       <option value="2">Disallow</option>
     </select>
   </div>
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
-    glob.voiceChannelChange(document.getElementById('vchannel'), 'varNameContainer')
-    glob.memberChange(document.getElementById('member'), 'varNameContainer2')
+  init() {
+    const { glob, document } = this;
+    glob.voiceChannelChange(document.getElementById('vchannel'), 'varNameContainer');
+    glob.memberChange(document.getElementById('member'), 'varNameContainer2');
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const storage = parseInt(data.vchannel)
-    const varName = this.evalMessage(data.varName, cache)
-    const channel = this.getChannel(storage, varName, cache)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const storage = parseInt(data.vchannel, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    const channel = this.getChannel(storage, varName, cache);
 
-    const storage2 = parseInt(data.member)
-    const varName2 = this.evalMessage(data.varName2, cache)
-    const member = this.getMember(storage2, varName2, cache)
+    const storage2 = parseInt(data.member, 10);
+    const varName2 = this.evalMessage(data.varName2, cache);
+    const member = this.getMember(storage2, varName2, cache);
 
-    const options = {}
-    options[data.permission] = data.state === '0' ? true : (data.state === '2' ? false : null)
+    const options = {};
+    options[data.permission] = data.state === '0' ? true : data.state === '2' ? false : null;
     if (member && member.id) {
       if (channel && channel.updateOverwrite) {
-        channel.updateOverwrite(member.id, options).then(() => {
-          this.callNextAction(cache)
-        }).catch(this.displayError.bind(this, data, cache))
+        channel
+          .updateOverwrite(member.id, options)
+          .then(() => {
+            this.callNextAction(cache);
+          })
+          .catch(this.displayError.bind(this, data, cache));
       } else {
-        this.callNextAction(cache)
+        this.callNextAction(cache);
       }
     }
-    this.callNextAction(cache)
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

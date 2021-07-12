@@ -2,13 +2,13 @@ module.exports = {
   name: 'Set Embed Footer',
   section: 'Embed Message',
 
-  subtitle (data) {
-    return `${data.message}`
+  subtitle(data) {
+    return `${data.message}`;
   },
 
   fields: ['storage', 'varName', 'message', 'footerIcon'],
 
-  html (isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div>
   <div style="float: left; width: 35%;">
@@ -29,26 +29,26 @@ module.exports = {
 <div style="float: left; width: 104.1%;">
   Footer Icon URL:<br>
   <input id="footerIcon" class="round" type="text" placeholder="Leave blank for none!"><br>
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
+  init() {
+    const { glob, document } = this;
 
-    glob.refreshVariableList(document.getElementById('storage'))
+    glob.refreshVariableList(document.getElementById('storage'));
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const storage = parseInt(data.storage)
-    const varName = this.evalMessage(data.varName, cache)
-    const embed = this.getVariable(storage, varName, cache)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const storage = parseInt(data.storage, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    const embed = this.getVariable(storage, varName, cache);
 
     if (embed && embed.setFooter) {
-      embed.setFooter(this.evalMessage(data.message, cache), this.evalMessage(data.footerIcon, cache))
+      embed.setFooter(this.evalMessage(data.message, cache), this.evalMessage(data.footerIcon, cache));
     }
-    this.callNextAction(cache)
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

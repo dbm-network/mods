@@ -2,19 +2,18 @@ module.exports = {
   name: 'Merge Lists',
   section: 'Lists and Loops',
 
-  subtitle () {
-    return 'Merge two lists together'
+  subtitle() {
+    return 'Merge two lists together';
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage3)
-    if (type !== varType) return
-    return ([data.varName3, 'Unknown Type'])
+  variableStorage(data, varType) {
+    if (parseInt(data.storage3, 10) !== varType) return;
+    return [data.varName3, 'Unknown Type'];
   },
 
   fields: ['storage', 'varName', 'storage2', 'varName2', 'varName3', 'storage3'],
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
 <div>
   <div style="float: left; width: 35%;">
@@ -52,38 +51,38 @@ module.exports = {
     Variable Name:<br>
     <input id="varName3" class="round" type="text">
   </div>
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
+  init() {
+    const { glob, document } = this;
 
-    glob.listChange(document.getElementById('storage'), 'varNameContainer')
-    glob.listChange(document.getElementById('storage2'), 'varNameContainer')
-    glob.variableChange(document.getElementById('storage3'), 'varNameContainer3')
+    glob.listChange(document.getElementById('storage'), 'varNameContainer');
+    glob.listChange(document.getElementById('storage2'), 'varNameContainer');
+    glob.variableChange(document.getElementById('storage3'), 'varNameContainer3');
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
+  action(cache) {
+    const data = cache.actions[cache.index];
 
-    const varName = this.evalMessage(data.varName, cache)
-    const storage = parseInt(data.storage)
-    const list = this.getList(storage, varName, cache)
+    const varName = this.evalMessage(data.varName, cache);
+    const storage = parseInt(data.storage, 10);
+    const list = this.getList(storage, varName, cache);
 
-    const varName2 = this.evalMessage(data.varName2, cache)
-    const storage2 = parseInt(data.storage2)
-    const list2 = this.getList(storage2, varName2, cache)
+    const varName2 = this.evalMessage(data.varName2, cache);
+    const storage2 = parseInt(data.storage2, 10);
+    const list2 = this.getList(storage2, varName2, cache);
 
-    const result = list.concat(list2)
+    const result = list.concat(list2);
 
     if (result) {
-      const varName3 = this.evalMessage(data.varName3, cache)
-      const storage3 = parseInt(data.storage3)
-      this.storeValue(result, storage3, varName3, cache)
+      const varName3 = this.evalMessage(data.varName3, cache);
+      const storage3 = parseInt(data.storage3, 10);
+      this.storeValue(result, storage3, varName3, cache);
     }
 
-    this.callNextAction(cache)
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

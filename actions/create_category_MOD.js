@@ -2,19 +2,18 @@ module.exports = {
   name: 'Create Category Channel',
   section: 'Channel Control',
 
-  subtitle (data) {
-    return `${data.channelName}`
+  subtitle(data) {
+    return `${data.channelName}`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    return ([data.varName, 'Channel'])
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName, 'Channel'];
   },
 
   fields: ['channelName', 'position', 'storage', 'varName'],
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
 Name:<br>
 <input id="channelName" class="round" type="text"><br>
@@ -33,30 +32,31 @@ Name:<br>
     Variable Name:<br>
     <input id="varName" class="round" type="text" style="width: 90%"><br>
   </div>
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer')
+  init() {
+    const { glob, document } = this;
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const { server } = cache
-    if (!this.dest(server, 'channels', 'create')) return this.callnextAction(cache)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const { server } = cache;
+    if (!this.dest(server, 'channels', 'create')) return this.callnextAction(cache);
 
-    const name = this.evalMessage(data.channelName, cache)
-    const position = parseInt(data.position)
-    const storage = parseInt(data.storage)
-    server.channels.create(name, { type: 'category', position }).then((channel) => {
-      const varName = this.evalMessage(data.varName, cache)
-      this.storeValue(channel, storage, varName, cache)
-      this.callNextAction(cache)
-    })
-      .catch(this.displayError.bind(this, data, cache))
+    const name = this.evalMessage(data.channelName, cache);
+    const position = parseInt(data.position, 10);
+    const storage = parseInt(data.storage, 10);
+    server.channels
+      .create(name, { type: 'category', position })
+      .then((channel) => {
+        const varName = this.evalMessage(data.varName, cache);
+        this.storeValue(channel, storage, varName, cache);
+        this.callNextAction(cache);
+      })
+      .catch(this.displayError.bind(this, data, cache));
   },
 
-  mod () {}
-
-}
+  mod() {},
+};

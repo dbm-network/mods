@@ -2,19 +2,18 @@ module.exports = {
   name: 'Find Reaction',
   section: 'Reaction Control',
 
-  subtitle (data) {
-    return `${data.find}`
+  subtitle(data) {
+    return `${data.find}`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    return ([data.varName2, 'Reaction'])
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName2, 'Reaction'];
   },
 
   fields: ['message', 'varName', 'info', 'find', 'storage', 'varName2'],
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
 <div>
   <div style="float: left; width: 35%;">
@@ -52,42 +51,42 @@ module.exports = {
     Variable Name:<br>
     <input id="varName2" class="round" type="text">
   </div>
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
-    glob.messageChange(document.getElementById('message'), 'varNameContainer')
+  init() {
+    const { glob, document } = this;
+    glob.messageChange(document.getElementById('message'), 'varNameContainer');
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const message = parseInt(data.message)
-    const varName = this.evalMessage(data.varName, cache)
-    const msg = this.getMessage(message, varName, cache)
-    const info = parseInt(data.info)
-    const emoji = this.evalMessage(data.find, cache)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const message = parseInt(data.message, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    const msg = this.getMessage(message, varName, cache);
+    const info = parseInt(data.info, 10);
+    const emoji = this.evalMessage(data.find, cache);
 
-    let result
+    let result;
     switch (info) {
       case 0:
-        result = msg.reactions.cache.get(emoji)
-        break
+        result = msg.reactions.cache.get(emoji);
+        break;
       case 1:
-        result = msg.reactions.cache.find((r) => r.emoji.name === emoji)
-        break
+        result = msg.reactions.cache.find((r) => r.emoji.name === emoji);
+        break;
       default:
-        break
+        break;
     }
 
-    if (result === undefined) return this.callNextAction(cache)
-    const storage = parseInt(data.storage)
-    const varName2 = this.evalMessage(data.varName2, cache)
+    if (result === undefined) return this.callNextAction(cache);
+    const storage = parseInt(data.storage, 10);
+    const varName2 = this.evalMessage(data.varName2, cache);
     result.fetch().then((react) => {
-      this.storeValue(react, storage, varName2, cache)
-      this.callNextAction(cache)
-    })
+      this.storeValue(react, storage, varName2, cache);
+      this.callNextAction(cache);
+    });
   },
 
-  mod () {}
-}
+  mod() {},
+};

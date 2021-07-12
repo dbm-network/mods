@@ -2,18 +2,18 @@ module.exports = {
   name: 'Convert to Base64',
   section: 'Other Stuff',
 
-  subtitle () {
-    return 'Convert To Base64'
+  subtitle() {
+    return 'Convert To Base64';
   },
 
-  variableStorage (data, varType) {
-    if (parseInt(data.storage) !== varType) return
-    return ([data.varName, 'String'])
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName, 'String'];
   },
 
   fields: ['input', 'info', 'storage', 'varName'],
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
 <div style="width: 90%;">
   Text or Morse Code:<br>
@@ -37,32 +37,32 @@ module.exports = {
     Variable Name:<br>
     <input id="varName" class="round" type="text">
   </div>
-</div>`
+</div>`;
   },
 
-  init () {},
+  init() {},
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const storage = parseInt(data.storage)
-    const info = parseInt(data.info)
-    const varName = this.evalMessage(data.varName, cache)
-    const input = this.evalMessage(data.input, cache)
-    let result
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const storage = parseInt(data.storage, 10);
+    const info = parseInt(data.info, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    const input = this.evalMessage(data.input, cache);
+    let result;
 
     switch (info) {
       case 0:
-        result = Buffer.from(input).toString('base64')
-        break
+        result = Buffer.from(input).toString('base64');
+        break;
       case 1:
-        result = Buffer.from(input, 'base64').toString()
-        break
+        result = Buffer.from(input, 'base64').toString();
+        break;
       default:
-        break
+        break;
     }
-    this.storeValue(result, storage, varName, cache)
-    this.callNextAction(cache)
+    this.storeValue(result, storage, varName, cache);
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};
