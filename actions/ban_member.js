@@ -57,7 +57,7 @@ This action has been modified by DBM Mods.<br>
         document.getElementById(container).childNodes[0].nodeValue = 'Variable Name:';
       }
       glob.memberChange(element, container);
-    }
+    };
 
     glob.user(document.getElementById('member'), 'varNameContainer');
     glob.serverChange(document.getElementById('guild'), 'varNameContainer2');

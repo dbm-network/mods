@@ -90,7 +90,7 @@ module.exports = {
 
   action(cache) {
     const { server } = cache;
-    if (!server) return this.callNextAction(cache);
+    if (!server?.channels) return this.callNextAction(cache);
     const data = cache.actions[cache.index];
     const info = parseInt(data.info, 10);
     const find = this.evalMessage(data.find, cache);

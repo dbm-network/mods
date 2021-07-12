@@ -451,7 +451,7 @@ module.exports = {
             sequelize
               .query(query, {
                 type:
-                  Object.keys(Sequelize.QueryTypes).find((type) => query.toUpperCase().startsWith(type)) ||
+                  Object.keys(Sequelize.QueryTypes).find((type) => query.toUpperCase().startsWith(type)) ??
                   Sequelize.QueryTypes.RAW,
               })
               .then((results) => {
@@ -499,7 +499,7 @@ module.exports = {
                 this.callNextAction(cache);
               })
               .catch((err) => {
-                if (err && err.original) {
+                if (err?.original) {
                   this.storeValue({ message: err.original, error: err.original }, storage, varName, cache);
                   console.error(err.original);
                   this.callNextAction(cache);
