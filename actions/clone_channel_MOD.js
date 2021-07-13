@@ -178,7 +178,7 @@ module.exports = {
         rateLimitPerUser: data.slowmode === 1 ? channel.slowmode : 0,
       });
     }
-    
+
     channel
       .clone(options)
       .then(async (newChannel) => {
