@@ -27,6 +27,6 @@
     "strictPropertyInitialization": true,
     "target": "ES2020"
   },
-  "include": ["**/*.ts"],
+  "include": ["**/*.ts", "typings/globals.d.ts"],
   "exclude": ["node_modules"]
 }
