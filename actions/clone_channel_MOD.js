@@ -178,15 +178,17 @@ module.exports = {
         rateLimitPerUser: data.slowmode === 1 ? channel.slowmode : 0,
       });
     }
-
+    
     channel
       .clone(options)
-      .then((clonedChannel) => clonedChannel.setPosition(data.position === 1 ? channel.position : 0))
-      .then((newChannel) => {
+      .then(async (newChannel) => {
+        if (data.position === 1) {
+          newChannel = await newChannel.setPosition(data.position === 1 ? channel.position : 0);
+        }
         const storage2 = parseInt(data.storage2, 10);
         const varName2 = this.evalMessage(data.varName2, cache);
         this.storeValue(newChannel, storage2, varName2, cache);
-        this.callNextAction(cache);
+        return this.callNextAction(cache);
       })
       .catch(this.displayError.bind(this, data, cache));
   },
