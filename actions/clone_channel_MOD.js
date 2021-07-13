@@ -183,7 +183,7 @@ module.exports = {
       .clone(options)
       .then(async (newChannel) => {
         if (data.position === 1) {
-          await newChannel.setPosition(data.position === 1 ? channel.position : 0);
+          await newChannel.setPosition(channel.position);
         }
         const storage2 = parseInt(data.storage2, 10);
         const varName2 = this.evalMessage(data.varName2, cache);
