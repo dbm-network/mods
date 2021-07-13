@@ -157,6 +157,11 @@ module.exports = {
     const varName = this.evalMessage(data.varName, cache);
     const channel = this.getChannel(storage, varName, cache);
 
+    if (!server || !channel) {
+      console.log(`${server ? 'channel' : 'server'} could not be found! Clone Channel MOD.`);
+      return this.callNextAction(cache);
+    }
+
     const options = {
       permissionOverwrites: data.permission === 1 ? channel.permissionOverwrites : [],
       parent: data.categoryID ? parseInt(this.evalMessage(data.categoryID, cache), 10) : null,
@@ -174,21 +179,16 @@ module.exports = {
       });
     }
 
-    if (server && channel) {
-      channel
-        .clone(options)
-        .then((clonedChannel) => clonedChannel.setPosition(data.position === 1 ? channel.position : 0))
-        .then((newChannel) => {
-          const storage2 = parseInt(data.storage2, 10);
-          const varName2 = this.evalMessage(data.varName2, cache);
-          this.storeValue(newChannel, storage2, varName2, cache);
-          this.callNextAction(cache);
-        })
-        .catch(this.displayError.bind(this, data, cache));
-    } else {
-      console.log(`${server ? 'channel' : 'server'} could not be found! Clone Channel MOD.`);
-      this.callNextAction(cache);
-    }
+    channel
+      .clone(options)
+      .then((clonedChannel) => clonedChannel.setPosition(data.position === 1 ? channel.position : 0))
+      .then((newChannel) => {
+        const storage2 = parseInt(data.storage2, 10);
+        const varName2 = this.evalMessage(data.varName2, cache);
+        this.storeValue(newChannel, storage2, varName2, cache);
+        this.callNextAction(cache);
+      })
+      .catch(this.displayError.bind(this, data, cache));
   },
 
   mod() {},
