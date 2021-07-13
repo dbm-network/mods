@@ -18,6 +18,8 @@
     "no-negated-condition": 0,
     "no-useless-constructor": 0,
     "prefer-destructuring": 0,
-    "prefer-rest-params": 0
+    "prefer-rest-params": 0,
+    "@typescript-eslint/explicit-member-accessibility": 0,
+    "@typescript-eslint/no-extraneous-class": 0
   }
 }

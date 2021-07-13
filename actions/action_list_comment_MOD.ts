@@ -1,33 +1,34 @@
+import type { Action, Actions, ActionCache } from '../typings/globals';
 interface SubtitleData {
   color: string;
   comment: string;
 }
 
-module.exports = {
-  name: 'Comment',
-  section: 'Other Stuff',
+export class CommentAction implements Action {
+  static section = 'Other Stuff';
+  static fields = ['comment', 'color'];
 
-  subtitle(data: SubtitleData) {
+  static subtitle(data: SubtitleData) {
     return `<font color="${data.color}">${data.comment}</font>`;
-  },
+  }
 
-  fields: ['comment', 'color'],
-
-  html() {
+  static html() {
     return `
-<div style="float: left; width: 99%;">
-  Text Color:<br>
-  <input type="color" id="color"><br>
-  Comment To Show: (Supports some HTML Tags)<br>
-  <input id="comment" class="round" type="text"><br>
-</div>`;
-  },
+      <div style="float: left; width: 99%;">
+        Text Color:<br>
+        <input type="color" id="color"><br>
+        Comment To Show: (Supports some HTML Tags)<br>
+        <input id="comment" class="round" type="text"><br>
+      </div>`;
+  }
 
-  init() {},
+  static init() {}
 
-  action(cache: any) {
+  static action(this: Actions, cache: ActionCache) {
     this.callNextAction(cache);
-  },
+  }
 
-  mod() {},
-};
+  static mod() {}
+}
+
+Object.defineProperty(CommentAction, 'name', { value: 'Comment' });
