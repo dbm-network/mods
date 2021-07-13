@@ -1,8 +1,13 @@
+interface SubtitleData {
+  color: string;
+  comment: string;
+}
+
 module.exports = {
   name: 'Comment',
   section: 'Other Stuff',
 
-  subtitle(data) {
+  subtitle(data: SubtitleData) {
     return `<font color="${data.color}">${data.comment}</font>`;
   },
 
@@ -20,7 +25,7 @@ module.exports = {
 
   init() {},
 
-  action(cache) {
+  action(cache: any) {
     this.callNextAction(cache);
   },
 
