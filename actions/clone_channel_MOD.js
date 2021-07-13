@@ -157,22 +157,21 @@ module.exports = {
     const varName = this.evalMessage(data.varName, cache);
     const channel = this.getChannel(storage, varName, cache);
 
-    let options;
+    const options = {
+      permissionOverwrites: data.permission === 1 ? channel.permissionOverwrites : [],
+      parent: data.categoryID ? parseInt(this.evalMessage(data.categoryID, cache), 10) : null,
+    };
     if (channel.type === 'voice') {
-      options = {
-        permissionOverwrites: data.permission === 1 ? channel.permissionOverwrites : [],
+      Object.assign(options, {
         userLimit: data.userLimit === 1 ? channel.userLimit : 0,
         bitrate: data.bitrate === 1 ? channel.bitrate : 64,
-        parent: data.categoryID ? parseInt(this.evalMessage(data.categoryID, cache), 10) : null,
-      };
+      });
     } else if (channel.type === 'text') {
-      options = {
-        permissionOverwrites: data.permission === 1 ? channel.permissionOverwrites : [],
+      Object.assign(options, {
         nsfw: data.nsfw === 1 ? channel.nsfw : false,
         topic: data.topic === 1 ? channel.topic : undefined,
         rateLimitPerUser: data.slowmode === 1 ? channel.slowmode : 0,
-        parent: data.categoryID ? cache.server.channels.cache.get(this.evalMessage(data.categoryID, cache)) : null,
-      };
+      });
     }
 
     if (server && channel) {
