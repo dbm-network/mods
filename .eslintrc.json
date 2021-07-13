@@ -4,11 +4,13 @@
     "browser": true
   },
   "parserOptions": {
-    "ecmaVersion": 2019
+    "ecmaVersion": 2019,
+    "project": "./tsconfig.eslint.json"
   },
-  "extends": "aqua/prettier/node",
-  "ignorePatterns": ["node_modules/*"],
+  "extends": "marine/prettier/node",
+  "ignorePatterns": ["dist/*", "node_modules/*"],
   "rules": {
+    "@typescript-eslint/no-empty-function": 0,
     "func-name-matching": 0,
     "no-alert": 0,
     "no-catch-shadow": 0,
