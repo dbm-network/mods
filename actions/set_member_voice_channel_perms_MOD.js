@@ -80,8 +80,8 @@ module.exports = {
     const options = {};
     options[data.permission] = data.state === '0' ? true : data.state === '2' ? false : null;
 
-    if (!member || !member.id) return this.callNextAction(cache);
-    if (!channel || !channel.updateOverwrite) return this.callNextAction(cache);
+    if (!member) return this.callNextAction(cache);
+    if (!channel) return this.callNextAction(cache);
 
     return channel
       .updateOverwrite(member.id, options)
