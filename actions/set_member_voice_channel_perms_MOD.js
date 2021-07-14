@@ -88,7 +88,10 @@ module.exports = {
       .then(() => {
         this.callNextAction(cache);
       })
-      .catch(this.displayError.bind(this, data, cache));
+      .catch(() => {
+        this.displayError.bind(this, data, cache);
+        this.callNextAction(cache);
+      });
   },
 
   mod() {},
