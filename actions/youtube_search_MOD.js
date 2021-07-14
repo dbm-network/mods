@@ -363,140 +363,138 @@ module.exports = {
           return console.error('Please provide a valid api key for YouTube Search Playlist.');
 
         const YouTube = new YTapi(apikey);
-        YouTube.searchPlaylists(input, results)
-          .then((playlists) => {
-            let result;
-            const playlist = playlists[results - 1];
-            if (!playlist) return Actions.callNextAction(cache);
+        const playlists = await YouTube.searchPlaylists(input, results);
 
-            switch (info1) {
-              case 0: // Playlist ID
-                result = playlist.id;
-                break;
-              case 1: // Playlist URL
-                result = `https://www.youtube.com/playlist?list=${playlist.id}`;
-                break;
-              case 2: // Playlist Name
-                result = playlist.title
-                  .replace(/&quot;/g, '"')
-                  .replace(/&amp;/g, '&')
-                  .replace(/&#39;/g, "'");
-                break;
-              case 3: // Playlist Description
-                result = playlist.description
-                  .replace(/&quot;/g, '"')
-                  .replace(/&amp;/g, '&')
-                  .replace(/&#39;/g, "'");
-                break;
-              case 4: // Playlist Thumbnail URL (Default)
-                result = playlist.thumbnails.default.url;
-                break;
-              case 5: // Playlist Thumbnail URL (Medium)
-                result = playlist.thumbnails.default.medium;
-                break;
-              case 6: // Playlist Thumbnail URL (High)
-                result = playlist.thumbnails.default.high;
-                break;
-              case 7: // Playlist Channel ID
-                result = playlist.channel.id;
-                break;
-              case 8: // Playlist Channel URL
-                result = `https://www.youtube.com/channel/${playlist.channel.id}`;
-                break;
-              case 9: // Playlist Channel Name
-                result = playlist.channel.title;
-                break;
-              case 10: // Playlist Channel Thumbnail URL (Default)
-                result = playlist.channel.raw.snippet.thumbnails.default.url;
-                break;
-              case 11: // Playlist Channel Thumbnail URL (Medium)
-                result = playlist.channel.raw.snippet.thumbnails.medium.url;
-                break;
-              case 12: // Playlist Channel Thumbnail URL (High)
-                result = playlist.channel.raw.snippet.thumbnails.high.url;
-                break;
-              default:
-                playlist.getVideos().then((videos) => {
-                  const result2 = [];
-                  videos.forEach((video, pos) => {
-                    switch (info1) {
-                      case 13: // Video IDs
-                        result2.push(video.id);
-                        break;
-                      case 14: // Video URLs
-                        result2.push(`https://www.youtube.com/watch?v=${video.id}`);
-                        break;
-                      case 15: // Video Titles
-                        result2.push(
-                          video.title
-                            .replace(/&quot;/g, '"')
-                            .replace(/&amp;/g, '&')
-                            .replace(/&#39;/g, "'"),
-                        );
-                        break;
-                      case 16: // Video Descriptions
-                        result2.push(
-                          video.description
-                            .replace(/&quot;/g, '"')
-                            .replace(/&amp;/g, '&')
-                            .replace(/&#39;/g, "'"),
-                        );
-                        break;
-                      case 17: // Video Channel IDs
-                        result2.push(video.channel.id);
-                        break;
-                      case 18: // Video Channel URLs
-                        result2.push(`https://www.youtube.com/channel/${video.channel.id}`);
-                        break;
-                      case 19: // Video Channel Names
-                        result2.push(video.channel.title);
-                        break;
-                      case 20: // Video Channel Thumbnail URLs (Default)
-                        result2.push(video.channel.raw.snippet.thumbnails.default.url);
-                        break;
-                      case 21: // Video Channel Thumbnail URLs (Medium)
-                        result2.push(video.channel.raw.snippet.thumbnails.medium.url);
-                        break;
-                      case 22: // Video Channel Thumbnail URLs (High)
-                        result2.push(video.channel.raw.snippet.thumbnails.high.url);
-                        break;
-                      case 23: // Video Thumbnail URLs (Default)
-                        result2.push(video.thumbnails.default.url);
-                        break;
-                      case 24: // Video Thumbnail URLs (Medium)
-                        result2.push(video.thumbnails.medium.url);
-                        break;
-                      case 25: // Video Thumbnail URLs (High)
-                        result2.push(video.thumbnails.high.url);
-                        break;
-                      case 26: // Video Positions
-                        result2.push(pos + 1);
-                        break;
-                      case 27: // Video Publish Dates
-                        result2.push(video.publishedAt);
-                        break;
-                      default:
-                        console.error('Please check your YouTube Search action... There is something wrong.');
-                        break;
-                    }
-                  });
-                  if (result2.length > 0) {
-                    const storage = parseInt(data.storage, 10);
-                    const varName = Actions.evalMessage(data.varName, cache);
-                    Actions.storeValue(result2, storage, varName, cache);
-                    Actions.callNextAction(cache);
-                  }
-                });
-                break;
-            }
-            if (result !== undefined) {
+        let result;
+        const playlist = playlists[results - 1];
+        if (!playlist) return Actions.callNextAction(cache);
+
+        switch (info1) {
+          case 0: // Playlist ID
+            result = playlist.id;
+            break;
+          case 1: // Playlist URL
+            result = `https://www.youtube.com/playlist?list=${playlist.id}`;
+            break;
+          case 2: // Playlist Name
+            result = playlist.title
+              .replace(/&quot;/g, '"')
+              .replace(/&amp;/g, '&')
+              .replace(/&#39;/g, "'");
+            break;
+          case 3: // Playlist Description
+            result = playlist.description
+              .replace(/&quot;/g, '"')
+              .replace(/&amp;/g, '&')
+              .replace(/&#39;/g, "'");
+            break;
+          case 4: // Playlist Thumbnail URL (Default)
+            result = playlist.thumbnails.default.url;
+            break;
+          case 5: // Playlist Thumbnail URL (Medium)
+            result = playlist.thumbnails.default.medium;
+            break;
+          case 6: // Playlist Thumbnail URL (High)
+            result = playlist.thumbnails.default.high;
+            break;
+          case 7: // Playlist Channel ID
+            result = playlist.channel.id;
+            break;
+          case 8: // Playlist Channel URL
+            result = `https://www.youtube.com/channel/${playlist.channel.id}`;
+            break;
+          case 9: // Playlist Channel Name
+            result = playlist.channel.title;
+            break;
+          case 10: // Playlist Channel Thumbnail URL (Default)
+            result = playlist.channel.raw.snippet.thumbnails.default.url;
+            break;
+          case 11: // Playlist Channel Thumbnail URL (Medium)
+            result = playlist.channel.raw.snippet.thumbnails.medium.url;
+            break;
+          case 12: // Playlist Channel Thumbnail URL (High)
+            result = playlist.channel.raw.snippet.thumbnails.high.url;
+            break;
+          default: {
+            const videos = await playlist.getVideos();
+            const result2 = [];
+            videos.forEach((video, pos) => {
+              switch (info1) {
+                case 13: // Video IDs
+                  result2.push(video.id);
+                  break;
+                case 14: // Video URLs
+                  result2.push(`https://www.youtube.com/watch?v=${video.id}`);
+                  break;
+                case 15: // Video Titles
+                  result2.push(
+                    video.title
+                      .replace(/&quot;/g, '"')
+                      .replace(/&amp;/g, '&')
+                      .replace(/&#39;/g, "'"),
+                  );
+                  break;
+                case 16: // Video Descriptions
+                  result2.push(
+                    video.description
+                      .replace(/&quot;/g, '"')
+                      .replace(/&amp;/g, '&')
+                      .replace(/&#39;/g, "'"),
+                  );
+                  break;
+                case 17: // Video Channel IDs
+                  result2.push(video.channel.id);
+                  break;
+                case 18: // Video Channel URLs
+                  result2.push(`https://www.youtube.com/channel/${video.channel.id}`);
+                  break;
+                case 19: // Video Channel Names
+                  result2.push(video.channel.title);
+                  break;
+                case 20: // Video Channel Thumbnail URLs (Default)
+                  result2.push(video.channel.raw.snippet.thumbnails.default.url);
+                  break;
+                case 21: // Video Channel Thumbnail URLs (Medium)
+                  result2.push(video.channel.raw.snippet.thumbnails.medium.url);
+                  break;
+                case 22: // Video Channel Thumbnail URLs (High)
+                  result2.push(video.channel.raw.snippet.thumbnails.high.url);
+                  break;
+                case 23: // Video Thumbnail URLs (Default)
+                  result2.push(video.thumbnails.default.url);
+                  break;
+                case 24: // Video Thumbnail URLs (Medium)
+                  result2.push(video.thumbnails.medium.url);
+                  break;
+                case 25: // Video Thumbnail URLs (High)
+                  result2.push(video.thumbnails.high.url);
+                  break;
+                case 26: // Video Positions
+                  result2.push(pos + 1);
+                  break;
+                case 27: // Video Publish Dates
+                  result2.push(video.publishedAt);
+                  break;
+                default:
+                  console.error('Please check your YouTube Search action... There is something wrong.');
+                  break;
+              }
+            });
+            if (result2.length > 0) {
               const storage = parseInt(data.storage, 10);
               const varName = Actions.evalMessage(data.varName, cache);
-              Actions.storeValue(result, storage, varName, cache);
-              Actions.callNextAction(cache);
+              Actions.storeValue(result2, storage, varName, cache);
+              return Actions.callNextAction(cache);
             }
-          })
-          .catch(console.error);
+            break;
+          }
+        }
+        if (result !== undefined) {
+          const storage = parseInt(data.storage, 10);
+          const varName = Actions.evalMessage(data.varName, cache);
+          Actions.storeValue(result, storage, varName, cache);
+          return Actions.callNextAction(cache);
+        }
         break;
       }
       default:
