@@ -79,6 +79,8 @@ declare interface Actions {
   exists(action: Action): boolean;
   getLocalFile(url: string): string;
   getDBM(): DBM;
+  anchorJump(id: any, cache: ActionCache): void;
+  anchorExist(id: any, cache: ActionCache): boolean;
   callListFunc(list: Array, funcName: unknown, args: Array): Promise<any>;
   getActionVariable(name: string, defaultValue: any): unknown;
   eval(content: string, cache: ActionCache): any;

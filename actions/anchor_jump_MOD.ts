@@ -1,8 +1,15 @@
-module.exports = {
-  name: 'Jump to Anchor',
-  section: 'Other Stuff',
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+import type { Action, ActionCache, Actions, DBM } from '../typings/globals';
 
-  subtitle(data) {
+interface SubtitleData {
+  [key: string]: string;
+}
+
+export class AnchorJump implements Action {
+  static section: 'Other Stuff';
+  static fields: ['description', 'jump_to_anchor', 'color'];
+
+  static subtitle(data: SubtitleData) {
     return data.description
       ? `<font color="${data.color}">${data.description}</font>`
       : `Jump to ${
@@ -10,11 +17,9 @@ module.exports = {
             ? `the "<font color="${data.color}">${data.jump_to_anchor}</font>" anchor in your command if it exists!`
             : 'an anchor!'
         }`;
-  },
+  }
 
-  fields: ['description', 'jump_to_anchor', 'color'],
-
-  html() {
+  static html() {
     return `
 <div>
   <p>
@@ -36,29 +41,31 @@ module.exports = {
   Description:<br>
   <input type="text" class="round" id="description"><br>
 </div>`;
-  },
+  }
 
-  init() {},
+  static init() {}
 
-  action(cache) {
+  static action(this: Actions, cache: ActionCache) {
     const id = this.evalMessage(cache.actions[cache.index].jump_to_anchor, cache);
     this.anchorJump(id, cache);
-  },
+  }
 
-  mod(DBM) {
+  static mod(DBM: DBM) {
     DBM.Actions.anchorJump = function anchorJump(id, cache) {
-      const anchorIndex = cache.actions.findIndex((a) => a.name === 'Create Anchor' && a.anchor_id === id);
+      const anchorIndex = cache.actions.findIndex((a: any) => a.name === 'Create Anchor' && a.anchor_id === id);
       if (anchorIndex === -1) throw new Error('There was not an anchor found with that exact anchor ID!');
       cache.index = anchorIndex - 1;
       this.callNextAction(cache);
     };
 
     DBM.Actions.anchorExist = function anchorExist(id, cache) {
-      const anchorIndex = cache.actions.findIndex((a) => a.name === 'Create Anchor' && a.anchor_id === id);
+      const anchorIndex = cache.actions.findIndex((a: any) => a.name === 'Create Anchor' && a.anchor_id === id);
       if (anchorIndex === -1) {
         return false;
       }
       return true;
     };
-  },
-};
+  }
+}
+
+Object.defineProperty(AnchorJump, 'name', { value: 'Jump to Anchor' });

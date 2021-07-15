@@ -1,8 +1,15 @@
-module.exports = {
-  name: 'Create Anchor',
-  section: 'Other Stuff',
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+import type { Action, ActionCache, Actions } from '../typings/globals';
 
-  subtitle(data) {
+interface SubtitleData {
+  [key: string]: string;
+}
+
+export class CreateAnchor implements Action {
+  static fields: ['anchor_id', 'color', 'description'];
+  static section: 'Other Stuff';
+
+  static subtitle(data: SubtitleData) {
     return data.description
       ? `<font color="${data.color}">${data.description}</font>`
       : `Create ${
@@ -10,11 +17,9 @@ module.exports = {
             ? `the "<font color="${data.color}">${data.anchor_id}</font>" anchor at the current position!`
             : 'an anchor!'
         }`;
-  },
+  }
 
-  fields: ['anchor_id', 'color', 'description'],
-
-  html() {
+  static html() {
     return `
 <div>
   <p>
@@ -37,13 +42,15 @@ module.exports = {
     <input type="text" class="round" id="description">
   </div>
 </div>`;
-  },
+  }
 
-  init() {},
+  static init() {}
 
-  action(cache) {
+  static action(this: Actions, cache: ActionCache) {
     this.callNextAction(cache);
-  },
+  }
 
-  mod() {},
-};
+  static mod() {}
+}
+
+Object.defineProperty(CreateAnchor, 'name', { value: 'Create Anchor' });
