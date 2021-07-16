@@ -6,8 +6,8 @@ interface SubtitleData {
 }
 
 export class AnchorJump implements Action {
-  static section: 'Other Stuff';
-  static fields: ['description', 'jump_to_anchor', 'color'];
+  static section = 'Other Stuff';
+  static fields = ['description', 'jump_to_anchor', 'color'];
 
   static subtitle(data: SubtitleData) {
     return data.description
