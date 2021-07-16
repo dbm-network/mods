@@ -6,8 +6,8 @@ interface SubtitleData {
 }
 
 export class CreateAnchor implements Action {
-  static fields: ['anchor_id', 'color', 'description'];
-  static section: 'Other Stuff';
+  static fields = ['anchor_id', 'color', 'description'];
+  static section = 'Other Stuff';
 
   static subtitle(data: SubtitleData) {
     return data.description
