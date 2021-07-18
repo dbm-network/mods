@@ -121,6 +121,7 @@ export class WeatherAction implements Action {
           );
           return this.callNextAction(cache);
         }
+
         let result: any;
         switch (info) {
           case 0:
@@ -203,6 +204,10 @@ export class WeatherAction implements Action {
         }
         const storage = parseInt(data.storage, 10);
         this.storeValue(result, storage, this.evalMessage(data.varName, cache), cache);
+      })
+      .catch((e: Error) => {
+        this.displayError(data, cache, e);
+        this.callNextAction(cache);
       });
   }
 }
