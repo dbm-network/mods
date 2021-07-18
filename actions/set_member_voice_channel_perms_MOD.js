@@ -85,9 +85,7 @@ module.exports = {
 
     return channel
       .updateOverwrite(member.id, options)
-      .then(() => {
-        this.callNextAction(cache);
-      })
+      .then(() => this.callNextAction(cache))
       .catch(() => {
         this.displayError.bind(this, data, cache);
         this.callNextAction(cache);
