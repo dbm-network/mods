@@ -42,7 +42,7 @@ declare interface Bot {
   /**
    * Preforms some basic initialization.
    */
-  private init(): void;
+  init(): void;
   /**
    * Creates a new Discord Client and saves it to `DBM.Bot.bot`
    */
@@ -74,11 +74,14 @@ declare interface Actions {
   server: DiscordJS.Guild;
   global: unknown;
   timeStamps: Array;
+  glob: any;
+  document: any;
 
   // Methods
   exists(action: Action): boolean;
   getLocalFile(url: string): string;
   getDBM(): DBM;
+  getMods(): Mods;
   anchorJump(id: any, cache: ActionCache): void;
   anchorExist(id: any, cache: ActionCache): boolean;
   callListFunc(list: Array, funcName: unknown, args: Array): Promise<any>;
@@ -189,6 +192,18 @@ declare interface DBM {
   Audio: Audio;
 }
 
+declare interface Mods {
+  DBM: DBM | null;
+  installModule(moduleName: string): Promise<any>;
+  require(moduleName: string): any;
+  checkURL(url: string): boolean;
+  jsonPath(obj: any, expr: string, arg: any): string | undefined;
+  getWebhook(type: number, varName: string, cache: ActionCache): any;
+  getReaction(type: number, varName: string, cache: ActionCache): any;
+  getEmoji(type: number, varName: string, cache: ActionCache): any;
+  setupMusic(DBM: DBM): void;
+}
+
 declare interface DBM_GUILD_MEMBER extends DiscordJS.GuildMember {
   unban(server: DiscordJS.Guild, reason: string);
   data(name, defaultValue);
@@ -253,7 +268,7 @@ declare class Action {
   static fields: Array<string>;
   static subtitle(data: any): string;
   static html(isEvent?: any, data?): string;
-  static init(): void;
+  static init(this: Actions): void;
   static action(this: Actions, cache: ActionCache): void;
   static mod(DBM?: DBM): void;
 }

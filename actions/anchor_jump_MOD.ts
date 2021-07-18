@@ -60,10 +60,7 @@ export class AnchorJump implements Action {
 
     DBM.Actions.anchorExist = function anchorExist(id, cache) {
       const anchorIndex = cache.actions.findIndex((a: any) => a.name === 'Create Anchor' && a.anchor_id === id);
-      if (anchorIndex === -1) {
-        return false;
-      }
-      return true;
+      return anchorIndex !== -1;
     };
   }
 }

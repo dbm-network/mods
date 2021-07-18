@@ -1,8 +1,32 @@
-module.exports = {
-  name: 'Weather',
-  section: 'Other Stuff',
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+import type { Action, ActionCache, Actions } from '../typings/globals';
 
-  subtitle(data) {
+interface SubtitleData {
+  storage: string;
+  varName: string;
+  city: string;
+  degreeType: string;
+  info: string;
+}
+
+interface WeatherStatus {
+  temperature: string;
+  skytext: string;
+  date: string;
+  observationpoint: string;
+  windspeed: string;
+  winddisplay: string;
+  humidity: string;
+  feelslike: string;
+  imageUrl: string;
+  day: string;
+}
+
+export class WeatherAction implements Action {
+  static section = 'Other Stuff';
+  static fields = ['city', 'degreeType', 'info', 'storage', 'varName'];
+
+  static subtitle(data: SubtitleData) {
     const info = [
       'Temperature',
       'Weather Text',
@@ -12,57 +36,14 @@ module.exports = {
       'Wind Speed',
       'Wind Direction',
       'Humidity',
-      'Feelslike',
+      'Feels Like',
       'Image URL',
       'Current Day',
     ];
     return `${info[parseInt(data.info, 10)]}`;
-  },
+  }
 
-  variableStorage(data, varType) {
-    if (parseInt(data.storage, 10) !== varType) return;
-    let dataType = 'Unknown Weather Type';
-    switch (parseInt(data.info, 10)) {
-      case 0:
-        dataType = 'Temperature';
-        break;
-      case 1:
-        dataType = 'Weather - Text';
-        break;
-      case 2:
-        dataType = 'Date';
-        break;
-      case 3:
-        dataType = 'Weather - City';
-        break;
-      case 4:
-        dataType = 'Weather - Country';
-        break;
-      case 6:
-        dataType = 'Wind Speed';
-        break;
-      case 8:
-        dataType = 'Wind Direction';
-        break;
-      case 9:
-        dataType = 'Atmosphere Humidity';
-        break;
-      case 14:
-        dataType = 'Feelslike';
-        break;
-      case 15:
-        dataType = 'Image URL';
-        break;
-      case 16:
-        dataType = 'Current Day';
-        break;
-    }
-    return [data.varName, dataType];
-  },
-
-  fields: ['city', 'degreeType', 'info', 'storage', 'varName'],
-
-  html(isEvent, data) {
+  static html(_isEvent: any, data: any) {
     return `
 <div style="float: left; width: 55%; padding-top: 8px;">
   Source City:<br>
@@ -79,7 +60,7 @@ module.exports = {
   Source Info:<br>
   <select id="info" class="round">
     <option value="0">Temperature</option>
-    <option value="14">Feelslike</option>
+    <option value="14">Feels Like</option>
     <option value="1">Weather Text</option>
     <option value="2">Date</option>
     <option value="3">City</option>
@@ -103,79 +84,75 @@ module.exports = {
     <input id="varName" class="round" type="text"><br>
   </div>
 </div>`;
-  },
+  }
 
-  init() {
+  static init(this: Actions) {
     const { glob, document } = this;
     glob.variableChange(document.getElementById('storage'), 'varNameContainer');
-  },
+  }
 
-  action(cache) {
+  static action(this: Actions, cache: ActionCache) {
     const data = cache.actions[cache.index];
     const info = parseInt(data.info, 10);
     const city = this.evalMessage(data.city, cache);
     const degreeType2 = this.evalMessage(data.degreeType, cache);
     const { Actions } = this.getDBM();
 
-    if (!city) return console.error('Please specify a city to get weather information.');
+    if (!city) {
+      console.error('Please specify a city to get weather information.');
+      return this.callNextAction(cache);
+    }
 
     const Mods = this.getMods();
     const weather = Mods.require('weather-js');
 
-    weather.find({ search: city, degreeType: degreeType2 }, (err, response) => {
-      if (err || !response || response.length < 1) {
-        const storage = parseInt(data.storage, 10);
-        const varName2 = Actions.evalMessage(data.varName, cache);
-        Actions.storeValue(undefined, storage, varName2, cache);
-        Actions.callNextAction(cache);
-      }
-      let result;
-
+    weather.find({ search: city, degreeType: degreeType2 }, (err: Error | null, response: any) => {
+      if (err || !response?.[0]) return Actions.callNextAction(cache);
+      const currentWeather: WeatherStatus = response[0].current;
+      let result: string | null = null;
       switch (info) {
         case 0:
-          result = response[0].current.temperature;
+          result = currentWeather.temperature;
           break;
         case 1:
-          result = response[0].current.skytext;
+          result = currentWeather.skytext;
           break;
         case 2:
-          result = response[0].current.date;
+          result = currentWeather.date;
           break;
         case 3:
           result = response[0].location.name;
           break;
         case 4:
-          result = response[0].current.observationpoint;
+          result = currentWeather.observationpoint;
           break;
         case 6:
-          result = response[0].current.windspeed;
+          result = currentWeather.windspeed;
           break;
         case 8:
-          result = response[0].current.winddisplay;
+          result = currentWeather.winddisplay;
           break;
         case 9:
-          result = response[0].current.humidity;
+          result = currentWeather.humidity;
           break;
         case 14:
-          result = response[0].current.feelslike;
+          result = currentWeather.feelslike;
           break;
         case 15:
-          result = response[0].current.imageUrl;
+          result = currentWeather.imageUrl;
           break;
         case 16:
-          result = response[0].current.day;
+          result = currentWeather.day;
           break;
         default:
           break;
       }
-      if (result !== undefined) {
+      if (result) {
         const storage = parseInt(data.storage, 10);
         const varName2 = Actions.evalMessage(data.varName, cache);
         Actions.storeValue(result, storage, varName2, cache);
       }
       Actions.callNextAction(cache);
     });
-  },
-
-  mod() {},
-};
+  }
+}
