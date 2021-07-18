@@ -113,7 +113,7 @@ export class WeatherAction implements Action {
     fetch(`https://fnrr.dev/weather/${encodeURI(city)}`)
       .then((result: any) => result.json())
       .then((data: any) => {
-        if (data?.error !== undefined) {
+        if (data?.error) {
           console.error(
             `Weather Action: There was an error while fetching the weather info: ${
               typeof data.error === 'string' ? data.error : data?.message
