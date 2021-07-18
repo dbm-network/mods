@@ -109,7 +109,7 @@ export class WeatherAction implements Action {
     weather.find({ search: city, degreeType: degreeType2 }, (err: Error | null, response: any) => {
       if (err || !response?.[0]) return Actions.callNextAction(cache);
       const currentWeather: WeatherStatus = response[0].current;
-      let result: string | null = null;
+      let result: string | undefined;
       switch (info) {
         case 0:
           result = currentWeather.temperature;
