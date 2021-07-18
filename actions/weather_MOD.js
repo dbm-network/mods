@@ -126,9 +126,6 @@ module.exports = {
       return this.callNextAction(cache);
     }
 
-    const Mods = this.getMods();
-    const weather = Mods.require('weather-js');
-
     weather.find({ search: city, degreeType }, (err, response) => {
       if (err || !response || !response[0]) return Actions.callNextAction(cache);
       const current = response[0].current;
