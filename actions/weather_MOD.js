@@ -177,5 +177,5 @@ module.exports = {
     });
   },
 
-  mod() { },
+  mod() {},
 };
