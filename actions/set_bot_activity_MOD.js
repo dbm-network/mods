@@ -98,7 +98,7 @@ module.exports = {
     const botClient = this.getDBM().Bot.bot.user;
     const data = cache.actions[cache.index];
 
-    const nameText = this.evalMessage(data.nameText, cache);
+    const nameText = this.evalMessage(data.nameText, cache) || null;
     const url = this.evalMessage(data.url, cache);
 
     const target = ['PLAYING', 'LISTENING', 'WATCHING', 'STREAMING', 'COMPETING'][parseInt(data.activity, 10)];
