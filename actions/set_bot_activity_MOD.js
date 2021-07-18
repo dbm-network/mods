@@ -98,95 +98,24 @@ module.exports = {
     const botClient = this.getDBM().Bot.bot.user;
     const data = cache.actions[cache.index];
 
-    const nameText = this.evalMessage(data.nameText, cache);
+    const nameText = this.evalMessage(data.nameText, cache) || null;
     const url = this.evalMessage(data.url, cache);
 
-    const activity = parseInt(data.activity, 10);
-    const stat = parseInt(data.stat, 10);
+    const target = ['PLAYING', 'LISTENING', 'WATCHING', 'STREAMING', 'COMPETING'][parseInt(data.activity, 10)];
+    const statusTarget = ['online', 'idle', 'invisible', 'dnd'][parseInt(data.stat, 10)];
 
-    let obj;
-
-    let target;
-    if (activity >= 0) {
-      switch (activity) {
-        case 0:
-          target = 'PLAYING';
-          break;
-        case 1:
-          target = 'LISTENING';
-          break;
-        case 2:
-          target = 'WATCHING';
-          break;
-        case 3:
-          target = 'STREAMING';
-          break;
-        case 4:
-          target = 'COMPETING';
-          break;
-        default:
-          break;
-      }
-    }
-
-    let statustarget;
-    if (stat >= 0) {
-      switch (stat) {
-        case 0:
-          statustarget = 'online';
-          break;
-        case 1:
-          statustarget = 'idle';
-          break;
-        case 2:
-          statustarget = 'invisible';
-          break;
-        case 3:
-          statustarget = 'dnd';
-          break;
-        default:
-          break;
-      }
-    }
-
-    if (botClient) {
-      if (nameText) {
-        if (target === 'STREAMING') {
-          obj = {
-            activity: {
-              name: nameText,
-              type: target,
-              url,
-            },
-            status: statustarget,
-          };
-          botClient
-            .setPresence(obj)
-            .then(() => {
-              this.callNextAction(cache);
-            })
-            .catch(console.error);
-        } else {
-          obj = {
-            activity: {
-              name: nameText,
-              type: target,
-            },
-            status: statustarget,
-          };
-          botClient
-            .setPresence(obj)
-            .then(() => {
-              this.callNextAction(cache);
-            })
-            .catch(console.error);
-        }
-      } else {
-        console.log('ERROR: Please input activity in "Set Bot Activity MOD"');
-        this.callNextAction(cache);
-      }
-    }
-    this.callNextAction(cache);
+    const obj = {
+      activity: {
+        name: nameText,
+        type: target,
+      },
+      status: statusTarget,
+    };
+    if (target === 'STREAMING') Object.assign(obj.activity, { url });
+    botClient
+      .setPresence(obj)
+      .then(() => this.callNextAction(cache))
+      .catch(this.displayError.bind(this, data, cache));
   },
 
   mod() {},
