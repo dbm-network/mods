@@ -156,3 +156,5 @@ export class WeatherAction implements Action {
     });
   }
 }
+
+Object.defineProperty(WeatherAction, 'name', { value: 'Weather' });
