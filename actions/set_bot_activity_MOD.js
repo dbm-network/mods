@@ -115,7 +115,7 @@ module.exports = {
     botClient
       .setPresence(obj)
       .then(() => this.callNextAction(cache))
-      .catch(console.error);
+      .catch(this.displayError.bind(this, data, cache));
   },
 
   mod() {},
