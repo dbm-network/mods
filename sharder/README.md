@@ -28,6 +28,6 @@ The default `startup` parameter is set to `bot.js`.
 
 For more information in regards to sharding, check [this guide].
 
-[zip file]: https://downgit.github.io/#/home?url=https://github.com/dbm-network/custom-files/blob/master/Bot%20Sharder/sharded-bot.js
+[zip file]: https://dbm-network.github.io/download-git/#/home?url=https://github.com/dbm-network/mods/blob/master/sharder/sharded-bot.js
 [this guide]: https://discordjs.guide/sharding/
 [`client.shard.broadcasteval()`]: https://discord.js.org/#/docs/main/stable/class/ShardClientUtil?scrollTo=broadcastEval

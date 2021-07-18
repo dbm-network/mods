@@ -87,7 +87,6 @@ if (!token) {
   console.error("Token must be supplied in 'settings.json' in the data folder, double check your bot settings!");
 }
 
-// Create your ShardingManger instance
 const manager = new ShardingManager(startup, {
   // for ShardingManager options see:
   // https://discord.js.org/#/docs/main/stable/class/ShardingManager
