@@ -113,57 +113,60 @@ module.exports = {
   action(cache) {
     const data = cache.actions[cache.index];
     const info = parseInt(data.info, 10);
-    const city = this.evalMessage(data.city, cache);
-    const degreeType2 = this.evalMessage(data.degreeType, cache);
-    const { Actions } = this.getDBM();
-
-    if (!city) return console.error('Please specify a city to get weather information.');
 
     const Mods = this.getMods();
     const weather = Mods.require('weather-js');
 
-    weather.find({ search: city, degreeType: degreeType2 }, (err, response) => {
-      if (err || !response || response.length < 1) {
-        const storage = parseInt(data.storage, 10);
-        const varName2 = Actions.evalMessage(data.varName, cache);
-        Actions.storeValue(undefined, storage, varName2, cache);
-        Actions.callNextAction(cache);
-      }
+    const city = this.evalMessage(data.city, cache);
+    const degreeType = this.evalMessage(data.degreeType, cache);
+    const { Actions } = this.getDBM();
+
+    if (!city) {
+      console.error('Please specify a city to get weather information.');
+      return this.callNextAction(cache);
+    }
+
+    const Mods = this.getMods();
+    const weather = Mods.require('weather-js');
+
+    weather.find({ search: city, degreeType }, (err, response) => {
+      if (err || !response || !response[0]) return Actions.callNextAction(cache);
+      const current = response[0].current;
       let result;
 
       switch (info) {
         case 0:
-          result = response[0].current.temperature;
+          result = current.temperature;
           break;
         case 1:
-          result = response[0].current.skytext;
+          result = current.skytext;
           break;
         case 2:
-          result = response[0].current.date;
+          result = current.date;
           break;
         case 3:
           result = response[0].location.name;
           break;
         case 4:
-          result = response[0].current.observationpoint;
+          result = current.observationpoint;
           break;
         case 6:
-          result = response[0].current.windspeed;
+          result = current.windspeed;
           break;
         case 8:
-          result = response[0].current.winddisplay;
+          result = current.winddisplay;
           break;
         case 9:
-          result = response[0].current.humidity;
+          result = current.humidity;
           break;
         case 14:
-          result = response[0].current.feelslike;
+          result = current.feelslike;
           break;
         case 15:
-          result = response[0].current.imageUrl;
+          result = current.imageUrl;
           break;
         case 16:
-          result = response[0].current.day;
+          result = current.day;
           break;
         default:
           break;
@@ -177,5 +180,5 @@ module.exports = {
     });
   },
 
-  mod() {},
+  mod() { },
 };
