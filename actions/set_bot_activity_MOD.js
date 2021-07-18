@@ -104,10 +104,6 @@ module.exports = {
     const target = ['PLAYING', 'LISTENING', 'WATCHING', 'STREAMING', 'COMPETING'][parseInt(data.activity, 10)];
     const statusTarget = ['online', 'idle', 'invisible', 'dnd'][parseInt(data.stat, 10)];
 
-    if (!botClient) {
-      console.error('ERROR: Please input activity in "Set Bot Activity MOD"');
-      return this.callNextAction(cache);
-    }
     if (!nameText) return this.callNextAction(cache);
     const obj = {
       activity: {
