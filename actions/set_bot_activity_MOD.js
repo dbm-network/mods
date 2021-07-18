@@ -104,7 +104,6 @@ module.exports = {
     const target = ['PLAYING', 'LISTENING', 'WATCHING', 'STREAMING', 'COMPETING'][parseInt(data.activity, 10)];
     const statusTarget = ['online', 'idle', 'invisible', 'dnd'][parseInt(data.stat, 10)];
 
-    if (!nameText) return this.callNextAction(cache);
     const obj = {
       activity: {
         name: nameText,
