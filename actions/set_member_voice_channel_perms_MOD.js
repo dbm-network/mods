@@ -87,7 +87,7 @@ module.exports = {
       .updateOverwrite(member.id, options)
       .then(() => this.callNextAction(cache))
       .catch(() => {
-        this.displayError.bind(this, data, cache);
+        this.displayError(data, cache);
         this.callNextAction(cache);
       });
   },
