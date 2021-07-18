@@ -114,9 +114,7 @@ module.exports = {
     if (target === 'STREAMING') Object.assign(obj.activity, { url });
     botClient
       .setPresence(obj)
-      .then(() => {
-        this.callNextAction(cache);
-      })
+      .then(() => this.callNextAction(cache))
       .catch(console.error);
   },
 
