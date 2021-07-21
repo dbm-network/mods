@@ -120,7 +120,7 @@ module.exports = {
       default:
         break;
     }
-    if (result) {
+    if (result !== undefined) {
       const storage = parseInt(data.storage, 10);
       this.storeValue(result, storage, this.evalMessage(data.varName2, cache), cache);
     }
