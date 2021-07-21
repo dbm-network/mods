@@ -76,7 +76,11 @@ module.exports = {
     const varName = this.evalMessage(data.varName, cache);
     const info = parseInt(data.info, 10);
     const embed = this.getVariable(parseInt(data.message, 10), varName, cache);
-    if (!embed) return console.error('Source Embed is not given!');
+
+    if (!embed) {
+      console.error('Store Embed Info: Source Embed was not given');
+      return this.callNextAction(cache);
+    }
 
     let result;
     switch (info) {
