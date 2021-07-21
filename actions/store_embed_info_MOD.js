@@ -14,7 +14,7 @@ module.exports = {
       'Footer Icon URL',
       'Image',
       'Color',
-      'Fields',
+      'Fields'
     ][parseInt(data.info, 10)] || 'Unknown';
   },
 
