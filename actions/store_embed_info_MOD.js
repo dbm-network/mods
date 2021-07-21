@@ -3,7 +3,7 @@ module.exports = {
   section: 'Embed Message',
 
   subtitle(data) {
-    const info = [
+    return [
       'Object',
       'Title',
       'Description',
@@ -15,8 +15,7 @@ module.exports = {
       'Image',
       'Color',
       'Fields',
-    ];
-    return `${info[parseInt(data.info, 10)]}`;
+    ][parseInt(data.info, 10)] || 'Unknown';
   },
 
   fields: ['message', 'varName', 'info', 'storage', 'varName2'],
