@@ -4,8 +4,8 @@ module.exports = {
 
   subtitle(data) {
     const op1 = ['Member', 'User'];
-    const info = [' ID', ' Username', ' Display Name', ' Tag', ' Color'];
-    return `Find ${op1[parseInt(data.find2, 10)]} by ${op1[parseInt(data.find2, 10)]}${info[parseInt(data.info, 10)]}`;
+    const info = ['ID', 'Username', 'Display Name', 'Tag', 'Color'];
+    return `Find ${op1[parseInt(data.find2, 10)]} by ${info[parseInt(data.info, 10)]}`;
   },
 
   variableStorage(data, varType) {
@@ -21,18 +21,18 @@ module.exports = {
 <div><p>This action has been modified by DBM Mods.</p></div><br>
 <div style="float: left;">
   <select id="find2" onchange="glob.change()" class="round">
-    <option value="0" selected>Find Member (current server only)</option>
-    <option value="1">Find User (all servers)</option>
+    <option value="0" selected>Find Server Member</option>
+    <option value="1">Find Global User</option>
   </select>
 </div><br><br>
 <div>
   <div style="float: left; width: 40%;">
     Source Field:<br>
     <select id="info" class="round">
-      <option value="0" selected>Member ID</option>
-      <option value="1">Member Username</option>
-      <option value="3">Member Tag</option>
+      <option value="0" selected>User ID</option>
+      <option value="1">User Name</option>
       <option value="2">Member Display Name</option>
+      <option value="3">User Tag</option>
       <option value="4">Member Color</option>
     </select>
   </div>
@@ -117,46 +117,52 @@ module.exports = {
   },
 
   async action(cache) {
-    const { server } = cache;
-    if (!server || !server.members) return this.callNextAction(cache);
-
     const data = cache.actions[cache.index];
     const info = parseInt(data.info, 10);
-    const find = this.evalMessage(data.find, cache);
-    const find2 = parseInt(data.find2, 10);
-    if (server.memberCount !== server.members.cache.size) server.members.fetch();
-    const members = server.members.cache;
-    const users = this.getDBM().Bot.bot.users.cache;
-    let result;
+    const query = this.evalMessage(data.find, cache);
+    const scope = parseInt(data.find2, 10);
+    let objects;
+    if (scope === 1) objects = this.getDBM().Bot.bot.users.cache;
+    else {
+      const { server } = cache;
+      if (!server || !server.members) return this.executeResults(false, data, cache);
+      try {
+        objects = await server.members.fetch();
+      } catch {
+        return this.displayError.bind(this, data, cache);
+      }
+    }
 
+    let result;
     switch (info) {
       case 0:
-        result = members.get(find) || users.get(find) || (await this.getDBM().Bot.bot.users.fetch(find));
+        result = objects.get(query);
         break;
       case 1:
-        result = find2 === 0 ? members.find((m) => m.user.username === find) : users.find((u) => u.username === find);
+        result = objects.find((o) => o.user ? o.user.username === query : o.username === query);
         break;
       case 2:
-        result = find2 === 0 ? members.find((m) => m.displayName === find) : users.find((u) => u.username === find);
+        result = objects.find((o) => o.user ? o.displayName === query : o.username === query);
         break;
       case 3:
-        result = find2 === 0 ? members.find((m) => m.user.tag === find) : users.find((u) => u.tag === find);
+        result = objects.find((o) => o.user ? o.user.tag === query : o.tag === query);
         break;
       case 4:
-        result = members.find((m) => m.displayHexColor === find);
+        if (scope === 1) {
+          console.error('Find Member: Cannot use Member Color option for Global User');
+          return this.executeResults(false, data, cache);
+        }
+        result = objects.find((m) => m.displayHexColor === query);
         break;
       default:
         break;
     }
 
-    if (result !== null || result !== undefined) {
-      const storage = parseInt(data.storage, 10);
-      const varName = this.evalMessage(data.varName, cache);
-      this.storeValue(result, storage, varName, cache);
-      this.callNextAction(cache);
-    } else {
-      this.executeResults(false, data, cache);
-    }
+    if (!result) return this.executeResults(false, data, cache);
+    const storage = parseInt(data.storage, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    this.storeValue(result, storage, varName, cache);
+    this.callNextAction(cache);
   },
 
   mod() {},
