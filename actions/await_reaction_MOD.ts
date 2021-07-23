@@ -1,21 +1,10 @@
-/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import type { Action, ActionCache, Actions } from '../typings/globals';
 
-module.exports = {
-  name: 'Await Reaction Call Action',
-  displayName: 'Await Reaction',
-  section: 'Messaging',
-
-  subtitle({ max, time }) {
-    const getPlural = (n) => (n !== '1' ? 's' : '');
-    return `Await ${max} reaction${getPlural(max)} for ${time} millisecond${getPlural(time)}`;
-  },
-
-  variableStorage(data, varType) {
-    if (parseInt(data.storage2, 10) !== varType) return;
-    return [data.varName2, `Reaction${parseInt(data.max, 10) === 1 ? '' : ' List'}`];
-  },
-
-  fields: [
+export class AwaitReaction implements Action {
+  static section = 'Messaging';
+  static fields = [
     'storage',
     'varName',
     'filter',
@@ -29,9 +18,19 @@ module.exports = {
     'iffalseVal',
     'storage2',
     'varName2',
-  ],
+  ];
 
-  html(isEvent, data) {
+  static subtitle(max: number, time: number) {
+    const getPlural = (n: any) => (n !== '1' ? 's' : '');
+    return `Await ${max} reaction${getPlural(max)} for ${time} millisecond${getPlural(time)}`;
+  }
+
+  static variableStorage(data: any, varType: number) {
+    if (parseInt(data.storage2, 10) !== varType) return;
+    return [data.varName2, `Reaction${parseInt(data.max, 10) === 1 ? '' : ' List'}`];
+  }
+
+  static html(isEvent: any, data: any) {
     return `
 <div style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
   <div>
@@ -154,15 +153,15 @@ module.exports = {
     text-decoration: underline;
   }
 </style>`;
-  },
+  }
 
-  init() {
+  static init(this: any) {
     const { glob, document } = this;
 
     glob.messageChange(document.getElementById('storage'), 'varNameContainer');
 
     glob.variableChange(document.getElementById('storage2'), 'varNameContainer2');
-    glob.onChangeTrue = function onChangeTrue(event) {
+    glob.onChangeTrue = function onChangeTrue(event: any) {
       switch (parseInt(event.value, 10)) {
         case 0:
         case 1:
@@ -184,7 +183,7 @@ module.exports = {
           break;
       }
     };
-    glob.onChangeFalse = function onChangeFalse(event) {
+    glob.onChangeFalse = function onChangeFalse(event: any) {
       switch (parseInt(event.value, 10)) {
         case 0:
         case 1:
@@ -208,9 +207,9 @@ module.exports = {
     };
     glob.onChangeTrue(document.getElementById('iftrue'));
     glob.onChangeFalse(document.getElementById('iffalse'));
-  },
+  }
 
-  action(cache) {
+  static action(this: Actions, cache: ActionCache) {
     const data = cache.actions[cache.index];
     const { Actions } = this.getDBM();
 
@@ -231,7 +230,7 @@ module.exports = {
 
       msg
         .awaitReactions(
-          (reaction, user) => {
+          (reaction: any, user: any) => {
             const { msg: message, server } = cache;
             let member;
             let author;
@@ -259,13 +258,15 @@ module.exports = {
             errors: ['time'],
           },
         )
-        .then((c) => {
+        .then((c: any) => {
           this.storeValue(c.size === 1 ? c.first() : c.array(), storage, varName2, cache);
           this.executeResults(true, data, cache);
         })
         .catch(() => this.executeResults(false, data, cache));
     }
-  },
+  }
 
-  mod() {},
-};
+  static mod() {}
+}
+
+Object.defineProperty(AwaitReaction, 'name', { value: 'Await Reaction' });

@@ -1,4 +1,5 @@
 import type { Action, Actions, ActionCache } from '../typings/globals';
+
 interface SubtitleData {
   color: string;
   comment: string;

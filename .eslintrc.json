@@ -4,8 +4,8 @@
     "browser": true
   },
   "parserOptions": {
-    "ecmaVersion": 2019,
-    "project": "./tsconfig.eslint.json"
+    "ecmaVersion": 2021,
+    "project": "tsconfig.json"
   },
   "extends": "marine/prettier/node",
   "ignorePatterns": ["dist/*", "node_modules/*"],
@@ -20,6 +20,7 @@
     "prefer-destructuring": 0,
     "prefer-rest-params": 0,
     "@typescript-eslint/explicit-member-accessibility": 0,
-    "@typescript-eslint/no-extraneous-class": 0
+    "@typescript-eslint/no-extraneous-class": 0,
+    "@typescript-eslint/restrict-template-expressions": 0
   }
 }

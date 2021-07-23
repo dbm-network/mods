@@ -1,14 +1,17 @@
-module.exports = {
-  name: 'Auto Help',
-  section: 'Other Stuff',
+import type { Action, ActionCache, Actions } from '../typings/globals';
 
-  subtitle(data) {
+interface SubtitleData {
+  [key: string]: string;
+}
+export class AutoHelp implements Action {
+  static section = 'Other Stuff';
+  static fields = ['Category', 'Description', 'Include'];
+
+  static subtitle(data: SubtitleData) {
     return `Included? ${data.Include} | ${data.Category}: ${data.Description}`;
-  },
+  }
 
-  fields: ['Category', 'Description', 'Include'],
-
-  html() {
+  static html() {
     return `
 <div>
   <p>
@@ -28,19 +31,21 @@ module.exports = {
     <option value="No">No</option>
   </select>
 </div>`;
-  },
+  }
 
-  init() {
+  static init(this: any) {
     const { glob, document } = this;
 
     glob.sendTargetChange(document.getElementById('Category'), 'varNameContainer');
     glob.sendTargetChange(document.getElementById('Description'), 'varNameContainer');
     glob.sendTargetChange(document.getElementById('Include'), 'varNameContainer');
-  },
+  }
 
-  action(cache) {
+  static action(this: Actions, cache: ActionCache) {
     this.callNextAction(cache);
-  },
+  }
 
-  mod() {},
-};
+  static mod() {}
+}
+
+Object.defineProperty(AutoHelp, 'name', { value: 'Auto Help' });

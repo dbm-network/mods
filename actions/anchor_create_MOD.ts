@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import type { Action, ActionCache, Actions } from '../typings/globals';
 
 interface SubtitleData {

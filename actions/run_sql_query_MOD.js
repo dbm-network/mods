@@ -459,9 +459,9 @@ module.exports = {
                 if (results && path !== undefined) {
                   jsonOut = Mods.jsonPath(results, path);
                   // if it failed and if they didn't the required initial object, add it for them
-                  if (jsonOut === false) jsonOut = Mods.jsonPath(results, '$.'.concat(path));
+                  if (!jsonOut) jsonOut = Mods.jsonPath(results, '$.'.concat(path));
                   // if it failed still, try just pulling the first object
-                  if (jsonOut === false) jsonOut = Mods.jsonPath(results, '$.[0].'.concat(path));
+                  if (!jsonOut) jsonOut = Mods.jsonPath(results, '$.[0].'.concat(path));
                   if (jsonOut) {
                     if (jsonOut.length === 1) jsonOut = jsonOut[0];
                     if (DEBUG)

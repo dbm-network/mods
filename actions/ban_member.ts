@@ -1,16 +1,20 @@
-module.exports = {
-  name: 'Ban Member',
-  section: 'Member Control',
+import type { Action, ActionCache, Actions } from '../typings/globals';
 
-  subtitle(data) {
+interface SubtitleData {
+  [key: string]: string;
+}
+
+export class BanMember implements Action {
+  static section = 'Member Control';
+  static fields = ['member', 'varName', 'reason', 'guild', 'varName2', 'days'];
+
+  subtitle(data: SubtitleData) {
     const users = ['Mentioned User', 'Command Author', 'Temp Variable', 'Server Variable', 'Global Variable', 'By ID'];
     const guilds = ['Current Server', 'Temp Variable', 'Server Variable', 'Global Variable'];
     return `${users[parseInt(data.member, 10)]} - ${guilds[parseInt(data.guild, 10)]}`;
-  },
+  }
 
-  fields: ['member', 'varName', 'reason', 'guild', 'varName2', 'days'],
-
-  html(isEvent, data) {
+  static html(isEvent: any, data: any) {
     return `
 This action has been modified by DBM Mods.<br>
 <div>
@@ -45,12 +49,12 @@ This action has been modified by DBM Mods.<br>
   Days of Messages to Delete:<br>
   <textarea id="days" rows="1" style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
 </div>`;
-  },
+  }
 
-  init() {
+  init(this: any) {
     const { glob, document } = this;
 
-    glob.user = function user(element, container) {
+    glob.user = function user(element: any, container: any) {
       if (element.value === '5') {
         document.getElementById(container).childNodes[0].nodeValue = 'User ID:';
       } else {
@@ -61,9 +65,9 @@ This action has been modified by DBM Mods.<br>
 
     glob.user(document.getElementById('member'), 'varNameContainer');
     glob.serverChange(document.getElementById('guild'), 'varNameContainer2');
-  },
+  }
 
-  action(cache) {
+  static action(this: Actions, cache: ActionCache) {
     const data = cache.actions[cache.index];
     const type = parseInt(data.member, 10);
     const varName = this.evalMessage(data.varName, cache);
@@ -72,12 +76,11 @@ This action has been modified by DBM Mods.<br>
     const server = this.getServer(guildType, varName2, cache);
     const reason = this.evalMessage(data.reason, cache) || '';
     const days = parseInt(this.evalMessage(data.days, cache), 10);
-    const member = type === 5 ? this.evalMessage(varName) : this.getMember(type, varName, cache);
-    if (guildType !== 0) {
-      cache.server = server;
-    }
+    const member = type === 5 ? this.evalMessage(varName, cache) : this.getMember(type, varName, cache);
+    if (guildType !== 0) cache.server = server;
+
     if (Array.isArray(member)) {
-      this.callListFunc(member, 'ban', [{ days, reason }]).then(() => this.callNextAction(cache));
+      void this.callListFunc(member, 'ban', [{ days, reason }]).then(() => this.callNextAction(cache));
     } else if (member) {
       server.members
         .ban(member, { days, reason })
@@ -86,7 +89,9 @@ This action has been modified by DBM Mods.<br>
     } else {
       this.callNextAction(cache);
     }
-  },
+  }
 
-  mod() {},
-};
+  static mod() {}
+}
+
+Object.defineProperty(BanMember, 'name', { value: 'Ban Member' });

@@ -1,12 +1,7 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import type { Action, ActionCache, Actions } from '../typings/globals';
 
 interface SubtitleData {
-  storage: string;
-  varName: string;
-  fieldName: string;
-  message: string;
-  inline: string;
+  [key: string]: string;
 }
 
 export class AddEmbedFieldAction implements Action {
@@ -40,8 +35,8 @@ export class AddEmbedFieldAction implements Action {
   <div style="float: left; width: 50%;">
     Display Inline:<br>
     <select id="inline" class="round">
-      <option value="0">Yes</option>
-      <option value="1" selected>No</option>
+      <option value="true">Yes</option>
+      <option value="false" selected>No</option>
     </select>
   </div>
 </div><br><br><br>
@@ -61,9 +56,8 @@ export class AddEmbedFieldAction implements Action {
     const name = this.evalMessage(data.fieldName, cache);
     const message = this.evalMessage(data.message, cache);
 
-    const inline = Boolean(data.inline === '0');
     if (embed?.addField) {
-      embed.addField(name || '\u200B', message || '\u200B', inline);
+      embed.addField(name || '\u200B', message || '\u200B', data.inline);
     }
     this.callNextAction(cache);
   }

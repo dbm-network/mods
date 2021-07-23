@@ -1,8 +1,27 @@
-module.exports = {
-  name: 'Clone Channel MOD',
-  section: 'Channel Control',
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+import type { Action, ActionCache, Actions } from '../typings/globals';
 
-  subtitle(data) {
+interface SubtitleData {
+  storage: string;
+  varName: string;
+  categoryID: number;
+  position: number;
+  permission: string;
+  info: string;
+  topic: string;
+  slowmode: string;
+  nsfw: string;
+  bitrate: number;
+  userLimit: number;
+  storage2: string;
+  varName2: string;
+}
+
+export class CloneChannelAction implements Action {
+  section = 'Channel Control';
+
+  static subtitle(data: SubtitleData) {
     const names = [
       'Same Channel',
       'Mentioned Channel',
@@ -13,14 +32,14 @@ module.exports = {
     ];
     const index = parseInt(data.storage, 10);
     return index < 3 ? `Clone Channel : ${names[index]}` : `Clone Channel : ${names[index]} - ${data.varName}`;
-  },
+  }
 
-  variableStorage(data, varType) {
+  static variableStorage(data: any, varType: any) {
     if (parseInt(data.storage2, 10) !== varType) return;
     return [data.varName2, 'Channel'];
-  },
+  }
 
-  fields: [
+  static fields: [
     'storage',
     'varName',
     'categoryID',
@@ -34,9 +53,9 @@ module.exports = {
     'userLimit',
     'storage2',
     'varName2',
-  ],
+  ];
 
-  html(isEvent, data) {
+  html(isEvent: any, data: any) {
     return `
 <div style="padding-top: 8px;">
   <div style="float: left; width: 35%;">
@@ -128,14 +147,15 @@ module.exports = {
     <input id="varName2" class="round" type="text">
   </div>
 </div>`;
-  },
-  init() {
+  }
+
+  init(this: any) {
     const { glob, document } = this;
 
     glob.channelChange(document.getElementById('storage'), 'varNameContainer');
     glob.variableChange(document.getElementById('storage2'), 'varNameContainer2');
 
-    glob.channeltype = function channeltype(event) {
+    glob.channeltype = function channeltype(event: any) {
       if (event.value === '0') {
         document.getElementById('text').style.display = 'none';
         document.getElementById('voice').style.display = 'none';
@@ -148,9 +168,9 @@ module.exports = {
       }
     };
     glob.channeltype(document.getElementById('info'));
-  },
+  }
 
-  action(cache) {
+  static action(this: Actions, cache: ActionCache) {
     const data = cache.actions[cache.index];
     const { server } = cache;
     const storage = parseInt(data.storage, 10);
@@ -180,7 +200,7 @@ module.exports = {
     if (server && channel) {
       channel
         .clone(options)
-        .then((newChannel) => {
+        .then((newChannel: any) => {
           const storage2 = parseInt(data.storage2, 10);
           const varName2 = this.evalMessage(data.varName2, cache);
           this.storeValue(newChannel, storage2, varName2, cache);
@@ -191,7 +211,9 @@ module.exports = {
       console.log(`${server ? 'channel' : 'server'} could not be found! Clone Channel MOD.`);
       this.callNextAction(cache);
     }
-  },
+  }
 
-  mod() {},
-};
+  mod() {}
+}
+
+Object.defineProperty(CloneChannelAction, 'name', { value: 'Clone Channel' });

@@ -1,20 +1,23 @@
-module.exports = {
-  name: 'Base Convert MOD',
-  displayName: 'Base Convert',
-  section: 'Other Stuff',
+import type { Action, ActionCache, Actions } from '../typings/globals';
 
-  subtitle(data) {
+interface SubtitleData {
+  [key: string]: any;
+}
+
+export class BaseConvert implements Action {
+  static section = 'Other Stuff';
+  static fields = ['num', 'basef', 'baset', 'storage', 'varName'];
+
+  static subtitle(data: SubtitleData) {
     return `Base ${data.basef} to Base ${data.baset}`;
-  },
+  }
 
-  variableStorage(data, varType) {
+  static variableStorage(data: any, varType: any) {
     if (parseInt(data.storage, 10) !== varType) return;
     return [data.varName, 'Number'];
-  },
+  }
 
-  fields: ['num', 'basef', 'baset', 'storage', 'varName'],
-
-  html(_isEvent, data) {
+  static html(_isEvent: any, data: any) {
     return `
 <div style="float: left; width: 100%;">
   Number:<br>
@@ -42,18 +45,18 @@ module.exports = {
     <input id="varName" class="round" type="text">
   </div>
 </div>`;
-  },
+  }
 
-  init() {},
+  static init() {}
 
-  action(cache) {
+  static action(this: Actions, cache: ActionCache) {
     const data = cache.actions[cache.index];
     const num = this.evalMessage(data.num, cache);
     const basef = parseInt(data.basef, 10);
     const baset = parseInt(data.baset, 10);
     let result;
     if (basef > 1 && basef <= 36 && baset > 1 && baset <= 36) {
-      const base = parseInt(num, basef, 10);
+      const base = parseInt(num, basef);
       if (!Number.isNaN(base)) {
         result = base.toString(baset).toUpperCase();
       } else {
@@ -66,7 +69,9 @@ module.exports = {
       this.storeValue(result, storage, varName, cache);
     }
     this.callNextAction(cache);
-  },
+  }
 
-  mod() {},
-};
+  static mod() {}
+}
+
+Object.defineProperty(BaseConvert, 'name', { value: 'Base Convert' });
