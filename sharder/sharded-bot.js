@@ -1,3 +1,4 @@
+  
 // Made by TheMonDon#1721
 // Some code by General Wrex
 const version = '1.1';
@@ -87,6 +88,7 @@ if (!token) {
   console.error("Token must be supplied in 'settings.json' in the data folder, double check your bot settings!");
 }
 
+// Create your ShardingManger instance
 const manager = new ShardingManager(startup, {
   // for ShardingManager options see:
   // https://discord.js.org/#/docs/main/stable/class/ShardingManager
@@ -96,4 +98,4 @@ const manager = new ShardingManager(startup, {
 
 manager.on('shardCreate', (shard) => console.log(`Shard ${shard.id} launched`));
 
-manager.spawn();
+manager.spawn(totalShards, 5500, -1); 
