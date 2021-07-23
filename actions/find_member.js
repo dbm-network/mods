@@ -139,13 +139,13 @@ module.exports = {
         result = objects.get(query);
         break;
       case 1:
-        result = objects.find((o) => o.user ? o.user.username === query : o.username === query);
+        result = objects.find((o) => (o.user ? o.user.username === query : o.username === query));
         break;
       case 2:
-        result = objects.find((o) => o.user ? o.displayName === query : o.username === query);
+        result = objects.find((o) => (o.user ? o.displayName === query : o.username === query));
         break;
       case 3:
-        result = objects.find((o) => o.user ? o.user.tag === query : o.tag === query);
+        result = objects.find((o) => (o.user ? o.user.tag === query : o.tag === query));
         break;
       case 4:
         if (scope === 1) {
