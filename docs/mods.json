@@ -554,11 +554,6 @@
     "name": "Math Operation Plus",
     "section": "Other Stuff"
   },
-  "member_data_list_MOD.js": {
-    "description": "Store a list of data for members",
-    "name": "Store Member Data List",
-    "section": "Member Control"
-  },
   "merge_lists_MOD.js": {
     "description": "Merge a list with another list",
     "name": "Merge Lists",
