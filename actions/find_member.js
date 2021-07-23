@@ -137,6 +137,13 @@ module.exports = {
     switch (info) {
       case 0:
         result = objects.get(query);
+        if (!result && scope === 1) {
+          try {
+            result = await this.getDBM().Bot.bot.users.fetch(query);
+          } catch {
+            return this.displayError.bind(this, data, cache);
+          }
+        }
         break;
       case 1:
         result = objects.find((o) => (o.user ? o.user.username === query : o.username === query));
