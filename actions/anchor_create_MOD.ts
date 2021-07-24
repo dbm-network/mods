@@ -1,11 +1,11 @@
-import type { Action, ActionCache, Actions, SubtitleData } from '../typings/globals';
+import type { Action, ActionCache, Actions } from '../typings/globals';
 
-const action: Action = {
+const action: Action<'anchor_id' | 'color' | 'description'> = {
   name: 'Create Anchor',
   section: 'Other Stuff',
   fields: ['anchor_id', 'color', 'description'],
 
-  subtitle(data: SubtitleData) {
+  subtitle(data) {
     return data.description
       ? `<font color="${data.color}">${data.description}</font>`
       : `Create ${

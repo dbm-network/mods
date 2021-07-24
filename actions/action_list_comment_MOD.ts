@@ -1,10 +1,10 @@
-import type { Action, Actions, ActionCache, SubtitleData } from '../typings/globals';
+import type { Action, Actions, ActionCache } from '../typings/globals';
 
-const action: Action = {
+const action: Action<'comment' | 'color'> = {
   name: 'Comment',
   section: 'Other Stuff',
   fields: ['comment', 'color'],
-  subtitle(data: SubtitleData) {
+  subtitle(data) {
     return `<font color="${data.color}">${data.comment}</font>`;
   },
   html() {

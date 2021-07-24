@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
-import type { Action, ActionCache, Actions, DBM, SubtitleData } from '../typings/globals';
+import type { Action, ActionCache, Actions, DBM } from '../typings/globals';
 
-const action: Action = {
+const action: Action<'description' | 'jump_to_anchor' | 'color'> = {
   name: 'Jump to Anchor',
   section: 'Other Stuff',
   fields: ['description', 'jump_to_anchor', 'color'],
 
-  subtitle(data: SubtitleData) {
+  subtitle(data) {
     return data.description
       ? `<font color="${data.color}">${data.description}</font>`
       : `Jump to ${
