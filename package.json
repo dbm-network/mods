@@ -29,6 +29,8 @@
     "npm": "7"
   },
   "dependencies": {
-    "canvas": "^2.8.0"
+    "canvas": "^2.8.0",
+    "typedoc": "^0.21.4",
+    "typedoc-darker-theme": "^1.2.1"
   }
 }
