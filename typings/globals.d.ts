@@ -260,15 +260,11 @@ declare interface DBM_GUILDEMOJI extends DiscordJS.GuildEmoji {
   convertToString(): string;
 }
 
-declare interface SubtitleData {
-  [key: string]: string;
-}
-
-declare interface Action {
+declare interface Action<Fields extends string = string> {
   name: string;
   section: string;
-  fields: Array<string>;
-  subtitle(data?: SubtitleData): string;
+  fields: Fields[];
+  subtitle(data: Record<Fields, string>): string;
   html(isEvent?: any, data?): string;
   init(): void;
   action(this: Actions, cache: ActionCache): void;

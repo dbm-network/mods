@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
-import type { Action, ActionCache, Actions, SubtitleData } from '../typings/globals';
+import type { Action, ActionCache, Actions } from '../typings/globals';
 
-const action: Action = {
+const action: Action<'storage' | 'varName' | 'fieldName' | 'message' | 'inline'> = {
   name: 'Add Embed Field',
   section: 'Embed Message',
   fields: ['storage', 'varName', 'fieldName', 'message', 'inline'],
 
-  subtitle(data: SubtitleData) {
+  subtitle(data) {
     return `${data.fieldName} - ${data.message}`;
   },
 
