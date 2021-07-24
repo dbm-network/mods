@@ -268,7 +268,7 @@ declare interface Action {
   name: string;
   section: string;
   fields: Array<string>;
-  subtitle(data?: SubtitleData<fields>): string;
+  subtitle(data?: SubtitleData): string;
   html(isEvent?: any, data?): string;
   init(): void;
   action(this: Actions, cache: ActionCache): void;
