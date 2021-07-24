@@ -6,15 +6,17 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "lint": "eslint --cache actions events extensions",
-    "lint:fix": "eslint --fix --cache actions events extensions",
+    "lint": "eslint --cache actions events extensions sharder",
+    "lint:fix": "eslint --fix --cache actions events extensions sharder",
     "prettier:check": "prettier * --check --ignore-unknown",
-    "prettier:fix": "prettier * --write --ignore-unknown"
+    "prettier:fix": "prettier * --write --ignore-unknown",
+    "docs:build": "typedoc --tsconfig tsconfig.json",
+    "docs:watch": "typedoc --watch --tsconfig tsconfig.json"
   },
   "devDependencies": {
     "@types/node": "^16.3.1",
-    "@typescript-eslint/eslint-plugin": "^4.28.3",
-    "@typescript-eslint/parser": "^4.28.3",
+    "@typescript-eslint/eslint-plugin": "^4.28.4",
+    "@typescript-eslint/parser": "^4.28.4",
     "discord.js": "^12.5.3",
     "eslint": "^7.30.0",
     "eslint-config-marine": "^9.0.6",
@@ -23,7 +25,9 @@
     "jimp": "^0.16.1",
     "prettier": "^2.3.2",
     "typescript": "^4.3.5",
-    "ytdl-core": "^4.8.3"
+    "ytdl-core": "^4.8.3",
+    "typedoc": "^0.21.4",
+    "typedoc-darker-theme": "^1.2.1"
   },
   "engines": {
     "npm": "7"
