@@ -71,7 +71,7 @@ declare interface Actions {
   actionsLocation: string;
   eventsLocation: string;
   extensionsLocation: string;
-  server: Array;
+  server: Record<string, DiscordJS.Guild>;
   global: unknown;
   timeStamps: Array;
 
@@ -146,7 +146,24 @@ declare interface Images {
 }
 
 declare interface Files {
-  data: Array<string, unknown>;
+  data: {
+    globals: Record<string, unknown>;
+    commands: Record<string, unknown>;
+    events: Record<string, unknown>;
+    settings: {
+      token: string;
+      client: string;
+      tag: string;
+      case: string;
+      seperator: string;
+      ownerId: string;
+      modules: Record<string, string[]>;
+    };
+    players: Record<string, unknown>;
+    servers: Record<string, unknown>;
+    serverVars: Record<string, unknown>;
+    globalVars: Record<string, unknown>;
+  };
   writers: unknown;
   crypto: crypto;
   dataFiles: Array<string>;
