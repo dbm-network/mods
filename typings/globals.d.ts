@@ -100,6 +100,7 @@ declare interface Actions {
   getNumber(type: number, varName: string, cache: ActionCache);
   getMessage(type: number, varName: string, cache: ActionCache);
   getMember(type: number, varName: string, cache: ActionCache);
+  getMods(): Mods;
   getServer(type: number, varName: string, cache: ActionCache);
   getRole(type: number, varName: string, cache: ActionCache);
   getChannel(type: number, varName: string, cache: ActionCache);
@@ -125,13 +126,13 @@ declare interface Events {
 
 declare interface Images {
   getImage(url: string): Promise<JIMP>;
-  getFont(url: stirng): Promise<Font>;
+  getFont(url: string): Promise<Font>;
   createBuffer(image): Promise;
   drawImageOnImage(img1, img2, x: number, y: number): void;
 }
 
 declare interface Files {
-  data: unknown;
+  data: Array<string, unknown>;
   writers: unknown;
   crypto: crypto;
   dataFiles: Array<string>;
