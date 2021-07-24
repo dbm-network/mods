@@ -31,11 +31,11 @@ declare interface EventStructure {
 
 declare interface Bot {
   // Properties
-  $cmds: CommandStructure;
+  $cmds: Array<CommandStructure>;
   $icds: [];
   $regx: [];
   $anym: [];
-  $evts: EventStructure;
+  $evts: Array<EventStructure>;
   bot: DiscordJS.Client;
 
   // methods
@@ -76,8 +76,22 @@ declare interface Actions {
   timeStamps: Array;
 
   // Methods
-  exists(action: Action): boolean;
+  /**
+   * Checks if the action method exits in the file.
+   * @param action actions function.
+   * @returns if the action is a function.
+   */
+  exists(action: any): boolean;
+  /**
+   * Gets the path to the local file in the projects folder.
+   * @param url path.
+   * @returns the path to a file in the project.
+   */
   getLocalFile(url: string): string;
+  /**
+   * Gets the DBM object in case you ever wanted access to stuff outside of the Actions object.
+   * @returns DBM object
+   */
   getDBM(): DBM;
   anchorJump(id: any, cache: ActionCache): void;
   anchorExist(id: any, cache: ActionCache): boolean;
@@ -246,14 +260,17 @@ declare interface DBM_GUILDEMOJI extends DiscordJS.GuildEmoji {
   convertToString(): string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-extraneous-class
-declare class Action {
-  static name: string;
-  static section: string;
-  static fields: Array<string>;
-  static subtitle(data: any): string;
-  static html(isEvent?: any, data?): string;
-  static init(): void;
-  static action(this: Actions, cache: ActionCache): void;
-  static mod(DBM?: DBM): void;
+declare interface SubtitleData {
+  [key: string]: string;
+}
+
+declare interface Action {
+  name: string;
+  section: string;
+  fields: Array<string>;
+  subtitle(data?: SubtitleData<fields>): string;
+  html(isEvent?: any, data?): string;
+  init(): void;
+  action(this: Actions, cache: ActionCache): void;
+  mod(DBM?: DBM): void;
 }
