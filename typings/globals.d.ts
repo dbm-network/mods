@@ -71,7 +71,7 @@ declare interface Actions {
   actionsLocation: string;
   eventsLocation: string;
   extensionsLocation: string;
-  server: DiscordJS.Guild;
+  server: Array;
   global: unknown;
   timeStamps: Array;
 
@@ -89,7 +89,7 @@ declare interface Actions {
   modDirectories(): Array<eventsLocation | extensionsLocation | actionsLocation>;
   preformActions(msg: DiscordJS.Message, cmd: CommandStructure): any;
   checkTimeRestriction(msg: DiscordJS.Message, cmd: CommandStructure): boolean;
-  generateTimeString(miliSeconds: number): string;
+  generateTimeString(milliSeconds: number): string;
   checkPermissions(msg: DiscordJS.Message, permissions: string): any;
   invokeActions(msg: DiscordJS.Message, actions: Array<Action>): void;
   invokeEvent(event: EventStructure, server: DiscordJS.Guild, temp: unknown): void;
@@ -99,6 +99,7 @@ declare interface Actions {
   getSendTarget(type: number, varName: string, cache: ActionCache);
   getNumber(type: number, varName: string, cache: ActionCache);
   getMessage(type: number, varName: string, cache: ActionCache);
+  getMember(type: number, varName: string, cache: ActionCache);
   getServer(type: number, varName: string, cache: ActionCache);
   getRole(type: number, varName: string, cache: ActionCache);
   getChannel(type: number, varName: string, cache: ActionCache);
@@ -165,7 +166,7 @@ declare interface Audio {
   connections: Array;
   dispatchers: Array;
 
-  isConnected(cahce);
+  isConnected(cache);
   isPlaying(cache);
   setVolume(volume, cache);
   connectToVoice(voiceChannel: DiscordJS.VoiceChannel);
@@ -246,7 +247,6 @@ declare interface DBM_GUILDEMOJI extends DiscordJS.GuildEmoji {
   convertToString(): string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 declare class Action {
   static name: string;
   static section: string;
