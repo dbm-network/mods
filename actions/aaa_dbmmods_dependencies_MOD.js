@@ -297,9 +297,7 @@ module.exports = {
       return Mods;
     };
 
-    DBM.Mods = function _Mods() {
-      return Mods;
-    };
+    DBM.Mods = Mods;
   },
 
   getMods() {
