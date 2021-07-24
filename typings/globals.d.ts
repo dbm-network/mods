@@ -13,11 +13,12 @@ declare interface ActionCache {
 
 // #region Command/Event Structures
 declare interface CommandStructure {
-  name: string;
-  permissions: string;
-  restriction: string;
+  _aliases: string[];
   _id: string;
-  actions: Array<Action>;
+  name: string;
+  permissions: 'NONE' | '??';
+  restriction: '1' | '2' | '3';
+  actions: unknown[];
 }
 
 declare interface EventStructure {
@@ -114,7 +115,7 @@ declare interface Actions {
   getNumber(type: number, varName: string, cache: ActionCache);
   getMessage(type: number, varName: string, cache: ActionCache);
   getMember(type: number, varName: string, cache: ActionCache);
-  getMods(): Mods;
+  getMods(): void;
   getServer(type: number, varName: string, cache: ActionCache);
   getRole(type: number, varName: string, cache: ActionCache);
   getChannel(type: number, varName: string, cache: ActionCache);
@@ -220,6 +221,7 @@ declare interface DBM {
   Images: Images;
   Files: Files;
   Audio: Audio;
+  Mods: Mods;
 }
 
 declare interface DBM_GUILD_MEMBER extends DiscordJS.GuildMember {
