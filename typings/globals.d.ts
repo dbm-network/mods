@@ -31,11 +31,11 @@ declare interface EventStructure {
 
 declare interface Bot {
   // Properties
-  $cmds: CommandStructure;
+  $cmds: Array<CommandStructure>;
   $icds: [];
   $regx: [];
   $anym: [];
-  $evts: EventStructure;
+  $evts: Array<EventStructure>;
   bot: DiscordJS.Client;
 
   // methods
@@ -71,13 +71,27 @@ declare interface Actions {
   actionsLocation: string;
   eventsLocation: string;
   extensionsLocation: string;
-  server: Array;
+  server: DiscordJS.Guild;
   global: unknown;
   timeStamps: Array;
 
   // Methods
-  exists(action: Action): boolean;
+  /**
+   * Checks if the action method exits in the file.
+   * @param action actions function.
+   * @returns if the action is a function.
+   */
+  exists(action: any): boolean;
+  /**
+   * Gets the path to the local file in the projects folder.
+   * @param url path.
+   * @returns the path to a file in the project.
+   */
   getLocalFile(url: string): string;
+  /**
+   * Gets the DBM object in case you ever wanted access to stuff outside of the Actions object.
+   * @returns DBM object
+   */
   getDBM(): DBM;
   anchorJump(id: any, cache: ActionCache): void;
   anchorExist(id: any, cache: ActionCache): boolean;
@@ -89,7 +103,7 @@ declare interface Actions {
   modDirectories(): Array<eventsLocation | extensionsLocation | actionsLocation>;
   preformActions(msg: DiscordJS.Message, cmd: CommandStructure): any;
   checkTimeRestriction(msg: DiscordJS.Message, cmd: CommandStructure): boolean;
-  generateTimeString(milliSeconds: number): string;
+  generateTimeString(miliSeconds: number): string;
   checkPermissions(msg: DiscordJS.Message, permissions: string): any;
   invokeActions(msg: DiscordJS.Message, actions: Array<Action>): void;
   invokeEvent(event: EventStructure, server: DiscordJS.Guild, temp: unknown): void;
@@ -99,8 +113,6 @@ declare interface Actions {
   getSendTarget(type: number, varName: string, cache: ActionCache);
   getNumber(type: number, varName: string, cache: ActionCache);
   getMessage(type: number, varName: string, cache: ActionCache);
-  getMember(type: number, varName: string, cache: ActionCache);
-  getMods(): Mods;
   getServer(type: number, varName: string, cache: ActionCache);
   getRole(type: number, varName: string, cache: ActionCache);
   getChannel(type: number, varName: string, cache: ActionCache);
@@ -126,13 +138,13 @@ declare interface Events {
 
 declare interface Images {
   getImage(url: string): Promise<JIMP>;
-  getFont(url: string): Promise<Font>;
+  getFont(url: stirng): Promise<Font>;
   createBuffer(image): Promise;
   drawImageOnImage(img1, img2, x: number, y: number): void;
 }
 
 declare interface Files {
-  data: Array<string, unknown>;
+  data: unknown;
   writers: unknown;
   crypto: crypto;
   dataFiles: Array<string>;
@@ -167,7 +179,7 @@ declare interface Audio {
   connections: Array;
   dispatchers: Array;
 
-  isConnected(cache);
+  isConnected(cahce);
   isPlaying(cache);
   setVolume(volume, cache);
   connectToVoice(voiceChannel: DiscordJS.VoiceChannel);
@@ -248,13 +260,17 @@ declare interface DBM_GUILDEMOJI extends DiscordJS.GuildEmoji {
   convertToString(): string;
 }
 
-declare class Action {
-  static name: string;
-  static section: string;
-  static fields: Array<string>;
-  static subtitle(data: any): string;
-  static html(isEvent?: any, data?): string;
-  static init(): void;
-  static action(this: Actions, cache: ActionCache): void;
-  static mod(DBM?: DBM): void;
+declare interface SubtitleData {
+  [key: string]: string;
+}
+
+declare interface Action {
+  name: string;
+  section: string;
+  fields: Array<string>;
+  subtitle(data?: SubtitleData<fields>): string;
+  html(isEvent?: any, data?): string;
+  init(): void;
+  action(this: Actions, cache: ActionCache): void;
+  mod(DBM?: DBM): void;
 }

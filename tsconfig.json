@@ -7,7 +7,7 @@
     "forceConsistentCasingInFileNames": true,
     "importHelpers": true,
     "importsNotUsedAsValues": "error",
-    "lib": ["ES2021"],
+    "lib": ["ES2020"],
     "module": "CommonJS",
     "moduleResolution": "Node",
     "newLine": "lf",
@@ -25,8 +25,26 @@
     "strict": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
-    "target": "ES2021"
+    "target": "ES2020"
   },
-  "include": ["**/*.js", "**/*.ts", "typings/globals.d.ts"],
-  "exclude": ["node_modules"]
+  "include": ["**/*.ts", "typings/globals.d.ts"],
+  "exclude": ["node_modules"],
+  "typedocOptions": {
+    "entryPoints": ["typings"],
+    "out": "docs",
+    "name": "DBM MODS Documentation",
+    "excludePrivate": true,
+    "excludeInternal": true,
+    "disableOutputCheck": true,
+    "includeVersion": true,
+    "disableSources": true,
+    "readme": "none",
+    "defaultCategory": "Misc",
+    "hideGenerator": true,
+    "toc": [],
+    "listInvalidSymbolLinks": true,
+    "emit": true,
+    "theme": "./node_modules/typedoc-darker-theme/bin/default",
+    "highlightTheme": "material-darker",
+  }
 }
