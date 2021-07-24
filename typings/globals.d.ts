@@ -4,11 +4,11 @@ import * as crypto from 'crypto';
 import * as ytdl from 'ytdl-core';
 
 declare interface ActionCache {
-  actions: Record<string, any>;
+  actions: unknown[];
   index: number;
   temp: Record<string, unknown>;
-  server: DiscordJS.Guild;
-  msg: DiscordJS.Message;
+  server: DBM_GUILD;
+  msg: DBM_MESSAGE;
 }
 
 // #region Command/Event Structures
@@ -156,7 +156,7 @@ declare interface Files {
       client: string;
       tag: string;
       case: string;
-      seperator: string;
+      separator: string;
       ownerId: string;
       modules: Record<string, string[]>;
     };
