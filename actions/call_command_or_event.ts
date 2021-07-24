@@ -1,9 +1,16 @@
-/* eslint-disable no-unused-vars */
-module.exports = {
-  name: 'Call Command/Event',
-  section: 'Other Stuff',
+import type { Action, ActionCache, Actions, Files } from '../typings/globals';
 
-  subtitle(data) {
+interface SubtitleData {
+  sourcetype: string;
+  source2: string;
+  source: string;
+}
+
+export class CallCommandOrEvent implements Action {
+  static section = 'Other Stuff'
+  static fields = ['sourcetype', 'source', 'source2', 'type']
+
+  subtitle(data: SubtitleData) {
     let source;
     if (parseInt(data.sourcetype, 10) === 1) {
       source = data.source2.toString();
@@ -11,9 +18,7 @@ module.exports = {
       source = data.source.toString();
     }
     return `Call Command/Event ID "${source}"`;
-  },
-
-  fields: ['sourcetype', 'source', 'source2', 'type'],
+  }
 
   html() {
     return `
@@ -45,9 +50,9 @@ module.exports = {
   <option value="false">Asynchronous</option>
   </select>
 </div>`;
-  },
+  }
 
-  init() {
+  init(this: any) {
     const { glob, document } = this;
 
     const { $cmds } = glob;
@@ -68,7 +73,7 @@ module.exports = {
       }
     }
 
-    glob.onChange1 = function onChange1(event) {
+    glob.onChange1 = function onChange1(event: any) {
       const sourceType = parseInt(document.getElementById('sourcetype').value, 10);
       const info1 = document.getElementById('info1');
       const info2 = document.getElementById('info2');
@@ -88,9 +93,9 @@ module.exports = {
     };
 
     glob.onChange1(document.getElementById('sourcetype'));
-  },
+  }
 
-  action(cache) {
+  action(this: Actions, cache: ActionCache) {
     const data = cache.actions[cache.index];
     const { Files } = this.getDBM();
 
@@ -110,22 +115,24 @@ module.exports = {
         break;
       }
     }
+
     if (!actions) {
       this.callNextAction(cache);
       return;
     }
 
     const act = actions[0];
-    if (act && this.exists(act.name)) {
+    if (this.exists(act?.name)) {
       const cache2 = {
         actions,
         index: 0,
         temp: cache.temp,
         server: cache.server,
         msg: cache.msg || null,
+        callback = {},
       };
       if (data.type === 'true') {
-        cache2.callback = function callback() {
+        cache2.callback = () => {
           this.callNextAction(cache);
         }.bind(this);
         this[act.name](cache2);
@@ -136,7 +143,9 @@ module.exports = {
     } else {
       this.callNextAction(cache);
     }
-  },
+  }
 
-  mod() {},
+  mod() {}
 };
+
+Object.defineProperty(CallCommandOrEvent, 'name', { value: 'Call Command/Event' });

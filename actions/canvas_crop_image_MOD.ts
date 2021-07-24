@@ -1,15 +1,20 @@
-module.exports = {
-  name: 'Canvas Crop Image',
-  section: 'Image Editing',
+import type { Action, ActionCache, Actions } from '../typings/globals';
+import * as Canvas from 'canvas';
 
-  subtitle(data) {
+interface SubtitleData {
+  [key: string]: string;
+}
+
+export class CanvasCropImage implements Action {
+  static section = 'Image Editing';
+  static fields = ['storage', 'varName', 'align', 'align2', 'width', 'height', 'positionx', 'positiony'];
+
+  subtitle(data: SubtitleData) {
     const storeTypes = ['', 'Temp Variable', 'Server Variable', 'Global Variable'];
     return `${storeTypes[parseInt(data.storage, 10)]} (${data.varName})`;
-  },
+  }
 
-  fields: ['storage', 'varName', 'align', 'align2', 'width', 'height', 'positionx', 'positiony'],
-
-  html(_isEvent, data) {
+  html(_isEvent: any, data: any) {
     return `
 <div>
   <div style="float: left; width: 45%;">
@@ -73,15 +78,15 @@ module.exports = {
     <input id="positiony" class="round" type="text" value="0"><br>
   </div>
 </div>`;
-  },
+  }
 
-  init() {
+  init(this: any) {
     const { glob, document } = this;
 
     const position = document.getElementById('position');
     const specific = document.getElementById('specific');
 
-    glob.onChange0 = function onChange0(event) {
+    glob.onChange0 = function onChange0(event: any) {
       if (parseInt(event.value, 10) === 9) {
         position.style.display = null;
         specific.style.display = null;
@@ -93,18 +98,15 @@ module.exports = {
 
     glob.refreshVariableList(document.getElementById('storage'));
     glob.onChange0(document.getElementById('align'));
-  },
+  }
 
-  action(cache) {
-    const Canvas = require('canvas');
+  action(this: Actions, cache: ActionCache) {
     const data = cache.actions[cache.index];
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);
     const imagedata = this.getVariable(storage, varName, cache);
-    if (!imagedata) {
-      this.callNextAction(cache);
-      return;
-    }
+    if (!imagedata) return this.callNextAction(cache);
+
     const image = new Canvas.Image();
     image.src = imagedata;
     let cropw = this.evalMessage(data.width, cache);
@@ -214,7 +216,9 @@ module.exports = {
     const result = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
     this.storeValue(result, storage, varName, cache);
     this.callNextAction(cache);
-  },
+  }
 
-  mod() {},
-};
+  mod() {}
+}
+
+Object.defineProperty(CanvasCropImage, 'name', { value: 'Canvas: Crop Image' });

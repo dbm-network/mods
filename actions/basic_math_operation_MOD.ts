@@ -1,20 +1,24 @@
-module.exports = {
-  name: 'Basic Math Operation',
-  section: 'Other Stuff',
+import type { Action, ActionCache, Actions } from '../typings/globals';
 
-  subtitle(data) {
+interface SubtitleData {
+  info: number;
+}
+
+export class BasicMathOperation implements Action {
+  static section = 'Other Stuff';
+  static fields = ['FirstNumber', 'info', 'SecondNumber', 'storage', 'varName'];
+
+  subtitle(data: SubtitleData) {
     const info = ['Addition', 'Subtraction', 'Multiplication', 'Division'];
     return `${info[data.info]}`;
-  },
+  }
 
-  variableStorage(data, varType) {
+  variableStorage(data: any, varType: any) {
     if (parseInt(data.storage, 10) !== varType) return;
     return [data.varName, 'Number'];
-  },
+  }
 
-  fields: ['FirstNumber', 'info', 'SecondNumber', 'storage', 'varName'],
-
-  html(_isEvent, data) {
+  html(_isEvent: any, data: any) {
     return `
 <div style="width: 90%;">
   First Number:<br>
@@ -45,11 +49,11 @@ module.exports = {
     <input id="varName" class="round" type="text">
   </div>
 </div>`;
-  },
+  }
 
-  init() {},
+  init() {}
 
-  action(cache) {
+  action(this: Actions, cache: ActionCache) {
     const data = cache.actions[cache.index];
     const FN = parseFloat(this.evalMessage(data.FirstNumber, cache).replace(/,/g, ''));
     const SN = parseFloat(this.evalMessage(data.SecondNumber, cache).replace(/,/g, ''));
@@ -79,7 +83,9 @@ module.exports = {
       this.storeValue(result, storage, varName, cache);
     }
     this.callNextAction(cache);
-  },
+  }
 
-  mod() {},
-};
+  mod() {}
+}
+
+Object.defineProperty(BasicMathOperation, 'name', { value: 'Await Response' });

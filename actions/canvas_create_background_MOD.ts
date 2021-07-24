@@ -1,8 +1,15 @@
-module.exports = {
-  name: 'Canvas Create Background',
-  section: 'Image Editing',
+import type { Action, ActionCache, Actions } from '../typings/globals';
+import * as Canvas from 'canvas';
 
-  subtitle(data) {
+interface SubtitleData {
+  [key: string]: string;
+}
+
+export class CanvasCreateBackground implements Action {
+  static section: 'Image Editing';
+  static fields = ['width', 'height', 'info', 'gradient', 'color', 'storage', 'varName'];
+
+  subtitle(data: SubtitleData) {
     const info = parseInt(data.info, 10);
     if (info === 0) {
       return data.color ? `Create with Color ${data.color}` : 'No color background has create';
@@ -10,16 +17,14 @@ module.exports = {
     if (info === 1) {
       return data.gradient ? `Create with Gradient ${data.gradient}` : 'No gradient background has create';
     }
-  },
+  }
 
-  variableStorage(data, varType) {
+  variableStorage(data: any, varType: any) {
     if (parseInt(data.storage, 10) !== varType) return;
     return [data.varName, 'Image'];
-  },
+  }
 
-  fields: ['width', 'height', 'info', 'gradient', 'color', 'storage', 'varName'],
-
-  html(_isEvent, data) {
+  html(_isEvent: any, data: any) {
     return `
 <div>
   <div style="float: left; width: 46%;">
@@ -61,15 +66,15 @@ module.exports = {
     <input id="varName" class="round" type="text"><br>
   </div>
 </div>`;
-  },
+  }
 
-  init() {
+  init(this: any) {
     const { glob, document } = this;
 
     const gradient = document.getElementById('Gradient');
     const solid = document.getElementById('Solid');
 
-    glob.onChange0 = function onChange0(event) {
+    glob.onChange0 = function onChange0(event: any) {
       switch (parseInt(event.value, 10)) {
         case 0:
           gradient.style.display = 'none';
@@ -84,17 +89,17 @@ module.exports = {
       }
     };
     glob.onChange0(document.getElementById('info'));
-  },
+  }
 
-  action(cache) {
+  action(this: Actions, cache: ActionCache) {
     const data = cache.actions[cache.index];
-    const Canvas = require('canvas');
     const width = parseInt(this.evalMessage(data.width, cache), 10);
     const height = parseInt(this.evalMessage(data.height, cache), 10);
     const info = parseInt(data.info, 10);
     const canvas = Canvas.createCanvas(width, height);
     const ctx = canvas.getContext('2d');
     let color = this.evalMessage(data.color, cache);
+
     switch (info) {
       case 0:
         if (!color.startsWith('#')) {
@@ -110,12 +115,15 @@ module.exports = {
       default:
         break;
     }
+
     const result = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
     const varName = this.evalMessage(data.varName, cache);
     const storage = parseInt(data.storage, 10);
     this.storeValue(result, storage, varName, cache);
     this.callNextAction(cache);
-  },
+  }
 
-  mod() {},
-};
+  mod() {}
+}
+
+Object.defineProperty(CanvasCreateBackground, 'name', { value: 'Canvas: Create Background' });

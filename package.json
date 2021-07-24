@@ -27,5 +27,8 @@
   },
   "engines": {
     "npm": "7"
+  },
+  "dependencies": {
+    "canvas": "^2.8.0"
   }
 }

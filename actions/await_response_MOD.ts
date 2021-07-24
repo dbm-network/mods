@@ -1,10 +1,16 @@
-/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import type { Action, ActionCache, Actions, DBM_MESSAGE } from '../typings/globals';
 
-module.exports = {
-  name: 'Await Response Call Action',
-  displayName: 'Await Response',
-  section: 'Messaging',
-  fields: [
+interface SubtitleData {
+  max: string;
+  time: string;
+}
+
+export class AwaitResponse implements Action {
+  static displayName = 'Await Response';
+  static section = 'Messaging';
+  static fields = [
     'storage',
     'varName',
     'filter',
@@ -16,19 +22,19 @@ module.exports = {
     'iffalseVal',
     'storage2',
     'varName2',
-  ],
+  ];
 
-  subtitle({ max, time }) {
-    const getPlural = (n) => (n !== '1' ? 's' : '');
+  subtitle({ max, time }: SubtitleData) {
+    const getPlural = (n: string) => (n !== '1' ? 's' : '');
     return `Await ${max} message${getPlural(max)} for ${time} millisecond${getPlural(time)}`;
-  },
+  }
 
-  variableStorage(data, varType) {
+  variableStorage(data: any, varType: any) {
     if (parseInt(data.storage2, 10) !== varType) return;
     return [data.varName2, parseInt(data.max, 10) === 1 ? 'Message' : 'Message List'];
-  },
+  }
 
-  html(isEvent, data) {
+  html(isEvent: any, data: any) {
     return `
   <div style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
     <div>
@@ -67,9 +73,9 @@ module.exports = {
     <div style="margin-right: 25px">
       <div style="float: left; width: 35%;">
         Source Channel:<br>
-        <select id="storage" class="round" onchange="glob.channelChange(this, 'varNameContainer')">${
-          data.channels[isEvent ? 1 : 0]
-        }</select>
+        <select id="storage" class="round" onchange="glob.channelChange(this, 'varNameContainer')">
+          ${data.channels[isEvent ? 1 : 0]}
+        </select>
       </div>
       <div id="varNameContainer" style="display: none; float: right; width: 60%;">
         Variable Name:<br>
@@ -128,9 +134,9 @@ module.exports = {
       <div>
         <div style="float: left; width: 35%;">
           Store Message/List To:<br>
-          <select id="storage2" class="round" onchange="glob.variableChange(this, 'varNameContainer2')">${
-            data.variables[0]
-          }</select>
+          <select id="storage2" class="round" onchange="glob.variableChange(this, 'varNameContainer2')">
+          ${data.variables[0]}
+          </select>
         </div>
         <div id="varNameContainer2" style="display: block; float: right; width: 58%; margin-right: 25px;">
           Variable Name:<br>
@@ -154,14 +160,14 @@ module.exports = {
     text-decoration: underline;
   }
 </style>`;
-  },
+  }
 
-  init() {
+  init(this: any) {
     const { glob, document } = this;
 
     glob.channelChange(document.getElementById('storage'), 'varNameContainer');
     glob.variableChange(document.getElementById('storage2'), 'varNameContainer2');
-    glob.onChangeTrue = function onChangeTrue(event) {
+    glob.onChangeTrue = function onChangeTrue(event: any) {
       switch (parseInt(event.value, 10)) {
         case 0:
         case 1:
@@ -183,7 +189,7 @@ module.exports = {
           break;
       }
     };
-    glob.onChangeFalse = function onChangeFalse(event) {
+    glob.onChangeFalse = function onChangeFalse(event: any) {
       switch (parseInt(event.value, 10)) {
         case 0:
         case 1:
@@ -207,9 +213,9 @@ module.exports = {
     };
     glob.onChangeTrue(document.getElementById('iftrue'));
     glob.onChangeFalse(document.getElementById('iffalse'));
-  },
+  }
 
-  action(cache) {
+  action(this: Actions, cache: ActionCache) {
     const data = cache.actions[cache.index];
     const { Actions } = this.getDBM();
 
@@ -228,7 +234,7 @@ module.exports = {
 
       channel
         .awaitMessages(
-          (msg) => {
+          (msg: DBM_MESSAGE) => {
             const { msg: message, server } = cache;
             const { author, content } = msg;
             let user;
@@ -252,12 +258,15 @@ module.exports = {
           },
           { max, time, errors: ['time'] },
         )
-        .then((c) => {
+        .then((c: any) => {
           this.storeValue(c.size === 1 ? c.first() : c.array(), storage, varName2, cache);
           this.executeResults(true, data, cache);
         })
         .catch(() => this.executeResults(false, data, cache));
     }
-  },
-  mod() {},
-};
+  }
+
+  mod() {}
+}
+
+Object.defineProperty(AwaitResponse, 'name', { value: 'Await Response' });

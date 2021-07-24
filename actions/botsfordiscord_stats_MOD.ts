@@ -1,12 +1,12 @@
-module.exports = {
-  name: 'Send Stats to BFD',
-  section: 'Other Stuff',
+import type { Action, ActionCache, Actions } from '../typings/globals';
+
+export class SendStatsToBFD implements Action {
+  static section = 'Other Stuff';
+  static fields = ['BFDToken', 'ClientID', 'info'];
 
   subtitle() {
     return 'Send server count to BFD!';
-  },
-
-  fields: ['BFDToken', 'ClientID', 'info'],
+  }
 
   html() {
     return `
@@ -24,20 +24,22 @@ module.exports = {
   <input id="ClientID" class="round" type="text">
   <br>Please make sure you don't put this action on a short interval - it can cause 429 (rate limit) errors!
 </div><br>`;
-  },
+  }
 
-  init() {},
+  init() {}
 
-  action(cache) {
+  action(this: Actions, cache: ActionCache) {
     const data = cache.actions[cache.index];
     const token = this.evalMessage(data.BFDToken, cache);
-    const clientid = this.evalMessage(data.ClientID, cache);
+    const clientID = this.evalMessage(data.ClientID, cache);
     const Mods = this.getMods();
     const BFD = Mods.require('bfd-api');
     const bfd = new BFD(token);
-    bfd.postCount(this.getDBM().Bot.bot.guilds.cache.size, clientid);
+    bfd.postCount(this.getDBM().Bot.bot.guilds.cache.size, clientID);
     this.callNextAction(cache);
-  },
+  }
 
-  mod() {},
-};
+  mod() {}
+}
+
+Object.defineProperty(SendStatsToBFD, 'name', { value: 'Send Stats to BFD' });

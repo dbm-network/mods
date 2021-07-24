@@ -1,6 +1,13 @@
-module.exports = {
+import type { Action, ActionCache, Actions } from '../typings/globals';
+import * as Canvas from 'canvas';
+
+interface SubtitleData {
+  [key: string]: string;
+}
+
+export class CanvasDrawImage implements Action {
   name: 'Canvas Draw Image on Image',
-  section: 'Image Editing',
+  static section = 'Image Editing',
 
   subtitle(data) {
     const storeTypes = ['', 'Temp Variable', 'Server Variable', 'Global Variable'];
@@ -64,16 +71,12 @@ module.exports = {
     glob.refreshVariableList(document.getElementById('storage'));
   },
 
-  action(cache) {
-    const Canvas = require('canvas');
+  action(this: Actions, cache: ActionCache) {
     const data = cache.actions[cache.index];
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);
     const imagedata = this.getVariable(storage, varName, cache);
-    if (!imagedata) {
-      this.callNextAction(cache);
-      return;
-    }
+    if (!imagedata) return this.callNextAction(cache);
     const storage2 = parseInt(data.storage2, 10);
     const varName2 = this.evalMessage(data.varName2, cache);
     const imagedata2 = this.getVariable(storage2, varName2, cache);

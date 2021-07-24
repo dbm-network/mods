@@ -2,6 +2,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { Action, ActionCache, Actions } from '../typings/globals';
 
+interface SubtitleData {
+  max: string;
+  time: string;
+}
+
 export class AwaitReaction implements Action {
   static section = 'Messaging';
   static fields = [
@@ -20,8 +25,8 @@ export class AwaitReaction implements Action {
     'varName2',
   ];
 
-  static subtitle(max: number, time: number) {
-    const getPlural = (n: any) => (n !== '1' ? 's' : '');
+  static subtitle({ max, time }: SubtitleData) {
+    const getPlural = (n: string) => (n !== '1' ? 's' : '');
     return `Await ${max} reaction${getPlural(max)} for ${time} millisecond${getPlural(time)}`;
   }
 
