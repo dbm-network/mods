@@ -13,11 +13,12 @@ declare interface ActionCache {
 
 // #region Command/Event Structures
 declare interface CommandStructure {
-  name: string;
-  permissions: string;
-  restriction: string;
+  _aliases: string[];
   _id: string;
-  actions: Array<Action>;
+  name: string;
+  permissions: 'NONE' | '??';
+  restriction: '1' | '2' | '3';
+  actions: unknown[];
 }
 
 declare interface EventStructure {
@@ -71,7 +72,7 @@ declare interface Actions {
   actionsLocation: string;
   eventsLocation: string;
   extensionsLocation: string;
-  server: DiscordJS.Guild;
+  server: Record<string, DiscordJS.Guild>;
   global: unknown;
   timeStamps: Array;
 
@@ -103,7 +104,7 @@ declare interface Actions {
   modDirectories(): Array<eventsLocation | extensionsLocation | actionsLocation>;
   preformActions(msg: DiscordJS.Message, cmd: CommandStructure): any;
   checkTimeRestriction(msg: DiscordJS.Message, cmd: CommandStructure): boolean;
-  generateTimeString(miliSeconds: number): string;
+  generateTimeString(milliSeconds: number): string;
   checkPermissions(msg: DiscordJS.Message, permissions: string): any;
   invokeActions(msg: DiscordJS.Message, actions: Array<Action>): void;
   invokeEvent(event: EventStructure, server: DiscordJS.Guild, temp: unknown): void;
@@ -113,6 +114,8 @@ declare interface Actions {
   getSendTarget(type: number, varName: string, cache: ActionCache);
   getNumber(type: number, varName: string, cache: ActionCache);
   getMessage(type: number, varName: string, cache: ActionCache);
+  getMember(type: number, varName: string, cache: ActionCache);
+  getMods(): void;
   getServer(type: number, varName: string, cache: ActionCache);
   getRole(type: number, varName: string, cache: ActionCache);
   getChannel(type: number, varName: string, cache: ActionCache);
@@ -138,13 +141,30 @@ declare interface Events {
 
 declare interface Images {
   getImage(url: string): Promise<JIMP>;
-  getFont(url: stirng): Promise<Font>;
+  getFont(url: string): Promise<Font>;
   createBuffer(image): Promise;
   drawImageOnImage(img1, img2, x: number, y: number): void;
 }
 
 declare interface Files {
-  data: unknown;
+  data: {
+    globals: Record<string, unknown>;
+    commands: Record<string, unknown>;
+    events: Record<string, unknown>;
+    settings: {
+      token: string;
+      client: string;
+      tag: string;
+      case: string;
+      seperator: string;
+      ownerId: string;
+      modules: Record<string, string[]>;
+    };
+    players: Record<string, unknown>;
+    servers: Record<string, unknown>;
+    serverVars: Record<string, unknown>;
+    globalVars: Record<string, unknown>;
+  };
   writers: unknown;
   crypto: crypto;
   dataFiles: Array<string>;
@@ -179,7 +199,7 @@ declare interface Audio {
   connections: Array;
   dispatchers: Array;
 
-  isConnected(cahce);
+  isConnected(cache);
   isPlaying(cache);
   setVolume(volume, cache);
   connectToVoice(voiceChannel: DiscordJS.VoiceChannel);
@@ -201,6 +221,7 @@ declare interface DBM {
   Images: Images;
   Files: Files;
   Audio: Audio;
+  Mods: Mods;
 }
 
 declare interface DBM_GUILD_MEMBER extends DiscordJS.GuildMember {
