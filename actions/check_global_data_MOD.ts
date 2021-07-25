@@ -1,7 +1,11 @@
-module.exports = {
-  name: 'Check If Member has Role MOD',
-  displayName: 'Check If Member has Role',
-  section: 'Conditions',
+import type { Action } from '../typings/globals';
+
+const action: Action<
+  'dataName' | 'comparison' | 'value' | 'iftrue' | 'iftrueVal' | 'iffalse' | 'iffalseVal' | 'Jump to Anchor'
+> = {
+  name: 'Check Global Data',
+  section: 'Data',
+  fields: ['dataName', 'comparison', 'value', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal', 'Jump to Anchor'],
 
   subtitle(data) {
     const results = [
@@ -14,41 +18,36 @@ module.exports = {
     return `If True: ${results[parseInt(data.iftrue, 10)]} ~ If False: ${results[parseInt(data.iffalse, 10)]}`;
   },
 
-  fields: ['member', 'varName', 'role', 'varName2', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal'],
-
-  html(isEvent, data) {
+  html(_isEvent, data) {
     return `
-<div>
-  <div style="float: left; width: 35%;">
-    Source Member:<br>
-    <select id="member" class="round" onchange="glob.memberChange(this, 'varNameContainer')">
-      ${data.members[isEvent ? 1 : 0]}
+<div style="padding-top: 8px;">
+  <div style="float: left; width: 50%;">
+    Data Name:<br>
+    <input id="dataName" class="round" type="text">
+  </div>
+  <div style="float: left; width: 45%;">
+    Comparison Type:<br>
+    <select id="comparison" class="round">
+      <option value="0">Exists</option>
+      <option value="1" selected>Equals</option>
+      <option value="2">Equals Exactly</option>
+      <option value="3">Less Than</option>
+      <option value="4">Greater Than</option>
+      <option value="5">Includes</option>
+      <option value="6">Matches Regex</option>
     </select>
   </div>
-  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList"><br>
-    </div>
-  </div><br><br><br>
-  <div style="padding-top: 8px;">
-    <div style="float: left; width: 35%;">
-      Source Role:<br>
-      <select id="role" class="round" name="second-list" onchange="glob.roleChange(this, 'varNameContainer2')">
-        ${data.roles[isEvent ? 1 : 0]}
-      </select>
-    </div>
-    <div id="varNameContainer2" style="display: none; float: right; width: 60%;">
-      Variable Name:<br>
-      <input id="varName2" class="round" type="text" list="variableList2"><br>
-    </div>
-  </div><br><br><br>
-  <div style="padding-top: 8px;">
-    ${data.conditions[0]}
-  </div>
+</div><br><br><br>
+<div style="padding-top: 8px;">
+  Value to Compare to:<br>
+  <input id="value" class="round" type="text" name="is-eval">
+</div>
+<div style="padding-top: 16px;">
+  ${data.conditions[0]}
 </div>`;
   },
 
-  init() {
+  init(this: any) {
     const { glob, document } = this;
     const option = document.createElement('OPTION');
     option.value = '4';
@@ -62,7 +61,7 @@ module.exports = {
     const iftrue = document.getElementById('iftrue');
     if (iftrue.length === 4) iftrue.add(option2);
 
-    glob.onChangeTrue = function onChangeTrue(event) {
+    glob.onChangeTrue = function onChangeTrue(event: any) {
       switch (parseInt(event.value, 10)) {
         case 0:
         case 1:
@@ -84,7 +83,7 @@ module.exports = {
           break;
       }
     };
-    glob.onChangeFalse = function onChangeFalse(event) {
+    glob.onChangeFalse = function onChangeFalse(event: any) {
       switch (parseInt(event.value, 10)) {
         case 0:
         case 1:
@@ -106,35 +105,53 @@ module.exports = {
           break;
       }
     };
-    glob.memberChange(document.getElementById('member'), 'varNameContainer');
-    glob.roleChange(document.getElementById('role'), 'varNameContainer2');
     glob.onChangeTrue(document.getElementById('iftrue'));
     glob.onChangeFalse(document.getElementById('iffalse'));
   },
 
-  action(cache) {
+  action(this, cache) {
     const data = cache.actions[cache.index];
-
-    const type = parseInt(data.member, 10);
-    const varName = this.evalMessage(data.varName, cache);
-    const member = this.getMember(type, varName, cache);
-
-    const type2 = parseInt(data.role, 10);
-    const varName2 = this.evalMessage(data.varName2, cache);
-    const role = this.getRole(type2, varName2, cache);
+    const dataName = this.evalMessage(data.dataName, cache);
+    const compare = parseInt(data.comparison, 10);
+    const { Globals } = this.getDBM();
+    const val1 = Globals.data(dataName);
+    let val2 = this.evalMessage(data.value, cache);
+    if (compare !== 6) val2 = this.eval(val2, cache);
+    if (val2 === false) val2 = this.evalMessage(data.value, cache);
 
     let result = false;
-    if (role) {
-      if (Array.isArray(member)) {
-        result = member.every(function every(mem) {
-          return this.dest(mem, 'roles', 'cache') && mem.roles.cache.has(role.id);
-        });
-      } else if (this.dest(member, 'roles', 'cache')) {
-        result = member.roles.cache.has(role.id);
-      }
+    switch (compare) {
+      case 0:
+        result = val1 !== undefined;
+        break;
+      case 1:
+        // eslint-disable-next-line eqeqeq
+        result = val1 == val2;
+        break;
+      case 2:
+        result = val1 === val2;
+        break;
+      case 3:
+        result = val1 < val2;
+        break;
+      case 4:
+        result = val1 > val2;
+        break;
+      case 5:
+        if (typeof val1.includes === 'function') {
+          result = val1.includes(val2);
+        }
+        break;
+      case 6:
+        result = Boolean(val1.match(new RegExp(`^${val2}$`, 'i')));
+        break;
+      default:
+        break;
     }
     this.executeResults(result, data, cache);
   },
 
   mod() {},
 };
+
+module.exports = action;

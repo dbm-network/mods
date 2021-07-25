@@ -20,7 +20,7 @@ const action: Action<'prefix'> = {
 
   init() {},
 
-  action(cache) {
+  action(this, cache) {
     const data = cache.actions[cache.index];
 
     try {

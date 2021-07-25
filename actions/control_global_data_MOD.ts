@@ -1,12 +1,13 @@
-module.exports = {
+import type { Action } from '../typings/globals';
+
+const action: Action<'dataName' | 'changeType' | 'value'> = {
   name: 'Control Global Data',
   section: 'Data',
+  fields: ['dataName', 'changeType', 'value'],
 
   subtitle(data) {
     return `(${data.dataName}) ${data.changeType === '1' ? '+=' : '='} ${data.value}`;
   },
-
-  fields: ['dataName', 'changeType', 'value'],
 
   html() {
     return `
@@ -35,7 +36,6 @@ module.exports = {
     const data = cache.actions[cache.index];
 
     const dataName = this.evalMessage(data.dataName, cache);
-    const isAdd = data.changeType === '1';
     const { Globals } = this.getDBM();
 
     let val = this.evalMessage(data.value, cache);
@@ -44,7 +44,8 @@ module.exports = {
     } catch (e) {
       this.displayError(data, cache, e);
     }
-    if (isAdd) {
+
+    if (data.changeType === '1') {
       Globals.addData(dataName, val);
     } else {
       Globals.setData(dataName, val);
@@ -54,3 +55,5 @@ module.exports = {
 
   mod() {},
 };
+
+module.exports = action;

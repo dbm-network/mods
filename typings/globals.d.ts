@@ -73,7 +73,7 @@ declare interface Actions {
   eventsLocation: string;
   extensionsLocation: string;
   server: Record<string, DiscordJS.Guild>;
-  global: unknown;
+  global: Record<string, unknown>;
   timeStamps: Array;
 
   // Methods
@@ -222,26 +222,34 @@ declare interface DBM {
   Files: Files;
   Audio: Audio;
   Mods: Mods;
+  Globals: Globals;
+}
+
+declare interface Globals {
+  data(name, defaultValue?);
+  setData(name, value);
+  addData(name, value);
 }
 
 declare interface DBM_GUILD_MEMBER extends DiscordJS.GuildMember {
   unban(server: DiscordJS.Guild, reason: string);
-  data(name, defaultValue);
+  data(name, defaultValue?);
   setData(name, value);
   addData(name, value);
   convertToString(): string;
 }
 
 declare interface DBM_USER extends DiscordJS.User {
-  data(name, defaultValue);
+  data(name, defaultValue?);
   setData(name, value);
   addData(name, value);
   convertToString(): string;
 }
 
 declare interface DBM_GUILD extends DiscordJS.Guild {
+  tag?: string; // Outdated support for Server Prefix
   getDefaultChannel(): DiscordJS.GuildChannel;
-  data(name, defaultValue);
+  data(name, defaultValue?);
   setData(name, value);
   addData(name, value);
   convertToString(): string;

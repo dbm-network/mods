@@ -57,7 +57,7 @@ const action: Action<'storage' | 'varName' | 'Path' | 'storage2' | 'varName2'> =
     glob.refreshVariableList(document.getElementById('storage'));
   },
 
-  action(cache) {
+  action(this, cache) {
     const data = cache.actions[cache.index];
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);

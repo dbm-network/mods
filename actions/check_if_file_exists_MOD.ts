@@ -1,6 +1,10 @@
-module.exports = {
-  name: 'Check If Command Exists',
-  section: 'Conditions',
+import type { Action } from '../typings/globals';
+import * as fs from 'fs';
+
+const action: Action<'filename' | 'iftrue' | 'iftrueVal' | 'iffalse' | 'iffalseVal'> = {
+  name: 'Check if File Exists',
+  section: 'File Stuff',
+  fields: ['filename', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal'],
 
   subtitle(data) {
     const results = [
@@ -13,22 +17,19 @@ module.exports = {
     return `If True: ${results[parseInt(data.iftrue, 10)]} ~ If False: ${results[parseInt(data.iffalse, 10)]}`;
   },
 
-  fields: ['commandName', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal'],
-
   html(_isEvent, data) {
     return `
-<div style="width: 45%">
-  Command Name:<br>
-  <input id="commandName" type="text" class="round">
-</div><br>
-<div>
-  ${data.conditions[0]}
+<div style="float: left; width: 60%">
+  Path:
+  <input id="filename" class="round" type="text">
+</div><br><br><br>
+<div style="padding-top: 8px;">
+  ${data.conditions[0]};
 </div>`;
   },
 
-  init() {
+  init(this: any) {
     const { glob, document } = this;
-
     const option = document.createElement('OPTION');
     option.value = '4';
     option.text = 'Jump to Anchor';
@@ -41,7 +42,7 @@ module.exports = {
     const iftrue = document.getElementById('iftrue');
     if (iftrue.length === 4) iftrue.add(option2);
 
-    glob.onChangeTrue = function onChangeTrue(event) {
+    glob.onChangeTrue = function onChangeTrue(event: any) {
       switch (parseInt(event.value, 10)) {
         case 0:
         case 1:
@@ -63,7 +64,7 @@ module.exports = {
           break;
       }
     };
-    glob.onChangeFalse = function onChangeFalse(event) {
+    glob.onChangeFalse = function onChangeFalse(event: any) {
       switch (parseInt(event.value, 10)) {
         case 0:
         case 1:
@@ -89,32 +90,18 @@ module.exports = {
     glob.onChangeFalse(document.getElementById('iffalse'));
   },
 
-  action(cache) {
+  action(this, cache) {
     const data = cache.actions[cache.index];
-    const fs = require('fs');
-    const jp = this.getMods().require('jsonpath');
+    const path = this.evalMessage(data.filename, cache);
+    let result;
 
-    let commandName = this.evalMessage(data.commandName, cache);
-
-    if (commandName.startsWith(cache.server.tag)) {
-      commandName = commandName.slice(cache.server.tag.length).split(/ +/).shift();
-    } else if (commandName.startsWith(this.getDBM().Files.data.settings.tag)) {
-      commandName = commandName.slice(this.getDBM().Files.data.settings.tag.length).split(/ +/).shift();
-    }
-
-    const commandsFile = JSON.parse(fs.readFileSync('./data/commands.json', 'utf-8'));
-    const commands = jp.query(commandsFile, '$[*].name');
-    const commandsAliases = jp.query(commandsFile, '$[*]._aliases');
-
-    if (commandName === '')
-      return console.log("Please put something in 'Command Name' in the 'Check If Command Exists' action...");
-
-    const check = commands.indexOf(commandName);
-    const check2 = commandsAliases.indexOf(commandName);
-    const result = !check !== -1 || check2 !== -1;
+    if (path) result = fs.existsSync(path);
+    else console.log('Path is missing in Check if File Exists.');
 
     this.executeResults(result, data, cache);
   },
 
   mod() {},
 };
+
+module.exports = action;

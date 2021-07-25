@@ -1,6 +1,9 @@
-module.exports = {
-  name: 'Check If Message',
+import type { Action } from '../typings/globals';
+
+const action: Action<'role' | 'varName' | 'permission' | 'iftrue' | 'iftrueVal' | 'iffalse' | 'iffalseVal'> = {
+  name: 'Check Role Permissions',
   section: 'Conditions',
+  fields: ['role', 'varName', 'permission', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal'],
 
   subtitle(data) {
     const results = [
@@ -13,44 +16,32 @@ module.exports = {
     return `If True: ${results[parseInt(data.iftrue, 10)]} ~ If False: ${results[parseInt(data.iffalse, 10)]}`;
   },
 
-  fields: ['message', 'varName', 'info', 'varName2', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal'],
-
   html(isEvent, data) {
     return `
-<div style="float: left; width: 35%; padding-top: 15px;">
-  Source Message:<br>
-  <select id="message" class="round" onchange="glob.memberChange(this, 'varNameContainer')">
-    ${data.messages[isEvent ? 1 : 0]}
-  </select>
-</div>
-<div id="varNameContainer" style="display: none; float: right; width: 60%; padding-top: 12px;">
-  Variable Name:<br>
-  <input id="varName" class="round" type="text" list="variableList"><br>
-</div><br><br><br>
-<div style="padding-top: 20px;">
-  <div style="float: left; width: 40%;">
-    Check If Message:<br>
-    <select id="info" class="round">
-      <option value="0">Is Pinnable?</option>
-      <option value="1">Is Pinned?</option>
-      <option value="2">Is Deletable?</option>
-      <option value="3">Is Deleted?</option>
-      <option value="4">Is TTS?</option>
-      <option value="5">Is Of Discord?</option>
-      <option value="6">Includes @everyone Mention?</option>
+<div>
+  <div style="float: left; width: 35%;">
+    Source Role:<br>
+    <select id="role" class="round" onchange="glob.roleChange(this, 'varNameContainer')">
+      ${data.roles[isEvent ? 1 : 0]}
     </select>
   </div>
-  <div id="varNameContainer2" style="display: none; float: right; width: 60%;">
+  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
     Variable Name:<br>
-    <input id="varName2" class="round" type="text" list="variableList2"><br>
+    <input id="varName" class="round" type="text" list="variableList"><br>
   </div>
 </div><br><br><br>
-<div style="padding-top: 8px;">
+<div style="padding-top: 8px; width: 80%;">
+  Permission:<br>
+  <select id="permission" class="round">
+    ${data.permissions[2]}
+  </select>
+</div><br>
+<div>
   ${data.conditions[0]}
 </div>`;
   },
 
-  init() {
+  init(this: any) {
     const { glob, document } = this;
     const option = document.createElement('OPTION');
     option.value = '4';
@@ -64,7 +55,7 @@ module.exports = {
     const iftrue = document.getElementById('iftrue');
     if (iftrue.length === 4) iftrue.add(option2);
 
-    glob.onChangeTrue = function onChangeTrue(event) {
+    glob.onChangeTrue = function onChangeTrue(event: any) {
       switch (parseInt(event.value, 10)) {
         case 0:
         case 1:
@@ -86,7 +77,7 @@ module.exports = {
           break;
       }
     };
-    glob.onChangeFalse = function onChangeFalse(event) {
+    glob.onChangeFalse = function onChangeFalse(event: any) {
       switch (parseInt(event.value, 10)) {
         case 0:
         case 1:
@@ -108,45 +99,23 @@ module.exports = {
           break;
       }
     };
-    glob.messageChange(document.getElementById('message'), 'varNameContainer');
+    glob.roleChange(document.getElementById('role'), 'varNameContainer');
     glob.onChangeTrue(document.getElementById('iftrue'));
     glob.onChangeFalse(document.getElementById('iffalse'));
   },
 
-  action(cache) {
+  action(this, cache) {
     const data = cache.actions[cache.index];
-    const message = parseInt(data.message, 10);
+    const storage = parseInt(data.role, 10);
     const varName = this.evalMessage(data.varName, cache);
-    const msg = this.getMessage(message, varName, cache);
-    const info = parseInt(data.info, 10);
-    let result = false;
-    switch (info) {
-      case 0:
-        result = msg.pinnable;
-        break;
-      case 1:
-        result = msg.pinned;
-        break;
-      case 2:
-        result = msg.deletable;
-        break;
-      case 3:
-        result = msg.deleted;
-        break;
-      case 4:
-        result = msg.tts;
-        break;
-      case 5:
-        result = msg.system;
-        break;
-      case 6:
-        result = msg.mentions.everyone;
-        break;
-      default:
-        break;
-    }
+    const role = this.getRole(storage, varName, cache);
+    let result;
+
+    if (role) result = role.permissions.has(data.permission);
     this.executeResults(result, data, cache);
   },
 
   mod() {},
 };
+
+module.exports = action;

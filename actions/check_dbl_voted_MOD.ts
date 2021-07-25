@@ -104,7 +104,7 @@ const action: Action<'member' | 'apitoken' | 'varName' | 'iftrue' | 'iftrueVal' 
     glob.onChangeFalse(document.getElementById('iffalse'));
   },
 
-  action(cache) {
+  action(this, cache) {
     const data = cache.actions[cache.index];
     const apitoken = this.evalMessage(data.apitoken, cache);
     const type = parseInt(data.member, 10);

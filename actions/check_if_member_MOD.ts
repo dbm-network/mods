@@ -1,6 +1,11 @@
-module.exports = {
+import type { Action } from '../typings/globals';
+import * as path from 'path';
+import * as fs from 'fs';
+
+const action: Action<'member' | 'varName' | 'info' | 'varName2' | 'iftrue' | 'iftrueVal' | 'iffalse' | 'iffalseVal'> = {
   name: 'Check If Member',
   section: 'Conditions',
+  fields: ['member', 'varName', 'info', 'varName2', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal'],
 
   subtitle(data) {
     const results = [
@@ -12,8 +17,6 @@ module.exports = {
     ];
     return `If True: ${results[parseInt(data.iftrue, 10)]} ~ If False: ${results[parseInt(data.iffalse, 10)]}`;
   },
-
-  fields: ['member', 'varName', 'info', 'varName2', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal'],
 
   html(isEvent, data) {
     return `
@@ -56,23 +59,21 @@ module.exports = {
 </div>`;
   },
 
-  init() {
+  init(this: any) {
     const { glob, document } = this;
     const option = document.createElement('OPTION');
     option.value = '4';
     option.text = 'Jump to Anchor';
     const iffalse = document.getElementById('iffalse');
-    if (iffalse.length === 4) {
-      iffalse.add(option);
-    }
+    if (iffalse.length === 4) iffalse.add(option);
+
     const option2 = document.createElement('OPTION');
     option2.value = '4';
     option2.text = 'Jump to Anchor';
     const iftrue = document.getElementById('iftrue');
-    if (iftrue.length === 4) {
-      iftrue.add(option2);
-    }
-    glob.onChangeTrue = function onChangeTrue(event) {
+    if (iftrue.length === 4) iftrue.add(option2);
+
+    glob.onChangeTrue = function onChangeTrue(event: any) {
       switch (parseInt(event.value, 10)) {
         case 0:
         case 1:
@@ -94,7 +95,7 @@ module.exports = {
           break;
       }
     };
-    glob.onChangeFalse = function onChangeFalse(event) {
+    glob.onChangeFalse = function onChangeFalse(event: any) {
       switch (parseInt(event.value, 10)) {
         case 0:
         case 1:
@@ -121,7 +122,7 @@ module.exports = {
     glob.onChangeFalse(document.getElementById('iffalse'));
   },
 
-  action(cache) {
+  action(this, cache) {
     const data = cache.actions[cache.index];
     const type = parseInt(data.member, 10);
     const varName = this.evalMessage(data.varName, cache);
@@ -151,8 +152,7 @@ module.exports = {
         result = member.manageable;
         break;
       case 6: {
-        const fs = require('fs');
-        const filePath = require('path').join(__dirname, '../data', 'multiple_bot_owners.json');
+        const filePath = path.join(__dirname, '../data', 'multiple_bot_owners.json');
         if (!fs.existsSync(filePath)) {
           result = member.id === Files.data.settings.ownerId;
         } else {
@@ -172,7 +172,7 @@ module.exports = {
         result = member.id === msg.author.id;
         break;
       case 10:
-        result = member.id === msg.guild.ownerID;
+        result = member.id === msg.guild?.ownerID;
         break;
       default:
         console.log('Please check your "Check if Member" action! There is something wrong...');
@@ -183,3 +183,5 @@ module.exports = {
 
   mod() {},
 };
+
+module.exports = action;
