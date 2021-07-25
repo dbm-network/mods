@@ -1,6 +1,9 @@
-module.exports = {
+import type { Action } from '../typings/globals';
+
+const action: Action<'color' | 'storage' | 'varName'> = {
   name: 'Color',
   section: 'Tools',
+  fields: ['color', 'storage', 'varName'],
 
   subtitle(data) {
     return `${data.color}`;
@@ -10,8 +13,6 @@ module.exports = {
     if (parseInt(data.storage, 10) !== varType) return;
     return [data.varName, 'Color'];
   },
-
-  fields: ['color', 'storage', 'varName'],
 
   html(isEvent, data) {
     return `
@@ -33,7 +34,7 @@ Color:<br>
 
   init() {},
 
-  action(cache) {
+  action(this, cache) {
     const data = cache.actions[cache.index];
     const color = this.evalMessage(data.color, cache);
 
@@ -47,3 +48,5 @@ Color:<br>
 
   mod() {},
 };
+
+module.exports = action;

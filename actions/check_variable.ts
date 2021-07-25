@@ -1,6 +1,11 @@
-module.exports = {
+import type { Action } from '../typings/globals';
+
+const action: Action<
+  'storage' | 'varName' | 'comparison' | 'value' | 'iftrue' | 'iftrueVal' | 'iffalse' | 'iffalseVal'
+> = {
   name: 'Check Variable',
   section: 'Conditions',
+  fields: ['storage', 'varName', 'comparison', 'value', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal'],
 
   subtitle(data) {
     const comparisons = [
@@ -31,8 +36,6 @@ module.exports = {
       results[parseInt(data.iftrue, 10)]
     } ~ If False: ${results[parseInt(data.iffalse, 10)]}`;
   },
-
-  fields: ['storage', 'varName', 'comparison', 'value', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal'],
 
   html(_isEvent, data) {
     return `
@@ -80,10 +83,10 @@ module.exports = {
 </div>`;
   },
 
-  init() {
+  init(this: any) {
     const { glob, document } = this;
 
-    glob.onChange1 = function onChange1(event) {
+    glob.onChange1 = function onChange1(event: any) {
       if (parseInt(event.value, 10) === 0) {
         document.getElementById('directValue').style.display = 'none';
       } else {
@@ -113,7 +116,7 @@ module.exports = {
     const iftrue = document.getElementById('iftrue');
     if (iftrue.length === 4) iftrue.add(option2);
 
-    glob.onChangeTrue = function onChangeTrue(event) {
+    glob.onChangeTrue = function onChangeTrue(event: any) {
       switch (parseInt(event.value, 10)) {
         case 0:
         case 1:
@@ -135,7 +138,7 @@ module.exports = {
           break;
       }
     };
-    glob.onChangeFalse = function onChangeFalse(event) {
+    glob.onChangeFalse = function onChangeFalse(event: any) {
       switch (parseInt(event.value, 10)) {
         case 0:
         case 1:
@@ -163,7 +166,7 @@ module.exports = {
     glob.onChangeFalse(document.getElementById('iffalse'));
   },
 
-  action(cache) {
+  action(this, cache) {
     const data = cache.actions[cache.index];
     const type = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);
@@ -306,3 +309,5 @@ module.exports = {
     };
   },
 };
+
+module.exports = action;

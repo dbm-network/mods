@@ -1,6 +1,11 @@
-module.exports = {
+import type { Action } from '../typings/globals';
+
+const action: Action<
+  'server' | 'varName' | 'dataName' | 'comparison' | 'value' | 'iftrue' | 'iftrueVal' | 'iffalse' | 'iffalseVal'
+> = {
   name: 'Check Server Data',
   section: 'Data',
+  fields: ['server', 'varName', 'dataName', 'comparison', 'value', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal'],
 
   subtitle(data) {
     const results = [
@@ -12,8 +17,6 @@ module.exports = {
     ];
     return `If True: ${results[parseInt(data.iftrue, 10)]} ~ If False: ${results[parseInt(data.iffalse, 10)]}`;
   },
-
-  fields: ['server', 'varName', 'dataName', 'comparison', 'value', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal'],
 
   html(isEvent, data) {
     return `
@@ -62,7 +65,7 @@ module.exports = {
 </div>`;
   },
 
-  init() {
+  init(this: any) {
     const { glob, document } = this;
     const option = document.createElement('OPTION');
     option.value = '4';
@@ -76,7 +79,7 @@ module.exports = {
     const iftrue = document.getElementById('iftrue');
     if (iftrue.length === 4) iftrue.add(option2);
 
-    glob.onChangeTrue = function onChangeTrue(event) {
+    glob.onChangeTrue = function onChangeTrue(event: any) {
       switch (parseInt(event.value, 10)) {
         case 0:
         case 1:
@@ -98,7 +101,7 @@ module.exports = {
           break;
       }
     };
-    glob.onChangeFalse = function onChangeFalse(event) {
+    glob.onChangeFalse = function onChangeFalse(event: any) {
       switch (parseInt(event.value, 10)) {
         case 0:
         case 1:
@@ -125,14 +128,14 @@ module.exports = {
     glob.onChangeFalse(document.getElementById('iffalse'));
   },
 
-  action(cache) {
+  action(this, cache) {
     const data = cache.actions[cache.index];
     const type = parseInt(data.server, 10);
     const varName = this.evalMessage(data.varName, cache);
     const server = this.getServer(type, varName, cache);
     let result = false;
 
-    if (server && server.data) {
+    if (server?.data) {
       const dataName = this.evalMessage(data.dataName, cache);
       const val1 = server.data(dataName);
       const compare = parseInt(data.comparison, 10);
@@ -187,3 +190,5 @@ module.exports = {
 
   mod() {},
 };
+
+module.exports = action;

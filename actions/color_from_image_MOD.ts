@@ -1,6 +1,9 @@
-module.exports = {
+import type { Action } from '../typings/globals';
+
+const action: Action<'info' | 'find' | 'storage' | 'varName'> = {
   name: 'Get Dominant Color',
   section: 'Image Editing',
+  fields: ['info', 'find', 'storage', 'varName'],
 
   subtitle() {
     return 'Get dominant color from URL';
@@ -10,8 +13,6 @@ module.exports = {
     if (parseInt(data.storage, 10) !== varType) return;
     return [data.varName, 'String'];
   },
-
-  fields: ['info', 'find', 'storage', 'varName'],
 
   html(_isEvent, data) {
     return `
@@ -44,7 +45,7 @@ module.exports = {
 
   init() {},
 
-  async action(cache) {
+  async action(this, cache) {
     const Mods = this.getMods();
     const { getColorFromURL } = Mods.require('color-thief-node');
     const rgbToHex = Mods.require('rgb-hex');
@@ -75,3 +76,5 @@ module.exports = {
 
   mod() {},
 };
+
+module.exports = action;

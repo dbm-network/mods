@@ -1,6 +1,9 @@
-module.exports = {
+import type { Action } from '../typings/globals';
+
+const action: Action<'WhichAPI' | 'inputVarType' | 'inputVarName' | 'APIuser' | 'APIkey' | 'storage' | 'varName2'> = {
   name: 'Cleverbot',
   section: 'Other Stuff',
+  fields: ['WhichAPI', 'inputVarType', 'inputVarName', 'APIuser', 'APIkey', 'storage', 'varName2'],
 
   subtitle(data) {
     const WhichAPI = ['cleverbot.io', 'cleverbot.com', 'cleverbot-free'];
@@ -11,8 +14,6 @@ module.exports = {
     if (parseInt(data.storage, 10) !== varType) return;
     return [data.varName2, 'Clever Response'];
   },
-
-  fields: ['WhichAPI', 'inputVarType', 'inputVarName', 'APIuser', 'APIkey', 'storage', 'varName2'],
 
   html(_isEvent, data) {
     return `
@@ -74,14 +75,14 @@ module.exports = {
 </div>`;
   },
 
-  init() {
+  init(this: any) {
     const { glob, document } = this;
 
     glob.variableChange(document.getElementById('inputVarType'), 'varNameContainer');
     glob.variableChange(document.getElementById('storage'), 'varNameContainer2');
   },
 
-  action(cache) {
+  action(this, cache) {
     const { Actions } = this.getDBM();
 
     const data = cache.actions[cache.index];
@@ -106,10 +107,10 @@ module.exports = {
         const CleverBotIO = Mods.require('cleverbot.io');
         const CLEVERBOT = new CleverBotIO(ioAPIuser, ioAPIkey);
 
-        // eslint-disable-next-line no-unused-vars
-        CLEVERBOT.create((err, session) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        CLEVERBOT.create((err: any, session: any) => {
           if (err) return console.log(`ERROR with cleverbot.io: ${err}`);
-          CLEVERBOT.ask(Input, (err, response) => {
+          CLEVERBOT.ask(Input, (err: any, response: unknown) => {
             if (err) return console.log(`ERROR with cleverbot.io: ${err}`);
             // Saving
             if (response !== undefined) {
@@ -129,7 +130,7 @@ module.exports = {
         if (!comAPIkey) return console.log('Please enter a valid API Key from cleverbot.com!');
         clbot.configure({ botapi: comAPIkey });
 
-        clbot.write(Input, (response) => {
+        clbot.write(Input, (response: { output: unknown }) => {
           if (response.output !== undefined) {
             Actions.storeValue(response.output, storage, varName2, cache);
           } else {
@@ -141,7 +142,7 @@ module.exports = {
       }
       case 2: {
         const uCleverbot = Mods.require('cleverbot-free');
-        uCleverbot(Input).then((response) => {
+        uCleverbot(Input).then((response: unknown) => {
           if (response !== undefined) {
             Actions.storeValue(response, storage, varName2, cache);
           } else {
@@ -158,3 +159,5 @@ module.exports = {
 
   mod() {},
 };
+
+module.exports = action;

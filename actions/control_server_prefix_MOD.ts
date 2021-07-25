@@ -1,6 +1,11 @@
-module.exports = {
+import type { Action } from '../typings/globals';
+import * as fs from 'fs';
+import * as path from 'path';
+
+const action: Action<'server' | 'controlType' | 'varName' | 'prefix'> = {
   name: 'Control Server Prefix',
   section: 'Server Control',
+  fields: ['server', 'controlType', 'varName', 'prefix'],
 
   subtitle(data) {
     if (parseInt(data.controlType, 10) === 1) {
@@ -8,8 +13,6 @@ module.exports = {
     }
     return `Set server prefix: ${data.prefix}`;
   },
-
-  fields: ['server', 'controlType', 'varName', 'prefix'],
 
   html(isEvent, data) {
     return `
@@ -38,20 +41,18 @@ module.exports = {
 </div>`;
   },
 
-  init() {
+  init(this: any) {
     const { glob, document } = this;
 
     glob.serverChange(document.getElementById('server'), 'varNameContainer');
-    glob.onChangeControl = function onChangeControl(controlType) {
+    glob.onChangeControl = function onChangeControl(controlType: { value: string }) {
       document.getElementById('prefixContainer').style.display = [null, 'none'][parseInt(controlType.value, 10)];
     };
 
     glob.onChangeControl(document.getElementById('controlType'));
   },
 
-  action(cache) {
-    const fs = require('fs');
-    const path = require('path');
+  action(this, cache) {
     const data = cache.actions[cache.index];
     const type = parseInt(data.server, 10);
     const { Actions } = this.getDBM();
@@ -75,6 +76,7 @@ module.exports = {
       if (controlType === 0) {
         json[server.id] = prefix;
       } else if (controlType === 1 && json[server.id]) {
+        // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
         delete json[server.id];
         delete server.prefix;
       }
@@ -89,3 +91,5 @@ module.exports = {
 
   mod() {},
 };
+
+module.exports = action;

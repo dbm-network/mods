@@ -1,19 +1,21 @@
-module.exports = {
-  name: 'Compare Permissions',
+import type { Action } from '../typings/globals';
 
+const action: Action<'storage' | 'varName' | 'storage2' | 'varName2' | 'storage3' | 'varName3'> = {
+  name: 'Compare Permissions',
   section: 'Permission Control',
+  fields: ['storage', 'varName', 'storage2', 'varName2', 'storage3', 'varName3'],
 
   subtitle(data) {
     const variables = ['', 'Temp Variable', 'Server Variable', 'Global Variable'];
-    return `Compare ${variables[data.storage]} (${data.varName}) To ${variables[data.storage2]} (${data.varName2})`;
+    return `Compare ${variables[parseInt(data.storage, 10)]} (${data.varName}) To ${
+      variables[parseInt(data.storage2, 10)]
+    } (${data.varName2})`;
   },
 
   variableStorage(data, varType) {
     if (parseInt(data.storage3, 10) !== varType) return;
     return [data.varName3, 'Array of Permissions'];
   },
-
-  fields: ['storage', 'varName', 'storage2', 'varName2', 'storage3', 'varName3'],
 
   html(_isEvent, data) {
     return `
@@ -55,13 +57,13 @@ module.exports = {
 </div>`;
   },
 
-  init() {
+  init(this: any) {
     const { glob, document } = this;
     glob.refreshVariableList(document.getElementById('storage'));
     glob.refreshVariableList(document.getElementById('storage2'));
   },
 
-  action(cache) {
+  action(this, cache) {
     const data = cache.actions[cache.index];
     const { Permissions } = this.getDBM().DiscordJS;
     const varName = this.evalMessage(data.varName, cache);
@@ -72,12 +74,12 @@ module.exports = {
     const storage2 = parseInt(data.storage2, 10);
     let newPermissions = this.getVariable(storage2, varName2, cache);
 
-    if (oldPermissions.allow && oldPermissions.allow.bitfield) {
+    if (oldPermissions.allow?.bitfield) {
       oldPermissions = oldPermissions.allow;
     } else if (!isNaN(oldPermissions)) {
       oldPermissions = new Permissions(oldPermissions);
     }
-    if (newPermissions.allow && newPermissions.allow.bitfield) {
+    if (newPermissions.allow?.bitfield) {
       newPermissions = newPermissions.allow;
     } else if (!isNaN(newPermissions)) {
       newPermissions = new Permissions(newPermissions);
@@ -106,3 +108,5 @@ module.exports = {
 
   mod() {},
 };
+
+module.exports = action;

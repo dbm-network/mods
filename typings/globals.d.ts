@@ -225,6 +225,15 @@ declare interface DBM {
   Globals: Globals;
 }
 
+declare interface Mods {
+  installModule(name);
+  require(name);
+  checkURL(url);
+  getEmoji(type, varName, cache);
+  getReaction(type, varName, cache);
+  getWebhook(type, varName, cache);
+  setupMusic(DBM);
+}
 declare interface Globals {
   data(name, defaultValue?);
   setData(name, value);
