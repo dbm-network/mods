@@ -115,7 +115,7 @@ declare interface Actions {
   getNumber(type: number, varName: string, cache: ActionCache);
   getMessage(type: number, varName: string, cache: ActionCache);
   getMember(type: number, varName: string, cache: ActionCache);
-  getMods(): void;
+  getMods(): Mods;
   getServer(type: number, varName: string, cache: ActionCache);
   getRole(type: number, varName: string, cache: ActionCache);
   getChannel(type: number, varName: string, cache: ActionCache);
@@ -282,6 +282,7 @@ declare interface DBM_GUILDEMOJI extends DiscordJS.GuildEmoji {
 }
 
 declare interface Action<Fields extends string = string> {
+  displayName?: string;
   name: string;
   section: string;
   fields: Fields[];
@@ -289,5 +290,6 @@ declare interface Action<Fields extends string = string> {
   html(isEvent?: any, data?): string;
   init(): void;
   action(this: Actions, cache: ActionCache): void;
+  variableStorage(data?: Record<Fields, string>, varType?: number): void;
   mod(DBM?: DBM): void;
 }
