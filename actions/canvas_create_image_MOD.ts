@@ -1,22 +1,19 @@
-import type { Action, ActionCache, Actions } from '../typings/globals';
+import type { Action } from '../typings/globals';
 import * as Canvas from 'canvas';
 
-interface SubtitleData {
-  [key: string]: string;
-}
+const action: Action<'url' | 'storage' | 'varName'> = {
+  name: 'Canvas: Create Image',
+  section: 'Image Editing',
+  fields: ['url', 'storage', 'varName'],
 
-export class CanvasCreateImage implements Action {
-  static section = 'Image Editing';
-  static fields = ['url', 'storage', 'varName'];
-
-  subtitle(data: SubtitleData) {
+  subtitle(data) {
     return `${data.url}`;
-  }
+  },
 
   variableStorage(data: any, varType: any) {
     if (parseInt(data.storage, 10) !== varType) return;
     return [data.varName, 'Image'];
-  }
+  },
 
   html(_isEvent: any, data: any) {
     return `
@@ -36,11 +33,11 @@ export class CanvasCreateImage implements Action {
     <input id="varName" class="round" type="text"><br>
   </div>
 </div>`;
-  }
+  },
 
-  init() {}
+  init() {},
 
-  action(this: Actions, cache: ActionCache) {
+  action(this, cache) {
     const data = cache.actions[cache.index];
 
     void Canvas.loadImage(this.evalMessage(data.url, cache))
@@ -57,9 +54,9 @@ export class CanvasCreateImage implements Action {
       .catch(() => {
         this.callNextAction(cache);
       });
-  }
+  },
 
-  mod() {}
-}
+  mod() {},
+};
 
-Object.defineProperty(CanvasCreateImage, 'name', { value: 'Canvas: Create Image' });
+module.exports = action;

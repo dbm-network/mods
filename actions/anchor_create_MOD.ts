@@ -1,4 +1,4 @@
-import type { Action, ActionCache, Actions } from '../typings/globals';
+import type { Action } from '../typings/globals';
 
 const action: Action<'anchor_id' | 'color' | 'description'> = {
   name: 'Create Anchor',
@@ -43,7 +43,7 @@ const action: Action<'anchor_id' | 'color' | 'description'> = {
 
   init() {},
 
-  action(this: Actions, cache: ActionCache) {
+  action(this, cache) {
     this.callNextAction(cache);
   },
 

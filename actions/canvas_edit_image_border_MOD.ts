@@ -1,5 +1,8 @@
-module.exports = {
-  name: 'Canvas Edit Image Border',
+import type { Action } from '../typings/globals';
+import * as Canvas from 'canvas';
+
+const action: Action<'storage' | 'varName' | 'circleinfo' | 'radius'> = {
+  name: 'Canvas: Edit Image Border',
   section: 'Image Editing',
 
   subtitle(data) {
@@ -38,22 +41,19 @@ module.exports = {
 </div>`;
   },
 
-  init() {
+  init(this: any) {
     const { glob, document } = this;
 
     glob.refreshVariableList(document.getElementById('storage'));
   },
 
-  action(cache) {
-    const Canvas = require('canvas');
+  action(this, cache) {
     const data = cache.actions[cache.index];
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);
     const imagedata = this.getVariable(storage, varName, cache);
-    if (!imagedata) {
-      this.callNextAction(cache);
-      return;
-    }
+    if (!imagedata) return this.callNextAction(cache);
+
     const image = new Canvas.Image();
     image.src = imagedata;
     const circleinfo = parseInt(data.circleinfo, 10);
@@ -62,13 +62,15 @@ module.exports = {
     const imageh = image.height;
     const canvas = Canvas.createCanvas(imagew, imageh);
     const ctx = canvas.getContext('2d');
+
     function circle() {
       ctx.beginPath();
       ctx.arc(imagew / 2, imageh / 2, (imagew + imageh) / 4, 0, Math.PI * 2);
       ctx.closePath();
       ctx.clip();
     }
-    function corner(r) {
+
+    function corner(r: number) {
       ctx.beginPath();
       ctx.moveTo(r, 0);
       ctx.lineTo(imagew - r, 0);
@@ -96,3 +98,5 @@ module.exports = {
 
   mod() {},
 };
+
+module.exports = action;

@@ -1,17 +1,15 @@
 import type { Action, ActionCache, Actions } from '../typings/globals';
 
-interface SubtitleData {
-  [key: string]: string;
-}
-export class AutoHelp implements Action {
-  static section = 'Other Stuff';
-  static fields = ['Category', 'Description', 'Include'];
+const action: Action<'Category' | 'Description' | 'Include'> = {
+  name: 'Auto Help',
+  section: 'Other Stuff',
+  fields: ['Category', 'Description', 'Include'],
 
-  static subtitle(data: SubtitleData) {
+  subtitle(data) {
     return `Included? ${data.Include} | ${data.Category}: ${data.Description}`;
-  }
+  },
 
-  static html() {
+  html() {
     return `
 <div>
   <p>
@@ -31,21 +29,21 @@ export class AutoHelp implements Action {
     <option value="No">No</option>
   </select>
 </div>`;
-  }
+  },
 
-  static init(this: any) {
+  init(this: any) {
     const { glob, document } = this;
 
     glob.sendTargetChange(document.getElementById('Category'), 'varNameContainer');
     glob.sendTargetChange(document.getElementById('Description'), 'varNameContainer');
     glob.sendTargetChange(document.getElementById('Include'), 'varNameContainer');
-  }
+  },
 
-  static action(this: Actions, cache: ActionCache) {
+  action(this: Actions, cache: ActionCache) {
     this.callNextAction(cache);
-  }
+  },
 
-  static mod() {}
-}
+  mod() {},
+};
 
-Object.defineProperty(AutoHelp, 'name', { value: 'Auto Help' });
+module.exports = action;

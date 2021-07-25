@@ -1,22 +1,19 @@
 import type { Action, ActionCache, Actions } from '../typings/globals';
 
-interface SubtitleData {
-  info: number;
-}
+const action: Action<'FirstNumber' | 'info' | 'SecondNumber' | 'storage' | 'varName'> = {
+  name: 'Basic Math Operation',
+  section: 'Other Stuff',
+  fields: ['FirstNumber', 'info', 'SecondNumber', 'storage', 'varName'],
 
-export class BasicMathOperation implements Action {
-  static section = 'Other Stuff';
-  static fields = ['FirstNumber', 'info', 'SecondNumber', 'storage', 'varName'];
-
-  subtitle(data: SubtitleData) {
+  subtitle(data) {
     const info = ['Addition', 'Subtraction', 'Multiplication', 'Division'];
-    return `${info[data.info]}`;
-  }
+    return `${info[parseInt(data.info, 10)]}`;
+  },
 
   variableStorage(data: any, varType: any) {
     if (parseInt(data.storage, 10) !== varType) return;
     return [data.varName, 'Number'];
-  }
+  },
 
   html(_isEvent: any, data: any) {
     return `
@@ -49,9 +46,9 @@ export class BasicMathOperation implements Action {
     <input id="varName" class="round" type="text">
   </div>
 </div>`;
-  }
+  },
 
-  init() {}
+  init() {},
 
   action(this: Actions, cache: ActionCache) {
     const data = cache.actions[cache.index];
@@ -83,9 +80,9 @@ export class BasicMathOperation implements Action {
       this.storeValue(result, storage, varName, cache);
     }
     this.callNextAction(cache);
-  }
+  },
 
-  mod() {}
-}
+  mod() {},
+};
 
-Object.defineProperty(BasicMathOperation, 'name', { value: 'Await Response' });
+module.exports = action;

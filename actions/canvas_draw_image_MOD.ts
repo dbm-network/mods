@@ -1,13 +1,10 @@
-import type { Action, ActionCache, Actions } from '../typings/globals';
+import type { Action } from '../typings/globals';
 import * as Canvas from 'canvas';
 
-interface SubtitleData {
-  [key: string]: string;
-}
-
-export class CanvasDrawImage implements Action {
-  name: 'Canvas Draw Image on Image',
-  static section = 'Image Editing',
+const action: Action<'storage' | 'varName' | 'storage2' | 'varName2' | 'x' | 'y' | 'effect'> = {
+  name: 'Canvas: Draw Image on Image',
+  section: 'Image Editing',
+  fields: ['storage', 'varName', 'storage2', 'varName2', 'x', 'y', 'effect'],
 
   subtitle(data) {
     const storeTypes = ['', 'Temp Variable', 'Server Variable', 'Global Variable'];
@@ -15,8 +12,6 @@ export class CanvasDrawImage implements Action {
       storeTypes[parseInt(data.storage, 10)]
     } (${data.varName})`;
   },
-
-  fields: ['storage', 'varName', 'storage2', 'varName2', 'x', 'y', 'effect'],
 
   html(_isEvent, data) {
     return `
@@ -65,25 +60,24 @@ export class CanvasDrawImage implements Action {
 </div>`;
   },
 
-  init() {
+  init(this: any) {
     const { glob, document } = this;
 
     glob.refreshVariableList(document.getElementById('storage'));
   },
 
-  action(this: Actions, cache: ActionCache) {
+  action(this, cache) {
     const data = cache.actions[cache.index];
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);
     const imagedata = this.getVariable(storage, varName, cache);
     if (!imagedata) return this.callNextAction(cache);
+
     const storage2 = parseInt(data.storage2, 10);
     const varName2 = this.evalMessage(data.varName2, cache);
     const imagedata2 = this.getVariable(storage2, varName2, cache);
-    if (!imagedata2) {
-      this.callNextAction(cache);
-      return;
-    }
+    if (!imagedata2) return this.callNextAction(cache);
+
     const x = parseInt(this.evalMessage(data.x, cache), 10);
     const y = parseInt(this.evalMessage(data.y, cache), 10);
     const effect = parseInt(data.effect, 10);
@@ -105,3 +99,5 @@ export class CanvasDrawImage implements Action {
 
   mod() {},
 };
+
+module.exports = action;

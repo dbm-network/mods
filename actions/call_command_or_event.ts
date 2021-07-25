@@ -6,9 +6,9 @@ interface SubtitleData {
   source: string;
 }
 
-export class CallCommandOrEvent implements Action {
-  static section = 'Other Stuff'
-  static fields = ['sourcetype', 'source', 'source2', 'type']
+const action: Action<'sourcetype' | 'source' | 'source2' | 'type'> = {
+  section: 'Other Stuff',
+  fields: ['sourcetype', 'source', 'source2', 'type'],
 
   subtitle(data: SubtitleData) {
     let source;
@@ -18,7 +18,7 @@ export class CallCommandOrEvent implements Action {
       source = data.source.toString();
     }
     return `Call Command/Event ID "${source}"`;
-  }
+  },
 
   html() {
     return `
@@ -50,7 +50,7 @@ export class CallCommandOrEvent implements Action {
   <option value="false">Asynchronous</option>
   </select>
 </div>`;
-  }
+  },
 
   init(this: any) {
     const { glob, document } = this;
@@ -93,7 +93,7 @@ export class CallCommandOrEvent implements Action {
     };
 
     glob.onChange1(document.getElementById('sourcetype'));
-  }
+  },
 
   action(this: Actions, cache: ActionCache) {
     const data = cache.actions[cache.index];
@@ -116,13 +116,10 @@ export class CallCommandOrEvent implements Action {
       }
     }
 
-    if (!actions) {
-      this.callNextAction(cache);
-      return;
-    }
+    if (!actions) return this.callNextAction(cache);
 
     const act = actions[0];
-    if (this.exists(act?.name)) {
+    if (act && this.exists(act.name)) {
       const cache2 = {
         actions,
         index: 0,
@@ -143,9 +140,9 @@ export class CallCommandOrEvent implements Action {
     } else {
       this.callNextAction(cache);
     }
-  }
+  },
 
-  mod() {}
+  mod() {},
 };
 
-Object.defineProperty(CallCommandOrEvent, 'name', { value: 'Call Command/Event' });
+module.exports = action;

@@ -1,6 +1,9 @@
-module.exports = {
+import type { Action } from '../typings/globals';
+
+const action: Action<'member' | 'apitoken' | 'varName' | 'iftrue' | 'iftrueVal' | 'iffalse' | 'iffalseVal'> = {
   name: 'Check DBL Voted',
   section: 'Conditions',
+  fields: ['member', 'apitoken', 'varName', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal'],
 
   subtitle(data) {
     const results = [
@@ -12,8 +15,6 @@ module.exports = {
     ];
     return `If True: ${results[parseInt(data.iftrue, 10)]} ~ If False: ${results[parseInt(data.iffalse, 10)]}`;
   },
-
-  fields: ['member', 'apitoken', 'varName', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal'],
 
   html(isEvent, data) {
     return `
@@ -40,7 +41,7 @@ module.exports = {
 </div>`;
   },
 
-  init() {
+  init(this: any) {
     const { glob, document } = this;
     const option = document.createElement('OPTION');
     option.value = '4';
@@ -54,7 +55,7 @@ module.exports = {
     const iftrue = document.getElementById('iftrue');
     if (iftrue.length === 4) iftrue.add(option2);
 
-    glob.onChangeTrue = function onChangeTrue(event) {
+    glob.onChangeTrue = function onChangeTrue(event: any) {
       switch (parseInt(event.value, 10)) {
         case 0:
         case 1:
@@ -76,7 +77,7 @@ module.exports = {
           break;
       }
     };
-    glob.onChangeFalse = function onChangeFalse(event) {
+    glob.onChangeFalse = function onChangeFalse(event: any) {
       switch (parseInt(event.value, 10)) {
         case 0:
         case 1:
@@ -116,8 +117,10 @@ module.exports = {
     if (!apitoken) return console.log('ERROR! Please provide an API token for DBL!');
 
     const api = new TopGG.Api(apitoken);
-    api.hasVoted(member.id).then((voted) => this.executeResults(voted, data, cache));
+    api.hasVoted(member.id).then((voted: any) => this.executeResults(voted, data, cache));
   },
 
   mod() {},
 };
+
+module.exports = action;

@@ -2,15 +2,22 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { Action, ActionCache, Actions, DBM_MESSAGE } from '../typings/globals';
 
-interface SubtitleData {
-  max: string;
-  time: string;
-}
-
-export class AwaitResponse implements Action {
-  static displayName = 'Await Response';
-  static section = 'Messaging';
-  static fields = [
+const action: Action<
+  | 'storage'
+  | 'varName'
+  | 'filter'
+  | 'max'
+  | 'time'
+  | 'iftrue'
+  | 'iftrueVal'
+  | 'iffalse'
+  | 'iffalseVal'
+  | 'storage2'
+  | 'varName2'
+> = {
+  name: 'Await Response',
+  section: 'Messaging',
+  fields: [
     'storage',
     'varName',
     'filter',
@@ -22,17 +29,17 @@ export class AwaitResponse implements Action {
     'iffalseVal',
     'storage2',
     'varName2',
-  ];
+  ],
 
-  subtitle({ max, time }: SubtitleData) {
+  subtitle({ max, time }) {
     const getPlural = (n: string) => (n !== '1' ? 's' : '');
     return `Await ${max} message${getPlural(max)} for ${time} millisecond${getPlural(time)}`;
-  }
+  },
 
   variableStorage(data: any, varType: any) {
     if (parseInt(data.storage2, 10) !== varType) return;
     return [data.varName2, parseInt(data.max, 10) === 1 ? 'Message' : 'Message List'];
-  }
+  },
 
   html(isEvent: any, data: any) {
     return `
@@ -160,7 +167,7 @@ export class AwaitResponse implements Action {
     text-decoration: underline;
   }
 </style>`;
-  }
+  },
 
   init(this: any) {
     const { glob, document } = this;
@@ -213,7 +220,7 @@ export class AwaitResponse implements Action {
     };
     glob.onChangeTrue(document.getElementById('iftrue'));
     glob.onChangeFalse(document.getElementById('iffalse'));
-  }
+  },
 
   action(this: Actions, cache: ActionCache) {
     const data = cache.actions[cache.index];
@@ -264,9 +271,9 @@ export class AwaitResponse implements Action {
         })
         .catch(() => this.executeResults(false, data, cache));
     }
-  }
+  },
 
-  mod() {}
-}
+  mod() {},
+};
 
-Object.defineProperty(AwaitResponse, 'name', { value: 'Await Response' });
+module.exports = action;

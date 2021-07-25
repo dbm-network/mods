@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
-import type { Action, ActionCache, Actions } from '../typings/globals';
+import type { Action } from '../typings/globals';
 
 const action: Action<'storage' | 'varName' | 'fieldName' | 'message' | 'inline'> = {
   name: 'Add Embed Field',
@@ -47,7 +47,7 @@ const action: Action<'storage' | 'varName' | 'fieldName' | 'message' | 'inline'>
 
   init() {},
 
-  action(this: Actions, cache: ActionCache) {
+  action(this, cache) {
     const data = cache.actions[cache.index];
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);

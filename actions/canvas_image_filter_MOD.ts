@@ -1,4 +1,8 @@
-module.exports = {
+import type { Action } from '../typings/globals';
+import * as Canvas from 'canvas';
+import * as Filter from 'imagedata-filters';
+
+const action: Action<'storage' | 'varName' | 'info' | 'value'> = {
   name: 'Canvas Image Filter',
   section: 'Image Editing',
 
@@ -58,12 +62,12 @@ module.exports = {
 </div>`;
   },
 
-  init() {
+  init(this: any) {
     const { glob, document } = this;
 
     glob.refreshVariableList(document.getElementById('storage'));
 
-    glob.onChange1 = function onChange1(event) {
+    glob.onChange1 = function onChange1(event: any) {
       const value = parseInt(event.value, 10);
       const valuetext = document.getElementById('valuetext');
       if (value === 1) {
@@ -76,17 +80,13 @@ module.exports = {
     glob.onChange1(document.getElementById('info'));
   },
 
-  action(cache) {
-    const Canvas = require('canvas');
-    const Filter = require('imagedata-filters');
+  action(this, cache) {
     const data = cache.actions[cache.index];
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);
     const imagedata = this.getVariable(storage, varName, cache);
-    if (!imagedata) {
-      this.callNextAction(cache);
-      return;
-    }
+    if (!imagedata) return this.callNextAction(cache);
+
     const image = new Canvas.Image();
     image.src = imagedata;
     const info = parseInt(data.info, 10);
@@ -96,6 +96,7 @@ module.exports = {
     ctx.drawImage(image, 0, 0);
     const imgdata = ctx.getImageData(0, 0, image.width, image.height);
     let imagedata2;
+
     switch (info) {
       case 0:
         value = (Number(value) / 100).toString();
@@ -136,6 +137,7 @@ module.exports = {
       default:
         break;
     }
+
     ctx.putImageData(imagedata2, 0, 0);
     const result = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
     this.storeValue(result, storage, varName, cache);
@@ -144,3 +146,5 @@ module.exports = {
 
   mod() {},
 };
+
+module.exports = action;

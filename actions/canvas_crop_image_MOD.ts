@@ -1,20 +1,17 @@
-import type { Action, ActionCache, Actions } from '../typings/globals';
+import type { Action } from '../typings/globals';
 import * as Canvas from 'canvas';
 
-interface SubtitleData {
-  [key: string]: string;
-}
+const action: Action<'storage' | 'varName' | 'align' | 'align2' | 'width' | 'height' | 'positionx' | 'positiony'> = {
+  name: 'Canvas: Crop Image',
+  section: 'Image Editing',
+  fields: ['storage', 'varName', 'align', 'align2', 'width', 'height', 'positionx', 'positiony'],
 
-export class CanvasCropImage implements Action {
-  static section = 'Image Editing';
-  static fields = ['storage', 'varName', 'align', 'align2', 'width', 'height', 'positionx', 'positiony'];
-
-  subtitle(data: SubtitleData) {
+  subtitle(data) {
     const storeTypes = ['', 'Temp Variable', 'Server Variable', 'Global Variable'];
     return `${storeTypes[parseInt(data.storage, 10)]} (${data.varName})`;
-  }
+  },
 
-  html(_isEvent: any, data: any) {
+  html(_isEvent, data) {
     return `
 <div>
   <div style="float: left; width: 45%;">
@@ -78,7 +75,7 @@ export class CanvasCropImage implements Action {
     <input id="positiony" class="round" type="text" value="0"><br>
   </div>
 </div>`;
-  }
+  },
 
   init(this: any) {
     const { glob, document } = this;
@@ -98,9 +95,9 @@ export class CanvasCropImage implements Action {
 
     glob.refreshVariableList(document.getElementById('storage'));
     glob.onChange0(document.getElementById('align'));
-  }
+  },
 
-  action(this: Actions, cache: ActionCache) {
+  action(this, cache) {
     const data = cache.actions[cache.index];
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);
@@ -216,9 +213,9 @@ export class CanvasCropImage implements Action {
     const result = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
     this.storeValue(result, storage, varName, cache);
     this.callNextAction(cache);
-  }
+  },
 
-  mod() {}
-}
+  mod() {},
+};
 
-Object.defineProperty(CanvasCropImage, 'name', { value: 'Canvas: Crop Image' });
+module.exports = action;

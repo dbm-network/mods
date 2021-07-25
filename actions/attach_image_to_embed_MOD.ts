@@ -1,22 +1,18 @@
 import type { Action, ActionCache, Actions } from '../typings/globals';
 
-interface SubtitleData {
-  [key: string]: any;
-}
+const action: Action<'embedstorage' | 'embedvarName' | 'imagestorage' | 'imagevarName' | 'filename'> = {
+  name: 'Attach Image to Embed',
+  section: 'Embed Message',
+  fields: ['embedstorage', 'embedvarName', 'imagestorage', 'imagevarName', 'filename'],
 
-export class AttachImageToEmbed implements Action {
-  static section = 'Embed Message';
-
-  static subtitle(data: SubtitleData) {
+  subtitle(data) {
     const array = ['Temp Variable', 'Server Variable', 'Global Variable'];
-    return `Attach (${array[data.imagestorage - 1]} ${data.imagevarName}) to Embed (${array[data.embedstorage - 1]} ${
-      data.embedvarName
-    }) (${data.filename || 'image.png'})`;
-  }
+    return `Attach (${array[parseInt(data.imagestorage, 10) - 1]} ${data.imagevarName}) to Embed (${
+      array[parseInt(data.embedstorage, 10) - 1]
+    } ${data.embedvarName}) (${data.filename || 'image.png'})`;
+  },
 
-  static fields = ['embedstorage', 'embedvarName', 'imagestorage', 'imagevarName', 'filename'];
-
-  static html(_isEvent: any, data: any) {
+  html(_isEvent: any, data: any) {
     return `
 <div>
   <div style="float: left; width: 35%;">
@@ -46,11 +42,11 @@ export class AttachImageToEmbed implements Action {
     <input id="filename" class="round" type="text" placeholder="image.png"><br>
   </div>
 </div>`;
-  }
+  },
 
-  static init() {}
+  init() {},
 
-  static action(this: Actions, cache: ActionCache) {
+  action(this: Actions, cache: ActionCache) {
     const data = cache.actions[cache.index];
 
     const embedstorage = parseInt(data.embedstorage, 10);
@@ -71,9 +67,9 @@ export class AttachImageToEmbed implements Action {
       embed.attachFiles([attachment]);
       this.callNextAction(cache);
     });
-  }
+  },
 
-  static mod() {}
-}
+  mod() {},
+};
 
-Object.defineProperty(AttachImageToEmbed, 'name', { value: 'Attach Image to Embed' });
+module.exports = action;

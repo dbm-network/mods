@@ -1,12 +1,13 @@
 import type { Action, ActionCache, Actions } from '../typings/globals';
 
-export class SendStatsToBFD implements Action {
-  static section = 'Other Stuff';
-  static fields = ['BFDToken', 'ClientID', 'info'];
+const action: Action<'BFDToken' | 'ClientID' | 'info'> = {
+  name: 'Send Stats to BFD',
+  section: 'Other Stuff',
+  fields: ['BFDToken', 'ClientID', 'info'],
 
   subtitle() {
     return 'Send server count to BFD!';
-  }
+  },
 
   html() {
     return `
@@ -24,9 +25,9 @@ export class SendStatsToBFD implements Action {
   <input id="ClientID" class="round" type="text">
   <br>Please make sure you don't put this action on a short interval - it can cause 429 (rate limit) errors!
 </div><br>`;
-  }
+  },
 
-  init() {}
+  init() {},
 
   action(this: Actions, cache: ActionCache) {
     const data = cache.actions[cache.index];
@@ -37,9 +38,9 @@ export class SendStatsToBFD implements Action {
     const bfd = new BFD(token);
     bfd.postCount(this.getDBM().Bot.bot.guilds.cache.size, clientID);
     this.callNextAction(cache);
-  }
+  },
 
-  mod() {}
-}
+  mod() {},
+};
 
-Object.defineProperty(SendStatsToBFD, 'name', { value: 'Send Stats to BFD' });
+module.exports = action;

@@ -1,20 +1,17 @@
 import type { Action, ActionCache, Actions } from '../typings/globals';
 
-interface SubtitleData {
-  [key: string]: string;
-}
+const action: Action<'member' | 'varName' | 'reason' | 'guild' | 'varName2' | 'days'> = {
+  name: 'Ban Member',
+  section: 'Member Control',
+  fields: ['member', 'varName', 'reason', 'guild', 'varName2', 'days'],
 
-export class BanMember implements Action {
-  static section = 'Member Control';
-  static fields = ['member', 'varName', 'reason', 'guild', 'varName2', 'days'];
-
-  subtitle(data: SubtitleData) {
+  subtitle(data) {
     const users = ['Mentioned User', 'Command Author', 'Temp Variable', 'Server Variable', 'Global Variable', 'By ID'];
     const guilds = ['Current Server', 'Temp Variable', 'Server Variable', 'Global Variable'];
     return `${users[parseInt(data.member, 10)]} - ${guilds[parseInt(data.guild, 10)]}`;
-  }
+  },
 
-  static html(isEvent: any, data: any) {
+  html(isEvent: any, data: any) {
     return `
 This action has been modified by DBM Mods.<br>
 <div>
@@ -49,7 +46,7 @@ This action has been modified by DBM Mods.<br>
   Days of Messages to Delete:<br>
   <textarea id="days" rows="1" style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
 </div>`;
-  }
+  },
 
   init(this: any) {
     const { glob, document } = this;
@@ -65,9 +62,9 @@ This action has been modified by DBM Mods.<br>
 
     glob.user(document.getElementById('member'), 'varNameContainer');
     glob.serverChange(document.getElementById('guild'), 'varNameContainer2');
-  }
+  },
 
-  static action(this: Actions, cache: ActionCache) {
+  action(this: Actions, cache: ActionCache) {
     const data = cache.actions[cache.index];
     const type = parseInt(data.member, 10);
     const varName = this.evalMessage(data.varName, cache);
@@ -89,9 +86,9 @@ This action has been modified by DBM Mods.<br>
     } else {
       this.callNextAction(cache);
     }
-  }
+  },
 
-  static mod() {}
-}
+  mod() {},
+};
 
-Object.defineProperty(BanMember, 'name', { value: 'Ban Member' });
+module.exports = action;

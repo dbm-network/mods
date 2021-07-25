@@ -4,20 +4,21 @@ interface SubtitleData {
   [key: string]: any;
 }
 
-export class BaseConvert implements Action {
-  static section = 'Other Stuff';
-  static fields = ['num', 'basef', 'baset', 'storage', 'varName'];
+const action: Action<'num' | 'basef' | 'baset' | 'storage' | 'varName'> = {
+  name: 'Base Convert',
+  section: 'Other Stuff',
+  fields: ['num', 'basef', 'baset', 'storage', 'varName'],
 
-  static subtitle(data: SubtitleData) {
+  subtitle(data: SubtitleData) {
     return `Base ${data.basef} to Base ${data.baset}`;
-  }
+  },
 
-  static variableStorage(data: any, varType: any) {
+  variableStorage(data: any, varType: any) {
     if (parseInt(data.storage, 10) !== varType) return;
     return [data.varName, 'Number'];
-  }
+  },
 
-  static html(_isEvent: any, data: any) {
+  html(_isEvent: any, data: any) {
     return `
 <div style="float: left; width: 100%;">
   Number:<br>
@@ -45,11 +46,11 @@ export class BaseConvert implements Action {
     <input id="varName" class="round" type="text">
   </div>
 </div>`;
-  }
+  },
 
-  static init() {}
+  init() {},
 
-  static action(this: Actions, cache: ActionCache) {
+  action(this: Actions, cache: ActionCache) {
     const data = cache.actions[cache.index];
     const num = this.evalMessage(data.num, cache);
     const basef = parseInt(data.basef, 10);
@@ -69,9 +70,9 @@ export class BaseConvert implements Action {
       this.storeValue(result, storage, varName, cache);
     }
     this.callNextAction(cache);
-  }
+  },
 
-  static mod() {}
-}
+  mod() {},
+};
 
-Object.defineProperty(BaseConvert, 'name', { value: 'Base Convert' });
+module.exports = action;

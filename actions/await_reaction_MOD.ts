@@ -1,15 +1,30 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import type { Action, ActionCache, Actions } from '../typings/globals';
+import type { Action } from '../typings/globals';
 
 interface SubtitleData {
   max: string;
   time: string;
 }
 
-export class AwaitReaction implements Action {
-  static section = 'Messaging';
-  static fields = [
+const action: Action<
+  | 'storage'
+  | 'varName'
+  | 'filter'
+  | 'max'
+  | 'time'
+  | 'maxEmojis'
+  | 'maxUsers'
+  | 'iftrue'
+  | 'iftrueVal'
+  | 'iffalse'
+  | 'iffalseVal'
+  | 'storage2'
+  | 'varName2'
+> = {
+  name: 'Await Reaction',
+  section: 'Messaging',
+  fields: [
     'storage',
     'varName',
     'filter',
@@ -23,19 +38,19 @@ export class AwaitReaction implements Action {
     'iffalseVal',
     'storage2',
     'varName2',
-  ];
+  ],
 
-  static subtitle({ max, time }: SubtitleData) {
+  subtitle({ max, time }) {
     const getPlural = (n: string) => (n !== '1' ? 's' : '');
     return `Await ${max} reaction${getPlural(max)} for ${time} millisecond${getPlural(time)}`;
-  }
+  },
 
-  static variableStorage(data: any, varType: number) {
+  variableStorage(data, varType) {
     if (parseInt(data.storage2, 10) !== varType) return;
     return [data.varName2, `Reaction${parseInt(data.max, 10) === 1 ? '' : ' List'}`];
-  }
+  },
 
-  static html(isEvent: any, data: any) {
+  html(isEvent, data) {
     return `
 <div style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
   <div>
@@ -158,9 +173,9 @@ export class AwaitReaction implements Action {
     text-decoration: underline;
   }
 </style>`;
-  }
+  },
 
-  static init(this: any) {
+  init(this: any) {
     const { glob, document } = this;
 
     glob.messageChange(document.getElementById('storage'), 'varNameContainer');
@@ -212,9 +227,9 @@ export class AwaitReaction implements Action {
     };
     glob.onChangeTrue(document.getElementById('iftrue'));
     glob.onChangeFalse(document.getElementById('iffalse'));
-  }
+  },
 
-  static action(this: Actions, cache: ActionCache) {
+  action(this, cache) {
     const data = cache.actions[cache.index];
     const { Actions } = this.getDBM();
 
@@ -269,9 +284,9 @@ export class AwaitReaction implements Action {
         })
         .catch(() => this.executeResults(false, data, cache));
     }
-  }
+  },
 
-  static mod() {}
-}
+  mod() {},
+};
 
-Object.defineProperty(AwaitReaction, 'name', { value: 'Await Reaction' });
+module.exports = action;

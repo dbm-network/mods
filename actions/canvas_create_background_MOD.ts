@@ -1,30 +1,27 @@
-import type { Action, ActionCache, Actions } from '../typings/globals';
+import type { Action } from '../typings/globals';
 import * as Canvas from 'canvas';
 
-interface SubtitleData {
-  [key: string]: string;
-}
+const action: Action<'width' | 'height' | 'info' | 'gradient' | 'color' | 'storage' | 'varName'> = {
+  name: 'Canvas: Create Background',
+  section: 'Image Editing',
+  fields: ['width', 'height', 'info', 'gradient', 'color', 'storage', 'varName'],
 
-export class CanvasCreateBackground implements Action {
-  static section: 'Image Editing';
-  static fields = ['width', 'height', 'info', 'gradient', 'color', 'storage', 'varName'];
-
-  subtitle(data: SubtitleData) {
+  subtitle(data) {
     const info = parseInt(data.info, 10);
     if (info === 0) {
       return data.color ? `Create with Color ${data.color}` : 'No color background has create';
-    }
-    if (info === 1) {
+    } else if (info === 1) {
       return data.gradient ? `Create with Gradient ${data.gradient}` : 'No gradient background has create';
     }
-  }
+    return 'Canvas: Create Background';
+  },
 
-  variableStorage(data: any, varType: any) {
+  variableStorage(data, varType) {
     if (parseInt(data.storage, 10) !== varType) return;
     return [data.varName, 'Image'];
-  }
+  },
 
-  html(_isEvent: any, data: any) {
+  html(_isEvent, data) {
     return `
 <div>
   <div style="float: left; width: 46%;">
@@ -66,7 +63,7 @@ export class CanvasCreateBackground implements Action {
     <input id="varName" class="round" type="text"><br>
   </div>
 </div>`;
-  }
+  },
 
   init(this: any) {
     const { glob, document } = this;
@@ -89,9 +86,9 @@ export class CanvasCreateBackground implements Action {
       }
     };
     glob.onChange0(document.getElementById('info'));
-  }
+  },
 
-  action(this: Actions, cache: ActionCache) {
+  action(this, cache) {
     const data = cache.actions[cache.index];
     const width = parseInt(this.evalMessage(data.width, cache), 10);
     const height = parseInt(this.evalMessage(data.height, cache), 10);
@@ -121,9 +118,9 @@ export class CanvasCreateBackground implements Action {
     const storage = parseInt(data.storage, 10);
     this.storeValue(result, storage, varName, cache);
     this.callNextAction(cache);
-  }
+  },
 
-  mod() {}
-}
+  mod() {},
+};
 
-Object.defineProperty(CanvasCreateBackground, 'name', { value: 'Canvas: Create Background' });
+module.exports = action;

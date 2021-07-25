@@ -1,4 +1,7 @@
-module.exports = {
+import type { Action } from '../typings/globals';
+import * as Canvas from 'canvas';
+
+const action: Action<'storage' | 'varName' | 'mirror' | 'rotation' | 'width' | 'height'> = {
   name: 'Canvas Image Options',
   section: 'Image Editing',
 
@@ -50,22 +53,19 @@ module.exports = {
 </div>`;
   },
 
-  init() {
+  init(this: any) {
     const { glob, document } = this;
 
     glob.refreshVariableList(document.getElementById('storage'));
   },
 
   action(cache) {
-    const Canvas = require('canvas');
     const data = cache.actions[cache.index];
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);
     const imagedata = this.getVariable(storage, varName, cache);
-    if (!imagedata) {
-      this.callNextAction(cache);
-      return;
-    }
+    if (!imagedata) return this.callNextAction(cache);
+
     const image = new Canvas.Image();
     image.src = imagedata;
     const minfo = parseInt(data.mirror, 10);
@@ -79,13 +79,13 @@ module.exports = {
     let scaleh = 1;
     let mirrorw = 1;
     let mirrorh = 1;
-    function rotate(r) {
+    function rotate(r: any) {
       const imagex = imagew * Math.abs(Math.cos(r)) + imageh * Math.abs(Math.sin(r));
       const imagey = imageh * Math.abs(Math.cos(r)) + imagew * Math.abs(Math.sin(r));
       imagew = imagex;
       imageh = imagey;
     }
-    function scale(w, h) {
+    function scale(w: any, h: any) {
       if (w.endsWith('%')) {
         const percent = w.replace('%', '');
         scalew = parseInt(percent, 10) / 100;
@@ -101,7 +101,7 @@ module.exports = {
       imagew *= scalew;
       imageh *= scaleh;
     }
-    function mirror(m) {
+    function mirror(m: any) {
       switch (m) {
         case 0:
           mirrorw = 1;
@@ -144,3 +144,5 @@ module.exports = {
 
   mod() {},
 };
+
+module.exports = action;

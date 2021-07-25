@@ -1,4 +1,8 @@
-module.exports = {
+import type { Action } from '../typings/globals';
+import * as Canvas from 'canvas';
+import * as fs from 'fs';
+
+const action: Action<'storage' | 'varName' | 'Path' | 'storage2' | 'varName2'> = {
   name: 'Canvas Save Image',
   section: 'Image Editing',
 
@@ -47,7 +51,7 @@ module.exports = {
 </div>`;
   },
 
-  init() {
+  init(this: any) {
     const { document, glob } = this;
 
     glob.refreshVariableList(document.getElementById('storage'));
@@ -55,15 +59,11 @@ module.exports = {
 
   action(cache) {
     const data = cache.actions[cache.index];
-    const fs = require('fs');
-    const Canvas = require('canvas');
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);
     const imagedata = this.getVariable(storage, varName, cache);
-    if (!imagedata) {
-      this.callNextAction(cache);
-      return;
-    }
+    if (!imagedata) return this.callNextAction(cache);
+
     const image = new Canvas.Image();
     image.src = imagedata;
     const canvas = Canvas.createCanvas(image.width, image.height);
@@ -71,6 +71,7 @@ module.exports = {
     ctx.drawImage(image, 0, 0, image.width, image.height);
     const buffer = canvas.toBuffer();
     const Path = this.evalMessage(data.Path, cache);
+
     if (Path) {
       fs.writeFileSync(Path, buffer);
       const varName2 = this.evalMessage(data.varName2, cache);
@@ -84,3 +85,5 @@ module.exports = {
 
   mod() {},
 };
+
+module.exports = action;

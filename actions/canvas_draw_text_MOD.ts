@@ -1,12 +1,15 @@
-module.exports = {
-  name: 'Canvas Draw Text on Image',
+import type { Action } from '../typings/globals';
+import * as Canvas from 'canvas';
+import * as opentype from 'opentype.js';
+
+const action: Action<'storage' | 'varName' | 'x' | 'y' | 'fontPath' | 'fontColor' | 'fontSize' | 'align' | 'text'> = {
+  name: 'Canvas: Draw Text on Image',
   section: 'Image Editing',
+  fields: ['storage', 'varName', 'x', 'y', 'fontPath', 'fontColor', 'fontSize', 'align', 'text'],
 
   subtitle(data) {
     return `${data.text}`;
   },
-
-  fields: ['storage', 'varName', 'x', 'y', 'fontPath', 'fontColor', 'fontSize', 'align', 'text'],
 
   html(_isEvent, data) {
     return `
@@ -48,32 +51,26 @@ module.exports = {
 </div>`;
   },
 
-  init() {
+  init(this: any) {
     const { glob, document } = this;
 
     glob.refreshVariableList(document.getElementById('storage'));
   },
 
-  action(cache) {
-    const Canvas = require('canvas');
-    const opentype = require('opentype.js');
+  action(this, cache) {
     const data = cache.actions[cache.index];
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);
     const imagedata = this.getVariable(storage, varName, cache);
-    if (!imagedata) {
-      this.callNextAction(cache);
-      return;
-    }
+    if (!imagedata) return this.callNextAction(cache);
+
     const fontPath = this.evalMessage(data.fontPath, cache);
     let fontColor = this.evalMessage(data.fontColor, cache);
-    if (!fontColor.startsWith('#')) {
-      fontColor = `#${fontColor}`;
-    }
+    if (!fontColor.startsWith('#')) fontColor = `#${fontColor}`;
+
     let fontSize = parseInt(this.evalMessage(data.fontSize, cache), 10);
-    if (Number.isNaN(fontSize)) {
-      fontSize = 10;
-    }
+    if (Number.isNaN(fontSize)) fontSize = 10;
+
     const align = parseInt(data.align, 10);
     let x = parseFloat(this.evalMessage(data.x, cache));
     let y = parseFloat(this.evalMessage(data.y, cache));
@@ -88,6 +85,7 @@ module.exports = {
     const bounder = textpath.getBoundingBox();
     const width = bounder.x2 - bounder.x1;
     const height = bounder.y2 - bounder.y1;
+
     switch (align) {
       case 1:
         x -= width / 2;
@@ -132,3 +130,5 @@ module.exports = {
 
   mod() {},
 };
+
+module.exports = action;
