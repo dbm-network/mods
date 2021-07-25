@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-require-imports */
 import type { Action } from '../typings/globals';
 import * as Canvas from 'canvas';
-import * as Filter from 'imagedata-filters';
+const Filter = require('imagedata-filters');
 
 const action: Action<'storage' | 'varName' | 'info' | 'value'> = {
   name: 'Canvas Image Filter',

@@ -1,7 +1,8 @@
 {
   "$schema": "https://json.schemastore.org/eslintrc",
   "env": {
-    "browser": true
+    "browser": true,
+    "node": true
   },
   "parserOptions": {
     "ecmaVersion": 2021,
