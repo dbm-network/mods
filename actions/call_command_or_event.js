@@ -1,16 +1,9 @@
-import type { Action, ActionCache, Actions, Files } from '../typings/globals';
-
-interface SubtitleData {
-  sourcetype: string;
-  source2: string;
-  source: string;
-}
-
-const action: Action<'sourcetype' | 'source' | 'source2' | 'type'> = {
+/* eslint-disable no-unused-vars */
+module.exports = {
+  name: 'Call Command/Event',
   section: 'Other Stuff',
-  fields: ['sourcetype', 'source', 'source2', 'type'],
 
-  subtitle(data: SubtitleData) {
+  subtitle(data) {
     let source;
     if (parseInt(data.sourcetype, 10) === 1) {
       source = data.source2.toString();
@@ -19,6 +12,8 @@ const action: Action<'sourcetype' | 'source' | 'source2' | 'type'> = {
     }
     return `Call Command/Event ID "${source}"`;
   },
+
+  fields: ['sourcetype', 'source', 'source2', 'type'],
 
   html() {
     return `
@@ -52,7 +47,7 @@ const action: Action<'sourcetype' | 'source' | 'source2' | 'type'> = {
 </div>`;
   },
 
-  init(this: any) {
+  init() {
     const { glob, document } = this;
 
     const { $cmds } = glob;
@@ -73,7 +68,7 @@ const action: Action<'sourcetype' | 'source' | 'source2' | 'type'> = {
       }
     }
 
-    glob.onChange1 = function onChange1(event: any) {
+    glob.onChange1 = function onChange1(event) {
       const sourceType = parseInt(document.getElementById('sourcetype').value, 10);
       const info1 = document.getElementById('info1');
       const info2 = document.getElementById('info2');
@@ -95,7 +90,7 @@ const action: Action<'sourcetype' | 'source' | 'source2' | 'type'> = {
     glob.onChange1(document.getElementById('sourcetype'));
   },
 
-  action(this: Actions, cache: ActionCache) {
+  action(cache) {
     const data = cache.actions[cache.index];
     const { Files } = this.getDBM();
 
@@ -115,8 +110,10 @@ const action: Action<'sourcetype' | 'source' | 'source2' | 'type'> = {
         break;
       }
     }
-
-    if (!actions) return this.callNextAction(cache);
+    if (!actions) {
+      this.callNextAction(cache);
+      return;
+    }
 
     const act = actions[0];
     if (act && this.exists(act.name)) {
@@ -126,10 +123,9 @@ const action: Action<'sourcetype' | 'source' | 'source2' | 'type'> = {
         temp: cache.temp,
         server: cache.server,
         msg: cache.msg || null,
-        callback = {},
       };
       if (data.type === 'true') {
-        cache2.callback = () => {
+        cache2.callback = function callback() {
           this.callNextAction(cache);
         }.bind(this);
         this[act.name](cache2);
@@ -144,5 +140,3 @@ const action: Action<'sourcetype' | 'source' | 'source2' | 'type'> = {
 
   mod() {},
 };
-
-module.exports = action;
