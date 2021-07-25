@@ -1,12 +1,8 @@
-import type { Action } from '../typings/globals';
-import * as Canvas from 'canvas';
-
-const action: Action<
-  'storage' | 'varName' | 'type' | 'width' | 'height' | 'lineWidth' | 'lineCap' | 'percent' | 'color'
-> = {
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-require-imports */
+module.exports = {
   name: 'Canvas Generate Progress Bar',
   section: 'Image Editing',
-  fields: ['storage', 'varName', 'type', 'width', 'height', 'lineWidth', 'lineCap', 'percent', 'color'],
 
   subtitle(data) {
     const storeTypes = ['', 'Temp Variable', 'Server Variable', 'Global Variable'];
@@ -19,6 +15,8 @@ const action: Action<
     if (parseInt(data.storage, 10) !== varType) return;
     return [data.varName, 'Image'];
   },
+
+  fields: ['storage', 'varName', 'type', 'width', 'height', 'lineWidth', 'lineCap', 'percent', 'color'],
 
   html(_isEvent, data) {
     return `
@@ -78,10 +76,10 @@ const action: Action<
 </div>`;
   },
 
-  init(this: any) {
+  init() {
     const { glob, document } = this;
 
-    glob.onChange1 = function onChange1(event: any) {
+    glob.onChange1 = function onChange1(event) {
       const Change1text = document.getElementById('Change1text');
       const Change2text = document.getElementById('Change2text');
       if (event.value === '0') {
@@ -95,7 +93,8 @@ const action: Action<
     glob.onChange1(document.getElementById('type'));
   },
 
-  action(this, cache) {
+  action(cache) {
+    const Canvas = require('canvas');
     const data = cache.actions[cache.index];
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);
@@ -105,7 +104,7 @@ const action: Action<
     const percent = this.evalMessage(data.percent, cache);
     const lineWidth = parseInt(data.lineWidth, 10);
     const lineCap = parseInt(data.lineCap, 10);
-    let Cap: CanvasLineCap;
+    let Cap;
     switch (lineCap) {
       case 0:
         Cap = 'square';
@@ -117,13 +116,13 @@ const action: Action<
         break;
     }
     const color = this.evalMessage(data.color, cache);
-    let canvas: Canvas.Canvas;
+    let canvas;
     if (type === 0) {
       canvas = Canvas.createCanvas(width, height);
     } else if (type === 1) {
       canvas = Canvas.createCanvas(height, height);
     }
-    const ctx = canvas!.getContext('2d');
+    const ctx = canvas.getContext('2d');
     if (color.startsWith('#')) {
       ctx.strokeStyle = color;
     } else {
@@ -166,12 +165,10 @@ const action: Action<
     }
     ctx.lineCap = Cap;
     ctx.stroke();
-    const result = canvas!.toDataURL('image/png').replace('image/png', 'image/octet-stream');
+    const result = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
     this.storeValue(result, storage, varName, cache);
     this.callNextAction(cache);
   },
 
   mod() {},
 };
-
-module.exports = action;

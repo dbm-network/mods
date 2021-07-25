@@ -1,12 +1,6 @@
-import type { Action, DBM_MESSAGE } from '../typings/globals';
-import * as Canvas from 'canvas';
-
-const action: Action<
-  'storage' | 'varName' | 'channel' | 'varName2' | 'message' | 'compress' | 'spoiler' | 'storage2' | 'varName3'
-> = {
+module.exports = {
   name: 'Canvas Send Image',
   section: 'Image Editing',
-  fields: ['storage', 'varName', 'channel', 'varName2', 'message', 'compress', 'spoiler', 'storage2', 'varName3'],
 
   subtitle(data) {
     const channels = [
@@ -26,6 +20,8 @@ const action: Action<
     if (parseInt(data.storage2, 10) !== varType) return;
     return [data.varName3, 'Message'];
   },
+
+  fields: ['storage', 'varName', 'channel', 'varName2', 'message', 'compress', 'spoiler', 'storage2', 'varName3'],
 
   html(isEvent, data) {
     return `
@@ -95,7 +91,7 @@ const action: Action<
 </div>`;
   },
 
-  init(this: any) {
+  init() {
     const { glob, document } = this;
 
     glob.refreshVariableList(document.getElementById('storage'));
@@ -103,14 +99,17 @@ const action: Action<
     glob.variableChange(document.getElementById('storage2'), 'varNameContainer3');
   },
 
-  action(this, cache) {
+  action(cache) {
     const { DiscordJS } = this.getDBM();
+    const Canvas = require('canvas');
     const data = cache.actions[cache.index];
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);
     const imagedata = this.getVariable(storage, varName, cache);
-    if (!imagedata) return this.callNextAction(cache);
-
+    if (!imagedata) {
+      this.callNextAction(cache);
+      return;
+    }
     const channel = parseInt(data.channel, 10);
     const varName2 = this.evalMessage(data.varName2, cache);
     const target = this.getSendTarget(channel, varName2, cache);
@@ -123,9 +122,8 @@ const action: Action<
     const name = `${parseInt(data.spoiler, 10) === 1 ? 'SPOILER_' : ''}image.png`;
     const buffer = canvas.toBuffer('image/png', { compressionLevel: compress });
     const attachment = new DiscordJS.MessageAttachment(buffer, name);
-
-    if (target?.send) {
-      target.send(this.evalMessage(data.message, cache), attachment).then((msgobject: DBM_MESSAGE) => {
+    if (target && target.send) {
+      target.send(this.evalMessage(data.message, cache), attachment).then((msgobject) => {
         const varName3 = this.evalMessage(data.varName3, cache);
         const storage2 = parseInt(data.storage2, 10);
         this.storeValue(msgobject, storage2, varName3, cache);
@@ -138,5 +136,3 @@ const action: Action<
 
   mod() {},
 };
-
-module.exports = action;
