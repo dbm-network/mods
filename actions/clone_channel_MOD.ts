@@ -1,45 +1,25 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
-import type { Action, ActionCache, Actions } from '../typings/globals';
+import type { Action } from '../typings/globals';
 
-interface SubtitleData {
-  storage: string;
-  varName: string;
-  categoryID: number;
-  position: number;
-  permission: string;
-  info: string;
-  topic: string;
-  slowmode: string;
-  nsfw: string;
-  bitrate: number;
-  userLimit: number;
-  storage2: string;
-  varName2: string;
-}
-
-export class CloneChannelAction implements Action {
-  section = 'Channel Control';
-
-  static subtitle(data: SubtitleData) {
-    const names = [
-      'Same Channel',
-      'Mentioned Channel',
-      'Default Channel',
-      'Temp Variable',
-      'Server Variable',
-      'Global Variable',
-    ];
-    const index = parseInt(data.storage, 10);
-    return index < 3 ? `Clone Channel : ${names[index]}` : `Clone Channel : ${names[index]} - ${data.varName}`;
-  }
-
-  static variableStorage(data: any, varType: any) {
-    if (parseInt(data.storage2, 10) !== varType) return;
-    return [data.varName2, 'Channel'];
-  }
-
-  static fields: [
+const action: Action<
+  | 'storage'
+  | 'varName'
+  | 'categoryID'
+  | 'position'
+  | 'permission'
+  | 'info'
+  | 'topic'
+  | 'slowmode'
+  | 'nsfw'
+  | 'bitrate'
+  | 'userLimit'
+  | 'storage2'
+  | 'varName2'
+> = {
+  name: 'Clone Channel',
+  section: 'Channel Control',
+  fields: [
     'storage',
     'varName',
     'categoryID',
@@ -53,7 +33,25 @@ export class CloneChannelAction implements Action {
     'userLimit',
     'storage2',
     'varName2',
-  ];
+  ],
+
+  subtitle(data) {
+    const names = [
+      'Same Channel',
+      'Mentioned Channel',
+      'Default Channel',
+      'Temp Variable',
+      'Server Variable',
+      'Global Variable',
+    ];
+    const index = parseInt(data.storage, 10);
+    return index < 3 ? `Clone Channel : ${names[index]}` : `Clone Channel : ${names[index]} - ${data.varName}`;
+  },
+
+  variableStorage(data: any, varType: any) {
+    if (parseInt(data.storage2, 10) !== varType) return;
+    return [data.varName2, 'Channel'];
+  },
 
   html(isEvent: any, data: any) {
     return `
@@ -147,7 +145,7 @@ export class CloneChannelAction implements Action {
     <input id="varName2" class="round" type="text">
   </div>
 </div>`;
-  }
+  },
 
   init(this: any) {
     const { glob, document } = this;
@@ -168,9 +166,9 @@ export class CloneChannelAction implements Action {
       }
     };
     glob.channeltype(document.getElementById('info'));
-  }
+  },
 
-  static action(this: Actions, cache: ActionCache) {
+  action(this, cache) {
     const data = cache.actions[cache.index];
     const { server } = cache;
     const storage = parseInt(data.storage, 10);
@@ -211,9 +209,9 @@ export class CloneChannelAction implements Action {
       console.log(`${server ? 'channel' : 'server'} could not be found! Clone Channel MOD.`);
       this.callNextAction(cache);
     }
-  }
+  },
 
-  mod() {}
-}
+  mod() {},
+};
 
-Object.defineProperty(CloneChannelAction, 'name', { value: 'Clone Channel' });
+module.exports = action;
