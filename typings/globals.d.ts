@@ -290,6 +290,6 @@ declare interface Action<Fields extends string = string> {
   html(isEvent?: any, data?): string;
   init(): void;
   action(this: Actions, cache: ActionCache): void;
-  variableStorage?(data?: Record<Fields, string>, varType?: number): void;
+  variableStorage?(data: Record<Fields, string>, varType: number): Array;
   mod(DBM?: DBM): void;
 }
