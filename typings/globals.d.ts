@@ -291,5 +291,5 @@ declare interface Action<Fields extends string = string> {
   init(): void;
   action(this: Actions, cache: ActionCache): void;
   variableStorage?(data: Record<Fields, string>, varType: number): Array;
-  mod(DBM?: DBM): void;
+  mod(DBM: DBM): void;
 }
