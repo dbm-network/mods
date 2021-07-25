@@ -4,7 +4,7 @@ import * as crypto from 'crypto';
 import * as ytdl from 'ytdl-core';
 
 declare interface ActionCache {
-  actions: unknown[];
+  actions: any[];
   index: number;
   temp: Record<string, unknown>;
   server: DBM_GUILD;
