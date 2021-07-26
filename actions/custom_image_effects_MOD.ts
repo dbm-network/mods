@@ -1,6 +1,10 @@
-module.exports = {
+import type { Action } from '../typings/globals';
+import * as Jimp from 'jimp';
+
+const action: Action<'storage' | 'varName' | 'effect' | 'intensity'> = {
   name: 'Custom Image Effects',
   section: 'Image Editing',
+  fields: ['storage', 'varName', 'effect', 'intensity'],
 
   subtitle(data) {
     const storeTypes = ['', 'Temp Variable', 'Server Variable', 'Global Variable'];
@@ -9,8 +13,6 @@ module.exports = {
       data.intensity
     }`;
   },
-
-  fields: ['storage', 'varName', 'effect', 'intensity'],
 
   html(_isEvent, data) {
     return `
@@ -41,7 +43,7 @@ module.exports = {
 </div>`;
   },
 
-  init() {
+  init(this: any) {
     const { glob, document } = this;
     glob.refreshVariableList(document.getElementById('storage'));
   },
@@ -55,18 +57,16 @@ module.exports = {
     const image = this.getVariable(storage, varName, cache);
     const intensity = parseInt(data.intensity, 10);
 
-    const Jimp = require('jimp');
-
     if (!image) return this.callNextAction(cache);
 
-    Jimp.read(image, (err, image1) => {
+    void Jimp.read(image, (err: any, image1: any) => {
       if (err) return console.error('Error with custom image effects: ', err);
       const effect = parseInt(data.effect, 10);
       switch (effect) {
         case 0:
           image1.blur(intensity);
 
-          image1.getBuffer(Jimp.MIME_PNG, (error, image2) => {
+          image1.getBuffer(Jimp.MIME_PNG, (error: any, image2: any) => {
             if (err) return console.error('Error with custom image effects: ', error);
 
             Actions.storeValue(image2, storage, varName, cache);
@@ -76,7 +76,7 @@ module.exports = {
           break;
         case 1:
           image1.pixelate(intensity);
-          image1.getBuffer(Jimp.MIME_PNG, (error, image2) => {
+          image1.getBuffer(Jimp.MIME_PNG, (error: any, image2: any) => {
             if (err) return console.error('Error with custom image effects: ', error);
 
             Actions.storeValue(image2, storage, varName, cache);
@@ -91,3 +91,5 @@ module.exports = {
 
   mod() {},
 };
+
+module.exports = action;

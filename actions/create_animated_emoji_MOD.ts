@@ -1,6 +1,9 @@
-module.exports = {
+import type { Action } from '../typings/globals';
+
+const action: Action<'emojiName' | 'storage' | 'varName' | 'conversion' | 'storage2' | 'varName2'> = {
   name: 'Create Animated Emoji',
   section: 'Emoji Control',
+  fields: ['emojiName', 'storage', 'varName', 'storage2', 'varName2'],
 
   subtitle(data) {
     return `${data.emojiName}`;
@@ -10,8 +13,6 @@ module.exports = {
     if (parseInt(data.storage2, 10) !== varType) return;
     return [data.varName2, 'Animated Emoji'];
   },
-
-  fields: ['emojiName', 'storage', 'varName', 'storage2', 'varName2'],
 
   html(_isEvent, data) {
     return `
@@ -45,10 +46,10 @@ module.exports = {
 </div>`;
   },
 
-  init() {
+  init(this: any) {
     const { glob, document } = this;
 
-    glob.onChange1 = function onChange1(event) {
+    glob.onChange1 = function onChange1(event: any) {
       const value = parseInt(event.value, 10);
       const varNameInput = document.getElementById('varNameContainer2');
       if (value === 0) {
@@ -62,11 +63,11 @@ module.exports = {
     glob.onChange1(document.getElementById('storage2'));
   },
 
-  action(cache) {
+  action(this, cache) {
     const data = cache.actions[cache.index];
     const { server } = cache;
 
-    if (!this.dest(server, 'emojis', 'create')) return this.callnextAction(cache);
+    if (!this.dest(server, 'emojis', 'create')) return this.callNextAction(cache);
 
     const type = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);
@@ -86,3 +87,5 @@ module.exports = {
 
   mod() {},
 };
+
+module.exports = action;

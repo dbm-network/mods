@@ -1,6 +1,9 @@
-module.exports = {
+import type { Action } from '../typings/globals';
+
+const action: Action<'channelName' | 'position' | 'storage' | 'varName'> = {
   name: 'Create Category Channel',
   section: 'Channel Control',
+  fields: ['channelName', 'position', 'storage', 'varName'],
 
   subtitle(data) {
     return `${data.channelName}`;
@@ -11,9 +14,7 @@ module.exports = {
     return [data.varName, 'Channel'];
   },
 
-  fields: ['channelName', 'position', 'storage', 'varName'],
-
-  html(isEvent, data) {
+  html(_isEvent, data) {
     return `
 Name:<br>
 <input id="channelName" class="round" type="text"><br>
@@ -35,15 +36,15 @@ Name:<br>
 </div>`;
   },
 
-  init() {
+  init(this: any) {
     const { glob, document } = this;
     glob.variableChange(document.getElementById('storage'), 'varNameContainer');
   },
 
-  action(cache) {
+  action(this, cache) {
     const data = cache.actions[cache.index];
     const { server } = cache;
-    if (!this.dest(server, 'channels', 'create')) return this.callnextAction(cache);
+    if (!this.dest(server, 'channels', 'create')) return this.callNextAction(cache);
 
     const name = this.evalMessage(data.channelName, cache);
     const position = parseInt(data.position, 10);
@@ -60,3 +61,5 @@ Name:<br>
 
   mod() {},
 };
+
+module.exports = action;

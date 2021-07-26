@@ -1,6 +1,9 @@
-module.exports = {
+import type { Action } from '../typings/globals';
+
+const action: Action<'url' | 'storage' | 'varName'> = {
   name: 'Create GIF',
   section: 'Image Editing',
+  fields: ['url', 'storage', 'varName'],
 
   subtitle(data) {
     return `${data.url}`;
@@ -11,9 +14,7 @@ module.exports = {
     return [data.varName, 'GIF'];
   },
 
-  fields: ['url', 'storage', 'varName'],
-
-  html(isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div>
   Local/Web URL:<br>
@@ -35,7 +36,7 @@ module.exports = {
 
   init() {},
 
-  action(cache) {
+  action(this, cache) {
     const data = cache.actions[cache.index];
     const obj = this.evalMessage(data.url, cache);
 
@@ -56,3 +57,5 @@ module.exports = {
 
   mod() {},
 };
+
+module.exports = action;

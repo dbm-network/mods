@@ -1,6 +1,10 @@
-module.exports = {
+import type { Action } from '../typings/globals';
+import type * as DiscordJS from 'discord.js';
+
+const action: Action<'webhookName' | 'webhookIcon' | 'storage' | 'varName' | 'storage2' | 'varName2'> = {
   name: 'Create Webhook',
   section: 'Webhook Control',
+  fields: ['webhookName', 'webhookIcon', 'storage', 'varName', 'storage2', 'varName2'],
 
   subtitle(data) {
     return `${data.webhookName}`;
@@ -10,8 +14,6 @@ module.exports = {
     if (parseInt(data.storage2, 10) !== varType) return;
     return [data.varName2, 'Webhook'];
   },
-
-  fields: ['webhookName', 'webhookIcon', 'storage', 'varName', 'storage2', 'varName2'],
 
   html(_isEvent, data) {
     return `
@@ -49,14 +51,14 @@ module.exports = {
 </div>`;
   },
 
-  init() {
+  init(this: any) {
     const { glob, document } = this;
 
     glob.channelChange(document.getElementById('storage'), 'varNameContainer');
     glob.variableChange(document.getElementById('storage2'), 'varNameContainer2');
   },
 
-  action(cache) {
+  action(this, cache) {
     const data = cache.actions[cache.index];
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);
@@ -68,7 +70,7 @@ module.exports = {
     const name = this.evalMessage(data.webhookName, cache);
     channel
       .createWebhook(name, { avatar })
-      .then((webhook) => {
+      .then((webhook: DiscordJS.Webhook) => {
         const storage2 = parseInt(data.storage2, 10);
         const varName2 = this.evalMessage(data.varName2, cache);
         this.storeValue(webhook, storage2, varName2, cache);
@@ -79,3 +81,5 @@ module.exports = {
 
   mod() {},
 };
+
+module.exports = action;

@@ -1,6 +1,9 @@
-module.exports = {
+import type { Action, DBM_MESSAGE } from '../typings/globals';
+
+const action: Action<'message' | 'storage' | 'varName' | 'varName2'> = {
   name: 'Crosspost Message',
   section: 'Messaging',
+  fields: ['message', 'varName', 'storage', 'varName2'],
 
   subtitle(data) {
     const message = ['Command Message', 'Temp Variable', 'Server Variable', 'Global Variable'];
@@ -11,8 +14,6 @@ module.exports = {
     if (parseInt(data.storage, 10) !== varType) return;
     return [data.varName2, 'Message'];
   },
-
-  fields: ['message', 'varName', 'storage', 'varName2'],
 
   html(isEvent, data) {
     return `
@@ -42,7 +43,7 @@ module.exports = {
 </div>`;
   },
 
-  init() {
+  init(this: any) {
     const { glob, document } = this;
 
     glob.sendTargetChange(document.getElementById('message'), 'varNameContainer');
@@ -59,7 +60,7 @@ module.exports = {
 
     message
       .crosspost()
-      .then((msg) => {
+      .then((msg: DBM_MESSAGE) => {
         const varName2 = this.evalMessage(data.varName2, cache);
         const storage = parseInt(data.storage, 10);
         this.storeValue(msg, storage, varName2, cache);
@@ -70,3 +71,5 @@ module.exports = {
 
   mod() {},
 };
+
+module.exports = action;

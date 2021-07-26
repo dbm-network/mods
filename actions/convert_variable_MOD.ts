@@ -1,6 +1,9 @@
-module.exports = {
+import type { Action } from '../typings/globals';
+
+const action: Action<'storage' | 'varName' | 'conversion' | 'storage2' | 'varName2'> = {
   name: 'Convert Variable',
   section: 'Variable Things',
+  fields: ['storage', 'varName', 'conversion', 'storage2', 'varName2'],
 
   subtitle(data) {
     const info = [
@@ -21,9 +24,7 @@ module.exports = {
     return [data.varName2, info2[parseInt(data.conversion, 10)]];
   },
 
-  fields: ['storage', 'varName', 'conversion', 'storage2', 'varName2'],
-
-  html(isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div>
   <div style="float: left; width: 35%;">
@@ -97,12 +98,12 @@ module.exports = {
 </style>`;
   },
 
-  init() {
+  init(this: any) {
     const { glob, document } = this;
     glob.refreshVariableList(document.getElementById('storage'));
   },
 
-  action(cache) {
+  action(this, cache) {
     const data = cache.actions[cache.index];
 
     const storage = parseInt(data.storage, 10);
@@ -129,7 +130,7 @@ module.exports = {
         result = variable.toString().toLowerCase();
         break;
       case 5:
-        result = parseInt(Number(variable), 10);
+        result = Number(parseInt(variable, 10));
         break;
       case 6:
         result = Number(variable);
@@ -148,3 +149,5 @@ module.exports = {
 
   mod() {},
 };
+
+module.exports = action;

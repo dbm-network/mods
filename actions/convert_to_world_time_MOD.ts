@@ -1,6 +1,9 @@
-module.exports = {
+import type { Action } from '../typings/globals';
+
+const action: Action<'textbox' | 'info' | 'storage' | 'varName'> = {
   name: 'Convert To World Time',
   section: 'Other Stuff',
+  fields: ['textbox', 'info', 'storage', 'varName'],
 
   subtitle() {
     return 'Input a timezone and retrieve its current time.';
@@ -10,8 +13,6 @@ module.exports = {
     if (parseInt(data.storage, 10) !== varType) return;
     return [data.varName, 'Time'];
   },
-
-  fields: ['textbox', 'info', 'storage', 'varName'],
 
   html(_isEvent, data) {
     return `
@@ -37,7 +38,7 @@ module.exports = {
 
   init() {},
 
-  action(cache) {
+  action(this, cache) {
     const data = cache.actions[cache.index];
     const Mods = this.getMods();
     const moment = Mods.require('moment-timezone');
@@ -53,3 +54,5 @@ module.exports = {
 
   mod() {},
 };
+
+module.exports = action;

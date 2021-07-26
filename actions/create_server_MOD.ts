@@ -1,6 +1,9 @@
-module.exports = {
+import type { Action } from '../typings/globals';
+
+const action: Action<'serverName' | 'serverRegion' | 'storage' | 'varName'> = {
   name: 'Create Server',
   section: 'Server Control',
+  fields: ['serverName', 'serverRegion', 'storage', 'varName'],
 
   subtitle(data) {
     return `${data.serverName}`;
@@ -11,9 +14,7 @@ module.exports = {
     return [data.varName, 'Server'];
   },
 
-  fields: ['serverName', 'serverRegion', 'storage', 'varName'],
-
-  html(isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div style="padding-top: 8px;">
   <div style="float: left; width: 560px;">
@@ -40,12 +41,12 @@ module.exports = {
 </div>`;
   },
 
-  init() {
+  init(this: any) {
     const { glob, document } = this;
     glob.variableChange(document.getElementById('storage'), 'varNameContainer');
   },
 
-  action(cache) {
+  action(this, cache) {
     const data = cache.actions[cache.index];
     const serverName = this.evalMessage(data.serverName, cache);
     const botClient = this.getDBM().Bot.bot;
@@ -65,3 +66,5 @@ module.exports = {
 
   mod() {},
 };
+
+module.exports = action;
