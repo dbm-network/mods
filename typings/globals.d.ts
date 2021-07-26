@@ -4,11 +4,11 @@ import * as crypto from 'crypto';
 import * as ytdl from 'ytdl-core';
 
 declare interface ActionCache {
-  actions: Record<string, any>;
+  actions: any[];
   index: number;
   temp: Record<string, unknown>;
-  server: DiscordJS.Guild;
-  msg: DiscordJS.Message;
+  server: DBM_GUILD;
+  msg: DBM_MESSAGE;
 }
 
 // #region Command/Event Structures
@@ -115,7 +115,7 @@ declare interface Actions {
   getNumber(type: number, varName: string, cache: ActionCache);
   getMessage(type: number, varName: string, cache: ActionCache);
   getMember(type: number, varName: string, cache: ActionCache);
-  getMods(): void;
+  getMods(): Mods;
   getServer(type: number, varName: string, cache: ActionCache);
   getRole(type: number, varName: string, cache: ActionCache);
   getChannel(type: number, varName: string, cache: ActionCache);
@@ -156,7 +156,7 @@ declare interface Files {
       client: string;
       tag: string;
       case: string;
-      seperator: string;
+      separator: string;
       ownerId: string;
       modules: Record<string, string[]>;
     };
@@ -282,6 +282,7 @@ declare interface DBM_GUILDEMOJI extends DiscordJS.GuildEmoji {
 }
 
 declare interface Action<Fields extends string = string> {
+  displayName?: string;
   name: string;
   section: string;
   fields: Fields[];
@@ -289,5 +290,6 @@ declare interface Action<Fields extends string = string> {
   html(isEvent?: any, data?): string;
   init(): void;
   action(this: Actions, cache: ActionCache): void;
-  mod(DBM?: DBM): void;
+  variableStorage?(data: Record<Fields, string>, varType: number): Array;
+  mod(DBM: DBM): void;
 }
