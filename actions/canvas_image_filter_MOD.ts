@@ -1,8 +1,4 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable @typescript-eslint/no-require-imports */
 import type { Action } from '../typings/globals';
-import * as Canvas from 'canvas';
-const Filter = require('imagedata-filters');
 
 const action: Action<'storage' | 'varName' | 'info' | 'value'> = {
   name: 'Canvas Image Filter',
@@ -83,6 +79,9 @@ const action: Action<'storage' | 'varName' | 'info' | 'value'> = {
   },
 
   action(this, cache) {
+    const Mods = this.getMods();
+    const Canvas = Mods.require('canvas');
+    const Filter = Mods.require('imagedata-filters');
     const data = cache.actions[cache.index];
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);

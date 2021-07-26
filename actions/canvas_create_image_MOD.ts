@@ -1,5 +1,4 @@
 import type { Action } from '../typings/globals';
-import * as Canvas from 'canvas';
 
 const action: Action<'url' | 'storage' | 'varName'> = {
   name: 'Canvas: Create Image',
@@ -38,10 +37,11 @@ const action: Action<'url' | 'storage' | 'varName'> = {
   init() {},
 
   action(this, cache) {
+    const Canvas = this.getMods().require('canvas');
     const data = cache.actions[cache.index];
 
     void Canvas.loadImage(this.evalMessage(data.url, cache))
-      .then((image) => {
+      .then((image: any) => {
         const canvas = Canvas.createCanvas(image.width, image.height);
         const ctx = canvas.getContext('2d');
         ctx.drawImage(image, 0, 0, image.width, image.height);

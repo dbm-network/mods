@@ -1,5 +1,4 @@
 import type { Action } from '../typings/globals';
-import * as Canvas from 'canvas';
 
 const action: Action<'storage' | 'varName' | 'circleinfo' | 'radius'> = {
   name: 'Canvas: Edit Image Border',
@@ -48,6 +47,7 @@ const action: Action<'storage' | 'varName' | 'circleinfo' | 'radius'> = {
   },
 
   action(this, cache) {
+    const Canvas = this.getMods().require('canvas');
     const data = cache.actions[cache.index];
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);
@@ -58,8 +58,8 @@ const action: Action<'storage' | 'varName' | 'circleinfo' | 'radius'> = {
     image.src = imagedata;
     const circleinfo = parseInt(data.circleinfo, 10);
     const radius = parseInt(data.radius, 10);
-    const imagew = image.width;
-    const imageh = image.height;
+    const imagew: number = image.width;
+    const imageh: number = image.height;
     const canvas = Canvas.createCanvas(imagew, imageh);
     const ctx = canvas.getContext('2d');
 

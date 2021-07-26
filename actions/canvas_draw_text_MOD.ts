@@ -1,6 +1,4 @@
 import type { Action } from '../typings/globals';
-import * as Canvas from 'canvas';
-import * as opentype from 'opentype.js';
 
 const action: Action<'storage' | 'varName' | 'x' | 'y' | 'fontPath' | 'fontColor' | 'fontSize' | 'align' | 'text'> = {
   name: 'Canvas: Draw Text on Image',
@@ -58,6 +56,9 @@ const action: Action<'storage' | 'varName' | 'x' | 'y' | 'fontPath' | 'fontColor
   },
 
   action(this, cache) {
+    const Mods = this.getMods();
+    const Canvas = Mods.require('canvas');
+    const opentype = Mods.require('opentype.js');
     const data = cache.actions[cache.index];
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);

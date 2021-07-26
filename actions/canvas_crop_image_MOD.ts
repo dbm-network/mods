@@ -1,5 +1,4 @@
 import type { Action } from '../typings/globals';
-import * as Canvas from 'canvas';
 
 const action: Action<'storage' | 'varName' | 'align' | 'align2' | 'width' | 'height' | 'positionx' | 'positiony'> = {
   name: 'Canvas: Crop Image',
@@ -98,6 +97,7 @@ const action: Action<'storage' | 'varName' | 'align' | 'align2' | 'width' | 'hei
   },
 
   action(this, cache) {
+    const Canvas = this.getMods().require('canvas');
     const data = cache.actions[cache.index];
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);

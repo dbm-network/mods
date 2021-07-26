@@ -1,6 +1,9 @@
-module.exports = {
-  name: 'Convert Seconds To D/H/M/S',
+import type { Action } from '../typings/globals';
+
+const action: Action<'time' | 'storage' | 'varName'> = {
+  name: 'Convert Timestamp to Date',
   section: 'Other Stuff',
+  fields: ['time', 'storage', 'varName'],
 
   subtitle(data) {
     return `Convert ${data.time}`;
@@ -11,13 +14,15 @@ module.exports = {
     return [data.varName, 'Date'];
   },
 
-  fields: ['time', 'storage', 'varName'],
-
   html(_isEvent, data) {
     return `
+<div style="float: right; width: 60%; padding-top: 8px;">
+  <p><u>Note:</u><br>
+  You can convert <b>Unix Timestamp</b> and <b>YouTube Timestamp</b> with this mod (both were tested).</p>
+</div><br><br><br>
 <div style="float: left; width: 70%; padding-top: 8px;">
-  Seconds to Convert:
-  <input id="time" class="round" type="text" placeholder="e.g. 1522672056 or use Variables">
+  Timestamp to Convert:
+  <input id="time" class="round" type="text" placeholder="e.g. 1522672056">
 </div>
 <div style="float: left; width: 35%; padding-top: 8px;">
   Store Result In:<br>
@@ -28,30 +33,30 @@ module.exports = {
 <div id="varNameContainer" style="float: right; display: none; width: 60%; padding-top: 8px;">
   Variable Name:<br>
   <input id="varName" class="round" type="text">
-</div><br><br>`;
+</div>
+<div style="text-align: center; float: left; width: 100%; padding-top: 8px;">
+  <p><b>Recommended formats:</b></p>
+  <img src="https://i.imgur.com/fZXXgFa.png" alt="Timestamp Formats" />
+</div>`;
   },
 
-  init() {
+  init(this: any) {
     const { glob, document } = this;
     glob.variableChange(document.getElementById('storage'), 'varNameContainer');
   },
 
-  action(cache) {
+  action(this, cache) {
     const data = cache.actions[cache.index];
+    const Mods = this.getMods();
+    const toDate = Mods.require('normalize-date');
     const time = this.evalMessage(data.time, cache);
 
-    if (isNaN(time)) return this.callNextAction(cache);
-
-    let s = time;
-    let m = Math.floor(s / 60);
-    s %= 60;
-    let h = Math.floor(m / 60);
-    m %= 60;
-    const d = Math.floor(h / 24);
-    h %= 24;
-
-    let result = `${d}d ${h}h ${m}m ${s}s`;
-
+    let result;
+    if (/^\d+(?:\.\d*)?$/.exec(time)) {
+      result = toDate(Number(time).toFixed(3));
+    } else {
+      result = toDate(time);
+    }
     if (result.toString() === 'Invalid Date') result = undefined;
 
     if (result !== undefined) {
@@ -64,3 +69,5 @@ module.exports = {
 
   mod() {},
 };
+
+module.exports = action;

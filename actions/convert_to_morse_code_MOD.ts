@@ -1,6 +1,9 @@
-module.exports = {
+import type { Action } from '../typings/globals';
+
+const action: Action<'input' | 'info' | 'storage' | 'varName'> = {
   name: 'Morse Code',
   section: 'Other Stuff',
+  fields: ['input', 'info', 'storage', 'varName'],
 
   subtitle() {
     return 'Convert To Morse Code';
@@ -10,8 +13,6 @@ module.exports = {
     if (parseInt(data.storage, 10) !== varType) return;
     return [data.varName, 'Morse Code'];
   },
-
-  fields: ['input', 'info', 'storage', 'varName'],
 
   html(_isEvent, data) {
     return `
@@ -42,7 +43,7 @@ module.exports = {
 
   init() {},
 
-  action(cache) {
+  action(this, cache) {
     const data = cache.actions[cache.index];
     const Mods = this.getMods();
     const morsify = Mods.require('morsify');
@@ -68,3 +69,5 @@ module.exports = {
 
   mod() {},
 };
+
+module.exports = action;

@@ -1,6 +1,9 @@
-module.exports = {
+import type { Action } from '../typings/globals';
+
+const action: Action<'input' | 'info' | 'storage' | 'varName'> = {
   name: 'Convert to Base64',
   section: 'Other Stuff',
+  fields: ['input', 'info', 'storage', 'varName'],
 
   subtitle() {
     return 'Convert To Base64';
@@ -11,9 +14,7 @@ module.exports = {
     return [data.varName, 'String'];
   },
 
-  fields: ['input', 'info', 'storage', 'varName'],
-
-  html(isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div style="width: 90%;">
   Text or Morse Code:<br>
@@ -42,7 +43,7 @@ module.exports = {
 
   init() {},
 
-  action(cache) {
+  action(this, cache) {
     const data = cache.actions[cache.index];
     const storage = parseInt(data.storage, 10);
     const info = parseInt(data.info, 10);
@@ -66,3 +67,5 @@ module.exports = {
 
   mod() {},
 };
+
+module.exports = action;

@@ -1,5 +1,4 @@
 import type { Action } from '../typings/globals';
-import * as Canvas from 'canvas';
 
 const action: Action<'width' | 'height' | 'info' | 'gradient' | 'color' | 'storage' | 'varName'> = {
   name: 'Canvas: Create Background',
@@ -89,6 +88,7 @@ const action: Action<'width' | 'height' | 'info' | 'gradient' | 'color' | 'stora
   },
 
   action(this, cache) {
+    const Canvas = this.getMods().require('canvas');
     const data = cache.actions[cache.index];
     const width = parseInt(this.evalMessage(data.width, cache), 10);
     const height = parseInt(this.evalMessage(data.height, cache), 10);

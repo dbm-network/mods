@@ -1,6 +1,9 @@
-module.exports = {
+import type { Action } from '../typings/globals';
+
+const action: Action<'list' | 'varName' | 'start' | 'middle' | 'end' | 'storage' | 'varName2' | 'sort'> = {
   name: 'Convert List to Text',
   section: 'Lists and Loops',
+  fields: ['list', 'varName', 'start', 'middle', 'end', 'storage', 'varName2', 'sort'],
 
   subtitle(data) {
     const list = [
@@ -22,8 +25,6 @@ module.exports = {
     if (parseInt(data.storage, 10) !== varType) return;
     return [data.varName2, 'Text'];
   },
-
-  fields: ['list', 'varName', 'start', 'middle', 'end', 'storage', 'varName2', 'sort'],
 
   html(isEvent, data) {
     return `
@@ -75,12 +76,12 @@ module.exports = {
 </div>`;
   },
 
-  init() {
+  init(this: any) {
     const { glob, document } = this;
     glob.listChange(document.getElementById('list'), 'varNameContainer');
   },
 
-  action(cache) {
+  action(this, cache) {
     const data = cache.actions[cache.index];
     const storage = parseInt(data.list, 10);
     const varName = this.evalMessage(data.varName, cache);
@@ -88,9 +89,9 @@ module.exports = {
     const sort = parseInt(data.sort, 10);
     if (sort === 0) list = list.sort();
 
-    const start = this.evalMessage(data.start, cache).replace('\\n', '\n');
-    const middle = this.evalMessage(data.middle, cache).replace('\\n', '\n');
-    const end = this.evalMessage(data.end, cache).replace('\\n', '\n');
+    const start: string = this.evalMessage(data.start, cache).replace('\\n', '\n');
+    const middle: string = this.evalMessage(data.middle, cache).replace('\\n', '\n');
+    const end: string = this.evalMessage(data.end, cache).replace('\\n', '\n');
     let result = '';
 
     for (let i = 0; i < list.length; i++) {
@@ -112,3 +113,5 @@ module.exports = {
 
   mod() {},
 };
+
+module.exports = action;

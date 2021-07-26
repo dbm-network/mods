@@ -1,5 +1,4 @@
 import type { Action } from '../typings/globals';
-import * as Canvas from 'canvas';
 import * as fs from 'fs';
 
 const action: Action<'storage' | 'varName' | 'Path' | 'storage2' | 'varName2'> = {
@@ -58,6 +57,7 @@ const action: Action<'storage' | 'varName' | 'Path' | 'storage2' | 'varName2'> =
   },
 
   action(this, cache) {
+    const Canvas = this.getMods().require('canvas');
     const data = cache.actions[cache.index];
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);

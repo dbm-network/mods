@@ -1,6 +1,9 @@
-module.exports = {
+import type { Action } from '../typings/globals';
+
+const action: Action<'storage' | 'varName' | 'separator' | 'storage2' | 'varName2'> = {
   name: 'Convert Text to List',
   section: 'Lists and Loops',
+  fields: ['storage', 'varName', 'separator', 'storage2', 'varName2'],
 
   subtitle(data) {
     const storeTypes = ['', 'Temp Variable', 'Server Variable', 'Global Variable'];
@@ -14,9 +17,7 @@ module.exports = {
     return [data.varName2, 'List'];
   },
 
-  fields: ['storage', 'varName', 'separator', 'storage2', 'varName2'],
-
-  html(isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div>
   <div style="float: left; width: 35%;">
@@ -50,12 +51,12 @@ module.exports = {
 </div>`;
   },
 
-  init() {
+  init(this: any) {
     const { glob, document } = this;
     glob.refreshVariableList(document.getElementById('storage'));
   },
 
-  action(cache) {
+  action(this, cache) {
     const data = cache.actions[cache.index];
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);
@@ -72,3 +73,5 @@ module.exports = {
 
   mod() {},
 };
+
+module.exports = action;
