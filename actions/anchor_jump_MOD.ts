@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
-import type { Action, ActionCache, Actions, DBM } from '../typings/globals';
+import type { Action } from '../typings/globals';
 
 const action: Action<'description' | 'jump_to_anchor' | 'color'> = {
   name: 'Jump to Anchor',
@@ -43,12 +43,12 @@ const action: Action<'description' | 'jump_to_anchor' | 'color'> = {
 
   init() {},
 
-  action(this: Actions, cache: ActionCache) {
+  action(this, cache) {
     const id = this.evalMessage(cache.actions[cache.index].jump_to_anchor, cache);
     this.anchorJump(id, cache);
   },
 
-  mod(DBM: DBM) {
+  mod(DBM) {
     DBM.Actions.anchorJump = function anchorJump(id, cache) {
       const anchorIndex = cache.actions.findIndex((a: any) => a.name === 'Create Anchor' && a.anchor_id === id);
       if (anchorIndex === -1) throw new Error('There was not an anchor found with that exact anchor ID!');

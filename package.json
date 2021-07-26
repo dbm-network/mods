@@ -14,6 +14,7 @@
     "docs:watch": "typedoc --watch --tsconfig tsconfig.json"
   },
   "devDependencies": {
+    "@types/jsonpath": "^0.2.0",
     "@types/node": "^16.3.1",
     "@typescript-eslint/eslint-plugin": "^4.28.4",
     "@typescript-eslint/parser": "^4.28.4",
@@ -24,12 +25,17 @@
     "eslint-plugin-prettier": "^3.4.0",
     "jimp": "^0.16.1",
     "prettier": "^2.3.2",
-    "typescript": "^4.3.5",
-    "ytdl-core": "^4.8.3",
     "typedoc": "^0.21.4",
-    "typedoc-darker-theme": "^1.2.1"
+    "typedoc-darker-theme": "^1.2.1",
+    "typescript": "^4.3.5",
+    "ytdl-core": "^4.8.3"
   },
   "engines": {
     "npm": "7"
+  },
+  "dependencies": {
+    "jsonpath": "^1.1.1",
+    "typedoc": "^0.21.4",
+    "typedoc-darker-theme": "^1.2.1"
   }
 }
