@@ -1,12 +1,14 @@
-import type { Action, Actions, ActionCache } from '../typings/globals';
+import type { Action } from '../typings/globals';
 
 const action: Action<'comment' | 'color'> = {
   name: 'Comment',
   section: 'Other Stuff',
   fields: ['comment', 'color'],
+
   subtitle(data) {
     return `<font color="${data.color}">${data.comment}</font>`;
   },
+
   html() {
     return `
       <div style="float: left; width: 99%;">
@@ -16,10 +18,13 @@ const action: Action<'comment' | 'color'> = {
         <input id="comment" class="round" type="text"><br>
       </div>`;
   },
+
   init() {},
-  action(this: Actions, cache: ActionCache) {
+
+  action(this, cache) {
     this.callNextAction(cache);
   },
+
   mod() {},
 };
 

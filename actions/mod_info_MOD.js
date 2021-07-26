@@ -209,7 +209,7 @@ span.discord_code_blocks {
       require('fs')
         .readdirSync(__dirname)
         .forEach((file) => {
-          if (file.match(/MOD.js/i)) {
+          if (/MOD.js/i.exec(file)) {
             const action = require(path.join(__dirname, file));
             if (action.name && action.action !== null) {
               const tr = document.createElement('tr');
