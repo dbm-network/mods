@@ -4,15 +4,17 @@ import * as crypto from 'crypto';
 import * as ytdl from 'ytdl-core';
 
 declare interface ActionCache {
-  actions: Record<string, any>;
+  // Properties
+  actions: any[];
   index: number;
   temp: Record<string, unknown>;
-  server: DiscordJS.Guild;
-  msg: DiscordJS.Message;
+  server: DBM_GUILD;
+  msg: DBM_MESSAGE;
 }
 
 // #region Command/Event Structures
 declare interface CommandStructure {
+  // Properties
   _aliases: string[];
   _id: string;
   name: string;
@@ -22,6 +24,7 @@ declare interface CommandStructure {
 }
 
 declare interface EventStructure {
+  // Properties
   name: string;
   temp: string;
   ['event-type']: string;
@@ -73,7 +76,7 @@ declare interface Actions {
   eventsLocation: string;
   extensionsLocation: string;
   server: Record<string, DiscordJS.Guild>;
-  global: unknown;
+  global: Record<string, unknown>;
   timeStamps: Array;
 
   // Methods
@@ -211,7 +214,7 @@ declare interface Actions {
    * @param cache DBM cache object
    * @returns User or member object
    */
-  getMember(type: number, varName: string, cache: ActionCache): DiscordJS.User | DiscordJS.GuildMember;
+  getMember(type: number, varName: string, cache: ActionCache): DBM_GUILD_MEMBER | DBM_USER;
   /**
    * Get message variable
    * @param type Message type from data.messages
@@ -219,7 +222,7 @@ declare interface Actions {
    * @param cache DBM cache object
    * @returns Message object
    */
-  getMessage(type: number, varName: string, cache: ActionCache): DiscordJS.Message;
+  getMessage(type: number, varName: string, cache: ActionCache): DBM_MESSAGE;
   /**
    * Get mods object from mod dependencies file
    */
@@ -231,7 +234,7 @@ declare interface Actions {
    * @param cache DBM cache object
    * @returns Guild object
    */
-  getServer(type: number, varName: string, cache: ActionCache): DiscordJS.Guild;
+  getServer(type: number, varName: string, cache: ActionCache): DBM_GUILD;
   /**
    * Get role variable
    * @param type Role type from data.roles
@@ -239,7 +242,7 @@ declare interface Actions {
    * @param cache DBM cache object
    * @returns Role object
    */
-  getRole(type: number, varName: string, cache: ActionCache): DiscordJS.Role;
+  getRole(type: number, varName: string, cache: ActionCache): DBM_ROLE;
   /**
    * Get channel variable
    * @param type Channel type from data.channels
@@ -247,7 +250,7 @@ declare interface Actions {
    * @param cache DBM cache object
    * @returns Channel object
    */
-  getChannel(type: number, varName: string, cache: ActionCache): DiscordJS.Channel;
+  getChannel(type: number, varName: string, cache: ActionCache): DBM_TEXTCHANNEL;
   /**
    * Get voice channel variable
    * @param type Channel type from data.voiceChannels
@@ -255,7 +258,7 @@ declare interface Actions {
    * @param cache DBM cache object
    * @returns Voice channel object
    */
-  getVoiceChannel(type: number, varName: string, cache: ActionCache): DiscordJS.VoiceChannel;
+  getVoiceChannel(type: number, varName: string, cache: ActionCache): DBM_VOICECHANNEL;
   /**
    * Get list variable
    * @param type List type from data.lists
@@ -297,7 +300,10 @@ declare interface Actions {
 }
 
 declare interface Events {
+  // Properties
   data: Array;
+
+  // Methods
   registerEvents(bot: DiscordJS.Client): void;
   callEvents(id, temp1, temp2, server, mustServe, condition, arg1, arg2);
   getObject(id, arg1, arg2);
@@ -316,6 +322,7 @@ declare interface Images {
 }
 
 declare interface Files {
+  // Properties
   data: {
     globals: Record<string, unknown>;
     commands: Record<string, unknown>;
@@ -325,7 +332,7 @@ declare interface Files {
       client: string;
       tag: string;
       case: string;
-      seperator: string;
+      separator: string;
       ownerId: string;
       modules: Record<string, string[]>;
     };
@@ -337,6 +344,8 @@ declare interface Files {
   writers: unknown;
   crypto: crypto;
   dataFiles: Array<string>;
+
+  // Methods
   startBot(): void;
   verifyDirectory(dir: string): boolean;
   readData(callback: any): void;
@@ -362,12 +371,14 @@ declare interface Files {
 }
 
 declare interface Audio {
+  // Properties
   ytdl: ytdl;
   queue: Array;
   volumes: Array;
   connections: Array;
   dispatchers: Array;
 
+  // Methods
   isConnected(cache);
   isPlaying(cache);
   setVolume(volume, cache);
@@ -382,6 +393,7 @@ declare interface Audio {
 }
 
 declare interface DBM {
+  // Properties
   version: string;
   DiscordJS: DiscordJS;
   Bot: Bot;
@@ -391,72 +403,109 @@ declare interface DBM {
   Files: Files;
   Audio: Audio;
   Mods: Mods;
+  Globals: Globals;
+}
+
+declare interface Mods {
+  // Methods
+  installModule(name);
+  require(name);
+  checkURL(url);
+  getEmoji(type, varName, cache);
+  getReaction(type, varName, cache);
+  getWebhook(type, varName, cache);
+  setupMusic(DBM);
+}
+declare interface Globals {
+  // Methods
+  data(name, defaultValue?);
+  setData(name, value);
+  addData(name, value);
 }
 
 declare interface DBM_GUILD_MEMBER extends DiscordJS.GuildMember {
+  // Methods
   unban(server: DiscordJS.Guild, reason: string);
-  data(name, defaultValue);
+  data(name, defaultValue?);
   setData(name, value);
   addData(name, value);
   convertToString(): string;
 }
 
 declare interface DBM_USER extends DiscordJS.User {
-  data(name, defaultValue);
+  // Methods
+  data(name, defaultValue?);
   setData(name, value);
   addData(name, value);
   convertToString(): string;
 }
 
 declare interface DBM_GUILD extends DiscordJS.Guild {
+  // Properties
+  tag?: string; // Outdated support for Server Prefix
+
+  // Methods
   getDefaultChannel(): DiscordJS.GuildChannel;
-  data(name, defaultValue);
+  data(name, defaultValue?);
   setData(name, value);
   addData(name, value);
   convertToString(): string;
 }
 
 declare interface DBM_MESSAGE extends DiscordJS.Message {
+  // Methods
   convertToString(): string;
 }
 
 declare interface DBM_TEXTCHANNEL extends DiscordJS.TextChannel {
+  // Methods
   overwritePerms(memberOrRole, permissions, reason);
   convertToString(): string;
 }
 
 declare interface DBM_VOICECHANNEL extends DiscordJS.VoiceChannel {
+  // Methods
   overwritePerms(memberOrRole, permissions, reason);
   convertToString(): string;
 }
 
 declare interface DBM_CATEGORYCHANNEL extends DiscordJS.CategoryChannel {
+  // Methods
   overwritePerms(memberOrRole, permissions, reason);
 }
 
 declare interface DBM_NEWSCHANNEL extends DiscordJS.NewsChannel {
+  // Methods
   overwritePerms(memberOrRole, permissions, reason);
 }
 
 declare interface DBM_STORECHANNEL extends DiscordJS.StoreChannel {
+  // Methods
   overwritePerms(memberOrRole, permissions, reason);
 }
 
 declare interface DBM_ROLE extends DiscordJS.Role {
+  // Methods
   convertToString(): string;
 }
 
 declare interface DBM_GUILDEMOJI extends DiscordJS.GuildEmoji {
+  // Methods
   convertToString(): string;
 }
 
 declare interface Action<Fields extends string = string> {
+  // Properties
+  displayName?: string;
   name: string;
   section: string;
   fields: Fields[];
+
+  // Methods
   subtitle(data: Record<Fields, string>): string;
   html(isEvent?: any, data?): string;
   init(): void;
   action(this: Actions, cache: ActionCache): void;
-  mod(DBM?: DBM): void;
+  variableStorage?(data: Record<Fields, string>, varType: number): Array;
+  mod(DBM: DBM): void;
 }
