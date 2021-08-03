@@ -226,7 +226,7 @@ declare interface Actions {
   /**
    * Get mods object from mod dependencies file
    */
-  getMods(): void;
+  getMods(): Mods;
   /**
    * Get server variable
    * @param type Server type from data.servers
