@@ -121,8 +121,8 @@ module.exports = {
   mod: async (DBM) => {
     const fs = require('fs');
     const path = require('path');
-    const chalk = await DBM.extensionHelper.requireModule('chalk', 'dashboard_EXT');
-    const fetch = await DBM.extensionHelper.requireModule('node-fetch', 'dashboard_EXT');
+    const chalk = require('chalk');
+    const fetch = require('node-fetch');
 
     /** ****************************************************
      * DBM Dashboard
@@ -186,7 +186,7 @@ module.exports = {
                 const modFile = await fetch(
                   `https://raw.githubusercontent.com/greatplainsmodding/DBM-Dashboard-Mods/master/${mod.path}/${file.path}`,
                 ).then((res) => res.text());
-                'fs'.writeFileSync(modFilePath, modFile);
+                fs.writeFileSync(modFilePath, modFile);
                 console.log(chalk.green(`Successfully downloaded ${file.path}`));
               }
             }
@@ -198,14 +198,14 @@ module.exports = {
     };
 
     // require needed modules //
-    const express = await DBM.extensionHelper.requireModule('express', 'dashboard_EXT');
-    const bodyParser = await DBM.extensionHelper.requireModule('body-parser', 'dashboard_EXT');
-    const cookieParser = await DBM.extensionHelper.requireModule('cookie-parser', 'dashboard_EXT');
-    await DBM.extensionHelper.requireModule('ejs', 'dashboard_EXT');
-    const Strategy = await DBM.extensionHelper.requireModule('passport-discord', 'dashboard_EXT');
-    const session = await DBM.extensionHelper.requireModule('express-session', 'dashboard_EXT');
-    const passport = await DBM.extensionHelper.requireModule('passport', 'dashboard_EXT');
-    const figlet = await DBM.extensionHelper.requireModule('figlet', 'dashboard_EXT');
+    const express = require('express');
+    const bodyParser = require('body-parser');
+    const cookieParser = require('cookie-parser');
+    require('ejs');
+    const Strategy = require('passport-discord');
+    const session = require('express-session');
+    const passport = require('passport');
+    const figlet = require('figlet');
 
     Dashboard.app = express();
 
