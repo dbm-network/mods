@@ -154,6 +154,11 @@
     "name": "Check if File Exists",
     "section": "File Stuff"
   },
+  "check_if_member_has_role_MOD.js": {
+    "description": "Check if a specified member has a certain role and can jump to anchor",
+    "name": "Check if Member Has Role MOD",
+    "section": "Conditions"
+  },
   "check_if_member_MOD.js": {
     "description": "Check if a specified member has a certain characteristic",
     "name": "Check If Member",
@@ -234,7 +239,7 @@
     "name": "Control Permissions",
     "section": "Permission Control"
   },
-	"control_server_prefix_MOD.js": {
+  "control_server_prefix_MOD.js": {
     "description": "Control the prefix for the server (Requires server_prefix_ETX.js)",
     "name": "Control Server Prefix",
     "section": "Server Control"
@@ -265,9 +270,9 @@
     "section": "Other Stuff"
   },
   "convert_to_morse_code_MOD.js": {
-	  "description": "Convert Text to Morse code and Vice Versa",
-	  "name": "Convert to Morse code",
-	  "section": "Other Stuff"
+    "description": "Convert Text to Morse code and Vice Versa",
+    "name": "Convert to Morse code",
+    "section": "Other Stuff"
   },
   "convert_to_world_time_MOD.js": {
     "description": "Input a timezone and retrieve its current time",
@@ -934,6 +939,11 @@
     "name": "Store Json From WebAPI",
     "section": "JSON Things"
   },
+  "store_message_info.js": {
+    "description": "Store Message Info",
+    "name": "Store Message Info",
+    "section": "Messaging"
+  },
   "store_message_params_MOD.js": {
     "description": "Store message parameters",
     "name": "Store Message Params",
@@ -972,6 +982,11 @@
     "description": "Store information about Twitch",
     "name": "Store Twitch Info",
     "section": "Other Stuff"
+  },
+  "store_user_info_MOD.js": {
+    "description": "Store user information",
+    "name": "Store User Info",
+    "section": "User Control"
   },
   "store_utc_time_info_MOD.js": {
     "description": "Store UTC time information",
@@ -1041,7 +1056,7 @@
   "youtube_info_MOD.js": {
     "description": "Store information about YouTube",
     "name": "Store YouTube Info",
-    "section": "Audio Control"
+    "section": "YouTube Tools"
   },
   "youtube_search_MOD.js": {
     "description": "Search YouTube",

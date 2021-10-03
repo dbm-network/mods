@@ -2,28 +2,27 @@ module.exports = {
   name: 'Repeat String',
   section: 'Other Stuff',
 
-  subtitle (data) {
-    return `${data.xtimes || '0'}x "${data.girdi || 'None'}"`
+  subtitle(data) {
+    return `${data.xtimes || '0'}x "${data.girdi || 'None'}"`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    return ([data.varName, 'Text'])
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName, 'String'];
   },
 
   fields: ['storage', 'varName', 'girdi', 'xtimes'],
 
-  html (isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div>
   <div>
     String:<br>
-    <input placeholder="String or varible" id="girdi" class="round" type="text">
+    <input placeholder="Text or variable" id="girdi" class="round" type="text">
   </div><br>
   <div>
     Times:<br>
-    <input placeholder="Number or varible" id="xtimes" class="round" type="text">
+    <input placeholder="Number or variable" id="xtimes" class="round" type="text">
   </div>
 </div><br>
 <div>
@@ -37,24 +36,21 @@ module.exports = {
     Variable Name:<br>
     <input id="varName" class="round" type="text">
   </div>
-</div>`
+</div>`;
   },
 
-  init () {},
+  init() {},
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const type = parseInt(data.storage)
-    const varName = this.evalMessage(data.varName, cache)
-    const girdi = this.evalMessage(data.girdi, cache)
-    const xtimes = this.evalMessage(data.xtimes, cache)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const type = parseInt(data.storage, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    const girdi = this.evalMessage(data.girdi, cache);
+    const xtimes = this.evalMessage(data.xtimes, cache);
 
-    const Mods = this.getMods()
-    const repeat = Mods.require('repeat-string')
-    const val = repeat(girdi, xtimes)
-    this.storeValue(val, type, varName, cache)
-    this.callNextAction(cache)
+    this.storeValue(girdi.repeat(Number(xtimes)), type, varName, cache);
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

@@ -1,18 +1,23 @@
 {
+  "$schema": "https://json.schemastore.org/package",
   "name": "mods",
   "repository": "https://github.com/dbm-network/mods",
   "private": true,
   "license": "MIT",
   "scripts": {
-    "lint": "eslint actions events extensions",
-    "lint:fix": "eslint actions events extensions --fix"
+    "lint": "eslint --cache actions events extensions",
+    "lint:fix": "eslint --fix --cache actions events extensions",
+    "prettier:check": "prettier --check **/*.{js,json,yml}",
+    "prettier:fix": "prettier --write **/*.{js,json,yml}"
+  },
+  "engines": {
+    "npm": "7"
   },
   "devDependencies": {
-    "eslint": "^6.8.0",
-    "eslint-config-standard": "^14.1.1",
-    "eslint-plugin-import": "^2.22.0",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1"
+    "eslint": "^7.30.0",
+    "eslint-config-aqua": "^9.0.2",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "prettier": "^2.3.2"
   }
 }

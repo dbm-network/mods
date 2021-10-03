@@ -2,21 +2,19 @@ module.exports = {
   name: 'Basic Math Operation',
   section: 'Other Stuff',
 
-  subtitle (data) {
-    const info = ['Addition', 'Subtraction', 'Multiplication', 'Division']
-    return `${info[data.info]}`
+  subtitle(data) {
+    const info = ['Addition', 'Subtraction', 'Multiplication', 'Division'];
+    return `${info[data.info]}`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    const dataType = 'Number'
-    return ([data.varName, dataType])
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName, 'Number'];
   },
 
   fields: ['FirstNumber', 'info', 'SecondNumber', 'storage', 'varName'],
 
-  html (isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div style="width: 90%;">
   First Number:<br>
@@ -46,42 +44,42 @@ module.exports = {
     Variable Name:<br>
     <input id="varName" class="round" type="text">
   </div>
-</div>`
+</div>`;
   },
 
-  init () {},
+  init() {},
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const FN = parseFloat(this.evalMessage(data.FirstNumber, cache).replace(/,/g, ''))
-    const SN = parseFloat(this.evalMessage(data.SecondNumber, cache).replace(/,/g, ''))
-    const info = parseInt(data.info)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const FN = parseFloat(this.evalMessage(data.FirstNumber, cache).replace(/,/g, ''));
+    const SN = parseFloat(this.evalMessage(data.SecondNumber, cache).replace(/,/g, ''));
+    const info = parseInt(data.info, 10);
 
-    let result
+    let result;
     switch (info) {
       case 0:
-        result = FN + SN
-        break
+        result = FN + SN;
+        break;
       case 1:
-        result = FN - SN
-        break
+        result = FN - SN;
+        break;
       case 2:
-        result = FN * SN
-        break
+        result = FN * SN;
+        break;
       case 3:
-        result = FN / SN
-        break
+        result = FN / SN;
+        break;
       default:
-        break
+        break;
     }
 
     if (result !== undefined) {
-      const storage = parseInt(data.storage)
-      const varName = this.evalMessage(data.varName, cache)
-      this.storeValue(result, storage, varName, cache)
+      const storage = parseInt(data.storage, 10);
+      const varName = this.evalMessage(data.varName, cache);
+      this.storeValue(result, storage, varName, cache);
     }
-    this.callNextAction(cache)
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

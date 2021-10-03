@@ -2,15 +2,32 @@ module.exports = {
   name: 'Edit Channel',
   section: 'Channel Control',
 
-  subtitle (data) {
-    const names = ['Same Channel', 'Mentioned Channel', 'Default Channel', 'Temp Variable', 'Server Variable', 'Global Variable']
-    const opt = ['Name', 'Topic', 'Position', 'Bitrate', 'User Limit', 'Category ID', 'Rate Limit Per User', 'Set Channel NSFW', 'Remove Channel NSFW']
-    return `${names[parseInt(data.storage)]} - ${opt[parseInt(data.toChange)]}`
+  subtitle(data) {
+    const names = [
+      'Same Channel',
+      'Mentioned Channel',
+      'Default Channel',
+      'Temp Variable',
+      'Server Variable',
+      'Global Variable',
+    ];
+    const opt = [
+      'Name',
+      'Topic',
+      'Position',
+      'Bitrate',
+      'User Limit',
+      'Category ID',
+      'Rate Limit Per User',
+      'Set Channel NSFW',
+      'Remove Channel NSFW',
+    ];
+    return `${names[parseInt(data.storage, 10)]} - ${opt[parseInt(data.toChange, 10)]}`;
   },
 
   fields: ['storage', 'varName', 'channelType', 'toChange', 'newState'],
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
 <div>
   <div style="float: left; width: 35%;">
@@ -53,61 +70,71 @@ module.exports = {
     Change to:<br>
     <input id="newState" class="round" type="text"><br>
   </div>
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
-
-    glob.channelChange(document.getElementById('storage'), 'varNameContainer')
+  init() {
+    const { glob, document } = this;
+    glob.channelChange(document.getElementById('storage'), 'varNameContainer');
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const storage = parseInt(data.storage)
-    const varName = this.evalMessage(data.varName, cache)
-    const channelType = parseInt(data.channelType)
-    const newState = this.evalMessage(data.newState, cache)
-    const toChange = parseInt(data.toChange, cache)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const storage = parseInt(data.storage, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    const channelType = parseInt(data.channelType, 10);
+    const newState = this.evalMessage(data.newState, cache);
+    const toChange = parseInt(data.toChange, cache, 10);
 
-    let channel
+    let channel;
     switch (channelType) {
       case 0:
-        channel = this.getChannel(storage, varName, cache)
-        break
+        channel = this.getChannel(storage, varName, cache);
+        break;
       case 1:
-        channel = this.getVoiceChannel(storage, varName, cache)
-        break
+        channel = this.getVoiceChannel(storage, varName, cache);
+        break;
       default:
-        channel = this.getChannel(storage, varName, cache)
-        break
+        channel = this.getChannel(storage, varName, cache);
+        break;
     }
 
-    if (toChange === 1) {
-      channel.edit({ topic: newState })
-    } else if (toChange === 0) {
-      channel.edit({ name: newState })
-    } else if (toChange === 2) {
-      channel.edit({ position: newState })
-    } else if (toChange === 3) {
-      channel.edit({ bitrate: parseInt(newState) })
-    } else if (toChange === 4) {
-      channel.edit({ userLimit: parseInt(newState) })
-    } else if (toChange === 5) {
-      channel.setParent(newState)
-    } else if (toChange === 6) {
-      channel.setRateLimitPerUser(newState)
-    } else if (toChange === 7) {
-      channel.setNSFW(true)
-    } else if (toChange === 8) {
-      channel.setNSFW(false)
-    } else {
-      console.log('Please update your edit_channel_MOD.js in your projects action folder!')
+    switch (toChange) {
+      case 0:
+        channel.edit({ name: newState });
+        break;
+      case 1:
+        channel.edit({ topic: newState });
+        break;
+      case 2:
+        channel.edit({ position: newState });
+        break;
+      case 3:
+        channel.edit({ bitrate: parseInt(newState, 10, 10) });
+        break;
+      case 4:
+        channel.edit({ userLimit: parseInt(newState, 10, 10) });
+        break;
+      case 5:
+        channel.setParent(newState);
+        break;
+      case 6:
+        channel.setRateLimitPerUser(newState);
+        break;
+      case 7:
+        channel.setNSFW(true);
+        break;
+      case 8:
+        channel.setNSFW(false);
+        break;
+      default:
+        break;
     }
-    this.callNextAction(cache)
+
+    this.callNextAction(cache);
   },
 
-  mod (DBM) {
-    DBM.Actions['Edit channel'] = DBM.Actions['Edit Channel']
-  }
-}
+  mod(DBM) {
+    DBM.Actions['Edit channel'] = DBM.Actions['Edit Channel'];
+  },
+};

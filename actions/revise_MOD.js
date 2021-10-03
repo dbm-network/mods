@@ -2,20 +2,18 @@ module.exports = {
   name: 'Revise',
   section: 'Other Stuff',
 
-  subtitle (data) {
-    return `Revise: "${data.reviser}"`
+  subtitle(data) {
+    return `Revise: "${data.reviser}"`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    const dataType = 'Revised Result'
-    return ([data.varName2, dataType])
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName2, 'Revised Result'];
   },
 
   fields: ['reviser', 'storage', 'varName2'],
 
-  html (isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div>
   <div style="width: 70%;">
@@ -32,30 +30,30 @@ module.exports = {
     Variable Name:<br>
     <input id="varName2" class="round" type="text"><br>
   </div>
-</div>`
+</div>`;
   },
 
-  init () {},
+  init() {},
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const reviseText = this.evalMessage(data.reviser, cache)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const reviseText = this.evalMessage(data.reviser, cache);
     try {
-      const array = reviseText.split(' ')
+      const array = reviseText.split(' ');
 
       for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]]
+        [array[i], array[j]] = [array[j], array[i]];
       }
-      const storage = parseInt(data.storage)
-      const varName2 = this.evalMessage(data.varName2, cache)
-      const out = array.join(' ').trim()
-      this.storeValue(out.substr(0, 1).toUpperCase() + out.substr(1), storage, varName2, cache)
+      const storage = parseInt(data.storage, 10);
+      const varName2 = this.evalMessage(data.varName2, cache);
+      const out = array.join(' ').trim();
+      this.storeValue(out.substr(0, 1).toUpperCase() + out.substr(1), storage, varName2, cache);
     } catch (err) {
-      console.log(`ERROR! ${err.stack || err}`)
+      console.log(`ERROR! ${err.stack || err}`);
     }
-    this.callNextAction(cache)
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};
