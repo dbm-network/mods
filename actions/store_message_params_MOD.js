@@ -100,8 +100,8 @@ module.exports = {
       <div style="float: left; width: 88%; padding-top: 8px;">
         <p>
           <b><span style="color:#ffffff; font-size: 20px;">Note:</span></b><br>
-          Leave blank the Custom Parameter Separator if you want to use the Parameter Separator set in your DBM Settings<br>
-          Custom Parameter Separator supports Regex
+          Leave the "Custom Parameter Separator" empty if you want to use the "Parameter Separator" set in your bots "Settings" page.<br>
+          "Custom Parameter Separator" supports Regex
         </p>
       </div>
     </div>
@@ -111,6 +111,8 @@ module.exports = {
 
   init() {
     const { glob, document } = this;
+
+    glob.messageChange(document.getElementById('message'), 'varNameContainer');
 
     document.getElementById('separator').placeholder = `Read the Note below | Default Parameter Separator: "${
       JSON.parse(
@@ -175,7 +177,6 @@ module.exports = {
     };
 
     glob.onChange1(document.getElementById('info'));
-    glob.messageChange(document.getElementById('message'), 'varNameContainer');
   },
 
   action(cache) {
