@@ -17,12 +17,6 @@ module.exports = {
   html(_isEvent, data) {
     return `
 <div style="margin: 0; overflow-y: none;">
-    <div>
-        <p>
-        <u>Mod Info:</u><br>
-        Authors: ${this.author}
-        </p>
-    </div><br>
     <div style="width: 80%;">
         <div style="float: left; width: 35%;">
               Variable:<br>
