@@ -2,23 +2,23 @@ module.exports = {
   name: 'Store Embed Info',
   section: 'Embed Message',
 
-subtitle(data) {
-    return (
-      [
-        'Object',
-        'Title',
-        'Description',
-        'Author Name',
-        'Author Icon URL',
-        'Thumbnail URL',
-        'Footer Text',
-        'Footer Icon URL',
-        'Image',
-        'Color',
-        'Fields',
-      ][parseInt(data.info, 10)] || 'Unknown'
-    );
-  },
+  subtitle(data) {
+      return (
+        [
+          'Object',
+          'Title',
+          'Description',
+          'Author Name',
+          'Author Icon URL',
+          'Thumbnail URL',
+          'Footer Text',
+          'Footer Icon URL',
+          'Image',
+          'Color',
+          'Fields',
+        ][parseInt(data.info, 10)] || 'Unknown'
+      );
+    },
 
   fields: ['message', 'varName', 'info', 'storage', 'varName2'],
 
