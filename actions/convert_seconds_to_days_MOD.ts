@@ -39,7 +39,7 @@ const action: Action<'time' | 'storage' | 'varName'> = {
 
   action(this, cache) {
     const data = cache.actions[cache.index];
-    const time = this.evalMessage(data.time, cache);
+    const time = parseInt(this.evalMessage(data.time, cache), 10);
 
     if (isNaN(time)) return this.callNextAction(cache);
 
