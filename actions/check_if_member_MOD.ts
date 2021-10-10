@@ -134,7 +134,7 @@ const action: Action<'member' | 'varName' | 'info' | 'varName2' | 'iftrue' | 'if
     let result = false;
     switch (info) {
       case 0:
-        result = this.dest(member.user, 'bot') || member.bot;
+        result = this.dest(member.user, 'bot') || member.user.bot;
         break;
       case 1:
         result = member.bannable;

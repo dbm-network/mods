@@ -135,13 +135,14 @@ const action: Action<
     const member = this.getMember(type, varName, cache);
     let result = false;
 
-    if (member?.data) {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    if (member.data) {
       const dataName = this.evalMessage(data.dataName, cache);
       const val1 = member.data(dataName);
       const compare = parseInt(data.comparison, 10);
       let val2 = this.evalMessage(data.value, cache);
       if (compare !== 6) val2 = this.eval(val2, cache);
-      if (val2 === false) val2 = this.evalMessage(data.value, cache);
+      if (!val2) val2 = this.evalMessage(data.value, cache);
 
       switch (compare) {
         case 0:

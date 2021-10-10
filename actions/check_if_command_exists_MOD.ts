@@ -97,10 +97,10 @@ const action: Action<'commandName' | 'iftrue' | 'iftrueVal' | 'iffalse' | 'iffal
 
     let commandName = this.evalMessage(data.commandName, cache);
 
-    if (commandName.startsWith(cache.server.tag)) {
-      commandName = commandName.slice(cache.server.tag?.length).split(/ +/).shift();
+    if (commandName.startsWith(cache.server.tag!)) {
+      commandName = commandName.slice(cache.server.tag?.length).split(/ +/).shift()!;
     } else if (commandName.startsWith(this.getDBM().Files.data.settings.tag)) {
-      commandName = commandName.slice(this.getDBM().Files.data.settings.tag.length).split(/ +/).shift();
+      commandName = commandName.slice(this.getDBM().Files.data.settings.tag.length).split(/ +/).shift()!;
     }
 
     const commandsFile = JSON.parse(fs.readFileSync('./data/commands.json', 'utf-8'));

@@ -109,14 +109,14 @@ const action: Action<'storage' | 'varName' | 'align' | 'align2' | 'width' | 'hei
     let cropw = this.evalMessage(data.width, cache);
     let croph = this.evalMessage(data.height, cache);
     if (cropw.endsWith('%')) {
-      cropw = (image.width * parseFloat(cropw)) / 100;
+      cropw = ((image.width * parseFloat(cropw)) / 100).toString();
     } else {
-      cropw = parseFloat(cropw);
+      cropw = parseFloat(cropw).toString();
     }
     if (croph.endsWith('%')) {
-      croph = (image.height * parseFloat(croph)) / 100;
+      croph = ((image.height * parseFloat(croph)) / 100).toString();
     } else {
-      croph = parseFloat(croph);
+      croph = parseFloat(croph).toString();
     }
     const align = parseInt(data.align, 10);
     let positionx;
@@ -127,36 +127,36 @@ const action: Action<'storage' | 'varName' | 'align' | 'align2' | 'width' | 'hei
         positiony = 0;
         break;
       case 1:
-        positionx = cropw / 2 - image.width / 2;
+        positionx = parseInt(cropw, 10) / 2 - image.width / 2;
         positiony = 0;
         break;
       case 2:
-        positionx = cropw - image.width;
+        positionx = parseInt(cropw, 10) - image.width;
         positiony = 0;
         break;
       case 3:
         positionx = 0;
-        positiony = croph / 2 - image.height / 2;
+        positiony = parseInt(croph, 10) / 2 - image.height / 2;
         break;
       case 4:
-        positionx = cropw / 2 - image.width / 2;
-        positiony = croph / 2 - image.height / 2;
+        positionx = parseInt(cropw, 10) / 2 - image.width / 2;
+        positiony = parseInt(croph, 10) / 2 - image.height / 2;
         break;
       case 5:
-        positionx = cropw - image.width;
-        positiony = croph / 2 - image.height / 2;
+        positionx = parseInt(cropw, 10) - image.width;
+        positiony = parseInt(croph, 10) / 2 - image.height / 2;
         break;
       case 6:
         positionx = 0;
-        positiony = croph - image.height;
+        positiony = parseInt(croph, 10) - image.height;
         break;
       case 7:
-        positionx = cropw / 2 - image.width / 2;
-        positiony = croph - image.height;
+        positionx = parseInt(cropw, 10) / 2 - image.width / 2;
+        positiony = parseInt(croph, 10) - image.height;
         break;
       case 8:
-        positionx = cropw - image.width;
-        positiony = croph - image.height;
+        positionx = parseInt(cropw, 10) - image.width;
+        positiony = parseInt(croph, 10) - image.height;
         break;
       case 9: {
         const align2 = parseInt(data.align2, 10);
@@ -168,36 +168,36 @@ const action: Action<'storage' | 'varName' | 'align' | 'align2' | 'width' | 'hei
             positiony = -pY;
             break;
           case 1:
-            positionx = -(pX - cropw / 2);
+            positionx = -(pX - parseInt(cropw, 10) / 2);
             positiony = -pY;
             break;
           case 2:
-            positionx = -(pX - cropw);
+            positionx = -(pX - parseInt(cropw, 10));
             positiony = -pY;
             break;
           case 3:
             positionx = -pX;
-            positiony = -(pY - croph / 2);
+            positiony = -(pY - parseInt(croph, 10) / 2);
             break;
           case 4:
-            positionx = -(pX - cropw / 2);
-            positiony = -(pY - croph / 2);
+            positionx = -(pX - parseInt(cropw, 10) / 2);
+            positiony = -(pY - parseInt(croph, 10) / 2);
             break;
           case 5:
-            positionx = -(pX - cropw);
-            positiony = -(pY - croph / 2);
+            positionx = -(pX - parseInt(cropw, 10));
+            positiony = -(pY - parseInt(croph, 10) / 2);
             break;
           case 6:
             positionx = -pX;
-            positiony = -(pY - croph);
+            positiony = -(pY - parseInt(croph, 10));
             break;
           case 7:
-            positionx = -(pX - cropw / 2);
-            positiony = -(pY - croph);
+            positionx = -(pX - parseInt(cropw, 10) / 2);
+            positiony = -(pY - parseInt(croph, 10));
             break;
           case 8:
-            positionx = -(pX - cropw);
-            positiony = -(pY - croph);
+            positionx = -(pX - parseInt(cropw, 10));
+            positiony = -(pY - parseInt(croph, 10));
             break;
           default:
             break;
