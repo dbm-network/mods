@@ -14,7 +14,7 @@ module.exports = {
       'Video Channel Avatar URL',
       'Video Thumbnail URL',
       'Video Duration',
-      'Video Publish Data',
+      'Video Publish Date',
       'Video Views',
       'Video is live?',
     ];
@@ -354,7 +354,7 @@ module.exports = {
           const storage = parseInt(data.storage, 10);
           const varName = this.evalMessage(data.varName, cache);
           this.storeValue(result, storage, varName, cache);
-          this.callNextAction(cache);
+          return this.callNextAction(cache);
         }
         break;
       }
