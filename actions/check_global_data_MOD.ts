@@ -117,7 +117,7 @@ const action: Action<
     const val1 = Globals.data(dataName);
     let val2 = this.evalMessage(data.value, cache);
     if (compare !== 6) val2 = this.eval(val2, cache);
-    if (val2 === false) val2 = this.evalMessage(data.value, cache);
+    if (!val2) val2 = this.evalMessage(data.value, cache);
 
     let result = false;
     switch (compare) {

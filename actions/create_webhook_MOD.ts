@@ -64,8 +64,6 @@ const action: Action<'webhookName' | 'webhookIcon' | 'storage' | 'varName' | 'st
     const varName = this.evalMessage(data.varName, cache);
     const channel = this.getChannel(storage, varName, cache);
 
-    if (!channel && !channel.createWebhook) return this.callNextAction(cache);
-
     const avatar = this.evalMessage(data.webhookIcon, cache);
     const name = this.evalMessage(data.webhookName, cache);
     channel

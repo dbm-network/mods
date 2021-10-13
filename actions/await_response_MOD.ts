@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import type { Action, ActionCache, Actions, DBM_MESSAGE } from '../typings/globals';
+import type { Action, ActionCache, Actions, DBM_MESSAGE, DBM_TEXTCHANNEL } from '../typings/globals';
 
 const action: Action<
   | 'storage'
@@ -228,7 +228,8 @@ const action: Action<
 
     const ch = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);
-    const channel = this.getChannel(ch, varName, cache);
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+    const channel = this.getChannel(ch, varName, cache) as DBM_TEXTCHANNEL;
 
     const storage = parseInt(data.storage2, 10);
     const varName2 = this.evalMessage(data.varName2, cache);

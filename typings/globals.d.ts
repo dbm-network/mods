@@ -443,6 +443,7 @@ declare interface DBM_USER extends DiscordJS.User {
 declare interface DBM_GUILD extends DiscordJS.Guild {
   // Properties
   tag?: string; // Outdated support for Server Prefix
+  prefix?: string; // used elsewhere from what i can see
 
   // Methods
   getDefaultChannel(): DiscordJS.GuildChannel;

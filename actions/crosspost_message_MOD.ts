@@ -1,4 +1,5 @@
-import type { Action, DBM_MESSAGE } from '../typings/globals';
+import type { Message } from 'discord.js';
+import type { Action } from '../typings/globals';
 
 const action: Action<'message' | 'storage' | 'varName' | 'varName2'> = {
   name: 'Crosspost Message',
@@ -55,12 +56,13 @@ const action: Action<'message' | 'storage' | 'varName' | 'varName2'> = {
     const varName = this.evalMessage(data.varName, cache);
     const message = this.getMessage(parseInt(data.message, 10), varName, cache);
 
-    if (!message) return this.callNextAction(cache);
-    if (!message.crosspost) throw new Error('You need at least Discord.js version 12.4.0 to use this mod.');
+    const { version } = this.getDBM().DiscordJS;
+
+    if (version < '12.0.0') throw new Error('You need at least Discord.js version 12.4.0 to use this mod.');
 
     message
       .crosspost()
-      .then((msg: DBM_MESSAGE) => {
+      .then((msg: Message) => {
         const varName2 = this.evalMessage(data.varName2, cache);
         const storage = parseInt(data.storage, 10);
         this.storeValue(msg, storage, varName2, cache);
