@@ -2,10 +2,6 @@ name: Lint
 
 on:
   pull_request:
-    types:
-      - opened
-      - synchronize
-      - reopened
   push:
     branches:
       - master
@@ -27,7 +23,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           cache: npm
-          node-version: 14
+          node-version: 16
 
       - name: Install dependencies
         run: npm ci

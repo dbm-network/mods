@@ -48,33 +48,32 @@ module.exports = {
   },
 
   mod(DBM) {
-    Reflect.defineProperty(DBM.DiscordJS.GuildMember.prototype, "delData", {
+    Reflect.defineProperty(DBM.DiscordJS.GuildMember.prototype, 'delData', {
       value(name) {
         const { players } = DBM.Files.data;
 
         if (name && players[this.id]?.[name]) {
           delete players[this.id][name];
-          DBM.Files.saveData("players");
+          DBM.Files.saveData('players');
         } else if (!name) {
           delete players[this.id];
-          DBM.Files.saveData("players");
+          DBM.Files.saveData('players');
         }
-      }
-    })
+      },
+    });
 
-    Reflect.defineProperty(DBM.DiscordJS.User.prototype, "delData", {
+    Reflect.defineProperty(DBM.DiscordJS.User.prototype, 'delData', {
       value(name) {
         const { players } = DBM.Files.data;
 
         if (name && players[this.id]?.[name]) {
           delete players[this.id][name];
-          DBM.Files.saveData("players");
+          DBM.Files.saveData('players');
         } else if (!name) {
           delete players[this.id];
-          DBM.Files.saveData("players");
+          DBM.Files.saveData('players');
         }
-      }
-    })
-  }
-
+      },
+    });
+  },
 };
