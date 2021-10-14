@@ -186,7 +186,7 @@ module.exports = {
                 const modFile = await fetch(
                   `https://raw.githubusercontent.com/greatplainsmodding/DBM-Dashboard-Mods/master/${mod.path}/${file.path}`,
                 ).then((res) => res.text());
-                'fs'.writeFileSync(modFilePath, modFile);
+                fs.writeFileSync(modFilePath, modFile);
                 console.log(chalk.green(`Successfully downloaded ${file.path}`));
               }
             }
