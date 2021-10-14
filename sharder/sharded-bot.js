@@ -14,7 +14,7 @@ if (djsVersion < '12.0.0') {
 console.log('-'.repeat(50));
 console.log("TheMonDon's DBM Bot Sharder");
 console.log(`Version: ${version}`);
-console.log("Available Arguments: '--shard_count=[number]' (default: auto), '--startup=./[bot_file]' (default: ./bot.js), '--timeout=[number]' (default: 30000)")
+console.log("Available Arguments: '--shard_count=[number]' (default: auto), '--startup=./[bot_file]' (default: ./bot.js), '--timeout=[number]' (default: 30000; use -1 to disable)")
 console.log('-'.repeat(50));
 
 let totalShards = 'auto';
@@ -48,11 +48,12 @@ if (args && args.startup) {
   console.log(`Using bot file: ${startup}`);
 }
 if (args && args.timeout) {
-  timeout = args.timeout;
+  timeout = parseInt(args.timeout, 10);
+  if (Number.isNaN(timeout)) throw new Error('The shard spawn timeout you passed could not be parsed.')
   console.log(`Shard spawn timeout: ${timeout}`)
 }
 
-console.log(totalShards === 'auto' ? 'Starting the DBM Bot with automatic sharding' :`Starting the DBM Bot with ${totalShards} total shards...`);
+console.log(`Starting the DBM Bot with ${totalShards === 'auto' ? 'automatic' : totalShards} shards...`);
 
 // dbms' encryption system
 const crypto = require('crypto');
