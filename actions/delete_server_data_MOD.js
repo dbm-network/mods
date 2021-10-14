@@ -51,21 +51,19 @@ module.exports = {
 
   mod(DBM) {
     DBM.Actions['Delete Server Data MOD'] = DBM.Actions['Delete Server Data'];
-    DBM.DiscordJS.Structures.extend(
-      'Guild',
-      (Guild) =>
-        class extends Guild {
-          delData(name) {
-            const { servers } = DBM.Files.data;
-            if (servers[this.id] && name && servers[this.id][name]) {
-              delete servers[this.id][name];
-              DBM.Files.saveData('servers');
-            } else if (!name) {
-              delete servers[this.id];
-              DBM.Files.saveData('servers');
-            }
-          }
-        },
-    );
+    
+     Reflect.defineProperty(DBM.DiscordJS.Guild.prototype, "delData", {
+      value(name) {
+        const { servers } = DBM.Files.data;
+
+        if (servers && servers[this.id]?.[name]) {
+          delete servers[this.id][name];
+          DBM.Files.saveData("servers");
+        } else if (!servers) {
+          delete servers[this.id];
+          DBM.Files.saveData("servers");
+        }
+      }
+    })
   },
 };

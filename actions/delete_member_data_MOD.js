@@ -48,42 +48,33 @@ module.exports = {
   },
 
   mod(DBM) {
-    DBM.Actions['Delete Member Data MOD'] = DBM.Actions['Delete Member Data'];
-    DBM.DiscordJS.Structures.extend(
-      'GuildMember',
-      (GuildMember) =>
-        class extends GuildMember {
-          constructor(client, data, guild) {
-            super(client, data, guild);
-          }
+    Reflect.defineProperty(DBM.DiscordJS.GuildMember.prototype, "delData", {
+      value(name) {
+        const { players } = DBM.Files.data;
 
-          delData(name) {
-            const { players } = DBM.Files.data;
-            if (players[this.id] && name && players[this.id][name]) {
-              delete players[this.id][name];
-              DBM.Files.saveData('players');
-            } else if (!name) {
-              delete players[this.id];
-              DBM.Files.saveData('players');
-            }
-          }
-        },
-    );
-    DBM.DiscordJS.Structures.extend(
-      'User',
-      (User) =>
-        class extends User {
-          delData(name) {
-            const { players } = DBM.Files.data;
-            if (players[this.id] && name && players[this.id][name]) {
-              delete players[this.id][name];
-              DBM.Files.saveData('players');
-            } else if (!name) {
-              delete players[this.id];
-              DBM.Files.saveData('players');
-            }
-          }
-        },
-    );
-  },
+        if (name && players[this.id]?.[name]) {
+          delete players[this.id][name];
+          DBM.Files.saveData("players");
+        } else if (!name) {
+          delete players[this.id];
+          DBM.Files.saveData("players");
+        }
+      }
+    })
+
+    Reflect.defineProperty(DBM.DiscordJS.User.prototype, "delData", {
+      value(name) {
+        const { players } = DBM.Files.data;
+
+        if (name && players[this.id]?.[name]) {
+          delete players[this.id][name];
+          DBM.Files.saveData("players");
+        } else if (!name) {
+          delete players[this.id];
+          DBM.Files.saveData("players");
+        }
+      }
+    })
+  }
+
 };
