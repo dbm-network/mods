@@ -40,14 +40,14 @@ function getArgs() {
 }
 
 const args = getArgs();
-if (args && args.shard_count) {
+if (args.shard_count) {
   totalShards = parseInt(args.shard_count, 10);
 }
-if (args && args.startup) {
+if (args.startup) {
   startup = args.startup;
   console.log(`Using bot file: ${startup}`);
 }
-if (args && args.timeout) {
+if (args.timeout) {
   timeout = parseInt(args.timeout, 10);
   if (Number.isNaN(timeout)) throw new Error('The shard spawn timeout you passed could not be parsed.')
   console.log(`Shard spawn timeout: ${timeout}`)
