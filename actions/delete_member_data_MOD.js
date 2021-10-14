@@ -48,12 +48,11 @@ module.exports = {
   },
 
   mod(DBM) {
-    // Reflect on GuildMember struct.
     Reflect.defineProperty(DBM.DiscordJS.GuildMember.prototype, "delData", {
       value(name) {
-        const {players} = DBM.Files.data;
+        const { players } = DBM.Files.data;
 
-        if (players[this.id] && name && players[this.id][name]) {
+        if (name && players[this.id]?.[name]) {
           delete players[this.id][name];
           DBM.Files.saveData("players");
         } else if (!name) {
@@ -63,12 +62,11 @@ module.exports = {
       }
     })
 
-    // Reflect on User struct.
     Reflect.defineProperty(DBM.DiscordJS.User.prototype, "delData", {
       value(name) {
-        const {players} = DBM.Files.data;
+        const { players } = DBM.Files.data;
 
-        if (players[this.id] && name && players[this.id][name]) {
+        if (name && players[this.id]?.[name]) {
           delete players[this.id][name];
           DBM.Files.saveData("players");
         } else if (!name) {

@@ -52,12 +52,11 @@ module.exports = {
   mod(DBM) {
     DBM.Actions['Delete Server Data MOD'] = DBM.Actions['Delete Server Data'];
     
-     // Reflect on Server struct.
      Reflect.defineProperty(DBM.DiscordJS.Guild.prototype, "delData", {
       value(name) {
-        const {servers} = DBM.Files.data;
+        const { servers } = DBM.Files.data;
 
-        if (servers[this.id] && servers && servers[this.id][name]) {
+        if (servers && servers[this.id]?.[name]) {
           delete servers[this.id][name];
           DBM.Files.saveData("servers");
         } else if (!servers) {
