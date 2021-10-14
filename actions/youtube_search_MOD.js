@@ -11,6 +11,7 @@ module.exports = {
       'Video Channel ID',
       'Video Channel URL',
       'Video Channel Name',
+      'Video Channel Avatar URL',
       'Video Thumbnail URL',
       'Video Duration',
       'Video Publish Data',
