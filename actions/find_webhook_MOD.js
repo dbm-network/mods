@@ -50,12 +50,15 @@ module.exports = {
 
     const result = new DiscordJS.WebhookClient({ id, token });
 
-    if (result) {
-      const storage = parseInt(data.storage, 10);
-      const varName = this.evalMessage(data.varName, cache);
-      this.storeValue(result, storage, varName, cache);
-      this.callNextAction(cache);
+    if (!result) {
+      console.log('Find Webhook: There was an issue creating the webhook object.');
+      return this.callNextAction(cache);
     }
+
+    const storage = parseInt(data.storage, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    this.storeValue(result, storage, varName, cache);
+    this.callNextAction(cache);
   },
 
   mod() {},
