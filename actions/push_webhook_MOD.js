@@ -2,13 +2,13 @@ module.exports = {
   name: 'Send Message To Webhook',
   section: 'Webhook Control',
 
-  subtitle(data) {
-    return `${data.message}`;
+  subtitle (data) {
+    return `${data.message}`
   },
 
   fields: ['webhook', 'varName', 'message'],
 
-  html(_isEvent, data) {
+  html (isEvent, data) {
     return `
 <div>
   <div style="float: left; width: 35%;">
@@ -25,27 +25,30 @@ module.exports = {
 <div style="padding-top: 8px;">
   Message:<br>
   <textarea id="message" rows="9" placeholder="Insert message here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
-</div>`;
+</div>`
   },
 
-  init() {
-    const { glob, document } = this;
-    glob.refreshVariableList(document.getElementById('webhook'));
+  init () {
+    const { glob, document } = this
+
+    glob.refreshVariableList(document.getElementById('webhook'))
   },
 
-  action(cache) {
-    const data = cache.actions[cache.index];
-    const webhook = parseInt(data.webhook, 10);
-    const varName = this.evalMessage(data.varName, cache);
-    const Mods = this.getMods();
-    const wh = Mods.getWebhook(webhook, varName, cache);
-    const message = this.evalMessage(data.message, cache);
-
-    if (!wh) return this.callNextAction(cache);
-
-    wh.send(message);
-    this.callNextAction(cache);
+  action (cache) {
+    const data = cache.actions[cache.index]
+    const webhook = parseInt(data.webhook)
+    const varName = this.evalMessage(data.varName, cache)
+    const Mods = this.getMods()
+    const wh = Mods.getWebhook(webhook, varName, cache)
+    const message = this.evalMessage(data.message, cache)
+    if (!wh) {
+      console.log('Push Webhook ERROR: Unable to validate webhook from variable.')
+      this.callNextAction(cache)
+    } else {
+      wh.send(message)
+      this.callNextAction(cache)
+    }
   },
 
-  mod() {},
-};
+  mod () {}
+}
