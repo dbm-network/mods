@@ -50,12 +50,10 @@ module.exports = {
 
     const result = new DiscordJS.WebhookClient({ id, token });
 
-    if (result !== undefined) {
+    if (result) {
       const storage = parseInt(data.storage, 10);
       const varName = this.evalMessage(data.varName, cache);
       this.storeValue(result, storage, varName, cache);
-      this.callNextAction(cache);
-    } else {
       this.callNextAction(cache);
     }
   },

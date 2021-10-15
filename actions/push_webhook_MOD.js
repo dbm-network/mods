@@ -41,13 +41,10 @@ module.exports = {
     const Mods = this.getMods();
     const wh = Mods.getWebhook(webhook, varName, cache);
     const message = this.evalMessage(data.message, cache);
-    if (!wh) {
-      console.log('Push Webhook ERROR: Unable to validate webhook from variable.');
-      this.callNextAction(cache);
-    } else {
-      wh.send(message);
-      this.callNextAction(cache);
-    }
+    if (!wh) return console.log('Push Webhook ERROR: Unable to validate webhook from variable.');
+
+    wh.send(message);
+    this.callNextAction(cache);
   },
 
   mod() {},
