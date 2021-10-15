@@ -290,13 +290,6 @@ declare interface Actions {
    * @param cache DBM cache object
    */
   executeResults(result: any, data: any, cache: ActionCache): void;
-  /**
-   * Get value of property on object if it exsts
-   * @param obj Object to get values of
-   * @param props Properties to search for in object
-   * @returns Value of property
-   */
-  dest(obj: unknown, ...props: Array<any>): any;
 }
 
 declare interface Events {
