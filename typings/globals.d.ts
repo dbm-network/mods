@@ -97,37 +97,199 @@ declare interface Actions {
    * @returns DBM object
    */
   getDBM(): DBM;
+  /**
+   * Change cache index to location of anchor
+   * @param id Unique identifier of an anchor
+   * @param cache DBM cache object
+   */
   anchorJump(id: any, cache: ActionCache): void;
+  /**
+   * Checks if an anchor exists
+   * @param id Unique identifier of an anchor
+   * @param cache DBM cache object
+   * @returns If anchor exists
+   */
   anchorExist(id: any, cache: ActionCache): boolean;
   callListFunc(list: Array, funcName: unknown, args: Array): Promise<any>;
+  /**
+   * Gets value from actions object
+   * @param name Property key
+   * @param defaultValue Default return value
+   * @returns Value in actions object
+   */
   getActionVariable(name: string, defaultValue: any): unknown;
+  /**
+   * Evaluate javascript in scope of important DBM variables
+   * @param content Javascript code
+   * @param cache DBM cache object
+   * @returns Result of evaluation
+   */
   eval(content: string, cache: ActionCache): any;
-  evalMessage(content: string, cache: ActionCache): any;
+  /**
+   * Replace DBM variable functions with actual value
+   * @param content Content to evaluate for DBM variables
+   * @param cache DBM cache object
+   * @returns Content with DBM variables replaced with their values
+   */
+  evalMessage(content: string, cache: ActionCache): string;
+  /**
+   * Initialize mods and add them to actions object
+   */
   initMods(): void;
+  /**
+   * Get mod directories
+   * @returns Array containing mod directories
+   */
   modDirectories(): Array<eventsLocation | extensionsLocation | actionsLocation>;
-  preformActions(msg: DiscordJS.Message, cmd: CommandStructure): any;
+  /**
+   * Checks and ivokes an action sequence
+   * @param msg Message that invoked action sequence
+   * @param cmd DBM command object
+   */
+  preformActions(msg: DiscordJS.Message, cmd: CommandStructure): void;
+  /**
+   * Checks if command has time restriction
+   * @param msg Message that invoked action sequence
+   * @param cmd DBM command object
+   * @returns User has time restriction
+   */
   checkTimeRestriction(msg: DiscordJS.Message, cmd: CommandStructure): boolean;
+  /**
+   * Generate string formatted into days, hours, minutes, seconds
+   * @param milliSeconds Milliseconds until desired time
+   * @returns String formatted into days, hours, minutes, seconds remaining
+   */
   generateTimeString(milliSeconds: number): string;
+  /**
+   * Check if member has valid permission
+   * @param msg Message that invoked action sequence
+   * @param permissions Permission level of DBM command object
+   * @returns Member has permissions
+   */
   checkPermissions(msg: DiscordJS.Message, permissions: string): any;
+  /**
+   * Create cache and begin command action sequence
+   * @param msg Message that invoked action sequence
+   * @param actions Actions array in DBM command object
+   */
   invokeActions(msg: DiscordJS.Message, actions: Array<Action>): void;
+  /**
+   * Create cache and begin event action sequence
+   * @param event DBM event object
+   * @param server Server to execute event on
+   * @param temp DBM event parameters
+   */
   invokeEvent(event: EventStructure, server: DiscordJS.Guild, temp: unknown): void;
+  /**
+   * Invoke the next action in the sequence
+   * @param cache DBM cache object
+   */
   callNextAction(cache: ActionCache): void;
+  /**
+   * Get string containing error information
+   * @param data Current action raw data
+   * @param cache DBM cache object
+   * @returns String containing error info including location in action sequence
+   */
   getErrorString(data: CommandStructure | EventStructure, cache: ActionCache): string;
-  displayError(data: CommandStructure | EventStructure, cache: ActionCache, err: string | Error);
-  getSendTarget(type: number, varName: string, cache: ActionCache);
-  getNumber(type: number, varName: string, cache: ActionCache);
-  getMessage(type: number, varName: string, cache: ActionCache);
-  getMember(type: number, varName: string, cache: ActionCache);
+  /**
+   * Log error string to console
+   * @param data Current action raw data
+   * @param cache DBM cache object
+   * @param err Error message
+   */
+  displayError(data: CommandStructure | EventStructure, cache: ActionCache, err: string | Error): void;
+  /**
+   * Get location to send message
+   * @param type Channel type from data.sendTargets
+   * @param varName Name of channel variable
+   * @param cache DBM cache object
+   * @returns Location to send message
+   */
+  getSendTarget(type: number, varName: string, cache: ActionCache): any;
+  /**
+   * Get member variable
+   * @param type Member type from data.members
+   * @param varName Name of member variable
+   * @param cache DBM cache object
+   * @returns User or member object
+   */
+  getMember(type: number, varName: string, cache: ActionCache): DBM_GUILD_MEMBER | DBM_USER;
+  /**
+   * Get message variable
+   * @param type Message type from data.messages
+   * @param varName Name of message variable
+   * @param cache DBM cache object
+   * @returns Message object
+   */
+  getMessage(type: number, varName: string, cache: ActionCache): DBM_MESSAGE;
+  /**
+   * Get mods object from mod dependencies file
+   */
   getMods(): Mods;
-  getServer(type: number, varName: string, cache: ActionCache);
-  getRole(type: number, varName: string, cache: ActionCache);
-  getChannel(type: number, varName: string, cache: ActionCache);
-  getVoiceChannel(type: number, varName: string, cache: ActionCache);
-  getList(type: number, varName: string, cache: ActionCache);
-  getVariable(type: number, varName: string, cache: ActionCache);
-  storeValue(value: any, type: number, varName: string, cache: ActionCache);
-  executeResults(result: any, data: any, cache: ActionCache);
-  dest(obj: unknown, ...props: Array<any>);
+  /**
+   * Get server variable
+   * @param type Server type from data.servers
+   * @param varName Name of server variable
+   * @param cache DBM cache object
+   * @returns Guild object
+   */
+  getServer(type: number, varName: string, cache: ActionCache): DBM_GUILD;
+  /**
+   * Get role variable
+   * @param type Role type from data.roles
+   * @param varName Name of role variable
+   * @param cache DBM cache object
+   * @returns Role object
+   */
+  getRole(type: number, varName: string, cache: ActionCache): DBM_ROLE;
+  /**
+   * Get channel variable
+   * @param type Channel type from data.channels
+   * @param varName Name of channel variable
+   * @param cache DBM cache object
+   * @returns Channel object
+   */
+  getChannel(type: number, varName: string, cache: ActionCache): DBM_TEXTCHANNEL;
+  /**
+   * Get voice channel variable
+   * @param type Channel type from data.voiceChannels
+   * @param varName Name of voice channel variable
+   * @param cache DBM cache object
+   * @returns Voice channel object
+   */
+  getVoiceChannel(type: number, varName: string, cache: ActionCache): DBM_VOICECHANNEL;
+  /**
+   * Get list variable
+   * @param type List type from data.lists
+   * @param varName Name of list variable
+   * @param cache DBM cache object
+   * @returns List variable
+   */
+  getList(type: number, varName: string, cache: ActionCache): Array;
+  /**
+   * Get DBM variable
+   * @param type Variable type from data.variables
+   * @param varName Name of variable
+   * @param cache DBM cache object
+   * @returns DBM variable value
+   */
+  getVariable(type: number, varName: string, cache: ActionCache): any;
+  /**
+   * Store value to DBM variable
+   * @param value Value to store to DBM variable
+   * @param type Type of variable (1:temp, 2:server, 3:global)
+   * @param varName DBM variable name
+   * @param cache DBM cache object
+   */
+  storeValue(value: any, type: number, varName: string, cache: ActionCache): void;
+  /**
+   * Control action sequence based on execution results
+   * @param result Whether the action executed properly
+   * @param data Current action raw data
+   * @param cache DBM cache object
+   */
+  executeResults(result: any, data: any, cache: ActionCache): void;
 }
 
 declare interface Events {
