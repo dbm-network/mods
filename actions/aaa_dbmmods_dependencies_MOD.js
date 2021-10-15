@@ -142,10 +142,10 @@ const Mods = {
       case 1:
         return cache.temp[varName];
       case 2:
-        if (server && this.server[server.id]) return this.server[server.id][varName];
+        if (server && this.DBM.Actions.server[server.id]) return this.DBM.Actions.server[server.id][varName];
         break;
       case 3:
-        return this.global[varName];
+        return this.DBM.Actions.global[varName];
       default:
         break;
     }
@@ -158,10 +158,10 @@ const Mods = {
       case 1:
         return cache.temp[varName];
       case 2:
-        if (server && this.server[server.id]) return this.server[server.id][varName];
+        if (server && this.DBM.Actions.server[server.id]) return this.DBM.Actions.server[server.id][varName];
         break;
       case 3:
-        return this.global[varName];
+        return this.DBM.Actions.global[varName];
       default:
         break;
     }
@@ -174,10 +174,10 @@ const Mods = {
       case 1:
         return cache.temp[varName];
       case 2:
-        if (server && this.server[server.id]) return this.server[server.id][varName];
+        if (server && this.DBM.Actions.server[server.id]) return this.DBM.Actions.server[server.id][varName];
         break;
       case 3:
-        return this.global[varName];
+        return this.DBM.Actions.global[varName];
       default:
         break;
     }
