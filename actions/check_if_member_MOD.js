@@ -36,7 +36,6 @@ module.exports = {
       <option value="0" selected>Is Bot?</option>
       <option value="1">Is Bannable?</option>
       <option value="2">Is Kickable?</option>
-      <option value="3">Is Speaking?</option>
       <option value="4">Is In Voice Channel?</option>
       <option value="5">Is User Manageable?</option>
       <option value="6">Is Bot Owner?</option>
@@ -140,9 +139,6 @@ module.exports = {
         break;
       case 2:
         result = member.kickable;
-        break;
-      case 3:
-        result = Boolean(member.voice?.speaking);
         break;
       case 4:
         result = Boolean(member.voice?.channel);
