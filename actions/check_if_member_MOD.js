@@ -36,7 +36,6 @@ module.exports = {
       <option value="0" selected>Is Bot?</option>
       <option value="1">Is Bannable?</option>
       <option value="2">Is Kickable?</option>
-      <option value="3">Is Speaking?</option>
       <option value="4">Is In Voice Channel?</option>
       <option value="5">Is User Manageable?</option>
       <option value="6">Is Bot Owner?</option>
@@ -133,7 +132,7 @@ module.exports = {
     let result = false;
     switch (info) {
       case 0:
-        result = this.dest(member.user, 'bot') || member.bot;
+        result = member.user?.bot || member.bot;
         break;
       case 1:
         result = member.bannable;
@@ -141,11 +140,8 @@ module.exports = {
       case 2:
         result = member.kickable;
         break;
-      case 3:
-        result = Boolean(this.dest(member.voice, 'speaking'));
-        break;
       case 4:
-        result = Boolean(this.dest(member.voice, 'channel'));
+        result = Boolean(member.voice?.channel);
         break;
       case 5:
         result = member.manageable;
@@ -163,10 +159,10 @@ module.exports = {
         break;
       }
       case 7:
-        result = Boolean(this.dest(member.voice, 'mute'));
+        result = Boolean(member.voice?.mute);
         break;
       case 8:
-        result = Boolean(this.dest(member.voice, 'deaf'));
+        result = Boolean(member.voice?.deaf);
         break;
       case 9:
         result = member.id === msg.author.id;

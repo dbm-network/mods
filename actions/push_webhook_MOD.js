@@ -8,7 +8,7 @@ module.exports = {
 
   fields: ['webhook', 'varName', 'message'],
 
-  html(_isEvent, data) {
+  html(isEvent, data) {
     return `
 <div>
   <div style="float: left; width: 35%;">
@@ -30,6 +30,7 @@ module.exports = {
 
   init() {
     const { glob, document } = this;
+
     glob.refreshVariableList(document.getElementById('webhook'));
   },
 
@@ -40,8 +41,10 @@ module.exports = {
     const Mods = this.getMods();
     const wh = Mods.getWebhook(webhook, varName, cache);
     const message = this.evalMessage(data.message, cache);
-
-    if (!wh) return this.callNextAction(cache);
+    if (!wh) {
+      console.log('Push Webhook ERROR: Unable to load webhook from variable.');
+      return this.callNextAction(cache);
+    }
 
     wh.send(message);
     this.callNextAction(cache);

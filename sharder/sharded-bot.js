@@ -1,6 +1,6 @@
 // Made by TheMonDon#1721
 // Some code by General Wrex
-const version = '1.1';
+const version = '1.2';
 
 // Include discord.js and original check
 const { version: djsVersion, ShardingManager } = require('discord.js');
@@ -14,12 +14,14 @@ if (djsVersion < '12.0.0') {
 console.log('-'.repeat(50));
 console.log("TheMonDon's DBM Bot Sharder");
 console.log(`Version: ${version}`);
-console.log("You can change the amount of shards by providing '--shard_count=[number]' (default: auto)");
-console.log("You can change the bot file by providing '--startup=./index.js' (default bot.js)");
+console.log(
+  "Available Arguments: '--shard_count=[number]' (default: auto), '--startup=./[bot_file]' (default: ./bot.js), '--timeout=[number]' (default: 30000; use -1 to disable)",
+);
 console.log('-'.repeat(50));
 
 let totalShards = 'auto';
 let startup = './bot.js';
+let timeout = 30000;
 
 function getArgs() {
   const args = {};
@@ -40,16 +42,20 @@ function getArgs() {
 }
 
 const args = getArgs();
-if (args && args.shard_count) {
+if (args.shard_count) {
   totalShards = parseInt(args.shard_count, 10);
-  console.log(`Command Line Arg: shard_count=${totalShards}`);
 }
-if (args && args.startup) {
+if (args.startup) {
   startup = args.startup;
-  console.log(`Command Line Arg: startup=${startup} (Bot File)`);
+  console.log(`Using bot file: ${startup}`);
+}
+if (args.timeout) {
+  timeout = parseInt(args.timeout, 10);
+  if (Number.isNaN(timeout)) throw new Error('The shard spawn timeout you passed could not be parsed.');
+  console.log(`Shard spawn timeout: ${timeout}`);
 }
 
-console.log(`Starting the DBM Bot with ${totalShards} total shards...`);
+console.log(`Starting the DBM Bot with ${totalShards === 'auto' ? 'automatic' : totalShards} shards...`);
 
 // dbms' encryption system
 const crypto = require('crypto');
@@ -96,4 +102,4 @@ const manager = new ShardingManager(startup, {
 
 manager.on('shardCreate', (shard) => console.log(`Shard ${shard.id} launched`));
 
-manager.spawn();
+manager.spawn(totalShards, 5500, timeout);

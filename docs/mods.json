@@ -739,11 +739,6 @@
     "name": "Set AFK Timeout",
     "section": "Server Control"
   },
-  "set_bot_activity_MOD.js": {
-    "description": "Set the bot activity",
-    "name": "Set Bot Activity",
-    "section": "Bot Client Control"
-  },
   "set_bot_typing_MOD.js": {
     "description": "Set the bot typing to true or false",
     "name": "Bot Typing",
