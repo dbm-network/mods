@@ -127,9 +127,9 @@ module.exports = {
     if (role) {
       if (Array.isArray(member)) {
         result = member.every(function every(mem) {
-          return this.dest(mem, 'roles', 'cache') && mem.roles.cache.has(role.id);
+          return mem?.roles?.cache && mem.roles.cache.has(role.id);
         });
-      } else if (this.dest(member, 'roles', 'cache')) {
+      } else if (member?.roles?.cache) {
         result = member.roles.cache.has(role.id);
       }
     }

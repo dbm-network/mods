@@ -148,7 +148,7 @@ module.exports = {
         result = user.username;
         break;
       case 3: // User Status
-        if (this.dest(user.presence, 'status')) {
+        if (user.presence?.status) {
           const { status } = user.presence;
           if (status === 'online') result = 'Online';
           else if (status === 'offline') result = 'Offline';
@@ -170,15 +170,15 @@ module.exports = {
         result = user.lastMessageID;
         break;
       case 7: // User Activities
-        if (this.dest(user.presence, 'activities')) {
+        if (user.presence?.activities) {
           const status = user.presence.activities.filter((s) => s.type !== 'CUSTOM_STATUS');
-          result = status && this.dest(status[0], 'name');
+          result = status && status[0]?.name;
         }
         break;
       case 8: // User Custom Status
-        if (this.dest(user.presence, 'activities')) {
-          const status = user.presence.activities.filter((s) => this.dest(s, 'type') === 'CUSTOM_STATUS');
-          result = status && this.dest(status[0], 'state');
+        if (user.presence?.activities) {
+          const status = user.presence.activities.filter((s) => s?.type === 'CUSTOM_STATUS');
+          result = status && status[0].state;
         }
         break;
       case 9: // User Discriminator
@@ -201,7 +201,7 @@ module.exports = {
       }
       case 14: {
         // User Status
-        const status = this.dest(user.presence, 'clientStatus');
+        const status = user.presence?.clientStatus;
         result = status && Object.keys(status);
         break;
       }
