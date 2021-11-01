@@ -244,11 +244,6 @@
     "name": "Control Server Prefix",
     "section": "Server Control"
   },
-  "convert_list_to_text.js": {
-    "description": "Convert a specified list to text",
-    "name": "Convert List to Text",
-    "section": "Lists and Loops"
-  },
   "convert_seconds_to_days_MOD.js": {
     "description": "Convert seconds to days",
     "name": "Convert Seconds To D/H/M/S",
@@ -674,11 +669,6 @@
     "name": "Run SQL Query",
     "section": "Other Stuff"
   },
-  "send_embed_message.js": {
-    "description": "Send an embed message",
-    "name": "Send Embed Message",
-    "section": "Embed Message"
-  },
   "send_embed_to_webhook_MOD.js": {
     "description": "Send an embed to a webhook",
     "name": "Send Embed to Webhook",
@@ -694,11 +684,6 @@
     "name": "Send GIF",
     "section": "Image Editing"
   },
-  "send_image_MOD.js": {
-    "description": "Send a specified image to a channel",
-    "name": "Send Image MOD",
-    "section": "Image Editing"
-  },
   "send_json_to_webapi_MOD.js": {
     "description": "Send Json to a web api",
     "name": "Send Json to WebAPI",
@@ -708,11 +693,6 @@
     "description": "Send emails through your bot",
     "name": "Send Mail",
     "section": "Other Stuff"
-  },
-  "send_message.js": {
-    "description": "Send a message to a channel",
-    "name": "Send Message",
-    "section": "Messaging"
   },
   "send_message_to_console_MOD.js": {
     "description": "Send a message to your console -- can have customized colors using the chalk module",
