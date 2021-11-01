@@ -171,14 +171,14 @@ module.exports = {
         break;
       case 7: // User Activities
         if (user.presence?.activities) {
-          const status = user.presence.activities.filter((s) => s.type !== 'CUSTOM_STATUS');
-          result = status && status[0]?.name;
+          const status = user.presence.activities.find((s) => s.type !== 'CUSTOM_STATUS');
+          result = status?.name;
         }
         break;
       case 8: // User Custom Status
         if (user.presence?.activities) {
-          const status = user.presence.activities.filter((s) => s?.type === 'CUSTOM_STATUS');
-          result = status && status[0].state;
+          const status = user.presence.activities.find((s) => s?.type === 'CUSTOM_STATUS');
+          result = status?.state;
         }
         break;
       case 9: // User Discriminator
