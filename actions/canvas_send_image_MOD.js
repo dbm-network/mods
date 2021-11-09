@@ -142,5 +142,5 @@ module.exports = {
     }
   },
 
-  mod() { },
+  mod() {},
 };
