@@ -46,11 +46,12 @@ Name:<br>
     if (!this.dest(server, 'channels', 'create')) return this.callnextAction(cache);
 
     const name = this.evalMessage(data.channelName, cache);
-    const position = parseInt(data.position, 10);
+    const position = this.evalMessage(data.position, cache);
     const storage = parseInt(data.storage, 10);
     server.channels
-      .create(name, { type: 'category', position })
+      .create(name, { type: 'GUILD_CATEGORY' })
       .then((channel) => {
+        channel.setPosition(position);
         const varName = this.evalMessage(data.varName, cache);
         this.storeValue(channel, storage, varName, cache);
         this.callNextAction(cache);
