@@ -100,7 +100,6 @@ module.exports = {
   },
 
   action(cache) {
-    const { DiscordJS } = this.getDBM();
     const Canvas = require('canvas');
     const data = cache.actions[cache.index];
     const storage = parseInt(data.storage, 10);
@@ -119,16 +118,17 @@ module.exports = {
     const canvas = Canvas.createCanvas(image.width, image.height);
     const ctx = canvas.getContext('2d');
     ctx.drawImage(image, 0, 0, image.width, image.height);
-    const name = `${parseInt(data.spoiler, 10) === 1 ? 'SPOILER_' : ''}image.png`;
     const buffer = canvas.toBuffer('image/png', { compressionLevel: compress });
     if (target && target.send) {
-      if (!!this.evalMessage(data.message, cache)) {
-        target.send({ content: this.evalMessage(data.message, cache), files: [{ attachment: buffer }] }).then((msgobject) => {
-          const varName3 = this.evalMessage(data.varName3, cache);
-          const storage2 = parseInt(data.storage2, 10);
-          this.storeValue(msgobject, storage2, varName3, cache);
-          this.callNextAction(cache);
-        });
+      if (Boolean(this.evalMessage(data.message, cache))) {
+        target
+          .send({ content: this.evalMessage(data.message, cache), files: [{ attachment: buffer }] })
+          .then((msgobject) => {
+            const varName3 = this.evalMessage(data.varName3, cache);
+            const storage2 = parseInt(data.storage2, 10);
+            this.storeValue(msgobject, storage2, varName3, cache);
+            this.callNextAction(cache);
+          });
       } else {
         target.send({ files: [{ attachment: buffer }] }).then((msgobject) => {
           const varName3 = this.evalMessage(data.varName3, cache);
