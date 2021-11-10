@@ -25,7 +25,7 @@ module.exports = {
 
   variableStorage(data, varType) {
     if (parseInt(data.storage2, 10) !== varType) return;
-    return [data.varName2, parseInt(data.max, 10) === 1 ? 'Message' : 'Message List',];
+    return [data.varName2, parseInt(data.max, 10) === 1 ? 'Message' : 'Message List'];
   },
 
   html(isEvent, data) {
