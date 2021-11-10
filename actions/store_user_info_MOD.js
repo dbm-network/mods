@@ -176,7 +176,7 @@ module.exports = {
         }
         break;
       case 8: // User Custom Status
-        if (user.presence?.activities) {
+        if (user.presence?.activities.length) {
           const status = user.presence.activities.find((s) => s?.type === 'CUSTOM_STATUS');
           result = status?.state;
         }
