@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Store User Info',
   section: 'User Control',
+  meta: {
+    version: '2.0.9',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadUrl: null,
+  },
 
   subtitle(data) {
     const users = ['Mentioned User', 'Command Author', 'Temp Variable', 'Server Variable', 'Global Variable'];
@@ -170,7 +177,7 @@ module.exports = {
         result = user.lastMessageID;
         break;
       case 7: // User Activities
-        if (user.presence?.activities) {
+        if (user.presence?.activities.length) {
           const status = user.presence.activities.find((s) => s.type !== 'CUSTOM_STATUS');
           result = status?.name;
         }

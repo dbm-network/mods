@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Changelog',
   section: '#Mod Information',
+  meta: {
+    version: '2.0.9',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadUrl: null,
+  },
 
   subtitle() {
     return 'Does nothing - Click "Edit" for more information';

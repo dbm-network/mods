@@ -4,6 +4,13 @@ module.exports = {
   name: 'Await Response Call Action',
   displayName: 'Await Response',
   section: 'Messaging',
+  meta: {
+    version: '2.0.9',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadUrl: null,
+  },
   fields: [
     'storage',
     'varName',
@@ -226,32 +233,35 @@ module.exports = {
       const max = parseInt(this.evalMessage(data.max, cache), 10);
       const time = parseInt(this.evalMessage(data.time, cache), 10);
 
+      const filter = (msg) => {
+        const { msg: message, server } = cache;
+        const { author, content } = msg;
+        let user;
+        let member;
+        const tempVars = Actions.getActionVariable.bind(cache.temp);
+        const globalVars = Actions.getActionVariable.bind(Actions.global);
+        let serverVars = null;
+
+        if (message) {
+          user = message.author;
+          member = message.member;
+        }
+
+        if (server) serverVars = Actions.getActionVariable.bind(Actions.server[server.id]);
+
+        try {
+          return Boolean(eval(js));
+        } catch {
+          return false;
+        }
+      };
       channel
-        .awaitMessages(
-          (msg) => {
-            const { msg: message, server } = cache;
-            const { author, content } = msg;
-            let user;
-            let member;
-            const tempVars = Actions.getActionVariable.bind(cache.temp);
-            const globalVars = Actions.getActionVariable.bind(Actions.global);
-            let serverVars = null;
-
-            if (message) {
-              user = message.author;
-              member = message.member;
-            }
-
-            if (server) serverVars = Actions.getActionVariable.bind(Actions.server[server.id]);
-
-            try {
-              return Boolean(eval(js));
-            } catch {
-              return false;
-            }
-          },
-          { max, time, errors: ['time'] },
-        )
+        .awaitMessages({
+          filter,
+          max,
+          time,
+          errors: ['time'],
+        })
         .then((c) => {
           this.storeValue(c.size === 1 ? c.first() : c.array(), storage, varName2, cache);
           this.executeResults(true, data, cache);

@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Send Json to WebAPI',
   section: 'JSON Things',
+  meta: {
+    version: '2.0.9',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadUrl: null,
+  },
 
   subtitle(data) {
     return `Store: ${data.varName} DebugMode: ${data.debugMode === '1' ? 'Enabled' : 'Disabled'}`;

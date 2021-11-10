@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Generate Random Word(s)',
   section: 'Other Stuff',
+  meta: {
+    version: '2.0.9',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadUrl: null,
+  },
 
   subtitle() {
     return 'Generate Random Word(s)';

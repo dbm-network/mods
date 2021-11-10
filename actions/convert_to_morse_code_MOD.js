@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Morse Code',
   section: 'Other Stuff',
+  meta: {
+    version: '2.0.9',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadUrl: null,
+  },
 
   subtitle() {
     return 'Convert To Morse Code';

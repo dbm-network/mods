@@ -1,6 +1,13 @@
 module.exports = {
   name: 'YouTube Search',
   section: 'Audio Control',
+  meta: {
+    version: '2.0.9',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadUrl: null,
+  },
 
   subtitle(data) {
     const videoInfo = [

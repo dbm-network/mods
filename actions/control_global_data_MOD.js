@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Control Global Data',
   section: 'Data',
+  meta: {
+    version: '2.0.9',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadUrl: null,
+  },
 
   subtitle(data) {
     return `(${data.dataName}) ${data.changeType === '1' ? '+=' : '='} ${data.value}`;

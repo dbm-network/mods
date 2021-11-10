@@ -2,6 +2,13 @@
 module.exports = {
   name: 'Restart Bot',
   section: 'Bot Client Control',
+  meta: {
+    version: '2.0.9',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadUrl: null,
+  },
 
   subtitle(data) {
     return `Restarts ${data.filename}`;
