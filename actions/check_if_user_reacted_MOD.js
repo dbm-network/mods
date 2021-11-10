@@ -124,10 +124,8 @@ module.exports = {
 
     let result;
     if (Array.isArray(member)) {
-      result = member.every(
-        (user) => this.dest(reaction, 'users', 'cache') && user && reaction.users.cache.has(user.id),
-      );
-    } else if (this.dest(reaction, 'users', 'cache') && member) {
+      result = member.every((user) => user && reaction?.users?.cache.has(user.id));
+    } else if (reaction?.users?.cache && member) {
       result = reaction.users.cache.has(member.id);
     }
     this.executeResults(result, data, cache);

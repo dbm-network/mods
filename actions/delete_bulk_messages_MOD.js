@@ -243,7 +243,7 @@ module.exports = {
 
     options.limit = 100;
     const limit = Math.min(parseInt(this.evalMessage(data.count, cache), 10), 100);
-    if (this.dest(source, 'messages', 'fetch')) {
+    if (source?.messages?.fetch) {
       try {
         const Con0 = this.evalMessage(data.Con0, cache);
         const Con1 = this.evalMessage(data.Con1, cache);

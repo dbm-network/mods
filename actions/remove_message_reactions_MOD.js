@@ -43,7 +43,7 @@ module.exports = {
       ).then(() => {
         this.callNextAction(cache);
       });
-    } else if (this.dest(message, 'reactions', 'removeAll')) {
+    } else if (message?.reactions?.removeAll) {
       message.reactions
         .removeAll()
         .then(() => {
