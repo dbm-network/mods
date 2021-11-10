@@ -19,13 +19,18 @@ module.exports = {
   ],
 
   subtitle({ max, time }) {
-    const getPlural = (n) => (n !== '1' ? 's' : '');
-    return `Await ${max} message${getPlural(max)} for ${time} millisecond${getPlural(time)}`;
+    const getPlural = (n) => (n !== "1" ? "s" : "");
+    return `Await ${max} message${getPlural(
+      max
+    )} for ${time} millisecond${getPlural(time)}`;
   },
 
   variableStorage(data, varType) {
     if (parseInt(data.storage2, 10) !== varType) return;
-    return [data.varName2, parseInt(data.max, 10) === 1 ? 'Message' : 'Message List'];
+    return [
+      data.varName2,
+      parseInt(data.max, 10) === 1 ? "Message" : "Message List",
+    ];
   },
 
   html(isEvent, data) {
@@ -159,25 +164,29 @@ module.exports = {
   init() {
     const { glob, document } = this;
 
-    glob.channelChange(document.getElementById('storage'), 'varNameContainer');
-    glob.variableChange(document.getElementById('storage2'), 'varNameContainer2');
+    glob.channelChange(document.getElementById("storage"), "varNameContainer");
+    glob.variableChange(
+      document.getElementById("storage2"),
+      "varNameContainer2"
+    );
     glob.onChangeTrue = function onChangeTrue(event) {
       switch (parseInt(event.value, 10)) {
         case 0:
         case 1:
-          document.getElementById('iftrueContainer').style.display = 'none';
+          document.getElementById("iftrueContainer").style.display = "none";
           break;
         case 2:
-          document.getElementById('iftrueName').innerHTML = 'Action Number';
-          document.getElementById('iftrueContainer').style.display = null;
+          document.getElementById("iftrueName").innerHTML = "Action Number";
+          document.getElementById("iftrueContainer").style.display = null;
           break;
         case 3:
-          document.getElementById('iftrueName').innerHTML = 'Number of Actions to Skip';
-          document.getElementById('iftrueContainer').style.display = null;
+          document.getElementById("iftrueName").innerHTML =
+            "Number of Actions to Skip";
+          document.getElementById("iftrueContainer").style.display = null;
           break;
         case 4:
-          document.getElementById('iftrueName').innerHTML = 'Anchor ID';
-          document.getElementById('iftrueContainer').style.display = null;
+          document.getElementById("iftrueName").innerHTML = "Anchor ID";
+          document.getElementById("iftrueContainer").style.display = null;
           break;
         default:
           break;
@@ -187,26 +196,27 @@ module.exports = {
       switch (parseInt(event.value, 10)) {
         case 0:
         case 1:
-          document.getElementById('iffalseContainer').style.display = 'none';
+          document.getElementById("iffalseContainer").style.display = "none";
           break;
         case 2:
-          document.getElementById('iffalseName').innerHTML = 'Action Number';
-          document.getElementById('iffalseContainer').style.display = null;
+          document.getElementById("iffalseName").innerHTML = "Action Number";
+          document.getElementById("iffalseContainer").style.display = null;
           break;
         case 3:
-          document.getElementById('iffalseName').innerHTML = 'Number of Actions to Skip';
-          document.getElementById('iffalseContainer').style.display = null;
+          document.getElementById("iffalseName").innerHTML =
+            "Number of Actions to Skip";
+          document.getElementById("iffalseContainer").style.display = null;
           break;
         case 4:
-          document.getElementById('iffalseName').innerHTML = 'Anchor ID';
-          document.getElementById('iffalseContainer').style.display = null;
+          document.getElementById("iffalseName").innerHTML = "Anchor ID";
+          document.getElementById("iffalseContainer").style.display = null;
           break;
         default:
           break;
       }
     };
-    glob.onChangeTrue(document.getElementById('iftrue'));
-    glob.onChangeFalse(document.getElementById('iffalse'));
+    glob.onChangeTrue(document.getElementById("iftrue"));
+    glob.onChangeFalse(document.getElementById("iffalse"));
   },
 
   action(cache) {
@@ -240,7 +250,10 @@ module.exports = {
           member = message.member;
         }
 
-        if (server) serverVars = Actions.getActionVariable.bind(Actions.server[server.id]);
+        if (server)
+          serverVars = Actions.getActionVariable.bind(
+            Actions.server[server.id]
+          );
 
         try {
           return Boolean(eval(js));
@@ -249,9 +262,19 @@ module.exports = {
         }
       };
       channel
-        .awaitMessages({ filter: msg_filter, max: max, time: time, errors: ['time'] })
+        .awaitMessages({
+          filter: msg_filter,
+          max: max,
+          time: time,
+          errors: ["time"],
+        })
         .then((c) => {
-          this.storeValue(c.size === 1 ? c.first() : c.array(), storage, varName2, cache);
+          this.storeValue(
+            c.size === 1 ? c.first() : c.array(),
+            storage,
+            varName2,
+            cache
+          );
           this.executeResults(true, data, cache);
         })
         .catch(() => this.executeResults(false, data, cache));
