@@ -170,7 +170,7 @@ module.exports = {
         result = user.lastMessageID;
         break;
       case 7: // User Activities
-        if (user.presence?.activities) {
+        if (user.presence?.activities.length) {
           const status = user.presence.activities.find((s) => s.type !== 'CUSTOM_STATUS');
           result = status?.name;
         }
