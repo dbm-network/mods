@@ -226,7 +226,7 @@ module.exports = {
       const max = parseInt(this.evalMessage(data.max, cache), 10);
       const time = parseInt(this.evalMessage(data.time, cache), 10);
 
-      const msg_filter = (msg) => {
+      const filter = (msg) => {
         const { msg: message, server } = cache;
         const { author, content } = msg;
         let user;
@@ -250,7 +250,7 @@ module.exports = {
       };
       channel
         .awaitMessages({
-          filter: msg_filter,
+          filter,
           max,
           time,
           errors: ['time'],
