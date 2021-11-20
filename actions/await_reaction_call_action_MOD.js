@@ -1,38 +1,38 @@
 /* eslint-disable no-unused-vars */
 
 module.exports = {
-    name: 'Await Reaction Call Action',
-    displayName: 'Await Reaction',
-    section: 'Messaging',
-  
-    subtitle({ max, time }) {
-      const getPlural = (n) => (n !== '1' ? 's' : '');
-      return `Await ${max} reaction${getPlural(max)} for ${time} millisecond${getPlural(time)}`;
-    },
-  
-    variableStorage(data, varType) {
-      if (parseInt(data.storage2, 10) !== varType) return;
-      return [data.varName2, `Reaction${parseInt(data.max, 10) === 1 ? '' : ' List'}`];
-    },
-  
-    fields: [
-      'storage',
-      'varName',
-      'filter',
-      'max',
-      'time',
-      'maxEmojis',
-      'maxUsers',
-      'iftrue',
-      'iftrueVal',
-      'iffalse',
-      'iffalseVal',
-      'storage2',
-      'varName2',
-    ],
-  
-    html(isEvent, data) {
-      return `
+  name: 'Await Reaction Call Action',
+  displayName: 'Await Reaction',
+  section: 'Messaging',
+
+  subtitle({ max, time }) {
+    const getPlural = (n) => (n !== '1' ? 's' : '');
+    return `Await ${max} reaction${getPlural(max)} for ${time} millisecond${getPlural(time)}`;
+  },
+
+  variableStorage(data, varType) {
+    if (parseInt(data.storage2, 10) !== varType) return;
+    return [data.varName2, `Reaction${parseInt(data.max, 10) === 1 ? '' : ' List'}`];
+  },
+
+  fields: [
+    'storage',
+    'varName',
+    'filter',
+    'max',
+    'time',
+    'maxEmojis',
+    'maxUsers',
+    'iftrue',
+    'iftrueVal',
+    'iffalse',
+    'iffalseVal',
+    'storage2',
+    'varName2',
+  ],
+
+  html(isEvent, data) {
+    return `
   <div style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
     <div>
       <details>
@@ -154,117 +154,117 @@ module.exports = {
       text-decoration: underline;
     }
   </style>`;
-    },
-  
-    init() {
-      const { glob, document } = this;
-  
-      glob.messageChange(document.getElementById('storage'), 'varNameContainer');
-  
-      glob.variableChange(document.getElementById('storage2'), 'varNameContainer2');
-      glob.onChangeTrue = function onChangeTrue(event) {
-        switch (parseInt(event.value, 10)) {
-          case 0:
-          case 1:
-            document.getElementById('iftrueContainer').style.display = 'none';
-            break;
-          case 2:
-            document.getElementById('iftrueName').innerHTML = 'Action Number';
-            document.getElementById('iftrueContainer').style.display = null;
-            break;
-          case 3:
-            document.getElementById('iftrueName').innerHTML = 'Number of Actions to Skip';
-            document.getElementById('iftrueContainer').style.display = null;
-            break;
-          case 4:
-            document.getElementById('iftrueName').innerHTML = 'Anchor ID';
-            document.getElementById('iftrueContainer').style.display = null;
-            break;
-          default:
-            break;
-        }
-      };
-      glob.onChangeFalse = function onChangeFalse(event) {
-        switch (parseInt(event.value, 10)) {
-          case 0:
-          case 1:
-            document.getElementById('iffalseContainer').style.display = 'none';
-            break;
-          case 2:
-            document.getElementById('iffalseName').innerHTML = 'Action Number';
-            document.getElementById('iffalseContainer').style.display = null;
-            break;
-          case 3:
-            document.getElementById('iffalseName').innerHTML = 'Number of Actions to Skip';
-            document.getElementById('iffalseContainer').style.display = null;
-            break;
-          case 4:
-            document.getElementById('iffalseName').innerHTML = 'Anchor ID';
-            document.getElementById('iffalseContainer').style.display = null;
-            break;
-          default:
-            break;
-        }
-      };
-      glob.onChangeTrue(document.getElementById('iftrue'));
-      glob.onChangeFalse(document.getElementById('iffalse'));
-    },
-  
-    action(cache) {
-      const data = cache.actions[cache.index];
-      const { Actions } = this.getDBM();
-  
-      const messageVariable = parseInt(data.storage, 10);
-      const varName = this.evalMessage(data.varName, cache);
-      const msg = this.getMessage(messageVariable, varName, cache);
-  
-      const storage = parseInt(data.storage2, 10);
-      const varName2 = this.evalMessage(data.varName2, cache);
-  
-      if (msg) {
-        const js = String(this.evalMessage(data.filter, cache));
-  
-        const max = parseInt(this.evalMessage(data.max, cache), 10);
-        const maxEmojis = parseInt(this.evalMessage(data.maxEmojis, cache), 10);
-        const maxUsers = parseInt(this.evalMessage(data.maxUsers, cache), 10);
-        const time = parseInt(this.evalMessage(data.time, cache), 10);
-        
-        const filter = (reaction, user) => {
-            const { msg: message, server } = cache;
-            let member;
-            let author;
-            const tempVars = Actions.getActionVariable.bind(cache.temp);
-            const globalVars = Actions.getActionVariable.bind(Actions.global);
-            let serverVars = null;
+  },
 
-            if (message) {
-              member = message.member;
-              author = message.author;
-            }
-            if (server) serverVars = Actions.getActionVariable.bind(Actions.server[server.id]);
+  init() {
+    const { glob, document } = this;
 
-            try {
-              return Boolean(eval(js));
-            } catch {
-              return false;
-            }
-        };
-        msg
-          .awaitReactions({
-              filter,
-              max,
-              maxEmojis,
-              maxUsers,
-              time,
-              errors: ['time'],
-            })
-          .then((c) => {
-            this.storeValue(c.size === 1 ? c.first() : c.array(), storage, varName2, cache);
-            this.executeResults(true, data, cache);
-          })
-          .catch(() => this.executeResults(false, data, cache));
+    glob.messageChange(document.getElementById('storage'), 'varNameContainer');
+
+    glob.variableChange(document.getElementById('storage2'), 'varNameContainer2');
+    glob.onChangeTrue = function onChangeTrue(event) {
+      switch (parseInt(event.value, 10)) {
+        case 0:
+        case 1:
+          document.getElementById('iftrueContainer').style.display = 'none';
+          break;
+        case 2:
+          document.getElementById('iftrueName').innerHTML = 'Action Number';
+          document.getElementById('iftrueContainer').style.display = null;
+          break;
+        case 3:
+          document.getElementById('iftrueName').innerHTML = 'Number of Actions to Skip';
+          document.getElementById('iftrueContainer').style.display = null;
+          break;
+        case 4:
+          document.getElementById('iftrueName').innerHTML = 'Anchor ID';
+          document.getElementById('iftrueContainer').style.display = null;
+          break;
+        default:
+          break;
       }
-    },
+    };
+    glob.onChangeFalse = function onChangeFalse(event) {
+      switch (parseInt(event.value, 10)) {
+        case 0:
+        case 1:
+          document.getElementById('iffalseContainer').style.display = 'none';
+          break;
+        case 2:
+          document.getElementById('iffalseName').innerHTML = 'Action Number';
+          document.getElementById('iffalseContainer').style.display = null;
+          break;
+        case 3:
+          document.getElementById('iffalseName').innerHTML = 'Number of Actions to Skip';
+          document.getElementById('iffalseContainer').style.display = null;
+          break;
+        case 4:
+          document.getElementById('iffalseName').innerHTML = 'Anchor ID';
+          document.getElementById('iffalseContainer').style.display = null;
+          break;
+        default:
+          break;
+        }
+    };
+    glob.onChangeTrue(document.getElementById('iftrue'));
+    glob.onChangeFalse(document.getElementById('iffalse'));
+  },
+
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const { Actions } = this.getDBM();
+
+    const messageVariable = parseInt(data.storage, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    const msg = this.getMessage(messageVariable, varName, cache);
+
+    const storage = parseInt(data.storage2, 10);
+    const varName2 = this.evalMessage(data.varName2, cache);
+
+    if (msg) {
+      const js = String(this.evalMessage(data.filter, cache));
+
+      const max = parseInt(this.evalMessage(data.max, cache), 10);
+      const maxEmojis = parseInt(this.evalMessage(data.maxEmojis, cache), 10);
+      const maxUsers = parseInt(this.evalMessage(data.maxUsers, cache), 10);
+      const time = parseInt(this.evalMessage(data.time, cache), 10);
+
+      const filter = (reaction, user) => {
+        const { msg: message, server } = cache;
+        let member;
+        let author;
+        const tempVars = Actions.getActionVariable.bind(cache.temp);
+        const globalVars = Actions.getActionVariable.bind(Actions.global);
+        let serverVars = null;
+
+        if (message) {
+          member = message.member;
+          author = message.author;
+        }
+        if (server) serverVars = Actions.getActionVariable.bind(Actions.server[server.id]);
+
+        try {
+          return Boolean(eval(js));
+        } catch {
+          return false;
+        }
+      };
+      msg
+        .awaitReactions({
+          filter,
+          max,
+          maxEmojis,
+          maxUsers,
+          time,
+          errors: ['time'],
+        })
+        .then((c) => {
+          this.storeValue(c.size === 1 ? c.first() : c.array(), storage, varName2, cache);
+          this.executeResults(true, data, cache);
+        })
+        .catch(() => this.executeResults(false, data, cache));
+    }
+  },
   
     mod() {},
   };
