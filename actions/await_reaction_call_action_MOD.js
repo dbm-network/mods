@@ -204,7 +204,7 @@ module.exports = {
           break;
         default:
           break;
-        }
+      }
     };
     glob.onChangeTrue(document.getElementById('iftrue'));
     glob.onChangeFalse(document.getElementById('iffalse'));
@@ -265,7 +265,6 @@ module.exports = {
         .catch(() => this.executeResults(false, data, cache));
     }
   },
-  
-    mod() {},
-  };
-  
+
+  mod() {},
+};
