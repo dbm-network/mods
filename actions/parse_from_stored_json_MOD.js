@@ -84,8 +84,8 @@ module.exports = {
 
   init() {
     const { glob, document } = this;
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
-    glob.refreshVariableList(document.getElementById('storage'));
+    glob.variableChange(document.getElementById("storage"), "varNameContainer");
+    glob.refreshVariableList(document.getElementById("storage"));
   },
 
   async action(cache) {
@@ -100,7 +100,7 @@ module.exports = {
     const DEBUG = parseInt(data.debugMode, 10);
 
     let jsonData = jsonRaw;
-    if (typeof jsonRaw !== 'object') {
+    if (typeof jsonRaw !== "object") {
       jsonData = JSON.parse(jsonRaw);
     }
 
@@ -108,12 +108,10 @@ module.exports = {
       if (path && jsonData) {
         let outData = Mods.jsonPath(jsonData, path);
 
-        // if it doesn't work, try to go back one path
         if (outData === false) {
           outData = Mods.jsonPath(jsonData, `$.${path}`);
         }
 
-        // if it still doesn't work, try to go back two paths
         if (outData === false) {
           outData = Mods.jsonPath(jsonData, `$..${path}`);
         }
@@ -128,28 +126,34 @@ module.exports = {
           console.error(error.stack ? error.stack : error);
         }
 
-        const outValue = eval(JSON.stringify(outData), cache);
+        const outValue = JSON.stringify(outData);
 
-        if (outData.success !== null || outValue.success !== null) {
+        if (outData.success != null || outValue.success != null) {
           const errorJson = JSON.stringify({
-            error: 'error',
+            error: "error",
             statusCode: 0,
             success: false,
           });
           this.storeValue(errorJson, storage, varName, cache);
-          console.log(`WebAPI Parser: Error Invalid JSON, is the Path set correctly? [${path}]`);
-        } else if (outValue.success !== null || !outValue) {
+          console.log(
+            `1: WebAPI Parser: Error Invalid JSON, is the Path set correctly? [${path}]`
+          );
+        } else if (outValue.success != null || !outValue) {
           const errorJson = JSON.stringify({
-            error: 'error',
+            error: "error",
             statusCode: 0,
             success: false,
           });
           this.storeValue(errorJson, storage, varName, cache);
-          console.log(`WebAPI Parser: Error Invalid JSON, is the Path set correctly? [${path}]`);
+          console.log(
+            `2: WebAPI Parser: Error Invalid JSON, is the Path set correctly? [${path}]`
+          );
         } else {
           this.storeValue(outValue, storage, varName, cache);
           if (DEBUG) {
-            console.log(`WebAPI Parser: JSON Data values starting from [${path}] stored to: [${varName}]`);
+            console.log(
+              `WebAPI Parser: JSON Data values starting from [${path}] stored to: [${varName}]`
+            );
           }
         }
       }
@@ -160,13 +164,15 @@ module.exports = {
         success: false,
       });
       this.storeValue(errorJson, storage, varName, cache);
-      console.error(`WebAPI Parser: Error: ${errorJson} stored to: [${varName}]`);
+      console.error(
+        `WebAPI Parser: Error: ${errorJson} stored to: [${varName}]`
+      );
     }
 
-    if (data.behavior === '0') {
+    if (data.behavior === "0") {
       this.callNextAction(cache);
     }
   },
 
-  mod() {},
+  mod() { },
 };
