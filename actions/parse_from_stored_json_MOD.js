@@ -1,163 +1,231 @@
 module.exports = {
-  name: 'Parse From Stored Json',
-  section: 'JSON Things',
+  name: 'Parse From Stored Webpage',
+  section: 'HTML/XML Things',
 
   subtitle(data) {
-    return `${data.varName}`;
+    return ` Var: ${data.varName} Path: ${data.xpath}`;
   },
 
   variableStorage(data, varType) {
     if (parseInt(data.storage, 10) !== varType) return;
-    if (varType === 'object') return [data.varName, 'JSON Object'];
-    return [data.varName, `JSON ${varType} Value`];
+    return [data.varName, 'String'];
   },
 
-  fields: ['behavior', 'varStorage', 'jsonObjectVarName', 'path', 'storage', 'varName'],
+  fields: ['debugMode', 'xpath', 'source', 'sourceVarName', 'storage', 'varName'],
 
-  html(_isEvent, data) {
+  html(isEvent, data) {
     return `
-<div style="margin: 0; overflow-y: none;">
-    <div style="width: 80%;">
-        <div style="float: left; width: 35%;">
-              Variable:<br>
-              <select id="varStorage" class="round" onchange="glob.refreshVariableList(this)">
-                  ${data.variables[1]}
-              </select>
-        </div>
-        <div id="jsonObjectVarNameContainer" style="float: right; width: 60%;">
-            Variable Name:<br>
-            <input id="jsonObjectVarName" class="round" type="text" list="variableList">
-        </div><br><br><br>
-        <div id="pathContainer" style="padding-top: 8px;">
-            JSON Path: (supports the usage of <a href="http://goessner.net/articles/JsonPath/index.html#e2" target="_blank">JSON Path (Regex)</a>)<br>
-            <input id="path" class="round" ;" type="text"><br>
-        </div>
-    </div>
-    <div style="width: 80%;">
-        <div style="float: left; width: 30%;">
-            <label for="storage">
-                <font color="white">Store In:</font>
-            </label>
-            <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-                ${data.variables[1]}
-            </select>
-        </div>
-        <div id="varNameContainer" style="margin-left: 10px; float: left; width: 65%;">
-            <label for="varName">
-                <font color="white">Variable Name:</font>
-            </label>
-            <input id="varName" class="round" type="text">
-        </div>
-    </div>
-    <div>
-        <div style="float: left;">
-            <br>
-            <label for="behavior">
-                <font color="white">End Behavior:</font>
-            </label>
-            <select id="behavior" class="round" ;>
-                <option value="0" selected>Call Next Action Automatically</option>
-                <option value="1">Do Not Call Next Action</option>
-            </select>
-        </div>
-        <div style="float: left; margin-left: 10px; width: 30%;">
-            <br>
-            <label for="debugMode">
-                <font color="white">Debug Mode:</font>
-            </label>
-            <select id="debugMode" class="round">
-                <option value="0" selected>Disabled</option>
-                <option value="1">Enabled</option>
-            </select>
-        </div>
-    </div>
+<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
+  <div>
+    <u>Instructions:</u><br>
+    1. Input a Path into the XPath textarea<br>
+    2. Test Online: <span class="wrexlink" data-url="https://codebeautify.org/Xpath-Tester">X-Path Tester</span><br>
+    3. How to get <span class="wrexlink" data-url="https://stackoverflow.com/a/46599584/1422928">XPath from Chrome.</span><br>
+    </p
+  </div>
+  <div style="float: left; width: 35%;">
+    Source HTML:<br>
+    <select id="source" class="round" onchange="glob.variableChange(this, 'sourceVarNameContainer')">
+      ${data.variables[1]}
+    </select>
+  </div>
+  <div id="sourceVarNameContainer" style="display: none; float: right; width: 60%;">
+    Variable Name:<br>
+    <input id="sourceVarName" class="round" type="text" list="variableList">
+  </div><br><br><br>
+  <div>
+    XPath: (Supports multiple, split with the <b>|</b> symbol) <br>
+    <textarea id="xpath" class="round" style="width: 99%; resize: none;" type="textarea" rows="2" cols="20"></textarea><br>
+  </div>
+  <div hidden="true">
+    <button class="tiny compact ui labeled icon button" onclick="glob.checkPath(this)"><i class="plus icon"></i>Check XPath</button><br>
+    Valid: <text id="valid" style="color: red">Input A Path</text>
+  </div><br>
+  <div style="float: left; width: 35%;">
+    Store In:<br>
+    <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
+      ${data.variables[0]}
+    </select>
+  </div>
+  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
+    Storage Variable Name:<br>
+    <input id="varName" class="round" type="text">
+  </div><br>
+  <div style="float: left; width: 30%;">
+    <br>Debug Mode: (Enable to see verbose printing in the bot console)<br>
+    <select id="debugMode" class="round">
+      <option value="1" selected>Enabled</option>
+      <option value="0" >Disabled</option>
+    </select>
+  </div>
 </div>
-`;
+<style>
+  span.wrexlink {
+    color: #99b3ff;
+    text-decoration:underline;
+    cursor:pointer;
+  }
+
+  span.wrexlink:hover {
+    color:#4676b9;
+  }
+</style>`;
   },
 
   init() {
     const { glob, document } = this;
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
-    glob.refreshVariableList(document.getElementById('storage'));
-  },
-
-  action(cache) {
-    const Mods = this.getMods();
-    const data = cache.actions[cache.index];
-    const varName = this.evalMessage(data.varName, cache);
-    const storage = parseInt(data.storage, 10);
-    const type = parseInt(data.varStorage, 10);
-    const jsonObjectVarName = this.evalMessage(data.jsonObjectVarName, cache);
-    const path = this.evalMessage(data.path, cache);
-    const jsonRaw = this.getVariable(type, jsonObjectVarName, cache);
-    const DEBUG = parseInt(data.debugMode, 10);
-
-    let jsonData = jsonRaw;
-    if (typeof jsonRaw !== 'object') {
-      jsonData = JSON.parse(jsonRaw);
-    }
 
     try {
-      if (path && jsonData) {
-        let outData = Mods.jsonPath(jsonData, path);
-
-        // if it doesn't work, try to go back one path
-        if (outData === false) {
-          outData = Mods.jsonPath(jsonData, `$.${path}`);
-        }
-
-        // if it still doesn't work, try to go back two paths
-        if (outData === false) {
-          outData = Mods.jsonPath(jsonData, `$..${path}`);
-        }
-
-        if (DEBUG) console.log(outData);
-
-        try {
-          JSON.parse(JSON.stringify(outData));
-        } catch (error) {
-          const errorJson = JSON.stringify({ error, success: false });
-          this.storeValue(errorJson, storage, varName, cache);
-          console.error(error.stack ? error.stack : error);
-        }
-
-        const outValue = eval(JSON.stringify(outData), cache);
-
-        if (outData.success !== null || outValue.success !== null) {
-          const errorJson = JSON.stringify({
-            error: 'error',
-            statusCode: 0,
-            success: false,
+      const wrexlinks = document.getElementsByClassName('wrexlink');
+      for (let x = 0; x < wrexlinks.length; x++) {
+        const wrexlink = wrexlinks[x];
+        const url = wrexlink.getAttribute('data-url');
+        if (url) {
+          wrexlink.setAttribute('title', url);
+          wrexlink.addEventListener('click', (e) => {
+            e.stopImmediatePropagation();
+            console.log(`Launching URL: [${url}] in your default browser.`);
+            require('child_process').execSync(`start ${url}`);
           });
-          this.storeValue(errorJson, storage, varName, cache);
-          console.log(`WebAPI Parser: Error Invalid JSON, is the Path set correctly? [${path}]`);
-        } else if (outValue.success !== null || !outValue) {
-          const errorJson = JSON.stringify({
-            error: 'error',
-            statusCode: 0,
-            success: false,
-          });
-          this.storeValue(errorJson, storage, varName, cache);
-          console.log(`WebAPI Parser: Error Invalid JSON, is the Path set correctly? [${path}]`);
-        } else {
-          this.storeValue(outValue, storage, varName, cache);
-          if (DEBUG) {
-            console.log(`WebAPI Parser: JSON Data values starting from [${path}] stored to: [${varName}]`);
-          }
         }
       }
     } catch (error) {
-      const errorJson = JSON.stringify({
-        error,
-        statusCode: 0,
-        success: false,
-      });
-      this.storeValue(errorJson, storage, varName, cache);
-      console.error(`WebAPI Parser: Error: ${errorJson} stored to: [${varName}]`);
+      // write any init errors to errors.txt in dbms' main directory
+      require('fs').appendFile('errors.txt', error.stack ? error.stack : `${error}\r\n`);
     }
 
-    if (data.behavior === '0') {
-      this.callNextAction(cache);
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
+    glob.variableChange(document.getElementById('source'), 'sourceVarNameContainer');
+  },
+
+  action(cache) {
+    function manageXmlParseError(msg, errorLevel, errorLog) {
+      if (errorLog.errorLevel === null || errorLog.errorLevel < errorLevel) {
+        errorLog.errorLevel = errorLevel;
+      }
+      if (errorLog[errorLevel.toString()] === null) {
+        errorLog[errorLevel.toString()] = [];
+      }
+      errorLog[errorLevel.toString()].push(msg);
+    }
+
+    try {
+      const Mods = this.getMods();
+
+      const data = cache.actions[cache.index];
+
+      const sourceVarName = this.evalMessage(data.sourceVarName, cache);
+      const source = parseInt(data.source, 10);
+      const varName = this.evalMessage(data.varName, cache);
+      const storage = parseInt(data.storage, 10);
+
+      const DEBUG = parseInt(data.debugMode, 10);
+
+      const myXPath = this.evalMessage(data.xpath, cache);
+
+      const html = this.getVariable(source, sourceVarName, cache);
+
+      const xpath = Mods.require('xpath');
+      const DOM = Mods.require('xmldom').DOMParser;
+      const ent = Mods.require('ent');
+
+      if (myXPath) {
+        // check for errors
+        let errored = false;
+        try {
+          xpath.evaluate(myXPath, null, null, null);
+        } catch (error) {
+          errored = error;
+          if (!error.toString().includes('nodeType')) console.error(`Invalid XPath: [${myXPath}] (${error || ''})`);
+        }
+
+        if (html) {
+          const mylocator = {};
+          const parseLog = { errorLevel: 0 };
+          const doc = new DOM({
+            locator: mylocator,
+            errorHandler: {
+              warning: (msg) => {
+                manageXmlParseError(msg, 1, parseLog);
+              },
+              error: (msg) => {
+                manageXmlParseError(msg, 2, parseLog);
+                if (DEBUG) console.log(`XMLDOMError: ${msg}`);
+              },
+              fatalError: (msg) => {
+                manageXmlParseError(msg, 3, parseLog);
+                if (DEBUG) console.log(`FATAL XMLDOMError: ${msg}`);
+              },
+            },
+          }).parseFromString(ent.decode(html));
+
+          let nodes = [];
+          try {
+            nodes = xpath.select(myXPath, doc);
+
+            if (nodes && nodes.length > 0) {
+              const out = [];
+              nodes.forEach((node) => {
+                const name = node.name || 'Text Value';
+                const value = node.value ? node.value : node.toString();
+
+                if (DEBUG) {
+                  console.log('====================================');
+                  console.log(`Source String: ${node.toString()}`);
+                  console.log('====================================');
+                  // console.log("Parent Node Name: " +  .name);
+                  console.log(`Name: ${name}`);
+                  console.log(`Line Number: ${node.lineNumber}`);
+                  console.log(`Column Number: ${node.columnNumber}`);
+                  console.log(`Parsed Value: ${value.trim()}`);
+                  console.log('====================================\n');
+                }
+
+                out.push(value.trim());
+              });
+
+              if (out.length > 1 && DEBUG) {
+                console.log('Stored value(s);\r\n');
+
+                for (let i = 0; i < out.length; i++) {
+                  console.log(`[${i}] = ${out[i]}`);
+                }
+
+                console.log('\r\nAppend the key that you want to store that value to the variable.');
+
+                const storageType = ['', 'tempVars', 'serverVars', 'globalVars'];
+                const output = storageType[storage];
+
+                console.log(`Example \${${output}("${varName}")} to \${${output}("${varName}")[key]}`);
+                console.log(`${varName}[key] if not using it as a template\r\n`);
+              }
+
+              this.storeValue(out, storage, varName, cache);
+              if (DEBUG) console.log(`Stored value(s) [${out}] to  [${varName}] `);
+
+              this.callNextAction(cache);
+            } else {
+              console.error(`Could not store a value from path ${myXPath}, Check that the path is valid!\n`);
+              if (DEBUG)
+                console.info(
+                  `parsestatus ==> ${parseLog.errorLevel}\nlocator:${mylocator.columnNumber}/${mylocator.lineNumber}`,
+                );
+
+              this.storeValue(errored || undefined, storage, varName, cache);
+              this.callNextAction(cache);
+            }
+          } catch (error) {
+            this.storeValue(errored || undefined, storage, varName, cache);
+            this.callNextAction(cache);
+          }
+        } else {
+          console.error('HTML data Is Not Valid!');
+        }
+      } else {
+        console.error(`Path [${myXPath}] Is Not Valid`);
+      }
+    } catch (error) {
+      console.error(`Webpage Things:  Error: ${error.stack || error}`);
     }
   },
 
