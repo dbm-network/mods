@@ -249,7 +249,9 @@ module.exports = {
       switch (task) {
         case 0: // Create File
           if (fileName === '') break;
-          fs.writeFileSync(fpath, '');
+          fs.pathExistsSync(path.join(fpath, fileName))
+            ? console.log('File already exists!')
+            : fs.writeFileSync(fpath, '');
           break;
         case 1: // Write File
           if (fileName === '') throw new Error('File Name not Provided:');
