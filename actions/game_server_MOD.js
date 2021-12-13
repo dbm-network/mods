@@ -275,6 +275,7 @@ module.exports = {
     <option value="teamfactor">Team Factor</option>
     <option value="tf2">Team Fortress 2</option>
     <option value="tfc">Team Fortress Classic</option>
+    <option value="teamspeak3">Teamspeak 3</option>
     <option value="terminus">Terminus</option>
     <option value="terraria">Terraria - TShock (2011)</option>
     <option value="hidden">The Hidden (2005)</option>
