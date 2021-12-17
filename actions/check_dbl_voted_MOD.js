@@ -1,5 +1,6 @@
 module.exports = {
-  name: 'Check TopGG Voted',
+  name: 'Check DBL Voted',
+  displayname: 'Check TopGG Voted',
   section: 'Conditions',
 
   subtitle(data) {
