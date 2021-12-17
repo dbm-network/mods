@@ -1,5 +1,6 @@
 module.exports = {
-  name: 'Sends Stats to TopGG',
+  name: 'Sends Stats to DBL',
+  displayname: 'Sends Stats to TopGG',
   section: 'Other Stuff',
 
   subtitle(data) {
