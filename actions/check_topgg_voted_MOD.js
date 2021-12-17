@@ -1,5 +1,5 @@
 module.exports = {
-  name: 'Check DBL Voted',
+  name: 'Check TopGG Voted',
   section: 'Conditions',
 
   subtitle(data) {
@@ -31,7 +31,7 @@ module.exports = {
 </div><br><br><br>
 <div>
   <div style="float: left; width: 89%;">
-    DBL API Token:<br>
+    TopGG API Token:<br>
     <input id="apitoken" class="round" type="text">
   </div>
 </div><br><br><br>
@@ -113,7 +113,7 @@ module.exports = {
     const Mods = this.getMods();
     const TopGG = Mods.require('@top.gg/sdk');
 
-    if (!apitoken) return console.log('ERROR! Please provide an API token for DBL!');
+    if (!apitoken) return console.log('ERROR! Please provide an API token for TopGG!');
 
     const api = new TopGG.Api(apitoken);
     api.hasVoted(member.id).then((voted) => this.executeResults(voted, data, cache));
