@@ -266,7 +266,7 @@ module.exports = {
         result = botClient.token;
         break;
       case 9: // Voice Connections Amount
-        result = botClient.voice.connections.size;
+        result = botClient.voice.adapters.size;
         break;
       case 10: // Total Amount of Channels
         result = botClient.channels.cache.size;
