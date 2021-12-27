@@ -9,16 +9,6 @@
     "name": "Comment",
     "section": "Other Stuff"
   },
-  "add_blank_field_MOD.js": {
-    "description": "Add a blank field in an embed",
-    "name": "Add Blank Embed Field",
-    "section": "Embed Message"
-  },
-  "add_embed_field.js": {
-    "description": "Add a field in an embed",
-    "name": "Add Embed Field",
-    "section": "Embed Message"
-  },
   "anchor_create_MOD.js": {
     "description": "Create an anchor",
     "name": "Create Anchor",
@@ -49,11 +39,6 @@
     "name": "Await Response Call Action",
     "section": "Messaging"
   },
-  "ban_member.js": {
-    "description": "Ban a GuildMember",
-    "name": "Ban Member",
-    "section": "Member Control"
-  },
   "base_convert_MOD.js": {
     "description": "Convert a base",
     "name": "Base Convert MOD",
@@ -67,11 +52,6 @@
   "botsfordiscord_stats_MOD.js": {
     "description": "Sends statistics (server count) to botsfordiscord.com",
     "name": "Send Stats to BFD",
-    "section": "Other Stuff"
-  },
-  "call_command_or_event.js": {
-    "description": "Call a command or event",
-    "name": "Call Command/Event",
     "section": "Other Stuff"
   },
   "canvas_create_background_MOD.js": {
@@ -154,11 +134,6 @@
     "name": "Check if File Exists",
     "section": "File Stuff"
   },
-  "check_if_member_has_role_MOD.js": {
-    "description": "Check if a specified member has a certain role and can jump to anchor",
-    "name": "Check if Member Has Role MOD",
-    "section": "Conditions"
-  },
   "check_if_member_MOD.js": {
     "description": "Check if a specified member has a certain characteristic",
     "name": "Check If Member",
@@ -174,16 +149,6 @@
     "name": "Check If User Reacted",
     "section": "Conditions"
   },
-  "check_member_data.js": {
-    "description": "Check member data",
-    "name": "Check Member Data",
-    "section": "Data"
-  },
-  "check_parameters.js": {
-    "description": "Check if parameters have a certain characteristic",
-    "name": "Check Parameters",
-    "section": "Conditions"
-  },
   "check_permissions_MOD.js": {
     "description": "Check if something has specified permissions",
     "name": "Check Permissions",
@@ -192,16 +157,6 @@
   "check_role_permissions_MOD.js": {
     "description": "Check if a role has specified permissions",
     "name": "Check Role Permissions",
-    "section": "Conditions"
-  },
-  "check_server_data.js": {
-    "description": "Check server data",
-    "name": "Check Server Data",
-    "section": "Data"
-  },
-  "check_variable.js": {
-    "description": "Check a variable and compare it with a specified characteristic",
-    "name": "Check Variable",
     "section": "Conditions"
   },
   "cleverbot_MOD.js": {
@@ -289,11 +244,6 @@
     "name": "Create Category Channel",
     "section": "Channel Control"
   },
-  "create_embed_message.js": {
-    "description": "Create an embed message",
-    "name": "Create Embed Message",
-    "section": "Embed Message"
-  },
   "create_gif_MOD.js": {
     "description": "Create a gif",
     "name": "Create GIF",
@@ -323,11 +273,6 @@
     "description": "Create custom image effects for a specified image",
     "name": "Custom Image Effects",
     "section": "Image Editing"
-  },
-  "delete_bulk_messages_MOD.js": {
-    "description": "Delete bulk messages",
-    "name": "Delete Bulk Messages MOD",
-    "section": "Messaging"
   },
   "delete_global_data_MOD.js": {
     "description": "Delete global data",
@@ -369,11 +314,6 @@
     "name": "Download File",
     "section": "File Stuff"
   },
-  "edit_channel_MOD.js": {
-    "description": "Edit a channel",
-    "name": "Edit Channel",
-    "section": "Channel Control"
-  },
   "edit_embed_object_MOD.js": {
     "description": "Edit an embed",
     "name": "Edit Embed Object",
@@ -388,11 +328,6 @@
     "description": "Edit an item from a list",
     "name": "Edit Item from List MOD",
     "section": "Lists and Loops"
-  },
-  "edit_message.js": {
-    "description": "Edit a message",
-    "name": "Edit Message",
-    "section": "Messaging"
   },
   "edit_webhook.js": {
     "description": "Edit a webhook",
@@ -433,11 +368,6 @@
     "description": "Find an item in a list",
     "name": "Find Item in List",
     "section": "Lists and Loops"
-  },
-  "find_member.js": {
-    "description": "Find a member in a guild",
-    "name": "Find Member",
-    "section": "Member Control"
   },
   "find_message_MOD.js": {
     "description": "Find a message in a channel",
@@ -584,11 +514,6 @@
     "name": "Parse From Stored Webpage",
     "section": "HTML/XML Things"
   },
-  "play_youtube.js": {
-    "description": "Play a specified YouTube video",
-    "name": "Play YouTube Video",
-    "section": "Audio Control"
-  },
   "play_youtube_playlist_MOD.js": {
     "description": "Play a specified YouTube playlist",
     "name": "Play YouTube Playlist",
@@ -652,11 +577,6 @@
   "run_command_in_console_MOD.js": {
     "description": "Run a command in your console",
     "name": "Run Command in Console",
-    "section": "Other Stuff"
-  },
-  "run_script.js": {
-    "description": "Run customized JavaScript code in your bot",
-    "name": "Run Script",
     "section": "Other Stuff"
   },
   "run_script_too_MOD.js": {
@@ -724,16 +644,6 @@
     "name": "Bot Typing",
     "section": "Bot Client Control"
   },
-  "set_channel_permissions.js": {
-    "description": "Set permissions for a specified channel",
-    "name": "Set Channel Permissions",
-    "section": "Permission Control"
-  },
-  "set_embed_footer_MOD.js": {
-    "description": "Create a footer on an embed",
-    "name": "Set Embed Footer",
-    "section": "Embed Message"
-  },
   "set_member_voice_channel_perms_MOD.js": {
     "description": "Set voice channel permissions for a member",
     "name": "Set Member Voice Channel Perms",
@@ -773,11 +683,6 @@
     "description": "Set permissions for a voice channel",
     "name": "Set Voice Channel Perms",
     "section": "Channel Control"
-  },
-  "shuffle_queue_MOD.js": {
-    "description": "Shuffle a specified queue",
-    "name": "Shuffle Queue MOD",
-    "section": "Audio Control"
   },
   "skip_actions_MOD.js": {
     "description": "Skip a specified amount of actions in the action sequence",
@@ -879,6 +784,11 @@
     "name": "Store Date Info Plus",
     "section": "Other Stuff"
   },
+  "store_embed_info_MOD.js": {
+    "description": "Store information about an embed",
+    "name": "Store Embed Info",
+    "section": "Embed Message"
+  },
   "store_emoji_info_MOD.js": {
     "description": "Store information about a specified emoji ",
     "name": "Store Emoji Info",
@@ -914,11 +824,6 @@
     "name": "Store Json From WebAPI",
     "section": "JSON Things"
   },
-  "store_message_info.js": {
-    "description": "Store Message Info",
-    "name": "Store Message Info",
-    "section": "Messaging"
-  },
   "store_message_params_MOD.js": {
     "description": "Store message parameters",
     "name": "Store Message Params",
@@ -944,11 +849,6 @@
     "name": "Store Regex Matched Variable",
     "section": "Variable Things"
   },
-  "store_role_info.js": {
-    "description": "Store information pertaining to a role",
-    "name": "Store Role Info",
-    "section": "Role Control"
-  },
   "store_shard_info.js": {
     "description": "Shows shard information.",
     "name": "Store Shard Info"
@@ -967,11 +867,6 @@
     "description": "Store UTC time information",
     "name": "Store UTC Time Info",
     "section": "Other Stuff"
-  },
-  "store_voice_channel_info.js": {
-    "description": "Store information about a specified voice channel",
-    "name": "Store Voice Channel Info",
-    "section": "Channel Control"
   },
   "store_webhook_info_MOD.js": {
     "description": "Store information about a webhook",
