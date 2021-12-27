@@ -2,6 +2,13 @@ module.exports = {
   name: 'Store Attachment Info',
   section: 'Messaging',
   fields: ['storage', 'varName', 'info', 'storage2', 'varName2'],
+  meta: {
+    version: '2.0.9',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadUrl: null,
+  },
 
   subtitle({ info }) {
     const names = [

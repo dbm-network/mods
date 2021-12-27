@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Canvas Image Filter',
   section: 'Image Editing',
+  meta: {
+    version: '2.0.9',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadUrl: null,
+  },
 
   subtitle(data) {
     const storeTypes = ['', 'Temp Variable', 'Server Variable', 'Global Variable'];

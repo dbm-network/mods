@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Attach Image To Embed',
   section: 'Embed Message',
+  meta: {
+    version: '2.0.9',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadUrl: null,
+  },
 
   subtitle(data) {
     const array = ['Temp Variable', 'Server Variable', 'Global Variable'];

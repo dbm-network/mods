@@ -4,6 +4,13 @@ module.exports = {
   name: 'Await Response Call Action',
   displayName: 'Await Response',
   section: 'Messaging',
+  meta: {
+    version: '2.0.9',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadUrl: null,
+  },
   fields: [
     'storage',
     'varName',

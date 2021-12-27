@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Loop Queue',
   section: 'Audio Control',
+  meta: {
+    version: '2.0.9',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadUrl: null,
+  },
 
   subtitle(data) {
     const actions = ['Loop Whole Queue', 'Loop Current Item'];

@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Local Database',
   section: 'Database',
+  meta: {
+    version: '2.0.9',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadUrl: null,
+  },
 
   subtitle(data) {
     return `[${data.dbformat}] ${data.dboperation} ${data.dbpath || '<b><i>No path entered</i></b>'}`;
