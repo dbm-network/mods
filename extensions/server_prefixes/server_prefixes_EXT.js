@@ -74,7 +74,7 @@ module.exports = {
         }
         const cmd = this.$cmds[command];
         if (cmd) {
-          Actions.preformActions(msg, cmd);
+          Actions.preformActionsFromMessage(msg, cmd);
           return true;
         }
       }

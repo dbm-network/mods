@@ -1,5 +1,6 @@
 module.exports = {
   name: 'Get Bot Stats From DBL',
+  displayname: 'Get Bot Stats From TopGG',
   section: 'Other Stuff',
   meta: {
     version: '2.0.9',
@@ -38,7 +39,7 @@ module.exports = {
 
   variableStorage(data, varType) {
     if (parseInt(data.storage, 10) !== varType) return;
-    let dataType = 'A DBL Stat';
+    let dataType = 'A TopGG Stat';
     switch (parseInt(data.info, 10)) {
       case 0:
         dataType = 'Invite URL';
@@ -118,7 +119,7 @@ module.exports = {
     <input id="botID" class="round" type="text">
   </div><br>
   <div style="float: left; width: 99%; padding-top: 8px;">
-    Your DBL Token:<br>
+    Your TopGG Token:<br>
     <input id="token" class="round" type="text">
   </div><br>
   <div style="float: left; width: 90%; padding-top: 8px;">
@@ -160,7 +161,7 @@ module.exports = {
   <div id="commentSection" style="padding-top: 8px;">
     <p>
       Some options will only work for certified or special bots. You better use some check variables to check if they exist.
-      <b>Note:</b> DBL is going to update the API and you'll need a token after the update!
+      <b>Note:</b> TopGG is going to update the API and you'll need a token after the update!
     </p>
   </div>
 </div>`;
