@@ -932,5 +932,41 @@
     "description": "Search YouTube",
     "name": "YouTube Search",
     "section": "Audio Control"
+  },
+  "create_user_warn_MOD.js": {
+    "description": "Create User Warn",
+    "name": "Create User Warn",
+    "section": "Warn Management"
+  },
+  "delete_warn_MOD.js": {
+    "description": "Deletes warn",
+    "name": "Delete warn",
+    "section": "Warn Management"
+  },
+  "delete_warn_MOD.js": {
+    "description": "Deletes warn",
+    "name": "Delete warn",
+    "section": "Warn Management"
+  },
+  "edit_warn_MOD.js": {
+    "description": "Edits warn reason",
+    "name": "Edit Warn Reason",
+    "section": "Warn Management"
+  },
+  "fetch_user_warns_MOD.js": {
+    "description": "Fetches list of user warns",
+    "name": "Fetch User Warns",
+    "section": "Warn Management"
+  },
+  "fetch_warn_by_id_MOD.js": {
+    "description": "Fetches warn by id",
+    "name": "Fetch Warn By Id",
+    "section": "Warn Management"
+  },
+  "store_warn_info_MOD.js": {
+    "description": "Stores warn info",
+    "name": "Store Warn Info",
+    "section": "Warn Management"
   }
 }
+
