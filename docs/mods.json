@@ -254,6 +254,11 @@
     "name": "Create Permissions",
     "section": "Permission Control"
   },
+  "create_user_warn_MOD.js": {
+    "description": "Create User Warn",
+    "name": "Create User Warn",
+    "section": "Warn Management"
+  },
   "create_server_MOD.js": {
     "description": "Create a server",
     "name": "Create Server",
@@ -299,6 +304,11 @@
     "name": "Delete Server",
     "section": "Server Control"
   },
+  "delete_warn_MOD.js": {
+    "description": "Deletes warn",
+    "name": "Delete warn",
+    "section": "Warn Management"
+  },
   "delete_webhook_MOD.js": {
     "description": "Delete a webhook",
     "name": "Delete Webhook",
@@ -329,6 +339,11 @@
     "name": "Edit Item from List MOD",
     "section": "Lists and Loops"
   },
+  "edit_warn_MOD.js": {
+    "description": "Edits warn reason",
+    "name": "Edit Warn Reason",
+    "section": "Warn Management"
+  },
   "edit_webhook.js": {
     "description": "Edit a webhook",
     "name": "Edit Webhook",
@@ -338,6 +353,11 @@
     "description": "Emit a specified event",
     "name": "Emit Event",
     "section": "Bot Client Control"
+  },
+  "fetch_user_warns_MOD.js": {
+    "description": "Fetches list of user warns",
+    "name": "Fetch User Warns",
+    "section": "Warn Management"
   },
   "file_control_MOD.js": {
     "description": "Control a file",
@@ -383,6 +403,11 @@
     "description": "Find specified text",
     "name": "Find Text",
     "section": "Other Stuff"
+  },
+  "fetch_warn_by_id_MOD.js": {
+    "description": "Fetches warn by id",
+    "name": "Fetch Warn By Id",
+    "section": "Warn Management"
   },
   "find_webhook_MOD.js": {
     "description": "Find a specified webhook",
@@ -868,6 +893,11 @@
     "name": "Store UTC Time Info",
     "section": "Other Stuff"
   },
+  "store_warn_info_MOD.js": {
+    "description": "Stores warn info",
+    "name": "Store Warn Info",
+    "section": "Warn Management"
+  },
   "store_webhook_info_MOD.js": {
     "description": "Store information about a webhook",
     "name": "Store Webhook Info",
@@ -932,41 +962,5 @@
     "description": "Search YouTube",
     "name": "YouTube Search",
     "section": "Audio Control"
-  },
-  "create_user_warn_MOD.js": {
-    "description": "Create User Warn",
-    "name": "Create User Warn",
-    "section": "Warn Management"
-  },
-  "delete_warn_MOD.js": {
-    "description": "Deletes warn",
-    "name": "Delete warn",
-    "section": "Warn Management"
-  },
-  "delete_warn_MOD.js": {
-    "description": "Deletes warn",
-    "name": "Delete warn",
-    "section": "Warn Management"
-  },
-  "edit_warn_MOD.js": {
-    "description": "Edits warn reason",
-    "name": "Edit Warn Reason",
-    "section": "Warn Management"
-  },
-  "fetch_user_warns_MOD.js": {
-    "description": "Fetches list of user warns",
-    "name": "Fetch User Warns",
-    "section": "Warn Management"
-  },
-  "fetch_warn_by_id_MOD.js": {
-    "description": "Fetches warn by id",
-    "name": "Fetch Warn By Id",
-    "section": "Warn Management"
-  },
-  "store_warn_info_MOD.js": {
-    "description": "Stores warn info",
-    "name": "Store Warn Info",
-    "section": "Warn Management"
   }
 }
-
