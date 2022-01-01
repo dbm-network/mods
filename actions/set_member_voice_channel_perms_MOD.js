@@ -84,7 +84,7 @@ module.exports = {
     if (!channel) return this.callNextAction(cache);
 
     return channel
-      .updateOverwrite(member.id, options)
+      .permissionOverwrites.edit(member.id, options)
       .then(() => this.callNextAction(cache))
       .catch(() => {
         this.displayError(data, cache);
