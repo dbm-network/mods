@@ -2,55 +2,69 @@ module.exports = {
   name: 'Send Message to Twitch Chat',
   section: 'Other Stuff',
 
-  subtitle (data) {
-    return `${data.username} - Send Message to Twitch Channel: ${data.channelToSendTo}`
+  subtitle(data) {
+    return `${data.username} - Send Message to Twitch Channel: ${data.channelToSendTo}`;
   },
 
   fields: ['storage', 'varName', 'messageToSend', 'channelToSendTo', 'oAuth', 'username'],
 
-  html (isEvent, data) {
+  html() {
     return `
-Channel to send to:<br>
-<input id='channelToSendTo' class='round' type='text'><br>
-Username of the account sending the message:<br>
-<input id='username' class='round' type='text'><br>
-oAuth token for the account sending the message:<br>
-<a href='https://twitchapps.com/tmi/'>Click here to get yours</a><br>
-<input id='oAuth' class='round' type='text'><br>
-Message to send:<br>
-<input id='messageToSend' class='round type='text'>`
+<div>
+  <div>
+    Channel to send to:<br>
+    <input id='channelToSendTo' class='round' type='text'><br>
+  </div><br>
+  <div>
+    Username of the account sending the message:<br>
+    <input id='username' class='round' type='text'><br>
+  </div><br>
+  <div>
+    oAuth token for the account sending the message:<br>
+    <a href='https://twitchapps.com/tmi/'>Click here to get yours</a><br>
+    <input id='oAuth' class='round' type='text'><br>
+  </div><br>
+  <div>
+    Message to send:<br>
+    <input id='messageToSend' class='round type='text'>
+  </div>
+</div>`;
   },
 
-  init () {},
+  init() {},
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const messageToSend = this.evalMessage(data.messageToSend, cache)
-    const channelToSendTo = this.evalMessage(data.channelToSendTo, cache)
-    const oAuth = this.evalMessage(data.oAuth, cache)
-    const username = this.evalMessage(data.username, cache)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const messageToSend = this.evalMessage(data.messageToSend, cache);
+    const channelToSendTo = this.evalMessage(data.channelToSendTo, cache);
+    const oAuth = this.evalMessage(data.oAuth, cache);
+    const username = this.evalMessage(data.username, cache);
 
-    const { Client } = require('tmi.js')
+    if (!channelToSendTo) return console.log('Please input the ChannelToSendTo in Twitch Chat Action.');
+    if (!oAuth) return console.log('Please input your oAuth token in Twitch Chat Action.');
+    if (!username) return console.log('Please input your username in Twitch Chat Action.');
+
+    const { Client } = require('tmi.js');
     const config = {
       options: {
-        debug: true
+        debug: true,
       },
       connection: {
         reconnect: true,
-        secure: true
+        secure: true,
       },
       identity: {
         username,
-        password: oAuth
+        password: oAuth,
       },
-      channels: [channelToSendTo]
-    }
+      channels: [channelToSendTo],
+    };
 
-    const tmiClient = new Client(config)
-    tmiClient.connect().then(() => tmiClient.say(channelToSendTo, messageToSend))
+    const tmiClient = new Client(config);
+    tmiClient.connect().then(() => tmiClient.say(channelToSendTo, messageToSend));
 
-    this.callNextAction(cache)
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

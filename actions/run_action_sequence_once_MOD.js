@@ -2,13 +2,13 @@ module.exports = {
   name: 'Run Action Sequence Once',
   section: 'Other Stuff',
 
-  subtitle (data) {
-    return `Run Once ${data.behavior === '2' ? 'Per Server' : 'Globally'}`
+  subtitle(data) {
+    return `Run Once ${data.behavior === '2' ? 'Per Server' : 'Globally'}`;
   },
 
   fields: ['behavior'],
 
-  html () {
+  html() {
     return `
 <div>
   <p>
@@ -29,23 +29,23 @@ module.exports = {
     <option value="2" selected>Per Server</option>
     <option value="3">Globally</option>
   </select>
-</div>`
+</div>`;
   },
 
-  init () {},
+  init() {},
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const behavior = parseInt(data.behavior)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const behavior = parseInt(data.behavior, 10);
 
-    const unique = Buffer.from(`${cache.actions}`)
+    const unique = Buffer.from(`${cache.actions}`);
 
-    const store = this.getVariable(behavior, unique, cache) || false
+    const store = this.getVariable(behavior, unique, cache) || false;
     if (!store) {
-      this.storeValue(true, behavior, unique, cache)
-      this.callNextAction(cache)
+      this.storeValue(true, behavior, unique, cache);
+      this.callNextAction(cache);
     }
   },
 
-  mod () {}
-}
+  mod() {},
+};

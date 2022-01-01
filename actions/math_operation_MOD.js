@@ -2,28 +2,37 @@ module.exports = {
   name: 'Math Operation',
   section: 'Other Stuff',
 
-  subtitle (data) {
-    const info = ['Round', 'Absolute', 'Ceil', 'Floor', 'Sine', 'Cosine', 'Tangent', 'Arc Sine', 'Arc Cosine', 'Arc Tangent']
-    return `${info[data.info]}`
+  subtitle(data) {
+    const info = [
+      'Round',
+      'Absolute',
+      'Ceil',
+      'Floor',
+      'Sine',
+      'Cosine',
+      'Tangent',
+      'Arc Sine',
+      'Arc Cosine',
+      'Arc Tangent',
+    ];
+    return `${info[data.info]}`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    const dataType = 'Number'
-    return ([data.varName, dataType])
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName, 'Number'];
   },
 
   fields: ['num', 'info', 'storage', 'varName'],
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
 <div>
-  <div style="float: right; width: 60%; padding-top: 8px;">
+  <div style="width: 60%; padding-top: 8px;">
     <p><u>Note:</u><br>
-    Get more informations <a href="https://www.w3schools.com/js/js_math.asp">here</a>.
-  </div><br>
-</div><br><br><br>
+    Get more information <a href="https://www.w3schools.com/js/js_math.asp">here</a>.
+  </div>
+</div><br>
 <div style="padding-top: 8px;">
   Source Number:
   <textarea id="num" rows="2" placeholder="Insert number(s) here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
@@ -54,62 +63,60 @@ module.exports = {
     Variable Name:<br>
     <input id="varName" class="round" type="text">
   </div>
-</div>`
+</div>`;
   },
 
-  init () {},
+  init() {},
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const num = parseFloat(this.evalMessage(data.math, cache).replace(/,/g, ''))
-    const info = parseInt(data.info)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const num = parseFloat(this.evalMessage(data.math, cache).replace(/,/g, ''));
+    const info = parseInt(data.info, 10);
 
-    if (!num) {
-      console.log('There is no number!')
-      this.callNextAction(cache)
-    }
-    let result
+    if (!num) return this.callNextAction(cache);
+
+    let result;
     switch (info) {
       case 0:
-        result = Math.round(num)
-        break
+        result = Math.round(num);
+        break;
       case 1:
-        result = Math.abs(num)
-        break
+        result = Math.abs(num);
+        break;
       case 2:
-        result = Math.ceil(num)
-        break
+        result = Math.ceil(num);
+        break;
       case 3:
-        result = Math.floor(num)
-        break
+        result = Math.floor(num);
+        break;
       case 4:
-        result = Math.sin(num)
-        break
+        result = Math.sin(num);
+        break;
       case 5:
-        result = Math.cos(num)
-        break
+        result = Math.cos(num);
+        break;
       case 6:
-        result = Math.tan(num)
-        break
+        result = Math.tan(num);
+        break;
       case 7:
-        result = Math.asin(num)
-        break
+        result = Math.asin(num);
+        break;
       case 8:
-        result = Math.acos(num)
-        break
+        result = Math.acos(num);
+        break;
       case 9:
-        result = Math.atan(num)
-        break
+        result = Math.atan(num);
+        break;
       default:
-        break
+        break;
     }
     if (result !== undefined) {
-      const storage = parseInt(data.storage)
-      const varName = this.evalMessage(data.varName, cache)
-      this.storeValue(result, storage, varName, cache)
+      const storage = parseInt(data.storage, 10);
+      const varName = this.evalMessage(data.varName, cache);
+      this.storeValue(result, storage, varName, cache);
     }
-    this.callNextAction(cache)
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};

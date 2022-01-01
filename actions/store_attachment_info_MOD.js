@@ -1,72 +1,29 @@
-class StoreAttachmentInfo {
-  constructor () {
-    this.name = 'Store Attachment Info'
-    this.section = 'Messaging'
-    this.fields = ['storage', 'varName', 'info', 'storage2', 'varName2']
-  }
+module.exports = {
+  name: 'Store Attachment Info',
+  section: 'Messaging',
+  fields: ['storage', 'varName', 'info', 'storage2', 'varName2'],
 
-  mod () {}
+  subtitle({ info }) {
+    const names = [
+      "Attachment's URL",
+      "Attachment File's Name",
+      "Attachment's Height",
+      "Attachment's Width",
+      'This option has been removed',
+      "Attachment File's Size",
+    ];
+    return `${names[parseInt(info, 10)]}`;
+  },
 
-  subtitle ({ info }) {
-    const names = ["Attachment's URL", "Attachment File's Name", "Attachment's Height", "Attachment's Width", 'This option has been removed', "Attachment File's Size"]
-    return `${names[parseInt(info)]}`
-  }
+  variableStorage(data, varType) {
+    if (parseInt(data.storage2, 10) !== varType) return;
+    return [
+      data.varName2,
+      ['URL', 'File Name', 'Number', null, 'File Size'][parseInt(data.info, 10)] || 'Message Attachment (Unknown) Info',
+    ];
+  },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage2)
-    if (type !== varType) return
-
-    const info = parseInt(data.info)
-    const dataType = [
-      'URL',
-      'File Name',
-      'Number',
-      null,
-      'File Size'
-    ][info] || 'Message Attachment (Unknown) Info'
-
-    return ([data.varName2, dataType])
-  }
-
-  init () {
-    const { document, glob } = this
-
-    glob.messageChange(document.getElementById('storage'), 'varNameContainer')
-    glob.variableChange(document.getElementById('storage2'), 'varNameContainer2')
-  }
-
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const storage = parseInt(data.storage)
-    const varName = this.evalMessage(data.varName, cache)
-    const message = this.getMessage(storage, varName, cache)
-    const info = parseInt(data.info)
-
-    const attachments = message.attachments.array()
-
-    if (attachments.length > 0) {
-      const attachment = attachments[0]
-
-      const result = [
-        attachment.url,
-        attachment.name,
-        attachment.height,
-        attachment.width,
-        null,
-        Math.floor(attachment.size / 1000)
-      ][info]
-
-      if (result !== undefined) {
-        const storage2 = parseInt(data.storage2)
-        const varName2 = this.evalMessage(data.varName2, cache)
-        this.storeValue(result, storage2, varName2, cache)
-      }
-    }
-
-    this.callNextAction(cache)
-  }
-
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
 <div style="float: left; width: 35%; padding-top: 8px;">
   Source Message:<br>
@@ -97,8 +54,44 @@ class StoreAttachmentInfo {
 <div id="varNameContainer2" style="float: right; width: 60%; padding-top: 8px;">
   Variable Name:<br>
   <input id="varName2" class="round" type="text"><br>
-</div>`
-  }
-}
+</div>`;
+  },
 
-module.exports = new StoreAttachmentInfo()
+  init() {
+    const { document, glob } = this;
+    glob.messageChange(document.getElementById('storage'), 'varNameContainer');
+    glob.variableChange(document.getElementById('storage2'), 'varNameContainer2');
+  },
+
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const storage = parseInt(data.storage, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    const message = this.getMessage(storage, varName, cache);
+    const info = parseInt(data.info, 10);
+
+    const attachments = [...message.attachments.values()];
+
+    if (attachments.length > 0) {
+      const attachment = attachments[0];
+
+      const result = [
+        attachment.url,
+        attachment.name,
+        attachment.height,
+        attachment.width,
+        null,
+        Math.floor(attachment.size / 1000),
+      ][info];
+
+      if (result !== undefined) {
+        const storage2 = parseInt(data.storage2, 10);
+        const varName2 = this.evalMessage(data.varName2, cache);
+        this.storeValue(result, storage2, varName2, cache);
+      }
+    }
+    this.callNextAction(cache);
+  },
+
+  mod() {},
+};

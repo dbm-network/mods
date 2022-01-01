@@ -2,75 +2,67 @@ module.exports = {
   name: 'Weather',
   section: 'Other Stuff',
 
-  subtitle (data) {
-    const info = ['Temperature', 'Weather Text', 'Date', 'City', 'Country', 'Region', 'Wind Speed', 'Wind Chill', 'Wind Direction', 'Humidity', 'Pressure', 'Atmosphere Visibility', 'Sunrise Time', 'Sunset Time', 'Feelslike', 'Image URL', 'Current Day']
-    return `${info[parseInt(data.info)]}`
+  subtitle(data) {
+    const info = [
+      'Temperature',
+      'Weather Text',
+      'Date',
+      'City',
+      'Country',
+      'Wind Speed',
+      'Wind Direction',
+      'Humidity',
+      'Feelslike',
+      'Image URL',
+      'Current Day',
+    ];
+    return `${info[parseInt(data.info, 10)]}`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    const info = parseInt(data.info)
-    let dataType = 'Unknown Weather Type'
-    switch (info) {
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    let dataType = 'Unknown Weather Type';
+    switch (parseInt(data.info, 10)) {
       case 0:
-        dataType = 'Temperature'
-        break
+        dataType = 'Temperature';
+        break;
       case 1:
-        dataType = 'Weather - Text'
-        break
+        dataType = 'Weather - Text';
+        break;
       case 2:
-        dataType = 'Date'
-        break
+        dataType = 'Date';
+        break;
       case 3:
-        dataType = 'Weather - City'
-        break
+        dataType = 'Weather - City';
+        break;
       case 4:
-        dataType = 'Weather - Country'
-        break
-      case 5: // Deprecated...
-        dataType = 'Weather - Region'
-        break
+        dataType = 'Weather - Country';
+        break;
       case 6:
-        dataType = 'Wind Speed'
-        break
-      case 7: // Deprecated...
-        dataType = 'Wind Chill'
-        break
+        dataType = 'Wind Speed';
+        break;
       case 8:
-        dataType = 'Wind Direction'
-        break
+        dataType = 'Wind Direction';
+        break;
       case 9:
-        dataType = 'Atmosphere Humidity'
-        break
-      case 10: // Deprecated...
-        dataType = 'Atmosphere Pressure'
-        break
-      case 11: // Deprecated...
-        dataType = 'Atmosphere Visibility'
-        break
-      case 12: // Deprecated...
-        dataType = 'Weather - Sunrise'
-        break
-      case 13: // Deprecated...
-        dataType = 'Weather - Sunset'
-        break
+        dataType = 'Atmosphere Humidity';
+        break;
       case 14:
-        dataType = 'Feelslike'
-        break
+        dataType = 'Feelslike';
+        break;
       case 15:
-        dataType = 'Image URL'
-        break
+        dataType = 'Image URL';
+        break;
       case 16:
-        dataType = 'Current Day'
-        break
+        dataType = 'Current Day';
+        break;
     }
-    return ([data.varName, dataType])
+    return [data.varName, dataType];
   },
 
   fields: ['city', 'degreeType', 'info', 'storage', 'varName'],
 
-  html (isEvent, data) {
+  html(isEvent, data) {
     return `
 <div style="float: left; width: 55%; padding-top: 8px;">
   Source City:<br>
@@ -110,99 +102,80 @@ module.exports = {
     Variable Name:<br>
     <input id="varName" class="round" type="text"><br>
   </div>
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer')
+  init() {
+    const { glob, document } = this;
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const info = parseInt(data.info)
-    const city = this.evalMessage(data.city, cache)
-    const degreeType2 = this.evalMessage(data.degreeType, cache)
-    const _this = this
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const info = parseInt(data.info, 10);
 
-    if (!city) return console.log('Please specify a city to get weather informations.')
+    const Mods = this.getMods();
+    const weather = Mods.require('weather-js');
 
-    const Mods = this.getMods()
-    const weather = Mods.require('weather-js')
+    const city = this.evalMessage(data.city, cache);
+    const degreeType = this.evalMessage(data.degreeType, cache);
+    const { Actions } = this.getDBM();
 
-    weather.find({ search: `${city}`, degreeType: `${degreeType2}` }, (err, response) => {
-      if (err || !response || response.length < 1) {
-        const storage = parseInt(data.storage)
-        const varName2 = _this.evalMessage(data.varName, cache)
-        _this.storeValue(undefined, storage, varName2, cache)
-        _this.callNextAction(cache)
-      } else {
-        let result
+    if (!city) {
+      console.error('Please specify a city to get weather information.');
+      return this.callNextAction(cache);
+    }
 
-        switch (info) { // Never use deprecated results. Current API doesn't support any of them. RIP old module...
-          case 0:
-            result = response[0].current.temperature
-            break
-          case 1:
-            result = response[0].current.skytext
-            break
-          case 2:
-            result = response[0].current.date
-            break
-          case 3:
-            result = response[0].location.name
-            break
-          case 4:
-            result = response[0].current.observationpoint
-            break
-          case 5: // Deprecated...
-            result = response[0].location.region
-            break
-          case 6:
-            result = response[0].current.windspeed
-            break
-          case 7: // Deperecated...
-            result = response[0].wind.chill
-            break
-          case 8:
-            result = response[0].current.winddisplay
-            break
-          case 9:
-            result = response[0].current.humidity
-            break
-          case 10: // Deprecated...
-            result = response[0].atmosphere.pressure
-            break
-          case 11: // Deprecated...
-            result = response[0].atmosphere.visibility
-            break
-          case 12: // Deprecated...
-            result = response[0].astronomy.sunrise
-            break
-          case 13: // Deprecated...
-            result = response[0].astronomy.sunset
-            break
-          case 14:
-            result = response[0].current.feelslike
-            break
-          case 15:
-            result = response[0].current.imageUrl
-            break
-          case 16:
-            result = response[0].current.day
-            break
-          default:
-            break
-        }
-        if (result !== undefined) {
-          const storage = parseInt(data.storage)
-          const varName2 = _this.evalMessage(data.varName, cache)
-          _this.storeValue(result, storage, varName2, cache)
-        }
-        _this.callNextAction(cache)
+    weather.find({ search: city, degreeType }, (err, response) => {
+      if (err || !response || !response[0]) return Actions.callNextAction(cache);
+      const current = response[0].current;
+      let result;
+
+      switch (info) {
+        case 0:
+          result = current.temperature;
+          break;
+        case 1:
+          result = current.skytext;
+          break;
+        case 2:
+          result = current.date;
+          break;
+        case 3:
+          result = response[0].location.name;
+          break;
+        case 4:
+          result = current.observationpoint;
+          break;
+        case 6:
+          result = current.windspeed;
+          break;
+        case 8:
+          result = current.winddisplay;
+          break;
+        case 9:
+          result = current.humidity;
+          break;
+        case 14:
+          result = current.feelslike;
+          break;
+        case 15:
+          result = current.imageUrl;
+          break;
+        case 16:
+          result = current.day;
+          break;
+        default:
+          break;
       }
-    })
+      if (result !== undefined) {
+        const storage = parseInt(data.storage, 10);
+        const varName2 = Actions.evalMessage(data.varName, cache);
+        Actions.storeValue(result, storage, varName2, cache);
+      }
+      Actions.callNextAction(cache);
+    });
   },
 
-  mod () {}
-}
+  mod() {},
+};

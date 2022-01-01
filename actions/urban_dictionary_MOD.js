@@ -2,45 +2,52 @@ module.exports = {
   name: 'Urban Dictionary Search',
   section: 'Other Stuff',
 
-  subtitle (data) {
-    const info = ['Definition', 'Result URL', 'Example', 'Thumbs Up Count', 'Thumbs Down Count', 'Author', 'Result ID', 'Tags']
-    return `${info[parseInt(data.info)]}`
+  subtitle(data) {
+    const info = [
+      'Definition',
+      'Result URL',
+      'Example',
+      'Thumbs Up Count',
+      'Thumbs Down Count',
+      'Author',
+      'Result ID',
+      'Tags',
+    ];
+    return `${info[parseInt(data.info, 10)]}`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    const info = parseInt(data.info)
-    let dataType = 'Unknown Urban Dictionary Result'
-    switch (info) {
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    let dataType = 'Unknown Urban Dictionary Result';
+    switch (parseInt(data.info, 10)) {
       case 0:
-        dataType = 'U.D. Definition'
-        break
+        dataType = 'U.D. Definition';
+        break;
       case 1:
-        dataType = 'U.D. URL'
-        break
+        dataType = 'U.D. URL';
+        break;
       case 2:
-        dataType = 'U.D. Example'
-        break
+        dataType = 'U.D. Example';
+        break;
       case 3:
-        dataType = 'U.D. Thumbs Up Count'
-        break
+        dataType = 'U.D. Thumbs Up Count';
+        break;
       case 4:
-        dataType = 'U.D. Thumbs Down Count'
-        break
+        dataType = 'U.D. Thumbs Down Count';
+        break;
       case 5:
-        dataType = 'U.D. Author'
-        break
+        dataType = 'U.D. Author';
+        break;
       case 6:
-        dataType = 'U.D. Result ID'
-        break
+        dataType = 'U.D. Result ID';
+        break;
     }
-    return ([data.varName, dataType])
+    return [data.varName, dataType];
   },
 
   fields: ['string', 'info', 'storage', 'varName'],
 
-  html (isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div style="width: 550px; height: 350px; overflow-y: scroll;">
   <div style="width: 100%; padding-top: 8px;">
@@ -71,62 +78,62 @@ module.exports = {
       <input id="varName" class="round" type="text"><br>
     </div>
   </div>
-</div>`
+</div>`;
   },
 
-  init () {
-    const { glob, document } = this
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer')
+  init() {
+    const { glob, document } = this;
+    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
   },
 
-  action (cache) {
-    const data = cache.actions[cache.index]
-    const info = parseInt(data.info)
-    const string = this.evalMessage(data.string, cache)
+  action(cache) {
+    const data = cache.actions[cache.index];
+    const info = parseInt(data.info, 10);
+    const string = this.evalMessage(data.string, cache);
 
-    if (!string) return console.log('Please write something to search on Urban Dictionary.')
+    if (!string) return console.log('Please write something to search on Urban Dictionary.');
 
-    const _this = this
-    const Mods = this.getMods()
-    const urban = Mods.require('urban')
+    const { Actions } = this.getDBM();
+    const Mods = this.getMods();
+    const urban = Mods.require('urban');
 
     urban(`${string}`).first((results) => {
-      if (!results) return _this.callNextAction(cache)
-      let result
+      if (!results) return Actions.callNextAction(cache);
+      let result;
       switch (info) {
         case 0:
-          result = results.definition
-          break
+          result = results.definition;
+          break;
         case 1:
-          result = results.permalink
-          break
+          result = results.permalink;
+          break;
         case 2:
-          result = results.example
-          break
+          result = results.example;
+          break;
         case 3:
-          result = results.thumbs_up
-          break
+          result = results.thumbs_up;
+          break;
         case 4:
-          result = results.thumbs_down
-          break
+          result = results.thumbs_down;
+          break;
         case 5:
-          result = results.author
-          break
+          result = results.author;
+          break;
         case 6:
-          result = results.defid
-          break
+          result = results.defid;
+          break;
         default:
-          break
+          break;
       }
 
       if (result !== undefined) {
-        const storage = parseInt(data.storage)
-        const varName2 = _this.evalMessage(data.varName, cache)
-        _this.storeValue(result, storage, varName2, cache)
+        const storage = parseInt(data.storage, 10);
+        const varName2 = Actions.evalMessage(data.varName, cache);
+        Actions.storeValue(result, storage, varName2, cache);
       }
-      _this.callNextAction(cache)
-    })
+      Actions.callNextAction(cache);
+    });
   },
 
-  mod () {}
-}
+  mod() {},
+};

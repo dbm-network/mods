@@ -2,20 +2,20 @@ module.exports = {
   name: 'Store YouTube Channel Info',
   section: 'YouTube Tools',
 
-  subtitle (data) {
-    return 'Store information about a YouTube channel.'
+  subtitle() {
+    return 'Store information about a YouTube channel.';
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage)
-    if (type !== varType) return
-    const dataType = 'YouTube Channel Info'
-    return ([data.varName, dataType])
+  variableStorage(data, varType) {
+    const type = parseInt(data.storage, 10);
+    if (type !== varType) return;
+    const dataType = 'YouTube Channel Info';
+    return [data.varName, dataType];
   },
 
   fields: ['query', 'info', 'storage', 'varName'],
 
-  html (isEvent, data) {
+  html(_isEvent, data) {
     return `
 <div style="width: 90%;">
   YouTube Channel ID:<br>
@@ -30,6 +30,10 @@ module.exports = {
     <option value="3">Subscriber Count</option>
     <option value="4">Related Channels</option>
     <option value="5">Is Family Friendly?</option>
+    <option value="6">Channel Banners</option>
+    <option value="7">Author Thumbnails</option>
+    <option value="8">Channel is Verified?</option>
+    <option value="9">Channel Allowed Regions</option>
   </select>
 </div><br>
 <div style="padding-top: 8px;">
@@ -43,47 +47,59 @@ module.exports = {
     Variable Name:<br>
     <input id="varName" class="round" type="text">
   </div>
-</div>`
+</div>`;
   },
 
-  init () {},
+  init() {},
 
-  async action (cache) {
-    const data = cache.actions[cache.index]
-    const storage = parseInt(data.storage)
-    const varName = this.evalMessage(data.varName, cache)
-    const channelId = this.evalMessage(data.query, cache)
-    const info = parseInt(data.info)
-    const Mods = this.getMods()
-    const ytch = Mods.require('yt-channel-info')
-    let result
+  async action(cache) {
+    const data = cache.actions[cache.index];
+    const storage = parseInt(data.storage, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    const channelId = this.evalMessage(data.query, cache);
+    const info = parseInt(data.info, 10);
+    const Mods = this.getMods();
+    const ytch = Mods.require('yt-channel-info');
+    let result;
 
-    const maininfo = await ytch.getChannelInfo(channelId)
+    const channel = await ytch.getChannelInfo(channelId);
 
     switch (info) {
       case 0:
-        result = maininfo.authorUrl
-        break
+        result = channel.authorUrl;
+        break;
       case 1:
-        result = maininfo.author
-        break
+        result = channel.author;
+        break;
       case 2:
-        result = maininfo.description
-        break
+        result = channel.description;
+        break;
       case 3:
-        result = maininfo.subscriberCount
-        break
+        result = channel.subscriberCount;
+        break;
       case 4:
-        result = maininfo.relatedChannels
-        break
+        result = channel.relatedChannels;
+        break;
       case 5:
-        result = maininfo.isFamilyFriendly
-        break
+        result = channel.isFamilyFriendly;
+        break;
+      case 6:
+        result = channel.authorBanners;
+        break;
+      case 7:
+        result = channel.authorThumbnails;
+        break;
+      case 8:
+        result = channel.isVerified;
+        break;
+      case 9:
+        result = channel.allowedRegions;
+        break;
     }
 
-    this.storeValue(result, storage, varName, cache)
-    this.callNextAction(cache)
+    this.storeValue(result, storage, varName, cache);
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};
