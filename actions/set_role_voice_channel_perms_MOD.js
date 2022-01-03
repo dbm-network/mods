@@ -1,6 +1,7 @@
 module.exports = {
   name: 'Set Role Voice Channel Perms',
   section: 'Channel Control',
+  
   meta: {
     version: '2.0.9',
     preciseCheck: false,
@@ -89,8 +90,8 @@ module.exports = {
 
     if (role && role.id) {
       if (channel && channel.permissionOverwrites.edit) {
-        channel
-          .permissionOverwrites.edit(role.id, options)
+        channel.permissionOverwrites
+		  .edit(role.id, options)
           .then(() => {
             this.callNextAction(cache);
           })
