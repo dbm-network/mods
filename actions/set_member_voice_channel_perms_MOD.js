@@ -92,7 +92,7 @@ module.exports = {
     if (!channel) return this.callNextAction(cache);
 
     return channel.permissionOverwrites
-      .edit(member.id, options)
+      .edit(member.id, options, { type: 1 })
       .then(() => this.callNextAction(cache))
       .catch(() => {
         this.displayError(data, cache);
