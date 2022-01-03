@@ -1,7 +1,7 @@
 module.exports = {
   name: 'Set Member Voice Channel Perms',
   section: 'Channel Control',
-  
+
   meta: {
     version: '2.0.9',
     preciseCheck: false,
@@ -92,7 +92,7 @@ module.exports = {
     if (!channel) return this.callNextAction(cache);
 
     return channel.permissionOverwrites
-	  .edit(member.id, options)
+      .edit(member.id, options)
       .then(() => this.callNextAction(cache))
       .catch(() => {
         this.displayError(data, cache);

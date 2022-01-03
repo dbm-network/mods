@@ -18,7 +18,7 @@ module.exports = {
       'Voice Channel Position',
       'Voice Channel User Limit',
       'Voice Channel Bitrate',
-	  'Voice Channel Members Connected',
+      'Voice Channel Members Connected',
     ];
     return `${presets.getVoiceChannelText(data.channel, data.varName)} - ${info[parseInt(data.info, 10)]}`;
   },
@@ -41,7 +41,7 @@ module.exports = {
       case 3:
       case 4:
       case 5:
-	  case 6:
+      case 6:
         dataType = 'Number';
         break;
     }
@@ -50,7 +50,7 @@ module.exports = {
 
   fields: ['channel', 'varName', 'info', 'storage', 'varName2'],
 
-  html(isEvent, data) {
+  html() {
     return `
 <voice-channel-input dropdownLabel="Source Channel" selectId="channel" variableContainerId="varNameContainer" variableInputId="varName" selectWidth="45%" variableInputWidth="50%"></voice-channel-input>
 
@@ -73,7 +73,7 @@ module.exports = {
 
 <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>`;
   },
-  
+
   init() {},
 
   action(cache) {
@@ -106,8 +106,8 @@ module.exports = {
       case 5:
         result = targetChannel.bitrate;
         break;
-	  case 6:
-		result = targetChannel.members.size;
+      case 6:
+        result = targetChannel.members.size;
       default:
         break;
     }

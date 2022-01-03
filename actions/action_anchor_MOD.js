@@ -1,7 +1,7 @@
 module.exports = {
   name: 'Action Anchor',
   section: 'Other Stuff',
-  
+
   meta: {
     version: '2.0.9',
     preciseCheck: false,
