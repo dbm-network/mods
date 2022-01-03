@@ -89,7 +89,7 @@ module.exports = {
     options[data.permission] = data.state === '0' ? true : data.state === '2' ? false : null;
 
     if (role && role.id) {
-      if (channel && channel.permissionOverwrites.edit) {
+      if (channel?.permissionOverwrites.edit) {
         channel.permissionOverwrites
           .edit(role.id, options, { type: 0 })
           .then(() => {
