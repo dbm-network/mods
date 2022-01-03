@@ -2,6 +2,14 @@ module.exports = {
   name: 'Set Member Voice Channel Perms',
   section: 'Channel Control',
 
+  meta: {
+    version: '2.0.9',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadUrl: null,
+  },
+
   subtitle(data) {
     const names = [
       "Command Author's Voice Ch.",
@@ -83,8 +91,8 @@ module.exports = {
     if (!member) return this.callNextAction(cache);
     if (!channel) return this.callNextAction(cache);
 
-    return channel
-      .updateOverwrite(member.id, options)
+    return channel.permissionOverwrites
+      .edit(member.id, options, { type: 1 })
       .then(() => this.callNextAction(cache))
       .catch(() => {
         this.displayError(data, cache);

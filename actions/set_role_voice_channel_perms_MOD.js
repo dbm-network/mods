@@ -2,6 +2,14 @@ module.exports = {
   name: 'Set Role Voice Channel Perms',
   section: 'Channel Control',
 
+  meta: {
+    version: '2.0.9',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadUrl: null,
+  },
+
   subtitle(data) {
     const names = [
       "Command Author's Voice Ch.",
@@ -81,9 +89,9 @@ module.exports = {
     options[data.permission] = data.state === '0' ? true : data.state === '2' ? false : null;
 
     if (role && role.id) {
-      if (channel && channel.updateOverwrite) {
-        channel
-          .updateOverwrite(role.id, options)
+      if (channel?.permissionOverwrites.edit) {
+        channel.permissionOverwrites
+          .edit(role.id, options, { type: 0 })
           .then(() => {
             this.callNextAction(cache);
           })
