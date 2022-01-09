@@ -245,6 +245,9 @@ module.exports = {
         if (message) {
           user = message.author;
           member = message.member;
+        } else {
+          user = cache.interaction.user;
+          member = cache.interaction.member;
         }
 
         if (server) serverVars = Actions.getActionVariable.bind(Actions.server[server.id]);
