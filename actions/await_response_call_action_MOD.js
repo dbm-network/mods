@@ -9,7 +9,7 @@ module.exports = {
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
-    downloadUrl: null,
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/await_response_call_action_MOD.js',
   },
   fields: [
     'storage',

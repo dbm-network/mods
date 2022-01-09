@@ -6,7 +6,7 @@ module.exports = {
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
-    downloadUrl: null,
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/canvas_edit_image_border_MOD.js',
   },
 
   subtitle(data) {

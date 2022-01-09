@@ -6,7 +6,7 @@ module.exports = {
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
-    downloadUrl: null,
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/parse_from_stored_json_MOD.js',
   },
 
   subtitle(data) {

@@ -283,7 +283,7 @@ module.exports = {
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
-    downloadUrl: null,
+    downloadUrl: 'https://github.com/dbm-network/mods/blob/master/actions/aaa_dbmmods_dependencies_MOD.js',
   },
 
   html() {
