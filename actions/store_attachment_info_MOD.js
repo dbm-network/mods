@@ -77,7 +77,7 @@ module.exports = {
     const message = this.getMessage(storage, varName, cache);
     const info = parseInt(data.info, 10);
 
-    const attachments = message.attachments.array();
+    const attachments = [...message.attachments.values()];
 
     if (attachments.length > 0) {
       const attachment = attachments[0];
