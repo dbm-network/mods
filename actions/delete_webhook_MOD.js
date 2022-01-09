@@ -2,6 +2,13 @@
 module.exports = {
   name: 'Delete Webhook',
   section: 'Webhook Control',
+  meta: {
+    version: '2.0.9',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadUrl: null,
+  },
 
   subtitle(data) {
     const names = ['You cheater!', 'Temp Variable', 'Server Variable', 'Global Variable'];

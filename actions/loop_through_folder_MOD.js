@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Loop through Folder',
   section: 'Lists and Loops',
+  meta: {
+    version: '2.0.9',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadUrl: null,
+  },
 
   subtitle() {
     return 'Loops through folder, and turns filenames into array';

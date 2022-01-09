@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Convert To World Time',
   section: 'Other Stuff',
+  meta: {
+    version: '2.0.9',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadUrl: null,
+  },
 
   subtitle() {
     return 'Input a timezone and retrieve its current time.';

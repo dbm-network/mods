@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Send File To Webhook',
   section: 'Webhook Control',
+  meta: {
+    version: '2.0.9',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadUrl: null,
+  },
 
   subtitle() {
     return 'Send a file to a webhook';

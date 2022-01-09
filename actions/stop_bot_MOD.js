@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Stop Bot',
   section: 'Bot Client Control',
+  meta: {
+    version: '2.0.9',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadUrl: null,
+  },
 
   subtitle() {
     return 'Stops bot';

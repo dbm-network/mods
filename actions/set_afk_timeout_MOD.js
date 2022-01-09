@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Set AFK Timeout',
   section: 'Server Control',
+  meta: {
+    version: '2.0.9',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadUrl: null,
+  },
 
   subtitle(data) {
     if (data.serverAfkTime === '60') {

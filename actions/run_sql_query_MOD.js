@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Run SQL Query',
   section: 'Other Stuff',
+  meta: {
+    version: '2.0.9',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadUrl: null,
+  },
 
   variableStorage(data, varType) {
     if (parseInt(data.storage, 10) !== varType) return;

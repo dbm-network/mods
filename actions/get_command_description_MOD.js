@@ -3,6 +3,13 @@ module.exports = {
   displayName: 'Get Command Description',
   section: 'Other Stuff',
   fields: ['findBy', 'commandData', 'saveTo', 'varName'],
+  meta: {
+    version: '2.0.9',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadUrl: null,
+  },
 
   subtitle() {
     return 'Get Command Description';

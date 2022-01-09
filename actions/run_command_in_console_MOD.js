@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Run Command in Console',
   section: 'Other Stuff',
+  meta: {
+    version: '2.0.9',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadUrl: null,
+  },
 
   subtitle(data) {
     return `${data.varName} - Run Command in Console`;

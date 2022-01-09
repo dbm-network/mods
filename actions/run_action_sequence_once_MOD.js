@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Run Action Sequence Once',
   section: 'Other Stuff',
+  meta: {
+    version: '2.0.9',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadUrl: null,
+  },
 
   subtitle(data) {
     return `Run Once ${data.behavior === '2' ? 'Per Server' : 'Globally'}`;

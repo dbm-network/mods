@@ -2,6 +2,13 @@ module.exports = {
   name: 'Sends Stats to DBL',
   displayname: 'Sends Stats to TopGG',
   section: 'Other Stuff',
+  meta: {
+    version: '2.0.9',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadUrl: null,
+  },
 
   subtitle(data) {
     const info = ['Only Server Count', 'Shard & Server Count'];
