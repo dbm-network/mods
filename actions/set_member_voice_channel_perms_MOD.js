@@ -9,14 +9,6 @@ module.exports = {
     downloadUrl: null,
   },
 
-  meta: {
-    version: '2.0.9',
-    preciseCheck: false,
-    author: 'DBM Mods',
-    authorUrl: 'https://github.com/dbm-network/mods',
-    downloadUrl: null,
-  },
-
   subtitle(data) {
     const names = [
       "Command Author's Voice Ch.",
