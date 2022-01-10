@@ -2,7 +2,7 @@ module.exports = {
   name: 'Create Category Channel',
   section: 'Channel Control',
   meta: {
-    version: '2.0.9',
+    version: '2.0.11',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
