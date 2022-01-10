@@ -6,8 +6,8 @@ const Mods = {
       require('child_process').execSync(`npm i ${moduleName}`);
       try {
         resolve(require(moduleName));
-      } catch {
-        console.error(`Failed to Install ${moduleName}, please re-try or install manually with "npm i ${moduleName}"`);
+      } catch (error) {
+        console.error(error);
       }
     });
   },

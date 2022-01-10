@@ -10,36 +10,31 @@ module.exports = {
   },
 
   subtitle(data) {
-    if (data.tosend.length > 0) {
-      return `<font color="${data.color}">${data.tosend}</font>`;
+    if (data.consoleMessage.length > 0) {
+      return `${data.consoleMessage}`;
     }
     return 'Please enter a message!';
   },
 
-  fields: ['tosend', 'color'],
+  fields: ['consoleMessage'],
 
   html() {
     return `
-<div>
-  Color:<br>
-  <input type="color" id="color" value="#f2f2f2">
-</div><br>
-<div style="padding-top: 8px;">
-  Message to send:<br>
-  <textarea id="tosend" rows="4" style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
-</div>`;
+      <div>
+        <div style="padding: 8px;">
+          Message to send:<br>
+          <textarea id="consoleMessage" rows="16" style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+        </div>
+      </div>`;
   },
 
   init() {},
 
   action(cache) {
-    const Mods = this.getMods();
-    const chalk = Mods.require('chalk');
     const data = cache.actions[cache.index];
-    const send = this.evalMessage(data.tosend, cache);
+    const send = this.evalMessage(data.consoleMessage, cache);
 
-    const color = this.evalMessage(data.color, cache);
-    console.log(chalk.hex(color)(send));
+    console.log(send);
     this.callNextAction(cache);
   },
 
