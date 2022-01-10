@@ -4,6 +4,13 @@ module.exports = {
   name: 'Await Response Call Action',
   displayName: 'Await Response',
   section: 'Messaging',
+  meta: {
+    version: '2.0.11',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/await_response_call_action_MOD.js',
+  },
   fields: [
     'storage',
     'varName',
@@ -238,6 +245,9 @@ module.exports = {
         if (message) {
           user = message.author;
           member = message.member;
+        } else {
+          user = cache.interaction.user;
+          member = cache.interaction.member;
         }
 
         if (server) serverVars = Actions.getActionVariable.bind(Actions.server[server.id]);

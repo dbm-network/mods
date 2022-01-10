@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Set Role Permissions',
   section: 'Role Control',
+  meta: {
+    version: '2.0.11',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/set_role_perms_MOD.js',
+  },
 
   subtitle(data) {
     const roles = [

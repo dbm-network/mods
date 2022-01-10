@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Play YouTube Playlist',
   section: 'Audio Control',
+  meta: {
+    version: '2.0.11',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/play_youtube_playlist_MOD.js',
+  },
 
   requiresAudioLibraries: true,
 

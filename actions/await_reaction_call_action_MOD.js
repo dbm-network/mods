@@ -4,6 +4,13 @@ module.exports = {
   name: 'Await Reaction Call Action',
   displayName: 'Await Reaction',
   section: 'Messaging',
+  meta: {
+    version: '2.0.11',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/await_reaction_call_action_MOD.js',
+  },
 
   subtitle({ max, time }) {
     const getPlural = (n) => (n !== '1' ? 's' : '');

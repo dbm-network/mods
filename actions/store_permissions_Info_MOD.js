@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Store Permissions Info',
   section: 'Permission Control',
+  meta: {
+    version: '2.0.11',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/store_permissions_Info_MOD.js',
+  },
 
   subtitle(data) {
     const variables = ['', 'Temp Variable', 'Server Variable', 'Global Variable'];

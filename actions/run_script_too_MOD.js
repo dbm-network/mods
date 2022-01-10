@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Run Script Too',
   section: 'Other Stuff',
+  meta: {
+    version: '2.0.11',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/run_script_too_MOD.js',
+  },
 
   subtitle(data) {
     if (data.title) return `${data.title}`;

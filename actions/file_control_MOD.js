@@ -2,6 +2,13 @@ module.exports = {
   name: 'File Control',
   section: 'File Stuff',
   fields: ['input', 'format', 'filename', 'filepath', 'filepath2', 'filetask', 'input2', 'togglestatus'],
+  meta: {
+    version: '2.0.11',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/file_control_MOD.js',
+  },
 
   subtitle(data) {
     const filetasks = ['Create', 'Write', 'Append into', 'Delete', 'Insert into', 'Copy'];

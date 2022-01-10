@@ -2,6 +2,13 @@ module.exports = {
   name: 'Welcome',
   section: '#Mod Information',
   version: '1.9.8',
+  meta: {
+    version: '2.0.11',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/mod_info_MOD.js',
+  },
 
   subtitle() {
     return 'Put this into a Bot Initialization event for music!';

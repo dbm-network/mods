@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Canvas Save Image',
   section: 'Image Editing',
+  meta: {
+    version: '2.0.11',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/canvas_save_image_MOD.js',
+  },
 
   subtitle(data) {
     return `Save to "${data.Path}"`;

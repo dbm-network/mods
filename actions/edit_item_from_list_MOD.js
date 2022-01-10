@@ -2,6 +2,13 @@ module.exports = {
   name: 'Edit Item from List MOD',
   displayName: 'Edit Item from List',
   section: 'Lists and Loops',
+  meta: {
+    version: '2.0.11',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/edit_item_from_list_MOD.js',
+  },
 
   subtitle(data) {
     return `Edit "${data.value}" at position ${data.position}`;

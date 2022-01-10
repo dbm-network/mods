@@ -3,6 +3,13 @@ module.exports = {
   name: 'Store Data List MOD',
   displayName: 'Store Data List',
   section: 'Other Stuff',
+  meta: {
+    version: '2.0.11',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/store_data_list_MOD.js',
+  },
 
   subtitle(data) {
     const files = ['players.json', 'servers.json'];

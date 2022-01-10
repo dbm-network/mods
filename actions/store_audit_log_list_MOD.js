@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Store Audit Log List MOD',
   section: 'Server Control',
+  meta: {
+    version: '2.0.11',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/store_audit_log_list_MOD.js',
+  },
 
   subtitle(data) {
     const storage = ['All Member', 'Mentioned User', 'Command Author', 'tempVars', 'serverVars', 'globalVars'];

@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Merge Lists',
   section: 'Lists and Loops',
+  meta: {
+    version: '2.0.11',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/merge_lists_MOD.js',
+  },
 
   subtitle() {
     return 'Merge two lists together';

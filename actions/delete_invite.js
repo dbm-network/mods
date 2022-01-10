@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Delete Invite',
   section: 'Invite Control',
+  meta: {
+    version: '2.0.11',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/delete_invite',
+  },
 
   subtitle(data) {
     return `${data.invite}`;

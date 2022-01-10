@@ -1,6 +1,13 @@
 module.exports = {
   name: 'RSS Feed Watcher',
   section: 'Other Stuff',
+  meta: {
+    version: '2.0.11',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/start_rss_feed_MOD.js',
+  },
 
   subtitle(data) {
     return `${data.url}`;

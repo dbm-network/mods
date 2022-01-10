@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Convert Timestamp to Date',
   section: 'Other Stuff',
+  meta: {
+    version: '2.0.11',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/convert_timestamp_to_date_MOD.js',
+  },
 
   subtitle(data) {
     return `Convert ${data.time}`;

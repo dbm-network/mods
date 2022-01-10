@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Store Json From WebAPI',
   section: 'JSON Things',
+  meta: {
+    version: '2.0.11',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/store_json_from_webapi_MOD.js',
+  },
 
   subtitle(data) {
     return `${data.varName}`;

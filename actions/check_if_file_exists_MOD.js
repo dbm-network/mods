@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Check if File Exists',
   section: 'File Stuff',
+  meta: {
+    version: '2.0.11',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/check_if_file_exists_MOD.js',
+  },
 
   subtitle(data) {
     const results = [

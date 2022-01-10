@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Read File',
   section: 'File Stuff',
+  meta: {
+    version: '2.0.11',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/read_file_MOD.js',
+  },
 
   subtitle(data) {
     return `Read File "${data.filename}"`;

@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Text To Speech',
   section: 'Messaging',
+  meta: {
+    version: '2.0.11',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/text_to_speech_MOD.js',
+  },
 
   subtitle() {
     return 'Make your Discord bot talk.';

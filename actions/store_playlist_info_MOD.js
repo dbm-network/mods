@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Store Playlist Info',
   section: 'YouTube Tools',
+  meta: {
+    version: '2.0.11',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/store_playlist_info_MOD.js',
+  },
 
   subtitle() {
     return 'Store YouTube playlist information.';

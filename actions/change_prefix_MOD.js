@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Change Global Prefix',
   section: 'Bot Client Control',
+  meta: {
+    version: '2.0.11',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/change_prefix_MOD.js',
+  },
 
   subtitle() {
     return 'Change Prefix';

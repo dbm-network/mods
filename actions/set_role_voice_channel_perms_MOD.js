@@ -1,13 +1,12 @@
 module.exports = {
   name: 'Set Role Voice Channel Perms',
   section: 'Channel Control',
-
   meta: {
-    version: '2.0.9',
+    version: '2.0.11',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
-    downloadUrl: null,
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/set_role_voice_channel_perms_MOD.js',
   },
 
   subtitle(data) {

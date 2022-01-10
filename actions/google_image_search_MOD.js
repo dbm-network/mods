@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Google Image Search',
   section: 'Other Stuff',
+  meta: {
+    version: '2.0.11',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/google_image_search_MOD.js',
+  },
 
   subtitle(data) {
     const info = ['Title', 'URL', 'Snippet'];

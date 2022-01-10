@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Canvas Create Image',
   section: 'Image Editing',
+  meta: {
+    version: '2.0.11',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/canvas_create_image_MOD.js',
+  },
 
   subtitle(data) {
     return `${data.url}`;

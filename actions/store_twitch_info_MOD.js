@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Store Twitch Info',
   section: 'Other Stuff',
+  meta: {
+    version: '2.0.11',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/store_twitch_info_MOD.js',
+  },
 
   subtitle(data) {
     const sourceType = parseInt(data.type, 10); // "Channel", "Stream", "Video" or "Game"

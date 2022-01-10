@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Cleverbot',
   section: 'Other Stuff',
+  meta: {
+    version: '2.0.11',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/cleverbot_MOD.js',
+  },
 
   subtitle(data) {
     const WhichAPI = ['cleverbot.io', 'cleverbot.com', 'cleverbot-free'];

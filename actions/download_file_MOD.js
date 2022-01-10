@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Download File',
   section: 'File Stuff',
+  meta: {
+    version: '2.0.11',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/download_file_MOD.js',
+  },
 
   subtitle(data) {
     return `From: ${data.url} to ${data.filePath}/${data.fileName || 'download'}.${data.fileFormat || 'txt'}`;

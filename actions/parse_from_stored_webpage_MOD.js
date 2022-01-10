@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Parse From Stored Webpage',
   section: 'HTML/XML Things',
+  meta: {
+    version: '2.0.11',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/parse_from_stored_webpage_MOD.js',
+  },
 
   subtitle(data) {
     return ` Var: ${data.varName} Path: ${data.xpath}`;

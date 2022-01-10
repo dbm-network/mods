@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Send Embed to Webhook',
   section: 'Webhook Control',
+  meta: {
+    version: '2.0.11',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/send_embed_to_webhook_MOD.js',
+  },
 
   subtitle(data) {
     return `${data.varName2}`;

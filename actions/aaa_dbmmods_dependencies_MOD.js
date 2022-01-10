@@ -278,6 +278,13 @@ const Mods = {
 module.exports = {
   name: 'Mods',
   section: 'JSON Things',
+  meta: {
+    version: '2.0.11',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadUrl: 'https://github.com/dbm-network/mods/blob/master/actions/aaa_dbmmods_dependencies_MOD.js',
+  },
 
   html() {
     return `

@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Check Global Data',
   section: 'Data',
+  meta: {
+    version: '2.0.11',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/check_global_data_MOD.js',
+  },
 
   subtitle(data) {
     const results = [

@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Canvas Edit Image Border',
   section: 'Image Editing',
+  meta: {
+    version: '2.0.11',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/canvas_edit_image_border_MOD.js',
+  },
 
   subtitle(data) {
     const storeTypes = ['', 'Temp Variable', 'Server Variable', 'Global Variable'];

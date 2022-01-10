@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Store HTML From Webpage',
   section: 'HTML/XML Things',
+  meta: {
+    version: '2.0.11',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/store_html_from_webpage_MOD.js',
+  },
 
   subtitle(data) {
     return `URL: ${data.url}`;

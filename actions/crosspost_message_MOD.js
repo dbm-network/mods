@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Crosspost Message',
   section: 'Messaging',
+  meta: {
+    version: '2.0.11',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/crosspost_message_MOD.js',
+  },
 
   subtitle(data) {
     const message = ['Command Message', 'Temp Variable', 'Server Variable', 'Global Variable'];

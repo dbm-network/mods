@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Check If Message',
   section: 'Conditions',
+  meta: {
+    version: '2.0.11',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/check_if_message_MOD.js',
+  },
 
   subtitle(data) {
     const results = [

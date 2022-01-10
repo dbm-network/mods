@@ -2,6 +2,13 @@ module.exports = {
   name: 'Filter List/Object',
   displayName: 'Filter List or Object',
   section: 'Lists and Loops',
+  meta: {
+    version: '2.0.11',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/filter_list_or_object_MOD.js',
+  },
 
   subtitle(data) {
     const storages = ['', 'Temp Variable', 'Server Variable', 'Global Variable'];

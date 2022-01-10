@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Comment',
   section: 'Other Stuff',
+  meta: {
+    version: '2.0.11',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/action_list_comment_MOD.js',
+  },
 
   subtitle(data) {
     return `<font color="${data.color}">${data.comment}</font>`;

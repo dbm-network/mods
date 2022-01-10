@@ -639,11 +639,6 @@
     "name": "Set AFK Timeout",
     "section": "Server Control"
   },
-  "set_bot_typing_MOD.js": {
-    "description": "Set the bot typing to true or false",
-    "name": "Bot Typing",
-    "section": "Bot Client Control"
-  },
   "set_member_voice_channel_perms_MOD.js": {
     "description": "Set voice channel permissions for a member",
     "name": "Set Member Voice Channel Perms",
@@ -689,11 +684,6 @@
     "name": "Skip Actions",
     "section": "Other Stuff"
   },
-  "skip_queue.js": {
-    "description": "Skip the queue",
-    "name": "Skip Queue",
-    "section": "Audio Control"
-  },
   "slice_MOD.js": {
     "description": "Slice a string",
     "name": "Slice",
@@ -733,11 +723,6 @@
     "description": "Store information about an attachment",
     "name": "Store Attachment Info",
     "section": "Messaging"
-  },
-  "store_audio_info_MOD.js": {
-    "description": "Store information about a specified audio",
-    "name": "Store Audio Info",
-    "section": "Audio Control"
   },
   "store_audit_log_info_MOD.js": {
     "description": "Store information from a server's audit log",

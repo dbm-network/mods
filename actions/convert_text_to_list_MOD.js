@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Convert Text to List',
   section: 'Lists and Loops',
+  meta: {
+    version: '2.0.11',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/convert_text_to_list_MOD.js',
+  },
 
   subtitle(data) {
     const storeTypes = ['', 'Temp Variable', 'Server Variable', 'Global Variable'];

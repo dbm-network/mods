@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Generate Random Emoji',
   section: 'Other Stuff',
+  meta: {
+    version: '2.0.11',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/generate_random_emoji_MOD.js',
+  },
 
   subtitle() {
     return "Generate emoji's";

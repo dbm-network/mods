@@ -1,6 +1,13 @@
 module.exports = {
   name: 'Clear reactions from message',
   section: 'Reaction Control',
+  meta: {
+    version: '2.0.11',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/remove_message_reactions_MOD.js',
+  },
 
   subtitle() {
     return 'Remove reactions from Message';
