@@ -10,9 +10,7 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/mod_info_MOD.js',
   },
 
-  subtitle() {
-    return 'Put this into a Bot Initialization event for music!';
-  },
+  subtitle() {},
 
   fields: ['mods'],
 
@@ -288,12 +286,7 @@ span.discord_code_blocks {
     }
   },
 
-  action() {
-    console.log('Music functions successfully overwritten.');
-  },
+  action() {},
 
-  mod(DBM) {
-    const Mods = DBM.Actions.getMods();
-    Mods.setupMusic(DBM);
-  },
+  mod() {},
 };

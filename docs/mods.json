@@ -489,11 +489,6 @@
     "name": "Merge Lists",
     "section": "Lists and Loops"
   },
-  "mod_info_changelog_MOD.js": {
-    "description": "A changelog for modifications",
-    "name": "Changelog",
-    "section": "#Mod Information"
-  },
   "mod_info_license_MOD.js": {
     "description": "A license for modifications",
     "name": "License",
