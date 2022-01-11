@@ -74,11 +74,11 @@ module.exports = {
 
     const varName = this.evalMessage(data.varName, cache);
     const storage = parseInt(data.storage, 10);
-    const list = this.getList(storage, varName, cache);
+    const list = await this.getList(storage, varName, cache);
 
     const varName2 = this.evalMessage(data.varName2, cache);
     const storage2 = parseInt(data.storage2, 10);
-    const list2 = this.getList(storage2, varName2, cache);
+    const list2 = await this.getList(storage2, varName2, cache);
 
     const result = list.concat(list2);
 
