@@ -99,7 +99,7 @@ module.exports = {
     const varName2 = this.evalMessage(data.varNameChannel, cache);
     const varName = this.evalMessage(data.varName, cache);
     const server = await this.getServer(type, varName, cache);
-    const channel = this.await this.getVoiceChannel(afkchannel, varName2, cache);
+    const channel = await this.getVoiceChannel(afkchannel, varName2, cache);
 
     if (!channel) return this.callNextAction(cache);
 
