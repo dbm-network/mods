@@ -32,7 +32,7 @@ module.exports = {
 
   init() {},
 
-  action(cache) {
+  async action(cache) {
     const Mods = this.getMods();
     const chalk = Mods.require('chalk');
     const data = cache.actions[cache.index];

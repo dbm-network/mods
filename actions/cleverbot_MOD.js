@@ -88,7 +88,7 @@ module.exports = {
     glob.variableChange(document.getElementById('storage'), 'varNameContainer2');
   },
 
-  action(cache) {
+  async action(cache) {
     const { Actions } = this.getDBM();
 
     const data = cache.actions[cache.index];

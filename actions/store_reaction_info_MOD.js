@@ -108,7 +108,7 @@ module.exports = {
     glob.refreshVariableList(document.getElementById('reaction'));
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const reaction = parseInt(data.reaction, 10);
     const varName = this.evalMessage(data.varName, cache);

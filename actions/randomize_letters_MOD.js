@@ -59,7 +59,7 @@ module.exports = {
     glob.variableChange(document.getElementById('storage'), 'varNameContainer');
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const Input = this.evalMessage(data.input, cache);
     const wordLength = this.evalMessage(data.wordLength, cache);

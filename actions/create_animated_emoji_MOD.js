@@ -69,7 +69,7 @@ module.exports = {
     glob.onChange1(document.getElementById('storage2'));
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const { server } = cache;
 

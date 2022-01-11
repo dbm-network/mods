@@ -38,11 +38,11 @@ module.exports = {
     glob.serverChange(document.getElementById('server'), 'varNameContainer');
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const server = parseInt(data.server, 10);
     const varName = this.evalMessage(data.varName, cache);
-    const targetServer = this.getServer(server, varName, cache);
+    const targetServer = await this.getServer(server, varName, cache);
 
     if (Array.isArray(targetServer)) {
       this.callListFunc(targetServer, 'delete', []).then(() => {

@@ -142,7 +142,7 @@ module.exports = {
     glob.targetChange(document.getElementById('target'));
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
 
     const type = parseInt(data.target, 10);
@@ -150,16 +150,16 @@ module.exports = {
     if (type === 0) {
       const role = parseInt(data.role, 10);
       const varName2 = this.evalMessage(data.varName2, cache);
-      target = this.getRole(role, varName2, cache);
+      target = await this.getRole(role, varName2, cache);
     } else {
       const member = parseInt(data.member, 10);
       const varName3 = this.evalMessage(data.varName3, cache);
-      target = this.getMember(member, varName3, cache);
+      target = await this.getMember(member, varName3, cache);
     }
 
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);
-    const targetChannel = this.getChannel(storage, varName, cache);
+    const targetChannel = await this.getChannel(storage, varName, cache);
 
     const allow = target.permissionsIn(targetChannel);
     const permissions = {};

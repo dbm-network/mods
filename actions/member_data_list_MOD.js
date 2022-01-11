@@ -108,7 +108,7 @@ module.exports = {
     glob.onChange1(document.getElementById('numbefstselect'));
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const { msg } = cache;
     const storage = parseInt(data.storage, 10);

@@ -344,7 +344,7 @@ module.exports = {
     glob.variableChange(document.getElementById('store_source_conn_storage'), 'varNameContainer3');
   },
 
-  action(cache) {
+  async action(cache) {
     // fields: ["storage", "varName", "hostname", "port", "username", "password", "database", "query", "otype",
     // "source_conn_storage", "storage_conn_varName", "store_source_conn_storage", "store_storage_conn_varName", "debugMode"],
 

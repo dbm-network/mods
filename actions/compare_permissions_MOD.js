@@ -68,7 +68,7 @@ module.exports = {
     glob.refreshVariableList(document.getElementById('storage2'));
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const { Permissions } = this.getDBM().DiscordJS;
     const varName = this.evalMessage(data.varName, cache);

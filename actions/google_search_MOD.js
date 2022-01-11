@@ -79,7 +79,7 @@ module.exports = {
     glob.variableChange(document.getElementById('storage'), 'varNameContainer');
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const info = parseInt(data.info, 10);
     const string = this.evalMessage(data.string, cache).replace(/[\u{0080}-\u{FFFF}]/gu, ''); // The replace thing is very new, it's just replacing the invalid characters so command won't stuck when you use other languages.

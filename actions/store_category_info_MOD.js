@@ -158,7 +158,7 @@ module.exports = {
     glob.refreshVariableList(document.getElementById('category'));
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const category = parseInt(data.category, 10);
     const varName = this.evalMessage(data.varName, cache);

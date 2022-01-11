@@ -44,7 +44,7 @@ module.exports = {
 
   init() {},
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
 
     let url = this.evalMessage(data.url, cache);

@@ -38,11 +38,11 @@ module.exports = {
     glob.messageChange(document.getElementById('storage'), 'varNameContainer');
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);
-    const message = this.getMessage(storage, varName, cache);
+    const message = await this.getMessage(storage, varName, cache);
 
     if (Array.isArray(message)) {
       this.callListFunc(message, 'unpin', []).then(() => {

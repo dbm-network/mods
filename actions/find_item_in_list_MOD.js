@@ -80,7 +80,7 @@ module.exports = {
     glob.listChange(document.getElementById('list'), 'varNameContainer');
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const storage = parseInt(data.list, 10);
     const varName = this.evalMessage(data.varName, cache);

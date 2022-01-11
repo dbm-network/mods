@@ -45,7 +45,7 @@ module.exports = {
     glob.sendTargetChange(document.getElementById('Include'), 'varNameContainer');
   },
 
-  action(cache) {
+  async action(cache) {
     this.callNextAction(cache);
   },
 

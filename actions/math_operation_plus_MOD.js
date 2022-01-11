@@ -120,7 +120,7 @@ module.exports = {
     glob.onChange1(document.getElementById('info'));
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     let FN = parseFloat(this.evalMessage(data.FirstNumber, cache).replace(/,/g, ''));
     const SN = parseFloat(this.evalMessage(data.SecondNumber, cache).replace(/,/g, ''));

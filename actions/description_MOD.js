@@ -34,7 +34,7 @@ module.exports = {
 
   init() {},
 
-  action(cache) {
+  async action(cache) {
     this.callNextAction(cache);
   },
 

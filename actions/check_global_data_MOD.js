@@ -113,7 +113,7 @@ module.exports = {
     glob.onChangeFalse(document.getElementById('iffalse'));
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const dataName = this.evalMessage(data.dataName, cache);
     const compare = parseInt(data.comparison, 10);

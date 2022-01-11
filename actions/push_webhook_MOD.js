@@ -41,7 +41,7 @@ module.exports = {
     glob.refreshVariableList(document.getElementById('webhook'));
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const webhook = parseInt(data.webhook, 10);
     const varName = this.evalMessage(data.varName, cache);

@@ -69,7 +69,7 @@ module.exports = {
     glob.variableChange(document.getElementById('storage3'), 'varNameContainer3');
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
 
     const varName = this.evalMessage(data.varName, cache);

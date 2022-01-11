@@ -35,7 +35,7 @@ module.exports = {
 
   init() {},
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const token = this.evalMessage(data.BFDToken, cache);
     const clientid = this.evalMessage(data.ClientID, cache);

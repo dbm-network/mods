@@ -75,14 +75,14 @@ module.exports = {
     glob.roleChange(document.getElementById('role'), 'varNameContainer2');
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const storage = parseInt(data.vchannel, 10);
     const varName = this.evalMessage(data.varName, cache);
-    const channel = this.getChannel(storage, varName, cache);
+    const channel = await this.getChannel(storage, varName, cache);
     const storage2 = parseInt(data.role, 10);
     const varName2 = this.evalMessage(data.varName2, cache);
-    const role = this.getRole(storage2, varName2, cache);
+    const role = await this.getRole(storage2, varName2, cache);
     const options = {};
 
     options[data.permission] = data.state === '0' ? true : data.state === '2' ? false : null;

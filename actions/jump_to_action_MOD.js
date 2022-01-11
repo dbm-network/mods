@@ -27,7 +27,7 @@ module.exports = {
 
   init() {},
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const val = parseInt(this.evalMessage(data.call, cache), 10);
     const index = Math.max(val - 1, 0);

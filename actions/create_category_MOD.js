@@ -47,7 +47,7 @@ Name:<br>
     glob.variableChange(document.getElementById('storage'), 'varNameContainer');
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const { server } = cache;
     if (!server?.channels?.create) return this.callnextAction(cache);

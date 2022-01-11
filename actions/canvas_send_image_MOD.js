@@ -106,7 +106,7 @@ module.exports = {
     glob.variableChange(document.getElementById('storage2'), 'varNameContainer3');
   },
 
-  action(cache) {
+  async action(cache) {
     const { DiscordJS } = this.getDBM();
     const Canvas = require('canvas');
     const data = cache.actions[cache.index];

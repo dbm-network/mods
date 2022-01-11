@@ -231,7 +231,7 @@ module.exports = {
 
   init() {},
 
-  action(cache) {
+  async action(cache) {
     const botClient = this.getDBM().Bot.bot;
     const { Bot } = this.getDBM();
     const os = require('os');
