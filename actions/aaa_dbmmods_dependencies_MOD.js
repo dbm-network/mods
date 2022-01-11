@@ -7,7 +7,7 @@ const Mods = {
       try {
         resolve(require(moduleName));
       } catch (error) {
-        console.error(error);
+        console.error(`Failed to install ${moduleName}. Error: ${error.message}`);
       }
     });
   },
