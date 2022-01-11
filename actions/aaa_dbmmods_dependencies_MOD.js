@@ -187,7 +187,9 @@ const Mods = {
 
 module.exports = {
   name: 'Mods',
-  section: 'JSON Things',
+  section: '#DBM Mods',
+  displayName: 'Dependencies',
+
   meta: {
     version: '2.0.11',
     preciseCheck: false,
