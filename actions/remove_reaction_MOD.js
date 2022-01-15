@@ -51,7 +51,7 @@ module.exports = {
     glob.memberChange(document.getElementById('member'), 'varNameContainer2');
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
 
     const reaction = parseInt(data.reaction, 10);
@@ -61,7 +61,7 @@ module.exports = {
 
     const type = parseInt(data.member, 10);
     const varName2 = this.evalMessage(data.varName2, cache);
-    const member = this.getMember(type, varName2, cache);
+    const member = await this.getMember(type, varName2, cache);
 
     if (!rea) return this.callNextAction(cache);
 

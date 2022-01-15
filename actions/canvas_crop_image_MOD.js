@@ -102,7 +102,7 @@ module.exports = {
     glob.onChange0(document.getElementById('align'));
   },
 
-  action(cache) {
+  async action(cache) {
     const Canvas = require('canvas');
     const data = cache.actions[cache.index];
     const storage = parseInt(data.storage, 10);

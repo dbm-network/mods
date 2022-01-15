@@ -83,7 +83,7 @@ module.exports = {
     glob.onChange1(document.getElementById('info'));
   },
 
-  action(cache) {
+  async action(cache) {
     const Canvas = require('canvas');
     const Filter = require('imagedata-filters');
     const data = cache.actions[cache.index];

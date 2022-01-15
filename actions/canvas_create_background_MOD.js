@@ -93,7 +93,7 @@ module.exports = {
     glob.onChange0(document.getElementById('info'));
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const Canvas = require('canvas');
     const width = parseInt(this.evalMessage(data.width, cache), 10);

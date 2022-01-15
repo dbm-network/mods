@@ -80,11 +80,11 @@ module.exports = {
     glob.listChange(document.getElementById('list'), 'varNameContainer');
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const storage = parseInt(data.list, 10);
     const varName = this.evalMessage(data.varName, cache);
-    const list = this.getList(storage, varName, cache);
+    const list = await this.getList(storage, varName, cache);
     const item = this.evalMessage(data.item, cache);
 
     const result = list.findIndex((i) => i === item);

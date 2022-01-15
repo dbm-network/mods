@@ -80,7 +80,7 @@ module.exports = {
     glob.messageChange(document.getElementById('message'), 'varNameContainer');
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const varName = this.evalMessage(data.varName, cache);
     const info = parseInt(data.info, 10);

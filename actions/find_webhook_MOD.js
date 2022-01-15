@@ -49,7 +49,7 @@ module.exports = {
 
   init() {},
 
-  action(cache) {
+  async action(cache) {
     const { DiscordJS } = this.getDBM();
     const data = cache.actions[cache.index];
     const id = this.evalMessage(data.id, cache);

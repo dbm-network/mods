@@ -110,11 +110,11 @@ module.exports = {
     glob.onChangeFalse(document.getElementById('iffalse'));
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const storage = parseInt(data.role, 10);
     const varName = this.evalMessage(data.varName, cache);
-    const role = this.getRole(storage, varName, cache);
+    const role = await this.getRole(storage, varName, cache);
     let result;
 
     if (role) result = role.permissions.has(data.permission);

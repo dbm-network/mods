@@ -40,7 +40,7 @@ Color:<br>
 
   init() {},
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const color = this.evalMessage(data.color, cache);
 

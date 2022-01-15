@@ -56,10 +56,10 @@ module.exports = {
     glob.variableChange(document.getElementById('storage'), 'varNameContainer2');
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const varName = this.evalMessage(data.varName, cache);
-    const message = this.getMessage(parseInt(data.message, 10), varName, cache);
+    const message = await this.getMessage(parseInt(data.message, 10), varName, cache);
 
     if (!message) return this.callNextAction(cache);
     if (!message.crosspost) throw new Error('You need at least Discord.js version 12.4.0 to use this mod.');

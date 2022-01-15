@@ -49,7 +49,7 @@ module.exports = {
     glob.refreshVariableList(document.getElementById('storage2'), 'varNameContainer2');
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);

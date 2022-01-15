@@ -157,12 +157,12 @@ module.exports = {
     glob.channeltype(document.getElementById('info'));
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const { server } = cache;
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);
-    const channel = this.getChannel(storage, varName, cache);
+    const channel = await this.getChannel(storage, varName, cache);
 
     if (!server || !channel) {
       console.log(`${server ? 'channel' : 'server'} could not be found! Clone Channel MOD.`);

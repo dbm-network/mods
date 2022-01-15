@@ -61,7 +61,7 @@ module.exports = {
 
   init() {},
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const type = parseInt(data.type, 10);
     let result;
