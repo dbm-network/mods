@@ -185,7 +185,7 @@ span.discord_code_blocks {
     Visit us on GitHub! The whole mod collection is on GitHub
     and everyone is invited to join us developing new mods!<br>
     Copy and paste the link to view the site in your browser.<br>
-    <span class="wrexlink3" data-url3="https://github.com/Discord-Bot-Maker-Mods/DBM-Mods">https://github.com/Discord-Bot-Maker-Mods/DBM-Mods</span><br>
+    <span class="wrexlink3" data-url3="https://github.com/dbm-network/mods">https://github.com/dbm-network/mods</span><br>
   </p>
 
   <h3 style="color: #fff">Current List of Mods</h3>
