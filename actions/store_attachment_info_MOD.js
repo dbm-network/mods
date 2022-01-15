@@ -70,11 +70,11 @@ module.exports = {
     glob.variableChange(document.getElementById('storage2'), 'varNameContainer2');
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);
-    const message = this.getMessage(storage, varName, cache);
+    const message = await this.getMessage(storage, varName, cache);
     const info = parseInt(data.info, 10);
 
     const attachments = [...message.attachments.values()];

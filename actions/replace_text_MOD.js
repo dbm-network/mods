@@ -60,7 +60,7 @@ module.exports = {
 
   init() {},
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const text = this.evalMessage(data.text, cache);
     const oldValue = this.evalMessage(data.text2, cache);

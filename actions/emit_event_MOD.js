@@ -114,7 +114,7 @@ module.exports = {
 </style>`;
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
 
     const { DiscordJS } = this.getDBM();

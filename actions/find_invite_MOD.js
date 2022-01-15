@@ -44,7 +44,7 @@ module.exports = {
 
   init() {},
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const invite = this.evalMessage(data.invite, cache);
     const client = this.getDBM().Bot.bot;

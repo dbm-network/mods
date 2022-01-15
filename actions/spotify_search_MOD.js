@@ -439,7 +439,7 @@ module.exports = {
     glob.variableChange(document.getElementById('storage'), 'varNameContainer2');
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const { Actions } = this.getDBM();
     const Mods = this.getMods();

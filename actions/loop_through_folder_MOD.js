@@ -50,7 +50,7 @@ module.exports = {
 
   init() {},
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const path = this.evalMessage(data.filename, cache);
     const { readdirSync } = require('fs');

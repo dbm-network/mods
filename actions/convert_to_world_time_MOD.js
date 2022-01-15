@@ -44,7 +44,7 @@ module.exports = {
 
   init() {},
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const Mods = this.getMods();
     const moment = Mods.require('moment-timezone');

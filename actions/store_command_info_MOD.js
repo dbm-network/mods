@@ -103,7 +103,7 @@ module.exports = {
     glob.onChangeSame(document.getElementById('searchCommandBy'));
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const jp = this.getMods().require('jsonpath');
 

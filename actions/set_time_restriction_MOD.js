@@ -180,7 +180,7 @@ module.exports = {
     glob.onChange(document.getElementById('Measurement'));
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const value = parseInt(this.evalMessage(data.value, cache), 10);
 

@@ -172,7 +172,7 @@ module.exports = {
     glob.onChange0(document.getElementById('storage'));
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const { server } = cache;
     const member = parseInt(data.storage, 10);
@@ -185,7 +185,7 @@ module.exports = {
         break;
       default: {
         const varName = this.evalMessage(data.varName, cache);
-        mem = this.getMember(member - 1, varName, cache);
+        mem = await this.getMember(member - 1, varName, cache);
         break;
       }
     }

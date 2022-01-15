@@ -216,13 +216,13 @@ module.exports = {
     glob.onChangeFalse(document.getElementById('iffalse'));
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const { Actions } = this.getDBM();
 
     const ch = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);
-    const channel = this.getChannel(ch, varName, cache);
+    const channel = await this.getChannel(ch, varName, cache);
 
     const storage = parseInt(data.storage2, 10);
     const varName2 = this.evalMessage(data.varName2, cache);

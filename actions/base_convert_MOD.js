@@ -53,7 +53,7 @@ module.exports = {
 
   init() {},
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const num = this.evalMessage(data.num, cache);
     const basef = parseInt(data.basef, 10);

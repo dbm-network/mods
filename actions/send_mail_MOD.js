@@ -121,7 +121,7 @@ module.exports = {
     glob.onChangeFalse(document.getElementById('iffalse'));
   },
 
-  action(cache) {
+  async action(cache) {
     const { Actions } = this.getDBM();
     const data = cache.actions[cache.index];
     const user = this.evalMessage(data.username, cache);

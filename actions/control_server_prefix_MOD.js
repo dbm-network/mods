@@ -56,7 +56,7 @@ module.exports = {
     glob.onChangeControl(document.getElementById('controlType'));
   },
 
-  action(cache) {
+  async action(cache) {
     const fs = require('fs');
     const path = require('path');
     const data = cache.actions[cache.index];
@@ -64,7 +64,7 @@ module.exports = {
     const { Actions } = this.getDBM();
 
     const varName = this.evalMessage(data.varName, cache);
-    const server = this.getServer(type, varName, cache);
+    const server = await this.getServer(type, varName, cache);
     const controlType = parseInt(data.controlType, 10);
     const prefix = this.evalMessage(data.prefix, cache);
     const settingsPath = path.join('data', 'serverSettings.json');

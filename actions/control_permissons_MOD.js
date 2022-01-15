@@ -315,7 +315,7 @@ module.exports = {
     glob.refreshVariableList(document.getElementById('storage'));
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const { Permissions } = this.getDBM().DiscordJS;
     const storage = parseInt(data.storage, 10);

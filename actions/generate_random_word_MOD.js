@@ -52,7 +52,7 @@ module.exports = {
 
   init() {},
 
-  action(cache) {
+  async action(cache) {
     const Mods = this.getMods();
     const randomWords = Mods.require('random-words');
     const data = cache.actions[cache.index];

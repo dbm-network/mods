@@ -147,7 +147,7 @@ module.exports = {
     }
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const moment = this.getMods().require('moment');
     const dateLanguage = this.evalMessage(data.dateLanguage, cache);

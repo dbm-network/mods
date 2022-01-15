@@ -36,11 +36,11 @@ module.exports = {
     glob.serverChange(document.getElementById('server'), 'varNameContainer');
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const type = parseInt(data.server, 10);
     const varName = this.evalMessage(data.varName, cache);
-    const server = this.getServer(type, varName, cache);
+    const server = await this.getServer(type, varName, cache);
 
     if (Array.isArray(server)) {
       this.callListFunc(server, 'leave').then(() => {

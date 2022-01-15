@@ -59,7 +59,7 @@ module.exports = {
 
   init() {},
 
-  action(cache) {
+  async action(cache) {
     const client = this.getDBM().Bot.bot;
     const data = cache.actions[cache.index];
     const info = parseInt(data.info, 10);

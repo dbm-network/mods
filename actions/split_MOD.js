@@ -49,7 +49,7 @@ module.exports = {
     glob.variableChange(document.getElementById('storage'), 'varNameContainer');
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const texttosplit = this.evalMessage(data.split, cache);
     const spliton = this.evalMessage(data.spliton, cache);
