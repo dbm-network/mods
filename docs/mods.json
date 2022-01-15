@@ -2,7 +2,7 @@
   "aaa_dbmmods_dependencies_MOD.js": {
     "description": "Common dependencies used by other mods",
     "name": "Mods",
-    "section": "JSON Things"
+    "section": "#DBM Mods"
   },
   "action_list_comment_MOD.js": {
     "description": "Add a comment in your actions list",
@@ -489,20 +489,15 @@
     "name": "Merge Lists",
     "section": "Lists and Loops"
   },
-  "mod_info_changelog_MOD.js": {
-    "description": "A changelog for modifications",
-    "name": "Changelog",
-    "section": "#Mod Information"
-  },
   "mod_info_license_MOD.js": {
     "description": "A license for modifications",
     "name": "License",
-    "section": "#Mod Information"
+    "section": "#DBM Mods"
   },
   "mod_info_MOD.js": {
     "description": "A welcome/information message for modifications",
     "name": "Welcome",
-    "section": "#Mod Information"
+    "section": "#DBM Mods"
   },
   "parse_from_stored_json_MOD.js": {
     "description": "Parse from stored Json",

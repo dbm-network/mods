@@ -1,6 +1,6 @@
 module.exports = {
   name: 'License',
-  section: '#Mod Information',
+  section: '#DBM Mods',
   meta: {
     version: '2.0.11',
     preciseCheck: false,
