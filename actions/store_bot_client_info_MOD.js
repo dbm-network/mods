@@ -41,12 +41,10 @@ module.exports = {
       'Memory (RAM) Usage in MB',
       "Bots' OS (Process Platform)",
       'CPU Usage in MB',
-      'Average CPU Usage (%)',
-      'CPU Usage (%)',
       "Bots' Directory",
       'Node JS Version',
-      'Amount of Commands',
-      'Amount of Events',
+      'Total Amount of Commands',
+      'Total Amount of Events',
       'Ready At ? [timestamp]',
       'CPU Core Count',
       'Total Memory (GB)',
@@ -60,6 +58,8 @@ module.exports = {
       'Bot Owner ID',
       'Are Commands Case Sensitive?',
       'Last Message ID',
+      'Average CPU Average (1m ,5m, 15m)',
+      'Current CPU Usage',
     ];
     return `Bot Client - ${info[parseInt(data.info, 10)]}`;
   },
