@@ -164,6 +164,7 @@ module.exports = {
       <option value="24">Refreshing Uptime in Hours</option>
       <option value="25">Refreshing Uptime in Minutes</option>
       <option value="26">Refreshing Uptime in Seconds</option>
+      <option value="0">Uptime in Milliseconds</option>
     </optgroup>
     <optgroup label="Values">
       <option value="3">Total Amount of Guilds</option>
