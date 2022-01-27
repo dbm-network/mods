@@ -1,13 +1,6 @@
 module.exports = {
   name: 'Run Script Too',
   section: 'Other Stuff',
-  meta: {
-    version: '2.0.11',
-    preciseCheck: false,
-    author: 'DBM Mods',
-    authorUrl: 'https://github.com/dbm-network/mods',
-    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/run_script_too_MOD.js',
-  },
 
   subtitle(data) {
     if (data.title) return `${data.title}`;
@@ -19,107 +12,196 @@ module.exports = {
     return [data.varName, 'Unknown Type'];
   },
 
-  fields: ['behavior', 'interpretation', 'code', 'file', 'storage', 'varName', 'title'],
+  fields: ['behavior', 'interpretation', 'code', 'file', 'storage', 'varName', 'title', 'svar', 'nvars', 'tvars', 'vars', 'showcode'],
 
   html(_isEvent, data) {
     return `
-<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
-  <div>
-    <div style="float: left; width: 45%;">
-      End Behavior:<br>
-      <select id="behavior" class="round">
-        <option value="0"selected>Call Next Action</option>
-        <option value="1">Do Not Call Next Action</option>
-      </select>
-    </div>
-    <div style="padding-left: 5%; float: left; width: 55%;">
-      Interpretation Style:<br>
-      <select id="interpretation" class="round">
-        <option value="0">Evaluate Text First</option>
-        <option value="1" selected>Evaluate Text Directly</option>
-      </select>
-    </div>
+<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll; po"><br>
+  <div style="padding-right: 3%;">
+    <div style="float: left; width: 50%;">
+		<span class="dbminputlabel">End Behavior</span><br>
+		<select id="behavior" class="round">
+			<option value="0" selected>Call Next Action Automatically</option>
+			<option value="1">Do Not Call Next Action</option>
+		</select>
+	</div>
+	<div style="padding-left: 5%; float: right; width: 50%;">
+		<span class="dbminputlabel">Interpretation Style</span><br>
+		<select id="interpretation" class="round">
+			<option value="0" selected>Evaluate Text First</option>
+			<option value="1">Evaluate Text Directly</option>
+		</select>
+	</div>
+  
+  <br><br><br><br>
+
+
+  <div id="" style="float: left; width: 100%;">
+    <span class="dbminputlabel">Script Name (shown in the action subtitle)</span><br>
+      <input id="title" class="round" type="text">
   </div><br><br><br><br>
-  <div id="" style="float: left; width: 65%;">
-    Script Name: (shown in the action subtitle)<br>
-    <input id="title" class="round" type="text">
-  </div><br><br><br><br>
   <div>
-    External File Path: (Root directory is your bot folder )<br>
-    <div style="float: left; width: 65%;">
+    <div style="float: left; width: 70%;">
+    <span class="dbminputlabel">External File Path (Root directory is your bot folder )</span><br>
       <input type="text" name="file" id="file" class="round" placeholder="./scripts/myscript.js" style="float: left;"/>
     </div>
-  </div><br><br><br><br><br><br>
+  <div style="padding-left: 5%; float: right; width: 30%;">
+  <span class="dbminputlabel">Save Variables?<i class="clickableicon question circle outline icon" onclick="glob.onDTLChanged(this)"></i></span><br>
+  <select id="svar" class="round" onchange="glob.onSVarChanged(this)">
+    <option value="0">Yes</option>
+    <option value="1" selected>No</option>
+  </select>
+  </div><br><br><br><br>
+  <div id="dtl" style="display: none;">
+  <div style="
+  padding: 0.5em;
+  border-radius: 4px;
+  color: #b9bbbe;
+  background-color: #2f3136;
+  border: 1px solid #202225;
+  ">
+
+<style>
+summary::before {
+  content: '▶';
+  padding-right: 0.5em;
+}
+
+details[open] > summary::before {
+  content: '▼';
+}
+</style>
+
+    <details>
+      <summary><span style="color: white"><b>Documentation:</b></summary>
+      <div class="codeblock">
+        <span style="color:#9b9b9b">
+            <span><b>How to save variables from code?</b></span>
+            <details>
+              <summary><span><b>Example 1</b></summary></span>
+              <span><br>Your code:</span>
+              <img src="https://media.discordapp.net/attachments/931609414429982720/936328207819481169/unknown.png">
+              <span><br>To save <b>helloworld</b> and <b>nice</b></span>
+              <img style="width: 383px;" src="https://media.discordapp.net/attachments/931609414429982720/936330964999737344/unknown.png">
+              <span><b><br>Names to DBM</b> - variable name in DBM, e.g.</span>
+              <img style="width: 383px;" src="https://media.discordapp.net/attachments/931609414429982720/936336613083082782/unknown.png">
+            </details>
+            <details>
+            <summary><span><b>Example 2</b></summary></span>
+            <span><br>You also can save any text:</span>
+            <img style="width: 383px;" src="https://media.discordapp.net/attachments/931609414429982720/936337686896209960/unknown.png">
+            <img style="width: 383px;" src="https://media.discordapp.net/attachments/931609414429982720/936338093622067200/unknown.png">
+          </details>
+        </span>
+      </div>
+    </details></div><br><br></div>
+<div id="svars">
+  <div style="float: left; width: calc(100%/3);">
+    <span class="dbminputlabel">Variables from Code</span><br>
+    <input type="text" name="file" id="vars" class="round" placeholder='"variable", "code", "dot"' style="float: left;"/>
+  </div>
+  <div style="float: left; padding-left: 5%; width: calc(100%/3);">
+    <span class="dbminputlabel">Names to DBM</span><br>
+    <input type="text" name="file" id="nvars" class="round" placeholder='"variablename", "codename", "dotname"' style="float: left;"/>
+  </div>
+  <div style="float: left; padding-left: 5%; width: calc(100%/3);">
+    <span class="dbminputlabel">Type of Variables</span><br>
+    <select id="tvars" class="round">
+    <option value="1" selected>Temp Variable</option>
+    <option value="2">Server Variable</option>
+    <option value="3">Global Variable</option>
+  </select>
+  </div><br><br><br><br>
+</div>
+  </div>
   <div>
     <div style="float: left; width: 35%;">
-      Store In:<br>
+    <span class="dbminputlabel">Store In</span><br>
       <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
       ${data.variables[0]}
       </select>
     </div>
     <div id="varNameContainer" style="display: none; float: right; width: 60%;">
-      Variable Name:<br>
+    <span class="dbminputlabel">Variable Name</span><br>
       <input id="varName" class="round" type="text">
     </div>
-  </div><br><br><br><br><br>
-  <div style="padding-top: 8px;">
-    Or Use Custom Code: (This isn't used if an external path is defined.)<br>
-    <textarea id="code" rows="14" name="is-eval" style="width: 99%; white-space: nowrap; resize: none;"></textarea>
-  </div><br><br>
-</div>
-<style>
-  /* Embed CSS code */
-  .embed {
-    position: relative;
-  }
-
-  .embedinfo {
-    background: rgba(46,48,54,.45) fixed;
-    border: 1px solid hsla(0,0%,80%,.3);
-    padding: 10px;
-    margin:0 4px 0 7px;
-    border-radius: 0 3px 3px 0;
-  }
-
-  embedleftline {
-    background-color: #eee;
-    width: 4px;
-    border-radius: 3px 0 0 3px;
-    border: 0;
-    height: 100%;
-    margin-left: 4px;
-    position: absolute;
-  }
-
-  span {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  }
-
-  span.embed-auth {
-    color: rgb(255, 255, 255);
-  }
-
-  span.embed-desc {
-    color: rgb(128, 128, 128);
-  }
-
-  span.wrexlink {
-    color: #99b3ff;
-    text-decoration:underline;
-    cursor:pointer;
-  }
-
-  span.wrexlink:hover {
-    color:#4676b9;
-  }
-</style>`;
+  </div><br><br><br><br>
+  <div style="width: 35%">
+    <span class="dbminputlabel">Show Custom Code</span><br>
+    <select id="showcode" class="round" onchange="glob.onShowCodeTypeChanged(this)">
+      <option value="0" selected>Hide</option>
+      <option value="1">Show</option>
+    </select>
+  </div>
+    <br>
+  <div style="padding-top: 8px;" id="customcode">
+  <span class="dbminputlabel">Or Use Custom Code (This isn't used if an external path is defined.)</span><br>
+    <textarea id="code" value="console.log("Text!")" rows="14" name="is-eval" style="width: 99%; white-space: nowrap; resize: none;"></textarea>
+  </div>
+  </div></div><br><br>`;
   },
 
-  init() {},
+  init() {
+    const { glob, document } = this;
 
-  async action(cache) {
+    glob.onSVarChanged = function (event) {
+      if (event.value === "1") {
+        document.getElementById("svars").style.display = "none";
+      } else {
+        document.getElementById("svars").style.display = null;
+      }
+    };
+  
+    glob.onSVarChanged(document.getElementById("svar"));
+
+    glob.onShowCodeTypeChanged = function (event) {
+      if (event.value === "0") {
+        document.getElementById("customcode").style.display = "none";
+      } else {
+        document.getElementById("customcode").style.display = null;
+      }
+    };
+  
+    glob.onShowCodeTypeChanged(document.getElementById("showcode"));
+
+    glob.onDTLChanged = function (event) {
+      var DTL = document.getElementById("dtl");
+      DTL.style.display = DTL.style.display === 'none' ? '' : 'none';
+}
+  },
+
+  action(cache) {
     const data = cache.actions[cache.index];
     const { file } = data;
+    const svars = data.svar
+    let ready = ""
+    let vars = ""
+    let nvars = ""
+
+    if (svars == "0") {
+      try {vars = eval(`[${data.vars}]`);} catch (e) {console.log(e); }
+      try {nvars = eval(`[${data.nvars}]`); save()} catch (e) {console.log(e); }
+
+        function save() {
+
+          const tvars = data.tvars
+          let times = 0
+
+          let varslength = vars.length -1
+          let nvarslength = nvars.length -1
+
+          let length = varslength == nvarslength ? varslength : "Error!"
+
+          while (times <= length) {
+            ready += ` Actions.storeValue(${vars[times]}, ${tvars}, "${nvars[times]}", cache);\n`
+            times++
+          }
+
+        }
+
+    }
+
+    let save2 = ready !== "" ? ready : ""
 
     let code;
 
@@ -136,7 +218,7 @@ module.exports = {
       code = data.code;
     }
 
-    const result = this.eval(code, cache);
+    const result = this.eval(`${code}\n${save2}`, cache);
     const varName = this.evalMessage(data.varName, cache);
     const storage = parseInt(data.storage, 10);
     this.storeValue(result, storage, varName, cache);
