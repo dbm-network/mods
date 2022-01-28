@@ -30,7 +30,7 @@ module.exports = {
     'namestoDBM',
     'typeofvars',
     'variables',
-    'showcode'
+    'showcode',
   ],
 
   html(_isEvent, data) {
@@ -199,7 +199,6 @@ details[open] > summary::before {
 
     if (savevariables === '0') {
       function save() {
-
         const typeofvars = data.typeofvars;
         let times = 0;
 
@@ -219,13 +218,13 @@ details[open] > summary::before {
       } catch (e) 
       {
         console.log(e);
-      };
+      }
       try {
         namestoDBM = eval(`[${data.namestoDBM}]`);
         save();
       } catch (e) {
         console.log(e);
-      };
+      }
     }
 
     const save2 = ready !== '' ? ready : '';
