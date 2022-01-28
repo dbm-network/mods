@@ -214,7 +214,8 @@ details[open] > summary::before {
       }
 
       try {
-        variables = eval(`[${data.variables}]`); } catch (e) 
+        variables = eval(`[${data.variables}]`);
+      } catch (e) 
       {
         console.log(e);
       }
