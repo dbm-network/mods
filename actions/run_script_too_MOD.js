@@ -18,7 +18,20 @@ module.exports = {
     return [data.varName, 'Unknown Type'];
   },
 
-  fields: ['behavior', 'interpretation', 'code', 'file', 'storage', 'varName', 'title', 'savevariables', 'namestoDBM', 'typeofvars', 'variables', 'showcode'],
+  fields: [
+    'behavior',
+    'interpretation',
+    'code',
+    'file',
+    'storage',
+    'varName',
+    'title',
+    'savevariables',
+    'namestoDBM',
+    'typeofvars',
+    'variables',
+    'showcode'
+  ],
 
   html(_isEvent, data) {
     return `
@@ -171,7 +184,7 @@ details[open] > summary::before {
     glob.onShowCodeTypeChanged(document.getElementById('showcode'));
 
     glob.onDTLChanged = function (event) {
-      let DTL = document.getElementById('dtl');
+      const DTL = document.getElementById('dtl');
       DTL.style.display = DTL.style.display === 'none' ? '' : 'none';
     };
   },
@@ -180,32 +193,42 @@ details[open] > summary::before {
     const data = cache.actions[cache.index];
     const { file } = data;
     const savevariables = data.savevariables;
-    let ready = "";
-    let variables = "";
-    let namestoDBM = "";
+    let ready = '';
+    let variables = '';
+    let namestoDBM = '';
 
     if (savevariables === '0') {
       function save() {
 
-        const typeofvars = data.typeofvars
-        let times = 0
+        const typeofvars = data.typeofvars;
+        let times = 0;
 
-        const variableslength = variables.length -1
-        const namestoDBMlength = namestoDBM.length -1
+        const variableslength = variables.length - 1;
+        const namestoDBMlength = namestoDBM.length - 1;
 
-        const length = variableslength === namestoDBMlength ? variableslength : "Error!"
+        const length = variableslength === namestoDBMlength ? variableslength : 'Error!';
 
         while (times <= length) {
-          ready += ` Actions.storeValue(${variables[times]}, ${typeofvars}, "${namestoDBM[times]}", cache);\n`
-          times++
+          ready += ` Actions.storeValue(${variables[times]}, ${typeofvars}, "${namestoDBM[times]}", cache);\n`;
+          times++;
         }
       }
 
-      try {variables =         eval(`[${data.variables}]`);      } catch (e) {        console.log(e);     }
-      try {namestoDBM = eval(`[${data.namestoDBM}]`);        save();      } catch (e) {        console.log(e);     }
+      try {
+        variables = eval(`[${data.variables}]`);
+      } catch (e) 
+      {
+        console.log(e);
+      };
+      try {
+        namestoDBM = eval(`[${data.namestoDBM}]`);
+        save();
+      } catch (e) {
+        console.log(e);
+      };
     }
 
-    const save2 = ready !== '' ? ready : ''
+    const save2 = ready !== '' ? ready : '';
 
     let code;
 
