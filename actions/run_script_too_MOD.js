@@ -1,7 +1,13 @@
 module.exports = {
   name: 'Run Script Too',
   section: 'Other Stuff',
-
+  meta: {
+    version: '2.1.1',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/run_script_too_MOD.js',
+  },
   subtitle(data) {
     if (data.title) return `${data.title}`;
     return `${data.file ? `External File: ${data.file}` : data.code}`;
@@ -12,7 +18,7 @@ module.exports = {
     return [data.varName, 'Unknown Type'];
   },
 
-  fields: ['behavior', 'interpretation', 'code', 'file', 'storage', 'varName', 'title', 'svar', 'nvars', 'tvars', 'vars', 'showcode'],
+  fields: ['behavior', 'interpretation', 'code', 'file', 'storage', 'varName', 'title', 'savevariables', 'namestoDBM', 'typeofvars', 'variables', 'showcode'],
 
   html(_isEvent, data) {
     return `
@@ -47,7 +53,7 @@ module.exports = {
     </div>
   <div style="padding-left: 5%; float: right; width: 30%;">
   <span class="dbminputlabel">Save Variables?<i class="clickableicon question circle outline icon" onclick="glob.onDTLChanged(this)"></i></span><br>
-  <select id="svar" class="round" onchange="glob.onSVarChanged(this)">
+  <select id="savevariables" class="round" onchange="glob.onSVarChanged(this)">
     <option value="0">Yes</option>
     <option value="1" selected>No</option>
   </select>
@@ -98,15 +104,15 @@ details[open] > summary::before {
 <div id="svars">
   <div style="float: left; width: calc(100%/3);">
     <span class="dbminputlabel">Variables from Code</span><br>
-    <input type="text" name="file" id="vars" class="round" placeholder='"variable", "code", "dot"' style="float: left;"/>
+    <input type="text" name="file" id="variables" class="round" placeholder='"variable", "code", "dot"' style="float: left;"/>
   </div>
   <div style="float: left; padding-left: 5%; width: calc(100%/3);">
     <span class="dbminputlabel">Names to DBM</span><br>
-    <input type="text" name="file" id="nvars" class="round" placeholder='"variablename", "codename", "dotname"' style="float: left;"/>
+    <input type="text" name="file" id="namestoDBM" class="round" placeholder='"variablename", "codename", "dotname"' style="float: left;"/>
   </div>
   <div style="float: left; padding-left: 5%; width: calc(100%/3);">
     <span class="dbminputlabel">Type of Variables</span><br>
-    <select id="tvars" class="round">
+    <select id="typeofvars" class="round">
     <option value="1" selected>Temp Variable</option>
     <option value="2">Server Variable</option>
     <option value="3">Global Variable</option>
@@ -145,63 +151,61 @@ details[open] > summary::before {
     const { glob, document } = this;
 
     glob.onSVarChanged = function (event) {
-      if (event.value === "1") {
-        document.getElementById("svars").style.display = "none";
+      if (event.value === '1') {
+        document.getElementById('svars').style.display = 'none';
       } else {
-        document.getElementById("svars").style.display = null;
+        document.getElementById('svars').style.display = null;
       }
     };
-  
-    glob.onSVarChanged(document.getElementById("svar"));
+
+    glob.onSVarChanged(document.getElementById('savevariables'));
 
     glob.onShowCodeTypeChanged = function (event) {
-      if (event.value === "0") {
-        document.getElementById("customcode").style.display = "none";
+      if (event.value === '0') {
+        document.getElementById('customcode').style.display = 'none';
       } else {
-        document.getElementById("customcode").style.display = null;
+        document.getElementById('customcode').style.display = null;
       }
     };
-  
-    glob.onShowCodeTypeChanged(document.getElementById("showcode"));
+
+    glob.onShowCodeTypeChanged(document.getElementById('showcode'));
 
     glob.onDTLChanged = function (event) {
-      var DTL = document.getElementById("dtl");
+      let DTL = document.getElementById('dtl');
       DTL.style.display = DTL.style.display === 'none' ? '' : 'none';
-}
+    };
   },
 
   action(cache) {
     const data = cache.actions[cache.index];
     const { file } = data;
-    const svars = data.svar
-    let ready = ""
-    let vars = ""
-    let nvars = ""
+    const savevariables = data.savevariables;
+    let ready = "";
+    let variables = "";
+    let namestoDBM = "";
 
-    if (svars == "0") {
-      try {vars = eval(`[${data.vars}]`);} catch (e) {console.log(e); }
-      try {nvars = eval(`[${data.nvars}]`); save()} catch (e) {console.log(e); }
+    if (savevariables === '0') {
+      function save() {
 
-        function save() {
+        const typeofvars = data.typeofvars
+        let times = 0
 
-          const tvars = data.tvars
-          let times = 0
+        const variableslength = variables.length -1
+        const namestoDBMlength = namestoDBM.length -1
 
-          let varslength = vars.length -1
-          let nvarslength = nvars.length -1
+        const length = variableslength === namestoDBMlength ? variableslength : "Error!"
 
-          let length = varslength == nvarslength ? varslength : "Error!"
-
-          while (times <= length) {
-            ready += ` Actions.storeValue(${vars[times]}, ${tvars}, "${nvars[times]}", cache);\n`
-            times++
-          }
-
+        while (times <= length) {
+          ready += ` Actions.storeValue(${variables[times]}, ${typeofvars}, "${namestoDBM[times]}", cache);\n`
+          times++
         }
+      }
 
+      try {variables =         eval(`[${data.variables}]`);      } catch (e) {        console.log(e);     }
+      try {namestoDBM = eval(`[${data.namestoDBM}]`);        save();      } catch (e) {        console.log(e);     }
     }
 
-    let save2 = ready !== "" ? ready : ""
+    const save2 = ready !== '' ? ready : ''
 
     let code;
 
