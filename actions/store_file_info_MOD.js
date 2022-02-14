@@ -36,7 +36,7 @@ module.exports = {
     }
 
     if (parseInt(data.storage, 10) !== varType) return;
-    console.log(JSON.stringify(data))
+    console.log(JSON.stringify(data));
     return [data.varName, dataType];
   },
 
@@ -67,7 +67,7 @@ Variable name:<br>
   async action(cache) {
     const data = cache.actions[cache.index];
     const storage = this.eval(data.storage, 10);
-    console.log(storage)
+    console.log(storage);
     const { info } = data;
     const path = require('path');
     const fs = require('fs');

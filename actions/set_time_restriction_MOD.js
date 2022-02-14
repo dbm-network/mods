@@ -237,9 +237,8 @@ module.exports = {
     };
 
     DBM.Actions.TimeRestriction = function TimeRestriction(TRData, cmd, cache) {
-
       const author = TRData.author ?? TRData.user;
-      const { channel } = TRData
+      const { channel } = TRData;
 
       if (typeof Cooldown === 'undefined') this.LoadTimeRestriction(cache);
       const { Files } = DBM;
