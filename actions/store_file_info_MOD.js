@@ -16,31 +16,27 @@ module.exports = {
   fields: ['filePath', 'info', 'storage', 'varName'],
 
   variableStorage(data, varType) {
-    if (data.storage !== varType) return;
     let dataType = 'Unknown type';
-    switch (data.info) {
-      case 'File Size':
+    switch (parseInt(data.info, 10)) {
+      case 0:
+      case 2:
         dataType = 'Number';
         break;
-      case 'File Extension':
+      case 1:
+      case 5:
+      case 6:
         dataType = 'String';
         break;
-      case 'File Character Count':
-        dataType = 'Number';
-        break;
-      case 'File Creation Date Timestamp':
+      case 3:
         dataType = 'Timestamp';
         break;
-      case 'File Exists':
+      case 4:
         dataType = 'Boolean';
         break;
-      case 'File Content':
-        dataType = 'String';
-        break;
-      case 'File Name':
-        dataType = 'String';
-        break;
     }
+
+    if (parseInt(data.storage, 10) !== varType) return;
+    console.log(JSON.stringify(data))
     return [data.varName, dataType];
   },
 
@@ -50,13 +46,13 @@ File path (example: <strong>./bot.js</strong>):
 <input class='round' id='filePath' /><br>
 Info:
 <select class='round' id='info'>
-  <option value='File Size'>File Size</option>
-  <option value='File Extension'>File Extension</option>
-  <option value='File Character Count'>File Character Count</option>
-  <option value='File Creation Date Timestamp'>File Creation Date Timestamp</option>
-  <option value='File Exists'>File Exists</option>
-  <option value='File Content'>File Content</option>
-  <option value='File Name'>File Name</option>
+  <option value='0' selected>File Size</option>
+  <option value='1'>File Extension</option>
+  <option value='2'>File Character Count</option>
+  <option value='3'>File Creation Date Timestamp</option>
+  <option value='4'>File Exists</option>
+  <option value='5'>File Content</option>
+  <option value='6'>File Name</option>
 </select><br>
 Store in:<br>
 <select class='round' id='storage'>
@@ -68,9 +64,10 @@ Variable name:<br>
 
   init() {},
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
-    const storage = parseInt(data.storage, 10);
+    const storage = this.eval(data.storage, 10);
+    console.log(storage)
     const { info } = data;
     const path = require('path');
     const fs = require('fs');
@@ -81,25 +78,25 @@ Variable name:<br>
 
     let result;
     switch (info) {
-      case 'File Size':
+      case 0:
         result = fs.statSync(filePath).size;
         break;
-      case 'File Extension':
+      case 1:
         result = path.extname(/[^/]*$/.exec(filePath)[0]);
         break;
-      case 'File Character Count':
+      case 2:
         result = fs.readFileSync(filePath).toString().length;
         break;
-      case 'File Creation Date Timestamp':
+      case 3:
         result = fs.statSync(filePath).mtimeMs;
         break;
-      case 'File Exists':
+      case 4:
         result = fs.existsSync(filePath);
         break;
-      case 'File Content':
+      case 5:
         result = fs.readFileSync(filePath).toString();
         break;
-      case 'File Name':
+      case 6:
         result = path.basename(filePath);
         break;
     }
