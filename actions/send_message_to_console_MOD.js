@@ -32,9 +32,8 @@ module.exports = {
 
   init() {},
 
-  action(cache) {
-    const Mods = this.getMods();
-    const chalk = Mods.require('chalk');
+  async action(cache) {
+    const { default: chalk } = await import('chalk');
     const data = cache.actions[cache.index];
     const send = this.evalMessage(data.tosend, cache);
 
