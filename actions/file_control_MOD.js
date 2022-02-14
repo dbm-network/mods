@@ -233,7 +233,7 @@ module.exports = {
     selector.onclick = () => showInput();
   },
 
-  action(cache) {
+  async action(cache) {
     const path = require('path');
     const Mods = this.getMods();
     const fs = Mods.require('fs-extra');

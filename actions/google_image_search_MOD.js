@@ -95,7 +95,7 @@ module.exports = {
     glob.variableChange(document.getElementById('storage'), 'varNameContainer');
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const info = parseInt(data.info, 10);
     const string = this.evalMessage(data.string, cache).replace(/[\u{0080}-\u{FFFF}]/gu, '');

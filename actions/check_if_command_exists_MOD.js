@@ -96,7 +96,7 @@ module.exports = {
     glob.onChangeFalse(document.getElementById('iffalse'));
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const fs = require('fs');
     const jp = this.getMods().require('jsonpath');

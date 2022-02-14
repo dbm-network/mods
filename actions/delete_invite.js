@@ -36,7 +36,7 @@ module.exports = {
 
   init() {},
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const invite = this.evalMessage(data.invite, cache);
     const reason = this.evalMessage(data.reason, cache);

@@ -56,7 +56,7 @@ module.exports = {
 
   init() {},
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const FN = parseFloat(this.evalMessage(data.FirstNumber, cache).replace(/,/g, ''));
     const SN = parseFloat(this.evalMessage(data.SecondNumber, cache).replace(/,/g, ''));

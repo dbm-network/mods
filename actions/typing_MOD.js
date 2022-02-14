@@ -61,11 +61,11 @@ module.exports = {
     glob.channelChange(document.getElementById('storage'), 'varNameContainer');
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.VarName, cache);
-    const channel = this.getChannel(storage, varName, cache);
+    const channel = await this.getChannel(storage, varName, cache);
 
     try {
       data.typing === '0' ? channel.startTyping() : channel.stopTyping();

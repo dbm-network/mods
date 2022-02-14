@@ -52,7 +52,7 @@ module.exports = {
 
   init() {},
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
 
     const embedstorage = parseInt(data.embedstorage, 10);

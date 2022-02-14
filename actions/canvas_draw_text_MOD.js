@@ -61,7 +61,7 @@ module.exports = {
     glob.refreshVariableList(document.getElementById('storage'));
   },
 
-  action(cache) {
+  async action(cache) {
     const Canvas = require('canvas');
     const opentype = require('opentype.js');
     const data = cache.actions[cache.index];

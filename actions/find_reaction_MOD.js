@@ -66,11 +66,11 @@ module.exports = {
     glob.messageChange(document.getElementById('message'), 'varNameContainer');
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const message = parseInt(data.message, 10);
     const varName = this.evalMessage(data.varName, cache);
-    const msg = this.getMessage(message, varName, cache);
+    const msg = await this.getMessage(message, varName, cache);
     const info = parseInt(data.info, 10);
     const emoji = this.evalMessage(data.find, cache);
 

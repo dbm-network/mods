@@ -54,7 +54,7 @@ module.exports = {
 
   init() {},
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const url = this.evalMessage(data.url, cache);
     const varName = this.evalMessage(data.varName, cache);

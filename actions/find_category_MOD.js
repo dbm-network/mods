@@ -95,7 +95,7 @@ module.exports = {
 
   init() {},
 
-  action(cache) {
+  async action(cache) {
     const { server } = cache;
     if (!server || !server.channels) return this.callNextAction(cache);
     const data = cache.actions[cache.index];

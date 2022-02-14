@@ -105,7 +105,7 @@ module.exports = {
     glob.variableChange(document.getElementById('source'), 'sourceVarNameContainer');
   },
 
-  action(cache) {
+  async action(cache) {
     function manageXmlParseError(msg, errorLevel, errorLog) {
       if (errorLog.errorLevel === null || errorLog.errorLevel < errorLevel) {
         errorLog.errorLevel = errorLevel;

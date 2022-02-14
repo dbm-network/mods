@@ -352,7 +352,7 @@ module.exports = {
     glob.typeChange(document.getElementById('type'));
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const type = parseInt(data.type, 10);
     const { Permissions } = this.getDBM().DiscordJS;

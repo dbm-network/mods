@@ -138,7 +138,7 @@ module.exports = {
     glob.emojiChange(document.getElementById('emoji'));
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const emoji = parseInt(data.emoji, 10);
     const varName = this.evalMessage(data.varName, cache);

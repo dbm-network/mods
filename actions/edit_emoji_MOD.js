@@ -42,7 +42,7 @@ module.exports = {
     glob.emojiChange(document.getElementById('storage'));
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const emojiData = {};
     if (data.emojiName) emojiData.name = this.evalMessage(data.emojiName, cache);

@@ -95,7 +95,7 @@ module.exports = {
     glob.onChangeFalse(document.getElementById('iffalse'));
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const fs = require('fs');
     const path = this.evalMessage(data.filename, cache);

@@ -53,7 +53,7 @@ module.exports = {
     glob.refreshVariableList(document.getElementById('storage'));
   },
 
-  action(cache) {
+  async action(cache) {
     const { Actions } = this.getDBM();
     const data = cache.actions[cache.index];
 
