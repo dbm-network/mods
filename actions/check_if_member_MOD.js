@@ -127,11 +127,11 @@ module.exports = {
     glob.onChangeFalse(document.getElementById('iffalse'));
   },
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const type = parseInt(data.member, 10);
     const varName = this.evalMessage(data.varName, cache);
-    const member = this.getMember(type, varName, cache);
+    const member = await this.getMember(type, varName, cache);
     const info = parseInt(data.info, 10);
     const { Files } = this.getDBM();
     const { msg } = cache;
@@ -175,7 +175,7 @@ module.exports = {
         result = member.id === msg.author.id;
         break;
       case 10:
-        result = member.id === msg.guild.ownerID;
+        result = member.id === msg.guild.ownerId;
         break;
       default:
         console.log('Please check your "Check if Member" action! There is something wrong...');
