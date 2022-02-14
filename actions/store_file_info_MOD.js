@@ -36,7 +36,6 @@ module.exports = {
     }
 
     if (parseInt(data.storage, 10) !== varType) return;
-    console.log(JSON.stringify(data));
     return [data.varName, dataType];
   },
 
