@@ -136,6 +136,8 @@ module.exports = {
     const { Files } = this.getDBM();
     const { msg } = cache;
 
+    if (!member) return console.error('You need to provide a member of some sort.')
+
     let result = false;
     switch (info) {
       case 0:
