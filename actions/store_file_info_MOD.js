@@ -34,7 +34,6 @@ module.exports = {
         dataType = 'Boolean';
         break;
     }
-
     if (parseInt(data.storage, 10) !== varType) return;
     return [data.varName, dataType];
   },
@@ -65,8 +64,7 @@ Variable name:<br>
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const storage = this.eval(data.storage, 10);
-    console.log(storage);
+    const storage = parseInt(data.storage, 10);
     const { info } = data;
     const path = require('path');
     const fs = require('fs');
