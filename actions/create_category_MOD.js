@@ -50,7 +50,7 @@ Name:<br>
   async action(cache) {
     const data = cache.actions[cache.index];
     const { server } = cache;
-    if (!server?.channels?.create) return this.callnextAction(cache);
+    if (!server?.channels?.create) return this.callNextAction(cache);
 
     const name = this.evalMessage(data.channelName, cache);
     const position = this.evalMessage(data.position, cache);
