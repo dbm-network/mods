@@ -12,9 +12,9 @@ module.exports = {
       if (!Bot.$evts['Invite Used']) return;
       const server = member.guild;
       if (server.me.permissions.has('MANAGE_GUILD')) {
-        server.fetchInvites().then((invites) => {
+        server.invites.fetch().then((invites) => {
           const prior = guildInvites[server.id];
-          const used = prior.filter((c) => c.uses < invites.get(c.code).uses).first();
+          const used = prior.filter((c) => c.uses < invites.get(c.code)?.uses).first();
           if (!used) return;
           for (const event of Bot.$evts['Invite Used']) {
             const temp = {};
@@ -27,28 +27,27 @@ module.exports = {
     };
     const { onReady } = Bot;
     Bot.onReady = function inviteUsedOnReady(...params) {
-      // To not over-consume memory.
       if (Bot.$evts['Invite Used']) {
         setTimeout(() => {
           Bot.bot.guilds.cache.forEach((g) => {
             if (g.me.permissions.has('MANAGE_GUILD')) {
-              g.fetchInvites().then((invites) => {
+              g.invites.fetch().then((invites) => {
                 guildInvites[g.id] = invites;
               });
             }
           });
-        }, 1000);
+        }, 1000).unref();
         Bot.bot.on('guildMemberAdd', DBM.Events.inviteUsed);
         Bot.bot.on('inviteDelete', (inv) => {
           if (inv.guild.me.permissions.has('MANAGE_GUILD')) {
-            inv.guild.fetchInvites().then((invites) => {
+            inv.guild.invites.fetch().then((invites) => {
               guildInvites[inv.guild.id] = invites;
             });
           }
         });
         Bot.bot.on('inviteCreate', (inv) => {
           if (inv.guild.me.permissions.has('MANAGE_GUILD')) {
-            inv.guild.fetchInvites().then((invites) => {
+            inv.guild.invites.fetch().then((invites) => {
               guildInvites[inv.guild.id] = invites;
             });
           }
