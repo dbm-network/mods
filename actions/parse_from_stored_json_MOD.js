@@ -13,8 +13,9 @@ module.exports = {
     return `${data.varName}`;
   },
 
-  variableStorage(data, varType) {
-    if (parseInt(data.storage, 10) !== varType) return;
+  variableStorage (data, varType) {
+    const type = parseInt(data.storage);
+    if (type !== varType) return;
     if (varType === 'object') return [data.varName, 'JSON Object'];
     return [data.varName, `JSON ${varType} Value`];
   },
@@ -88,16 +89,16 @@ module.exports = {
     glob.refreshVariableList(document.getElementById('storage'));
   },
 
-  async action(cache) {
+  action(cache) {
     const Mods = this.getMods();
     const data = cache.actions[cache.index];
     const varName = this.evalMessage(data.varName, cache);
-    const storage = parseInt(data.storage, 10);
-    const type = parseInt(data.varStorage, 10);
+    const storage = parseInt(data.storage);
+    const type = parseInt(data.varStorage);
     const jsonObjectVarName = this.evalMessage(data.jsonObjectVarName, cache);
     const path = this.evalMessage(data.path, cache);
     const jsonRaw = this.getVariable(type, jsonObjectVarName, cache);
-    const DEBUG = parseInt(data.debugMode, 10);
+    const DEBUG = parseInt(data.debugMode);
 
     let jsonData = jsonRaw;
     if (typeof jsonRaw !== 'object') {
@@ -130,7 +131,7 @@ module.exports = {
 
         const outValue = eval(JSON.stringify(outData), cache);
 
-        if (outData.success !== null || outValue.success !== null) {
+        if (outData.success != null || outValue.success != null) {
           const errorJson = JSON.stringify({
             error: 'error',
             statusCode: 0,
@@ -138,7 +139,7 @@ module.exports = {
           });
           this.storeValue(errorJson, storage, varName, cache);
           console.log(`WebAPI Parser: Error Invalid JSON, is the Path set correctly? [${path}]`);
-        } else if (outValue.success !== null || !outValue) {
+        } else if (outValue.success != null || !outValue) {
           const errorJson = JSON.stringify({
             error: 'error',
             statusCode: 0,
