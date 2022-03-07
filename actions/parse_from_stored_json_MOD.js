@@ -13,9 +13,8 @@ module.exports = {
     return `${data.varName}`;
   },
 
-  variableStorage (data, varType) {
-    const type = parseInt(data.storage);
-    if (type !== varType) return;
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
     if (varType === 'object') return [data.varName, 'JSON Object'];
     return [data.varName, `JSON ${varType} Value`];
   },
@@ -89,12 +88,13 @@ module.exports = {
     glob.refreshVariableList(document.getElementById('storage'));
   },
 
+  /* @this {import("../utils/Actions.js").default} */
   action(cache) {
     const Mods = this.getMods();
     const data = cache.actions[cache.index];
     const varName = this.evalMessage(data.varName, cache);
-    const storage = parseInt(data.storage);
-    const type = parseInt(data.varStorage);
+    const storage = parseInt(data.storage, 10);
+    const type = parseInt(data.varStorage, 10);
     const jsonObjectVarName = this.evalMessage(data.jsonObjectVarName, cache);
     const path = this.evalMessage(data.path, cache);
     const jsonRaw = this.getVariable(type, jsonObjectVarName, cache);
@@ -109,12 +109,10 @@ module.exports = {
       if (path && jsonData) {
         let outData = Mods.jsonPath(jsonData, path);
 
-        // if it doesn't work, try to go back one path
         if (outData === false) {
           outData = Mods.jsonPath(jsonData, `$.${path}`);
         }
 
-        // if it still doesn't work, try to go back two paths
         if (outData === false) {
           outData = Mods.jsonPath(jsonData, `$..${path}`);
         }
@@ -131,22 +129,22 @@ module.exports = {
 
         const outValue = eval(JSON.stringify(outData), cache);
 
-        if (outData.success != null || outValue.success != null) {
+        if (outData.success === null || outValue.success === null) {
           const errorJson = JSON.stringify({
             error: 'error',
             statusCode: 0,
             success: false,
           });
           this.storeValue(errorJson, storage, varName, cache);
-          console.log(`WebAPI Parser: Error Invalid JSON, is the Path set correctly? [${path}]`);
-        } else if (outValue.success != null || !outValue) {
+          console.log(`1: WebAPI Parser: Error Invalid JSON, is the Path set correctly? [${path}]`);
+        } else if (!outValue || outValue.success === null) {
           const errorJson = JSON.stringify({
             error: 'error',
             statusCode: 0,
             success: false,
           });
           this.storeValue(errorJson, storage, varName, cache);
-          console.log(`WebAPI Parser: Error Invalid JSON, is the Path set correctly? [${path}]`);
+          console.log(`2: WebAPI Parser: Error Invalid JSON, is the Path set correctly? [${path}]`);
         } else {
           this.storeValue(outValue, storage, varName, cache);
           if (DEBUG) {
