@@ -98,7 +98,7 @@ module.exports = {
     const jsonObjectVarName = this.evalMessage(data.jsonObjectVarName, cache);
     const path = this.evalMessage(data.path, cache);
     const jsonRaw = this.getVariable(type, jsonObjectVarName, cache);
-    const DEBUG = parseInt(data.debugMode);
+    const DEBUG = parseInt(data.debugMode, 10);
 
     let jsonData = jsonRaw;
     if (typeof jsonRaw !== 'object') {
