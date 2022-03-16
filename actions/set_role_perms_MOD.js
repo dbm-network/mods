@@ -137,34 +137,8 @@ module.exports = {
     const info = parseInt(data.permission, 10);
     const reason = this.evalMessage(data.reason, cache);
 
-    if (data.permission === '29') {
-      const options = {};
-      options[data.permission] = data.state === '0' ? true : data.state === '1' ? false : null;
-      if (role && role.id) {
-        if (Array.isArray(role)) {
-          this.callListFunc(role, 'setPermissions', [role.id, options]).then(() => {
-            this.callNextAction(cache);
-          });
-        }
-        if (data.state === '0') {
-          role
-            .setPermissions(2146958847, reason)
-            .then(() => {
-              this.callNextAction(cache);
-            })
-            .catch(this.displayError.bind(this, data, cache));
-        } else if (data.state === '1') {
-          role
-            .setPermissions([0], reason)
-            .then(() => {
-              this.callNextAction(cache);
-            })
-            .catch(this.displayError.bind(this, data, cache));
-        }
-        this.callNextAction(cache);
-      }
-      this.callNextAction(cache);
-    }
+    const options = {};
+    options[data.permission] = data.state === '0';
 
     let result;
     switch (info) {
@@ -255,34 +229,34 @@ module.exports = {
       case 28:
         result = 33554432;
         break;
+      case 29:
+        result = 1099511627775;
+        break;
       case 30:
         result = 200;
         break;
       default:
         break;
     }
-
-    const options = {};
-    options[data.permission] = data.state === '0' ? true : data.state === '1' ? false : null;
     result = BigInt(result);
+
     if (role && role.id) {
+      const perms = role.permissions;
       if (Array.isArray(role)) {
         this.callListFunc(role, 'setPermissions', [role.id, options]).then(() => {
           this.callNextAction(cache);
         });
       }
       if (data.state === '0') {
-        const perms = role.permissions;
         role
           .setPermissions([perms, result], reason)
           .then(() => {
             this.callNextAction(cache);
           })
           .catch(this.displayError.bind(this, data, cache));
-      } else if (data.state === '1') {
-        const perms2 = role.permissions - result;
+      } else {
         role
-          .setPermissions([perms2], reason)
+          .setPermissions([perms - result], reason)
           .then(() => {
             this.callNextAction(cache);
           })
