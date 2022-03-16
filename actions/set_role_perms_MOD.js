@@ -2,7 +2,7 @@ module.exports = {
   name: 'Set Role Permissions',
   section: 'Role Control',
   meta: {
-    version: '2.0.11',
+    version: '2.1.1',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -264,6 +264,7 @@ module.exports = {
 
     const options = {};
     options[data.permission] = data.state === '0' ? true : data.state === '1' ? false : null;
+    result = BigInt(result);
     if (role && role.id) {
       if (Array.isArray(role)) {
         this.callListFunc(role, 'setPermissions', [role.id, options]).then(() => {
