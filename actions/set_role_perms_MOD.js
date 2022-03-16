@@ -59,7 +59,7 @@ module.exports = {
       'Move Members',
       'Manage Events',
       'Administrator',
-      'All Permissions'
+      'All Permissions',
     ];
     return `${roles[data.role]} - ${perm[data.permission]} - ${index[data.state]} ${
       !data.reason ? '' : `with Reason: <i>${data.reason}<i>`
