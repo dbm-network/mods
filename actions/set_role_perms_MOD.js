@@ -2,7 +2,7 @@ module.exports = {
   name: 'Set Role Permissions',
   section: 'Role Control',
   meta: {
-    version: '2.0.11',
+    version: '2.1.1',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -137,159 +137,127 @@ module.exports = {
     const info = parseInt(data.permission, 10);
     const reason = this.evalMessage(data.reason, cache);
 
-    if (data.permission === '29') {
-      const options = {};
-      options[data.permission] = data.state === '0' ? true : data.state === '1' ? false : null;
-      if (role && role.id) {
-        if (Array.isArray(role)) {
-          this.callListFunc(role, 'setPermissions', [role.id, options]).then(() => {
-            this.callNextAction(cache);
-          });
-        }
-        if (data.state === '0') {
-          role
-            .setPermissions(2146958847, reason)
-            .then(() => {
-              this.callNextAction(cache);
-            })
-            .catch(this.displayError.bind(this, data, cache));
-        } else if (data.state === '1') {
-          role
-            .setPermissions([0], reason)
-            .then(() => {
-              this.callNextAction(cache);
-            })
-            .catch(this.displayError.bind(this, data, cache));
-        }
-        this.callNextAction(cache);
-      }
-      this.callNextAction(cache);
-    }
+    const options = {};
+    options[data.permission] = data.state === '0';
 
     let result;
     switch (info) {
       case 0:
-        result = 8;
+        result = 8n;
         break;
       case 1:
-        result = 32;
+        result = 32n;
         break;
       case 2:
-        result = 134217728;
+        result = 134217728n;
         break;
       case 3:
-        result = 268435456;
+        result = 268435456n;
         break;
       case 4:
-        result = 1073741824;
+        result = 1073741824n;
         break;
       case 5:
-        result = 2;
+        result = 2n;
         break;
       case 6:
-        result = 4;
+        result = 4n;
         break;
       case 7:
-        result = 128;
+        result = 128n;
         break;
       case 8:
-        result = 67108864;
+        result = 67108864n;
         break;
       case 9:
-        result = 1;
+        result = 1n;
         break;
       case 10:
-        result = 256;
+        result = 256n;
         break;
       case 11:
-        result = 16;
+        result = 16n;
         break;
       case 12:
-        result = 536870912;
+        result = 536870912n;
         break;
       case 13:
-        result = 1024;
+        result = 1024n;
         break;
       case 14:
-        result = 2048;
+        result = 2048n;
         break;
       case 15:
-        result = 4096;
+        result = 4096n;
         break;
       case 16:
-        result = 8192;
+        result = 8192n;
         break;
       case 17:
-        result = 16384;
+        result = 16384n;
         break;
       case 18:
-        result = 32768;
+        result = 32768n;
         break;
       case 19:
-        result = 65536;
+        result = 65536n;
         break;
       case 20:
-        result = 131072;
+        result = 131072n;
         break;
       case 21:
-        result = 262144;
+        result = 262144n;
         break;
       case 22:
-        result = 64;
+        result = 64n;
         break;
       case 23:
-        result = 1048576;
+        result = 1048576n;
         break;
       case 24:
-        result = 2097152;
+        result = 2097152n;
         break;
       case 25:
-        result = 4194304;
+        result = 4194304n;
         break;
       case 26:
-        result = 8388608;
+        result = 8388608n;
         break;
       case 27:
-        result = 16777216;
+        result = 16777216n;
         break;
       case 28:
-        result = 33554432;
+        result = 33554432n;
+        break;
+      case 29:
+        result = 1099511627775n;
         break;
       case 30:
-        result = 200;
+        result = 200n;
         break;
       default:
         break;
     }
 
-    const options = {};
-    options[data.permission] = data.state === '0' ? true : data.state === '1' ? false : null;
-    if (role && role.id) {
+    if (role?.id) {
+      const perms = role.permissions;
       if (Array.isArray(role)) {
-        this.callListFunc(role, 'setPermissions', [role.id, options]).then(() => {
-          this.callNextAction(cache);
-        });
+        this.callListFunc(role, 'setPermissions', [role.id, options]).then(() => this.callNextAction(cache));
       }
       if (data.state === '0') {
-        const perms = role.permissions;
         role
           .setPermissions([perms, result], reason)
-          .then(() => {
-            this.callNextAction(cache);
-          })
+          .then(() => this.callNextAction(cache))
           .catch(this.displayError.bind(this, data, cache));
-      } else if (data.state === '1') {
-        const perms2 = role.permissions - result;
+      } else {
         role
-          .setPermissions([perms2], reason)
-          .then(() => {
-            this.callNextAction(cache);
-          })
+          .setPermissions([perms - result], reason)
+          .then(() => this.callNextAction(cache))
           .catch(this.displayError.bind(this, data, cache));
       }
+    } else {
       this.callNextAction(cache);
     }
-    this.callNextAction(cache);
   },
 
   mod() {},
