@@ -317,7 +317,7 @@ module.exports = {
           .catch(this.displayError.bind(this, data, cache));
       } else {
         role
-          .setPermissions((info != 29) ? [perms - result] : [0n], reason)
+          .setPermissions(info !== 29 ? [perms - result] : [0n], reason)
           .then(() => this.callNextAction(cache))
           .catch(this.displayError.bind(this, data, cache));
       }
