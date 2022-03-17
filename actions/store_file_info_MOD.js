@@ -16,7 +16,7 @@ module.exports = {
   fields: ['filePath', 'info', 'storage', 'varName'],
 
   variableStorage(data, varType) {
-    if (data.storage !== varType) return;
+    if (parseInt(data.storage, 10) !== varType) return;
     let dataType = 'Unknown type';
     switch (data.info) {
       case 'File Size':

@@ -7,10 +7,6 @@
     "description": "Adds additional fields to your commands for use in an automatic help command",
     "name": "Command Info"
   },
-  "dashboard_EXT.js": {
-    "description": "Discord Bot Maker Dashboard.",
-    "name": "Bot Dashboard"
-  },
   "multiple_bot_owners_EXT.js": {
     "description": "Allows the bot to have multiple owners.",
     "name": "Multiple Bot Owners"

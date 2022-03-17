@@ -414,7 +414,7 @@ module.exports = {
         },
       };
 
-      if (!DEBUG) {
+      if (DEBUG === 0) {
         options.logging = false;
       }
 
