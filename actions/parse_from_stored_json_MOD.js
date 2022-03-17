@@ -136,7 +136,7 @@ module.exports = {
           });
           this.storeValue(errorJson, storage, varName, cache);
           console.log(`1: WebAPI Parser: Error Invalid JSON, is the Path set correctly? [${path}]`);
-        } else if (outValue.success === null || !outValue) {
+        } else if (!outValue || outValue.success === null) {
           const errorJson = JSON.stringify({
             error: 'error',
             statusCode: 0,
