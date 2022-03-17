@@ -297,6 +297,7 @@ module.exports = {
         break;
       case 39:
         result = 549755813888n;
+        break;
       case 40:
         result = 8589934592n;
         break;
