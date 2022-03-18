@@ -9,15 +9,7 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/set_role_perms_MOD.js',
   },
 
-  subtitle(data) {
-    const roles = [
-      'Mentioned Role',
-      '1st Author Role',
-      '1st Server Role',
-      'Temp Variable',
-      'Server Variable',
-      'Global Variable',
-    ];
+  subtitle(data, presets) {
     const index = ['Granted', 'Denied'];
     const perm = [
       'Administrator',
@@ -62,7 +54,7 @@ module.exports = {
       'Use Activities',
       'Manage Events',
     ];
-    return `${roles[data.role]} - ${perm[data.permission]} - ${index[data.state]} ${
+    return `${presets.getRoleText(data.role, data.varName)} - ${perm[data.permission]} - ${index[data.state]} ${
       !data.reason ? '' : `with Reason: <i>${data.reason}<i>`
     }`;
   },
