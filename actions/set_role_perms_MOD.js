@@ -33,7 +33,7 @@ module.exports = {
       'Priority Speaker',
       'Manage Channel',
       'Manage Webhooks',
-      'Read Messages',
+      'Read Messages (Deprecated)',
       'Send Messages',
       'Send TTS Messages',
       'Manage Messages',
@@ -107,6 +107,7 @@ module.exports = {
       </optgroup>
       
       <optgroup label="Text Channel Permissions">
+        <option value="13" class="deprecated" disabled>Read Messages (Deprecated)</option>
         <option value="14">Send Messages</option>
         <option value="33">Send Messages In Threads</option>
         <option value="34">Create Public Threads</option>
@@ -157,7 +158,15 @@ module.exports = {
 <div style="padding-top: 8px;">
   Reason:<br>
   <textarea id="reason" rows="2" placeholder="Insert reason here... (optional)" style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
-</div>`;
+</div>
+<style>
+.deprecated[disabled] {
+  color: var(--placeholder-text-color, #aaa);
+}
+.deprecated[disabled]:not(:checked) {
+  display:none;
+}
+</style>`;
   },
 
   init() {
@@ -167,139 +176,137 @@ module.exports = {
 
   async action(cache) {
     const data = cache.actions[cache.index];
+    const { FLAGS, ALL } = this.getDBM().DiscordJS.Permissions;
     const storage = parseInt(data.role, 10);
     const varName = this.evalMessage(data.varName, cache);
     const role = await this.getRole(storage, varName, cache);
     const info = parseInt(data.permission, 10);
     const reason = this.evalMessage(data.reason, cache);
 
-    const options = {};
-    options[data.permission] = data.state === '0';
-
     let result;
     switch (info) {
       case 0:
-        result = 8n;
+        result = FLAGS.ADMINISTRATOR;
         break;
       case 1:
-        result = 32n;
+        result = FLAGS.MANAGE_GUILD;
         break;
       case 2:
-        result = 134217728n;
+        result = FLAGS.MANAGE_NICKNAMES;
         break;
       case 3:
-        result = 268435456n;
+        result = FLAGS.MANAGE_ROLES;
         break;
       case 4:
-        result = 1073741824n;
+        result = FLAGS.MANAGE_EMOJIS_AND_STICKERS;
         break;
       case 5:
-        result = 2n;
+        result = FLAGS.KICK_MEMBERS;
         break;
       case 6:
-        result = 4n;
+        result = FLAGS.BAN_MEMBERS;
         break;
       case 7:
-        result = 128n;
+        result = FLAGS.VIEW_AUDIT_LOG;
         break;
       case 8:
-        result = 67108864n;
+        result = FLAGS.CHANGE_NICKNAME;
         break;
       case 9:
-        result = 1n;
+        result = FLAGS.CREATE_INSTANT_INVITE;
         break;
       case 10:
-        result = 256n;
+        result = FLAGS.PRIORITY_SPEAKER;
         break;
       case 11:
-        result = 16n;
+        result = FLAGS.MANAGE_CHANNELS;
         break;
       case 12:
-        result = 536870912n;
+        result = FLAGS.MANAGE_WEBHOOKS;
         break;
       case 13:
-        result = 1024n;
+        result = FLAGS.VIEW_CHANNEL; //Read Messages (Deprecated) fallback
         break;
       case 14:
-        result = 2048n;
+        result = FLAGS.SEND_MESSAGES;
         break;
       case 15:
-        result = 4096n;
+        result = FLAGS.SEND_TTS_MESSAGES;
         break;
       case 16:
-        result = 8192n;
+        result = FLAGS.MANAGE_MESSAGES;
         break;
       case 17:
-        result = 16384n;
+        result = FLAGS.EMBED_LINKS;
         break;
       case 18:
-        result = 32768n;
+        result = FLAGS.ATTACH_FILES;
         break;
       case 19:
-        result = 65536n;
+        result = FLAGS.READ_MESSAGE_HISTORY;
         break;
       case 20:
-        result = 131072n;
+        result = FLAGS.MENTION_EVERYONE;
         break;
       case 21:
-        result = 262144n;
+        result = FLAGS.USE_EXTERNAL_EMOJIS;
         break;
       case 22:
-        result = 64n;
+        result = FLAGS.ADD_REACTIONS;
         break;
       case 23:
-        result = 1048576n;
+        result = FLAGS.CONNECT;
         break;
       case 24:
-        result = 2097152n;
+        result = FLAGS.SPEAK;
         break;
       case 25:
-        result = 4194304n;
+        result = FLAGS.MUTE_MEMBERS;
         break;
       case 26:
-        result = 8388608n;
+        result = FLAGS.DEAFEN_MEMBERS;
         break;
       case 27:
-        result = 16777216n;
+        result = FLAGS.MOVE_MEMBERS;
         break;
       case 28:
-        result = 33554432n;
+        result = FLAGS.USE_VAD;
         break;
       case 29:
-        result = 2199023255551n;
+        result = ALL;
         break;
       case 30:
-        result = 200n;
+        result = FLAGS.STREAM;
         break;
       case 31:
-        result = 1024n;
+        result = FLAGS.VIEW_CHANNEL;
         break;
       case 32:
-        result = 1099511627776n;
+        result = FLAGS.MODERATE_MEMBERS;
         break;
       case 33:
-        result = 274877906944n;
+        result = FLAGS.SEND_MESSAGES_IN_THREADS;
         break;
       case 34:
-        result = 34359738368n;
+        result = FLAGS.CREATE_PUBLIC_THREADS;
         break;
       case 35:
-        result = 68719476736n;
+        result = FLAGS.CREATE_PRIVATE_THREADS;
         break;
       case 36:
-        result = 137438953472n;
+        result = FLAGS.USE_EXTERNAL_STICKERS;
         break;
       case 37:
-        result = 17179869184n;
+        result = FLAGS.MANAGE_THREADS;
         break;
       case 38:
-        result = 2147483648n;
+        result = FLAGS.USE_APPLICATION_COMMANDS;
         break;
       case 39:
-        result = 549755813888n;
+        result = FLAGS.START_EMBEDDED_ACTIVITIES;
         break;
       case 40:
-        result = 8589934592n;
+        result = FLAGS.MANAGE_EVENTS;
         break;
       default:
         break;
@@ -308,9 +315,6 @@ module.exports = {
     if (role?.id) {
       const perms = role.permissions;
 
-      if (Array.isArray(role))
-        this.callListFunc(role, 'setPermissions', [role.id, options]).then(() => this.callNextAction(cache));
-
       if (data.state === '0') {
         role
           .setPermissions([perms, result], reason)
@@ -318,7 +322,7 @@ module.exports = {
           .catch(this.displayError.bind(this, data, cache));
       } else {
         role
-          .setPermissions(info !== 29 ? [perms - result] : [0n], reason)
+          .setPermissions(result !== ALL ? [perms - result] : [0n], reason)
           .then(() => this.callNextAction(cache))
           .catch(this.displayError.bind(this, data, cache));
       }
