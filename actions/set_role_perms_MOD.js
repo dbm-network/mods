@@ -225,7 +225,7 @@ module.exports = {
         result = FLAGS.MANAGE_WEBHOOKS;
         break;
       case 13:
-        result = FLAGS.VIEW_CHANNEL; //Read Messages (Deprecated) fallback
+        result = FLAGS.VIEW_CHANNEL; // Read Messages (Deprecated) fallback
         break;
       case 14:
         result = FLAGS.SEND_MESSAGES;
