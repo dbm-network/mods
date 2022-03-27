@@ -9,11 +9,9 @@ module.exports = {
     authorUrl: 'https://github.com/dbm-network/mods',
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/check_parameters_MOD.js',
   },
-
   subtitle(data, presets) {
     return `${presets.getConditionsText(data)}`;
   },
-  
   fields: [
     'condition',
     'comparison',
@@ -95,12 +93,12 @@ module.exports = {
         case 2:
           result = value > value2;
           break;
-		case 3:
-		  result = value <= value2;
-		  break;
-		case 4:
-		  result = value >= value2;
-		  break;
+        case 3:
+          result = value <= value2;
+          break;
+        case 4:
+          result = value >= value2;
+          break;
       }
     }
     this.executeResults(result, data?.branch ?? data, cache);
