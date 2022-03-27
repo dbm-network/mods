@@ -1,23 +1,19 @@
 module.exports = {
   commandOnly: true,
-  name: 'Check Parameters',
-  section: 'Conditions',
+  name: "Check Parameters",
+  section: "Conditions",
   meta: {
-    version: '2.2.0',
+    version: "2.2.0",
     preciseCheck: true,
-    author: 'Giingu',
-    authorUrl: 'https://github.com/dbm-network/mods',
-    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/check_parameters_MOD.js',
+    author: "Giingu",
+    authorUrl: "https://github.com/dbm-network/mods",
+    downloadURL:
+      "https://github.com/dbm-network/mods/blob/master/actions/check_parameters_MOD.js",
   },
   subtitle(data, presets) {
     return `${presets.getConditionsText(data)}`;
   },
-  fields: [
-    'condition',
-    'comparison',
-    'value',
-    'branch'
-  ],
+  fields: ["condition", "comparison", "value", "branch"],
 
   html(isEvent, data) {
     return `
