@@ -88,8 +88,7 @@ module.exports = {
     glob.refreshVariableList(document.getElementById('storage'));
   },
 
-  /* @this {import("../utils/Actions.js").default} */
-  action(cache) {
+  async action(cache) {
     const Mods = this.getMods();
     const data = cache.actions[cache.index];
     const varName = this.evalMessage(data.varName, cache);
