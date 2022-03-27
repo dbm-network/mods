@@ -257,7 +257,7 @@ module.exports = {
 
   html(isEvent, data) {
     return `
-<div id ="wrexdiv" style="width: 550px height: 350px overflow-y: scroll overflow-x: hidden">
+<div id="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
   <div style="float: left width: 42%">
     <br>Source Type:<br>
     <select id="type" class="round" onchange="glob.onChange1(this)">
