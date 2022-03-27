@@ -7,8 +7,7 @@ module.exports = {
     preciseCheck: true,
     author: 'Giingu',
     authorUrl: 'https://github.com/dbm-network/mods',
-    downloadURL:
-      'https://github.com/dbm-network/mods/blob/master/actions/check_parameters_MOD.js',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/check_parameters_MOD.js',
   },
   subtitle(data, presets) {
     return `${presets.getConditionsText(data)}`;
