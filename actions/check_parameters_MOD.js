@@ -5,14 +5,7 @@ module.exports = {
   subtitle(data, presets) {
     return `${presets.getConditionsText(data)}`;
   },
-  meta: {
-	author:'Giingu', 
-	version: '2.2.0',
-	preciseCheck: true,
-	author: null,
-	authorUrl: 'https://github.com/dbm-network/mods',
-	downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/check_parameters_MOD.js'
-	},
+  meta: {author:'Giingu',version:'2.2.0',preciseCheck:true,author:null,authorUrl:'https://github.com/dbm-network/mods',downloadURL:'https://github.com/dbm-network/mods/blob/master/actions/check_parameters_MOD.js'},
   
   fields: ['condition', 'comparison', 'value', 'branch'],
 
