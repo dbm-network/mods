@@ -236,38 +236,32 @@ module.exports = {
       const maxUsers = parseInt(this.evalMessage(data.maxUsers, cache), 10);
       const time = parseInt(this.evalMessage(data.time, cache), 10);
 
+      const filter = (reaction, user) => {
+        const { interaction, msg: message, server } = cache;
+        const author = message?.author ?? interaction?.user;
+        const member = message?.member ?? interaction?.member;
+        const tempVars = Actions.getActionVariable.bind(cache.temp);
+        const globalVars = Actions.getActionVariable.bind(Actions.global);
+        const serverVars = server ? Actions.getActionVariable.bind(Actions.server[server.id]) : null;
+
+        try {
+          return Boolean(eval(js));
+        } catch {
+          return false;
+        }
+      };
+
       msg
-        .awaitReactions(
-          (reaction, user) => {
-            const { msg: message, server } = cache;
-            let member;
-            let author;
-            const tempVars = Actions.getActionVariable.bind(cache.temp);
-            const globalVars = Actions.getActionVariable.bind(Actions.global);
-            let serverVars = null;
-
-            if (message) {
-              member = message.member;
-              author = message.author;
-            }
-            if (server) serverVars = Actions.getActionVariable.bind(Actions.server[server.id]);
-
-            try {
-              return Boolean(eval(js));
-            } catch {
-              return false;
-            }
-          },
-          {
-            max,
-            maxEmojis,
-            maxUsers,
-            time,
-            errors: ['time'],
-          },
-        )
+        .awaitReactions({
+          filter,
+          max,
+          maxEmojis,
+          maxUsers,
+          time,
+          errors: ['time'],
+        })
         .then((c) => {
-          this.storeValue(c.size === 1 ? c.first() : c.array(), storage, varName2, cache);
+          this.storeValue(c.size === 1 ? c.first() : [...c.values()], storage, varName2, cache);
           this.executeResults(true, data, cache);
         })
         .catch(() => this.executeResults(false, data, cache));

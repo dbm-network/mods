@@ -127,7 +127,7 @@ module.exports = {
           console.error(error.stack ? error.stack : error);
         }
 
-        const outValue = eval(JSON.stringify(outData), cache);
+        const outValue = JSON.stringify(outData);
 
         if (outData.success === null || outValue.success === null) {
           const errorJson = JSON.stringify({

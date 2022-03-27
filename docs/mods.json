@@ -459,11 +459,6 @@
     "name": "Local Database",
     "section": "Database"
   },
-  "loop_queue_MOD.js": {
-    "description": "Loop the current queue",
-    "name": "Loop Queue",
-    "section": "Audio Control"
-  },
   "loop_through_folder_MOD.js": {
     "description": "Loop through a specific folder",
     "name": "Loop through Folder",

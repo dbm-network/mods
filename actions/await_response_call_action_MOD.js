@@ -234,23 +234,13 @@ module.exports = {
       const time = parseInt(this.evalMessage(data.time, cache), 10);
 
       const filter = (msg) => {
-        const { msg: message, server } = cache;
+        const { interaction, msg: message, server } = cache;
         const { author, content } = msg;
-        let user;
-        let member;
+        const user = message?.author ?? interaction?.user;
+        const member = message?.member ?? interaction?.member;
         const tempVars = Actions.getActionVariable.bind(cache.temp);
         const globalVars = Actions.getActionVariable.bind(Actions.global);
-        let serverVars = null;
-
-        if (message) {
-          user = message.author;
-          member = message.member;
-        } else {
-          user = cache.interaction.user;
-          member = cache.interaction.member;
-        }
-
-        if (server) serverVars = Actions.getActionVariable.bind(Actions.server[server.id]);
+        const serverVars = server ? Actions.getActionVariable.bind(Actions.server[server.id]) : null;
 
         try {
           return Boolean(eval(js));
@@ -258,6 +248,7 @@ module.exports = {
           return false;
         }
       };
+
       channel
         .awaitMessages({
           filter,
@@ -266,7 +257,7 @@ module.exports = {
           errors: ['time'],
         })
         .then((c) => {
-          this.storeValue(c.size === 1 ? c.first() : c.array(), storage, varName2, cache);
+          this.storeValue(c.size === 1 ? c.first() : [...c.values()], storage, varName2, cache);
           this.executeResults(true, data, cache);
         })
         .catch(() => this.executeResults(false, data, cache));

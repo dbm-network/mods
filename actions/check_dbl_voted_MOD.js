@@ -119,7 +119,7 @@ module.exports = {
     const member = await this.getMember(type, varName, cache);
 
     const Mods = this.getMods();
-    const TopGG = Mods.require('@top.gg/sdk');
+    const TopGG = Mods.require('@top-gg/sdk');
 
     if (!apitoken) return console.log('ERROR! Please provide an API token for TopGG!');
 
