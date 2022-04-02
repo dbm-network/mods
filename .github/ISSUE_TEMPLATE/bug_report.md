@@ -14,7 +14,7 @@ This issue tracker is only for bug reports and enhancement suggestions.
 You likely won't receive any basic help here.
 -->
 
-**Discord Bot Maker version**
+**Discord Bot Maker version (master branch only supports the beta 2.0.x)**
 - [ ] <1.6.X
 - [ ] 1.6.X
 - [ ] 2.0.X
