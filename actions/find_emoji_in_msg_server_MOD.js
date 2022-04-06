@@ -2,7 +2,7 @@ module.exports = {
   name: 'Find Custom Emoji in Current Server',
   section: 'Emoji Control',
   meta: {
-    version: '2.0.11',
+    version: '2.1.1',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',

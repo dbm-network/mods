@@ -2,7 +2,7 @@ module.exports = {
   name: 'Store User Info',
   section: 'User Control',
   meta: {
-    version: '2.0.11',
+    version: '2.1.1',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',

@@ -3,7 +3,7 @@ module.exports = {
   name: 'Delete Global Data',
   section: 'Data',
   meta: {
-    version: '2.0.11',
+    version: '2.1.1',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
