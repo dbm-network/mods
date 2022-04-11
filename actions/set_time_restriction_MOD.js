@@ -2,7 +2,7 @@ module.exports = {
   name: 'Set Time Restriction',
   section: 'Other Stuff',
   meta: {
-    version: '2.0.11',
+    version: '2.1.1',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -194,7 +194,8 @@ module.exports = {
       }
     }
 
-    const timeLeft = this.TimeRestriction(cache.msg, cmd, cache);
+    const TRData = cache.interaction ?? cache.msg;
+    const timeLeft = this.TimeRestriction(TRData, cmd, cache);
     if (!timeLeft) {
       this.executeResults(false, data, cache);
     } else {
@@ -235,7 +236,10 @@ module.exports = {
       }
     };
 
-    DBM.Actions.TimeRestriction = function TimeRestriction(msg, cmd, cache) {
+    DBM.Actions.TimeRestriction = function TimeRestriction(TRData, cmd, cache) {
+      const author = TRData.author ?? TRData.user;
+      const { channel } = TRData;
+
       if (typeof Cooldown === 'undefined') this.LoadTimeRestriction(cache);
       const { Files } = DBM;
       let value = parseInt(this.evalMessage(cache.actions[cache.index].value, cache), 10);
@@ -261,19 +265,19 @@ module.exports = {
       const now = Date.now();
       switch (restrict) {
         case 0:
-          if (typeof Cooldown[cmd.name][msg.author.id] !== 'number') {
-            delete Cooldown[cmd.name][msg.author.id];
+          if (typeof Cooldown[cmd.name][author.id] !== 'number') {
+            delete Cooldown[cmd.name][author.id];
           }
-          if (Cooldown[cmd.name][msg.author.id]) {
-            const expirationTime = Cooldown[cmd.name][msg.author.id] + Cooldown[cmd.name].cooldown;
+          if (Cooldown[cmd.name][author.id]) {
+            const expirationTime = Cooldown[cmd.name][author.id] + Cooldown[cmd.name].cooldown;
             if (now < expirationTime) {
               return Math.ceil((expirationTime - now) / 1000);
             }
-            Cooldown[cmd.name][msg.author.id] = now;
+            Cooldown[cmd.name][author.id] = now;
             if (Cooldown[cmd.name].save === 0) Files.saveGlobalVariable('DBMCooldown', JSON.stringify(Cooldown));
             return false;
           }
-          Cooldown[cmd.name][msg.author.id] = now;
+          Cooldown[cmd.name][author.id] = now;
           if (Cooldown[cmd.name].save === 0) Files.saveGlobalVariable('DBMCooldown', JSON.stringify(Cooldown));
           return false;
         case 1: {
@@ -281,21 +285,21 @@ module.exports = {
           if (typeof cache.server !== 'undefined') {
             channelId = cache.server.id;
           } else {
-            channelId = msg.channel.id;
+            channelId = channel.id;
           }
-          if (typeof Cooldown[cmd.name][msg.author.id] !== 'object') {
-            Cooldown[cmd.name][msg.author.id] = {};
+          if (typeof Cooldown[cmd.name][author.id] !== 'object') {
+            Cooldown[cmd.name][author.id] = {};
           }
-          if (Cooldown[cmd.name][msg.author.id][channelId]) {
-            const expirationTime = Cooldown[cmd.name][msg.author.id][channelId] + Cooldown[cmd.name].cooldown;
+          if (Cooldown[cmd.name][author.id][channelId]) {
+            const expirationTime = Cooldown[cmd.name][author.id][channelId] + Cooldown[cmd.name].cooldown;
             if (now < expirationTime) {
               return Math.ceil((expirationTime - now) / 1000);
             }
-            Cooldown[cmd.name][msg.author.id][channelId] = now;
+            Cooldown[cmd.name][author.id][channelId] = now;
             if (Cooldown[cmd.name].save === 0) Files.saveGlobalVariable('DBMCooldown', JSON.stringify(Cooldown));
             return false;
           }
-          Cooldown[cmd.name][msg.author.id][channelId] = now;
+          Cooldown[cmd.name][author.id][channelId] = now;
           if (Cooldown[cmd.name].save === 0) Files.saveGlobalVariable('DBMCooldown', JSON.stringify(Cooldown));
           return false;
         }

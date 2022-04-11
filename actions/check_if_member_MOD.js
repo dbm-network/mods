@@ -2,7 +2,7 @@ module.exports = {
   name: 'Check If Member',
   section: 'Conditions',
   meta: {
-    version: '2.0.11',
+    version: '2.1.1',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -136,6 +136,11 @@ module.exports = {
     const { Files } = this.getDBM();
     const { msg } = cache;
 
+    if (!member) {
+      console.error('You need to provide a member of some sort to the "Check If Member" action');
+      return this.executeResults(false, data, cache);
+    }
+
     let result = false;
     switch (info) {
       case 0:
@@ -175,7 +180,7 @@ module.exports = {
         result = member.id === msg.author.id;
         break;
       case 10:
-        result = member.id === msg.guild.ownerID;
+        result = member.id === msg.guild.ownerId;
         break;
       default:
         console.log('Please check your "Check if Member" action! There is something wrong...');

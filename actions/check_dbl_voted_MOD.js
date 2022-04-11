@@ -3,7 +3,7 @@ module.exports = {
   displayname: 'Check TopGG Voted',
   section: 'Conditions',
   meta: {
-    version: '2.0.11',
+    version: '2.1.1',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -119,7 +119,7 @@ module.exports = {
     const member = await this.getMember(type, varName, cache);
 
     const Mods = this.getMods();
-    const TopGG = Mods.require('@top.gg/sdk');
+    const TopGG = Mods.require('@top-gg/sdk');
 
     if (!apitoken) return console.log('ERROR! Please provide an API token for TopGG!');
 

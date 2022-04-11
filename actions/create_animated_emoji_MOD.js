@@ -2,7 +2,7 @@ module.exports = {
   name: 'Create Animated Emoji',
   section: 'Emoji Control',
   meta: {
-    version: '2.0.11',
+    version: '2.1.1',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -73,7 +73,7 @@ module.exports = {
     const data = cache.actions[cache.index];
     const { server } = cache;
 
-    if (!server?.emojis?.create) return this.callnextAction(cache);
+    if (!server?.emojis?.create) return this.callNextAction(cache);
 
     const type = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);

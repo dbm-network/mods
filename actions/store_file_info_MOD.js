@@ -2,7 +2,7 @@ module.exports = {
   name: 'Store File Info',
   section: 'File Stuff',
   meta: {
-    version: '2.0.11',
+    version: '2.1.1',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -16,7 +16,7 @@ module.exports = {
   fields: ['filePath', 'info', 'storage', 'varName'],
 
   variableStorage(data, varType) {
-    if (data.storage !== varType) return;
+    if (parseInt(data.storage, 10) !== varType) return;
     let dataType = 'Unknown type';
     switch (data.info) {
       case 'File Size':
