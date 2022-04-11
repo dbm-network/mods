@@ -1,5 +1,5 @@
 <p align="center">
-  <a title="DBM Mods" href="https://discord.gg/3QxkZPK" target="_blank">
+  <a title="DBM Mods" href="https://discord.gg/djcvWRpgHm" target="_blank">
     <img src="https://dl.dropboxusercontent.com/s/h1bscek2emoa1p2/mods-logo-dark.png" width="200" alt="DBM Mods" />
   </a>
 </p>
@@ -15,7 +15,7 @@
   </a>
 </p>
 
-DBM Mods is a community driven open source project meant to modify, extend, and improve [Discord Bot Maker](https://store.steampowered.com/app/682130/Discord_Bot_Maker/).
+[DBM Mods](https://discord.gg/djcvWRpgHm) is a community driven open source project meant to modify, extend, and improve [Discord Bot Maker](https://store.steampowered.com/app/682130/Discord_Bot_Maker/).
 
 # Downloads
 
