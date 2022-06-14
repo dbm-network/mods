@@ -18,24 +18,33 @@ module.exports = {
   html(isEvent, data) {
     return `
   <div>
-    <voice-channel-input style="padding-top: 8px;" dropdownLabel="Source Voice Channel" selectId="vchannel" variableContainerId="varNameContainer2" variableInputId="varName" selectWidth="45%" variableInputWidth="50%"></voice-channel-input>
+    <voice-channel-input
+      style="padding-top: 8px;"
+      dropdownLabel="Source Voice Channel"
+      selectId="vchannel"
+      variableContainerId="varNameContainer2"
+      variableInputId="varName"
+      selectWidth="45%"
+      variableInputWidth="50%"/><br><br><br>
 
-    <br><br><br>
-
-    <member-input style="padding-top: 8px;" dropdownLabel="Source Member" selectId="member" variableContainerId="varNameContainer" variableInputId="varName2" selectWidth="45%" variableInputWidth="50%"></member-input>
-  </div>
-
-  <br><br><br>
+    <member-input style="padding-top: 8px;"
+      dropdownLabel="Source Member"
+      selectId="member"
+      variableContainerId="varNameContainer"
+      variableInputId="varName2"
+      selectWidth="45%"
+      variableInputWidth="50%"/>
+  </div><br><br><br>
 
   <div style="padding-top: 8px;">
     <div style="float: left; width: 45%;">
-      Permission:<br>
+    <span class="dbminputlabel">Permission</span><br>
       <select id="permission" class="round">
         ${data.permissions[1]}
       </select>
     </div>
     <div style="padding-left: 5%; float: left; width: 55%;">
-      Change To:<br>
+    <span class="dbminputlabel">Change To</span><br>
       <select id="state" class="round">
         <option value="0" selected>Allow</option>
         <option value="1">Inherit</option>
