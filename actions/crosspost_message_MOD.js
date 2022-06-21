@@ -2,7 +2,7 @@ module.exports = {
   name: 'Crosspost Message',
   section: 'Messaging',
   meta: {
-    version: '2.1.4',
+    version: '2.1.5',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',

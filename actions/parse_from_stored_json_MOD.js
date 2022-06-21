@@ -2,7 +2,7 @@ module.exports = {
   name: 'Parse From Stored Json',
   section: 'JSON Things',
   meta: {
-    version: '2.1.4',
+    version: '2.1.5',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
