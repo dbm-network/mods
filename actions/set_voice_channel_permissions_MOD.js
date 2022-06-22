@@ -68,7 +68,7 @@ module.exports = {
       // providing the server id is the same as providing the everyone role id;
       .edit(server.id, options, { type: 0 })
       .then(() => this.callNextAction(cache))
-      .catch((err) => this.displayError.bind(data, cache, err));
+      .catch((err) => this.displayError(data, cache, err));
   },
   mod() {},
 };
