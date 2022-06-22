@@ -71,7 +71,7 @@ module.exports = {
       channel.permissionOverwrites
         .edit(role.id, options, { type: 0 })
         .then(() => this.callNextAction(cache))
-        .catch((err) => this.displayError.bind(data, cache, err));
+        .catch((err) => this.displayError(data, cache, err));
     } else {
       this.callNextAction(cache);
     }
