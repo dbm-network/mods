@@ -53,13 +53,12 @@ module.exports = {
     const channel = await this.getChannelFromData(data.storage, data.varName, cache);
     const amount = this.evalMessage(data.amount, cache);
     const reason = this.evalMessage(data.reason, cache);
-    const { type } = channel;
 
-    if (type !== 'GUILD_TEXT') return this.callNextAction(cache);
+    if (!channel.setRateLimitPerUser) return this.callNextAction(cache);
 
-    channel.setRateLimitPerUser(amount, reason);
-
-    this.callNextAction(cache);
+    channel.setRateLimitPerUser(amount, reason)
+      .then(() => this.callNextAction(cache))
+      .catch((err) => this.displayError(data, cache, err));
   },
 
   mod() {},
