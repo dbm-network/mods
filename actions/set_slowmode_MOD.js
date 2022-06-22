@@ -35,14 +35,14 @@ module.exports = {
     <div>
       <div style="padding-top: 8px;">
         <div style="float: left; width: 50%;" padding-top: 16px;">
-          Amount:<br>
+        <span class="dbminputlabel">Amount</span><br>
           <input id="amount" class="round" type="text" steps="5" placeholder="In seconds..."><br>
-          Reason:<br>
+          <span class="dbminputlabel">Reason</span><br>
           <input id="reason" class="round" type="text" placeholder="Optional"><br>
         </div>
       </div>
       <div id="varNameContainer2" style="display: none; padding-left: 5%; float: left; width: 65%;">
-        Variable Name:<br>
+      <span class="dbminputlabel">Variable Name</span><br>
         <input id="varName2" class="round" type="text">
       </div>
     </div>`;
@@ -56,7 +56,8 @@ module.exports = {
 
     if (!channel.setRateLimitPerUser) return this.callNextAction(cache);
 
-    channel.setRateLimitPerUser(amount, reason)
+    channel
+      .setRateLimitPerUser(amount, reason)
       .then(() => this.callNextAction(cache))
       .catch((err) => this.displayError(data, cache, err));
   },
