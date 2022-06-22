@@ -15,7 +15,7 @@ module.exports = {
 
   fields: ['vchannel', 'varName', 'role', 'varName2', 'permission', 'state'],
 
-  html(isEvent, data) {
+  html(_isEvent, data) {
     return `
       <div>
         <voice-channel-input
@@ -68,10 +68,13 @@ module.exports = {
     options[data.permission] = data.state === '0' ? true : data.state === '2' ? false : null;
 
     if (role?.id) {
-      channel.permissionOverwrites.edit(role.id, options, { type: 0 }).catch(this.displayError.bind(this, data, cache));
+      channel.permissionOverwrites
+        .edit(role.id, options, { type: 0 })
+        .then(() => this.callNextAction(cache))
+        .catch((err) => this.displayError.bind(data, cache, err));
+    } else {
       this.callNextAction(cache);
     }
-    this.callNextAction(cache);
   },
 
   mod() {},

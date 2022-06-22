@@ -15,8 +15,7 @@ module.exports = {
 
   fields: ['storage', 'varName', 'permission', 'state'],
 
-  html(isEvent, data) {
-    console.log(data);
+  html(_isEvent, data) {
     return `
       <div>
         <voice-channel-input
@@ -68,8 +67,8 @@ module.exports = {
     channel.permissionOverwrites
       // providing the server id is the same as providing the everyone role id;
       .edit(server.id, options, { type: 0 })
-      .catch(this.displayError.bind(this, data, cache));
-    this.callNextAction(cache);
+      .then(() => this.callNextAction(cache))
+      .catch((err) => this.displayError.bind(data, cache, err));
   },
   mod() {},
 };
