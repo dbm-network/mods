@@ -184,7 +184,7 @@ module.exports = {
         result = member.id === msg.guild.ownerId;
         break;
       case 11:
-        result = !!member.premiumSince;
+        result = Boolean(member.premiumSince);
         break;
       default:
         console.log('Please check your "Check if Member" action! There is something wrong...');
