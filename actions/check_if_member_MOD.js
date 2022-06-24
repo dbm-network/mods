@@ -2,7 +2,7 @@ module.exports = {
   name: 'Check If Member',
   section: 'Conditions',
   meta: {
-    version: '2.1.5',
+    version: '2.1.6',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -50,6 +50,7 @@ module.exports = {
       <option value="8">Is Deafened?</option>
       ${!isEvent && '<option value="9">Is Command Author?</option>'}
       ${!isEvent && '<option value="10">Is Current Server Owner?</option>'}
+      ${!isEvent && '<option value="11">Is Boosting Current Server?</option>'}
     </select>
   </div>
   <div id="varNameContainer2" style="display: none; float: right; width: 60%;">
@@ -181,6 +182,9 @@ module.exports = {
         break;
       case 10:
         result = member.id === msg.guild.ownerId;
+        break;
+      case 11:
+        result = Boolean(member.premiumSinceTimestamp);
         break;
       default:
         console.log('Please check your "Check if Member" action! There is something wrong...');
