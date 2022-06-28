@@ -619,6 +619,11 @@
     "name": "Sends Stats to DBL",
     "section": "Other Stuff"
   },
+  "send_stats_to_botlist.me_MOD.js": {
+    "description": "Send statistics to the https://botlist.me",
+    "name": "Sends Stats to Botlist.me",
+    "section": "Other Stuff"
+  },
   "set_afk_channel_MOD.js": {
     "description": "Set an AFK channel in a guild",
     "name": "Set AFK Channel",
