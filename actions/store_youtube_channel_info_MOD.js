@@ -69,7 +69,7 @@ module.exports = {
     const ytch = Mods.require('yt-channel-info');
     let result;
 
-    const channel = await ytch.getChannelInfo(channelId);
+    const channel = await ytch.getChannelInfo({ channelId });
 
     switch (info) {
       case 0:
