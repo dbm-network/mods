@@ -26,7 +26,7 @@ module.exports = {
   URL:
   <input id="url" class="round" type="text"><br>
   <p>
-    Get your api key here: <a href="#" onclick="require('child_process').execSync('start https://pastebin.com/api#1')">Click Here</a>
+    Get your api key here: <a href="#" onclick="require('child_process').execSync('start https://pastebin.com/doc_api#1)">Click Here</a>
   </p>
 </div>
 <p style="display: none" id="raw"></p>`;
@@ -39,14 +39,14 @@ module.exports = {
     const { DBM } = this.DBM;
 
     this.installedModules = Object.keys(JSON.parse(fs.readFileSync(filepath)).dependencies);
-    if (this.installedModules.includes('pastebin-js') === false) {
-      document.getElementById('status').innerHTML = 'Please close this window to install <b>pastebin-js</b>';
+    if (this.installedModules.includes('pastebin-ts') === false) {
+      document.getElementById('status').innerHTML = 'Please close this window to install <b>pastebin-ts</b>';
       document.getElementById('type').disabled = true;
       document.getElementById('url').disabled = true;
       return;
     }
 
-    const PastebinAPI = require('pastebin-js');
+    const PastebinAPI = require('pastebin-ts');
     const path = require('path').join(this.DBM._currentProject, 'data', 'pastebin.json');
     let options = {};
     if (!fs.existsSync(path)) {
@@ -168,8 +168,8 @@ module.exports = {
   },
 
   close(document) {
-    if (this.installedModules.includes('pastebin-js') === false) {
-      this.DBM.installSpecificModules(['pastebin-js']);
+    if (this.installedModules.includes('pastebin-ts') === false) {
+      this.DBM.installSpecificModules(['pastebin-ts']);
       return;
     }
     if (!document.getElementById('raw').innerHTML) {
