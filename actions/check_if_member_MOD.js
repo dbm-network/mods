@@ -181,7 +181,7 @@ module.exports = {
         result = member.id === msg?.author.id || member.id === interaction.member.id;
         break;
       case 10:
-        result = member.id === msg?.guild.ownerId || member.id === interaction.guild.ownerId;
+        result = member.id === (msg?.author.id ?? interaction.user.id);
         break;
       case 11:
         result = Boolean(member.premiumSinceTimestamp);
