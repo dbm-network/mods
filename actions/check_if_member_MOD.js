@@ -178,10 +178,10 @@ module.exports = {
         result = Boolean(member.voice?.deaf);
         break;
       case 9:
-        result = member.id === msg?.author.id || member.id === interaction.member.id;
+        result = member.id === (msg?.author.id ?? interaction.user.id);
         break;
       case 10:
-        result = member.id === (msg?.author.id ?? interaction.user.id);
+        result = member.id === (msg ?? interaction).guild.ownerId;
         break;
       case 11:
         result = Boolean(member.premiumSinceTimestamp);
