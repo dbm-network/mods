@@ -55,8 +55,10 @@ module.exports = {
       headers: { authorization: token },
       method: 'POST',
     }).catch((err) => this.displayError(data, cache, err));
-    const res = await response.json();
-    if (res.error) this.displayError(res.error);
+    if (response) {
+      const res = await response.json();
+      if (res.error) this.displayError(data, cache, res.error);
+    }
     this.callNextAction(cache);
   },
 
