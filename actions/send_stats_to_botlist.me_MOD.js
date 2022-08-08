@@ -47,11 +47,8 @@ module.exports = {
     const fetch = Mods.require('node-fetch');
     const client = this.getDBM().Bot.bot;
 
-    const body = [
-      { server_count: client.guilds.cache.size },
-      { server_count: client.guilds.cache.size, shard_count: client.shard.count },
-    ][info];
-    if (!body) return console.error(`#${cache.index + 1} ${this.name}: Invalid option selected`);
+    const body = { server_count: client.guilds.cache.size };
+    if (info === 1) body.shard_count = client.shard.count;
 
     const response = await fetch(`https://api.botlist.me/api/v1/bots/${client.user.id}/stats?from=DBM`, {
       body,
