@@ -58,7 +58,7 @@ module.exports = {
       headers: { authorization: token },
       method: 'POST',
     }).catch((err) => console.error(`#${cache.index + 1} ${this.name}: ${err.stack}`));
-    const res = response.json();
+    const res = await response.json();
     if (res.error) console.error(`#${cache.index + 1} ${this.name}: ${res.error}`);
     this.callNextAction(cache);
   },
