@@ -614,14 +614,14 @@
     "name": "Send Message to Twitch Chat",
     "section": "Other Stuff"
   },
+  "send_stats_to_botlist.me_MOD.js": {
+    "description": "Send statistics to https://botlist.me",
+    "name": "Sends Stats to Botlist.me",
+    "section": "Other Stuff"
+  },
   "send_stats_to_dbl_MOD.js": {
     "description": "Send statistics to the Discord Bot List website",
     "name": "Sends Stats to DBL",
-    "section": "Other Stuff"
-  },
-  "send_stats_to_botlist.me_MOD.js": {
-    "description": "Send statistics to the https://botlist.me",
-    "name": "Sends Stats to Botlist.me",
     "section": "Other Stuff"
   },
   "set_afk_channel_MOD.js": {
