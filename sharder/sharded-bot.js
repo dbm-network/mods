@@ -16,7 +16,7 @@ console.log('-'.repeat(50));
 console.log("TheMonDon's DBM Bot Sharder");
 console.log(`Version: ${version}`);
 console.log(
-  "Available Arguments: '--shard_count=[number]' (default: auto), '--startup=./[bot_file]' (default: ./bot.js), '--timeout=[number]' (default: 30000; use -1 to disable)",
+  "Available Arguments: '--shard_count=[number]' (default: auto), '--startup=./[bot_file]' (default: ./bot.js), '--timeout=[number]' (default: 60000; use -1 to disable)",
 );
 console.log('-'.repeat(50));
 
