@@ -67,9 +67,7 @@ let token;
 
 try {
   password = require('discord-bot-maker');
-} catch {
-  password = '';
-}
+} catch {}
 
 const decrypt = (text) => {
   if (password.length === 0) return text;
