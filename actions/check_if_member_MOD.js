@@ -135,7 +135,7 @@ module.exports = {
     const member = await this.getMember(type, varName, cache);
     const info = parseInt(data.info, 10);
     const { Files } = this.getDBM();
-    const { msg } = cache;
+    const { msg, interaction } = cache;
 
     if (!member) {
       console.error('You need to provide a member of some sort to the "Check If Member" action');
@@ -178,10 +178,10 @@ module.exports = {
         result = Boolean(member.voice?.deaf);
         break;
       case 9:
-        result = member.id === msg.author.id;
+        result = member.id === (msg?.author.id ?? interaction.user.id);
         break;
       case 10:
-        result = member.id === msg.guild.ownerId;
+        result = member.id === (msg ?? interaction).guild.ownerId;
         break;
       case 11:
         result = Boolean(member.premiumSinceTimestamp);
