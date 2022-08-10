@@ -1,14 +1,15 @@
 // Made by TheMonDon#1721
 // Some code by General Wrex
-const version = '1.2';
+const version = '1.3';
 
 // Include discord.js and original check
 const { version: djsVersion, ShardingManager } = require('discord.js');
-if (djsVersion < '12.0.0') {
+const requiredDjsVersion = "13.7.0";
+if (djsVersion < requiredDjsVersion) {
   console.log(
-    'This version of Discord Bot Maker requires Discord.JS v12.\nPlease use "Project > Module Manager" and "Project > Reinstall Node Modules" to update to Discord.JS v12.',
+    `This version of Discord Bot Maker requires discord.js ${requiredDjsVersion}+.\nPlease use "Project > Module Manager" and "Project > Reinstall Node Modules" to update to discord.js ${requiredDjsVersion}.\n`,
   );
-  throw new Error('Need Discord.JS v12 to Run!!!');
+  throw new Error(`Need discord.js ${requiredDjsVersion} to run!!!`);
 }
 
 console.log('-'.repeat(50));
@@ -64,7 +65,9 @@ let token;
 
 try {
   password = require('discord-bot-maker');
-} catch {}
+} catch {
+  password = '';
+}
 
 const decrypt = (text) => {
   if (password.length === 0) return text;
@@ -93,13 +96,17 @@ if (!token) {
   console.error("Token must be supplied in 'settings.json' in the data folder, double check your bot settings!");
 }
 
-const manager = new ShardingManager(startup, {
-  // for ShardingManager options see:
-  // https://discord.js.org/#/docs/main/stable/class/ShardingManager
-  totalShards,
-  token,
-});
+try {
+  const manager = new ShardingManager(startup, {
+    // for ShardingManager options see:
+    // https://discord.js.org/#/docs/main/stable/class/ShardingManager
+    totalShards,
+    token,
+  });
 
-manager.on('shardCreate', (shard) => console.log(`Shard ${shard.id} launched`));
+  manager.on('shardCreate', (shard) => console.log(`Shard ${shard.id} launched`));
 
-manager.spawn(totalShards, 5500, timeout);
+  manager.spawn(totalShards, 5500, timeout);
+} catch (e) { 
+  console.log(e)
+}
