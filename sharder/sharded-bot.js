@@ -1,6 +1,6 @@
 // Made by TheMonDon#1721
 // Some code by General Wrex
-const version = '1.3';
+const version = '1.3.1';
 
 // Include discord.js and original check
 const { version: djsVersion, ShardingManager } = require('discord.js');
@@ -22,7 +22,7 @@ console.log('-'.repeat(50));
 
 let totalShards = 'auto';
 let startup = './bot.js';
-let timeout = 30000;
+let timeout = 60000;
 
 function getArgs() {
   const args = {};
@@ -106,7 +106,7 @@ try {
 
   manager.on('shardCreate', (shard) => console.log(`Shard ${shard.id} launched`));
 
-  manager.spawn(totalShards, 5500, timeout);
+  manager.spawn(totalShards, 15500, timeout);
 } catch (e) { 
   console.log(e)
 }
