@@ -1,6 +1,6 @@
 // Made by TheMonDon#1721
 // Some code by General Wrex
-const version = '1.3.1';
+const version = '1.5';
 
 // Include discord.js and original check
 const { version: djsVersion, ShardingManager } = require('discord.js');
@@ -52,7 +52,9 @@ if (args.startup) {
 }
 if (args.timeout) {
   timeout = parseInt(args.timeout, 10);
-  if (Number.isNaN(timeout)) throw new Error('The shard spawn timeout you passed could not be parsed.');
+  if (Number.isNaN(timeout)) {
+    throw new Error('The shard spawn timeout you passed could not be parsed.');
+  }
   console.log(`Shard spawn timeout: ${timeout}`);
 }
 
@@ -96,17 +98,30 @@ if (!token) {
   console.error("Token must be supplied in 'settings.json' in the data folder, double check your bot settings!");
 }
 
-try {
-  const manager = new ShardingManager(startup, {
-    // for ShardingManager options see:
-    // https://discord.js.org/#/docs/main/stable/class/ShardingManager
-    totalShards,
-    token,
+const manager = new ShardingManager(startup, {
+  // for ShardingManager options see:
+  // https://discord.js.org/#/docs/main/stable/class/ShardingManager
+  totalShards,
+  token,
+});
+
+manager.on('shardCreate', (shard) => {
+  shard.on('reconnecting', () => {
+    console.log(`Reconnecting shard: [${shard.id}]`);
   });
+  shard.on('spawn', () => {
+    console.log(`Spawned shard: [${shard.id}]`);
+  });
+  shard.on('ready', () => {
+    console.log(` Shard [${shard.id}] is ready`);
+  });
+  shard.on('death', () => {
+    console.log(`Died shard: [${shard.id}]`);
+  });
+  shard.on('error', (err) => {
+    console.log(`Error in  [${shard.id}] with : ${err} `);
+    shard.respawn();
+  });
+});
 
-  manager.on('shardCreate', (shard) => console.log(`Shard ${shard.id} launched`));
-
-  manager.spawn(totalShards, 15500, timeout);
-} catch (e) {
-  console.log(e);
-}
+manager.spawn(totalShards, 15500, timeout).catch((e) => console.log(e));
