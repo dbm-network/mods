@@ -4,7 +4,7 @@ const version = '1.3.1';
 
 // Include discord.js and original check
 const { version: djsVersion, ShardingManager } = require('discord.js');
-const requiredDjsVersion = "13.7.0";
+const requiredDjsVersion = '13.7.0';
 if (djsVersion < requiredDjsVersion) {
   console.log(
     `This version of Discord Bot Maker requires discord.js ${requiredDjsVersion}+.\nPlease use "Project > Module Manager" and "Project > Reinstall Node Modules" to update to discord.js ${requiredDjsVersion}.\n`,
@@ -107,6 +107,6 @@ try {
   manager.on('shardCreate', (shard) => console.log(`Shard ${shard.id} launched`));
 
   manager.spawn(totalShards, 15500, timeout);
-} catch (e) { 
-  console.log(e)
+} catch (e) {
+  console.log(e);
 }
