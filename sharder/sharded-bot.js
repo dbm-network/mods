@@ -114,11 +114,10 @@ manager.on('shardCreate', (shard) => {
     console.log(` Shard [${shard.id}] is ready`);
   });
   shard.on('death', () => {
-    console.log(`Died shard: [${shard.id}]`);
+    console.log(`Shard [${shard.id}] down`);
   });
   shard.on('error', (err) => {
-    console.log(`Error in  [${shard.id}] with : ${err} `);
-    shard.respawn();
+    console.log(`Error in Shard [${shard.id}]: ${err} `);
   });
 });
 
