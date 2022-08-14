@@ -51,6 +51,7 @@ module.exports = {
       ${!isEvent && '<option value="9">Is Command Author?</option>'}
       ${!isEvent && '<option value="10">Is Current Server Owner?</option>'}
       ${!isEvent && '<option value="11">Is Boosting Current Server?</option>'}
+      <option value="12">Is in timeout?</option>
     </select>
   </div>
   <div id="varNameContainer2" style="display: none; float: right; width: 60%;">
@@ -185,6 +186,9 @@ module.exports = {
         break;
       case 11:
         result = Boolean(member.premiumSinceTimestamp);
+        break;
+      case 12:
+        result = Boolean(member?.communicationDisabledUntilTimestamp > 0);
         break;
       default:
         console.log('Please check your "Check if Member" action! There is something wrong...');
