@@ -62,7 +62,7 @@ module.exports = {
 
     if (!embed2 || !webhook) return this.callNextAction(cache);
 
-    webhook.send({ embeds: [embed2] });
+    await webhook.send({ embeds: [embed2] });
     this.callNextAction(cache);
   },
 
