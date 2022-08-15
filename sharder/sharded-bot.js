@@ -105,19 +105,19 @@ const manager = new ShardingManager(startup, {
 
 manager.on('shardCreate', (shard) => {
   shard.on('reconnecting', () => {
-    console.log(`Reconnecting shard: [${shard.id}]`);
+    console.log(`Shard [${shard.id}] is reconnecting`);
   });
   shard.on('spawn', () => {
-    console.log(`Spawned shard: [${shard.id}]`);
+    console.log(`Shard [${shard.id}] spawned`);
   });
   shard.on('ready', () => {
-    console.log(` Shard [${shard.id}] is ready`);
+    console.log(`Shard [${shard.id}] is ready`);
   });
   shard.on('death', () => {
-    console.log(`Shard [${shard.id}] down`);
+    console.log(`Shard [${shard.id}] died`);
   });
   shard.on('error', (err) => {
-    console.log(`Error in Shard [${shard.id}]: ${err} `);
+    console.error(`Error in Shard [${shard.id}]: `, err);
   });
 });
 
