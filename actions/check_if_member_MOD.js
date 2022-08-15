@@ -188,7 +188,7 @@ module.exports = {
         result = Boolean(member.premiumSinceTimestamp);
         break;
       case 12:
-        result = Boolean(member?.communicationDisabledUntilTimestamp > 0);
+        result = member.isCommunicationDisabled();
         break;
       default:
         console.log('Please check your "Check if Member" action! There is something wrong...');
