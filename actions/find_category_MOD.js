@@ -101,7 +101,7 @@ module.exports = {
     const data = cache.actions[cache.index];
     const info = parseInt(data.info, 10);
     const find = this.evalMessage(data.find, cache);
-    const channels = server.channels.cache.filter((s) => s.type === 'category');
+    const channels = server.channels.cache.filter((s) => s.type === 'GUILD_CATEGORY');
     let result;
 
     switch (info) {
