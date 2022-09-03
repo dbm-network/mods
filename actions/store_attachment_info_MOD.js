@@ -3,7 +3,7 @@ module.exports = {
   section: 'Messaging',
   fields: ['storage', 'varName', 'info', 'storage2', 'varName2'],
   meta: {
-    version: '2.1.5',
+    version: '2.1.6',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
