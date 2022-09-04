@@ -119,7 +119,7 @@ module.exports = {
     }
     const channel = parseInt(data.channel, 10);
     const varName2 = this.evalMessage(data.varName2, cache);
-    const target = this.getSendTarget(channel, varName2, cache);
+    const target = await this.getSendTarget(channel, varName2, cache);
     const compress = parseInt(data.compress, 10);
     const image = new Canvas.Image();
     image.src = imagedata;
@@ -130,7 +130,7 @@ module.exports = {
     const buffer = canvas.toBuffer('image/png', { compressionLevel: compress });
     const attachment = new DiscordJS.MessageAttachment(buffer, name);
     if (target && target.send) {
-      target.send(this.evalMessage(data.message, cache), attachment).then((msgobject) => {
+      target.send({ content: this.evalMessage(data.message, cache), files: [attachment] }).then((msgobject) => {
         const varName3 = this.evalMessage(data.varName3, cache);
         const storage2 = parseInt(data.storage2, 10);
         this.storeValue(msgobject, storage2, varName3, cache);
