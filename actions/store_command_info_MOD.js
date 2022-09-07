@@ -118,7 +118,7 @@ module.exports = {
         ? jp.query(this.getDBM().Files.data.commands, `$..[?(@._id=="${this.evalMessage(data.valueToSearch, cache)}")]`)
         : jp.query(
             this.getDBM().Files.data.commands,
-            `$..[?(@.name=="${(interaction ?? msg).content
+            `$..[?(@.name=="${interaction.commandName ?? msg.content
               .slice(this.getDBM().Files.data.settings.tag.length || cache.server.tag.length)
               .split(/ +/)
               .shift()}")]`,
