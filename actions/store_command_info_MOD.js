@@ -174,8 +174,6 @@ module.exports = {
         break;
     }
     
-    if (result.length === 0) result = 'None'
-    
     if (!result) result = 'invalid';
 
     if (result !== undefined) {
