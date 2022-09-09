@@ -106,7 +106,7 @@ module.exports = {
   async action(cache) {
     const data = cache.actions[cache.index];
     const jp = this.getMods().require('jsonpath');
-    const { interaction, msg } = cache
+    const { interaction, msg } = cache;
 
     const command =
       parseInt(data.searchCommandBy, 10) === 0
@@ -134,22 +134,22 @@ module.exports = {
         result = jp.query(command, '$.._id');
         break;
       case 2: {
-        const commandType = jp.query(command, '$..comType')
-        if (commandType.includes('0')) result = 'Text Command'
-        if (commandType.includes('1')) result = 'Includes Word'
-        if (commandType.includes('2')) result = 'Matches Regular Expression'
-        if (commandType.includes('3')) result = 'Any Message'
-        if (commandType.includes('4')) result = 'Slash Command'
-        if (commandType.includes('5')) result = 'User Menu Command'
-        if (commandType.includes('6')) result = 'Msg Menu Command'
+        const commandType = jp.query(command, '$..comType');
+        if (commandType.includes('0')) result = 'Text Command';
+        if (commandType.includes('1')) result = 'Includes Word';
+        if (commandType.includes('2')) result = 'Matches Regular Expression';
+        if (commandType.includes('3')) result = 'Any Message';
+        if (commandType.includes('4')) result = 'Slash Command';
+        if (commandType.includes('5')) result = 'User Menu Command';
+        if (commandType.includes('6')) result = 'Msg Menu Command';
       }
       break;
       case 3: {
-        const restriction = jp.query(command, '$..restriction')
-        if (restriction.includes('0')) result = 'None'
-        if (restriction.includes('1')) result = 'Server Only'
-        if (restriction.includes('2')) result = 'Owner Only'
-        if (restriction.includes('3')) result = 'DMs Only'
+        const restriction = jp.query(command, '$..restriction');
+        if (restriction.includes('0')) result = 'None';
+        if (restriction.includes('1')) result = 'Server Only';
+        if (restriction.includes('2')) result = 'Owner Only';
+        if (restriction.includes('3')) result = 'DMs Only';
       }
         break;
       case 4:
