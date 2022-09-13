@@ -88,7 +88,7 @@ module.exports = {
       target
         .send(options)
         .then(() => this.callNextAction(cache))
-        .catch(() => this.displayError(data, cache, err));
+        .catch((err) => this.displayError(data, cache, err));
     } else {
       this.callNextAction(cache);
     }
