@@ -75,17 +75,20 @@ module.exports = {
 
     const channel = parseInt(data.channel, 10);
     const varName2 = this.evalMessage(data.varName2, cache);
-    const target = this.getSendTarget(channel, varName2, cache);
+    const target = await this.getSendTarget(channel, varName2, cache);
+    const content = this.evalMessage(data.message, cache);
+    const Options = { files: [image] };
+    if (content) Options.content = content;
 
     if (Array.isArray(target)) {
-      this.callListFunc(target, 'send', [this.evalMessage(data.message, cache), { files: [image] }])
+      this.callListFunc(target, 'send', [Options])
         .then(() => {
           this.callNextAction(cache);
         })
         .catch(this.displayError.bind(this, data, cache));
     } else if (target && target.send) {
       target
-        .send(this.evalMessage(data.message, cache), { files: [image] })
+        .send(Options)
         .then(() => {
           this.callNextAction(cache);
         })
