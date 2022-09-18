@@ -8,22 +8,22 @@ module.exports = {
     DBM.Events = DBM.Events || {};
     const { Bot, Actions } = DBM;
 
-    DBM.Events.boostedGuild = function boostedGuild(old, recent) {
-      if (!Bot.$evts['Member Boosted Server']) return;
+    DBM.Events.boostedGuild = function boostedGuild(old, recent){
+      if(!Bot.$evts['Member Boosted Server']) return;
       const server = recent.guild;
-      if (!old.premiumSince && recent.premiumSince) {
+      if(!old.premiumSince && recent.premiumSince){
 
-      for (const event of Bot.$evts['Member Boosted Server']) {
+      for (const event of Bot.$evts['Member Boosted Server']){
         const temp = {};
-        if (event.temp) temp[event.temp] = recent;
-        if (event.temp2) temp[event.temp2] = recent.guild;
+        if(event.temp) temp[event.temp] = recent;
+        if(event.temp2) temp[event.temp2] = recent.guild;
         Actions.invokeEvent(event, server, temp);
       }
-    } else return;
+    }else return
     };
 
     const { onReady } = Bot;
-    Bot.onReady = function boostedGuildOnReady(...params) {
+    Bot.onReady = function boostedGuildOnReady(...params){
       Bot.bot.on('guildMemberUpdate', DBM.Events.boostedGuild);
       onReady.apply(this, ...params);
     };
