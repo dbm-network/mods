@@ -126,8 +126,6 @@ module.exports = {
                 .shift()
             }")]`,
           );
-    const type = parseInt(jp.query(command, '$..comType'));
-    const res = parseInt(jp.query(command, '$..restriction'));
     let result;
     switch (parseInt(data.info, 10)) {
       case 0:
@@ -138,7 +136,7 @@ module.exports = {
         result = jp.query(command, '$.._id');
         break;
       case 2:
-        switch (type) {
+        switch (parseInt(jp.query(command, '$..comType', 10))) {
           case 0:
             result = 'Text Command';
             break;
@@ -165,7 +163,7 @@ module.exports = {
         }
         break;
       case 3:
-        switch (res) {
+        switch (parseInt(jp.query(command, '$..restriction', 10))) {
           case 0:
             result = 'None';
             break;
