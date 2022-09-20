@@ -11,7 +11,7 @@ module.exports = {
     DBM.Events.boostedGuild = function boostedGuild(old, recent) {
       if (!Bot.$evts['Member Boosted Server']) return;
       const server = recent.guild;
-      if (!(!old.premiumSince && recent.premiumSince)) return;
+      if (old.premiumSince || !recent.premiumSince) return;
 
       for (const event of Bot.$evts['Member Boosted Server']) {
         const temp = {};
