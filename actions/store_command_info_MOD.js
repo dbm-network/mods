@@ -118,10 +118,13 @@ module.exports = {
         ? jp.query(this.getDBM().Files.data.commands, `$..[?(@._id=="${this.evalMessage(data.valueToSearch, cache)}")]`)
         : jp.query(
             this.getDBM().Files.data.commands,
-            `$..[?(@.name=="${interaction.commandName ?? msg.content
-              .slice(this.getDBM().Files.data.settings.tag.length || cache.server.tag.length)
-              .split(/ +/)
-              .shift()}")]`,
+            `$..[?(@.name=="${
+              interaction.commandName ??
+              msg.content
+                .slice(this.getDBM().Files.data.settings.tag.length || cache.server.tag.length)
+                .split(/ +/)
+                .shift()
+            }")]`,
           );
 
     let result;
@@ -133,24 +136,26 @@ module.exports = {
       case 1:
         result = jp.query(command, '$.._id');
         break;
-      case 2: {
-        const commandType = jp.query(command, '$..comType');
-        if (commandType.includes('0')) result = 'Text Command';
-        if (commandType.includes('1')) result = 'Includes Word';
-        if (commandType.includes('2')) result = 'Matches Regular Expression';
-        if (commandType.includes('3')) result = 'Any Message';
-        if (commandType.includes('4')) result = 'Slash Command';
-        if (commandType.includes('5')) result = 'User Menu Command';
-        if (commandType.includes('6')) result = 'Msg Menu Command';
-      }
-      break;
-      case 3: {
-        const restriction = jp.query(command, '$..restriction');
-        if (restriction.includes('0')) result = 'None';
-        if (restriction.includes('1')) result = 'Server Only';
-        if (restriction.includes('2')) result = 'Owner Only';
-        if (restriction.includes('3')) result = 'DMs Only';
-      }
+      case 2:
+        {
+          const commandType = jp.query(command, '$..comType');
+          if (commandType.includes('0')) result = 'Text Command';
+          if (commandType.includes('1')) result = 'Includes Word';
+          if (commandType.includes('2')) result = 'Matches Regular Expression';
+          if (commandType.includes('3')) result = 'Any Message';
+          if (commandType.includes('4')) result = 'Slash Command';
+          if (commandType.includes('5')) result = 'User Menu Command';
+          if (commandType.includes('6')) result = 'Msg Menu Command';
+        }
+        break;
+      case 3:
+        {
+          const restriction = jp.query(command, '$..restriction');
+          if (restriction.includes('0')) result = 'None';
+          if (restriction.includes('1')) result = 'Server Only';
+          if (restriction.includes('2')) result = 'Owner Only';
+          if (restriction.includes('3')) result = 'DMs Only';
+        }
         break;
       case 4:
         result = JSON.stringify(jp.query(command, '$..permissions')).slice(2, -2).replace('_', ' ').toLowerCase();
@@ -173,7 +178,7 @@ module.exports = {
       default:
         break;
     }
-    
+
     if (!result) result = 'invalid';
 
     if (result !== undefined) {
