@@ -136,7 +136,7 @@ module.exports = {
         result = jp.query(command, '$.._id');
         break;
       case 2:
-        switch (parseInt(jp.query(command, '$..comType', 10))) {
+        switch (parseInt(jp.query(command, '$..comType'), 10)) {
           case 0:
             result = 'Text Command';
             break;
@@ -163,7 +163,7 @@ module.exports = {
         }
         break;
       case 3:
-        switch (parseInt(jp.query(command, '$..restriction', 10))) {
+        switch (parseInt(jp.query(command, '$..restriction'), 10)) {
           case 0:
             result = 'None';
             break;
