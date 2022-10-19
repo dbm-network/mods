@@ -52,7 +52,7 @@ module.exports = {
   async action(cache) {
     const data = cache.actions[cache.index];
     const Mods = this.getMods();
-    const morsify = Mods.require('morsify');
+    const morse = Mods.require('morse-decoder');
     const storage = parseInt(data.storage, 10);
     const info = parseInt(data.info, 10);
     const varName = this.evalMessage(data.varName, cache);
@@ -61,10 +61,10 @@ module.exports = {
 
     switch (info) {
       case 0:
-        result = morsify.encode(input);
+        result = morse.encode(input);
         break;
       case 1:
-        result = morsify.decode(input);
+        result = morse.decode(input);
         break;
       default:
         break;
