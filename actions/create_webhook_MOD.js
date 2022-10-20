@@ -69,7 +69,7 @@ module.exports = {
     const varName = this.evalMessage(data.varName, cache);
     const channel = await this.getChannel(storage, varName, cache);
 
-    if (!channel && !channel.createWebhook) return this.callNextAction(cache);
+    if (!channel || !channel.createWebhook) return this.callNextAction(cache);
 
     const avatar = this.evalMessage(data.webhookIcon, cache);
     const name = this.evalMessage(data.webhookName, cache);
