@@ -269,7 +269,7 @@
     "name": "Crosspost Message",
     "section": "Messaging"
   },
-   "currency_converter_MOD.js": {
+  "currency_converter_MOD.js": {
     "description": "Convert any currency",
     "name": "Currency Converter",
     "section": "Other Stuff"
