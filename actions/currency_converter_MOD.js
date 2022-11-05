@@ -7,7 +7,7 @@ module.exports = {
     preciseCheck: false,
     author: 'pKunnn',
     authorUrl: 'https://github.com/pKunnn',
-    downloadURL: 'https://github.com/pKunnn/dbm-mods/blob/master/actions/currency_converter_MOD.js',
+    downloadURL: 'https://github.com/pKunnn/mods/blob/master/actions/currency_converter_MOD.js',
   },
 
   subtitle(data) {
