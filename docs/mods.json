@@ -270,7 +270,7 @@
     "section": "Messaging"
   },
    "currency_converter_MOD.js": {
-    "description": "Currency converter with weird and unstable code",
+    "description": "Convert any currency",
     "name": "Currency Converter",
     "section": "Other Stuff"
   },
