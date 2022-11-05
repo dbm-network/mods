@@ -269,6 +269,11 @@
     "name": "Crosspost Message",
     "section": "Messaging"
   },
+   "currency_converter_MOD.js": {
+    "description": "Currency converter with weird and unstable code",
+    "name": "Currency Converter",
+    "section": "Other Stuff"
+  },
   "custom_image_effects_MOD.js": {
     "description": "Create custom image effects for a specified image",
     "name": "Custom Image Effects",
