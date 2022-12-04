@@ -69,7 +69,7 @@ module.exports = {
     const varName2 = this.evalMessage(data.varName2, cache);
     const member = await this.getMember(storage2, varName2, cache);
 
-    if (!member || channel) return this.callNextAction(cache);
+    if (!member || !channel) return this.callNextAction(cache);
 
     const options = {};
     options[data.permission] = data.state === '0' ? true : data.state === '2' ? false : null;
