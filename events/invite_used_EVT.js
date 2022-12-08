@@ -37,15 +37,15 @@ module.exports = {
             }
           });
         }, 1000).unref();
-        Bot.bot.on('GUILD_MEMBER_ADD', DBM.Events.inviteUsed);
-        Bot.bot.on('INVITE_DELETE', (inv) => {
+        Bot.bot.on('guildMemberAdd', DBM.Events.inviteUsed);
+        Bot.bot.on('inviteDelete', (inv) => {
           if (inv.guild.me.permissions.has('MANAGE_GUILD')) {
             inv.guild.invites.fetch().then((invites) => {
               guildInvites[inv.guild.id] = invites;
             });
           }
         });
-        Bot.bot.on('INVITE_CREATE', (inv) => {
+        Bot.bot.on('inviteCreate', (inv) => {
           if (inv.guild.me.permissions.has('MANAGE_GUILD')) {
             inv.guild.invites.fetch().then((invites) => {
               guildInvites[inv.guild.id] = invites;
