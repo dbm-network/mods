@@ -107,7 +107,6 @@ module.exports = {
           break;
       }
     };
-    glob.messageChange(document.getElementById('message'), 'varNameContainer');
     glob.onChangeTrue(document.getElementById('iftrue'));
     glob.onChangeFalse(document.getElementById('iffalse'));
   },

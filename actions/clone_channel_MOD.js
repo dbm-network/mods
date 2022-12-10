@@ -46,16 +46,7 @@ module.exports = {
   html(isEvent, data) {
     return `
 <div style="padding-top: 8px;">
-  <div style="float: left; width: 35%;">
-    Source Channel:<br>
-    <select id="storage" class="round" onchange="glob.channelChange(this, 'varNameContainer')">
-      ${data.channels[isEvent ? 1 : 0]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="display: none; padding-left: 5%; float: left; width: 65%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList"><br>
-  </div>
+  <channel-input dropdownLabel="Source Channel" selectId="channel" variableContainerId="channelVarNameContainer" variableInputId="channelVarName"></channel-input>
 </div><br><br><br>
 <div style="padding-top: 8px;">
   <div style="float: left; width: 50%;">
@@ -139,7 +130,6 @@ module.exports = {
   init() {
     const { glob, document } = this;
 
-    glob.channelChange(document.getElementById('storage'), 'varNameContainer');
     glob.variableChange(document.getElementById('storage2'), 'varNameContainer2');
 
     glob.channeltype = function channeltype(event) {
@@ -160,9 +150,8 @@ module.exports = {
   async action(cache) {
     const data = cache.actions[cache.index];
     const { server } = cache;
-    const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);
-    const channel = await this.getChannel(storage, varName, cache);
+    const channel = await this.getChannel(parseInt(data.channel, 10), varName, cache);
 
     if (!server || !channel) {
       console.log(`${server ? 'channel' : 'server'} could not be found! Clone Channel MOD.`);

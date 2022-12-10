@@ -115,7 +115,6 @@ module.exports = {
           break;
       }
     };
-    glob.memberChange(document.getElementById('member'), 'varNameContainer');
     glob.onChangeTrue(document.getElementById('iftrue'));
     glob.onChangeFalse(document.getElementById('iffalse'));
   },
