@@ -24,17 +24,9 @@ module.exports = {
 
   html(isEvent, data) {
     return `
-<div style="float: left; width: 35%; padding-top: 15px;">
-  Source Message:<br>
-  <select id="message" class="round" onchange="glob.memberChange(this, 'varNameContainer')">
-    ${data.messages[isEvent ? 1 : 0]}
-  </select>
-</div>
-<div id="varNameContainer" style="display: none; float: right; width: 60%; padding-top: 12px;">
-  Variable Name:<br>
-  <input id="varName" class="round" type="text" list="variableList"><br>
-</div><br><br><br>
 <div style="padding-top: 20px;">
+<message-input dropdownLabel="Source Message" selectId="message" variableContainerId="varNameContainer" variableInputId="varName"></message-input>
+<br><br><br>
   <div style="float: left; width: 40%;">
     Check If Message:<br>
     <select id="info" class="round">

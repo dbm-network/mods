@@ -25,16 +25,7 @@ module.exports = {
   html(isEvent, data) {
     return `
 <div>
-  <div style="float: left; width: 35%; padding-top: 12px;">
-    Source Member:<br>
-    <select id="member" class="round" onchange="glob.memberChange(this, 'varNameContainer')">
-      ${data.members[isEvent ? 1 : 0]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="display: none; float: right; width: 60%; padding-top: 12px;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList"><br>
-  </div>
+  <member-input dropdownLabel="Member" selectId="member" variableContainerId="varNameContainer" variableInputId="varName"></member-input>
 </div><br><br><br>
 <div style="padding-top: 20px;">
   <div style="float: left; width: 35%;">
