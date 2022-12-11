@@ -112,9 +112,7 @@ module.exports = {
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const storage = parseInt(data.role, 10);
-    const varName = this.evalMessage(data.varName, cache);
-    const role = await this.getRole(storage, varName, cache);
+    const role = await this.getRoleFromData(data.storage, data.varName, cache);
     let result;
 
     if (role) result = role.permissions.has(data.permission);

@@ -136,11 +136,9 @@ module.exports = {
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const userType = parseInt(data.user, 10);
-    const varName = this.evalMessage(data.varName, cache);
     const info = parseInt(data.info, 10);
-    let user = await this.getMember(userType, varName, cache);
-    if (!user) return this.callNextAction(cache);
+    let user = await this.getMemberFromData(data.userType, data.varName, cache);
+    if (!user) return this.callNextAction(cache); 
     if (user.user) user = user.user;
 
     let result;

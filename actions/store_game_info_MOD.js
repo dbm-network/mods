@@ -165,11 +165,8 @@ module.exports = {
   async action(cache) {
     const data = cache.actions[cache.index];
     const info = parseInt(data.info, 10);
-
-    const member = parseInt(data.member, 10);
-    const varName = this.evalMessage(data.varName, cache);
-    const mem = await this.getMember(member, varName, cache);
-
+    const mem = await this.getMemberFromData(data.member, data.varName, cache);
+ 
     if (!mem || !mem.presence.activities[0]) return this.callNextAction(cache);
 
     let result = null;

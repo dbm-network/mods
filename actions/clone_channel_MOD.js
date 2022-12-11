@@ -9,17 +9,8 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/clone_channel_MOD.js',
   },
 
-  subtitle(data) {
-    const names = [
-      'Same Channel',
-      'Mentioned Channel',
-      'Default Channel',
-      'Temp Variable',
-      'Server Variable',
-      'Global Variable',
-    ];
-    const index = parseInt(data.storage, 10);
-    return index < 3 ? `Clone Channel : ${names[index]}` : `Clone Channel : ${names[index]} - ${data.varName}`;
+  subtitle(data, presets) {
+    return `Clone Channel: ${presets.getChannelText(data.channel, data.varName)}`;
   },
 
   variableStorage(data, varType) {
@@ -28,8 +19,8 @@ module.exports = {
   },
 
   fields: [
-    'storage',
-    'varName',
+    'channel',
+    'channelvarName',
     'categoryID',
     'position',
     'permission',
@@ -150,8 +141,7 @@ module.exports = {
   async action(cache) {
     const data = cache.actions[cache.index];
     const { server } = cache;
-    const varName = this.evalMessage(data.varName, cache);
-    const channel = await this.getChannel(parseInt(data.channel, 10), varName, cache);
+    const channel = await this.getChannelFromData(data.channel, data.channelVarName, cache);
 
     if (!server || !channel) {
       console.log(`${server ? 'channel' : 'server'} could not be found! Clone Channel MOD.`);

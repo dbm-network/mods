@@ -184,9 +184,8 @@ module.exports = {
       case 0:
         break;
       default: {
-        const varName = this.evalMessage(data.varName, cache);
-        mem = await this.getMember(member - 1, varName, cache);
-        break;
+        mem = await this.getMemberFromData(data.member - 1, data.varName, cache);
+        break; 
       }
     }
 

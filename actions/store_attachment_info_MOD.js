@@ -72,9 +72,7 @@ module.exports = {
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const storage = parseInt(data.storage, 10);
-    const varName = this.evalMessage(data.varName, cache);
-    const message = await this.getMessage(storage, varName, cache);
+    const message = await this.getMessageFromData(data.storage, data.varName, cache);
     const info = parseInt(data.info, 10);
 
     const attachments = [...message.attachments.values()];

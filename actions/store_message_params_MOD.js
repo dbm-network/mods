@@ -188,9 +188,7 @@ module.exports = {
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const message = parseInt(data.message, 10);
-    const varName = this.evalMessage(data.varName, cache);
-    const msg = await this.getMessage(message, varName, cache);
+    const msg = await this.getMessageFromData(data.message, data.varName, cache);
     const count = this.evalMessage(data.count, cache);
 
     if (!msg) {

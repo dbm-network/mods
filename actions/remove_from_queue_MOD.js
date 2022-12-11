@@ -49,9 +49,7 @@ module.exports = {
   async action(cache) {
     const data = cache.actions[cache.index];
     const { Audio } = this.getDBM();
-    const server = parseInt(data.server, 10);
-    const varName = this.evalMessage(data.varName, cache);
-    const targetServer = await this.getServer(server, varName, cache);
+    const targetServer = await this.getServerFromData(data.server, data.varName, cache);
     const position = parseInt(this.evalMessage(data.position, cache), 10);
     const amount = parseInt(this.evalMessage(data.amount, cache), 10);
     let queue;

@@ -58,10 +58,7 @@ module.exports = {
     const varName = this.evalMessage(data.varName, cache);
     const Mods = this.getMods();
     const rea = Mods.getReaction(reaction, varName, cache);
-
-    const type = parseInt(data.member, 10);
-    const varName2 = this.evalMessage(data.varName2, cache);
-    const member = await this.getMember(type, varName2, cache);
+    const member = await this.getMemberFromData(data.type, data.varName2, cache);
 
     if (!rea) return this.callNextAction(cache);
 

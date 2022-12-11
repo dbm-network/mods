@@ -115,15 +115,14 @@ module.exports = {
           break;
       }
     };
+    glob.memberChange(document.getElementById('member'), 'varNameContainer');
     glob.onChangeTrue(document.getElementById('iftrue'));
     glob.onChangeFalse(document.getElementById('iffalse'));
   },
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const type = parseInt(data.member, 10);
-    const varName = this.evalMessage(data.varName, cache);
-    const member = await this.getMember(type, varName, cache);
+    const member = await this.getMemberFromData(data.type, data.varName, cache);
     const info = parseInt(data.info, 10);
     const { Files } = this.getDBM();
     const { msg, interaction } = cache;

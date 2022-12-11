@@ -40,9 +40,7 @@ module.exports = {
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const server = parseInt(data.server, 10);
-    const varName = this.evalMessage(data.varName, cache);
-    const targetServer = await this.getServer(server, varName, cache);
+    const targetServer = await this.getServerFromData(data.server, data.varName, cache);
 
     if (Array.isArray(targetServer)) {
       this.callListFunc(targetServer, 'delete', []).then(() => {

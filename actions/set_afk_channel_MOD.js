@@ -94,12 +94,8 @@ module.exports = {
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const type = parseInt(data.server, 10);
-    const afkchannel = parseInt(data.afkchannel, 10);
-    const varName2 = this.evalMessage(data.varNameChannel, cache);
-    const varName = this.evalMessage(data.varName, cache);
-    const server = await this.getServer(type, varName, cache);
-    const channel = await this.getVoiceChannel(afkchannel, varName2, cache);
+    const server = await this.getServerFromData(data.type, data.varName, cache);
+    const channel = await this.getVoiceChannelFromData(data.afkchannel, data.varName2, cache);
 
     if (!channel) return this.callNextAction(cache);
 

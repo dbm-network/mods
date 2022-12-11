@@ -111,10 +111,7 @@ module.exports = {
 
   async action(cache) {
     const data = cache.actions[cache.index];
-
-    const type = parseInt(data.member, 10);
-    const varName = this.evalMessage(data.varName, cache);
-    const member = await this.getMember(type, varName, cache);
+    const member = await this.getMemberFromData(data.type, data.varName, cache);
 
     const type2 = parseInt(data.reaction, 10);
     const varName2 = this.evalMessage(data.varName2, cache);
