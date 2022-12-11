@@ -10,7 +10,7 @@ module.exports = {
   },
 
   subtitle(data, presets) {
-    const reaction = ['Temp Variable', 'Server Variable', 'Global Variable']
+    const reaction = ['Temp Variable', 'Server Variable', 'Global Variable'];
     return `${presets.getMemberText(data.member, data.varName)} - ${reaction[parseInt(data.reaction, 10) - 1]}`;
   },
 

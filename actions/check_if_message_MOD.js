@@ -10,7 +10,15 @@ module.exports = {
   },
 
   subtitle(data, presets) {
-    const info = ['Is Pinnable?', 'Is Pinned?', 'Is Deletable?', 'Is Deleted?', 'Is TTS?', 'Is Of Discord?', 'Includes @everyone Mention?']
+    const info = [
+      'Is Pinnable?',
+      'Is Pinned?',
+      'Is Deletable?',
+      'Is Deleted?',
+      'Is TTS?',
+      'Is Of Discord?',
+      'Includes @everyone Mention?',
+    ];
     return `${presets.getMessageText(data.message, data.varName)} - ${info[parseInt(data.info, 10)]}`;
   },
 

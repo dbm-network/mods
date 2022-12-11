@@ -10,7 +10,21 @@ module.exports = {
   },
 
   subtitle(data, presets) {
-    const info = ['Is Bot?', 'Is Bannable?', 'Is Kickable?', 'Is In Voice Channel?', 'Is In Voice Channel?', 'Is User Manageable?', 'Is Bot Owner?', 'Is Muted?', 'Is Deafened?', 'Is Command Author?', 'Is Current Server Owner?', 'Is Boosting Current Server?', 'Is in timeout?'];
+    const info = [
+      'Is Bot?',
+      'Is Bannable?',
+      'Is Kickable?',
+      'Is In Voice Channel?',
+      'Is In Voice Channel?',
+      'Is User Manageable?',
+      'Is Bot Owner?',
+      'Is Muted?',
+      'Is Deafened?',
+      'Is Command Author?',
+      'Is Current Server Owner?',
+      'Is Boosting Current Server?',
+      'Is in timeout?',
+    ];
     return `${presets.getMemberText(data.member, data.varName)} - ${info[parseInt(data.info, 10)]}`;
   },
 

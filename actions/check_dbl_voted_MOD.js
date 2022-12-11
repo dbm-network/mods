@@ -18,7 +18,9 @@ module.exports = {
       'Jump Forward Actions',
       'Jump to Anchor',
     ];
-    return `${presets.getMemberText(data.member, data.varName)} - If True: ${results[parseInt(data.iftrue, 10)]} ~ If False: ${results[parseInt(data.iffalse, 10)]}`;;
+    return `${presets.getMemberText(data.member, data.varName)} - If True: ${
+      results[parseInt(data.iftrue, 10)]
+    } ~ If False: ${results[parseInt(data.iffalse, 10)]}`;
   },
 
   fields: ['member', 'apitoken', 'varName', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal'],

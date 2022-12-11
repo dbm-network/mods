@@ -10,7 +10,7 @@ module.exports = {
   },
 
   subtitle(data, presets) {
-    return `${presets.getRoleText(data.role, data.varName)} has ${data.permission}?`
+    return `${presets.getRoleText(data.role, data.varName)} has ${data.permission}?`;
   },
 
   fields: ['role', 'varName', 'permission', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal'],
