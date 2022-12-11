@@ -9,15 +9,8 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/check_role_permissions_MOD.js',
   },
 
-  subtitle(data) {
-    const results = [
-      'Continue Actions',
-      'Stop Action Sequence',
-      'Jump To Action',
-      'Jump Forward Actions',
-      'Jump to Anchor',
-    ];
-    return `If True: ${results[parseInt(data.iftrue, 10)]} ~ If False: ${results[parseInt(data.iffalse, 10)]}`;
+  subtitle(data, presets) {
+    return `${presets.getRoleText(data.role, data.varName)} has ${data.permission}?`
   },
 
   fields: ['role', 'varName', 'permission', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal'],

@@ -10,7 +10,7 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/check_dbl_voted_MOD.js',
   },
 
-  subtitle(data) {
+  subtitle(data, presets) {
     const results = [
       'Continue Actions',
       'Stop Action Sequence',
@@ -18,7 +18,7 @@ module.exports = {
       'Jump Forward Actions',
       'Jump to Anchor',
     ];
-    return `If True: ${results[parseInt(data.iftrue, 10)]} ~ If False: ${results[parseInt(data.iffalse, 10)]}`;
+    return `${presets.getMemberText(data.member, data.varName)} - If True: ${results[parseInt(data.iftrue, 10)]} ~ If False: ${results[parseInt(data.iffalse, 10)]}`;;
   },
 
   fields: ['member', 'apitoken', 'varName', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal'],
