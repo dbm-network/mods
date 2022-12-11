@@ -17,9 +17,10 @@ module.exports = {
       'Jump Forward Actions',
       'Jump to Anchor',
     ];
-    return `Cooldown | If True: ${results[parseInt(data.iftrue, 10)]} ~ If False: ${
-      results[parseInt(data.iffalse, 10)]
-    }`;
+    const measurement = ['Milliseconds', 'Seconds', 'Minutes', 'Hours'];
+    return `${data.value} ${measurement[data.measurement]} | If True: ${
+      results[parseInt(data.iftrue, 10)]
+    } ~ If False: ${results[parseInt(data.iffalse, 10)]}`;
   },
 
   variableStorage(data, varType) {
