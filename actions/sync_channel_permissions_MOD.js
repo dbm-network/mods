@@ -48,7 +48,7 @@ module.exports = {
   async action(cache) {
     const data = cache.actions[cache.index];
     const { server } = cache;
-    const channel = await this.getChannelFromData(data.storage, data.varName, cache)
+    const channel = await this.getChannelFromData(data.storage, data.varName, cache);
 
     if (!server) return this.callNextAction(cache);
     if (!channel.parent) return this.callNextAction(cache);

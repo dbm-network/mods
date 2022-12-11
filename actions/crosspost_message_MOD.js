@@ -58,7 +58,7 @@ module.exports = {
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const message = await this.getMessageFromData(data.mssage, data.varName, cache)
+    const message = await this.getMessageFromData(data.mssage, data.varName, cache);
 
     if (!message) return this.callNextAction(cache);
     if (!message.crosspost) throw new Error('You need at least Discord.js version 12.4.0 to use this mod.');

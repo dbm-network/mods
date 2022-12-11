@@ -9,19 +9,11 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/typing_MOD.js',
   },
 
-  subtitle(data) {
-    const names = [
-      'Same Channel',
-      'Mentioned Channel',
-      'Default Channel',
-      'Temp Variable',
-      'Server Variable',
-      'Global Variable',
-    ];
+  subtitle(data, presets) {
     const names2 = ['Starts Typing', 'Stops Typing'];
     const index2 = parseInt(data.typing, 10);
     const index = parseInt(data.storage, 10);
-    return index < 3 ? `${names[index]} - ${names2[index2]}` : `${names[index]} - ${data.varName} - ${names2[index2]}`;
+    return index < 3 ? `${presets.getChannelText(data.storage, data.varName)} - ${names2[index2]}` : `${presets.getChannelText(data.storage, data.varName)} - ${data.varName} - ${names2[index2]}`;
   },
 
   fields: ['storage', 'varName', 'typing'],
@@ -63,7 +55,7 @@ module.exports = {
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const channel = await this.getChannelFromData(data.storage, data.varName, cache)
+    const channel = await this.getChannelFromData(data.storage, data.varName, cache);
 
     try {
       data.typing === '0' ? channel.startTyping() : channel.stopTyping();

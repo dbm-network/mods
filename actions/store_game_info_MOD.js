@@ -166,7 +166,7 @@ module.exports = {
     const data = cache.actions[cache.index];
     const info = parseInt(data.info, 10);
     const mem = await this.getMemberFromData(data.member, data.varName, cache);
- 
+
     if (!mem || !mem.presence.activities[0]) return this.callNextAction(cache);
 
     let result = null;

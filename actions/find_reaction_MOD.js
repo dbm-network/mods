@@ -68,7 +68,7 @@ module.exports = {
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const msg = await this.getMessageFromData(data.message, data.varName, cache)
+    const msg = await this.getMessageFromData(data.message, data.varName, cache);
     const info = parseInt(data.info, 10);
     const emoji = this.evalMessage(data.find, cache);
 

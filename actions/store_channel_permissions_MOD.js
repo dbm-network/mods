@@ -100,7 +100,7 @@ module.exports = {
       target = await this.getMemberFromData(data.member, data.varName3, cache);
     }
 
-    const targetChannel = await this.getChannelFromData(data.channel, data.channelVarNameContainer, cache)
+    const targetChannel = await this.getChannelFromData(data.channel, data.channelVarNameContainer, cache);
 
     const allow = target.permissionsIn(targetChannel);
     const permissions = {};

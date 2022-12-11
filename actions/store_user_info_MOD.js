@@ -138,7 +138,7 @@ module.exports = {
     const data = cache.actions[cache.index];
     const info = parseInt(data.info, 10);
     let user = await this.getMemberFromData(data.userType, data.varName, cache);
-    if (!user) return this.callNextAction(cache); 
+    if (!user) return this.callNextAction(cache);
     if (user.user) user = user.user;
 
     let result;

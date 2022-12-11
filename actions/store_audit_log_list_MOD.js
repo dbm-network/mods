@@ -185,7 +185,7 @@ module.exports = {
         break;
       default: {
         mem = await this.getMemberFromData(data.member - 1, data.varName, cache);
-        break; 
+        break;
       }
     }
 
