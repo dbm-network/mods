@@ -40,7 +40,7 @@ module.exports = {
 
   html(isEvent, data) {
     return `
-<div style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
+<div style="height: 350px; overflow-y: scroll; overflow-x: hidden;">
   <div>
     <details>
       <summary><span style="color: white"><b>Filter Examples:</b></summary>
@@ -73,22 +73,13 @@ module.exports = {
     </details>
   </div><br>
   <div>
-    <div style="float: left; width: 35%;">
-      Source Message:<br>
-      <select id="storage" class="round" onchange="glob.messageChange(this, 'varNameContainer')">
-        ${data.messages[isEvent ? 1 : 0]}
-      </select>
-    </div>
-    <div id="varNameContainer" style="display: none; float: right; width: 60%;">
-      Variable Name:<br>
-      <input id="varName" class="round" type="text" list="variableList">
-    </div>
+    <message-input dropdownLabel="Source Message" selectId="message" variableContainerId="varNameContainer" variableInputId="varName"></message-input>
   </div><br><br><br>
-  <div style="width: 567px; margin-top: 8px;">
+  <div style="margin-top: 8px;">
     JavaScript Filter Eval: <span style="opacity: 0.5;">(JavaScript Strings)<br>
     <input id="filter" class="round" type="text" value="reaction.emoji.name === '👌' && author.id === user.id">
   </div><br>
-  <div style="float: left; width: 50%;">
+  <div style="float: left; width: 49%; margin-right: 8px;">
     Max Reactions:<br>
     <input id="max" class="round" type="text" value="1" placeholder="Optional"><br>
   </div>
@@ -96,7 +87,7 @@ module.exports = {
     Max Time (milliseconds):<br>
     <input id="time" class="round" type="text" value="60000" placeholder="Optional"><br>
   </div><br><br><br>
-  <div style="float: left; width: 50%;">
+  <div style="float: left; width: 49%; margin-right: 8px;">
     Max Emojis:<br>
     <input id="maxEmojis" class="round" type="text" placeholder="Optional"><br>
   </div>
@@ -166,8 +157,6 @@ module.exports = {
   init() {
     const { glob, document } = this;
 
-    glob.messageChange(document.getElementById('storage'), 'varNameContainer');
-
     glob.variableChange(document.getElementById('storage2'), 'varNameContainer2');
     glob.onChangeTrue = function onChangeTrue(event) {
       switch (parseInt(event.value, 10)) {
@@ -220,7 +209,7 @@ module.exports = {
   async action(cache) {
     const data = cache.actions[cache.index];
     const { Actions } = this.getDBM();
-    const msg = await this.getMessageFromData(data.storage, data.varName, cache);
+    const msg = await this.getMessageFromData(data.message, data.varName, cache);
 
     const storage = parseInt(data.storage2, 10);
     const varName2 = this.evalMessage(data.varName2, cache);

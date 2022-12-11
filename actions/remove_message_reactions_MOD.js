@@ -10,35 +10,23 @@ module.exports = {
   },
 
   subtitle() {
-    return 'Remove reactions from Message';
+    return 'Remove reactions from a message';
   },
 
-  fields: ['storage', 'varName'],
+  fields: ['message', 'varName'],
 
-  html(isEvent, data) {
+  html() {
     return `
 <div>
-  <div style="float: left; width: 35%;">
-    Source Message:<br>
-    <select id="storage" class="round" onchange="glob.messageChange(this, 'varNameContainer')">
-      ${data.messages[isEvent ? 1 : 0]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList"><br>
-  </div>
+<message-input dropdownLabel="Source Message" selectId="message" variableContainerId="varNameContainer" variableInputId="varName"></message-input>
 </div>`;
   },
 
-  init() {
-    const { glob, document } = this;
-    glob.messageChange(document.getElementById('storage'), 'varNameContainer');
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const message = await this.getMessageFromData(data.storage, data.varName, cache);
+    const message = await this.getMessageFromData(data.message, data.varName, cache);
 
     if (Array.isArray(message)) {
       this.callListFunc(

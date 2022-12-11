@@ -15,11 +15,12 @@ module.exports = {
     return data.storage === '0' ? `Un-Pin ${names[index]}` : `Un-Pin ${names[index]} (${data.varName})`;
   },
 
-  fields: ['storage', 'varName'],
+  fields: ['message', 'varName'],
 
   html(isEvent, data) {
     return `
 <div>
+<message-input dropdownLabel="Source Message" selectId="message" variableContainerId="varNameContainer" variableInputId="varName"></message-input>
   <div style="float: left; width: 35%;">
     Source Message:<br>
     <select id="storage" class="round" onchange="glob.messageChange(this, 'varNameContainer')">
@@ -33,14 +34,11 @@ module.exports = {
 </div>`;
   },
 
-  init() {
-    const { glob, document } = this;
-    glob.messageChange(document.getElementById('storage'), 'varNameContainer');
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const message = await this.getMessageFromData(data.storage, data.varName, cache);
+    const message = await this.getMessageFromData(data.message, data.varName, cache);
 
     if (Array.isArray(message)) {
       this.callListFunc(message, 'unpin', []).then(() => {
