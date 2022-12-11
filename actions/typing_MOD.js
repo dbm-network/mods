@@ -13,7 +13,9 @@ module.exports = {
     const names2 = ['Starts Typing', 'Stops Typing'];
     const index2 = parseInt(data.typing, 10);
     const index = parseInt(data.storage, 10);
-    return index < 3 ? `${presets.getChannelText(data.storage, data.varName)} - ${names2[index2]}` : `${presets.getChannelText(data.storage, data.varName)} - ${data.varName} - ${names2[index2]}`;
+    return index < 3
+      ? `${presets.getChannelText(data.storage, data.varName)} - ${names2[index2]}`
+      : `${presets.getChannelText(data.storage, data.varName)} - ${data.varName} - ${names2[index2]}`;
   },
 
   fields: ['storage', 'varName', 'typing'],

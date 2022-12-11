@@ -12,10 +12,22 @@ module.exports = {
 
   subtitle(data, presets) {
     const target = parseInt(data.target, 10);
-    return `${presets.getChannelText(data.channel, data.channelVarNameContainer)} - ${target === 0 ? presets.getRoleText(data.role, data.varName2) : presets.getMemberText(data.member, data.varName3)}`;
+    return `${presets.getChannelText(data.channel, data.channelVarNameContainer)} - ${
+      target === 0 ? presets.getRoleText(data.role, data.varName2) : presets.getMemberText(data.member, data.varName3)
+    }`;
   },
 
-  fields: ['channel', 'channelVarNameContainer', 'target', 'role', 'varName2', 'member', 'varName3', 'storage3', 'varName4'],
+  fields: [
+    'channel',
+    'channelVarNameContainer',
+    'target',
+    'role',
+    'varName2',
+    'member',
+    'varName3',
+    'storage3',
+    'varName4',
+  ],
 
   html(isEvent, data) {
     return `
