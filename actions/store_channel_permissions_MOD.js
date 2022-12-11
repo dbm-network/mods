@@ -10,68 +10,17 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/store_channel_permissions_MOD.js',
   },
 
-  subtitle(data) {
-    const roles = [
-      'Mentioned Role',
-      '1st Author Role',
-      '1st Server Role',
-      'Temp Variable',
-      'Server Variable',
-      'Global Variable',
-    ];
-    const index = ['Granted', 'Denied'];
-    const perm = [
-      'Administrator',
-      'Manage Guild',
-      'Manage Nicknames',
-      'Manage Roles',
-      'Manage Emojis',
-      'Kick Members',
-      'Ban Members',
-      'View Audit Log',
-      'Change Nickname',
-      'Create Instant Invite',
-      'Priority Speaker',
-      'Manage Channel',
-      'Manage Webhooks',
-      'Read Messages',
-      'Send Messages',
-      'Send TTS Messages',
-      'Manage Messages',
-      'Embed Links',
-      'Attach Files',
-      'Read Message History',
-      'Mention Everyone',
-      'Use External Emojis',
-      'Add Reactions',
-      'Connect to Voice',
-      'Speak in Voice',
-      'Mute Members',
-      'Deafen Members',
-      'Move Members',
-      'Use Voice Activity',
-      'All Permissions',
-    ];
-    return `${roles[data.role]} - ${perm[data.permission]} - ${index[data.state]} ${
-      !data.reason ? '' : `with Reason: <i>${data.reason}<i>`
-    }`;
+  subtitle(data, presets) {
+    const target = parseInt(data.target, 10);
+    return `${presets.getChannelText(data.channel, data.channelVarNameContainer)} - ${target === 0 ? presets.getRoleText(data.role, data.varName2) : presets.getMemberText(data.member, data.varName3)}`;
   },
 
-  fields: ['storage', 'varName', 'target', 'role', 'varName2', 'member', 'varName3', 'storage3', 'varName4'],
+  fields: ['channel', 'channelVarNameContainer', 'target', 'role', 'varName2', 'member', 'varName3', 'storage3', 'varName4'],
 
   html(isEvent, data) {
     return `
 <div style="padding-top: 8px;">
-  <div style="float: left; width: 35%;">
-    Source Channel:<br>
-    <select id="storage" class="round" onchange="glob.channelChange(this, 'varNameContainer')">
-      ${data.channels[isEvent ? 1 : 0]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList">
-  </div>
+<channel-input dropdownLabel="Source Channel" selectId="channel" variableContainerId="channelVarNameContainer" variableInputId="channelVarName"></channel-input>
 </div><br><br><br>
 <div style="padding-top: 8px;">
   <div style="float: left; width: 35%;">
@@ -123,8 +72,6 @@ module.exports = {
   init() {
     const { glob, document } = this;
 
-    glob.channelChange(document.getElementById('storage'), 'varNameContainer');
-
     glob.roleChange(document.getElementById('role'), 'varNameContainer2');
     glob.memberChange(document.getElementById('member'), 'varNameContainer3');
 
@@ -153,7 +100,7 @@ module.exports = {
       target = await this.getMemberFromData(data.member, data.varName3, cache);
     }
 
-    const targetChannel = await this.getChannelFromData(data.storage, data.varName, cache)
+    const targetChannel = await this.getChannelFromData(data.channel, data.channelVarNameContainer, cache)
 
     const allow = target.permissionsIn(targetChannel);
     const permissions = {};
