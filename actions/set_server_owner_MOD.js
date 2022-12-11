@@ -18,31 +18,13 @@ module.exports = {
 
   fields: ['server', 'varName', 'member', 'varName2', 'reason'],
 
-  html(isEvent, data) {
+  html() {
     return `
 <div>
-  <div style="float: left; width: 35%;">
-    Source Server:<br>
-    <select id="server" class="round" onchange="glob.serverChange(this, 'varNameContainer')">
-      ${data.servers[isEvent ? 1 : 0]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList">
-  </div>
+<server-input dropdownLabel="Source Server" selectId="server" variableContainerId="varNameContainer" variableInputId="varName"></server-input>
 </div><br><br><br>
 <div style="padding-top: 8px;">
-  <div style="float: left; width: 35%;">
-    Source Member:<br>
-    <select id="member" class="round" onchange="glob.memberChange(this, 'varNameContainer2')">
-      ${data.members[isEvent ? 1 : 0]}
-    </select>
-  </div>
-  <div id="varNameContainer2" style="display: none; float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName2" class="round" type="text" list="variableList2"><br>
-  </div>
+<member-input dropdownLabel="Source Member" selectId="member" variableContainerId="varNameContainer2" variableInputId="varName2"></member-input>
 </div><br><br><br>
 <div style="padding-top: 8px;">
   Reason:<br>
@@ -50,12 +32,7 @@ module.exports = {
 </div>`;
   },
 
-  init() {
-    const { glob, document } = this;
-
-    glob.serverChange(document.getElementById('server'), 'varNameContainer');
-    glob.memberChange(document.getElementById('member'), 'varNameContainer2');
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];

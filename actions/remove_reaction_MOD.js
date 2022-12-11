@@ -31,16 +31,7 @@ module.exports = {
   </div>
 </div><br><br><br><br>
 <div>
-  <div style="float: left; width: 35%;">
-    Source Member:<br>
-    <select id="member" class="round" onchange="glob.memberChange(this, 'varNameContainer2')">
-      ${data.members[isEvent ? 1 : 0]}
-    </select>
-  </div>
-  <div id="varNameContainer2" style="display: none; float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName2" class="round" type="text" list="variableList"><br>
-  </div>
+<member-input dropdownLabel="Source Member" selectId="member" variableContainerId="varNameContainer" variableInputId="varName"></member-input>
 </div>`;
   },
 
@@ -48,7 +39,6 @@ module.exports = {
     const { glob, document } = this;
 
     glob.refreshVariableList(document.getElementById('reaction'));
-    glob.memberChange(document.getElementById('member'), 'varNameContainer2');
   },
 
   async action(cache) {

@@ -76,21 +76,12 @@ module.exports = {
     return [data.varName2, dataType];
   },
 
-  fields: ['user', 'varName', 'info', 'storage', 'varName2'],
+  fields: ['member', 'varName', 'info', 'storage', 'varName2'],
 
   html(isEvent, data) {
     return `
   <div>
-    <div style="float: left; width: 35%">
-      Source User:<br>
-      <select id="user" class="round" onchange="glob.memberChange(this, 'varNameContainer')">
-        ${data.members[isEvent ? 1 : 0]}
-      </select>
-    </div>
-    <div id="varNameContainer" style="display: none; float: right; width: 60%">
-      Variable Name:<br>
-      <input id="varName" class="round" type="text" list="variableList"><br>
-    </div>
+  <member-input dropdownLabel="Source Member" selectId="member" variableContainerId="varNameContainer" variableInputId="varName"></member-input>
   </div><br><br><br>
   <div>
     <div style="padding-top: 8px; width: 70%">
@@ -128,16 +119,12 @@ module.exports = {
   </div>`;
   },
 
-  init() {
-    const { glob, document } = this;
-
-    glob.memberChange(document.getElementById('user'), 'varNameContainer');
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];
     const info = parseInt(data.info, 10);
-    let user = await this.getMemberFromData(data.userType, data.varName, cache);
+    let user = await this.getMemberFromData(data.members, data.varName, cache);
     if (!user) return this.callNextAction(cache);
     if (user.user) user = user.user;
 

@@ -56,16 +56,7 @@ module.exports = {
   </div>
 </div>
 <div id="memberHolder" style="display: none; padding-top: 8px;">
-  <div style="float: left; width: 35%;">
-    Source Member:<br>
-    <select id="member" class="round" onchange="glob.memberChange(this, 'varNameContainer3')">
-      ${data.members[isEvent ? 1 : 0]}
-    </select>
-  </div>
-  <div id="varNameContainer3" style="display: none; float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName3" class="round" type="text" list="variableList">
-  </div>
+<member-input dropdownLabel="Source Member" selectId="member" variableContainerId="varNameContainer3" variableInputId="varName3"></member-input>
 </div><br><br><br>
 <div style="padding-top: 8px;">
   <div style="float: left; width: 35%;">
@@ -85,7 +76,6 @@ module.exports = {
     const { glob, document } = this;
 
     glob.roleChange(document.getElementById('role'), 'varNameContainer2');
-    glob.memberChange(document.getElementById('member'), 'varNameContainer3');
 
     const roleHolder = document.getElementById('roleHolder');
     const memberHolder = document.getElementById('memberHolder');
