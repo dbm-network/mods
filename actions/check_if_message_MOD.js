@@ -24,7 +24,7 @@ module.exports = {
 
   html(isEvent, data) {
     return `
-<div style="padding-top: 20px;">
+<div>
 <message-input dropdownLabel="Source Message" selectId="message" variableContainerId="varNameContainer" variableInputId="varName"></message-input>
 <br><br><br>
   <div style="float: left; width: 40%;">
@@ -107,6 +107,7 @@ module.exports = {
           break;
       }
     };
+    glob.messageChange(document.getElementById('message'), 'varNameContainer');
     glob.onChangeTrue(document.getElementById('iftrue'));
     glob.onChangeFalse(document.getElementById('iffalse'));
   },
@@ -114,6 +115,7 @@ module.exports = {
   async action(cache) {
     const data = cache.actions[cache.index];
     const msg = await this.getMessageFromData(data.message, data.varName, cache);
+
     const info = parseInt(data.info, 10);
     let result = false;
     switch (info) {
