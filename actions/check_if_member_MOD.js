@@ -9,15 +9,9 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/check_if_member_MOD.js',
   },
 
-  subtitle(data) {
-    const results = [
-      'Continue Actions',
-      'Stop Action Sequence',
-      'Jump To Action',
-      'Jump Forward Actions',
-      'Jump to Anchor',
-    ];
-    return `If True: ${results[parseInt(data.iftrue, 10)]} ~ If False: ${results[parseInt(data.iffalse, 10)]}`;
+  subtitle(data, presets) {
+    const info = ['Is Bot?', 'Is Bannable?', 'Is Kickable?', 'Is In Voice Channel?', 'Is In Voice Channel?', 'Is User Manageable?', 'Is Bot Owner?', 'Is Muted?', 'Is Deafened?', 'Is Command Author?', 'Is Current Server Owner?', 'Is Boosting Current Server?', 'Is in timeout?'];
+    return `${presets.getMemberText(data.member, data.varName)} - ${info[parseInt(data.info, 10)]}`;
   },
 
   fields: ['member', 'varName', 'info', 'varName2', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal'],

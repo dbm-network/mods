@@ -9,15 +9,9 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/check_if_message_MOD.js',
   },
 
-  subtitle(data) {
-    const results = [
-      'Continue Actions',
-      'Stop Action Sequence',
-      'Jump To Action',
-      'Jump Forward Actions',
-      'Jump to Anchor',
-    ];
-    return `If True: ${results[parseInt(data.iftrue, 10)]} ~ If False: ${results[parseInt(data.iffalse, 10)]}`;
+  subtitle(data, presets) {
+    const info = ['Is Pinnable?', 'Is Pinned?', 'Is Deletable?', 'Is Deleted?', 'Is TTS?', 'Is Of Discord?', 'Includes @everyone Mention?']
+    return `${presets.getMessageText(data.message, data.varName)} - ${info[parseInt(data.info, 10)]}`;
   },
 
   fields: ['message', 'varName', 'info', 'varName2', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal'],
