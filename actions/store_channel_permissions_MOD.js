@@ -17,17 +17,7 @@ module.exports = {
     }`;
   },
 
-  fields: [
-    'storage',
-    'varName',
-    'target',
-    'role',
-    'varName2',
-    'member',
-    'varName3',
-    'storage3',
-    'varName4',
-  ],
+  fields: ['storage', 'varName', 'target', 'role', 'varName2', 'member', 'varName3', 'storage3', 'varName4'],
 
   html(isEvent, data) {
     return `

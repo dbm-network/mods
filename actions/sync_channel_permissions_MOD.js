@@ -24,7 +24,7 @@ module.exports = {
 
   fields: ['channel', 'varName', 'permission', 'state'],
 
-  html(isEvent, data) {
+  html() {
     return `
 <channel-input dropdownLabel="Source Channel" selectId="channel" variableContainerId="varNameContainer" variableInputId="varName"></channel-input>
 `;

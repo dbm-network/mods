@@ -61,7 +61,7 @@ module.exports = {
 
   fields: ['role', 'varName', 'permission', 'state', 'reason'],
 
-  html(isEvent, data) {
+  html() {
     return `
 <role-input dropdownLabel="Source Role" selectId="role" variableContainerId="varNameContainer" variableInputId="varName"></role-input>
 <br><br><br>
@@ -152,10 +152,7 @@ module.exports = {
 </style>`;
   },
 
-  init() {
-    const { glob, document } = this;
-    glob.roleChange(document.getElementById('role'), 'varNameContainer');
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];
