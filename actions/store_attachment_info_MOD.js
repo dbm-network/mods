@@ -1,7 +1,7 @@
 module.exports = {
   name: 'Store Attachment Info',
   section: 'Messaging',
-  fields: ['message', 'varName', 'info', 'storage2', 'varName2'],
+  fields: ['storage', 'varName', 'info', 'storage2', 'varName2'],
   meta: {
     version: '2.1.6',
     preciseCheck: false,
@@ -32,9 +32,9 @@ module.exports = {
 
   html(isEvent, data) {
     return `
-<div>
-  <message-input dropdownLabel="Source Message" selectId="message" variableContainerId="varNameContainer" variableInputId="varName"></message-input>
-</div><br><br>
+<message-input dropdownLabel="Source Message" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></message-input>
+<br><br>
+
 <div style="float: left; width: 80%; padding-top: 8px;">
   Source Info:<br>
   <select id="info" class="round">
@@ -44,13 +44,16 @@ module.exports = {
     <option value="3">Attachment's Width</option>
     <option value="5">Attachment File's Size (KB)</option>
   </select>
-</div><br><br>
+</div>
+<br><br>
+
 <div style="float: left; width: 35%; padding-top: 8px;">
   Store In:<br>
   <select id="storage2" class="round" onchange="glob.variableChange(this, 'varNameContainer2')>
     ${data.variables[0]}
   </select>
 </div>
+
 <div id="varNameContainer2" style="float: right; width: 60%; padding-top: 8px;">
   Variable Name:<br>
   <input id="varName2" class="round" type="text"><br>
@@ -64,7 +67,7 @@ module.exports = {
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const message = await this.getMessageFromData(data.message, data.varName, cache);
+    const message = await this.getMessageFromData(data.storage, data.varName, cache);
     const info = parseInt(data.info, 10);
 
     const attachments = [...message.attachments.values()];

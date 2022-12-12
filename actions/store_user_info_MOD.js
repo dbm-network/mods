@@ -76,12 +76,12 @@ module.exports = {
     return [data.varName2, dataType];
   },
 
-  fields: ['member', 'varName', 'info', 'storage', 'varName2'],
+  fields: ['user', 'varName', 'info', 'storage', 'varName2'],
 
   html(isEvent, data) {
     return `
   <div>
-  <member-input dropdownLabel="Source Member" selectId="member" variableContainerId="varNameContainer" variableInputId="varName"></member-input>
+  <member-input dropdownLabel="Source Member" selectId="user" variableContainerId="varNameContainer" variableInputId="varName"></member-input>
   </div><br><br><br>
   <div>
     <div style="padding-top: 8px; width: 70%">
@@ -124,7 +124,7 @@ module.exports = {
   async action(cache) {
     const data = cache.actions[cache.index];
     const info = parseInt(data.info, 10);
-    let user = await this.getMemberFromData(data.members, data.varName, cache);
+    let user = await this.getMemberFromData(data.user, data.varName, cache);
     if (!user) return this.callNextAction(cache);
     if (user.user) user = user.user;
 

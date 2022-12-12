@@ -10,25 +10,17 @@ module.exports = {
   },
 
   subtitle(data, presets) {
-    return `${presets.getRoleText(data.role, data.varName)} has ${data.permission}?`;
+    return `${presets.getRoleText(data.role, data.varName)} has ${data.permission}?`
   },
 
   fields: ['role', 'varName', 'permission', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal'],
 
   html(isEvent, data) {
     return `
-<div>
-  <div style="float: left; width: 35%;">
-    Source Role:<br>
-    <select id="role" class="round" onchange="glob.roleChange(this, 'varNameContainer')">
-      ${data.roles[isEvent ? 1 : 0]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList"><br>
-  </div>
-</div><br><br><br>
+<role-input dropdownLabel="Source Role" selectId="role" variableContainerId="varNameContainer" variableInputId="varName"></role-input>
+
+<br><br><br>
+
 <div style="padding-top: 8px; width: 80%;">
   Permission:<br>
   <select id="permission" class="round">
@@ -98,7 +90,7 @@ module.exports = {
           break;
       }
     };
-    glob.roleChange(document.getElementById('role'), 'varNameContainer');
+
     glob.onChangeTrue(document.getElementById('iftrue'));
     glob.onChangeFalse(document.getElementById('iffalse'));
   },

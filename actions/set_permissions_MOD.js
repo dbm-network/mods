@@ -20,10 +20,10 @@ module.exports = {
       'Global Variable',
     ];
     const way = ['Update', 'Set'];
-    return `${way[data.way]} ${roles[data.storage]} ${!data.reason ? '' : `with Reason: <i>${data.reason}<i>`}`;
+    return `${way[data.way]} ${roles[data.role]} ${!data.reason ? '' : `with Reason: <i>${data.reason}<i>`}`;
   },
 
-  fields: ['way', 'storage', 'varName', 'storage2', 'varName2', 'reason'],
+  fields: ['way', 'role', 'varName', 'storage2', 'varName2', 'reason'],
 
   html(isEvent, data) {
     return `
@@ -35,19 +35,13 @@ module.exports = {
       <option value="1">Set</option>
     </select>
   </div>
-</div><br><br><br>
-<div style="padding-top: 8px;">
-  <div style="float: left; width: 35%;">
-    Source Role:<br>
-    <select id="storage" class="round" onchange="glob.roleChange(this, 'varNameContainer')">
-      ${data.roles[isEvent ? 1 : 0]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList"><br>
-  </div>
-</div><br><br><br>
+</div>
+<br><br><br>
+
+<role-input dropdownLabel="Source Role" selectId="role" variableContainerId="varNameContainer" variableInputId="varName"></role-input>
+
+<br><br><br>
+
 <div style="padding-top: 8px;">
   <div style="float: left; width: 35%;">
     Source Permissions:<br>
@@ -59,7 +53,10 @@ module.exports = {
     Variable Name:<br>
     <input id="varName2" class="round" type="text" list="variableList"><br>
   </div>
-</div><br><br><br>
+</div>
+
+<br><br><br>
+
 <div style="padding-top: 8px;">
   Reason:<br>
   <textarea id="reason" rows="2" placeholder="Insert reason here... (optional)" style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
@@ -68,14 +65,12 @@ module.exports = {
 
   init() {
     const { glob, document } = this;
-
-    glob.roleChange(document.getElementById('storage'), 'varNameContainer');
     glob.refreshVariableList(document.getElementById('storage2'));
   },
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const role = await this.getRoleFromData(data.storage, data.varName, cache);
+    const role = await this.getRoleFromData(data.role, data.varName, cache);
     let permissions = this.getVariableFromData(data.storage2, data.varName2, cache);
     const reason = this.evalMessage(data.reason, cache);
     const way = parseInt(data.way, 10);

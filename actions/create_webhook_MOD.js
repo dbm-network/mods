@@ -18,30 +18,27 @@ module.exports = {
     return [data.varName2, 'Webhook'];
   },
 
-  fields: ['webhookName', 'webhookIcon', 'storage', 'varName', 'storage2', 'varName2'],
+  fields: ['webhookName', 'webhookIcon', 'channel', 'varName', 'storage2', 'varName2'],
 
   html(_isEvent, data) {
     return `
 <div style="width: 90%;">
   Webhook Name:<br>
   <input id="webhookName" class="round" type="text">
-</div><br>
+</div>
+<br>
+
 <div style="width: 90%;">
   Webhook Icon URL:<br>
   <input id="webhookIcon" class="round" type="text">
-</div><br>
+</div>
+<br>
+
 <div>
-  <div style="float: left; width: 35%;">
-    Source Channel:<br>
-    <select id="storage" class="round" onchange="glob.channelChange(this, 'varNameContainer')">
-      ${data.channels[1]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList"><br>
-  </div>
-</div><br><br><br>
+  <channel-input dropdownLabel="Source Channel" selectId="channel" variableContainerId="varNameContainer" variableInputId="varName"></channel-input>
+</div>
+<br><br><br>
+
 <div style="padding-top: 8px;">
   <div style="float: left; width: 35%;">
     Store In:<br>
@@ -58,14 +55,12 @@ module.exports = {
 
   init() {
     const { glob, document } = this;
-
-    glob.channelChange(document.getElementById('storage'), 'varNameContainer');
     glob.variableChange(document.getElementById('storage2'), 'varNameContainer2');
   },
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const channel = await this.getChannelFromData(data.storage, data.varName, cache);
+    const channel = await this.getChannelFromData(data.channel, data.varName, cache);
 
     if (!channel?.createWebhook) return this.callNextAction(cache);
 

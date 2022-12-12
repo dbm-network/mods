@@ -18,8 +18,9 @@ module.exports = {
   },
 
   fields: [
-    'channel',
     'channelVarNameContainer',
+    'storage',
+    'varName',
     'target',
     'role',
     'varName2',
@@ -32,8 +33,10 @@ module.exports = {
   html(isEvent, data) {
     return `
 <div style="padding-top: 8px;">
-<channel-input dropdownLabel="Source Channel" selectId="channel" variableContainerId="channelVarNameContainer" variableInputId="channelVarName"></channel-input>
-</div><br><br><br>
+  <channel-input dropdownLabel="Source Channel" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></channel-input>
+</div>
+<br><br><br>
+
 <div style="padding-top: 8px;">
   <div style="float: left; width: 35%;">
     Target Type:<br>
@@ -42,22 +45,18 @@ module.exports = {
       <option value="1">Member</option>
     </select>
   </div>
-</div><br><br><br>
-<div id="roleHolder" style="padding-top: 8px;">
-  <div style="float: left; width: 35%;">
-    Source Role:<br>
-    <select id="role" class="round" onchange="glob.roleChange(this, 'varNameContainer2')">
-      ${data.roles[isEvent ? 1 : 0]}
-    </select>
-  </div>
-  <div id="varNameContainer2" style="display: none; float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName2" class="round" type="text" list="variableList"><br>
-  </div>
 </div>
+<br><br><br>
+
+<div id="roleHolder" style="padding-top: 8px;">
+  <role-input dropdownLabel="Source Role" selectId="role" variableContainerId="roleVarNameContainer" variableInputId="varName2"></role-input>
+</div>
+
 <div id="memberHolder" style="display: none; padding-top: 8px;">
-<member-input dropdownLabel="Source Member" selectId="member" variableContainerId="varNameContainer3" variableInputId="varName3"></member-input>
-</div><br><br><br>
+  <member-input dropdownLabel="Source Member" selectId="member" variableContainerId="memberVarNameContainer" variableInputId="memberVarName"></member-input>
+</div>
+<br><br><br>
+
 <div style="padding-top: 8px;">
   <div style="float: left; width: 35%;">
     Store In:<br>
@@ -74,8 +73,6 @@ module.exports = {
 
   init() {
     const { glob, document } = this;
-
-    glob.roleChange(document.getElementById('role'), 'varNameContainer2');
 
     const roleHolder = document.getElementById('roleHolder');
     const memberHolder = document.getElementById('memberHolder');
@@ -102,7 +99,7 @@ module.exports = {
       target = await this.getMemberFromData(data.member, data.varName3, cache);
     }
 
-    const targetChannel = await this.getChannelFromData(data.channel, data.channelVarNameContainer, cache);
+    const targetChannel = await this.getChannelFromData(data.storage, data.varName, cache);
 
     const allow = target.permissionsIn(targetChannel);
     const permissions = {};

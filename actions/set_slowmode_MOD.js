@@ -10,7 +10,7 @@ module.exports = {
   },
 
   subtitle(data, presets) {
-    return `${presets.getChannelText(data.storage, data.varName)} : ${data.amount} seconds`;
+    return `${presets.getChannelText(data.channel, data.varName)} : ${data.amount} seconds`;
   },
 
   variableStorage(data, varType) {
@@ -18,7 +18,7 @@ module.exports = {
     return [data.varName2, 'Channel'];
   },
 
-  fields: ['storage', 'varName', 'varName2', 'amount', 'reason'],
+  fields: ['channel', 'varName', 'varName2', 'amount', 'reason'],
 
   html() {
     return `
@@ -26,12 +26,14 @@ module.exports = {
     <channel-input
         style="padding-top: 8px;"
         dropdownLabel="Source Channel"
-        selectId="storage"
+        selectId="channel"
         variableContainerId="varNameContainer"
         variableInputId="varName"
         selectWidth="45%"
         variableInputWidth="50%"/>
-    </div><br><br><br><br>
+    </div>
+    <br><br><br>
+    
     <div>
       <div style="padding-top: 8px;">
         <div style="float: left; width: 50%;" padding-top: 16px;">
@@ -50,7 +52,7 @@ module.exports = {
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const channel = await this.getChannelFromData(data.storage, data.varName, cache);
+    const channel = await this.getChannelFromData(data.channel, data.varName, cache);
     const amount = this.evalMessage(data.amount, cache);
     const reason = this.evalMessage(data.reason, cache);
 

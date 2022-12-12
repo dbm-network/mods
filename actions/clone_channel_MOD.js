@@ -19,8 +19,8 @@ module.exports = {
   },
 
   fields: [
-    'channel',
-    'channelvarName',
+    'storage',
+    'varName',
     'categoryID',
     'position',
     'permission',
@@ -37,8 +37,10 @@ module.exports = {
   html(isEvent, data) {
     return `
 <div style="padding-top: 8px;">
-  <channel-input dropdownLabel="Source Channel" selectId="channel" variableContainerId="channelVarNameContainer" variableInputId="channelVarName"></channel-input>
-</div><br><br><br>
+  <channel-input dropdownLabel="Source Channel" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></channel-input>
+</div>
+<br><br><br>
+
 <div style="padding-top: 8px;">
   <div style="float: left; width: 50%;">
     Category ID:<br>
@@ -48,7 +50,9 @@ module.exports = {
     Position:<br>
     <input id="position" class="round" type="text"><br>
   </div>
-</div><br><br><br>
+</div>
+<br><br><br>
+
 <div>
   <div style="float: left; width: 45%;">
     Clone Permission:<br>
@@ -65,7 +69,9 @@ module.exports = {
       <option value="2">Voice Channel</option>
     </select><br>
   </div>
-</div><br><br><br>
+</div>
+<br><br><br>
+
 <div id="text" style="display: none">
   <div style="float: left; width: 28%;">
     Clone Topic:<br>
@@ -105,6 +111,7 @@ module.exports = {
     </select><br>
   </div>
 </div>
+
 <div style="padding-top: 8px;">
   <div style="float: left; width: 35%;">
     Store In:<br>
@@ -141,7 +148,7 @@ module.exports = {
   async action(cache) {
     const data = cache.actions[cache.index];
     const { server } = cache;
-    const channel = await this.getChannelFromData(data.channel, data.channelVarName, cache);
+    const channel = await this.getChannelFromData(data.storage, data.varName, cache);
 
     if (!server || !channel) {
       console.log(`${server ? 'channel' : 'server'} could not be found! Clone Channel MOD.`);

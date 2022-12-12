@@ -13,20 +13,18 @@ module.exports = {
     return 'Remove reactions from a message';
   },
 
-  fields: ['message', 'varName'],
+  fields: ['storage', 'varName'],
 
   html() {
     return `
-<div>
-<message-input dropdownLabel="Source Message" selectId="message" variableContainerId="varNameContainer" variableInputId="varName"></message-input>
-</div>`;
+<message-input dropdownLabel="Source Message" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></message-input>`;
   },
 
   init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const message = await this.getMessageFromData(data.message, data.varName, cache);
+    const message = await this.getMessageFromData(data.storage, data.varName, cache);
 
     if (Array.isArray(message)) {
       this.callListFunc(
