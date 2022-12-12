@@ -17,21 +17,9 @@ module.exports = {
 
   fields: ['storage', 'varName'],
 
-  html(isEvent, data) {
+  html() {
     return `
-<div>
-<message-input dropdownLabel="Source Message" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></message-input>
-  <div style="float: left; width: 35%;">
-    Source Message:<br>
-    <select id="storage" class="round" onchange="glob.messageChange(this, 'varNameContainer')">
-      ${data.messages[isEvent ? 1 : 0]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList"><br>
-  </div>
-</div>`;
+<message-input dropdownLabel="Source Message" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></message-input>`;
   },
 
   init() {},

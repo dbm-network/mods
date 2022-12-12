@@ -30,7 +30,10 @@ module.exports = {
       <option value="1">Stop Typing</option>
     </select>
   </div><br>
-</div><br><br>
+</div>
+<br>
+<br>
+
 <div>
   <div style="float: left; width: 35%;">
     Channel to start typing in:<br>
@@ -42,7 +45,9 @@ module.exports = {
     Variable Name:<br>
     <input id="varName" class="round" type="text" list="variableList"><br>
   </div>
-</div><br><br><br>
+</div>
+<br><br><br>
+
 <div>
   <p>
     You can stop the typing with <b>Stop Typing</b>

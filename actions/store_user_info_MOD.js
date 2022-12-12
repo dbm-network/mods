@@ -82,7 +82,9 @@ module.exports = {
     return `
   <div>
   <member-input dropdownLabel="Source Member" selectId="user" variableContainerId="varNameContainer" variableInputId="varName"></member-input>
-  </div><br><br><br>
+  </div>
+  <br><br><br>
+
   <div>
     <div style="padding-top: 8px; width: 70%">
       Source Info:<br>
@@ -104,7 +106,9 @@ module.exports = {
         <option value="14">User Client Status</option>'
       </select>
     </div>
-  </div><br>
+  </div>
+  <br>
+  
   <div>
     <div style="float: left; width: 35%">
       Store In:<br>
