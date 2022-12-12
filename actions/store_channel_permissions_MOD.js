@@ -18,7 +18,6 @@ module.exports = {
   },
 
   fields: [
-    'channelVarNameContainer',
     'storage',
     'varName',
     'target',
