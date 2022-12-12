@@ -18,7 +18,7 @@ module.exports = {
     return [data.varName2, 'Webhook'];
   },
 
-  fields: ['webhookName', 'webhookIcon', 'channel', 'varName', 'storage2', 'varName2'],
+  fields: ['webhookName', 'webhookIcon', 'storage', 'varName', 'storage2', 'varName2'],
 
   html(_isEvent, data) {
     return `
@@ -34,9 +34,7 @@ module.exports = {
 </div>
 <br>
 
-<div>
-  <channel-input dropdownLabel="Source Channel" selectId="channel" variableContainerId="varNameContainer" variableInputId="varName"></channel-input>
-</div>
+<channel-input dropdownLabel="Source Channel" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></channel-input>
 <br><br><br>
 
 <div style="padding-top: 8px;">
@@ -60,7 +58,7 @@ module.exports = {
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const channel = await this.getChannelFromData(data.channel, data.varName, cache);
+    const channel = await this.getChannelFromData(data.storage, data.varName, cache);
 
     if (!channel?.createWebhook) return this.callNextAction(cache);
 

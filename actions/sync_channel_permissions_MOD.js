@@ -22,18 +22,15 @@ module.exports = {
     return index < 3 ? `${names[index]}` : `${names[index]} - ${data.varName}`;
   },
 
-  fields: ['channel', 'varName', 'permission', 'state'],
+  fields: ['storage', 'varName', 'permission', 'state'],
 
   html() {
     return `
-<channel-input dropdownLabel="Source Channel" selectId="channel" variableContainerId="varNameContainer" variableInputId="varName"></channel-input>
+<channel-input dropdownLabel="Source Channel" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></channel-input>
 `;
   },
 
-  init() {
-    const { glob, document } = this;
-    glob.channelChange(document.getElementById('storage'), 'varNameContainer');
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];

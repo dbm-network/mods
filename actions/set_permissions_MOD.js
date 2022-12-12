@@ -23,7 +23,7 @@ module.exports = {
     return `${way[data.way]} ${roles[data.role]} ${!data.reason ? '' : `with Reason: <i>${data.reason}<i>`}`;
   },
 
-  fields: ['way', 'role', 'varName', 'storage2', 'varName2', 'reason'],
+  fields: ['way', 'storage', 'varName', 'storage2', 'varName2', 'reason'],
 
   html(isEvent, data) {
     return `
@@ -38,7 +38,7 @@ module.exports = {
 </div>
 <br><br><br>
 
-<role-input dropdownLabel="Source Role" selectId="role" variableContainerId="varNameContainer" variableInputId="varName"></role-input>
+<role-input dropdownLabel="Source Role" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></role-input>
 
 <br><br><br>
 
@@ -70,7 +70,7 @@ module.exports = {
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const role = await this.getRoleFromData(data.role, data.varName, cache);
+    const role = await this.getRoleFromData(data.storage, data.varName, cache);
     let permissions = this.getVariableFromData(data.storage2, data.varName2, cache);
     const reason = this.evalMessage(data.reason, cache);
     const way = parseInt(data.way, 10);
