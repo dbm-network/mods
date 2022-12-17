@@ -71,14 +71,20 @@ module.exports = {
         </span>
       </div><br>
     </details>
-  </div><br>
+  </div>
+  <br>
+  
   <div>
     <message-input dropdownLabel="Source Message" selectId="message" variableContainerId="varNameContainer" variableInputId="varName"></message-input>
-  </div><br><br><br>
+  </div>
+  <br><br><br>
+  
   <div style="margin-top: 8px;">
     JavaScript Filter Eval: <span style="opacity: 0.5;">(JavaScript Strings)<br>
     <input id="filter" class="round" type="text" value="reaction.emoji.name === '👌' && author.id === user.id">
-  </div><br>
+  </div>
+  <br>
+  
   <div style="float: left; width: 49%; margin-right: 8px;">
     Max Reactions:<br>
     <input id="max" class="round" type="text" value="1" placeholder="Optional"><br>
@@ -86,7 +92,9 @@ module.exports = {
   <div style="float: left; width: 49%;">
     Max Time (milliseconds):<br>
     <input id="time" class="round" type="text" value="60000" placeholder="Optional"><br>
-  </div><br><br><br>
+  </div>
+  <br><br><br>
+  
   <div style="float: left; width: 49%; margin-right: 8px;">
     Max Emojis:<br>
     <input id="maxEmojis" class="round" type="text" placeholder="Optional"><br>
@@ -94,7 +102,9 @@ module.exports = {
   <div style="float: left; width: 49%;">
     Max Users:<br>
     <input id="maxUsers" class="round" type="text" placeholder="Optional"><br>
-  </div><br><br><br>
+  </div>
+  <br><br><br>
+  
   <div style="padding-top: 8px;">
     <div style="float: left; width: 35%;">
       On Respond:<br>
@@ -109,7 +119,9 @@ module.exports = {
     <div id="iftrueContainer" style="display: none; float: right; width: 60%;">
       <span id="iftrueName">Action Number</span>:<br><input id="iftrueVal" class="round" type="text">
     </div>
-  </div><br><br><br>
+  </div>
+  <br><br><br>
+  
   <div style="padding-top: 18px;">
     <div style="float: left; width: 35%;">
       On Timeout:<br>
@@ -123,7 +135,9 @@ module.exports = {
     </div>
     <div id="iffalseContainer" style="display: none; float: right; width: 60%;">
       <span id="iffalseName">Action Number</span>:<br><input id="iffalseVal" class="round" type="text"></div>
-    </div><br><br><br>
+    </div>
+    <br><br><br>
+
     <div style="padding-top: 10px;">
       <div style="float: left; width: 35%;">
         Store Reaction List To:<br>
@@ -135,9 +149,12 @@ module.exports = {
         Variable Name:<br>
         <input id="varName2" class="round" type="text">
       </div>
-    </div><br><br><br>
+    </div>
+    <br><br><br>
+
   </div>
 </div>
+
 <style>
   .codeblock {
     margin: 4px;

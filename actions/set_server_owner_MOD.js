@@ -20,12 +20,14 @@ module.exports = {
 
   html() {
     return `
-<div>
 <server-input dropdownLabel="Source Server" selectId="server" variableContainerId="varNameContainer" variableInputId="varName"></server-input>
-</div><br><br><br>
+<br><br><br>
+
 <div style="padding-top: 8px;">
-<member-input dropdownLabel="Source Member" selectId="member" variableContainerId="varNameContainer2" variableInputId="varName2"></member-input>
-</div><br><br><br>
+  <member-input dropdownLabel="Source Member" selectId="member" variableContainerId="varNameContainer2" variableInputId="varName2"></member-input>
+</div>
+<br><br><br>
+
 <div style="padding-top: 8px;">
   Reason:<br>
   <textarea id="reason" rows="2" placeholder="Insert reason here... (optional)" style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
