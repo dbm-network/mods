@@ -25,7 +25,9 @@ module.exports = {
           variableInputId="varName"
           selectWidth="45%"
           variableInputWidth="50%"/>
-      </div><br><br><br>
+      </div>
+      <br><br><br>
+      
       <div>
         <role-input
           dropdownLabel="Role"
@@ -34,7 +36,9 @@ module.exports = {
           variableInputId="varName2"
           selectWidth="45%"
           variableInputWidth="50%"/>
-      </div><br><br><br>
+      </div>
+      <br><br><br>
+      
       <div style="padding-top: 8px;">
         <div style="float: left; width: 45%;">
         <span class="dbminputlabel">Permission</span><br>
@@ -57,8 +61,8 @@ module.exports = {
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const channel = await this.getVoiceChannelFromData(data.storage, data.varName, cache);
-    const role = await this.getRoleFromData(data.storage2, data.varName2, cache);
+    const channel = await this.getVoiceChannelFromData(data.vchannel, data.varName, cache);
+    const role = await this.getRoleFromData(data.role, data.varName2, cache);
     const options = {};
 
     options[data.permission] = data.state === '0' ? true : data.state === '2' ? false : null;

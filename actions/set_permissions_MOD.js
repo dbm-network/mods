@@ -10,17 +10,11 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/set_permissions_MOD.js',
   },
 
-  subtitle(data) {
-    const roles = [
-      'Mentioned Role',
-      '1st Author Role',
-      '1st Server Role',
-      'Temp Variable',
-      'Server Variable',
-      'Global Variable',
-    ];
+  subtitle(data, presets) {
     const way = ['Update', 'Set'];
-    return `${way[data.way]} ${roles[data.role]} ${!data.reason ? '' : `with Reason: <i>${data.reason}<i>`}`;
+    return `${way[data.way]} ${presets.getRoleText(data.storage, data.varName)} ${
+      !data.reason ? '' : `with Reason: <i>${data.reason}<i>`
+    }`;
   },
 
   fields: ['way', 'storage', 'varName', 'storage2', 'varName2', 'reason'],

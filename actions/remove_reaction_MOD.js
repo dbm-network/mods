@@ -29,10 +29,11 @@ module.exports = {
     Variable Name:<br>
     <input id="varName" class="round" type="text" list="variableList"><br>
   </div>
-</div><br><br><br><br>
-<div>
+</div>
+<br><br><br><br>
+
 <member-input dropdownLabel="Source Member" selectId="member" variableContainerId="varNameContainer" variableInputId="varName"></member-input>
-</div>`;
+`;
   },
 
   init() {
@@ -48,7 +49,7 @@ module.exports = {
     const varName = this.evalMessage(data.varName, cache);
     const Mods = this.getMods();
     const rea = Mods.getReaction(reaction, varName, cache);
-    const member = await this.getMemberFromData(data.type, data.varName2, cache);
+    const member = await this.getMemberFromData(data.member, data.varName2, cache);
 
     if (!rea) return this.callNextAction(cache);
 

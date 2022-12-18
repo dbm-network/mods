@@ -10,7 +10,7 @@ module.exports = {
   },
 
   subtitle(data, presets) {
-    return `${presets.getChannelText(data.channel, data.varName)} : ${data.amount} seconds`;
+    return `${presets.getChannelText(data.storage, data.varName)} : ${data.amount} seconds`;
   },
 
   variableStorage(data, varType) {

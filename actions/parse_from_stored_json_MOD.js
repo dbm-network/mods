@@ -104,6 +104,7 @@ module.exports = {
     const jsonObjectVarName = this.evalMessage(data.jsonObjectVarName, cache);
     const path = this.evalMessage(data.path, cache);
     const jsonRaw = this.getVariable(type, jsonObjectVarName, cache);
+    const DEBUG = parseInt(data.debugMode, 10);
 
     let jsonData = jsonRaw;
     if (typeof jsonRaw !== 'object') {
@@ -122,7 +123,7 @@ module.exports = {
           outData = Mods.jsonPath(jsonData, `$..${path}`);
         }
 
-        if (data.debugMode) console.log(outData);
+        if (DEBUG) console.log(outData);
 
         try {
           JSON.parse(JSON.stringify(outData));
@@ -152,9 +153,7 @@ module.exports = {
           console.log(`2: WebAPI Parser: Error Invalid JSON, is the Path set correctly? [${path}]`);
         } else {
           this.storeValue(outValue, storage, varName, cache);
-          if (data.debugMode) {
-            console.log(`WebAPI Parser: JSON Data values starting from [${path}] stored to: [${varName}]`);
-          }
+          if (DEBUG) console.log(`WebAPI Parser: JSON Data values starting from [${path}] stored to: [${varName}]`);
         }
       }
     } catch (error) {
