@@ -203,7 +203,7 @@ module.exports = {
         ).size; // Category Text Channel Count
         break;
       case 10:
-        result = targetCategory.children.filter((c) => c.type === 'GUILD_VOICE').array(); // Category Voice Channel List
+        result = [...targetCategory.children.filter((c) => c.type === 'GUILD_VOICE').values()]; // Category Voice Channel List
         break;
       case 11:
         result = targetCategory.children.filter((c) => c.type === 'GUILD_VOICE').size; // Category Voice Channel Count
