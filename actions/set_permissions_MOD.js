@@ -65,7 +65,9 @@ module.exports = {
   async action(cache) {
     const data = cache.actions[cache.index];
     const role = await this.getRoleFromData(data.storage, data.varName, cache);
-    let permissions = this.getVariableFromData(data.storage2, data.varName2, cache);
+    const varName2 = this.evalMessage(data.varName2, cache);
+    const storage2 = parseInt(data.storage2, 10);
+    let permissions = this.getVariable(storage2, varName2, cache);
     const reason = this.evalMessage(data.reason, cache);
     const way = parseInt(data.way, 10);
 
