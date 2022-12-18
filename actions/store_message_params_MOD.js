@@ -222,7 +222,7 @@ module.exports = {
         }
         break;
       case 2:
-        result = [...msg.mentions.users.values()].length > 0 ? [...msg.mentions.users.values()][ParamN - 1] : undefined;
+        result = msg.mentions.users.at(ParamN - 1);
         break;
       case 3:
         result =
