@@ -75,7 +75,7 @@ module.exports = {
   <br>
   
   <div>
-    <message-input dropdownLabel="Source Message" selectId="message" variableContainerId="varNameContainer" variableInputId="varName"></message-input>
+    <message-input dropdownLabel="Source Message" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></message-input>
   </div>
   <br><br><br>
   
