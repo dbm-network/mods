@@ -1,6 +1,6 @@
 // Made by TheMonDon#1721
 // Some code by General Wrex
-const version = '1.5';
+const version = '1.3';
 
 // Include discord.js and original check
 const { version: djsVersion, ShardingManager } = require('discord.js');
@@ -121,4 +121,4 @@ manager.on('shardCreate', (shard) => {
   });
 });
 
-manager.spawn(totalShards, 15500, timeout).catch((e) => console.log(e));
+manager.spawn([totalShards, 15500, timeout]).catch(console.error);
