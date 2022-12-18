@@ -226,7 +226,7 @@ module.exports = {
   async action(cache) {
     const data = cache.actions[cache.index];
     const { Actions } = this.getDBM();
-    const msg = await this.getMessageFromData(data.message, data.varName, cache);
+    const msg = await this.getMessageFromData(data.storage, data.varName, cache);
 
     const storage = parseInt(data.storage2, 10);
     const varName2 = this.evalMessage(data.varName2, cache);
