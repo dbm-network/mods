@@ -232,8 +232,7 @@ module.exports = {
         result = [...msg.mentions.roles.values()].length > 0 ? [...msg.mentions.roles.values()][ParamN - 1] : undefined;
         break;
       case 5:
-        result =
-          [...msg.mentions.channels.values()].length > 0 ? [...msg.mentions.channels.values()][ParamN - 1] : undefined;
+        result = msg.mentions.channels.at(ParamN - 1);
         break;
       default:
         break;
