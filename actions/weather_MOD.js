@@ -69,7 +69,7 @@ module.exports = {
 
   fields: ['city', 'degreeType', 'info', 'storage', 'varName'],
 
-  html(isEvent, data) {
+  html() {
     return `
 <div style="float: left; width: 54%; padding-top: 8px; padding-right: 8px;">
   Source City:<br>

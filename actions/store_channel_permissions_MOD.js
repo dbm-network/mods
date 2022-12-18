@@ -38,11 +38,11 @@ module.exports = {
 <br><br><br>
 
 <div id="roleHolder" style="padding-top: 8px;">
-  <role-input dropdownLabel="Source Role" selectId="role" variableContainerId="roleVarNameContainer" variableInputId="varName2"></role-input>
+  <role-input dropdownLabel="Source Role" selectId="role" variableContainerId="arNameContainer2" variableInputId="varName2"></role-input>
 </div>
 
 <div id="memberHolder" style="display: none; padding-top: 8px;">
-  <member-input dropdownLabel="Source Member" selectId="member" variableContainerId="memberVarNameContainer" variableInputId="memberVarName"></member-input>
+  <member-input dropdownLabel="Source Member" selectId="member" variableContainerId="arNameContainer3" variableInputId="memberVarName"></member-input>
 </div>
 <br><br><br>
 

@@ -20,7 +20,7 @@ module.exports = {
 
   fields: ['storage', 'varName', 'typing'],
 
-  html(isEvent, data) {
+  html() {
     return `
 <div>
   <div style="float: left; width: 35%;">
@@ -34,31 +34,11 @@ module.exports = {
 <br>
 <br>
 
-<div>
-  <div style="float: left; width: 35%;">
-    Channel to start typing in:<br>
-    <select id="storage" class="round" onchange="glob.channelChange(this, 'varNameContainer')">
-      ${data.channels[isEvent ? 1 : 0]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList"><br>
-  </div>
-</div>
-<br><br><br>
-
-<div>
-  <p>
-    You can stop the typing with <b>Stop Typing</b>
-  </p>
-</div>`;
+<channel-input dropdownLabel="Channel to start typing in:" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></channel-input>
+<br><br><br>`;
   },
 
-  init() {
-    const { glob, document } = this;
-    glob.channelChange(document.getElementById('storage'), 'varNameContainer');
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];
