@@ -193,9 +193,9 @@ module.exports = {
         result = targetCategory.children.size; // Category Channel Count
         break;
       case 8:
-        result = targetCategory.children
+        result = [...targetCategory.children
           .filter((c) => ['GUILD_TEXT', 'GUILD_NEWS', 'GUILD_STORE'].includes(c.type))
-          .array(); // Category Text Channel List
+          .values()]; // Category Text Channel List
         break;
       case 9:
         result = targetCategory.children.filter((c) =>

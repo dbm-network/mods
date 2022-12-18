@@ -33,7 +33,7 @@ module.exports = {
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const member = await this.getMemberFromData(data.type, data.varName, data.cache);
+    const member = await this.getMemberFromData(data.member, data.varName, data.cache);
     const dataName = this.evalMessage(data.dataName, cache);
 
     member.delData(dataName);

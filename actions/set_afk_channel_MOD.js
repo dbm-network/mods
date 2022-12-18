@@ -36,8 +36,8 @@ module.exports = {
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const server = await this.getServerFromData(data.type, data.varName, cache);
-    const channel = await this.getVoiceChannelFromData(data.afkchannel, data.varName2, cache);
+    const server = await this.getServerFromData(data.server, data.varName, cache);
+    const channel = await this.getVoiceChannelFromData(data.afkchannel, data.varNameChannel, cache);
 
     if (!channel) return this.callNextAction(cache);
 
