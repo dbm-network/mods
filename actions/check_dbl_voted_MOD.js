@@ -107,7 +107,7 @@ module.exports = {
   async action(cache) {
     const data = cache.actions[cache.index];
     const apitoken = this.evalMessage(data.apitoken, cache);
-    const member = await this.getMemberFromData(data.type, data.varName, cache);
+    const member = await this.getMemberFromData(data.member, data.varName, cache);
 
     const Mods = this.getMods();
     const TopGG = Mods.require('@top-gg/sdk');
