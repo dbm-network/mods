@@ -225,8 +225,7 @@ module.exports = {
         result = msg.mentions.users.at(ParamN - 1);
         break;
       case 3:
-        result =
-          [...msg.mentions.members.values()].length > 0 ? [...msg.mentions.members.values()][ParamN - 1] : undefined;
+        result = msg.mentions.members.at(ParamN - 1);
         break;
       case 4:
         result = msg.mentions.roles.at(ParamN - 1);
