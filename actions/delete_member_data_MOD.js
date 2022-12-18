@@ -16,19 +16,10 @@ module.exports = {
 
   fields: ['member', 'varName', 'dataName'],
 
-  html(isEvent, data) {
+  html() {
     return `
 <div>
-  <div style="float: left; width: 35%;">
-    Member:<br>
-    <select id="member" class="round" onchange="glob.memberChange(this, 'varNameContainer')">
-      ${data.members[isEvent ? 1 : 0]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList">
-  </div>
+<member-input dropdownLabel="Source Member" selectId="member" variableContainerId="varNameContainer" variableInputId="varName"></member-input>
 </div><br><br><br>
 <div style="padding-top: 8px;">
   <div style="float: left; width: 80%;">
@@ -38,16 +29,11 @@ module.exports = {
 </div>`;
   },
 
-  init() {
-    const { glob, document } = this;
-    glob.memberChange(document.getElementById('member'), 'varNameContainer');
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const type = parseInt(data.member, 10);
-    const varName = this.evalMessage(data.varName, cache);
-    const member = await this.getMember(type, varName, cache);
+    const member = await this.getMemberFromData(data.member, data.varName, data.cache);
     const dataName = this.evalMessage(data.dataName, cache);
 
     member.delData(dataName);

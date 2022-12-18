@@ -82,7 +82,9 @@ module.exports = {
     Variable Name:<br>
     <input id="varName" class="round" type="text"><br>
   </div>
-</div><br><br><br>
+</div>
+<br><br><br>
+
 <div>
   <div style="float: left; width: 94%;">
     Action Type:<br>
@@ -125,19 +127,25 @@ module.exports = {
       <option value="78">Delete Integration</option>
     </select><br>
   </div>
-</div><br><br><br>
+</div>
+<br><br><br>
+
 <div>
   <div style="float: left; width: 48%;">
     Before Entry / Timestamp:<br>
     <input id="before" class="round" type="text" placeholder="Leave it blank for None."><br>
   </div>
-</div><br><br><br>
+</div>
+<br><br><br>
+
 <div>
   <div style="float: left; width: 104%;">
     Amount to Fetch:<br>
     <input id="limit" class="round" type="text" placeholder="Leave it blank for All."><br>
   </div>
-</div><br><br><br>
+</div>
+<br><br><br>
+
 <div>
   <div style="float: left; width: 35%;">
     Store In:<br>

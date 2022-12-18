@@ -69,26 +69,23 @@ module.exports = {
         </span>
       </div><br>
     </details>
-  </div><br>
+  </div>
+  <br>
+  
   <div style="width: 100vw;">
     <div style="margin-right: 25px">
-      <div style="float: left; width: 35%;">
-        Source Channel:<br>
-        <select id="storage" class="round" onchange="glob.channelChange(this, 'varNameContainer')">${
-          data.channels[isEvent ? 1 : 0]
-        }</select>
-      </div>
-      <div id="varNameContainer" style="display: none; float: right; width: 60%;">
-        Variable Name:<br>
-        <input id="varName" class="round" type="text" list="variableList">
-      </div>
-    </div><br><br><br>
+      <channel-input dropdownLabel="Source Channel" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></channel-input>
+    </div>
+    <br><br><br>
+
     <div style="margin: 15px 0;">
       <div style="float: left; width: 100%;">
         JavaScript Filter:
         <input id="filter" class="round" type="text" value="content.length > 0 && author.id === user.id">
       </div>
-    </div><br><br><br><br>
+    </div>
+    <br><br><br><br>
+    
     <div>
       <div>
         <div style="float: left; width: 37%;">
@@ -99,7 +96,9 @@ module.exports = {
           Max Time (milliseconds):<br>
           <input id="time" class="round" type="text" value="60000" placeholder="Optional"><br>
         </div>
-      </div><br><br><br>
+      </div>
+      <br><br><br>
+      
       <div>
         <div style="float: left; width: 35%;">
           On Respond:<br>
@@ -115,7 +114,9 @@ module.exports = {
           <span id="iftrueName">Action Number</span>:<br>
           <input id="iftrueVal" class="round" type="text">
         </div>
-      </div><br><br><br><br>
+      </div>
+      <br><br><br><br>
+      
       <div>
         <div style="float: left; width: 35%;">
           On Timeout:<br>
@@ -131,13 +132,13 @@ module.exports = {
           <span id="iffalseName">Action Number</span>:<br>
           <input id="iffalseVal" class="round" type="text">
         </div>
-      </div><br><br><br><br>
+      </div>
+      <br><br><br><br>
+      
       <div>
         <div style="float: left; width: 35%;">
           Store Message/List To:<br>
-          <select id="storage2" class="round" onchange="glob.variableChange(this, 'varNameContainer2')">${
-            data.variables[0]
-          }</select>
+          <select id="storage2" class="round" onchange="glob.variableChange(this, 'varNameContainer2')">${data.variables[0]}</select>
         </div>
         <div id="varNameContainer2" style="display: block; float: right; width: 58%; margin-right: 25px;">
           Variable Name:<br>
@@ -145,7 +146,9 @@ module.exports = {
         </div>
       </div>
     </div>
-  </div><br><br><br>
+  </div>
+  <br><br><br>
+
 </div>
 <style>
   .codeblock {
@@ -166,7 +169,6 @@ module.exports = {
   init() {
     const { glob, document } = this;
 
-    glob.channelChange(document.getElementById('storage'), 'varNameContainer');
     glob.variableChange(document.getElementById('storage2'), 'varNameContainer2');
     glob.onChangeTrue = function onChangeTrue(event) {
       switch (parseInt(event.value, 10)) {
@@ -219,10 +221,7 @@ module.exports = {
   async action(cache) {
     const data = cache.actions[cache.index];
     const { Actions } = this.getDBM();
-
-    const ch = parseInt(data.storage, 10);
-    const varName = this.evalMessage(data.varName, cache);
-    const channel = await this.getChannel(ch, varName, cache);
+    const channel = await this.getChannelFromData(data.storage, data.varName, cache);
 
     const storage = parseInt(data.storage2, 10);
     const varName2 = this.evalMessage(data.varName2, cache);

@@ -23,83 +23,21 @@ module.exports = {
 
   fields: ['server', 'varName', 'afkchannel', 'varNameChannel'],
 
-  html(isEvent, data) {
+  html() {
     return `
-<div>
-  <div style="float: left; width: 35%;">
-    Server:<br>
-    <select id="server" class="round" onchange="glob.serverChange(this, 'varNameContainer')">
-      ${data.servers[isEvent ? 1 : 0]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList">
-  </div>
-</div><br><br><br>
-<div>
-  <div style="float: left; width: 35%;">
-    Set AFK Channel To:<br>
-    <select id="afkchannel" class="round" onchange="glob.channelChange(this, 'varNameContainerr')">
-      ${data.voiceChannels[isEvent ? 1 : 0]}
-    </select>
-  </div>
-  <div id="varNameContainerr" style="display: none; float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varNameChannel" class="round" type="text" list="variableList"><br>
-  </div>
-<style>
-  div.embed { /* <div class="embed"></div> */
-    position: relative;
-  }
+<server-input dropdownLabel="Source Server" selectId="server" variableContainerId="varNameContainer" variableInputId="varName"></server-input>
+<br><br><br>
 
-  embedleftline { /* <embedleftline></embedleftline> OR if you wan't to change the Color: <embedleftline style="background-color: #HEXCODE;"></embedleftline> */
-    background-color: #eee;
-    width: 4px;
-    border-radius: 3px 0 0 3px;
-    border: 0;
-    height: 100%;
-    margin-left: 4px;
-    position: absolute;
-  }
-
-  div.embedinfo { /* <div class="embedinfo"></div> */
-    background: rgba(46,48,54,.45) fixed;
-    border: 1px solid hsla(0,0%,80%,.3);
-    padding: 10px;
-    margin:0 4px 0 7px;
-    border-radius: 0 3px 3px 0;
-  }
-
-  span.embed-auth { /* <span class="embed-auth"></span> (Title thing) */
-    color: rgb(255, 255, 255);
-  }
-
-  span.embed-desc { /* <span class="embed-desc"></span> (Description thing) */
-    color: rgb(128, 128, 128);
-  }
-
-  span { /* Only making the text look, nice! */
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  }
-</style>`;
+<voice-channel-input dropdownLabel="Set AFK Channel To:" selectId="afkchannel" variableContainerId="varNameContainerr" variableInputId="varNameChannel"></voice-channel-input>
+`;
   },
 
-  init() {
-    const { glob, document } = this;
-
-    glob.serverChange(document.getElementById('server'), 'varNameContainer');
-    glob.voiceChannelChange(document.getElementById('afkchannel'), 'varNameContainerr');
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const type = parseInt(data.server, 10);
-    const afkchannel = parseInt(data.afkchannel, 10);
-    const varName2 = this.evalMessage(data.varNameChannel, cache);
-    const varName = this.evalMessage(data.varName, cache);
-    const server = await this.getServer(type, varName, cache);
-    const channel = await this.getVoiceChannel(afkchannel, varName2, cache);
+    const server = await this.getServerFromData(data.server, data.varName, cache);
+    const channel = await this.getVoiceChannelFromData(data.afkchannel, data.varNameChannel, cache);
 
     if (!channel) return this.callNextAction(cache);
 

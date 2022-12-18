@@ -30,20 +30,11 @@ module.exports = {
 
   fields: ['server', 'varName', 'serverAfkTime'],
 
-  html(isEvent, data) {
+  html() {
     return `
-<div>
-  <div style="float: left; width: 35%;">
-    Server:<br>
-    <select id="server" class="round" onchange="glob.serverChange(this, 'varNameContainer')">
-      ${data.servers[isEvent ? 1 : 0]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList">
-  </div>
-</div><br><br><br>
+<server-input dropdownLabel="Source Server" selectId="server" variableContainerId="varNameContainer" variableInputId="varName"></server-input>
+<br><br><br>
+
 <div style="padding-top: 8px; width: 90%;">
   Timeout:<br>
   <select id="serverAfkTime" class="round">
@@ -54,6 +45,7 @@ module.exports = {
   <option value="3600">1 Hours</option>
   </select>
 </div>
+
 <style>
   div.embed { /* <div class="embed"></div> */
     position: relative;
@@ -91,16 +83,11 @@ module.exports = {
 </style>`;
   },
 
-  init() {
-    const { glob, document } = this;
-    glob.serverChange(document.getElementById('server'), 'varNameContainer');
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const type = parseInt(data.server, 10);
-    const varName = this.evalMessage(data.varName, cache);
-    const server = await this.getServer(type, varName, cache);
+    const server = await this.getServerFromData(data.server, data.varName, cache);
 
     if (Array.isArray(server)) {
       this.callListFunc(server, 'setAFKTimeout', [this.evalMessage(data.serverAfkTime, cache)]).then(() => {

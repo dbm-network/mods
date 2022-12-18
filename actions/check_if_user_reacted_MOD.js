@@ -9,15 +9,9 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/check_if_user_reacted_MOD.js',
   },
 
-  subtitle(data) {
-    const results = [
-      'Continue Actions',
-      'Stop Action Sequence',
-      'Jump To Action',
-      'Jump Forward Actions',
-      'Jump to Anchor',
-    ];
-    return `If True: ${results[parseInt(data.iftrue, 10)]} ~ If False: ${results[parseInt(data.iffalse, 10)]}`;
+  subtitle(data, presets) {
+    const reaction = ['Temp Variable', 'Server Variable', 'Global Variable'];
+    return `${presets.getMemberText(data.member, data.varName)} - ${reaction[parseInt(data.reaction, 10) - 1]}`;
   },
 
   fields: ['member', 'varName', 'reaction', 'varName2', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal'],
@@ -25,16 +19,7 @@ module.exports = {
   html(isEvent, data) {
     return `
 <div>
-  <div style="float: left; width: 35%;">
-    Source Member:<br>
-    <select id="member" class="round" onchange="glob.memberChange(this, 'varNameContainer')">
-      ${data.members[isEvent ? 1 : 0]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList"><br>
-  </div>
+  <member-input dropdownLabel="Source Member" selectId="member" variableContainerId="varNameContainer" variableInputId="varName"></member-input>
 </div><br><br><br><br>
 <div>
   <div style="float: left; width: 35%;">
@@ -120,10 +105,7 @@ module.exports = {
 
   async action(cache) {
     const data = cache.actions[cache.index];
-
-    const type = parseInt(data.member, 10);
-    const varName = this.evalMessage(data.varName, cache);
-    const member = await this.getMember(type, varName, cache);
+    const member = await this.getMemberFromData(data.member, data.varName, cache);
 
     const type2 = parseInt(data.reaction, 10);
     const varName2 = this.evalMessage(data.varName2, cache);

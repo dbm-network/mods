@@ -19,10 +19,17 @@ module.exports = {
     return [data.varName, `JSON ${varType} Value`];
   },
 
-  fields: ['behavior', 'varStorage', 'jsonObjectVarName', 'path', 'storage', 'varName'],
+  fields: ['behavior', 'varStorage', 'jsonObjectVarName', 'path', 'storage', 'varName', 'debugMode'],
 
   html(_isEvent, data) {
     return `
+<style>
+    .debugMode {
+      float: left;
+      margin-left: 10px;
+      width: 30%;
+    }
+</style>
 <div style="margin: 0; overflow-y: none;">
     <div style="width: 80%;">
         <div style="float: left; width: 35%;">
@@ -35,13 +42,13 @@ module.exports = {
             Variable Name:<br>
             <input id="jsonObjectVarName" class="round" type="text" list="variableList">
         </div><br><br><br>
-        <div id="pathContainer" style="padding-top: 8px;">
+        <div id="pathContainer" style="padding-top: 8px">
             JSON Path: (supports the usage of <a href="http://goessner.net/articles/JsonPath/index.html#e2" target="_blank">JSON Path (Regex)</a>)<br>
-            <input id="path" class="round" ;" type="text"><br>
+            <input id="path" class="round" type="text"><br>
         </div>
     </div>
-    <div style="width: 80%;">
-        <div style="float: left; width: 30%;">
+    <div style="width: 80%">
+        <div style="float: left; width: 30%">
             <label for="storage">
                 <font color="white">Store In:</font>
             </label>
@@ -62,12 +69,12 @@ module.exports = {
             <label for="behavior">
                 <font color="white">End Behavior:</font>
             </label>
-            <select id="behavior" class="round" ;>
+            <select id="behavior" class="round">
                 <option value="0" selected>Call Next Action Automatically</option>
                 <option value="1">Do Not Call Next Action</option>
             </select>
         </div>
-        <div style="float: left; margin-left: 10px; width: 30%;">
+        <div class="debugMode">
             <br>
             <label for="debugMode">
                 <font color="white">Debug Mode:</font>
@@ -146,9 +153,7 @@ module.exports = {
           console.log(`2: WebAPI Parser: Error Invalid JSON, is the Path set correctly? [${path}]`);
         } else {
           this.storeValue(outValue, storage, varName, cache);
-          if (DEBUG) {
-            console.log(`WebAPI Parser: JSON Data values starting from [${path}] stored to: [${varName}]`);
-          }
+          if (DEBUG) console.log(`WebAPI Parser: JSON Data values starting from [${path}] stored to: [${varName}]`);
         }
       }
     } catch (error) {

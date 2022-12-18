@@ -52,21 +52,11 @@ module.exports = {
 
   html(isEvent, data) {
     return `
-<div id="DiVScroll" style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
-  <div>
-    <div style="float: left; width: 35%;">
-      Source Message:<br>
-      <select id="message" class="round" onchange="glob.messageChange(this, 'varNameContainer')">
-        ${data.messages[isEvent ? 1 : 0]}
-      </select>
-    </div>
-    <div id="varNameContainer" style="display: none; float: right; width: 60%;">
-      Variable Name:<br>
-      <input id="varName" class="round" type="text" list="variableList"><br>
-    </div>
-  </div><br><br><br>
+<div id="DiVScroll" style="height: 350px; overflow-y: scroll; overflow-x: hidden; padding-top: 8px;">
+<message-input dropdownLabel="Source Message" selectId="message" variableContainerId="varNameContainer" variableInputId="varName"></message-input>
+<br><br><br>
   <div style="padding-top: 8px;">
-    <div style="float: left; width: 35%;">
+    <div style="float: left; width: 35%; margin-right: 8px;">
       Source Info:<br>
       <select id="info" class="round" onchange="glob.onChange1(this)">
         <option value="0" selected>One Parameter</option>
@@ -77,34 +67,34 @@ module.exports = {
         <option value="5">Mentioned Channel</option>
       </select>
     </div>
-    <div style="float: right; width: 60%;">
+    <div style="float: left; width: 64%;">
       <span id="infoCountLabel">Parameter Number:</span><br>
       <input id="ParamN" class="round" type="text" value="1">
     </div>
   </div><br><br><br>
   <div id="DiVcount" style="padding-top: 8p;">
-    <div style="float: left; width: 567px;">
+    <div style="float: left; width: 98%;">
       Parameter Count:<br>
       <input id="count" placeholder="Leave blank for all..." class="round" type="text">
     </div><br><br><br></div>
     <div id="DiVseparator" style="padding-top: 8px;">
-      <div style="float: left; width: 567px;">
+      <div style="float: left; width: 98%;">
         Custom Parameter Separator:<br>
         <input id="separator" placeholder="Read the Note below | Default Parameter Separator:" class="round" type="text">
       </div><br><br><br></div>
       <div style="padding-top: 8px;">
-        <div style="float: left; width: 35%;">
+        <div style="float: left; width: 35%; margin-right: 8px;">
           Store In:<br>
           <select id="storage" class="round">
             ${data.variables[1]}
           </select>
         </div>
-        <div id="varNameContainer2" style="float: right; width: 60%;">
+        <div id="varNameContainer2" style="float: left; width: 64%;">
           Variable Name:<br>
           <input id="varName2" class="round" type="text"><br>
         </div>
       </div>
-      <div style="float: left; width: 88%; padding-top: 8px;">
+      <div style="float: left; width: 90%; padding-top: 8px;">
         <p>
           <b><span style="color:#ffffff; font-size: 20px;">Note:</span></b><br>
           Leave the "Custom Parameter Separator" empty if you want to use the "Parameter Separator" set in your bots "Settings" page.<br>
@@ -118,8 +108,6 @@ module.exports = {
 
   init() {
     const { glob, document } = this;
-
-    glob.messageChange(document.getElementById('message'), 'varNameContainer');
 
     document.getElementById('separator').placeholder = `Read the Note below | Default Parameter Separator: "${
       JSON.parse(
@@ -188,9 +176,7 @@ module.exports = {
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const message = parseInt(data.message, 10);
-    const varName = this.evalMessage(data.varName, cache);
-    const msg = await this.getMessage(message, varName, cache);
+    const msg = await this.getMessageFromData(data.message, data.varName, cache);
     const count = this.evalMessage(data.count, cache);
 
     if (!msg) {
@@ -236,16 +222,16 @@ module.exports = {
         }
         break;
       case 2:
-        result = msg.mentions.users.array().length > 0 ? msg.mentions.users.array()[ParamN - 1] : undefined;
+        result = msg.mentions.users.at(ParamN - 1);
         break;
       case 3:
-        result = msg.mentions.members.array().length > 0 ? msg.mentions.members.array()[ParamN - 1] : undefined;
+        result = msg.mentions.members.at(ParamN - 1);
         break;
       case 4:
-        result = msg.mentions.roles.array().length > 0 ? msg.mentions.roles.array()[ParamN - 1] : undefined;
+        result = msg.mentions.roles.at(ParamN - 1);
         break;
       case 5:
-        result = msg.mentions.channels.array().length > 0 ? msg.mentions.channels.array()[ParamN - 1] : undefined;
+        result = msg.mentions.channels.at(ParamN - 1);
         break;
       default:
         break;

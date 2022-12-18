@@ -24,16 +24,7 @@ module.exports = {
   html(isEvent, data) {
     return `
 <div>
- <div style="float: left; width: 35%;">
-  Source Message:<br>
-  <select id="message" class="round" onchange="glob.messageChange(this, 'varNameContainer')">
-   ${data.messages[isEvent ? 1 : 0]}
-  </select>
- </div>
- <div id="varNameContainer" style="display: none; float: right; width: 60%;">
-  Variable Name:<br>
-  <input id="varName" class="round" type="text" list="variableList"><br>
- </div>
+ <message-input dropdownLabel="Source Message" selectId="message" variableContainerId="varNameContainer" variableInputId="varName"></message-input>
 </div><br><br><br>
 <div>
  <div style="float: left; width: 35%;">
@@ -58,8 +49,7 @@ module.exports = {
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const varName = this.evalMessage(data.varName, cache);
-    const message = await this.getMessage(parseInt(data.message, 10), varName, cache);
+    const message = await this.getMessageFromData(data.mssage, data.varName, cache);
 
     if (!message) return this.callNextAction(cache);
     if (!message.crosspost) throw new Error('You need at least Discord.js version 12.4.0 to use this mod.');

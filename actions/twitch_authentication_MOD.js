@@ -42,13 +42,17 @@ module.exports = {
     Client Id:<br>
     <input id="client_id" class="round" type="text">
   </div>
-</div><br><br><br>
+</div>
+<br><br><br>
+
 <div style="padding-top: 8px;">
   <div style="float: left; width: 104%;">
     Client Secret:<br>
     <input id="client_secret" class="round" type="text">
   </div>
-</div><br><br><br>
+</div>
+<br><br><br>
+
 <div style="padding-top: 8px;">
   <div style="float: left; width: 70%;">
     Info:<br>
@@ -58,7 +62,9 @@ module.exports = {
       <option value="1">Authentication Object</option>
     </select>
   </div>
-<div><br><br><br>
+<div>
+<br><br><br>
+
 <div style="padding-top: 8px;">
   <div style="float: left; width: 35%;">
     Store In:<br>
@@ -71,6 +77,7 @@ module.exports = {
     <input id="varName" class="round" type="text"><br>
   </div>
 </div>
+
 <input style="display: none" id="debug" value="true">`;
   },
 

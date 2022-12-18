@@ -15,20 +15,11 @@ module.exports = {
 
   fields: ['server', 'varName', 'position', 'amount'],
 
-  html(isEvent, data) {
+  html() {
     return `
-<div>
-  <div style="float: left; width: 35%;">
-    Source Server:<br>
-    <select id="server" class="round" onchange="glob.serverChange(this, 'varNameContainer')">
-      ${data.servers[isEvent ? 1 : 0]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList">
-  </div>
-</div><br><br><br>
+<server-input dropdownLabel="Source Server" selectId="server" variableContainerId="varNameContainer" variableInputId="varName"></server-input>
+<br><br><br>
+
 <div>
   <div style="float: left; width: 47%;">
     Position:<br>
@@ -49,9 +40,7 @@ module.exports = {
   async action(cache) {
     const data = cache.actions[cache.index];
     const { Audio } = this.getDBM();
-    const server = parseInt(data.server, 10);
-    const varName = this.evalMessage(data.varName, cache);
-    const targetServer = await this.getServer(server, varName, cache);
+    const targetServer = await this.getServerFromData(data.server, data.varName, cache);
     const position = parseInt(this.evalMessage(data.position, cache), 10);
     const amount = parseInt(this.evalMessage(data.amount, cache), 10);
     let queue;

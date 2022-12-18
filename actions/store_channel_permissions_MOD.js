@@ -10,50 +10,10 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/store_channel_permissions_MOD.js',
   },
 
-  subtitle(data) {
-    const roles = [
-      'Mentioned Role',
-      '1st Author Role',
-      '1st Server Role',
-      'Temp Variable',
-      'Server Variable',
-      'Global Variable',
-    ];
-    const index = ['Granted', 'Denied'];
-    const perm = [
-      'Administrator',
-      'Manage Guild',
-      'Manage Nicknames',
-      'Manage Roles',
-      'Manage Emojis',
-      'Kick Members',
-      'Ban Members',
-      'View Audit Log',
-      'Change Nickname',
-      'Create Instant Invite',
-      'Priority Speaker',
-      'Manage Channel',
-      'Manage Webhooks',
-      'Read Messages',
-      'Send Messages',
-      'Send TTS Messages',
-      'Manage Messages',
-      'Embed Links',
-      'Attach Files',
-      'Read Message History',
-      'Mention Everyone',
-      'Use External Emojis',
-      'Add Reactions',
-      'Connect to Voice',
-      'Speak in Voice',
-      'Mute Members',
-      'Deafen Members',
-      'Move Members',
-      'Use Voice Activity',
-      'All Permissions',
-    ];
-    return `${roles[data.role]} - ${perm[data.permission]} - ${index[data.state]} ${
-      !data.reason ? '' : `with Reason: <i>${data.reason}<i>`
+  subtitle(data, presets) {
+    const target = parseInt(data.target, 10);
+    return `${presets.getChannelText(data.storage, data.varName)} - ${
+      target === 0 ? presets.getRoleText(data.role, data.varName2) : presets.getMemberText(data.member, data.varName3)
     }`;
   },
 
@@ -62,17 +22,10 @@ module.exports = {
   html(isEvent, data) {
     return `
 <div style="padding-top: 8px;">
-  <div style="float: left; width: 35%;">
-    Source Channel:<br>
-    <select id="storage" class="round" onchange="glob.channelChange(this, 'varNameContainer')">
-      ${data.channels[isEvent ? 1 : 0]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList">
-  </div>
-</div><br><br><br>
+  <channel-input dropdownLabel="Source Channel" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></channel-input>
+</div>
+<br><br><br>
+
 <div style="padding-top: 8px;">
   <div style="float: left; width: 35%;">
     Target Type:<br>
@@ -81,31 +34,18 @@ module.exports = {
       <option value="1">Member</option>
     </select>
   </div>
-</div><br><br><br>
-<div id="roleHolder" style="padding-top: 8px;">
-  <div style="float: left; width: 35%;">
-    Source Role:<br>
-    <select id="role" class="round" onchange="glob.roleChange(this, 'varNameContainer2')">
-      ${data.roles[isEvent ? 1 : 0]}
-    </select>
-  </div>
-  <div id="varNameContainer2" style="display: none; float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName2" class="round" type="text" list="variableList"><br>
-  </div>
 </div>
+<br><br><br>
+
+<div id="roleHolder" style="padding-top: 8px;">
+  <role-input dropdownLabel="Source Role" selectId="role" variableContainerId="varNameContainer2" variableInputId="varName2"></role-input>
+</div>
+
 <div id="memberHolder" style="display: none; padding-top: 8px;">
-  <div style="float: left; width: 35%;">
-    Source Member:<br>
-    <select id="member" class="round" onchange="glob.memberChange(this, 'varNameContainer3')">
-      ${data.members[isEvent ? 1 : 0]}
-    </select>
-  </div>
-  <div id="varNameContainer3" style="display: none; float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName3" class="round" type="text" list="variableList">
-  </div>
-</div><br><br><br>
+  <member-input dropdownLabel="Source Member" selectId="member" variableContainerId="varNameContainer3" variableInputId="varName3"></member-input>
+</div>
+<br><br><br>
+
 <div style="padding-top: 8px;">
   <div style="float: left; width: 35%;">
     Store In:<br>
@@ -122,11 +62,6 @@ module.exports = {
 
   init() {
     const { glob, document } = this;
-
-    glob.channelChange(document.getElementById('storage'), 'varNameContainer');
-
-    glob.roleChange(document.getElementById('role'), 'varNameContainer2');
-    glob.memberChange(document.getElementById('member'), 'varNameContainer3');
 
     const roleHolder = document.getElementById('roleHolder');
     const memberHolder = document.getElementById('memberHolder');
@@ -148,18 +83,12 @@ module.exports = {
     const type = parseInt(data.target, 10);
     let target;
     if (type === 0) {
-      const role = parseInt(data.role, 10);
-      const varName2 = this.evalMessage(data.varName2, cache);
-      target = await this.getRole(role, varName2, cache);
+      target = await this.getRoleFromData(data.role, data.varName2, cache);
     } else {
-      const member = parseInt(data.member, 10);
-      const varName3 = this.evalMessage(data.varName3, cache);
-      target = await this.getMember(member, varName3, cache);
+      target = await this.getMemberFromData(data.member, data.varName3, cache);
     }
 
-    const storage = parseInt(data.storage, 10);
-    const varName = this.evalMessage(data.varName, cache);
-    const targetChannel = await this.getChannel(storage, varName, cache);
+    const targetChannel = await this.getChannelFromData(data.storage, data.varName, cache);
 
     const allow = target.permissionsIn(targetChannel);
     const permissions = {};

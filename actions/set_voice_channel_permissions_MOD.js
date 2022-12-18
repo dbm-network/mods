@@ -25,8 +25,8 @@ module.exports = {
           variableInputId="varName"
           selectWidth="45%"
           variableInputWidth="50%"/>
-
-      </div><br><br><br>
+      </div>
+      <br><br><br>
 
       <div style="padding-top: 8px;">
         <div style="float: left; width: 45%;">
@@ -45,6 +45,7 @@ module.exports = {
         </div>
       </div>
       <br><br><br><br>
+
       <span>
         Note: This modifies the everyone role in the voice channel only.
         In order to edit another roles permission use the Set Role Voice Channel Perms action.

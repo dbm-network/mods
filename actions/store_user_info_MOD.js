@@ -81,17 +81,10 @@ module.exports = {
   html(isEvent, data) {
     return `
   <div>
-    <div style="float: left; width: 35%">
-      Source User:<br>
-      <select id="user" class="round" onchange="glob.memberChange(this, 'varNameContainer')">
-        ${data.members[isEvent ? 1 : 0]}
-      </select>
-    </div>
-    <div id="varNameContainer" style="display: none; float: right; width: 60%">
-      Variable Name:<br>
-      <input id="varName" class="round" type="text" list="variableList"><br>
-    </div>
-  </div><br><br><br>
+  <member-input dropdownLabel="Source Member" selectId="user" variableContainerId="varNameContainer" variableInputId="varName"></member-input>
+  </div>
+  <br><br><br>
+
   <div>
     <div style="padding-top: 8px; width: 70%">
       Source Info:<br>
@@ -113,7 +106,9 @@ module.exports = {
         <option value="14">User Client Status</option>'
       </select>
     </div>
-  </div><br>
+  </div>
+  <br>
+  
   <div>
     <div style="float: left; width: 35%">
       Store In:<br>
@@ -128,18 +123,12 @@ module.exports = {
   </div>`;
   },
 
-  init() {
-    const { glob, document } = this;
-
-    glob.memberChange(document.getElementById('user'), 'varNameContainer');
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const userType = parseInt(data.user, 10);
-    const varName = this.evalMessage(data.varName, cache);
     const info = parseInt(data.info, 10);
-    let user = await this.getMember(userType, varName, cache);
+    let user = await this.getMemberFromData(data.user, data.varName, cache);
     if (!user) return this.callNextAction(cache);
     if (user.user) user = user.user;
 

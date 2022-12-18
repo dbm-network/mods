@@ -18,20 +18,11 @@ module.exports = {
 
   fields: ['server', 'controlType', 'varName', 'prefix'],
 
-  html(isEvent, data) {
+  html() {
     return `
-<div>
-  <div style="float: left; width: 35%;">
-    Server:<br>
-    <select id="server" class="round" onchange="glob.serverChange(this, 'varNameContainer')">
-      ${data.servers[isEvent ? 1 : 0]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList">
-  </div>
-</div><br><br><br>
+<server-input dropdownLabel="Source Server" selectId="server" variableContainerId="varNameContainer" variableInputId="varName"></server-input>
+<br><br><br>
+
 <div style="padding-top: 8px; width: 35%; float: left">
   Control Type:
   <select id="controlType" class="round" onchange="glob.onChangeControl(this)">
@@ -39,6 +30,7 @@ module.exports = {
     <option value="1" title="Sets the prefix to default prefix (settings)">Delete Prefix</option>
   </select>
 </div>
+
 <div id="prefixContainer" style="padding-top: 8px; width: 60%; float: right">
   Prefix:<br>
   <input id="prefix" class="round" type="text">
@@ -60,11 +52,9 @@ module.exports = {
     const fs = require('fs');
     const path = require('path');
     const data = cache.actions[cache.index];
-    const type = parseInt(data.server, 10);
     const { Actions } = this.getDBM();
 
-    const varName = this.evalMessage(data.varName, cache);
-    const server = await this.getServer(type, varName, cache);
+    const server = await this.getServerFromData(data.server, data.varName, cache);
     const controlType = parseInt(data.controlType, 10);
     const prefix = this.evalMessage(data.prefix, cache);
     const settingsPath = path.join('data', 'serverSettings.json');

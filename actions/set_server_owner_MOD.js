@@ -18,56 +18,28 @@ module.exports = {
 
   fields: ['server', 'varName', 'member', 'varName2', 'reason'],
 
-  html(isEvent, data) {
+  html() {
     return `
-<div>
-  <div style="float: left; width: 35%;">
-    Source Server:<br>
-    <select id="server" class="round" onchange="glob.serverChange(this, 'varNameContainer')">
-      ${data.servers[isEvent ? 1 : 0]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList">
-  </div>
-</div><br><br><br>
+<server-input dropdownLabel="Source Server" selectId="server" variableContainerId="varNameContainer" variableInputId="varName"></server-input>
+<br><br><br>
+
 <div style="padding-top: 8px;">
-  <div style="float: left; width: 35%;">
-    Source Member:<br>
-    <select id="member" class="round" onchange="glob.memberChange(this, 'varNameContainer2')">
-      ${data.members[isEvent ? 1 : 0]}
-    </select>
-  </div>
-  <div id="varNameContainer2" style="display: none; float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName2" class="round" type="text" list="variableList2"><br>
-  </div>
-</div><br><br><br>
+  <member-input dropdownLabel="Source Member" selectId="member" variableContainerId="varNameContainer2" variableInputId="varName2"></member-input>
+</div>
+<br><br><br>
+
 <div style="padding-top: 8px;">
   Reason:<br>
   <textarea id="reason" rows="2" placeholder="Insert reason here... (optional)" style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
 </div>`;
   },
 
-  init() {
-    const { glob, document } = this;
-
-    glob.serverChange(document.getElementById('server'), 'varNameContainer');
-    glob.memberChange(document.getElementById('member'), 'varNameContainer2');
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];
-
-    const type = parseInt(data.server, 10);
-    const varName = this.evalMessage(data.varName, cache);
-    const server = await this.getServer(type, varName, cache);
-
-    const member = parseInt(data.member, 10);
-    const varName2 = this.evalMessage(data.varName2, cache);
-    const mem = await this.getMember(member, varName2, cache);
-
+    const server = await this.getServerFromData(data.server, data.varName, cache);
+    const mem = await this.getMemberFromData(data.member, data.varName2, cache);
     const reason = this.evalMessage(data.reason, cache);
 
     if (Array.isArray(server)) {

@@ -61,13 +61,8 @@ module.exports = {
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const storage = parseInt(data.vchannel, 10);
-    const varName = this.evalMessage(data.varName, cache);
-    const channel = await this.getVoiceChannel(storage, varName, cache);
-
-    const storage2 = parseInt(data.member, 10);
-    const varName2 = this.evalMessage(data.varName2, cache);
-    const member = await this.getMember(storage2, varName2, cache);
+    const channel = await this.getVoiceChannelFromData(data.vchannel, data.varName, cache);
+    const member = await this.getMemberFromData(data.member, data.varName2, cache);
 
     if (!member || !channel) return this.callNextAction(cache);
 

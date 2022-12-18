@@ -9,17 +9,8 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/clone_channel_MOD.js',
   },
 
-  subtitle(data) {
-    const names = [
-      'Same Channel',
-      'Mentioned Channel',
-      'Default Channel',
-      'Temp Variable',
-      'Server Variable',
-      'Global Variable',
-    ];
-    const index = parseInt(data.storage, 10);
-    return index < 3 ? `Clone Channel : ${names[index]}` : `Clone Channel : ${names[index]} - ${data.varName}`;
+  subtitle(data, presets) {
+    return `Clone Channel: ${presets.getChannelText(data.storage, data.varName)}`;
   },
 
   variableStorage(data, varType) {
@@ -46,17 +37,10 @@ module.exports = {
   html(isEvent, data) {
     return `
 <div style="padding-top: 8px;">
-  <div style="float: left; width: 35%;">
-    Source Channel:<br>
-    <select id="storage" class="round" onchange="glob.channelChange(this, 'varNameContainer')">
-      ${data.channels[isEvent ? 1 : 0]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="display: none; padding-left: 5%; float: left; width: 65%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList"><br>
-  </div>
-</div><br><br><br>
+  <channel-input dropdownLabel="Source Channel" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></channel-input>
+</div>
+<br><br><br>
+
 <div style="padding-top: 8px;">
   <div style="float: left; width: 50%;">
     Category ID:<br>
@@ -66,7 +50,9 @@ module.exports = {
     Position:<br>
     <input id="position" class="round" type="text"><br>
   </div>
-</div><br><br><br>
+</div>
+<br><br><br>
+
 <div>
   <div style="float: left; width: 45%;">
     Clone Permission:<br>
@@ -83,7 +69,9 @@ module.exports = {
       <option value="2">Voice Channel</option>
     </select><br>
   </div>
-</div><br><br><br>
+</div>
+<br><br><br>
+
 <div id="text" style="display: none">
   <div style="float: left; width: 28%;">
     Clone Topic:<br>
@@ -123,6 +111,7 @@ module.exports = {
     </select><br>
   </div>
 </div>
+
 <div style="padding-top: 8px;">
   <div style="float: left; width: 35%;">
     Store In:<br>
@@ -139,7 +128,6 @@ module.exports = {
   init() {
     const { glob, document } = this;
 
-    glob.channelChange(document.getElementById('storage'), 'varNameContainer');
     glob.variableChange(document.getElementById('storage2'), 'varNameContainer2');
 
     glob.channeltype = function channeltype(event) {
@@ -160,9 +148,7 @@ module.exports = {
   async action(cache) {
     const data = cache.actions[cache.index];
     const { server } = cache;
-    const storage = parseInt(data.storage, 10);
-    const varName = this.evalMessage(data.varName, cache);
-    const channel = await this.getChannel(storage, varName, cache);
+    const channel = await this.getChannelFromData(data.storage, data.varName, cache);
 
     if (!server || !channel) {
       console.log(`${server ? 'channel' : 'server'} could not be found! Clone Channel MOD.`);

@@ -40,7 +40,7 @@ module.exports = {
 
   html(isEvent, data) {
     return `
-<div style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
+<div style="height: 350px; overflow-y: scroll; overflow-x: hidden;">
   <div>
     <details>
       <summary><span style="color: white"><b>Filter Examples:</b></summary>
@@ -71,39 +71,40 @@ module.exports = {
         </span>
       </div><br>
     </details>
-  </div><br>
+  </div>
+  <br>
+  
   <div>
-    <div style="float: left; width: 35%;">
-      Source Message:<br>
-      <select id="storage" class="round" onchange="glob.messageChange(this, 'varNameContainer')">
-        ${data.messages[isEvent ? 1 : 0]}
-      </select>
-    </div>
-    <div id="varNameContainer" style="display: none; float: right; width: 60%;">
-      Variable Name:<br>
-      <input id="varName" class="round" type="text" list="variableList">
-    </div>
-  </div><br><br><br>
-  <div style="width: 567px; margin-top: 8px;">
+    <message-input dropdownLabel="Source Message" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></message-input>
+  </div>
+  <br><br><br>
+  
+  <div style="margin-top: 8px;">
     JavaScript Filter Eval: <span style="opacity: 0.5;">(JavaScript Strings)<br>
     <input id="filter" class="round" type="text" value="reaction.emoji.name === '👌' && author.id === user.id">
-  </div><br>
-  <div style="float: left; width: 50%;">
+  </div>
+  <br>
+  
+  <div style="float: left; width: 49%; margin-right: 8px;">
     Max Reactions:<br>
     <input id="max" class="round" type="text" value="1" placeholder="Optional"><br>
   </div>
   <div style="float: left; width: 49%;">
     Max Time (milliseconds):<br>
     <input id="time" class="round" type="text" value="60000" placeholder="Optional"><br>
-  </div><br><br><br>
-  <div style="float: left; width: 50%;">
+  </div>
+  <br><br><br>
+  
+  <div style="float: left; width: 49%; margin-right: 8px;">
     Max Emojis:<br>
     <input id="maxEmojis" class="round" type="text" placeholder="Optional"><br>
   </div>
   <div style="float: left; width: 49%;">
     Max Users:<br>
     <input id="maxUsers" class="round" type="text" placeholder="Optional"><br>
-  </div><br><br><br>
+  </div>
+  <br><br><br>
+  
   <div style="padding-top: 8px;">
     <div style="float: left; width: 35%;">
       On Respond:<br>
@@ -118,7 +119,9 @@ module.exports = {
     <div id="iftrueContainer" style="display: none; float: right; width: 60%;">
       <span id="iftrueName">Action Number</span>:<br><input id="iftrueVal" class="round" type="text">
     </div>
-  </div><br><br><br>
+  </div>
+  <br><br><br>
+  
   <div style="padding-top: 18px;">
     <div style="float: left; width: 35%;">
       On Timeout:<br>
@@ -132,7 +135,9 @@ module.exports = {
     </div>
     <div id="iffalseContainer" style="display: none; float: right; width: 60%;">
       <span id="iffalseName">Action Number</span>:<br><input id="iffalseVal" class="round" type="text"></div>
-    </div><br><br><br>
+    </div>
+    <br><br><br>
+
     <div style="padding-top: 10px;">
       <div style="float: left; width: 35%;">
         Store Reaction List To:<br>
@@ -144,9 +149,12 @@ module.exports = {
         Variable Name:<br>
         <input id="varName2" class="round" type="text">
       </div>
-    </div><br><br><br>
+    </div>
+    <br><br><br>
+
   </div>
 </div>
+
 <style>
   .codeblock {
     margin: 4px;
@@ -165,8 +173,6 @@ module.exports = {
 
   init() {
     const { glob, document } = this;
-
-    glob.messageChange(document.getElementById('storage'), 'varNameContainer');
 
     glob.variableChange(document.getElementById('storage2'), 'varNameContainer2');
     glob.onChangeTrue = function onChangeTrue(event) {
@@ -220,10 +226,7 @@ module.exports = {
   async action(cache) {
     const data = cache.actions[cache.index];
     const { Actions } = this.getDBM();
-
-    const messageVariable = parseInt(data.storage, 10);
-    const varName = this.evalMessage(data.varName, cache);
-    const msg = await this.getMessage(messageVariable, varName, cache);
+    const msg = await this.getMessageFromData(data.storage, data.varName, cache);
 
     const storage = parseInt(data.storage2, 10);
     const varName2 = this.evalMessage(data.varName2, cache);

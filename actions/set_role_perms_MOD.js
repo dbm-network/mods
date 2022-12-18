@@ -61,20 +61,11 @@ module.exports = {
 
   fields: ['role', 'varName', 'permission', 'state', 'reason'],
 
-  html(isEvent, data) {
+  html() {
     return `
-<div style="padding-top: 8px;">
-  <div style="float: left; width: 35%;">
-    Source Role:<br>
-    <select id="role" class="round" onchange="glob.roleChange(this, 'varNameContainer')">
-      ${data.roles[isEvent ? 1 : 0]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList"><br>
-  </div>
-</div><br><br><br>
+<role-input dropdownLabel="Source Role" selectId="role" variableContainerId="varNameContainer" variableInputId="varName"></role-input>
+<br><br><br>
+
 <div style="padding-top: 8px;">
   <div style="float: left; width: 45%;">
     Permission:<br>
@@ -161,17 +152,12 @@ module.exports = {
 </style>`;
   },
 
-  init() {
-    const { glob, document } = this;
-    glob.roleChange(document.getElementById('role'), 'varNameContainer');
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];
     const { FLAGS, ALL } = this.getDBM().DiscordJS.Permissions;
-    const storage = parseInt(data.role, 10);
-    const varName = this.evalMessage(data.varName, cache);
-    const role = await this.getRole(storage, varName, cache);
+    const role = await this.getRoleFromData(data.storage, data.varName, cache);
     const info = parseInt(data.permission, 10);
     const reason = this.evalMessage(data.reason, cache);
 

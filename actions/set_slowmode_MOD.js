@@ -22,7 +22,6 @@ module.exports = {
 
   html() {
     return `
-    <div>
     <channel-input
         style="padding-top: 8px;"
         dropdownLabel="Source Channel"
@@ -31,7 +30,8 @@ module.exports = {
         variableInputId="varName"
         selectWidth="45%"
         variableInputWidth="50%"/>
-    </div><br><br><br><br>
+    <br><br><br>
+    
     <div>
       <div style="padding-top: 8px;">
         <div style="float: left; width: 50%;" padding-top: 16px;">

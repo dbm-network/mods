@@ -32,16 +32,9 @@ module.exports = {
 
   html(isEvent, data) {
     return `
-<div style="float: left; width: 35%; padding-top: 8px;">
-  Source Message:<br>
-  <select id="storage" class="round" onchange="glob.messageChange(this, 'varNameContainer')">
-    ${data.messages[isEvent ? 1 : 0]}
-  </select>
-</div>
-<div id="varNameContainer" style="display: none; float: right; width: 60%; padding-top: 8px;">
-  Variable Name:<br>
-  <input id="varName" class="round" type="text" list="variableList"><br>
-</div><br><br>
+<message-input dropdownLabel="Source Message" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></message-input>
+<br><br>
+
 <div style="float: left; width: 80%; padding-top: 8px;">
   Source Info:<br>
   <select id="info" class="round">
@@ -51,13 +44,16 @@ module.exports = {
     <option value="3">Attachment's Width</option>
     <option value="5">Attachment File's Size (KB)</option>
   </select>
-</div><br><br>
+</div>
+<br><br>
+
 <div style="float: left; width: 35%; padding-top: 8px;">
   Store In:<br>
   <select id="storage2" class="round" onchange="glob.variableChange(this, 'varNameContainer2')>
     ${data.variables[0]}
   </select>
 </div>
+
 <div id="varNameContainer2" style="float: right; width: 60%; padding-top: 8px;">
   Variable Name:<br>
   <input id="varName2" class="round" type="text"><br>
@@ -66,15 +62,12 @@ module.exports = {
 
   init() {
     const { document, glob } = this;
-    glob.messageChange(document.getElementById('storage'), 'varNameContainer');
     glob.variableChange(document.getElementById('storage2'), 'varNameContainer2');
   },
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const storage = parseInt(data.storage, 10);
-    const varName = this.evalMessage(data.varName, cache);
-    const message = await this.getMessage(storage, varName, cache);
+    const message = await this.getMessageFromData(data.storage, data.varName, cache);
     const info = parseInt(data.info, 10);
 
     const attachments = [...message.attachments.values()];

@@ -9,33 +9,18 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/check_role_permissions_MOD.js',
   },
 
-  subtitle(data) {
-    const results = [
-      'Continue Actions',
-      'Stop Action Sequence',
-      'Jump To Action',
-      'Jump Forward Actions',
-      'Jump to Anchor',
-    ];
-    return `If True: ${results[parseInt(data.iftrue, 10)]} ~ If False: ${results[parseInt(data.iffalse, 10)]}`;
+  subtitle(data, presets) {
+    return `${presets.getRoleText(data.role, data.varName)} has ${data.permission}?`;
   },
 
   fields: ['role', 'varName', 'permission', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal'],
 
   html(isEvent, data) {
     return `
-<div>
-  <div style="float: left; width: 35%;">
-    Source Role:<br>
-    <select id="role" class="round" onchange="glob.roleChange(this, 'varNameContainer')">
-      ${data.roles[isEvent ? 1 : 0]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList"><br>
-  </div>
-</div><br><br><br>
+<role-input dropdownLabel="Source Role" selectId="role" variableContainerId="varNameContainer" variableInputId="varName"></role-input>
+
+<br><br><br>
+
 <div style="padding-top: 8px; width: 80%;">
   Permission:<br>
   <select id="permission" class="round">
@@ -105,16 +90,14 @@ module.exports = {
           break;
       }
     };
-    glob.roleChange(document.getElementById('role'), 'varNameContainer');
+
     glob.onChangeTrue(document.getElementById('iftrue'));
     glob.onChangeFalse(document.getElementById('iffalse'));
   },
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const storage = parseInt(data.role, 10);
-    const varName = this.evalMessage(data.varName, cache);
-    const role = await this.getRole(storage, varName, cache);
+    const role = await this.getRoleFromData(data.role, data.varName, cache);
     let result;
 
     if (role) result = role.permissions.has(data.permission);

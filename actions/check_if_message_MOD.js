@@ -9,32 +9,26 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/check_if_message_MOD.js',
   },
 
-  subtitle(data) {
-    const results = [
-      'Continue Actions',
-      'Stop Action Sequence',
-      'Jump To Action',
-      'Jump Forward Actions',
-      'Jump to Anchor',
+  subtitle(data, presets) {
+    const info = [
+      'Is Pinnable?',
+      'Is Pinned?',
+      'Is Deletable?',
+      'Is Deleted?',
+      'Is TTS?',
+      'Is Of Discord?',
+      'Includes @everyone Mention?',
     ];
-    return `If True: ${results[parseInt(data.iftrue, 10)]} ~ If False: ${results[parseInt(data.iffalse, 10)]}`;
+    return `${presets.getMessageText(data.message, data.varName)} - ${info[parseInt(data.info, 10)]}`;
   },
 
   fields: ['message', 'varName', 'info', 'varName2', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal'],
 
   html(isEvent, data) {
     return `
-<div style="float: left; width: 35%; padding-top: 15px;">
-  Source Message:<br>
-  <select id="message" class="round" onchange="glob.memberChange(this, 'varNameContainer')">
-    ${data.messages[isEvent ? 1 : 0]}
-  </select>
-</div>
-<div id="varNameContainer" style="display: none; float: right; width: 60%; padding-top: 12px;">
-  Variable Name:<br>
-  <input id="varName" class="round" type="text" list="variableList"><br>
-</div><br><br><br>
-<div style="padding-top: 20px;">
+<div>
+<message-input dropdownLabel="Source Message" selectId="message" variableContainerId="varNameContainer" variableInputId="varName"></message-input>
+<br><br><br>
   <div style="float: left; width: 40%;">
     Check If Message:<br>
     <select id="info" class="round">
@@ -122,9 +116,8 @@ module.exports = {
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const message = parseInt(data.message, 10);
-    const varName = this.evalMessage(data.varName, cache);
-    const msg = await this.getMessage(message, varName, cache);
+    const msg = await this.getMessageFromData(data.message, data.varName, cache);
+
     const info = parseInt(data.info, 10);
     let result = false;
     switch (info) {
