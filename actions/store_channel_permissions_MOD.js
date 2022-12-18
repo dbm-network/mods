@@ -38,7 +38,7 @@ module.exports = {
 <br><br><br>
 
 <div id="roleHolder" style="padding-top: 8px;">
-  <role-input dropdownLabel="Source Role" selectId="role" variableContainerId="arNameContainer2" variableInputId="varName2"></role-input>
+  <role-input dropdownLabel="Source Role" selectId="role" variableContainerId="varNameContainer2" variableInputId="varName2"></role-input>
 </div>
 
 <div id="memberHolder" style="display: none; padding-top: 8px;">
