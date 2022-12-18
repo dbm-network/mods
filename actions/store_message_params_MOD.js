@@ -222,18 +222,16 @@ module.exports = {
         }
         break;
       case 2:
-        result = [...msg.mentions.users.values()].length > 0 ? [...msg.mentions.users.values()][ParamN - 1] : undefined;
+        result = msg.mentions.users.at(ParamN - 1);
         break;
       case 3:
-        result =
-          [...msg.mentions.members.values()].length > 0 ? [...msg.mentions.members.values()][ParamN - 1] : undefined;
+        result = msg.mentions.members.at(ParamN - 1);
         break;
       case 4:
-        result = [...msg.mentions.roles.values()].length > 0 ? [...msg.mentions.roles.values()][ParamN - 1] : undefined;
+        result = msg.mentions.roles.at(ParamN - 1);
         break;
       case 5:
-        result =
-          [...msg.mentions.channels.values()].length > 0 ? [...msg.mentions.channels.values()][ParamN - 1] : undefined;
+        result = msg.mentions.channels.at(ParamN - 1);
         break;
       default:
         break;
