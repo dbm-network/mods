@@ -54,7 +54,7 @@ module.exports = {
     const data = cache.actions[cache.index];
     const { Actions } = this.getDBM();
 
-    const server = await this.getServerFromData(data.type, data.varName, cache);
+    const server = await this.getServerFromData(data.server, data.varName, cache);
     const controlType = parseInt(data.controlType, 10);
     const prefix = this.evalMessage(data.prefix, cache);
     const settingsPath = path.join('data', 'serverSettings.json');

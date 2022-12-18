@@ -32,7 +32,7 @@ module.exports = {
 </div>
 <br><br><br><br>
 
-<member-input dropdownLabel="Source Member" selectId="member" variableContainerId="varNameContainer" variableInputId="varName"></member-input>
+<member-input dropdownLabel="Source Member" selectId="member" variableContainerId="varNameContainer2" variableInputId="varName2"></member-input>
 `;
   },
 

@@ -10,7 +10,7 @@ module.exports = {
   },
 
   subtitle(data, presets) {
-    return `Clone Channel: ${presets.getChannelText(data.channel, data.varName)}`;
+    return `Clone Channel: ${presets.getChannelText(data.storage, data.varName)}`;
   },
 
   variableStorage(data, varType) {

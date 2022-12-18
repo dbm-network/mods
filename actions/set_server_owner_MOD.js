@@ -38,7 +38,7 @@ module.exports = {
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const server = await this.getServerFromData(data.type, data.varName, cache);
+    const server = await this.getServerFromData(data.server, data.varName, cache);
     const mem = await this.getMemberFromData(data.member, data.varName2, cache);
     const reason = this.evalMessage(data.reason, cache);
 

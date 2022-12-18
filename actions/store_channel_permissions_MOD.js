@@ -12,7 +12,7 @@ module.exports = {
 
   subtitle(data, presets) {
     const target = parseInt(data.target, 10);
-    return `${presets.getChannelText(data.channel, data.channelVarNameContainer)} - ${
+    return `${presets.getChannelText(data.storage, data.varName)} - ${
       target === 0 ? presets.getRoleText(data.role, data.varName2) : presets.getMemberText(data.member, data.varName3)
     }`;
   },
@@ -38,11 +38,11 @@ module.exports = {
 <br><br><br>
 
 <div id="roleHolder" style="padding-top: 8px;">
-  <role-input dropdownLabel="Source Role" selectId="role" variableContainerId="arNameContainer2" variableInputId="varName2"></role-input>
+  <role-input dropdownLabel="Source Role" selectId="role" variableContainerId="varNameContainer2" variableInputId="varName2"></role-input>
 </div>
 
 <div id="memberHolder" style="display: none; padding-top: 8px;">
-  <member-input dropdownLabel="Source Member" selectId="member" variableContainerId="arNameContainer3" variableInputId="memberVarName"></member-input>
+  <member-input dropdownLabel="Source Member" selectId="member" variableContainerId="varNameContainer3" variableInputId="varName3"></member-input>
 </div>
 <br><br><br>
 

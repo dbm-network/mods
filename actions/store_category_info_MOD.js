@@ -193,9 +193,9 @@ module.exports = {
         result = targetCategory.children.size; // Category Channel Count
         break;
       case 8:
-        result = targetCategory.children
+        result = [...targetCategory.children
           .filter((c) => ['GUILD_TEXT', 'GUILD_NEWS', 'GUILD_STORE'].includes(c.type))
-          .array(); // Category Text Channel List
+          .values()]; // Category Text Channel List
         break;
       case 9:
         result = targetCategory.children.filter((c) =>
@@ -203,7 +203,7 @@ module.exports = {
         ).size; // Category Text Channel Count
         break;
       case 10:
-        result = targetCategory.children.filter((c) => c.type === 'GUILD_VOICE').array(); // Category Voice Channel List
+        result = [...targetCategory.children.filter((c) => c.type === 'GUILD_VOICE').values()]; // Category Voice Channel List
         break;
       case 11:
         result = targetCategory.children.filter((c) => c.type === 'GUILD_VOICE').size; // Category Voice Channel Count
