@@ -121,4 +121,4 @@ manager.on('shardCreate', (shard) => {
   });
 });
 
-manager.spawn([totalShards, 15500, timeout]).catch(console.error);
+manager.spawn({ amount: totalShards, delay: 15500, timeout }).catch(console.error);
