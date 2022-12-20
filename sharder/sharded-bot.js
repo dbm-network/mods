@@ -1,27 +1,28 @@
 // Made by TheMonDon#1721
 // Some code by General Wrex
-const version = '1.2';
+const version = '1.3';
 
 // Include discord.js and original check
 const { version: djsVersion, ShardingManager } = require('discord.js');
-if (djsVersion < '12.0.0') {
+const requiredDjsVersion = '13.7.0';
+if (djsVersion < requiredDjsVersion) {
   console.log(
-    'This version of Discord Bot Maker requires Discord.JS v12.\nPlease use "Project > Module Manager" and "Project > Reinstall Node Modules" to update to Discord.JS v12.',
+    `This version of Discord Bot Maker requires discord.js ${requiredDjsVersion}+.\nPlease use "Project > Module Manager" and "Project > Reinstall Node Modules" to update to discord.js ${requiredDjsVersion}.\n`,
   );
-  throw new Error('Need Discord.JS v12 to Run!!!');
+  throw new Error(`Need discord.js ${requiredDjsVersion} to run!!!`);
 }
 
 console.log('-'.repeat(50));
 console.log("TheMonDon's DBM Bot Sharder");
 console.log(`Version: ${version}`);
 console.log(
-  "Available Arguments: '--shard_count=[number]' (default: auto), '--startup=./[bot_file]' (default: ./bot.js), '--timeout=[number]' (default: 30000; use -1 to disable)",
+  "Available Arguments: '--shard_count=[number]' (default: auto), '--startup=./[bot_file]' (default: ./bot.js), '--timeout=[number]' (default: 60000; use -1 to disable)",
 );
 console.log('-'.repeat(50));
 
 let totalShards = 'auto';
 let startup = './bot.js';
-let timeout = 30000;
+let timeout = 60000;
 
 function getArgs() {
   const args = {};
@@ -51,7 +52,9 @@ if (args.startup) {
 }
 if (args.timeout) {
   timeout = parseInt(args.timeout, 10);
-  if (Number.isNaN(timeout)) throw new Error('The shard spawn timeout you passed could not be parsed.');
+  if (Number.isNaN(timeout)) {
+    throw new Error('The shard spawn timeout you passed could not be parsed.');
+  }
   console.log(`Shard spawn timeout: ${timeout}`);
 }
 
@@ -100,6 +103,22 @@ const manager = new ShardingManager(startup, {
   token,
 });
 
-manager.on('shardCreate', (shard) => console.log(`Shard ${shard.id} launched`));
+manager.on('shardCreate', (shard) => {
+  shard.on('reconnecting', () => {
+    console.log(`Shard [${shard.id}] is reconnecting`);
+  });
+  shard.on('spawn', () => {
+    console.log(`Shard [${shard.id}] spawned`);
+  });
+  shard.on('ready', () => {
+    console.log(`Shard [${shard.id}] is ready`);
+  });
+  shard.on('death', () => {
+    console.log(`Shard [${shard.id}] died`);
+  });
+  shard.on('error', (err) => {
+    console.error(`Error in Shard [${shard.id}]: `, err);
+  });
+});
 
-manager.spawn(totalShards, 5500, timeout);
+manager.spawn({ amount: totalShards, delay: 15500, timeout }).catch(console.error);
