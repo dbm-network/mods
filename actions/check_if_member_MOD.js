@@ -2,22 +2,30 @@ module.exports = {
   name: 'Check If Member',
   section: 'Conditions',
   meta: {
-    version: '2.1.4',
+    version: '2.1.6',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/check_if_member_MOD.js',
   },
 
-  subtitle(data) {
-    const results = [
-      'Continue Actions',
-      'Stop Action Sequence',
-      'Jump To Action',
-      'Jump Forward Actions',
-      'Jump to Anchor',
+  subtitle(data, presets) {
+    const info = [
+      'Is Bot?',
+      'Is Bannable?',
+      'Is Kickable?',
+      'Is In Voice Channel?',
+      'Is In Voice Channel?',
+      'Is User Manageable?',
+      'Is Bot Owner?',
+      'Is Muted?',
+      'Is Deafened?',
+      'Is Command Author?',
+      'Is Current Server Owner?',
+      'Is Boosting Current Server?',
+      'Is in timeout?',
     ];
-    return `If True: ${results[parseInt(data.iftrue, 10)]} ~ If False: ${results[parseInt(data.iffalse, 10)]}`;
+    return `${presets.getMemberText(data.member, data.varName)} - ${info[parseInt(data.info, 10)]}`;
   },
 
   fields: ['member', 'varName', 'info', 'varName2', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal'],
@@ -25,16 +33,7 @@ module.exports = {
   html(isEvent, data) {
     return `
 <div>
-  <div style="float: left; width: 35%; padding-top: 12px;">
-    Source Member:<br>
-    <select id="member" class="round" onchange="glob.memberChange(this, 'varNameContainer')">
-      ${data.members[isEvent ? 1 : 0]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="display: none; float: right; width: 60%; padding-top: 12px;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList"><br>
-  </div>
+  <member-input dropdownLabel="Member" selectId="member" variableContainerId="varNameContainer" variableInputId="varName"></member-input>
 </div><br><br><br>
 <div style="padding-top: 20px;">
   <div style="float: left; width: 35%;">
@@ -50,6 +49,8 @@ module.exports = {
       <option value="8">Is Deafened?</option>
       ${!isEvent && '<option value="9">Is Command Author?</option>'}
       ${!isEvent && '<option value="10">Is Current Server Owner?</option>'}
+      ${!isEvent && '<option value="11">Is Boosting Current Server?</option>'}
+      <option value="12">Is in timeout?</option>
     </select>
   </div>
   <div id="varNameContainer2" style="display: none; float: right; width: 60%;">
@@ -129,12 +130,10 @@ module.exports = {
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const type = parseInt(data.member, 10);
-    const varName = this.evalMessage(data.varName, cache);
-    const member = await this.getMember(type, varName, cache);
+    const member = await this.getMemberFromData(data.member, data.varName, cache);
     const info = parseInt(data.info, 10);
     const { Files } = this.getDBM();
-    const { msg } = cache;
+    const { msg, interaction } = cache;
 
     if (!member) {
       console.error('You need to provide a member of some sort to the "Check If Member" action');
@@ -177,10 +176,16 @@ module.exports = {
         result = Boolean(member.voice?.deaf);
         break;
       case 9:
-        result = member.id === msg.author.id;
+        result = member.id === (msg?.author.id ?? interaction.user.id);
         break;
       case 10:
-        result = member.id === msg.guild.ownerId;
+        result = member.id === (msg ?? interaction).guild.ownerId;
+        break;
+      case 11:
+        result = Boolean(member.premiumSinceTimestamp);
+        break;
+      case 12:
+        result = member.isCommunicationDisabled();
         break;
       default:
         console.log('Please check your "Check if Member" action! There is something wrong...');

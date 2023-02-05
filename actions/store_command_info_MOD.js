@@ -2,7 +2,7 @@ module.exports = {
   name: 'Store Command Info',
   section: 'Bot Client Control',
   meta: {
-    version: '2.1.4',
+    version: '2.1.6',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -106,6 +106,7 @@ module.exports = {
   async action(cache) {
     const data = cache.actions[cache.index];
     const jp = this.getMods().require('jsonpath');
+    const { interaction, msg } = cache;
 
     const command =
       parseInt(data.searchCommandBy, 10) === 0
@@ -117,12 +118,14 @@ module.exports = {
         ? jp.query(this.getDBM().Files.data.commands, `$..[?(@._id=="${this.evalMessage(data.valueToSearch, cache)}")]`)
         : jp.query(
             this.getDBM().Files.data.commands,
-            `$..[?(@.name=="${cache.msg.content
-              .slice(this.getDBM().Files.data.settings.tag.length || cache.server.tag.length)
-              .split(/ +/)
-              .shift()}")]`,
+            `$..[?(@.name=="${
+              interaction.commandName ??
+              msg.content
+                .slice(this.getDBM().Files.data.settings.tag.length || cache.server.tag.length)
+                .split(/ +/)
+                .shift()
+            }")]`,
           );
-
     let result;
     switch (parseInt(data.info, 10)) {
       case 0:
@@ -133,32 +136,55 @@ module.exports = {
         result = jp.query(command, '$.._id');
         break;
       case 2:
-        result =
-          jp.query(command, '$..comType') === 0 || ''
-            ? 'Normal Command'
-            : jp.query(command, '$..comType') === 1
-            ? 'Includes Word'
-            : jp.query(command, '$..comType') === 2
-            ? 'Matches Regular Expression'
-            : 'Any Message';
+        switch (parseInt(jp.query(command, '$..comType'), 10)) {
+          case 0:
+            result = 'Text Command';
+            break;
+          case 1:
+            result = 'Includes Word';
+            break;
+          case 2:
+            result = 'Matches Regular Expression';
+            break;
+          case 3:
+            result = 'Any Message';
+            break;
+          case 4:
+            result = 'Slash Command';
+            break;
+          case 5:
+            result = 'User Menu Command';
+            break;
+          case 6:
+            result = 'Msg Menu Command';
+            break;
+          default:
+            break;
+        }
         break;
       case 3:
-        result =
-          jp.query(command, '$..restriction') === 0
-            ? 'none'
-            : jp.query(command, '$..restriction') === 1
-            ? 'Server Only'
-            : jp.query(command, '$..restriction') === 2
-            ? 'Owner Only'
-            : jp.query(command, '$..restriction') === 3
-            ? 'DMs Only'
-            : 'Bot Owner Only';
+        switch (parseInt(jp.query(command, '$..restriction'), 10)) {
+          case 0:
+            result = 'None';
+            break;
+          case 1:
+            result = 'Server Only';
+            break;
+          case 2:
+            result = 'Owner Only';
+            break;
+          case 3:
+            result = 'DMs Only';
+            break;
+          default:
+            break;
+        }
         break;
       case 4:
         result = JSON.stringify(jp.query(command, '$..permissions')).slice(2, -2).replace('_', ' ').toLowerCase();
         break;
       case 5:
-        result = jp.query(command, '$.._aliases') === '' ? 'none' : jp.query(command, '$.._aliases');
+        result = jp.query(command, '$.._aliases');
         break;
       case 6:
         result =

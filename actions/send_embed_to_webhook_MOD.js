@@ -2,7 +2,7 @@ module.exports = {
   name: 'Send Embed to Webhook',
   section: 'Webhook Control',
   meta: {
-    version: '2.1.4',
+    version: '2.1.6',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -62,8 +62,10 @@ module.exports = {
 
     if (!embed2 || !webhook) return this.callNextAction(cache);
 
-    webhook.send(embed2);
-    this.callNextAction(cache);
+    webhook
+      .send({ embeds: [embed2] })
+      .then(() => this.callNextAction(cache))
+      .catch((err) => this.displayError(data, cache, err));
   },
 
   mod() {},
