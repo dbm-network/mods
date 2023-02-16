@@ -10,30 +10,13 @@ module.exports = {
   },
 
   subtitle(data, presets) {
-    const names2 = ['Starts Typing', 'Stops Typing'];
-    const index2 = parseInt(data.typing, 10);
-    const index = parseInt(data.storage, 10);
-    return index < 3
-      ? `${presets.getChannelText(data.storage, data.varName)} - ${names2[index2]}`
-      : `${presets.getChannelText(data.storage, data.varName)} - ${data.varName} - ${names2[index2]}`;
+    return `Send typing to ${presets.getChannelText(data.storage, data.varName)}`;
   },
 
-  fields: ['storage', 'varName', 'typing'],
+  fields: ['storage', 'varName'],
 
   html() {
     return `
-<div>
-  <div style="float: left; width: 35%;">
-    Typing Option:<br>
-    <select id="typing" class="round">
-      <option value="0" selected>Start Typing</option>
-      <option value="1">Stop Typing</option>
-    </select>
-  </div><br>
-</div>
-<br>
-<br>
-
 <channel-input dropdownLabel="Channel to start typing in:" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></channel-input>
 <br><br><br>`;
   },
@@ -45,9 +28,9 @@ module.exports = {
     const channel = await this.getChannelFromData(data.storage, data.varName, cache);
 
     try {
-      data.typing === '0' ? channel.startTyping() : channel.stopTyping();
+      await channel.sendTyping();
     } catch (e) {
-      console.error(`ERROR! ${e}${e.stack}`);
+      console.error(`ERROR!`, e);
     }
 
     this.callNextAction(cache);
