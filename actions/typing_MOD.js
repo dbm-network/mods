@@ -31,9 +31,9 @@ module.exports = {
     const channel = await this.getChannelFromData(data.storage, data.varName, cache);
 
     try {
-      channel.sendTyping();
+      await channel.sendTyping();
     } catch (e) {
-      console.error(`ERROR! ${e}${e.stack}`);
+      console.error(`ERROR!`, e);
     }
 
     this.callNextAction(cache);
