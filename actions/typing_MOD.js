@@ -10,10 +10,7 @@ module.exports = {
   },
 
   subtitle(data, presets) {
-    const index = parseInt(data.storage, 10);
-    return index < 2
-      ? `${presets.getChannelText(data.storage, data.varName)}`
-      : `${presets.getChannelText(data.storage, data.varName)} - ${data.varName}`;
+    return `Send typing to ${presets.getChannelText(data.storage, data.varName)}`;
   },
 
   fields: ['storage', 'varName'],
