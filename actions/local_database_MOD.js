@@ -248,40 +248,47 @@ module.exports = {
     const splitpath = dbpath.split('.');
     const dbvalue = this.eval(this.evalMessage(data.dbvalue, cache), cache);
     const { dbformat } = data;
-    const db = this.getMods().require(dbformat); // safe require.
+    let db = this.getMods().require(dbformat); // safe require.
     let output;
 
     if (!dbpath || !splitpath[0]) throw new Error('No DB path provided.');
 
     switch (dbformat) {
-      case 'quick.db': // quick.db
+      case 'quick.db': {
+        const version = db.version;
+        if (!version) {
+          const { QuickDB } = this.getMods().require(dbformat);
+          db = new QuickDB();
+        }
         switch (dboperation) {
           case 'get':
-            output = db.get(dbpath);
+            output = await db.get(dbpath);
             break;
           case 'store':
-            output = db.set(dbpath, dbvalue);
+            output = await db.set(dbpath, dbvalue);
             break;
           case 'delete':
-            output = db.delete(dbpath);
+            output = await db.delete(dbpath);
             break;
           case 'has':
-            output = db.has(dbpath);
+            output = await db.has(dbpath);
             break;
           case 'add':
-            output = db.add(dbpath, dbvalue);
+            output = await db.add(dbpath, dbvalue);
             break;
           case 'subtract':
-            output = db.subtract(dbpath, dbvalue);
+            if (!version) output = await db.sub(dbpath, dbvalue);
+            else output = await db.subtract(dbpath, dbvalue);
             break;
           case 'push':
-            output = db.push(dbpath, dbvalue);
+            output = await db.push(dbpath, dbvalue);
             break;
           case 'all':
-            output = db.all();
+            output = await db.all();
             break;
         }
         break;
+      }
       case 'enmap': {
         // enmap
         const value = splitpath.slice(2, splitpath.length);
