@@ -157,7 +157,7 @@ module.exports = {
   async action(cache) {
     const data = cache.actions[cache.index];
     const { FLAGS, ALL } = this.getDBM().DiscordJS.Permissions;
-    const role = await this.getRoleFromData(parseInt(data.role, 10), data.varName, cache);
+    const role = await this.getRoleFromData(data.role, data.varName, cache);
     const info = parseInt(data.permission, 10);
     const reason = this.evalMessage(data.reason, cache);
 
