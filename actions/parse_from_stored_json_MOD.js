@@ -153,7 +153,6 @@ module.exports = {
           console.log(`2: WebAPI Parser: Error Invalid JSON, is the Path set correctly? [${path}]`);
         } else {
           let result = outValue;
-          // Check if the outValue is a string
           if (typeof outValue === 'string') {
             // Remove brackets and quotes at the beginning and end of the string
             const matches = outValue.match(/^\[(.*?)\]$/);
