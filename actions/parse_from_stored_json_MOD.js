@@ -152,7 +152,17 @@ module.exports = {
           this.storeValue(errorJson, storage, varName, cache);
           console.log(`2: WebAPI Parser: Error Invalid JSON, is the Path set correctly? [${path}]`);
         } else {
-          this.storeValue(outValue, storage, varName, cache);
+          let result = outValue;
+          // Check if the outValue is a string
+          if (typeof outValue === 'string') {
+            // Remove brackets and quotes at the beginning and end of the string
+            const matches = outValue.match(/^\[(.*?)\]$/);
+            if (matches) {
+              // Extract the string between the brackets and remove any quotes at the beginning or end
+              result = matches[1].replace(/^["']|["']$/g, '');
+            }
+          }
+          this.storeValue(result, storage, varName, cache);
           if (DEBUG) console.log(`WebAPI Parser: JSON Data values starting from [${path}] stored to: [${varName}]`);
         }
       }
@@ -171,5 +181,5 @@ module.exports = {
     }
   },
 
-  mod() {},
+  mod() { },
 };
