@@ -2,7 +2,7 @@ module.exports = {
   name: 'Control Permissions',
   section: 'Permission Control',
   meta: {
-    version: '2.1.6',
+    version: '2.1.7',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
