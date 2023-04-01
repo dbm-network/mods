@@ -3,7 +3,7 @@ module.exports = {
   displayName: 'Store Audit Log Info',
   section: 'Server Control',
   meta: {
-    version: '2.1.6',
+    version: '2.1.7',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
