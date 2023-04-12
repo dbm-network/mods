@@ -9,8 +9,7 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/store_reaction_info_MOD.js',
   },
 
-  subtitle(data) {
-    const reaction = ['You cheater!', 'Temp Variable', 'Server Variable', 'Global Variable'];
+  subtitle(data, presets) {
     const info = [
       'Message Object',
       'Bot reacted?',
@@ -21,7 +20,7 @@ module.exports = {
       'Random User to React',
       'Last User to React',
     ];
-    return `${reaction[parseInt(data.reaction, 10)]} - ${info[parseInt(data.info, 10)]}`;
+    return `${presets.getVariableText(data.reaction, data.varName)} - ${info[parseInt(data.info, 10)]}`;
   },
 
   variableStorage(data, varType) {

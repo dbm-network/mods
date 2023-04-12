@@ -9,8 +9,7 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/store_message_params_MOD.js',
   },
 
-  subtitle(data) {
-    const message = ['Command Message', 'Temp Variable', 'Server Variable', 'Global Variable'];
+  subtitle(data, presets) {
     const info = [
       'One Parameter',
       'Multiple Parameters',
@@ -19,7 +18,7 @@ module.exports = {
       'Mentioned Role',
       'Mentioned Channel',
     ];
-    return `${message[parseInt(data.message, 10)]} - ${info[parseInt(data.info, 10)]} #${data.ParamN}`;
+    return `${presets.getMessageText(data.message, data.varName)} - ${info[parseInt(data.info, 10)]} #${data.ParamN}`;
   },
 
   variableStorage(data, varType) {

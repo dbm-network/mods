@@ -9,8 +9,7 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/store_game_info_MOD.js',
   },
 
-  subtitle(data) {
-    const members = ['Mentioned User', 'Command Author', 'Temp Variable', 'Server Variable', 'Global Variable'];
+  subtitle(data, presets) {
     const info = [
       'Game Application ID',
       'Game Details',
@@ -30,7 +29,7 @@ module.exports = {
       'Game Timestamp End',
       'Game Party Size',
     ];
-    return `${members[parseInt(data.member, 10)]} - ${info[parseInt(data.info, 10)]}`;
+    return `${presets.getMemberText(data.member, data.varName)} - ${info[parseInt(data.info, 10)]}`;
   },
 
   variableStorage(data, varType) {

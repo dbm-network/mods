@@ -9,18 +9,8 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/send_gif_MOD.js',
   },
 
-  subtitle(data) {
-    const channels = [
-      'Same Channel',
-      'Command Author',
-      'Mentioned User',
-      'Mentioned Channel',
-      'Default Channel (Top Channel)',
-      'Temp Variable',
-      'Server Variable',
-      'Global Variable',
-    ];
-    return `${channels[parseInt(data.channel, 10)]} ${data.channel < 5 ? '' : `- ${data.varName2}`}`;
+  subtitle(data, presets) {
+    return presets.getChannelText(data.channel, data.varName2);
   },
 
   fields: ['storage', 'varName', 'channel', 'varName2', 'message'],

@@ -9,9 +9,8 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/inspect_list_or_object_MOD.js',
   },
 
-  subtitle(data) {
-    const storages = ['', 'Temp Variable', 'Server Variable', 'Global Variable'];
-    return `Inspect ${storages[parseInt(data.storage, 10)]} "${data.varName}"`;
+  subtitle(data, presets) {
+    return presets.getVariableText(data.storage, data.varName);
   },
 
   variableStorage(data, varType) {

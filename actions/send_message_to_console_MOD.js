@@ -10,7 +10,7 @@ module.exports = {
   },
 
   subtitle(data) {
-    if (data.tosend.length > 0) {
+    if (data.tosend?.length > 0) {
       return `<font color="${data.color}">${data.tosend}</font>`;
     }
     return 'Please enter a message!';

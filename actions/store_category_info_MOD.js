@@ -9,8 +9,7 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/store_category_info_MOD.js',
   },
 
-  subtitle(data) {
-    const categories = ['You cheater!', 'Temp Variable', 'Server Variable', 'Global Variable'];
+  subtitle(data, presets) {
     const info = [
       'Category ID',
       'Category Name',
@@ -25,7 +24,7 @@ module.exports = {
       'Category Voice Channel List',
       'Category Voice Channel Count',
     ];
-    return `${categories[parseInt(data.category, 10)]} - ${info[parseInt(data.info, 10)]}`;
+    return presets.getChannelText(data.category, info[parseInt(data.info, 10)]);
   },
 
   variableStorage(data, varType) {

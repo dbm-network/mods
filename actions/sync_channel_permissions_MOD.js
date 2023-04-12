@@ -9,17 +9,8 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/sync_channel_permissions_MOD.js',
   },
 
-  subtitle(data) {
-    const names = [
-      'Same Channel',
-      'Mentioned Channel',
-      'Default Channel',
-      'Temp Variable',
-      'Server Variable',
-      'Global Variable',
-    ];
-    const index = parseInt(data.storage, 10);
-    return index < 3 ? `${names[index]}` : `${names[index]} - ${data.varName}`;
+  subtitle(data, presets) {
+    return presets.getChannelText(data.storage, data.varName);
   },
 
   fields: ['storage', 'varName', 'permission', 'state'],

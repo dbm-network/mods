@@ -9,9 +9,8 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/remove_reaction_MOD.js',
   },
 
-  subtitle(data) {
-    const names = ['Mentioned User', 'Command Author', 'Temp Variable', 'Server Variable', 'Global Variable'];
-    return `${names[parseInt(data.member, 10)]}`;
+  subtitle(data, presets) {
+    return presets.getMemberText(data.member, data.varName);
   },
 
   fields: ['reaction', 'varName', 'member', 'varName2'],

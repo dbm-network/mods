@@ -9,9 +9,8 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/delete_server_data_MOD.js',
   },
 
-  subtitle(data) {
-    const servers = ['Current Server', 'Temp Variable', 'Server Variable', 'Global Variable'];
-    return `${servers[parseInt(data.server, 10)]} - ${data.dataName}`;
+  subtitle(data, presets) {
+    return presets.getServerText(data.server, data.varName);
   },
 
   fields: ['server', 'varName', 'dataName'],

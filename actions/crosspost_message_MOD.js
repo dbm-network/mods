@@ -9,9 +9,8 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/crosspost_message_MOD.js',
   },
 
-  subtitle(data) {
-    const message = ['Command Message', 'Temp Variable', 'Server Variable', 'Global Variable'];
-    return `${message[parseInt(data.message, 10)]}`;
+  subtitle(data, presets) {
+    return presets.getMessageText(data.message, data.varName);
   },
 
   variableStorage(data, varType) {

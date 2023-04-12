@@ -11,7 +11,7 @@ module.exports = {
 
   subtitle(data) {
     if (data.serverAfkTime === '60') {
-      return '1 Minutes';
+      return '1 Minute';
     }
     if (data.serverAfkTime === '300') {
       return '5 Minutes';
@@ -23,9 +23,9 @@ module.exports = {
       return '30 Minutes';
     }
     if (data.serverAfkTime === '3600') {
-      return '1 Hours';
+      return '1 Hour';
     }
-    return `${data.serverAfkTime} Seconds`;
+    return `${data.serverAfkTime} ${data.serverAfkTime === '1' ? 'Second' : 'Seconds'}`;
   },
 
   fields: ['server', 'varName', 'serverAfkTime'],
