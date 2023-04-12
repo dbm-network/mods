@@ -35,7 +35,7 @@ module.exports = {
     const filename = this.evalMessage(data.filename, cache);
     this.getDBM().Bot.bot.destroy();
     const child = require('child_process');
-    child.spawnSync('node', [filename], { cwd: process.cwd() });
+    child.spawnSync('node', [filename], { cwd: process.cwd(), stdio: 'inherit' });
     process.exit();
   },
 
