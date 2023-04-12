@@ -10,7 +10,7 @@ module.exports = {
   },
 
   subtitle(data, presets) {
-    return presets.getChannelText(data.storage, data.varName)
+    return presets.getChannelText(data.storage, data.varName);
   },
 
   fields: ['storage', 'varName', 'permission', 'state'],

@@ -10,7 +10,10 @@ module.exports = {
   },
 
   subtitle(data, presets) {
-    return `${presets.getServerText(data.server, data.varName)} - ${presets.getMemberText(data.member, data.varName2)} ${data.reason ? `with Reason: <i>${data.reason}<i>` : ''}`
+    return `${presets.getServerText(data.server, data.varName)} - ${presets.getMemberText(
+      data.member,
+      data.varName2,
+    )} ${data.reason ? `with Reason: <i>${data.reason}<i>` : ''}`;
   },
 
   fields: ['server', 'varName', 'member', 'varName2', 'reason'],

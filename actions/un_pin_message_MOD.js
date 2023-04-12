@@ -10,7 +10,7 @@ module.exports = {
   },
 
   subtitle(data, presets) {
-    return `Un-Pin ${presets.getMessageText(data.storage, data.varName)}`
+    return `Un-Pin ${presets.getMessageText(data.storage, data.varName)}`;
   },
 
   fields: ['storage', 'varName'],
