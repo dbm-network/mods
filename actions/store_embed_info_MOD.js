@@ -103,22 +103,22 @@ module.exports = {
         result = embed.description;
         break;
       case 3:
-        result = embed.author.name;
+        result = embed.author?.name;
         break;
       case 4:
-        result = embed.author.iconURL;
+        result = embed.author?.iconURL;
         break;
       case 5:
-        result = embed.thumbnail.url;
+        result = embed.thumbnail?.url;
         break;
       case 6:
-        result = embed.footer.text;
+        result = embed.footer?.text;
         break;
       case 7:
-        result = embed.footer.iconURL;
+        result = embed.footer?.iconURL;
         break;
       case 8:
-        result = embed.image.url;
+        result = embed.image?.url;
         break;
       case 9:
         result = embed.color;
