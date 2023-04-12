@@ -258,8 +258,7 @@ module.exports = {
         const version = db.version;
         // Support older versions of quick.db (v7)
         if (!version) {
-          const { QuickDB } = this.getMods().require(dbformat);
-          db = new QuickDB();
+          db = new db.QuickDB();
         }
         switch (dboperation) {
           case 'get':
