@@ -10,9 +10,8 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/edit_emoji_MOD.js',
   },
 
-  subtitle(data) {
-    const emoji = ['You cheater!', 'Temp Variable', 'Server Variable', 'Global Variable'];
-    return `${emoji[parseInt(data.storage, 10)]}`;
+  subtitle(data, presets) {
+    return presets.getVariableText(data.storage, data.varName);
   },
 
   fields: ['storage', 'varName', 'emojiName'],

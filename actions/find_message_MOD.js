@@ -9,17 +9,9 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/find_message_MOD.js',
   },
 
-  subtitle(data) {
-    const channels = [
-      'Same Channel',
-      'Mentioned Channel',
-      '1st Server Channel',
-      'Temp Variable',
-      'Server Variable',
-      'Global Variable',
-    ];
+  subtitle(data, presets) {
     const info = ['Find by Content', 'Find by ID'];
-    return `${channels[parseInt(data.channel, 10)]} - ${info[parseInt(data.info, 10)]}`;
+    return `${presets.getChannelText(data.channel, data.info)} - ${info[parseInt(data.info, 10)]}`;
   },
 
   variableStorage(data, varType) {

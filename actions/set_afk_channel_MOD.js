@@ -9,16 +9,8 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/set_afk_channel_MOD.js',
   },
 
-  subtitle(data) {
-    const channels = [
-      "Command Author's Voice Ch.",
-      "Mentioned User's Voice Ch.",
-      'Default Voice Channel',
-      'Temp Variable',
-      'Server Variable',
-      'Global Variable',
-    ];
-    return `${channels[parseInt(data.afkchannel, 10)]}`;
+  subtitle(data, presets) {
+    return presets.getChannelText(data.afkchannel, data.varName);
   },
 
   fields: ['server', 'varName', 'afkchannel', 'varNameChannel'],

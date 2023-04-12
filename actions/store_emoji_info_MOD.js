@@ -9,8 +9,7 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/store_emoji_info_MOD.js',
   },
 
-  subtitle(data) {
-    const emoji = ['You cheater!', 'Temp Variable', 'Server Variable', 'Global Variable'];
+  subtitle(data, presets) {
     const info = [
       'Emoji Object',
       'Emoji Is Animated?',
@@ -26,7 +25,7 @@ module.exports = {
       'Emoji Is Managed By An External Service?',
       'Emoji Requires Colons Surrounding It?',
     ];
-    return `${emoji[parseInt(data.emoji, 10)]} - ${info[parseInt(data.info, 10)]}`;
+    return `${presets.getVariableText(data.emoji, data.varName)} - ${info[parseInt(data.info, 10)]}`;
   },
 
   variableStorage(data, varType) {

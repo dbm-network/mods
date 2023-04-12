@@ -9,8 +9,7 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/store_user_info_MOD.js',
   },
 
-  subtitle(data) {
-    const users = ['Mentioned User', 'Command Author', 'Temp Variable', 'Server Variable', 'Global Variable'];
+  subtitle(data, presets) {
     const info = [
       'Object',
       'ID',
@@ -28,7 +27,7 @@ module.exports = {
       'Flags List',
       'Client Status',
     ];
-    return `${users[parseInt(data.user, 10)]} - User ${info[parseInt(data.info, 10)]}`;
+    return `${presets.getMemberText(data.user, data.varName)} - User ${info[parseInt(data.info, 10)]}`;
   },
 
   variableStorage(data, varType) {

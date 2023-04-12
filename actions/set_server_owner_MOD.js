@@ -9,11 +9,8 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/set_server_owner_MOD.js',
   },
 
-  subtitle(data) {
-    const members = ['Mentioned User', 'Command Author', 'Temp Variable', 'Server Variable', 'Global Variable'];
-    return `${members[data.member]} ${data.member < 2 ? '' : `- ${data.varName2}`} ${
-      !data.reason ? '' : `with Reason: <i>${data.reason}<i>`
-    }`;
+  subtitle(data, presets) {
+    return `${presets.getServerText(data.server, data.varName)} - ${presets.getMemberText(data.member, data.varName2)} ${data.reason ? `with Reason: <i>${data.reason}<i>` : ''}`
   },
 
   fields: ['server', 'varName', 'member', 'varName2', 'reason'],

@@ -9,9 +9,8 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/delete_member_data_MOD.js',
   },
 
-  subtitle(data) {
-    const members = ['Mentioned User', 'Command Author', 'Temp Variable', 'Server Variable', 'Global Variable'];
-    return `${members[parseInt(data.member, 10)]} - ${data.dataName}`;
+  subtitle(data, presets) {
+    return `${presets.getMemberText(data.member, data.varName)} - ${data.dataName}`;
   },
 
   fields: ['member', 'varName', 'dataName'],

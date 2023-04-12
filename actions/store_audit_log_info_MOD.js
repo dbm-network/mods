@@ -10,8 +10,7 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/store_audit_log_info_MOD.js',
   },
 
-  subtitle(data) {
-    const storage = ['', 'Temp Variable', 'Server Variable', 'Global Variable'];
+  subtitle(data, presets) {
     const info = [
       'Audit Log Id',
       'Action',
@@ -27,7 +26,7 @@ module.exports = {
       'Reason',
       'Extra Data',
     ];
-    return `${storage[parseInt(data.storage, 10)]} ${data.varName} - ${info[parseInt(data.info, 10)]}`;
+    return `${presets.getVariableText(data.storage, data.varName)} - ${info[parseInt(data.info, 10)]}`;
   },
 
   variableStorage(data, varType) {

@@ -10,9 +10,8 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/delete_webhook_MOD.js',
   },
 
-  subtitle(data) {
-    const names = ['You cheater!', 'Temp Variable', 'Server Variable', 'Global Variable'];
-    return `${names[parseInt(data.webhook, 10)]} - ${data.varName}`;
+  subtitle(data, presets) {
+    return presets.getVariableText(data.webhook, data.varName);
   },
 
   fields: ['webhook', 'varName'],

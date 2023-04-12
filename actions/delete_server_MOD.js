@@ -9,16 +9,14 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/delete_server_MOD.js',
   },
 
-  subtitle(data) {
-    const servers = ['Current Server', 'Temp Variable', 'Server Variable', 'Global Variable'];
-    const index = parseInt(data.server, 10);
-    return data.server === '0' ? `${servers[index]}` : `${servers[index]} - ${data.varName}`;
+  subtitle(data, presets) {
+    return presets.getServerText(data.server, data.varName);
   },
 
   fields: ['server', 'varName'],
 
   html() {
-    return `<server-input dropdownLabel="Source Server" selectId="server" variableContainerId="varNameContainer" variableInputId="varName"></server-input>`;
+    return '<server-input dropdownLabel="Source Server" selectId="server" variableContainerId="varNameContainer" variableInputId="varName"></server-input>';
   },
 
   init() {},
