@@ -33,4 +33,6 @@ This repository is not meant to be downloaded or cloned. Please follow the insta
 3.  Extract the contents of the .zip file into the folder you just opened
     (Overwrite existing files if asked)
 
+To install extensions you need to move the .js file from the extension folder and place it directly into the extensions folder for your project.
+
 **You will need to repeat this process for all of your projects**
