@@ -141,7 +141,7 @@ module.exports = {
       auth: { user, pass },
       tls: {
         ciphers: 'SSLv3',
-      }
+      },
     });
 
     let mailOptions;
