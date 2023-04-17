@@ -2,15 +2,14 @@ module.exports = {
   name: 'Store Game Info',
   section: 'Member Control',
   meta: {
-    version: '2.1.6',
+    version: '2.1.7',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/store_game_info_MOD.js',
   },
 
-  subtitle(data) {
-    const members = ['Mentioned User', 'Command Author', 'Temp Variable', 'Server Variable', 'Global Variable'];
+  subtitle(data, presets) {
     const info = [
       'Game Application ID',
       'Game Details',
@@ -30,7 +29,7 @@ module.exports = {
       'Game Timestamp End',
       'Game Party Size',
     ];
-    return `${members[parseInt(data.member, 10)]} - ${info[parseInt(data.info, 10)]}`;
+    return `${presets.getMemberText(data.member, data.varName)} - ${info[parseInt(data.info, 10)]}`;
   },
 
   variableStorage(data, varType) {
@@ -99,16 +98,7 @@ module.exports = {
   html(isEvent, data) {
     return `
 <div>
-  <div style="float: left; width: 35%;">
-    Source Member:<br>
-    <select id="member" class="round" onchange="glob.memberChange(this, 'varNameContainer')">
-      ${data.members[isEvent ? 1 : 0]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList"><br>
-  </div>
+<member-input dropdownLabel="Source Member" selectId="member" variableContainerId="varNameContainer" variableInputId="varName"></member-input>
 </div><br><br><br>
 <div>
   <div style="padding-top: 8px; width: 70%;">
@@ -165,10 +155,7 @@ module.exports = {
   async action(cache) {
     const data = cache.actions[cache.index];
     const info = parseInt(data.info, 10);
-
-    const member = parseInt(data.member, 10);
-    const varName = this.evalMessage(data.varName, cache);
-    const mem = await this.getMember(member, varName, cache);
+    const mem = await this.getMemberFromData(data.member, data.varName, cache);
 
     if (!mem || !mem.presence.activities[0]) return this.callNextAction(cache);
 

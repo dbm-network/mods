@@ -2,16 +2,15 @@ module.exports = {
   name: 'Crosspost Message',
   section: 'Messaging',
   meta: {
-    version: '2.1.6',
+    version: '2.1.7',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/crosspost_message_MOD.js',
   },
 
-  subtitle(data) {
-    const message = ['Command Message', 'Temp Variable', 'Server Variable', 'Global Variable'];
-    return `${message[parseInt(data.message, 10)]}`;
+  subtitle(data, presets) {
+    return presets.getMessageText(data.message, data.varName);
   },
 
   variableStorage(data, varType) {
@@ -24,16 +23,7 @@ module.exports = {
   html(isEvent, data) {
     return `
 <div>
- <div style="float: left; width: 35%;">
-  Source Message:<br>
-  <select id="message" class="round" onchange="glob.messageChange(this, 'varNameContainer')">
-   ${data.messages[isEvent ? 1 : 0]}
-  </select>
- </div>
- <div id="varNameContainer" style="display: none; float: right; width: 60%;">
-  Variable Name:<br>
-  <input id="varName" class="round" type="text" list="variableList"><br>
- </div>
+ <message-input dropdownLabel="Source Message" selectId="message" variableContainerId="varNameContainer" variableInputId="varName"></message-input>
 </div><br><br><br>
 <div>
  <div style="float: left; width: 35%;">
@@ -58,8 +48,7 @@ module.exports = {
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const varName = this.evalMessage(data.varName, cache);
-    const message = await this.getMessage(parseInt(data.message, 10), varName, cache);
+    const message = await this.getMessageFromData(data.mssage, data.varName, cache);
 
     if (!message) return this.callNextAction(cache);
     if (!message.crosspost) throw new Error('You need at least Discord.js version 12.4.0 to use this mod.');

@@ -2,34 +2,24 @@ module.exports = {
   name: 'Delete Server Data',
   section: 'Data',
   meta: {
-    version: '2.1.6',
+    version: '2.1.7',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/delete_server_data_MOD.js',
   },
 
-  subtitle(data) {
-    const servers = ['Current Server', 'Temp Variable', 'Server Variable', 'Global Variable'];
-    return `${servers[parseInt(data.server, 10)]} - ${data.dataName}`;
+  subtitle(data, presets) {
+    return presets.getServerText(data.server, data.varName);
   },
 
   fields: ['server', 'varName', 'dataName'],
 
-  html(isEvent, data) {
+  html() {
     return `
-<div>
-  <div style="float: left; width: 35%;">
-    Server:<br>
-    <select id="server" class="round" onchange="glob.serverChange(this, 'varNameContainer')">
-      ${data.servers[isEvent ? 1 : 0]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList">
-  </div>
-</div><br><br><br
+<server-input dropdownLabel="Source Server" selectId="server" variableContainerId="varNameContainer" variableInputId="varName"></server-input>
+<br><br><br
+
 <div style="padding-top: 8px;">
   <div style="float: left; width: 80%;">
     Data Name:<br>
@@ -45,9 +35,7 @@ module.exports = {
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const type = parseInt(data.server, 10);
-    const varName = this.evalMessage(data.varName, cache);
-    const server = await this.getServer(type, varName, cache);
+    const server = await this.getServerFromData(data.server, data.varName, cache);
     const dataName = this.evalMessage(data.dataName, cache);
 
     if (!server) return this.callNextAction(cache);

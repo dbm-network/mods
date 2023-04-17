@@ -2,16 +2,15 @@ module.exports = {
   name: 'Edit Embed Object',
   section: 'Embed Message',
   meta: {
-    version: '2.1.6',
+    version: '2.1.7',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/edit_embed_object_MOD.js',
   },
 
-  subtitle(data) {
-    const storage = ['', 'Temp Variable', 'Server Variable', 'Global Variable'];
-    return `${storage[parseInt(data.storage, 10)]} (${data.varName})`;
+  subtitle(data, presets) {
+    return presets.getVariableText(data.storage, data.varName);
   },
 
   variableStorage(data, varType) {

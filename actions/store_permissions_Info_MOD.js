@@ -2,15 +2,14 @@ module.exports = {
   name: 'Store Permissions Info',
   section: 'Permission Control',
   meta: {
-    version: '2.1.6',
+    version: '2.1.7',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/store_permissions_Info_MOD.js',
   },
 
-  subtitle(data) {
-    const variables = ['', 'Temp Variable', 'Server Variable', 'Global Variable'];
+  subtitle(data, presets) {
     const options = [
       'Allow Bitfields',
       'Allow Flags',
@@ -20,7 +19,7 @@ module.exports = {
       'Have View Audit Log',
       'Have Manage Server',
     ];
-    return `${variables[data.storage]} (${data.varName}) - ${options[data.info]}`;
+    return `${presets.getVariableText(data.storage, data.varName)} - ${options[data.info]}`;
   },
 
   variableStorage(data, varType) {

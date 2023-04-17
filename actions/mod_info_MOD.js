@@ -3,7 +3,7 @@ module.exports = {
   section: '#DBM Mods',
   version: '1.9.8',
   meta: {
-    version: '2.1.6',
+    version: '2.1.7',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',

@@ -3,7 +3,7 @@ module.exports = {
   name: 'Restart Bot',
   section: 'Bot Client Control',
   meta: {
-    version: '2.1.6',
+    version: '2.1.7',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -35,7 +35,7 @@ module.exports = {
     const filename = this.evalMessage(data.filename, cache);
     this.getDBM().Bot.bot.destroy();
     const child = require('child_process');
-    child.spawnSync('node', [filename], { cwd: process.cwd() });
+    child.spawnSync('node', [filename], { cwd: process.cwd(), stdio: 'inherit' });
     process.exit();
   },
 

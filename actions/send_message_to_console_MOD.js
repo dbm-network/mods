@@ -2,7 +2,7 @@ module.exports = {
   name: 'Send Message to Console',
   section: 'Other Stuff',
   meta: {
-    version: '2.1.6',
+    version: '2.1.7',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -10,7 +10,7 @@ module.exports = {
   },
 
   subtitle(data) {
-    if (data.tosend.length > 0) {
+    if (data.tosend?.length > 0) {
       return `<font color="${data.color}">${data.tosend}</font>`;
     }
     return 'Please enter a message!';

@@ -2,7 +2,7 @@ module.exports = {
   name: 'Set slowmode MOD',
   section: 'Channel Control',
   meta: {
-    version: '2.1.6',
+    version: '2.1.7',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -22,7 +22,6 @@ module.exports = {
 
   html() {
     return `
-    <div>
     <channel-input
         style="padding-top: 8px;"
         dropdownLabel="Source Channel"
@@ -31,7 +30,8 @@ module.exports = {
         variableInputId="varName"
         selectWidth="45%"
         variableInputWidth="50%"/>
-    </div><br><br><br><br>
+    <br><br><br>
+    
     <div>
       <div style="padding-top: 8px;">
         <div style="float: left; width: 50%;" padding-top: 16px;">

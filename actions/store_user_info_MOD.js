@@ -2,15 +2,14 @@ module.exports = {
   name: 'Store User Info',
   section: 'User Control',
   meta: {
-    version: '2.1.6',
+    version: '2.1.7',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/store_user_info_MOD.js',
   },
 
-  subtitle(data) {
-    const users = ['Mentioned User', 'Command Author', 'Temp Variable', 'Server Variable', 'Global Variable'];
+  subtitle(data, presets) {
     const info = [
       'Object',
       'ID',
@@ -28,7 +27,7 @@ module.exports = {
       'Flags List',
       'Client Status',
     ];
-    return `${users[parseInt(data.user, 10)]} - User ${info[parseInt(data.info, 10)]}`;
+    return `${presets.getMemberText(data.user, data.varName)} - User ${info[parseInt(data.info, 10)]}`;
   },
 
   variableStorage(data, varType) {
@@ -81,17 +80,10 @@ module.exports = {
   html(isEvent, data) {
     return `
   <div>
-    <div style="float: left; width: 35%">
-      Source User:<br>
-      <select id="user" class="round" onchange="glob.memberChange(this, 'varNameContainer')">
-        ${data.members[isEvent ? 1 : 0]}
-      </select>
-    </div>
-    <div id="varNameContainer" style="display: none; float: right; width: 60%">
-      Variable Name:<br>
-      <input id="varName" class="round" type="text" list="variableList"><br>
-    </div>
-  </div><br><br><br>
+  <member-input dropdownLabel="Source Member" selectId="user" variableContainerId="varNameContainer" variableInputId="varName"></member-input>
+  </div>
+  <br><br><br>
+
   <div>
     <div style="padding-top: 8px; width: 70%">
       Source Info:<br>
@@ -113,7 +105,9 @@ module.exports = {
         <option value="14">User Client Status</option>'
       </select>
     </div>
-  </div><br>
+  </div>
+  <br>
+  
   <div>
     <div style="float: left; width: 35%">
       Store In:<br>
@@ -128,18 +122,12 @@ module.exports = {
   </div>`;
   },
 
-  init() {
-    const { glob, document } = this;
-
-    glob.memberChange(document.getElementById('user'), 'varNameContainer');
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const userType = parseInt(data.user, 10);
-    const varName = this.evalMessage(data.varName, cache);
     const info = parseInt(data.info, 10);
-    let user = await this.getMember(userType, varName, cache);
+    let user = await this.getMemberFromData(data.user, data.varName, cache);
     if (!user) return this.callNextAction(cache);
     if (user.user) user = user.user;
 

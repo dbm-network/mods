@@ -2,16 +2,15 @@ module.exports = {
   name: 'Check Permissions',
   section: 'Permission Control',
   meta: {
-    version: '2.1.6',
+    version: '2.1.7',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/check_permissions_MOD.js',
   },
 
-  subtitle(data) {
-    const variables = ['', 'Temp Variable', 'Server Variable', 'Global Variable'];
-    return `For ${variables[parseInt(data.storage, 10)]} (${data.varName})`;
+  subtitle(data, presets) {
+    return presets.getVariableText(data.storage, data.varName);
   },
 
   variableStorage(data, varType) {

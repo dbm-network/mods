@@ -2,15 +2,14 @@ module.exports = {
   name: 'Store Category Info',
   section: 'Channel Control',
   meta: {
-    version: '2.1.6',
+    version: '2.1.7',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/store_category_info_MOD.js',
   },
 
-  subtitle(data) {
-    const categories = ['You cheater!', 'Temp Variable', 'Server Variable', 'Global Variable'];
+  subtitle(data, presets) {
     const info = [
       'Category ID',
       'Category Name',
@@ -25,7 +24,7 @@ module.exports = {
       'Category Voice Channel List',
       'Category Voice Channel Count',
     ];
-    return `${categories[parseInt(data.category, 10)]} - ${info[parseInt(data.info, 10)]}`;
+    return presets.getChannelText(data.category, info[parseInt(data.info, 10)]);
   },
 
   variableStorage(data, varType) {
@@ -187,22 +186,28 @@ module.exports = {
         result = targetCategory.deletable; // Category Is Deleteable?
         break;
       case 6:
-        result = targetCategory.children.array(); // Category Channel List
+        result = [...targetCategory.children.values()]; // Category Channel List
         break;
       case 7:
         result = targetCategory.children.size; // Category Channel Count
         break;
       case 8:
-        result = targetCategory.children.filter((c) => ['text', 'news', 'store'].includes(c.type)).array(); // Category Text Channel List
+        result = [
+          ...targetCategory.children
+            .filter((c) => ['GUILD_TEXT', 'GUILD_NEWS', 'GUILD_STORE'].includes(c.type))
+            .values(),
+        ]; // Category Text Channel List
         break;
       case 9:
-        result = targetCategory.children.filter((c) => ['text', 'news', 'store'].includes(c.type)).size; // Category Text Channel Count
+        result = targetCategory.children.filter((c) =>
+          ['GUILD_TEXT', 'GUILD_NEWS', 'GUILD_STORE'].includes(c.type),
+        ).size; // Category Text Channel Count
         break;
       case 10:
-        result = targetCategory.children.filter((c) => c.type === 'voice').array(); // Category Voice Channel List
+        result = [...targetCategory.children.filter((c) => c.type === 'GUILD_VOICE').values()]; // Category Voice Channel List
         break;
       case 11:
-        result = targetCategory.children.filter((c) => c.type === 'voice').size; // Category Voice Channel Count
+        result = targetCategory.children.filter((c) => c.type === 'GUILD_VOICE').size; // Category Voice Channel Count
         break;
       default:
         break;

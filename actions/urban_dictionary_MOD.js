@@ -2,7 +2,7 @@ module.exports = {
   name: 'Urban Dictionary Search',
   section: 'Other Stuff',
   meta: {
-    version: '2.1.6',
+    version: '2.1.7',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -72,7 +72,9 @@ module.exports = {
       <option value="5">Author</option>
       <option value="6">Result ID</option>
     </select>
-  </div><br><br><br>
+  </div>
+  <br><br><br>
+  
   <div>
     <div style="float: left; width: 35%; padding-top: 8px;">
       Store In:<br>

@@ -2,7 +2,7 @@ module.exports = {
   name: 'Set Time Restriction',
   section: 'Other Stuff',
   meta: {
-    version: '2.1.6',
+    version: '2.1.7',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -17,9 +17,10 @@ module.exports = {
       'Jump Forward Actions',
       'Jump to Anchor',
     ];
-    return `Cooldown | If True: ${results[parseInt(data.iftrue, 10)]} ~ If False: ${
-      results[parseInt(data.iffalse, 10)]
-    }`;
+    const measurement = ['Milliseconds', 'Seconds', 'Minutes', 'Hours'];
+    return `${data.value} ${measurement[data.measurement]} | If True: ${
+      results[parseInt(data.iftrue, 10)]
+    } ~ If False: ${results[parseInt(data.iffalse, 10)]}`;
   },
 
   variableStorage(data, varType) {
@@ -195,7 +196,7 @@ module.exports = {
     }
 
     const TRData = cache.interaction ?? cache.msg;
-    const timeLeft = this.TimeRestriction(TRData, cmd, cache);
+    const timeLeft = await this.TimeRestriction(TRData, cmd, cache);
     if (!timeLeft) {
       this.executeResults(false, data, cache);
     } else {
@@ -206,10 +207,11 @@ module.exports = {
     }
   },
 
-  mod(DBM) {
+  async mod(DBM) {
     let Cooldown;
-    DBM.Actions.LoadTimeRestriction = function LoadTimeRestriction(cache) {
-      Cooldown = this.getVariable(3, 'DBMCooldown', cache);
+    DBM.Actions.LoadTimeRestriction = async function LoadTimeRestriction(cache) {
+      Cooldown = await this.getVariable(3, 'DBMCooldown', cache);
+
       if (typeof Cooldown === 'undefined') {
         Cooldown = {};
       } else if (typeof Cooldown === 'string') {
@@ -236,11 +238,11 @@ module.exports = {
       }
     };
 
-    DBM.Actions.TimeRestriction = function TimeRestriction(TRData, cmd, cache) {
+    DBM.Actions.TimeRestriction = async function TimeRestriction(TRData, cmd, cache) {
       const author = TRData.author ?? TRData.user;
       const { channel } = TRData;
 
-      if (typeof Cooldown === 'undefined') this.LoadTimeRestriction(cache);
+      if (typeof Cooldown === 'undefined') await this.LoadTimeRestriction(cache);
       const { Files } = DBM;
       let value = parseInt(this.evalMessage(cache.actions[cache.index].value, cache), 10);
       const measurement = parseInt(cache.actions[cache.index].measurement, 10);

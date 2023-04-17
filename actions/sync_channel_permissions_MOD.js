@@ -2,55 +2,31 @@ module.exports = {
   name: 'Sync Channel Permissions',
   section: 'Permission Control',
   meta: {
-    version: '2.1.6',
+    version: '2.1.7',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/sync_channel_permissions_MOD.js',
   },
 
-  subtitle(data) {
-    const names = [
-      'Same Channel',
-      'Mentioned Channel',
-      'Default Channel',
-      'Temp Variable',
-      'Server Variable',
-      'Global Variable',
-    ];
-    const index = parseInt(data.storage, 10);
-    return index < 3 ? `${names[index]}` : `${names[index]} - ${data.varName}`;
+  subtitle(data, presets) {
+    return presets.getChannelText(data.storage, data.varName);
   },
 
   fields: ['storage', 'varName', 'permission', 'state'],
 
-  html(isEvent, data) {
+  html() {
     return `
-<div>
-  <div style="float: left; width: 35%;">
-    Source Channel:<br>
-    <select id="storage" class="round" onchange="glob.channelChange(this, 'varNameContainer')">
-      ${data.channels[isEvent ? 1 : 0]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList"><br>
-  </div>
-</div>`;
+<channel-input dropdownLabel="Source Channel" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></channel-input>
+`;
   },
 
-  init() {
-    const { glob, document } = this;
-    glob.channelChange(document.getElementById('storage'), 'varNameContainer');
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];
     const { server } = cache;
-    const storage = parseInt(data.storage, 10);
-    const varName = this.evalMessage(data.varName, cache);
-    const channel = await this.getChannel(storage, varName, cache);
+    const channel = await this.getChannelFromData(data.storage, data.varName, cache);
 
     if (!server) return this.callNextAction(cache);
     if (!channel.parent) return this.callNextAction(cache);

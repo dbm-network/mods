@@ -7,14 +7,6 @@
     "description": "Triggers when messages are deleted in bulk",
     "name": "Delete Bulk Messages"
   },
-  "invite_create_EVT.js": {
-    "description": "Triggers when an Invite is created",
-    "name": "Invite Create"
-  },
-  "invite_delete_EVT.js": {
-    "description": "Triggers when an Invite is deleted",
-    "name": "Invite Delete"
-  },
   "invite_used_EVT.js": {
     "description": "Triggers when an Invite is used",
     "name": "Invite Used"

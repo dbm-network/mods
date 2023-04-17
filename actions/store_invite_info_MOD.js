@@ -2,7 +2,7 @@ module.exports = {
   name: 'Store Invite Info',
   section: 'Channel Control',
   meta: {
-    version: '2.1.6',
+    version: '2.1.7',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -124,37 +124,37 @@ module.exports = {
     let result;
     switch (info) {
       case 0:
-        result = invite.channel;
+        result = inviteInfo.channel;
         break;
       case 1:
-        result = invite.inviter;
+        result = inviteInfo.inviter;
         break;
       case 2:
-        result = invite.createdAt;
+        result = inviteInfo.createdAt;
         break;
       case 3:
-        result = invite.expiresAt;
+        result = inviteInfo.expiresAt;
         break;
       case 4:
-        result = invite.guild;
+        result = inviteInfo.guild;
         break;
       case 5:
-        result = invite.maxUses;
+        result = inviteInfo.maxUses;
         break;
       case 6:
-        result = invite.temporary;
+        result = inviteInfo.temporary;
         break;
       case 7:
-        result = invite.url;
+        result = inviteInfo.url;
         break;
       case 8:
-        result = invite.uses;
+        result = inviteInfo.uses;
         break;
       case 9:
-        result = invite.memberCount;
+        result = inviteInfo.memberCount;
         break;
       case 10:
-        result = invite.code;
+        result = inviteInfo.code;
         break;
       default:
         break;
