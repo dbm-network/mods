@@ -19,6 +19,7 @@ module.exports = {
       'First User to React',
       'Random User to React',
       'Last User to React',
+      'Emoji Object',
     ];
     return `${presets.getVariableText(data.reaction, data.varName)} - ${info[parseInt(data.info, 10)]}`;
   },
@@ -50,6 +51,9 @@ module.exports = {
         break;
       case 7:
         dataType = 'User';
+        break;
+      case 8:
+        dataType = 'Object';
         break;
       default:
         break;
@@ -84,6 +88,7 @@ module.exports = {
       <option value="1">Bot Reacted?</option>
       <option value="2">User Who Reacted List</option>
       <option value="3">Emoji Name</option>
+      <option value="8">Emoji Object</option>
       <option value="4">Reaction Count</option>
     </select>
   </div>
@@ -152,6 +157,10 @@ module.exports = {
       case 7: {
         const lastid = rea.users.cache.lastKey(); // Stores last user ID reacted
         result = cache.server.members.cache.get(lastid);
+        break;
+      }
+      case 8: {
+        result = rea.emoji; // Emoji object
         break;
       }
       default:
