@@ -53,7 +53,10 @@ module.exports = {
     const response = await fetch(`https://api.botlist.me/api/v1/bots/${client.user.id}/stats?from=DBM`, {
       method: 'POST',
       body: JSON.stringify(body),
-      headers: { 'authorization': token, 'Content-Type': 'application/json' },
+      headers: {
+        authorization: token,
+        'Content-Type': 'application/json',
+      },
     }).catch((err) => this.displayError(data, cache, err));
     if (response) {
       const res = await response.json();
