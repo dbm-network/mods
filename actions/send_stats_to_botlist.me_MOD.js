@@ -1,21 +1,22 @@
 module.exports = {
-  name: 'Sends Stats to Botlist.me',
-  displayname: 'Sends Stats to Botlist.me',
-  section: 'Other Stuff',
+  name: "Sends Stats to Botlist.me",
+  displayname: "Sends Stats to Botlist.me",
+  section: "Other Stuff",
   meta: {
-    version: '2.1.7',
+    version: "2.1.7",
     preciseCheck: false,
-    author: 'DBM Mods',
-    authorUrl: 'https://github.com/dbm-network/mods',
-    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/send_stats_to_botlist.me_MOD.js',
+    author: "DBM Mods",
+    authorUrl: "https://github.com/dbm-network/mods",
+    downloadURL:
+      "https://github.com/dbm-network/mods/blob/master/actions/send_stats_to_botlist.me_MOD.js",
   },
 
   subtitle(data) {
-    const info = ['Only Server Count', 'Shard & Server Count'];
+    const info = ["Only Server Count", "Shard & Server Count"];
     return `Send ${info[parseInt(data.info, 10)]} to Botlist.me!`;
   },
 
-  fields: ['token', 'info'],
+  fields: ["token", "info"],
 
   html() {
     return `
@@ -44,20 +45,23 @@ module.exports = {
     const token = this.evalMessage(data.token, cache);
     const info = parseInt(data.info, 10);
     const Mods = this.getMods();
-    const fetch = Mods.require('node-fetch');
+    const fetch = Mods.require("node-fetch");
     const client = this.getDBM().Bot.bot;
 
     const body = { server_count: client.guilds.cache.size };
     if (info === 1) body.shard_count = client.shard.count;
 
-    const response = await fetch(`https://api.botlist.me/api/v1/bots/${client.user.id}/stats?from=DBM`, {
-      method: 'POST',
-      body: JSON.stringify(body),
-      headers: { 
-        'authorization': token,
-        'Content-Type': 'application/json',
-       },
-    }).catch((err) => this.displayError(data, cache, err));
+    const response = await fetch(
+      `https://api.botlist.me/api/v1/bots/${client.user.id}/stats?from=DBM`,
+      {
+        method: "POST",
+        body: JSON.stringify(body),
+        headers: {
+          authorization: token,
+          "Content-Type": "application/json",
+        },
+      }
+    ).catch((err) => this.displayError(data, cache, err));
     if (response) {
       const res = await response.json();
       if (res.error) this.displayError(data, cache, res.error);
