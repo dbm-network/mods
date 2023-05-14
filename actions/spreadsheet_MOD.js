@@ -1,22 +1,22 @@
 module.exports = {
-  name: "Spreadsheets",
-  section: "Data",
+  name: 'Spreadsheets',
+  section: 'Data',
   meta: {
-    version: "2.1.7",
+    version: '2.1.7',
     preciseCheck: false,
-    author: "Staku",
+    author: 'Staku',
     authorUrl: null,
     downloadURL: null,
   },
 
-  subtitle(data, presets) {
+  subtitle(data) {
     return `Searching Row With "${data.row}" in Column ${data.column} `;
   },
 
   variableStorage(data, storage) {
     const type = parseInt(data.storage, 10);
     if (type !== storage) return;
-    return [data.varName, "Spreadsheet Result"];
+    return [data.varName, 'Spreadsheet Result'];
   },
 
   fields: ["column", "row", "path", "storage", "varName"],
@@ -55,8 +55,8 @@ module.exports = {
   async action(cache) {
     // get packages and data
     const data = cache.actions[cache.index];
-    const fs = require("fs");
-    const { parse } = require("csv-parse");
+    const fs = require('fs');
+    const { parse } = require('csv-parse');
 
     // eval row and column input fields -- thanks to TheMonDon for helping me making parameters work
     const row = this.evalMessage(data.row, cache);
@@ -67,25 +67,25 @@ module.exports = {
       const dataSheet = [];
       const parser = fs.createReadStream(filePath).pipe(
         parse({
-          delimiter: ",",
+          delimiter: ',',
           columns: true,
           ltrim: true,
-        })
+        }),
       );
 
-      parser.on("data", (row) => {
+      parser.on('data', (row) => {
         if (row[columnName] === columnValue) {
           dataSheet.push(row);
         }
       });
 
-      parser.on("end", () => {
+      parser.on('end', () => {
         callback(dataSheet[0]);
       });
     }
 
     // call action
-    getRow(data.path, data.column, row, (result) => {
+    getRow(data.path, column, row, (result) => {
       this.storeValue(result, parseInt(data.storage, 10), data.varName, cache);
       this.callNextAction(cache);
     });
