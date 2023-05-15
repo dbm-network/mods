@@ -19,7 +19,7 @@ module.exports = {
     return [data.varName, 'Spreadsheet Result'];
   },
 
-  fields: ["column", "row", "path", "storage", "varName"],
+  fields: ['column', 'row', 'path', 'storage', 'varName'],
 
   html(isEvent, data) {
     return `
@@ -70,7 +70,7 @@ module.exports = {
           delimiter: ',',
           columns: true,
           ltrim: true,
-        }),
+        })
       );
 
       parser.on('data', (row) => {
