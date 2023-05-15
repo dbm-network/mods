@@ -129,20 +129,16 @@ module.exports = {
   },
 
   async action(cache) {
-    const data = cache.actions[cache.index];
     let member;
+    const data = cache.actions[cache.index];
     const info = parseInt(data.info, 10);
     const { Files } = this.getDBM();
     const { msg, interaction } = cache;
+
     try {
       member = await this.getMemberFromData(data.member, data.varName, cache);
     } catch (_err) {
-      console.error('The specificied member was not found in "Check If Member" action')
-      return this.executeResults(false, data, cache);
-    }
-
-    if (!member) {
-      console.error('You need to provide a member of some sort to the "Check If Member" action');
+      console.error('You need to provide a member of some sort to the "Check If Member" action')
       return this.executeResults(false, data, cache);
     }
 
