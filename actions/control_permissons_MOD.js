@@ -88,6 +88,7 @@ module.exports = {
     <div id="checkbox" style="float: left; width: 80%;">
     </div>
   </div>
+  <p>This mod is broken.</p>
 </div>`;
   },
 
