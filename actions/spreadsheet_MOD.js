@@ -56,7 +56,8 @@ module.exports = {
     // get packages and data
     const data = cache.actions[cache.index];
     const fs = require('fs');
-    const { parse } = require('csv-parse');
+    const Mods = this.getMods();
+    const { parse } = Mods.require('csv-parse');
 
     // eval row and column input fields -- thanks to TheMonDon for helping me making parameters work
     const row = this.evalMessage(data.row, cache);
