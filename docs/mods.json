@@ -699,6 +699,11 @@
     "name": "Spotify Search",
     "section": "Other Stuff"
   },
+  "spreadsheet_MOD.js": {
+    "description": "Read's data from a CSV file",
+    "name": "Spreadsheets",
+    "section": "Data"
+  },
   "start_rss_feed_MOD.js": {
     "description": "RSS feed",
     "name": "RSS Feed Watcher",
