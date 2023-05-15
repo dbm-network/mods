@@ -40,6 +40,9 @@ module.exports = {
       case 'File Name':
         dataType = 'String';
         break;
+      case 'File Length':
+        dataType = 'Number';
+        break;
     }
     return [data.varName, dataType];
   },
@@ -57,6 +60,7 @@ Info:
   <option value='File Exists'>File Exists</option>
   <option value='File Content'>File Content</option>
   <option value='File Name'>File Name</option>
+  <option value='File Length'>File Length</option>
 </select><br>
 Store in:<br>
 <select class='round' id='storage'>
@@ -101,6 +105,12 @@ Variable name:<br>
         break;
       case 'File Name':
         result = path.basename(filePath);
+        break;
+      case 'File Length':
+        result = fs
+          .readFileSync(filePath)
+          .toString()
+          .split(/\r\n|\r|\n/).length;
         break;
     }
     this.storeValue(result, storage, varName, cache);

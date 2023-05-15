@@ -129,13 +129,15 @@ module.exports = {
   },
 
   async action(cache) {
+    let member;
     const data = cache.actions[cache.index];
-    const member = await this.getMemberFromData(data.member, data.varName, cache);
     const info = parseInt(data.info, 10);
     const { Files } = this.getDBM();
     const { msg, interaction } = cache;
 
-    if (!member) {
+    try {
+      member = await this.getMemberFromData(data.member, data.varName, cache);
+    } catch (_err) {
       console.error('You need to provide a member of some sort to the "Check If Member" action');
       return this.executeResults(false, data, cache);
     }
