@@ -138,7 +138,7 @@ module.exports = {
     try {
       member = await this.getMemberFromData(data.member, data.varName, cache);
     } catch (_err) {
-      console.error('You need to provide a member of some sort to the "Check If Member" action')
+      console.error('You need to provide a member of some sort to the "Check If Member" action');
       return this.executeResults(false, data, cache);
     }
 

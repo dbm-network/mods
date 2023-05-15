@@ -107,7 +107,10 @@ Variable name:<br>
         result = path.basename(filePath);
         break;
       case 'File Length':
-        result = fs.readFileSync(filePath).toString().split(/\r\n|\r|\n/).length;
+        result = fs
+          .readFileSync(filePath)
+          .toString()
+          .split(/\r\n|\r|\n/).length;
         break;
     }
     this.storeValue(result, storage, varName, cache);
