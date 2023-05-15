@@ -136,8 +136,9 @@ module.exports = {
     const { msg, interaction } = cache;
     try {
       member = await this.getMemberFromData(data.member, data.varName, cache);
-    } catch (err) {
-      return console.error(err);
+    } catch (_err) {
+      console.error('The specificied member was not found in "Check If Member" action')
+      return this.executeResults(false, data, cache);
     }
 
     if (!member) {
