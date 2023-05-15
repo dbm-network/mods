@@ -70,7 +70,7 @@ module.exports = {
           delimiter: ',',
           columns: true,
           ltrim: true,
-        })
+        }),
       );
 
       parser.on('data', (row) => {
