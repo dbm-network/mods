@@ -4,7 +4,7 @@ module.exports = {
   meta: {
     version: '2.1.7',
     preciseCheck: false,
-    author: 'Staku',
+    author: 'DBM Mods',
     authorUrl: null,
     downloadURL: null,
   },
