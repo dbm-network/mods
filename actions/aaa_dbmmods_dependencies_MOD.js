@@ -1,7 +1,7 @@
 const Mods = {
   DBM: null,
 
-  async installModule(moduleName, version) {
+  installModule(moduleName, version) {
     return new Promise((resolve) => {
       require('child_process').execSync(`npm i ${version ? `${moduleName}@${version}` : moduleName}`);
       try {
