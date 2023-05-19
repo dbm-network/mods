@@ -873,6 +873,11 @@
     "name": "Text To Speech",
     "section": "Messaging"
   },
+  "transcript_MOD.js": {
+    "description": "Creates a Transcript from a channel",
+    "name": "Transcript",
+    "section": "Other Stuff"
+  },
   "translate_MOD.js": {
     "description": "Translate some text",
     "name": "Translate",
