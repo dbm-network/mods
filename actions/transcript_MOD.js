@@ -4,7 +4,7 @@ module.exports = {
   meta: {
     version: '2.1.7',
     preciseCheck: false,
-    author: 'Staku',
+    author: 'DBM Mods',
     authorUrl: null,
     downloadURL: null,
   },
@@ -74,9 +74,7 @@ module.exports = {
       </div>
     </div>
 
-
-
-    <br><br>
+    <br>
 
     <div style="padding-top: 8px;">
       <div style="float: left; width: 35%;"><span class="dbminputlabel">Store In</span>
@@ -87,14 +85,12 @@ module.exports = {
       <div id="varNameContainer" style="float: right; width: 60%;"> <span class="dbminputlabel">Variable Name</span>
         <input id="varName" class="round" type="text"><br>
       </div>
-    </div>
-
-
-
+    </div><br><br><br>
 
     <style>
 
       .dbm-round {
+        background-color: #53585f;
         border: 1px solid white;
         border-radius: 4px;
         height: 127px;
@@ -109,19 +105,31 @@ module.exports = {
   async action(cache) {
     // get packages and data
     const data = cache.actions[cache.index];
-    const Mods = this.getMods();
-    const discordTranscripts = Mods.require('discord-html-transcripts');
 
+    // Setup Variable
     const type = parseInt(data.channelObj, 10);
     const varName = this.evalMessage(data.channelID, cache);
 
+    // Get Channel Object From Variable
     const channelObj = this.getVariable(type, varName, cache);
 
+    // Get Config
     const useMinify = data.useMinify === '1' ? true : false;
     const saveImages = data.saveImages === '1' ? true : false;
     const useCDN = data.useCDN === '1' ? true : false;
 
-    let output;
+    // Thanks to TheMonDon helped me to fix some Code
+    // Get Version And Check it
+    const discordTranscripts = require('discord-html-transcripts', '2.6.1'); // Version 2.6.1 needed for discord.js v13.
+    const dtVersion = require('../package.json').dependencies['discord-html-transcripts']; // Get Version
+
+    if (dtVersion === '2.6.1') {
+      console.log(`Current Version ${dtVersion}`);
+      console.log('Needed Version 2.6.1');
+      console.log('Use `npm i discord-html-transcripts@2.6.1` to install the right version');
+      this.callNextAction(cache);
+    }
+
     try {
       const transcript = await discordTranscripts.createTranscript(channelObj, {
         limit: -1,
@@ -132,10 +140,12 @@ module.exports = {
         useCDN,
       });
 
-      output = transcript.attachment.toString();
-    } catch (_err) {}
+      const output = transcript.attachment.toString();
+      this.storeValue(output, parseInt(data.storage, 10), data.varName, cache);
+    } catch (err) {
+      console.error(err);
+    }
 
-    this.storeValue(output, parseInt(data.storage, 10), data.varName, cache);
     this.callNextAction(cache);
   },
 
