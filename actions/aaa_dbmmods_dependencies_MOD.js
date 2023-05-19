@@ -1,22 +1,23 @@
 const Mods = {
   DBM: null,
 
-  installModule(moduleName) {
+  async installModule(moduleName, version) {
     return new Promise((resolve) => {
-      require('child_process').execSync(`npm i ${moduleName}`);
+      version ? require('child_process').execSync(`npm i ${moduleName}@${version}`) : require('child_process').execSync(`npm i ${moduleName}`);
       try {
         resolve(require(moduleName));
       } catch (error) {
-        console.error(`Failed to install ${moduleName}. Error: ${error.message}`);
+        console.log('If this is the first time installing the module, restart your bot first!\n\n')
+        console.error(`Failed to install ${version ? `${moduleName}@${version}` : moduleName}. Error: ${error.message}`);
       }
     });
   },
 
-  require(moduleName) {
+  require(moduleName, version) {
     try {
       return require(moduleName);
     } catch (e) {
-      this.installModule(moduleName);
+      version ? this.installModule(moduleName, version) : this.installModule(moduleName);
       return require(moduleName);
     }
   },
@@ -136,6 +137,7 @@ const Mods = {
 
     /* eslint-enable */
   },
+
   getWebhook(type, varName, cache) {
     const { server } = cache;
     switch (type) {
