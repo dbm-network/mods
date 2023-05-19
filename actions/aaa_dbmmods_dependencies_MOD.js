@@ -3,12 +3,16 @@ const Mods = {
 
   async installModule(moduleName, version) {
     return new Promise((resolve) => {
-      version ? require('child_process').execSync(`npm i ${moduleName}@${version}`) : require('child_process').execSync(`npm i ${moduleName}`);
+      version
+        ? require('child_process').execSync(`npm i ${moduleName}@${version}`)
+        : require('child_process').execSync(`npm i ${moduleName}`);
       try {
         resolve(require(moduleName));
       } catch (error) {
-        console.log('If this is the first time installing the module, restart your bot first!\n\n')
-        console.error(`Failed to install ${version ? `${moduleName}@${version}` : moduleName}. Error: ${error.message}`);
+        console.log('If this is the first time installing the module, restart your bot first!\n\n');
+        console.error(
+          `Failed to install ${version ? `${moduleName}@${version}` : moduleName}. Error: ${error.message}`,
+        );
       }
     });
   },
