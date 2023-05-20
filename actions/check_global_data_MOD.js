@@ -60,7 +60,7 @@ module.exports = {
       }
     };
 
-    glob.onComparisonChanged(getElementById('comparison'));
+    document.glob.onComparisonChanged(getElementById('comparison'));
   },
 
   async action(cache) {
