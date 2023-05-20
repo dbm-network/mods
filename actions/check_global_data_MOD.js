@@ -1,14 +1,6 @@
 module.exports = {
-
   name: 'Check Global Data',
-
   section: 'Data',
-
-  subtitle(data) {
-    const comparison = ['Exists', 'Equals', 'Equals Exactly', 'Less Than', 'Greater Than', 'Includes', 'Matches Regex'];
-    return `${data.dataName} ${comparison[parseInt(data.comparison, 10)]} ${data.value}`;
-  },
-
   meta: {
     version: '2.1.7',
     preciseCheck: false,
@@ -17,17 +9,22 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/check_global_data_MOD.js',
   },
 
+  subtitle(data) {
+    const comparison = ['Exists', 'Equals', 'Equals Exactly', 'Less Than', 'Greater Than', 'Includes', 'Matches Regex'];
+    return `${data.dataName} ${comparison[parseInt(data.comparison, 10)]} ${data.value}`;
+  },
+
   fields: ['dataName', 'comparison', 'value', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal', 'Jump to Anchor'],
 
   html(_isEvent, data) {
     return `
 <div style="padding-top: 8px;">
   <div style="float: left; width: calc(50% - 12px);">
-    <span class="dbminputlabel">Data Name</span><br>
+  <span class="dbminputlabel">Data Name</span><br>
     <input id="dataName" class="round" type="text">
   </div>
   <div style="float: right; width: calc(50% - 12px);">
-    <span class="dbminputlabel">Comparison Type</span><br>
+  <span class="dbminputlabel">Comparison Type</span><br>
     <select id="comparison" class="round" onchange="glob.onComparisonChanged(this)">
       <option value="0">Exists</option>
       <option value="1" selected>Equals</option>
@@ -56,7 +53,62 @@ module.exports = {
 
   init() {
     const { glob, document } = this;
+    const option = document.createElement('OPTION');
+    option.value = '4';
+    option.text = 'Jump to Anchor';
+    const iffalse = document.getElementById('iffalse');
+    if (iffalse.length === 4) iffalse.add(option);
 
+    const option2 = document.createElement('OPTION');
+    option2.value = '4';
+    option2.text = 'Jump to Anchor';
+    const iftrue = document.getElementById('iftrue');
+    if (iftrue.length === 4) iftrue.add(option2);
+
+    glob.onChangeTrue = function onChangeTrue(event) {
+      switch (parseInt(event.value, 10)) {
+        case 0:
+        case 1:
+          document.getElementById('iftrueContainer').style.display = 'none';
+          break;
+        case 2:
+          document.getElementById('iftrueName').innerHTML = 'Action Number';
+          document.getElementById('iftrueContainer').style.display = null;
+          break;
+        case 3:
+          document.getElementById('iftrueName').innerHTML = 'Number of Actions to Skip';
+          document.getElementById('iftrueContainer').style.display = null;
+          break;
+        case 4:
+          document.getElementById('iftrueName').innerHTML = 'Anchor ID';
+          document.getElementById('iftrueContainer').style.display = null;
+          break;
+        default:
+          break;
+      }
+    };
+    glob.onChangeFalse = function onChangeFalse(event) {
+      switch (parseInt(event.value, 10)) {
+        case 0:
+        case 1:
+          document.getElementById('iffalseContainer').style.display = 'none';
+          break;
+        case 2:
+          document.getElementById('iffalseName').innerHTML = 'Action Number';
+          document.getElementById('iffalseContainer').style.display = null;
+          break;
+        case 3:
+          document.getElementById('iffalseName').innerHTML = 'Number of Actions to Skip';
+          document.getElementById('iffalseContainer').style.display = null;
+          break;
+        case 4:
+          document.getElementById('iffalseName').innerHTML = 'Anchor ID';
+          document.getElementById('iffalseContainer').style.display = null;
+          break;
+        default:
+          break;
+      }
+    };
     glob.onComparisonChanged = function (event) {
       if (event.value === "0") {
         document.getElementById("directValue").style.display = "none";
@@ -66,6 +118,8 @@ module.exports = {
     };
 
     glob.onComparisonChanged(document.getElementById("comparison"));
+    glob.onChangeTrue(document.getElementById('iftrue'));
+    glob.onChangeFalse(document.getElementById('iffalse'));
   },
 
   async action(cache) {
@@ -84,6 +138,7 @@ module.exports = {
         result = val1 !== undefined;
         break;
       case 1:
+        // eslint-disable-next-line eqeqeq
         result = val1 == val2;
         break;
       case 2:
