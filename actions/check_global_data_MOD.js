@@ -110,7 +110,7 @@ module.exports = {
       }
     };
     glob.onComparisonChanged = function (event) {
-      if (event.value === "0") {
+      if (event.value === '0') {
         document.getElementById("directValue").style.display = "none";
       } else {
         document.getElementById("directValue").style.display = null;
