@@ -1,16 +1,19 @@
 module.exports = {
+
   name: 'Store Global Data',
+
   section: 'Data',
+
+  subtitle(data, presets) {
+    return presets.getVariableText(data.storage, data.varName);
+  },
+
   meta: {
     version: '2.1.7',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/store_global_data_MOD.js',
-  },
-
-  subtitle(data, presets) {
-    return presets.getVariableText(data.storage, data.varName);
   },
 
   variableStorage(data, varType) {
