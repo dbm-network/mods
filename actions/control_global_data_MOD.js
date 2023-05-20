@@ -1,6 +1,12 @@
 module.exports = {
   name: 'Control Global Data',
+
   section: 'Data',
+
+  subtitle(data) {
+    return `(${data.dataName}) ${data.changeType === '1' ? '+=' : '='} ${data.value}`;
+  },
+
   meta: {
     version: '2.1.7',
     preciseCheck: false,
@@ -9,29 +15,28 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/control_global_data_MOD.js',
   },
 
-  subtitle(data) {
-    return `(${data.dataName}) ${data.changeType === '1' ? '+=' : '='} ${data.value}`;
-  },
-
   fields: ['dataName', 'changeType', 'value'],
 
   html() {
     return `
 <div style="padding-top: 8px;">
-  <div style="float: left; width: 50%;">
-    Data Name:<br>
+  <div style="float: left; width: calc(50% - 12px);">
+    <span class="dbminputlabel">Data Name</span><br>
     <input id="dataName" class="round" type="text">
   </div>
-  <div style="float: left; width: 45%;">
-    Control Type:<br>
+  <div style="float: right; width: calc(50% - 12px);">
+  <span class="dbminputlabel">Control Type</span><br>
     <select id="changeType" class="round">
       <option value="0" selected>Set Value</option>
       <option value="1">Add Value</option>
     </select>
   </div>
-</div><br><br><br>
+</div>
+
+<br><br><br>
+
 <div style="padding-top: 8px;">
-  Value:<br>
+<span class="dbminputlabel">Value</span><br>
   <input id="value" class="round" type="text" name="is-eval"><br>
 </div>`;
   },
