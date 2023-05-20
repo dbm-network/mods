@@ -1,7 +1,8 @@
-/* eslint-disable no-undef, no-unused-vars */
 module.exports = {
   name: 'Delete Global Data',
+
   section: 'Data',
+
   meta: {
     version: '2.1.7',
     preciseCheck: false,
@@ -20,7 +21,7 @@ module.exports = {
     return `
 <div style="padding-top: 8px;">
   <div style="float: left; width: 80%;">
-    Data Name:<br>
+    <span class="dbminputlabel">Data Name</span><br>
     <input id="dataName" class="round" placeholder="Leave it blank to delete all data" type="text">
   </div>
 </div>`;
