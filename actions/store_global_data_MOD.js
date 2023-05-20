@@ -1,16 +1,19 @@
 module.exports = {
+
   name: 'Store Global Data',
+
   section: 'Data',
+
+  subtitle(data, presets) {
+    return presets.getVariableText(data.storage, data.varName);
+  },
+
   meta: {
     version: '2.1.7',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/store_global_data_MOD.js',
-  },
-
-  subtitle(data, presets) {
-    return presets.getVariableText(data.storage, data.varName);
   },
 
   variableStorage(data, varType) {
@@ -23,24 +26,33 @@ module.exports = {
   html(_isEvent, data) {
     return `
 <div style="padding-top: 8px;">
-  <div style="float: left; width: 40%;">
-    Data Name:<br>
+  <div style="float: left; width: 100%;">
+    <span class="dbminputlabel">Data Name</span><br>
     <input id="dataName" class="round" type="text">
   </div>
-  <div style="float: left; width: 60%;">
-    Default Value (if data doesn't exist):<br>
+</div>
+
+<br><br><br>
+
+<div style="padding-top: 8px;">
+  <div style="float: left; width: 100%;">
+  <span class="dbminputlabel">Default Value (if data doesn't exist)</span><br>
     <input id="defaultVal" class="round" type="text" value="0">
   </div>
-</div><br><br><br>
+</div>
+
+<br><br><br>
+
 <div style="padding-top: 8px;">
   <div style="float: left; width: 35%;">
-    Store In:<br>
+    <span class="dbminputlabel">Store In</span><br>
     <select id="storage" class="round">
       ${data.variables[1]}
     </select>
   </div>
+
   <div id="varNameContainer" style="float: right; width: 60%;">
-    Variable Name:<br>
+    <span class="dbminputlabel">Variable Name</span><br>
     <input id="varName" class="round" type="text"><br>
   </div>
 </div>`;
