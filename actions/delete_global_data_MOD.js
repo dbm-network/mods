@@ -3,16 +3,16 @@ module.exports = {
 
   section: 'Data',
 
+  subtitle(data) {
+    return `Data : ${data.dataName ? data.dataName : 'All Data'}`;
+  },
+
   meta: {
     version: '2.1.7',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/delete_global_data_MOD.js',
-  },
-
-  subtitle(data) {
-    return `Data : ${data.dataName ? data.dataName : 'All Data'}`;
   },
 
   fields: ['dataName'],
