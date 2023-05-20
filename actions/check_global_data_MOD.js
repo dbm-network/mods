@@ -51,12 +51,12 @@ module.exports = {
   },
 
   init() {
-    const { glob } = this;
+    const { glob, document } = this;
     glob.onComparisonChanged = function onComparisonChanged(event) {
       if (event.value === '0') {
-        getElementById('directValue').style.display = 'none';
+        document.getElementById('directValue').style.display = 'none';
       } else {
-        getElementById('directValue').style.display = null;
+        document.getElementById('directValue').style.display = null;
       }
     };
 
