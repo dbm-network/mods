@@ -1,4 +1,3 @@
-/* eslint-disable no-undef, no-unused-vars */
 module.exports = {
   name: 'Delete Global Data',
   section: 'Data',
@@ -9,7 +8,6 @@ module.exports = {
     authorUrl: 'https://github.com/dbm-network/mods',
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/delete_global_data_MOD.js',
   },
-
   subtitle(data) {
     return `Data : ${data.dataName ? data.dataName : 'All Data'}`;
   },
@@ -20,7 +18,7 @@ module.exports = {
     return `
 <div style="padding-top: 8px;">
   <div style="float: left; width: 80%;">
-    Data Name:<br>
+    <span class="dbminputlabel">Data Name</span><br>
     <input id="dataName" class="round" placeholder="Leave it blank to delete all data" type="text">
   </div>
 </div>`;
