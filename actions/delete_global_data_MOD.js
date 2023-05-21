@@ -20,7 +20,7 @@ module.exports = {
 <div style="padding-top: 8px;">
   <div style="float: left; width: 80%;">
     <span class="dbminputlabel">Data Name</span><br>
-    <input id="dataName" class="round" placeholder="Leave it blank to delete all data" type="text">
+    <input id="dataName" class="round" placeholder="Leave blank to delete all data" type="text">
   </div>
 </div>`;
   },

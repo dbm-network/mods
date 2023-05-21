@@ -8,6 +8,7 @@ module.exports = {
     authorUrl: 'https://github.com/dbm-network/mods',
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/store_global_data_MOD.js',
   },
+
   subtitle(data, presets) {
     return presets.getVariableText(data.storage, data.varName);
   },
