@@ -699,6 +699,11 @@
     "name": "Split",
     "section": "Other Stuff"
   },
+  "spreadsheet_MOD.js": {
+    "description": "Read's data from a CSV file",
+    "name": "Spreadsheets",
+    "section": "Data"
+  },
   "spotify_search_MOD.js": {
     "description": "Search for a song/track/playlist on Spotify and get information based on the findings",
     "name": "Spotify Search",
