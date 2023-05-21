@@ -11,6 +11,7 @@ module.exports = {
   subtitle(data, presets) {
     return presets.getVariableText(data.storage, data.varName);
   },
+
   variableStorage(data, varType) {
     if (parseInt(data.storage, 10) !== varType) return;
     return [data.varName, 'Unknown Type'];
