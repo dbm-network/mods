@@ -8,6 +8,7 @@ module.exports = {
     authorUrl: 'https://github.com/dbm-network/mods',
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/delete_global_data_MOD.js',
   },
+
   subtitle(data) {
     return `Data : ${data.dataName ? data.dataName : 'All Data'}`;
   },
