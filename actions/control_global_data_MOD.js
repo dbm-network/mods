@@ -8,6 +8,7 @@ module.exports = {
     authorUrl: 'https://github.com/dbm-network/mods',
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/control_global_data_MOD.js',
   },
+
   subtitle(data) {
     return `(${data.dataName}) ${data.changeType === '1' ? '+=' : '='} ${data.value}`;
   },
