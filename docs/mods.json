@@ -624,6 +624,11 @@
     "name": "Sends Stats to DBL",
     "section": "Other Stuff"
   },
+  "send_websocket_MOD.js": {
+    "description": "Sends a Message to a websocket",
+    "name": "Send Websocket",
+    "section": "Other Stuff"
+  },
   "set_afk_channel_MOD.js": {
     "description": "Set an AFK channel in a guild",
     "name": "Set AFK Channel",
@@ -698,11 +703,6 @@
     "description": "Search for a song/track/playlist on Spotify and get information based on the findings",
     "name": "Spotify Search",
     "section": "Other Stuff"
-  },
-  "spreadsheet_MOD.js": {
-    "description": "Read's data from a CSV file",
-    "name": "Spreadsheets",
-    "section": "Data"
   },
   "start_rss_feed_MOD.js": {
     "description": "RSS feed",
@@ -872,11 +872,6 @@
     "description": "Convert some text into TTS",
     "name": "Text To Speech",
     "section": "Messaging"
-  },
-  "transcript_MOD.js": {
-    "description": "Creates a Transcript from a channel",
-    "name": "Transcript",
-    "section": "Other Stuff"
   },
   "translate_MOD.js": {
     "description": "Translate some text",
