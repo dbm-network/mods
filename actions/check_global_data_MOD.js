@@ -8,6 +8,7 @@ module.exports = {
     authorUrl: 'https://github.com/dbm-network/mods',
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/check_global_data_MOD.js',
   },
+
   subtitle(data) {
     const comparison = ['Exists', 'Equals', 'Equals Exactly', 'Less Than', 'Greater Than', 'Includes', 'Matches Regex'];
     return `${data.dataName} ${comparison[parseInt(data.comparison, 10)]} ${data.value}`;
