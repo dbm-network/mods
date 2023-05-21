@@ -79,6 +79,10 @@
     "description": "Triggers when a user votes on topgg. Requires extension",
     "name": "On Top.gg Vote"
   },
+  "on_ws_receive_EVT.js": {
+    "description": "Triggers on Websocket message",
+    "name": "On Websocket Receive"
+  },
   "user_update_EVT.js": {
     "description": "Triggers when a user is updated (Avatar/Username...)",
     "name": "User Update"
