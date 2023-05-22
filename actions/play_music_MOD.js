@@ -27,7 +27,6 @@ module.exports = {
   <input id="query" class="round" type="text" value="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><br>
 </div>
 
-<br><br><br>
 <voice-channel-input dropdownLabel="Voice Channel" selectId="voiceChannel" variableContainerId="varNameContainer" variableInputId="varName" selectWidth="45%" variableInputWidth="50%"></voice-channel-input>
 <br><br><br>
 

@@ -189,6 +189,11 @@
     "name": "Control Global Data",
     "section": "Data"
   },
+  "control_music_MOD.js": {
+    "description": "Control music status",
+    "name": "Control Music",
+    "section": "Audio Control"
+  },
   "control_permissons_MOD.js": {
     "description": "Control certain permissions",
     "name": "Control Permissions",
@@ -684,11 +689,6 @@
     "name": "Skip Actions",
     "section": "Other Stuff"
   },
-  "skip_song_MOD.js": {
-    "description": "Skip the current song",
-    "name": "Skip Music",
-    "section": "Audio Control"
-  },
   "slice_MOD.js": {
     "description": "Slice a string",
     "name": "Slice",
@@ -723,11 +723,6 @@
     "description": "Stop the instance (client)",
     "name": "Stop Bot",
     "section": "Bot Client Control"
-  },
-  "stop_music_MOD.js":{
-    "description": "Stop music and clear queue",
-    "name": "Stop Music",
-    "section": "Audio Control"
   },
   "stop_rss_feed_MOD.js": {
     "description": "Stop the RSS feed",
