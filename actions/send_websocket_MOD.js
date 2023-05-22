@@ -9,8 +9,12 @@ module.exports = {
     downloadURL: null,
   },
 
-  subtitle() {
-    return `Gets a Transcript from a Channel`;
+  subtitle(data) {
+    const protocol = data.protocol === '0' ? 'ws://' : 'wss://';
+    const ip = data.ip;
+    const port = data.port;
+
+    return `Sending To ${protocol}${ip}:${port}/`;
   },
 
   variableStorage(data, storage) {
@@ -19,21 +23,28 @@ module.exports = {
     return [data.varName, 'String'];
   },
 
-  fields: ['IP', 'Port', 'Message', 'storage', 'varName'],
+  fields: ['protocol', 'ip', 'port', 'message', 'storage', 'varName'],
 
   html(isEvent, data) {
     return `
     
+    <div><span class="dbminputlabel">Protocol</span>
+      <select class="round" id="protocol">
+        <option value="0">ws://</option>
+        <option value="1">wss://</option>
+      </select>
+    </div><br>
+
     <div><span class="dbminputlabel">IP</span>
-      <input id="IP" placeholder="localhost" value="localhost" class="round">
+      <input id="ip" placeholder="localhost" value="localhost" class="round">
     </div><br>
 
     <div><span class="dbminputlabel">Port</span>
-      <input id="Port" placeholder="8080" value="8080" class="round">
+      <input id="port" placeholder="8080" value="8080" class="round">
     </div><br>
 
     <div><span class="dbminputlabel">Message</span>
-      <input id="Message" class="round">
+      <input id="message" class="round">
     </div><br>
 
     <!--
@@ -62,20 +73,34 @@ module.exports = {
     const WebSocket = Mods.require('ws');
 
     // Eval Message Fields
-    const IP = this.evalMessage(data.IP, cache);
-    const Port = this.evalMessage(data.Port, cache);
-    const Message = this.evalMessage(data.Message, cache);
+    const ip = this.evalMessage(data.ip, cache);
+    const port = this.evalMessage(data.port, cache);
+    const message = this.evalMessage(data.message, cache);
+
+    const protocol = parseInt(data.protocol, 10);
 
     // Create Connection
-    const ws = new WebSocket(`ws://${IP}:${Port}/`);
+    if (protocol === 0) {
+      const ws = new WebSocket(`ws://${ip}:${port}/`);
 
-    // Catch Error
-    ws.on('error', console.error);
+      // Catch Error
+      ws.on('error', console.error);
 
-    // Send Message
-    ws.on('open', function open() {
-      ws.send(`${Message}`);
-    });
+      // Send Message
+      ws.on('open', function open() {
+        ws.send(`${message}`);
+      });
+    } else {
+      const ws = new WebSocket(`wss://${ip}:${port}/`);
+
+      // Catch Error
+      ws.on('error', console.error);
+
+      // Send Message
+      ws.on('open', function open() {
+        ws.send(`${message}`);
+      });
+    } // NEED TO BE IN THE IF STATEMENT OR IT WILL ERROR
 
     this.callNextAction(cache);
   },
