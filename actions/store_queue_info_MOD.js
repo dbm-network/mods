@@ -12,7 +12,15 @@ module.exports = {
   fields: ['info', 'varName', 'storage', 'varName2'],
 
   subtitle({ info }) {
-    const names = ['Tracks', 'Previous Tracks', 'Is Playing?', 'Repeat Mode', 'Progress Bar', 'Formatted Track List', 'Now Playing'];
+    const names = [
+      'Tracks',
+      'Previous Tracks',
+      'Is Playing?',
+      'Repeat Mode',
+      'Progress Bar',
+      'Formatted Track List',
+      'Now Playing',
+    ];
     return `${names[parseInt(info, 10)]}`;
   },
 
@@ -20,9 +28,15 @@ module.exports = {
     if (parseInt(data.storage, 10) !== varType) return;
     return [
       data.varName2,
-      ['Tracks', 'Previous Tracks', 'Is Playing?', 'Repeat Mode', 'Progress Bar', 'Formatted Track List', 'Now Playing'][
-        parseInt(data.info, 10)
-      ] || 'Queue Info',
+      [
+        'Tracks',
+        'Previous Tracks',
+        'Is Playing?',
+        'Repeat Mode',
+        'Progress Bar',
+        'Formatted Track List',
+        'Now Playing',
+      ][parseInt(data.info, 10)] || 'Queue Info',
     ];
   },
 
