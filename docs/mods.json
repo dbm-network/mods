@@ -504,6 +504,11 @@
     "name": "Parse From Stored Webpage",
     "section": "HTML/XML Things"
   },
+  "play_music_MOD.js": {
+    "description": "Search for a song/track and play it",
+    "name": "Play Music",
+    "section": "Audio Control"
+  },
   "play_youtube_playlist_MOD.js": {
     "description": "Play a specified YouTube playlist",
     "name": "Play YouTube Playlist",
@@ -679,6 +684,11 @@
     "name": "Skip Actions",
     "section": "Other Stuff"
   },
+  "skip_song_MOD.js": {
+    "description": "Skip the current song",
+    "name": "Skip Music",
+    "section": "Audio Control"
+  },
   "slice_MOD.js": {
     "description": "Slice a string",
     "name": "Slice",
@@ -713,6 +723,11 @@
     "description": "Stop the instance (client)",
     "name": "Stop Bot",
     "section": "Bot Client Control"
+  },
+  "stop_music_MOD.js":{
+    "description": "Stop music and clear queue",
+    "name": "Stop Music",
+    "section": "Audio Control"
   },
   "stop_rss_feed_MOD.js": {
     "description": "Stop the RSS feed",
@@ -823,6 +838,11 @@
     "description": "Store information about a YouTube playlist",
     "name": "Store Playlist Info",
     "section": "YouTube Tools"
+  },
+  "store_queue_MOD.js": {
+    "description": "Store information about the queue",
+    "name": "Store Queue Info",
+    "section": "Audio Control"
   },
   "store_reaction_info_MOD.js": {
     "description": "Store information pertaining to a reaction",
