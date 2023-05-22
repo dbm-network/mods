@@ -11,7 +11,7 @@ module.exports = {
   requiresAudioLibraries: true,
   fields: ['action'],
 
-  subtitle(data, presets) {
+  subtitle(data) {
     const actions = [
       'Stop Playing',
       'Pause Music',
