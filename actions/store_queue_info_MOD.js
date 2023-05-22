@@ -6,32 +6,27 @@ module.exports = {
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
-    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/store_queue_info_MOD.js'
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/store_queue_info_MOD.js',
   },
   requiresAudioLibraries: true,
 
-  subtitle ({ info }) {
-    const names = [
-      'Tracks',
-      'Previous Tracks',
-      'Is Playing?',
-      'Repeat Mode',
-      'Progress Bar'
-    ]
-    return `${names[parseInt(info, 10)]}`
+  subtitle({ info }) {
+    const names = ['Tracks', 'Previous Tracks', 'Is Playing?', 'Repeat Mode', 'Progress Bar'];
+    return `${names[parseInt(info, 10)]}`;
   },
 
   fields: ['server', 'info', 'varName', 'storage', 'varName2'],
 
-  variableStorage (data, varType) {
-    if (parseInt(data.storage, 10) !== varType) return
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
     return [
       data.varName2,
-      ['Tracks', 'Previous Tracks', 'Is Playing?', 'Repeat Mode', 'Progress Bar'][parseInt(data.info, 10)] || 'Queue Info'
-    ]
+      ['Tracks', 'Previous Tracks', 'Is Playing?', 'Repeat Mode', 'Progress Bar'][parseInt(data.info, 10)] ||
+        'Queue Info',
+    ];
   },
 
-  html (_isEvent, _data) {
+  html(_isEvent, _data) {
     return `
 <server-input dropdownLabel="Source Server" selectId="server" variableContainerId="varNameContainer" variableInputId="varName"></server-input>
 <br><br><br>
@@ -49,47 +44,47 @@ module.exports = {
 <br><br><br><br>
 
 <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
-`
+`;
   },
 
-  init () {},
+  init() {},
 
-  async action (cache) {
-    const { Bot } = this.getDBM()
-    const data = cache.actions[cache.index]
-    const server = await this.getServerFromData(data.server, data.varName, cache)
-    const queue = Bot.bot.player.getQueue(server)
-    const info = parseInt(data.info, 10)
-    let result
+  async action(cache) {
+    const { Bot } = this.getDBM();
+    const data = cache.actions[cache.index];
+    const server = await this.getServerFromData(data.server, data.varName, cache);
+    const queue = Bot.bot.player.getQueue(server);
+    const info = parseInt(data.info, 10);
+    let result;
 
     switch (info) {
       case 0:
-        result = queue
-        break
+        result = queue;
+        break;
       case 1:
-        result = queue.tracks
-        break
+        result = queue.tracks;
+        break;
       case 2:
-        result = queue.previousTracks
-        break
+        result = queue.previousTracks;
+        break;
       case 3:
-        result = queue.playing
-        break
+        result = queue.playing;
+        break;
       case 4:
-        result = queue.repeatMode
-        break
+        result = queue.repeatMode;
+        break;
       case 5:
-        result = queue.createProgressBar({ timecodes: true })
-        break
+        result = queue.createProgressBar({ timecodes: true });
+        break;
     }
 
     if (result !== undefined) {
-      const storage = parseInt(data.storage, 10)
-      const varName2 = this.evalMessage(data.varName2, cache)
-      this.storeValue(result, storage, varName2, cache)
+      const storage = parseInt(data.storage, 10);
+      const varName2 = this.evalMessage(data.varName2, cache);
+      this.storeValue(result, storage, varName2, cache);
     }
-    this.callNextAction(cache)
+    this.callNextAction(cache);
   },
 
-  mod () {}
-}
+  mod() {},
+};
