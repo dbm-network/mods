@@ -9,19 +9,18 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/store_queue_info_MOD.js',
   },
   requiresAudioLibraries: true,
+  fields: ['info', 'varName', 'storage', 'varName2'],
 
   subtitle({ info }) {
-    const names = ['Tracks', 'Previous Tracks', 'Is Playing?', 'Repeat Mode', 'Progress Bar', 'Formatted'];
+    const names = ['Tracks', 'Previous Tracks', 'Is Playing?', 'Repeat Mode', 'Progress Bar', 'Formatted Track List', 'Now Playing'];
     return `${names[parseInt(info, 10)]}`;
   },
-
-  fields: ['info', 'varName', 'storage', 'varName2'],
 
   variableStorage(data, varType) {
     if (parseInt(data.storage, 10) !== varType) return;
     return [
       data.varName2,
-      ['Tracks', 'Previous Tracks', 'Is Playing?', 'Repeat Mode', 'Progress Bar', 'Formatted'][
+      ['Tracks', 'Previous Tracks', 'Is Playing?', 'Repeat Mode', 'Progress Bar', 'Formatted Track List', 'Now Playing'][
         parseInt(data.info, 10)
       ] || 'Queue Info',
     ];
@@ -37,7 +36,8 @@ module.exports = {
     <option value="2">Is Playing?</option>
     <option value="3">Repeat Mode</option>
     <option value="4">Progress Bar</option>
-    <option value="5">Formatted</option>
+    <option value="5">Formatted Track List</option>
+    <option value='6">Now Playing</option>
   </select>
 </div>
 <br><br><br><br>
@@ -55,6 +55,8 @@ module.exports = {
     const queue = Bot.bot.player.getQueue(server);
     const info = parseInt(data.info, 10);
     let result;
+
+    if (!queue) return this.callNextAction(cache);
 
     switch (info) {
       case 0:
@@ -74,6 +76,9 @@ module.exports = {
         break;
       case 5:
         result = queue.toString();
+        break;
+      case 6:
+        result = queue.nowPlaying();
         break;
     }
 

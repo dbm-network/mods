@@ -1,24 +1,24 @@
 module.exports = {
-  name: 'Stop Music',
+  name: 'Skip Song',
   section: 'Audio Control',
   meta: {
     version: '2.1.7',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
-    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/stop_music_MOD.js',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/skip_song_MOD.js',
   },
   requiresAudioLibraries: true,
   fields: [],
 
   subtitle() {
-    return 'Stop music and clear queue';
+    return 'Skip current song';
   },
 
   html() {
     return `
     <div>
-      <p>This action stops the music and clears the queue.</p>
+      <p>Skip the current song</p>
     </div>`;
   },
 
@@ -28,7 +28,7 @@ module.exports = {
     const { Bot } = this.getDBM();
     const server = cache.msg?.guildId ?? cache.interaction?.guildId;
     const queue = Bot.bot.player.getQueue(server);
-    if (queue) queue.destroy();
+    if (queue) queue.skip();
     this.callNextAction(cache);
   },
 
