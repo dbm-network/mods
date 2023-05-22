@@ -28,7 +28,6 @@ module.exports = {
         },
         autoSelfDeaf: true,
         leaveOnEnd: false,
-        leaveOnStop: false,
       });
 
       Bot.bot.on('onTrackStart', DBM.Events.onTrackStart);

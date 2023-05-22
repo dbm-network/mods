@@ -10,31 +10,29 @@ module.exports = {
   },
   requiresAudioLibraries: true,
 
-  subtitle(data, presets) {
+  subtitle(data) {
     return `${data.query}`;
   },
 
-  fields: ['query', 'channel', 'varName', 'voiceChannel', 'varName2', 'storage', 'varName3'],
+  fields: ['query', 'voiceChannel', 'varName', 'storage', 'varName2'],
 
   variableStorage(data, varType) {
     if (parseInt(data.storage, 10) !== varType) return;
     return [data.varName3, 'Music Track'];
   },
 
-  html(_isEvent, data) {
+  html() {
     return `
 <div>
   <span class="dbminputlabel">YouTube Query</span><br>
   <input id="query" class="round" type="text" value="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><br>
 </div>
 
-<channel-input dropdownLabel="Metadata Channel" selectId="channel" variableContainerId="varNameContainer" variableInputId="varName"></channel-input>
-
 <br><br><br>
-<voice-channel-input dropdownLabel="Queue Voice Channel" selectId="voiceChannel" variableContainerId="varNameContainer2" variableInputId="varName2" selectWidth="45%" variableInputWidth="50%"></voice-channel-input>
+<voice-channel-input dropdownLabel="Voice Channel" selectId="voiceChannel" variableContainerId="varNameContainer" variableInputId="varName" selectWidth="45%" variableInputWidth="50%"></voice-channel-input>
 <br><br><br>
 
-<store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer3" variableInputId="varName3"></store-in-variable>
+<store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
 `;
   },
 
@@ -43,7 +41,7 @@ module.exports = {
   async action(cache) {
     const data = cache.actions[cache.index];
     const server = cache.server;
-    const channel = await this.getChannelFromData(data.channel, data.varName, cache);
+    const channel = cache.msg?.channel ?? cache.interaction?.channel;
     const { Bot } = this.getDBM();
     const Mods = this.getMods();
     const playdl = Mods.require('play-dl');
@@ -55,17 +53,13 @@ module.exports = {
       metadata: {
         channel,
       },
-      async onBeforeCreateStream(track, source, _queue) {
-        // only trap youtube source
+      async onBeforeCreateStream(track, source) {
         if (source === 'youtube') {
-          // track here would be youtube track
           return (await playdl.stream(track.url, { discordPlayerCompatibility: true })).stream;
-          // we must return readable stream or void (returning void means telling discord-player to look for default extractor)
         }
       },
     });
 
-    // verify vc connection
     try {
       if (!queue.connection) await queue.connect(voiceChannel);
     } catch {
@@ -83,8 +77,8 @@ module.exports = {
     if (track !== undefined) {
       queue.play(track);
       const storage = parseInt(data.storage, 10);
-      const varName3 = this.evalMessage(data.varName3, cache);
-      this.storeValue(track, storage, varName3, cache);
+      const varName2 = this.evalMessage(data.varName2, cache);
+      this.storeValue(track, storage, varName2, cache);
     }
     this.callNextAction(cache);
   },

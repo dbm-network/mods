@@ -11,26 +11,24 @@ module.exports = {
   requiresAudioLibraries: true,
 
   subtitle({ info }) {
-    const names = ['Tracks', 'Previous Tracks', 'Is Playing?', 'Repeat Mode', 'Progress Bar'];
+    const names = ['Tracks', 'Previous Tracks', 'Is Playing?', 'Repeat Mode', 'Progress Bar', 'Formatted'];
     return `${names[parseInt(info, 10)]}`;
   },
 
-  fields: ['server', 'info', 'varName', 'storage', 'varName2'],
+  fields: ['info', 'varName', 'storage', 'varName2'],
 
   variableStorage(data, varType) {
     if (parseInt(data.storage, 10) !== varType) return;
     return [
       data.varName2,
-      ['Tracks', 'Previous Tracks', 'Is Playing?', 'Repeat Mode', 'Progress Bar'][parseInt(data.info, 10)] ||
-        'Queue Info',
+      ['Tracks', 'Previous Tracks', 'Is Playing?', 'Repeat Mode', 'Progress Bar', 'Formatted'][
+        parseInt(data.info, 10)
+      ] || 'Queue Info',
     ];
   },
 
-  html(_isEvent, _data) {
+  html() {
     return `
-<server-input dropdownLabel="Source Server" selectId="server" variableContainerId="varNameContainer" variableInputId="varName"></server-input>
-<br><br><br>
-
 <div style="float: left; width: 80%; padding-top: 8px;">
 <span class="dbminputlabel">Queue Info</span><br>
   <select id="info" class="round">
@@ -39,6 +37,7 @@ module.exports = {
     <option value="2">Is Playing?</option>
     <option value="3">Repeat Mode</option>
     <option value="4">Progress Bar</option>
+    <option value="5">Formatted</option>
   </select>
 </div>
 <br><br><br><br>
@@ -52,29 +51,29 @@ module.exports = {
   async action(cache) {
     const { Bot } = this.getDBM();
     const data = cache.actions[cache.index];
-    const server = await this.getServerFromData(data.server, data.varName, cache);
+    const server = cache.msg?.guildId ?? cache.interaction?.guildId;
     const queue = Bot.bot.player.getQueue(server);
     const info = parseInt(data.info, 10);
     let result;
 
     switch (info) {
       case 0:
-        result = queue;
-        break;
-      case 1:
         result = queue.tracks;
         break;
-      case 2:
+      case 1:
         result = queue.previousTracks;
         break;
-      case 3:
+      case 2:
         result = queue.playing;
         break;
-      case 4:
+      case 3:
         result = queue.repeatMode;
         break;
-      case 5:
+      case 4:
         result = queue.createProgressBar({ timecodes: true });
+        break;
+      case 5:
+        result = queue.toString();
         break;
     }
 
