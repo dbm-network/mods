@@ -624,6 +624,11 @@
     "name": "Sends Stats to DBL",
     "section": "Other Stuff"
   },
+  "send_websocket_MOD.js": {
+    "description": "Sends a Message to a websocket",
+    "name": "Send Websocket",
+    "section": "Other Stuff"
+  },
   "set_afk_channel_MOD.js": {
     "description": "Set an AFK channel in a guild",
     "name": "Set AFK Channel",
@@ -694,15 +699,15 @@
     "name": "Split",
     "section": "Other Stuff"
   },
-  "spotify_search_MOD.js": {
-    "description": "Search for a song/track/playlist on Spotify and get information based on the findings",
-    "name": "Spotify Search",
-    "section": "Other Stuff"
-  },
   "spreadsheet_MOD.js": {
     "description": "Read's data from a CSV file",
     "name": "Spreadsheets",
     "section": "Data"
+  },
+  "spotify_search_MOD.js": {
+    "description": "Search for a song/track/playlist on Spotify and get information based on the findings",
+    "name": "Spotify Search",
+    "section": "Other Stuff"
   },
   "start_rss_feed_MOD.js": {
     "description": "RSS feed",

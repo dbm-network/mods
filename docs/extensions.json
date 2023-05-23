@@ -22,5 +22,9 @@
   "topgg_EXT.js": {
     "description": "Allows usage of on_topgg_vote_EVT.js",
     "name": "Top.gg Api"
+  },
+  "websocket_EXT.js": {
+    "description": "Starts a websocket server to get request and send them ( Allows to Use 'on_ws_receive_EVT' )",
+    "name": "Websocket Config"
   }
 }
