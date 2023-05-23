@@ -75,9 +75,37 @@
     "description": "Triggers when a member's role is removed",
     "name": "Member Role Removed MOD"
   },
+  "on_player_connection_error_EVT.js": {
+    "description": "Triggers when the music player has a connection error",
+    "name": "On Player Connection Error"
+  },
+  "on_player_error_EVT.js": {
+    "description": "Triggers when the music player has an error",
+    "name": "On Player Error"
+  },
+  "on_player_no_results_EVT.js": {
+    "description": "Triggers when the music player found no results",
+    "name": "On Player No Results"
+  },
+  "on_queue_end_EVT.js": {
+    "description": "Triggers when the music queue ends",
+    "name": "On Queue End"
+  },
   "on_topgg_vote_EVT.js": {
     "description": "Triggers when a user votes on topgg. Requires extension",
     "name": "On Top.gg Vote"
+  },
+  "on_track_add_EVT.js": {
+    "description": "Triggers when a music track gets added",
+    "name": "On Track Add"
+  },
+  "on_track_start_EVT.js": {
+    "description": "Loads discord-player on bot start up, triggers other music events, and triggers when music track starts playing",
+    "name": "On Track Start"
+  },
+  "on_tracks_add_EVT.js": {
+    "description": "Triggers when music tracks are added",
+    "name": "On Tracks Add"
   },
   "user_update_EVT.js": {
     "description": "Triggers when a user is updated (Avatar/Username...)",

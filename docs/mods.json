@@ -189,6 +189,11 @@
     "name": "Control Global Data",
     "section": "Data"
   },
+  "control_music_MOD.js": {
+    "description": "Control music status",
+    "name": "Control Music",
+    "section": "Audio Control"
+  },
   "control_permissons_MOD.js": {
     "description": "Control certain permissions",
     "name": "Control Permissions",
@@ -504,6 +509,11 @@
     "name": "Parse From Stored Webpage",
     "section": "HTML/XML Things"
   },
+  "play_music_MOD.js": {
+    "description": "Search for a song/track and play it",
+    "name": "Play Music",
+    "section": "Audio Control"
+  },
   "play_youtube_playlist_MOD.js": {
     "description": "Play a specified YouTube playlist",
     "name": "Play YouTube Playlist",
@@ -638,6 +648,11 @@
     "description": "Set voice channel permissions for a member",
     "name": "Set Member Voice Channel Perms",
     "section": "Channel Control"
+  },
+  "set_music_repeat_mode_MOD.js": {
+    "description": "Set the mode for repeating music",
+    "name": "Set Music Repeat Mode",
+    "section": "Audio Control"
   },
   "set_permissions_MOD.js": {
     "description": "Set permissions",
@@ -823,6 +838,11 @@
     "description": "Store information about a YouTube playlist",
     "name": "Store Playlist Info",
     "section": "YouTube Tools"
+  },
+  "store_queue_MOD.js": {
+    "description": "Store information about the queue",
+    "name": "Store Queue Info",
+    "section": "Audio Control"
   },
   "store_reaction_info_MOD.js": {
     "description": "Store information pertaining to a reaction",
