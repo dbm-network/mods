@@ -3,8 +3,8 @@ const Mods = {
 
   installModule(moduleName, version) {
     return new Promise((resolve) => {
-      require('child_process').execSync(`npm i ${version ? `${moduleName}@${version}` : moduleName}`);
       try {
+        require('child_process').execSync(`npm i ${version ? `${moduleName}@${version}` : moduleName}`);
         resolve(require(moduleName));
       } catch (error) {
         console.log(
