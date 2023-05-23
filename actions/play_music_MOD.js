@@ -9,7 +9,7 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/play_music_MOD.js',
   },
   requiresAudioLibraries: true,
-  fields: ['query', 'voiceChannel', 'varName', 'storage', 'varName2'],
+  fields: ['query', 'voiceChannel', 'varName', 'storage', 'varName2', 'type'],
 
   subtitle(data) {
     return `${data.query}`;
@@ -29,6 +29,15 @@ module.exports = {
 
 <voice-channel-input dropdownLabel="Voice Channel" selectId="voiceChannel" variableContainerId="varNameContainer" variableInputId="varName" selectWidth="45%" variableInputWidth="50%"></voice-channel-input>
 <br><br><br>
+
+<div>
+	<span class="dbminputlabel">Play Type</span><br>
+	<select id="type" class="round" style="width: 90%;">
+		<option value="0" selected>Add to Queue</option>
+		<option value="1">Play Immediately</option>
+	</select>
+</div>
+<br>
 
 <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
 `;
@@ -66,14 +75,18 @@ module.exports = {
       return this.callNextAction(cache);
     }
 
-    const track = await player
-      .search(query, {
-        requestedBy: cache.getUser(),
-      })
-      .then((x) => x.tracks[0]);
+    const track = await player.search(query, {
+      requestedBy: cache.getUser(),
+    });
+    track.playlist ? queue.addTracks(track.tracks) : queue.addTrack(track.tracks[0]);
 
     if (track !== undefined) {
-      queue.play(track);
+      if (data.type === '1') {
+        await queue.play();
+      }
+      if (data.type === '0') {
+        if (!queue.playing) await queue.play();
+      }
       const storage = parseInt(data.storage, 10);
       const varName2 = this.evalMessage(data.varName2, cache);
       this.storeValue(track, storage, varName2, cache);
