@@ -649,6 +649,11 @@
     "name": "Set Member Voice Channel Perms",
     "section": "Channel Control"
   },
+  "set_music_repeat_mode_MOD.js": {
+    "description": "Set the mode for repeating music",
+    "name": "Set Music Repeat Mode",
+    "section": "Audio Control"
+  },
   "set_permissions_MOD.js": {
     "description": "Set permissions",
     "name": "Set Permissions",
