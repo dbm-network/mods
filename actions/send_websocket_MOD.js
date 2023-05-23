@@ -10,11 +10,11 @@ module.exports = {
   },
 
   subtitle(data) {
-    const protocol = data.protocol === '0' ? 'ws://' : 'wss://';
+    const protocol = parseInt(data.protocol, 10);
     const ip = data.ip;
     const port = data.port;
 
-    return `Sending To ${protocol}${ip}:${port}/`;
+    return `Sending To ${protocol ? 'wss' : 'ws'}://${ip}:${port}/`;
   },
 
   variableStorage(data, storage) {
@@ -76,31 +76,17 @@ module.exports = {
     const ip = this.evalMessage(data.ip, cache);
     const port = this.evalMessage(data.port, cache);
     const message = this.evalMessage(data.message, cache);
-
     const protocol = parseInt(data.protocol, 10);
 
-    // Create Connection
-    if (protocol === 0) {
-      const ws = new WebSocket(`ws://${ip}:${port}/`);
+    const ws = new WebSocket(`${protocol ? 'wss' : 'ws'}://${ip}:${port}/`);
 
-      // Catch Error
-      ws.on('error', console.error);
+    // Catch Error
+    ws.on('error', console.error);
 
-      // Send Message
-      ws.on('open', function open() {
-        ws.send(`${message}`);
-      });
-    } else {
-      const ws = new WebSocket(`wss://${ip}:${port}/`);
-
-      // Catch Error
-      ws.on('error', console.error);
-
-      // Send Message
-      ws.on('open', function open() {
-        ws.send(`${message}`);
-      });
-    } // NEED TO BE IN THE IF STATEMENT OR IT WILL ERROR
+    // Send Message
+    ws.on('open', function open() {
+      ws.send(`${message}`);
+    });
 
     this.callNextAction(cache);
   },
