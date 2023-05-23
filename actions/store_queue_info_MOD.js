@@ -9,7 +9,7 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/store_queue_info_MOD.js',
   },
   requiresAudioLibraries: true,
-  fields: ['info', 'varName', 'storage', 'varName2'],
+  fields: ['info', 'storage', 'varName'],
 
   subtitle({ info }) {
     const names = [
@@ -27,7 +27,7 @@ module.exports = {
   variableStorage(data, varType) {
     if (parseInt(data.storage, 10) !== varType) return;
     return [
-      data.varName2,
+      data.varName,
       [
         'Tracks',
         'Previous Tracks',
@@ -51,12 +51,12 @@ module.exports = {
     <option value="3">Repeat Mode</option>
     <option value="4">Progress Bar</option>
     <option value="5">Formatted Track List</option>
-    <option value='6">Now Playing</option>
+    <option value="6">Now Playing</option>
   </select>
 </div>
 <br><br><br><br>
 
-<store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
+<store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
 `;
   },
 
@@ -98,8 +98,8 @@ module.exports = {
 
     if (result !== undefined) {
       const storage = parseInt(data.storage, 10);
-      const varName2 = this.evalMessage(data.varName2, cache);
-      this.storeValue(result, storage, varName2, cache);
+      const varName = this.evalMessage(data.varName, cache);
+      this.storeValue(result, storage, varName, cache);
     }
     this.callNextAction(cache);
   },
