@@ -7,7 +7,11 @@ const Mods = {
         require('child_process').execSync(`npm i ${version ? `${moduleName}@${version}` : moduleName}`);
         return resolve(require(moduleName));
       } catch (error) {
-        return console.log(`The required module "${version ? `${moduleName}@${version}` : moduleName}" has been installed. Please restart your bot.`)
+        return console.log(
+          `The required module "${
+            version ? `${moduleName}@${version}` : moduleName
+          }" has been installed. Please restart your bot.`,
+        );
       }
     });
   },
