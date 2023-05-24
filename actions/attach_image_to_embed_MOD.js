@@ -22,29 +22,29 @@ module.exports = {
     return `
 <div>
   <div style="float: left; width: 35%;">
-    Source Embed Object:<br>
+    <span class="dbminputlabel">Source Embed Object</span>
     <select id="embedstorage" class="round" onchange="glob.refreshVariableList(this)">
       ${data.variables[1]}
     </select>
   </div>
   <div id="varNameContainer" style="float: right; width: 60%;">
-    Variable Name:<br>
+    <span class="dbminputlabel">Variable Name</span>
     <input id="embedvarName" class="round" type="text" list="variableList"><br>
   </div>
 </div><br><br><br>
 <div><br>
   <div style="float: left; width: 35%;">
-    Image Object to Attach:<br>
+    <span class="dbminputlabel">Image Object to Attach</span>
     <select id="imagestorage" class="round" onchange="glob.refreshVariableList(this)">
       ${data.variables[1]}
     </select>
   </div>
   <div id="varNameContainer" style="float: right; width: 60%;">
-    Variable Name:<br>
+    <span class="dbminputlabel">Variable Name</span>
     <input id="imagevarName" class="round" type="text" list="variableList"><br>
   </div><br><br><br>
   <div id="varNameContainer" style="float: right; width: 60%;">
-    Image File Name:<br>
+    <span class="dbminputlabel">Image File Name</span>
     <input id="filename" class="round" type="text" placeholder="image.png"><br>
   </div>
 </div>`;

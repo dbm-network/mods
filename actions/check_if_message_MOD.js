@@ -28,9 +28,9 @@ module.exports = {
     return `
 <div>
 <message-input dropdownLabel="Source Message" selectId="message" variableContainerId="varNameContainer" variableInputId="varName"></message-input>
-<br><br><br>
+<br><br><br><br>
   <div style="float: left; width: 40%;">
-    Check If Message:<br>
+    <span class="dbminputlabel">Check If Message</span>
     <select id="info" class="round">
       <option value="0">Is Pinnable?</option>
       <option value="1">Is Pinned?</option>
@@ -42,10 +42,11 @@ module.exports = {
     </select>
   </div>
   <div id="varNameContainer2" style="display: none; float: right; width: 60%;">
-    Variable Name:<br>
+    <span class="dbminputlabel">Variable Name</span>
     <input id="varName2" class="round" type="text" list="variableList2"><br>
   </div>
-</div><br><br><br>
+</div>
+<br><br><br>
 <div style="padding-top: 8px;">
   ${data.conditions[0]}
 </div>`;

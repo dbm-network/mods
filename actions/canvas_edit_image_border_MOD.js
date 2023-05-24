@@ -16,30 +16,21 @@ module.exports = {
 
   fields: ['storage', 'varName', 'circleinfo', 'radius'],
 
-  html(_isEvent, data) {
+  html() {
     return `
-<div>
-  <div style="float: left; width: 45%;">
-    Source Image:<br>
-    <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
-      ${data.variables[1]}
-    </select><br>
-  </div>
-  <div id="varNameContainer" style="float: right; width: 50%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList"><br>
-  </div>
-</div><br><br><br>
+<store-in-variable dropdownLabel="Source Image" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+<br><br><br>
+
 <div style="padding-top: 8px;">
   <div style="float: left; width: 45%;">
-    Circle:<br>
+    <span class="dbminputlabel">Circle?</span>
     <select id="circleinfo" class="round">
       <option value="0" selected>No</option>
       <option value="1">Yes</option>
     </select><br>
   </div>
   <div style="float: right; width: 50%;">
-    Round Corner Radius:<br>
+    <span class="dbminputlabel">Round Corner Radius</span>
     <input id="radius" class="round" type="text" value="0"><br>
   </div>
 </div>`;
@@ -57,10 +48,8 @@ module.exports = {
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);
     const imagedata = this.getVariable(storage, varName, cache);
-    if (!imagedata) {
-      this.callNextAction(cache);
-      return;
-    }
+    if (!imagedata) return this.callNextAction(cache);
+
     const image = new Canvas.Image();
     image.src = imagedata;
     const circleinfo = parseInt(data.circleinfo, 10);

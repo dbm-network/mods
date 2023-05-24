@@ -18,45 +18,28 @@ module.exports = {
 
   fields: ['storage', 'varName', 'storage2', 'varName2', 'x', 'y', 'effect'],
 
-  html(_isEvent, data) {
+  html() {
     return `
-<div>
-  <div style="float: left; width: 45%;">
-    Source Image:<br>
-    <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
-      ${data.variables[1]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="float: right; width: 50%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList"><br>
-  </div>
-</div><br><br><br>
-<div style="padding-top: 8px;">
-  <div style="float: left; width: 45%;">
-    Image that is Drawn:<br>
-    <select id="storage2" class="round">
-      ${data.variables[1]}
-    </select>
-  </div>
-  <div id="varNameContainer2" style="float: right; width: 50%;">
-    Variable Name:<br>
-    <input id="varName2" class="round" type="text" list="variableList"><br>
-  </div>
-</div><br><br><br>
+    <store-in-variable dropdownLabel="Source Image" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+    <br><br><br>
+    <store-in-variable dropdownLabel="Image that is Drawn" selectId="storage2" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
+    <br><br><br>
+
 <div style="padding-top: 8px;">
   <div style="float: left; width: 50%;">
-    X Position:<br>
+    <span class="dbminputlabel">X Position</span>
     <input id="x" class="round" type="text" value="0"><br>
   </div>
   <div style="float: right; width: 50%;">
-    Y Position:<br>
+    <span class="dbminputlabel">Y Position</span>
     <input id="y" class="round" type="text" value="0"><br>
   </div>
-</div><br><br><br>
+</div>
+<br><br><br>
+
 <div style="padding-top: 8px;">
   <div style="float: left; width: 45%;">
-    Draw Effect:<br>
+    <span class="dbminputlabel">Draw Effect</span>
     <select id="effect" class="round">
       <option value="0" selected>Overlay</option>
       <option value="1">Mask</option>
@@ -77,17 +60,13 @@ module.exports = {
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);
     const imagedata = this.getVariable(storage, varName, cache);
-    if (!imagedata) {
-      this.callNextAction(cache);
-      return;
-    }
+    if (!imagedata) return this.callNextAction(cache);
+
     const storage2 = parseInt(data.storage2, 10);
     const varName2 = this.evalMessage(data.varName2, cache);
     const imagedata2 = this.getVariable(storage2, varName2, cache);
-    if (!imagedata2) {
-      this.callNextAction(cache);
-      return;
-    }
+    if (!imagedata2) return this.callNextAction(cache);
+
     const x = parseInt(this.evalMessage(data.x, cache), 10);
     const y = parseInt(this.evalMessage(data.y, cache), 10);
     const effect = parseInt(data.effect, 10);

@@ -26,21 +26,23 @@ module.exports = {
 
   fields: ['width', 'height', 'info', 'gradient', 'color', 'storage', 'varName'],
 
-  html(_isEvent, data) {
+  html() {
     return `
 <div>
   <div style="float: left; width: 46%;">
-    Width(px):<br>
+    <span class="dbminputlabel">Width (px)</span>
     <input id="width" class="round" type="text"><br>
   </div>
   <div style="padding-left: 3px; float: left; width: 49%;">
-    Height(px):<br>
+    <span class="dbminputlabel">Height (px)</span>
     <input id="height" class="round" type="text"><br>
   </div>
-</div><br><br><br>
+</div>
+<br><br><br>
+
 <div>
   <div style="float: left; width: 92%;">
-    Fill:
+    <span class="dbminputlabel">Fill</span>
     <select id="info" class="round" onchange="glob.onChange0(this)">
       <option value="0" selected>Solid Color</option>
       <option value="1">Gradient Color</option>
@@ -48,26 +50,18 @@ module.exports = {
   <div>
 <div><br>
   <div id="Gradient" style="display: none; float: left; width: 109%;">
-    Gradient:<br>
+    <span class="dbminputlabel">Gradient</span>
     <textarea id="gradient" rows="5" placeholder="Insert var lingrad = ctx.createLinearGradient()... here" style="width: 92%; white-space: nowrap;"></textarea><br>
   </div>
   <div id="Solid" style="float: left; width: 111%;">
-    Color:<br>
+    <span class="dbminputlabel">Color</span>
     <input id="color" class="round" type="text" placeholder="Insert Color Hex code here"><br>
   </div>
-<div><br><br><br>
 <div>
-  <div style="float: left; width: 35%;">
-    Store In:<br>
-    <select id="storage" class="round">
-      ${data.variables[1]}
-    </select>
-  </div>
-  <div style="float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text"><br>
-  </div>
-</div>`;
+<br><br><br><br>
+
+<store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+`;
   },
 
   init() {

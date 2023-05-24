@@ -25,9 +25,10 @@ module.exports = {
   html(_isEvent, data) {
     return `
 <div style="float: left; width: 60%">
-  Path:
+  <span class="dbminputlabel">Path</span>
   <input id="filename" class="round" type="text">
-</div><br><br><br>
+</div>
+<br><br><br>
 <div style="padding-top: 8px;">
   ${data.conditions[0]};
 </div>`;

@@ -74,13 +74,13 @@ module.exports = {
 <div style="width: 550px; height: 350px; overflow-y: scroll;">
   <div style="padding-top: 8px;">
     <div style="float: left; width: 35%;">
-      Source Permissions:<br>
+      <span class="dbminputlabel">Source Permissions</span>
       <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
         ${data.variables[1]}
       </select><br>
     </div>
     <div style="float: right; width: 60%;">
-      Variable Name:<br>
+      <span class="dbminputlabel">Variable Name</span>
       <input id="varName" class="round" type="text" list="variableList"><br>
     </div>
   </div><br><br><br>

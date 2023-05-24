@@ -32,15 +32,15 @@ module.exports = {
   </p>
 </div><br>
 <div style="float: left; width: 74%;">
-  Jump to Anchor ID:<br>
+  <span class="dbminputlabel">Jump to Anchor ID</span>
   <input type="text" class="round" id="jump_to_anchor"><br>
 </div>
 <div style="float: left; width: 24%;">
-  Anchor Color:<br>
+  <span class="dbminputlabel">Anchor Color</span>
   <input type="color" id="color"><br>
 </div>
 <div style="float: left; width: 98%;">
-  Description:<br>
+  <span class="dbminputlabel">Description</span>
   <input type="text" class="round" id="description"><br>
 </div>`;
   },

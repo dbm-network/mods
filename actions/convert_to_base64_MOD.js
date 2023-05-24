@@ -23,11 +23,11 @@ module.exports = {
   html(isEvent, data) {
     return `
 <div style="width: 90%;">
-  Text or Morse Code:<br>
+  <span class="dbminputlabel">Text or Morse Code</span>
   <input id="input" class="round" type="text">
 </div><br>
 <div style="padding-top: 8px; width: 60%;">
-  Options:
+  <span class="dbminputlabel">Options</span>
   <select id="info" class="round">
     <option value="0" selected>Encode</option>
     <option value="1">Decode</option>
@@ -36,6 +36,7 @@ module.exports = {
 <div style="padding-top: 8px;">
   <div style="float: left; width: 35%;">
     Store In:<br>
+    <span class="dbminputlabel">Store In</span>
     <select id="storage" class="round">
       ${data.variables[1]}
     </select>

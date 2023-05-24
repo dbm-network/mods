@@ -86,28 +86,28 @@ module.exports = {
   <br>
   
   <div style="float: left; width: 49%; margin-right: 8px;">
-    Max Reactions:<br>
+    <span class="dbminputlabel">Max Reactions</span>
     <input id="max" class="round" type="text" value="1" placeholder="Optional"><br>
   </div>
   <div style="float: left; width: 49%;">
-    Max Time (milliseconds):<br>
+    <span class="dbminputlabel">Max Time (milliseconds)</span>
     <input id="time" class="round" type="text" value="60000" placeholder="Optional"><br>
   </div>
   <br><br><br>
   
   <div style="float: left; width: 49%; margin-right: 8px;">
-    Max Emojis:<br>
+    <span class="dbminputlabel">Max Emojis</span>
     <input id="maxEmojis" class="round" type="text" placeholder="Optional"><br>
   </div>
   <div style="float: left; width: 49%;">
-    Max Users:<br>
+    <span class="dbminputlabel">Max Users</span>
     <input id="maxUsers" class="round" type="text" placeholder="Optional"><br>
   </div>
   <br><br><br>
   
   <div style="padding-top: 8px;">
     <div style="float: left; width: 35%;">
-      On Respond:<br>
+      <span class="dbminputlabel">On Respond</span>
       <select id="iftrue" class="round" onchange="glob.onChangeTrue(this)">
         <option value="0" selected>Continue Actions</option>
         <option value="1">Stop Action Sequence</option>
@@ -124,7 +124,7 @@ module.exports = {
   
   <div style="padding-top: 18px;">
     <div style="float: left; width: 35%;">
-      On Timeout:<br>
+      <span class="dbminputlabel">On Timeout</span>
       <select id="iffalse" class="round" onchange="glob.onChangeFalse(this)">
         <option value="0">Continue Actions</option>
         <option value="1" selected>Stop Action Sequence</option>
@@ -138,20 +138,7 @@ module.exports = {
     </div>
     <br><br><br>
 
-    <div style="padding-top: 10px;">
-      <div style="float: left; width: 35%;">
-        Store Reaction List To:<br>
-        <select id="storage2" class="round" onchange="glob.variableChange(this, 'varNameContainer2')">
-          ${data.variables[0]}
-        </select>
-      </div>
-      <div id="varNameContainer2" style="display: none; float: right; width: 60%;">
-        Variable Name:<br>
-        <input id="varName2" class="round" type="text">
-      </div>
-    </div>
-    <br><br><br>
-
+    <store-in-variable dropdownLabel="Store Reaction List To" selectId="storage" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
   </div>
 </div>
 

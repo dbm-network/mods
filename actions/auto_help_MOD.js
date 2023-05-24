@@ -25,11 +25,11 @@ module.exports = {
   </p>
 </div><br>
 <div style="float: left; width: 99%;">
-  Category:
+  <span class="dbminputlabel">Category</span>
   <input id="Category" class="round" type="text" style="width:99%"><br>
-  Description:
+  <span class="dbminputlabel">Description</span>
   <textarea id="Description" rows="3" placeholder="Insert description here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea><br>
-  Include in Auto Help:
+  <span class="dbminputlabel">Include in Auto Help</span>
   <select style="width:33%;" id="Include" class="round">
     <option value="Yes">Yes</option>
     <option value="No">No</option>

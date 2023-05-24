@@ -18,21 +18,12 @@ module.exports = {
 
   html(isEvent, data) {
     return `
-<div>
-  <member-input dropdownLabel="Source Member" selectId="member" variableContainerId="varNameContainer" variableInputId="varName"></member-input>
-</div><br><br><br><br>
-<div>
-  <div style="float: left; width: 35%;">
-    Source Reaction:<br>
-    <select id="reaction" class="round" onchange="glob.refreshVariableList(this)">
-      ${data.variables[1]}
-    </select>
-  </div>
-  <div id="varNameContainer2" style="float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName2" class="round" type="text" list="variableList"><br>
-  </div>
-</div><br><br><br>
+<member-input dropdownLabel="Source Member" selectId="member" variableContainerId="varNameContainer" variableInputId="varName"></member-input>
+<br><br><br><br>
+
+<store-in-variable dropdownLabel="Source Reaction" selectId="reaction" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
+<br><br><br>
+
 <div style="padding-top: 8px;">
   ${data.conditions[0]}
 </div>`;

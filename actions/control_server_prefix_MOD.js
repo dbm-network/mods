@@ -24,7 +24,7 @@ module.exports = {
 <br><br><br>
 
 <div style="padding-top: 8px; width: 35%; float: left">
-  Control Type:
+  <span class="dbminputlabel">Control Type</span>
   <select id="controlType" class="round" onchange="glob.onChangeControl(this)">
     <option value="0" title="Sets the prefix of the server">Set Prefix</option>
     <option value="1" title="Sets the prefix to default prefix (settings)">Delete Prefix</option>
@@ -32,7 +32,7 @@ module.exports = {
 </div>
 
 <div id="prefixContainer" style="padding-top: 8px; width: 60%; float: right">
-  Prefix:<br>
+  <span class="dbminputlabel">Prefix</span>
   <input id="prefix" class="round" type="text">
 </div>`;
   },

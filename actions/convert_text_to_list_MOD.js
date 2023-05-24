@@ -27,31 +27,31 @@ module.exports = {
     return `
 <div>
   <div style="float: left; width: 35%;">
-    Source Text:<br>
+    <span class="dbminputlabel">Source Text</span>
     <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
       ${data.variables[1]}
     </select><br>
   </div>
   <div id="varNameContainer" style="float: right; width: 60%;">
-    Variable Name:<br>
+    <span class="dbminputlabel">Variable Name</span>
     <input id="varName" class="round" type="text" list="variableList"><br>
   </div>
 </div><br><br><br>
 <div style="display: table; width: 105%;">
   <div style="display: table-cell;">
-    Separator:
+    <span class="dbminputlabel">Separator</span>
     <input id="separator" class="round" type="text">
   </div>
 </div><br>
 <div style="padding-top: 8px;">
   <div style="float: left; width: 35%;">
-    Store In:<br>
+    <span class="dbminputlabel">Store In</span>
     <select id="storage2" class="round">
       ${data.variables[1]}
     </select>
   </div>
   <div style="float: right; width: 60%;">
-    Variable Name:<br>
+    <span class="dbminputlabel">Variable Name</span>
     <input id="varName2" class="round" type="text">
   </div>
 </div>`;

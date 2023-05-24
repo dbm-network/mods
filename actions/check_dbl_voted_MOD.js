@@ -32,7 +32,7 @@ module.exports = {
 </div><br><br><br>
 <div>
   <div style="float: left; width: 89%;">
-    TopGG API Token:<br>
+    <span class="dbminputlabel">TopGG API Token</span>
     <input id="apitoken" class="round" type="text">
   </div>
 </div><br><br><br>

@@ -32,12 +32,12 @@ module.exports = {
 
   html(isEvent, data) {
     return `
-<div>
-  <member-input dropdownLabel="Member" selectId="member" variableContainerId="varNameContainer" variableInputId="varName"></member-input>
-</div><br><br><br>
+<member-input dropdownLabel="Member" selectId="member" variableContainerId="varNameContainer" variableInputId="varName"></member-input>
+<br><br><br>
+
 <div style="padding-top: 20px;">
   <div style="float: left; width: 35%;">
-    Check if Member:<br>
+    <span class="dbminputlabel">Check If Member</span>
     <select id="info" class="round">
       <option value="0" selected>Is Bot?</option>
       <option value="1">Is Bannable?</option>
@@ -54,10 +54,12 @@ module.exports = {
     </select>
   </div>
   <div id="varNameContainer2" style="display: none; float: right; width: 60%;">
-    Variable Name:<br>
+    <span class="dbminputlabel">Variable Name</span>
     <input id="varName2" class="round" type="text" list="variableList2"><br>
   </div>
-</div><br><br><br>
+</div>
+<br><br><br>
+
 <div style="padding-top: 8px;">
   ${data.conditions[0]}
 </div>`;

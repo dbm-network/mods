@@ -23,11 +23,11 @@ module.exports = {
 
   fields: ['storage', 'varName', 'type', 'width', 'height', 'lineWidth', 'lineCap', 'percent', 'color'],
 
-  html(_isEvent, data) {
+  html() {
     return `
 <div style="padding-top: 8px;">
   <div style="float: left; width: 45%;">
-    Type:<br>
+    <span class="dbminputlabel">Type</span>
     <select id="type" class="round" onchange="glob.onChange1(this)">
       <option value="0" selected>Basic</option>
       <option value="1">Circle</option><br>
@@ -35,22 +35,22 @@ module.exports = {
   </div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
-  <div style="float: left; width: 50%;">
-    <div id="Change1text">Width:</div>
+  <div style="float: left; width: 45%;">
+    <div id="Change1text"><span class="dbminputlabel">Width</span></div>
     <input id="width" class="round" type="text"><br>
   </div>
   <div style="float: right; width: 50%;">
-    <div id="Change2text">Height:</div>
+    <div id="Change2text"><span class="dbminputlabel">Height</span></div>
     <input id="height" class="round" type="text"><br>
   </div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
-  <div style="float: left; width: 50%;">
-    Line Width:<br>
+  <div style="float: left; width: 45%;">
+    <span class="dbminputlabel">Line Width</span>
     <input id="lineWidth" class="round" type="text"><br>
   </div>
-  <div style="padding-left: 1%; float: left; width: 45%;">
-    Line Cap:<br>
+  <div style="float: right; width: 50%;">
+    <span class="dbminputlabel">Line Cap</span>
     <select id="lineCap" class="round">
       <option value="0" selected>Square</option>
       <option value="1">Round</option>
@@ -58,26 +58,17 @@ module.exports = {
   </div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
-  <div style="float: left; width: 50%;">
-    Percent:<br>
+  <div style="float: left; width: 45%;">
+    <span class="dbminputlabel">Percent</span>
     <input id="percent" class="round" type="text"><br>
   </div>
   <div style="float: right; width: 50%;">
-    Color:<br>
+    <span class="dbminputlabel">Color</span>
     <input id="color" class="round" type="text" value="FFFFFF"><br>
   </div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
-  <div style="float: left; width: 45%;">
-    Store In:<br>
-    <select id="storage" class="round">
-      ${data.variables[1]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="float: right; width: 50%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text">
-  </div>
+  <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
 </div>`;
   },
 
@@ -88,11 +79,11 @@ module.exports = {
       const Change1text = document.getElementById('Change1text');
       const Change2text = document.getElementById('Change2text');
       if (event.value === '0') {
-        Change1text.innerHTML = 'Width:';
-        Change2text.innerHTML = 'Height:';
+        Change1text.innerHTML = '<span class="dbminputlabel">Width</span>';
+        Change2text.innerHTML = '<span class="dbminputlabel">Height</span>';
       } else if (event.value === '1') {
-        Change1text.innerHTML = 'Radius:';
-        Change2text.innerHTML = 'Size:';
+        Change1text.innerHTML = '<span class="dbminputlabel">Radius</span>';
+        Change2text.innerHTML = '<span class="dbminputlabel">Size</span>';
       }
     };
     glob.onChange1(document.getElementById('type'));

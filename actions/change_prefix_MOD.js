@@ -18,7 +18,7 @@ module.exports = {
   html() {
     return `
 <div>
-  Change Prefix to:<br>
+  <span class="dbminputlabel">New Prefix</span>
   <textarea id="pprefix" class="round" style="width: 40%; resize: none;" type="textarea" rows="1" cols="20"></textarea><br><br>
 </div>`;
   },

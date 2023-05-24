@@ -80,7 +80,7 @@ module.exports = {
 
     <div style="margin: 15px 0;">
       <div style="float: left; width: 100%;">
-        JavaScript Filter:
+        <span class="dbminputlabel">Javascript Filter</span>
         <input id="filter" class="round" type="text" value="content.length > 0 && author.id === user.id">
       </div>
     </div>
@@ -89,11 +89,11 @@ module.exports = {
     <div>
       <div>
         <div style="float: left; width: 37%;">
-          Max Messages:<br>
+          <span class="dbminputlabel">Max Messages</span>
           <input id="max" class="round" type="text" value="1" placeholder="Optional"><br>
         </div>
         <div style="float: right; width: 58%; margin-right: 25px;">
-          Max Time (milliseconds):<br>
+          <span class="dbminputlabel">Max Time (milliseconds)</span>
           <input id="time" class="round" type="text" value="60000" placeholder="Optional"><br>
         </div>
       </div>
@@ -101,7 +101,7 @@ module.exports = {
       
       <div>
         <div style="float: left; width: 35%;">
-          On Respond:<br>
+          <span class="dbminputlabel">On Respond</span>
           <select id="iftrue" class="round" onchange="glob.onChangeTrue(this)">
             <option value="0" selected>Continue Actions</option>
             <option value="1">Stop Action Sequence</option>
@@ -119,7 +119,7 @@ module.exports = {
       
       <div>
         <div style="float: left; width: 35%;">
-          On Timeout:<br>
+          <span class="dbminputlabel">On Timeout</span>
           <select id="iffalse" class="round" onchange="glob.onChangeFalse(this)">
             <option value="0">Continue Actions</option>
             <option value="1" selected>Stop Action Sequence</option>
@@ -134,17 +134,8 @@ module.exports = {
         </div>
       </div>
       <br><br><br><br>
-      
-      <div>
-        <div style="float: left; width: 35%;">
-          Store Message/List To:<br>
-          <select id="storage2" class="round" onchange="glob.variableChange(this, 'varNameContainer2')">${data.variables[0]}</select>
-        </div>
-        <div id="varNameContainer2" style="display: block; float: right; width: 58%; margin-right: 25px;">
-          Variable Name:<br>
-          <input id="varName2" class="round" type="text">
-        </div>
-      </div>
+
+      <store-in-variable dropdownLabel="Store Message/List To" selectId="storage2" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
     </div>
   </div>
   <br><br><br>

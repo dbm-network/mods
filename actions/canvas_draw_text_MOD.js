@@ -15,16 +15,16 @@ module.exports = {
 
   fields: ['storage', 'varName', 'x', 'y', 'fontPath', 'fontColor', 'fontSize', 'align', 'text'],
 
-  html(_isEvent, data) {
+  html() {
     return `
+    <store-in-variable dropdownLabel="Source Image" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+    <br><br><br>
+
 <div style="float: left; width: 50%;">
-  Source Image:<br>
-  <select id="storage" class="round" style="width: 90%" onchange="glob.refreshVariableList(this)">
-    ${data.variables[1]}
-  </select><br>
-  Local Font URL:<br>
+  <span class="dbminputlabel">Local Font URL</span>
   <input id="fontPath" class="round" type="text" value="fonts/"><br>
-  Alignment:<br>
+
+  <span class="dbminputlabel">Alignment</span>
   <select id="align" class="round" style="width: 90%;">
     <option value="0" selected>Top Left</option>
     <option value="1">Top Center</option>
@@ -36,21 +36,22 @@ module.exports = {
     <option value="7">Bottom Center</option>
     <option value="8">Bottom Right</option>
   </select><br>
-  X Position:<br>
+  <span class="dbminputlabel">X Position</span>
   <input id="x" class="round" type="text" value="0"><br>
 </div>
+
 <div style="float: right; width: 50%;">
-  Variable Name:<br>
-  <input id="varName" class="round" type="text" list="variableList"><br>
-  Font Color (Hex):<br>
+  <span class="dbminputlabel">Font Color (Hex)</span>
   <input id="fontColor" class="round" type="text" value="FFFFFF"><br>
-  Font Size:<br>
+  <span class="dbminputlabel">Font Size</span>
   <input id="fontSize" class="round" type="text" placeholder="Default size 10px"><br>
-  Y Position:<br>
+  <span class="dbminputlabel">Y Position</span>
   <input id="y" class="round" type="text" value="0"><br>
-</div><br><br><br><br>
+</div>
+<br><br><br>
+
 <div>
-  Text:<br>
+  <span class="dbminputlabel">Text</span>
   <textarea id="text" rows="2" placeholder="Insert text here..." style="width: 95%; white-space: nowrap; resize: none;"></textarea>
 </div>`;
   },

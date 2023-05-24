@@ -34,7 +34,7 @@ module.exports = {
     'varName2',
   ],
 
-  html(isEvent, data) {
+  html() {
     return `
 <div style="padding-top: 8px;">
   <channel-input dropdownLabel="Source Channel" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></channel-input>
@@ -43,11 +43,11 @@ module.exports = {
 
 <div style="padding-top: 8px;">
   <div style="float: left; width: 50%;">
-    Category ID:<br>
+    <span class="dbminputlabel">Category ID</span>
     <input id="categoryID" class="round" type="text"><br>
   </div>
   <div style="float: right; width: 50%;">
-    Position:<br>
+    <span class="dbminputlabel">Position</span>
     <input id="position" class="round" type="text"><br>
   </div>
 </div>
@@ -55,14 +55,14 @@ module.exports = {
 
 <div>
   <div style="float: left; width: 45%;">
-    Clone Permission:<br>
+    <span class="dbminputlabel">Clone Permission</span>
     <select id="permission" class="round">
       <option value="0">False</option>
       <option value="1">True</option>
     </select><br>
   </div>
   <div style="padding-left: 5%; float: left; width: 50%;">
-    Channel Type:<br>
+    <span class="dbminputlabel">Channel Type</span>
     <select id="info" class="round" onchange="glob.channeltype(this, 'option')">
       <option value="0">Automatic (Clone Everything)</option>
       <option value="1">Text Channel</option>
@@ -74,21 +74,21 @@ module.exports = {
 
 <div id="text" style="display: none">
   <div style="float: left; width: 28%;">
-    Clone Topic:<br>
+    <span class="dbminputlabel">Clone Topic?</span>
     <select id="topic" class="round">
       <option value="0">False</option>
       <option value="1">True</option>
     </select><br>
   </div>
   <div style="padding-left: 5%; float: left; width: 33%;">
-    Clone NSFW:<br>
+    <span class="dbminputlabel">Clone NSFW?</span>
     <select id="nsfw" class="round">
       <option value="0">False</option>
       <option value="1">True</option>
     </select><br>
   </div>
   <div style="padding-left: 5%; float: left; width: 34%;">
-    Clone Slow Mode:<br>
+    <span class="dbminputlabel">Clone Slow Mode?</span>
     <select id="slowmode" class="round">
       <option value="0">False</option>
       <option value="1">True</option>
@@ -97,14 +97,14 @@ module.exports = {
 </div>
 <div id="voice" style="display: none;">
   <div style="float: left; width: 45%;">
-    Clone User Limit:<br>
+    <span class="dbminputlabel">Clone User Limit?</span>
     <select id="userLimit" class="round">
       <option value="0">False</option>
       <option value="1">True</option>
     </select><br>
   </div>
   <div style="padding-left: 5%; float: left; width: 50%;">
-    Clone Bitrate:<br>
+    <span class="dbminputlabel">Clone Bitrate?</span>
     <select id="bitrate" class="round">
       <option value="0">False</option>
       <option value="1">True</option>
@@ -113,22 +113,12 @@ module.exports = {
 </div>
 
 <div style="padding-top: 8px;">
-  <div style="float: left; width: 35%;">
-    Store In:<br>
-    <select id="storage2" class="round" onchange="glob.variableChange(this, 'varNameContainer2')">
-      ${data.variables[0]}
-    </select>
-  </div>
-  <div id="varNameContainer2" style="display: none; padding-left: 5%; float: left; width: 65%;">
-    Variable Name:<br>
-    <input id="varName2" class="round" type="text">
-  </div>
+  <store-in-variable dropdownLabel="Store In" selectId="storage2" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
 </div>`;
   },
+
   init() {
     const { glob, document } = this;
-
-    glob.variableChange(document.getElementById('storage2'), 'varNameContainer2');
 
     glob.channeltype = function channeltype(event) {
       if (event.value === '0') {

@@ -25,7 +25,7 @@ module.exports = {
   html(_isEvent, data) {
     return `
 <div style="width: 45%">
-  Command Name:<br>
+  <span class="dbminputlabel">Command Name</span>
   <input id="commandName" type="text" class="round">
 </div><br>
 <div>

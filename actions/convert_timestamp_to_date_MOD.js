@@ -27,17 +27,17 @@ module.exports = {
   You can convert <b>Unix Timestamp</b> and <b>YouTube Timestamp</b> with this mod (both were tested).</p>
 </div><br><br><br>
 <div style="float: left; width: 70%; padding-top: 8px;">
-  Timestamp to Convert:
+  <span class="dbminputlabel">Timestamp to Convert</span>
   <input id="time" class="round" type="text" placeholder="e.g. 1522672056">
 </div>
 <div style="float: left; width: 35%; padding-top: 8px;">
-  Store Result In:<br>
+  <span class="dbminputlabel">Store Result In</span>
   <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
   ${data.variables[0]}
   </select>
 </div>
 <div id="varNameContainer" style="float: right; display: none; width: 60%; padding-top: 8px;">
-  Variable Name:<br>
+  <span class="dbminputlabel">Variable Name</span>
   <input id="varName" class="round" type="text">
 </div>
 <div style="text-align: center; float: left; width: 100%; padding-top: 8px;">

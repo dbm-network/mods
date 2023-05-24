@@ -26,13 +26,13 @@ Color:<br>
 <input type="color" id="color"><br><br>
 <div>
   <div style="float: left; width: 35%;">
-    Store In:<br>
+    <span class="dbminputlabel">Store In</span>
     <select id="storage" class="round">
       ${data.variables[1]}
     </select>
   </div>
   <div id="varNameContainer" style="float: right; width: 60%;">
-    Variable Name:<br>
+    <span class="dbminputlabel">Variable Name</span>
     <input id="varName" class="round" type="text"><br>
   </div>
 </div>`;

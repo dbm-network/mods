@@ -29,23 +29,13 @@ module.exports = {
 
   fields: ['storage', 'varName', 'info', 'value'],
 
-  html(_isEvent, data) {
+  html() {
     return `
-<div>
-  <div style="float: left; width: 45%;">
-    Source Image:<br>
-    <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
-      ${data.variables[1]}
-    </select><br>
-  </div>
-  <div id="varNameContainer" style="float: right; width: 50%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList"><br>
-  </div>
-</div><br><br><br>
+    <store-in-variable dropdownLabel="Source Image" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+    <br><br><br>
 <div style="padding-top: 8px;">
   <div style="float: left; width: 45%;">
-    Filter:<br>
+    <span class="dbminputlabel">Filter</span>
     <select id="info" class="round" onchange="glob.onChange1(this)">
       <option value="0" selected>Blur</option>
       <option value="1">Hue Rotate</option>
@@ -74,9 +64,9 @@ module.exports = {
       const value = parseInt(event.value, 10);
       const valuetext = document.getElementById('valuetext');
       if (value === 1) {
-        valuetext.innerHTML = 'Value (Degree):';
+        valuetext.innerHTML = '<span class="dbminputlabel">Value (Degree)</span>';
       } else {
-        valuetext.innerHTML = 'Value (Percent):';
+        valuetext.innerHTML = '<span class="dbminputlabel">Value (Percent)</span>';
       }
     };
 
@@ -90,10 +80,8 @@ module.exports = {
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);
     const imagedata = this.getVariable(storage, varName, cache);
-    if (!imagedata) {
-      this.callNextAction(cache);
-      return;
-    }
+    if (!imagedata) return this.callNextAction(cache);
+
     const image = new Canvas.Image();
     image.src = imagedata;
     const info = parseInt(data.info, 10);
