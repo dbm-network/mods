@@ -23,9 +23,6 @@ module.exports = {
     const { onReady } = Bot;
     Bot.onReady = function onTrackStartOnReady(...params) {
       Bot.bot.player = new Player(Bot.bot, {
-        ytdlDownloadOptions: {
-          filter: 'audioonly',
-        },
         autoSelfDeaf: true,
         leaveOnEnd: false,
       });

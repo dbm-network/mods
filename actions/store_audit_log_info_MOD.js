@@ -64,23 +64,16 @@ module.exports = {
 
   fields: ['storage', 'varName', 'info', 'position', 'storage2', 'varName2'],
 
-  html(_isEvent, data) {
+  html() {
     return `
 <div>
-  <div style="float: left; width: 35%;">
-    Audit Log Entry:<br>
-    <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
-      ${data.variables[1]}
-    </select><br>
-  </div>
-  <div style="float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList"><br>
-  </div>
-</div><br><br><br>
+  <store-in-variable dropdownLabel="Audit Log Entry" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+</div>
+<br><br><br>
+
 <div>
   <div style="float: left; width: 94%;">
-    Source Info:<br>
+    <span class="dbminputlabel">Source Info</span><br>
     <select id="info" class="round" onchange="glob.onChange0(this)">
     <option value="0" selected>Audit Log Id</option>
     <option value="1">Action</option>
@@ -97,24 +90,17 @@ module.exports = {
     <option value="12">Extra Data</option>
     </select><br>
   </div>
-</div><br><br><br>
+</div>
+<br><br><br>
+
 <div>
   <div id="keyholder" style="float: left; width: 104%; display: none;">
-    Position of Key:<br>
+    <span class="dbminputlabel">Position of Key</span><br>
     <input id="position" class="round" type="text" placeholder="Position start from 0"><br>
   </div>
 </div>
 <div style="padding-top: 8px;">
-  <div style="float: left; width: 35%;">
-    Store In:<br>
-    <select id="storage2" class="round">
-      ${data.variables[1]}
-    </select>
-  </div>
-  <div style="float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName2" class="round" type="text">
-  </div>
+  <store-in-variable dropdownLabel="Store In" selectId="storage2" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
 </div>`;
   },
 
@@ -232,5 +218,6 @@ module.exports = {
     if (result && result !== undefined) this.storeValue(result, storage2, varName2, cache);
     this.callNextAction(cache);
   },
+
   mod() {},
 };

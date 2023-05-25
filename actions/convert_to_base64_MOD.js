@@ -20,31 +20,25 @@ module.exports = {
 
   fields: ['input', 'info', 'storage', 'varName'],
 
-  html(isEvent, data) {
+  html() {
     return `
-<div style="width: 90%;">
-  <span class="dbminputlabel">Text or Morse Code</span>
-  <input id="input" class="round" type="text">
-</div><br>
-<div style="padding-top: 8px; width: 60%;">
-  <span class="dbminputlabel">Options</span>
-  <select id="info" class="round">
-    <option value="0" selected>Encode</option>
-    <option value="1">Decode</option>
-  </select>
-</div><br>
+    <div style="float: left; width: 100%">
+      <div style="float: left; width: 50%;">
+        <span class="dbminputlabel">Options</span>
+        <select id="info" class="round">
+          <option value="0" selected>Encode</option>
+          <option value="1">Decode</option>
+        </select>
+      </div>
+      <div style="float: right; width: 50%; padding-left: 10px;">
+        <span class="dbminputlabel">Text or Morse Code</span>
+        <input id="input" class="round" type="text"">
+      </div>
+    </div>
+    <br><br><br>
+
 <div style="padding-top: 8px;">
-  <div style="float: left; width: 35%;">
-    Store In:<br>
-    <span class="dbminputlabel">Store In</span>
-    <select id="storage" class="round">
-      ${data.variables[1]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text">
-  </div>
+  <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
 </div>`;
   },
 

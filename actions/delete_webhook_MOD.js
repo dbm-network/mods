@@ -16,24 +16,11 @@ module.exports = {
 
   fields: ['webhook', 'varName'],
 
-  html(_isEvent, data) {
-    return `
-<div style="float: left; width: 35%;">
-  Source Webhook:<br>
-  <select id="webhook" class="round" onchange="glob.refreshVariableList(this)">
-    ${data.variables[1]}
-  </select>
-</div>
-<div id="varNameContainer" style="float: right; width: 60%;">
-  Variable Name:<br>
-  <input id="varName" class="round" type="text" list="variableList"><br>
-</div>`;
+  html() {
+    return `<store-in-variable dropdownLabel="Source Webhook" selectId="webhook" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>`;
   },
 
-  init() {
-    const { glob, document } = this;
-    glob.refreshVariableList(document.getElementById('webhook'));
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];

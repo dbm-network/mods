@@ -1,5 +1,6 @@
 module.exports = {
   name: 'Set slowmode MOD',
+  displayName: 'Set slowmode',
   section: 'Channel Control',
   meta: {
     version: '2.1.7',

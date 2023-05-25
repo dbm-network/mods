@@ -1,5 +1,6 @@
 module.exports = {
   name: 'Clone Channel MOD',
+  displayName: 'Clone Channel',
   section: 'Channel Control',
   meta: {
     version: '2.1.7',
@@ -46,7 +47,7 @@ module.exports = {
     <span class="dbminputlabel">Category ID</span>
     <input id="categoryID" class="round" type="text"><br>
   </div>
-  <div style="float: right; width: 50%;">
+  <div style="float: right; width: 50%; padding-left: 1%;">
     <span class="dbminputlabel">Position</span>
     <input id="position" class="round" type="text"><br>
   </div>
@@ -54,14 +55,14 @@ module.exports = {
 <br><br><br>
 
 <div>
-  <div style="float: left; width: 45%;">
+  <div style="float: left; width: 50%;">
     <span class="dbminputlabel">Clone Permission</span>
     <select id="permission" class="round">
       <option value="0">False</option>
       <option value="1">True</option>
     </select><br>
   </div>
-  <div style="padding-left: 5%; float: left; width: 50%;">
+  <div style="float: right; width: 50%; padding-left: 1%; ">
     <span class="dbminputlabel">Channel Type</span>
     <select id="info" class="round" onchange="glob.channeltype(this, 'option')">
       <option value="0">Automatic (Clone Everything)</option>

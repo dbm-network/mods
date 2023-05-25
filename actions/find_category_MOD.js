@@ -21,36 +21,30 @@ module.exports = {
 
   fields: ['info', 'find', 'storage', 'varName'],
 
-  html(isEvent, data) {
+  html() {
     return `
 <div>
   <div style="float: left; width: 40%;">
-    Source Field:<br>
+    <span class="dbminputlabel">Source Field</span>
     <select id="info" class="round">
       <option value="0" selected>Category ID</option>
       <option value="1">Category Name</option>
     </select>
   </div>
   <div style="float: right; width: 55%;">
-    Search Value:<br>
+    <span class="dbminputlabel">Source Value</span>
     <input id="find" class="round" type="text">
   </div>
-</div><br><br><br>
+</div>
+<br><br><br>
+
 <div style="padding-top: 8px;">
-  <div style="float: left; width: 35%;">
-    Store In:<br>
-    <select id="storage" class="round">
-      ${data.variables[1]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text">
-  </div>
-</div><br><br><br>
+  <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+</div>
+<br><br><br>
+
 <p>You can store and edit a category using the channel actions "Store Channel Info", "Edit Channel" or "Set Channel Permission".</p>
 
-<!-- Don't forget to copy the style below with the html above!-->
 <style>
   /* Embed CSS code */
   .embed {

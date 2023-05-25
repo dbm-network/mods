@@ -20,41 +20,31 @@ module.exports = {
 
   fields: ['webhookName', 'webhookIcon', 'storage', 'varName', 'storage2', 'varName2'],
 
-  html(_isEvent, data) {
+  html() {
     return `
 <div style="width: 90%;">
-  Webhook Name:<br>
+  <span class="dbminputlabel">Webhook Name</span>
   <input id="webhookName" class="round" type="text">
 </div>
 <br>
 
 <div style="width: 90%;">
-  Webhook Icon URL:<br>
+  <span class="dbminputlabel">Webhook Icon URL</span>
   <input id="webhookIcon" class="round" type="text">
 </div>
 <br>
 
-<channel-input dropdownLabel="Source Channel" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></channel-input>
+<div>
+  <channel-input dropdownLabel="Source Channel" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></channel-input>
+</div>
 <br><br><br>
 
 <div style="padding-top: 8px;">
-  <div style="float: left; width: 35%;">
-    Store In:<br>
-    <select id="storage2" class="round" onchange="glob.variableChange(this, 'varNameContainer2')">
-      ${data.variables[0]}
-    </select>
-  </div>
-  <div id="varNameContainer2" style="display: none; float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName2" class="round" type="text">
-  </div>
+  <store-in-variable dropdownLabel="Store In" selectId="storage2" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
 </div>`;
   },
 
-  init() {
-    const { glob, document } = this;
-    glob.variableChange(document.getElementById('storage2'), 'varNameContainer2');
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];

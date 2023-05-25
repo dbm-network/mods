@@ -20,38 +20,25 @@ module.exports = {
 
   fields: ['message', 'varName', 'storage', 'varName2'],
 
-  html(isEvent, data) {
+  html() {
     return `
 <div>
  <message-input dropdownLabel="Source Message" selectId="message" variableContainerId="varNameContainer" variableInputId="varName"></message-input>
-</div><br><br><br>
+</div>
+<br><br><br>
+
 <div>
- <div style="float: left; width: 35%;">
-  Store In:<br>
-  <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer2')">
-   ${data.variables[0]}
-  </select>
- </div>
- <div id="varNameContainer2" style="float: right; width: 60%;">
-  Variable Name:<br>
-  <input id="varName2" class="round" type="text"><br>
- </div>
+  <store-in-variable dropdownLabel="Store In" selectId="storage2" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
 </div>`;
   },
 
-  init() {
-    const { glob, document } = this;
-
-    glob.sendTargetChange(document.getElementById('message'), 'varNameContainer');
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer2');
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];
     const message = await this.getMessageFromData(data.mssage, data.varName, cache);
 
     if (!message) return this.callNextAction(cache);
-    if (!message.crosspost) throw new Error('You need at least Discord.js version 12.4.0 to use this mod.');
 
     message
       .crosspost()

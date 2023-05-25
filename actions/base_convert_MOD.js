@@ -37,7 +37,8 @@ module.exports = {
     <span class="dbminputlabel">Base To (2-36)</span>
     <input id="baset" class="round" type="number" min="2" max="36">
   </div>
-</div><br><br><br>
+</div>
+<br><br><br>
 
 <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
 `;

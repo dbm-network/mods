@@ -13,36 +13,27 @@ module.exports = {
   },
   fields: ['webhookName', 'webhookIcon', 'webhook', 'varName'],
 
-  html(_isEvent, data) {
+  html() {
     return `
-      <div style="float: left; width: 35%;">
-      Source Webhook:<br>
-      <select id="webhook" class="round" onchange="glob.refreshVariableList(this)">
-        ${data.variables[1]}
-      </select>
-    </div>
-    <div id="varNameContainer" style="float: right; width: 60%;">
-      Variable Name:<br>
-      <input id="varName" class="round" type="text" list="variableList"><br>
-    </div>
-  </div><br><br><br>
-  <div style="width: 90%;">
-    Webhook Name:<br>
-    <input id="webhookName" class="round" type="text">
-  </div><br>
-  <div style="width: 90%;">
+  <div>
+    <store-in-variable dropdownLabel="Source Webhook" selectId="webhook" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+  </div>
+  <br><br><br>
 
-    Webhook Icon URL:<br>
+  <div style="width: 90%;">
+    <span class="dbminputlabel">Webhook Name</span>
+    <input id="webhookName" class="round" type="text">
+  </div>
+  <br>
+  
+  <div style="width: 90%;">
+    <span class="dbminputlabel">Webhook Icon URL</span>
     <input id="webhookIcon" class="round" type="text">
   </div><br>
-  <div>
-  </div>`;
+  `;
   },
 
-  init() {
-    const { glob, document } = this;
-    glob.channelChange(document.getElementById('webhook'));
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];

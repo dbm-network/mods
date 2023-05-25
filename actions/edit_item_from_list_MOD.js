@@ -16,27 +16,20 @@ module.exports = {
 
   fields: ['storage', 'varName', 'position', 'value'],
 
-  html(_isEvent, data) {
+  html() {
     return `
 <div>
-  <div style="float: left; width: 35%;">
-    Source List:<br>
-    <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
-      ${data.variables[1]}
-    </select><br>
-  </div>
-  <div id="varNameContainer" style="float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round varSearcher" type="text" list="variableList"><br>
-  </div>
-</div><br><br><br>
+  <store-in-variable dropdownLabel="Source List" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+</div>
+<br><br><br>
+
 <div>
   <div style="float: left; width: 39%;">
-    Position:<br>
+    <span class="dbminputlabel">Position</span>
     <input id="position" class="round" type="text"><br>
   </div>
   <div style="padding-left: 8px; float: left; width: 61%;">
-    Value:<br>
+    <span class="dbminputlabel">Value</span>
     <input id="value" class="round" type="text">
   </div>
 </div>`;

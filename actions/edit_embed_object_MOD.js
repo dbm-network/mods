@@ -54,24 +54,17 @@ module.exports = {
     'fieldInline',
   ],
 
-  html(_isEvent, data) {
+  html() {
     return `
-<div style="width: 550px; height: 350px; overflow-y: scroll;">
+<div style="width: 550px; height: 350px; overflow-y: scroll; padding-top: 8px;">
+  <div>
+    <store-in-variable dropdownLabel="Source Embed Object" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+  </div>
+  <br><br><br>
+  
   <div style="padding-top: 8px;">
     <div style="float: left; width: 35%;">
-      Source Embed Object:<br>
-      <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
-        ${data.variables[1]}
-      </select>
-    </div>
-    <div style="float: right; width: 60%;">
-      Variable Name:<br>
-      <input id="varName" placeholder="Embed Object" class="round" type="text" list="variableList" oninput="glob.onChange13(this)">
-    </div>
-  </div><br><br><br>
-  <div style="padding-top: 8px;">
-    <div style="float: left; width: 35%;">
-      Edit Title:<br>
+      <span class="dbminputlabel">Embed Title</span>
       <select id="Edit0" class="round" onchange="glob.onChange0(this)">
         <option value="0" selected>Keep Content</option>
         <option value="1">Edit Content</option>
@@ -79,13 +72,15 @@ module.exports = {
       </select>
     </div>
     <div id="Input0" style="display: none; float: right; width: 60%;">
-      Title:<br>
+      <span class="dbminputlabel">Title</span>
       <input id="title" class="round" type="text">
     </div>
-  </div><br><br><br>
+  </div>
+  <br><br><br>
+  
   <div style="padding-top: 8px;">
     <div style="float: left; width: 35%;">
-      Edit URL:<br>
+      <span class="dbminputlabel">Edit URL</span>
       <select id="Edit1" class="round" onchange="glob.onChange1(this)">
         <option value=0 selected>Keep Content</option>
         <option value=1>Edit Content</option>
@@ -93,13 +88,15 @@ module.exports = {
       </select>
     </div>
     <div id="Input1" style="display: none; float: right; width: 60%;">
-      URL:<br>
+      <span class="dbminputlabel">URL</span>
       <input id="url" class="round" type="text">
     </div>
-  </div><br><br><br>
+  </div>
+  <br><br><br>
+  
   <div style="padding-top: 8px;">
     <div style="float: left; width: 35%;">
-      Edit Description:<br>
+      <span class="dbminputlabel">Edit Description</span>
       <select id="Edit2" class="round" onchange="glob.onChange2(this)">
         <option value=0 selected>Keep Content</option>
         <option value=1>Edit Content</option>
@@ -107,13 +104,15 @@ module.exports = {
       </select>
     </div>
     <div id="Input2" style="display: none; float: right; width: 60%;">
-      Description:<br>
+      <span class="dbminputlabel">Description</span>
       <input id="description" class="round" type="text">
     </div>
-  </div><br><br><br>
+  </div>
+  <br><br><br>
+  
   <div style="padding-top: 8px;">
     <div style="float: left; width: 35%;">
-      Edit Color:<br>
+      <span class="dbminputlabel">Edit Color</span>
       <select id="Edit3" class="round" onchange="glob.onChange3(this)">
         <option value=0 selected>Keep Content</option>
         <option value=1>Edit Content</option>
@@ -121,13 +120,15 @@ module.exports = {
       </select>
     </div>
     <div id="Input3" style="display: none; float: right; width: 60%;">
-      Color:<br>
+      <span class="dbminputlabel">Color</span>
       <input id="color" class="round" type="text">
     </div>
-  </div><br><br><br>
+  </div>
+  <br><br><br>
+  
   <div style="padding-top: 8px;">
     <div style="float: left; width: 35%;">
-      Edit Image URL:<br>
+      <span class="dbminputlabel">Edit Image URL</span>
       <select id="Edit4" class="round" onchange="glob.onChange4(this)">
         <option value=0 selected>Keep Content</option>
         <option value=1>Edit Content</option>
@@ -139,16 +140,19 @@ module.exports = {
       <div id="Input4placeholder">Image URL:</div>
       <input id="imageUrl" class="round" type="text">
     </div>
-  </div><br><br><br>
+  </div>
+  <br><br><br>
+  
   <div id="Input4a" style="display: none; padding-top: 8px;">
-  <div style="float: left; width: 105%;">
-      Name With Extension:<br>
+    <div style="float: left; width: 105%;">
+      <span class="dbminputlabel">Name With Extension</span>
       <input id="imageUrl2" class="round" type="text" placeholder="name.extension">
-    </div><br><br><br>
+    </div>
+    <br><br><br>
   </div>
   <div style="padding-top: 8px;">
     <div style="float: left; width: 35%;">
-      Edit Thumbnail URL:<br>
+      <span class="dbminputlabel">Edit Thumbnail URL</span>
       <select id="Edit5" class="round" onchange="glob.onChange5(this)">
         <option value=0 selected>Keep Content</option>
         <option value=1>Edit Content</option>
@@ -160,16 +164,18 @@ module.exports = {
       <div id="Input5placeholder">Thumbnail URL:</div>
       <input id="thumbUrl" class="round" type="text">
     </div>
-  </div><br><br><br>
+  </div>
+  <br><br><br>
+  
   <div id="Input5a" style="display: none; padding-top: 8px;">
-    <div style="float: left; width: 105%;">
-      Name With Extension:<br>
+    <div style="float: left; width: 100%;">
+      <span class="dbminputlabel">Name With Extension</span>
       <input id="thumbUrl2" class="round" type="text" placeholder="name.extension">
     </div><br><br><br>
   </div>
   <div style="padding-top: 8px;">
     <div style="float: left; width: 35%;">
-      Edit Author Name:<br>
+      <span class="dbminputlabel">Edit Author Name</span>
       <select id="Edit6" class="round" onchange="glob.onChange6(this)">
         <option value=0 selected>Keep Content</option>
         <option value=1>Edit Content</option>
@@ -177,13 +183,15 @@ module.exports = {
       </select>
     </div>
     <div id="Input6" style="display: none; float: right; width: 60%;">
-      Author Name:<br>
+      <span class="dbminputlabel">Author Name</span>
       <input id="author" class="round" type="text">
     </div>
-  </div><br><br><br>
+  </div>
+  <br><br><br>
+  
   <div style="padding-top: 8px;">
     <div style="float: left; width: 35%;">
-      Edit Author URL:<br>
+      <span class="dbminputlabel">Edit Author URL</span>
       <select id="Edit7" class="round" onchange="glob.onChange7(this)">
         <option value=0 selected>Keep Content</option>
         <option value=1>Edit Content</option>
@@ -191,13 +199,13 @@ module.exports = {
       </select>
     </div>
     <div id="Input7" style="display: none; float: right; width: 60%;">
-      Author URL:<br>
+      <span class="dbminputlabel">Author URL</span>
       <input id="authorUrl" class="round" type="text">
     </div>
   </div><br><br><br>
   <div style="padding-top: 8px;">
     <div style="float: left; width: 35%;">
-      Edit Author Icon URL:<br>
+      <span class="dbminputlabel">Edit Author Icon URL</span>
       <select id="Edit8" class="round" onchange="glob.onChange8(this)">
         <option value=0 selected>Keep Content</option>
         <option value=1>Edit Content</option>
@@ -205,13 +213,15 @@ module.exports = {
       </select>
     </div>
     <div id="Input8" style="display: none; float: right; width: 60%;">
-      Author Icon URL:<br>
+      <span class="dbminputlabel">Author Icon URL</span>
       <input id="authorIcon" class="round" type="text">
     </div>
-  </div><br><br><br>
+  </div>
+  <br><br><br>
+  
   <div style="padding-top: 8px;">
     <div style="float: left; width: 35%;">
-      Edit Footer:<br>
+      <span class="dbminputlabel">Edit Footer</span>
       <select id="Edit9" class="round" onchange="glob.onChange9(this)">
         <option value=0 selected>Keep Content</option>
         <option value=1>Edit Content</option>
@@ -219,13 +229,15 @@ module.exports = {
       </select>
     </div>
     <div id="Input9" style="display: none; float: right; width: 60%;">
-      Footer:<br>
+      <span class="dbminputlabel">Footer</span>
       <input id="footer" class="round" type="text">
     </div>
-  </div><br><br><br>
+  </div>
+  <br><br><br>
+  
   <div style="padding-top: 8px;">
     <div style="float: left; width: 35%;">
-      Edit Footer Icon URL:<br>
+      <span class="dbminputlabel">Edit Footer Icon URL</span>
       <select id="Edit10" class="round" onchange="glob.onChange10(this)">
         <option value=0 selected>Keep Content</option>
         <option value=1>Edit Content</option>
@@ -233,13 +245,15 @@ module.exports = {
       </select>
     </div>
     <div id="Input10" style="display: none; float: right; width: 60%;">
-      Footer Icon URL:<br>
+      <span class="dbminputlabel">Footer Icon URL</span>
       <input id="footerIcon" class="round" type="text">
     </div>
-  </div><br><br><br>
+  </div>
+  <br><br><br>
+  
   <div style="padding-top: 8px;">
     <div style="float: left; width: 35%;">
-      Edit Timestamp:<br>
+      <span class="dbminputlabel">Edit Timestamp</span>
       <select id="Edit11" class="round" onchange="glob.onChange11(this)">
         <option value=0 selected>Keep Content</option>
         <option value=1>Edit to Current Timestamp</option>
@@ -248,13 +262,15 @@ module.exports = {
       </select>
     </div>
     <div id="Input11" style="display: none; float: right; width: 60%;">
-      URL Timestamp:<br>
+      <span class="dbminputlabel">URL Timestamp</span>
       <input id="timestamp" class="round" type="text">
     </div>
-  </div><br><br><br>
+  </div>
+  <br><br><br>
+  
   <div style="padding-top: 8px;">
     <div style="float: left; width: 35%;">
-      Edit Edit Field:<br>
+      <span class="dbminputlabel">Edit Field</span>
       <select id="Edit12" class="round" onchange="glob.onChange12(this)">
         <option value=0 selected>Keep Content</option>
         <option value=1>Edit Content</option>
@@ -264,21 +280,23 @@ module.exports = {
       </select><br>
     </div>
     <div id="Input12" style="display: none; float: right; width: 60%;">
-      Field Number:<br>
+      <span class="dbminputlabel">Field Number</span>
       <input id="fieldNum" class="round" type="text"><br>
     </div>
-  </div><br><br><br>
+  </div>
+  <br><br><br>
+  
   <div id="Input13" style="display: none;">
     <div style="float: left; width: 32%;">
-      Edit Field Name:<br>
+      <span class="dbminputlabel">Edit Field Name</span>
       <input id="fieldName" class="round" type="text"><br>
     </div>
     <div style="padding-left: 3%; float: left; width: 32%;">
-      Edit Field Value:<br>
+      <span class="dbminputlabel">Edit Field Value</span>
       <input id="fieldDescription" class="round" type="text"><br>
     </div>
     <div style="padding-left: 3%; float: left; width: 32%;">
-      Edit Field Inline:<br>
+      <span class="dbminputlabel">Edit Field Inline</span>
       <select id="fieldInline" class="round">
         <option value=0 selected>Keep Inline</option>
         <option value=1>Yes</option>
@@ -763,7 +781,5 @@ module.exports = {
     this.callNextAction(cache);
   },
 
-  mod(DBM) {
-    DBM.Actions['Edit Embed Object MOD'] = DBM.Actions['Edit Embed Object'];
-  },
+  mod() {},
 };

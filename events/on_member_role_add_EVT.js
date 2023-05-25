@@ -1,5 +1,5 @@
 module.exports = {
-  name: 'Member Role Added MOD',
+  name: 'Member Role Added',
   displayName: 'Member Role Added',
   isEvent: true,
 
@@ -10,14 +10,14 @@ module.exports = {
     const { Bot, Actions } = DBM;
 
     DBM.Events.roleAdded = async function roleAdded(oldMember, newMember) {
-      if (!Bot.$evts['Member Role Added MOD']) return;
+      if (!Bot.$evts['Member Role Added']) return;
       if (newMember.roles.cache.size <= oldMember.roles.cache.size) return;
       const server = newMember.guild;
 
       const oldRoles = oldMember.roles.cache;
       const newRoles = newMember.roles.cache;
       const difference = newRoles.filter((role) => !oldRoles.has(role.id)).first();
-      for (const event of Bot.$evts['Member Role Added MOD']) {
+      for (const event of Bot.$evts['Member Role Added']) {
         const temp = {};
 
         if (event.temp) temp[event.temp] = difference;

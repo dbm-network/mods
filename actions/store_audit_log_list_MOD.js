@@ -1,5 +1,6 @@
 module.exports = {
   name: 'Store Audit Log List MOD',
+  displayName: 'Store Audit Log List',
   section: 'Server Control',
   meta: {
     version: '2.1.7',

@@ -1,5 +1,6 @@
 module.exports = {
   name: 'Remove from Queue MOD',
+  displayName: 'Remove from Queue',
   section: 'Audio Control',
   meta: {
     version: '2.1.7',

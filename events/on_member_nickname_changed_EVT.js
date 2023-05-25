@@ -1,5 +1,5 @@
 module.exports = {
-  name: 'Member Nickname Changed MOD',
+  name: 'Member Nickname Changed',
   displayName: 'Member Nickname Changed',
   isEvent: true,
 
@@ -10,10 +10,10 @@ module.exports = {
     const { Bot, Actions } = DBM;
 
     DBM.Events.nicknameChanged = async function nicknameChanged(oldMember, newMember) {
-      if (!Bot.$evts['Member Nickname Changed MOD']) return;
+      if (!Bot.$evts['Member Nickname Changed']) return;
       if (newMember.nickname === oldMember.nickname) return;
       const server = newMember.guild;
-      for (const event of Bot.$evts['Member Nickname Changed MOD']) {
+      for (const event of Bot.$evts['Member Nickname Changed']) {
         const temp = {};
         if (event.temp) temp[event.temp] = newMember.nickname;
         if (event.temp2) temp[event.temp2] = newMember;

@@ -21,23 +21,16 @@ module.exports = {
 
   fields: ['storage', 'varName', 'type', 'value', 'value2', 'storage2', 'varName2'],
 
-  html(_isEvent, data) {
+  html() {
     return `
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
-  <div>
-    <div style="float: left; width: 35%;">
-      Source Variable:<br>
-      <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
-        ${data.variables[1]}
-      </select>
-    </div>
-    <div id="varNameContainer" style="float: right; width: 60%;">
-      Variable Name:<br>
-      <input id="varName" class="round" type="text" list="variableList">
-    </div>
-  </div><br><br><br>
+  <div style="padding-top: 8px;">
+    <store-in-variable dropdownLabel="Source Variable" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+  </div>
+  <br><br><br>
+  
   <div style="float: left; width: 30%; padding-top: 8px;">
-    Filter Type:<br>
+    <span class="dbminputlabel">Filter Type</span>
     <select id="type" class="round" onchange="glob.onChange1(this)">
       <option value="0" selected>Exists</option>
       <option value="1">Equals</option>
@@ -54,30 +47,29 @@ module.exports = {
       <option value="12">Ends With</option>
     </select>
   </div>
+
   <div id="valueDiv2" style="float: left; width: 30.5%; padding-top: 8px; padding-left: 16px;">
-    Value to Filter from:<br>
+    <span class="dbminputlabel">Value to filter from</span>
     <input id="value2" class="round" type="text" placeholder="Optional">
   </div>
   <div id="valueDiv" style="float: left; width: 37%; padding-top: 8px; display: none;">
-    Value to Filter to:<br>
+    <span class="dbminputlabel">Value to filter to</span>
     <input id="value" class="round" type="text" placeholder="">
-  </div><br><br><br>
-  <div style="float: left; width: 35%; padding-top: 8px;">
-    Store In:<br>
-    <select id="storage2" class="round">
-      ${data.variables[1]}
-    </select>
   </div>
-  <div id="varNameContainer2" style="float: right; width: 60%; padding-top: 8px;">
-    Variable Name:<br>
-    <input id="varName2" class="round" type="text"><br>
-  </div><br><br><br>
+  <br><br><br><br>
+
+  <div>
+    <store-in-variable dropdownLabel="Store In" selectId="storage2" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
+  </div>
+  <br><br><br>
+  
   <div style="float: left; width: 100%; padding-top: 16px;">
     <p>
       You can find some useful values to filter from in the <span class="wrexlink" data-url="https://discord.js.org/#/docs/">Discord.js Documentation</span>.
     </p>
   </div>
 </div>
+
 <style>
   span.wrexlink {
     color: #99b3ff;

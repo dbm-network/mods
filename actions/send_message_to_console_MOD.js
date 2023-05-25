@@ -21,11 +21,13 @@ module.exports = {
   html() {
     return `
 <div>
-  Color:<br>
+  <span class="dbminputlabel">Color</span>
   <input type="color" id="color" value="#f2f2f2">
-</div><br>
+</div>
+<br>
+
 <div style="padding-top: 8px;">
-  Message to send:<br>
+  <span class="dbminputlabel">Message To Send</span>
   <textarea id="tosend" rows="4" style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
 </div>`;
   },
@@ -42,7 +44,5 @@ module.exports = {
     this.callNextAction(cache);
   },
 
-  mod(DBM) {
-    DBM.Actions['Send Message to Console (Logs)'] = DBM.Actions['Send Message to Console'];
-  },
+  mod() {},
 };

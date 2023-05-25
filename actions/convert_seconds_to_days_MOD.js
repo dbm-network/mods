@@ -20,28 +20,21 @@ module.exports = {
 
   fields: ['time', 'storage', 'varName'],
 
-  html(_isEvent, data) {
+  html() {
     return `
 <div style="float: left; width: 70%; padding-top: 8px;">
   <span class="dbminputlabel">Seconds to Convert</span>
   <input id="time" class="round" type="text" placeholder="e.g. 1522672056 or use Variables">
 </div>
-<div style="float: left; width: 35%; padding-top: 8px;">
-  <span class="dbminputlabel">Store Result In</span>
-  <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-  ${data.variables[0]}
-  </select>
+<br><br><br><br>
+
+<div>
+  <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
 </div>
-<div id="varNameContainer" style="float: right; display: none; width: 60%; padding-top: 8px;">
-  <span class="dbminputlabel">Variable Name</span>
-  <input id="varName" class="round" type="text">
-</div><br><br>`;
+`;
   },
 
-  init() {
-    const { glob, document } = this;
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];

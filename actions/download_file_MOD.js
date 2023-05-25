@@ -18,23 +18,29 @@ module.exports = {
   html() {
     return `
 <div style="float: left;">
-  Web URL:<br>
+  <span class="dbminputlabel">Web URL</span>
   <input id="url" class="round" type="text" style="width: 522px"><br>
-</div><br><br><br>
+</div>
+<br><br><br>
+
 <div style="float: left;">
-  <div style="float: left; width: 60%;">
-  File Name:<br>
-  <input id="fileName" class="round" type="text" style="width: 400px"><br>
+  <div style="float: left; width: 55%;">
+    <span class="dbminputlabel">File Name</span>
+    <input id="fileName" class="round" type="text" style="width: 400px"><br>
   </div>
-  <div style="float: left; width: 35%; padding-left: 100px;">
-  File Format:<br>
-  <input id="fileFormat" class="round" type="text" style="width: 100px"><br>
+  <div style="float: right; width: 40%; padding-left: 100px;">
+    <span class="dbminputlabel">File Format</span>
+    <input id="fileFormat" class="round" type="text" style="width: 100px"><br>
   </div>
-</div><br><br><br><br>
+</div>
+<br><br><br><br>
+
 <div style="float: left;">
-  File Path:<br>
+  <span class="dbminputlabel">File Path</span>
   <input id="filePath" class="round" type="text" style="width: 522px" value="./downloads"><br>
-</div><br><br><br><br>
+</div>
+<br><br><br><br>
+
 <p>
   <u><b><span style="color: white;">NOTE:</span></b></u><br>
   In File Path, "./" represents the path to your bot folder<br>

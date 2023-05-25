@@ -1,5 +1,6 @@
 module.exports = {
   name: 'Variable Pattern MOD',
+  displayName: 'Variable Pattern',
   section: 'Variable Things',
   meta: {
     version: '2.1.7',

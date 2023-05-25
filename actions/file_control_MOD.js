@@ -129,7 +129,7 @@ module.exports = {
       <div style="padding: 5px 10px 5px 5px">
         <div style="display: flex; flex-direction: row;">
           <div class="col-20l" style="display: flex; flex-direction: column; flex: 2; padding-right: 1%;">
-            Format:<br>
+            <span class="dbminputlabel">Format</span>
             <select id="format" class="round">
               <option value="" selected>OTHER</option>
               <option value=".log">LOG</option>
@@ -139,7 +139,7 @@ module.exports = {
             </select>
           </div>
           <div class="col-17l" style="display: flex; flex-direction: column; flex: 2; padding-right: 1%;">
-            Task:<br>
+            <span class="dbminputlabel">Task</span>
             <select id="filetask" title="99% of the time, you want append" class="round">
               <option value="0" title="Only makes the file">Create</option>
               <option value="1" title="Overwrites the files contents with yours">Write</option>
@@ -150,20 +150,20 @@ module.exports = {
             </select>
           </div>
           <div style="display: flex; flex-direction: column; flex: 8;">
-            File Name:<br>
+            <span class="dbminputlabel">File Name</span>
             <textarea id="filename" title="If 'Other' add the file .format to the end of the file name" placeholder="Example file name 'myreallycoollog'" class="round" type="textarea" rows="1"></textarea>
           </div>
         </div>
       </div>
       <div style="padding: 5px 10px 5px 5px">
         <div style="float: left; width: 100%;">
-          File Path:<br>
+          <span class="dbminputlabel">File Path</span>
           <textarea class="round col-100" id="filepath" title="./ represents the bots root directory. Use instead of an absolute path > C:/path/to/bot/" placeholder="Example Path = ./logs/date/example-date/" class="round" type="textarea" rows="3"></textarea><br>
         </div>
       </div>
       <div id="newPath" style="padding: 5px 10px 5px 5px">
         <div style="float: left; width: 100%;">
-          New File Path:<br>
+          <span class="dbminputlabel">New File Path</span>
           <textarea class="round col-100" id="filepath2" placeholder="Example Path = ./logs/date/example-date/" class="round" type="textarea" rows="3"></textarea><br>
         </div>
       </div>
@@ -174,7 +174,7 @@ module.exports = {
       </div>
       <div style="padding: 5px 10px 5px 5px">
         <div id="inputArea" class="" style="float: left; width: 100%;">
-          Input Text:<br>
+          <span class="dbminputlabel">Input Text</span>
           <textarea id="input" placeholder="Leave Blank For None." class="round" type="textarea" rows="10"></textarea><br><br><br><br><br><br><br><br><br><br><br>
         </div>
         <div style="padding: 5px 10px 5px 5px;display: none;" id='visibot'>
@@ -184,8 +184,10 @@ module.exports = {
           </label>
           <span>Toggle this if your data contains Objects (Json, array, etc...)</span>
         </div>
+        <br><br>
+        
         <div id="lineInsert" class="" style="float: left; width: 65%;">
-          Line to Insert at:<br>
+          <span class="dbminputlabel">Line to Insert at</span>
           <input id="input2" placeholder="1 Adds content at the first line." class="round"></input>
         </div>
       </div>
