@@ -33,7 +33,7 @@ module.exports = {
     return `
 <div>
   <div style="padding-top: 8px; width: 70%;">
-    Time Info:<br>
+    <span class="dbminputlabel">Time Info</span>
     <select id="type" class="round">
       <option value="0" selected>UTC Year</option>
       <option value="1">UTC Month</option>
@@ -47,13 +47,13 @@ module.exports = {
 </div><br>
 <div>
   <div style="float: left; width: 35%;">
-    Store In:<br>
+    <span class="dbminputlabel">Store In</span>
     <select id="storage" class="round">
       ${data.variables[1]}
     </select>
   </div>
   <div id="varNameContainer" style="float: right; width: 60%;">
-    Variable Name:<br>
+    <span class="dbminputlabel">Variable Name</span>
     <input id="varName" class="round" type="text"><br>
   </div>
 </div>`;

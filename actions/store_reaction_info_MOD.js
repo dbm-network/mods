@@ -65,21 +65,19 @@ module.exports = {
 
   html(isEvent, data) {
     return `
-<div>
   <div style="float: left; width: 35%;">
-    Source Reaction:<br>
+    <span class="dbminputlabel">Source Reaction</span>
     <select id="reaction" class="round" onchange="glob.refreshVariableList(this)">
       ${data.variables[1]}
     </select>
   </div>
   <div id="varNameContainer" style="float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList"><br>
+    <span class="dbminputlabel">Variable Name</span>
+    <input id="varName" class="round" type="text" list="variableList">
   </div>
-</div><br><br><br>
-<div>
-  <div style="padding-top: 8px; width: 70%;">
-    Source Info:<br>
+
+<div style="float:left; width: 70%; padding-top: 16px;">
+    <span class="dbminputlabel">Source Info</span>
     <select id="info" class="round">
       <option value="0" selected>Message Object</option>
       <option value="5">First User to React</option>
@@ -91,17 +89,17 @@ module.exports = {
       <option value="8">Emoji Object</option>
       <option value="4">Reaction Count</option>
     </select>
-  </div>
-</div><br>
+</div>
+
 <div>
-  <div style="float: left; width: 35%;">
-    Store In:<br>
+  <div style="float: left; width: 35%; padding-top: 16px;">
+    <span class="dbminputlabel">Store In</span>
     <select id="storage" class="round">
       ${data.variables[1]}
     </select>
   </div>
-  <div id="varNameContainer2" style="float: right; width: 60%;">
-    Variable Name:<br>
+  <div id="varNameContainer2" style="float: right; width: 60%; padding-top: 16px;">
+    <span class="dbminputlabel">Variable Name</span>
     <input id="varName2" class="round" type="text"><br>
   </div>
 </div>`;

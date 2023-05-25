@@ -52,18 +52,18 @@ module.exports = {
     return `
 <div>
   <div style="float: left; width: 35%;">
-    Transfer Value From:<br>
+    <span class="dbminputlabel">Transfer Value From</span>
     <select id="webhook" class="round" onchange="glob.refreshVariableList(this)">
       ${data.variables[1]}
     </select>
   </div>
   <div id="varNameContainer" style="float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList"><br>
+    <span class="dbminputlabel">Variable Name</span>
+    <input id="varName" class="round" type="text" list="variableList">
   </div>
-</div><br><br><br>
-<div style="float: left; width: 80%; padding-top: 8px;">
-  Source Info:<br>
+</div>
+<div style="float: left; width: 80%; padding-top: 16px;">
+  <span class="dbminputlabel">Source Info</span>
   <select id="info" class="round">
     <option value="6" selected>Webhook URL</option>
     <option value="2">Webhook ID</option>
@@ -73,16 +73,16 @@ module.exports = {
     <option value="1">Webhook Guild ID</option>
     <option value="0">Webhook Channel ID</option>
   </select>
-</div><br><br>
+</div>
 <div>
-  <div style="float: left; width: 35%;">
-    Store In:<br>
+  <div style="float: left; width: 35%; padding-top: 16px;">
+    <span class="dbminputlabel">Store In</span>
     <select id="storage" class="round">
       ${data.variables[1]}
     </select>
   </div>
-  <div id="varNameContainer2" style="float: right; width: 60%;">
-    Variable Name:<br>
+  <div id="varNameContainer2" style="float: right; width: 60%; padding-top: 16px;">
+    <span class="dbminputlabel">Variable Name</span>
     <input id="varName2" class="round" type="text"><br>
   </div>
 </div>`;

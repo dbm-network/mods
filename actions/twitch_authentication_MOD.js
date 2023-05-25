@@ -37,43 +37,34 @@ module.exports = {
 
   html(_isEvent, data) {
     return `
-<div style="padding-top: 8px;">
-  <div style="float: left; width: 104%;">
-    Client Id:<br>
+<div>
+  <div style="float: left; width: 100%;">
+    <span class="dbminputlabel">Client Id</span>
     <input id="client_id" class="round" type="text">
   </div>
-</div>
-<br><br><br>
 
-<div style="padding-top: 8px;">
-  <div style="float: left; width: 104%;">
-    Client Secret:<br>
+  <div style="float: left; width: 100%; padding-top: 16px;">
+    <span class="dbminputlabel">Client Secret</span>
     <input id="client_secret" class="round" type="text">
   </div>
-</div>
-<br><br><br>
 
-<div style="padding-top: 8px;">
-  <div style="float: left; width: 70%;">
-    Info:<br>
+  <div style="float: left; width: 70%; padding-top: 16px;">
+    <span class="dbminputlabel">Info</span>
     <select id="info" class="round"><br>
       <option value="0" selected>Access Token</option>
       <option value="1">Expires In</option>
       <option value="1">Authentication Object</option>
     </select>
   </div>
-<div>
-<br><br><br>
 
-<div style="padding-top: 8px;">
-  <div style="float: left; width: 35%;">
-    Store In:<br>
+  <div style="float: left; width: 35%; padding-top: 16px;">
+    <span class="dbminputlabel">Store In</span>
     <select id="storage" class="round">
       ${data.variables[1]}
     </select>
   </div>
-  <div style="float: right; width: 60%;">
-    Variable Name:<br>
+  <div style="float: right; width: 60%; padding-top: 16px;">
+    <span class="dbminputlabel">Variable Name</span>
     <input id="varName" class="round" type="text"><br>
   </div>
 </div>

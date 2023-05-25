@@ -17,24 +17,29 @@ module.exports = {
       'Video Description',
       'Video Channel Name',
       'Video Channel ID',
-      'Video Channel URL',
-      'Video Channel Avatar URL',
-      'Video Channel is Verified?',
-      'Video Channel Subscriber Count',
+      'Video Thumbnail URL',
+      'Unused but needed!',
+      'Unused but needed!',
+      'Unused but needed!',
       'Video is Unlisted?',
       'Video is Family Friendly?',
       'Video Duration',
+      'Video Views',
       'Available Countries',
       'Video Like Count',
       'Video Dislike Count',
-      'Video Thumbnail URL',
-      'Video Publish Date',
-      'Video Views',
+      'Unused but needed!',
+      'Unused but needed!',
       'Video is Live?',
+      'Unused but needed!',
+      'Video Publish Date',
       'Video Owner Viewing?',
       'Video is Age Restricted?',
+      'Video Channel Avatar URL',
+      'Video Channel is Verified?',
+      'Video Channel Subscriber Count'
     ];
-    return `YouTube ${info[parseInt(data.info, 10)]}`;
+    return `${info[parseInt(data.info, 10)]}`;
   },
 
   variableStorage(data, varType) {
@@ -42,7 +47,7 @@ module.exports = {
     let dataType = 'Unknown Type';
     switch (parseInt(data.info, 10)) {
       case 0: // Video ID
-      case 2: // Video Title
+      case 2: // Video URL
       case 3: // Video Description
       case 5: // Video Channel ID
       case 4: // Video Channel Name
@@ -83,13 +88,13 @@ module.exports = {
 
   html(_isEvent, data) {
     return `
-<div style="width: 550px; height: 350px; overflow-y: scroll;">
-  <div style="width: 95%; padding-top: 8px;">
-    Video to Search:<br>
-    <textarea id="video" rows="2" placeholder="Video to search for goes here" style="width: 95%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+<div>
+  <div style="width: 100%;">
+    <span class="dbminputlabel">Video to Search</span>
+    <textarea id="video" placeholder="Video URL goes here to search" style="font-family: monospace; white-space: nowrap; resize: none;"></textarea>
   </div>
-  <div style="width: 95%; padding-top: 8px;">
-    Source Info:<br>
+  <div style="width: 100%; padding-top: 16px;">
+    <span class="dbminputlabel">Source Info</span>
     <select id="info" class="round">
       <option value="0">Video ID</option>
       <option value="1">Video URL</option>
@@ -116,14 +121,14 @@ module.exports = {
     </select>
   </div>
   <div>
-    <div style="float: left; width: 35%;  padding-top: 8px;">
-      Store In:<br>
+    <div style="float: left; width: 35%;  padding-top: 16px;">
+      <span class="dbminputlabel">Store In</span>
       <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-        ${data.variables[0]}
+        ${data.variables[1]}
       </select>
     </div>
-    <div id="varNameContainer" style="float: right; width: 60%; padding-top: 8px;">
-      Variable Name:<br>
+    <div id="varNameContainer" style="float: right; width: 60%; padding-top: 16px;">
+      <span class="dbminputlabel">Variable Name</span>
       <input id="varName" class="round" type="text"><br>
     </div>
   </div>
@@ -219,7 +224,7 @@ module.exports = {
         result = video.age_restricted;
         break;
       case 24: // Video Channel Avatar URL
-        result = video.author.avatar;
+        result = video.author.thumbnails[0].url;
         break;
       case 25: // Is channel verified?
         result = video.author.verified;

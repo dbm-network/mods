@@ -86,7 +86,7 @@ module.exports = {
 
   <div>
     <div style="padding-top: 8px; width: 70%">
-      Source Info:<br>
+      <span class="dbminputlabel">Source Info</span>
       <select id="info" class="round">
         <option value="0" selected>User Object</option>
         <option value="1">User ID</option>
@@ -110,13 +110,13 @@ module.exports = {
   
   <div>
     <div style="float: left; width: 35%">
-      Store In:<br>
+      <span class="dbminputlabel">Store In</span>
       <select id="storage" class="round">
         ${data.variables[1]}
       </select>
     </div>
     <div id="varNameContainer2" style="float: right; width: 60%">
-      Variable Name:<br>
+      <span class="dbminputlabel">Variable Name</span>
       <input id="varName2" class="round" type="text"><br>
     </div>
   </div>`;

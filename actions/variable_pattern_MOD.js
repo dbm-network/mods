@@ -1,5 +1,5 @@
 module.exports = {
-  name: 'Variable Pattern MOD',
+  name: 'Variable Pattern',
   section: 'Variable Things',
   meta: {
     version: '2.1.7',
@@ -24,19 +24,19 @@ module.exports = {
     return `
 <div>
   <div style="float: left; width: 35%;">
-    Variable:<br>
+    <span class="dbminputlabel">Variable</span>
     <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
       ${data.variables[1]}
     </select>
   </div>
   <div id="varNameContainer" style="float: right; width: 60%;">
-    Variable Name:<br>
+    <span class="dbminputlabel">Variable Name</span>
     <input id="varName" class="round" type="text" list="variableList">
   </div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
   <div style="float: left; width: 45%;">
-    Pattern Type:<br>
+    <span class="dbminputlabel">Pattern Type</span>
     <select id="info" class="round" onchange="glob.onChange1(this)">
       <option value="0">Repeat</option>
       <option value="1">Change</option>
@@ -49,23 +49,23 @@ module.exports = {
     </select>
   </div>
   <div style="float: right; width: 50%;" id="info2box">
-    <div id="info2text">Character:</div>
+   <span class="dbminputlabel" id="info2text">Character</span>
     <input id="info2" class="round" type="text">
   </div>
 </div><br><br><br>
 <div style="padding-top: 8px;">
-  <div id="info3text">Character:</div>
+  <span class="dbminputlabel" id="info3text">Character</span>
   <input id="value" class="round" type="text">
 </div><br>
 <div style="padding-top: 8px;">
   <div style="float: left; width: 35%;">
-    Store In:<br>
+    <span class="dbminputlabel">Store In</span>
     <select id="storage2" class="round">
       ${data.variables[1]}
     </select>
   </div>
   <div id="varNameContainer" style="float: right; width: 60%;">
-    Variable Name:<br>
+    <span class="dbminputlabel">Variable Name</span>
     <input id="varName2" class="round" type="text"><br>
   </div>
 </div>`;

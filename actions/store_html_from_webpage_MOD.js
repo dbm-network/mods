@@ -23,18 +23,18 @@ module.exports = {
   html(isEvent, data) {
     return `
   <div>
-    <div style="float: left; width: 95%;">
-      Webpage URL: <br>
-      <textarea id="url" class="round" style="width: 99%; resize: none;" type="textarea" rows="4" cols="20"></textarea><br>
-    </div><br>
-    <div style="float: left; width: 35%;">
-      Store In:<br>
+    <div style="float: left; width: 100%;">
+      <span class="dbminputlabel">Webpage URL</span>
+      <textarea id="url" class="round" style="resize: none;" type="textarea" rows="4" cols="20"></textarea>
+    </div>
+    <div style="float: left; width: 35%; padding-top: 16px;">
+      <span class="dbminputlabel">Store In</span>
       <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-        ${data.variables[0]}
+        ${data.variables[1]}
       </select>
     </div>
-    <div id="varNameContainer" style="display: ; float: right; width: 60%;">
-      Storage Variable Name:<br>
+    <div id="varNameContainer" style="float: right; width: 60%; padding-top: 16px;">
+      <span class="dbminputlabel">Storage Variable Name</span>
       <input id="varName" class="round" type="text">
     </div>
   </div>`;

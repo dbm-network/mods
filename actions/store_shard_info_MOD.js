@@ -32,7 +32,7 @@ module.exports = {
   html(_isEvent, data) {
     return `
 <div style="float: left; width: 80%; padding-top: 8px;">
-  Source Info:<br>
+  <span class="dbminputlabel">Source Info</span>
   <select id="info" class="round">
     <option value="0">Total Count of Servers (in All Shards)</option>
     <option value="1">Total Count of Members (in All Shards)</option>
@@ -45,13 +45,13 @@ module.exports = {
 </div><br><br><br>
 <div>
   <div style="float: left; width: 35%; padding-top: 8px;">
-    Store In:<br>
+    <span class="dbminputlabel">Store In</span>
     <select id="storage" class="round">
       ${data.variables[1]}
     </select>
   </div>
   <div id="varNameContainer2" style="float: right; width: 60%; padding-top: 8px;">
-    Variable Name:<br>
+    <span class="dbminputlabel">Variable Name</span>
     <input id="varName2" class="round" type="text"><br>
   </div>
 </div>`;

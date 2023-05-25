@@ -22,66 +22,110 @@ module.exports = {
 
   html(_isEvent, data) {
     return `
-<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
-  <div style="float: left; width: 95%;">
-    WebAPI URL: <br>
-    <textarea id="url" class="round" style="width: 99%; resize: none;" type="textarea" rows="4" cols="20"></textarea>
-      <text style="font-size: 60%;">If the url is the same, json data will be used from the initial store json within the command</text><br>
-      Headers (By default 'User-Agent: Other' is applied, It's 1 per line, (<b>key:value</b>))<br>
-      <textarea id="headers" class="round" placeholder="User-Agent: Other" style="width: 99%; resize: none;" type="textarea" rows="4" cols="20"></textarea><br>
+    <div id="wrexdiv" style="height: 350px; overflow-y: scroll;">
+  <div style="float: left; width: 100%; padding-top: 8px;">
+    <span class="dbminputlabel">WebAPI URL</span>
+    <textarea id="url" class="round" style="resize: none;" type="textarea" rows="4" cols="20"></textarea>
+    <p style="margin-left: 4px;">If the url is the same, json data will be used from the initial store json within the command</p>
   </div>
-  <div class="ui toggle checkbox" >
-    <input type="checkbox" name="public" id="toggleAuth" onclick="glob.checkBox(this, 'auth');">
+  <div style="float: left; width: 100%; padding-top: 16px;">
+    <span class="dbminputlabel">Headers (By default 'User-Agent: Other' is applied, It's 1 per line, (<b>key:value</b>))</span>
+    <textarea id="headers" class="round" placeholder="User-Agent: Other" style=" resize: none;" type="textarea" rows="4" cols="20"></textarea>
+  </div>
+  <div class="ui toggle checkbox" style="float: left; width: 90%; margin-top: 16px; margin-left: 10px;">
+    <input type="checkbox" name="public" id="toggleAuth" onclick="glob.checkBox(this, 'auth');"></input>
     <label><font color="white">Show Authentication Options</font></label>
-    <text style="font-size: 60%;">Show/Hide Auth Options</text>
+    <text>Show/Hide Auth Options</text>
   </div>
-  <div id="authSection" style="display: ;"><br>
-    Bearer Token<br>
-    <textarea id="token" class="round" placeholder="blank if none" style="width: 99%; resize: none;" type="textarea" rows="4" cols="20"></textarea><br>
-    Username<br>
-    <input id="user" class="round" placeholder="blank if none" style="width: 99%; resize: none;" ><br>
-    Password <br>
-    <input id="pass" class="round" placeholder="blank if none"  style="width: 99%; resize: none;" ><br>
-  </div><br><br>
-  JSON Path: (Leave blank to store everything)<br>
-  Supports the usage of JSON Path (Regex)<br>
-  You don't need to add the x. of JSON Path<br>
-  More info here <br>
-  http://goessner.net/articles/JsonPath/index.html#e2<br><br>
-  <input id="path" class="round"; style="width: 75%;" type="text">
-  <div><br><br>
-    <div style="float: left; width: 35%;">
-      Store In:<br>
+
+  <div id="authSection" style="float: left; padding-top: 16px; width: 100%;">
+    <div style="float: left; width: 100%;">
+      <span class="dbminputlabel">Bearer Token</span>
+      <textarea id="token" class="round" placeholder="blank if none" style="width: 99%; resize: none;" type="textarea" rows="4" cols="20"></textarea>
+    </div>
+    <div style="float: left; padding-top: 16px; width: 100%;">
+      <span class="dbminputlabel">Username</span>
+      <input id="user" class="round" placeholder="blank if none" style="width: 99%; resize: none;" ></input>
+    </div>
+    <div style="float: left; padding-top: 16px; width: 100%;">
+      <span class="dbminputlabel">Password</span>
+      <input id="pass" class="round" placeholder="blank if none" style="width: 99%; resize: none;"></input>
+    </div>
+  </div>
+
+  <div style="float: left; width: 100%; padding-top: 16px;">
+    <div style="width: 60%;">
+      <details>
+        <summary>Click here for more info about: <b>JSON Path</b></summary>
+        JSON Path: (Leave blank to store everything)<br>
+        • Supports the usage of JSON Path (Regex)<br>
+        • You don't need to add the x. of JSON Path<br>
+        <a href="http://goessner.net/articles/JsonPath/index.html#e2">More info here</a>
+      </details>
+    </div>
+  </div>
+
+  <div style="float: left; width: 95%;">
+    <div style="padding-top: 16px;">
+      <span class="dbminputlabel">JSON Path</span>
+      <input id="path" class="round" style="width: 75%;" type="text"></input>
+    </div>
+
+    <div style="float: left; width: 35%; padding-top: 16px;">
+      <span class="dbminputlabel">Store In</span>
       <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
         ${data.variables[0]}
-      </select><br>
+      </select>
     </div>
-    <div id="varNameContainer" style="display: ; float: right; width: 60%;">
-      JSON Storage Variable Name:<br>
-      <input id="varName" class="round" type="text"><br>
+
+    <div id="varNameContainer" style="float: right; width: 60%; padding-top: 16px;">
+      <span class="dbminputlabel">JSON Storage Variable Name</span>
+      <input id="varName" class="round" type="text"></input>
     </div>
-  </div><br>
-  <div style="float: left; width: 70%;"><br>
-    <div>
-      <label for="reUse"><font color="white">Re-Use Previously Stored</font></label>
+  </div>
+
+  <div style="float: left; width: 95%; padding-top: 16px;">
+    <div style="float: left; width: 47.5%;">
+      <label for="reUse"><span class="dbminputlabel">Re-Use Previously Stored</span></label>
       <select id="reUse" class="round" onchange="glob.disallowAlert(this)">
         <option value="1" selected>Allow</option>
         <option value="0">Disallow</option>
       </select>
-      <text style="font-size: 60%;">Toggles re-use of previously stored JSON from same URL.</text>
+      <p style="margin-left: 4px;">Toggles re-use of previously stored JSON from same URL.</p>
+    </div>
+    <div style="float: right; width: 47.5%;">
+      <label for="debugMode"><span class="dbminputlabel">Debug Mode</span></label>
+      <select id="debugMode" class="round">
+        <option value="1" selected>Enabled</option>
+        <option value="0">Disabled</option>
+      </select>
+      <p style="margin-left: 4px;">Enables printing to console, disable to remove all messages. Turn on to see errors.</p>
     </div>
   </div>
-  <div style="float: left; width: 70%;"><br>
-  <div>
-    <label for="debugMode"><font color="white">Debug Mode</font></label>
-    <select id="debugMode" class="round">
-      <option value="1" selected>Enabled</option>
-      <option value="0">Disabled</option>
-    </select>
-    <text style="font-size: 60%;">Enables printing to console, disable to remove all messages. Turn on to see errors.</text>
-  </div>
 </div>
-</div>`;
+</div >
+  <style>
+    details {
+      border: 1px solid #aaa;
+      border-radius: 4px;
+      padding: 0.5em 0.5em 0;
+}
+
+    summary {
+      font - weight: bold;
+    margin: -0.5em -0.5em 0;
+    padding: 0.5em;
+}
+
+    details[open] {
+      padding: 0.5em;
+}
+
+    details[open] summary {
+      border - bottom: 1px solid #aaa;
+    margin-bottom: 0.5em;
+}
+</style>`;
   },
 
   init() {

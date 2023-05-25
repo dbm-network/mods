@@ -23,50 +23,49 @@ module.exports = {
 
   html(_isEvent, data) {
     return `
-<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
+<div id ="wrexdiv" style="height: 350px; overflow-y: scroll;">
   <div>
-    <div style="float: left; width: 95%;">
-      End Behavior:<br>
+    <div style="float: left; width: 100%; padding-top: 16px;">
+      <span class="dbminputlabel">End Behavior</span>
       <select id="behavior" class="round">
         <option value="0" selected>Call Next Action Automatically</option>
         <option value="1">Do Not Call Next Action</option>
       </select>
-      <br>
     </div>
     <div>
-      <div style="float: left; width: 30%;">
-        Input Variable:<br>
+      <div style="float: left; width: 35%; padding-top: 16px;">
+        <span class="dbminputlabel">Input Variable</span>
         <select id="inputStorage" class="round" onchange="glob.variableChange(this, 'inputVarNameContainer')">
           ${data.variables[1]}
         </select>
       </div>
-      <div id="inputVarNameContainer" style="display: ; float: right; width: 60%;">
-        Input Variable Name:<br>
+      <div id="inputVarNameContainer" style="display: ; float: right; width: 60%; padding-top: 16px;">
+        <span class="dbminputlabel">Input Variable Name</span>
         <input id="inputVarName" class="round" type="text">
       </div>
     </div>
     <div>
-      <div style="float: left; width: 30%;">
-        <br>Type:<br>
+      <div style="float: left; width: 35%; padding-top: 16px;">
+        <span class="dbminputlabel">Type</span>
         <select id="theType" class="round">
           <option value="0" selected>Regex Match</option>
           <option value="1" >Regex Replace</option>
         </select>
       </div>
-      <div id="typeContainer" style="display: ; float: right; width: 60%;">
-        <br>Match: (Regex Builder)<a href="#" onclick="require('child_process').execSync('start https://regexr.com')">regexr.com</a>
+      <div id="typeContainer" style="display: ; float: right; width: 60%; padding-top: 16px;">
+        <span class="dbminputlabel">Match: (Regex Builder)<a href="#" onclick="require('child_process').execSync('start https://regexr.com')">regexr.com</a></span>
         <input id="typeVariable" class="round" type="text">
       </div>
     </div>
     <div>
-      <div style="float: left; width: 30%;"><br><br>
-        Store In:<br>
+      <div style="float: left; width: 35%; padding-top: 16px;">
+        <span class="dbminputlabel">Store In</span>
         <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
           ${data.variables[1]}
         </select>
       </div>
-      <div id="varNameContainer" style="display: ; float: right; width: 60%;"><br><br>
-        Variable Name:<br>
+      <div id="varNameContainer" style="display: ; float: right; width: 60%; padding-top: 16px;">
+        <span class="dbminputlabel">Variable Name</span>
         <input id="varName" class="round" type="text">
       </div>
     </div>

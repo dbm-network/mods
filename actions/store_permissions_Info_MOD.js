@@ -76,21 +76,21 @@ module.exports = {
 
   html(isEvent, data) {
     return `
-<div>
+<div width: 100%; >
   <div style="float: left; width: 35%;">
-    Source Permissions:<br>
+    <span class="dbminputlabel">Source Permissions</span>
     <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
       ${data.variables[1]}
-    </select><br>
+    </select>
   </div>
   <div style="float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList"><br>
+    <span class="dbminputlabel">Variable Name</span>
+    <input id="varName" class="round" type="text" list="variableList">
   </div>
-</div><br><br><br>
-<div style="padding-top: 8px;">
-  <div style="float: left; width: 60%;">
-    Info:<br>
+</div>
+<div style="float: left; padding-top: 16px; width: 100%;">
+  <div>
+    <span class="dbminputlabel">Info</span>
     <select id="info" class="round">
       <optgroup label="Basic Info">
         <option value="0" selected>Allow Bitfields</option>
@@ -136,16 +136,16 @@ module.exports = {
       </optgroup>
     </select>
   </div>
-</div><br><br><br>
-<div style="padding-top: 8px;">
+</div>
+<div style="float: left; padding-top: 16px; width: 100%;">
   <div style="float: left; width: 35%;">
-    Store In:<br>
+    <span class="dbminputlabel">Store In</span>
     <select id="storage2" class="round">
       ${data.variables[1]}
     </select>
   </div>
   <div style="float: right; width: 60%;">
-    Variable Name:<br>
+    <span class="dbminputlabel">Variable Name</span>
     <input id="varName2" class="round" type="text">
   </div>
 </div>`;
