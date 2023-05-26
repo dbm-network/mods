@@ -77,7 +77,7 @@ module.exports = {
   <br><br><br>
   
   <div>
-    <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+    <store-in-variable selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
   </div>
 </div>`;
   },
