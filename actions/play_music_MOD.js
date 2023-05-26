@@ -23,8 +23,8 @@ module.exports = {
   html() {
     return `
 <div>
-  <span class="dbminputlabel">YouTube Query</span><br>
-  <input id="query" class="round" type="text" value="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><br>
+  <span class="dbminputlabel">YouTube Search</span><br>
+  <input id="query" class="round" type="text" placeholder="Search for a song from youtube"><br>
 </div>
 
 <voice-channel-input dropdownLabel="Voice Channel" selectId="voiceChannel" variableContainerId="varNameContainer" variableInputId="varName" selectWidth="45%" variableInputWidth="50%"></voice-channel-input>
@@ -40,6 +40,15 @@ module.exports = {
 <br>
 
 <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
+<br><br><br>
+
+<p>
+  <u><b><span style="color: white;">NOTE:</span></b></u><br>
+  Youtube URLs and IDs are hit and miss due to using ytdl-core.<br>
+  In theory you should be able to use the following:<br>
+  Soundcloud URL, YouTube Search, YouTube song/playlist URL, YouTube ID,<br>
+  Spotify Song/playlist/album, vimeo, facebook and reverbnation.
+</p>
 `;
   },
 
@@ -67,19 +76,19 @@ module.exports = {
       },
     });
 
-    try {
-      if (!queue.connection) await queue.connect(voiceChannel);
-    } catch {
-      queue.destroy();
-      console.log('Could not join voice channel');
-      return this.callNextAction(cache);
-    }
-
     const track = await player.search(query, {
       requestedBy: cache.getUser(),
     });
 
-    if (track !== undefined) {
+    if (track.tracks.length > 0) {
+      try {
+        if (!queue.connection) await queue.connect(voiceChannel);
+      } catch {
+        queue.destroy();
+        console.log('Could not join voice channel');
+        return this.callNextAction(cache);
+      }
+
       track.playlist ? queue.addTracks(track.tracks) : queue.addTrack(track.tracks[0]);
       if (data.type === '1') {
         await queue.play();
