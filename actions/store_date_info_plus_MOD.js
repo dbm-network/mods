@@ -38,25 +38,27 @@ module.exports = {
 
   fields: ['sourceDate', 'dateLanguage', 'modeStorage', 'info', 'buildInput', 'storage', 'varName'],
 
-  html(_isEvent, data) {
+  html() {
     return `
 <div style="float: left; width: 62%">
-  Source Date:<br>
+  <span class="dbminputlabel">Source Date</span><br>
   <input id="sourceDate" class="round" type="text" placeholder="Ex: Sun Oct 26 2019 10:38:01 GMT+0200">
 </div>
 <div style="float: right; width: 38%">
-  Date Language (initials):<br>
+  <span class="dbminputlabel">Date Language (initials)</span><br>
   <input id="dateLanguage" class="round" placeholder='Default is "en" (English)'>
-</div><br>
+</div>
+<br>
+
 <div style="float: left; width: 40%; padding-top: 16px">
-  Mode:<br>
+  <span class="dbminputlabel">Mode</span><br>
   <select id="modeStorage" class="round" onchange="glob.onChangeMode(this)">
     <option value="0" selected>Select</option>
     <option value="1">Builder</option>
   </select>
 </div>
 <div id="selectMode" style="display: none; float: right; width: 50%; padding-top: 16px">
-  Source Info:<br>
+  <span class="dbminputlabel">Source Info</span><br>
   <select id="info" class="round">
     <option value="0" selected>Day of Week</option>
     <option value="1">Day Number</option>
@@ -76,21 +78,19 @@ module.exports = {
 <div id="buildMode" style="display: none; float: right; width: 50%; padding-top: 16px">
   Build It (<span class="wrexlink" data-url="https://momentjs.com/docs/#/displaying/format/">Moment Docs</span>):<br>
   <input id="buildInput" class="round" placeholder="Ex: DD/MM/YYYY = 10/26/2019">
-</div><br><br><br><br><br>
-<div style="float: left; width: 35%; padding-top: 10px">
-  Store In:<br>
-  <select id="storage" class="round">
-    ${data.variables[1]}
-  </select>
 </div>
-<div id="varNameContainer" style="float: right; width: 60%; padding-top: 10px">
-  Variable Name:<br>
-  <input id="varName" class="round" type="text">
-</div><br><br><br>
+<br><br><br><br><br>
+
+<div>
+  <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+</div>
+<br><br><br>
+
 <div id="noteContainer" style="display: none; padding-top: 16px">
   <b>Note:</b> You can use square brackets to put text in <b>builder mode</b> in the "Build It" field.<br>
   <b>Ex:</b> <span id="code">DD/MM/YYYY [at] HH:mm</span> = <span id="code">10/26/2019 at 10:38</span>
 </div>
+
 <style>
   span.wrexlink {
     color: #99b3ff;
