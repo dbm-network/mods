@@ -47,27 +47,32 @@ module.exports = {
     return [data.varName, dataType];
   },
 
-  html(_isEvent, data) {
+  html() {
     return `
-File path (example: <strong>./bot.js</strong>):
-<input class='round' id='filePath' /><br>
-Info:
-<select class='round' id='info'>
-  <option value='File Size'>File Size</option>
-  <option value='File Extension'>File Extension</option>
-  <option value='File Character Count'>File Character Count</option>
-  <option value='File Creation Date Timestamp'>File Creation Date Timestamp</option>
-  <option value='File Exists'>File Exists</option>
-  <option value='File Content'>File Content</option>
-  <option value='File Name'>File Name</option>
-  <option value='File Length'>File Length</option>
-</select><br>
-Store in:<br>
-<select class='round' id='storage'>
-  ${data.variables[0]}
-</select><br>
-Variable name:<br>
-<input class='round' id='varName' />`;
+<div>
+  <span class="dbminputlabel">File Path</span><br>
+  <input class='round' id='filePath' /><br>
+</div>
+
+<div>
+  <span class="dbminputlabel">File Info</span><br>
+  <select class='round' id='info'>
+    <option value='File Size'>File Size</option>
+    <option value='File Extension'>File Extension</option>
+    <option value='File Character Count'>File Character Count</option>
+    <option value='File Creation Date Timestamp'>File Creation Date Timestamp</option>
+    <option value='File Exists'>File Exists</option>
+    <option value='File Content'>File Content</option>
+    <option value='File Name'>File Name</option>
+    <option value='File Length'>File Length</option>
+  </select>
+</div>
+<br>
+
+<div>
+  <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+</div>
+`;
   },
 
   init() {},

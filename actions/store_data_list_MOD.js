@@ -49,45 +49,49 @@ module.exports = {
   html(_isEvent, data) {
     return `
 <div style="width: 550px; height: 350px; overflow-y: scroll;">
-  <div>
+  <div style="padding-top: 8px;">
     <div style="float: left; width: 35%;">
-      Data File:<br>
+      <span class="dbminputlabel">Data File</span><br>
       <select id="File" class="round" onchange="glob.onChange0(this)">
         <option value="0" selected>players.json</option>
         <option value="1">servers.json</option>
       </select>
     </div>
     <div id="Input0" style="padding-left: 5%; display: none; float: left; width: 60%;">
-      Store by server type:<br>
+      <span class="dbminputlabel">Server Type</span><br>
       <select id="serverType" class="round">
         <option value="0" selected>Current Server</option>
         <option value="1">All Servers</option>
       </select>
     </div>
-  </div><br><br><br>
+  </div>
+  <br><br><br>
+  
   <div>
     <div style="float: left; width: 39%;">
-      Data Name:<br>
+      <span class="dbminputlabel">Data Name</span><br>
       <input id="dataName" class="round" type="text" placeholder="Must fill in"><br>
     </div>
     <div style="padding-left: 1%; float: left; width: 56%;">
-      Sort By:<br>
+      <span class="dbminputlabel">Sort By</span><br>
       <select id="sort" class="round">
         <option value="0" selected>Sort from Descending</option>
         <option value="1">Sort from Ascending</option>
       </select><br>
     </div>
-  </div><br>
+  </div>
+  <br>
+  
   <div>
     <div style="float: left; width: 35%;">
-      Store Result Info:<br>
+      <span class="dbminputlabel">Store Result Info</span><br>
       <select id="resultInfo" class="round" onchange="glob.onChange1(this)">
         <option value="0" selected>Results List</option>
         <option value="1">Ranking</option>
       </select><br>
     </div>
     <div id="Result0" style="padding-left: 5%; display: null; float: left; width: 60%;">
-      Store Result List:<br>
+      <span class="dbminputlabel">Store Result List</span><br>
       <select id="resultType" class="round" onchange="glob.onChange2(this)">
         <option value="0" selected>All Results</option>
         <option value="1">Result From Begin</option>
@@ -96,44 +100,40 @@ module.exports = {
       </select><br>
     </div>
     <div id="Result1" style="padding-left: 5%; display: none; float: left; width: 62%;">
-      Store Ranking:<br>
+      <span class="dbminputlabel">Store Ranking</span><br>
       <input id="rank" class="round" type="text" placeholder="Input Member ID here"><br>
     </div>
-  </div><br>
+  </div>
+  <br>
+  
   <div>
     <div id="Input1" style="display: null; float: left; width: 35%;">
-      Number Before Start:<br>
+      <span class="dbminputlabel">Number Before Start</span><br>
       <select id="numberBoolean" class="round">
         <option value="0"selected>No</option>
         <option value="1" >Yes</option>
       </select><br>
     </div>
     <div id="Input2" style="display: null; padding-left: 5%; float: left; width: 65%;">
-      Result Format (<a id="link" href='#'>Javascript String</a>):<br>
+      <span class="dbminputlabel">Result Format</span><br>
       <input id="resultFormat" class="round" type="text" placeholder="Name + 'DataName' + DataValue"><br>
     </div>
-  </div><br>
+  </div>
+  <br>
+  
   <div>
     <div id="Input3" style="display: none; float: left; width: 50%;">
-      Result From:<br>
+      <span class="dbminputlabel">Result From</span><br>
       <input id="resultFrom" class="round" type="text"><br>
     </div>
     <div id="Input4" style="display: none; float: left; width: 50%;">
-      Result To:<br>
+      <span class="dbminputlabel">Result To</span><br>
       <input id="resultTo" class="round" type="text"><br>
     </div>
   </div>
-  <div style="padding-top: 5px;">
-    <div style="float: left; width: 35%;">
-      Store In:<br>
-      <select id="storage" class="round">
-        ${data.variables[1]}
-      </select>
-    </div>
-    <div style="float: right; width: 61%;">
-      Variable Name:<br>
-      <input id="varName" class="round" type="text">
-    </div>
+
+  <div style="padding-top: 8px;">
+    <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
   </div>
 </div>`;
   },

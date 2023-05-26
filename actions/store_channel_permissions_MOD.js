@@ -19,16 +19,16 @@ module.exports = {
 
   fields: ['storage', 'varName', 'target', 'role', 'varName2', 'member', 'varName3', 'storage3', 'varName4'],
 
-  html(isEvent, data) {
+  html() {
     return `
 <div style="padding-top: 8px;">
-  <channel-input dropdownLabel="Source Channel" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></channel-input>
+  <any-channel-input dropdownLabel="Source Channel" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></any-channel-input>
 </div>
 <br><br><br>
 
 <div style="padding-top: 8px;">
   <div style="float: left; width: 35%;">
-    Target Type:<br>
+    <span class="dbminputlabel">Target Type</span><br>
     <select id="target" class="round" onchange="glob.targetChange(this)">
       <option value="0" selected>Role</option>
       <option value="1">Member</option>
@@ -47,35 +47,11 @@ module.exports = {
 <br><br><br>
 
 <div style="padding-top: 8px;">
-  <div style="float: left; width: 35%;">
-    Store In:<br>
-    <select id="storage2" class="round">
-      ${data.variables[1]}
-    </select>
-  </div>
-  <div style="float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName4" class="round" type="text">
-  </div>
+  <store-in-variable dropdownLabel="Store In" selectId="storage2" variableContainerId="varNameContainer4" variableInputId="varName4"></store-in-variable>
 </div>`;
   },
 
-  init() {
-    const { glob, document } = this;
-
-    const roleHolder = document.getElementById('roleHolder');
-    const memberHolder = document.getElementById('memberHolder');
-    glob.targetChange = function targetChange(target) {
-      if (target.value === '0') {
-        roleHolder.style.display = null;
-        memberHolder.style.display = 'none';
-      } else if (target.value === '1') {
-        roleHolder.style.display = 'none';
-        memberHolder.style.display = null;
-      }
-    };
-    glob.targetChange(document.getElementById('target'));
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];
