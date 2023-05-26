@@ -22,6 +22,7 @@ module.exports = {
 
     const { onReady } = Bot;
     Bot.onReady = function onTrackStartOnReady(...params) {
+<<<<<<< Updated upstream
       Bot.bot.player = new Player(Bot.bot, {
         ytdlDownloadOptions: {
           filter: 'audioonly',
@@ -29,6 +30,9 @@ module.exports = {
         autoSelfDeaf: true,
         leaveOnEnd: false,
       });
+=======
+      Bot.bot.player = new Player(Bot.bot);
+>>>>>>> Stashed changes
 
       Bot.bot.on('onTrackStart', DBM.Events.onTrackStart);
       Bot.bot.player
