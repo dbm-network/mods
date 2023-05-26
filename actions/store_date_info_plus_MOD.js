@@ -50,14 +50,14 @@ module.exports = {
 </div>
 <br>
 
-<div style="float: left; width: 40%; padding-top: 16px">
+<div style="float: left; width: 35%; padding-top: 16px">
   <span class="dbminputlabel">Mode</span><br>
   <select id="modeStorage" class="round" onchange="glob.onChangeMode(this)">
     <option value="0" selected>Select</option>
     <option value="1">Builder</option>
   </select>
 </div>
-<div id="selectMode" style="display: none; float: right; width: 50%; padding-top: 16px">
+<div id="selectMode" style="display: none; float: right; width: 60%; padding-top: 16px">
   <span class="dbminputlabel">Source Info</span><br>
   <select id="info" class="round">
     <option value="0" selected>Day of Week</option>
