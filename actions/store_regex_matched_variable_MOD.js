@@ -32,13 +32,14 @@ module.exports = {
         <option value="1">Do Not Call Next Action</option>
       </select>
     </div>
+    <br><br><br>
 
-    <div>
+    <div style="float: left; padding-top: 16px; width: 100%;">
       <store-in-variable dropdownLabel="Input Variable" selectId="inputStorage" variableContainerId="inputVarNameContainer" variableInputId="inputVarName"></store-in-variable>
     </div>
     <br><br><br>
 
-    <div>
+    <div style="width: 100%;">
       <div style="float: left; width: 35%; padding-top: 16px;">
         <span class="dbminputlabel">Type</span>
         <select id="theType" class="round">
@@ -46,12 +47,14 @@ module.exports = {
           <option value="1" >Regex Replace</option>
         </select>
       </div>
-      <div id="typeContainer" style="display: ; float: right; width: 60%; padding-top: 16px;">
+      <div id="typeContainer" style="float: right; width: 60%; padding-top: 16px;">
         <span class="dbminputlabel">Match: (Regex Builder)<a href="#" onclick="require('child_process').execSync('start https://regexr.com')">regexr.com</a></span>
         <input id="typeVariable" class="round" type="text">
       </div>
     </div>
-    <div>
+    <br><br><br>
+
+    <div style="float: left; padding-top: 16px; width: 100%;">
       <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
     </div>
   </div>

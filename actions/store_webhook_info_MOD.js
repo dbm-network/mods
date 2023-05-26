@@ -54,7 +54,7 @@ module.exports = {
   <store-in-variable dropdownLabel="Source Webhook" selectId="webhook" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
 </div>
 
-<div style="float: left; width: 80%; padding-top: 16px;">
+<div style="float: left; width: 100%; padding-top: 16px;">
   <span class="dbminputlabel">Source Info</span>
   <select id="info" class="round">
     <option value="6" selected>Webhook URL</option>
@@ -67,15 +67,12 @@ module.exports = {
   </select>
 </div>
 
-<div>
+<div style="float: left; padding-top: 16px; width: 100%">
   <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
 </div>`;
   },
 
-  init() {
-    const { glob, document } = this;
-    glob.refreshVariableList(document.getElementById('webhook'));
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];

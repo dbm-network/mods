@@ -42,8 +42,10 @@ module.exports = {
     <option value="5">Total Count of Members (in Current Server's Shard)</option>
     <option value="6">Total Server's List (On The Current Server's Shard)</option>
   </select>
-</div><br><br><br>
-<div>
+</div>
+<br><br><br>
+
+<div style="float: left; width: 100%; padding-top: 8px;">
   <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
 </div>`;
   },

@@ -1,5 +1,6 @@
 module.exports = {
-  name: 'Variable Pattern',
+  name: 'Variable Pattern MOD',
+  displayName: 'Variable Pattern',
   section: 'Variable Things',
   meta: {
     version: '2.1.7',
@@ -28,7 +29,7 @@ module.exports = {
 <br><br><br>
 
 <div style="padding-top: 8px;">
-  <div style="float: left; width: 45%;">
+  <div style="float: left; width: 35%;">
     <span class="dbminputlabel">Pattern Type</span>
     <select id="info" class="round" onchange="glob.onChange1(this)">
       <option value="0">Repeat</option>
@@ -41,7 +42,7 @@ module.exports = {
       <option value="7">Store One Character</option>
     </select>
   </div>
-  <div style="float: right; width: 50%;" id="info2box">
+  <div style="float: right; width: 60%;" id="info2box">
    <span class="dbminputlabel" id="info2text">Character</span>
     <input id="info2" class="round" type="text">
   </div>
@@ -54,7 +55,7 @@ module.exports = {
 </div>
 <br>
 
-<div style="padding-top: 8px;">
+<div>
   <store-in-variable dropdownLabel="Store In" selectId="storage2" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
 </div>`;
   },

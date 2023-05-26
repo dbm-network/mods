@@ -234,7 +234,7 @@ module.exports = {
     <input id="apikey" class="round" type="text" placeholder="Insert your YouTube Data V3 API Key... (Not needed for search)">
   </div>
 
-  <div>
+  <div style="float: left; padding-top: 16px; width: 100%;">
     <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
   </div>
 </div>`;

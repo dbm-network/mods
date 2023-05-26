@@ -350,28 +350,29 @@ module.exports = {
     </select>
   </div>
 
-  <div style="float: left; width: 100%; padding-top: 16px;">
+  <div style="float: left; width: 50%; padding-top: 16px;">
     <span class="dbminputlabel">Client ID</span>
     <input id="clientid" class="round" type="text" placeholder="Insert your Twitch Application Client ID...">
   </div>
 
-  <div style="float: right; width: 100%; padding-top: 16px;">
+  <div style="float: right; width: 50%; padding-top: 16px;">
     <span class="dbminputlabel">Access Token</span>
     <input id="token" class="round" type="text" placeholder="Insert your Twitch Application Access Token...">
   </div>
+  <br><br><br>
 
   <div id="divresults" style="float: left; width: 100%; padding-top: 16px; display: none">
     <span class="dbminputlabel">Max Results</span>
     <input id="results" class="round" type="text" placeholder="Default: 20 | Max: 100">
   </div>
 
-  <div>
+  <div style="float: left; width: 100%; padding-top: 16px;">
     <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
   </div>
   <br><br><br>
 
   <div>
-    <div style="float: left; width: 60%; padding-top: 8px;">
+    <div style="float: left; width: 60%; padding-top: 16px;">
       <span class="dbminputlabel">Read From Cache</span>
       <select id="cache" class="round">
         <option value="true" selected>True</option>
@@ -379,7 +380,7 @@ module.exports = {
       </select>
     </div>
 
-    <div style="float: left; padding-top: 8px;">
+    <div style="float: left; padding-top: 16px;">
       <p>
         <u>API Info:</u><br>
         You will need a <span class="wrexlink" data-url="https://dev.twitch.tv/console/apps">Twitch Applications</span> to use this mod!<br><br>

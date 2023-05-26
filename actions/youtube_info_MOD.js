@@ -90,9 +90,10 @@ module.exports = {
     return `
 <div>
   <div style="width: 100%;">
-    <span class="dbminputlabel">Video to Search</span>
-    <textarea id="video" placeholder="Video URL goes here to search" style="font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+    <span class="dbminputlabel">Video URL</span>
+    <textarea id="video"></textarea>
   </div>
+
   <div style="width: 100%; padding-top: 16px;">
     <span class="dbminputlabel">Source Info</span>
     <select id="info" class="round">
@@ -120,6 +121,8 @@ module.exports = {
       <option value="23">Video is Age Restricted?</option>
     </select>
   </div>
+  <br>
+
   <div>
     <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
   </div>
@@ -137,7 +140,7 @@ module.exports = {
     const ytdl = Mods.require('ytdl-core');
     let result;
 
-    if (!input) return console.log('Please specify a video to get video informations.');
+    if (!input) return console.log('Please specify a video to get video information.');
 
     const searchResults = await ytsr(input);
     if (!searchResults) return this.callNextAction(cache);
@@ -222,6 +225,7 @@ module.exports = {
       default:
         break;
     }
+
     if (result !== undefined) {
       const storage = parseInt(data.storage, 10);
       const varName2 = this.evalMessage(data.varName, cache);

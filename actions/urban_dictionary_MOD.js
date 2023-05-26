@@ -61,6 +61,7 @@ module.exports = {
     <span class="dbminputlabel">Search</span>
     <textarea id="string" rows="6" placeholder="Write a something or use variables..." style="width: 95%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
   </div>
+
   <div style="float: left; width: 94%; padding-top: 8px;">
     <span class="dbminputlabel">Source Info</span>
     <select id="info" class="round">
