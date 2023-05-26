@@ -20,31 +20,22 @@ module.exports = {
 
   fields: ['url', 'storage', 'varName'],
 
-  html(isEvent, data) {
+  html() {
     return `
-  <div>
-    <div style="float: left; width: 95%;">
-      Webpage URL: <br>
-      <textarea id="url" class="round" style="width: 99%; resize: none;" type="textarea" rows="4" cols="20"></textarea><br>
-    </div><br>
-    <div style="float: left; width: 35%;">
-      Store In:<br>
-      <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-        ${data.variables[0]}
-      </select>
+  <div style="float: left; width: 100%">
+    <div>
+      <span class="dbminputlabel">Webpage URL</span>
+      <textarea id="url" class="round" style="resize: none;" type="textarea" rows="4" cols="20"></textarea>
     </div>
-    <div id="varNameContainer" style="display: ; float: right; width: 60%;">
-      Storage Variable Name:<br>
-      <input id="varName" class="round" type="text">
+    <br>
+
+    <div style="padding-top: 8px;">
+      <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
     </div>
   </div>`;
   },
 
-  init() {
-    const { glob, document } = this;
-
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
-  },
+  init() {},
 
   async action(cache) {
     const Mods = this.getMods();

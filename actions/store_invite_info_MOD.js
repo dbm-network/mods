@@ -71,14 +71,15 @@ module.exports = {
 
   fields: ['invite', 'info', 'storage', 'varName'],
 
-  html(_isEvent, data) {
+  html() {
     return `
 <div style="padding-top: 8px;">
-  Source Invite:<br>
+  <span class="dbminputlabel">Source Invite</span>
   <textarea class="round" id="invite" rows="1" placeholder="Code or URL | e.g abcdef or discord.gg/abcdef" style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
-</div><br>
-<div style="padding-top: 8px; width: 70%;">
-  Source Info:<br>
+</div>
+
+<div style="padding-top: 16px; width: 70%;">
+  <span class="dbminputlabel">Source Info</span>
   <select id="info" class="round">
     <option value="0" selected>Channel object</option>
     <option value="1">Creator of invite</option>
@@ -92,24 +93,15 @@ module.exports = {
     <option value="9">Invite server member count</option>
     <option value=10">Invite Code</option>
   </select>
-</div><br>
-<div style="float: left; width: 35%; padding-top: 8px;">
-  Store Result In:<br>
-  <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-    ${data.variables[0]}
-  </select>
 </div>
-<div id="varNameContainer" style="float: right; display: none; width: 60%; padding-top: 8px;">
-  Variable Name:<br>
-  <input id="varName" class="round" type="text">
+<br>
+
+<div>
+  <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
 </div>`;
   },
 
-  init() {
-    const { glob, document } = this;
-
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];

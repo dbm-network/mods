@@ -16,10 +16,16 @@ module.exports = {
       'Date',
       'City',
       'Country',
+      'Unused but needed!',
       'Wind Speed',
+      'Humidity',
       'Wind Direction',
       'Humidity',
-      'Feelslike',
+      'Unused but needed!',
+      'Unused but needed!',
+      'Unused but needed!',
+      'Unused but needed!',
+      'Feels like',
       'Image URL',
       'Current Day',
     ];
@@ -34,16 +40,16 @@ module.exports = {
         dataType = 'Temperature';
         break;
       case 1:
-        dataType = 'Weather - Text';
+        dataType = 'Weather Text';
         break;
       case 2:
         dataType = 'Date';
         break;
       case 3:
-        dataType = 'Weather - City';
+        dataType = 'Weather City';
         break;
       case 4:
-        dataType = 'Weather - Country';
+        dataType = 'Weather Country';
         break;
       case 6:
         dataType = 'Wind Speed';
@@ -55,7 +61,7 @@ module.exports = {
         dataType = 'Atmosphere Humidity';
         break;
       case 14:
-        dataType = 'Feelslike';
+        dataType = 'Feels like';
         break;
       case 15:
         dataType = 'Image URL';
@@ -71,24 +77,25 @@ module.exports = {
 
   html() {
     return `
-<div style="float: left; width: 54%; padding-top: 8px; padding-right: 8px;">
-  Source City:<br>
-  <input id="city" class="round" type="text">
-</div>
-<div style="float: right; width: 44%; padding-top: 8px;">
-  Degree Type:<br>
-  <select id="degreeType" class="round">
-    <option value="F">F</option>
-    <option value="C">C</option>
-  </select>
-</div>
+<div>
+  <div style="float: left; width: 54%; padding-top: 16px; padding-right: 8px;">
+    <span class="dbminputlabel">Source City</span>
+    <input id="city" class="round" type="text">
+  </div>
+  <div style="float: right; width: 44%; padding-top: 16px;">
+    <span class="dbminputlabel">Degree Type</span>
+    <select id="degreeType" class="round">
+      <option value="F">Farhenheit</option>
+      <option value="C">Celsius</option>
+    </select>
+  </div>
 <br>
 
-<div style="float: left; width: 100%; padding-top: 8px;">
-  Source Info:<br>
+<div style="float: left; width: 100%; padding-top: 16px;">
+  <span class="dbminputlabel">Source Info</span>
   <select id="info" class="round">
     <option value="0">Temperature</option>
-    <option value="14">Feelslike</option>
+    <option value="14">Feels like</option>
     <option value="1">Weather Text</option>
     <option value="2">Date</option>
     <option value="3">City</option>
@@ -100,9 +107,8 @@ module.exports = {
     <option value="16">Current Day</option>
   </select>
 </div>
-<br><br><br><br>
 
-<div style="padding-top: 16px;">
+<div style="float: left; width: 100%; padding-top: 16px;">
   <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
 </div>`;
   },

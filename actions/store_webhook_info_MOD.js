@@ -48,22 +48,14 @@ module.exports = {
 
   fields: ['webhook', 'varName', 'info', 'storage', 'varName2'],
 
-  html(_isEvent, data) {
+  html() {
     return `
 <div>
-  <div style="float: left; width: 35%;">
-    Transfer Value From:<br>
-    <select id="webhook" class="round" onchange="glob.refreshVariableList(this)">
-      ${data.variables[1]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList"><br>
-  </div>
-</div><br><br><br>
-<div style="float: left; width: 80%; padding-top: 8px;">
-  Source Info:<br>
+  <store-in-variable dropdownLabel="Source Webhook" selectId="webhook" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+</div>
+
+<div style="float: left; width: 80%; padding-top: 16px;">
+  <span class="dbminputlabel">Source Info</span>
   <select id="info" class="round">
     <option value="6" selected>Webhook URL</option>
     <option value="2">Webhook ID</option>
@@ -73,18 +65,10 @@ module.exports = {
     <option value="1">Webhook Guild ID</option>
     <option value="0">Webhook Channel ID</option>
   </select>
-</div><br><br>
+</div>
+
 <div>
-  <div style="float: left; width: 35%;">
-    Store In:<br>
-    <select id="storage" class="round">
-      ${data.variables[1]}
-    </select>
-  </div>
-  <div id="varNameContainer2" style="float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName2" class="round" type="text"><br>
-  </div>
+  <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
 </div>`;
   },
 

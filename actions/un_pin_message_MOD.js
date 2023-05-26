@@ -17,7 +17,9 @@ module.exports = {
 
   html() {
     return `
-<message-input dropdownLabel="Source Message" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></message-input>`;
+    <div>
+      <message-input dropdownLabel="Source Message" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></message-input>
+    </div>`;
   },
 
   init() {},

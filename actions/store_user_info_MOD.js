@@ -77,16 +77,16 @@ module.exports = {
 
   fields: ['user', 'varName', 'info', 'storage', 'varName2'],
 
-  html(isEvent, data) {
+  html() {
     return `
   <div>
-  <member-input dropdownLabel="Source Member" selectId="user" variableContainerId="varNameContainer" variableInputId="varName"></member-input>
+    <member-input dropdownLabel="Source Member" selectId="user" variableContainerId="varNameContainer" variableInputId="varName"></member-input>
   </div>
   <br><br><br>
 
   <div>
     <div style="padding-top: 8px; width: 70%">
-      Source Info:<br>
+      <span class="dbminputlabel">Source Info</span>
       <select id="info" class="round">
         <option value="0" selected>User Object</option>
         <option value="1">User ID</option>
@@ -109,16 +109,7 @@ module.exports = {
   <br>
   
   <div>
-    <div style="float: left; width: 35%">
-      Store In:<br>
-      <select id="storage" class="round">
-        ${data.variables[1]}
-      </select>
-    </div>
-    <div id="varNameContainer2" style="float: right; width: 60%">
-      Variable Name:<br>
-      <input id="varName2" class="round" type="text"><br>
-    </div>
+    <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
   </div>`;
   },
 

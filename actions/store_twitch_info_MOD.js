@@ -130,7 +130,7 @@ module.exports = {
         break;
     }
 
-    infoList2.push(`from ${infoName2} ${infoName1} "${data.input.toString()}"`);
+    infoList2.push(`from ${infoName2} ${infoName1} ${data.input.toString()}`);
     infoList2.push('');
 
     if (info4 > 2 && sourceType === 3) {
@@ -139,7 +139,7 @@ module.exports = {
       infoNum2 = 0;
     }
 
-    return `Get "${infoList1[parseInt(infoNum1, 10)]}" ${infoList2[parseInt(infoNum2, 10)]}`;
+    return `Get ${infoList1[parseInt(infoNum1, 10)]} ${infoList2[parseInt(infoNum2, 10)]}`;
   },
 
   variableStorage(data, varType) {
@@ -255,11 +255,11 @@ module.exports = {
     'cache',
   ],
 
-  html(isEvent, data) {
+  html() {
     return `
-<div id="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
-  <div style="float: left width: 42%">
-    <br>Source Type:<br>
+<div id="wrexdiv" style="height: 350px; overflow-y: scroll;">
+  <div style="float: left; width: 45%; padding-top: 16px;">
+    <span class="dbminputlabel">Source Type</span>
     <select id="type" class="round" onchange="glob.onChange1(this)">
       <option value="0" selected>Channel Info</option>
       <option value="1">Stream Info</option>
@@ -267,19 +267,22 @@ module.exports = {
       <option value="3">Game Info</option>
     </select>
   </div>
-  <div id="divinputtype" style="padding-left: 5% float: left width: 52% display: none">
-    <br>Input Type:<br>
+
+  <div id="divinputtype" style="float: right; width: 52%; display: none; padding-top: 16px;">
+    <span class="dbminputlabel">Input Type</span>
     <select id="inputtype" class="round" onchange="glob.onChange2(this)" style="display: none">
       <option value="0" selected>ID</option>
       <option value="1">Name</option>
     </select>
   </div>
-  <div id="divinput" style="float: left width: 99% padding-top: 8px">
-    <span id="tempName1">User</span> <span id="tempName2">ID</span>:<br>
-    <textarea id="input" rows="2" placeholder="Please insert the needed information..." style="width: 95% font-family: monospace white-space: nowrap resize: none"></textarea>
+
+  <div id="divinput" style="float: left; width: 100%; padding-top: 16px;">
+    <span class="dbminputlabel"><span id="tempName1">User</span> <span id="tempName2">ID</span></span>
+    <textarea id="input" rows="2" placeholder="Please insert the needed information..." style="width: 100%; font-family: monospace; white-space: nowrap; resize: none"></textarea>
   </div>
-  <div id="divinfo1" style="float: left width: 94% padding-top: 8px display: none" onchange="glob.onChange3(this)">
-    Source Channel Info:<br>
+
+  <div id="divinfo1" style="float: left; width: 100%; padding-top: 16px; display: none;" onchange="glob.onChange3(this)">
+    <span class="dbminputlabel">Source Channel Info</span>
     <select id="info1" class="round">
       <option value="0">User ID</option>
       <option value="1">User Login Name</option>
@@ -294,8 +297,9 @@ module.exports = {
       <option value="10">Channel Following Count</option>
     </select>
   </div>
-  <div id="divinfo2" style="float: left width: 94% padding-top: 8px display: none">
-    Source Stream Info:<br>
+
+  <div id="divinfo2" style="float: left; width: 100%; padding-top: 16px; display: none;">
+    <span class="dbminputlabel">Source Stream Info</span>
     <select id="info2" class="round">
       <option value="5">Is Live?</option>
       <option value="0">Stream ID</option>
@@ -312,8 +316,9 @@ module.exports = {
       <option value="11">Tag IDs</option>
     </select>
   </div>
-  <div id="divinfo3" style="float: left width: 94% padding-top: 8px display: none">
-    Source Video Info:<br>
+
+  <div id="divinfo3" style="float: left; width: 100%; padding-top: 16px; display: none;">
+    <span class="dbminputlabel">Source Video Info</span>
     <select id="info3" class="round">
       <option value="1">User ID</option>
       <option value="2">User Display Name</option>
@@ -332,8 +337,9 @@ module.exports = {
       <option value="14">Video Durations in Seconds</option>
     </select>
   </div>
-  <div id="divinfo4" style="float: left width: 94% padding-top: 8px display: none" onchange="glob.onChange4(this)">
-    Source Game Info:<br>
+
+  <div id="divinfo4" style="float: left; width: 100%; padding-top: 16px; display: none;" onchange="glob.onChange4(this)">
+    <span class="dbminputlabel">Source Game Info</span>
     <select id="info4" class="round">
       <option value="0">Game ID</option>
       <option value="1">Game Name</option>
@@ -343,39 +349,37 @@ module.exports = {
       <option value="5">Popular Games List (Game Box Art URLs)</option>
     </select>
   </div>
-  <div style="float: left width: 50% padding-top: 8px">
-    Client ID:<br>
+
+  <div style="float: left; width: 100%; padding-top: 16px;">
+    <span class="dbminputlabel">Client ID</span>
     <input id="clientid" class="round" type="text" placeholder="Insert your Twitch Application Client ID...">
   </div>
-  <div style="float: right width: 50% padding-top: 8px">
-    Access Token:<br>
+
+  <div style="float: right; width: 100%; padding-top: 16px;">
+    <span class="dbminputlabel">Access Token</span>
     <input id="token" class="round" type="text" placeholder="Insert your Twitch Application Access Token...">
   </div>
-  <div id="divresults" style="float: left width: 95% padding-top: 8px display: none">
-    Max Results:<br>
+
+  <div id="divresults" style="float: left; width: 100%; padding-top: 16px; display: none">
+    <span class="dbminputlabel">Max Results</span>
     <input id="results" class="round" type="text" placeholder="Default: 20 | Max: 100">
   </div>
+
   <div>
-    <div style="float: left width: 35%  padding-top: 8px">
-      Store In:<br>
-      <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-        ${data.variables[1]}
-      </select>
-    </div>
-    <div id="varNameContainer" style="float: right width: 60% padding-top: 8px">
-      Variable Name:<br>
-      <input id="varName" class="round" type="text"><br>
-    </div>
+    <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
   </div>
+  <br><br><br>
+
   <div>
-    <div style="float: left width: 60% padding-top: 8px">
-      Read From Cache:<br>
+    <div style="float: left; width: 60%; padding-top: 8px;">
+      <span class="dbminputlabel">Read From Cache</span>
       <select id="cache" class="round">
         <option value="true" selected>True</option>
         <option value="false">False (Recache)</option>
       </select>
     </div>
-    <div style="float: left padding-top: 8px">
+
+    <div style="float: left; padding-top: 8px;">
       <p>
         <u>API Info:</u><br>
         You will need a <span class="wrexlink" data-url="https://dev.twitch.tv/console/apps">Twitch Applications</span> to use this mod!<br><br>
@@ -394,6 +398,7 @@ module.exports = {
     </div>
   </div>
 </div>
+
 <style>
   span.wrexlink {
     color: #99b3ff
@@ -658,7 +663,6 @@ module.exports = {
     glob.onChange2(document.getElementById('inputtype')); // For the "Input Type"
     glob.onChange3(document.getElementById('info1')); // For Source Info: Channel
     glob.onChange4(document.getElementById('info4')); // For Source Info: Game
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
   },
 
   async action(cache) {
