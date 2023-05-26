@@ -79,7 +79,7 @@ module.exports = {
     const data = cache.actions[cache.index];
     const queue = Bot.bot.player.getQueue(cache.server);
     const action = parseInt(data.action, 10);
-    const volume = parseInt(data.volume, 10);
+    const volume = parseInt(this.evalMessage(data.volume, cache), 10);
 
     if (volume && isNaN(volume)) {
       console.log('Invalid volume number in Control Music');
@@ -111,7 +111,7 @@ module.exports = {
         queue.shuffle();
         break;
       case 7:
-        queue.setVolume(data.volume);
+        queue.setVolume(volume);
         break;
     }
 
