@@ -9,7 +9,7 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/control_music_MOD.js',
   },
   requiresAudioLibraries: true,
-  fields: ['action'],
+  fields: ['action', 'volume'],
 
   subtitle(data) {
     const actions = [
@@ -20,15 +20,16 @@ module.exports = {
       'Play Previous Song',
       'Clear Queue',
       'Shuffle Queue',
+      'Set Volume',
     ];
     return `${actions[parseInt(data.action, 10)]}`;
   },
 
   html() {
     return `
-<div style="float: left; width: 80%;">
-	<span class="dbminputlabel">Music Action</span><br>
-	<select id="action" class="round">
+<div style="float: left; width: calc(50% - 8px);">
+	<span class="dbminputlabel">Music Action</span>
+	<select id="action" class="round" onchange="glob.onChange(this)">
 		<option value="0" selected>Stop Playing</option>
 		<option value="1">Pause Music</option>
 		<option value="2">Resume Music</option>
@@ -36,17 +37,54 @@ module.exports = {
     <option value="4">Play Previous Song</option>
     <option value="5">Clear Queue</option>
     <option value="6">Shuffle Queue</option>
+    <option value="7">Set Volume</option>
 	</select>
+</div>
+
+<div id="volumeDiv" style="float: right; display: none; width: calc(50% - 8px);">
+  <span class="dbminputlabel">Volume Level</span>
+  <input id="volume" class="round" type="text">
 </div>`;
   },
 
-  init() {},
+  init() {
+    const { glob, document } = this;
+
+    const volume = document.getElementById('volumeDiv');
+
+    glob.onChange = function onChange(event) {
+      switch (parseInt(event.value, 10)) {
+        case 0:
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+          volume.style.display = 'none';
+          break;
+        case 7:
+          volume.style.display = null;
+          break;
+        default:
+          break;
+      }
+    };
+
+    glob.onChange(document.getElementById('action'));
+  },
 
   action(cache) {
     const { Bot } = this.getDBM();
     const data = cache.actions[cache.index];
     const queue = Bot.bot.player.getQueue(cache.server);
     const action = parseInt(data.action, 10);
+    const volume = parseInt(data.volume, 10);
+
+    if (volume && isNaN(volume)) {
+      console.log('Invalid volume number in Control Music');
+      return this.callNexAction(cache);
+    }
 
     if (!queue) return this.callNextAction(cache);
 
@@ -71,6 +109,9 @@ module.exports = {
         break;
       case 6:
         queue.shuffle();
+        break;
+      case 7:
+        queue.setVolume(data.volume);
         break;
     }
 
