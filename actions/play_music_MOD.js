@@ -78,9 +78,9 @@ module.exports = {
     const track = await player.search(query, {
       requestedBy: cache.getUser(),
     });
-    track.playlist ? queue.addTracks(track.tracks) : queue.addTrack(track.tracks[0]);
 
     if (track !== undefined) {
+      track.playlist ? queue.addTracks(track.tracks) : queue.addTrack(track.tracks[0]);
       if (data.type === '1') {
         await queue.play();
       }

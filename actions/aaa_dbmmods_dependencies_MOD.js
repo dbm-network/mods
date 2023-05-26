@@ -5,13 +5,12 @@ const Mods = {
     return new Promise((resolve) => {
       try {
         require('child_process').execSync(`npm i ${version ? `${moduleName}@${version}` : moduleName}`);
-        resolve(require(moduleName));
+        return resolve(require(moduleName));
       } catch (error) {
-        console.log(
-          '\n\nIf this is the first time installing the module, restart your bot first! This is probably a false error.\n\n',
-        );
-        console.error(
-          `Failed to install ${version ? `${moduleName}@${version}` : moduleName}. Error: ${error.message}`,
+        return console.log(
+          `The required module "${
+            version ? `${moduleName}@${version}` : moduleName
+          }" has been installed. Please restart your bot.`,
         );
       }
     });
@@ -21,7 +20,7 @@ const Mods = {
     try {
       return require(moduleName);
     } catch (e) {
-      version ? this.installModule(moduleName, version) : this.installModule(moduleName);
+      this.installModule(moduleName, version);
       return require(moduleName);
     }
   },
@@ -209,7 +208,7 @@ module.exports = {
     <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
       <p>
         <u>DBM Mods Dependencies:</u><br><br>
-        This isn't an action, but it is required for the actions under this category.<br><br>
+        This isn't an action, but it is required for most of the mods.<br><br>
         <bCreate action wont do anything</b>
       </p>
     </div>`;
