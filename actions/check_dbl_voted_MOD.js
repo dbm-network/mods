@@ -28,14 +28,18 @@ module.exports = {
   html(isEvent, data) {
     return `
 <div>
-<member-input dropdownLabel="Source Member" selectId="member" variableContainerId="varNameContainer" variableInputId="varName"></member-input>
-</div><br><br><br>
+  <member-input dropdownLabel="Source Member" selectId="member" variableContainerId="varNameContainer" variableInputId="varName"></member-input>
+</div>
+<br><br><br>
+
 <div>
   <div style="float: left; width: 89%;">
     <span class="dbminputlabel">TopGG API Token</span>
     <input id="apitoken" class="round" type="text">
   </div>
-</div><br><br><br>
+</div>
+<br><br><br>
+
 <div style="padding-top: 8px;">
   ${data.conditions[0]}
 </div>`;
