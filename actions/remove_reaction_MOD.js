@@ -15,31 +15,18 @@ module.exports = {
 
   fields: ['reaction', 'varName', 'member', 'varName2'],
 
-  html(isEvent, data) {
+  html() {
     return `
 <div>
-  <div style="float: left; width: 35%;">
-    Source Reaction:<br>
-    <select id="reaction" class="round" onchange="glob.refreshVariableList(this)">
-      ${data.variables[1]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList"><br>
-  </div>
+  <store-in-variable dropdownLabel="Source Reaction" selectId="reaction" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
 </div>
 <br><br><br><br>
-
-<member-input dropdownLabel="Source Member" selectId="member" variableContainerId="varNameContainer2" variableInputId="varName2"></member-input>
-`;
+<div>
+  <member-input dropdownLabel="Source Member" selectId="member" variableContainerId="varNameContainer2" variableInputId="varName2"></member-input>
+</div>`;
   },
 
-  init() {
-    const { glob, document } = this;
-
-    glob.refreshVariableList(document.getElementById('reaction'));
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];

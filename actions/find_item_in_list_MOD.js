@@ -32,36 +32,28 @@ module.exports = {
 
   fields: ['list', 'varName', 'item', 'storage', 'varName2'],
 
-  html(isEvent, data) {
+  html() {
     return `
-<div style="float: left; width: 35%;">
-  Source List:<br>
-  <select id="list" class="round" onchange="glob.listChange(this, 'varNameContainer')">
-    ${data.lists[isEvent ? 1 : 0]}
-  </select>
+<div>
+  <store-in-variable dropdownLabel="Source List" selectId="list" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
 </div>
-<div id="varNameContainer" style="display: none; float: right; width: 60%;">
-  Variable Name:<br>
-  <input id="varName" class="round" type="text" list="variableList"><br>
-</div>
-</div><br><br><br>
+<br><br><br>
+
 <div style="padding-top: 8px;">
-  Item to find:<br>
+  <span class="dbminputlabel">Item to find</span>
   <textarea id="item" rows="4" placeholder="Insert a variable or some text. Those '' are not needed!" style="width: 94%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
-</div><br>
+</div>
+<br>
+
 <div style="padding-top: 8px;">
-  <div style="float: left; width: 35%;">
-    Store In:<br>
-    <select id="storage" class="round">
-      ${data.variables[1]}
-    </select>
-  </div>
-  <div id="varNameContainer2" style="float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName2" class="round" type="text">
-  </div>
-</div><br><br><br>
-<div><p>This action searches for an item in a list and returns the position.<br>Note that every list in JavaScript starts from 0!</p></div><br>`;
+  <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
+</div>
+<br><br><br>
+
+<div>
+  <p>This action searches for an item in a list and returns the position.<br>
+  Note that every list in JavaScript starts from 0!</p>
+</div>`;
   },
 
   init() {

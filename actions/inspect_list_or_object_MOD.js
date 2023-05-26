@@ -20,39 +20,27 @@ module.exports = {
 
   fields: ['storage', 'varName', 'depth', 'storage2', 'varName2'],
 
-  html(_isEvent, data) {
+  html() {
     return `
-<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
+<div id="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
+  <div style="padding-top: 8px;">
+    <store-in-variable dropdownLabel="Source Variable" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+  </div>
+  <br><br><br>
+  
   <div>
-    <div style="float: left; width: 35%;">
-      Source Variable:<br>
-      <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
-        ${data.variables[1]}
-      </select>
-    </div>
-    <div id="varNameContainer" style="float: right; width: 60%;">
-      Variable Name:<br>
-      <input id="varName" class="round" type="text" list="variableList">
-    </div>
-  </div><br><br><br>
-  <div>
-    <div style="float: left; width: 39%; padding-top: 8px;">
-      Depth:<br>
+    <div style="float: left; width: 35%; padding-top: 8px;">
+      <span class="dbminputlabel">Depth</span>
       <input id="depth" class="round" type="text" placeholder="Optional">
     </div>
-  </div><br><br><br>
+  </div>
+  <br><br><br>
+  
   <div style="padding-top: 8px;">
-    <div style="float: left; width: 35%;">
-      Store In:<br>
-      <select id="storage2" class="round">
-        ${data.variables[1]}
-      </select>
-    </div>
-    <div id="varNameContainer2" style="float: right; width: 60%;">
-      Variable Name:<br>
-      <input id="varName2" class="round" type="text"><br>
-    </div>
-  </div><br><br><br>
+    <store-in-variable dropdownLabel="Store In" selectId="storage2" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
+  </div>
+  <br><br><br>
+  
   <div>
     <div class="embed" style="width:98%; padding-top: 8px;">
       <embedleftline></embedleftline><div class="embedinfo">
@@ -62,6 +50,7 @@ module.exports = {
     </div>
   </div><br>
 </div>
+
 <style>
   /* Embed CSS code */
   .embed {
@@ -96,10 +85,7 @@ module.exports = {
 </style>`;
   },
 
-  init() {
-    const { glob, document } = this;
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];

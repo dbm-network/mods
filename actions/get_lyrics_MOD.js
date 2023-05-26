@@ -36,45 +36,41 @@ module.exports = {
 
   fields: ['song', 'key', 'info', 'storage', 'varName'],
 
-  html(_isEvent, data) {
+  html() {
     return `
 <div style="width: 550px; height: 350px; overflow-y: scroll;">
   <div>
     <div style="width: 95%; padding-top: 8px;">
-      Song to Search:<br>
+      <span class="dbminputlabel">Song to Search</span>
       <textarea id="song" rows="2" placeholder="Write a song name here or use variables..." style="width: 95%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
     </div>
     <div style="width: 95%; padding-top: 8px;">
-      API Key:<br>
+      <span class="dbminputlabel">API Key</span>
       <textarea id="key" rows="2" placeholder="Write your key. Get one from Genius." style="width: 95%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
     </div>
     <div style="float: left; width: 55%; padding-top: 8px;">
-      Source Info:<br>
+      <span class="dbminputlabel">Source Info</span>
       <select id="info" class="round">
         <option value="0" selected>Song Title</option>
         <option value="1">Song Artist</option>
         <option value="2">Song Lyrics</option>
         <option value="3">Song URL</option>
       </select>
-    </div><br><br><br>
-    <div>
-      <div style="float: left; width: 35%; padding-top: 8px;">
-        Store In:<br>
-        <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-          ${data.variables[0]}
-        </select>
-      </div>
-      <div id="varNameContainer" style="float: right; width: 60%; padding-top: 8px;">
-        Variable Name:<br>
-        <input id="varName" class="round" type="text"><br>
-      </div>
     </div>
+    <br><br><br><br>
+    
+    <div>
+      <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+    </div>
+    <br><br>
+
     <div style="float: left; width: 88%; padding-top: 8px;"><br>
       <p>
         To get an API key, create a new app on https://genius.com/api-clients/new or check a tutorial by clicking <a href="https://www.youtube.com/watch?v=1IvpIJzCdto">here</a>.
       </p>
     <div>
   </div>
+
   <style>
   div.embed { /* <div class="embed"></div> */
     position: relative;

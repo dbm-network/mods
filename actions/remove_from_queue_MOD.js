@@ -11,32 +11,31 @@ module.exports = {
   },
 
   subtitle(data) {
-    return `Remove ${data.amount} Song`;
+    return `Remove ${data.amount} Song(s)`;
   },
 
   fields: ['server', 'varName', 'position', 'amount'],
 
   html() {
     return `
-<server-input dropdownLabel="Source Server" selectId="server" variableContainerId="varNameContainer" variableInputId="varName"></server-input>
-<br><br><br>
+    <div>
+      <server-input dropdownLabel="Source Server" selectId="server" variableContainerId="varNameContainer" variableInputId="varName"></server-input>
+    </div>
+    <br><br><br>
 
 <div>
   <div style="float: left; width: 47%;">
-    Position:<br>
+    <span class="dbminputlabel">Position</span>
     <input id="position" type="text" class="round" placeholder="Position start from 0">
   </div>
   <div style="float: left; padding-left: 3px; width: 50%;">
-    Remove Amount:<br>
+    <span class="dbminputlabel">Remove Amount</span>
     <input id="amount" type="text" class="round" placeholder="Input must be great than 0">
   </div>
 </div>`;
   },
 
-  init() {
-    const { glob, document } = this;
-    glob.serverChange(document.getElementById('server'), 'varNameContainer');
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];

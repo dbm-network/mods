@@ -51,20 +51,20 @@ module.exports = {
 
   fields: ['serverip', 'serverport', 'game', 'info', 'storage', 'varName'],
 
-  html(_isEvent, data) {
+  html() {
     return `
   <div style="width: 550px; height: 350px; overflow-y: scroll;">
   <div>
-  <div style="float: left; width: 50%; padding-top: 8px;">
-    Server IP:<br>
-    <textarea id="serverip" rows="2" placeholder="mc.example.com" style="width: 90%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
-  </div>
-  <div style="float: left; width: 50%; padding-left: 10px; padding-top: 8px;">
-    Server Port:<br>
-    <textarea id="serverport" rows="2" placeholder="Leave blank for default port" style="width: 90%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+    <div style="float: left; width: 50%; padding-top: 8px;">
+      <span class="dbminputlabel">Server IP</span>
+      <textarea id="serverip" rows="2" placeholder="mc.example.com" style="width: 90%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
     </div>
-  <div style="float: left; width: 55%; padding-top: 8px;">
-  Game:<br>
+    <div style="float: left; width: 50%; padding-left: 10px; padding-top: 8px;">
+      <span class="dbminputlabel">Server Port</span>
+      <textarea id="serverport" rows="2" placeholder="Leave blank for default port" style="width: 90%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+    </div>
+    <div style="float: left; width: 55%; padding-top: 8px;">
+    <span class="dbminputlabel">Game</span>
     <select id="game" class="round">
     <option value="7d2d">7 Days to Die (2013)</option>
     <option value="ageofchivalry">Age of Chivalry (2007)</option>
@@ -321,40 +321,36 @@ module.exports = {
     <option value="xpandrally">Xpand Rally</option>
     <option value="zombiemaster">Zombie Master</option>
     <option value="zps">Zombie Panic: Source</option>
-  </select>
-</div><br><br><br>
-<div style="float: left; width: 55%; padding-top: 8px;">
-  Source Info:<br>
-  <select id="info" class="round">
-    <option value="0" selected>Server Name</option>
-    <option value="1">Map</option>
-    <option value="2">Number Of Players In The Server</option>
-    <option value="3">Number Of Bots In The Server</option>
-    <option value="4">Max Players</option>
-    <option value="5">Server Tags</option>
-    <option value="6">Does Server Have Password?</option>
-    <option value="7">Server Player List</option>
-    </select>
-    </div>
-  </div><br><br><br><br><br><br><br>
-<div>
-  <div style="float: left; width: 35%; padding-top: 8px;">
-    Store In:<br>
-    <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-      ${data.variables[1]}
     </select>
   </div>
-  <div id="varNameContainer" style="float: right; width: 60%; padding-top: 8px;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text"><br>
-</div>
-</div>
+  <br><br><br>
+  
+  <div style="float: left; width: 55%; padding-top: 8px;">
+    <span class="dbminputlabel">Source Info</span>
+    <select id="info" class="round">
+      <option value="0" selected>Server Name</option>
+      <option value="1">Map</option>
+      <option value="2">Number Of Players In The Server</option>
+      <option value="3">Number Of Bots In The Server</option>
+      <option value="4">Max Players</option>
+      <option value="5">Server Tags</option>
+      <option value="6">Does Server Have Password?</option>
+      <option value="7">Server Player List</option>
+    </select>
+    </div>
+  </div>
+  <br><br><br><br><br><br><br>
+
+  <div>
+    <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+  </div>
+  <br><br><br>
+
   <div style="float: left; width: 88%; padding-top: 8px;">
-    <br>
     <p>
       You can see Games with additional notes by clicking <a href="https://www.npmjs.com/package/gamedig#games-with-additional-notes">here</a>.
     </p>
-  <div>
+  </div>
 </div>
 <style>
   div.embed { /* <div class="embed"></div> */
@@ -389,11 +385,7 @@ module.exports = {
 </style>`;
   },
 
-  init() {
-    const { glob, document } = this;
-
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
-  },
+  init() {},
 
   async action(cache) {
     const { Actions } = this.getDBM();

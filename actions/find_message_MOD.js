@@ -21,7 +21,7 @@ module.exports = {
 
   fields: ['channel', 'varName', 'info', 'search', 'storage', 'varName2'],
 
-  html(isEvent, data) {
+  html() {
     return `
 <div style="padding-top: 8px;">
   <channel-input dropdownLabel="Source Channel" selectId="channel" variableContainerId="varNameContainer" variableInputId="varName"></channel-input>
@@ -29,30 +29,23 @@ module.exports = {
 
   <div>
     <div style="float: left; width: 70%;">
-      Find by:<br>
+      <span class="dbminputlabel">Find by</span>
       <select id="info" class="round">
       <option value="0" selected>Find by Content</option>
       <option value="1">Find by ID</option>
     </select>
-  </div><br><br><br>
+  </div>
+  <br><br><br>
+  
   <div style="float: left; width: 70%;">
-    Search for:<br>
+    <span class="dbminputlabel">Search for</span>
     <input id="search" class="round" type="text"><br>
   </div>
 </div>
 <br>
 
 <div>
-  <div style="float: left; width: 35%;">
-    Store In:<br>
-    <select id="storage" class="round">
-      ${data.variables[1]}
-    </select>
-  </div>
-  <div id="varNameContainer2" style="float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName2" class="round" type="text"><br>
-  </div>
+  <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
 </div>
 <br><br><br>
 

@@ -19,33 +19,30 @@ module.exports = {
   },
   fields: ['text', 'wordtoFind', 'position', 'storage', 'varName'],
 
-  html(_isEvent, data) {
+  html() {
     return `
 <div style="float: left; width: 65%; padding-top: 8px;">
-  Text to Find:
+  <span class="dbminputlabel">Text to Find</span>
   <input id="wordtoFind" class="round" type="text">
 </div>
-<div style="float: left; width: 29%; padding-top: 8px;">
-  Position:<br>
+
+<div style="float: left; width: 29%; padding-top: 8px; padding-left: 1%;">
+  <span class="dbminputlabel">Position</span>
   <select id="position" class="round">
     <option value="0" selected>Position at Start</option>
     <option value="1">Position at End</option>
-</select>
-</div>
-<div style="float: left; width: 99%; padding-top: 8px;">
-  Source Text:
-  <textarea id="text" rows="3" placeholder="Insert text here..." style="width: 95%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
-</div>
-<div style="float: left; width: 35%; padding-top: 8px;">
-  Store Result In:<br>
-  <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-    ${data.variables[0]}
   </select>
 </div>
-<div id="varNameContainer" style="float: right; display: none; width: 60%; padding-top: 8px;">
-  Variable Name:<br>
-  <input id="varName" class="round" type="text" >
+<div style="float: left; width: 99%; padding-top: 8px;">
+  <span class="dbminputlabel">Source Text</span>
+  <textarea id="text" rows="3" placeholder="Insert text here..." style="width: 95%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
 </div>
+<br><br><br>
+
+<div style="float: left; display: flex; width: 99%; padding-top: 8px;">
+  <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+</div>
+
 <div style="float: left; width: 99%; padding-top: 8px;">
   <p>
   This action will output the position of the text depending of your choice.<br>
@@ -56,10 +53,7 @@ module.exports = {
 </div>`;
   },
 
-  init() {
-    const { glob, document } = this;
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];
@@ -67,11 +61,11 @@ module.exports = {
     const wordToFind = this.evalMessage(data.wordtoFind, cache);
     const position = parseInt(data.position, 10);
 
-    if (!wordToFind) return console.log('Find Text MOD: Text to find is missing!');
-    if (!text) return console.log('Find Text MOD: Source text is missing!');
+    if (!wordToFind) return console.log('Find Text: Text to find is missing!');
+    if (!text) return console.log('Find Text: Source text is missing!');
     if (!text.includes(wordToFind))
       console.log(
-        `Find Text MOD: The requested text wasn't found in the source text!\nSource text: ${text}\nText to find: ${wordToFind}`,
+        `Find Text: The requested text wasn't found in the source text!\nSource text: ${text}\nText to find: ${wordToFind}`,
       );
 
     let result;

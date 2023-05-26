@@ -19,20 +19,22 @@ module.exports = {
     return `
 <div>
   <div>
-    Channel to send to:<br>
+    <span class="dbminputlabel">Twitch Channel</span>
     <input id='channelToSendTo' class='round' type='text'><br>
-  </div><br>
+  </div>
+  
   <div>
-    Username of the account sending the message:<br>
+    <span class="dbminputlabel">Username</span>
     <input id='username' class='round' type='text'><br>
-  </div><br>
+  </div>
+  
   <div>
-    oAuth token for the account sending the message:<br>
-    <a href='https://twitchapps.com/tmi/'>Click here to get yours</a><br>
+    <span class="dbminputlabel">oAuth Token</span>
     <input id='oAuth' class='round' type='text'><br>
-  </div><br>
+  </div>
+  
   <div>
-    Message to send:<br>
+    <span class="dbminputlabel">Message</span>
     <input id='messageToSend' class='round type='text'>
   </div>
 </div>`;

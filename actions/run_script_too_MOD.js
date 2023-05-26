@@ -21,51 +21,50 @@ module.exports = {
 
   fields: ['behavior', 'interpretation', 'code', 'file', 'storage', 'varName', 'title'],
 
-  html(_isEvent, data) {
+  html() {
     return `
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
-  <div>
+  <div style="padding-top: 8px;">
     <div style="float: left; width: 45%;">
-      End Behavior:<br>
+      <span class="dbminputlabel">End Behavior</span>
       <select id="behavior" class="round">
-        <option value="0"selected>Call Next Action</option>
-        <option value="1">Do Not Call Next Action</option>
+        <option value="0">Call Next Action</option>
+        <option value="1" selected>Do Not Call Next Action</option>
       </select>
     </div>
     <div style="padding-left: 5%; float: left; width: 55%;">
-      Interpretation Style:<br>
+      <span class="dbminputlabel">Interpretation Style</span>
       <select id="interpretation" class="round">
         <option value="0">Evaluate Text First</option>
         <option value="1" selected>Evaluate Text Directly</option>
       </select>
     </div>
-  </div><br><br><br><br>
-  <div id="" style="float: left; width: 65%;">
-    Script Name: (shown in the action subtitle)<br>
+  </div>
+  <br><br><br>
+  
+  <div style="float: left; width: 65%;">
+    <span class="dbminputlabel">Script Name</span>
     <input id="title" class="round" type="text">
-  </div><br><br><br><br>
+  </div>
+  <br><br><br>
+  
   <div>
-    External File Path: (Root directory is your bot folder )<br>
     <div style="float: left; width: 65%;">
+      <span class="dbminputlabel">External File Path</span>
       <input type="text" name="file" id="file" class="round" placeholder="./scripts/myscript.js" style="float: left;"/>
     </div>
-  </div><br><br><br><br><br><br>
-  <div>
-    <div style="float: left; width: 35%;">
-      Store In:<br>
-      <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-      ${data.variables[0]}
-      </select>
-    </div>
-    <div id="varNameContainer" style="display: none; float: right; width: 60%;">
-      Variable Name:<br>
-      <input id="varName" class="round" type="text">
-    </div>
-  </div><br><br><br><br><br>
+  </div>
+  <br><br><br>
+  
+  <div style="float: left; width: 100%">
+    <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+  </div>
+  <br><br><br>
+  
   <div style="padding-top: 8px;">
     Or Use Custom Code: (This isn't used if an external path is defined.)<br>
     <textarea id="code" rows="14" name="is-eval" style="width: 99%; white-space: nowrap; resize: none;"></textarea>
-  </div><br><br>
+  </div>
 </div>
 <style>
   /* Embed CSS code */

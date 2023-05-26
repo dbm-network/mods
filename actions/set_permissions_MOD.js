@@ -23,7 +23,7 @@ module.exports = {
     return `
 <div style="padding-top: 8px;">
   <div style="float: left; width: 60%;">
-    Permission Way:<br>
+    <span class="dbminputlabel">Permission Way</span><br>
     <select id="way" class="round">
       <option value="0" selected>Update</option>
       <option value="1">Set</option>
@@ -32,27 +32,27 @@ module.exports = {
 </div>
 <br><br><br>
 
-<role-input dropdownLabel="Source Role" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></role-input>
-
+<div>
+  <role-input dropdownLabel="Source Role" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></role-input>
+</div>
 <br><br><br>
 
 <div style="padding-top: 8px;">
   <div style="float: left; width: 35%;">
-    Source Permissions:<br>
+    <span class="dbminputlabel">Source Permissions</span><br>
     <select id="storage2" class="round" onchange="glob.refreshVariableList(this)">
       ${data.variables[1]}
     </select><br>
   </div>
   <div style="float: right; width: 60%;">
-    Variable Name:<br>
+    <span class="dbminputlabel">Variable Name</span><br>
     <input id="varName2" class="round" type="text" list="variableList"><br>
   </div>
 </div>
-
 <br><br><br>
 
 <div style="padding-top: 8px;">
-  Reason:<br>
+  <span class="dbminputlabel">Reason</span><br>
   <textarea id="reason" rows="2" placeholder="Insert reason here... (optional)" style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
 </div>`;
   },

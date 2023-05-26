@@ -20,7 +20,7 @@ module.exports = {
 
   fields: ['debugMode', 'xpath', 'source', 'sourceVarName', 'storage', 'varName'],
 
-  html(isEvent, data) {
+  html() {
     return `
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
   <div>
@@ -30,16 +30,12 @@ module.exports = {
     3. How to get <span class="wrexlink" data-url="https://stackoverflow.com/a/46599584/1422928">XPath from Chrome.</span><br>
     </p
   </div>
-  <div style="float: left; width: 35%;">
-    Source HTML:<br>
-    <select id="source" class="round" onchange="glob.variableChange(this, 'sourceVarNameContainer')">
-      ${data.variables[1]}
-    </select>
+
+  <div>
+    <store-in-variable dropdownLabel="Source HTML" selectId="source" variableContainerId="sourceVarNameContainer" variableInputId="sourceVarName"></store-in-variable>
   </div>
-  <div id="sourceVarNameContainer" style="display: none; float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="sourceVarName" class="round" type="text" list="variableList">
-  </div><br><br><br>
+  <br><br><br>
+  
   <div>
     XPath: (Supports multiple, split with the <b>|</b> symbol) <br>
     <textarea id="xpath" class="round" style="width: 99%; resize: none;" type="textarea" rows="2" cols="20"></textarea><br>
@@ -47,25 +43,23 @@ module.exports = {
   <div hidden="true">
     <button class="tiny compact ui labeled icon button" onclick="glob.checkPath(this)"><i class="plus icon"></i>Check XPath</button><br>
     Valid: <text id="valid" style="color: red">Input A Path</text>
-  </div><br>
-  <div style="float: left; width: 35%;">
-    Store In:<br>
-    <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-      ${data.variables[0]}
-    </select>
   </div>
-  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
-    Storage Variable Name:<br>
-    <input id="varName" class="round" type="text">
-  </div><br>
+  <br>
+  
+  <div>
+    <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+  </div>
+  <br><br><br>
+  
   <div style="float: left; width: 30%;">
-    <br>Debug Mode: (Enable to see verbose printing in the bot console)<br>
+    <span class="dbminputlabel">Debug Mode</span>
     <select id="debugMode" class="round">
-      <option value="1" selected>Enabled</option>
-      <option value="0" >Disabled</option>
+      <option value="1">Enabled</option>
+      <option value="0" selected>Disabled</option>
     </select>
   </div>
 </div>
+
 <style>
   span.wrexlink {
     color: #99b3ff;

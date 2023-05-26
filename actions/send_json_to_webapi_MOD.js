@@ -32,55 +32,53 @@ module.exports = {
     'method',
   ],
 
-  html(_isEvent, data) {
+  html() {
     return `
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
   <div style="padding: 10px;" class="ui toggle checkbox">
     <input type="checkbox" id="toggleAuth" onclick='document.getElementById("authSection").style.display = this.checked  ? "block" : "none";'>
     <label><font color="white" style="font-size: 90%;">Show URL & Connection Options</font></label>
     <text style="font-size: 60%;">Show/Hide the Url and Connection Options</text>
-  </div><br>
+  </div>
+  <br>
+  
   <div id="authSection" style="display: none; ">
-    WebAPI Url:<br>
+    <span class="dbminputlabel">WebAPI URL</span>
     <input id="postUrl" class="round" type="text">
     <text style="font-size: 60%">The url needs to accept&nbsp&nbsp<code style="background-color: black">application/json</code></text><br>
-    Headers: (By default 'User-Agent: Other' is applied, It's 1 per line, (<b>key:value</b>))<br>
+    <span class="dbminputlabel">Headers: (By default 'User-Agent: Other' is applied, It's 1 per line, (<b>key:value</b>))</span>
     <textarea id="headers" class="round" placeholder="User-Agent: Other" style="width: 99%; resize: none;" type="textarea" rows="4" cols="20"></textarea>
     <text style="font-size: 60%">If the API requires headers or something thats not included on the form, use headers!</text><br>
-    Bearer Token:<br>
+    <span class="dbminputlabel">Bearer Token</span>
     <textarea id="token" class="round" placeholder="blank if none" style="width: 99%; resize: none;" type="textarea" rows="4" cols="20"></textarea>
     <text style="font-size: 60%">If the API requires a bearer token, input it in the field above!</text><br>
-    Username:<br>
+    <span class="dbminputlabel">Username</span>
     <input id="user" class="round"  placeholder="blank if none" style="width: 99%; resize: none;" ><br>
-    Password:<br>
+    <span class="dbminputlabel">Password</span>
     <input id="pass" class="round"  placeholder="blank if none"  style="width: 99%; resize: none;" >
     <text style="font-size: 60%">If the API requires basic authentication, use username and password! </text><br>
   </div>
+
   <div style="padding-top: 4px;">
-    Method:<br>
+    <span class="dbminputlabel">Method</span>
     <select id="method" class="round" style="width: 15%;">
       <option value="POST" selected>Post</option>
       <option value="PATCH">Patch</option>
       <option value="PUT">Put</option>
       <option value="DELETE">Delete</option>
     </select><br>
-    Json To Post:<br>
+    <span class="dbminputlabel">JSON To Post</span>
     <textarea id="postJson" rows="13" style="width: 99%; white-space: nowrap; resize: none;"></textarea>
     <text style="font-size: 60%">This must parse into Json or be Json!.<br>
-  </div><br>
+  </div>
+  <br>
+  
   <div>
-    <div style="float: left; width: 35%;">
-      Store Response In:<br>
-      <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-        ${data.variables[0]}
-      </select>
-    </div>
-    <div id="varNameContainer" style="display: none; float: right; width: 60%;">
-      Response Variable Name: <br>
-      <input id="varName" class="round" type="text">
-    </div><br><br><br><br>
+    <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+    <br><br><br><br>
+    
     <div>
-      Debug Mode (Print More Info To Console):<br>
+      <span class="dbminputlabel">Debug Mode</span>
       <select id="debugMode" class="round" style="width: 45%">
         <option value="0" selected>Disabled</option>
         <option value="1">Enabled</option>

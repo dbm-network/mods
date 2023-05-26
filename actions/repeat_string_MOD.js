@@ -20,29 +20,22 @@ module.exports = {
 
   fields: ['storage', 'varName', 'girdi', 'xtimes'],
 
-  html(_isEvent, data) {
+  html() {
     return `
 <div>
   <div>
-    String:<br>
+    <span class="dbminputlabel">String</span>
     <input placeholder="Text or variable" id="girdi" class="round" type="text">
   </div><br>
   <div>
-    Times:<br>
+    <span class="dbminputlabel">Times to repeat</span>
     <input placeholder="Number or variable" id="xtimes" class="round" type="text">
   </div>
-</div><br>
+</div>
+<br>
+
 <div>
-  <div style="float: left; width: 35%;">
-    Store In:<br>
-    <select id="storage" class="round">
-      ${data.variables[1]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text">
-  </div>
+  <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
 </div>`;
   },
 

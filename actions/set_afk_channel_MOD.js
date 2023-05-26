@@ -17,10 +17,14 @@ module.exports = {
 
   html() {
     return `
-<server-input dropdownLabel="Source Server" selectId="server" variableContainerId="varNameContainer" variableInputId="varName"></server-input>
-<br><br><br>
+    <div>
+      <server-input dropdownLabel="Source Server" selectId="server" variableContainerId="varNameContainer" variableInputId="varName"></server-input>
+    </div>
+    <br><br><br>
 
-<voice-channel-input dropdownLabel="Set AFK Channel To:" selectId="afkchannel" variableContainerId="varNameContainerr" variableInputId="varNameChannel"></voice-channel-input>
+    <div>
+      <voice-channel-input dropdownLabel="Set AFK Channel To:" selectId="afkchannel" variableContainerId="varNameContainerr" variableInputId="varNameChannel"></voice-channel-input>
+    </div>
 `;
   },
 

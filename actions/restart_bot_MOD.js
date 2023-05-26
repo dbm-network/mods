@@ -18,11 +18,13 @@ module.exports = {
 
   html() {
     return `
-<div style="float: left; width: 105%;">
-  Your main bot file:<br>
+<div style="float: left; width: 100%;">
+  <span class="dbminputlabel">Bot File</span>
   <input id="filename" class="round" type="text" value="bot.js"><br>
 </div>
-<div><br>
+<br>
+
+<div>
   <p><u>NOTE:</u><br>
   Any action that is below this mod will not be executed!</p>
 </div>`;

@@ -34,38 +34,46 @@ module.exports = {
   <div>
     <u>Helpful Information</u><br>
     - Html Useful Tutorial: <a href="https://www.w3schools.com/html/">W3schools Html Tutorial</a>.<br>
-  </div><br>
+  </div>
+  <br>
+  
   <div style="float: left; width: 50%;">
-    SMTP Server:<br>
+    <span class="dbminputlabel">SMTP Server</span>
     <input id="hostname" class="round" type="text">
   </div>
   <div style="float: right; width: 50%;">
-    port:<br>
+    <span class="dbminputlabel">Port</span>
     <input id="portname" class="round" type="text">
   </div>
   <div style="float: right; width: 45%;">
-    SSL/TLS, STARTTLS:<br>
+    <span class="dbminputlabel">SSL/TLS, STARTTLS</span>
     <select id="sec" class="round">
       <option value="yes" selected>yes</option>
       <option value="no">no</option>
     </select>
   </div>
   <div style="float: left; width: 50%;">
-    Username:<br>
+    <span class="dbminputlabel">Username</span>
     <input id="username" class="round" type="text">
   </div>
   <div style="float: left; width: 50%;">
-    Password:<br>
+    <span class="dbminputlabel">Password</span>
     <input id="password" type="password" class="round" type="text">
-  </div><br><br><br>
+  </div>
+  <br><br><br>
+  
   <div style="float: right; width: 50%;">
-    mailto:<br>
+    <span class="dbminputlabel">Mailto</span>
     <input id="mailto" class="round" type="text">
-  </div><br><br><br>
+  </div>
+  <br><br><br>
+  
   <div style="float: left; width: 50%;">
-    Subject:<br>
+    <span class="dbminputlabel">Subject</span>
     <input id="subject" class="round" type="text" name="is-eval"><br>
-  </div><br><br><br>
+  </div>
+  <br><br><br>
+  
   <div style="float: left; width: 60%; padding-top: 10px">
     <select id="type" class:"round">
       <option value="0" selected>Custom Text</option>
@@ -77,7 +85,7 @@ module.exports = {
   </div>
   <div style="padding-top: 8px;">
     <div style="float: left; width: 35%;">
-      If Mail Delivery Fails:<br>
+      <span class="dbminputlabel">On Delivery Failure</span>
       <select id="iffalse" class="round" onchange="glob.onChangeFalse(this)">
         <option value="0" selected>Continue Actions</option>
         <option value="1">Stop Action Sequence</option>
@@ -85,7 +93,9 @@ module.exports = {
         <option value="3">Skip Next Actions</option>
         <option value="4">Jump To Anchor</option>
       </select>
-    </div><br><br><br>
+    </div>
+    <br><br><br>
+    
     <div id="iffalseContainer" style="display: none; float: right; width: 60%;">
       <span id="iffalseName">Action Number</span>:<br>
       <input id="iffalseVal" class="round" type="text">

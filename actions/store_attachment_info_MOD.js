@@ -30,13 +30,15 @@ module.exports = {
     ];
   },
 
-  html(isEvent, data) {
+  html() {
     return `
-<message-input dropdownLabel="Source Message" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></message-input>
-<br><br>
+    <div>
+      <message-input dropdownLabel="Source Message" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></message-input>
+    </div>
+    <br><br><br>
 
 <div style="float: left; width: 80%; padding-top: 8px;">
-  Source Info:<br>
+  <span class="dbminputlabel">Source Info</span><br>
   <select id="info" class="round">
     <option value="0">Attachment's URL</option>
     <option value="1">Attachment File's Name</option>
@@ -45,18 +47,10 @@ module.exports = {
     <option value="5">Attachment File's Size (KB)</option>
   </select>
 </div>
-<br><br>
+<br><br><br>
 
-<div style="float: left; width: 35%; padding-top: 8px;">
-  Store In:<br>
-  <select id="storage2" class="round" onchange="glob.variableChange(this, 'varNameContainer2')>
-    ${data.variables[0]}
-  </select>
-</div>
-
-<div id="varNameContainer2" style="float: right; width: 60%; padding-top: 8px;">
-  Variable Name:<br>
-  <input id="varName2" class="round" type="text"><br>
+<div style="padding-top: 8px;">
+  <store-in-variable dropdownLabel="Store In" selectId="storage2" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
 </div>`;
   },
 

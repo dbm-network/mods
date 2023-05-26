@@ -279,20 +279,20 @@ module.exports = {
     'varName2',
   ],
 
-  html(_isEvent, data) {
+  html() {
     return `
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
   <div style="width: 95%; padding-top: 8px;">
-    Client ID:<br>
+    <span class="dbminputlabel">Client ID</span><br>
     <textarea id="clientid" rows="2" placeholder="Write your Client ID. Get one from Spotify." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
   </div>
   <div style="width: 95%; padding-top: 8px;">
-    Client Secret:<br>
+    <span class="dbminputlabel">Client Secret</span><br>
     <textarea id="clientsecret" rows="2" placeholder="Write your Client Secret. Get one from Spotify." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
   </div>
   <div style="padding-top: 15px;">
     <div style="float: left; width: 35%;">
-      Search for:<br>
+      <span class="dbminputlabel">Search For</span><br>
       <select id="search" name="second-list" class="round" onchange="glob.onChange1(this)">
         <option value="0" selected>Track</option>
         <option value="1">Artist</option>
@@ -301,13 +301,15 @@ module.exports = {
       </select>
     </div>
     <div id="varNameContainer" style="float: right; width: 60%;">
-      Search Value:<br>
+      <span class="dbminputlabel">Search Value</span><br>
       <input id="varName" class="round" type="text">
     </div>
-  </div><br><br><br>
+  </div>
+  <br><br><br>
+  
   <div style="padding-top: 8px;">
-    <div style="float: left; width: 50%;">
-      Source Info:<br>
+    <div style="float: left; width: 35%;">
+      <span class="dbminputlabel">Source Info</span><br>
       <select id="info1" class="round">
         <option value="0" selected>Track Name</option>
         <option value="1">Track Artists Name</option>
@@ -370,8 +372,8 @@ module.exports = {
         <option value="13">Album Data</option>
       </select>
     </div>
-    <div style="float: left; width: 35%; padding-left: 25px;">
-      Result Number:<br>
+    <div style="float: right; width: 60%;">
+      <span class="dbminputlabel">Result Number</span><br>
       <select id="resultNo" class="round">
         <option value="1" selected>1st Result</option>
         <option value="2">2nd Result</option>
@@ -385,19 +387,14 @@ module.exports = {
         <option value="10">10th Result</option>
       </select>
     </div>
-  </div><br><br><br>
+  </div>
+  <br><br><br>
+  
   <div>
-    <div style="float: left; width: 35%; padding-top: 8px;">
-      Store In:<br>
-      <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer2')">
-        ${data.variables[0]}
-      </select>
-    </div>
-    <div id="varNameContainer2" style="float: right; width: 60%; padding-top: 8px;">
-      Variable Name:<br>
-      <input id="varName2" class="round" type="text"><br>
-    </div>
-  </div><br><br><br><br>
+    <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
+  </div>
+  <br><br><br><br>
+  
   <div style="float: left; width: 88%; padding-top: 8px;">
     <br>
     <p>

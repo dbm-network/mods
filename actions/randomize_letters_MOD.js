@@ -19,27 +19,24 @@ module.exports = {
   },
   fields: ['input', 'wordLength', 'storage', 'varName'],
 
-  html(isEvent, data) {
+  html() {
     return `
 <div id="modinfo">
   <div style="float: left; width: 60%; padding-top: 8px;">
-    Randomize Letters:<br>
+    <span class="dbminputlabel">Randomize Letters</span>
     <input id="input" class="round" type="text" placeholder="Use '*' for all options.">
   </div>
   <div style="float: right; width: 35%; padding-top: 8px;">
-    Random Word Length:<br>
+    <span class="dbminputlabel">Word Length</span>
     <input id="wordLength" class="round" type="text">
-  </div><br><br><br>
-  <div style="float: left; width: 35%; padding-top: 8px;">
-    Store Result In:<br>
-    <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-      ${data.variables[0]}
-    </select>
   </div>
-  <div id="varNameContainer" style="float: right; display: none; width: 60%; padding-top: 8px;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text">
-  </div><br><br><br><br>
+  <br><br><br><br>
+  
+  <div>
+    <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+  </div>
+  <br><br><br><br>
+  
   <div id="commentSection" style="padding-top: 8px;">
     <p>
     <b>Randomize Letters Options:</b><br>
@@ -54,21 +51,18 @@ module.exports = {
 </div>`;
   },
 
-  init() {
-    const { glob, document } = this;
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const Input = this.evalMessage(data.input, cache);
+    const input = this.evalMessage(data.input, cache);
     const wordLength = this.evalMessage(data.wordLength, cache);
 
-    if (!Input) return console.log('Please specify letters to randomize.');
+    if (!input) return console.log('Please specify letters to randomize.');
     if (!wordLength) return console.log('Please specify amount of randomized letters.');
 
     const randomize = this.getMods().require('randomatic');
-    const random = randomize(Input, wordLength);
+    const random = randomize(input, wordLength);
 
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);

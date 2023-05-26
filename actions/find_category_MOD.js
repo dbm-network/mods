@@ -24,14 +24,14 @@ module.exports = {
   html() {
     return `
 <div>
-  <div style="float: left; width: 40%;">
+  <div style="float: left; width: 35%;">
     <span class="dbminputlabel">Source Field</span>
     <select id="info" class="round">
       <option value="0" selected>Category ID</option>
       <option value="1">Category Name</option>
     </select>
   </div>
-  <div style="float: right; width: 55%;">
+  <div style="float: right; width: 60%;">
     <span class="dbminputlabel">Source Value</span>
     <input id="find" class="round" type="text">
   </div>

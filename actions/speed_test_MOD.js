@@ -32,33 +32,27 @@ module.exports = {
 
   fields: ['info', 'type', 'storage', 'varName'],
 
-  html(_isEvent, data) {
+  html() {
     return `
-<div style="float: left; width: 50%; padding-top: 8px;">
-  Speed:<br>
-  <select id="info" class="round">
-    <option value="downloadspeed" selected>Download Speed</option>
-    <option value="uploadspeed">Upload Speed</option>
-  </select>
-</div>
-  <div style="float: left; width: 50%; padding-left: 10px; padding-top: 8px;">
-  Bit Type:<br>
-  <select id="type" class="round">
-    <option value="0" selected>MB/s</option>
-    <option value="1">KB/s</option>
-  </select>
-      </div><br><br><br>
-<div>
-  <div style="float: left; width: 35%; padding-top: 8px;">
-    Store In:<br>
-    <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-      ${data.variables[0]}
+  <div style="float: left; width: 50%; padding-top: 8px;">
+    <span class="dbminputlabel">Speed</span><br>
+    <select id="info" class="round">
+      <option value="downloadspeed" selected>Download Speed</option>
+      <option value="uploadspeed">Upload Speed</option>
     </select>
   </div>
-  <div id="varNameContainer" style="float: right; width: 60%; padding-top: 8px;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text"><br>
+
+  <div style="float: left; width: 50%; padding-left: 10px; padding-top: 8px;">
+    <span class="dbminputlabel">Bit Type</span><br>
+    <select id="type" class="round">
+      <option value="0" selected>MB/s</option>
+      <option value="1">KB/s</option>
+    </select>
   </div>
+  <br><br><br>
+
+<div style="padding-top: 8px;">
+  <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
 </div>
 
 <style>
@@ -98,10 +92,7 @@ module.exports = {
 </style>`;
   },
 
-  init() {
-    const { glob, document } = this;
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];
