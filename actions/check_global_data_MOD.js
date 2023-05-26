@@ -53,7 +53,6 @@ module.exports = {
 
   init() {
     const { glob, document } = this;
-
     glob.onComparisonChanged = function onComparisonChanged(event) {
       if (event.value === '0') {
         document.getElementById('directValue').style.display = 'none';
@@ -105,6 +104,11 @@ module.exports = {
         break;
     }
     this.executeResults(result, data?.branch ?? data, cache);
+  },
+
+  modInit(data) {
+    this.prepareActions(data.branch?.iftrueActions);
+    this.prepareActions(data.branch?.iffalseActions);
   },
 
   mod() {},
