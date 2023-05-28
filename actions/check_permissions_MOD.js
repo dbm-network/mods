@@ -72,6 +72,7 @@ module.exports = {
     <div id="checkbox" style="float: left; width: 80%;">
     </div>
   </div>
+
   <div id="conditions" style="padding-top: 8px;">
     ${data.conditions[0]}
   </div>

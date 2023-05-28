@@ -10,25 +10,17 @@ module.exports = {
   },
 
   subtitle(data, presets) {
-    const info = [
-      'Is Pinnable?',
-      'Is Pinned?',
-      'Is Deletable?',
-      'Is Deleted?',
-      'Is TTS?',
-      'Is Of Discord?',
-      'Includes @everyone Mention?',
-    ];
-    return `${presets.getMessageText(data.message, data.varName)} - ${info[parseInt(data.info, 10)]}`;
+    return `${presets.getConditionsText(data)}`;
   },
 
-  fields: ['message', 'varName', 'info', 'varName2', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal'],
+  fields: ['message', 'varName', 'info', 'varName2', 'branch'],
 
-  html(isEvent, data) {
+  html() {
     return `
 <div>
-<message-input dropdownLabel="Source Message" selectId="message" variableContainerId="varNameContainer" variableInputId="varName"></message-input>
-<br><br><br><br>
+  <message-input dropdownLabel="Source Message" selectId="message" variableContainerId="varNameContainer" variableInputId="varName"></message-input>
+
+  <br><br><br><br>
   <div style="float: left; width: 40%;">
     <span class="dbminputlabel">Check If Message</span>
     <select id="info" class="round">
@@ -47,73 +39,11 @@ module.exports = {
   </div>
 </div>
 <br><br><br>
-<div style="padding-top: 8px;">
-  ${data.conditions[0]}
-</div>`;
+
+<conditional-input id="branch" style="padding-top: 8px;"></conditional-input>`;
   },
 
-  init() {
-    const { glob, document } = this;
-    const option = document.createElement('OPTION');
-    option.value = '4';
-    option.text = 'Jump to Anchor';
-    const iffalse = document.getElementById('iffalse');
-    if (iffalse.length === 4) iffalse.add(option);
-
-    const option2 = document.createElement('OPTION');
-    option2.value = '4';
-    option2.text = 'Jump to Anchor';
-    const iftrue = document.getElementById('iftrue');
-    if (iftrue.length === 4) iftrue.add(option2);
-
-    glob.onChangeTrue = function onChangeTrue(event) {
-      switch (parseInt(event.value, 10)) {
-        case 0:
-        case 1:
-          document.getElementById('iftrueContainer').style.display = 'none';
-          break;
-        case 2:
-          document.getElementById('iftrueName').innerHTML = 'Action Number';
-          document.getElementById('iftrueContainer').style.display = null;
-          break;
-        case 3:
-          document.getElementById('iftrueName').innerHTML = 'Number of Actions to Skip';
-          document.getElementById('iftrueContainer').style.display = null;
-          break;
-        case 4:
-          document.getElementById('iftrueName').innerHTML = 'Anchor ID';
-          document.getElementById('iftrueContainer').style.display = null;
-          break;
-        default:
-          break;
-      }
-    };
-    glob.onChangeFalse = function onChangeFalse(event) {
-      switch (parseInt(event.value, 10)) {
-        case 0:
-        case 1:
-          document.getElementById('iffalseContainer').style.display = 'none';
-          break;
-        case 2:
-          document.getElementById('iffalseName').innerHTML = 'Action Number';
-          document.getElementById('iffalseContainer').style.display = null;
-          break;
-        case 3:
-          document.getElementById('iffalseName').innerHTML = 'Number of Actions to Skip';
-          document.getElementById('iffalseContainer').style.display = null;
-          break;
-        case 4:
-          document.getElementById('iffalseName').innerHTML = 'Anchor ID';
-          document.getElementById('iffalseContainer').style.display = null;
-          break;
-        default:
-          break;
-      }
-    };
-    glob.messageChange(document.getElementById('message'), 'varNameContainer');
-    glob.onChangeTrue(document.getElementById('iftrue'));
-    glob.onChangeFalse(document.getElementById('iffalse'));
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];
@@ -146,7 +76,13 @@ module.exports = {
       default:
         break;
     }
-    this.executeResults(result, data, cache);
+
+    this.executeResults(result, data?.branch ?? data, cache);
+  },
+
+  modInit(data) {
+    this.prepareActions(data.branch?.iftrueActions);
+    this.prepareActions(data.branch?.iffalseActions);
   },
 
   mod() {},

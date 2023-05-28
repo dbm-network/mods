@@ -99,6 +99,7 @@ module.exports = {
     <input id="position" class="round" type="text" placeholder="Position start from 0"><br>
   </div>
 </div>
+
 <div style="padding-top: 8px;">
   <store-in-variable dropdownLabel="Store In" selectId="storage2" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
 </div>`;

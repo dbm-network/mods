@@ -28,12 +28,12 @@ module.exports = {
     return `${presets.getMemberText(data.member, data.varName)} - ${info[parseInt(data.info, 10)]}`;
   },
 
-  fields: ['member', 'varName', 'info', 'varName2', 'iftrue', 'iftrueVal', 'iffalse', 'iffalseVal'],
+  fields: ['member', 'varName', 'info', 'varName2', 'branch'],
 
-  html(isEvent, data) {
+  html(isEvent) {
     return `
-<member-input dropdownLabel="Member" selectId="member" variableContainerId="varNameContainer" variableInputId="varName"></member-input>
-<br><br><br>
+    <member-input dropdownLabel="Member" selectId="member" variableContainerId="varNameContainer" variableInputId="varName"></member-input>
+    <br><br><br>
 
 <div style="padding-top: 20px;">
   <div style="float: left; width: 35%;">
@@ -60,75 +60,10 @@ module.exports = {
 </div>
 <br><br><br>
 
-<div style="padding-top: 8px;">
-  ${data.conditions[0]}
-</div>`;
+<conditional-input id="branch" style="padding-top: 16px;"></conditional-input>`;
   },
 
-  init() {
-    const { glob, document } = this;
-    const option = document.createElement('OPTION');
-    option.value = '4';
-    option.text = 'Jump to Anchor';
-    const iffalse = document.getElementById('iffalse');
-    if (iffalse.length === 4) {
-      iffalse.add(option);
-    }
-    const option2 = document.createElement('OPTION');
-    option2.value = '4';
-    option2.text = 'Jump to Anchor';
-    const iftrue = document.getElementById('iftrue');
-    if (iftrue.length === 4) {
-      iftrue.add(option2);
-    }
-    glob.onChangeTrue = function onChangeTrue(event) {
-      switch (parseInt(event.value, 10)) {
-        case 0:
-        case 1:
-          document.getElementById('iftrueContainer').style.display = 'none';
-          break;
-        case 2:
-          document.getElementById('iftrueName').innerHTML = 'Action Number';
-          document.getElementById('iftrueContainer').style.display = null;
-          break;
-        case 3:
-          document.getElementById('iftrueName').innerHTML = 'Number of Actions to Skip';
-          document.getElementById('iftrueContainer').style.display = null;
-          break;
-        case 4:
-          document.getElementById('iftrueName').innerHTML = 'Anchor ID';
-          document.getElementById('iftrueContainer').style.display = null;
-          break;
-        default:
-          break;
-      }
-    };
-    glob.onChangeFalse = function onChangeFalse(event) {
-      switch (parseInt(event.value, 10)) {
-        case 0:
-        case 1:
-          document.getElementById('iffalseContainer').style.display = 'none';
-          break;
-        case 2:
-          document.getElementById('iffalseName').innerHTML = 'Action Number';
-          document.getElementById('iffalseContainer').style.display = null;
-          break;
-        case 3:
-          document.getElementById('iffalseName').innerHTML = 'Number of Actions to Skip';
-          document.getElementById('iffalseContainer').style.display = null;
-          break;
-        case 4:
-          document.getElementById('iffalseName').innerHTML = 'Anchor ID';
-          document.getElementById('iffalseContainer').style.display = null;
-          break;
-        default:
-          break;
-      }
-    };
-    glob.memberChange(document.getElementById('member'), 'varNameContainer');
-    glob.onChangeTrue(document.getElementById('iftrue'));
-    glob.onChangeFalse(document.getElementById('iffalse'));
-  },
+  init() {},
 
   async action(cache) {
     let member;
@@ -141,7 +76,7 @@ module.exports = {
       member = await this.getMemberFromData(data.member, data.varName, cache);
     } catch (_err) {
       console.error('You need to provide a member of some sort to the "Check If Member" action');
-      return this.executeResults(false, data, cache);
+      return this.executeResults(false, data?.branch ?? data, cache);
     }
 
     let result = false;
@@ -163,7 +98,7 @@ module.exports = {
         break;
       case 6: {
         const fs = require('fs');
-        const filePath = require('path').join(__dirname, '../data', 'multiple_bot_owners.json');
+        const filePath = require('path').join(__dirname, '..', 'data', 'multiple_bot_owners.json');
         if (!fs.existsSync(filePath)) {
           result = member.id === Files.data.settings.ownerId;
         } else {
@@ -195,7 +130,13 @@ module.exports = {
         console.log('Please check your "Check if Member" action! There is something wrong...');
         break;
     }
-    this.executeResults(result, data, cache);
+
+    this.executeResults(result, data?.branch ?? data, cache);
+  },
+
+  modInit(data) {
+    this.prepareActions(data.branch?.iftrueActions);
+    this.prepareActions(data.branch?.iffalseActions);
   },
 
   mod() {},
