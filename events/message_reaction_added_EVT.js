@@ -1,5 +1,5 @@
 module.exports = {
-  name: 'Message Reaction Added',
+  name: 'Message Reaction Added MOD',
   displayName: 'Message Reaction Added',
   isEvent: true,
 
@@ -10,12 +10,12 @@ module.exports = {
     const { Bot, Actions } = DBM;
 
     DBM.Events.reactionAdded = function reactionAdded(reaction, member) {
-      if (!Bot.$evts['Message Reaction Added']) return;
+      if (!Bot.$evts['Message Reaction Added MOD']) return;
       const server = reaction.message.guild || null;
       let user = member;
       if (server) user = server.members.cache.get(member.id);
 
-      for (const event of Bot.$evts['Message Reaction Added']) {
+      for (const event of Bot.$evts['Message Reaction Added MOD']) {
         const temp = {};
         if (event.temp) temp[event.temp] = reaction;
         if (event.temp2) temp[event.temp2] = user;

@@ -1,5 +1,6 @@
 module.exports = {
-  name: 'Member Role Removed',
+  name: 'Member Role Removed MOD',
+  displayName: 'Member Role Removed',
   isEvent: true,
 
   fields: ['Temp Variable Name (Stores role object):', 'Temp Variable Name (Stores member object):'],
@@ -9,14 +10,14 @@ module.exports = {
     const { Bot, Actions } = DBM;
 
     DBM.Events.roleRemoved = async function roleRemoved(oldMember, newMember) {
-      if (!Bot.$evts['Member Role Removed']) return;
+      if (!Bot.$evts['Member Role Removed MOD']) return;
       if (newMember.roles.cache.size >= oldMember.roles.cache.size) return;
       const oldRoles = oldMember.roles.cache;
       const newRoles = newMember.roles.cache;
 
       const difference = oldRoles.filter((role) => !newRoles.has(role.id)).first();
       const server = newMember.guild;
-      for (const event of Bot.$evts['Member Role Removed']) {
+      for (const event of Bot.$evts['Member Role Removed MOD']) {
         const temp = {};
 
         if (event.temp) temp[event.temp] = difference;
