@@ -16,7 +16,7 @@ module.exports = {
       .map((c, i) => (i === 0 ? c.toUpperCase() : c))
       .join('')} Mode - ${presets.getVariableText(data.storage, data.varName)} - Default: ${data.defaultTo || 'None'}`;
   },
-  
+
   variableStorage(data, varType) {
     if (parseInt(data.storage, 10) !== varType) return;
     return [data.varName, 'Unknown Type'];
