@@ -1,10 +1,8 @@
 module.exports = {
   // Action Name
   name: 'Default Variable',
-  
   // Action Section
   section: 'Variable Things',
-  
   // Action Subtitle
   subtitle(data, presets) {
     return `${data.mode
@@ -12,19 +10,16 @@ module.exports = {
       .map((c, i) => (i === 0 ? c.toUpperCase() : c))
       .join('')} Mode - ${presets.getVariableText(data.storage, data.varName)} - Default: ${data.defaultTo || 'None'}`;
   },
-  
   // Action Meta Data
-    meta: {
+  meta: {
     version: '2.1.7',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/default_variable_MOD.js',
   },
-  
   // Action Fields
   fields: ['storage', 'varName', 'mode', 'defaultTo'],
-  
   // Command HTML
   html() {
     return `
@@ -41,7 +36,6 @@ module.exports = {
 <input id="defaultTo" class="round" type="text">
 `;
   },
-
   // Action Bot Function
   action(cache) {
     const data = cache.actions[cache.index];
