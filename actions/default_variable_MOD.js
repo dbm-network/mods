@@ -1,12 +1,7 @@
 module.exports = {
   name: 'Default Variable',
   section: 'Variable Things',
-  subtitle(data, presets) {
-    return `${data.mode
-      .split('')
-      .map((c, i) => (i === 0 ? c.toUpperCase() : c))
-      .join('')} Mode - ${presets.getVariableText(data.storage, data.varName)} - Default: ${data.defaultTo || 'None'}`;
-  },
+  fields: ['storage', 'varName', 'mode', 'defaultTo'],
   meta: {
     version: '2.1.7',
     preciseCheck: false,
@@ -14,7 +9,19 @@ module.exports = {
     authorUrl: 'https://github.com/dbm-network/mods',
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/default_variable_MOD.js',
   },
-  fields: ['storage', 'varName', 'mode', 'defaultTo'],
+
+  subtitle(data, presets) {
+    return `${data.mode
+      .split('')
+      .map((c, i) => (i === 0 ? c.toUpperCase() : c))
+      .join('')} Mode - ${presets.getVariableText(data.storage, data.varName)} - Default: ${data.defaultTo || 'None'}`;
+  },
+  
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName, 'Unknown Type'];
+  },
+
   html() {
     return `
 <p>This action sets a variable to a default value if it's empty.</p>
@@ -30,6 +37,7 @@ module.exports = {
 <input id="defaultTo" class="round" type="text">
 `;
   },
+
   action(cache) {
     const data = cache.actions[cache.index];
     const type = parseInt(data.storage, 10);
