@@ -942,5 +942,10 @@
     "description": "Search YouTube",
     "name": "YouTube Search",
     "section": "Audio Control"
+  },
+  "create_forum_MOD.js": {
+    "description": "Create Forum Channel",
+    "name": "Create Forum Channel",
+    "section": "Channel Control"
   }
 }
