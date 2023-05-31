@@ -279,6 +279,11 @@
     "name": "Custom Image Effects",
     "section": "Image Editing"
   },
+  "default_variable_MOD.js": {
+    "description": "Defaults variable to value if undefined",
+    "name": "Default Variable",
+    "section": "Variable Things"
+  },
   "delete_global_data_MOD.js": {
     "description": "Delete global data",
     "name": "Delete Global Data",
