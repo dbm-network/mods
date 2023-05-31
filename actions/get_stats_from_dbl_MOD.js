@@ -167,7 +167,7 @@ module.exports = {
     const botID = Files.data.settings.client;
     const info = parseInt(data.info, 10);
     const topggToken = this.evalMessage(data.token, cache);
-    if (!topggToken) return console.log('MIssing TopGG Token in Get Bot Stats From TopGG');
+    if (!topggToken) return console.log('Missing TopGG Token in Get Bot Stats From TopGG');
 
     const Mods = this.getMods();
     const fetch = Mods.require('node-fetch');
