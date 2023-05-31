@@ -18,24 +18,12 @@ module.exports = {
   html(_isEvent, data) {
     return `
       <div>
-        <voice-channel-input
-          dropdownLabel="Voice Channel"
-          selectId="vchannel"
-          variableContainerId="varNameContainer"
-          variableInputId="varName"
-          selectWidth="45%"
-          variableInputWidth="50%"/>
+        <voice-channel-input dropdownLabel="Voice Channel" selectId="vchannel" variableContainerId="varNameContainer" variableInputId="varName"/>
       </div>
       <br><br><br>
       
       <div>
-        <role-input
-          dropdownLabel="Role"
-          selectId="role"
-          variableContainerId="varNameContainer2"
-          variableInputId="varName2"
-          selectWidth="45%"
-          variableInputWidth="50%"/>
+        <role-input dropdownLabel="Role" selectId="role" variableContainerId="varNameContainer2" variableInputId="varName2"/>
       </div>
       <br><br><br>
       

@@ -18,23 +18,13 @@ module.exports = {
   html(_isEvent, data) {
     return `
   <div>
-    <voice-channel-input
-      style="padding-top: 8px;"
-      dropdownLabel="Source Voice Channel"
-      selectId="vchannel"
-      variableContainerId="varNameContainer2"
-      variableInputId="varName"
-      selectWidth="45%"
-      variableInputWidth="50%"/><br><br><br>
-
-    <member-input style="padding-top: 8px;"
-      dropdownLabel="Source Member"
-      selectId="member"
-      variableContainerId="varNameContainer"
-      variableInputId="varName2"
-      selectWidth="45%"
-      variableInputWidth="50%"/>
-  </div><br><br><br>
+    <voice-channel-input dropdownLabel="Source Voice Channel" selectId="vchannel" variableContainerId="varNameContainer2" variableInputId="varName"/>
+  </div>
+  <br><br><br>
+  <div>
+    <member-input dropdownLabel="Source Member" selectId="member" variableContainerId="varNameContainer" variableInputId="varName2"/>
+  </div>
+  <br><br><br>
 
   <div style="padding-top: 8px;">
     <div style="float: left; width: 45%;">
@@ -44,20 +34,17 @@ module.exports = {
       </select>
     </div>
     <div style="padding-left: 5%; float: left; width: 55%;">
-    <span class="dbminputlabel">Change To</span><br>
+      <span class="dbminputlabel">Change To</span><br>
       <select id="state" class="round">
         <option value="0" selected>Allow</option>
         <option value="1">Inherit</option>
         <option value="2">Disallow</option>
       </select>
-    </div>`;
+    </div>
+  </div>`;
   },
 
-  init() {
-    const { glob, document } = this;
-    glob.voiceChannelChange(document.getElementById('vchannel'), 'varNameContainer');
-    glob.memberChange(document.getElementById('member'), 'varNameContainer2');
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];

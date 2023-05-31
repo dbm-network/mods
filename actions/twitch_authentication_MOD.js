@@ -33,52 +33,35 @@ module.exports = {
     return [data.varName, dataType];
   },
 
-  fields: ['client_id', 'client_secret', 'info', 'storage', 'varName', 'debug'],
+  fields: ['client_id', 'client_secret', 'info', 'storage', 'varName'],
 
-  html(_isEvent, data) {
+  html() {
     return `
-<div style="padding-top: 8px;">
-  <div style="float: left; width: 104%;">
-    Client Id:<br>
-    <input id="client_id" class="round" type="text">
-  </div>
-</div>
-<br><br><br>
+<div>
+  <div style="width: 100%;">
+    <div style="float: left; width: calc(50% - 8px);">
+      <span class="dbminputlabel">Client Id</span>
+      <input id="client_id" class="round" type="text">
+    </div>
 
-<div style="padding-top: 8px;">
-  <div style="float: left; width: 104%;">
-    Client Secret:<br>
-    <input id="client_secret" class="round" type="text">
+    <div style="float: right; width: calc(50% - 8px);">
+      <span class="dbminputlabel">Client Secret</span>
+      <input id="client_secret" class="round" type="text">
+    </div>
   </div>
-</div>
-<br><br><br>
 
-<div style="padding-top: 8px;">
-  <div style="float: left; width: 70%;">
-    Info:<br>
+  <div style="float: left; width: 100%; padding-top: 16px;">
+    <span class="dbminputlabel">Info</span>
     <select id="info" class="round"><br>
       <option value="0" selected>Access Token</option>
       <option value="1">Expires In</option>
       <option value="1">Authentication Object</option>
     </select>
   </div>
-<div>
-<br><br><br>
 
-<div style="padding-top: 8px;">
-  <div style="float: left; width: 35%;">
-    Store In:<br>
-    <select id="storage" class="round">
-      ${data.variables[1]}
-    </select>
-  </div>
-  <div style="float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text"><br>
-  </div>
-</div>
-
-<input style="display: none" id="debug" value="true">`;
+  <div style="float: left; width: 100%; padding-top: 16px;">
+    <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+  </div>`;
   },
 
   init() {},
@@ -113,10 +96,6 @@ module.exports = {
         const storage = parseInt(data.storage, 10);
         const varName = this.evalMessage(data.varName, cache);
         this.storeValue(result, storage, varName, cache);
-        if (data.debug)
-          console.log(
-            "Twitch Authentication: Reminder: Please do save variable, don't request access token too many times",
-          );
       }
       this.callNextAction(cache);
     }

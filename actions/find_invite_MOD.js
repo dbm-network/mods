@@ -20,25 +20,17 @@ module.exports = {
 
   fields: ['invite', 'storage', 'varName'],
 
-  html(isEvent, data) {
+  html() {
     return `
 <div>
   <div style="padding-top: 8px;">
-    Source Invite:<br>
+    <span class="dbminputlabel">Source Invite</span>
     <textarea class="round" id="invite" rows="1" placeholder="Code or URL | e.g abcdef or discord.gg/abcdef" style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
   </div><br>
 </div>
+
 <div style="padding-top: 8px;">
-  <div style="float: left; width: 35%;">
-    Store In:<br>
-    <select id="storage" class="round">
-      ${data.variables[1]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text">
-  </div>
+  <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
 </div>`;
   },
 

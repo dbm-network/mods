@@ -54,15 +54,16 @@ module.exports = {
 
   fields: ['string', 'info', 'storage', 'varName'],
 
-  html(_isEvent, data) {
+  html() {
     return `
 <div style="width: 550px; height: 350px; overflow-y: scroll;">
   <div style="width: 100%; padding-top: 8px;">
-    String to Search:<br>
+    <span class="dbminputlabel">Search</span>
     <textarea id="string" rows="6" placeholder="Write a something or use variables..." style="width: 95%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
   </div>
+
   <div style="float: left; width: 94%; padding-top: 8px;">
-    Source Info:<br>
+    <span class="dbminputlabel">Source Info</span>
     <select id="info" class="round">
       <option value="0">Definition</option>
       <option value="1">URL</option>
@@ -76,24 +77,12 @@ module.exports = {
   <br><br><br>
   
   <div>
-    <div style="float: left; width: 35%; padding-top: 8px;">
-      Store In:<br>
-      <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-        ${data.variables[0]}
-      </select>
-    </div>
-    <div id="varNameContainer" style="float: right; width: 60%; padding-top: 8px;">
-      Variable Name:<br>
-      <input id="varName" class="round" type="text"><br>
-    </div>
+    <store-in-variable selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
   </div>
 </div>`;
   },
 
-  init() {
-    const { glob, document } = this;
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];

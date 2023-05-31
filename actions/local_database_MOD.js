@@ -20,7 +20,7 @@ module.exports = {
 
   fields: ['dbformat', 'dboperation', 'dbpath', 'dbvalue', 'storage', 'varName'],
 
-  html(_isEvent, data) {
+  html() {
     return `
  <div id="docs" style="float: left;">
  </div><br>
@@ -34,10 +34,12 @@ module.exports = {
     <option value="enmap">Enmap</option>
    </select>
   </div>
- </div><br><br>
+ </div>
+ <br><br>
+ 
  <div>
   <div style="float: left; width: 20%;">
-   Operation:<br>
+   <span class="dbminputlabel">Operation</span>
    <select id="dboperation" class="round" onchange="glob.onChangeOperation(this)">
     <option value="get" selected>Get/Fetch</option>
     <option value="store">Store/Save</option>
@@ -48,24 +50,18 @@ module.exports = {
    <div id="dbpathlabel">Something has broken. You should not be seeing this message.</div>
    <input id="dbpath" class="round" type="text"><br>
   </div>
- </div><br><br><br>
+ </div>
+ <br><br><br>
+ 
  <div id="dbvaluediv">
   <div id="dbvaluelabel" style="float: left;">
    Something has broken. You should not be seeing this message.
   </div>
   <input id="dbvalue" class="round" type="text" placeholder="Leave blank for no value."><br>
  </div>
+
  <div>
-  <div style="float: left; width: 25%;">
-   Store In:<br>
-   <select id="storage" class="round">
-    ${data.variables[1]}
-   </select>
-  </div>
-  <div style="float: right; padding-left: 15px; float: left; width: 74%;">
-   Variable Name:<br>
-   <input id="varName" class="round" type="text"><br>
-  </div>
+   <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
  </div>`;
   },
 

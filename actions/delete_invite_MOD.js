@@ -6,7 +6,7 @@ module.exports = {
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
-    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/delete_invite',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/delete_invite_MOD.js',
   },
 
   subtitle(data) {
@@ -24,13 +24,14 @@ module.exports = {
     return `
 <div>
   <div style="padding-top: 8px;">
-    Source Invite:<br>
+    <span class="dbminputlabel">Source Invite</span>
     <textarea class="round" id="invite" rows="1" placeholder="Code or URL | e.g abcdef or discord.gg/abcdef" style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
-  </div><br>
+  </div>
+  <br>
   <div style="padding-top: 8px;">
-    Reason:<br>
+    <span class="dbminputlabel">Reason</span>
     <textarea class="round" id="reason" rows="1" placeholder="Insert a reason.." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
-  </div><br>
+  </div>
 </div>`;
   },
 

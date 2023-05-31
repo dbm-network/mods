@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 module.exports = {
   name: 'Edit Emoji',
   section: 'Emoji Control',
@@ -16,30 +15,20 @@ module.exports = {
 
   fields: ['storage', 'varName', 'emojiName'],
 
-  html(_isEvent, data) {
+  html() {
     return `
 <div>
-  <div style="float: left; width: 35%;">
-    Source Emoji:<br>
-    <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
-      ${data.variables[1]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList"><br>
-  </div>
-</div><br><br><br>
+  <store-in-variable dropdownLabel="Source Emoji" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+</div>
+<br><br><br>
+
 <div style="padding-top: 8px;">
-  Emoji Name:<br>
+  <span class="dbminputlabel">Emoji Name</span>
   <input id="emojiName" placeholder="Leave blank to not edit!" class="round" type="text">
 </div>`;
   },
 
-  init() {
-    const { glob, document } = this;
-    glob.emojiChange(document.getElementById('storage'));
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];

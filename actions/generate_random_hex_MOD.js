@@ -20,27 +20,14 @@ module.exports = {
 
   fields: ['storage', 'varName'],
 
-  html(_isEvent, data) {
+  html() {
     return `
-<div>
-  <div style="float: left; width: 35%;">
-    Store In:<br>
-    <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-      ${data.variables[0]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text">
-  </div>
-</div>`;
+    <div>
+      <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+    </div>`;
   },
 
-  init() {
-    const { glob, document } = this;
-
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];

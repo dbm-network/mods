@@ -17,8 +17,9 @@ module.exports = {
 
   html() {
     return `
-<channel-input dropdownLabel="Source Channel" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></channel-input>
-`;
+    <div>
+      <channel-input dropdownLabel="Source Channel" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></channel-input>
+    </div>`;
   },
 
   init() {},

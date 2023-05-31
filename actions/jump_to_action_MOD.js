@@ -19,7 +19,7 @@ module.exports = {
     return `
 <div>
   <div id="varNameContainer" style="float: left; width: 60%;">
-    Jump to Action:<br>
+    <span class="dbminputlabel">Jump to Action</span>
     <input id="call" class="round" type="number">
   </div>
 </div>`;

@@ -33,32 +33,36 @@ module.exports = {
 
   fields: ['string', 'apikey', 'clientid', 'info', 'resultNo', 'storage', 'varName'],
 
-  html(_isEvent, data) {
+  html() {
     return `
 <div style="height: 350px; width: 550px; overflow-y: scroll;">
-  <div style="width: 95%; padding-top: 2px;">
-    Google Image Search Text:<br />
+  <div style="width: 95%; padding-top: 10px;">
+    <span class="dbminputlabel">Google Image Search Text</span>
     <textarea id="string" style="width: 100%; font-family: monospace; white-space: nowrap; resize: none;" rows="4" placeholder="Write something here or insert a variable..."></textarea>
-  </div><br>
-  <div style="float: left; width: 95%; padding-top: 2px;">
-    API Key:<br />
-    <input id="apikey" placeholder="xxxxxxxxxxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxx" class="round" type="text" style="width: 100%;"/>
-  </div><br>
-  <div style="float: left; width: 95%; padding-right: 10px padding-top: 2px;">
-    Client ID:<br />
-    <input placeholder="000000000000000000000:aaaaaaaaaaa" id="clientid" class="round" type="text" style="width: 100%;"/>
-  </div><br>
-  <br />
-  <div style="float: left; width: 45%; padding-top: 2px;">
-    Result Info:<br />
+  </div>
+  
+  <div style="float: left; width: 95%; padding-top: 10px;">
+    <span class="dbminputlabel">API Key</span>
+    <input id="apikey" class="round" type="text" style="width: 100%;"/>
+  </div>
+  <br><br><br>
+
+  <div style="float: left; clear: both; width: 95%; padding-right: 10px; padding-top: 8px;">
+    <span class="dbminputlabel">Client ID</span>
+    <input id="clientid" class="round" type="text" style="width: 100%;"/>
+  </div>
+  <br><br>
+
+  <div style="float: left; width: 45%; padding-top: 10px;">
+    <span class="dbminputlabel">Result Info</span>
     <select id="info" class="round">
       <option value="0">Result Title</option>
       <option value="1">Result URL</option>
       <option value="2">Result Thumbnail URL</option>
     </select>
   </div>
-  <div style="float: left; width: 50%; padding-left: 10px; padding-top: 2px;">
-    Result Number:<br />
+  <div style="float: left; width: 50%; padding-left: 10px; padding-top: 10px;">
+    <span class="dbminputlabel">Result Number</span>
     <select id="resultNo" class="round">
       <option value="0">1st Result</option>
       <option value="1">2nd Result</option>
@@ -73,27 +77,22 @@ module.exports = {
       <option value="10">11th Result</option>
       <option value="11">12th Result</option>
     </select>
-  </div><br /><br />
-  <div style="float: left; width: 45%; padding-top: 8px;">
-    Store In:<br />
-    <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-      ${data.variables[0]}
-    </select>
   </div>
-  <div id="varNameContainer" style="float: right; padding-right: 0px; width: 53%; padding-top: 8px;">
-    Variable Name:<br />
-    <input id="varName" class="round" type="text" />
+  <br><br><br>
+  
+  <div style="float: left; clear: both; width: 99%; padding-top: 10px;">
+    <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
   </div>
-  <div style="text-align: left;"><br><br><br><br><br><br><br><br><br>
+  <br><br><br>
+
+  <div style="text-align: left;">
+  <br><br>
     https://github.com/RigidStudios/underground-rd/wiki/Google-Image-Search-Tutorial < Walkthrough
   </div>
 </div>`;
   },
 
-  init() {
-    const { glob, document } = this;
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];
@@ -106,12 +105,12 @@ module.exports = {
 
     if (!string)
       return console.error(
-        `There was an error in Google Image Search MOD (#${index}): \nPlease write something to Google it!`,
+        `There was an error in Google Image Search (#${index}): \nPlease write something to Google it!`,
       );
     if (!clientid)
-      return console.error(`There was an error in Google Image Search MOD (#${index}): \nPlease provide a Client ID!`);
+      return console.error(`There was an error in Google Image Search (#${index}): \nPlease provide a Client ID!`);
     if (!apikey)
-      return console.error(`There was an error in Google Image Search MOD (#${index}): \nPlease provide an API Key`);
+      return console.error(`There was an error in Google Image Search (#${index}): \nPlease provide an API Key`);
 
     const Mods = this.getMods();
     const ImgSearch = Mods.require('image-search-google');

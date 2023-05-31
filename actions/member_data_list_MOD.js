@@ -33,59 +33,78 @@ module.exports = {
     'storage',
   ],
 
-  html(isEvent, data) {
+  html() {
     return `
 <div id="wrexdiv2" style="width: 550px; height: 350px; overflow-y: scroll;">
   <div>
     <div style="padding-top: 8px;">
       <div style="float: left; width: 50%;">
-        Data Name:<br>
+        <span class="dbminputlabel">Data Name</span>
         <input id="dataName" class="round" type="text">
       </div>
     </div>
-    Number before start
-    <select id="numbefstselect" class="round" style="width:33%" onchange="glob.onChange1(this)">
-      <option value="1" >No</option>
-      <option value="2"selected>Yes</option>
-    </select><br>
-    <div id="numbefst" style=" width: 80%; display: none;">
-      Char after Number:<br>
-      <input id="numbefst2" class="round" type="text" value=")">
-    </div><br>
-    Start:
-    <select id="start" class="round" style="width:33%">
-      <option value="result" >Result</option>
-      <option value="username"selected>Username</option>
-    </select><br>
-    <div style="display: table-cell;">
-      Middle:
-      <input id="middle" style="width:80%"  class="round" type="text" value="-"></input><br>
-      End:
-      <select id="end" class="round" style="width:100%">
-        <option value="result" selected>Result</option>
-        <option value="username">Username</option>
-      </select><br>
-    </div>
-    <select id="sort" class="round" style="width: 90%;">
-      <option value="0" selected>Don't Sort</option>
-      <option value="1" selected>Sort from Descending</option>
-      <option value="2">Sort from Ascending</option>
-    </select><br>
-    <div style="float: left; width: 50%; font-family: monospace; white-space: nowrap; resize: none;">
-      Result Limit:
-      <input id="getresults" class="round" type="text" placeholder="If blank it gets all results.">
-    </div><br><br><br>
-    <div style="float: left; width: 35%; font-family: monospace; white-space: nowrap; resize: none;"">
-      Store In:<br>
-      <select id="storage" class="round">
-        ${data.variables[1]}
+    <div style="padding-left: 1%;">
+      <span class="dbminputlabel">Number before start?</span>
+      <select id="numbefstselect" class="round" style="width:33%" onchange="glob.onChange(this)">
+        <option value="1" >No</option>
+        <option value="2"selected>Yes</option>
       </select>
     </div>
-    <div id="varNameContainer2" style="float: right; width: 60%;">
-      Variable Name:<br>
-      <input id="varName2" class="round" type="text"><br>
+    <br>
+    
+    <div id="numbefst" style=" width: 80%; display: none;">
+      <span class="dbminputlabel">Char after number</span>
+      <input id="numbefst2" class="round" type="text" value=")">
+      <br>
+    </div>
+    
+    <div>
+      <span class="dbminputlabel">Start</span>
+      <select id="start" class="round" style="width:33%">
+        <option value="result" >Result</option>
+        <option value="username"selected>Username</option>
+      </select>
+    </div>
+    <br>
+    
+    <div style="display: table-cell;">
+      <div>
+        <span class="dbminputlabel">Middle</span>
+        <input id="middle" style="width:80%"  class="round" type="text" value="-"></input>
+      </div>
+      <br>
+
+      <div>
+        <span class="dbminputlabel">End</span>
+        <select id="end" class="round" style="width:100%">
+          <option value="result" selected>Result</option>
+          <option value="username">Username</option>
+        </select>
+      </div>
+      <br>
+
+    </div>
+    <div>
+      <select id="sort" class="round" style="width: 90%;">
+        <option value="0" selected>Don't Sort</option>
+        <option value="1" selected>Sort from Descending</option>
+        <option value="2">Sort from Ascending</option>
+      </select>
+    </div>
+    <br>
+    
+    <div style="float: left; width: 50%;">
+      <span class="dbminputlabel">Result Limit</span>
+      <input id="getresults" class="round" type="text" placeholder="If blank it gets all results.">
+    </div>
+    <br><br><br>
+    
+    <div>
+      <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
     </div>
   </div>
+  <br><br><br>
+
   <select id="debu" class="round" style="width: 90%;">
     <option value="0" selected>Debug</option>
     <option value="1" selected>Don't Debug</option>
@@ -95,7 +114,7 @@ module.exports = {
 
   init() {
     const { document, glob } = this;
-    glob.onChange1 = function onChange1(event) {
+    glob.onChange1 = function onChange(event) {
       const value = parseInt(event.value, 10);
       const dom = document.getElementById('numbefst');
 
@@ -105,7 +124,8 @@ module.exports = {
         dom.style.display = null;
       }
     };
-    glob.onChange1(document.getElementById('numbefstselect'));
+
+    glob.onChange(document.getElementById('numbefstselect'));
   },
 
   async action(cache) {

@@ -20,54 +20,25 @@ module.exports = {
 
   fields: ['emojiName', 'storage', 'varName', 'storage2', 'varName2'],
 
-  html(_isEvent, data) {
+  html() {
     return `
 <div style="width: 90%;">
-  Animated Emoji Name:<br>
+  <span class="dbminputlabel">Animated Emoji Name</span>
   <input id="emojiName" class="round" type="text">
-</div><br>
+</div>
+<br>
+
 <div>
-  <div style="float: left; width: 35%;">
-    Source GIF:<br>
-    <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
-      ${data.variables[1]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList">
-  </div>
-</div><br><br><br>
-<div style="padding-top: 8px;">
-  <div style="float: left; width: 35%;">
-    Store In:<br>
-    <select id="storage2" class="round" onchange="glob.onChange1(this)">
-      ${data.variables[0]}
-    </select>
-  </div>
-  <div id="varNameContainer2" style="display: none; float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName2" class="round" type="text">
-  </div>
+  <store-in-variable dropdownLabel="Source GIF" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+</div>
+<br><br><br>
+
+<div>
+  <store-in-variable dropdownLabel="Store In" selectId="storage2" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
 </div>`;
   },
 
-  init() {
-    const { glob, document } = this;
-
-    glob.onChange1 = function onChange1(event) {
-      const value = parseInt(event.value, 10);
-      const varNameInput = document.getElementById('varNameContainer2');
-      if (value === 0) {
-        varNameInput.style.display = 'none';
-      } else {
-        varNameInput.style.display = null;
-      }
-    };
-
-    glob.refreshVariableList(document.getElementById('storage'));
-    glob.onChange1(document.getElementById('storage2'));
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];

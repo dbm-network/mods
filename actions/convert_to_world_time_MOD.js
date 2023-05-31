@@ -20,25 +20,18 @@ module.exports = {
 
   fields: ['textbox', 'info', 'storage', 'varName'],
 
-  html(_isEvent, data) {
+  html() {
     return `
 <div>
   <div style="width: 90%;">
-    To Be Converted:<br>
+    <span class="dbminputlabel">Timezone To Convert</span>
     <input id="textbox" class="round" type="text">
-  </div><br>
-</div><br>
+  </div>
+</div>
+<br>
+
 <div style="padding-top: 8px;">
-  <div style="float: left; width: 35%;">
-    Store Converted Time In:<br>
-    <select id="storage" class="round">
-        ${data.variables[1]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text">
-  </div>
+  <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
 </div>`;
   },
 

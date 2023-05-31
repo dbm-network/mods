@@ -1,5 +1,6 @@
 module.exports = {
   name: 'Variable Pattern MOD',
+  displayName: 'Variable Pattern',
   section: 'Variable Things',
   meta: {
     version: '2.1.7',
@@ -20,23 +21,16 @@ module.exports = {
 
   fields: ['storage', 'varName', 'info', 'info2', 'value', 'storage2', 'varName2'],
 
-  html(_isEvent, data) {
+  html() {
     return `
 <div>
-  <div style="float: left; width: 35%;">
-    Variable:<br>
-    <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
-      ${data.variables[1]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList">
-  </div>
-</div><br><br><br>
+  <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+</div>
+<br><br><br>
+
 <div style="padding-top: 8px;">
-  <div style="float: left; width: 45%;">
-    Pattern Type:<br>
+  <div style="float: left; width: 35%;">
+    <span class="dbminputlabel">Pattern Type</span>
     <select id="info" class="round" onchange="glob.onChange1(this)">
       <option value="0">Repeat</option>
       <option value="1">Change</option>
@@ -48,26 +42,21 @@ module.exports = {
       <option value="7">Store One Character</option>
     </select>
   </div>
-  <div style="float: right; width: 50%;" id="info2box">
-    <div id="info2text">Character:</div>
+  <div style="float: right; width: 60%;" id="info2box">
+   <span class="dbminputlabel" id="info2text">Character</span>
     <input id="info2" class="round" type="text">
   </div>
-</div><br><br><br>
+</div>
+<br><br><br>
+
 <div style="padding-top: 8px;">
-  <div id="info3text">Character:</div>
+  <span class="dbminputlabel" id="info3text">Character</span>
   <input id="value" class="round" type="text">
-</div><br>
-<div style="padding-top: 8px;">
-  <div style="float: left; width: 35%;">
-    Store In:<br>
-    <select id="storage2" class="round">
-      ${data.variables[1]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName2" class="round" type="text"><br>
-  </div>
+</div>
+<br>
+
+<div>
+  <store-in-variable dropdownLabel="Store In" selectId="storage2" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
 </div>`;
   },
 

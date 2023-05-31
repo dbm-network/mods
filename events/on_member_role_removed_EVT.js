@@ -1,5 +1,6 @@
 module.exports = {
   name: 'Member Role Removed MOD',
+  displayName: 'Member Role Removed',
   isEvent: true,
 
   fields: ['Temp Variable Name (Stores role object):', 'Temp Variable Name (Stores member object):'],

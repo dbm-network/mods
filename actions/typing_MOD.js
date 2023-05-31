@@ -17,8 +17,9 @@ module.exports = {
 
   html() {
     return `
-<channel-input dropdownLabel="Channel to start typing in:" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></channel-input>
-<br><br><br>`;
+    <div>
+      <channel-input dropdownLabel="Channel to start typing in:" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></channel-input>
+    </div>`;
   },
 
   init() {},

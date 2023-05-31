@@ -30,23 +30,16 @@ module.exports = {
 
   fields: ['storage', 'varName', 'conversion', 'storage2', 'varName2'],
 
-  html(isEvent, data) {
+  html() {
     return `
 <div>
-  <div style="float: left; width: 35%;">
-    Source Variable:<br>
-    <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
-      ${data.variables[1]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList">
-  </div>
-</div><br><br><br>
+  <store-in-variable dropdownLabel="Source Variable" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+</div>
+<br><br><br>
+
 <div>
   <div style="padding-top: 8px; width: 35%;">
-    Conversion Type:<br>
+    <span class="dbminputlabel">Conversion Type</span>
     <select id="conversion" class="round">
       <option value="0" selected>Number (Parsing Int)</option>
       <option value="1">Number (Parsing Float)</option>
@@ -57,19 +50,13 @@ module.exports = {
       <option value="6">Number (Float)</option>
     </select>
   </div>
-</div><br>
-<div>
-  <div style="float: left; width: 35%;">
-    Store In:<br>
-    <select id="storage2" class="round">
-      ${data.variables[1]}
-    </select>
-  </div>
-  <div id="varNameContainer2" style="float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName2" class="round" type="text"><br>
-  </div>
 </div>
+<br>
+
+<div>
+  <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
+</div>
+
 <style>
   /* My Embed CSS code */
   .embed {
@@ -104,10 +91,7 @@ module.exports = {
 </style>`;
   },
 
-  init() {
-    const { glob, document } = this;
-    glob.refreshVariableList(document.getElementById('storage'));
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];

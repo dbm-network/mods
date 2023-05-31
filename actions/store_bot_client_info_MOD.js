@@ -154,10 +154,10 @@ module.exports = {
 
   fields: ['info', 'storage', 'varName2'],
 
-  html(_isEvent, data) {
+  html() {
     return `
 <div style="float: left; width: 80%; padding-top: 8px;">
-  Source Info:<br>
+  <span class="dbminputlabel">Source Info</span><br>
   <select id="info" class="round">
     <optgroup label="Uptimes">
       <option value="23">Refreshing Uptime in Days</option>
@@ -215,18 +215,11 @@ module.exports = {
       <option value="31">Node JS Version</option>
     </optgroup>
   </select>
-</div><br><br><br>
-<div>
-  <div style="float: left; width: 35%; padding-top: 8px;">
-    Store In:<br>
-    <select id="storage" class="round">
-      ${data.variables[1]}
-    </select>
-  </div>
-  <div id="varNameContainer2" style="float: right; width: 60%; padding-top: 8px;">
-    Variable Name:<br>
-    <input id="varName2" class="round" type="text"><br>
-  </div>
+</div>
+<br><br><br>
+
+<div style="padding-top: 8px;">
+  <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
 </div>`;
   },
 

@@ -20,28 +20,27 @@ module.exports = {
 
   fields: ['text', 'lang', 'storage', 'varName'],
 
-  html(_isEvent, data) {
+  html() {
     return `
 <div>
   <p>This action can not deal with texts which are over than 200 characters.</p>
-</div><br>
-<div style="width: 90%;">
-  Message (to be converted to speech):<br>
-  <input id="text" class="round" type="text">
-</div><br>
-<div style="width: 90%;">
-  Language:<br>
-  <input id="lang" class="round" type="text">
-</div><br>
-<div style="float: left; width: 35%;">
-  Store Audio URL In:<br>
-  <select id="storage" class="round">
-    ${data.variables[1]}
-  </select>
 </div>
-<div id="varNameContainer" style="float: right; width: 60%;">
-  Variable Name:<br>
-  <input id="varName" class="round" type="text">
+<br>
+
+<div style="width: 100%;">
+  <span class="dbminputlabel">Message</span>
+  <input id="text" class="round" type="text" placeholder="to be converted to speech">
+</div>
+<br>
+
+<div style="width: 100%;">
+  <span class="dbminputlabel">Language</span>
+  <input id="lang" class="round" type="text">
+</div>
+<br>
+
+<div>
+  <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
 </div>`;
   },
 

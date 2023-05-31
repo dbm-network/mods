@@ -20,7 +20,7 @@ module.exports = {
 
   fields: ['dataName', 'defaultVal', 'storage', 'varName'],
 
-  html(_isEvent, data) {
+  html() {
     return `
 <div style="padding-top: 8px;">
   <div style="float: left; width: 100%;">
@@ -28,7 +28,6 @@ module.exports = {
     <input id="dataName" class="round" type="text">
   </div>
 </div>
-
 <br><br><br>
 
 <div style="padding-top: 8px;">
@@ -37,21 +36,10 @@ module.exports = {
     <input id="defaultVal" class="round" type="text" value="0">
   </div>
 </div>
-
 <br><br><br>
 
 <div style="padding-top: 8px;">
-  <div style="float: left; width: 35%;">
-    <span class="dbminputlabel">Store In</span><br>
-    <select id="storage" class="round">
-      ${data.variables[1]}
-    </select>
-  </div>
-
-  <div id="varNameContainer" style="float: right; width: 60%;">
-    <span class="dbminputlabel">Variable Name</span><br>
-    <input id="varName" class="round" type="text"><br>
-  </div>
+  <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
 </div>`;
   },
 

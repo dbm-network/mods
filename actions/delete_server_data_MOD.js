@@ -17,21 +17,20 @@ module.exports = {
 
   html() {
     return `
-<server-input dropdownLabel="Source Server" selectId="server" variableContainerId="varNameContainer" variableInputId="varName"></server-input>
-<br><br><br
+<div>
+  <server-input dropdownLabel="Source Server" selectId="server" variableContainerId="varNameContainer" variableInputId="varName"></server-input>
+</div>
+<br><br><br>
 
 <div style="padding-top: 8px;">
   <div style="float: left; width: 80%;">
-    Data Name:<br>
+    <span class="dbminputlabel">Data Name</span>
     <input id="dataName" class="round" placeholder="Leave it blank to delete all data" type="text">
   </div>
 </div>`;
   },
 
-  init() {
-    const { glob, document } = this;
-    glob.serverChange(document.getElementById('server'), 'varNameContainer');
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];
@@ -45,8 +44,6 @@ module.exports = {
   },
 
   mod(DBM) {
-    DBM.Actions['Delete Server Data MOD'] = DBM.Actions['Delete Server Data'];
-
     Reflect.defineProperty(DBM.DiscordJS.Guild.prototype, 'delData', {
       value(name) {
         const { servers } = DBM.Files.data;

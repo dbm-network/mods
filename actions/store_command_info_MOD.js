@@ -50,10 +50,10 @@ module.exports = {
 
   fields: ['searchCommandBy', 'valueToSearch', 'info', 'storage', 'varName'],
 
-  html(_isEvent, data) {
+  html() {
     return `
 <div style="float: left; width: 40%">
-  Search Command By:<br>
+  <span class="dbminputlabel">Search Command By</span><br>
   <select id="searchCommandBy" class="round" onchange="glob.onChangeSame(this)">
     <option value="0">Name</option>
     <option value="1">ID</option>
@@ -61,11 +61,13 @@ module.exports = {
   </select>
 </div>
 <div id="vtsContainer" style="display: none; float: right; width: 55%">
-  Value To Search:<br>
+  <span class="dbminputlabel">Value To Search</span><br>
   <input id="valueToSearch" type="text" class="round">
-</div><br><br><br>
+</div>
+<br><br><br>
+
 <div style="float: left; width: 48%; padding-top: 8px">
-  Source Info:<br>
+  <span class="dbminputlabel">Source Info</span><br>
   <select id="info" class="round">
     <option value="0" selected>Command Name</option>
     <option value="1">Command ID</option>
@@ -76,17 +78,13 @@ module.exports = {
     <option value="6">Command Time Restriction</option>
     <option value="7">Command Actions Length</option>
   </select>
-</div><br><br><br>
-<div style="float: left; width: 35%; padding-top: 12px">
-  Store In:<br>
-  <select id="storage" class="round">
-    ${data.variables[1]}
-  </select>
 </div>
-<div id="varNameContainer" style="float: right; width: 60%; padding-top: 12px">
-  Variable Name:<br>
-  <input id="varName" class="round" type="text">
-</div>`;
+<br><br><br>
+
+<div style="padding-top: 8px;">
+  <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+</div>
+`;
   },
 
   init() {

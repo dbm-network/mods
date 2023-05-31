@@ -18,13 +18,7 @@ module.exports = {
   html(_isEvent, data) {
     return `
       <div>
-        <voice-channel-input
-          dropdownLabel="Voice Channel"
-          selectId="storage"
-          variableContainerId="varNameContainer"
-          variableInputId="varName"
-          selectWidth="45%"
-          variableInputWidth="50%"/>
+        <voice-channel-input dropdownLabel="Voice Channel" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"/>
       </div>
       <br><br><br>
 
@@ -66,7 +60,6 @@ module.exports = {
     const options = {};
     options[data.permission] = data.state === '0' ? true : data.state === '1' ? false : null;
     channel.permissionOverwrites
-      // providing the server id is the same as providing the everyone role id;
       .edit(server.id, options, { type: 0 })
       .then(() => this.callNextAction(cache))
       .catch((err) => this.displayError(data, cache, err));

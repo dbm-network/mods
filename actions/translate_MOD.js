@@ -21,34 +21,32 @@ module.exports = {
 
   fields: ['translateTo', 'translateMessage', 'storage', 'varName'],
 
-  html(_isEvent, data) {
+  html() {
     return `
-<div style="width: 30%;">
-  Translate to:<br>
-  <input id="translateTo" placeholder="Should be 2 letters." class="round" type="text" maxlength="2"><br>
-</div>
-<div>
-  Translate Message:<br>
-  <textarea id="translateMessage" rows="9" placeholder="Insert message that you want to translate here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
-</div>
-<div style="padding-top: 30px;">
-  <div style="float: left; width: 35%;">
-    Store In:<br>
-    <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-      ${data.variables[0]}
-    </select>
+  <div>
+    <div style="float: left; width: 35%">
+      <span class="dbminputlabel">Translate to</span>
+      <input id="translateTo" placeholder="2 Letter ISO Code" class="round" type="text" maxlength="2">
+    </div>
+    <div style="float: right; width: 60%; padding-top: 22px;">
+      <p>Find ISO Codes <a target="_blank" href="https://phyrok.github.io/iso_codes.html">Here</a href></p>
+    </div>
   </div>
-  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text">
+  <br><br><br>
+
+  <div style="padding-top: 16px;">
+    <div>
+      <span class="dbminputlabel">Translate Message</span>
+      <textarea id="translateMessage" rows="9" placeholder="Insert message that you want to translate here..." style="font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+    </div>
   </div>
-</div>`;
+
+  <div style="padding-top: 16px;">
+    <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+  </div>`;
   },
 
-  init() {
-    const { glob, document } = this;
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];

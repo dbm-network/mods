@@ -1,5 +1,6 @@
 module.exports = {
   name: 'Store Audit Log List MOD',
+  displayName: 'Store Audit Log List',
   section: 'Server Control',
   meta: {
     version: '2.1.7',
@@ -64,30 +65,16 @@ module.exports = {
 
   fields: ['storage', 'varName', 'type', 'before', 'limit', 'storage2', 'varName2'],
 
-  html(isEvent, data) {
+  html() {
     return `
 <div>
-  <div style="float: left; width: 35%;">
-    Filter Member:<br>
-    <select id="storage" class="round" onchange="glob.onChange0(this)">
-      <option value="0" selected>All</option>
-      <option value="1">Mentioned User</option>
-      <option value="2">Command Author</option>
-      <option value="3">Temp Variable</option>
-      <option value="4">Server Variable</option>
-      <option value="5">Global Variable</option>
-    </select><br>
-  </div>
-  <div id="varNameContainer" style="display: none; float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text"><br>
-  </div>
+  <member-input style="padding-top: 8px;" dropdownLabel="Filter Member" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></member-input>
 </div>
 <br><br><br>
 
 <div>
   <div style="float: left; width: 94%;">
-    Action Type:<br>
+    <span class="dbminputlabel">Action Type</span><br>
     <select id="type" class="round">
       <option value="0" selected>All</option>
       <option value="1">Update Server</option>
@@ -132,7 +119,7 @@ module.exports = {
 
 <div>
   <div style="float: left; width: 48%;">
-    Before Entry / Timestamp:<br>
+    <span class="dbminputlabel">Before Entry / Timestamp</span><br>
     <input id="before" class="round" type="text" placeholder="Leave it blank for None."><br>
   </div>
 </div>
@@ -140,45 +127,18 @@ module.exports = {
 
 <div>
   <div style="float: left; width: 104%;">
-    Amount to Fetch:<br>
+    <span class="dbminputlabel">Amount to Fetch</span><br>
     <input id="limit" class="round" type="text" placeholder="Leave it blank for All."><br>
   </div>
 </div>
 <br><br><br>
 
 <div>
-  <div style="float: left; width: 35%;">
-    Store In:<br>
-    <select id="storage2" class="round">
-      ${data.variables[1]}
-    </select>
-  </div>
-  <div style="float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName2" class="round" type="text">
-  </div>
+  <store-in-variable dropdownLabel="Store In" selectId="storage2" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
 </div>`;
   },
 
-  init() {
-    const { glob, document } = this;
-    const varNameContainer = document.getElementById('varNameContainer');
-
-    glob.onChange0 = function onChange0(storage) {
-      switch (parseInt(storage.value, 10)) {
-        case 0:
-        case 1:
-        case 2:
-          varNameContainer.style.display = 'none';
-          break;
-        default:
-          varNameContainer.style.display = null;
-          break;
-      }
-    };
-
-    glob.onChange0(document.getElementById('storage'));
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];

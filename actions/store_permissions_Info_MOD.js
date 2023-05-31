@@ -74,23 +74,15 @@ module.exports = {
 
   fields: ['storage', 'varName', 'info', 'storage2', 'varName2'],
 
-  html(isEvent, data) {
+  html() {
     return `
 <div>
-  <div style="float: left; width: 35%;">
-    Source Permissions:<br>
-    <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
-      ${data.variables[1]}
-    </select><br>
-  </div>
-  <div style="float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList"><br>
-  </div>
-</div><br><br><br>
-<div style="padding-top: 8px;">
-  <div style="float: left; width: 60%;">
-    Info:<br>
+  <store-in-variable dropdownLabel="Source Permissions" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+</div>
+
+<div style="float: left; padding-top: 16px; width: 100%;">
+  <div>
+    <span class="dbminputlabel">Info</span>
     <select id="info" class="round">
       <optgroup label="Basic Info">
         <option value="0" selected>Allow Bitfields</option>
@@ -136,25 +128,14 @@ module.exports = {
       </optgroup>
     </select>
   </div>
-</div><br><br><br>
-<div style="padding-top: 8px;">
-  <div style="float: left; width: 35%;">
-    Store In:<br>
-    <select id="storage2" class="round">
-      ${data.variables[1]}
-    </select>
-  </div>
-  <div style="float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName2" class="round" type="text">
-  </div>
+</div>
+
+<div style="float: left; padding-top: 16px; width: 100%;">
+  <store-in-variable dropdownLabel="Store In" selectId="storage2" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
 </div>`;
   },
 
-  init() {
-    const { glob, document } = this;
-    glob.refreshVariableList(document.getElementById('storage'));
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];

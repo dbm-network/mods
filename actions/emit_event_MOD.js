@@ -69,15 +69,15 @@ module.exports = {
       : ''
   }
   <div class="container">
-    Event Type:<br>
+    <span class="dbminputlabel">Event Type</span>
     <input id="eventType" class="round" type="text" value="error">
   </div>
   <div class="container">
-    First Parameter:<br>
+    <span class="dbminputlabel">First Parameter</span>
     <input id="firstArg" class="round" type="text">
   </div>
   <div class="container">
-    Second Parameter:<br>
+    <span class="dbminputlabel">Second Parameter</span>
     <input id="secondArg" class="round" type="text">
   </div>
   <div style="float: left; width: 90%; padding-top: 8px;">

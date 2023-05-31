@@ -139,22 +139,22 @@ module.exports = {
 
   fields: ['type', 'input', 'info0', 'info1', 'apikey', 'results', 'storage', 'varName'],
 
-  html(_isEvent, data) {
+  html() {
     return `
-<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
-  <div style="float: left; width: 30%; padding-top: 8px;">
-    Source Type:<br>
+<div id="wrexdiv">
+  <div style="float: left; width: 30%;">
+    <span class="dbminputlabel">Source Type</span>
     <select id="type" class="round" onchange="glob.onChange1(this)">
       <option value="0" selected>YouTube Video</option>
       <option value="1">YouTube Playlist</option>
     </select>
   </div>
-  <div style="float: left; width: 99%; padding-top: 8px;">
-    <span id="tempName">Video</span> to search:<br>
-    <textarea id="input" rows="2" placeholder="Insert your url or keywords in here..." style="width: 95%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+  <div style="float: left; width: 100%; padding-top: 16px;">
+    <span class="dbminputlabel">Video to Search</span>
+    <textarea id="input" placeholder="Insert your url or keywords in here..." style="font-family: monospace; white-space: nowrap; resize: none; min-height: 100px;"></textarea>
   </div>
-  <div id="divinfo0"; style="float: left; width: 94%; padding-top: 8px;">
-    Source Video Info:<br>
+  <div id="divinfo0"; style="float: left; width: 60%; padding-top: 16px;">
+    <span class="dbminputlabel">Source Video Info</span>
     <select id="info0" class="round">
       <option value="0">Video ID</option>
       <option value="1" selected>Video URL</option>
@@ -171,8 +171,8 @@ module.exports = {
       <option value="12">Video is Live?</option>
     </select>
   </div>
-  <div id="divinfo1"; style="float: left; width: 94%; padding-top: 8px;">
-    Source Playlist Info:<br>
+  <div id="divinfo1"; style="float: left; width: 60%; padding-top: 16px;">
+    <span class="dbminputlabel">Source Playlist Info</span>
     <select id="info1" class="round">
       <option value="0">Playlist ID</option>
       <option value="1" selected>Playlist URL</option>
@@ -204,8 +204,8 @@ module.exports = {
       <option value="27">Video Publish Dates</option>
     </select>
   </div>
-  <div id="divresults" style="float: left; width: 94%; padding-top: 8px;">
-    Result Number:<br>
+  <div id="divresults" style="float: right; width: 35%; padding-top: 16px;">
+    <span class="dbminputlabel">Result Number</span>
     <select id="results" class="round">
       <option value="1">1st Result</option>
       <option value="2">2nd Result</option>
@@ -229,21 +229,13 @@ module.exports = {
       <option value="20">20th Result</option>
     </select>
   </div>
-  <div id="divapikey" style="float: left; width: 104%; padding-top: 8px;">
-    API Key:<br>
+  <div id="divapikey" style="float: left; width: 100%; padding-top: 16px;">
+    <span class="dbminputlabel">API Key</span>
     <input id="apikey" class="round" type="text" placeholder="Insert your YouTube Data V3 API Key... (Not needed for search)">
   </div>
-  <div>
-    <div style="float: left; width: 35%;  padding-top: 8px;">
-      Store In:<br>
-      <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-        ${data.variables[1]}
-      </select>
-    </div>
-    <div id="varNameContainer" style="float: right; width: 60%; padding-top: 8px;">
-      Variable Name:<br>
-      <input id="varName" class="round" type="text"><br>
-    </div>
+
+  <div style="float: left; padding-top: 16px; width: 100%;">
+    <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
   </div>
 </div>`;
   },
@@ -251,7 +243,6 @@ module.exports = {
   init() {
     const { glob, document } = this;
 
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
     glob.onChange1 = function onChange1(event) {
       const id = parseInt(event.value, 10);
       // Load [Source Video Info], [Source Playlist Info], [API Key], [Max Results]

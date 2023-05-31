@@ -18,11 +18,13 @@ module.exports = {
   html() {
     return `
 <div>
-<member-input dropdownLabel="Source Member" selectId="member" variableContainerId="varNameContainer" variableInputId="varName"></member-input>
-</div><br><br><br>
+  <member-input dropdownLabel="Source Member" selectId="member" variableContainerId="varNameContainer" variableInputId="varName"></member-input>
+</div>
+<br><br><br>
+
 <div style="padding-top: 8px;">
   <div style="float: left; width: 80%;">
-    Data Name:<br>
+    <span class="dbminputlabel">Data Name</span>
     <input id="dataName" class="round" placeholder="Leave it blank to delete all data" type="text">
   </div>
 </div>`;

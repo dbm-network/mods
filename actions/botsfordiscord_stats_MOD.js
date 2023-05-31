@@ -23,14 +23,14 @@ module.exports = {
     This will send your bot server count to Bots For Discord
   </p>
 </div>
+
 <div id="modinfo">
-<div style="float: left; width: 99%; padding-top: 8px;">
-  Your BFD token:<br>
-  <input id="BFDToken" class="round" type="text"><br>
-  Your bot ID:<br>
-  <input id="ClientID" class="round" type="text">
-  <br>Please make sure you don't put this action on a short interval - it can cause 429 (rate limit) errors!
-</div><br>`;
+  <div style="float: left; width: 99%; padding-top: 8px;">
+    <span class="dbminputlabel">BFD Token</span>
+    <input id="BFDToken" class="round" type="text"><br>
+    Please make sure you don't put this action on a short interval - it can cause 429 (rate limit) errors!
+  </div>
+</div>`;
   },
 
   init() {},
@@ -38,11 +38,10 @@ module.exports = {
   async action(cache) {
     const data = cache.actions[cache.index];
     const token = this.evalMessage(data.BFDToken, cache);
-    const clientid = this.evalMessage(data.ClientID, cache);
     const Mods = this.getMods();
     const BFD = Mods.require('bfd-api');
     const bfd = new BFD(token);
-    bfd.postCount(this.getDBM().Bot.bot.guilds.cache.size, clientid);
+    bfd.postCount(this.getDBM().Bot.bot.guilds.cache.size, this.getDBM().Bot.bot.user.id);
     this.callNextAction(cache);
   },
 

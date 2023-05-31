@@ -1,6 +1,6 @@
 module.exports = {
   name: 'Get Bot Stats From DBL',
-  displayname: 'Get Bot Stats From TopGG',
+  displayName: 'Get Bot Stats From TopGG',
   section: 'Other Stuff',
   meta: {
     version: '2.1.7',
@@ -111,19 +111,16 @@ module.exports = {
   },
   fields: ['botID', 'token', 'info', 'storage', 'varName'],
 
-  html(_isEvent, data) {
+  html() {
     return `
-<div id="modinfo">
   <div style="float: left; width: 99%; padding-top: 8px;">
-    Bots' ID (Must be ID):<br>
-    <input id="botID" class="round" type="text">
-  </div><br>
-  <div style="float: left; width: 99%; padding-top: 8px;">
-    Your TopGG Token:<br>
+    <span class="dbminputlabel">TopGG Token</span>
     <input id="token" class="round" type="text">
-  </div><br>
+  </div>
+  <br>
+  
   <div style="float: left; width: 90%; padding-top: 8px;">
-    Source Info:<br>
+    <span class="dbminputlabel">Source Info</span>
     <select id="info" class="round">
     <option value="0">Invite URL</option>
     <option value="1">GitHub Repository URL</option>
@@ -147,44 +144,37 @@ module.exports = {
     <option value="19">Bots' Username</option>
     <option value="20">Bots' Discriminator</option>
   </select>
-  </div><br>
-  <div style="float: left; width: 35%; padding-top: 8px;">
-    Store Result In:<br>
-    <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-      ${data.variables[0]}
-    </select>
-  </div><br><br><br><br><br>
-  <div id="varNameContainer" style="float: right; display: none; width: 60%; padding-top: 8px;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text">
-  </div><br><br><br><br>
-  <div id="commentSection" style="padding-top: 8px;">
+  </div>
+  <br><br><br>
+
+  <div style="float: left; display: flex; width: 99%; padding-top: 8px;">
+    <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+  </div>
+  <br><br><br>
+  
+  <div id="commentSection" style="padding-top: 8px; float: left;">
     <p>
       Some options will only work for certified or special bots. You better use some check variables to check if they exist.
-      <b>Note:</b> TopGG is going to update the API and you'll need a token after the update!
     </p>
-  </div>
-</div>`;
+  </div>`;
   },
 
-  init() {
-    const { glob, document } = this;
-
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const botID = this.evalMessage(data.botID, cache);
+    const { Files } = this.getDBM();
+    const botID = Files.data.settings.client;
     const info = parseInt(data.info, 10);
-    const dblToken = this.evalMessage(data.token, cache);
+    const topggToken = this.evalMessage(data.token, cache);
+    if (!topggToken) return console.log('Missing TopGG Token in Get Bot Stats From TopGG');
 
     const Mods = this.getMods();
     const fetch = Mods.require('node-fetch');
 
     fetch(`https://top.gg/api/bots/${botID}`, {
       method: 'GET',
-      headers: { Authorization: dblToken || '' },
+      headers: { Authorization: topggToken },
     })
       .then((res) => res.json())
       .then((r) => {

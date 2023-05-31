@@ -15,21 +15,20 @@ module.exports = {
 
   fields: ['storage', 'varName', 'messageToSend'],
 
-  html(isEvent, data) {
+  html() {
     return `
 <div>
   <p>
     Run a command in your console.<strong> THIS IS VERY DANGEROUS. SET THIS TO "BOT OWNER ONLY"</strong><br><br>
   </p>
 </div>
-Command to run:
-<input id="messageToSend" class="round" type="text"><br>
-Store result in:<br>
-<select class="round" id="storage">
-  ${data.variables[0]}
-</select><br>
-Variable name:<br>
-<input class="round" id="varName" />`;
+<div>
+  <span class="dbminputlabel">Command to run</span>
+  <input id="messageToSend" class="round" type="text"><br>
+</div>
+<div>
+  <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+</div>`;
   },
 
   init() {},

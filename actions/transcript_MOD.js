@@ -21,10 +21,11 @@ module.exports = {
 
   fields: ['useMinify', 'saveImages', 'useCDN', 'channelObj', 'channelID', 'storage', 'varName'],
 
-  html(isEvent, data) {
+  html() {
     return `
-    <retrieve-from-variable allowSlashParams dropdownLabel="Channel Object" selectId="channelObj" variableContainerId="varNameContainer" variableInputId="channelID"></retrieve-from-variable>
-
+    <div>
+      <retrieve-from-variable allowSlashParams dropdownLabel="Channel Object" selectId="channelObj" variableContainerId="varNameContainer" variableInputId="channelID"></retrieve-from-variable>
+    </div>
     <br><br><br>
 
     <div style="padding-top: 8px;"><span class="dbminputlabel">Options</span>
@@ -73,22 +74,13 @@ module.exports = {
         </div>
       </div>
     </div>
-
     <br>
 
     <div style="padding-top: 8px;">
-      <div style="float: left; width: 35%;"><span class="dbminputlabel">Store In</span>
-        <select id="storage" class="round">
-          ${data.variables[1]}
-        </select>
-      </div>
-      <div id="varNameContainer" style="float: right; width: 60%;"> <span class="dbminputlabel">Variable Name</span>
-        <input id="varName" class="round" type="text"><br>
-      </div>
-    </div><br><br><br>
+      <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+    </div>
 
     <style>
-
       .dbm-round {
         background-color: #53585f;
         border: 1px solid white;

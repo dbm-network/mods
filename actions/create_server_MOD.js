@@ -20,25 +20,20 @@ module.exports = {
 
   fields: ['serverName', 'serverRegion', 'storage', 'varName'],
 
-  html(isEvent, data) {
+  html() {
     return `
 <div style="padding-top: 8px;">
-  <div style="float: left; width: 560px;">
-    Server Name:<br>
+  <div style="float: left;">
+    <span class="dbminputlabel">Server Name</span>
     <input id="serverName" class="round" type="text">
-  </div><br><br><br>
+  </div>
+  <br><br><br>
+  
   <div style="padding-top: 8px;">
-    <div style="float: left; width: 35%;">
-      Store In:<br>
-      <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-        ${data.variables[0]}
-      </select>
-    </div>
-    <div id="varNameContainer" style="display: none; float: right; width: 60%;">
-      Variable Name:<br>
-      <input id="varName" class="round" type="text"><br>
-    </div>
-  </div><br><br><br><br>
+    <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+  </div>
+  <br><br><br>
+  
   <div style="float: left; width: 88%; padding-top: 20px;">
     <p>
       <b>NOTE:</b> <span style="color:red">This is only available to bots in less than 10 servers!</span>
@@ -47,10 +42,7 @@ module.exports = {
 </div>`;
   },
 
-  init() {
-    const { glob, document } = this;
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];

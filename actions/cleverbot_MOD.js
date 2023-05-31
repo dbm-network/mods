@@ -21,51 +21,42 @@ module.exports = {
 
   fields: ['WhichAPI', 'inputVarType', 'inputVarName', 'APIuser', 'APIkey', 'storage', 'varName2'],
 
-  html(_isEvent, data) {
+  html() {
     return `
 <div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
 <div>
   <div style="width: 45%; padding-top: 8px;">
-    API:<br>
+    <span class="dbminputlabel">API</span>
     <select id="WhichAPI" class="round">
       <option value="0" selected>Cleverbot.io (free)</option>
       <option value="1">Cleverbot.com (free trial)</option>
       <option value="2">Cleverbot-Free (free)</option>
     </select>
   </div>
-</div><br>
+</div>
+<br>
 <div>
-  <div style="float: left; width: 35%;">
-    Input Variable:<br>
-    <select id="inputVarType" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-    ${data.variables[1]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="inputVarName" class="round" type="text" list="variableList">
+  <div>
+    <store-in-variable dropdownLabel="Input Variable" selectId="inputVarType" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+  </div>  
+  <br><br><br>
+
+  <div style="float: left; width: 80%; padding-top: 8px;">
+    <span class="dbminputlabel">API User</span>
+    <input id="APIuser" class="round" type="text" placeholder="Leave blank if you use cleverbot.com or cleverbot-free">
   </div>
   <br><br><br>
   <div style="float: left; width: 80%; padding-top: 8px;">
-    API User:<br>
-    <input id="APIuser" class="round" type="text" placeholder="Leave blank if you use cleverbot.com or cleverbot-free">
-  </div><br>
-  <div style="float: left; width: 80%; padding-top: 8px;">
-    API Key:<br>
+    <span class="dbminputlabel">API Key</span>
     <input id="APIkey" class="round" type="text" placeholder="Leave blank if you use cleverbot-free">
   </div>
-  <br><br><br>
-  <div style="float: left; width: 35%; padding-top: 8px;">
-    Store Response In:<br>
-    <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer2')">
-      ${data.variables[1]}
-    </select>
+  <br><br><br><br>
+
+  <div>
+    <store-in-variable dropdownLabel="Store Response In" selectId="storage" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
   </div>
-  <div id="varNameContainer2" style="float: right; width: 60%; padding-top: 8px;">
-    Variable Name:<br>
-    <input id="varName2" class="round" type="text"><br>
-  </div>
-  <br><br><br><br><br>
+  <br><br><br><br>
+
   <div id="comment" style="padding-top: 30px; padding-top: 8px;">
     <p>
     <u>Which API should I use?</u><br>
@@ -78,6 +69,7 @@ module.exports = {
     Copy the links to your browser.<br>
     </p>
   </div>
+</div>
 </div>`;
   },
 

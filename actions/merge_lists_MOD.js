@@ -24,40 +24,35 @@ module.exports = {
     return `
 <div>
   <div style="float: left; width: 35%;">
-    Source List:<br>
-    <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
+    <span class="dbminputlabel">Source List</span>
+    <select id="storage" class="round" onchange="glob.listChange(this, 'varNameContainer')">
       ${data.lists[isEvent ? 1 : 0]}
     </select>
   </div>
   <div id="varNameContainer" style="float: right; width: 60%;">
-    Variable Name:<br>
+    <span class="dbminputlabel">Variable Name</span>
     <input id="varName" class="round varSearcher" type="text" list="variableList">
   </div>
-</div><br><br><br>
+</div>
+<br><br><br>
+
 <div style="padding-top: 8px;">
   <div style="float: left; width: 35%;">
-    Source List 2:<br>
-    <select id="storage2" class="round" onchange="glob.variableChange(this, 'varNameContainer2')">
+    <span class="dbminputlabel">Second Source List</span>
+    <select id="storage2" class="round" onchange="glob.listChange(this, 'varNameContainer2')">
       ${data.lists[isEvent ? 1 : 0]}
     </select>
   </div>
   <div id="varNameContainer2" style="float: right; width: 60%;">
-    Variable Name 2:<br>
+    <span class="dbminputlabel">Variable Name</span>
     <input id="varName2" class="round varSearcher" type="text" list="variableList">
   </div>
 </div>
-</div><br><br><br>
+</div>
+<br><br><br>
+
 <div>
-  <div style="float: left; width: 35%;">
-    Store In:<br>
-    <select id="storage3" class="round" onchange="glob.variableChange(this, 'varNameContainer3')">
-      ${data.variables[1]}
-    </select>
-  </div>
-  <div id="varNameContainer3" style="display: none; float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName3" class="round" type="text">
-  </div>
+  <store-in-variable dropdownLabel="Store In" selectId="storage3" variableContainerId="varNameContainer3" variableInputId="varName3"></store-in-variable>
 </div>`;
   },
 
@@ -66,7 +61,6 @@ module.exports = {
 
     glob.listChange(document.getElementById('storage'), 'varNameContainer');
     glob.listChange(document.getElementById('storage2'), 'varNameContainer');
-    glob.variableChange(document.getElementById('storage3'), 'varNameContainer3');
   },
 
   async action(cache) {

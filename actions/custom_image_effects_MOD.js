@@ -19,39 +19,29 @@ module.exports = {
 
   fields: ['storage', 'varName', 'effect', 'intensity'],
 
-  html(_isEvent, data) {
+  html() {
     return `
 <div>
-  <div style="float: left; width: 45%;">
-    Base Image:<br>
-    <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
-      ${data.variables[1]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="float: right; width: 50%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList"><br>
-  </div>
-</div><br><br><br>
+  <store-in-variable dropdownLabel="Base Image" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+</div>
+<br><br><br>
+
 <div style="padding-top: 8px;">
   <div style="float: left; width: 90%;">
-    Effect:<br>
+    <span class="dbminputlabel">Effect</span>
     <select id="effect" class="round">
       <option value="0" selected>Custom Blur</option>
       <option value="1">Custom Pixelate</option>
     </select><br>
   </div>
   <div id="intensityContainer" style="float: left; width: 50%;">
-    Intensity:<br>
+    <span class="dbminputlabel">Intensity</span>
     <input id="intensity" class="round" type="text"><br>
   </div>
 </div>`;
   },
 
-  init() {
-    const { glob, document } = this;
-    glob.refreshVariableList(document.getElementById('storage'));
-  },
+  init() {},
 
   async action(cache) {
     const { Actions } = this.getDBM();

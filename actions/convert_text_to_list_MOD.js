@@ -23,44 +23,27 @@ module.exports = {
 
   fields: ['storage', 'varName', 'separator', 'storage2', 'varName2'],
 
-  html(isEvent, data) {
+  html() {
     return `
 <div>
-  <div style="float: left; width: 35%;">
-    Source Text:<br>
-    <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
-      ${data.variables[1]}
-    </select><br>
-  </div>
-  <div id="varNameContainer" style="float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList"><br>
-  </div>
-</div><br><br><br>
-<div style="display: table; width: 105%;">
+  <store-in-variable dropdownLabel="Source Text" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+</div>
+<br><br><br><br>
+
+<div style="display: table; width: 100%;">
   <div style="display: table-cell;">
-    Separator:
+    <span class="dbminputlabel">Separator</span>
     <input id="separator" class="round" type="text">
   </div>
-</div><br>
+</div>
+<br>
+
 <div style="padding-top: 8px;">
-  <div style="float: left; width: 35%;">
-    Store In:<br>
-    <select id="storage2" class="round">
-      ${data.variables[1]}
-    </select>
-  </div>
-  <div style="float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName2" class="round" type="text">
-  </div>
+  <store-in-variable dropdownLabel="Store In" selectId="storage2" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
 </div>`;
   },
 
-  init() {
-    const { glob, document } = this;
-    glob.refreshVariableList(document.getElementById('storage'));
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];

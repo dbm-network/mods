@@ -103,7 +103,12 @@ module.exports = {
       default:
         break;
     }
-    this.executeResults(result, data, cache);
+    this.executeResults(result, data?.branch ?? data, cache);
+  },
+
+  modInit(data) {
+    this.prepareActions(data.branch?.iftrueActions);
+    this.prepareActions(data.branch?.iffalseActions);
   },
 
   mod() {},

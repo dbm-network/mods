@@ -80,7 +80,8 @@ module.exports = {
     <div id="varNameContainer2" style="display: ; float: right; width: 60%;">
       Variable Name:<br />
       <input id="source_conn_varName" class="round" type="text" />
-    </div><br /><br /><br /><br />
+    </div>
+    <br /><br /><br /><br />
   </div>
   <div style="margin-left: 5px;" class="ui toggle checkbox">
     <input type="checkbox" name="public" id="toggleAuth" onclick='document.getElementById("authSection").style.display = this.checked ? "" : "none";' />
@@ -138,7 +139,7 @@ module.exports = {
           </form>
         </div>
       </div>
-      <div><br />
+      <div><br>
         <label for="query">Query String</label>
         <textarea id="query" class="round" placeholder="SELECT * FROM 'users'" style="width: 94%; resize: none;" type="textarea" rows="8" cols="19"></textarea><br /><br />
       </div>
@@ -169,14 +170,18 @@ module.exports = {
           Variable Name:<br />
           <input id="store_source_conn_varName" class="round" type="text" />
         </div>
-      </div><br /><br /><br /><br /><br />
+      </div>
+      <br><br><br><br><br>
+      
       <div style="float: left; width: 35%;">
         Debug Mode: (Enable to see verbose printing in the bot console)<br />
         <select id="debugMode" class="round">
           <option value="1" selected="selected">Enabled</option>
           <option value="0">Disabled</option>
         </select>
-      </div><br /><br /><br /><br /><br /><br />
+      </div>
+      <br><br><br><br><br><br>
+      
       <div style="float: left; width: 35%;">
         Stringify Output: (Stringify the results into chat)<br />
         Enable this to not show [Object object] in chat

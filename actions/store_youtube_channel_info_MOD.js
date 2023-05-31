@@ -22,14 +22,15 @@ module.exports = {
 
   fields: ['query', 'info', 'storage', 'varName'],
 
-  html(_isEvent, data) {
+  html() {
     return `
-<div style="width: 90%;">
-  YouTube Channel ID:<br>
+<div style="width: 100%;">
+  <span class="dbminputlabel">YouTube Channel ID</span>
   <input id="query" class="round" type="text">
-</div><br>
-<div style="padding-top: 8px; width: 60%;">
-  Options:
+</div>
+
+<div style="padding-top: 16px; width: 50%;">
+  <span class="dbminputlabel">Options</span>
   <select id="info" class="round">
     <option value="0" selected>Channel URL</option>
     <option value="1">Channel Name</option>
@@ -42,18 +43,10 @@ module.exports = {
     <option value="8">Channel is Verified?</option>
     <option value="9">Channel Allowed Regions</option>
   </select>
-</div><br>
-<div style="padding-top: 8px;">
-  <div style="float: left; width: 35%;">
-    Store In:<br>
-    <select id="storage" class="round">
-      ${data.variables[1]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text">
-  </div>
+</div>
+
+<div style="padding-top: 16px;">
+  <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
 </div>`;
   },
 

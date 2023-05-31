@@ -21,14 +21,15 @@ module.exports = {
 
   fields: ['FirstNumber', 'info', 'SecondNumber', 'storage', 'varName'],
 
-  html(_isEvent, data) {
+  html() {
     return `
 <div style="width: 90%;">
-  First Number:<br>
+  <span class="dbminputlabel">First Number</span>
   <input id="FirstNumber" class="round" type="text">
 </div><br>
+
 <div style="padding-top: 8px; width: 60%;">
-  Math Operation:
+  <span class="dbminputlabel">Math Operation</span>
   <select id="info" class="round">
       <option value="0" selected>Addition</option>
       <option value="1">Subtraction</option>
@@ -37,21 +38,13 @@ module.exports = {
   </select>
 </div><br>
 <div style="width: 90%;">
-  Second Number:<br>
+  <span class="dbminputlabel">Second Number</span>
   <input id="SecondNumber" class="round" type="text">
-</div><br>
-<div style="padding-top: 8px;">
-  <div style="float: left; width: 35%;">
-    Store In:<br>
-    <select id="storage" class="round">
-      ${data.variables[1]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text">
-  </div>
-</div>`;
+</div>
+<br><br><br>
+
+<store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+`;
   },
 
   init() {},

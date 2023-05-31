@@ -16,32 +16,25 @@ module.exports = {
 
   fields: ['storage', 'varName', 'align', 'align2', 'width', 'height', 'positionx', 'positiony'],
 
-  html(_isEvent, data) {
+  html() {
     return `
-<div>
-  <div style="float: left; width: 45%;">
-    Source Image:<br>
-    <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
-      ${data.variables[1]}
-    </select><br>
-  </div>
-  <div id="varNameContainer" style="float: right; width: 50%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList"><br>
-  </div>
-</div><br><br><br>
+<store-in-variable dropdownLabel="Source Image" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+<br><br><br>
+
 <div>
   <div style="float: left; width: 50%;">
-    Crop Width (direct size or percent):<br>
+    <span class="dbminputlabel">Crop Width (direct size or percent)</span>
     <input id="width" class="round" type="text" value="100%"><br>
   </div>
   <div style="float: right; width: 50%;">
-    Crop Height (direct size or percent):<br>
+    <span class="dbminputlabel">Crop Height (direct size or percent)</span>
     <input id="height" class="round" type="text" value="100%"><br>
   </div>
-</div><br><br><br>
+</div>
+<br><br><br>
+
   <div style="float: left; width: 45%;">
-    Alignment:<br>
+    <span class="dbminputlabel">Alignment</span>
     <select id="align" class="round" onchange="glob.onChange0(this)">
       <option value="0" selected>Top Left</option>
       <option value="1">Top Center</option>
@@ -56,7 +49,7 @@ module.exports = {
     </select><br>
   </div>
   <div id="specific" style="display: none; padding-left: 5%; float: left; width: 50%;">
-    Custom Alignment:<br>
+    <span class="dbminputlabel">Custom Alignment</span>
     <select id="align2" class="round">
       <option value="0" selected>Top Left</option>
       <option value="1">Top Center</option>
@@ -69,14 +62,16 @@ module.exports = {
       <option value="8">Bottom Right</option>
     </select><br>
   </div>
-</div><br><br>
+</div>
+<br><br>
+
 <div id="position" style="display: none">
   <div style="float: left; width: 50%;">
-    Position X:<br>
+    <span class="dbminputlabel">Position X</span>
     <input id="positionx" class="round" type="text" value="0"><br>
   </div>
   <div style="float: right; width: 50%;">
-    Position Y:<br>
+    <span class="dbminputlabel">Position Y</span>
     <input id="positiony" class="round" type="text" value="0"><br>
   </div>
 </div>`;
@@ -108,10 +103,8 @@ module.exports = {
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);
     const imagedata = this.getVariable(storage, varName, cache);
-    if (!imagedata) {
-      this.callNextAction(cache);
-      return;
-    }
+    if (!imagedata) return this.callNextAction(cache);
+
     const image = new Canvas.Image();
     image.src = imagedata;
     let cropw = this.evalMessage(data.width, cache);

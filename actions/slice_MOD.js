@@ -20,30 +20,28 @@ module.exports = {
 
   fields: ['slice', 'startingNumber', 'sliceLength', 'storage', 'varName'],
 
-  html(_isEvent, data) {
+  html() {
     return `
 <div>
-  Slice Text:<br>
+  <span class="dbminputlabel">Slice Text</span><br>
   <textarea id="slice" rows="2" placeholder="Insert message here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
-</div><br>
+</div>
+
 <div style="float: left; width: 45%; padding-top: 8px;">
-  Slice Starting Number:<br>
+  <span class="dbminputlabel">Slice Starting Number</span><br>
   <input id="startingNumber" class="round" type="text">
 </div>
 <div style="float: right; width: 45%; padding-top: 8px;">
-  Slice Length:<br>
+  <span class="dbminputlabel">Slice Length</span><br>
   <input id="sliceLength" class="round" type="text">
-</div><br><br>
-<div style="float: left; width: 35%; padding-top: 8px;">
-  Store Result In:<br>
-  <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-    ${data.variables[0]}
-  </select>
 </div>
-<div id="varNameContainer" style="float: right; display: none; width: 60%; padding-top: 8px;">
-  Variable Name:<br>
-  <input id="varName" class="round" type="text">
-</div><br><br><br><br>
+<br><br><br>
+
+<div style="padding-top: 8px;">
+  <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+</div>
+<br><br><br><br>
+
 <div id="RandomText" style="padding-top: 8px;">
   <p>
   example text: you are the best<br>
@@ -52,11 +50,7 @@ module.exports = {
 </div>`;
   },
 
-  init() {
-    const { glob, document } = this;
-
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];

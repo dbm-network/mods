@@ -20,22 +20,17 @@ module.exports = {
 
   fields: ['reviser', 'storage', 'varName2'],
 
-  html(_isEvent, data) {
+  html() {
     return `
 <div>
   <div style="width: 70%;">
-    Message to Revise:<br>
+    <span class="dbminputlabel">Message to Revise</span>
     <input id="reviser" type="text" class="round">
-  </div><br>
-  <div style="float: left; width: 35%;">
-    Store In:<br>
-    <select id="storage" class="round">
-      ${data.variables[1]}
-    </select>
   </div>
-  <div id="varNameContainer2" style="float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName2" class="round" type="text"><br>
+  <br>
+  
+  <div>
+  <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
   </div>
 </div>`;
   },

@@ -19,28 +19,19 @@ module.exports = {
     return `
 <div width="540" style="height: auto;" overflow-y="scroll">
   <div style="float: left; width: 35%;">
-    Find By:<br>
+    <span class="dbminputlabel">Find By</span>
     <select id="findBy" class="round">
       <option value="id">Command ID</option>
       <option value="name">Command Name</option>
     </select>
   </div>
   <div style="float: right; width: 60%;">
-    Value:<br>
+    <span class="dbminputlabel">Value</span>
     <input type="text" id="commandData" class="round" placeholder="Value"></input>
-  </div><br>
-  <div style="float: left; width: 35%;">
-    Save To:<br>
-    <select id="saveTo" class="round">
-      <option value="1">Temp Variable</option>
-      <option value="2">Server Variable</option>
-      <option value="3">Global Variable</option>
-    </select>
   </div>
-  <div style="float: right; width: 60%;">
-    Variable Name:<br>
-    <input type="text" id="varName" class="round" placeholder="Variable Name"></input>
-  </div>
+  <br><br><br>
+  
+  <store-in-variable dropdownLabel="Store In" selectId="saveTo" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
 </div>`;
   },
 
@@ -48,12 +39,12 @@ module.exports = {
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const { findBy, saveTo } = data;
+    const { findBy } = data;
+    const type = parseInt(data.saveTo, 10);
+    const saveToName = this.evalMessage(data.varName, cache);
+    const findByValue = this.evalMessage(data.commandData, cache);
 
-    const findByValue = data.commandData;
-    const saveToName = data.varName;
-
-    const { Files } = this.getDBM();
+    const { Files, Actions } = this.getDBM();
     const { commands } = Files.data;
 
     if (findBy === 'id') {
@@ -68,8 +59,8 @@ module.exports = {
           for (let j = 0; j < cmd.actions.length; j++) {
             const action = cmd.actions[j];
             if (action.name === 'Command Description') {
-              this.storeValue(action.description, Number(saveTo), saveToName, cache);
-              this.callNextAction(cache);
+              Actions.storeValue(action.description, type, saveToName, cache);
+              Actions.callNextAction(cache);
               return;
             }
             console.log(action.name);
@@ -77,7 +68,6 @@ module.exports = {
         }
       }
 
-      this.storeValue(null, Number(saveTo), saveToName, cache);
       this.callNextAction(cache);
     } else if (findBy === 'name') {
       let cmd;
@@ -91,8 +81,8 @@ module.exports = {
           for (let j = 0; j < cmd.actions.length; j++) {
             const action = cmd.actions[j];
             if (action.name === 'Command Description') {
-              this.storeValue(action.description, Number(saveTo), saveToName, cache);
-              this.callNextAction(cache);
+              Actions.storeValue(action.description, type, saveToName, cache);
+              Actions.callNextAction(cache);
               return;
             }
             console.log(action.name);
@@ -100,11 +90,8 @@ module.exports = {
         }
       }
 
-      this.storeValue(null, Number(saveTo), saveToName, cache);
       this.callNextAction(cache);
     }
-
-    this.callNextAction(cache);
   },
 
   mod() {},

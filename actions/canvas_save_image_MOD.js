@@ -20,38 +20,21 @@ module.exports = {
 
   fields: ['storage', 'varName', 'Path', 'storage2', 'varName2'],
 
-  html(_isEvent, data) {
+  html() {
     return `
-<div>
-  <div style="float: left; width: 40%;">
-    Source Image:<br>
-    <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
-      ${data.variables[1]}
-    </select><br>
-  </div>
-  <div id="varNameContainer" style="padding-left: 2%; float: left; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList"><br>
-  </div>
-</div><br><br><br>
+<store-in-variable dropdownLabel="Source Image" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+<br><br><br>
+
 <div>
   <div style="float: left; width: 105%;">
-    Path (Save to Local):<br>
+    <span class="dbminputlabel">Path (Save to Local)</span>
     <input id="Path" class="round" type="text" placeholder="resources/output.png"><br>
   </div>
-</div><br><br>
-<div>
-  <div style="float: left; width: 40%;">
-    Store In:<br>
-    <select id="storage2" class="round">
-      ${data.variables[1]}
-    </select><br>
-  </div>
-  <div style="padding-left: 2%; float: left; width: 60%;">
-    Variable Name:<br>
-    <input id="varName2" class="round" type="text"><br>
-  </div>
-</div>`;
+</div>
+<br><br><br>
+
+<store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
+`;
   },
 
   init() {
@@ -67,10 +50,8 @@ module.exports = {
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);
     const imagedata = this.getVariable(storage, varName, cache);
-    if (!imagedata) {
-      this.callNextAction(cache);
-      return;
-    }
+    if (!imagedata) return this.callNextAction(cache);
+
     const image = new Canvas.Image();
     image.src = imagedata;
     const canvas = Canvas.createCanvas(image.width, image.height);

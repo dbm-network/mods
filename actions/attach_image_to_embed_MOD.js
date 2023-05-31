@@ -18,35 +18,25 @@ module.exports = {
 
   fields: ['embedstorage', 'embedvarName', 'imagestorage', 'imagevarName', 'filename'],
 
-  html(_isEvent, data) {
+  html() {
     return `
 <div>
-  <div style="float: left; width: 35%;">
-    Source Embed Object:<br>
-    <select id="embedstorage" class="round" onchange="glob.refreshVariableList(this)">
-      ${data.variables[1]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="embedvarName" class="round" type="text" list="variableList"><br>
-  </div>
-</div><br><br><br>
-<div><br>
-  <div style="float: left; width: 35%;">
-    Image Object to Attach:<br>
-    <select id="imagestorage" class="round" onchange="glob.refreshVariableList(this)">
-      ${data.variables[1]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="imagevarName" class="round" type="text" list="variableList"><br>
-  </div><br><br><br>
-  <div id="varNameContainer" style="float: right; width: 60%;">
-    Image File Name:<br>
-    <input id="filename" class="round" type="text" placeholder="image.png"><br>
-  </div>
+  <store-in-variable dropdownLabel="Source Embed Object" selectId="embedstorage" variableInputId="embedvarName" variableContainerId="varNameContainer"></store-in-variable>
+</div>
+<br><br><br>
+
+<div>
+  <store-in-variable dropdownLabel="Image Object to Attach" selectId="imagestorage" variableInputId="imagevarName" variableContainerId="varNameContainer2"></store-in-variable>
+</div>
+<br><br><br>
+
+<div>
+  <span class="dbminputlabel">Image File Name</span>
+  <input id="filename" class="round" type="text" placeholder="image.png"><br>
+</div>
+
+<div>
+  <store-in-variable selectId="storage" variableInputId="varName" variableContainerId="varNameContainer3"></store-in-variable>
 </div>`;
   },
 
@@ -54,6 +44,7 @@ module.exports = {
 
   async action(cache) {
     const data = cache.actions[cache.index];
+    const { Actions } = this.getDBM();
 
     const embedstorage = parseInt(data.embedstorage, 10);
     const embedvarName = this.evalMessage(data.embedvarName, cache);
@@ -71,6 +62,10 @@ module.exports = {
     Images.createBuffer(image).then((buffer) => {
       const attachment = new DBM.DiscordJS.MessageAttachment(buffer, filename);
       embed.attachFiles([attachment]);
+
+      const storage = parseInt(data.storage, 10);
+      const varName = Actions.evalMessage(data.varName, cache);
+      Actions.storeValue(embed, storage, varName, cache);
       this.callNextAction(cache);
     });
   },

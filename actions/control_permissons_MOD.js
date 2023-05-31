@@ -69,21 +69,14 @@ module.exports = {
     'MANAGE_EMOJIS',
   ],
 
-  html(isEvent, data) {
+  html() {
     return `
 <div style="width: 550px; height: 350px; overflow-y: scroll;">
   <div style="padding-top: 8px;">
-    <div style="float: left; width: 35%;">
-      Source Permissions:<br>
-      <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
-        ${data.variables[1]}
-      </select><br>
-    </div>
-    <div style="float: right; width: 60%;">
-      Variable Name:<br>
-      <input id="varName" class="round" type="text" list="variableList"><br>
-    </div>
-  </div><br><br><br>
+    <store-in-variable dropdownLabel="Source Permissions" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+  </div>
+  <br><br><br>
+  
   <div style="padding-top: 8px;">
     <div id="checkbox" style="float: left; width: 80%;">
     </div>
@@ -92,7 +85,7 @@ module.exports = {
   },
 
   init() {
-    const { glob, document } = this;
+    const { document } = this;
     const checkbox = document.getElementById('checkbox');
 
     const permissionsName = {
@@ -310,8 +303,6 @@ module.exports = {
       checkbox.appendChild(dom);
       checkbox.innerHTML += '<br>';
     });
-
-    glob.refreshVariableList(document.getElementById('storage'));
   },
 
   async action(cache) {

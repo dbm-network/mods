@@ -21,7 +21,7 @@ module.exports = {
 
   fields: ['behavior', 'varStorage', 'jsonObjectVarName', 'path', 'storage', 'varName', 'debugMode'],
 
-  html(_isEvent, data) {
+  html() {
     return `
 <style>
     .debugMode {
@@ -32,43 +32,21 @@ module.exports = {
 </style>
 <div style="margin: 0; overflow-y: none;">
     <div style="width: 80%;">
-        <div style="float: left; width: 35%;">
-              Variable:<br>
-              <select id="varStorage" class="round" onchange="glob.refreshVariableList(this)">
-                  ${data.variables[1]}
-              </select>
-        </div>
-        <div id="jsonObjectVarNameContainer" style="float: right; width: 60%;">
-            Variable Name:<br>
-            <input id="jsonObjectVarName" class="round" type="text" list="variableList">
-        </div><br><br><br>
-        <div id="pathContainer" style="padding-top: 8px">
-            JSON Path: (supports the usage of <a href="http://goessner.net/articles/JsonPath/index.html#e2" target="_blank">JSON Path (Regex)</a>)<br>
-            <input id="path" class="round" type="text"><br>
-        </div>
+      <store-in-variable dropdownLabel="Source Variable" selectId="varStorage" variableContainerId="jsonObjectVarNameContainer" variableInputId="jsonObjectVarName"></store-in-variable>
+      <br><br><br>
+        
+      <div id="pathContainer" style="padding-top: 8px">
+        JSON Path: (supports the usage of <a href="http://goessner.net/articles/JsonPath/index.html#e2" target="_blank">JSON Path (Regex)</a>)<br>
+        <input id="path" class="round" type="text"><br>
+      </div>
     </div>
     <div style="width: 80%">
-        <div style="float: left; width: 30%">
-            <label for="storage">
-                <font color="white">Store In:</font>
-            </label>
-            <select id="storage" class="round" onchange="glob.variableChange(this, 'varNameContainer')">
-                ${data.variables[1]}
-            </select>
-        </div>
-        <div id="varNameContainer" style="margin-left: 10px; float: left; width: 65%;">
-            <label for="varName">
-                <font color="white">Variable Name:</font>
-            </label>
-            <input id="varName" class="round" type="text">
-        </div>
+      <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
     </div>
     <div>
         <div style="float: left;">
             <br>
-            <label for="behavior">
-                <font color="white">End Behavior:</font>
-            </label>
+            <span class="dbminputlabel">End Behavior</span>
             <select id="behavior" class="round">
                 <option value="0" selected>Call Next Action Automatically</option>
                 <option value="1">Do Not Call Next Action</option>
@@ -76,9 +54,7 @@ module.exports = {
         </div>
         <div class="debugMode">
             <br>
-            <label for="debugMode">
-                <font color="white">Debug Mode:</font>
-            </label>
+            <span class="dbminputlabel">Debug Mode</span>
             <select id="debugMode" class="round">
                 <option value="0" selected>Disabled</option>
                 <option value="1">Enabled</option>
@@ -89,11 +65,7 @@ module.exports = {
 `;
   },
 
-  init() {
-    const { glob, document } = this;
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
-    glob.refreshVariableList(document.getElementById('storage'));
-  },
+  init() {},
 
   async action(cache) {
     const Mods = this.getMods();

@@ -29,10 +29,10 @@ module.exports = {
 
   fields: ['info', 'storage', 'varName2'],
 
-  html(_isEvent, data) {
+  html() {
     return `
 <div style="float: left; width: 80%; padding-top: 8px;">
-  Source Info:<br>
+  <span class="dbminputlabel">Source Info</span>
   <select id="info" class="round">
     <option value="0">Total Count of Servers (in All Shards)</option>
     <option value="1">Total Count of Members (in All Shards)</option>
@@ -42,18 +42,11 @@ module.exports = {
     <option value="5">Total Count of Members (in Current Server's Shard)</option>
     <option value="6">Total Server's List (On The Current Server's Shard)</option>
   </select>
-</div><br><br><br>
-<div>
-  <div style="float: left; width: 35%; padding-top: 8px;">
-    Store In:<br>
-    <select id="storage" class="round">
-      ${data.variables[1]}
-    </select>
-  </div>
-  <div id="varNameContainer2" style="float: right; width: 60%; padding-top: 8px;">
-    Variable Name:<br>
-    <input id="varName2" class="round" type="text"><br>
-  </div>
+</div>
+<br><br><br>
+
+<div style="float: left; width: 100%; padding-top: 8px;">
+  <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
 </div>`;
   },
 

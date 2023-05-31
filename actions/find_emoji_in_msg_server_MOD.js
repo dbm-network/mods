@@ -21,32 +21,25 @@ module.exports = {
 
   fields: ['info', 'find', 'storage', 'varName'],
 
-  html(_isEvent, data) {
+  html() {
     return `
 <div>
-  <div style="float: left; width: 40%;">
-    Source Field:<br>
+  <div style="float: left; width: 35%;">
+    <span class="dbminputlabel">Source Field</span>
     <select id="info" class="round">
       <option value="0" selected>Emoji ID</option>
       <option value="1">Emoji Name</option>
     </select>
   </div>
-  <div style="float: right; width: 55%;">
-    Search Value:<br>
+  <div style="float: right; width: 60%;">
+    <span class="dbminputlabel">Search Value</span>
     <input id="find" class="round" type="text">
   </div>
-</div><br><br><br>
+</div>
+<br><br><br>
+
 <div style="padding-top: 8px;">
-  <div style="float: left; width: 35%;">
-    Store In:<br>
-    <select id="storage" class="round">
-      ${data.variables[1]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text">
-  </div>
+  <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
 </div>`;
   },
 

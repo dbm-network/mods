@@ -19,22 +19,22 @@ module.exports = {
 
   html() {
     return `
-<div style="float: left; width: 105%;">
-  YouTube Playlist:<br>
+<div style="float: left; width: 100%;">
+  <span class="dbminputlabel">YouTube Playlist</span>
   <input id="url" class="round" type="text" placeholder="Insert your playlist URL or ID here"><br>
 </div>
 <div style="float: left; width: 49%;">
-  Video Seek Positions:<br>
+  <span class="dbminputlabel">Video Seek Positions</span>
   <input id="seek" class="round" type="text" value="0"><br>
-  Video Volumes:<br>
+  <span class="dbminputlabel">Video Volume</span>
   <input id="volume" class="round" type="text" placeholder="Leave blank for automatic..."><br>
-    Max Videos to Queue from Playlist:<br>
+    <span class="dbminputlabel">Max Videos to Queue</span>
     <input id="maxvid" class="round" type="text" placeholder="Defaults to 250 videos"><br>
 </div>
 <div style="float: right; width: 49%;">
-  Video Passes:<br>
+  <span class="dbminputlabel">Video Passes</span>
   <input id="passes" class="round" type="text" value="1"><br>
-  Video Bitrates:<br>
+  <span class="dbminputlabel">Video Bitrate</span>
   <input id="bitrate" class="round" type="text" placeholder="Leave blank for automatic..."><br>
 </div>`;
   },
@@ -47,7 +47,7 @@ module.exports = {
     const Mods = this.getMods();
     const url = this.evalMessage(data.url, cache);
     const maxvideos = this.evalMessage(data.maxvid, cache) || 250;
-    const ytpl = Mods.require('ytpl'); // be sure you have the latest YTPL, this was modified with 2.0.3 in mind
+    const ytpl = Mods.require('ytpl');
     const { msg } = cache;
     const options = {
       watermark: 'highWaterMark: 1', // idk what this does, but the queue data has it, so i might as well add it in case someone needs it

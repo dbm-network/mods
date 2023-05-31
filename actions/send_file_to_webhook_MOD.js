@@ -20,30 +20,20 @@ module.exports = {
 
   fields: ['storage', 'varName', 'file'],
 
-  html(isEvent, data) {
+  html() {
     return `
 <div style="padding-top: 8px;">
-  <div style="float: left; width: 35%;">
-    Source Webhook:<br>
-    <select id="storage" class="round" onchange="glob.refreshVariableList(this)">
-      ${data.variables[1]}
-    </select>
-  </div>
-  <div id="varNameContainer" style="float: right; width: 60%;">
-    Variable Name:<br>
-    <input id="varName" class="round" type="text" list="variableList"><br>
-  </div>
-</div><br><br><br>
+  <store-in-variable dropdownLabel="Source Webhook" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+</div>
+<br><br><br>
+
 <div style="padding-top: 8px;">
-  Local File URL:<br>
+  <span class="dbminputlabel">Local File Path</span>
   <input id="file" class="round" type="text" value="resources/"><br>
 </div>`;
   },
 
-  init() {
-    const { glob, document } = this;
-    glob.refreshVariableList(document.getElementById('storage'));
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];

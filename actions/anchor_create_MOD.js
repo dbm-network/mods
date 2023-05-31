@@ -31,16 +31,16 @@ module.exports = {
   </p>
 </div><br>
 <div style="float: left; width: 74%;">
-  Anchor ID:<br>
+  <span class="dbminputlabel">Anchor ID</span>
   <input type="text" class="round" id="anchor_id"><br>
 </div>
 <div style="float: left; width: 24%;">
-  Anchor Color:<br>
+  <span class="dbminputlabel">Anchor Color</span>
   <input type="color" id="color"><br>
 </div>
 <div>
   <div style="float: left; width: 98%;">
-    Description:<br>
+    <span class="dbminputlabel">Description</span>
     <input type="text" class="round" id="description">
   </div>
 </div>`;
