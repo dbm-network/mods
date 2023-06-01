@@ -8,7 +8,7 @@ module.exports = {
     authorUrl: 'https://github.com/dbm-network/mods',
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/check_if_emoji_exists_MOD.js',
   },
-  fields: ['info', 'find', 'mode', 'branch', 'server'],
+  fields: ['server', 'varName', 'mode', 'type', 'find', 'branch'],
 
   subtitle(data, presets) {
     return presets.getConditionsText(data);
@@ -27,7 +27,7 @@ module.exports = {
     <div>
       <div style="float: left; width: 35%;">
         <span class="dbminputlabel">Search Type</span><br>
-        <select id="info" class="round">
+        <select id="type" class="round">
           <option value="0" selected>ID</option>
           <option value="1">Name</option>
         </select>
@@ -59,7 +59,7 @@ module.exports = {
   async action(cache) {
     const data = cache.actions[cache.index];
     const find = this.evalMessage(data.find, cache);
-    const info = parseInt(data.info, 10);
+    const type = parseInt(data.type, 10);
     let emojis;
     let result;
 
@@ -73,7 +73,7 @@ module.exports = {
       emojis = server.emojis.cache;
     }
 
-    switch (info) {
+    switch (type) {
       case 0:
         result = Boolean(emojis.get(find));
         break;
