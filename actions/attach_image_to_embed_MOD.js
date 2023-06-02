@@ -60,7 +60,7 @@ module.exports = {
     const { Images } = DBM;
 
     Images.createBuffer(image).then((buffer) => {
-      const attachment = new DBM.DiscordJS.MessageAttachment(buffer, filename);
+      const attachment = new DBM.DiscordJS.AttachmentBuilder(buffer, { name: filename });
       embed.attachFiles([attachment]);
 
       const storage = parseInt(data.storage, 10);

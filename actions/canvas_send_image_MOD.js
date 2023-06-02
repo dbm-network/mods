@@ -101,7 +101,7 @@ module.exports = {
     ctx.drawImage(image, 0, 0, image.width, image.height);
     const name = `${parseInt(data.spoiler, 10) === 1 ? 'SPOILER_' : ''}image.png`;
     const buffer = canvas.toBuffer('image/png', { compressionLevel: compress });
-    const attachment = new DiscordJS.MessageAttachment(buffer, name);
+    const attachment = new DiscordJS.AttachmentBuilder(buffer, { name });
     const content = this.evalMessage(data.message, cache);
     const options = { files: [attachment] };
     if (content) options.content = content;
