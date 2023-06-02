@@ -52,7 +52,7 @@ module.exports = {
     if (!serverName) return this.callNextAction(cache);
 
     botClient.guilds
-      .create(serverName)
+      .create({ name: serverName })
       .then((server) => {
         const storage = parseInt(data.storage, 10);
         const varName = this.evalMessage(data.varName, cache);

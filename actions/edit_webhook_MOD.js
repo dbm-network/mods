@@ -22,13 +22,13 @@ module.exports = {
 
   <div style="width: 90%;">
     <span class="dbminputlabel">Webhook Name</span>
-    <input id="webhookName" class="round" type="text">
+    <input id="webhookName" class="round" type="text" placeholder="Leave blank to keep">
   </div>
   <br>
   
   <div style="width: 90%;">
     <span class="dbminputlabel">Webhook Icon URL</span>
-    <input id="webhookIcon" class="round" type="text">
+    <input id="webhookIcon" class="round" type="text" placeholder="Leave blank to keep">
   </div><br>
   `;
   },
@@ -47,7 +47,7 @@ module.exports = {
     const avatar = this.evalMessage(data.webhookIcon, cache);
     const name = this.evalMessage(data.webhookName, cache);
     if (avatar && name) {
-      wh.edit({ avatar, name });
+      wh.edit({ name, avatar });
     } else if (avatar) {
       wh.edit({ avatar });
     } else if (name) {

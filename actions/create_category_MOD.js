@@ -48,8 +48,9 @@ module.exports = {
     const name = this.evalMessage(data.channelName, cache);
     const position = this.evalMessage(data.position, cache);
     const storage = parseInt(data.storage, 10);
+
     server.channels
-      .create(name, { type: 'GUILD_CATEGORY' })
+      .create({ name, type: 'GuildCategory' })
       .then((channel) => {
         channel.setPosition(position);
         const varName = this.evalMessage(data.varName, cache);

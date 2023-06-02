@@ -72,8 +72,8 @@ module.exports = {
     const way = parseInt(data.way, 10);
 
     if (way === 0) {
-      const { Permissions } = this.getDBM().DiscordJS;
-      const tempPermissions = new Permissions();
+      const { PermissionsBitField } = this.getDBM().DiscordJS;
+      const tempPermissions = new PermissionsBitField();
       tempPermissions.add(role.permissions);
       if (permissions.allow) {
         tempPermissions.add(permissions.allow);

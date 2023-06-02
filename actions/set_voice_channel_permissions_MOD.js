@@ -56,11 +56,12 @@ module.exports = {
     const channel = await this.getVoiceChannel(storage, varName, cache);
 
     if (!server) return this.callNextAction(cache);
+    const role = server.roles.cache.get(server.id);
 
     const options = {};
     options[data.permission] = data.state === '0' ? true : data.state === '1' ? false : null;
     channel.permissionOverwrites
-      .edit(server.id, options, { type: 0 })
+      .edit(role, options, { type: 0 })
       .then(() => this.callNextAction(cache))
       .catch((err) => this.displayError(data, cache, err));
   },

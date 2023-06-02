@@ -57,7 +57,7 @@ module.exports = {
 
     if (role?.id) {
       channel.permissionOverwrites
-        .edit(role.id, options, { type: 0 })
+        .edit(role, options, { type: 0 })
         .then(() => this.callNextAction(cache))
         .catch((err) => this.displayError(data, cache, err));
     } else {

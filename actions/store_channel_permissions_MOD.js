@@ -70,8 +70,8 @@ module.exports = {
     const permissions = {};
     permissions.allow = allow;
 
-    const { Permissions } = this.getDBM().DiscordJS;
-    const disallow = new Permissions();
+    const { PermissionsBitField } = this.getDBM().DiscordJS;
+    const disallow = new PermissionsBitField();
     disallow.add(target.permissions);
     disallow.remove(allow);
     permissions.disallow = disallow;

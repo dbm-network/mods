@@ -355,11 +355,11 @@ module.exports = {
   async action(cache) {
     const data = cache.actions[cache.index];
     const type = parseInt(data.type, 10);
-    const { Permissions } = this.getDBM().DiscordJS;
+    const { PermissionsBitField } = this.getDBM().DiscordJS;
     let permissions = {};
     switch (type) {
       case 0: {
-        permissions = new Permissions(this.evalMessage(data.bitFields, cache));
+        permissions = new PermissionsBitField(this.evalMessage(data.bitFields, cache));
         break;
       }
       case 1: {
@@ -407,8 +407,8 @@ module.exports = {
             inherit.push(perms);
           }
         });
-        if (allow.length !== 0) permissions.allow = new Permissions(allow);
-        if (disallow.length !== 0) permissions.disallow = new Permissions(disallow);
+        if (allow.length !== 0) permissions.allow = new PermissionsBitField(allow);
+        if (disallow.length !== 0) permissions.disallow = new PermissionsBitField(disallow);
         if (inherit.length !== 0) permissions.inherit = inherit;
         break;
       }

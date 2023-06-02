@@ -40,10 +40,10 @@ module.exports = {
     const emoji = Mods.getEmoji(storage, varName, cache);
 
     if (Array.isArray(emoji)) {
-      this.callListFunc(emoji, 'edit', [emojiData]).then(() => this.callNextAction(cache));
+      this.callListFunc(emoji, 'edit', [{ emojiData }]).then(() => this.callNextAction(cache));
     } else if (emoji && emoji.edit) {
       emoji
-        .edit(emojiData)
+        .edit({ emojiData })
         .then(() => this.callNextAction(cache))
         .catch(this.displayError.bind(this, data, cache));
     }

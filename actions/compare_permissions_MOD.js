@@ -43,7 +43,7 @@ module.exports = {
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const { Permissions } = this.getDBM().DiscordJS;
+    const { PermissionsBitField } = this.getDBM().DiscordJS;
     const varName = this.evalMessage(data.varName, cache);
     const storage = parseInt(data.storage, 10);
     let oldPermissions = this.getVariable(storage, varName, cache);
@@ -55,12 +55,12 @@ module.exports = {
     if (oldPermissions.allow && oldPermissions.allow.bitfield) {
       oldPermissions = oldPermissions.allow;
     } else if (!isNaN(oldPermissions)) {
-      oldPermissions = new Permissions(oldPermissions);
+      oldPermissions = new PermissionsBitField(oldPermissions);
     }
     if (newPermissions.allow && newPermissions.allow.bitfield) {
       newPermissions = newPermissions.allow;
     } else if (!isNaN(newPermissions)) {
-      newPermissions = new Permissions(newPermissions);
+      newPermissions = new PermissionsBitField(newPermissions);
     }
 
     if (oldPermissions.bitfield && newPermissions.bitfield) {

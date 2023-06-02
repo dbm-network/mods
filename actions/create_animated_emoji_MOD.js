@@ -52,7 +52,7 @@ module.exports = {
     const name = this.evalMessage(data.emojiName, cache);
 
     server.emojis
-      .create(gif, name)
+      .create({ attachment: gif, name })
       .then((emoji) => {
         const varName2 = this.evalMessage(data.varName2, cache);
         const storage = parseInt(data.storage2, 10);

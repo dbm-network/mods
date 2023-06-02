@@ -69,9 +69,10 @@ module.exports = {
     const data = cache.actions[cache.index];
     const { server } = cache;
 
-    const name = this.evalMessage(data.channelName, cache);
-
-    const channelData = { reason: this.evalMessage(data.reason, cache) };
+    const channelData = {
+      reason: this.evalMessage(data.reason, cache),
+      name: this.evalMessage(data.channelName, cache),
+    };
 
     if (data.topic) {
       channelData.topic = this.evalMessage(data.topic, cache);
@@ -88,7 +89,7 @@ module.exports = {
     channelData.type = 15;
 
     server.channels
-      .create(name, channelData)
+      .create({ channelData })
       .then((channel) => {
         const storage = parseInt(data.storage, 10);
         const varName = this.evalMessage(data.varName, cache);
