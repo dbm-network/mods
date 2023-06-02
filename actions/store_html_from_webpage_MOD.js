@@ -2,7 +2,7 @@ module.exports = {
   name: 'Store HTML From Webpage',
   section: 'HTML/XML Things',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',

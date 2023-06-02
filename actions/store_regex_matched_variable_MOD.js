@@ -2,7 +2,7 @@ module.exports = {
   name: 'Store Regex Matched Variable',
   section: 'Variable Things',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
