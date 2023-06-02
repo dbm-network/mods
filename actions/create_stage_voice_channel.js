@@ -1,5 +1,4 @@
 module.exports = {
-
   name: 'Create Stage Voice Channel',
 
   section: 'Channel Control',
@@ -14,7 +13,13 @@ module.exports = {
     return [data.varName, 'Voice Channel'];
   },
 
-  meta: { version: '2.1.7', preciseCheck: false, author: 'DBM Mods', authorUrl: 'https://github.com/dbm-network/mods', downloadUrl: 'https://github.com/dbm-network/mods/blob/master/actions/create_stage_voice_channel.js' },
+  meta: {
+    version: '2.1.7',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadUrl: 'https://github.com/dbm-network/mods/blob/master/actions/create_stage_voice_channel.js',
+  },
 
   fields: ['channelName', 'bitrate', 'userLimit', 'varName', 'categoryID', 'reason'],
 
@@ -80,6 +85,6 @@ module.exports = {
       })
       .catch((err) => this.displayError(data, cache, err));
   },
-  
+
   mod() {},
 };
