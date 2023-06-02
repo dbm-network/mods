@@ -27,7 +27,6 @@ module.exports = {
       <option value="0">Is Pinnable?</option>
       <option value="1">Is Pinned?</option>
       <option value="2">Is Deletable?</option>
-      <option value="3">Is Deleted?</option>
       <option value="4">Is TTS?</option>
       <option value="5">Is Of Discord?</option>
       <option value="6">Includes @everyone Mention?</option>
@@ -60,9 +59,6 @@ module.exports = {
         break;
       case 2:
         result = msg.deletable;
-        break;
-      case 3:
-        result = msg.deleted;
         break;
       case 4:
         result = msg.tts;

@@ -98,7 +98,6 @@ module.exports = {
       <option value="4">Emoji URL</option>
       <option value="5">Emoji ID</option>
       <option value="7">Emoji Is Deletable?</option>
-      <option value="8">Emoji Has Been Deleted?</option>
       <option value="9">Emoji Server</option>
       <option value="10">Emoji Identifier</option>
       <option value="11">Emoji Is Managed By An External Service?</option>
@@ -155,9 +154,6 @@ module.exports = {
         break;
       case 7:
         result = emo.deletable;
-        break;
-      case 8:
-        result = emo.deleted;
         break;
       case 9:
         result = emo.guild;

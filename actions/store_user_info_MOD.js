@@ -144,8 +144,7 @@ module.exports = {
         break;
       case 4: // User Avatar
         result = user.displayAvatarURL({
-          dynamic: true,
-          format: 'png',
+          extension: 'png',
           size: 4096,
         });
         break;

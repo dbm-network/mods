@@ -57,10 +57,7 @@ module.exports = {
 </div>`;
   },
 
-  init() {
-    const { glob, document } = this;
-    glob.channelChange(document.getElementById('channel'), 'varNameContainer');
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];
