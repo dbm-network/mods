@@ -43,7 +43,7 @@ module.exports = {
       this.callListFunc(emoji, 'edit', [{ emojiData }]).then(() => this.callNextAction(cache));
     } else if (emoji && emoji.edit) {
       emoji
-        .edit({ emojiData })
+        .edit(emojiData)
         .then(() => this.callNextAction(cache))
         .catch(this.displayError.bind(this, data, cache));
     }
