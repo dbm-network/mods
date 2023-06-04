@@ -152,6 +152,7 @@ module.exports = {
       nsfw: data.nsfw === '1' ? channel.nsfw : false,
       rateLimitPerUser: data.slowmode === '1' ? channel.rateLimitPerUser : 0,
       defaultReactionEmoji: channel.defaultReactionEmoji,
+      name: channel.name,
     };
 
     if (channel.type === 'GUILD_VOICE') {
@@ -169,7 +170,7 @@ module.exports = {
     }
 
     channel.guild.channels
-      .create(channel.name, options)
+      .create(options)
       .then((newChannel) => {
         const storage2 = parseInt(data.storage2, 10);
         const varName2 = this.evalMessage(data.varName2, cache);
