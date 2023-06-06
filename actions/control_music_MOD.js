@@ -88,31 +88,35 @@ module.exports = {
 
     if (!queue) return this.callNextAction(cache);
 
-    switch (action) {
-      case 0:
-        queue.destroy();
-        break;
-      case 1:
-        queue.setPaused(true);
-        break;
-      case 2:
-        queue.setPaused(false);
-        break;
-      case 3:
-        queue.skip();
-        break;
-      case 4:
-        queue.back();
-        break;
-      case 5:
-        queue.destroy(false);
-        break;
-      case 6:
-        queue.shuffle();
-        break;
-      case 7:
-        queue.setVolume(volume);
-        break;
+    try {
+      switch (action) {
+        case 0:
+          queue.destroy();
+          break;
+        case 1:
+          queue.setPaused(true);
+          break;
+        case 2:
+          queue.setPaused(false);
+          break;
+        case 3:
+          queue.skip();
+          break;
+        case 4:
+          queue.back();
+          break;
+        case 5:
+          queue.destroy(false);
+          break;
+        case 6:
+          queue.shuffle();
+          break;
+        case 7:
+          queue.setVolume(volume);
+          break;
+      }
+    } catch (err) {
+      return this.callNextAction(cache);
     }
 
     this.callNextAction(cache);
