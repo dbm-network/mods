@@ -7,7 +7,11 @@ module.exports = {
   mod(DBM) {
     const { Bot, Actions, Events } = DBM;
     const Mods = Actions.getMods();
-    const { Player } = Mods.require('@themondon/discord-player-v13');
+
+    // Require all the needed modules for discord-player
+    const { Player } = Mods.require('discord-player');
+    Mods.require('@discord-player/extractor');
+    Mods.require('play-dl');
 
     DBM.Events.onTrackStart = function onTrackStart(queue, track) {
       if (!Bot.$evts['On Track Start']) return;
@@ -21,30 +25,33 @@ module.exports = {
     };
 
     const { onReady } = Bot;
-    Bot.onReady = function onTrackStartOnReady(...params) {
+    Bot.onReady = async function onTrackStartOnReady(...params) {
       Bot.bot.player = new Player(Bot.bot);
 
+      // This method will load all the extractors from the @discord-player/extractor package
+      await Bot.bot.player.extractors.loadDefault();
+
       Bot.bot.on('onTrackStart', DBM.Events.onTrackStart);
-      Bot.bot.player
-        .on('trackStart', async (queue, track) => {
+      Bot.bot.player.events
+        .on('playerStart', async (queue, track) => {
           Events.onTrackStart(queue, track);
         })
-        .on('trackAdd', async (queue, track) => {
+        .on('audioTrackAdd', async (queue, track) => {
           Events.onTrackAdd(queue, track);
         })
-        .on('tracksAdd', async (queue, track) => {
+        .on('audioTracksAdd', async (queue, track) => {
           Events.onTracksAdd(queue, track);
         })
         .on('noResults', async (queue, track) => {
           Events.onPlayerNoResults(queue, track);
         })
-        .on('queueEnd', async (queue) => {
+        .on('emptyQueue', async (queue) => {
           Events.onQueueEnd(queue);
         })
         .on('error', async (queue, error) => {
           Events.onPlayerError(queue, error);
         })
-        .on('connectionError', async (queue, error) => {
+        .on('playerError', async (queue, error) => {
           Events.onPlayerConnectionError(queue, error);
         });
 

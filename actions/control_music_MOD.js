@@ -8,7 +8,6 @@ module.exports = {
     authorUrl: 'https://github.com/dbm-network/mods',
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/control_music_MOD.js',
   },
-  requiresAudioLibraries: true,
   fields: ['action', 'volume'],
 
   subtitle(data) {
@@ -74,42 +73,45 @@ module.exports = {
     glob.onChange(document.getElementById('action'));
   },
 
-  action(cache) {
-    const { Bot } = this.getDBM();
+  async action(cache) {
     const data = cache.actions[cache.index];
-    const queue = Bot.bot.player.getQueue(cache.server);
     const action = parseInt(data.action, 10);
     const volume = parseInt(this.evalMessage(data.volume, cache), 10);
+    const { useQueue, useHistory } = require('discord-player');
+
+    const server = cache.server;
+    if (!server) return this.callNextAction(cache);
+
+    const queue = useQueue(server.id);
+    const history = useHistory(server.id);
 
     if (volume && isNaN(volume)) {
       console.log('Invalid volume number in Control Music');
       return this.callNexAction(cache);
     }
 
-    if (!queue) return this.callNextAction(cache);
-
     try {
       switch (action) {
         case 0:
-          queue.destroy();
+          queue.delete(); // Stop playing
           break;
         case 1:
-          queue.setPaused(true);
+          queue.node.pause();
           break;
         case 2:
-          queue.setPaused(false);
+          queue.node.resume();
           break;
         case 3:
-          queue.skip();
+          queue.node.skip();
           break;
         case 4:
-          queue.back();
+          await history.previous();
           break;
         case 5:
           queue.destroy(false);
           break;
         case 6:
-          queue.shuffle();
+          queue.tracks.shuffle();
           break;
         case 7:
           queue.setVolume(volume);
