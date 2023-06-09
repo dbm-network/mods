@@ -22,11 +22,13 @@ module.exports = {
 
   html() {
     return `
-Color:<br>
-<input type="color" id="color"><br><br>
-<div>
-  <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
-</div>`;
+    <span class="dbminputlabel">Text Color</span><br>
+    <input type="color" id="color" style="width: 30%;">
+    <br><br>
+
+    <div>
+      <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+    </div>`;
   },
 
   init() {},
