@@ -1,6 +1,5 @@
 module.exports = {
   name: 'Create Stage Voice Channel',
-
   section: 'Channel Control',
 
   subtitle(data) {
@@ -21,7 +20,7 @@ module.exports = {
     downloadUrl: 'https://github.com/dbm-network/mods/blob/master/actions/create_stage_voice_channel.js',
   },
 
-  fields: ['channelName', 'bitrate', 'userLimit', 'varName', 'categoryID', 'reason'],
+  fields: ['channelName', 'categoryID', 'bitrate', 'userLimit', 'reason', 'storage', 'varName'],
 
   html() {
     return `
@@ -62,8 +61,10 @@ module.exports = {
     if (!server?.channels) return this.callNextAction(cache);
     const name = this.evalMessage(data.channelName, cache);
     const storage = parseInt(data.storage, 10);
-    const reason = this.evalMessage(data.reason, cache);
-    const channelData = { reason };
+    const channelData = { type: 'GUILD_STAGE_VOICE' };
+    if (data.reason) {
+      channelData.reason = this.evalMessage(data.reason, cache);
+    }
     if (data.bitrate) {
       channelData.bitrate = parseInt(this.evalMessage(data.bitrate, cache), 10) * 1000;
     }
@@ -74,10 +75,7 @@ module.exports = {
       channelData.parent = this.evalMessage(data.categoryID, cache);
     }
     server.channels
-      .create(name, {
-        ...channelData,
-        type: 'GUILD_STAGE_VOICE',
-      })
+      .create(name, channelData)
       .then((channel) => {
         const varName = this.evalMessage(data.varName, cache);
         this.storeValue(channel, storage, varName, cache);
