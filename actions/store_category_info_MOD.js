@@ -70,7 +70,7 @@ module.exports = {
   html() {
     return `
 <div>
-  <store-in-variable dropdownLabel="Source Category" selectId="category" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+  <retrieve-from-variable dropdownLabel="Source Category" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></retrieve-from-variable>
 </div>
 <br><br><br>
 

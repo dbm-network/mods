@@ -32,7 +32,7 @@ module.exports = {
 </style>
 <div style="margin: 0; overflow-y: none;">
     <div style="width: 80%;">
-      <store-in-variable dropdownLabel="Source Variable" selectId="varStorage" variableContainerId="jsonObjectVarNameContainer" variableInputId="jsonObjectVarName"></store-in-variable>
+      <retrieve-from-variable dropdownLabel="Source Variable" selectId="varStorage" variableContainerId="jsonObjectVarNameContainer" variableInputId="jsonObjectVarName"></retrieve-from-variable>
       <br><br><br>
         
       <div id="pathContainer" style="padding-top: 8px">

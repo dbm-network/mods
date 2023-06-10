@@ -82,7 +82,7 @@ module.exports = {
   html() {
     return `
 <div>
-  <store-in-variable dropdownLabel="Source Emoji" selectId="emoji" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+  <retrieve-from-variable dropdownLabel="Source Emoji" selectId="emoji" variableContainerId="varNameContainer" variableInputId="varName"></retrieve-from-variable>
 </div>
 <br><br><br>
 

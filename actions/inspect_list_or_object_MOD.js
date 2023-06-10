@@ -24,7 +24,7 @@ module.exports = {
     return `
 <div id="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll; overflow-x: hidden;">
   <div style="padding-top: 8px;">
-    <store-in-variable dropdownLabel="Source Variable" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+    <retrieve-from-variable dropdownLabel="Source Variable" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></retrieve-from-variable>
   </div>
   <br><br><br>
   

@@ -32,7 +32,7 @@ module.exports = {
   </div>
 
   <div>
-    <store-in-variable dropdownLabel="Source HTML" selectId="source" variableContainerId="sourceVarNameContainer" variableInputId="sourceVarName"></store-in-variable>
+    <retrieve-from-variable dropdownLabel="Source HTML" selectId="source" variableContainerId="sourceVarNameContainer" variableInputId="sourceVarName"></retrieve-from-variable>
   </div>
   <br><br><br>
   

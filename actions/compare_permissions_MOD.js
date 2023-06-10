@@ -25,12 +25,12 @@ module.exports = {
   html() {
     return `
 <div>
-  <store-in-variable dropdownLabel="Old Permissions" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+  <retrieve-from-variable dropdownLabel="Old Permissions" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></retrieve-from-variable>
 </div>
 <br><br><br>
 
 <div>
-  <store-in-variable dropdownLabel="New Permissions" selectId="storage2" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
+  <retrieve-from-variable dropdownLabel="New Permissions" selectId="storage2" variableContainerId="varNameContainer2" variableInputId="varName2"></retrieve-from-variable>
 </div>
 <br><br><br>
 

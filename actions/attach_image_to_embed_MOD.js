@@ -21,12 +21,12 @@ module.exports = {
   html() {
     return `
 <div>
-  <store-in-variable dropdownLabel="Source Embed Object" selectId="embedstorage" variableInputId="embedvarName" variableContainerId="varNameContainer"></store-in-variable>
+  <retrieve-from-variable dropdownLabel="Source Embed Object" selectId="embedstorage" variableContainerId="varNameContainer" variableInputId="embedvarName"></retrieve-from-variable>
 </div>
 <br><br><br>
 
 <div>
-  <store-in-variable dropdownLabel="Image Object to Attach" selectId="imagestorage" variableInputId="imagevarName" variableContainerId="varNameContainer2"></store-in-variable>
+  <retrieve-from-variable dropdownLabel="Image Object to Attach" selectId="embedstorage" variableContainerId="varNameContainer2" variableInputId="imagevarName"></retrieve-from-variable>
 </div>
 <br><br><br>
 
