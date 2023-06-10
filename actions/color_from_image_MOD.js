@@ -47,7 +47,7 @@ module.exports = {
   async action(cache) {
     const Mods = this.getMods();
     const { getColorFromURL } = Mods.require('color-thief-node');
-    const rgbToHex = Mods.require('rgb-hex');
+    const rgbToHex = Mods.require('rgb-hex', '3.0.0');
     const data = cache.actions[cache.index];
     const info = parseInt(data.info, 10);
     const url = this.evalMessage(data.find, cache);
