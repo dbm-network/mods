@@ -20,7 +20,7 @@ module.exports = {
 <div style="float: left;">
   <span class="dbminputlabel">Text Color</span><br>
   <input type="color" id="color" style="width: 30%;">
-  <br>
+  <br><br>
   
   <span class="dbminputlabel">Comment To Show: (Supports some HTML Tags)</span>
   <input id="comment" class="round" type="text"><br>

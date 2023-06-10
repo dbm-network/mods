@@ -27,7 +27,7 @@ module.exports = {
 </div>
 <br><br><br>
 
-<div>
+<div style="padding-top: 8px;">
   <div style="float: left; width: 35%;">
     <span class="dbminputlabel">Source Emoji</span>
     <select id="info" class="round">

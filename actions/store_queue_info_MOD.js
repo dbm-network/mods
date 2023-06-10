@@ -67,7 +67,7 @@ module.exports = {
     const data = cache.actions[cache.index];
     const info = parseInt(data.info, 10);
 
-    const type = parseInt(data.storage, 10);
+    const type = parseInt(data.queueObject, 10);
     const varName = this.evalMessage(data.varName, cache);
     let queue = this.getVariable(type, varName, cache);
 

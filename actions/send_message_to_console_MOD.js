@@ -21,8 +21,8 @@ module.exports = {
   html() {
     return `
 <div>
-  <span class="dbminputlabel">Color</span><br>
-  <input type="color" id="color" value="#f2f2f2" style="width: 30%;">
+  <span class="dbminputlabel">Text Color</span><br>
+  <input type="color" id="color" value="#f2f2f2" style="width: 20%;">
 </div>
 <br>
 
