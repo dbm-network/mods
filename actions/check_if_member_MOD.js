@@ -2,7 +2,7 @@ module.exports = {
   name: 'Check If Member',
   section: 'Conditions',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -35,7 +35,7 @@ module.exports = {
     <member-input dropdownLabel="Member" selectId="member" variableContainerId="varNameContainer" variableInputId="varName"></member-input>
     <br><br><br>
 
-<div style="padding-top: 20px;">
+<div style="padding-top: 8px;">
   <div style="float: left; width: 35%;">
     <span class="dbminputlabel">Check If Member</span>
     <select id="info" class="round">
@@ -60,21 +60,19 @@ module.exports = {
 </div>
 <br><br><br>
 
-<conditional-input id="branch" style="padding-top: 16px;"></conditional-input>`;
+<conditional-input id="branch" style="padding-top: 8px;"></conditional-input>`;
   },
 
   init() {},
 
   async action(cache) {
-    let member;
     const data = cache.actions[cache.index];
     const info = parseInt(data.info, 10);
     const { Files } = this.getDBM();
     const { msg, interaction } = cache;
+    const member = await this.getMemberFromData(data.member, data.varName, cache);
 
-    try {
-      member = await this.getMemberFromData(data.member, data.varName, cache);
-    } catch (_err) {
+    if (!member) {
       console.error('You need to provide a member of some sort to the "Check If Member" action');
       return this.executeResults(false, data?.branch ?? data, cache);
     }
