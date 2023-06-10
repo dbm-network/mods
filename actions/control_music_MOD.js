@@ -77,13 +77,13 @@ module.exports = {
     const data = cache.actions[cache.index];
     const action = parseInt(data.action, 10);
     const volume = parseInt(this.evalMessage(data.volume, cache), 10);
-    const { useQueue, useHistory } = require('discord-player');
+    const { useQueue } = require('discord-player');
 
     const server = cache.server;
     if (!server) return this.callNextAction(cache);
 
     const queue = useQueue(server.id);
-    const history = useHistory(server.id);
+    if (!queue) this.callNextAction(cache);
 
     if (volume && isNaN(volume)) {
       console.log('Invalid volume number in Control Music');
@@ -105,10 +105,10 @@ module.exports = {
           queue.node.skip();
           break;
         case 4:
-          await history.previous();
+          queue.history.back();
           break;
         case 5:
-          queue.destroy(false);
+          queue.clear();
           break;
         case 6:
           queue.tracks.shuffle();
@@ -118,6 +118,7 @@ module.exports = {
           break;
       }
     } catch (err) {
+      console.log(err);
       return this.callNextAction(cache);
     }
 

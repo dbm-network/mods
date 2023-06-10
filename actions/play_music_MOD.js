@@ -17,7 +17,7 @@ module.exports = {
 
   variableStorage(data, varType) {
     if (parseInt(data.storage, 10) !== varType) return;
-    return [data.varName3, 'Music Track'];
+    return [data.varName2, 'Music Track'];
   },
 
   html() {
@@ -48,15 +48,6 @@ module.exports = {
 <div style="float: left; width: 100%;">
   <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
 </div>
-<br><br><br>
-
-<p style="padding-top: 8px;">
-  <u><b><span style="color: white;">NOTE:</span></b></u><br>
-  Youtube URLs and IDs are hit and miss due to using ytdl-core.<br>
-  In theory you should be able to use the following:<br>
-  Soundcloud URL, YouTube Search, YouTube song/playlist URL, YouTube ID,<br>
-  Spotify Song/playlist/album, vimeo, facebook and reverbnation.
-</p>
 </div>
 `;
   },
@@ -89,27 +80,33 @@ module.exports = {
     // Needs to be converted to Milliseconds, keeping the same variable.
     if (seconds > 0) seconds *= 1000;
 
-    const { track } = await player.play(voiceChannel, query, {
-      nodeOptions: {
-        metadata: {
-          channel,
-          client: server.members.me,
-          requestedBy: cache.getUser(),
+    try {
+      const { track } = await player.play(voiceChannel, query, {
+        nodeOptions: {
+          metadata: {
+            channel,
+            client: server.members.me,
+            requestedBy: cache.getUser(),
+          },
+          selfDeaf: (Files.data.settings.autoDeafen ?? 'true') === 'true',
+          volume,
+          leaveOnEmpty: data.leaveOnEmpty,
+          leaveOnEmptyCooldown: seconds,
+          leaveOnEnd: data.leaveOnEnd,
+          leaveOnEndCooldown: seconds,
         },
-        selfDeaf: (Files.data.settings.autoDeafen ?? 'true') === 'true',
-        volume,
-        leaveOnEmpty: data.leaveOnEmpty,
-        leaveOnEmptyCooldown: seconds,
-        leaveOnEnd: data.leaveOnEnd,
-        leaveOnEndCooldown: seconds,
-      },
-    });
+      });
 
-    if (track) {
-      const storage = parseInt(data.storage, 10);
-      const varName2 = this.evalMessage(data.varName2, cache);
-      this.storeValue(track, storage, varName2, cache);
+      if (track) {
+        const storage = parseInt(data.storage, 10);
+        const varName2 = this.evalMessage(data.varName2, cache);
+        this.storeValue(track, storage, varName2, cache);
+      }
+    } catch (err) {
+      console.log(err);
+      this.callNextAction(cache);
     }
+
     this.callNextAction(cache);
   },
 

@@ -9,7 +9,7 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/store_queue_info_MOD.js',
   },
   requiresAudioLibraries: true,
-  fields: ['info', 'storage', 'varName'],
+  fields: ['queueObject', 'varName0', 'info', 'storage', 'varName'],
 
   subtitle({ info }) {
     const names = [
@@ -18,8 +18,8 @@ module.exports = {
       'Is Playing?',
       'Repeat Mode',
       'Progress Bar',
-      'Formatted Track List',
-      'Now Playing',
+      'Current Track',
+      'Queue Channel',
     ];
     return `${names[parseInt(info, 10)]}`;
   },
@@ -28,21 +28,20 @@ module.exports = {
     if (parseInt(data.storage, 10) !== varType) return;
     return [
       data.varName,
-      [
-        'Tracks',
-        'Previous Tracks',
-        'Is Playing?',
-        'Repeat Mode',
-        'Progress Bar',
-        'Formatted Track List',
-        'Now Playing',
-      ][parseInt(data.info, 10)] || 'Queue Info',
+      ['Tracks', 'Previous Tracks', 'Is Playing?', 'Repeat Mode', 'Progress Bar', 'Current Track', 'Queue Channel'][
+        parseInt(data.info, 10)
+      ] || 'Queue Info',
     ];
   },
 
-  html() {
+  html(isEvent) {
     return `
-<div style="float: left; width: 80%; padding-top: 8px;">
+    ${
+      isEvent &&
+      '<retrieve-from-variable dropdownLabel="Queue" selectId="queueObject" variableContainerId="varNameContainer0" variableInputId="varName0"></retrieve-from-variable>'
+    }
+  
+<div style="float: left; width: 100%;">
 <span class="dbminputlabel">Queue Info</span><br>
   <select id="info" class="round">
     <option value="0">Tracks</option>
@@ -50,13 +49,13 @@ module.exports = {
     <option value="2">Is Playing?</option>
     <option value="3">Repeat Mode</option>
     <option value="4">Progress Bar</option>
-    <option value="5">Formatted Track List</option>
-    <option value="6">Now Playing</option>
+    <option value="5">Current Track</option>
+    <option value="6">Queue Channel</option>
   </select>
 </div>
 <br><br><br><br>
 
-<div>
+<div style="float: left; width: 100%; padding-top: 16px;">
   <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
 </div>
 `;
@@ -65,36 +64,45 @@ module.exports = {
   init() {},
 
   async action(cache) {
-    const { Bot } = this.getDBM();
     const data = cache.actions[cache.index];
-    const server = cache.msg?.guildId ?? cache.interaction?.guildId;
-    const queue = Bot.bot.player.getQueue(server);
     const info = parseInt(data.info, 10);
+
+    const type = parseInt(data.storage, 10);
+    const varName = this.evalMessage(data.varName, cache);
+    let queue = this.getVariable(type, varName, cache);
+
+    if (!queue) {
+      const { useQueue } = require('discord-player');
+
+      const server = cache.server;
+      if (!server) return this.callNextAction(cache);
+
+      queue = useQueue(server.id);
+      if (!queue) return this.callNextAction(cache);
+    }
+
     let result;
-
-    if (!queue) return this.callNextAction(cache);
-
     switch (info) {
       case 0:
         result = queue.tracks;
         break;
       case 1:
-        result = queue.previousTracks;
+        result = queue.history.tracks;
         break;
       case 2:
-        result = queue.playing;
+        result = queue.node.isPlaying();
         break;
       case 3:
         result = queue.repeatMode;
         break;
       case 4:
-        result = queue.createProgressBar({ timecodes: true });
+        result = queue.node.createProgressBar({ timecodes: true });
         break;
       case 5:
-        result = queue.toString();
+        result = queue.currentTrack;
         break;
       case 6:
-        result = queue.nowPlaying();
+        result = queue.metadata.channel;
         break;
     }
 

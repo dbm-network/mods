@@ -42,9 +42,6 @@ module.exports = {
         .on('audioTracksAdd', async (queue, track) => {
           Events.onTracksAdd(queue, track);
         })
-        .on('noResults', async (queue, track) => {
-          Events.onPlayerNoResults(queue, track);
-        })
         .on('emptyQueue', async (queue) => {
           Events.onQueueEnd(queue);
         })
