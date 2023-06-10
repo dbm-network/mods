@@ -82,7 +82,7 @@ module.exports = {
     let result = false;
     switch (info) {
       case 0:
-        result = member.user?.bot || member.bot;
+        result = member.user?.bot;
         break;
       case 1:
         result = member.bannable;
