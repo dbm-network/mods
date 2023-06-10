@@ -24,7 +24,7 @@ module.exports = {
   html() {
     return `
     <div>
-      <retrieve-from-variable allowSlashParams dropdownLabel="Channel Object" selectId="channelObj" variableContainerId="varNameContainer" variableInputId="channelID"></retrieve-from-variable>
+      <retrieve-from-variable allowSlashParams dropdownLabel="Channel Object" selectId="channelObj" variableContainerId="varNameContainer1" variableInputId="channelID"></retrieve-from-variable>
     </div>
     <br><br><br>
 
@@ -76,9 +76,9 @@ module.exports = {
     </div>
     <br>
 
-    <div style="padding-top: 8px;">
-      <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
-    </div>
+  <div style="float: left; width: 100%; padding-top: 16px;">
+    <store-in-variable allowNone dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer2" variableInputId="varName"></store-in-variable>
+  </div>
 
     <style>
       .dbm-round {
