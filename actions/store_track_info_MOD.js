@@ -1,5 +1,5 @@
 module.exports = {
-  name: 'Store Queue Info',
+  name: 'Store Track Info',
   section: 'Audio Control',
   meta: {
     version: '2.2.0',
@@ -19,7 +19,7 @@ module.exports = {
   variableStorage(data, varType) {
     if (parseInt(data.storage, 10) !== varType) return;
     return [
-      data.varName,
+      data.varName1,
       ['Track Title', 'Track Thumbnail', 'Track URL', 'Track Author', 'Track Duration', 'Requested By'][
         parseInt(data.info, 10)
       ] || 'Track Info',
@@ -84,8 +84,8 @@ module.exports = {
 
     if (result !== undefined) {
       const storage = parseInt(data.storage, 10);
-      const varName = this.evalMessage(data.varName, cache);
-      this.storeValue(result, storage, varName, cache);
+      const varName1 = this.evalMessage(data.varName1, cache);
+      this.storeValue(result, storage, varName1, cache);
     }
     this.callNextAction(cache);
   },

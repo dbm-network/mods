@@ -57,6 +57,7 @@ module.exports = {
   async action(cache) {
     const data = cache.actions[cache.index];
     const server = cache.server;
+    const { Actions } = this.getDBM();
     const channel = cache.msg?.channel ?? cache.interaction?.channel;
     const { Files } = this.getDBM();
     const voiceChannel = await this.getVoiceChannelFromData(data.voiceChannel, data.varName2, cache);
@@ -81,13 +82,16 @@ module.exports = {
     if (seconds > 0) seconds *= 1000;
 
     try {
-      const { track } = await player.play(voiceChannel, query, {
+      const searchResult = await player.search(query, { requestedBy: cache.getUser() });
+
+      if (!searchResult.hasTracks()) {
+        // If player didn't find any songs for this query
+        return Actions.callNextAction();
+      }
+
+      const { track } = await player.play(voiceChannel, searchResult, {
         nodeOptions: {
-          metadata: {
-            channel,
-            client: server.members.me,
-            requestedBy: cache.getUser(),
-          },
+          metadata: channel,
           selfDeaf: (Files.data.settings.autoDeafen ?? 'true') === 'true',
           volume,
           leaveOnEmpty: data.leaveOnEmpty,

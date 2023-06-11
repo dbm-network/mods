@@ -18,6 +18,7 @@ module.exports = {
       'Is Playing?',
       'Repeat Mode',
       'Progress Bar',
+      'REMOVED OPTION',
       'Current Track',
       'Queue Channel',
     ];
@@ -28,32 +29,39 @@ module.exports = {
     if (parseInt(data.storage, 10) !== varType) return;
     return [
       data.varName,
-      ['Tracks', 'Previous Tracks', 'Is Playing?', 'Repeat Mode', 'Progress Bar', 'Current Track', 'Queue Channel'][
-        parseInt(data.info, 10)
-      ] || 'Queue Info',
+      [
+        'Tracks',
+        'Previous Tracks',
+        'Is Playing?',
+        'Repeat Mode',
+        'Progress Bar',
+        'REMOVED OPTION',
+        'Current Track',
+        'Queue Channel',
+      ][parseInt(data.info, 10)] || 'Queue Info',
     ];
   },
 
   html(isEvent) {
     return `
     ${
-      isEvent &&
-      '<retrieve-from-variable dropdownLabel="Queue" selectId="queueObject" variableContainerId="varNameContainer0" variableInputId="varName0"></retrieve-from-variable>'
+      isEvent
+        ? '<retrieve-from-variable dropdownLabel="Queue" selectId="queueObject" variableContainerId="varNameContainer0" variableInputId="varName0"></retrieve-from-variable>'
+        : ''
     }
-  
+
 <div style="float: left; width: 100%;">
-<span class="dbminputlabel">Queue Info</span><br>
+  <span class="dbminputlabel">Queue Info</span><br>
   <select id="info" class="round">
     <option value="0">Tracks</option>
     <option value="1">Previous Tracks</option>
     <option value="2">Is Playing?</option>
     <option value="3">Repeat Mode</option>
     <option value="4">Progress Bar</option>
-    <option value="5">Current Track</option>
-    <option value="6">Queue Channel</option>
+    <option value="6">Current Track</option>
+    <option value="7">Queue Channel</option>
   </select>
 </div>
-<br><br><br><br>
 
 <div style="float: left; width: 100%; padding-top: 16px;">
   <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
@@ -98,11 +106,13 @@ module.exports = {
       case 4:
         result = queue.node.createProgressBar({ timecodes: true });
         break;
-      case 5:
+      case 6:
         result = queue.currentTrack;
         break;
-      case 6:
-        result = queue.metadata.channel;
+      case 7:
+        result = queue.metadata;
+        break;
+      default:
         break;
     }
 
