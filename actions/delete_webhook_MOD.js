@@ -17,7 +17,7 @@ module.exports = {
   fields: ['webhook', 'varName'],
 
   html() {
-    return `<store-in-variable dropdownLabel="Source Webhook" selectId="webhook" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>`;
+    return `<retrieve-from-variable dropdownLabel="Source Webhook" selectId="webhook" variableContainerId="varNameContainer" variableInputId="varName"></retrieve-from-variable>`;
   },
 
   init() {},

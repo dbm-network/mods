@@ -19,11 +19,7 @@ module.exports = {
     let dataType = 'Unknown Type';
     switch (parseInt(data.info, 10)) {
       case 0:
-        dataType = 'String';
-        break;
       case 1:
-        dataType = 'String';
-        break;
       case 2:
         dataType = 'String';
         break;
@@ -105,10 +101,7 @@ module.exports = {
 </div>`;
   },
 
-  init() {
-    const { glob, document } = this;
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
-  },
+  init() {},
 
   async action(cache) {
     const { Actions } = this.getDBM();

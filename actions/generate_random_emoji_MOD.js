@@ -34,7 +34,7 @@ module.exports = {
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);
     const Mods = this.getMods();
-    const emoji = Mods.require('node-emoji');
+    const emoji = Mods.require('node-emoji', '1.11.0'); // Last version that isn't ESM only.
 
     const res = emoji.random();
     this.storeValue(res.emoji, storage, varName, cache);
