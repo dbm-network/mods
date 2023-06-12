@@ -1,6 +1,6 @@
 module.exports = {
   name: 'Send Stats to BFD',
-  section: 'Other Stuff',
+  section: 'Bot Stats',
   meta: {
     version: '2.2.0',
     preciseCheck: false,
@@ -41,7 +41,9 @@ module.exports = {
     const Mods = this.getMods();
     const BFD = Mods.require('bfd-api');
     const bfd = new BFD(token);
-    bfd.postCount(this.getDBM().Bot.bot.guilds.cache.size, this.getDBM().Bot.bot.user.id);
+
+    const client = this.getDBM().Bot.bot;
+    bfd.postCount(client.guilds.cache.size, client.user.id);
     this.callNextAction(cache);
   },
 

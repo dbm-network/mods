@@ -1,7 +1,7 @@
 module.exports = {
   name: 'Get Bot Stats From DBL',
   displayName: 'Get Bot Stats From TopGG',
-  section: 'Other Stuff',
+  section: 'Bot Stats',
   meta: {
     version: '2.2.0',
     preciseCheck: false,

@@ -1,7 +1,7 @@
 module.exports = {
   name: 'Get Command Description',
   displayName: 'Get Command Description',
-  section: 'Other Stuff',
+  section: 'Command Control',
   fields: ['findBy', 'commandData', 'saveTo', 'varName'],
   meta: {
     version: '2.2.0',

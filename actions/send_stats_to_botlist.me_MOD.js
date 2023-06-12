@@ -1,7 +1,7 @@
 module.exports = {
   name: 'Sends Stats to Botlist.me',
   displayname: 'Send Stats to Botlist.me',
-  section: 'Other Stuff',
+  section: 'Bot Stats',
   meta: {
     version: '2.2.0',
     preciseCheck: false,

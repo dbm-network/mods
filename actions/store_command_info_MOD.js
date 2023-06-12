@@ -1,6 +1,6 @@
 module.exports = {
   name: 'Store Command Info',
-  section: 'Bot Client Control',
+  section: 'Command Control',
   meta: {
     version: '2.2.0',
     preciseCheck: false,

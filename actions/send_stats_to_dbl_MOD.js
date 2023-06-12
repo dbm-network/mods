@@ -1,7 +1,7 @@
 module.exports = {
   name: 'Sends Stats to DBL',
   displayName: 'Send Stats to TopGG',
-  section: 'Other Stuff',
+  section: 'Bot Stats',
   meta: {
     version: '2.2.0',
     preciseCheck: false,
