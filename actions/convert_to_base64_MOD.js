@@ -1,6 +1,6 @@
 module.exports = {
   name: 'Convert to Base64',
-  section: 'Other Stuff',
+  section: 'Conversions',
   meta: {
     version: '2.2.0',
     preciseCheck: false,

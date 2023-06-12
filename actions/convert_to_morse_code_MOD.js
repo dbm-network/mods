@@ -1,6 +1,6 @@
 module.exports = {
   name: 'Morse Code',
-  section: 'Other Stuff',
+  section: 'Conversions',
   meta: {
     version: '2.2.0',
     preciseCheck: false,

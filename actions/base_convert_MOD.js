@@ -1,7 +1,7 @@
 module.exports = {
   name: 'Base Convert MOD',
   displayName: 'Base Convert',
-  section: 'Other Stuff',
+  section: 'Conversions',
   meta: {
     version: '2.2.0',
     preciseCheck: false,

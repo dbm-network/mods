@@ -1,6 +1,6 @@
 module.exports = {
   name: 'Convert To World Time',
-  section: 'Other Stuff',
+  section: 'Conversions',
   meta: {
     version: '2.2.0',
     preciseCheck: false,

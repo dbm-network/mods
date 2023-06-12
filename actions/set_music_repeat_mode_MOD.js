@@ -1,6 +1,6 @@
 module.exports = {
   name: 'Set Music Repeat Mode',
-  section: 'Audio Control',
+  section: 'Music Control',
   meta: {
     version: '2.2.0',
     preciseCheck: false,

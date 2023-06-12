@@ -1,6 +1,6 @@
 module.exports = {
   name: 'Play Music',
-  section: 'Audio Control',
+  section: 'Music Control',
   meta: {
     version: '2.2.0',
     preciseCheck: false,
