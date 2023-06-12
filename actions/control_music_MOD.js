@@ -8,7 +8,7 @@ module.exports = {
     authorUrl: 'https://github.com/dbm-network/mods',
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/control_music_MOD.js',
   },
-  fields: ['action', 'volume'],
+  fields: ['action', 'volume', 'skip'],
 
   subtitle(data) {
     const actions = [
@@ -43,27 +43,38 @@ module.exports = {
 <div id="volumeDiv" style="float: right; display: none; width: calc(50% - 8px);">
   <span class="dbminputlabel">Volume Level</span>
   <input id="volume" class="round" type="text">
-</div>`;
+</div>
+<div id="skipDiv" style="float: right; display: none; width: calc(50% - 8px);">
+  <span class="dbminputlabel">Skip Amount</span>
+  <input id="skip" class="round" type="text" value="1">
+</div>
+`;
   },
 
   init() {
     const { glob, document } = this;
 
     const volume = document.getElementById('volumeDiv');
+    const skip = document.getElementById('skipDiv');
 
     glob.onChange = function onChange(event) {
       switch (parseInt(event.value, 10)) {
+        case 3:
+          skip.style.display = null;
+          volume.style.display = 'none';
+          break;
         case 0:
         case 1:
         case 2:
-        case 3:
         case 4:
         case 5:
         case 6:
           volume.style.display = 'none';
+          skip.style.display = 'none';
           break;
         case 7:
           volume.style.display = null;
+          skip.style.display = 'none';
           break;
         default:
           break;
@@ -83,7 +94,7 @@ module.exports = {
     if (!server) return this.callNextAction(cache);
 
     const queue = useQueue(server.id);
-    if (!queue) this.callNextAction(cache);
+    if (!queue) return this.callNextAction(cache);
 
     if (volume && isNaN(volume)) {
       console.log('Invalid volume number in Control Music');
@@ -101,9 +112,11 @@ module.exports = {
         case 2:
           queue.node.resume();
           break;
-        case 3:
-          queue.node.skip();
+        case 3: {
+          const amount = parseInt(this.evalMessage(data.skip, cache), 10) ?? 1;
+          amount === 1 ? queue.node.skip() : queue.node.skipTo(amount);
           break;
+        }
         case 4:
           queue.history.back();
           break;

@@ -21,6 +21,7 @@ module.exports = {
       'REMOVED OPTION',
       'Current Track',
       'Queue Channel',
+      'Queue Object',
     ];
     return `${names[parseInt(info, 10)]}`;
   },
@@ -38,6 +39,7 @@ module.exports = {
         'REMOVED OPTION',
         'Current Track',
         'Queue Channel',
+        'Queue Object',
       ][parseInt(data.info, 10)] || 'Queue Info',
     ];
   },
@@ -60,6 +62,7 @@ module.exports = {
     <option value="4">Progress Bar</option>
     <option value="6">Current Track</option>
     <option value="7">Queue Channel</option>
+    <option value="8">Queue Object</option>
   </select>
 </div>
 
@@ -111,6 +114,9 @@ module.exports = {
         break;
       case 7:
         result = queue.metadata;
+        break;
+      case 8:
+        result = queue;
         break;
       default:
         break;
