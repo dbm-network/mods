@@ -28,18 +28,14 @@ module.exports = {
     </div>
     <br><br><br>
     
-    <div>
-      <div style="padding-top: 8px;">
-        <div style="float: left; width: 50%;" padding-top: 16px;">
-          <span class="dbminputlabel">Amount</span><br>
-          <input id="amount" class="round" type="text" steps="5" placeholder="In seconds..."><br>
-          <span class="dbminputlabel">Reason</span><br>
-          <input id="reason" class="round" type="text" placeholder="Optional"><br>
-        </div>
+    <div style="width: 100%; padding-top: 8px;">
+      <div style="float: left; width: 35%;">
+        <span class="dbminputlabel">Amount</span><br>
+        <input id="amount" class="round" type="text" steps="5" placeholder="In seconds...">
       </div>
-      <div id="varNameContainer2" style="display: none; padding-left: 5%; float: left; width: 65%;">
-        <span class="dbminputlabel">Variable Name</span><br>
-        <input id="varName2" class="round" type="text">
+      <div style="float: right; width: 60%">
+        <span class="dbminputlabel">Reason</span><br>
+        <input id="reason" class="round" type="text" placeholder="Optional">
       </div>
     </div>`;
   },

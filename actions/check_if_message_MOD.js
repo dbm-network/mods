@@ -19,8 +19,8 @@ module.exports = {
     return `
 <div>
   <message-input dropdownLabel="Source Message" selectId="message" variableContainerId="varNameContainer" variableInputId="varName"></message-input>
+  <br><br><br>
 
-  <br><br><br><br>
   <div style="float: left; width: 40%;">
     <span class="dbminputlabel">Check If Message</span>
     <select id="info" class="round">
@@ -28,7 +28,7 @@ module.exports = {
       <option value="1">Is Pinned?</option>
       <option value="2">Is Deletable?</option>
       <option value="4">Is TTS?</option>
-      <option value="5">Is Of Discord?</option>
+      <option value="5">Is From Discord?</option>
       <option value="6">Includes @everyone Mention?</option>
     </select>
   </div>

@@ -26,12 +26,12 @@ module.exports = {
 <div style="padding-top: 8px; width: 35%; float: left">
   <span class="dbminputlabel">Control Type</span>
   <select id="controlType" class="round" onchange="glob.onChangeControl(this)">
-    <option value="0" title="Sets the prefix of the server">Set Prefix</option>
-    <option value="1" title="Sets the prefix to default prefix (settings)">Delete Prefix</option>
+    <option value="0">Set Prefix</option>
+    <option value="1">Set Prefix to Default</option>
   </select>
 </div>
 
-<div id="prefixContainer" style="padding-top: 8px; width: 60%; float: right">
+<div id="prefixContainer" style="display: none; padding-top: 8px; width: 60%; float: right;">
   <span class="dbminputlabel">Prefix</span>
   <input id="prefix" class="round" type="text">
 </div>`;
@@ -39,10 +39,14 @@ module.exports = {
 
   init() {
     const { glob, document } = this;
+    const prefixContainer = document.getElementById('prefixContainer');
 
-    glob.serverChange(document.getElementById('server'), 'varNameContainer');
     glob.onChangeControl = function onChangeControl(controlType) {
-      document.getElementById('prefixContainer').style.display = [null, 'none'][parseInt(controlType.value, 10)];
+      if (controlType.value === '0') {
+        prefixContainer.style.display = null;
+      } else {
+        prefixContainer.style.display = 'none';
+      }
     };
 
     glob.onChangeControl(document.getElementById('controlType'));

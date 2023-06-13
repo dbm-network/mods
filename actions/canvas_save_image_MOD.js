@@ -33,15 +33,11 @@ module.exports = {
 </div>
 <br><br><br>
 
-<store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
+<store-in-variable dropdownLabel="Store In" selectId="storage2" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
 `;
   },
 
-  init() {
-    const { document, glob } = this;
-
-    glob.refreshVariableList(document.getElementById('storage'));
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];
@@ -59,6 +55,7 @@ module.exports = {
     ctx.drawImage(image, 0, 0, image.width, image.height);
     const buffer = canvas.toBuffer();
     const Path = this.evalMessage(data.Path, cache);
+
     if (Path) {
       fs.writeFileSync(Path, buffer);
       const varName2 = this.evalMessage(data.varName2, cache);
