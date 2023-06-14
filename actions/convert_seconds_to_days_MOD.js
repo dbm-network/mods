@@ -22,11 +22,11 @@ module.exports = {
 
   html() {
     return `
-<div style="float: left; width: 70%; padding-top: 8px;">
+<div>
   <span class="dbminputlabel">Seconds to Convert</span>
   <input id="time" class="round" type="text" placeholder="e.g. 1522672056 or use Variables">
 </div>
-<br><br><br><br>
+<br>
 
 <div>
   <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>

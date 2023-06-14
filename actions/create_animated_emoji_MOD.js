@@ -22,18 +22,18 @@ module.exports = {
 
   html() {
     return `
-<div style="width: 90%;">
+<div>
   <span class="dbminputlabel">Animated Emoji Name</span>
   <input id="emojiName" class="round" type="text">
 </div>
 <br>
 
-<div>
+<div style="padding-top: 8px;">
   <retrieve-from-variable dropdownLabel="Source GIF" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></retrieve-from-variable>
 </div>
 <br><br><br>
 
-<div>
+<div style="padding-top: 8px;">
   <store-in-variable dropdownLabel="Store In" selectId="storage2" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
 </div>`;
   },

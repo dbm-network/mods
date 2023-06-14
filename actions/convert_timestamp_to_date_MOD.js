@@ -28,7 +28,7 @@ module.exports = {
 </div>
 <br><br><br>
 
-<div style="float: left; width: 70%; padding-top: 8px;">
+<div style="float: left; width: 100%; padding-top: 8px;">
   <span class="dbminputlabel">Timestamp to Convert</span>
   <input id="time" class="round" type="text" placeholder="e.g. 1522672056">
 </div>
@@ -45,10 +45,7 @@ module.exports = {
 </div>`;
   },
 
-  init() {
-    const { glob, document } = this;
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];

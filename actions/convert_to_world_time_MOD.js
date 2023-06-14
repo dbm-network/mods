@@ -23,10 +23,8 @@ module.exports = {
   html() {
     return `
 <div>
-  <div style="width: 90%;">
     <span class="dbminputlabel">Timezone To Convert</span>
     <input id="textbox" class="round" type="text">
-  </div>
 </div>
 <br>
 

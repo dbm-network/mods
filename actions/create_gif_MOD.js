@@ -24,11 +24,11 @@ module.exports = {
     return `
 <div>
   <span class="dbminputlabel">Local/Web URL</span>
-  <input id="url" class="round" type="text" value="resources/" style="float: left; width: 504px;">
+  <input id="url" class="round" type="text" value="resources/">
 </div>
-<br><br>
+<br>
 
-<div style="padding-top: 10px;">
+<div style="padding-top: 8px;">
   <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
 </div>`;
   },

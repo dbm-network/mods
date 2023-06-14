@@ -73,11 +73,7 @@ module.exports = {
 `;
   },
 
-  init() {
-    const { glob, document } = this;
-
-    glob.sendTargetChange(document.getElementById('channel'), 'varNameContainer2');
-  },
+  init() {},
 
   async action(cache) {
     const { DiscordJS } = this.getDBM();

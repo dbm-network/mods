@@ -28,13 +28,11 @@ module.exports = {
 <div>
   <retrieve-from-variable dropdownLabel="Source Text" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></retrieve-from-variable>
 </div>
-<br><br><br><br>
+<br><br><br>
 
-<div style="display: table; width: 100%;">
-  <div style="display: table-cell;">
-    <span class="dbminputlabel">Separator</span>
-    <input id="separator" class="round" type="text">
-  </div>
+<div style="padding-top: 8px;">
+  <span class="dbminputlabel">Separator</span>
+  <input id="separator" class="round" type="text">
 </div>
 <br>
 

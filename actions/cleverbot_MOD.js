@@ -73,12 +73,7 @@ module.exports = {
 </div>`;
   },
 
-  init() {
-    const { glob, document } = this;
-
-    glob.variableChange(document.getElementById('inputVarType'), 'varNameContainer');
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer2');
-  },
+  init() {},
 
   async action(cache) {
     const { Actions } = this.getDBM();

@@ -27,15 +27,15 @@ module.exports = {
     <input id="channelName" class="round" type="text"><br>
   </div>
 
-<div style="float: left; width: 50%;">
-  <span class="dbminputlabel">Position</span>
-  <input id="position" class="round" type="text" placeholder="Leave blank for default!" style="width: 90%;"><br>
-</div>
-<br><br><br><br>
+  <div style="float: left; width: 35%;">
+    <span class="dbminputlabel">Position</span>
+    <input id="position" class="round" type="text" placeholder="Leave blank for default!"><br>
+  </div>
+  <br><br><br><br>
 
-<div>
-  <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
-</div>`;
+  <div>
+    <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+  </div>`;
   },
 
   init() {},
