@@ -9,7 +9,7 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/store_queue_info_MOD.js',
   },
   requiresAudioLibraries: true,
-  fields: ['info', 'storage', 'varName'],
+  fields: ['queueObject', 'varName0', 'info', 'storage', 'varName'],
 
   subtitle({ info }) {
     const names = [
@@ -20,6 +20,8 @@ module.exports = {
       'Progress Bar',
       'Formatted Track List',
       'Now Playing',
+      'Queue Channel',
+      'Queue Object',
     ];
     return `${names[parseInt(info, 10)]}`;
   },
@@ -36,13 +38,21 @@ module.exports = {
         'Progress Bar',
         'Formatted Track List',
         'Now Playing',
+        'Queue Channel',
+        'Queue Object',
       ][parseInt(data.info, 10)] || 'Queue Info',
     ];
   },
 
-  html() {
+  html(isEvent) {
     return `
-<div style="float: left; width: 80%; padding-top: 8px;">
+    ${
+      isEvent
+        ? '<retrieve-from-variable dropdownLabel="Queue" selectId="queueObject" variableContainerId="varNameContainer0" variableInputId="varName0"></retrieve-from-variable>'
+        : ''
+    }
+
+<div style="float: left; width: 100%;">
 <span class="dbminputlabel">Queue Info</span><br>
   <select id="info" class="round">
     <option value="0">Tracks</option>
@@ -52,11 +62,13 @@ module.exports = {
     <option value="4">Progress Bar</option>
     <option value="5">Formatted Track List</option>
     <option value="6">Now Playing</option>
+    <option value="7">Queue Channel</option>
+    <option value="8">Queue Object</option>
   </select>
 </div>
 <br><br><br><br>
 
-<div>
+<div style="float: left; width: 100%; padding-top: 16px;">
   <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
 </div>
 `;
@@ -65,15 +77,24 @@ module.exports = {
   init() {},
 
   async action(cache) {
-    const { Bot } = this.getDBM();
     const data = cache.actions[cache.index];
-    const server = cache.msg?.guildId ?? cache.interaction?.guildId;
-    const queue = Bot.bot.player.getQueue(server);
     const info = parseInt(data.info, 10);
+
+    const type = parseInt(data.queueObject, 10);
+    const varName = this.evalMessage(data.varName0, cache);
+    let queue = this.getVariable(type, varName, cache);
+
+    if (!queue) {
+      const { Bot } = this.getDBM();
+
+      const server = cache.msg?.guildId ?? cache.interaction?.guildId;
+      if (!server) return this.callNextAction(cache);
+
+      queue = Bot.bot.player.getQueue(server);
+      if (!queue) return this.callNextAction(cache);
+    }
+
     let result;
-
-    if (!queue) return this.callNextAction(cache);
-
     switch (info) {
       case 0:
         result = queue.tracks;
@@ -95,6 +116,14 @@ module.exports = {
         break;
       case 6:
         result = queue.nowPlaying();
+        break;
+      case 7:
+        result = queue.metadata.channel;
+        break;
+      case 8:
+        result = queue;
+        break;
+      default:
         break;
     }
 
