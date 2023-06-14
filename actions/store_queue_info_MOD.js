@@ -79,7 +79,7 @@ module.exports = {
     const info = parseInt(data.info, 10);
 
     const type = parseInt(data.queueObject, 10);
-    const varName = this.evalMessage(data.varName, cache);
+    const varName = this.evalMessage(data.varName0, cache);
     let queue = this.getVariable(type, varName, cache);
 
     if (!queue) {
