@@ -89,7 +89,7 @@ module.exports = {
     const info = parseInt(data.info, 10);
     const string = this.evalMessage(data.string, cache);
 
-    if (!string) return console.log('Please write something to search on Urban Dictionary.');
+    if (!string) return this.callNextAction(cache);
 
     const { Actions } = this.getDBM();
     const Mods = this.getMods();

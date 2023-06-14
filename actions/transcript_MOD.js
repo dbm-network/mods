@@ -115,11 +115,11 @@ module.exports = {
     const discordTranscripts = require('discord-html-transcripts', '2.6.1'); // Version 2.6.1 needed for discord.js v13.
     const dtVersion = require('../package.json').dependencies['discord-html-transcripts']; // Get Version
 
-    if (dtVersion === '2.6.1') {
+    if (dtVersion !== '2.6.1') {
       console.log(`Current Version ${dtVersion}`);
       console.log('Needed Version 2.6.1');
       console.log('Use `npm i discord-html-transcripts@2.6.1` to install the right version');
-      this.callNextAction(cache);
+      return this.callNextAction(cache);
     }
 
     try {

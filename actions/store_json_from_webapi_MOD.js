@@ -65,17 +65,19 @@ module.exports = {
     </div>
   </div>
 
-  <div style="float: left; width: 95%;">
+  <div style="float: left; width: 100%;">
     <div style="padding-top: 16px;">
       <span class="dbminputlabel">JSON Path</span>
-      <input id="path" class="round" style="width: 75%;" type="text"></input>
+      <input id="path" class="round" type="text"></input>
     </div>
 
-    <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+    <div style="padding-top: 16px;">
+      <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+    </div>
   </div>
 
-  <div style="float: left; width: 95%; padding-top: 16px;">
-    <div style="float: left; width: 47.5%;">
+  <div style="float: left; width: 100%; padding-top: 16px;">
+    <div style="float: left; width: 35%;">
       <label for="reUse"><span class="dbminputlabel">Re-Use Previously Stored</span></label>
       <select id="reUse" class="round" onchange="glob.disallowAlert(this)">
         <option value="1" selected>Allow</option>
@@ -83,7 +85,7 @@ module.exports = {
       </select>
       <p style="margin-left: 4px;">Toggles re-use of previously stored JSON from same URL.</p>
     </div>
-    <div style="float: right; width: 47.5%;">
+    <div style="float: right; width: 60%;">
       <label for="debugMode"><span class="dbminputlabel">Debug Mode</span></label>
       <select id="debugMode" class="round">
         <option value="1">Enabled</option>

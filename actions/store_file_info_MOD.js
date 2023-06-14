@@ -118,6 +118,7 @@ module.exports = {
           .split(/\r\n|\r|\n/).length;
         break;
     }
+
     this.storeValue(result, storage, varName, cache);
     this.callNextAction(cache);
   },
