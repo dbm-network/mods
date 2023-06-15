@@ -20,13 +20,13 @@ module.exports = {
   </div>
   <br><br><br>
 
-  <div style="width: 90%;">
+  <div style="padding-top: 8px;">
     <span class="dbminputlabel">Webhook Name</span>
     <input id="webhookName" class="round" type="text" placeholder="Leave blank to keep">
   </div>
   <br>
   
-  <div style="width: 90%;">
+  <div>
     <span class="dbminputlabel">Webhook Icon URL</span>
     <input id="webhookIcon" class="round" type="text" placeholder="Leave blank to keep">
   </div><br>

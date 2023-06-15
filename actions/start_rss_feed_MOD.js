@@ -86,7 +86,7 @@ module.exports = {
       .then(() => {
         console.log('Starting watching...');
       })
-      .catch(console.error);
+      .catch(this.displayError.bind(this, data, cache));
   },
 
   mod() {},

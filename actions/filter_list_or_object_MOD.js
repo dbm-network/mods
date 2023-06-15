@@ -134,8 +134,6 @@ module.exports = {
     };
 
     glob.onChange1(document.getElementById('type'));
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
-    glob.variableChange(document.getElementById('storage2'), 'varNameContainer2');
   },
 
   async action(cache) {

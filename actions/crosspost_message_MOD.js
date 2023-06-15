@@ -48,7 +48,7 @@ module.exports = {
         this.storeValue(msg, storage, varName2, cache);
         this.callNextAction(cache);
       })
-      .catch(console.error);
+      .catch(this.displayError.bind(this, data, cache));
   },
 
   mod() {},

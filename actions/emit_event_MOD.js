@@ -17,7 +17,7 @@ module.exports = {
       DiscordJS = require('discord.js');
     } catch (_) {}
 
-    const events = Object.values(DiscordJS.Constants.Events).sort();
+    const events = Object.values(DiscordJS.Events ?? {}).sort();
     return events.includes(eventType) ? `Emits a ${eventType} event` : 'Not emitting anything';
   },
 
@@ -45,8 +45,8 @@ module.exports = {
       DiscordJS = require('discord.js');
     } catch (_) {}
 
-    const events = DiscordJS && Object.values(DiscordJS.Constants.Events).sort();
-    const docs = `https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-${
+    const events = DiscordJS && Object.values(DiscordJS.Events ?? {}).sort();
+    const docs = `https://old.discordjs.dev/#/docs/main/stable/class/Client?scrollTo=e-${
       (events && events[0]) || 'channelCreate'
     }`;
 
@@ -118,7 +118,7 @@ module.exports = {
     const data = cache.actions[cache.index];
 
     const { DiscordJS } = this.getDBM();
-    const events = Object.values(DiscordJS.Constants.Events).sort();
+    const events = Object.values(DiscordJS.Events).sort();
     const event = this.evalMessage(data.eventType);
     if (!events.includes(event)) return console.error(`${this.name} (#${cache.index + 1}): Unknown event type.`);
 

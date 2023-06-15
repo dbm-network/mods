@@ -17,12 +17,10 @@ module.exports = {
 
   html() {
     return `
-<div width="540" height="360" overflow-y="scroll">
   <div style="padding-top: 8px;">
     <span class="dbminputlabel">Description</span>
-    <textarea id="description" rows="9" placeholder="Insert description here." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
-  </div>
-</div>`;
+    <textarea id="description" rows="9" placeholder="Insert description here."></textarea>
+  </div>`;
   },
 
   init() {},
