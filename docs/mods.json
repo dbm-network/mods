@@ -849,7 +849,7 @@
     "name": "Store Playlist Info",
     "section": "YouTube Tools"
   },
-  "store_queue_MOD.js": {
+  "store_queue_info_MOD.js": {
     "description": "Store information about the queue",
     "name": "Store Queue Info",
     "section": "Audio Control"
