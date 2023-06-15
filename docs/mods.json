@@ -44,11 +44,6 @@
     "name": "Base Convert MOD",
     "section": "Other Stuff"
   },
-  "basic_math_operation_MOD.js": {
-    "description": "Have the bot do a basic math operation",
-    "name": "Basic Math Operation",
-    "section": "Other Stuff"
-  },
   "botsfordiscord_stats_MOD.js": {
     "description": "Sends statistics (server count) to botsfordiscord.com",
     "name": "Send Stats to BFD",
@@ -197,7 +192,7 @@
   "control_music_MOD.js": {
     "description": "Control music status",
     "name": "Control Music",
-    "section": "Audio Control"
+    "section": "Music Control"
   },
   "control_permissons_MOD.js": {
     "description": "Control certain permissions",
@@ -479,11 +474,6 @@
     "name": "Loop through Folder",
     "section": "Lists and Loops"
   },
-  "math_operation_MOD.js": {
-    "description": "Have the bot complete a math operation",
-    "name": "Math Operation",
-    "section": "Other Stuff"
-  },
   "math_operation_plus_MOD.js": {
     "description": "Have the bot complete more advanced math operations",
     "name": "Math Operation Plus",
@@ -522,7 +512,7 @@
   "play_music_MOD.js": {
     "description": "Search for a song/track and play it",
     "name": "Play Music",
-    "section": "Audio Control"
+    "section": "Music Control"
   },
   "play_youtube_playlist_MOD.js": {
     "description": "Play a specified YouTube playlist",
@@ -662,7 +652,7 @@
   "set_music_repeat_mode_MOD.js": {
     "description": "Set the mode for repeating music",
     "name": "Set Music Repeat Mode",
-    "section": "Audio Control"
+    "section": "Music Control"
   },
   "set_permissions_MOD.js": {
     "description": "Set permissions",
@@ -849,10 +839,10 @@
     "name": "Store Playlist Info",
     "section": "YouTube Tools"
   },
-  "store_queue_MOD.js": {
+  "store_queue_info_MOD.js": {
     "description": "Store information about the queue",
     "name": "Store Queue Info",
-    "section": "Audio Control"
+    "section": "Music Control"
   },
   "store_reaction_info_MOD.js": {
     "description": "Store information pertaining to a reaction",
@@ -866,7 +856,13 @@
   },
   "store_shard_info.js": {
     "description": "Shows shard information.",
-    "name": "Store Shard Info"
+    "name": "Store Shard Info",
+    "section": "Bot Client Control"
+  },
+  "store_track_info_MOD.js": {
+    "description": "Stores music track information",
+    "name": "Store Track Info",
+    "section": "Music Control"
   },
   "store_twitch_info_MOD.js": {
     "description": "Store information about Twitch",
