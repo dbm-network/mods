@@ -866,7 +866,7 @@
   },
   "store_shard_info.js": {
     "description": "Shows shard information.",
-    "name": "Store Shard Info"
+    "name": "Store Shard Info",
     "section": "Bot Client Control"
   },
   "store_track_info_MOD.js": {
