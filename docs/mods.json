@@ -479,11 +479,6 @@
     "name": "Loop through Folder",
     "section": "Lists and Loops"
   },
-  "math_operation_MOD.js": {
-    "description": "Have the bot complete a math operation",
-    "name": "Math Operation",
-    "section": "Other Stuff"
-  },
   "math_operation_plus_MOD.js": {
     "description": "Have the bot complete more advanced math operations",
     "name": "Math Operation Plus",
