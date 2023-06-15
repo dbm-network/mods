@@ -5,8 +5,8 @@ module.exports = {
     version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
-    authorUrl: null,
-    downloadURL: null,
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/spreadsheet_MOD.js',
   },
 
   subtitle(data) {

@@ -37,7 +37,7 @@ module.exports = {
     </div>
     <br><br><br>
 
-<div style="float: left; width: 80%; padding-top: 8px;">
+<div style="float: left; width: 100%; padding-top: 8px;">
   <span class="dbminputlabel">Source Info</span><br>
   <select id="info" class="round">
     <option value="0">Attachment's URL</option>
@@ -54,10 +54,7 @@ module.exports = {
 </div>`;
   },
 
-  init() {
-    const { document, glob } = this;
-    glob.variableChange(document.getElementById('storage2'), 'varNameContainer2');
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];
