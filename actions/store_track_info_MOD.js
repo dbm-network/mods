@@ -1,6 +1,6 @@
 module.exports = {
   name: 'Store Track Info',
-  section: 'Music Control',
+  section: 'Audio Control',
   meta: {
     version: '2.1.7',
     preciseCheck: false,
