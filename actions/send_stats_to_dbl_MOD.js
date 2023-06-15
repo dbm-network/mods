@@ -29,14 +29,9 @@ module.exports = {
   <div style="float: left; width: 100%; padding-top: 8px;">
     <span class="dbminputlabel">Info to Send</span>
     <select id="info" class="round">
-    <option value="0">Send Server Count Only</option>
-    <option value="1">Send Shard & Server Count</option>
-  </select>
-  <br>
-  
-  <p>
-    • Do not send anything about shards if you don't shard your bot, otherwise it'll crash your bot!
-  </p>
+      <option value="0">Send Server Count Only</option>
+      <option value="1">Send Shard & Server Count</option>
+    </select>
   </div>
 </div>`;
   },

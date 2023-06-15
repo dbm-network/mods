@@ -24,14 +24,14 @@ module.exports = {
     return `
 <div>
   <span class="dbminputlabel">Slice Text</span><br>
-  <textarea id="slice" rows="2" placeholder="Insert message here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+  <textarea id="slice" rows="2" placeholder="Insert message here..."></textarea>
 </div>
 
-<div style="float: left; width: 45%; padding-top: 8px;">
+<div style="float: left; width: calc(50% - 8px); padding-top: 8px;">
   <span class="dbminputlabel">Slice Starting Number</span><br>
   <input id="startingNumber" class="round" type="text">
 </div>
-<div style="float: right; width: 45%; padding-top: 8px;">
+<div style="float: right; width: calc(50% - 8px); padding-top: 8px;">
   <span class="dbminputlabel">Slice Length</span><br>
   <input id="sliceLength" class="round" type="text">
 </div>
@@ -40,7 +40,7 @@ module.exports = {
 <div style="padding-top: 8px;">
   <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
 </div>
-<br><br><br><br>
+<br><br><br>
 
 <div id="RandomText" style="padding-top: 8px;">
   <p>

@@ -10,7 +10,13 @@ module.exports = {
   },
 
   subtitle(data) {
-    return `Store: ${data.varName} DebugMode: ${data.debugMode === '1' ? 'Enabled' : 'Disabled'}`;
+    let str = '';
+    const type = parseInt(data.storage, 10);
+    if (type !== 0 && data.varName?.length > 0) {
+      str += `Store In: ${data.varName} - `;
+    }
+    str += `Debug Mode: ${data.debugMode === '1' ? 'Enabled' : 'Disabled'}`;
+    return str;
   },
 
   variableStorage(data, varType) {
@@ -34,7 +40,7 @@ module.exports = {
 
   html() {
     return `
-<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
+<div id ="wrexdiv" style="height: 350px; overflow-y: scroll;">
   <div style="padding: 10px;" class="ui toggle checkbox">
     <input type="checkbox" id="toggleAuth" onclick='document.getElementById("authSection").style.display = this.checked  ? "block" : "none";'>
     <label><font color="white" style="font-size: 90%;">Show URL & Connection Options</font></label>
@@ -74,12 +80,12 @@ module.exports = {
   <br>
   
   <div>
-    <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+    <store-in-variable allowNone dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
     <br><br><br><br>
     
     <div>
       <span class="dbminputlabel">Debug Mode</span>
-      <select id="debugMode" class="round" style="width: 45%">
+      <select id="debugMode" class="round" style="width: 35%">
         <option value="0" selected>Disabled</option>
         <option value="1">Enabled</option>
       </select><br>
@@ -93,40 +99,6 @@ module.exports = {
     </div>
   </div>
 <style>
-  .embed {
-    position: relative;
-  }
-
-  .embedinfo {
-    background: rgba(46,48,54,.45) fixed;
-    border: 1px solid hsla(0,0%,80%,.3);
-    padding: 10px;
-    margin:0 4px 0 7px;
-    border-radius: 0 3px 3px 0;
-  }
-
-  embedleftline {
-    background-color: #eee;
-    width: 4px;
-    border-radius: 3px 0 0 3px;
-    border: 0;
-    height: 100%;
-    margin-left: 4px;
-    position: absolute;
-  }
-
-  span {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  }
-
-  span.embed-auth {
-    color: rgb(255, 255, 255);
-  }
-
-  span.embed-desc {
-    color: rgb(128, 128, 128);
-  }
-
   span.wrexlink {
     color: #99b3ff;
     text-decoration:underline;
@@ -140,7 +112,7 @@ module.exports = {
   },
 
   init() {
-    const { glob, document } = this;
+    const { document } = this;
 
     const wrexlinks = document.getElementsByClassName('wrexlink');
     for (let x = 0; x < wrexlinks.length; x++) {
@@ -155,8 +127,6 @@ module.exports = {
         });
       }
     }
-
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
   },
 
   async action(cache) {

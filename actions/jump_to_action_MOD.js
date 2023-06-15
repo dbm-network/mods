@@ -17,12 +17,11 @@ module.exports = {
 
   html() {
     return `
-<div>
-  <div id="varNameContainer" style="float: left; width: 60%;">
+  <div>
     <span class="dbminputlabel">Jump to Action</span>
     <input id="call" class="round" type="number">
   </div>
-</div>`;
+`;
   },
 
   init() {},

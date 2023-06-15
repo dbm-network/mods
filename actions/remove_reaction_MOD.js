@@ -20,8 +20,9 @@ module.exports = {
 <div>
   <store-in-variable dropdownLabel="Source Reaction" selectId="reaction" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
 </div>
-<br><br><br><br>
-<div>
+<br><br><br>
+
+<div style="padding-top: 8px;">
   <member-input dropdownLabel="Source Member" selectId="member" variableContainerId="varNameContainer2" variableInputId="varName2"></member-input>
 </div>`;
   },

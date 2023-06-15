@@ -20,7 +20,14 @@ module.exports = {
 
   html() {
     return `
-    <div>
+    <div style="padding-top: 8px;">
+      <p><u>Note:</u><br>
+        This action will only work if the bot is the current owner of the server.
+      </p>
+    </div>
+    <br>
+
+    <div style="padding-top: 8px;">
       <server-input dropdownLabel="Source Server" selectId="server" variableContainerId="varNameContainer" variableInputId="varName"></server-input>
     </div>
     <br><br><br>
@@ -32,7 +39,7 @@ module.exports = {
 
     <div style="padding-top: 8px;">
       <span class="dbminputlabel">Reason</span><br>
-      <textarea id="reason" rows="2" placeholder="Insert reason here... (optional)" style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+      <textarea id="reason" rows="2" placeholder="Insert reason here... (optional)"></textarea>
     </div>`;
   },
 

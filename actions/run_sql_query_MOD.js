@@ -193,38 +193,8 @@ module.exports = {
     </div>
   </div>
 <style>
-  .embed {
-    position: relative;
-  }
-
-  .embedinfo {
-    background: rgba(46,48,54,.45) fixed;
-    border: 1px solid hsla(0,0%,80%,.3);
-    padding: 10px;
-    margin:0 4px 0 7px;
-    border-radius: 0 3px 3px 0;
-  }
-
-  embedleftline {
-    background-color: #eee;
-    width: 4px;
-    border-radius: 3px 0 0 3px;
-    border: 0;
-    height: 100%;
-    margin-left: 4px;
-    position: absolute;
-  }
-
   span {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  }
-
-  span.embed-auth {
-    color: rgb(255, 255, 255);
-  }
-
-  span.embed-desc {
-    color: rgb(128, 128, 128);
   }
 
   span.wrexlink {

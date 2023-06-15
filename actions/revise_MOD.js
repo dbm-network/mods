@@ -23,14 +23,14 @@ module.exports = {
   html() {
     return `
 <div>
-  <div style="width: 70%;">
+  <div>
     <span class="dbminputlabel">Message to Revise</span>
     <input id="reviser" type="text" class="round">
   </div>
   <br>
   
   <div>
-  <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
+    <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
   </div>
 </div>`;
   },

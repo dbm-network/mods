@@ -24,7 +24,7 @@ module.exports = {
 
 <div style="padding-top: 8px;">
   <span class="dbminputlabel">Message</span>
-  <textarea id="message" rows="9" placeholder="Insert message here..." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+  <textarea id="message" rows="9" placeholder="Insert message here..."></textarea>
 </div>`;
   },
 

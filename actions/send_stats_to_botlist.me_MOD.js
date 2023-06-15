@@ -23,16 +23,15 @@ module.exports = {
     <div style="float: left; width: 100%; padding-top: 8px;">
       <span class="dbminputlabel">Botlist.me Authorization Token</span>
       <input id="token" class="round" type="text">
-    </div><br>
+    </div>
+    <br>
+    
     <div style="float: left; width: 100%; padding-top: 8px;">
       <span class="dbminputlabel">Info to Send</span>
       <select id="info" class="round">
-      <option value="0">Send Server Count Only</option>
-      <option value="1">Send Shard & Server Count</option>
-    </select><br>
-    <p>
-      • Do not send anything about shards if you don't shard your bot, otherwise it'll crash your bot!
-    </p>
+        <option value="0">Send Server Count Only</option>
+        <option value="1">Send Shard & Server Count</option>
+      </select><br>
     </div>
   </div>`;
   },
@@ -48,7 +47,7 @@ module.exports = {
     const client = this.getDBM().Bot.bot;
 
     const body = { server_count: client.guilds.cache.size };
-    if (info === 1) body.shard_count = client.shard?.count;
+    if (info === 1) body.shard_count = client.shard?.count ?? 0;
 
     const response = await fetch(`https://api.botlist.me/api/v1/bots/${client.user.id}/stats?from=DBM`, {
       method: 'POST',

@@ -23,7 +23,6 @@ module.exports = {
 
   html() {
     return `
-<div style="padding-top: 8px;">
   <channel-input dropdownLabel="Source Channel" selectId="channel" variableContainerId="varNameContainer" variableInputId="varName"></channel-input>
   <br><br><br>
 
@@ -41,8 +40,7 @@ module.exports = {
     <span class="dbminputlabel">Search for</span>
     <input id="search" class="round" type="text"><br>
   </div>
-</div>
-<br>
+  <br>
 
 <div>
   <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>

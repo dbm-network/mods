@@ -47,10 +47,7 @@ module.exports = {
 </div>`;
   },
 
-  init() {
-    const { glob, document } = this;
-    glob.messageChange(document.getElementById('message'), 'varNameContainer');
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];

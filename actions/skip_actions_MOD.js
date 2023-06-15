@@ -17,12 +17,10 @@ module.exports = {
 
   html() {
     return `
-<div>
-  <div id="varNameContainer" style="float: left; width: 60%;">
+  <div>
     <span class="dbminputlabel">Actions To Skip</span><br>
     <input id="count" class="round" type="number">
-  </div>
-</div>`;
+  </div>`;
   },
 
   init() {},
