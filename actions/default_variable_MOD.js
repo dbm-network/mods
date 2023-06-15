@@ -26,15 +26,21 @@ module.exports = {
     return `
 <p>This action sets a variable to a default value if it's empty.</p>
 <retrieve-from-variable dropdownLabel="Variable" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></retrieve-from-variable>
-<br><br><br><br>
-<span class="dbminputlabel">Mode</span>
-<select id="mode" class="round">
-  <option value="normal">Normal (null, undefined)</option>
-  <option value="strict">Strict (null, undefined, 0, false)</option>
-</select>
+<br><br><br>
+
+<div style="padding-top: 8px;">
+  <span class="dbminputlabel">Mode</span>
+  <select id="mode" class="round">
+    <option value="normal">Normal (null, undefined)</option>
+    <option value="strict">Strict (null, undefined, 0, false)</option>
+  </select>
+</div>
 <br>
-<span class="dbminputlabel">Default Value</span>
-<input id="defaultTo" class="round" type="text">
+
+<div>
+  <span class="dbminputlabel">Default Value</span>
+  <input id="defaultTo" class="round" type="text">
+</div>
 `;
   },
 
