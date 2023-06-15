@@ -75,7 +75,7 @@ module.exports = {
     <option value="12">Unix Timestamp</option>
   </select>
 </div>
-<div id="buildMode" style="display: none; float: right; width: 50%; padding-top: 16px">
+<div id="buildMode" style="display: none; float: right; width: 60%; padding-top: 16px">
   Build It (<span class="wrexlink" data-url="https://momentjs.com/docs/#/displaying/format/">Moment Docs</span>):<br>
   <input id="buildInput" class="round" placeholder="Ex: DD/MM/YYYY = 10/26/2019">
 </div>

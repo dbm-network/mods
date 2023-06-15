@@ -49,9 +49,10 @@ module.exports = {
 
 <div>
   <p>
-  <u>Note:</u><br>
-  This mod can only find messages by <b>content</b> within the last 100 messages.<br>
-  If there are multiple messages with the same content, the bot is always using the oldest message (after start).
+    <u>Note:</u><br>
+    This mod can only find messages by <b>content</b> within the last 100 messages.<br>
+    If there are multiple messages with the same content, the bot is always using the oldest message (after start).
+  </p>
 </div>`;
   },
 

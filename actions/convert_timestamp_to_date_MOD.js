@@ -23,8 +23,10 @@ module.exports = {
   html() {
     return `
 <div style="float: left; width: 60%; padding-top: 8px;">
-  <p><u>Note:</u><br>
-  You can convert <b>Unix Timestamp</b> and <b>YouTube Timestamp</b> with this mod (both were tested).</p>
+  <p>
+    <u>Note:</u><br>
+    You can convert <b>Unix Timestamp</b> and <b>YouTube Timestamp</b> with this mod (both were tested).
+  </p>
 </div>
 <br><br><br>
 

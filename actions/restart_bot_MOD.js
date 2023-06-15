@@ -25,8 +25,10 @@ module.exports = {
 <br>
 
 <div>
-  <p><u>NOTE:</u><br>
-  Any action that is below this mod will not be executed!</p>
+  <p>
+    <u>NOTE:</u><br>
+    Any action that is below this mod will not be executed!
+  </p>
 </div>`;
   },
 

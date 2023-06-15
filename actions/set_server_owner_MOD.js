@@ -21,7 +21,8 @@ module.exports = {
   html() {
     return `
     <div style="padding-top: 8px;">
-      <p><u>Note:</u><br>
+      <p>
+        <u>Note:</u><br>
         This action will only work if the bot is the current owner of the server.
       </p>
     </div>

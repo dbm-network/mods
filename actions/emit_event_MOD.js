@@ -81,8 +81,10 @@ module.exports = {
     <input id="secondArg" class="round" type="text">
   </div>
   <div style="float: left; width: 90%; padding-top: 8px;">
-    <p><u>Note:</u><br>
-    Some events may not require the two arguments and some may not even require any arguments at all. Just leave the boxes empty on those cases.
+    <p>
+      <u>Note:</u><br>
+      Some events may not require the two arguments and some may not even require any arguments at all. Just leave the boxes empty on those cases.
+    </p>
   </div><br>
 </div>
 <style>
