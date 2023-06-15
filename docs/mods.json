@@ -699,11 +699,6 @@
     "name": "Slice",
     "section": "Other Stuff"
   },
-  "speed_test_MOD.js": {
-    "description": "Test your internet speed",
-    "name": "Speed Test",
-    "section": "Other Stuff"
-  },
   "split_MOD.js": {
     "description": "Split a string",
     "name": "Split",

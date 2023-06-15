@@ -83,10 +83,6 @@
     "description": "Triggers when the music player has an error",
     "name": "On Player Error"
   },
-  "on_player_no_results_EVT.js": {
-    "description": "Triggers when the music player found no results",
-    "name": "On Player No Results"
-  },
   "on_queue_end_EVT.js": {
     "description": "Triggers when the music queue ends",
     "name": "On Queue End"
