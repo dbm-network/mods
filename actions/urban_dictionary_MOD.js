@@ -56,13 +56,12 @@ module.exports = {
 
   html() {
     return `
-<div style="width: 550px; height: 350px; overflow-y: scroll;">
   <div style="width: 100%; padding-top: 8px;">
     <span class="dbminputlabel">Search</span>
-    <textarea id="string" rows="6" placeholder="Write a something or use variables..." style="width: 95%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+    <textarea id="string" rows="6" placeholder="Write a something or use variables..."></textarea>
   </div>
 
-  <div style="float: left; width: 94%; padding-top: 8px;">
+  <div style="float: left; width: 100%; padding-top: 8px;">
     <span class="dbminputlabel">Source Info</span>
     <select id="info" class="round">
       <option value="0">Definition</option>
@@ -76,10 +75,9 @@ module.exports = {
   </div>
   <br><br><br>
   
-  <div>
+  <div style="padding-top: 8px;">
     <store-in-variable selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
-  </div>
-</div>`;
+  </div>`;
   },
 
   init() {},

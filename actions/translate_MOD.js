@@ -37,7 +37,7 @@ module.exports = {
   <div style="padding-top: 16px;">
     <div>
       <span class="dbminputlabel">Translate Message</span>
-      <textarea id="translateMessage" rows="9" placeholder="Insert message that you want to translate here..." style="font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+      <textarea id="translateMessage" rows="9" placeholder="Insert message that you want to translate here..."></textarea>
     </div>
   </div>
 

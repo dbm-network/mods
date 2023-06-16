@@ -77,19 +77,18 @@ module.exports = {
 
   html() {
     return `
-<div>
-  <div style="float: left; width: 54%; padding-top: 16px; padding-right: 8px;">
-    <span class="dbminputlabel">Source City</span>
-    <input id="city" class="round" type="text">
-  </div>
-  <div style="float: right; width: 44%; padding-top: 16px;">
+  <div style="float: left; width: 35%; padding-top: 8px;">
     <span class="dbminputlabel">Degree Type</span>
     <select id="degreeType" class="round">
       <option value="F">Farhenheit</option>
       <option value="C">Celsius</option>
     </select>
   </div>
-<br>
+  <div style="float: right; width: 60%; padding-top: 8px;">
+    <span class="dbminputlabel">Source City</span>
+    <input id="city" class="round" type="text">
+  </div>
+  <br>
 
 <div style="float: left; width: 100%; padding-top: 16px;">
   <span class="dbminputlabel">Source Info</span>
