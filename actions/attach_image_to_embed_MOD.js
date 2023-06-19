@@ -26,7 +26,7 @@ module.exports = {
 <br><br><br>
 
 <div>
-  <retrieve-from-variable dropdownLabel="Image Object to Attach" selectId="embedstorage" variableContainerId="varNameContainer2" variableInputId="imagevarName"></retrieve-from-variable>
+  <retrieve-from-variable dropdownLabel="Image Object to Attach" selectId="imagestorage" variableContainerId="varNameContainer2" variableInputId="imagevarName"></retrieve-from-variable>
 </div>
 <br><br><br>
 
