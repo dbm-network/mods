@@ -37,7 +37,7 @@ module.exports = {
 <br><br><br>
 
 <div>
-	<div style="padding-top: 8px; width: 70%;">
+	<div style="padding-top: 8px; width: 100%;">
     <span class="dbminputlabel">Source Info</span><br>
 		<select id="info" class="round">
 			<option value="0" selected>Object</option>
@@ -112,6 +112,7 @@ module.exports = {
       default:
         break;
     }
+
     if (result !== undefined) {
       const storage = parseInt(data.storage, 10);
       this.storeValue(result, storage, this.evalMessage(data.varName2, cache), cache);
