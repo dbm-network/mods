@@ -32,7 +32,7 @@ module.exports = {
   html() {
     return `
 <div>
-  <retrieve-from-variable dropdownLabel="Source Embed Object" selectId="message" variableContainerId="varNameContainer" variableInputId="varName"></retrieve-from-variabl>
+  <retrieve-from-variable dropdownLabel="Source Embed Object" selectId="message" variableContainerId="varNameContainer" variableInputId="varName"></retrieve-from-variable>
 </div>
 <br><br><br>
 
