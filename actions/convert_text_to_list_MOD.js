@@ -49,11 +49,14 @@ module.exports = {
     const varName = this.evalMessage(data.varName, cache);
     const text = this.getVariable(storage, varName, cache);
     const separator = this.evalMessage(data.separator, cache);
+
+    const list = [];
     const params = text.split(new RegExp(separator));
+    params.forEach((i) => list.push(i.replace(/\r/g, '')));
 
     const storage2 = parseInt(data.storage2, 10);
     const varName2 = this.evalMessage(data.varName2, cache);
-    this.storeValue(params, storage2, varName2, cache);
+    this.storeValue(list, storage2, varName2, cache);
 
     this.callNextAction(cache);
   },
