@@ -48,7 +48,7 @@ module.exports = {
 
     const embedstorage = parseInt(data.embedstorage, 10);
     const embedvarName = this.evalMessage(data.embedvarName, cache);
-    const embed = this.getVariable(embedstorage, embedvarName, cache);
+    let embed = this.getVariable(embedstorage, embedvarName, cache);
 
     const imagestorage = parseInt(data.imagestorage, 10);
     const imagevarName = this.evalMessage(data.imagevarName, cache);
@@ -61,7 +61,8 @@ module.exports = {
 
     Images.createBuffer(image).then((buffer) => {
       const attachment = new DBM.DiscordJS.AttachmentBuilder(buffer, { name: filename });
-      embed.attachFiles([attachment]);
+      const { EmbedBuilder } = DBM.DiscordJS;
+      embed = EmbedBuilder.from(embed).attachFiles([attachment]);
 
       const storage = parseInt(data.storage, 10);
       const varName = Actions.evalMessage(data.varName, cache);
