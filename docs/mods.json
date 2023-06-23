@@ -204,6 +204,11 @@
     "name": "Control Server Prefix",
     "section": "Server Control"
   },
+  "convert_color_MOD.js": {
+    "description": "Convert between colors",
+    "name": "Convert Color",
+    "section": "Conversions"
+  },
   "convert_seconds_to_days_MOD.js": {
     "description": "Convert seconds to days",
     "name": "Convert Seconds To D/H/M/S",
