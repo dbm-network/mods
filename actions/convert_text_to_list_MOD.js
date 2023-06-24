@@ -26,15 +26,13 @@ module.exports = {
   html() {
     return `
 <div>
-  <store-in-variable dropdownLabel="Source Text" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+  <retrieve-from-variable dropdownLabel="Source Text" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></retrieve-from-variable>
 </div>
-<br><br><br><br>
+<br><br><br>
 
-<div style="display: table; width: 100%;">
-  <div style="display: table-cell;">
-    <span class="dbminputlabel">Separator</span>
-    <input id="separator" class="round" type="text">
-  </div>
+<div style="padding-top: 8px;">
+  <span class="dbminputlabel">Separator</span>
+  <input id="separator" class="round" type="text">
 </div>
 <br>
 
@@ -51,11 +49,14 @@ module.exports = {
     const varName = this.evalMessage(data.varName, cache);
     const text = this.getVariable(storage, varName, cache);
     const separator = this.evalMessage(data.separator, cache);
+
+    const list = [];
     const params = text.split(new RegExp(separator));
+    params.forEach((i) => list.push(i.replace(/\r/g, '')));
 
     const storage2 = parseInt(data.storage2, 10);
     const varName2 = this.evalMessage(data.varName2, cache);
-    this.storeValue(params, storage2, varName2, cache);
+    this.storeValue(list, storage2, varName2, cache);
 
     this.callNextAction(cache);
   },
