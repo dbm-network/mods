@@ -134,7 +134,7 @@ module.exports = {
     const { Actions } = this.getDBM();
 
     const Mods = this.getMods();
-    const fetch = require('node-fetch');
+    const fetch = require('node-fetch', '2');
 
     let url = this.evalMessage(data.postUrl, cache);
     const method = this.evalMessage(data.method, cache);

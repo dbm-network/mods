@@ -39,7 +39,7 @@ module.exports = {
 
   async action(cache) {
     const Mods = this.getMods();
-    const fetch = Mods.require('node-fetch');
+    const fetch = Mods.require('node-fetch', '2');
 
     const data = cache.actions[cache.index];
 
