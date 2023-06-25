@@ -203,7 +203,7 @@ module.exports = {
         }
         case 'cmyk': {
           if (!cmykRegex.test(InputText)) break;
-          let input = InputText.trim()
+          const input = InputText.trim()
             .replace(/cmyk|\(|\)|%/gi, '')
             .replace(/\s/g, '')
             .split(',')
@@ -220,7 +220,7 @@ module.exports = {
         }
         case 'auto': {
           if (cmykRegex.test(InputText)) {
-            let input = InputText.trim()
+            const input = InputText.trim()
               .replace(/cmyk|\(|\)|%/gi, '')
               .replace(/\s/g, '')
               .split(',')
