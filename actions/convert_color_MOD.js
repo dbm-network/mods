@@ -106,6 +106,7 @@ module.exports = {
     const decimalRegex = /\b(?:\d{1,3}(?:,\s?)?){3}\b/;
     const cssRegex = /^[a-zA-Z]+$/;
 
+    // Convert from HEX to the respective output (It is much easier to just convert everything to hex and convert back)
     const Convert = function Convert(input) {
       let Output;
 
@@ -120,6 +121,7 @@ module.exports = {
             );
             const nearestColor = Mods.require('nearest-color').from(extraColors);
 
+            // Check if the keyword for css is included inside the extraColors list
             if (extraColors[input.toString().toLowerCase()]) input = extraColors[input.toString().toLowerCase()];
 
             Output = nearestColor(input).name;
@@ -150,7 +152,7 @@ module.exports = {
           }
           case 'decimal': {
             const Converter = Mods.require('hex2dec');
-            Output = Converter.hexToDec(`0x${input}`);
+            Output = Converter.hexToDec(input);
             break;
           }
         }
@@ -182,19 +184,30 @@ module.exports = {
         }
         case 'rgb': {
           if (!rgbRegex.test(InputText)) break;
-          const input = InputText.replace(/rgb|\(|\)/gi, '');
+          const input = InputText.trim()
+            .replace(/rgb|\(|\)/gi, '')
+            .replace(/\s/g, '')
+            .split(',');
           OutputText = Convert(ColorConvert.rgb.hex(input));
           break;
         }
         case 'hsl': {
           if (!hslRegex.test(InputText)) break;
-          const input = InputText.replace(/hsl|\(|\)|%/gi, '');
+          const input = InputText.trim()
+            .replace(/hsl|\(|\)|%/gi, '')
+            .replace(/\s/g, '')
+            .split(',')
+            .map((string) => Number(string));
           OutputText = Convert(ColorConvert.hsl.hex(input));
           break;
         }
         case 'cmyk': {
           if (!cmykRegex.test(InputText)) break;
-          const input = InputText.replace(/cmyk|\(|\)|%/gi, '');
+          let input = InputText.trim()
+            .replace(/cmyk|\(|\)|%/gi, '')
+            .replace(/\s/g, '')
+            .split(',')
+            .map((string) => Number(string));
           OutputText = Convert(ColorConvert.cmyk.hex(input));
           break;
         }
@@ -207,11 +220,19 @@ module.exports = {
         }
         case 'auto': {
           if (cmykRegex.test(InputText)) {
-            const input = InputText.replace(/cmyk|\(|\)|%/gi, '');
+            let input = InputText.trim()
+              .replace(/cmyk|\(|\)|%/gi, '')
+              .replace(/\s/g, '')
+              .split(',')
+              .map((string) => Number(string));
             OutputText = Convert(ColorConvert.cmyk.hex(input));
             break;
           } else if (hslRegex.test(InputText)) {
-            const input = InputText.replace(/hsl|\(|\)|%/gi, '');
+            const input = InputText.trim()
+              .replace(/hsl|\(|\)|%/gi, '')
+              .replace(/\s/g, '')
+              .split(',')
+              .map((string) => Number(string));
             OutputText = Convert(ColorConvert.hsl.hex(input));
             break;
           } else if (rgbRegex.test(InputText)) {
