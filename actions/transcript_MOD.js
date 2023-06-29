@@ -79,7 +79,6 @@ module.exports = {
             <label> Set the footer, {number} = messages amount, {s} = plural</label><br>
           </div>
         </div>
-
       </div>
     </div>
   </div>

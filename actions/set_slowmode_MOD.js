@@ -19,7 +19,7 @@ module.exports = {
     return [data.varName2, 'Channel'];
   },
 
-  fields: ['storage', 'varName', 'varName2', 'amount', 'reason'],
+  fields: ['storage', 'varName', 'amount', 'reason'],
 
   html() {
     return `

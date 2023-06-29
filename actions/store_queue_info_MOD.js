@@ -118,6 +118,12 @@ module.exports = {
       case 8:
         result = queue;
         break;
+      case 7:
+        result = queue.metadata.channel;
+        break;
+      case 8:
+        result = queue;
+        break;
       default:
         break;
     }
