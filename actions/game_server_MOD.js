@@ -445,7 +445,10 @@ module.exports = {
         }
         Actions.callNextAction(cache);
       })
-      .catch((error) => console.log(`Game Server Info: ${error}`));
+      .catch((error) => {
+        console.log(`Game Server Info: ${error}`);
+        Actions.callNextAction(cache);
+      });
   },
 
   mod() {},
