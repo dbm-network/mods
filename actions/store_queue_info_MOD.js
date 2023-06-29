@@ -113,12 +113,6 @@ module.exports = {
         result = queue.currentTrack;
         break;
       case 7:
-        result = queue.metadata;
-        break;
-      case 8:
-        result = queue;
-        break;
-      case 7:
         result = queue.metadata.channel;
         break;
       case 8:
