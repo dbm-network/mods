@@ -73,7 +73,7 @@ module.exports = {
     if (data.volume) volume = parseInt(this.evalMessage(data.volume, cache), 10) ?? 80;
 
     // leaveOnEnd & leaveOnEmpty Cooldowns from DBM Settings
-    const leaveVoiceTimeout = Files.data.settings.leaveVoiceTimeout ?? '0';
+    const leaveVoiceTimeout = Files.data.settings.leaveVoiceTimeout ?? '10';
     let seconds = parseInt(leaveVoiceTimeout, 10);
 
     if (isNaN(seconds) || seconds < 0) seconds = 0;
