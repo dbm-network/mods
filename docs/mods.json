@@ -9,21 +9,6 @@
     "name": "Comment",
     "section": "Other Stuff"
   },
-  "anchor_create_MOD.js": {
-    "description": "Create an anchor",
-    "name": "Create Anchor",
-    "section": "Other Stuff"
-  },
-  "anchor_jump_MOD.js": {
-    "description": "Jump to an anchor",
-    "name": "Jump to Anchor",
-    "section": "Other Stuff"
-  },
-  "attach_image_to_embed_MOD.js": {
-    "description": "Attach a specified image to an embed",
-    "name": "Attach Image To Embed",
-    "section": "Embed Message"
-  },
   "auto_help_MOD.js": {
     "description": "Automatically creates a 'help' for each command",
     "name": "Auto Help",
@@ -948,10 +933,5 @@
     "description": "Search YouTube",
     "name": "YouTube Search",
     "section": "Audio Control"
-  },
-  "create_forum_channel_MOD.js": {
-    "description": "Create Forum Channel",
-    "name": "Create Forum Channel",
-    "section": "Channel Control"
   }
 }
