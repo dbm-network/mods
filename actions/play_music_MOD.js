@@ -9,7 +9,7 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/play_music_MOD.js',
   },
   requiresAudioLibraries: true,
-  fields: ['query', 'voiceChannel', 'varName', 'storage', 'varName2', '', 'volume', 'leaveOnEmpty', 'leaveOnEnd'],
+  fields: ['query', 'voiceChannel', 'varName', 'storage', 'varName2', 'volume', 'leaveOnEmpty', 'leaveOnEnd'],
 
   subtitle(data) {
     return `${data.query}`;
