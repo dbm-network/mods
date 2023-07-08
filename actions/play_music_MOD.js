@@ -64,8 +64,8 @@ module.exports = {
     const Mods = this.getMods();
 
     // Setup Music
-    const { useMasterPlayer } = Mods.require('discord-player');
-    const player = useMasterPlayer();
+    const { useMainPlayer } = Mods.require('discord-player');
+    const player = useMainPlayer();
     const query = this.evalMessage(data.query, cache);
     if (!server ?? !query) return this.callNextAction();
 
