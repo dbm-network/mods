@@ -22,7 +22,6 @@ module.exports = {
             }
           });
         }, 1000).unref();
-      
 
         Bot.bot.on('guildMemberAdd', async (member) => {
           if (member.guild.me.permissions.has('MANAGE_GUILD')) {
@@ -60,20 +59,23 @@ module.exports = {
 
         Bot.bot.on('guildDelete', (guild) => {
           invites.delete(guild.id);
-      });
+        });
 
-      Bot.bot.on("roleUpdate", (oldrole, newrole) => {
-          if(newrole.tags.botId === Bot.bot.user.id) {
-            if(newrole.guild.members.me.permissions.has('MANAGE_GUILD')) {
+        Bot.bot.on('roleUpdate', (oldrole, newrole) => {
+          if (!newrole.tags || !newrole.tags.botId) return;
+          if (newrole.tags.botId === Bot.bot.user.id) {
+            const oldroleperms = oldrole.permissions.has('MANAGE_GUILD');
+            const newroleperms = newrole.permissions.has('MANAGE_GUILD');
+            if (!oldroleperms && newroleperms) {
               newrole.guild.invites.fetch().then((guildInvites) => {
                 invites.set(newrole.guild.id, new Map(guildInvites.map((invite) => [invite.code, invite.uses])));
               });
-            } else {
+            } else if (oldroleperms && !newroleperms) {
               invites.delete(newrole.guild.id);
             }
           }
-      })
-    }
+        });
+      }
 
       onReady.apply(this);
     };
