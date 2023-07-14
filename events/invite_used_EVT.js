@@ -22,9 +22,9 @@ module.exports = {
             }
           });
         }, 1000).unref();
+      
 
         Bot.bot.on('guildMemberAdd', async (member) => {
-          if (!Bot.$evts['Invite Used']) return;
           if (member.guild.me.permissions.has('MANAGE_GUILD')) {
             const newinvites = await member.guild.invites.fetch();
             const oldinvites = invites.get(member.guild.id);
@@ -39,31 +39,41 @@ module.exports = {
         });
 
         Bot.bot.on('inviteDelete', (invite) => {
-          if (Bot.$evts['Invite Used'] && invite.guild.members.me.permissions.has('MANAGE_GUILD')) {
+          if (invite.guild.members.me.permissions.has('MANAGE_GUILD')) {
             invites.get(invite.guild.id).delete(invite.code);
           }
         });
 
         Bot.bot.on('inviteCreate', (invite) => {
-          if (Bot.$evts['Invite Used'] && invite.guild.members.me.permissions.has('MANAGE_GUILD')) {
+          if (invite.guild.members.me.permissions.has('MANAGE_GUILD')) {
             invites.get(invite.guild.id).set(invite.code, invite.uses);
           }
         });
-      }
 
-      Bot.bot.on('guildCreate', (guild) => {
-        if (Bot.$evts['Invite Used'] && guild.members.me.permissions.has('MANAGE_GUILD')) {
-          guild.invites.fetch().then((guildInvites) => {
-            invites.set(guild.id, new Map(guildInvites.map((invite) => [invite.code, invite.uses])));
-          });
-        }
-      });
+        Bot.bot.on('guildCreate', (guild) => {
+          if (guild.members.me.permissions.has('MANAGE_GUILD')) {
+            guild.invites.fetch().then((guildInvites) => {
+              invites.set(guild.id, new Map(guildInvites.map((invite) => [invite.code, invite.uses])));
+            });
+          }
+        });
 
-      Bot.bot.on('guildDelete', (guild) => {
-        if (Bot.$evts['Invite Used']) {
+        Bot.bot.on('guildDelete', (guild) => {
           invites.delete(guild.id);
-        }
       });
+
+      Bot.bot.on("roleUpdate", (oldrole, newrole) => {
+          if(newrole.tags.botId === Bot.bot.user.id) {
+            if(newrole.guild.members.me.permissions.has('MANAGE_GUILD')) {
+              newrole.guild.invites.fetch().then((guildInvites) => {
+                invites.set(newrole.guild.id, new Map(guildInvites.map((invite) => [invite.code, invite.uses])));
+              });
+            } else {
+              invites.delete(newrole.guild.id);
+            }
+          }
+      })
+    }
 
       onReady.apply(this);
     };
