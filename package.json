@@ -5,8 +5,8 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "lint": "eslint --cache actions events extensions",
-    "lint:fix": "eslint --fix --cache actions events extensions",
+    "lint": "eslint --cache actions events extensions sharder",
+    "lint:fix": "eslint --fix --cache actions events extensions sharder",
     "prettier:check": "prettier --check **/*.{js,json,yml}",
     "prettier:fix": "prettier --write **/*.{js,json,yml}"
   },
