@@ -5,8 +5,8 @@ const version = '1.4';
 // Include discord.js and original check
 const { version: djsVersion, ShardingManager } = require('discord.js');
 
-const requiredDjsVersion = "13.14.0";
-if (requiredDjsVersion.localeCompare(djsVersion, { numeric: true, sensitivity: "base" }) > 0) {
+const requiredDjsVersion = '13.14.0';
+if (requiredDjsVersion.localeCompare(djsVersion, { numeric: true, sensitivity: 'base' }) > 0) {
   console.log(
     `This version of Discord Bot Maker requires discord.js ${requiredDjsVersion}+.
 It is currently ${djsVersion}.
