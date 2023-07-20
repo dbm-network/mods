@@ -1,13 +1,16 @@
-// Made by TheMonDon#1721
+// Made by themondon
 // Some code by General Wrex
-const version = '1.3';
+const version = '1.4';
 
 // Include discord.js and original check
 const { version: djsVersion, ShardingManager } = require('discord.js');
-const requiredDjsVersion = '13.7.0';
-if (djsVersion < requiredDjsVersion) {
+
+const requiredDjsVersion = "13.14.0";
+if (requiredDjsVersion.localeCompare(djsVersion, { numeric: true, sensitivity: "base" }) > 0) {
   console.log(
-    `This version of Discord Bot Maker requires discord.js ${requiredDjsVersion}+.\nPlease use "Project > Module Manager" and "Project > Reinstall Node Modules" to update to discord.js ${requiredDjsVersion}.\n`,
+    `This version of Discord Bot Maker requires discord.js ${requiredDjsVersion}+.
+It is currently ${djsVersion}.
+Please use "Project > Module Manager" and "Project > Reinstall Node Modules" to update to discord.js ${requiredDjsVersion}.\n\n`,
   );
   throw new Error(`Need discord.js ${requiredDjsVersion} to run!!!`);
 }
