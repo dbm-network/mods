@@ -9,7 +9,7 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/play_music_MOD.js',
   },
   requiresAudioLibraries: true,
-  fields: ['query', 'voiceChannel', 'varName', 'storage', 'varName2', 'type'],
+  fields: ['query', 'voiceChannel', 'varName', 'storage', 'varName2', 'type', 'volume', 'leaveOnEmpty', 'leaveOnEnd'],
 
   subtitle(data) {
     return `${data.query}`;
@@ -17,29 +17,38 @@ module.exports = {
 
   variableStorage(data, varType) {
     if (parseInt(data.storage, 10) !== varType) return;
-    return [data.varName3, 'Music Track'];
+    return [data.varName2, 'Music Track'];
   },
 
   html() {
     return `
-<div>
-  <span class="dbminputlabel">YouTube Search</span><br>
-  <input id="query" class="round" type="text" placeholder="Search for a song from youtube"><br>
+<div style="max-height: 200px;">
+  <div>
+    <span class="dbminputlabel">YouTube Search</span><br>
+    <input id="query" class="round" type="text" placeholder="Search for a song from youtube"><br>
+  </div>
+
+  <div>
+    <voice-channel-input dropdownLabel="Voice Channel" selectId="voiceChannel" variableContainerId="varNameContainer" variableInputId="varName"></voice-channel-input>
+  </div>
+  <br><br><br>
+
+  <div style="padding-top: 8px; width: 100%; height: 50px; display: flex;">
+    <div style="width: 35%; height: 100%;">
+      <span class="dbminputlabel">Default Volume</span><br>
+      <input id="volume" class="round" type="text" placeholder="Leave blank for 80">
+    </div>
+    <div style="width: 60%; height: 100%; padding-top: 20px; padding-left: 5%;">
+      <dbm-checkbox style="float: left;" id="leaveOnEmpty" label="Leave On Empty" checked></dbm-checkbox>
+      <dbm-checkbox style="float: right;" id="leaveOnEnd" label="Leave On End" checked></dbm-checkbox>
+    </div>
+  </div>
+  <br>
+
+  <div style="float: left; width: 100%;">
+    <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
+  </div>
 </div>
-
-<voice-channel-input dropdownLabel="Voice Channel" selectId="voiceChannel" variableContainerId="varNameContainer" variableInputId="varName" selectWidth="45%" variableInputWidth="50%"></voice-channel-input>
-<br><br><br>
-
-<div>
-	<span class="dbminputlabel">Play Type</span><br>
-	<select id="type" class="round" style="width: 90%;">
-		<option value="0" selected>Add to Queue</option>
-		<option value="1">Play Immediately</option>
-	</select>
-</div>
-<br>
-
-<store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
 <br><br><br>
 
 <p>
@@ -64,11 +73,29 @@ module.exports = {
     const player = Bot.bot.player;
     const voiceChannel = await this.getVoiceChannelFromData(data.voiceChannel, data.varName2, cache);
 
+    let volume = 80;
+    if (data.volume) volume = parseInt(this.evalMessage(data.volume, cache), 10) || 80;
+
+    // leaveOnEnd & leaveOnEmpty Cooldowns from DBM Settings
+    const leaveVoiceTimeout = Files.data.settings.leaveVoiceTimeout ?? '10';
+    let seconds = parseInt(leaveVoiceTimeout, 10);
+
+    if (isNaN(seconds) || seconds < 0) seconds = 0;
+    if (leaveVoiceTimeout === '' || !isFinite(seconds)) seconds = 0;
+    // Needs to be converted to Milliseconds, keeping the same variable.
+    if (seconds > 0) seconds *= 1000;
+
     const query = this.evalMessage(data.query, cache);
     const queue = player.createQueue(server, {
       metadata: {
         channel,
       },
+      selfDeaf: (Files.data.settings.autoDeafen ?? 'true') === 'true',
+      volume,
+      leaveOnEmpty: data.leaveOnEmpty,
+      leaveOnEmptyCooldown: seconds,
+      leaveOnEnd: data.leaveOnEnd,
+      leaveOnEndCooldown: seconds,
       async onBeforeCreateStream(track, source) {
         if (source === 'youtube') {
           return (await playdl.stream(track.url, { discordPlayerCompatibility: true })).stream;
