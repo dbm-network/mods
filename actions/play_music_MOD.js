@@ -22,8 +22,8 @@ module.exports = {
 
   html() {
     return `
-<div style="max-height: 200px;">
-  <div>
+<div style="max-height: 350px; overflow-y: scroll;">
+  <div style="padding-top: 8px;">
     <span class="dbminputlabel">YouTube Search</span><br>
     <input id="query" class="round" type="text" placeholder="Search for a song from youtube"><br>
   </div>
@@ -32,6 +32,15 @@ module.exports = {
     <voice-channel-input dropdownLabel="Voice Channel" selectId="voiceChannel" variableContainerId="varNameContainer" variableInputId="varName"></voice-channel-input>
   </div>
   <br><br><br>
+
+  <div style="padding-top: 8px; width: 100%;">
+	  <span class="dbminputlabel">Play Type</span><br>
+	  <select id="type" class="round" style="width: 35%;">
+		  <option value="0" selected>Add to Queue</option>
+		  <option value="1">Play Immediately</option>
+	  </select>
+  </div>
+  <br>
 
   <div style="padding-top: 8px; width: 100%; height: 50px; display: flex;">
     <div style="width: 35%; height: 100%;">
@@ -48,16 +57,16 @@ module.exports = {
   <div style="float: left; width: 100%;">
     <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
   </div>
-</div>
-<br><br><br>
 
-<p>
-  <u><b><span style="color: white;">NOTE:</span></b></u><br>
-  Youtube URLs and IDs are hit and miss due to using ytdl-core.<br>
-  In theory you should be able to use the following:<br>
-  Soundcloud URL, YouTube Search, YouTube song/playlist URL, YouTube ID,<br>
-  Spotify Song/playlist/album, vimeo, facebook and reverbnation.
-</p>
+  <br><br><br>
+  <p>
+    <u><b><span style="color: white;">NOTE:</span></b></u><br>
+    Youtube URLs and IDs are hit and miss due to using ytdl-core.<br>
+    In theory you should be able to use the following:<br>
+    Soundcloud URL, YouTube Search, YouTube song/playlist URL, YouTube ID,<br>
+    Spotify Song/playlist/album, vimeo, facebook and reverbnation.
+  </p>
+</div>
 `;
   },
 
@@ -90,12 +99,11 @@ module.exports = {
       metadata: {
         channel,
       },
-      selfDeaf: (Files.data.settings.autoDeafen ?? 'true') === 'true',
-      volume,
+      autoSelfDeaf: (Files.data.settings.autoDeafen ?? 'true') === 'true',
+      initialVolume: volume,
       leaveOnEmpty: data.leaveOnEmpty,
       leaveOnEmptyCooldown: seconds,
       leaveOnEnd: data.leaveOnEnd,
-      leaveOnEndCooldown: seconds,
       async onBeforeCreateStream(track, source) {
         if (source === 'youtube') {
           return (await playdl.stream(track.url, { discordPlayerCompatibility: true })).stream;
