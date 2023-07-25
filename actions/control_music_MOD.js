@@ -9,7 +9,7 @@ module.exports = {
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/control_music_MOD.js',
   },
   requiresAudioLibraries: true,
-  fields: ['action', 'volume'],
+  fields: ['action', 'volume', 'bitrate'],
 
   subtitle(data) {
     const actions = [
@@ -21,6 +21,7 @@ module.exports = {
       'Clear Queue',
       'Shuffle Queue',
       'Set Volume',
+      'Set Bitrate',
     ];
     return `${actions[parseInt(data.action, 10)]}`;
   },
@@ -49,7 +50,7 @@ module.exports = {
 
 <div id="bitrateDiv" style="float: right; display: none; width: calc(50% - 8px);">
   <span class="dbminputlabel">Bitrate</span>
-  <input id="volume" class="round" type="text" value="auto">
+  <input id="bitrate" class="round" type="text" value="auto">
 </div>
 `;
   },
