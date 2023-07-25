@@ -68,6 +68,7 @@ module.exports = {
         case 3:
           skip.style.display = null;
           volume.style.display = 'none';
+          bitrate.style.display = 'none';
           break;
         case 0:
         case 1:
@@ -86,6 +87,7 @@ module.exports = {
           break;
         case 8:
           volume.style.display = 'none';
+          skip.style.display = 'none';
           bitrate.style.display = null;
           break;
         default:
