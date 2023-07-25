@@ -61,7 +61,7 @@ module.exports = {
     const channel = cache.msg?.channel ?? cache.interaction?.channel;
     const voiceChannel = await this.getVoiceChannelFromData(data.voiceChannel, data.varName2, cache);
     const Mods = this.getMods();
- 
+
     // Setup Music
     const { useMainPlayer } = Mods.require('discord-player');
     const player = useMainPlayer();

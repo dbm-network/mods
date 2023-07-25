@@ -60,7 +60,7 @@ module.exports = {
     const { glob, document } = this;
 
     const volume = document.getElementById('volumeDiv');
-    const skip = document.getElementById('skipDiv')
+    const skip = document.getElementById('skipDiv');
     const bitrate = document.getElementById('bitrateDiv');
 
     glob.onChange = function onChange(event) {
