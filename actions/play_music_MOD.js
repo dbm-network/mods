@@ -57,12 +57,11 @@ module.exports = {
   async action(cache) {
     const data = cache.actions[cache.index];
     const server = cache.server;
-    const { Actions } = this.getDBM();
+    const { Files, Actions } = this.getDBM();
     const channel = cache.msg?.channel ?? cache.interaction?.channel;
-    const { Files } = this.getDBM();
     const voiceChannel = await this.getVoiceChannelFromData(data.voiceChannel, data.varName2, cache);
     const Mods = this.getMods();
-
+ 
     // Setup Music
     const { useMainPlayer } = Mods.require('discord-player');
     const player = useMainPlayer();

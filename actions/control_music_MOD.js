@@ -37,6 +37,7 @@ module.exports = {
     <option value="5">Clear Queue</option>
     <option value="6">Shuffle Queue</option>
     <option value="7">Set Volume</option>
+    <option value="8">Set Bitrate</option>
 	</select>
 </div>
 
@@ -47,6 +48,10 @@ module.exports = {
 <div id="skipDiv" style="float: right; display: none; width: calc(50% - 8px);">
   <span class="dbminputlabel">Skip Amount</span>
   <input id="skip" class="round" type="text" value="1">
+
+<div id="bitrateDiv" style="float: right; display: none; width: calc(50% - 8px);">
+  <span class="dbminputlabel">Bitrate</span>
+  <input id="volume" class="round" type="text" value="auto">
 </div>
 `;
   },
@@ -55,7 +60,8 @@ module.exports = {
     const { glob, document } = this;
 
     const volume = document.getElementById('volumeDiv');
-    const skip = document.getElementById('skipDiv');
+    const skip = document.getElementById('skipDiv')
+    const bitrate = document.getElementById('bitrateDiv');
 
     glob.onChange = function onChange(event) {
       switch (parseInt(event.value, 10)) {
@@ -71,10 +77,16 @@ module.exports = {
         case 6:
           volume.style.display = 'none';
           skip.style.display = 'none';
+          bitrate.style.display = 'none';
           break;
         case 7:
           volume.style.display = null;
           skip.style.display = 'none';
+          bitrate.style.display = 'none';
+          break;
+        case 8:
+          volume.style.display = 'none';
+          bitrate.style.display = null;
           break;
         default:
           break;
@@ -88,6 +100,8 @@ module.exports = {
     const data = cache.actions[cache.index];
     const action = parseInt(data.action, 10);
     const volume = parseInt(this.evalMessage(data.volume, cache), 10);
+    const bitrate = this.evalMessage(data.bitrate, cache);
+
     const { useQueue } = require('discord-player');
 
     const server = cache.server;
@@ -128,6 +142,9 @@ module.exports = {
           break;
         case 7:
           queue.setVolume(volume);
+          break;
+        case 8:
+          queue.setBitrate(bitrate);
           break;
       }
     } catch (err) {
