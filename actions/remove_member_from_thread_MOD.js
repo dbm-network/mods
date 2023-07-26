@@ -28,11 +28,11 @@ module.exports = {
     const data = cache.actions[cache.index];
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);
-    const th = this.getVariable(storage, varName, cache);
+    const thread = this.getVariable(storage, varName, cache);
     const member = await this.getMemberFromData(data.member, data.varName2, cache);
 
     try {
-      await th.members.remove(member.id);
+      await thread.members.remove(member);
       this.callNextAction(cache);
     } catch {
       this.executeResults(false, data, cache);

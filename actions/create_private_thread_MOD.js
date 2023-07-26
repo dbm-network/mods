@@ -17,7 +17,7 @@ module.exports = {
   variableStorage(data, varType) {
     const type = parseInt(data.storage, 10);
     if (type !== varType) return;
-    return [data.storageVarName, 'Canal'];
+    return [data.storageVarName, 'Thread Channel'];
   },
 
   html() {

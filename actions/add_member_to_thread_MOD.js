@@ -34,7 +34,7 @@ module.exports = {
     const member = await this.getMemberFromData(data.member, data.varName2, cache);
 
     try {
-      await thread.members.add(member.id);
+      await thread.members.add(member);
       this.callNextAction(cache);
     } catch {
       this.executeResults(false, data, cache);
