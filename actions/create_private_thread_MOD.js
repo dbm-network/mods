@@ -22,12 +22,12 @@ module.exports = {
 
   html() {
     return `
-  <div>
+  <div style="width: 100%;">
     <channel-input dropdownLabel="Source Channel" selectId="channel" variableContainerId="varNameContainerChannel" variableInputId="channelVarName"></channel-input>
   </div>
-  <br /><br /><br />
+  <br><br><br>
   
-  <div style="padding:top 8px; float: left; width: 100%;">
+  <div style="padding-top: 8px; float: left; width: 100%;">
     <div style="float: left; width: 35%;">
       <span class="dbminputlabel">Thread Name</span><br>
       <input id="threadName" class="round" type="text"><br>
@@ -44,18 +44,18 @@ module.exports = {
     </div>
   </div>
  
-  <div style="padding-top: 8px; float: left; width: 100%;">
+  <div style="float: left; width: 100%;">
     <div style="width: 35%;">
       <span class="dbminputlabel">Reason</span>
       <input id="reason" placeholder="Optional" class="round" type="text">
     </div>
   </div>
-  <br /><br /><br />
-  
-  <div style="padding-top: 8px; float: left; width: 100%;">
+  <br><br><br>
+
+  <div style="padding-top: 16px; float: left; width: 100%;">
     <store-in-variable allowNone selectId="storage" variableInputId="storageVarName" variableContainerId="varNameContainer2"></store-in-variable>
   </div>
-  <br /><br /><br /><br />
+  <br><br><br><br>
   
   <p>This mod will be removed when the next version of DBM releases.</p>`;
   },
