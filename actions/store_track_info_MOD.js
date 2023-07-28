@@ -57,8 +57,9 @@ module.exports = {
 
     const type = parseInt(data.trackObject, 10);
     const varName = this.evalMessage(data.varName, cache);
-    const track = this.getVariable(type, varName, cache);
+    let track = this.getVariable(type, varName, cache);
     if (!track) return this.callNextAction(cache);
+    if (track.tracks) track = track.tracks[0];
 
     let result;
     switch (info) {
