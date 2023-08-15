@@ -55,6 +55,7 @@ module.exports = {
         <option value="1" selected>Seconds</option>
         <option value="2">Minutes</option>
         <option value="3">Hours</option>
+        <option value="4">Days</option>
       </select>
     </div>
     <div style="padding-left: 5%; float: left; width: 65%;">
@@ -88,7 +89,7 @@ module.exports = {
   <br><br><br>
   
   <div style="padding-top: 8px;">
-    <store-in-variable dropdownLabel="Store Time Left In (s)" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+    <store-in-variable allowNone dropdownLabel="Store Time Left In (s)" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
   </div>
 </div>`;
   },
@@ -111,6 +112,8 @@ module.exports = {
         case 3:
           value.placeholder = '1 = 3600 seconds';
           break;
+        case 4:
+          value.placeholder = '1 = 86400 seconds';
         default:
           break;
       }
@@ -193,6 +196,7 @@ module.exports = {
 
     const TRData = cache.interaction ?? cache.msg;
     const timeLeft = await this.TimeRestriction(TRData, cmd, cache);
+
     if (!timeLeft) {
       this.executeResults(false, data, cache);
     } else {
@@ -205,6 +209,7 @@ module.exports = {
 
   async mod(DBM) {
     let Cooldown;
+
     DBM.Actions.LoadTimeRestriction = async function LoadTimeRestriction(cache) {
       Cooldown = await this.getVariable(3, 'DBMCooldown', cache);
 
@@ -213,21 +218,24 @@ module.exports = {
       } else if (typeof Cooldown === 'string') {
         Cooldown = JSON.parse(Cooldown);
       }
-      for (const command of Object.keys(Cooldown)) {
-        if (Cooldown[command].save === 1) {
-          delete Cooldown[command];
-        }
-        if (Cooldown[command]) {
-          if (!DBM.Bot.$cmds[command]) {
-            delete Cooldown[command];
-          } else {
-            const action = DBM.Bot.$cmds[command].actions.find((a) => a.name === 'Set Time Restriction');
-            if (action !== undefined) {
-              if (action.save === '1') {
-                delete Cooldown[command];
-              }
-            } else {
-              delete Cooldown[command];
+
+      const commandTypes = [
+        DBM.Bot.$slash,
+        DBM.Bot.$user,
+        DBM.Bot.$msge,
+        DBM.Bot.$cmds,
+        DBM.Bot.$icds,
+        DBM.Bot.$regx,
+        DBM.Bot.$anym,
+      ];
+
+      for (const commandType of commandTypes) {
+        for (const commandName of Object.keys(commandType)) {
+          const command = commandType[commandName];
+          if (Cooldown[commandName] && command.actions) {
+            const action = command.actions.find((a) => a.name === 'Set Time Restriction');
+            if (!action || action.save === '1') {
+              delete Cooldown[commandName];
             }
           }
         }
@@ -238,21 +246,32 @@ module.exports = {
       const author = TRData.author ?? TRData.user;
       const { channel } = TRData;
 
-      if (typeof Cooldown === 'undefined') await this.LoadTimeRestriction(cache);
+      if (typeof Cooldown === 'undefined' || Cooldown === {}) {
+        await this.LoadTimeRestriction(cache);
+        console.log('Cooldown', Cooldown);
+      }
+
       const { Files } = DBM;
-      let value = parseInt(this.evalMessage(cache.actions[cache.index].value, cache), 10);
+      let value = parseInt(await this.evalMessage(cache.actions[cache.index].value, cache), 10);
       const measurement = parseInt(cache.actions[cache.index].measurement, 10);
       const restrict = parseInt(cache.actions[cache.index].restrict, 10);
+
       switch (measurement) {
         case 1:
+          // Seconds to milliseconds
           value *= 1000;
           break;
         case 2:
+          // Minutes to milliseconds
           value *= 60000;
           break;
         case 3:
+          // Hours to milliseconds
           value *= 3600000;
           break;
+        case 4:
+          // Days to milliseconds
+          value *= 86400000;
         default:
           break;
       }
@@ -261,8 +280,9 @@ module.exports = {
       Cooldown[cmd.name].save = parseInt(cache.actions[cache.index].save, 10);
       Cooldown[cmd.name].cooldown = value;
       const now = Date.now();
+
       switch (restrict) {
-        case 0:
+        case 0: {
           if (typeof Cooldown[cmd.name][author.id] !== 'number') {
             delete Cooldown[cmd.name][author.id];
           }
@@ -278,6 +298,7 @@ module.exports = {
           Cooldown[cmd.name][author.id] = now;
           if (Cooldown[cmd.name].save === 0) Files.saveGlobalVariable('DBMCooldown', JSON.stringify(Cooldown));
           return false;
+        }
         case 1: {
           let channelId;
           if (typeof cache.server !== 'undefined') {
