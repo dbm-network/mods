@@ -246,10 +246,7 @@ module.exports = {
       const author = TRData.author ?? TRData.user;
       const { channel } = TRData;
 
-      if (typeof Cooldown === 'undefined' || Cooldown === {}) {
-        await this.LoadTimeRestriction(cache);
-        console.log('Cooldown', Cooldown);
-      }
+      if (typeof Cooldown === 'undefined' || Cooldown === {}) await this.LoadTimeRestriction(cache);
 
       const { Files } = DBM;
       let value = parseInt(await this.evalMessage(cache.actions[cache.index].value, cache), 10);
