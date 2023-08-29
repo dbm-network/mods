@@ -114,7 +114,7 @@ module.exports = {
         break;
       }
       case 2: {
-        result = rea.users.cache.map(user => user); // All users who reacted list
+        result = rea.users.cache.map((user) => user); // All users who reacted list
         break;
       }
       case 3: {
