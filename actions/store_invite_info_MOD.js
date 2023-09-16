@@ -110,7 +110,9 @@ module.exports = {
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);
 
-    const inviteInfo = await this.getDBM().Bot.bot.fetchInvite(invite).catch(console.error);
+    const inviteGuild = await this.getDBM().Bot.bot.fetchInvite(invite).catch(console.error);
+    const inviteInfo = await inviteGuild.guild.invites.fetch(invite).catch(console.error)
+    
     if (!inviteInfo) return this.callNextAction(cache);
 
     let result;
