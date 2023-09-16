@@ -111,8 +111,8 @@ module.exports = {
     const varName = this.evalMessage(data.varName, cache);
 
     const inviteGuild = await this.getDBM().Bot.bot.fetchInvite(invite).catch(console.error);
-    const inviteInfo = await inviteGuild.guild.invites.fetch(invite).catch(console.error)
-    
+    const inviteInfo = await inviteGuild.guild.invites.fetch(invite).catch(console.error);
+
     if (!inviteInfo) return this.callNextAction(cache);
 
     let result;
