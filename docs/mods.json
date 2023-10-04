@@ -958,5 +958,10 @@
     "description": "Create Forum Channel",
     "name": "Create Forum Channel",
     "section": "Channel Control"
+  },
+  "get_current_timestamp_MOD.js": {
+    "description": "Get and store the current timestamp",
+    "name": "Get Current Timestamp",
+    "section": "Other Stuff"
   }
 }
