@@ -41,13 +41,13 @@ module.exports = {
     </div>
   </div>
   <br><br><br>
-  
+
   <div style="float: left; width: 65%;">
     <span class="dbminputlabel">Script Name</span>
     <input id="title" class="round" type="text">
   </div>
   <br><br><br>
-  
+
   <div>
     <div style="float: left; width: 65%;">
       <span class="dbminputlabel">External File Path</span>
@@ -55,12 +55,12 @@ module.exports = {
     </div>
   </div>
   <br><br><br>
-  
+
   <div style="float: left; width: 100%">
     <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
   </div>
   <br><br><br>
-  
+
   <div style="padding-top: 8px;">
     Or Use Custom Code: (This isn't used if an external path is defined.)<br>
     <textarea id="code" rows="14" name="is-eval" style="width: 99%; white-space: nowrap; resize: none;"></textarea>
@@ -138,7 +138,7 @@ module.exports = {
     const result = this.eval(code, cache);
     const varName = this.evalMessage(data.varName, cache);
     const storage = parseInt(data.storage, 10);
-    this.storeValue(result, storage, varName, cache);
+    this.storeValue(result instanceof Promise ? await result : result, storage, varName, cache);
 
     if (data.behavior === '0') this.callNextAction(cache);
   },
