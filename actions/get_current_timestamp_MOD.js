@@ -5,11 +5,11 @@ module.exports = {
     version: '2.1.7',
     preciseCheck: false,
     author: 'Itz T0kyoo',
-    authorUrl: 'https://gitlab.com/t0kyoo.fr/dbm-mods/',
+    authorUrl: 'https://github.com/ItzT0kyooFR',
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/convert_timestamp_to_date_MOD.js',
   },
 
-  subtitle(data) {
+  subtitle() {
     return `Store current timestamp`;
   },
 
@@ -44,7 +44,7 @@ module.exports = {
 
     const currentDate = new Date();
     const timestamp = Math.round(currentDate.getTime() / 1000);
-    
+
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);
 
