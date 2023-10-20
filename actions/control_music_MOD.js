@@ -8,6 +8,7 @@ module.exports = {
     authorUrl: 'https://github.com/dbm-network/mods',
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/control_music_MOD.js',
   },
+
   fields: ['action', 'volume', 'skip', 'bitrate'],
 
   subtitle(data) {
@@ -20,6 +21,7 @@ module.exports = {
       'Clear Queue',
       'Shuffle Queue',
       'Set Volume',
+      'Set Bitrate',
     ];
     return `${actions[parseInt(data.action, 10)]}`;
   },
