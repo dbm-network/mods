@@ -8,7 +8,7 @@ module.exports = {
     authorUrl: 'https://github.com/dbm-network/mods',
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/control_music_MOD.js',
   },
-  fields: ['action', 'volume', 'skip'],
+  fields: ['action', 'volume', 'skip', 'bitrate'],
 
   subtitle(data) {
     const actions = [
@@ -51,7 +51,7 @@ module.exports = {
 
 <div id="bitrateDiv" style="float: right; display: none; width: calc(50% - 8px);">
   <span class="dbminputlabel">Bitrate</span>
-  <input id="volume" class="round" type="text" value="auto">
+  <input id="bitrate" class="round" type="text" value="auto">
 </div>
 `;
   },
