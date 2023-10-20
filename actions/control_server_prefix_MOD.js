@@ -42,11 +42,7 @@ module.exports = {
     const prefixContainer = document.getElementById('prefixContainer');
 
     glob.onChangeControl = function onChangeControl(controlType) {
-      if (controlType.value === '0') {
-        prefixContainer.style.display = null;
-      } else {
-        prefixContainer.style.display = 'none';
-      }
+      prefixContainer.style.display = controlType.value === '0' ? null : 'none';
     };
 
     glob.onChangeControl(document.getElementById('controlType'));
