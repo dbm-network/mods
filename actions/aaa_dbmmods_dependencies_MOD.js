@@ -65,7 +65,7 @@ const Mods = {
       },
       store(p, v) {
         if (p) P.result[P.result.length] = P.resultType == 'PATH' ? P.asPath(p) : v;
-        return !!p;
+        return Boolean(p);
       },
       trace(expr, val, path) {
         if (expr) {

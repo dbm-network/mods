@@ -30,6 +30,9 @@ module.exports = {
       <option value="4">Is TTS?</option>
       <option value="5">Is From Discord?</option>
       <option value="6">Includes @everyone Mention?</option>
+      <option value="7">Is Bulk Deletable?</option>
+      <option value="8">Is Crosspostable?</option>
+      <option value="9">Is Editable?</option>
     </select>
   </div>
   <div id="varNameContainer2" style="display: none; float: right; width: 60%;">
@@ -68,6 +71,18 @@ module.exports = {
         break;
       case 6:
         result = msg.mentions.everyone;
+        break;
+      case 7:
+        result = msg.bulkDeletable;
+        break;
+      case 8:
+        result = msg.crosspostable;
+        break;
+      case 9:
+        result = msg.editable;
+        break;
+      case 10:
+        result = Boolean(msg.editedAt);
         break;
       default:
         break;

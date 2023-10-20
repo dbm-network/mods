@@ -1044,7 +1044,7 @@ module.exports = {
               break;
             }
             default:
-              console.log('Please update mod or the input from dbm!!!');
+              console.log('Please update mod or the input from dbm!');
           }
           this.storeValue(result, storage, varName, cache);
         } else if (json && json.message) {

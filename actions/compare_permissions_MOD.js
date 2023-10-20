@@ -80,7 +80,7 @@ module.exports = {
     } else if (!newPermissions.bitfield) {
       console.error('New permissions not found.');
     } else {
-      console.error('Something error!!!');
+      console.error('Something error!');
     }
   },
 

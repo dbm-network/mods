@@ -92,7 +92,7 @@ module.exports = {
     const result = this.eval(code, cache);
     const varName = this.evalMessage(data.varName, cache);
     const storage = parseInt(data.storage, 10);
-    this.storeValue(result, storage, varName, cache);
+    this.storeValue(result instanceof Promise ? await result : result, storage, varName, cache);
 
     if (data.behavior === '0') this.callNextAction(cache);
   },
