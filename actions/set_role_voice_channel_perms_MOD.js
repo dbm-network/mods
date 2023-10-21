@@ -2,7 +2,7 @@ module.exports = {
   name: 'Set Role Voice Channel Perms',
   section: 'Channel Control',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -57,7 +57,7 @@ module.exports = {
 
     if (role?.id) {
       channel.permissionOverwrites
-        .edit(role.id, options, { type: 0 })
+        .edit(role, options, { type: 0 })
         .then(() => this.callNextAction(cache))
         .catch((err) => this.displayError(data, cache, err));
     } else {

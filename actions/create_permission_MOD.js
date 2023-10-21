@@ -4,7 +4,7 @@ module.exports = {
   name: 'Create Permissions',
   section: 'Permission Control',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -101,17 +101,21 @@ module.exports = {
         <option value="3">Voice Channel</option>
       </select>
     </div>
-  </div><br><br><br>
+  </div>
+  <br><br><br>
+  
   <div style="padding-top: 8px;">
     <div id="bitfield" style="float: left; width: 80%;">
       Bit Fields:<br>
       <input id="bitFields" class="round" type="text"><br>
     </div>
   </div>
+
   <div style="padding-top: 8px;">
     <div id="checkbox" style="display: none; float: left; width: 80%;">
     </div>
   </div>
+
   <div style="padding-top: 8px;">
     <div style="float: left; width: 35%;">
       Store In:<br>
@@ -251,6 +255,7 @@ module.exports = {
       'USE_VAD',
       'PRIORITY_SPEAKER',
     ];
+
     glob.typeChange = function typeChange(type) {
       switch (parseInt(type.value, 10)) {
         case 0:
@@ -348,6 +353,7 @@ module.exports = {
           break;
       }
     };
+
     glob.targetChange(document.getElementById('targetType'));
     glob.typeChange(document.getElementById('type'));
   },
@@ -355,11 +361,12 @@ module.exports = {
   async action(cache) {
     const data = cache.actions[cache.index];
     const type = parseInt(data.type, 10);
-    const { Permissions } = this.getDBM().DiscordJS;
+    const { PermissionsBitField } = this.getDBM().DiscordJS;
     let permissions = {};
+
     switch (type) {
       case 0: {
-        permissions = new Permissions(this.evalMessage(data.bitFields, cache));
+        permissions = new PermissionsBitField(this.evalMessage(data.bitFields, cache));
         break;
       }
       case 1: {
@@ -407,14 +414,15 @@ module.exports = {
             inherit.push(perms);
           }
         });
-        if (allow.length !== 0) permissions.allow = new Permissions(allow);
-        if (disallow.length !== 0) permissions.disallow = new Permissions(disallow);
+        if (allow.length !== 0) permissions.allow = new PermissionsBitField(allow);
+        if (disallow.length !== 0) permissions.disallow = new PermissionsBitField(disallow);
         if (inherit.length !== 0) permissions.inherit = inherit;
         break;
       }
       default:
         break;
     }
+
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);
     this.storeValue(permissions, storage, varName, cache);

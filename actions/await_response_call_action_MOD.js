@@ -5,7 +5,7 @@ module.exports = {
   displayName: 'Await Response',
   section: 'Messaging',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',

@@ -2,7 +2,7 @@ module.exports = {
   name: 'Store Reaction Info',
   section: 'Reaction Control',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -66,7 +66,7 @@ module.exports = {
   html() {
     return `
     <div>
-      <store-in-variable dropdownLabel="Store Reaction" selectId="reaction" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+      <retrieve-from-variable dropdownLabel="Source Reaction" selectId="reaction" variableContainerId="varNameContainer" variableInputId="varName"></retrieve-from-variable>
     </div>
     <br><br><br>
 

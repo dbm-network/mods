@@ -2,7 +2,7 @@ module.exports = {
   name: 'Revise',
   section: 'Other Stuff',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -23,14 +23,14 @@ module.exports = {
   html() {
     return `
 <div>
-  <div style="width: 70%;">
+  <div>
     <span class="dbminputlabel">Message to Revise</span>
     <input id="reviser" type="text" class="round">
   </div>
   <br>
   
   <div>
-  <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
+    <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
   </div>
 </div>`;
   },

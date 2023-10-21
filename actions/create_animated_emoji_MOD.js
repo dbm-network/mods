@@ -2,7 +2,7 @@ module.exports = {
   name: 'Create Animated Emoji',
   section: 'Emoji Control',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -22,18 +22,18 @@ module.exports = {
 
   html() {
     return `
-<div style="width: 90%;">
+<div>
   <span class="dbminputlabel">Animated Emoji Name</span>
   <input id="emojiName" class="round" type="text">
 </div>
 <br>
 
-<div>
-  <store-in-variable dropdownLabel="Source GIF" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+<div style="padding-top: 8px;">
+  <retrieve-from-variable dropdownLabel="Source GIF" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></retrieve-from-variable>
 </div>
 <br><br><br>
 
-<div>
+<div style="padding-top: 8px;">
   <store-in-variable dropdownLabel="Store In" selectId="storage2" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
 </div>`;
   },
@@ -52,7 +52,7 @@ module.exports = {
     const name = this.evalMessage(data.emojiName, cache);
 
     server.emojis
-      .create(gif, name)
+      .create({ attachment: gif, name })
       .then((emoji) => {
         const varName2 = this.evalMessage(data.varName2, cache);
         const storage = parseInt(data.storage2, 10);

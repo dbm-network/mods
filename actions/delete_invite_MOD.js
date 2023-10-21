@@ -2,7 +2,7 @@ module.exports = {
   name: 'Delete Invite',
   section: 'Invite Control',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -28,6 +28,7 @@ module.exports = {
     <textarea class="round" id="invite" rows="1" placeholder="Code or URL | e.g abcdef or discord.gg/abcdef" style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
   </div>
   <br>
+
   <div style="padding-top: 8px;">
     <span class="dbminputlabel">Reason</span>
     <textarea class="round" id="reason" rows="1" placeholder="Insert a reason.." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
@@ -45,11 +46,11 @@ module.exports = {
 
     client
       .fetchInvite(invite)
-      .catch(console.error)
       .then((invite) => {
         if (!invite) this.callNextAction(cache);
         invite.delete(reason);
-      });
+      })
+      .catch(this.displayError.bind(this, data, cache));
 
     this.callNextAction(cache);
   },

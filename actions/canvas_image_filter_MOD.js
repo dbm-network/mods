@@ -2,7 +2,7 @@ module.exports = {
   name: 'Canvas Image Filter',
   section: 'Image Editing',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -31,7 +31,7 @@ module.exports = {
 
   html() {
     return `
-    <store-in-variable dropdownLabel="Source Image" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+    <retrieve-from-variable dropdownLabel="Source Image" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></retrieve-from-variable>
     <br><br><br>
 <div style="padding-top: 8px;">
   <div style="float: left; width: 45%;">
@@ -57,8 +57,6 @@ module.exports = {
 
   init() {
     const { glob, document } = this;
-
-    glob.refreshVariableList(document.getElementById('storage'));
 
     glob.onChange1 = function onChange1(event) {
       const value = parseInt(event.value, 10);

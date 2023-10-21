@@ -3,7 +3,7 @@ module.exports = {
 
   section: 'Permission Control',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -72,8 +72,8 @@ module.exports = {
     const way = parseInt(data.way, 10);
 
     if (way === 0) {
-      const { Permissions } = this.getDBM().DiscordJS;
-      const tempPermissions = new Permissions();
+      const { PermissionsBitField } = this.getDBM().DiscordJS;
+      const tempPermissions = new PermissionsBitField();
       tempPermissions.add(role.permissions);
       if (permissions.allow) {
         tempPermissions.add(permissions.allow);

@@ -2,7 +2,7 @@ module.exports = {
   name: 'Parse From Stored Webpage',
   section: 'HTML/XML Things',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -32,7 +32,7 @@ module.exports = {
   </div>
 
   <div>
-    <store-in-variable dropdownLabel="Source HTML" selectId="source" variableContainerId="sourceVarNameContainer" variableInputId="sourceVarName"></store-in-variable>
+    <retrieve-from-variable dropdownLabel="Source HTML" selectId="source" variableContainerId="sourceVarNameContainer" variableInputId="sourceVarName"></retrieve-from-variable>
   </div>
   <br><br><br>
   

@@ -2,7 +2,7 @@ module.exports = {
   name: 'Check If Member',
   section: 'Conditions',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -80,7 +80,7 @@ module.exports = {
     let result = false;
     switch (info) {
       case 0:
-        result = member.user?.bot;
+        result = member.user ? member.user?.bot : member.bot;
         break;
       case 1:
         result = member.bannable;

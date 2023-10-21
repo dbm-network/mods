@@ -3,7 +3,7 @@ module.exports = {
   displayName: 'Store Audit Log Info',
   section: 'Server Control',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -67,12 +67,12 @@ module.exports = {
   html() {
     return `
 <div>
-  <store-in-variable dropdownLabel="Audit Log Entry" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+  <retrieve-from-variable dropdownLabel="Audit Log Entry" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></retrieve-from-variable>
 </div>
 <br><br><br>
 
 <div>
-  <div style="float: left; width: 94%;">
+  <div style="float: left; width: 100%;">
     <span class="dbminputlabel">Source Info</span><br>
     <select id="info" class="round" onchange="glob.onChange0(this)">
     <option value="0" selected>Audit Log Id</option>
@@ -94,7 +94,7 @@ module.exports = {
 <br><br><br>
 
 <div>
-  <div id="keyholder" style="float: left; width: 104%; display: none;">
+  <div id="keyholder" style="float: left; width: 100%; display: none;">
     <span class="dbminputlabel">Position of Key</span><br>
     <input id="position" class="round" type="text" placeholder="Position start from 0"><br>
   </div>
@@ -123,7 +123,6 @@ module.exports = {
     };
 
     glob.onChange0(document.getElementById('info'));
-    glob.refreshVariableList(document.getElementById('storage'));
   },
 
   async action(cache) {

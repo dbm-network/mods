@@ -2,7 +2,7 @@ module.exports = {
   name: 'Canvas Generate Progress Bar',
   section: 'Image Editing',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -33,7 +33,9 @@ module.exports = {
       <option value="1">Circle</option><br>
     </select>
   </div>
-</div><br><br><br>
+</div>
+<br><br><br>
+
 <div style="padding-top: 8px;">
   <div style="float: left; width: 45%;">
     <div id="Change1text"><span class="dbminputlabel">Width</span></div>
@@ -43,7 +45,9 @@ module.exports = {
     <div id="Change2text"><span class="dbminputlabel">Height</span></div>
     <input id="height" class="round" type="text"><br>
   </div>
-</div><br><br><br>
+</div>
+<br><br><br>
+
 <div style="padding-top: 8px;">
   <div style="float: left; width: 45%;">
     <span class="dbminputlabel">Line Width</span>
@@ -56,7 +60,9 @@ module.exports = {
       <option value="1">Round</option>
     </select><br>
   </div>
-</div><br><br><br>
+</div>
+<br><br><br>
+
 <div style="padding-top: 8px;">
   <div style="float: left; width: 45%;">
     <span class="dbminputlabel">Percent</span>
@@ -66,7 +72,9 @@ module.exports = {
     <span class="dbminputlabel">Color</span>
     <input id="color" class="round" type="text" value="FFFFFF"><br>
   </div>
-</div><br><br><br>
+</div>
+<br><br><br>
+
 <div style="padding-top: 8px;">
   <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
 </div>`;

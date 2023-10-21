@@ -65,7 +65,7 @@ const Mods = {
       },
       store(p, v) {
         if (p) P.result[P.result.length] = P.resultType == 'PATH' ? P.asPath(p) : v;
-        return !!p;
+        return Boolean(p);
       },
       trace(expr, val, path) {
         if (expr) {
@@ -196,7 +196,7 @@ module.exports = {
   displayName: 'Dependencies',
 
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',

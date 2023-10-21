@@ -2,7 +2,7 @@ module.exports = {
   name: 'Set Member Voice Channel Perms',
   section: 'Channel Control',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -57,7 +57,7 @@ module.exports = {
     options[data.permission] = data.state === '0' ? true : data.state === '2' ? false : null;
 
     channel.permissionOverwrites
-      .edit(member.id, options, { type: 1 })
+      .edit(member, options, { type: 1 })
       .then(() => this.callNextAction(cache))
       .catch((err) => this.displayError(data, cache, err));
   },

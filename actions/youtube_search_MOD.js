@@ -2,7 +2,7 @@ module.exports = {
   name: 'YouTube Search',
   section: 'Audio Control',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -141,19 +141,46 @@ module.exports = {
 
   html() {
     return `
-<div id="wrexdiv">
-  <div style="float: left; width: 30%;">
+  <div style="float: left; width: 35%;">
     <span class="dbminputlabel">Source Type</span>
     <select id="type" class="round" onchange="glob.onChange1(this)">
       <option value="0" selected>YouTube Video</option>
       <option value="1">YouTube Playlist</option>
     </select>
   </div>
+
   <div style="float: left; width: 100%; padding-top: 16px;">
     <span class="dbminputlabel">Video to Search</span>
-    <textarea id="input" placeholder="Insert your url or keywords in here..." style="font-family: monospace; white-space: nowrap; resize: none; min-height: 100px;"></textarea>
+    <textarea id="input" placeholder="Insert your url or keywords in here..."></textarea>
   </div>
-  <div id="divinfo0"; style="float: left; width: 60%; padding-top: 16px;">
+
+  <div id="divresults" style="float: left; width: 35%; padding-top: 16px;">
+    <span class="dbminputlabel">Result Number</span>
+    <select id="results" class="round">
+      <option value="1">1st Result</option>
+      <option value="2">2nd Result</option>
+      <option value="3">3rd Result</option>
+      <option value="4">4th Result</option>
+      <option value="5">5th Result</option>
+      <option value="6">6th Result</option>
+      <option value="7">7th Result</option>
+      <option value="8">8th Result</option>
+      <option value="9">9th Result</option>
+      <option value="10">10th Result</option>
+      <option value="11">11th Result</option>
+      <option value="12">12th Result</option>
+      <option value="13">13th Result</option>
+      <option value="14">14th Result</option>
+      <option value="15">15th Result</option>
+      <option value="16">16th Result</option>
+      <option value="17">17th Result</option>
+      <option value="18">18th Result</option>
+      <option value="19">19th Result</option>
+      <option value="20">20th Result</option>
+    </select>
+  </div>
+
+  <div id="divinfo0"; style="float: right; width: 60%; padding-top: 16px;">
     <span class="dbminputlabel">Source Video Info</span>
     <select id="info0" class="round">
       <option value="0">Video ID</option>
@@ -171,7 +198,8 @@ module.exports = {
       <option value="12">Video is Live?</option>
     </select>
   </div>
-  <div id="divinfo1"; style="float: left; width: 60%; padding-top: 16px;">
+
+  <div id="divinfo1"; style="float: right; width: 60%; padding-top: 16px;">
     <span class="dbminputlabel">Source Playlist Info</span>
     <select id="info1" class="round">
       <option value="0">Playlist ID</option>
@@ -204,40 +232,15 @@ module.exports = {
       <option value="27">Video Publish Dates</option>
     </select>
   </div>
-  <div id="divresults" style="float: right; width: 35%; padding-top: 16px;">
-    <span class="dbminputlabel">Result Number</span>
-    <select id="results" class="round">
-      <option value="1">1st Result</option>
-      <option value="2">2nd Result</option>
-      <option value="3">3rd Result</option>
-      <option value="4">4th Result</option>
-      <option value="5">5th Result</option>
-      <option value="6">6th Result</option>
-      <option value="7">7th Result</option>
-      <option value="8">8th Result</option>
-      <option value="9">9th Result</option>
-      <option value="10">10th Result</option>
-      <option value="11">11th Result</option>
-      <option value="12">12th Result</option>
-      <option value="13">13th Result</option>
-      <option value="14">14th Result</option>
-      <option value="15">15th Result</option>
-      <option value="16">16th Result</option>
-      <option value="17">17th Result</option>
-      <option value="18">18th Result</option>
-      <option value="19">19th Result</option>
-      <option value="20">20th Result</option>
-    </select>
-  </div>
+
   <div id="divapikey" style="float: left; width: 100%; padding-top: 16px;">
     <span class="dbminputlabel">API Key</span>
-    <input id="apikey" class="round" type="text" placeholder="Insert your YouTube Data V3 API Key... (Not needed for search)">
+    <input id="apikey" class="round" type="text" placeholder="Insert your YouTube Data V3 API Key... (Only required for playlists)">
   </div>
 
   <div style="float: left; padding-top: 16px; width: 100%;">
     <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
-  </div>
-</div>`;
+  </div>`;
   },
 
   init() {

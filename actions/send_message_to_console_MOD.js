@@ -2,7 +2,7 @@ module.exports = {
   name: 'Send Message to Console',
   section: 'Other Stuff',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -21,8 +21,8 @@ module.exports = {
   html() {
     return `
 <div>
-  <span class="dbminputlabel">Color</span>
-  <input type="color" id="color" value="#f2f2f2">
+  <span class="dbminputlabel">Text Color</span><br>
+  <input type="color" id="color" value="#f2f2f2" style="width: 20%;">
 </div>
 <br>
 

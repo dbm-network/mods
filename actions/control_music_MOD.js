@@ -1,15 +1,15 @@
 module.exports = {
   name: 'Control Music',
-  section: 'Audio Control',
+  section: 'Music Control',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/control_music_MOD.js',
   },
-  requiresAudioLibraries: true,
-  fields: ['action', 'volume', 'bitrate'],
+
+  fields: ['action', 'volume', 'skip', 'bitrate'],
 
   subtitle(data) {
     const actions = [
@@ -47,6 +47,9 @@ module.exports = {
   <span class="dbminputlabel">Volume Level</span>
   <input id="volume" class="round" type="text">
 </div>
+<div id="skipDiv" style="float: right; display: none; width: calc(50% - 8px);">
+  <span class="dbminputlabel">Skip Amount</span>
+  <input id="skip" class="round" type="text" value="1">
 
 <div id="bitrateDiv" style="float: right; display: none; width: calc(50% - 8px);">
   <span class="dbminputlabel">Bitrate</span>
@@ -59,26 +62,34 @@ module.exports = {
     const { glob, document } = this;
 
     const volume = document.getElementById('volumeDiv');
+    const skip = document.getElementById('skipDiv');
     const bitrate = document.getElementById('bitrateDiv');
 
     glob.onChange = function onChange(event) {
       switch (parseInt(event.value, 10)) {
+        case 3:
+          skip.style.display = null;
+          volume.style.display = 'none';
+          bitrate.style.display = 'none';
+          break;
         case 0:
         case 1:
         case 2:
-        case 3:
         case 4:
         case 5:
         case 6:
           volume.style.display = 'none';
+          skip.style.display = 'none';
           bitrate.style.display = 'none';
           break;
         case 7:
           volume.style.display = null;
+          skip.style.display = 'none';
           bitrate.style.display = 'none';
           break;
         case 8:
           volume.style.display = 'none';
+          skip.style.display = 'none';
           bitrate.style.display = null;
           break;
         default:
@@ -89,43 +100,49 @@ module.exports = {
     glob.onChange(document.getElementById('action'));
   },
 
-  action(cache) {
-    const { Bot } = this.getDBM();
+  async action(cache) {
     const data = cache.actions[cache.index];
-    const queue = Bot.bot.player.getQueue(cache.server);
     const action = parseInt(data.action, 10);
     const volume = parseInt(this.evalMessage(data.volume, cache), 10);
     const bitrate = this.evalMessage(data.bitrate, cache);
+
+    const { useQueue } = require('discord-player');
+
+    const server = cache.server;
+    if (!server) return this.callNextAction(cache);
+
+    const queue = useQueue(server.id);
+    if (!queue) return this.callNextAction(cache);
 
     if (volume && isNaN(volume)) {
       console.log('Invalid volume number in Control Music');
       return this.callNexAction(cache);
     }
 
-    if (!queue) return this.callNextAction(cache);
-
     try {
       switch (action) {
         case 0:
-          queue.destroy();
+          queue.delete(); // Stop playing
           break;
         case 1:
-          queue.setPaused(true);
+          queue.node.pause();
           break;
         case 2:
-          queue.setPaused(false);
+          queue.node.resume();
           break;
-        case 3:
-          queue.skip();
+        case 3: {
+          const amount = parseInt(this.evalMessage(data.skip, cache), 10) ?? 1;
+          amount === 1 ? queue.node.skip() : queue.node.skipTo(amount);
           break;
+        }
         case 4:
-          queue.back();
+          queue.history.back();
           break;
         case 5:
-          queue.destroy(false);
+          queue.clear();
           break;
         case 6:
-          queue.shuffle();
+          queue.tracks.shuffle();
           break;
         case 7:
           queue.setVolume(volume);
@@ -135,6 +152,7 @@ module.exports = {
           break;
       }
     } catch (err) {
+      console.log(err);
       return this.callNextAction(cache);
     }
 

@@ -2,7 +2,7 @@ module.exports = {
   name: 'Google Search',
   section: 'Other Stuff',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -102,10 +102,8 @@ module.exports = {
           const storage = parseInt(data.storage, 10);
           const varName2 = this.evalMessage(data.varName, cache);
           this.storeValue(result, storage, varName2, cache);
-          this.callNextAction(cache);
-        } else {
-          this.callNextAction(cache);
         }
+        this.callNextAction(cache);
       })
       .catch((e) => {
         console.log(`An error in Google Search MOD: ${e}`);

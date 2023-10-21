@@ -2,7 +2,7 @@ module.exports = {
   name: 'Spotify Search',
   section: 'Other Stuff',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -281,14 +281,14 @@ module.exports = {
 
   html() {
     return `
-<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
-  <div style="width: 95%; padding-top: 8px;">
+<div id ="wrexdiv" style="height: 350px; overflow-y: scroll;">
+  <div style="width: 100%; padding-top: 8px;">
     <span class="dbminputlabel">Client ID</span><br>
-    <textarea id="clientid" rows="2" placeholder="Write your Client ID. Get one from Spotify." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+    <textarea id="clientid" rows="2" placeholder="Write your Client ID. Get one from Spotify."></textarea>
   </div>
-  <div style="width: 95%; padding-top: 8px;">
+  <div style="width: 100%; padding-top: 8px;">
     <span class="dbminputlabel">Client Secret</span><br>
-    <textarea id="clientsecret" rows="2" placeholder="Write your Client Secret. Get one from Spotify." style="width: 99%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+    <textarea id="clientsecret" rows="2" placeholder="Write your Client Secret. Get one from Spotify."></textarea>
   </div>
   <div style="padding-top: 15px;">
     <div style="float: left; width: 35%;">

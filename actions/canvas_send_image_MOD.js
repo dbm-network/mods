@@ -2,7 +2,7 @@ module.exports = {
   name: 'Canvas Send Image',
   section: 'Image Editing',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -32,7 +32,7 @@ module.exports = {
 
   html() {
     return `
-<store-in-variable dropdownLabel="Source Image" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+<retrieve-from-variable dropdownLabel="Source Image" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></retrieve-from-variable>
 <br><br><br>
 <send-target-input dropdownLabel="Send To" selectId="channel" variableContainerId="varNameContainer2" variableInputId="varName2"></send-target-input>
 <br><br><br>
@@ -73,11 +73,7 @@ module.exports = {
 `;
   },
 
-  init() {
-    const { glob, document } = this;
-
-    glob.sendTargetChange(document.getElementById('channel'), 'varNameContainer2');
-  },
+  init() {},
 
   async action(cache) {
     const { DiscordJS } = this.getDBM();
@@ -101,7 +97,7 @@ module.exports = {
     ctx.drawImage(image, 0, 0, image.width, image.height);
     const name = `${parseInt(data.spoiler, 10) === 1 ? 'SPOILER_' : ''}image.png`;
     const buffer = canvas.toBuffer('image/png', { compressionLevel: compress });
-    const attachment = new DiscordJS.MessageAttachment(buffer, name);
+    const attachment = new DiscordJS.AttachmentBuilder(buffer, { name });
     const content = this.evalMessage(data.message, cache);
     const options = { files: [attachment] };
     if (content) options.content = content;

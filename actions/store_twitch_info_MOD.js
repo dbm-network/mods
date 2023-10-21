@@ -2,7 +2,7 @@ module.exports = {
   name: 'Store Twitch Info',
   section: 'Other Stuff',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -669,7 +669,7 @@ module.exports = {
   async action(cache) {
     const data = cache.actions[cache.index];
     const Mods = this.getMods();
-    const fetch = Mods.require('node-fetch');
+    const fetch = Mods.require('node-fetch', '2');
 
     const input = this.evalMessage(data.input, cache);
     const clientID = this.evalMessage(data.clientid, cache);
@@ -1044,7 +1044,7 @@ module.exports = {
               break;
             }
             default:
-              console.log('Please update mod or the input from dbm!!!');
+              console.log('Please update mod or the input from dbm!');
           }
           this.storeValue(result, storage, varName, cache);
         } else if (json && json.message) {

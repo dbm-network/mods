@@ -2,7 +2,7 @@ module.exports = {
   name: 'Edit Emoji',
   section: 'Emoji Control',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -40,7 +40,7 @@ module.exports = {
     const emoji = Mods.getEmoji(storage, varName, cache);
 
     if (Array.isArray(emoji)) {
-      this.callListFunc(emoji, 'edit', [emojiData]).then(() => this.callNextAction(cache));
+      this.callListFunc(emoji, 'edit', [{ emojiData }]).then(() => this.callNextAction(cache));
     } else if (emoji && emoji.edit) {
       emoji
         .edit(emojiData)

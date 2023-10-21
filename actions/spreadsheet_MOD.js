@@ -2,11 +2,11 @@ module.exports = {
   name: 'Spreadsheets',
   section: 'Data',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
-    authorUrl: null,
-    downloadURL: null,
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/spreadsheet_MOD.js',
   },
 
   subtitle(data) {

@@ -2,7 +2,7 @@ module.exports = {
   name: 'Edit Embed Object',
   section: 'Embed Message',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -558,8 +558,11 @@ module.exports = {
     const data = cache.actions[cache.index];
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);
-    const embed = this.getVariable(storage, varName, cache);
+    let embed = this.getVariable(storage, varName, cache);
     if (!embed) return this.callNextAction(cache);
+
+    const { EmbedBuilder } = this.getDBM().DiscordJS;
+    embed = EmbedBuilder.from(embed);
 
     const Edit0 = parseInt(data.Edit0, 10);
     const Edit1 = parseInt(data.Edit1, 10);
@@ -592,6 +595,7 @@ module.exports = {
     const fieldName = this.evalMessage(data.fieldName, cache);
     const fieldDescription = this.evalMessage(data.fieldDescription, cache);
     const fieldInline = parseInt(data.fieldInline, 10);
+
     switch (Edit0) {
       case 1:
         embed.setTitle(title);

@@ -1,8 +1,8 @@
 module.exports = {
   name: 'Convert to Base64',
-  section: 'Other Stuff',
+  section: 'Conversions',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -23,23 +23,23 @@ module.exports = {
   html() {
     return `
     <div style="float: left; width: 100%">
-      <div style="float: left; width: 50%;">
+      <div style="float: left; width: 35%;">
         <span class="dbminputlabel">Options</span>
         <select id="info" class="round">
           <option value="0" selected>Encode</option>
           <option value="1">Decode</option>
         </select>
       </div>
-      <div style="float: right; width: 50%; padding-left: 10px;">
+      <div style="float: right; width: 60%;">
         <span class="dbminputlabel">Text or Morse Code</span>
         <input id="input" class="round" type="text"">
       </div>
     </div>
     <br><br><br>
 
-<div style="padding-top: 8px;">
-  <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
-</div>`;
+    <div style="padding-top: 8px;">
+      <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+    </div>`;
   },
 
   init() {},

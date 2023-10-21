@@ -2,7 +2,7 @@ module.exports = {
   name: 'Store Game Server Info',
   section: 'Other Stuff',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -463,7 +463,10 @@ module.exports = {
         }
         Actions.callNextAction(cache);
       })
-      .catch((error) => console.log(`Game Server Info: ${error}`));
+      .catch((error) => {
+        console.log(`Game Server Info: ${error}`);
+        Actions.callNextAction(cache);
+      });
   },
 
   mod() {},

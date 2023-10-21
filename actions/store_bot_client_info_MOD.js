@@ -2,7 +2,7 @@ module.exports = {
   name: 'Store Bot Client Info',
   section: 'Bot Client Control',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -226,11 +226,11 @@ module.exports = {
   init() {},
 
   async action(cache) {
-    const botClient = this.getDBM().Bot.bot;
-    const { Bot } = this.getDBM();
+    const DBM = this.getDBM();
+    const { Bot } = DBM;
+    const botClient = Bot.bot;
     const os = require('os');
     if (process.platform === 'win32') this.getMods().require('loadavg-windows'); // Make loadavg work on windows.
-    const DBM = this.getDBM();
     const data = cache.actions[cache.index];
     const info = parseInt(data.info, 10);
     const msToDay = 1000 * 60 * 60 * 24;

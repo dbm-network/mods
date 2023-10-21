@@ -3,7 +3,7 @@ module.exports = {
 
   section: 'Permission Control',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -25,12 +25,12 @@ module.exports = {
   html() {
     return `
 <div>
-  <store-in-variable dropdownLabel="Old Permissions" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+  <retrieve-from-variable dropdownLabel="Old Permissions" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></retrieve-from-variable>
 </div>
 <br><br><br>
 
 <div>
-  <store-in-variable dropdownLabel="New Permissions" selectId="storage2" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
+  <retrieve-from-variable dropdownLabel="New Permissions" selectId="storage2" variableContainerId="varNameContainer2" variableInputId="varName2"></retrieve-from-variable>
 </div>
 <br><br><br>
 
@@ -43,7 +43,7 @@ module.exports = {
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const { Permissions } = this.getDBM().DiscordJS;
+    const { PermissionsBitField } = this.getDBM().DiscordJS;
     const varName = this.evalMessage(data.varName, cache);
     const storage = parseInt(data.storage, 10);
     let oldPermissions = this.getVariable(storage, varName, cache);
@@ -55,12 +55,12 @@ module.exports = {
     if (oldPermissions.allow && oldPermissions.allow.bitfield) {
       oldPermissions = oldPermissions.allow;
     } else if (!isNaN(oldPermissions)) {
-      oldPermissions = new Permissions(oldPermissions);
+      oldPermissions = new PermissionsBitField(oldPermissions);
     }
     if (newPermissions.allow && newPermissions.allow.bitfield) {
       newPermissions = newPermissions.allow;
     } else if (!isNaN(newPermissions)) {
-      newPermissions = new Permissions(newPermissions);
+      newPermissions = new PermissionsBitField(newPermissions);
     }
 
     if (oldPermissions.bitfield && newPermissions.bitfield) {
@@ -80,7 +80,7 @@ module.exports = {
     } else if (!newPermissions.bitfield) {
       console.error('New permissions not found.');
     } else {
-      console.error('Something error!!!');
+      console.error('Something error!');
     }
   },
 

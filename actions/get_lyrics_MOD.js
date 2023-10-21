@@ -2,7 +2,7 @@ module.exports = {
   name: 'Get Song Lyrics',
   section: 'Other Stuff',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -19,11 +19,7 @@ module.exports = {
     let dataType = 'Unknown Type';
     switch (parseInt(data.info, 10)) {
       case 0:
-        dataType = 'String';
-        break;
       case 1:
-        dataType = 'String';
-        break;
       case 2:
         dataType = 'String';
         break;
@@ -38,17 +34,17 @@ module.exports = {
 
   html() {
     return `
-<div style="width: 550px; height: 350px; overflow-y: scroll;">
-  <div>
-    <div style="width: 95%; padding-top: 8px;">
+    <div>
       <span class="dbminputlabel">Song to Search</span>
-      <textarea id="song" rows="2" placeholder="Write a song name here or use variables..." style="width: 95%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+      <textarea id="song" rows="2" placeholder="Write a song name here or use variables..."></textarea>
     </div>
-    <div style="width: 95%; padding-top: 8px;">
+
+    <div style="padding-top: 16px;">
       <span class="dbminputlabel">API Key</span>
-      <textarea id="key" rows="2" placeholder="Write your key. Get one from Genius." style="width: 95%; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
+      <textarea id="key" rows="2" placeholder="Write your key. Get one from Genius."></textarea>
     </div>
-    <div style="float: left; width: 55%; padding-top: 8px;">
+
+    <div style="padding-top: 16px;">
       <span class="dbminputlabel">Source Info</span>
       <select id="info" class="round">
         <option value="0" selected>Song Title</option>
@@ -57,58 +53,13 @@ module.exports = {
         <option value="3">Song URL</option>
       </select>
     </div>
-    <br><br><br><br>
     
-    <div>
+    <div style="padding-top: 16px;">
       <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
-    </div>
-    <br><br>
-
-    <div style="float: left; width: 88%; padding-top: 8px;"><br>
-      <p>
-        To get an API key, create a new app on https://genius.com/api-clients/new or check a tutorial by clicking <a href="https://www.youtube.com/watch?v=1IvpIJzCdto">here</a>.
-      </p>
-    <div>
-  </div>
-
-  <style>
-  div.embed { /* <div class="embed"></div> */
-    position: relative;
-  }
-  embedleftline { /* <embedleftline></embedleftline> OR if you wan't to change the Color: <embedleftline style="background-color: #HEXCODE;"></embedleftline> */
-    background-color: #eee;
-    width: 4px;
-    border-radius: 3px 0 0 3px;
-    border: 0;
-    height: 100%;
-    margin-left: 4px;
-    position: absolute;
-  }
-  div.embedinfo { /* <div class="embedinfo"></div> */
-    background: rgba(46,48,54,.45) fixed;
-    border: 1px solid hsla(0,0%,80%,.3);
-    padding: 10px;
-    margin:0 4px 0 7px;
-    border-radius: 0 3px 3px 0;
-  }
-  span.embed-auth { /* <span class="embed-auth"></span> (Title thing) */
-    color: rgb(255, 255, 255);
-  }
-  span.embed-desc { /* <span class="embed-desc"></span> (Description thing) */
-    color: rgb(128, 128, 128);
-  }
-
-  span {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  }
-  </style>
-</div>`;
+    </div>`;
   },
 
-  init() {
-    const { glob, document } = this;
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
-  },
+  init() {},
 
   async action(cache) {
     const { Actions } = this.getDBM();

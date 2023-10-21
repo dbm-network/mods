@@ -2,14 +2,15 @@ module.exports = {
   name: 'Store Category Info',
   section: 'Channel Control',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/store_category_info_MOD.js',
   },
 
-  subtitle(data, presets) {
+  subtitle(data) {
+    const categories = ['You cheater!', 'Temp Variable', 'Server Variable', 'Global Variable'];
     const info = [
       'Category ID',
       'Category Name',
@@ -24,7 +25,7 @@ module.exports = {
       'Category Voice Channel List',
       'Category Voice Channel Count',
     ];
-    return presets.getChannelText(data.category, info[parseInt(data.info, 10)]);
+    return `${categories[parseInt(data.category, 10)]} - ${info[parseInt(data.info, 10)]}`;
   },
 
   variableStorage(data, varType) {
@@ -70,12 +71,12 @@ module.exports = {
   html() {
     return `
 <div>
-  <store-in-variable dropdownLabel="Source Category" selectId="category" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+  <retrieve-from-variable dropdownLabel="Source Category" selectId="category" variableContainerId="varNameContainer" variableInputId="varName"></retrieve-from-variable>
 </div>
 <br><br><br>
 
 <div>
-  <div style="padding-top: 8px; width: 70%;">
+  <div style="padding-top: 8px; width: 100%;">
     <span class="dbminputlabel">Source Info</span><br>
     <select id="info" class="round">
       <optgroup label="Main">
@@ -100,43 +101,7 @@ module.exports = {
 
 <div>
   <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
-</div>
-
-<style>
-  div.embed { /* <div class="embed"></div> */
-    position: relative;
-  }
-
-  embedleftline { /* <embedleftline></embedleftline> OR if you want to change the Color: <embedleftline style="background-color: #HEXCODE;"></embedleftline> */
-    background-color: #eee;
-    width: 4px;
-    border-radius: 3px 0 0 3px;
-    border: 0;
-    height: 100%;
-    margin-left: 4px;
-    position: absolute;
-  }
-
-  div.embedinfo { /* <div class="embedinfo"></div> */
-    background: rgba(46,48,54,.45) fixed;
-    border: 1px solid hsla(0,0%,80%,.3);
-    padding: 10px;
-    margin:0 4px 0 7px;
-    border-radius: 0 3px 3px 0;
-  }
-
-  span.embed-auth { /* <span class="embed-auth"></span> (Title thing) */
-    color: rgb(255, 255, 255);
-  }
-
-  span.embed-desc { /* <span class="embed-desc"></span> (Description thing) */
-    color: rgb(128, 128, 128);
-  }
-
-  span { /* Only making the text look, nice! */
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  }
-</style>`;
+</div>`;
   },
 
   init() {},

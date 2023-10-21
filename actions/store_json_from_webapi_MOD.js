@@ -2,7 +2,7 @@ module.exports = {
   name: 'Store Json From WebAPI',
   section: 'JSON Things',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -65,17 +65,19 @@ module.exports = {
     </div>
   </div>
 
-  <div style="float: left; width: 95%;">
+  <div style="float: left; width: 100%;">
     <div style="padding-top: 16px;">
       <span class="dbminputlabel">JSON Path</span>
-      <input id="path" class="round" style="width: 75%;" type="text"></input>
+      <input id="path" class="round" type="text"></input>
     </div>
 
-    <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+    <div style="padding-top: 16px;">
+      <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+    </div>
   </div>
 
-  <div style="float: left; width: 95%; padding-top: 16px;">
-    <div style="float: left; width: 47.5%;">
+  <div style="float: left; width: 100%; padding-top: 16px;">
+    <div style="float: left; width: 35%;">
       <label for="reUse"><span class="dbminputlabel">Re-Use Previously Stored</span></label>
       <select id="reUse" class="round" onchange="glob.disallowAlert(this)">
         <option value="1" selected>Allow</option>
@@ -83,7 +85,7 @@ module.exports = {
       </select>
       <p style="margin-left: 4px;">Toggles re-use of previously stored JSON from same URL.</p>
     </div>
-    <div style="float: right; width: 47.5%;">
+    <div style="float: right; width: 60%;">
       <label for="debugMode"><span class="dbminputlabel">Debug Mode</span></label>
       <select id="debugMode" class="round">
         <option value="1">Enabled</option>
@@ -141,7 +143,7 @@ module.exports = {
     const data = cache.actions[cache.index];
     const { Actions } = this.getDBM();
     const Mods = this.getMods();
-    const fetch = Mods.require('node-fetch');
+    const fetch = Mods.require('node-fetch', '2');
     const debugMode = parseInt(data.debugMode, 10);
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);

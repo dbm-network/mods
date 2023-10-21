@@ -4,7 +4,7 @@ module.exports = {
   section: 'Bot Client Control',
   fields: ['eventType', 'firstArg', 'secondArg'],
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -17,7 +17,7 @@ module.exports = {
       DiscordJS = require('discord.js');
     } catch (_) {}
 
-    const events = Object.values(DiscordJS.Constants.Events).sort();
+    const events = Object.values(DiscordJS.Events ?? {}).sort();
     return events.includes(eventType) ? `Emits a ${eventType} event` : 'Not emitting anything';
   },
 
@@ -45,8 +45,8 @@ module.exports = {
       DiscordJS = require('discord.js');
     } catch (_) {}
 
-    const events = DiscordJS && Object.values(DiscordJS.Constants.Events).sort();
-    const docs = `https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-${
+    const events = DiscordJS && Object.values(DiscordJS.Events ?? {}).sort();
+    const docs = `https://old.discordjs.dev/#/docs/main/stable/class/Client?scrollTo=e-${
       (events && events[0]) || 'channelCreate'
     }`;
 
@@ -81,8 +81,10 @@ module.exports = {
     <input id="secondArg" class="round" type="text">
   </div>
   <div style="float: left; width: 90%; padding-top: 8px;">
-    <p><u>Note:</u><br>
-    Some events may not require the two arguments and some may not even require any arguments at all. Just leave the boxes empty on those cases.
+    <p>
+      <u>Note:</u><br>
+      Some events may not require the two arguments and some may not even require any arguments at all. Just leave the boxes empty on those cases.
+    </p>
   </div><br>
 </div>
 <style>
@@ -118,7 +120,7 @@ module.exports = {
     const data = cache.actions[cache.index];
 
     const { DiscordJS } = this.getDBM();
-    const events = Object.values(DiscordJS.Constants.Events).sort();
+    const events = Object.values(DiscordJS.Events).sort();
     const event = this.evalMessage(data.eventType);
     if (!events.includes(event)) return console.error(`${this.name} (#${cache.index + 1}): Unknown event type.`);
 

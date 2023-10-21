@@ -2,7 +2,7 @@ module.exports = {
   name: 'Remove Reaction',
   section: 'Reaction Control',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -20,8 +20,9 @@ module.exports = {
 <div>
   <store-in-variable dropdownLabel="Source Reaction" selectId="reaction" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
 </div>
-<br><br><br><br>
-<div>
+<br><br><br>
+
+<div style="padding-top: 8px;">
   <member-input dropdownLabel="Source Member" selectId="member" variableContainerId="varNameContainer2" variableInputId="varName2"></member-input>
 </div>`;
   },

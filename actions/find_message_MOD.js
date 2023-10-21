@@ -2,7 +2,7 @@ module.exports = {
   name: 'Find Message',
   section: 'Messaging',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -23,7 +23,6 @@ module.exports = {
 
   html() {
     return `
-<div style="padding-top: 8px;">
   <channel-input dropdownLabel="Source Channel" selectId="channel" variableContainerId="varNameContainer" variableInputId="varName"></channel-input>
   <br><br><br>
 
@@ -41,8 +40,7 @@ module.exports = {
     <span class="dbminputlabel">Search for</span>
     <input id="search" class="round" type="text"><br>
   </div>
-</div>
-<br>
+  <br>
 
 <div>
   <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
@@ -51,16 +49,14 @@ module.exports = {
 
 <div>
   <p>
-  <u>Note:</u><br>
-  This mod can only find messages by <b>content</b> within the last 100 messages.<br>
-  If there are multiple messages with the same content, the bot is always using the oldest message (after start).
+    <u>Note:</u><br>
+    This mod can only find messages by <b>content</b> within the last 100 messages.<br>
+    If there are multiple messages with the same content, the bot is always using the oldest message (after start).
+  </p>
 </div>`;
   },
 
-  init() {
-    const { glob, document } = this;
-    glob.channelChange(document.getElementById('channel'), 'varNameContainer');
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];

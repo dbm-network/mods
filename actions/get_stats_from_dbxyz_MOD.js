@@ -1,9 +1,9 @@
 module.exports = {
   name: 'Get Bot Stats From DBXYZ',
   displayName: 'Get Bot Stats From Discord Boats',
-  section: 'Other Stuff',
+  section: 'Bot Stats',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',

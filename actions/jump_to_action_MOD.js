@@ -2,7 +2,7 @@ module.exports = {
   name: 'Jump to Action',
   section: 'Other Stuff',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -17,12 +17,11 @@ module.exports = {
 
   html() {
     return `
-<div>
-  <div id="varNameContainer" style="float: left; width: 60%;">
+  <div>
     <span class="dbminputlabel">Jump to Action</span>
     <input id="call" class="round" type="number">
   </div>
-</div>`;
+`;
   },
 
   init() {},

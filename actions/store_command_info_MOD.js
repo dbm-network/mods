@@ -1,8 +1,8 @@
 module.exports = {
   name: 'Store Command Info',
-  section: 'Bot Client Control',
+  section: 'Command Control',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -19,6 +19,7 @@ module.exports = {
       'Command Aliases',
       'Command Time Restriction',
       'Command Actions Length',
+      'Command Description',
     ];
     const storage = ['', 'Temp Variable', 'Server Variable', 'Global Variable'];
     return `${info[parseInt(data.info, 10)]} - ${storage[parseInt(data.storage, 10)]}`;
@@ -33,6 +34,7 @@ module.exports = {
       case 2:
       case 3:
       case 4:
+      case 8:
         dataType = 'Text';
         break;
       case 5:
@@ -52,7 +54,7 @@ module.exports = {
 
   html() {
     return `
-<div style="float: left; width: 40%">
+<div style="float: left; width: 35%">
   <span class="dbminputlabel">Search Command By</span><br>
   <select id="searchCommandBy" class="round" onchange="glob.onChangeSame(this)">
     <option value="0">Name</option>
@@ -60,13 +62,13 @@ module.exports = {
     <option value="2" selected>None (Same Command)</option>
   </select>
 </div>
-<div id="vtsContainer" style="display: none; float: right; width: 55%">
+<div id="vtsContainer" style="display: none; float: right; width: 60%">
   <span class="dbminputlabel">Value To Search</span><br>
   <input id="valueToSearch" type="text" class="round">
 </div>
 <br><br><br>
 
-<div style="float: left; width: 48%; padding-top: 8px">
+<div style="float: left; width: 100%; padding-top: 8px">
   <span class="dbminputlabel">Source Info</span><br>
   <select id="info" class="round">
     <option value="0" selected>Command Name</option>
@@ -77,6 +79,7 @@ module.exports = {
     <option value="5">Command Aliases</option>
     <option value="6">Command Time Restriction</option>
     <option value="7">Command Actions Length</option>
+    <option value="8">Command Description</option>
   </select>
 </div>
 <br><br><br>
@@ -195,6 +198,9 @@ module.exports = {
           parseInt(jp.query(command, '$..name').length, 10) - 1 === ''
             ? 'none'
             : parseInt(jp.query(command, '$..name').length, 10) - 1;
+        break;
+      case 8:
+        result = jp.query(command, '$..description') === '' ? 'none' : jp.query(command, '$..description');
         break;
       default:
         break;

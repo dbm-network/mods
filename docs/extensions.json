@@ -1,8 +1,4 @@
 {
-  "aaa_extensionHelper_EXT.js": {
-    "description": "Extension Helper",
-    "name": "Extension Helper"
-  },
   "command_info_EXT.js": {
     "description": "Adds additional fields to your commands for use in an automatic help command",
     "name": "Command Info"

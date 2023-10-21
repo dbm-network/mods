@@ -1,6 +1,6 @@
 // Made by themondon
 // Some code by General Wrex
-const version = '1.4';
+const version = '1.4.1';
 
 // Include discord.js and original check
 const { version: djsVersion, ShardingManager } = require('discord.js');
@@ -12,7 +12,7 @@ if (requiredDjsVersion.localeCompare(djsVersion, { numeric: true, sensitivity: '
 It is currently ${djsVersion}.
 Please use "Project > Module Manager" and "Project > Reinstall Node Modules" to update to discord.js ${requiredDjsVersion}.\n\n`,
   );
-  throw new Error(`Need discord.js ${requiredDjsVersion} to run!!!`);
+  throw new Error(`Need discord.js ${requiredDjsVersion} to run!`);
 }
 
 console.log('-'.repeat(50));

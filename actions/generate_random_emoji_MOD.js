@@ -2,7 +2,7 @@ module.exports = {
   name: 'Generate Random Emoji',
   section: 'Other Stuff',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -34,7 +34,7 @@ module.exports = {
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);
     const Mods = this.getMods();
-    const emoji = Mods.require('node-emoji');
+    const emoji = Mods.require('node-emoji', '1.11.0'); // Last version that isn't ESM only.
 
     const res = emoji.random();
     this.storeValue(res.emoji, storage, varName, cache);

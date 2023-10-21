@@ -2,7 +2,7 @@ module.exports = {
   name: 'Set Time Restriction',
   section: 'Other Stuff',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -43,8 +43,8 @@ module.exports = {
 
   html(_isEvent, data) {
     data.conditions[0] = data.conditions[0]
-      .replace(/If True/g, 'If Cooldown is Active')
-      .replace(/If False/g, 'If Cooldown is Not Active');
+      .replace(/If True:/g, '<span class="dbminputlabel">If Cooldown is Active</span>')
+      .replace(/If False:/g, '<span class="dbminputlabel">If Cooldown is Not Active</span>');
     return `
 <div>
   <div style="padding-top: 8px;">
@@ -82,7 +82,7 @@ module.exports = {
     </div>
   </div>
   <br><br><br>
-  
+
   <div style="padding-top: 8px;">
     ${data.conditions[0]}
   </div>
@@ -114,6 +114,7 @@ module.exports = {
           break;
         case 4:
           value.placeholder = '1 = 86400 seconds';
+          break;
         default:
           break;
       }
@@ -121,13 +122,13 @@ module.exports = {
 
     const option = document.createElement('OPTION');
     option.value = '4';
-    option.text = 'Jump to Anchor';
+    option.text = 'Go To Action Anchor';
     const iffalse = document.getElementById('iffalse');
     if (iffalse.length === 4) iffalse.add(option);
 
     const option2 = document.createElement('OPTION');
     option2.value = '4';
-    option2.text = 'Jump to Anchor';
+    option2.text = 'Go To Action Anchor';
     const iftrue = document.getElementById('iftrue');
     if (iftrue.length === 4) iftrue.add(option2);
 
@@ -138,21 +139,23 @@ module.exports = {
           document.getElementById('iftrueContainer').style.display = 'none';
           break;
         case 2:
-          document.getElementById('iftrueName').innerHTML = 'Action Number';
+          document.getElementById('iftrueName').innerHTML = '<span class="dbminputlabel">Action Number</span>';
           document.getElementById('iftrueContainer').style.display = null;
           break;
         case 3:
-          document.getElementById('iftrueName').innerHTML = 'Number of Actions to Skip';
+          document.getElementById('iftrueName').innerHTML =
+            '<span class="dbminputlabel">Number of Actions to Skip</span>';
           document.getElementById('iftrueContainer').style.display = null;
           break;
         case 4:
-          document.getElementById('iftrueName').innerHTML = 'Anchor ID';
+          document.getElementById('iftrueName').innerHTML = '<span class="dbminputlabel">Action Anchor Name</span>';
           document.getElementById('iftrueContainer').style.display = null;
           break;
         default:
           break;
       }
     };
+
     glob.onChangeFalse = function onChangeFalse(event) {
       switch (parseInt(event.value, 10)) {
         case 0:
@@ -160,21 +163,23 @@ module.exports = {
           document.getElementById('iffalseContainer').style.display = 'none';
           break;
         case 2:
-          document.getElementById('iffalseName').innerHTML = 'Action Number';
+          document.getElementById('iffalseName').innerHTML = '<span class="dbminputlabel">Action Number</span>';
           document.getElementById('iffalseContainer').style.display = null;
           break;
         case 3:
-          document.getElementById('iffalseName').innerHTML = 'Number of Actions to Skip';
+          document.getElementById('iffalseName').innerHTML =
+            '<span class="dbminputlabel">Number of Actions to Skip</span>';
           document.getElementById('iffalseContainer').style.display = null;
           break;
         case 4:
-          document.getElementById('iffalseName').innerHTML = 'Anchor ID';
+          document.getElementById('iffalseName').innerHTML = '<span class="dbminputlabel">Action Anchor Name</span>';
           document.getElementById('iffalseContainer').style.display = null;
           break;
         default:
           break;
       }
     };
+
     glob.onChangeTrue(document.getElementById('iftrue'));
     glob.onChangeFalse(document.getElementById('iffalse'));
     glob.onChange(document.getElementById('Measurement'));
@@ -296,6 +301,7 @@ module.exports = {
           if (Cooldown[cmd.name].save === 0) Files.saveGlobalVariable('DBMCooldown', JSON.stringify(Cooldown));
           return false;
         }
+
         case 1: {
           let channelId;
           if (typeof cache.server !== 'undefined') {

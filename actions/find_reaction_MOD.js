@@ -2,7 +2,7 @@ module.exports = {
   name: 'Find Reaction',
   section: 'Reaction Control',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -27,7 +27,7 @@ module.exports = {
 </div>
 <br><br><br>
 
-<div>
+<div style="padding-top: 8px;">
   <div style="float: left; width: 35%;">
     <span class="dbminputlabel">Source Emoji</span>
     <select id="info" class="round">
@@ -47,24 +47,21 @@ module.exports = {
 </div>`;
   },
 
-  init() {
-    const { glob, document } = this;
-    glob.messageChange(document.getElementById('message'), 'varNameContainer');
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const msg = await this.getMessageFromData(data.message, data.varName, cache);
+    const message = await this.getMessageFromData(data.message, data.varName, cache);
     const info = parseInt(data.info, 10);
     const emoji = this.evalMessage(data.find, cache);
 
     let result;
     switch (info) {
       case 0:
-        result = msg.reactions.cache.get(emoji);
+        result = message.reactions.cache.get(emoji);
         break;
       case 1:
-        result = msg.reactions.cache.find((r) => r.emoji.name === emoji);
+        result = message.reactions.cache.find((r) => r.emoji.name === emoji);
         break;
       default:
         break;

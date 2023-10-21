@@ -2,7 +2,7 @@ module.exports = {
   name: 'Delete Server Data',
   section: 'Data',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -23,10 +23,8 @@ module.exports = {
 <br><br><br>
 
 <div style="padding-top: 8px;">
-  <div style="float: left; width: 80%;">
-    <span class="dbminputlabel">Data Name</span>
-    <input id="dataName" class="round" placeholder="Leave it blank to delete all data" type="text">
-  </div>
+  <span class="dbminputlabel">Data Name</span>
+  <input id="dataName" class="round" placeholder="Leave it blank to delete all data" type="text">
 </div>`;
   },
 
@@ -39,23 +37,9 @@ module.exports = {
 
     if (!server) return this.callNextAction(cache);
 
-    server.delData(dataName);
+    server.clearData(dataName);
     this.callNextAction(cache);
   },
 
-  mod(DBM) {
-    Reflect.defineProperty(DBM.DiscordJS.Guild.prototype, 'delData', {
-      value(name) {
-        const { servers } = DBM.Files.data;
-
-        if (servers && servers[this.id]?.[name]) {
-          delete servers[this.id][name];
-          DBM.Files.saveData('servers');
-        } else if (!servers) {
-          delete servers[this.id];
-          DBM.Files.saveData('servers');
-        }
-      },
-    });
-  },
+  mod() {},
 };

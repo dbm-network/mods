@@ -2,7 +2,7 @@ module.exports = {
   name: 'Send GIF',
   section: 'Image Editing',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -17,7 +17,6 @@ module.exports = {
 
   html() {
     return `
-<div id ="wrexdiv" style="width: 550px; height: 350px; overflow-y: scroll;">
 <div style="padding-top: 8px;">
   <store-in-variable dropdownLabel="Source GIF" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
 </div>
@@ -30,8 +29,7 @@ module.exports = {
 
 <div style="padding-top: 8px;">
   <span class="dbminputlabel">Message</span>
-  <textarea id="message" rows="8" placeholder="Insert message here... (optional)" style="width: 508px; font-family: monospace; white-space: nowrap; resize: none;"></textarea>
-</div>
+  <textarea id="message" rows="8" placeholder="Insert message here... (optional)"></textarea>
 </div>`;
   },
 

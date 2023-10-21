@@ -3,7 +3,7 @@ module.exports = {
 
   section: 'Permission Control',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -29,7 +29,7 @@ module.exports = {
 <div style="padding-top: 8px;">
   <div style="float: left; width: 35%;">
     <span class="dbminputlabel">Target Type</span><br>
-    <select id="target" class="round" onchange="glob.targetChange(this)">
+    <select id="target" class="round" onchange="glob.onChange(this)">
       <option value="0" selected>Role</option>
       <option value="1">Member</option>
     </select>
@@ -37,7 +37,7 @@ module.exports = {
 </div>
 <br><br><br>
 
-<div id="roleHolder" style="padding-top: 8px;">
+<div id="roleHolder" style="display: none; padding-top: 8px;">
   <role-input dropdownLabel="Source Role" selectId="role" variableContainerId="varNameContainer2" variableInputId="varName2"></role-input>
 </div>
 
@@ -51,7 +51,29 @@ module.exports = {
 </div>`;
   },
 
-  init() {},
+  init() {
+    const { glob, document } = this;
+
+    const roleHolder = document.getElementById('roleHolder');
+    const memberHolder = document.getElementById('memberHolder');
+
+    glob.onChange = function onChange(event) {
+      switch (parseInt(event.value, 10)) {
+        case 0:
+          roleHolder.style.display = null;
+          memberHolder.style.display = 'none';
+          break;
+        case 1:
+          roleHolder.style.display = 'none';
+          memberHolder.style.display = null;
+          break;
+        default:
+          break;
+      }
+    };
+
+    glob.onChange(document.getElementById('target'));
+  },
 
   async action(cache) {
     const data = cache.actions[cache.index];
@@ -70,8 +92,8 @@ module.exports = {
     const permissions = {};
     permissions.allow = allow;
 
-    const { Permissions } = this.getDBM().DiscordJS;
-    const disallow = new Permissions();
+    const { PermissionsBitField } = this.getDBM().DiscordJS;
+    const disallow = new PermissionsBitField();
     disallow.add(target.permissions);
     disallow.remove(allow);
     permissions.disallow = disallow;

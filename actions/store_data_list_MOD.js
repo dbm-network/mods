@@ -4,7 +4,7 @@ module.exports = {
   displayName: 'Store Data List',
   section: 'Other Stuff',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -46,7 +46,7 @@ module.exports = {
     'storage',
   ],
 
-  html(_isEvent, data) {
+  html() {
     return `
 <div style="width: 550px; height: 350px; overflow-y: scroll;">
   <div style="padding-top: 8px;">
@@ -57,7 +57,7 @@ module.exports = {
         <option value="1">servers.json</option>
       </select>
     </div>
-    <div id="Input0" style="padding-left: 5%; display: none; float: left; width: 60%;">
+    <div id="Input0" style="display: none; float: right; width: 60%;">
       <span class="dbminputlabel">Server Type</span><br>
       <select id="serverType" class="round">
         <option value="0" selected>Current Server</option>
@@ -68,11 +68,11 @@ module.exports = {
   <br><br><br>
   
   <div>
-    <div style="float: left; width: 39%;">
+    <div style="float: left; width: 35%;">
       <span class="dbminputlabel">Data Name</span><br>
       <input id="dataName" class="round" type="text" placeholder="Must fill in"><br>
     </div>
-    <div style="padding-left: 1%; float: left; width: 56%;">
+    <div style="float: right; width: 60%;">
       <span class="dbminputlabel">Sort By</span><br>
       <select id="sort" class="round">
         <option value="0" selected>Sort from Descending</option>
@@ -90,16 +90,16 @@ module.exports = {
         <option value="1">Ranking</option>
       </select><br>
     </div>
-    <div id="Result0" style="padding-left: 5%; display: null; float: left; width: 60%;">
+    <div id="Result0" style="display: null; float: right; width: 60%;">
       <span class="dbminputlabel">Store Result List</span><br>
       <select id="resultType" class="round" onchange="glob.onChange2(this)">
         <option value="0" selected>All Results</option>
-        <option value="1">Result From Begin</option>
+        <option value="1">Result From Beginning</option>
         <option value="2">Result To End</option>
         <option value="3">Result From Specific</option>
       </select><br>
     </div>
-    <div id="Result1" style="padding-left: 5%; display: none; float: left; width: 62%;">
+    <div id="Result1" style="padding-left: 5%; display: none; float: left; width: 60%;">
       <span class="dbminputlabel">Store Ranking</span><br>
       <input id="rank" class="round" type="text" placeholder="Input Member ID here"><br>
     </div>
@@ -114,19 +114,19 @@ module.exports = {
         <option value="1" >Yes</option>
       </select><br>
     </div>
-    <div id="Input2" style="display: null; padding-left: 5%; float: left; width: 65%;">
+    <div id="Input2" style="display: null; float: right; width: 60%;">
       <span class="dbminputlabel">Result Format</span><br>
       <input id="resultFormat" class="round" type="text" placeholder="Name + 'DataName' + DataValue"><br>
     </div>
   </div>
   <br>
   
-  <div>
-    <div id="Input3" style="display: none; float: left; width: 50%;">
+  <div style="width: 100%;">
+    <div id="Input3" style="display: none; float: left; width: 35%;">
       <span class="dbminputlabel">Result From</span><br>
       <input id="resultFrom" class="round" type="text"><br>
     </div>
-    <div id="Input4" style="display: none; float: left; width: 50%;">
+    <div id="Input4" style="display: none; float: left; width: 60%;">
       <span class="dbminputlabel">Result To</span><br>
       <input id="resultTo" class="round" type="text"><br>
     </div>
@@ -148,11 +148,6 @@ module.exports = {
     const Result0 = document.getElementById('Result0');
     const Result1 = document.getElementById('Result1');
     const rank = document.getElementById('rank');
-    const link = document.getElementById('link');
-
-    link.onclick = function onclick() {
-      require('child_process').execSync('start https://gist.github.com/LeonZ2019/72dd92c14fdb29afbc64151003d1d48e');
-    };
 
     glob.onChange0 = function onChange0(File) {
       switch (parseInt(File.value, 10)) {
@@ -207,8 +202,10 @@ module.exports = {
         case 3:
           Input3.style.display = null;
           Input4.style.display = null;
-          Input3.style.width = '50%';
-          Input4.style.width = '50%';
+          Input3.style.float = 'left';
+          Input4.style.float = 'right';
+          Input3.style.width = '35%';
+          Input4.style.width = '60%';
           break;
       }
     };

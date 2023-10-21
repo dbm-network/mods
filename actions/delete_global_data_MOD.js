@@ -2,7 +2,7 @@ module.exports = {
   name: 'Delete Global Data',
   section: 'Data',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -17,12 +17,10 @@ module.exports = {
 
   html() {
     return `
-<div style="padding-top: 8px;">
-  <div style="float: left; width: 80%;">
+  <div>
     <span class="dbminputlabel">Data Name</span><br>
     <input id="dataName" class="round" placeholder="Leave blank to delete all data" type="text">
-  </div>
-</div>`;
+  </div>`;
   },
 
   init() {},
@@ -31,7 +29,7 @@ module.exports = {
     const data = cache.actions[cache.index];
     const dataName = this.evalMessage(data.dataName, cache);
     const { Globals } = this.getDBM();
-    Globals.delData(dataName);
+    Globals.clearData(dataName);
     this.callNextAction(cache);
   },
 
@@ -44,7 +42,7 @@ module.exports = {
     }
     DBM.Files.data.globals = JSON.parse(fs.readFileSync(filePath));
     class GlobalData {
-      delData(name) {
+      clearData(name) {
         if (name && DBM.Files.data.globals[name]) {
           delete DBM.Files.data.globals[name];
           DBM.Files.saveData('globals');

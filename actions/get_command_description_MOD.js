@@ -1,10 +1,10 @@
 module.exports = {
   name: 'Get Command Description',
   displayName: 'Get Command Description',
-  section: 'Other Stuff',
+  section: 'Command Control',
   fields: ['findBy', 'commandData', 'saveTo', 'varName'],
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -17,7 +17,6 @@ module.exports = {
 
   html() {
     return `
-<div width="540" style="height: auto;" overflow-y="scroll">
   <div style="float: left; width: 35%;">
     <span class="dbminputlabel">Find By</span>
     <select id="findBy" class="round">
@@ -32,7 +31,7 @@ module.exports = {
   <br><br><br>
   
   <store-in-variable dropdownLabel="Store In" selectId="saveTo" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
-</div>`;
+`;
   },
 
   init() {},

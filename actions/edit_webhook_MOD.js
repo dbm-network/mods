@@ -2,7 +2,7 @@ module.exports = {
   name: 'Edit Webhook',
   section: 'Webhook Control',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -20,15 +20,15 @@ module.exports = {
   </div>
   <br><br><br>
 
-  <div style="width: 90%;">
+  <div style="padding-top: 8px;">
     <span class="dbminputlabel">Webhook Name</span>
-    <input id="webhookName" class="round" type="text">
+    <input id="webhookName" class="round" type="text" placeholder="Leave blank to keep">
   </div>
   <br>
   
-  <div style="width: 90%;">
+  <div>
     <span class="dbminputlabel">Webhook Icon URL</span>
-    <input id="webhookIcon" class="round" type="text">
+    <input id="webhookIcon" class="round" type="text" placeholder="Leave blank to keep">
   </div><br>
   `;
   },
@@ -47,7 +47,7 @@ module.exports = {
     const avatar = this.evalMessage(data.webhookIcon, cache);
     const name = this.evalMessage(data.webhookName, cache);
     if (avatar && name) {
-      wh.edit({ avatar, name });
+      wh.edit({ name, avatar });
     } else if (avatar) {
       wh.edit({ avatar });
     } else if (name) {

@@ -2,7 +2,7 @@ module.exports = {
   name: 'Crosspost Message',
   section: 'Messaging',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -28,7 +28,7 @@ module.exports = {
 <br><br><br>
 
 <div>
-  <store-in-variable dropdownLabel="Store In" selectId="storage2" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
+  <store-in-variable allowNone dropdownLabel="Store In" selectId="storage2" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
 </div>`;
   },
 
@@ -48,7 +48,7 @@ module.exports = {
         this.storeValue(msg, storage, varName2, cache);
         this.callNextAction(cache);
       })
-      .catch(console.error);
+      .catch(this.displayError.bind(this, data, cache));
   },
 
   mod() {},

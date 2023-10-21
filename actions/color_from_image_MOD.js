@@ -2,7 +2,7 @@ module.exports = {
   name: 'Get Dominant Color',
   section: 'Image Editing',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -47,7 +47,7 @@ module.exports = {
   async action(cache) {
     const Mods = this.getMods();
     const { getColorFromURL } = Mods.require('color-thief-node');
-    const rgbToHex = Mods.require('rgb-hex');
+    const rgbToHex = Mods.require('rgb-hex', '3.0.0');
     const data = cache.actions[cache.index];
     const info = parseInt(data.info, 10);
     const url = this.evalMessage(data.find, cache);

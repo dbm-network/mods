@@ -9,21 +9,6 @@
     "name": "Comment",
     "section": "Other Stuff"
   },
-  "anchor_create_MOD.js": {
-    "description": "Create an anchor",
-    "name": "Create Anchor",
-    "section": "Other Stuff"
-  },
-  "anchor_jump_MOD.js": {
-    "description": "Jump to an anchor",
-    "name": "Jump to Anchor",
-    "section": "Other Stuff"
-  },
-  "attach_image_to_embed_MOD.js": {
-    "description": "Attach a specified image to an embed",
-    "name": "Attach Image To Embed",
-    "section": "Embed Message"
-  },
   "auto_help_MOD.js": {
     "description": "Automatically creates a 'help' for each command",
     "name": "Auto Help",
@@ -42,11 +27,6 @@
   "base_convert_MOD.js": {
     "description": "Convert a base",
     "name": "Base Convert MOD",
-    "section": "Other Stuff"
-  },
-  "basic_math_operation_MOD.js": {
-    "description": "Have the bot do a basic math operation",
-    "name": "Basic Math Operation",
     "section": "Other Stuff"
   },
   "botsfordiscord_stats_MOD.js": {
@@ -197,7 +177,7 @@
   "control_music_MOD.js": {
     "description": "Control music status",
     "name": "Control Music",
-    "section": "Audio Control"
+    "section": "Music Control"
   },
   "control_permissons_MOD.js": {
     "description": "Control certain permissions",
@@ -208,6 +188,11 @@
     "description": "Control the prefix for the server (Requires server_prefix_ETX.js)",
     "name": "Control Server Prefix",
     "section": "Server Control"
+  },
+  "convert_color_MOD.js": {
+    "description": "Convert between colors",
+    "name": "Convert Color",
+    "section": "Conversions"
   },
   "convert_seconds_to_days_MOD.js": {
     "description": "Convert seconds to days",
@@ -517,7 +502,7 @@
   "play_music_MOD.js": {
     "description": "Search for a song/track and play it",
     "name": "Play Music",
-    "section": "Audio Control"
+    "section": "Music Control"
   },
   "play_youtube_playlist_MOD.js": {
     "description": "Play a specified YouTube playlist",
@@ -657,7 +642,7 @@
   "set_music_repeat_mode_MOD.js": {
     "description": "Set the mode for repeating music",
     "name": "Set Music Repeat Mode",
-    "section": "Audio Control"
+    "section": "Music Control"
   },
   "set_permissions_MOD.js": {
     "description": "Set permissions",
@@ -702,11 +687,6 @@
   "slice_MOD.js": {
     "description": "Slice a string",
     "name": "Slice",
-    "section": "Other Stuff"
-  },
-  "speed_test_MOD.js": {
-    "description": "Test your internet speed",
-    "name": "Speed Test",
     "section": "Other Stuff"
   },
   "split_MOD.js": {
@@ -847,7 +827,7 @@
   "store_queue_info_MOD.js": {
     "description": "Store information about the queue",
     "name": "Store Queue Info",
-    "section": "Audio Control"
+    "section": "Music Control"
   },
   "store_reaction_info_MOD.js": {
     "description": "Store information pertaining to a reaction",
@@ -867,7 +847,7 @@
   "store_track_info_MOD.js": {
     "description": "Stores music track information",
     "name": "Store Track Info",
-    "section": "Audio Control"
+    "section": "Music Control"
   },
   "store_twitch_info_MOD.js": {
     "description": "Store information about Twitch",
@@ -953,10 +933,5 @@
     "description": "Search YouTube",
     "name": "YouTube Search",
     "section": "Audio Control"
-  },
-  "create_forum_channel_MOD.js": {
-    "description": "Create Forum Channel",
-    "name": "Create Forum Channel",
-    "section": "Channel Control"
   }
 }

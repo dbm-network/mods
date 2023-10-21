@@ -2,7 +2,7 @@ module.exports = {
   name: 'Math Operation Plus',
   section: 'Other Stuff',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -47,13 +47,13 @@ module.exports = {
 
   html() {
     return `
-<div id="FirstNum" style="width: 90%;">
+<div id="FirstNum">
   <span class="dbminputlabel">First Number</span>
   <input id="FirstNumber" class="round" type="text">
+  <br>
 </div>
-<br>
 
-<div style="padding-top: 8px; width: 60%;">
+<div style="padding-top: 8px;">
   <span class="dbminputlabel">Math Operation</span>
   <select id="info" class="round" onchange="glob.onChange1(this)">
       <option value="0" selected>Addition</option>
@@ -80,10 +80,10 @@ module.exports = {
       <option value="21">Value of Pi</option>
       <option value="22">Value of Euler's number</option>
   </select>
+  <br>
 </div>
-<br>
 
-<div id="SecondNum" style="width: 90%;">
+<div id="SecondNum">
   <span class="dbminputlabel">Second Number</span>
   <input id="SecondNumber" class="round" type="text">
   <br>
@@ -102,7 +102,7 @@ module.exports = {
       const dom = document.getElementById('SecondNum');
       const dom2 = document.getElementById('FirstNum');
 
-      if ((value >= 0 && value <= 3) || [5, 10, 11].includes(value) || (value >= 18 && value <= 20)) {
+      if ([0, 1, 2, 3, 5, 10, 11, 18, 19, 20].includes(value)) {
         dom.style.display = null;
       } else {
         dom.style.display = 'none';

@@ -1,8 +1,8 @@
 module.exports = {
   name: 'Convert Timestamp to Date',
-  section: 'Other Stuff',
+  section: 'Conversions',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -23,12 +23,14 @@ module.exports = {
   html() {
     return `
 <div style="float: left; width: 60%; padding-top: 8px;">
-  <p><u>Note:</u><br>
-  You can convert <b>Unix Timestamp</b> and <b>YouTube Timestamp</b> with this mod (both were tested).</p>
+  <p>
+    <u>Note:</u><br>
+    You can convert <b>Unix Timestamp</b> and <b>YouTube Timestamp</b> with this mod (both were tested).
+  </p>
 </div>
 <br><br><br>
 
-<div style="float: left; width: 70%; padding-top: 8px;">
+<div style="float: left; width: 100%; padding-top: 8px;">
   <span class="dbminputlabel">Timestamp to Convert</span>
   <input id="time" class="round" type="text" placeholder="e.g. 1522672056">
 </div>
@@ -45,10 +47,7 @@ module.exports = {
 </div>`;
   },
 
-  init() {
-    const { glob, document } = this;
-    glob.variableChange(document.getElementById('storage'), 'varNameContainer');
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];

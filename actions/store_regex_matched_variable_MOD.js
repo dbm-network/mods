@@ -2,7 +2,7 @@ module.exports = {
   name: 'Store Regex Matched Variable',
   section: 'Variable Things',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -35,7 +35,7 @@ module.exports = {
     <br><br><br>
 
     <div style="float: left; padding-top: 16px; width: 100%;">
-      <store-in-variable dropdownLabel="Input Variable" selectId="inputStorage" variableContainerId="inputVarNameContainer" variableInputId="inputVarName"></store-in-variable>
+      <retrieve-from-variable dropdownLabel="Input Variable" selectId="inputStorage" variableContainerId="inputVarNameContainer" variableInputId="inputVarName"></retrieve-from-variable>
     </div>
     <br><br><br>
 

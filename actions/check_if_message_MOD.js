@@ -2,7 +2,7 @@ module.exports = {
   name: 'Check If Message',
   section: 'Conditions',
   meta: {
-    version: '2.1.7',
+    version: '2.2.0',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -19,18 +19,20 @@ module.exports = {
     return `
 <div>
   <message-input dropdownLabel="Source Message" selectId="message" variableContainerId="varNameContainer" variableInputId="varName"></message-input>
+  <br><br><br>
 
-  <br><br><br><br>
   <div style="float: left; width: 40%;">
     <span class="dbminputlabel">Check If Message</span>
     <select id="info" class="round">
       <option value="0">Is Pinnable?</option>
       <option value="1">Is Pinned?</option>
       <option value="2">Is Deletable?</option>
-      <option value="3">Is Deleted?</option>
       <option value="4">Is TTS?</option>
-      <option value="5">Is Of Discord?</option>
+      <option value="5">Is From Discord?</option>
       <option value="6">Includes @everyone Mention?</option>
+      <option value="7">Is Bulk Deletable?</option>
+      <option value="8">Is Crosspostable?</option>
+      <option value="9">Is Editable?</option>
     </select>
   </div>
   <div id="varNameContainer2" style="display: none; float: right; width: 60%;">
@@ -61,9 +63,6 @@ module.exports = {
       case 2:
         result = msg.deletable;
         break;
-      case 3:
-        result = msg.deleted;
-        break;
       case 4:
         result = msg.tts;
         break;
@@ -72,6 +71,18 @@ module.exports = {
         break;
       case 6:
         result = msg.mentions.everyone;
+        break;
+      case 7:
+        result = msg.bulkDeletable;
+        break;
+      case 8:
+        result = msg.crosspostable;
+        break;
+      case 9:
+        result = msg.editable;
+        break;
+      case 10:
+        result = Boolean(msg.editedAt);
         break;
       default:
         break;
