@@ -970,7 +970,7 @@
     "section": "Channel Control"
   },
   "remove_member_from_thread_MOD.js": {
-    "description": "Remove Member From Private Thread",
+    "description": "Remove Member From Thread",
     "name": "Remove Member From Private Thread",
     "section": "Channel Control"
   }
