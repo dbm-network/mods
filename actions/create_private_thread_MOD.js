@@ -1,6 +1,6 @@
 module.exports = {
-  name: "Create Private Thread",
-  section: "Channel Control",
+  name: 'Create Private Thread',
+  section: 'Channel Control',
   meta: {
     version: '2.1.7',
     preciseCheck: true,
@@ -8,7 +8,7 @@ module.exports = {
     authorUrl: 'https://github.com/dbm-network/mods',
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/create_private_thread_MOD.js',
   },
-  fields: ["channel", "channelVarName", "threadName", "autoArchiveDuration", "reason", "storage", "storageVarName"],
+  fields: ['channel', 'channelVarName', 'threadName', 'autoArchiveDuration', 'reason', 'storage', 'storageVarName'],
 
   subtitle(data, presets) {
     return `Create Private Thread In ${presets.getChannelText(data.channel ?? 0, data.channelVarName)}`;
@@ -17,7 +17,7 @@ module.exports = {
   variableStorage(data, varType) {
     const type = parseInt(data.storage, 10);
     if (type !== varType) return;
-    return [data.storageVarName, "Channel"];
+    return [data.storageVarName, 'Channel'];
   },
 
   html(isEvent, data) {
@@ -61,7 +61,7 @@ module.exports = {
   <store-in-variable allowNone selectId="storage" variableInputId="storageVarName" variableContainerId="varNameContainer2"></store-in-variable>`;
   },
 
-  init() { },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];
@@ -69,9 +69,9 @@ module.exports = {
 
     const thread = await channel.threads.create({
       name: this.evalMessage(data.threadName, cache),
-      autoArchiveDuration: data.autoArchiveDuration === "max" ? 10080 : parseInt(data.autoArchiveDuration, 10),
-      type: "PrivateThread",
-      reason: this.evalMessage(data.reason, cache) || null
+      autoArchiveDuration: data.autoArchiveDuration === 'max' ? 10080 : parseInt(data.autoArchiveDuration, 10),
+      type: 'PrivateThread',
+      reason: this.evalMessage(data.reason, cache) || null,
     });
 
     const storage = parseInt(data.storage, 10);
@@ -81,5 +81,5 @@ module.exports = {
     this.callNextAction(cache);
   },
 
-  mod() { },
+  mod() {},
 };
