@@ -1,5 +1,5 @@
 module.exports = {
-  name: 'Remove Member to Thread',
+  name: 'Remove Member from Thread',
   section: 'Channel Control',
   meta: {
     version: '2.1.7',
