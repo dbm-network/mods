@@ -1,5 +1,5 @@
 module.exports = {
-    name: "Add Member to Thread MOD",
+    name: "Add Member to Thread",
     section: "Channel Control",
     meta: {
         version: '2.1.7',
