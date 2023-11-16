@@ -20,7 +20,7 @@ module.exports = {
     return [data.storageVarName, 'Channel'];
   },
 
-  html(isEvent, data) {
+  html() {
     return `
   <channel-input dropdownLabel="Source Channel" selectId="channel" variableContainerId="varNameContainerChannel" variableInputId="channelVarName"></channel-input>
   

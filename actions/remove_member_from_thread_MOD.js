@@ -16,7 +16,7 @@ module.exports = {
     return `${storeTypes[parseInt(data.storage, 10)]} (${data.varName})`;
   },
 
-  html(isEvent, data) {
+  html() {
     return `
       <retrieve-from-variable dropdownLabel="Source Thread" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></retrieve-from-variable>
       
