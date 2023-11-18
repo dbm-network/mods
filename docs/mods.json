@@ -958,5 +958,20 @@
     "description": "Create Forum Channel",
     "name": "Create Forum Channel",
     "section": "Channel Control"
+  },
+  "ccreate_private_thread_MOD.js": {
+    "description": "Create Private Thread",
+    "name": "Create Private Thread",
+    "section": "Channel Control"
+  },
+  "add_member_to_thread_MOD.js": {
+    "description": "Add Member To Thread",
+    "name": "Add Member To Private Thread",
+    "section": "Channel Control"
+  },
+  "remove_member_from_thread_MOD.js": {
+    "description": "Remove Member From Thread",
+    "name": "Remove Member From Private Thread",
+    "section": "Channel Control"
   }
 }
