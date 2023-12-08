@@ -2,7 +2,7 @@ module.exports = {
   name: 'Parse From Stored Json',
   section: 'JSON Things',
   meta: {
-    version: '2.1.7',
+    version: '2.1.8',
     preciseCheck: false,
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
@@ -79,64 +79,66 @@ module.exports = {
     const DEBUG = parseInt(data.debugMode, 10);
 
     let jsonData = jsonRaw;
-    if (typeof jsonRaw !== 'object') {
-      jsonData = JSON.parse(jsonRaw);
+if (typeof jsonRaw !== 'object') {
+  jsonData = JSON.parse(jsonRaw);
+}
+
+try {
+  if (path && jsonData) {
+    let outData = Mods.jsonPath(jsonData, path);
+
+    if (outData === false) {
+      outData = Mods.jsonPath(jsonData, `$.${path}`);
     }
 
+    if (outData === false) {
+      outData = Mods.jsonPath(jsonData, `$..${path}`);
+    }
+
+    if (Array.isArray(outData)) {
+      outData = outData[0];
+    }
+
+    if (DEBUG) console.log(outData);
+
     try {
-      if (path && jsonData) {
-        let outData = Mods.jsonPath(jsonData, path);
-
-        if (outData === false) {
-          outData = Mods.jsonPath(jsonData, `$.${path}`);
-        }
-
-        if (outData === false) {
-          outData = Mods.jsonPath(jsonData, `$..${path}`);
-        }
-
-        if (DEBUG) console.log(outData);
-
-        try {
-          JSON.parse(JSON.stringify(outData));
-        } catch (error) {
-          const errorJson = JSON.stringify({ error, success: false });
-          this.storeValue(errorJson, storage, varName, cache);
-          console.error(error.stack ? error.stack : error);
-        }
-
-        const outValue = JSON.stringify(outData);
-
-        if (outData.success === null || outValue.success === null) {
-          const errorJson = JSON.stringify({
-            error: 'error',
-            statusCode: 0,
-            success: false,
-          });
-          this.storeValue(errorJson, storage, varName, cache);
-          console.log(`1: WebAPI Parser: Error Invalid JSON, is the Path set correctly? [${path}]`);
-        } else if (!outValue || outValue.success === null) {
-          const errorJson = JSON.stringify({
-            error: 'error',
-            statusCode: 0,
-            success: false,
-          });
-          this.storeValue(errorJson, storage, varName, cache);
-          console.log(`2: WebAPI Parser: Error Invalid JSON, is the Path set correctly? [${path}]`);
-        } else {
-          this.storeValue(outValue, storage, varName, cache);
-          if (DEBUG) console.log(`WebAPI Parser: JSON Data values starting from [${path}] stored to: [${varName}]`);
-        }
-      }
+      JSON.parse(JSON.stringify(outData));
     } catch (error) {
+      const errorJson = JSON.stringify({ error, success: false });
+      this.storeValue(errorJson, storage, varName, cache);
+      console.error(error.stack ? error.stack : error);
+    }
+
+    if (outData.success === null) {
       const errorJson = JSON.stringify({
-        error,
+        error: 'error',
         statusCode: 0,
         success: false,
       });
       this.storeValue(errorJson, storage, varName, cache);
-      console.error(`WebAPI Parser: Error: ${errorJson} stored to: [${varName}]`);
+      console.log(`1: WebAPI Parser: Error Invalid JSON, is the Path set correctly? [${path}]`);
+    } else if (!outData || outData.success === null) {
+      const errorJson = JSON.stringify({
+        error: 'error',
+        statusCode: 0,
+        success: false,
+      });
+      this.storeValue(errorJson, storage, varName, cache);
+      console.log(`2: WebAPI Parser: Error Invalid JSON, is the Path set correctly? [${path}]`);
+    } else {
+      this.storeValue(outData, storage, varName, cache);
+      if (DEBUG) console.log(`WebAPI Parser: JSON Data values starting from [${path}] stored to: [${varName}]`);
     }
+  }
+} catch (error) {
+  const errorJson = JSON.stringify({
+    error,
+    statusCode: 0,
+    success: false,
+  });
+  this.storeValue(errorJson, storage, varName, cache);
+  console.error(`WebAPI Parser: Error: ${errorJson} stored to: [${varName}]`);
+}
 
     if (data.behavior === '0') {
       this.callNextAction(cache);
