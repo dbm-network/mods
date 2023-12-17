@@ -9,6 +9,11 @@
     "name": "Comment",
     "section": "Other Stuff"
   },
+  "add_member_to_thread_MOD.js": {
+    "description": "Add Member To Thread",
+    "name": "Add Member To Private Thread",
+    "section": "Channel Control"
+  },
   "anchor_create_MOD.js": {
     "description": "Create an anchor",
     "name": "Create Anchor",
@@ -254,6 +259,11 @@
     "name": "Create Category Channel",
     "section": "Channel Control"
   },
+  "create_forum_channel_MOD.js": {
+    "description": "Create Forum Channel",
+    "name": "Create Forum Channel",
+    "section": "Channel Control"
+  },
   "create_gif_MOD.js": {
     "description": "Create a gif",
     "name": "Create GIF",
@@ -263,6 +273,11 @@
     "description": "Create specified permissions",
     "name": "Create Permissions",
     "section": "Permission Control"
+  },
+  "create_private_thread_MOD.js": {
+    "description": "Create Private Thread",
+    "name": "Create Private Thread",
+    "section": "Channel Control"
   },
   "create_server_MOD.js": {
     "description": "Create a server",
@@ -429,6 +444,11 @@
     "name": "Get Command Description",
     "section": "Other Stuff"
   },
+  "get_current_timestamp_MOD.js": {
+    "description": "Get and store the current timestamp in numeric, or markdown form.",
+    "name": "Get Current Timestamp",
+    "section": "Other Stuff"
+  },
   "get_lyrics_MOD.js": {
     "description": "Get song lyrics",
     "name": "Get Song Lyrics",
@@ -543,6 +563,11 @@
     "description": "Remove an item from a queue",
     "name": "Remove from Queue MOD",
     "section": "Audio Control"
+  },
+  "remove_member_from_thread_MOD.js": {
+    "description": "Remove Member From Thread",
+    "name": "Remove Member From Private Thread",
+    "section": "Channel Control"
   },
   "remove_message_reactions_MOD.js": {
     "description": "Clear reactions from a message",
@@ -874,6 +899,11 @@
     "name": "Store Twitch Info",
     "section": "Other Stuff"
   },
+  "store_unix_timestamp_MOD.js": {
+    "description": "Stores The Current Unix Timestamp",
+    "name": "Store Unix Timestamp",
+    "section": "Other Stuff"
+  },
   "store_user_info_MOD.js": {
     "description": "Store user information",
     "name": "Store User Info",
@@ -953,15 +983,5 @@
     "description": "Search YouTube",
     "name": "YouTube Search",
     "section": "Audio Control"
-  },
-  "create_forum_channel_MOD.js": {
-    "description": "Create Forum Channel",
-    "name": "Create Forum Channel",
-    "section": "Channel Control"
-  },
-  "get_current_timestamp_MOD.js": {
-    "description": "Get and store the current timestamp",
-    "name": "Get Current Timestamp",
-    "section": "Other Stuff"
   }
 }
