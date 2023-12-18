@@ -59,14 +59,14 @@ module.exports = {
     const currentDate = new Date();
     const timestamp = Math.round(currentDate.getTime() / 1000);
     let timestamp2;
-    
+
     const resultType = parseInt(data.resultType, 10);
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);
-    
+
     switch (resultType) {
       case 0:
-        timestamp2 = timestamp
+        timestamp2 = timestamp;
         break;
       case 1:
         timestamp2 = `<t:${timestamp}:t>`;
