@@ -43,7 +43,10 @@ module.exports = {
       "Message Type",
       "Message Webhook ID",
       "Message Embed Object",
-      "Message Reference"
+      "Message Reference Object",
+      "Replied-to Message ID",
+      "Replied-to Message Channel ID",
+      "Replied-to Message Guild ID"
     ];
     return `${presets.getMessageText(data.message, data.varName)} - ${info[parseInt(data.info, 10)]}`;
   },
@@ -119,7 +122,18 @@ module.exports = {
         dataType = "Embed Message";
         break;
       case 23:
-        dataType = "Message Reference";
+        dataType = "Message Reference Object";
+        break;
+      case 24:
+        dataType = "Message ID";
+        break;
+      case 25:
+        dataType = "Channel ID";
+        break;
+      case 26:
+        dataType = "Guild ID";
+        break;
+      default:
         break;
     }
     return [data.varName2, dataType];
@@ -187,6 +201,9 @@ module.exports = {
 		<option value="21">Message Webhook ID</option>
 		<option value="22">Message Embed Object</option>
     <option value="23">Message Reference Object</option>
+    <option value="24">Replied-to Message ID</option>
+    <option value="25">Replied-to Message Channel ID</option>
+    <option value="26">Replied-to Message Guild ID</option>
 	</select>
 </div>
 
@@ -289,6 +306,15 @@ module.exports = {
         break;
       case 23:
         result = msg.reference;
+        break;
+      case 24:
+        result = msg.reference?.messageId;
+        break;
+      case 25:
+        result = msg.reference?.channelId;
+        break;
+      case 26:
+        result = msg.reference?.guildId;
         break;
       default:
         break;
