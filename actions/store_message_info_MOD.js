@@ -47,6 +47,7 @@ module.exports = {
       'Replied-to Message ID',
       'Replied-to Message Channel ID',
       'Replied-to Message Guild ID',
+      'Is Reply to Message?',
     ];
     return `${presets.getMessageText(data.message, data.varName)} - ${info[parseInt(data.info, 10)]}`;
   },
@@ -133,6 +134,9 @@ module.exports = {
       case 26:
         dataType = 'Guild ID';
         break;
+      case 27:
+        dataType = 'Boolean';
+        break;
       default:
         break;
     }
@@ -204,6 +208,7 @@ module.exports = {
     <option value="24">Replied-to Message ID</option>
     <option value="25">Replied-to Message Channel ID</option>
     <option value="26">Replied-to Message Guild ID</option>
+    <option value="27">Is Reply to Message?</option>
 	</select>
 </div>
 
@@ -315,6 +320,9 @@ module.exports = {
         break;
       case 26:
         result = msg.reference?.guildId;
+        break;
+      case 27:
+        result = msg.type === 'REPLY' && msg.reference?.messageId !== undefined;
         break;
       default:
         break;
