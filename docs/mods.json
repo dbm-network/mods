@@ -444,6 +444,11 @@
     "name": "Get Command Description",
     "section": "Other Stuff"
   },
+  "get_current_timestamp_MOD.js": {
+    "description": "Get and store the current timestamp in numeric, or markdown form.",
+    "name": "Get Current Timestamp",
+    "section": "Other Stuff"
+  },
   "get_lyrics_MOD.js": {
     "description": "Get song lyrics",
     "name": "Get Song Lyrics",
