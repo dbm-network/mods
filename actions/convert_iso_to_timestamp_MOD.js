@@ -4,8 +4,8 @@ module.exports = {
   meta: {
     version: '2.1.7',
     preciseCheck: false,
-    author: 'Robskan',
-    authorUrl: 'https://discord.com/users/791957021728702464',
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods'
   },
 
   subtitle(data) {
