@@ -5,7 +5,8 @@ module.exports = {
     version: '2.1.7',
     preciseCheck: false,
     author: 'DBM Mods',
-    authorUrl: 'https://github.com/dbm-network/mods'
+    authorUrl: 'https://github.com/dbm-network/mods',
+    modAuthors: ['Robskan5300'],
   },
 
   subtitle(data) {
