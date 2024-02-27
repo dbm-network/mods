@@ -417,8 +417,6 @@ module.exports = {
     const { GameDig } = require('gamedig');
 
     if (!ip) return console.log('Please provide Server IP & Port.');
-    
-
     GameDig.query({
       type: gametype,
       host: ip,
