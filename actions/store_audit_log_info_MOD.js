@@ -131,7 +131,7 @@ module.exports = {
     const { server } = cache;
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);
-    const auditLog = this.getVariable(storage, varName, cache);
+    const auditLog = this.getVariable(storage, varName, cache)[0];
 
     if (!server) return this.callNextAction(cache);
 
