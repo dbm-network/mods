@@ -175,7 +175,7 @@ module.exports = {
         result = video.author.id;
         break;
       case 6: // Thumbnail URL (auto)
-        result = sr.thumbnail;
+        result = sr.bestThumbnail.url;
         break;
       case 10: // Is unlisted
         result = video.isUnlisted;
@@ -214,7 +214,7 @@ module.exports = {
         result = video.age_restricted;
         break;
       case 24: // Video Channel Avatar URL
-        result = video.author.thumbnails[0].url;
+        result = sr.author.bestAvatar.url;
         break;
       case 25: // Is channel verified?
         result = video.author.verified;
