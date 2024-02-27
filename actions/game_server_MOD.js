@@ -166,7 +166,7 @@ module.exports = {
     <option value="globaloperations">Global Operations (2002)</option>
     <option value="ges">GoldenEye: Source (2010)</option>
     <option value="gore">Gore: Ultimate Soldier (2002)</option>
-    <option value="fivem">Grand Theft Auto V - FiveM (2013)</option>
+    <option value="gta5f">Grand Theft Auto V - FiveM (2013)</option>
     <option value="mtasa">Grand Theft Auto: San Andreas - Multi Theft Auto (2004)</option>
     <option value="mtavc">Grand Theft Auto: Vice City - Multi Theft Auto (2002)</option>
     <option value="groundbreach">Ground Breach (2018)</option>
@@ -413,12 +413,10 @@ module.exports = {
     const ip = this.evalMessage(data.serverip, cache);
     const port = this.evalMessage(data.serverport, cache);
 
-    const Mods = this.getMods();
-    const Gamedig = Mods.require('gamedig');
+    const { GameDig } = require('gamedig');
 
     if (!ip) return console.log('Please provide Server IP & Port.');
-
-    Gamedig.query({
+    GameDig.query({
       type: gametype,
       host: ip,
       port,
