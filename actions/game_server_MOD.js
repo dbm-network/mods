@@ -413,7 +413,6 @@ module.exports = {
     const ip = this.evalMessage(data.serverip, cache);
     const port = this.evalMessage(data.serverport, cache);
 
-    const Mods = this.getMods();
     const { GameDig } = require('gamedig');
 
     if (!ip) return console.log('Please provide Server IP & Port.');
