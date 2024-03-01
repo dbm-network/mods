@@ -1,5 +1,5 @@
 module.exports = {
-  name: 'Check if JSON Title Exists',
+  name: 'Check if JSON Content Title Exists',
   section: 'Json Data',
   meta: {
     version: '2.1.8',
@@ -7,10 +7,10 @@ module.exports = {
   },
 
   subtitle(data) {
-    return `Check if JSON File Title "${data.title}" exists in File "${data.filePath}"`;
+    return `Check if Content Title "${data.contentTitle}" exists in Title "${data.title}" of JSON File "${data.filePath}"`;
   },
 
-  fields: ['filePath', 'title', 'branch'],
+  fields: ['filePath', 'title', 'contentTitle', 'branch'],
 
   html(isEvent, data) {
     return `
@@ -19,16 +19,23 @@ module.exports = {
   <input id="filePath" class="round" type="text">
 </div>
 
-<br><br><br>
+<br>
 
 <div>
   <span class="dbminputlabel">Title to Check</span>
   <input id="title" class="round" type="text">
 </div>
 
-<br><br><br><br>
+<br>
 
-<hr class="subtlebar">
+<div>
+  <span class="dbminputlabel">Content Title to Check</span>
+  <input id="contentTitle" class="round" type="text">
+</div>
+
+<br><br>
+
+<hr class="subtlebar" style="margin-top: 8px; margin-bottom: 8px;">
 
 <br>
 
@@ -41,6 +48,7 @@ module.exports = {
     const data = cache.actions[cache.index];
     const filePath = this.evalMessage(data.filePath, cache);
     const titleToCheck = this.evalMessage(data.title, cache);
+    const contentTitleToCheck = this.evalMessage(data.contentTitle, cache);
 
     let jsonData;
     try {
@@ -51,11 +59,25 @@ module.exports = {
 
     let result = false;
 
-    if (jsonData && jsonData instanceof Object) {
-      result = jsonData.hasOwnProperty(titleToCheck);
+    if (jsonData && jsonData[titleToCheck] && this.checkNestedContent(jsonData[titleToCheck], contentTitleToCheck)) {
+      result = true;
     }
 
     this.executeResults(result, data.branch ?? data, cache);
+  },
+
+  checkNestedContent(obj, contentTitle) {
+    const titles = contentTitle.split('/');
+    let currentObj = obj;
+
+    for (const title of titles) {
+      if (!currentObj.hasOwnProperty(title)) {
+        return false;
+      }
+      currentObj = currentObj[title];
+    }
+
+    return true;
   },
 
   modInit(data) {

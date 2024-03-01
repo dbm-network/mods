@@ -33,7 +33,7 @@ module.exports = {
 
 <div>
   <span class="dbminputlabel">Content Title</span>
-  <input id="contentTitle" class="round" type="text">
+ <input id="contentTitle" class="round" type="text" placeholder="Use / to read nested content">
 </div>
 <br>
 
@@ -67,11 +67,25 @@ module.exports = {
 
         const entry = jsonData.find((item) => item.Title === title);
 
-        if (entry && entry[contentTitle] !== undefined) {
-          const content = entry[contentTitle];
-          this.storeValue(content, parseInt(data.storage, 10), varName, cache);
+        if (entry) {
+          const nestedTitles = contentTitle.split('/');
+          let currentContent = entry;
+
+          for (let i = 0; i < nestedTitles.length; i++) {
+            const nestedTitle = nestedTitles[i];
+
+            if (currentContent && currentContent[nestedTitle] !== undefined) {
+              currentContent = currentContent[nestedTitle];
+            } else {
+              console.warn(`Nested content not found for title "${title}" and content title "${contentTitle}"`);
+              this.storeValue('', parseInt(data.storage, 10), varName, cache);
+              return; // Exit the function if nested content is not found
+            }
+          }
+
+          this.storeValue(currentContent, parseInt(data.storage, 10), varName, cache);
         } else {
-          console.warn(`Content not found for title "${title}" and content title "${contentTitle}"`);
+          console.warn(`Content not found for title "${title}"`);
           this.storeValue('', parseInt(data.storage, 10), varName, cache);
         }
       } else {
