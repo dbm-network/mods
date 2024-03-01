@@ -2,8 +2,8 @@ module.exports = {
   name: 'Read JSON Data',
   section: 'Json Data',
   meta: {
-    version: '2.1.8',
-    author: 'Raikin',
+    version: '2.1.7',
+    author: 'DBM Mods',
   },
 
   subtitle(data) {

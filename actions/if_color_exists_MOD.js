@@ -3,8 +3,7 @@ module.exports = {
   section: 'Raikin Mods',
   meta: {
     version: '2.1.7',
-    author: 'raikin',
-    authorUrl: 'Your GitHub URL',
+    author: 'DBM Mods',
   },
 
   subtitle(data, presets) {

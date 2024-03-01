@@ -2,7 +2,7 @@ module.exports = {
   name: 'Check if JSON Title Exists',
   section: 'Json Data',
   meta: {
-    version: '2.1.8',
+    version: '2.1.7',
     author: 'DBM Mods',
   },
 

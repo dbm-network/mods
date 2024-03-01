@@ -2,7 +2,7 @@ module.exports = {
   name: 'Write JSON Data',
   section: 'Json Data',
   meta: {
-    version: '2.1.8',
+    version: '2.1.7',
     author: 'DBM Mods',
   },
 
