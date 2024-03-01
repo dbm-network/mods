@@ -1,6 +1,6 @@
 module.exports = {
   name: 'Check if Hex Color Code Exists',
-  section: 'Raikin Mods',
+  section: 'Color Stuff',
   meta: {
     version: '2.1.7',
     author: 'DBM Mods',
