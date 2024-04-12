@@ -48,6 +48,7 @@ module.exports = {
       'Replied-to Message Channel ID',
       'Replied-to Message Guild ID',
       'Is Reply to Message?',
+      'Message Stickers Count', // Added option for sticker count
     ];
     return `${presets.getMessageText(data.message, data.varName)} - ${info[parseInt(data.info, 10)]}`;
   },
@@ -135,7 +136,8 @@ module.exports = {
         dataType = 'Guild ID';
         break;
       case 27:
-        dataType = 'Boolean';
+      case 28: // Added case for storing sticker count
+        dataType = 'Number';
         break;
       default:
         break;
@@ -190,8 +192,8 @@ module.exports = {
 		<option value="4">Message Channel</option>
 		<option value="5">Message Timestamp</option>
 		<option value="6">Message Is Pinned?</option>
-    <option value="7">Message Is TTS?</option>
-    <option value="8">Message Attachments List</option>
+        <option value="7">Message Is TTS?</option>
+        <option value="8">Message Attachments List</option>
 		<option value="9">Message Edits</option>
 		<option value="12">Messages Reactions Count</option>
 		<option value="13">Messages Mentioned Users List</option>
@@ -204,11 +206,12 @@ module.exports = {
 		<option value="20">Message Type</option>
 		<option value="21">Message Webhook ID</option>
 		<option value="22">Message Embed Object</option>
-    <option value="23">Message Reference Object</option>
-    <option value="24">Replied-to Message ID</option>
-    <option value="25">Replied-to Message Channel ID</option>
-    <option value="26">Replied-to Message Guild ID</option>
-    <option value="27">Is Reply to Message?</option>
+        <option value="23">Message Reference Object</option>
+        <option value="24">Replied-to Message ID</option>
+        <option value="25">Replied-to Message Channel ID</option>
+        <option value="26">Replied-to Message Guild ID</option>
+        <option value="27">Is Reply to Message?</option>
+        <option value="28">Message Stickers Count</option> <!-- Added option for sticker count -->
 	</select>
 </div>
 
@@ -323,6 +326,9 @@ module.exports = {
         break;
       case 27:
         result = msg.type === 'REPLY' && msg.reference?.messageId !== undefined;
+        break;
+      case 28: // Added case for storing sticker count
+        result = msg.stickers ? msg.stickers.size : 0;
         break;
       default:
         break;
