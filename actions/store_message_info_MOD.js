@@ -136,6 +136,8 @@ module.exports = {
         dataType = 'Guild ID';
         break;
       case 27:
+        dataType = 'Boolean';
+		break;
       case 28: // Added case for storing sticker count
         dataType = 'Number';
         break;
