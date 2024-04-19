@@ -72,7 +72,7 @@ module.exports = {
     const height = parseInt(this.evalMessage(data.height, cache), 10);
     const canvas = Canvas.createCanvas(width, height);
     const ctx = canvas.getContext('2d');
-    let color = this.evalMessage(data.color, cache);
+    const color = this.evalMessage(data.color, cache);
 
     switch (shapeType) {
       case 0: // Circle

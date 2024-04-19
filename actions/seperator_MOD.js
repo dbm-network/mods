@@ -63,7 +63,9 @@ module.exports = {
       if (boldValue) style += 'font-weight: bold;';
       if (underlineValue) style += 'text-decoration: underline;';
       if (fontSizeValue) style += `font-size: ${parseInt(fontSizeValue, 10)}px;`;
-      subtitle.innerHTML = `<span style="color: ${colorValue};${style}">${separatorValue || 'No separator provided'}</span>`;
+      subtitle.innerHTML = `<span style="color: ${colorValue};${style}">${
+        separatorValue || 'No separator provided'
+      }</span>`;
     }
 
     separatorField.addEventListener('input', updateSubtitle);
