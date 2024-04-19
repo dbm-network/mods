@@ -2,10 +2,11 @@ module.exports = {
   name: 'Canvas Create Shape',
   section: 'Image Editing',
   meta: {
-    version: '1.0.0',
-    author: 'Your Name',
-    authorUrl: 'https://yourwebsite.com',
-    downloadURL: 'https://github.com/yourrepository/your-script.js',
+    version: '2.1.7',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/canvas_create_primitive_MOD.js',
   },
 
   subtitle(data) {

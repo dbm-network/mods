@@ -7,7 +7,7 @@ module.exports = {
     version: '2.1.7',
     author: 'DBM Mods',
     authorUrl: 'https://github.com/dbm-network/mods',
-    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/file_control_separator.js',
+    downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/seperator_MOD.js',
   },
 
   subtitle(data) {
