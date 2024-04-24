@@ -11,13 +11,24 @@ module.exports = {
 
   subtitle(data) {
     const info = parseInt(data.info, 10);
-    if (info === 0) {
-      return data.color ? `Create Circle with Color ${data.color}` : 'No color circle has been created';
+    switch (info) {
+      case 0:
+        return data.color ? `Create Circle with Color ${data.color}` : 'No color circle has been created';
+      case 1:
+        return data.color ? `Create Rectangle with Color ${data.color}` : 'No color rectangle has been created';
+      case 2:
+        return data.color ? `Create Triangle with Color ${data.color}` : 'No color triangle has been created';
+      case 3:
+        return data.color ? `Create Hexagon with Color ${data.color}` : 'No color hexagon has been created';
+      case 4:
+        return data.color ? `Create Pentagon with Color ${data.color}` : 'No color pentagon has been created';
+      case 5:
+        return data.color ? `Create Ellipse with Color ${data.color}` : 'No color ellipse has been created';
+      case 6:
+        return data.color ? `Create Star with Color ${data.color}` : 'No color star has been created';
+      default:
+        return '';
     }
-    if (info === 1) {
-      return data.color ? `Create Rectangle with Color ${data.color}` : 'No color rectangle has been created';
-    }
-    // Add more cases for different shapes as needed
   },
 
   variableStorage(data, varType) {
@@ -35,12 +46,15 @@ module.exports = {
     <select id="shapeType" class="round">
       <option value="0" selected>Circle</option>
       <option value="1">Rectangle</option>
-      <!-- Add more options for different shapes -->
+      <option value="2">Triangle</option>
+      <option value="3">Hexagon</option>
+      <option value="4">Pentagon</option>
+      <option value="5">Ellipse</option>
+      <option value="6">Star</option>
     </select>
   </div>
 </div>
 <br><br>
-
 <div>
   <div>
     <span class="dbminputlabel">Width (px)</span>
@@ -52,7 +66,6 @@ module.exports = {
   </div>
 </div>
 <br><br>
-
 <div>
   <div>
     <span class="dbminputlabel">Color</span>
@@ -60,7 +73,6 @@ module.exports = {
   </div>
 </div>
 <br><br>
-
 <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
 `;
   },
@@ -76,17 +88,78 @@ module.exports = {
     const color = this.evalMessage(data.color, cache);
 
     switch (shapeType) {
-      case 0: // Circle
+      case 0:
         ctx.beginPath();
         ctx.arc(width / 2, height / 2, Math.min(width, height) / 2, 0, 2 * Math.PI);
         ctx.fillStyle = color;
         ctx.fill();
         break;
-      case 1: // Rectangle
+      case 1:
         ctx.fillStyle = color;
         ctx.fillRect(0, 0, width, height);
         break;
-      // Add more cases for different shapes
+      case 2:
+        ctx.beginPath();
+        ctx.moveTo(width / 2, 0);
+        ctx.lineTo(width, height);
+        ctx.lineTo(0, height);
+        ctx.closePath();
+        ctx.fillStyle = color;
+        ctx.fill();
+        break;
+      case 3:
+        ctx.beginPath();
+        const sideLength = Math.min(width, height) / 2;
+        const xCenter = width / 2;
+        const yCenter = height / 2;
+        for (let i = 0; i < 6; i++) {
+          const angle = (Math.PI / 3) * i;
+          const x = xCenter + sideLength * Math.cos(angle);
+          const y = yCenter + sideLength * Math.sin(angle);
+          if (i === 0) {
+            ctx.moveTo(x, y);
+          } else {
+            ctx.lineTo(x, y);
+          }
+        }
+        ctx.closePath();
+        ctx.fillStyle = color;
+        ctx.fill();
+        break;
+      case 4:
+        ctx.beginPath();
+        const angleStep = (2 * Math.PI) / 5;
+        const radius = Math.min(width, height) / 2;
+        const centerX = width / 2;
+        const centerY = height / 2;
+        ctx.moveTo(centerX + radius * Math.cos(0), centerY + radius * Math.sin(0));
+        for (let i = 1; i <= 5; i++) {
+          ctx.lineTo(centerX + radius * Math.cos(angleStep * i), centerY + radius * Math.sin(angleStep * i));
+        }
+        ctx.closePath();
+        ctx.fillStyle = color;
+        ctx.fill();
+        break;
+      case 5:
+        ctx.beginPath();
+        ctx.ellipse(width / 2, height / 2, width / 2, height / 2, 0, 0, 2 * Math.PI);
+        ctx.fillStyle = color;
+        ctx.fill();
+        break;
+      case 6:
+        const numPoints = 5;
+        const outerRadius = Math.min(width, height) / 2;
+        const innerRadius = outerRadius * 0.5;
+        ctx.beginPath();
+        for (let i = 0; i < numPoints * 2; i++) {
+          const radius = i % 2 === 0 ? outerRadius : innerRadius;
+          const angle = (i * Math.PI) / numPoints - Math.PI / 2;
+          ctx.lineTo(width / 2 + radius * Math.cos(angle), height / 2 + radius * Math.sin(angle));
+        }
+        ctx.closePath();
+        ctx.fillStyle = color;
+        ctx.fill();
+        break;
       default:
         break;
     }
