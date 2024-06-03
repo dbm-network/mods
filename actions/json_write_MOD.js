@@ -63,11 +63,13 @@ module.exports = {
   init() {
     const { glob, document } = this;
 
-    glob.onChangeAction = function(event) {
+    glob.onChangeAction = function onChangeAction(event) {
       const value = event.value;
-      document.getElementById('titleSection').style.display = value === 'addTitle' || value === 'addContent' || value === 'renameContent' ? 'block' : 'none';
+      document.getElementById('titleSection').style.display =
+        value === 'addTitle' || value === 'addContent' || value === 'renameContent' ? 'block' : 'none';
       document.getElementById('contentSection').style.display = value === 'addContent' ? 'block' : 'none';
-      document.getElementById('renameSection').style.display = value === 'renameContent' || value === 'renameTitle' ? 'block' : 'none';
+      document.getElementById('renameSection').style.display =
+        value === 'renameContent' || value === 'renameTitle' ? 'block' : 'none';
       document.getElementById('deleteSection').style.display = value === 'deleteContent' ? 'block' : 'none';
     };
 
@@ -104,6 +106,8 @@ module.exports = {
       jsonData = [];
     }
 
+    let target;
+
     switch (action) {
       case 'addTitle':
         if (title) {
@@ -111,14 +115,14 @@ module.exports = {
         }
         break;
       case 'addContent':
-        let target = jsonData.find(item => item.Title === title);
+        target = jsonData.find((item) => item.Title === title);
         if (!target) {
           target = { Title: title };
           jsonData.push(target);
         }
         if (contentTitle.includes('/')) {
           const keys = contentTitle.split('/');
-          keys.reduce((obj, key, index) => {
+          keys.reduce(function addNestedContent(obj, key, index) {
             if (index === keys.length - 1) {
               obj[key] = isNaN(contentText) ? contentText : parseFloat(contentText);
             } else {
@@ -131,7 +135,7 @@ module.exports = {
         }
         break;
       case 'renameContent':
-        jsonData.forEach(item => {
+        jsonData.forEach((item) => {
           if (item.Title === title && item[contentTitle]) {
             item[newTitle] = item[contentTitle];
             delete item[contentTitle];
@@ -139,23 +143,24 @@ module.exports = {
         });
         break;
       case 'renameTitle':
-        jsonData.forEach(item => {
+        jsonData.forEach((item) => {
           if (item.Title === oldTitle) {
             item.Title = newTitle;
           }
         });
         break;
       case 'deleteContent':
-        jsonData.forEach(item => {
+        jsonData.forEach((item) => {
           if (item.Title === title) {
             if (deleteContentTitle.includes('/')) {
               const keys = deleteContentTitle.split('/');
-              keys.reduce((obj, key, index) => {
+              keys.reduce(function deleteNestedContent(obj, key, index) {
                 if (index === keys.length - 1) {
                   delete obj[key];
                 } else {
                   return obj[key];
                 }
+                return obj;
               }, item);
             } else {
               delete item[deleteContentTitle];
@@ -164,7 +169,7 @@ module.exports = {
         });
         break;
       case 'deleteTitle':
-        jsonData = jsonData.filter(item => item.Title !== title);
+        jsonData = jsonData.filter((item) => item.Title !== title);
         break;
     }
 
@@ -178,5 +183,5 @@ module.exports = {
     this.callNextAction(cache);
   },
 
-  mod() {}
+  mod() {},
 };
