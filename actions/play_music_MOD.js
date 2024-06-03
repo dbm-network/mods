@@ -80,7 +80,7 @@ module.exports = {
     const Mods = this.getMods();
     const playdl = Mods.require('play-dl');
     const player = Bot.bot.player;
-    const voiceChannel = await this.getVoiceChannelFromData(data.voiceChannel, data.varName2, cache);
+    const voiceChannel = await this.getVoiceChannelFromData(data.voiceChannel, data.varName, cache);
 
     let volume = 80;
     if (data.volume) volume = parseInt(this.evalMessage(data.volume, cache), 10) || 80;
