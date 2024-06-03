@@ -2,18 +2,17 @@ const fs = require('fs');
 const path = require('path');
 
 module.exports = {
-  name: 'JSON File Control',
+  name: 'Read JSON File',
   section: 'File Stuff',
-  fields: ['filepath', 'action', 'title', 'contentTitle', 'contentText', 'newTitle', 'oldTitle', 'deleteContentTitle'],
-  meta: {
-    version: '2.1.7',
-    preciseCheck: false,
-    author: 'DBM Mods',
-    authorUrl: 'https://github.com/dbm-network/mods',
-  },
+  fields: ['filepath', 'title', 'contentTitle', 'storage', 'varName'],
 
   subtitle(data) {
-    return `JSON edit on ${data.filepath} with ${data.action}`;
+    return `Read JSON file "${data.filepath}"`;
+  },
+
+  variableStorage(data, varType) {
+    if (parseInt(data.storage, 10) !== varType) return;
+    return [data.varName, 'Unknown'];
   },
 
   html() {
@@ -24,161 +23,80 @@ module.exports = {
         <input id="filepath" class="round" type="text" placeholder="./data.json">
       </div>
       <div style="padding: 10px;">
-        <span class="dbminputlabel">Action</span>
-        <select id="action" class="round" onchange="glob.onChangeAction(this)">
-          <option value="addTitle" selected>Add Title</option>
-          <option value="addContent">Add Content</option>
-          <option value="renameContent">Rename Content</option>
-          <option value="renameTitle">Rename Title</option>
-          <option value="deleteContent">Delete Content</option>
-          <option value="deleteTitle">Delete Title</option>
-        </select>
-      </div>
-      <div id="titleSection" style="padding: 10px;">
         <span class="dbminputlabel">Title</span>
-        <input id="title" class="round" type="text">
+        <input id="title" class="round" type="text" placeholder="Title">
       </div>
-      <div id="contentSection" style="padding: 10px; display: none;">
+      <div style="padding: 10px;">
         <span class="dbminputlabel">Content Title</span>
-        <input id="contentTitle" class="round" type="text">
-        <br>
-        <span class="dbminputlabel">Content Text</span>
-        <input id="contentText" class="round" type="text">
+        <input id="contentTitle" class="round" type="text" placeholder="Content Title">
       </div>
-      <div id="renameSection" style="padding: 10px; display: none;">
-        <span class="dbminputlabel">Old Title</span>
-        <input id="oldTitle" class="round" type="text">
-        <br>
-        <span class="dbminputlabel">New Title</span>
-        <input id="newTitle" class="round" type="text">
-      </div>
-      <div id="deleteSection" style="padding: 10px; display: none;">
-        <span class="dbminputlabel">Content Title to Delete</span>
-        <input id="deleteContentTitle" class="round" type="text">
+      <div style="padding: 10px;">
+        <store-in-variable dropdownLabel="Store Result In" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
       </div>
     </div>
     `;
   },
 
-  init() {
-    const { glob, document } = this;
-
-    glob.onChangeAction = function (event) {
-      const value = event.value;
-      document.getElementById('titleSection').style.display =
-        value === 'addTitle' || value === 'addContent' || value === 'renameContent' ? 'block' : 'none';
-      document.getElementById('contentSection').style.display = value === 'addContent' ? 'block' : 'none';
-      document.getElementById('renameSection').style.display =
-        value === 'renameContent' || value === 'renameTitle' ? 'block' : 'none';
-      document.getElementById('deleteSection').style.display = value === 'deleteContent' ? 'block' : 'none';
-    };
-
-    glob.onChangeAction(document.getElementById('action'));
-  },
+  init() {},
 
   async action(cache) {
     const data = cache.actions[cache.index];
     let filepath = this.evalMessage(data.filepath, cache);
+    const title = this.evalMessage(data.title, cache);
+    const contentTitle = this.evalMessage(data.contentTitle, cache);
+    const storage = parseInt(data.storage, 10);
+    const varName = this.evalMessage(data.varName, cache);
 
     if (filepath.startsWith('./')) {
       filepath = path.join(__dirname, '..', filepath.substring(2));
     }
 
-    const action = data.action;
-    const title = this.evalMessage(data.title, cache);
-    const contentTitle = this.evalMessage(data.contentTitle, cache);
-    const contentText = this.evalMessage(data.contentText, cache);
-    const oldTitle = this.evalMessage(data.oldTitle, cache);
-    const newTitle = this.evalMessage(data.newTitle, cache);
-    const deleteContentTitle = this.evalMessage(data.deleteContentTitle, cache);
-
-    // Load JSON file
     let jsonData;
+
     try {
       if (fs.existsSync(filepath)) {
         const fileData = fs.readFileSync(filepath);
+        if (fileData.length === 0) {
+          console.warn('JSON file is empty.');
+          this.storeValue(undefined, storage, varName, cache);
+          return this.callNextAction(cache);
+        }
         jsonData = JSON.parse(fileData);
       } else {
-        jsonData = [];
+        throw new Error('File does not exist');
       }
     } catch (error) {
       console.error(`Error reading JSON file: ${error}`);
-      jsonData = [];
+      this.storeValue(undefined, storage, varName, cache);
+      return this.callNextAction(cache);
     }
 
-    switch (action) {
-      case 'addTitle':
-        if (title) {
-          jsonData.push({ Title: title });
-        }
-        break;
-      case 'addContent':
-        let target = jsonData.find((item) => item.Title === title);
-        if (!target) {
-          target = { Title: title };
-          jsonData.push(target);
-        }
-        if (contentTitle.includes('/')) {
-          const keys = contentTitle.split('/');
-          keys.reduce((obj, key, index) => {
-            if (index === keys.length - 1) {
-              obj[key] = isNaN(contentText) ? contentText : parseFloat(contentText);
-            } else {
-              obj[key] = obj[key] || {};
-            }
-            return obj[key];
-          }, target);
-        } else {
-          target[contentTitle] = isNaN(contentText) ? contentText : parseFloat(contentText);
-        }
-        break;
-      case 'renameContent':
-        jsonData.forEach((item) => {
-          if (item.Title === title && item[contentTitle]) {
-            item[newTitle] = item[contentTitle];
-            delete item[contentTitle];
-          }
-        });
-        break;
-      case 'renameTitle':
-        jsonData.forEach((item) => {
-          if (item.Title === oldTitle) {
-            item.Title = newTitle;
-          }
-        });
-        break;
-      case 'deleteContent':
-        jsonData.forEach((item) => {
-          if (item.Title === title) {
-            if (deleteContentTitle.includes('/')) {
-              const keys = deleteContentTitle.split('/');
-              keys.reduce((obj, key, index) => {
-                if (index === keys.length - 1) {
-                  delete obj[key];
-                } else {
-                  return obj[key];
-                }
-              }, item);
-            } else {
-              delete item[deleteContentTitle];
-            }
-          }
-        });
-        break;
-      case 'deleteTitle':
-        jsonData = jsonData.filter((item) => item.Title !== title);
-        break;
-    }
-
-    // Save JSON file
+    let result;
     try {
-      fs.writeFileSync(filepath, JSON.stringify(jsonData, null, 2));
+      const titleData = jsonData.find(item => item.Title === title);
+      if (!titleData) throw new Error('Title not found');
+
+      if (contentTitle.includes('/')) {
+        const contentKeys = contentTitle.split('/');
+        result = {};
+        for (const key of contentKeys) {
+          if (titleData[key] !== undefined) {
+            result[key] = titleData[key];
+          }
+        }
+      } else {
+        if (titleData[contentTitle] === undefined) throw new Error('Content Title not found');
+        result = titleData[contentTitle];
+      }
     } catch (error) {
-      console.error(`Error writing JSON file: ${error}`);
+      console.error(`Error accessing data: ${error}`);
+      this.storeValue(undefined, storage, varName, cache);
+      return this.callNextAction(cache);
     }
 
+    this.storeValue(result, storage, varName, cache);
     this.callNextAction(cache);
   },
 
-  mod() {},
+  mod() {}
 };
