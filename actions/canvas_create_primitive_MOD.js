@@ -87,6 +87,20 @@ module.exports = {
     const ctx = canvas.getContext('2d');
     const color = this.evalMessage(data.color, cache);
 
+    let sideLength;
+    let xCenter;
+    let yCenter;
+    let angle;
+    let x;
+    let y;
+    let angleStep;
+    let radius;
+    let centerX;
+    let centerY;
+    let numPoints;
+    let outerRadius;
+    let innerRadius;
+
     switch (shapeType) {
       case 0:
         ctx.beginPath();
@@ -109,13 +123,13 @@ module.exports = {
         break;
       case 3:
         ctx.beginPath();
-        const sideLength = Math.min(width, height) / 2;
-        const xCenter = width / 2;
-        const yCenter = height / 2;
+        sideLength = Math.min(width, height) / 2;
+        xCenter = width / 2;
+        yCenter = height / 2;
         for (let i = 0; i < 6; i++) {
-          const angle = (Math.PI / 3) * i;
-          const x = xCenter + sideLength * Math.cos(angle);
-          const y = yCenter + sideLength * Math.sin(angle);
+          angle = (Math.PI / 3) * i;
+          x = xCenter + sideLength * Math.cos(angle);
+          y = yCenter + sideLength * Math.sin(angle);
           if (i === 0) {
             ctx.moveTo(x, y);
           } else {
@@ -128,10 +142,10 @@ module.exports = {
         break;
       case 4:
         ctx.beginPath();
-        const angleStep = (2 * Math.PI) / 5;
-        const radius = Math.min(width, height) / 2;
-        const centerX = width / 2;
-        const centerY = height / 2;
+        angleStep = (2 * Math.PI) / 5;
+        radius = Math.min(width, height) / 2;
+        centerX = width / 2;
+        centerY = height / 2;
         ctx.moveTo(centerX + radius * Math.cos(0), centerY + radius * Math.sin(0));
         for (let i = 1; i <= 5; i++) {
           ctx.lineTo(centerX + radius * Math.cos(angleStep * i), centerY + radius * Math.sin(angleStep * i));
@@ -147,9 +161,9 @@ module.exports = {
         ctx.fill();
         break;
       case 6:
-        const numPoints = 5;
-        const outerRadius = Math.min(width, height) / 2;
-        const innerRadius = outerRadius * 0.5;
+        numPoints = 5;
+        outerRadius = Math.min(width, height) / 2;
+        innerRadius = outerRadius * 0.5;
         ctx.beginPath();
         for (let i = 0; i < numPoints * 2; i++) {
           const radius = i % 2 === 0 ? outerRadius : innerRadius;
