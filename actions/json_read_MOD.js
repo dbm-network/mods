@@ -5,15 +5,9 @@ module.exports = {
   name: 'Read JSON File',
   section: 'File Stuff',
   fields: ['filepath', 'title', 'contentTitle', 'storage', 'varName'],
-  meta: {
-    version: '2.1.7',
-    preciseCheck: false,
-    author: 'DBM Mods',
-    authorUrl: 'https://github.com/dbm-network/mods',
-  },
 
   subtitle(data) {
-    return `Read JSON file ${data.filepath} content ${data.contentTitle}`;
+    return `Read JSON file "${data.filepath}"`;
   },
 
   variableStorage(data, varType) {
@@ -62,6 +56,11 @@ module.exports = {
     try {
       if (fs.existsSync(filepath)) {
         const fileData = fs.readFileSync(filepath);
+        if (fileData.length === 0) {
+          console.warn('JSON file is empty.');
+          this.storeValue(undefined, storage, varName, cache);
+          return this.callNextAction(cache);
+        }
         jsonData = JSON.parse(fileData);
       } else {
         throw new Error('File does not exist');
@@ -74,17 +73,21 @@ module.exports = {
 
     let result;
     try {
-      const titleData = jsonData.find((item) => item.Title === title);
+      const titleData = jsonData.find(item => item.Title === title);
       if (!titleData) throw new Error('Title not found');
 
-      // Split the contentTitle by '/' to handle nested content
-      const contentKeys = contentTitle.split('/');
-      let nestedContent = titleData;
-      for (const key of contentKeys) {
-        nestedContent = nestedContent[key];
-        if (nestedContent === undefined) throw new Error(`Content Key '${key}' not found`);
+      if (contentTitle.includes('/')) {
+        const contentKeys = contentTitle.split('/');
+        result = {};
+        for (const key of contentKeys) {
+          if (titleData[key] !== undefined) {
+            result[key] = titleData[key];
+          }
+        }
+      } else {
+        if (titleData[contentTitle] === undefined) throw new Error('Content Title not found');
+        result = titleData[contentTitle];
       }
-      result = nestedContent;
     } catch (error) {
       console.error(`Error accessing data: ${error}`);
       this.storeValue(undefined, storage, varName, cache);
@@ -95,5 +98,5 @@ module.exports = {
     this.callNextAction(cache);
   },
 
-  mod() {},
+  mod() {}
 };
