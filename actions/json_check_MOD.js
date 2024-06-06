@@ -20,7 +20,6 @@ module.exports = {
   fields: ['filepath', 'checkType', 'title', 'contentTitle', 'branch'],
 
   html() {
-    // Removed 'isEvent' and 'data'
     return `
     <div style="padding: 10px;">
       <span class="dbminputlabel">File Path</span>
@@ -49,7 +48,6 @@ module.exports = {
     const { glob, document } = this;
 
     glob.onCheckTypeChanged = function handleCheckTypeChange(event) {
-      // Named function
       const titleSection = document.getElementById('titleSection');
       const contentTitleSection = document.getElementById('contentTitleSection');
       switch (event.value) {
@@ -84,16 +82,18 @@ module.exports = {
 
     let jsonData;
 
-    try {
-      if (fs.existsSync(filepath)) {
+    if (fs.existsSync(filepath)) {
+      try {
         const fileData = fs.readFileSync(filepath);
         if (fileData.length === 0) throw new Error('JSON file is empty.');
         jsonData = JSON.parse(fileData);
-      } else {
-        throw new Error('File does not exist');
+      } catch (error) {
+        console.error(`Error reading JSON file: ${error}`);
+        this.executeResults(false, data.branch, cache);
+        return;
       }
-    } catch (error) {
-      console.error(`Error reading JSON file: ${error}`);
+    } else {
+      console.error('File does not exist');
       this.executeResults(false, data.branch, cache);
       return;
     }
