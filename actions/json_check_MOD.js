@@ -12,15 +12,15 @@ module.exports = {
 
   meta: {
     version: '2.1.7',
-    preciseCheck: false,
-    author: 'DBM Mods',
-    authorUrl: 'https://github.com/dbm-network/mods',
+    preciseCheck: true,
+    author: 'ChatGPT',
+    authorUrl: null,
+    downloadUrl: null
   },
 
   fields: ['filepath', 'checkType', 'title', 'contentTitle', 'branch'],
 
-  html() {
-    // Removed 'isEvent' and 'data'
+  html(isEvent, data) {
     return `
     <div style="padding: 10px;">
       <span class="dbminputlabel">File Path</span>
@@ -34,11 +34,11 @@ module.exports = {
         <option value="2">Check if Content Exists Under Title</option>
       </select>
     </div>
-    <div id="titleSection" style="padding: 10px; display: none;">
+    <div id='titleSection' style="padding: 10px; display: none;">
       <span class="dbminputlabel">Title</span>
       <input id="title" class="round" type="text" placeholder="Title">
     </div>
-    <div id="contentTitleSection" style="padding: 10px; display: none;">
+    <div id='contentTitleSection' style="padding: 10px; display: none;">
       <span class="dbminputlabel">Content Title</span>
       <input id="contentTitle" class="round" type="text" placeholder="Content Title">
     </div>
@@ -48,8 +48,7 @@ module.exports = {
   init() {
     const { glob, document } = this;
 
-    glob.onCheckTypeChanged = function handleCheckTypeChange(event) {
-      // Named function
+    glob.onCheckTypeChanged = function (event) {
       const titleSection = document.getElementById('titleSection');
       const contentTitleSection = document.getElementById('contentTitleSection');
       switch (event.value) {
@@ -105,16 +104,28 @@ module.exports = {
         case 0:
           result = true;
           break;
-        case 1: {
+        case 1:
           result = jsonData.some((item) => item.Title === title);
           break;
-        }
-        case 2: {
+        case 2:
           const titleData = jsonData.find((item) => item.Title === title);
           if (!titleData) throw new Error('Title not found');
-          result = contentTitle in titleData;
+
+          if (contentTitle.includes('/')) {
+            const contentKeys = contentTitle.split('/');
+            let nestedData = titleData;
+            for (const key of contentKeys) {
+              if (nestedData[key] !== undefined) {
+                nestedData = nestedData[key];
+              } else {
+                throw new Error('Nested content title not found');
+              }
+            }
+            result = true;
+          } else {
+            result = contentTitle in titleData;
+          }
           break;
-        }
       }
     } catch (error) {
       console.error(`Error checking JSON data: ${error}`);
