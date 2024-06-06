@@ -23,7 +23,7 @@ module.exports = {
     return `
     <div style="padding: 10px;">
       <span class="dbminputlabel">File Path</span>
-      <input id="filepath" class="round" type="text" placeholder="./data.json">
+      <input id="filepath" class="round" type="text" placeholder="[EXAMPLE]: ./data.json">
     </div>
     <div style="padding: 10px;">
       <span class="dbminputlabel">Check Type</span><br>
@@ -39,7 +39,7 @@ module.exports = {
     </div>
     <div id="contentTitleSection" style="padding: 10px; display: none;">
       <span class="dbminputlabel">Content Title</span>
-      <input id="contentTitle" class="round" type="text" placeholder="Content Title">
+      <input id="contentTitle" class="round" type="text" placeholder="Content Title (Use / to check content inside content)">
     </div>
     <conditional-input id="branch" style="padding-top: 8px;"></conditional-input>`;
   },

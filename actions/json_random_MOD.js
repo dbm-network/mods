@@ -26,7 +26,7 @@ module.exports = {
     <div>
       <div style="padding: 10px;">
         <span class="dbminputlabel">File Path</span>
-        <input id="filepath" class="round" type="text" placeholder="./data.json">
+        <input id="filepath" class="round" type="text" placeholder="[EXAMPLE]: ./data.json">
       </div>
       <div style="padding: 10px;">
         <span class="dbminputlabel">Title</span>

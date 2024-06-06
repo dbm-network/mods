@@ -21,7 +21,7 @@ module.exports = {
     <div>
       <div style="padding: 10px;">
         <span class="dbminputlabel">File Path</span>
-        <input id="filepath" class="round" type="text" placeholder="./data.json">
+        <input id="filepath" class="round" type="text" placeholder="[EXAMPLE]: ./data.json">
       </div>
       <div style="padding: 10px;">
         <span class="dbminputlabel">Action</span>
@@ -40,7 +40,7 @@ module.exports = {
       </div>
       <div id="contentSection" style="padding: 10px; display: none;">
         <span class="dbminputlabel">Content Title</span>
-        <input id="contentTitle" class="round" type="text">
+        <input id="contentTitle" class="round" type="text" placeholder="Content Title (Use / to check content inside content)">
         <br>
         <span class="dbminputlabel">Content Text</span>
         <input id="contentText" class="round" type="text">
