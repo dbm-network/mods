@@ -76,16 +76,16 @@ module.exports = {
 
     try {
       if (title) {
-        const titleData = jsonData.find(item => item.Title === title);
+        const titleData = jsonData.find((item) => item.Title === title);
         if (!titleData) throw new Error('Title not found');
 
-        const keys = Object.keys(titleData).filter(key => key !== 'Title');
+        const keys = Object.keys(titleData).filter((key) => key !== 'Title');
         if (keys.length === 0) throw new Error('No items found under specified title');
 
         const randomKey = keys[Math.floor(Math.random() * keys.length)];
         result = randomKey;
       } else {
-        const items = jsonData.flatMap(item => Object.keys(item).filter(key => key !== 'Title'));
+        const items = jsonData.flatMap((item) => Object.keys(item).filter((key) => key !== 'Title'));
         if (items.length === 0) throw new Error('No items found in JSON');
 
         const randomItem = items[Math.floor(Math.random() * items.length)];
@@ -101,5 +101,5 @@ module.exports = {
     this.callNextAction(cache);
   },
 
-  mod() {}
+  mod() {},
 };

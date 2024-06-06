@@ -12,15 +12,14 @@ module.exports = {
 
   meta: {
     version: '2.1.7',
-    preciseCheck: true,
-    author: 'ChatGPT',
-    authorUrl: null,
-    downloadUrl: null
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
   },
 
   fields: ['filepath', 'checkType', 'title', 'contentTitle', 'branch'],
 
-  html(isEvent, data) {
+  html(_, data) {
     return `
     <div style="padding: 10px;">
       <span class="dbminputlabel">File Path</span>
@@ -48,7 +47,7 @@ module.exports = {
   init() {
     const { glob, document } = this;
 
-    glob.onCheckTypeChanged = function (event) {
+    function onCheckTypeChanged(event) {
       const titleSection = document.getElementById('titleSection');
       const contentTitleSection = document.getElementById('contentTitleSection');
       switch (event.value) {
@@ -65,9 +64,11 @@ module.exports = {
           contentTitleSection.style.display = null;
           break;
       }
-    };
+    }
 
-    glob.onCheckTypeChanged(document.getElementById('checkType'));
+    glob.onCheckTypeChanged = onCheckTypeChanged;
+
+    onCheckTypeChanged(document.getElementById('checkType'));
   },
 
   async action(cache) {
