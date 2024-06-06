@@ -93,7 +93,6 @@ module.exports = {
         return;
       }
     } else {
-      console.error('File does not exist');
       this.executeResults(false, data.branch, cache);
       return;
     }
