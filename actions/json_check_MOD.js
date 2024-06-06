@@ -19,7 +19,8 @@ module.exports = {
 
   fields: ['filepath', 'checkType', 'title', 'contentTitle', 'branch'],
 
-  html(_, data) {
+  html() {
+    // Removed 'isEvent' and 'data'
     return `
     <div style="padding: 10px;">
       <span class="dbminputlabel">File Path</span>
@@ -33,11 +34,11 @@ module.exports = {
         <option value="2">Check if Content Exists Under Title</option>
       </select>
     </div>
-    <div id='titleSection' style="padding: 10px; display: none;">
+    <div id="titleSection" style="padding: 10px; display: none;">
       <span class="dbminputlabel">Title</span>
       <input id="title" class="round" type="text" placeholder="Title">
     </div>
-    <div id='contentTitleSection' style="padding: 10px; display: none;">
+    <div id="contentTitleSection" style="padding: 10px; display: none;">
       <span class="dbminputlabel">Content Title</span>
       <input id="contentTitle" class="round" type="text" placeholder="Content Title">
     </div>
@@ -47,7 +48,8 @@ module.exports = {
   init() {
     const { glob, document } = this;
 
-    function onCheckTypeChanged(event) {
+    glob.onCheckTypeChanged = function handleCheckTypeChange(event) {
+      // Named function
       const titleSection = document.getElementById('titleSection');
       const contentTitleSection = document.getElementById('contentTitleSection');
       switch (event.value) {
@@ -64,11 +66,9 @@ module.exports = {
           contentTitleSection.style.display = null;
           break;
       }
-    }
+    };
 
-    glob.onCheckTypeChanged = onCheckTypeChanged;
-
-    onCheckTypeChanged(document.getElementById('checkType'));
+    glob.onCheckTypeChanged(document.getElementById('checkType'));
   },
 
   async action(cache) {
@@ -105,28 +105,16 @@ module.exports = {
         case 0:
           result = true;
           break;
-        case 1:
+        case 1: {
           result = jsonData.some((item) => item.Title === title);
           break;
-        case 2:
+        }
+        case 2: {
           const titleData = jsonData.find((item) => item.Title === title);
           if (!titleData) throw new Error('Title not found');
-
-          if (contentTitle.includes('/')) {
-            const contentKeys = contentTitle.split('/');
-            let nestedData = titleData;
-            for (const key of contentKeys) {
-              if (nestedData[key] !== undefined) {
-                nestedData = nestedData[key];
-              } else {
-                throw new Error('Nested content title not found');
-              }
-            }
-            result = true;
-          } else {
-            result = contentTitle in titleData;
-          }
+          result = contentTitle in titleData;
           break;
+        }
       }
     } catch (error) {
       console.error(`Error checking JSON data: ${error}`);
