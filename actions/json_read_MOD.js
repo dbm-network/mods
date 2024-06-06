@@ -79,7 +79,7 @@ module.exports = {
 
     let result;
     try {
-      const titleData = jsonData.find((item) => item.Title === title);
+      const titleData = jsonData.find(item => item.Title === title);
       if (!titleData) throw new Error('Title not found');
 
       if (contentTitle.includes('/')) {
@@ -104,5 +104,5 @@ module.exports = {
     this.callNextAction(cache);
   },
 
-  mod() {},
+  mod() {}
 };
