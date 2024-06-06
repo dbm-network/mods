@@ -1,6 +1,6 @@
 module.exports = {
-  name: "Get List Length",
-  section: "Lists and Loops",
+  name: 'Get List Length',
+  section: 'Lists and Loops',
 
   subtitle(data, presets) {
     const list = presets.lists;
@@ -10,12 +10,12 @@ module.exports = {
   variableStorage(data, varType) {
     const type = parseInt(data.storage, 10);
     if (type !== varType) return;
-    return [data.varName2, "Number"];
+    return [data.varName2, 'Number'];
   },
 
-  meta: { version: "2.1.7", preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
-  fields: ["list", "varName", "storage", "varName2"],
+  fields: ['list', 'varName', 'storage', 'varName2'],
 
   html(isEvent, data) {
     return `
@@ -39,7 +39,7 @@ module.exports = {
 
   init() {
     const { glob, document } = this;
-    glob.listChange(document.getElementById("list"), "varNameContainer");
+    glob.listChange(document.getElementById('list'), 'varNameContainer');
   },
 
   async action(cache) {
@@ -49,10 +49,10 @@ module.exports = {
     const storage2 = parseInt(data.storage, 10);
 
     if (Array.isArray(list)) {
-      const length = list.length > 0 ? list.length : "undefined";
+      const length = list.length > 0 ? list.length : 'undefined';
       this.storeValue(length, storage2, varName2, cache);
     } else {
-      this.storeValue("undefined", storage2, varName2, cache);
+      this.storeValue('undefined', storage2, varName2, cache);
     }
 
     this.callNextAction(cache);
