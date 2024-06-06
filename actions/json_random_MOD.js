@@ -5,6 +5,12 @@ module.exports = {
   name: 'Pick Random JSON Item',
   section: 'File Stuff',
   fields: ['filepath', 'title', 'storage', 'varName'],
+  meta: {
+    version: '2.1.7',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+  },
 
   subtitle(data) {
     return `Pick random item from JSON file "${data.filepath}"`;

@@ -5,6 +5,12 @@ module.exports = {
   name: 'Read JSON File',
   section: 'File Stuff',
   fields: ['filepath', 'title', 'contentTitle', 'storage', 'varName'],
+  meta: {
+    version: '2.1.7',
+    preciseCheck: false,
+    author: 'DBM Mods',
+    authorUrl: 'https://github.com/dbm-network/mods',
+  },
 
   subtitle(data) {
     return `Read JSON file "${data.filepath}"`;
