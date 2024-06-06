@@ -1,5 +1,5 @@
 module.exports = {
-  name: 'Get List Length',
+  name: 'Get List Length MOD',
   section: 'Lists and Loops',
 
   subtitle(data, presets) {
