@@ -82,14 +82,17 @@ module.exports = {
       const titleData = jsonData.find((item) => item.Title === title);
       if (!titleData) throw new Error('Title not found');
 
-      if (contentTitle.includes('/')) {
+      if (contentTitle && contentTitle.includes('/')) {
         const contentKeys = contentTitle.split('/');
-        result = {};
+        let nestedValue = titleData;
         for (const key of contentKeys) {
-          if (titleData[key] !== undefined) {
-            result[key] = titleData[key];
+          if (nestedValue[key] !== undefined) {
+            nestedValue = nestedValue[key];
+          } else {
+            throw new Error(`Content key '${key}' not found`);
           }
         }
+        result = nestedValue;
       } else {
         if (titleData[contentTitle] === undefined) throw new Error('Content Title not found');
         result = titleData[contentTitle];
