@@ -77,8 +77,6 @@ module.exports = {
     const server = cache.server;
     const channel = cache.msg?.channel ?? cache.interaction?.channel;
     const { Bot, Files } = this.getDBM();
-    const Mods = this.getMods();
-    const playdl = Mods.require('play-dl');
     const player = Bot.bot.player;
     const voiceChannel = await this.getVoiceChannelFromData(data.voiceChannel, data.varName, cache);
 
@@ -104,11 +102,6 @@ module.exports = {
       leaveOnEmpty: data.leaveOnEmpty,
       leaveOnEmptyCooldown: seconds,
       leaveOnEnd: data.leaveOnEnd,
-      async onBeforeCreateStream(track, source) {
-        if (source === 'youtube') {
-          return (await playdl.stream(track.url, { discordPlayerCompatibility: true })).stream;
-        }
-      },
     });
 
     const track = await player.search(query, {
