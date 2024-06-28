@@ -137,7 +137,7 @@ module.exports = {
         break;
       case 27:
         dataType = 'Boolean';
-		break;
+        break;
       case 28: // Added case for storing sticker count
         dataType = 'Number';
         break;
@@ -157,7 +157,13 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: {
+    version: '2.1.7',
+    preciseCheck: true,
+    author: null,
+    authorUrl: null,
+    downloadUrl: null,
+  },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -240,7 +246,11 @@ module.exports = {
   // ---------------------------------------------------------------------
   async action(cache) {
     const data = cache.actions[cache.index];
-    const msg = await this.getMessageFromData(data.message, data.varName, cache);
+    const msg = await this.getMessageFromData(
+      data.message,
+      data.varName,
+      cache,
+    );
 
     if (!msg) {
       this.callNextAction(cache);
