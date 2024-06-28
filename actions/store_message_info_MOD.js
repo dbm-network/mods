@@ -50,7 +50,9 @@ module.exports = {
       'Is Reply to Message?',
       'Message Stickers Count', // Added option for sticker count
     ];
-    return `${presets.getMessageText(data.message, data.varName)} - ${info[parseInt(data.info, 10)]}`;
+    return `${presets.getMessageText(data.message, data.varName)} - ${
+      info[parseInt(data.info, 10)]
+    }`;
   },
 
   // ---------------------------------------------------------------------
