@@ -50,9 +50,7 @@ module.exports = {
       'Is Reply to Message?',
       'Message Stickers Count', // Added option for sticker count
     ];
-    return `${presets.getMessageText(data.message, data.varName)} - ${
-      info[parseInt(data.info, 10)]
-    }`;
+    return `${presets.getMessageText(data.message, data.varName)} - ${info[parseInt(data.info, 10)]}`;
   },
 
   // ---------------------------------------------------------------------
@@ -193,36 +191,36 @@ module.exports = {
 <br><br><br>
 
 <div style="padding-top: 8px;">
-	<span class="dbminputlabel">Source Info</span><br>
-	<select id="info" class="round">
-		<option value="0" selected>Message Object</option>
-		<option value="1">Message ID</option>
-		<option value="2">Message Text</option>
-		<option value="3">Message Author</option>
-		<option value="4">Message Channel</option>
-		<option value="5">Message Timestamp</option>
-		<option value="6">Message Is Pinned?</option>
-        <option value="7">Message Is TTS?</option>
-        <option value="8">Message Attachments List</option>
-		<option value="9">Message Edits</option>
-		<option value="12">Messages Reactions Count</option>
-		<option value="13">Messages Mentioned Users List</option>
-		<option value="14">Messages Mentioned Users Count</option>
-		<option value="15">Message URL</option>
-		<option value="16">Message Creation Date</option>
-		<option value="17">Message Content Length</option>
-		<option value="18">Message Attachments Count</option>
-		<option value="19">Message Guild</option>
-		<option value="20">Message Type</option>
-		<option value="21">Message Webhook ID</option>
-		<option value="22">Message Embed Object</option>
-        <option value="23">Message Reference Object</option>
-        <option value="24">Replied-to Message ID</option>
-        <option value="25">Replied-to Message Channel ID</option>
-        <option value="26">Replied-to Message Guild ID</option>
-        <option value="27">Is Reply to Message?</option>
-        <option value="28">Message Stickers Count</option> <!-- Added option for sticker count -->
-	</select>
+  <span class="dbminputlabel">Source Info</span><br>
+  <select id="info" class="round">
+    <option value="0" selected>Message Object</option>
+    <option value="1">Message ID</option>
+    <option value="2">Message Text</option>
+    <option value="3">Message Author</option>
+    <option value="4">Message Channel</option>
+    <option value="5">Message Timestamp</option>
+    <option value="6">Message Is Pinned?</option>
+    <option value="7">Message Is TTS?</option>
+    <option value="8">Message Attachments List</option>
+    <option value="9">Message Edits</option>
+    <option value="12">Messages Reactions Count</option>
+    <option value="13">Messages Mentioned Users List</option>
+    <option value="14">Messages Mentioned Users Count</option>
+    <option value="15">Message URL</option>
+    <option value="16">Message Creation Date</option>
+    <option value="17">Message Content Length</option>
+    <option value="18">Message Attachments Count</option>
+    <option value="19">Message Guild</option>
+    <option value="20">Message Type</option>
+    <option value="21">Message Webhook ID</option>
+    <option value="22">Message Embed Object</option>
+    <option value="23">Message Reference Object</option>
+    <option value="24">Replied-to Message ID</option>
+    <option value="25">Replied-to Message Channel ID</option>
+    <option value="26">Replied-to Message Guild ID</option>
+    <option value="27">Is Reply to Message?</option>
+    <option value="28">Message Stickers Count</option> <!-- Added option for sticker count -->
+  </select>
 </div>
 
 <br>
@@ -347,11 +345,13 @@ module.exports = {
       default:
         break;
     }
+
     if (result !== undefined) {
       const storage = parseInt(data.storage, 10);
       const varName2 = this.evalMessage(data.varName2, cache);
       this.storeValue(result, storage, varName2, cache);
     }
+
     this.callNextAction(cache);
   },
 
