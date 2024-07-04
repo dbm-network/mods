@@ -160,6 +160,9 @@ module.exports = {
         });
       } catch {
         console.log('Could not join voice channel');
+        queueData.player.stop();
+        queueData.player.removeAllListeners();
+        Bot.bot.queue.delete(server.id);
         return this.callNextAction(cache);
       }
 
