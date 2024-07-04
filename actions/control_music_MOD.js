@@ -8,7 +8,6 @@ module.exports = {
     authorUrl: 'https://github.com/dbm-network/mods',
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/control_music_MOD.js',
   },
-  requiresAudioLibraries: true,
   fields: ['action', 'volume', 'bitrate'],
 
   subtitle(data) {
@@ -92,7 +91,7 @@ module.exports = {
   action(cache) {
     const { Bot } = this.getDBM();
     const data = cache.actions[cache.index];
-    const queue = Bot.bot.player.getQueue(cache.server);
+    const server = cache.server;
     const action = parseInt(data.action, 10);
     const volume = parseInt(this.evalMessage(data.volume, cache), 10);
     const bitrate = this.evalMessage(data.bitrate, cache);
@@ -102,36 +101,45 @@ module.exports = {
       return this.callNexAction(cache);
     }
 
+    if (!Bot.bot.queue) return this.callNextAction(cache);
+
+    const queue = Bot.bot.queue.get(server.id);
     if (!queue) return this.callNextAction(cache);
 
     try {
       switch (action) {
         case 0:
-          queue.destroy();
+          queue.connection.disconnect();
           break;
         case 1:
-          queue.setPaused(true);
+          queue.player.pause();
           break;
         case 2:
-          queue.setPaused(false);
+          queue.player.unpause();
           break;
         case 3:
-          queue.skip();
+          queue.player.stop();
           break;
         case 4:
-          queue.back();
+          queue.currentIndex -= 2;
+          queue.player.stop();
           break;
         case 5:
-          queue.destroy(false);
+          queue.songs = [];
           break;
-        case 6:
-          queue.shuffle();
+        case 6: {
+          const currentIndex = queue.currentIndex + 1;
+          for (let i = queue.songs.length - 1; i > currentIndex; i--) {
+            const j = Math.floor(Math.random() * (i - currentIndex + 1)) + currentIndex;
+            [queue.songs[i], queue.songs[j]] = [queue.songs[j], queue.songs[i]];
+          }
           break;
+        }
         case 7:
-          queue.setVolume(volume);
+          queue.player.state.resource.volume.setVolume(volume / 100);
           break;
         case 8:
-          queue.setBitrate(bitrate);
+          queue.player.state.resource.encoder.setBitrate(bitrate);
           break;
       }
     } catch (err) {
