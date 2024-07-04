@@ -102,14 +102,14 @@ module.exports = {
     }
 
     if (!Bot.bot.queue) return this.callNextAction(cache);
-    
+
     const queue = Bot.bot.queue.get(server.id);
-    if(!queue) return this.callNextAction(cache);
+    if (!queue) return this.callNextAction(cache);
 
     try {
       switch (action) {
         case 0:
-          queue.connection.disconnect(); 
+          queue.connection.disconnect();
           break;
         case 1:
           queue.player.pause();
@@ -118,11 +118,11 @@ module.exports = {
           queue.player.unpause();
           break;
         case 3:
-          queue.player.stop()
+          queue.player.stop();
           break;
         case 4:
           queue.currentIndex -= 2;
-          queue.player.stop()
+          queue.player.stop();
           break;
         case 5:
           queue.songs = [];

@@ -45,10 +45,10 @@ module.exports = {
     const amount = parseInt(this.evalMessage(data.amount, cache), 10);
 
     if (!Bot.bot.queue) return this.callNextAction(cache);
-    
+
     const queue = Bot.bot.queue.get(targetServer.id);
-    if(!queue) return this.callNextAction(cache);
-    
+    if (!queue) return this.callNextAction(cache);
+
     if (queue.songs && queue.songs.length > position && amount > 0) {
       queue.songs.splice(position, amount);
     }

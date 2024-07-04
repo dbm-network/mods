@@ -82,22 +82,22 @@ module.exports = {
   </p>
   </div>
     `;
-  },  
+  },
 
   init() {
     const { document } = this;
-  
-    document.toggleRepeatText = function() {
+
+    document.toggleRepeatText = function () {
       const infoSelect = document.getElementById('info');
       const repeatModeText = document.getElementById('repeatModeText');
-  
+
       if (infoSelect.value === '3') {
         repeatModeText.style.display = 'block';
       } else {
         repeatModeText.style.display = 'none';
       }
     };
-  
+
     document.toggleRepeatText();
   },
 
@@ -118,7 +118,7 @@ module.exports = {
       if (!Bot.bot.queue) return this.callNextAction(cache);
 
       queue = Bot.bot.queue.get(server);
-      if(!queue) return this.callNextAction(cache);
+      if (!queue) return this.callNextAction(cache);
     }
 
     let result;
@@ -146,12 +146,18 @@ module.exports = {
         const currentHours = Math.floor(currentTime / 3600);
         const currentMinutes = Math.floor((currentTime % 3600) / 60);
         const currentSeconds = Math.floor(currentTime % 60);
-        
+
         const totalHours = Math.floor(totalTime / 3600);
         const totalMinutes = Math.floor((totalTime % 3600) / 60);
         const totalSeconds = Math.floor(totalTime % 60);
 
-        result = `${currentHours > 0 ? `${currentHours}:` : ''}${currentHours > 0 && currentMinutes < 10 ? '0' : ''}${currentMinutes}:${currentSeconds < 10 ? '0' : ''}${currentSeconds} ┃ ${progressBar} ┃ ${totalHours > 0 ? `${totalHours}:` : ''}${totalHours > 0 && totalMinutes < 10 ? '0' : ''}${totalMinutes}:${totalSeconds < 10 ? '0' : ''}${totalSeconds}`;
+        result = `${currentHours > 0 ? `${currentHours}:` : ''}${
+          currentHours > 0 && currentMinutes < 10 ? '0' : ''
+        }${currentMinutes}:${currentSeconds < 10 ? '0' : ''}${currentSeconds} ┃ ${progressBar} ┃ ${
+          totalHours > 0 ? `${totalHours}:` : ''
+        }${totalHours > 0 && totalMinutes < 10 ? '0' : ''}${totalMinutes}:${
+          totalSeconds < 10 ? '0' : ''
+        }${totalSeconds}`;
         break;
       case 5:
         result = queue.songs.map((song, index) => `${index + 1}. ${song.title} - ${song.author}`).join('\n');

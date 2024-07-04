@@ -12,7 +12,14 @@ module.exports = {
   fields: ['trackObject', 'varName', 'info', 'storage', 'varName1'],
 
   subtitle({ info }) {
-    const names = ['Track Title', 'Track Thumbnail', 'Track URL', 'Track Author', 'Track Duration (In seconds)', 'Requested By (User ID)'];
+    const names = [
+      'Track Title',
+      'Track Thumbnail',
+      'Track URL',
+      'Track Author',
+      'Track Duration (In seconds)',
+      'Requested By (User ID)',
+    ];
     return `${names[parseInt(info, 10)]}`;
   },
 

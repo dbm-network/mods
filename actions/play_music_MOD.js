@@ -75,7 +75,13 @@ module.exports = {
     const Mods = this.getMods();
     const ytdl = Mods.require('@distube/ytdl-core');
     const ytpl = Mods.require('@distube/ytpl');
-    const { joinVoiceChannel, createAudioPlayer, createAudioResource, AudioPlayerStatus, VoiceConnectionStatus } = require('@discordjs/voice');
+    const {
+      joinVoiceChannel,
+      createAudioPlayer,
+      createAudioResource,
+      AudioPlayerStatus,
+      VoiceConnectionStatus,
+    } = require('@discordjs/voice');
     const voiceChannel = await this.getVoiceChannelFromData(data.voiceChannel, data.varName, cache);
 
     if (!Bot.bot.queue) Bot.bot.queue = new Map();
@@ -105,12 +111,12 @@ module.exports = {
         return this.callNextAction(cache);
       }
 
-      songs = playlist.items.map(item => ({
+      songs = playlist.items.map((item) => ({
         title: item.title,
         thumbnail: item.thumbnail,
         url: item.shortUrl,
         author: item.author.name,
-        duration: item.duration.split(':').reduce((acc, time) => (60 * acc) + +time),
+        duration: item.duration.split(':').reduce((acc, time) => 60 * acc + +time),
         requestedBy: cache.getUser().id,
       }));
     } else {
@@ -234,7 +240,6 @@ module.exports = {
         queueData.player.removeAllListeners();
         Bot.bot.queue.delete(server.id);
       });
-
     } else {
       if (data.type === '1') {
         const currentSong = serverQueue.songs[serverQueue.currentIndex];
