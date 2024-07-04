@@ -135,13 +135,13 @@ module.exports = {
       case 3:
         result = queue.repeatMode;
         break;
-      case 4:
+      case 4: {
         const song = queue.songs[queue.currentIndex];
         const currentTime = queue.player.state.resource.playbackDuration / 1000;
         const totalTime = song ? parseInt(song.duration, 10) : 0;
         const progressBarLength = 14;
         const progress = Math.round((currentTime / totalTime) * progressBarLength);
-        const progressBar = `▬`.repeat(progress) + `🔘` + `▬`.repeat(progressBarLength - progress);
+        const progressBar = `${`▬`.repeat(progress)}🔘${`▬`.repeat(progressBarLength - progress)}`;
 
         const currentHours = Math.floor(currentTime / 3600);
         const currentMinutes = Math.floor((currentTime % 3600) / 60);
@@ -159,6 +159,7 @@ module.exports = {
           totalSeconds < 10 ? '0' : ''
         }${totalSeconds}`;
         break;
+      }
       case 5:
         result = queue.songs.map((song, index) => `${index + 1}. ${song.title} - ${song.author}`).join('\n');
         break;

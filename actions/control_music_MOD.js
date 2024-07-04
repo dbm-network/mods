@@ -127,13 +127,14 @@ module.exports = {
         case 5:
           queue.songs = [];
           break;
-        case 6:
+        case 6: {
           const currentIndex = queue.currentIndex + 1;
           for (let i = queue.songs.length - 1; i > currentIndex; i--) {
             const j = Math.floor(Math.random() * (i - currentIndex + 1)) + currentIndex;
             [queue.songs[i], queue.songs[j]] = [queue.songs[j], queue.songs[i]];
           }
           break;
+        }
         case 7:
           queue.player.state.resource.volume.setVolume(volume / 100);
           break;

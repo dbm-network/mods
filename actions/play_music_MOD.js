@@ -116,7 +116,7 @@ module.exports = {
         thumbnail: item.thumbnail,
         url: item.shortUrl,
         author: item.author.name,
-        duration: item.duration.split(':').reduce((acc, time) => 60 * acc + +time),
+        duration: item.duration.split(':').reduce((acc, time) => 60 * acc + Number(time)),
         requestedBy: cache.getUser().id,
       }));
     } else {
@@ -240,15 +240,13 @@ module.exports = {
         queueData.player.removeAllListeners();
         Bot.bot.queue.delete(server.id);
       });
+    } else if (data.type === '1') {
+      const currentSong = serverQueue.songs[serverQueue.currentIndex];
+      serverQueue.songs.splice(serverQueue.currentIndex + 1, 0, songs[0]);
+      serverQueue.songs.splice(serverQueue.currentIndex + 2, 0, currentSong);
+      serverQueue.player.stop();
     } else {
-      if (data.type === '1') {
-        const currentSong = serverQueue.songs[serverQueue.currentIndex];
-        serverQueue.songs.splice(serverQueue.currentIndex + 1, 0, song);
-        serverQueue.songs.splice(serverQueue.currentIndex + 2, 0, currentSong);
-        serverQueue.player.stop();
-      } else {
-        serverQueue.songs.push(...songs);
-      }
+      serverQueue.songs.push(...songs);
     }
 
     const storage = parseInt(data.storage, 10);
