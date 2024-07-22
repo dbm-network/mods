@@ -8,7 +8,19 @@ module.exports = {
     authorUrl: 'https://github.com/dbm-network/mods',
     downloadURL: 'https://github.com/dbm-network/mods/blob/master/actions/play_music_MOD.js',
   },
-  fields: ['query', 'voiceChannel', 'varName', 'storage', 'varName2', 'type', 'volume', 'leaveOnEmpty', 'leaveOnEnd'],
+  fields: [
+    'query',
+    'voiceChannel',
+    'varName',
+    'storage',
+    'varName2',
+    'type',
+    'volume',
+    'leaveOnEmpty',
+    'leaveOnEnd',
+    'useCookies',
+    'cookies',
+  ],
 
   subtitle(data) {
     return `${data.query}`;
@@ -57,16 +69,80 @@ module.exports = {
     <store-in-variable dropdownLabel="Store In" selectId="storage" variableContainerId="varNameContainer2" variableInputId="varName2"></store-in-variable>
   </div>
 
-  <br><br><br>
+<br><br><br>
+    <dbm-checkbox style="padding-top: 8px;" id="useCookies" label="Use Cookies (Optional)"></dbm-checkbox>
+  <div style="padding-top: 8px; display: none;" id="cookiesSection">
+	<span class="dbminputlabel">Cookies</span><br>
+	<textarea id="cookies" rows="9" name="cookiesarea" style="white-space: nowrap; resize: none;"></textarea>
+<br>
   <p>
+    <u><b><span style="color: white;">How to get cookies:</span></b></u><br>
+    &#x2022; Install <span class="wrexlink" id="link" data-url="https://www.editthiscookie.com/">EditThisCookie</span> extension for your browser.<br>
+    &#x2022; Go to YouTube.<br>
+    &#x2022; Log in to your account. (You should use a new account for this purpose)<br>
+    &#x2022; Click on the extension icon and click "Export" icon.<br>
+    &#x2022; Your cookie will be added to your clipboard and paste it into cookies area above.
+  </p>
+  <div style="border-top: 3px solid #c7c8c8;"></div>
+  </div>
+  <p style="padding-top: 14px;">
     <u><b><span style="color: white;">NOTE:</span></b></u><br>
-    Supports both videos and playlists.<br>
+    This action supports both videos and playlists.<br>
   </p>
 </div>
+
+<style>
+  span.wrexlink {
+    color: #99b3ff;
+    text-decoration:underline;
+    cursor:pointer;
+  }
+  span.wrexlink:hover {
+    color:#4676b9;
+  }
+</style>
 `;
   },
 
-  init() {},
+  init() {
+    const { document } = this;
+
+    const cookiesCheckbox = document.getElementById('useCookies');
+    const checkboxId2 = document.getElementById('checkboxId2');
+    const cookiesSection = document.getElementById('cookiesSection');
+
+    const checkCookiesCheckbox = (checkbox) => {
+      if (checkbox.checked) {
+        cookiesSection.style.display = 'block';
+      } else {
+        cookiesSection.style.display = 'none';
+      }
+    };
+
+    checkCookiesCheckbox(checkboxId2);
+
+    cookiesCheckbox.addEventListener('change', (event) => {
+      checkCookiesCheckbox(event.target);
+    });
+
+    const specificSpan = document.getElementById('link');
+
+    if (specificSpan) {
+      const url = specificSpan.getAttribute('data-url');
+      if (url) {
+        specificSpan.setAttribute('title', url);
+        specificSpan.addEventListener('click', (e) => {
+          e.stopImmediatePropagation();
+          console.log(`Launching URL: [${url}] in your default browser.`);
+          try {
+            require('child_process').execSync(`start ${url}`);
+          } catch (err) {
+            console.error('Error launching URL:', err);
+          }
+        });
+      }
+    }
+  },
 
   async action(cache) {
     const data = cache.actions[cache.index];
@@ -82,6 +158,12 @@ module.exports = {
       AudioPlayerStatus,
       VoiceConnectionStatus,
     } = require('@discordjs/voice');
+
+    let agent;
+    if (data.useCookies) {
+      const cookiesarray = JSON.parse(this.evalMessage(data.cookies, cache));
+      agent = ytdl.createAgent(cookiesarray);
+    }
     const voiceChannel = await this.getVoiceChannelFromData(data.voiceChannel, data.varName, cache);
 
     if (!Bot.bot.queue) Bot.bot.queue = new Map();
@@ -102,10 +184,10 @@ module.exports = {
 
     let songs = [];
 
-    if (ytpl.validateID(query)) {
+    if (ytpl.validateID(query, { agent })) {
       let playlist;
       try {
-        playlist = await ytpl(query);
+        playlist = await ytpl(query, { agent });
       } catch (error) {
         console.log(error);
         return this.callNextAction(cache);
@@ -122,7 +204,7 @@ module.exports = {
     } else {
       let songInfo;
       try {
-        songInfo = await ytdl.getInfo(query);
+        songInfo = await ytdl.getInfo(query, { agent });
       } catch (error) {
         console.log(error);
         return this.callNextAction(cache);
@@ -177,6 +259,7 @@ module.exports = {
         dlChunkSize: 1024 * 1024,
         quality: 'lowestaudio',
         bitrate: 128,
+        agent,
       });
       const resource = createAudioResource(stream, { inlineVolume: true });
       resource.volume.setVolume(volume / 100);
@@ -209,6 +292,7 @@ module.exports = {
           dlChunkSize: 1024 * 1024,
           quality: 'lowestaudio',
           bitrate: 128,
+          agent,
         });
         const nextResource = createAudioResource(nextStream, { inlineVolume: true });
         nextResource.volume.setVolume(volume / 100);
