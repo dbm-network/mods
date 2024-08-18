@@ -34,6 +34,7 @@ module.exports = {
               if (event.temp2) temp[event.temp2] = invite.guild;
               Actions.invokeEvent(event, member.guild, temp);
             }
+            invites.get(member.guild.id).set(invite.code, invite.uses);
           }
         });
 
