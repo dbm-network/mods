@@ -5,7 +5,7 @@ module.exports = {
   // This is the name of the action displayed in the editor.
   // ---------------------------------------------------------------------
 
-  name: 'Add/Edit Items in Object',
+  name: 'Add Items to Object',
 
   // ---------------------------------------------------------------------
   // Action Section

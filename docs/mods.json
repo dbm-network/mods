@@ -11,12 +11,12 @@
   },
   "add_item_to_object_MOD.js": {
     "description": "Adds or edits an entry in an object",
-    "name": "Add/Edit Item in Object",
+    "name": "Add Item to Object",
     "section": "JSON Things"
   },
   "add_items_to_object_MOD.js": {
     "description": "Adds or edits multiple entries in an object",
-    "name": "Add/Edit Items in Object",
+    "name": "Add Items to Object",
     "section": "JSON Things"
   },
   "add_member_to_thread_MOD.js": {
