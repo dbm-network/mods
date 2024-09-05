@@ -126,8 +126,8 @@ module.exports = {
           this.displayError(data, cache, e);
         }
         list[key] = val;
-      };
-    };
+      }
+    }
 
     this.callNextAction(cache);
   },

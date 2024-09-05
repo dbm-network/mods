@@ -120,7 +120,7 @@ module.exports = {
       const varName2 = this.evalMessage(data.varName2, cache);
       const storage2 = parseInt(data.storage, 10);
       this.storeValue(result, storage2, varName2, cache);
-    };
+    }
 
     this.callNextAction(cache);
   },
