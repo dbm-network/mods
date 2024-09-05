@@ -23,7 +23,9 @@ module.exports = {
 
   subtitle(data, presets) {
     const storage = presets.variables;
-    return `Add ${Object.entries(data.entriess).length} item${Object.entries(data.entriess).length === 1 ? '' : 's'} entries to ${storage[parseInt(data.storage, 10)]} (${data.varName})`;
+    return `Add ${Object.entries(data.entriess).length} item${
+      Object.entries(data.entriess).length === 1 ? '' : 's'
+    } entries to ${storage[parseInt(data.storage, 10)]} (${data.varName})`;
   },
 
   // ---------------------------------------------------------------------
