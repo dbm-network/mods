@@ -9,6 +9,16 @@
     "name": "Comment",
     "section": "Other Stuff"
   },
+  "add_item_to_object_MOD.js": {
+    "description": "Adds or edits an entry in an object",
+    "name": "Add Item to Object",
+    "section": "JSON Things"
+  },
+  "add_items_to_object_MOD.js": {
+    "description": "Adds or edits multiple entries in an object",
+    "name": "Add Items to Object",
+    "section": "JSON Things"
+  },
   "add_member_to_thread_MOD.js": {
     "description": "Add Member To Thread",
     "name": "Add Member To Private Thread",
@@ -269,6 +279,11 @@
     "name": "Create GIF",
     "section": "Image Editing"
   },
+  "create_object_MOD.js": {
+    "description": "Creates an object",
+    "name": "Create Object",
+    "section": "JSON Things"
+  },
   "create_permission_MOD.js": {
     "description": "Create specified permissions",
     "name": "Create Permissions",
@@ -448,6 +463,11 @@
     "description": "Get and store the current timestamp in numeric, or markdown form.",
     "name": "Get Current Timestamp",
     "section": "Other Stuff"
+  },
+  "get_item_from_object_MOD.js": {
+    "description": "Stores the value of an entry from an object",
+    "name": "Get Item from Object",
+    "section": "JSON Things"
   },
   "get_lyrics_MOD.js": {
     "description": "Get song lyrics",
