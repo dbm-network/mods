@@ -74,7 +74,7 @@ module.exports = {
 
     function updateContents(id, str, pathplaceholder) {
       document.getElementById(id).innerHTML = str;
-      if (pathplaceholder) document.getElementById('dbpath').placeholder = pathplaceholder
+      if (pathplaceholder) document.getElementById('dbpath').placeholder = pathplaceholder;
     }
 
     glob.onChangeFormat = function onChangeFormat(event) {
@@ -133,11 +133,7 @@ module.exports = {
         case 'quick.db':
           switch (event.value) {
             case 'store':
-              updateContents(
-                'dbpathlabel',
-                'Path string',
-                'Split path by . (Example: servers.1234567890)'
-              );
+              updateContents('dbpathlabel', 'Path string', 'Split path by . (Example: servers.1234567890)');
               updateContents('dbvaluelabel', 'Value');
               updateVisibility('dbvaluediv', true);
               updateVisibility('dbpathdiv', true);
@@ -145,42 +141,26 @@ module.exports = {
             case 'add':
             case 'subtract':
             case 'push':
-              updateContents(
-                'dbpathlabel',
-                'Path string',
-                'Split path by . (Example: servers.1234567890)'
-              );
+              updateContents('dbpathlabel', 'Path string', 'Split path by . (Example: servers.1234567890)');
               updateContents('dbvaluelabel', 'Value');
               updateVisibility('dbvaluediv', true);
               updateVisibility('dbpathdiv', true);
               break;
 
             case 'pull':
-              updateContents(
-                'dbpathlabel',
-                'Path string',
-                'Split path by . (Example: servers.1234567890)'
-              );
+              updateContents('dbpathlabel', 'Path string', 'Split path by . (Example: servers.1234567890)');
               updateContents('dbvaluelabel', 'Value');
               updateVisibility('dbvaluediv', true);
               updateVisibility('dbpathdiv', true);
               break;
             case 'all':
-              updateContents(
-                'dbpathlabel',
-                'Path string',
-                'Split path by . (Example: servers.1234567890)'
-              );
+              updateContents('dbpathlabel', 'Path string', 'Split path by . (Example: servers.1234567890)');
               updateContents('dbvaluelabel', 'Value');
               updateVisibility('dbvaluediv', false);
               updateVisibility('dbpathdiv', false);
               break;
             default:
-              updateContents(
-                'dbpathlabel',
-                'Path string',
-                'Split path by . (Example: servers.1234567890)'
-              );
+              updateContents('dbpathlabel', 'Path string', 'Split path by . (Example: servers.1234567890)');
               updateContents('dbvaluelabel', 'Value');
               updateVisibility('dbpathdiv', true);
               updateVisibility('dbvaluediv', false);
@@ -196,11 +176,7 @@ module.exports = {
             case 'ensure':
               updateVisibility('dbpathdiv', true);
               updateVisibility('dbvaluediv', true);
-              updateContents(
-                'dbpathlabel',
-                'Path string',
-                'Split path by . (Example: servers.1234567890)'
-              );
+              updateContents('dbpathlabel', 'Path string', 'Split path by . (Example: servers.1234567890)');
               updateContents('dbvaluelabel', 'Value');
               break;
             case 'size':
@@ -219,11 +195,7 @@ module.exports = {
             case 'decrement':
               updateVisibility('dbpathdiv', true);
               updateVisibility('dbvaluediv', false);
-              updateContents(
-                'dbpathlabel',
-                'Path string',
-                'Split path by . (Example: servers.1234567890)'
-              );
+              updateContents('dbpathlabel', 'Path string', 'Split path by . (Example: servers.1234567890)');
               updateContents('dbvaluelabel', 'Value');
               break;
             case 'randomkey':
@@ -233,11 +205,7 @@ module.exports = {
               updateContents('dbvaluelabel', 'Number of random keys');
               break;
             default:
-              updateContents(
-                'dbpathlabel',
-                'Path string',
-                'Split path by . (Example: servers.1234567890)'
-              );
+              updateContents('dbpathlabel', 'Path string', 'Split path by . (Example: servers.1234567890)');
               updateContents('dbvaluelabel', 'Value');
               updateVisibility('dbpathdiv', true);
               updateVisibility('dbvaluediv', false);
