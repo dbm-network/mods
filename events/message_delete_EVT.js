@@ -11,23 +11,21 @@ module.exports = {
     DBM.Events.messageDeleted = async function messageDeleted(message) {
       if (!Bot.$evts['Message Delete MOD']) return;
       const server = message.guild;
-      if (!server) return;
+      let executor = undefined;
+      if (server) {
+        const auditLogs = await message.guild.fetchAuditLogs({
+          limit: 1,
+          type: 'MESSAGE_DELETE',
+        });
 
-      const auditLogs = await message.guild.fetchAuditLogs({
-        limit: 1,
-        type: 'MESSAGE_DELETE',
-      });
-
-      const deletionAuditLogs = auditLogs.entries.first();
-      console.log(deletionAuditLogs);
-
-      let executor;
-      if (!deletionAuditLogs) {
-        executor = undefined;
-      } else if (deletionAuditLogs.target.id === message.author.id) {
-        executor = deletionAuditLogs.executor;
-      } else {
-        executor = message.author;
+        const deletionAuditLogs = auditLogs.entries.first();
+        if (!deletionAuditLogs) {
+          executor = undefined;
+        } else if (deletionAuditLogs.target.id === (message.author ? message.author.id : undefined)) {
+          executor = deletionAuditLogs.executor;
+        } else {
+          executor = message.author;
+        }
       }
 
       for (const event of Bot.$evts['Message Delete MOD']) {
@@ -39,7 +37,7 @@ module.exports = {
     };
 
     const { onReady } = Bot;
-    Bot.onReady = function messageReactionAddedOnReady(...params) {
+    Bot.onReady = function messageDeletedOnReady(...params) {
       Bot.bot.on('messageDelete', DBM.Events.messageDeleted);
       onReady.apply(this, ...params);
     };
