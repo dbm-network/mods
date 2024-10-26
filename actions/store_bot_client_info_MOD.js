@@ -390,7 +390,7 @@ module.exports = {
         result = os.loadavg();
         break;
       case 48: // Current CPU Usage
-        result = os.loadavg[0];
+        result = os.loadavg()[0];
         break;
       default:
         break;
