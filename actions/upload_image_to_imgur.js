@@ -4,7 +4,7 @@ module.exports = {
   name: 'Upload Image To Imgur',
   section: 'Other Stuff',
 
-  subtitle(data) {
+  subtitle() {
     return `Upload Image to Imgur`;
   },
 
@@ -16,7 +16,7 @@ module.exports = {
 
   fields: ['clientID', 'clientSecret', 'refreshToken', 'imageURL', 'storage', 'varName2'],
 
-  html(data) {
+  html() {
     return `
       <div style="padding-top: 8px; display: flex; flex-direction: column; gap: 10px;">
         <div style="display: flex; gap: 10px;">
@@ -25,7 +25,7 @@ module.exports = {
             <input id="clientID" class="round" type="text" style="width: 100%;">
           </div>
           <div style="width: 33%;">
-            Client Secret:<br>
+            Client Secret (optional):<br>
             <input id="clientSecret" class="round" type="text" style="width: 100%;">
           </div>
           <div style="width: 33%;">
@@ -60,7 +60,6 @@ module.exports = {
 
   action(cache) {
     const data = cache.actions[cache.index];
-
     const clientID = this.evalMessage(data.clientID, cache);
     const clientSecret = this.evalMessage(data.clientSecret, cache);
     const refreshToken = this.evalMessage(data.refreshToken, cache);
@@ -94,6 +93,5 @@ module.exports = {
         this.callNextAction(cache);
       });
   },
-
-  mod() {},
+  mod () {},
 };
