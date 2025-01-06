@@ -1,5 +1,3 @@
-const { ImgurClient } = require('imgur');
-
 module.exports = {
   name: 'Upload Image To Imgur',
   section: 'Other Stuff',
@@ -59,6 +57,7 @@ module.exports = {
   init() {},
 
   action(cache) {
+    const { ImgurClient } = this.getMods().require('imgur');
     const data = cache.actions[cache.index];
     const clientID = this.evalMessage(data.clientID, cache);
     const clientSecret = this.evalMessage(data.clientSecret, cache);
