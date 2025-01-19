@@ -669,7 +669,7 @@ module.exports = {
   async action(cache) {
     const data = cache.actions[cache.index];
     const Mods = this.getMods();
-    const fetch = Mods.require('node-fetch');
+    const fetch = Mods.require('node-fetch', '2');
 
     const input = this.evalMessage(data.input, cache);
     const clientID = this.evalMessage(data.clientid, cache);

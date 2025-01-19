@@ -44,7 +44,7 @@ module.exports = {
     const token = this.evalMessage(data.token, cache);
     const info = parseInt(data.info, 10);
     const Mods = this.getMods();
-    const fetch = Mods.require('node-fetch');
+    const fetch = Mods.require('node-fetch', '2');
     const client = this.getDBM().Bot.bot;
 
     const body = { server_count: client.guilds.cache.size };
