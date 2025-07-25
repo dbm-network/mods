@@ -1,9 +1,9 @@
 /* eslint-disable func-names */
 
 module.exports = {
-  name: 'Mods',
+  name: 'Server Prefixes',
   section: '#DBM Mods',
-  displayName: 'Dependencies',
+  displayName: 'Server Prefixes',
 
   meta: {
     version: '2.1.7',

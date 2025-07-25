@@ -4,6 +4,11 @@
     "name": "Mods",
     "section": "#DBM Mods"
   },
+  "aaa_dbmmods_server_prefixes_MOD.js": {
+    "description": "Server prefixes for DBM Mods",
+    "name": "Server Prefixes",
+    "section": "#DBM Mods"
+  },
   "action_list_comment_MOD.js": {
     "description": "Add a comment in your actions list",
     "name": "Comment",
