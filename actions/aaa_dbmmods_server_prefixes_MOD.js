@@ -117,9 +117,5 @@ module.exports = {
     };
 
     console.log('DBM Mods Server Prefixes loaded successfully!');
-
-    // You might not need module.exports for simple mod files if DBM just executes them directly,
-    // but some DBM setups use it. If your mod doesn't seem to work, try adding an empty export:
-    // module.exports = {};
   },
 };
