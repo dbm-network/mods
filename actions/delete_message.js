@@ -35,7 +35,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -63,8 +63,8 @@ module.exports = {
 <message-input dropdownLabel="Source Message" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></message-input><br><br><br>
 
 <div>
-  <span class="dbminputlabel">Reason</span>
-  <input id="reason" placeholder="Optional" class="round" type="text">
+	<span class="dbminputlabel">Reason</span>
+	<input id="reason" placeholder="Optional" class="round" type="text">
 </div>`;
   },
 
@@ -91,13 +91,23 @@ module.exports = {
     const message = await this.getMessageFromData(data.storage, data.varName, cache);
 
     const reason = this.evalMessage(data.reason, cache);
+    const resolveDeleteError = (err) => {
+      const code = err && (err.code ?? err.rawError?.code);
+      if (code === 10008) {
+        this.callNextAction(cache);
+        return;
+      }
+      this.displayError(data, cache, err);
+    };
     if (Array.isArray(message)) {
-      this.callListFunc(message, 'delete', [{ reason }]).then(() => this.callNextAction(cache));
+      this.callListFunc(message, 'delete', [{ reason }])
+        .then(() => this.callNextAction(cache))
+        .catch((err) => resolveDeleteError(err));
     } else if (message?.delete) {
       message
         .delete({ reason })
         .then(() => this.callNextAction(cache))
-        .catch((err) => this.displayError(data, cache, err));
+        .catch((err) => resolveDeleteError(err));
     } else {
       this.callNextAction(cache);
     }

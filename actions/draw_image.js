@@ -38,7 +38,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -121,6 +121,7 @@ module.exports = {
       this.callNextAction(cache);
       return;
     }
+
     const storage2 = parseInt(data.storage2, 10);
     const varName2 = this.evalMessage(data.varName2, cache);
     const image2 = this.getVariable(storage2, varName2, cache);
@@ -128,9 +129,11 @@ module.exports = {
       this.callNextAction(cache);
       return;
     }
+
     const x = parseInt(this.evalMessage(data.x, cache), 10);
     const y = parseInt(this.evalMessage(data.y, cache), 10);
     const mask = data.mask;
+
     if (mask === '2') {
       image.mask(image2, x, y);
     } else if (mask === '1') {

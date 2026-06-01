@@ -35,7 +35,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -80,13 +80,16 @@ module.exports = {
   // so be sure to provide checks for variable existence.
   // ---------------------------------------------------------------------
 
-  action(cache) {
+  async action(cache) {
     const Audio = this.getDBM().Audio;
     const server = cache.server;
-    const subscription = Audio.getSubscription(server);
+    const subscription = await Audio.getSubscription(server);
     const queue = subscription?.queue.slice();
 
-    if (!queue?.length) return this.callNextAction(cache);
+    if (!queue?.length) {
+      this.callNextAction(cache);
+      return;
+    }
 
     subscription.queueLock = true;
     for (let i = queue.length - 1; i > 0; i--) {

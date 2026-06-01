@@ -38,7 +38,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -68,15 +68,15 @@ module.exports = {
 <br><br><br><br>
 
 <div style="float: left; width: calc(50% - 12px);">
-  <span class="dbminputlabel">New Thread State</span><br>
-  <select id="archive" class="round">
-    <option value="true" selected>Archive</option>
-    <option value="false">Unarchive</option>
-  </select>
+	<span class="dbminputlabel">New Thread State</span><br>
+	<select id="archive" class="round">
+		<option value="true" selected>Archive</option>
+		<option value="false">Unarchive</option>
+	</select>
 </div>
 <div style="float: right; width: calc(50% - 12px);">
-  <span class="dbminputlabel">Reason</span>
-  <input id="reason" placeholder="Optional" class="round" type="text">
+	<span class="dbminputlabel">Reason</span>
+	<input id="reason" placeholder="Optional" class="round" type="text">
 </div>`;
   },
 

@@ -35,7 +35,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -65,29 +65,29 @@ module.exports = {
 <br><br><br><br>
 
 <dialog-list id="branches" fields='["comparison", "value", "actions"]' dialogResizable dialogTitle="Check Variable Info" dialogWidth="600" dialogHeight="400" listLabel="Comparisons and Actions" listStyle="height: calc(100vh - 290px);" itemName="Condition" itemHeight="28px;" itemTextFunction="glob.formatItem(data)" itemStyle="line-height: 28px;">
-  <div style="padding: 16px;">
-    <div style="float: left; width: 35%;">
-      <span class="dbminputlabel">Comparison Type</span><br>
-      <select id="comparison" class="round" onchange="glob.onComparisonChanged(this)">
-        <option value="0">Exists</option>
-        <option value="1" selected>Equals</option>
-        <option value="2">Equals Exactly</option>
-        <option value="3">Less Than</option>
-        <option value="4">Greater Than</option>
-        <option value="5">Includes</option>
-        <option value="6">Matches Regex</option>
-      </select>
-    </div>
-    <div style="float: right; width: 60%;">
-      <span class="dbminputlabel">Value to Compare to</span><br>
-      <input id="value" class="round" type="text" name="is-eval">
-    </div>
+	<div style="padding: 16px;">
+		<div style="float: left; width: 35%;">
+			<span class="dbminputlabel">Comparison Type</span><br>
+			<select id="comparison" class="round" onchange="glob.onComparisonChanged(this)">
+				<option value="0">Exists</option>
+				<option value="1" selected>Equals</option>
+				<option value="2">Equals Exactly</option>
+				<option value="3">Less Than</option>
+				<option value="4">Greater Than</option>
+				<option value="5">Includes</option>
+				<option value="6">Matches Regex</option>
+			</select>
+		</div>
+		<div style="float: right; width: 60%;">
+			<span class="dbminputlabel">Value to Compare to</span><br>
+			<input id="value" class="round" type="text" name="is-eval">
+		</div>
 
-    <br><br><br><br>
+		<br><br><br><br>
 
-    <action-list-input id="actions" height="calc(100vh - 220px)"></action-list-input>
+		<action-list-input id="actions" height="calc(100vh - 220px)"></action-list-input>
 
-  </div>
+	</div>
 </dialog-list>`;
   },
 

@@ -36,7 +36,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -99,12 +99,13 @@ module.exports = {
     const { DiscordJS } = this.getDBM();
     const message = data.message;
     if (!data.channel || !message) {
-      return this.callNextAction(cache);
+      this.callNextAction(cache);
+      return;
     }
 
     const target = await this.getSendTargetFromData(data.channel, data.varName, cache);
 
-    const file = new DiscordJS.MessageAttachment(this.getLocalFile(this.evalMessage(data.file, cache)));
+    const file = new DiscordJS.AttachmentBuilder(this.getLocalFile(this.evalMessage(data.file, cache)));
     const options = { content: this.evalMessage(message, cache), files: [file] };
 
     if (Array.isArray(target)) {

@@ -38,7 +38,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -68,125 +68,125 @@ module.exports = {
 <br><br><br>
 
 <div style="padding-top: 8px;">
-  <div style="float: left; width: calc(50% - 12px);">
-    <span class="dbminputlabel">Name</span><br>
-    <input id="channelName" class="round" type="text" placeholder="Leave blank to not edit!">
-  </div>
-  <div style="float: right; width: calc(50% - 12px);">
-    <span class="dbminputlabel">Reason</span>
-    <input id="reason" placeholder="Optional" class="round" type="text">
-  </div>
+	<div style="float: left; width: calc(50% - 12px);">
+		<span class="dbminputlabel">Name</span><br>
+		<input id="channelName" class="round" type="text" placeholder="Leave blank to not edit!">
+	</div>
+	<div style="float: right; width: calc(50% - 12px);">
+		<span class="dbminputlabel">Reason</span>
+		<input id="reason" placeholder="Optional" class="round" type="text">
+	</div>
 </div>
 
 <br><br><br><br>
 
 <tab-system exclusiveTabData spreadOut id="channelEdits">
 
-  <tab label="Text Channel" icon="sort alphabet down" fields='["topic", "categoryID", "slowmode", "position"]'>
-    <div style="padding: 8px;">
-      <div style="float: left; width: calc(50% - 12px);">
-        <span class="dbminputlabel">Topic</span><br>
-        <input id="topic" class="round" type="text" placeholder="Leave blank to not edit!">
+	<tab label="Text Channel" icon="sort alphabet down" fields='["topic", "categoryID", "slowmode", "position"]'>
+		<div style="padding: 8px;">
+			<div style="float: left; width: calc(50% - 12px);">
+				<span class="dbminputlabel">Topic</span><br>
+				<input id="topic" class="round" type="text" placeholder="Leave blank to not edit!">
 
-        <br>
+				<br>
 
-        <span class="dbminputlabel">Slowmode (seconds)</span><br>
-        <input id="slowmode" class="round" type="text" placeholder="Leave blank to not edit!">
-      </div>
-      <div style="float: right; width: calc(50% - 12px);">
-        <span class="dbminputlabel">Category ID</span><br>
-        <input id= "categoryID" class="round" type="text" placeholder="Leave blank to not edit!">
+				<span class="dbminputlabel">Slowmode (seconds)</span><br>
+				<input id="slowmode" class="round" type="text" placeholder="Leave blank to not edit!">
+			</div>
+			<div style="float: right; width: calc(50% - 12px);">
+				<span class="dbminputlabel">Category ID</span><br>
+				<input id= "categoryID" class="round" type="text" placeholder="Leave blank to not edit!">
 
-        <br>
+				<br>
 
-        <span class="dbminputlabel">Position</span><br>
-        <input id="position" class="round" type="text" placeholder="Leave blank to not edit!">
-      </div>
+				<span class="dbminputlabel">Position</span><br>
+				<input id="position" class="round" type="text" placeholder="Leave blank to not edit!">
+			</div>
 
-      <br><br><br><br><br><br>
-    </div>
-  </tab>
+			<br><br><br><br><br><br>
+		</div>
+	</tab>
 
-  <tab label="Voice Channel" icon="assistive listening systems" fields='["regionOverride", "categoryID", "bitrate", "userLimit"]'>
-    <div style="padding: 8px;">
-      <div style="float: left; width: calc(50% - 12px);">
-        <span class="dbminputlabel">Region Override</span><br>
-        <select id="regionOverride" class="round">
-          <option value="none" selected>Don't Edit</option>
-          <option value="auto">Automatic</option>
-          <option value="us-west">US West</option>
-          <option value="us-east">US East</option>
-          <option value="us-central">US Central</option>
-          <option value="us-south">US South</option>
-          <option value="singapore">Singapore</option>
-          <option value="southafrica">South Africa</option>
-          <option value="sydney">Sydney</option>
-          <option value="europe">Europe</option>
-          <option value="brazil">Brazil</option>
-          <option value="hongkong">Hong Kong</option>
-          <option value="russia">Russia</option>
-          <option value="japan">Japan</option>
-          <option value="india">India</option>
-        </select>
+	<tab label="Voice Channel" icon="assistive listening systems" fields='["regionOverride", "categoryID", "bitrate", "userLimit"]'>
+		<div style="padding: 8px;">
+			<div style="float: left; width: calc(50% - 12px);">
+				<span class="dbminputlabel">Region Override</span><br>
+				<select id="regionOverride" class="round">
+					<option value="none" selected>Don't Edit</option>
+					<option value="auto">Automatic</option>
+					<option value="us-west">US West</option>
+					<option value="us-east">US East</option>
+					<option value="us-central">US Central</option>
+					<option value="us-south">US South</option>
+					<option value="singapore">Singapore</option>
+					<option value="southafrica">South Africa</option>
+					<option value="sydney">Sydney</option>
+					<option value="europe">Europe</option>
+					<option value="brazil">Brazil</option>
+					<option value="hongkong">Hong Kong</option>
+					<option value="russia">Russia</option>
+					<option value="japan">Japan</option>
+					<option value="india">India</option>
+				</select>
 
-        <br>
+				<br>
 
-        <span class="dbminputlabel">Bitrate</span><br>
-        <input id="bitrate" class="round" type="text" placeholder="Leave blank to not edit!">
-      </div>
-      <div style="float: right; width: calc(50% - 12px);">
-        <span class="dbminputlabel">Category ID</span><br>
-        <input id= "categoryID" class="round" type="text" placeholder="Leave blank to not edit!">
+				<span class="dbminputlabel">Bitrate</span><br>
+				<input id="bitrate" class="round" type="text" placeholder="Leave blank to not edit!">
+			</div>
+			<div style="float: right; width: calc(50% - 12px);">
+				<span class="dbminputlabel">Category ID</span><br>
+				<input id= "categoryID" class="round" type="text" placeholder="Leave blank to not edit!">
 
-        <br>
+				<br>
 
-        <span class="dbminputlabel">User Limit</span><br>
-        <input id="userLimit" class="round" type="text" placeholder="Leave blank to not edit!">
-      </div>
+				<span class="dbminputlabel">User Limit</span><br>
+				<input id="userLimit" class="round" type="text" placeholder="Leave blank to not edit!">
+			</div>
 
-      <br><br><br><br><br><br>
-    </div>
-  </tab>
+			<br><br><br><br><br><br>
+		</div>
+	</tab>
 
-  <tab label="Thread Channel" icon="align right" fields='["autoArchiveDuration", "invitable", "slowmode", "locked"]'>
-   <div style="padding: 8px;">
-      <div style="float: left; width: calc(50% - 12px);">
-        <span class="dbminputlabel">Auto-Archive Duration</span><br>
-        <select id="autoArchiveDuration" class="round">
-          <option value="none" selected>Don't Edit</option>
-          <option value="60">1 hour</option>
-          <option value="1440">24 hours</option>
-          <option value="4320">3 days (requires boost LVL 1)</option>
-          <option value="10080">1 week (requires boost LVL 2)</option>
-          <option value="max">Maximum</option>
-        </select>
+	<tab label="Thread Channel" icon="align right" fields='["autoArchiveDuration", "invitable", "slowmode", "locked"]'>
+	 <div style="padding: 8px;">
+			<div style="float: left; width: calc(50% - 12px);">
+				<span class="dbminputlabel">Auto-Archive Duration</span><br>
+				<select id="autoArchiveDuration" class="round">
+					<option value="none" selected>Don't Edit</option>
+					<option value="60">1 hour</option>
+					<option value="1440">24 hours</option>
+					<option value="4320">3 days (requires boost LVL 1)</option>
+					<option value="10080">1 week (requires boost LVL 2)</option>
+					<option value="max">Maximum</option>
+				</select>
 
-        <br>
+				<br>
 
-        <span class="dbminputlabel">Slowmode (seconds)</span><br>
-        <input id="slowmode" class="round" type="text" placeholder="Leave blank to not edit!">
-      </div>
-      <div style="float: right; width: calc(50% - 12px);">
-        <span class="dbminputlabel">Allow Everyone to Invite</span><br>
-        <select id="invitable" class="round">
-          <option value="none" selected>Don't Edit</option>
-          <option value="true">Yes</option>
-          <option value="false">No</option>
-        </select>
+				<span class="dbminputlabel">Slowmode (seconds)</span><br>
+				<input id="slowmode" class="round" type="text" placeholder="Leave blank to not edit!">
+			</div>
+			<div style="float: right; width: calc(50% - 12px);">
+				<span class="dbminputlabel">Allow Everyone to Invite</span><br>
+				<select id="invitable" class="round">
+					<option value="none" selected>Don't Edit</option>
+					<option value="true">Yes</option>
+					<option value="false">No</option>
+				</select>
 
-        <br>
+				<br>
 
-        <span class="dbminputlabel">Set Locked</span><br>
-        <select id="locked" class="round">
-          <option value="none" selected>Don't Edit</option>
-          <option value="true">Yes</option>
-          <option value="false">No</option>
-        </select>
-      </div>
+				<span class="dbminputlabel">Set Locked</span><br>
+				<select id="locked" class="round">
+					<option value="none" selected>Don't Edit</option>
+					<option value="true">Yes</option>
+					<option value="false">No</option>
+				</select>
+			</div>
 
-      <br><br><br><br><br><br>
-    </div>
-  </tab>
+			<br><br><br><br><br><br>
+		</div>
+	</tab>
 
 </tab-system>`;
   },
@@ -273,16 +273,17 @@ module.exports = {
         break;
       }
     }
+    channelData.reason = reason;
 
     const channelStorage = parseInt(data.channel, 10);
     const channelVarName = this.evalMessage(data.channelVarName, cache);
     const channel = await this.getAnyChannel(channelStorage, channelVarName, cache);
 
     if (Array.isArray(channel)) {
-      this.callListFunc(channel, 'edit', [channelData, reason]).then(() => this.callNextAction(cache));
+      this.callListFunc(channel, 'edit', [channelData]).then(() => this.callNextAction(cache));
     } else if (channel?.edit) {
       channel
-        .edit(channelData, reason)
+        .edit(channelData)
         .then(() => this.callNextAction(cache))
         .catch((err) => this.displayError(data, cache, err));
     } else {

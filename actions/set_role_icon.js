@@ -38,7 +38,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -64,16 +64,14 @@ module.exports = {
   html(isEvent, data) {
     return `
 <div>
-  <p>
-    <u>Note:</u><br>
-    Role icons only work in servers with a high enough boost level. If you are having issues, please ensure you are able to set role icons yourself before attempting with the bot.
-  </p>
+	<p>
+		<u>Note:</u><br>
+		Role icons only work in servers with a boost of level 2 or higher. If you are having issues, please ensure you are able to set role icons yourself before attempting with the bot.
+	</p>
 </div>
-
 <br>
 
 <hr class="subtlebar">
-
 <br>
 
 <role-input dropdownLabel="Source Role" selectId="role" variableContainerId="varNameContainer" variableInputId="roleVarName"></role-input>
@@ -113,7 +111,7 @@ module.exports = {
 
     const imageStorage = parseInt(data.image, 10);
     const imageVarName = this.evalMessage(data.imageVarName, cache);
-    let imageOrEmoji = this.getVariable(imageStorage, imageVarName, cache);
+    var imageOrEmoji = this.getVariable(imageStorage, imageVarName, cache);
 
     const Images = this.getDBM().Images;
     const DiscordJS = this.getDBM().DiscordJS;

@@ -78,7 +78,6 @@ module.exports = {
     'channel',
     'varName',
     'message',
-    'components',
     'buttons',
     'selectMenus',
     'attachments',
@@ -118,10 +117,6 @@ module.exports = {
 		<div style="padding: 8px;">
 			<textarea id="message" class="dbm_monospace" rows="10" placeholder="Insert message here..." style="height: calc(100vh - 309px); white-space: nowrap; resize: none;"></textarea>
 		</div>
-	</tab>
-
-	<tab label="Components V2" icon="puzzle piece">
-		${this.getV2ComponentsEditorHtml(isEvent, data)}
 	</tab>
 
 
@@ -485,23 +480,6 @@ module.exports = {
 </tab-system>`;
   },
 
-  getV2ComponentsEditorHtml(isEvent, data) {
-    try {
-      const sendV2Action = require('./send_components_v2_MOD.js');
-      if (typeof sendV2Action?.html !== 'function') {
-        return `<div style="padding: 8px; color: #f66;">Components V2 editor is unavailable.</div>`;
-      }
-      const fullHtml = sendV2Action.html.call(this, isEvent, data);
-      const match = fullHtml.match(/<tab label="Components"[^>]*>([\s\S]*?)<\/tab>\s*<tab label="Settings"/i);
-      if (match?.[1]) return match[1];
-    } catch (err) {
-      return `<div style="padding: 8px; color: #f66;">Failed to load Components V2 editor: ${
-        err?.message ?? err
-      }</div>`;
-    }
-    return `<div style="padding: 8px; color: #f66;">Components V2 editor could not be parsed.</div>`;
-  },
-
   // ---------------------------------------------------------------------
   // Action Editor Init Code
   //
@@ -540,36 +518,6 @@ module.exports = {
         }
       }
     }
-    if (Array.isArray(data?.components)) {
-      const genId = () => `msg-button-${helpers.generateUUID().substring(0, 7)}`;
-      const genSelectId = () => `msg-select-${helpers.generateUUID().substring(0, 7)}`;
-      for (const comp of data.components) {
-        if (Array.isArray(comp?.buttons)) {
-          for (const btn of comp.buttons) {
-            if (!btn.id || btn.id === '0') btn.id = genId();
-          }
-        }
-        if (Array.isArray(comp?.selectMenus)) {
-          for (const sel of comp.selectMenus) {
-            if (!sel.id || sel.id === '0') sel.id = genSelectId();
-          }
-        }
-        if (Array.isArray(comp?.containerComponents)) {
-          for (const child of comp.containerComponents) {
-            if (Array.isArray(child?.containerButtons)) {
-              for (const btn of child.containerButtons) {
-                if (!btn.containerId || btn.containerId === '0') btn.containerId = genId();
-              }
-            }
-            if (Array.isArray(child?.containerSelectMenus)) {
-              for (const sel of child.containerSelectMenus) {
-                if (!sel.containerId || sel.containerId === '0') sel.containerId = genSelectId();
-              }
-            }
-          }
-        }
-      }
-    }
     return data;
   },
 
@@ -601,28 +549,6 @@ module.exports = {
         }
       }
     }
-    if (Array.isArray(data?.components)) {
-      const genId = () => `msg-button-${helpers.generateUUID().substring(0, 7)}`;
-      const genSelectId = () => `msg-select-${helpers.generateUUID().substring(0, 7)}`;
-      for (const comp of data.components) {
-        if (Array.isArray(comp?.buttons)) {
-          for (const btn of comp.buttons) btn.id = genId();
-        }
-        if (Array.isArray(comp?.selectMenus)) {
-          for (const sel of comp.selectMenus) sel.id = genSelectId();
-        }
-        if (Array.isArray(comp?.containerComponents)) {
-          for (const child of comp.containerComponents) {
-            if (Array.isArray(child?.containerButtons)) {
-              for (const btn of child.containerButtons) btn.containerId = genId();
-            }
-            if (Array.isArray(child?.containerSelectMenus)) {
-              for (const sel of child.containerSelectMenus) sel.containerId = genSelectId();
-            }
-          }
-        }
-      }
-    }
     return data;
   },
 
@@ -636,36 +562,6 @@ module.exports = {
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    if (Array.isArray(data.components) && data.components.length > 0) {
-      try {
-        const sendV2Action = require('./send_components_v2_MOD.js');
-        const delegatedAction = {
-          ...data,
-          components: data.components,
-          reply: data.reply,
-          ephemeral: data.ephemeral,
-          tts: data.tts,
-          overwrite: data.overwrite,
-          dontSend: data.dontSend,
-          editMessage: data.editMessage ?? 'none',
-          editMessageVarName: data.editMessageVarName,
-          allowedMentionEveryone: false,
-          allowedMentionRole: false,
-          allowedMentionMember: false,
-          pinned: false,
-        };
-        const delegatedCache = {
-          ...cache,
-          actions: [delegatedAction],
-          index: 0,
-        };
-        await sendV2Action.action.call(this, delegatedCache);
-        return;
-      } catch (err) {
-        this.displayError(data, cache, `[Send Message] Failed Components V2 delegation: ${err?.message ?? err}`);
-        return this.callNextAction(cache);
-      }
-    }
 
     const channel = parseInt(data.channel, 10);
     const message = data.message;
@@ -904,17 +800,45 @@ module.exports = {
       messageOptions._awaitResponses = awaitResponses;
       this.storeValue(messageOptions, storage, varName2, cache);
       this.callNextAction(cache);
-    } else if (Array.isArray(target)) {
-      this.callListFunc(target, 'send', [messageOptions]).then(() => onComplete());
     } else if (isEdit === 2) {
       let promise = null;
 
-      defaultResultMsg = cache.interaction?.message;
+      const interaction = cache.interaction;
+      const isMessageComponentInteraction =
+        typeof interaction?.isMessageComponent === 'function' ? interaction.isMessageComponent() : false;
 
-      if (cache.interaction?.replied && cache.interaction?.editReply) {
-        promise = cache.interaction.editReply(messageOptions);
-      } else if (cache?.interaction?.update) {
-        promise = cache.interaction.update(messageOptions);
+      defaultResultMsg = cache.interaction?.message ?? interaction?.message;
+
+      if (isMessageComponentInteraction && typeof interaction?.update === 'function') {
+        const DiscordJS = this.getDBM().DiscordJS;
+        const MessageFlags = DiscordJS.MessageFlags;
+        const srcMsgFlags = cache.interaction?.message?.flags;
+        if (
+          MessageFlags != null &&
+          srcMsgFlags &&
+          typeof srcMsgFlags.has === 'function' &&
+          srcMsgFlags.has(MessageFlags.Ephemeral)
+        ) {
+          const existing = messageOptions.flags;
+          const eph = MessageFlags.Ephemeral;
+          if (existing == null) {
+            messageOptions.flags = eph;
+          } else if (typeof existing === 'number') {
+            if ((existing & eph) !== eph) {
+              messageOptions.flags = existing | eph;
+            }
+          } else if (existing && typeof existing.bitfield !== 'undefined') {
+            const n = Number(existing.bitfield);
+            if (!Number.isNaN(n) && (n & eph) !== eph) {
+              messageOptions.flags = n | eph;
+            }
+          } else if (typeof existing?.add === 'function' && typeof existing?.has === 'function' && !existing.has(eph)) {
+            messageOptions.flags = existing.add(eph);
+          }
+        }
+        promise = interaction.update(messageOptions);
+      } else if (interaction?.editReply && (interaction.replied || interaction.deferred)) {
+        promise = interaction.editReply(messageOptions);
       } else {
         this.displayError(
           data,
@@ -926,6 +850,8 @@ module.exports = {
       if (promise) {
         promise.then(onComplete).catch((err) => this.displayError(data, cache, err));
       }
+    } else if (Array.isArray(target)) {
+      this.callListFunc(target, 'send', [messageOptions]).then(() => onComplete());
     } else if (isEdit === 1 && target?.edit) {
       target
         .edit(messageOptions)
@@ -972,12 +898,6 @@ module.exports = {
   // ---------------------------------------------------------------------
 
   modInit(data) {
-    if (Array.isArray(data?.components) && data.components.length > 0) {
-      const sendV2Action = require('./send_components_v2_MOD.js');
-      if (typeof sendV2Action?.modInit === 'function') {
-        sendV2Action.modInit.call(this, data);
-      }
-    }
     if (Array.isArray(data?.buttons)) {
       for (let i = 0; i < data.buttons.length; i++) {
         const button = data.buttons[i];

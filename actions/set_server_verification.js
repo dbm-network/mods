@@ -36,7 +36,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -79,8 +79,8 @@ module.exports = {
 <br>
 
 <div>
-  <span class="dbminputlabel">Reason</span>
-  <input id="reason" placeholder="Optional" class="round" type="text">
+	<span class="dbminputlabel">Reason</span>
+	<input id="reason" placeholder="Optional" class="round" type="text">
 </div>`;
   },
 
@@ -106,7 +106,22 @@ module.exports = {
     const data = cache.actions[cache.index];
     const server = await this.getServerFromData(data.server, data.varName, cache);
     const reason = this.evalMessage(data.reason, cache);
-    const level = ['NONE', 'LOW', 'MEDIUM', 'HIGH', 'VERY_HIGH'][parseInt(data.verification, 10)];
+
+    const { GuildVerificationLevel } = this.getDBM().DiscordJS;
+    let level = GuildVerificationLevel.None;
+    switch (data.verification) {
+      case '0':
+        level = GuildVerificationLevel.None;
+      case '1':
+        level = GuildVerificationLevel.Low;
+      case '2':
+        level = GuildVerificationLevel.Medium;
+      case '3':
+        level = GuildVerificationLevel.High;
+      case '4':
+        level = GuildVerificationLevel.VeryHigh;
+    }
+
     if (Array.isArray(server)) {
       this.callListFunc(server, 'setVerificationLevel', [level, reason]).then(() => this.callNextAction(cache));
     } else if (server?.setVerificationLevel) {

@@ -48,7 +48,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -79,9 +79,9 @@ module.exports = {
 		<select id="info" class="round">
 			<option value="0" selected>Channel ID</option>
 			<option value="1">Channel Name</option>
-      <option value="2">Channel Topic</option>
-      <option value="3">Channel Position</option>
-      <option value="4">Channel Category ID</option>
+			<option value="2">Channel Topic</option>
+			<option value="3">Channel Position</option>
+			<option value="4">Channel Category ID</option>
 		</select>
 	</div>
 	<div style="float: right; width: 55%;">
@@ -119,10 +119,14 @@ module.exports = {
       this.callNextAction(cache);
       return;
     }
+
     const data = cache.actions[cache.index];
     const info = parseInt(data.info, 10);
     const find = this.evalMessage(data.find, cache);
-    const channels = server.channels.cache.filter((c) => c.type === 'GUILD_TEXT' || c.type === 'GUILD_NEWS');
+    const { ChannelType } = this.getDBM().DiscordJS;
+    const channels = server.channels.cache.filter(
+      (c) => c.type === ChannelType.GuildText || c.type === ChannelType.GuildAnnouncement,
+    );
     let result;
     switch (info) {
       case 0:

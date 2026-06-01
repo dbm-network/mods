@@ -35,7 +35,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -65,27 +65,27 @@ module.exports = {
 <br><br><br>
 
 <div style="padding-top: 8px;">
-  <div style="float: left; width: calc(50% - 12px);">
-    <span class="dbminputlabel">Permission</span><br>
-    <select id="permission" class="round">
-      ${data.permissions[0]}
-    </select>
-  </div>
-  <div style="float: right; width: calc(50% - 12px);">
-    <span class="dbminputlabel">Change To</span><br>
-    <select id="state" class="round">
-      <option value="0" selected>Allow</option>
-      <option value="1">Disallow</option>
-      <option value="2">Inherit</option>
-    </select>
-  </div>
+	<div style="float: left; width: calc(50% - 12px);">
+		<span class="dbminputlabel">Permission</span><br>
+		<select id="permission" class="round">
+			${data.permissions[0]}
+		</select>
+	</div>
+	<div style="float: right; width: calc(50% - 12px);">
+		<span class="dbminputlabel">Change To</span><br>
+		<select id="state" class="round">
+			<option value="0" selected>Allow</option>
+			<option value="1">Disallow</option>
+			<option value="2">Inherit</option>
+		</select>
+	</div>
 </div>
 
 <br><br><br>
 
 <div style="padding-top: 8px;">
-  <span class="dbminputlabel">Reason</span>
-  <input id="reason" placeholder="Optional" class="round" type="text">
+	<span class="dbminputlabel">Reason</span>
+	<input id="reason" placeholder="Optional" class="round" type="text">
 </div>`;
   },
 
@@ -114,17 +114,19 @@ module.exports = {
       this.callNextAction(cache);
       return;
     }
+
     const channel = await this.getChannelFromData(data.storage, data.varName, cache);
     const reason = this.evalMessage(data.reason, cache);
     const options = { [data.permission]: [true, false, null][parseInt(data.state, 10)] };
+    const role = server.roles.cache.get(server.id);
 
     if (Array.isArray(channel)) {
-      this.callListFunc(channel.permissionOverwrites, 'edit', [server.id, options, { reason, type: 0 }]).then(() =>
+      this.callListFunc(channel.permissionOverwrites, 'edit', [role, options, { reason, type: 0 }]).then(() =>
         this.callNextAction(cache),
       );
     } else if (channel?.permissionOverwrites) {
       channel.permissionOverwrites
-        .edit(server.id, options, { reason, type: 0 })
+        .edit(role, options, { reason, type: 0 })
         .then(() => this.callNextAction(cache))
         .catch((err) => this.displayError(data, cache, err));
     } else {

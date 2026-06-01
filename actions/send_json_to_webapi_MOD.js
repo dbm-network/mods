@@ -227,7 +227,13 @@ module.exports = {
               const value = header[1] || 'Unknown';
               setHeaders[key] = value;
 
-              if (debugMode) console.log(`Applied Header: ${lines[i]}`);
+              if (debugMode) {
+                const line = String(lines[i]);
+                const idx = line.indexOf(':');
+                const key = idx === -1 ? '' : line.slice(0, idx).trim().toLowerCase();
+                const safeLine = key === 'authorization' ? `${line.slice(0, idx + 1)} [REDACTED]` : line;
+                console.log(`Applied Header: ${safeLine}`);
+              }
             } else if (debugMode)
               console.error(
                 `WebAPI: Error: Custom Header line ${lines[i]} is wrongly formatted. You must split the key from the value with a colon (:)`,

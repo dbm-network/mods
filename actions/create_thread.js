@@ -51,7 +51,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -61,7 +61,7 @@ module.exports = {
   // are also the names of the fields stored in the action's JSON data.
   // ---------------------------------------------------------------------
 
-  fields: ['fromTarget', 'threadName', 'autoArchiveDuration', 'reason', 'storage', 'storageVarName'],
+  fields: ['fromTarget', 'threadName', 'autoArchiveDuration', 'reason', 'storage', 'storageVarName', 'threadType'],
 
   // ---------------------------------------------------------------------
   // Command HTML
@@ -76,56 +76,60 @@ module.exports = {
 
   html(isEvent, data) {
     return `
-<tab-system exclusiveTabData retainElementIds spreadOut id="fromTarget">
-  <tab label="Create on Channel" icon="plus" fields='["channel", "channelVarName"]'>
-    <div style="padding: 8px; margin-bottom: 25px;">
-      <channel-input dropdownLabel="Source Channel" selectId="channel" variableContainerId="varNameContainerChannel" variableInputId="channelVarName"></channel-input>
-    </div>
-    <br>
-  </tab>
-  <tab label="Create from Message" icon="plus" fields='["message", "messageVarName"]'>
-    <div style="padding: 8px; margin-bottom: 25px;">
-      <message-input dropdownLabel="Source Message" selectId="message" variableContainerId="varNameContainerMessage" variableInputId="messageVarName"></message-input>
-    </div>
-    <br>
-  </tab>
-</tab-system>
-
-<br><br><br><br><br><br><br>
-
-<div style="float: left; width: calc(50% - 12px);">
-
-  <span class="dbminputlabel">Thread Name</span><br>
-  <input id="threadName" class="round" type="text"><br>
-
+<div style="height: 350px; overflow-y: scroll; overflow-x: hidden;">
+	<tab-system exclusiveTabData retainElementIds spreadOut id="fromTarget">
+		<tab label="Create on Channel" icon="plus" fields='["channel", "channelVarName"]'>
+			<div style="padding: 8px; margin-bottom: 25px;">
+				<channel-input dropdownLabel="Source Channel" selectId="channel" variableContainerId="varNameContainerChannel" variableInputId="channelVarName"></channel-input>
+			</div>
+			<br>
+		</tab>
+		<tab label="Create from Message" icon="plus" fields='["message", "messageVarName"]'>
+			<div style="padding: 8px; margin-bottom: 25px;">
+				<message-input dropdownLabel="Source Message" selectId="message" variableContainerId="varNameContainerMessage" variableInputId="messageVarName"></message-input>
+			</div>
+			<br>
+		</tab>
+	</tab-system>
+	<br><br><br><br><br><br><br>
+	
+	<div style="float: left; width: calc(50% - 12px);">
+		<span class="dbminputlabel">Thread Name</span><br>
+		<input id="threadName" class="round" type="text"><br>
+	</div>
+	<div style="float: right; width: calc(50% - 12px);">
+		<span class="dbminputlabel">Auto-Archive Duration</span><br>
+		<select id="autoArchiveDuration" class="round">
+			<option value="60" selected>1 hour</option>
+			<option value="1440">24 hours</option>
+			<option value="4320">3 days</option>
+			<option value="10080">1 week</option>
+			<option value="max">Maximum</option>
+		</select><br>
+	</div>
+	<br><br><br><br>
+	
+	<div style="width: calc(50% - 12px);">
+		<span class="dbminputlabel">Thread Type</span><br>
+		<select id="threadType" class="round"">
+			<option value="0" selected>Public Thread</option>
+			<option value="1">Private Thread</option>
+		</select>
+	</div>
+	<br>
+	
+	<hr class="subtlebar" style="margin-top: 0px;">
+	<br>
+	
+	<div>
+		<span class="dbminputlabel">Reason</span>
+		<input id="reason" placeholder="Optional" class="round" type="text">
+	</div>
+	<br>
+	
+	<store-in-variable allowNone selectId="storage" variableInputId="storageVarName" variableContainerId="varNameContainer2"></store-in-variable>
 </div>
-<div style="float: right; width: calc(50% - 12px);">
-
-  <span class="dbminputlabel">Auto-Archive Duration</span><br>
-  <select id="autoArchiveDuration" class="round">
-    <option value="60" selected>1 hour</option>
-    <option value="1440">24 hours</option>
-    <option value="4320">3 days (requires boost LVL 1)</option>
-    <option value="10080">1 week (requires boost LVL 2)</option>
-    <option value="max">Maximum</option>
-  </select><br>
-
-</div>
-
-<br><br><br><br>
-
-<hr class="subtlebar" style="margin-top: 0px;">
-
-<br>
-
-<div>
-  <span class="dbminputlabel">Reason</span>
-  <input id="reason" placeholder="Optional" class="round" type="text">
-</div>
-
-<br>
-
-<store-in-variable allowNone selectId="storage" variableInputId="storageVarName" variableContainerId="varNameContainer2"></store-in-variable>`;
+`;
   },
 
   // ---------------------------------------------------------------------
@@ -157,9 +161,22 @@ module.exports = {
       messageOrChannel = await this.getMessageFromData(data.fromTarget.message, data.fromTarget.messageVarName, cache);
     }
 
+    let type = this.getDBM().DiscordJS.ChannelType.PublicThread;
+    switch (data.threadType) {
+      case '0':
+        type = this.getDBM().DiscordJS.ChannelType.PublicThread;
+        break;
+      case '1':
+        type = this.getDBM().DiscordJS.ChannelType.PrivateThread;
+        break;
+    }
+
+    // ThreadAutoArchiveDuration
+    // https://discord-api-types.dev/api/discord-api-types-v10/enum/ThreadAutoArchiveDuration
     const threadOptions = {
       name: this.evalMessage(data.threadName, cache),
-      autoArchiveDuration: data.autoArchiveDuration === 'max' ? 'MAX' : parseInt(data.autoArchiveDuration, 10),
+      autoArchiveDuration: data.autoArchiveDuration === 'max' ? 10080 : parseInt(data.autoArchiveDuration, 10),
+      type,
     };
 
     if (data.reason) {
@@ -181,9 +198,9 @@ module.exports = {
           })
           .catch((err) => this.displayError(data, cache, err));
       }
-    } else {
-      this.callNextAction(cache);
     }
+
+    this.callNextAction(cache);
   },
 
   // ---------------------------------------------------------------------

@@ -35,7 +35,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -105,7 +105,7 @@ module.exports = {
         document.getElementById('varNameContainer3').style.display = 'none';
         document.getElementById('varNameContainer2').style.display = null;
       } else if (value === 4) {
-        varNameInput.innerHTML = 'Emoji  (right-click -> Insert Emoji)';
+        varNameInput.innerHTML = 'Emoji (right-click -> Insert Emoji)';
         document.getElementById('varNameContainer3').style.display = 'none';
         document.getElementById('varNameContainer2').style.display = null;
       } else {

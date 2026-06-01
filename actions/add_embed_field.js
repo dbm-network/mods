@@ -35,7 +35,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -86,7 +86,7 @@ module.exports = {
 
 <div style="padding-top: 8px;">
 	<span class="dbminputlabel">Field Description</span><br>
-	<textarea id="message" class="dbm_monospace"  rows="8" placeholder="Insert message here..." style="white-space: nowrap; resize: none;"></textarea>
+	<textarea id="message" class="dbm_monospace"	rows="8" placeholder="Insert message here..." style="white-space: nowrap; resize: none;"></textarea>
 </div>`;
   },
 
@@ -112,13 +112,15 @@ module.exports = {
     const data = cache.actions[cache.index];
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);
-    const embed = this.getVariable(storage, varName, cache);
+    let embed = this.getVariable(storage, varName, cache);
     const name = this.evalMessage(data.fieldName, cache);
     const message = this.evalMessage(data.message, cache);
     const inline = data.inline === '0';
-    if (embed?.addField) {
-      embed.addField(name, message, inline);
-    }
+
+    const { EmbedBuilder } = this.getDBM().DiscordJS;
+    embed = EmbedBuilder.from(embed).addFields({ name, value: message, inline });
+
+    this.storeValue(embed, storage, varName, cache);
     this.callNextAction(cache);
   },
 

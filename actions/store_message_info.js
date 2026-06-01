@@ -129,7 +129,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -166,8 +166,8 @@ module.exports = {
 		<option value="4">Message Channel</option>
 		<option value="5">Message Timestamp</option>
 		<option value="6">Message Is Pinned?</option>
-    <option value="7">Message Is TTS?</option>
-    <option value="8">Message Attachments List</option>
+			<option value="7">Message Is TTS?</option>
+			<option value="8">Message Attachments List</option>
 		<option value="9">Message Edits</option>
 		<option value="12">Messages Reactions Count</option>
 		<option value="13">Messages Mentioned Users List</option>

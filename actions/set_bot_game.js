@@ -50,7 +50,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -87,11 +87,11 @@ module.exports = {
 
 <span class="dbminputlabel">Activity Type</span>
 <select id="activityType" class="round">
-  <option value="PLAYING" selected>Playing</option>
-  <option value="STREAMING">Streaming</option>
-  <option value="LISTENING">Listening</option>
-  <option value="WATCHING">Watching</option>
-  <option value="COMPETING">Competing</option>
+	<option value="PLAYING" selected>Playing</option>
+	<option value="STREAMING">Streaming</option>
+	<option value="LISTENING">Listening</option>
+	<option value="WATCHING">Watching</option>
+	<option value="COMPETING">Competing</option>
 </select>
 `;
   },
@@ -120,52 +120,27 @@ module.exports = {
     const name = this.evalMessage(data.gameName, cache);
     const url = this.evalMessage(data.gameLink, cache);
 
-    // Discord.js v14 compatibility - use setPresence instead of setActivity
-    const DiscordJS = this.getDBM().DiscordJS;
-    const majorVersion = parseInt(DiscordJS.version.split('.')[0], 10);
+    const { ActivityType } = this.getDBM().DiscordJS;
 
-    if (majorVersion >= 14) {
-      // v14+ uses setPresence with activities array and ActivityType enum
-      const ActivityType = DiscordJS.ActivityType || {
-        Playing: 0,
-        Streaming: 1,
-        Listening: 2,
-        Watching: 3,
-        Custom: 4,
-        Competing: 5,
-      };
-
-      // Map string activity types to ActivityType enum values
-      const activityTypeMap = {
-        PLAYING: ActivityType.Playing || 0,
-        STREAMING: ActivityType.Streaming || 1,
-        LISTENING: ActivityType.Listening || 2,
-        WATCHING: ActivityType.Watching || 3,
-        COMPETING: ActivityType.Competing || 5,
-      };
-
-      const activity = {
-        name,
-        type: activityTypeMap[data.activityType] || ActivityType.Playing || 0,
-      };
-
-      if (url) {
-        activity.url = url;
-        activity.type = ActivityType.Streaming || 1; // STREAMING
+    if (url) {
+      botClient.setActivity(name, { type: ActivityType.Streaming, url });
+    } else {
+      let type = ActivityType.Playing;
+      switch (data.activityType) {
+        case 'PLAYING':
+          type = ActivityType.Playing;
+        case 'STREAMING':
+          type = ActivityType.Streaming;
+        case 'LISTENING':
+          type = ActivityType.Listening;
+        case 'WATCHING':
+          type = ActivityType.Watching;
+        case 'COMPETING':
+          type = ActivityType.Competing;
       }
 
-      botClient.setPresence({
-        activities: [activity],
-        status: 'online',
-      });
-    } else if (url) {
-      // v13 and below - use setActivity (streaming)
-      botClient.setActivity(name, { type: 'STREAMING', url });
-    } else {
-      // v13 and below - use setActivity
-      botClient.setActivity(name, { type: data.activityType });
+      botClient.setActivity(name, { type });
     }
-
     this.callNextAction(cache);
   },
 

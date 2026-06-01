@@ -46,7 +46,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -83,8 +83,8 @@ module.exports = {
 <br><br><br>
 
 <div>
-  <span class="dbminputlabel">Sticker Tag</span><br>
-  <input id="tag" class="round" type="text" placeholder="A standard emoji name. This is required.">
+	<span class="dbminputlabel">Sticker Tag</span><br>
+	<input id="tag" class="round" type="text" placeholder="A standard emoji name. This is required.">
 </div>
 
 <br>
@@ -124,24 +124,28 @@ module.exports = {
   async action(cache) {
     const data = cache.actions[cache.index];
     const server = cache.server;
-    if (!server) return this.callNextAction(cache);
+    if (!server) {
+      this.callNextAction(cache);
+      return;
+    }
+
+    const stickerData = { name: this.evalMessage(data.stickerName, cache) };
 
     const varName = this.evalMessage(data.varName, cache);
     const image = this.getVariable(parseInt(data.storage, 10), varName, cache);
     const { Images } = this.getDBM();
 
-    let buffer;
     try {
-      buffer = Images.createBuffer(image);
+      stickerData.file = Images.createBuffer(image);
     } catch {
       return this.displayError(data, cache);
     }
 
-    const tag = this.evalMessage(data.tag, cache);
-    const description = this.evalMessage(data.description, cache);
+    stickerData.tag = this.evalMessage(data.tag, cache);
+    stickerData.description = this.evalMessage(data.description, cache);
 
     server.stickers
-      .create(buffer, this.evalMessage(data.stickerName, cache), tag, { description })
+      .create(stickerData)
       .then((sticker) => {
         const varName2 = this.evalMessage(data.varName2, cache);
         const storage = parseInt(data.storage, 10);

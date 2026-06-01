@@ -35,7 +35,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -100,8 +100,8 @@ module.exports = {
 <br>
 
 <div>
-  <span class="dbminputlabel">Reason</span>
-  <input id="reason" placeholder="Optional" class="round" type="text">
+	<span class="dbminputlabel">Reason</span>
+	<input id="reason" placeholder="Optional" class="round" type="text">
 </div>`;
   },
 
@@ -125,7 +125,6 @@ module.exports = {
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const reason = this.evalMessage(data.reason, cache);
 
     const roleData = {};
     if (data.roleName) {
@@ -143,14 +142,17 @@ module.exports = {
     if (data.mentionable !== 'none') {
       roleData.mentionable = data.mentionable === 'true';
     }
+    if (data.reason) {
+      roleData.reason = this.evalMessage(data.reason, cache);
+    }
 
     const role = await this.getRoleFromData(data.storage, data.varName, cache);
 
     if (Array.isArray(role)) {
-      this.callListFunc(role, 'edit', [roleData, reason]).then(() => this.callNextAction(cache));
+      this.callListFunc(role, 'edit', [{ roleData }]).then(() => this.callNextAction(cache));
     } else if (role?.edit) {
       role
-        .edit(roleData, reason)
+        .edit(roleData)
         .then(() => this.callNextAction(cache))
         .catch((err) => this.displayError(data, cache, err));
     } else {

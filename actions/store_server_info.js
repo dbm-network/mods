@@ -216,7 +216,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -249,55 +249,55 @@ module.exports = {
 	<div style="padding-top: 8px; width: 100%;">
 		<span class="dbminputlabel">Source Info</span><br>
 		<select id="info" class="round">
-      <option value="0">Server Object</options>
-      <option value="1">Server ID</options>
-      <option value="2">Server Name</options>
-      <option value="3">Server Name Acronym</options>
-      <option value="17">Server Member Count</options>
-      <option value="4">Server Region (Removed)</options>
-      <option value="5">Server Icon URL</options>
-      <option value="6">Server Verification Level</options>
-      <option value="7">Server Default Channel</options>
-      <option value="9">Server System Channel</options>
-      <option value="43">Server Explicit Content Filter</options>
-      <option value="8">Server AFK Channel</options>
-      <option value="19">Server AFK Timeout</options>
-      <option value="10">Server Default Role</options>
-      <option value="48">Server Owner ID</options>
-      <option value="11">Server Owner Object</options>
-      <option value="12">Server Bot Member</options>
-      <option value="18">Server Created At</options>
-      <option value="22">Server Joined At</options>
-      <option value="20">Server Available</options>
-      <option value="21">Server Large</options>
-      <option value="40">Server Verified</options>
-      <option value="23">Server Channels Count</options>
-      <option value="13">Server Channels List</options>
-      <option value="31">Server Channels IDs List</options>
-      <option value="37">Server Roles Count</options>
-      <option value="14">Server Roles List</options>
-      <option value="32">Server Roles IDs List</options>
-      <option value="30">Server Bot Count</options>
-      <option value="35">Server Human Count</options>
-      <option value="15">Server Members List</options>
-      <option value="33">Server Members IDs List</options>
-      <option value="16">Server Emojis List</options>
-      <option value="24">Server Emojis Count</options>
-      <option value="25">Server Embed Enabled</options>
-      <option value="27">Server Online Members Count</options>
-      <option value="29">Server Idle Members Count</options>
-      <option value="26">Server Do Not Disturb Members Count</options>
-      <option value="28">Server Offline Members Count</options>
-      <option value="38">Server Text Channels Count</options>
-      <option value="39">Server Voice Channels Count</options>
-      <option value="41">Server Bans List</options>
-      <option value="42">Server Invites List</options>
-      <option value="44">Server Boosts Count</options>
-      <option value="45">Server Boost Tier</options>
-      <option value="46">Server Banner URL</options>
-      <option value="47">Server Features List</options>
-      <option value="49">Server Vanity URL Code</options>
-      <option value="50">Server Widget Channel ID</options>
+			<option value="0">Server Object</options>
+			<option value="1">Server ID</options>
+			<option value="2">Server Name</options>
+			<option value="3">Server Name Acronym</options>
+			<option value="17">Server Member Count</options>
+			<option value="4">Server Region (Removed)</options>
+			<option value="5">Server Icon URL</options>
+			<option value="6">Server Verification Level</options>
+			<option value="7">Server Default Channel</options>
+			<option value="9">Server System Channel</options>
+			<option value="43">Server Explicit Content Filter</options>
+			<option value="8">Server AFK Channel</options>
+			<option value="19">Server AFK Timeout</options>
+			<option value="10">Server Default Role</options>
+			<option value="48">Server Owner ID</options>
+			<option value="11">Server Owner Object</options>
+			<option value="12">Server Bot Member</options>
+			<option value="18">Server Created At</options>
+			<option value="22">Server Joined At</options>
+			<option value="20">Server Available</options>
+			<option value="21">Server Large</options>
+			<option value="40">Server Verified</options>
+			<option value="23">Server Channels Count</options>
+			<option value="13">Server Channels List</options>
+			<option value="31">Server Channels IDs List</options>
+			<option value="37">Server Roles Count</options>
+			<option value="14">Server Roles List</options>
+			<option value="32">Server Roles IDs List</options>
+			<option value="30">Server Bot Count</options>
+			<option value="35">Server Human Count</options>
+			<option value="15">Server Members List</options>
+			<option value="33">Server Members IDs List</options>
+			<option value="16">Server Emojis List</options>
+			<option value="24">Server Emojis Count</options>
+			<option value="25">Server Embed Enabled</options>
+			<option value="27">Server Online Members Count</options>
+			<option value="29">Server Idle Members Count</options>
+			<option value="26">Server Do Not Disturb Members Count</options>
+			<option value="28">Server Offline Members Count</options>
+			<option value="38">Server Text Channels Count</options>
+			<option value="39">Server Voice Channels Count</options>
+			<option value="41">Server Bans List</options>
+			<option value="42">Server Invites List</options>
+			<option value="44">Server Boosts Count</options>
+			<option value="45">Server Boost Tier</options>
+			<option value="46">Server Banner URL</options>
+			<option value="47">Server Features List</options>
+			<option value="49">Server Vanity URL Code</options>
+			<option value="50">Server Widget Channel ID</options>
 		</select>
 	</div>
 </div>
@@ -330,7 +330,8 @@ module.exports = {
     const targetServer = await this.getServerFromData(data.server, data.varName, cache);
 
     if (!targetServer) {
-      return this.callNextAction(cache);
+      this.callNextAction(cache);
+      return;
     }
 
     const fetchMembers = async (withPresences = false) => {
@@ -376,26 +377,15 @@ module.exports = {
       case 10:
         result = targetServer.roles.resolve(targetServer.id);
         break;
-      case 11: {
+      case 11:
         try {
           result = await targetServer.fetchOwner();
-        } catch (error) {
-          const oid = targetServer.ownerId;
-          try {
-            if (oid) {
-              result = await targetServer.members.fetch(oid);
-            } else {
-              result = null;
-            }
-          } catch (error2) {
-            console.warn(`[Store Server Info] Could not fetch owner for server ${targetServer.id}:`, error.message);
-            result = null;
-          }
+        } catch (err) {
+          result = null;
         }
         break;
-      }
       case 12:
-        result = targetServer.me;
+        result = targetServer.members.me;
         break;
       case 13:
         result = [...targetServer.channels.cache.values()];
@@ -472,12 +462,18 @@ module.exports = {
       case 37:
         result = targetServer.roles.cache.size;
         break;
-      case 38:
-        result = targetServer.channels.cache.filter((c) => c.type === 'GUILD_TEXT' || c.type === 'GUILD_NEWS').size;
+      case 38: {
+        const { ChannelType } = this.getDBM().DiscordJS;
+        result = targetServer.channels.cache.filter(
+          (c) => c.type === ChannelType.GuildText || c.type === ChannelType.GuildAnnouncement,
+        ).size;
         break;
-      case 39:
-        result = targetServer.channels.cache.filter((c) => c.type === 'GUILD_VOICE').size;
+      }
+      case 39: {
+        const { ChannelType } = this.getDBM().DiscordJS;
+        result = targetServer.channels.cache.filter((c) => c.type === ChannelType.GuildVoice).size;
         break;
+      }
       case 40:
         result = targetServer.verified;
         break;

@@ -35,7 +35,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -120,7 +120,10 @@ module.exports = {
     const data = cache.actions[cache.index];
     const source = await this.getChannelFromData(data.channel, data.varName, cache);
 
-    if (!source?.messages) return this.callNextAction(cache);
+    if (!source?.messages) {
+      this.callNextAction(cache);
+      return;
+    }
 
     const count = Math.min(parseInt(this.evalMessage(data.count, cache), 10), 100);
     const options = {

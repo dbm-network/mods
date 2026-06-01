@@ -35,7 +35,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -90,8 +90,12 @@ module.exports = {
     const data = cache.actions[cache.index];
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);
-    const embed = this.getVariable(storage, varName, cache);
-    embed?.setDescription?.(this.evalMessage(data.message, cache));
+    let embed = this.getVariable(storage, varName, cache);
+
+    const { EmbedBuilder } = this.getDBM().DiscordJS;
+    embed = EmbedBuilder.from(embed).setDescription(this.evalMessage(data.message, cache));
+
+    this.storeValue(embed, storage, varName, cache);
     this.callNextAction(cache);
   },
 

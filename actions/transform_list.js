@@ -48,7 +48,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -75,13 +75,13 @@ module.exports = {
     return `
 <div>
 	<div style="float: left; width: 35%;">
-		Source List:<br>
+		<span class="dbminputlabel">Source List</span>
 		<select id="list" class="round" onchange="glob.listChange(this, 'varNameContainer')">
 			${data.lists[isEvent ? 1 : 0]}
 		</select>
 	</div>
 	<div id="varNameContainer" style="display: none; float: right; width: 60%;">
-		Variable Name:<br>
+		<span class="dbminputlabel">Variable Name</span>
 		<input id="varName" class="round" type="text" list="variableList">
 	</div>
 </div>
@@ -128,7 +128,7 @@ module.exports = {
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const list = await this.getListFromData(data.list, data.varName, cache);
+    const list = (await this.getListFromData(data.list, data.varName, cache)) ?? [];
 
     const result = [];
     const code = this.evalMessage(data.transform, cache);
@@ -143,8 +143,6 @@ module.exports = {
     }
 
     for (let i = 0; i < list.length; i++) {
-      // eslint-disable-next-line no-unused-vars -- `item` is referenced from eval(code) user scripts
-      const item = list[i];
       try {
         const val = eval(code);
         if (val) {

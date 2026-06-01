@@ -57,7 +57,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -132,6 +132,7 @@ module.exports = {
     const info = parseInt(data.info, 10);
     const find = this.evalMessage(data.find, cache);
     let result;
+
     switch (info) {
       case 0:
         result = servers.get(find);

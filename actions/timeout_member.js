@@ -35,7 +35,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -65,13 +65,13 @@ module.exports = {
 <br><br><br>
 
 <div style="padding-top: 8px;">
-  <span class="dbminputlabel">Time</span><br>
-  <input id="time" class="round" placeholder="Insert the time in seconds here..." type="text">
+	<span class="dbminputlabel">Time</span><br>
+	<input id="time" class="round" placeholder="Insert the time in seconds here..." type="text">
 </div>
 
 <div style="padding-top: 16px;">
-  <span class="dbminputlabel">Reason</span><br>
-  <textarea id="reason" class="dbm_monospace" rows="5" placeholder="Insert reason here..." style="white-space: nowrap; resize: none;"></textarea>
+	<span class="dbminputlabel">Reason</span><br>
+	<textarea id="reason" class="dbm_monospace" rows="5" placeholder="Insert reason here..." style="white-space: nowrap; resize: none;"></textarea>
 </div>`;
   },
 

@@ -54,7 +54,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -85,55 +85,55 @@ module.exports = {
 <br><br>
 
 <dialog-list id="textInputs" fields='["name", "placeholder", "minLength", "maxLength", "id", "row", "style", "required"]' dialogTitle="Text Input Info" dialogWidth="600" dialogHeight="370" listLabel="Text Inputs" listStyle="height: calc(100vh - 300px);" itemName="Text Input" itemCols="1" itemHeight="40px;" itemTextFunction="data.name + ' (' + (data.style === 'PARAGRAPH' ? 'Paragraph)' : 'One-Line)')" itemStyle="line-height: 40px;">
-  <div style="padding: 16px;">
-    <div style="width: calc(50% - 12px); float: left;">
-      <span class="dbminputlabel">Name</span>
-      <input id="name" class="round" type="text">
+	<div style="padding: 16px;">
+		<div style="width: calc(50% - 12px); float: left;">
+			<span class="dbminputlabel">Name</span>
+			<input id="name" class="round" type="text">
 
-      <br>
+			<br>
 
-      <span class="dbminputlabel">Placeholder</span><br>
-      <input id="placeholder" class="round" type="text">
+			<span class="dbminputlabel">Placeholder</span><br>
+			<input id="placeholder" class="round" type="text">
 
-      <br>
+			<br>
 
-      <span class="dbminputlabel">Minimum Length</span>
-      <input id="minLength" placeholder="0" class="round" type="text" value="0">
+			<span class="dbminputlabel">Minimum Length</span>
+			<input id="minLength" placeholder="0" class="round" type="text" value="0">
 
-      <br>
+			<br>
 
-      <span class="dbminputlabel">Maximum Length</span>
-      <input id="maxLength" placeholder="1000" class="round" type="text" value="1000">
+			<span class="dbminputlabel">Maximum Length</span>
+			<input id="maxLength" placeholder="1000" class="round" type="text" value="1000">
 
-      <br>
-    </div>
-    <div style="width: calc(50% - 12px); float: right;">
-      <span class="dbminputlabel">Temp Var ID</span>
-      <input id="id" placeholder="Leave blank to disallow..." class="round" type="text">
+			<br>
+		</div>
+		<div style="width: calc(50% - 12px); float: right;">
+			<span class="dbminputlabel">Temp Var ID</span>
+			<input id="id" placeholder="Leave blank to disallow..." class="round" type="text">
 
-      <br>
+			<br>
 
-      <span class="dbminputlabel">Action Row (1 - 5)</span>
-      <input id="row" placeholder="Leave blank for default..." class="round" type="text">
+			<span class="dbminputlabel">Action Row (1 - 5)</span>
+			<input id="row" placeholder="Leave blank for default..." class="round" type="text">
 
-      <br>
+			<br>
 
-      <span class="dbminputlabel">Style</span>
-      <select id="style" class="round">
-        <option value="SHORT">One Line</option>
-        <option value="PARAGRAPH">Paragraph</option>
-      </select>
+			<span class="dbminputlabel">Style</span>
+			<select id="style" class="round">
+				<option value="SHORT">One Line</option>
+				<option value="PARAGRAPH">Paragraph</option>
+			</select>
 
-      <br>
+			<br>
 
-      <span class="dbminputlabel">Required?</span>
-      <select id="required" class="round">
-        <option value="true">Yes</option>
-        <option value="false">No</option>
-      </select>
-    </div>
+			<span class="dbminputlabel">Required?</span>
+			<select id="required" class="round">
+				<option value="true">Yes</option>
+				<option value="false">No</option>
+			</select>
+		</div>
 
-  </div>
+	</div>
 </dialog-list>`;
   },
 
@@ -186,21 +186,22 @@ module.exports = {
     // in the future, copy the html from send_message.js,
     // remove the action input, and uncomment the following code:
     /*
-    if (Array.isArray(data.selectMenus)) {
-      for (let i = 0; i < data.selectMenus.length; i++) {
-        const select = data.selectMenus[i];
-        const selectData = this.generateSelectMenu(select, cache);
-        this.addSelectToActionRowArray(componentsArr, this.evalMessage(select.row, cache), selectData, cache);
-      }
-    }
-    */
+		if (Array.isArray(data.selectMenus)) {
+			for (let i = 0; i < data.selectMenus.length; i++) {
+				const select = data.selectMenus[i];
+				const selectData = this.generateSelectMenu(select, cache);
+				this.addSelectToActionRowArray(componentsArr, this.evalMessage(select.row, cache), selectData, cache);
+			}
+		}
+		*/
 
     if (componentsArr.length > 0) {
+      const { ComponentType } = this.getDBM().DiscordJS;
       componentsArr = componentsArr
         .filter((comps) => comps.length > 0)
         .map(function (comps) {
           return {
-            type: 'ACTION_ROW',
+            type: ComponentType.ActionRow,
             components: comps,
           };
         });

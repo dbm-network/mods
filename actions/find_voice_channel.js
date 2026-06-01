@@ -55,7 +55,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -88,8 +88,8 @@ module.exports = {
 			<option value="1">Voice Channel Name</option>
 			<option value="2">Voice Channel Position</option>
 			<option value="3">Voice Channel User Limit</option>
-      <option value="4">Voice Channel Bitrate (kbps)</option>
-      <option value="5">Voice Channel Category ID</option>
+			<option value="4">Voice Channel Bitrate (kbps)</option>
+			<option value="5">Voice Channel Category ID</option>
 		</select>
 	</div>
 	<div style="float: right; width: 55%;">
@@ -127,11 +127,14 @@ module.exports = {
       this.callNextAction(cache);
       return;
     }
+
     const data = cache.actions[cache.index];
     const info = parseInt(data.info, 10);
     const find = this.evalMessage(data.find, cache);
-    const channels = server.channels.cache.filter((c) => c.type === 'GUILD_VOICE');
+    const { ChannelType } = this.getDBM().DiscordJS;
+    const channels = server.channels.cache.filter((c) => c.type === ChannelType.GuildVoice);
     let result;
+
     switch (info) {
       case 0:
         result = channels.get(find);

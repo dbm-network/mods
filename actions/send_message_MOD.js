@@ -1,39 +1,39 @@
 module.exports = {
-  //---------------------------------------------------------------------
+  // ---------------------------------------------------------------------
   // Action Name
   //
   // This is the name of the action displayed in the editor.
-  //---------------------------------------------------------------------
+  // ---------------------------------------------------------------------
 
-  name: "Send Message",
+  name: 'Send Message',
 
-  //---------------------------------------------------------------------
+  // ---------------------------------------------------------------------
   // Action Section
   //
   // This is the section the action will fall into.
-  //---------------------------------------------------------------------
+  // ---------------------------------------------------------------------
 
-  section: "Messaging",
+  section: 'Messaging',
 
-  //---------------------------------------------------------------------
+  // ---------------------------------------------------------------------
   // Action Subtitle
   //
   // This function generates the subtitle displayed next to the name.
-  //---------------------------------------------------------------------
+  // ---------------------------------------------------------------------
 
   subtitle(data, presets) {
-    let text = "";
+    let text = '';
     if (data.message) {
-      text = `"${data.message.replace(/[\n\r]+/, " ↲ ")}"`;
+      text = `"${data.message.replace(/[\n\r]+/, ' ↲ ')}"`;
     } else if (data.embeds?.length > 0) {
       text = `${data.embeds.length} Embeds`;
     } else if (data.attachments?.length > 0) {
       text = `${data.attachments.length} Attachments`;
     } else if (data.buttons?.length > 0 || data.selectMenus?.length > 0) {
       text = `${data.buttons.length} Buttons and ${data.selectMenus.length} Select Menus`;
-    } else if (data.editMessage && data.editMessage !== "0") {
-      if (data.editMessage === "intUpdate") {
-        text = "Message Options - Edit Interaction"
+    } else if (data.editMessage && data.editMessage !== '0') {
+      if (data.editMessage === 'intUpdate') {
+        text = 'Message Options - Edit Interaction';
       } else {
         text = `Message Options - ${presets.getVariableText(data.editMessage, data.editMessageVarName)}`;
       }
@@ -43,30 +43,33 @@ module.exports = {
     if (data.dontSend) {
       return `Store Data: ${text}`;
     }
-    if (data.descriptioncolor == undefined) {
-      data.descriptioncolor = "#ffffff"
+    if (data.descriptioncolor === undefined) {
+      data.descriptioncolor = '#ffffff';
     }
-    if (data.storagewebhook > "0") {
+    if (Number(data.storagewebhook) > 0) {
       return `Send via Webhook: ${data.varwebhook}`;
     }
     return data.description
-    ? `<font color="${data.descriptioncolor}">${data.description}</font>`
-    : `<font color="${data.descriptioncolor}">${presets.getSendReplyTargetText(data.channel, data.varName)}: ${text}</font>`
+      ? `<font color="${data.descriptioncolor}">${data.description}</font>`
+      : `<font color="${data.descriptioncolor}">${presets.getSendReplyTargetText(
+          data.channel,
+          data.varName,
+        )}: ${text}</font>`;
   },
 
-  //---------------------------------------------------------------------
+  // ---------------------------------------------------------------------
   // Action Storage Function
   //
   // Stores the relevant variable info for the editor.
-  //---------------------------------------------------------------------
+  // ---------------------------------------------------------------------
 
   variableStorage(data, varType) {
     const type = parseInt(data.storage, 10);
     if (type !== varType) return;
-    return [data.varName2, data.dontSend ? "Message Options" : "Message"];
+    return [data.varName2, data.dontSend ? 'Message Options' : 'Message'];
   },
 
-  //---------------------------------------------------------------------
+  // ---------------------------------------------------------------------
   // Action Meta Data
   //
   // Helps check for updates and provides info if a custom mod.
@@ -74,9 +77,9 @@ module.exports = {
   //
   // It's highly recommended "preciseCheck" is set to false for third-party mods.
   // This will make it so the patch version (0.0.X) is not checked.
-  //---------------------------------------------------------------------
+  // ---------------------------------------------------------------------
 
-  meta: { 
+  meta: {
     version: '2.1.7',
     preciseCheck: true,
     author: 'Master3395',
@@ -84,42 +87,42 @@ module.exports = {
     downloadURL: 'https://github.com/master3395/dbm-mods',
   },
 
-  //---------------------------------------------------------------------
+  // ---------------------------------------------------------------------
   // Action Fields
   //
   // These are the fields for the action. These fields are customized
   // by creating elements with corresponding IDs in the HTML. These
   // are also the names of the fields stored in the action's JSON data.
-  //---------------------------------------------------------------------
+  // ---------------------------------------------------------------------
 
   fields: [
-    "channel",
-    "varName",
-    "message",
-    "buttons",
-    "selectMenus",
-    "attachments",
-    "embeds",
-    "reply",
-    "ephemeral",
-    "tts",
-    "overwrite",
-    "dontSend",
-    "editMessage",
-    "editMessageVarName",
-    "storage",
-    "varName2",
-    "iffalse",
-    "iffalseVal",
-    "descriptioncolor",
-    "description",
-    "storagewebhook",
-    "varwebhook",
-    "webhookname",
-    "webhookavatar",
+    'channel',
+    'varName',
+    'message',
+    'buttons',
+    'selectMenus',
+    'attachments',
+    'embeds',
+    'reply',
+    'ephemeral',
+    'tts',
+    'overwrite',
+    'dontSend',
+    'editMessage',
+    'editMessageVarName',
+    'storage',
+    'varName2',
+    'iffalse',
+    'iffalseVal',
+    'descriptioncolor',
+    'description',
+    'storagewebhook',
+    'varwebhook',
+    'webhookname',
+    'webhookavatar',
   ],
 
-  //---------------------------------------------------------------------
+  // ---------------------------------------------------------------------
   // Command HTML
   //
   // This function returns a string containing the HTML used for
@@ -128,7 +131,7 @@ module.exports = {
   // The "isEvent" parameter will be true if this action is being used
   // for an event. Due to their nature, events lack certain information,
   // so edit the HTML to reflect this.
-  //---------------------------------------------------------------------
+  // ---------------------------------------------------------------------
 
   html(isEvent, data) {
     return `
@@ -686,25 +689,25 @@ module.exports = {
 </tab-system></div>`;
   },
 
-  //---------------------------------------------------------------------
+  // ---------------------------------------------------------------------
   // Action Editor Init Code
   //
   // When the HTML is first applied to the action editor, this code
   // is also run. This helps add modifications or setup reactionary
   // functions for the DOM elements.
-  //---------------------------------------------------------------------
+  // ---------------------------------------------------------------------
 
-  init: function() {
-    const {glob, document} = this;
+  init() {
+    const { glob, document } = this;
 
     glob.fitSettingsScroll = function () {
-      const outer = document.getElementById("settingsTabOuter");
+      const outer = document.getElementById('settingsTabOuter');
       if (!outer) return;
 
       const top = outer.getBoundingClientRect().top;
       let bottom = window.innerHeight - 96;
 
-      document.querySelectorAll(".ui.modal, .ui.modal.active, .ui.modal.visible, dialog").forEach((modal) => {
+      document.querySelectorAll('.ui.modal, .ui.modal.active, .ui.modal.visible, dialog').forEach((modal) => {
         const rect = modal.getBoundingClientRect();
         if (rect.height > 180 && rect.width > 200 && rect.top <= top + 40 && rect.bottom > top + 80) {
           bottom = Math.min(bottom, rect.bottom - 56);
@@ -723,94 +726,91 @@ module.exports = {
     setTimeout(glob.fitSettingsScroll, 0);
     setTimeout(glob.fitSettingsScroll, 100);
     setTimeout(glob.fitSettingsScroll, 350);
-    window.addEventListener("resize", glob.fitSettingsScroll);
+    window.addEventListener('resize', glob.fitSettingsScroll);
 
-    const tabSystem = document.querySelector("tab-system");
+    const tabSystem = document.querySelector('tab-system');
     if (tabSystem) {
-      tabSystem.addEventListener("click", () => setTimeout(glob.fitSettingsScroll, 30));
-      if (typeof ResizeObserver !== "undefined") {
+      tabSystem.addEventListener('click', () => setTimeout(glob.fitSettingsScroll, 30));
+      if (typeof ResizeObserver !== 'undefined') {
         const observer = new ResizeObserver(() => glob.fitSettingsScroll());
         observer.observe(tabSystem);
-        const outer = document.getElementById("settingsTabOuter");
+        const outer = document.getElementById('settingsTabOuter');
         if (outer?.parentElement) observer.observe(outer.parentElement);
       }
     }
 
     glob.onComparisonChanged = function (event) {
-      if (event.value > "1") {
-        document.getElementById("iffalseContainer").style.display = null;
+      if (event.value > '1') {
+        document.getElementById('iffalseContainer').style.display = null;
       } else {
-        document.getElementById("iffalseContainer").style.display = "none";
+        document.getElementById('iffalseContainer').style.display = 'none';
       }
-    }
+    };
 
-      glob.onComparisonChanged(document.getElementById("iffalse"));
+    glob.onComparisonChanged(document.getElementById('iffalse'));
 
-
-      glob.onComparisonChanged2 = function (event) {
-        if (event.value > "0") {
-          document.getElementById("webhookdiv").style.display = null;
-          document.getElementById("webhookdiv2").style.display = null;
-          document.getElementById("xincheck").style.display = "none";
-          document.getElementById("xin1").style.display = "none";
-          document.getElementById("xin2").style.display = "none";
-          document.getElementById("xin3").style.display = "block";
-          document.getElementById("xin4").style.display = "none";
-          document.getElementById("xin5").style.display = "none";
-          document.getElementById("xin4n").style.display = null;
-          document.getElementById("xin5n").style.display = null;
-          const myInput = document.querySelector("#reply")
-          myInput.value = false
-          const myInput2 = document.querySelector("#dontSend")
-          myInput2.value = false
-          const myInput3 = document.querySelector("#ephemeral")
-          myInput3.value = false
-          const myInput4 = document.querySelector("#tts")
-          myInput4.value = false
-          const myInput5 = document.querySelector("#overwrite")
-          myInput5.value = false
-          const myInput6 = document.querySelector("#editMessage")
-          myInput6.value = 0
-          const myInput7 = document.querySelector("#channel")
-          myInput7.value = 0
-        } else {
-          document.getElementById("webhookdiv").style.display = "none";
-          document.getElementById("webhookdiv2").style.display = "none";
-          document.getElementById("xincheck").style.display = null;
-          document.getElementById("xin1").style.display = null;
-          document.getElementById("xin2").style.display = "block";
-          document.getElementById("xin3").style.display = "none";
-          document.getElementById("xin4").style.display = null;
-          document.getElementById("xin5").style.display = null;
-          document.getElementById("xin4n").style.display = "none";
-          document.getElementById("xin5n").style.display = "none";
-        }
+    glob.onComparisonChanged2 = function (event) {
+      if (event.value > '0') {
+        document.getElementById('webhookdiv').style.display = null;
+        document.getElementById('webhookdiv2').style.display = null;
+        document.getElementById('xincheck').style.display = 'none';
+        document.getElementById('xin1').style.display = 'none';
+        document.getElementById('xin2').style.display = 'none';
+        document.getElementById('xin3').style.display = 'block';
+        document.getElementById('xin4').style.display = 'none';
+        document.getElementById('xin5').style.display = 'none';
+        document.getElementById('xin4n').style.display = null;
+        document.getElementById('xin5n').style.display = null;
+        const myInput = document.querySelector('#reply');
+        myInput.value = false;
+        const myInput2 = document.querySelector('#dontSend');
+        myInput2.value = false;
+        const myInput3 = document.querySelector('#ephemeral');
+        myInput3.value = false;
+        const myInput4 = document.querySelector('#tts');
+        myInput4.value = false;
+        const myInput5 = document.querySelector('#overwrite');
+        myInput5.value = false;
+        const myInput6 = document.querySelector('#editMessage');
+        myInput6.value = 0;
+        const myInput7 = document.querySelector('#channel');
+        myInput7.value = 0;
+      } else {
+        document.getElementById('webhookdiv').style.display = 'none';
+        document.getElementById('webhookdiv2').style.display = 'none';
+        document.getElementById('xincheck').style.display = null;
+        document.getElementById('xin1').style.display = null;
+        document.getElementById('xin2').style.display = 'block';
+        document.getElementById('xin3').style.display = 'none';
+        document.getElementById('xin4').style.display = null;
+        document.getElementById('xin5').style.display = null;
+        document.getElementById('xin4n').style.display = 'none';
+        document.getElementById('xin5n').style.display = 'none';
       }
-  
-        glob.onComparisonChanged2(document.getElementById("storagewebhook"));
-        setTimeout(glob.fitSettingsScroll, 50);
+    };
 
+    glob.onComparisonChanged2(document.getElementById('storagewebhook'));
+    setTimeout(glob.fitSettingsScroll, 50);
 
-      glob.formatItem = function (data) {
-        let result = '<div style="display: inline-block; width: 200px; padding-left: 8px;">';
-        const comp = data.type;
-        switch (comp) {
-          case "0":
-            result += "Attachment: " + data.url;
-            break;
-            case "1":
-              result += "Canvas: " +data.canvasname;
-              break;
-              case "2":
-                result += "DBM Images: " +data.canvasname;
-                break;
-        }
-        result += "</div>";
-        return result;
-      };
-
+    glob.formatItem = function (data) {
+      let result = '<div style="display: inline-block; width: 200px; padding-left: 8px;">';
+      const comp = data.type;
+      switch (comp) {
+        case '0':
+          result += `Attachment: ${data.url}`;
+          break;
+        case '1':
+          result += `Canvas: ${data.canvasname}`;
+          break;
+        case '2':
+          result += `DBM Images: ${data.canvasname}`;
+          break;
+      }
+      result += '</div>';
+      return result;
+    };
   },
-  //---------------------------------------------------------------------
+  // ---------------------------------------------------------------------
   // Action Editor On Save
   //
   // When the data for the action is saved, this function is called.
@@ -820,28 +820,28 @@ module.exports = {
   // data and fill required entries the user did not.
   //
   // Its inclusion within action mods is optional.
-  //---------------------------------------------------------------------
+  // ---------------------------------------------------------------------
 
   onSave(data, helpers) {
     // generate unique ids if not provided by user since they are important
     if (Array.isArray(data?.buttons)) {
       for (let i = 0; i < data.buttons.length; i++) {
         if (!data.buttons[i].id) {
-          data.buttons[i].id = "msg-button-" + helpers.generateUUID().substring(0, 7);
+          data.buttons[i].id = `msg-button-${helpers.generateUUID().substring(0, 7)}`;
         }
       }
     }
     if (Array.isArray(data?.selectMenus)) {
       for (let i = 0; i < data.selectMenus.length; i++) {
         if (!data.selectMenus[i].id) {
-          data.selectMenus[i].id = "msg-select-" + helpers.generateUUID().substring(0, 7);
+          data.selectMenus[i].id = `msg-select-${helpers.generateUUID().substring(0, 7)}`;
         }
       }
     }
     return data;
   },
 
-  //---------------------------------------------------------------------
+  // ---------------------------------------------------------------------
   // Action Editor On Paste
   //
   // When the data for the action is pasted, this function is called.
@@ -850,49 +850,50 @@ module.exports = {
   // version through the return value.
   //
   // Its inclusion within action mods is optional.
-  //---------------------------------------------------------------------
+  // ---------------------------------------------------------------------
 
   onPaste(data, helpers) {
     if (Array.isArray(data?.buttons)) {
       for (let i = 0; i < data.buttons.length; i++) {
         const id = data.buttons[i].id;
-        if (!id || id.startsWith("msg-button-")) {
-          data.buttons[i].id = "msg-button-" + helpers.generateUUID().substring(0, 7);
+        if (!id || id.startsWith('msg-button-')) {
+          data.buttons[i].id = `msg-button-${helpers.generateUUID().substring(0, 7)}`;
         }
       }
     }
     if (Array.isArray(data?.selectMenus)) {
       for (let i = 0; i < data.selectMenus.length; i++) {
         const id = data.selectMenus[i].id;
-        if (!id || id.startsWith("msg-select-")) {
-          data.selectMenus[i].id = "msg-select-" + helpers.generateUUID().substring(0, 7);
+        if (!id || id.startsWith('msg-select-')) {
+          data.selectMenus[i].id = `msg-select-${helpers.generateUUID().substring(0, 7)}`;
         }
       }
     }
     return data;
   },
 
-  //---------------------------------------------------------------------
+  // ---------------------------------------------------------------------
   // Action Bot Function
   //
   // This is the function for the action within the Bot's Action class.
   // Keep in mind event calls won't have access to the "msg" parameter,
   // so be sure to provide checks for variable existence.
-  //---------------------------------------------------------------------
+  // ---------------------------------------------------------------------
 
   async action(cache) {
-
     const data = cache.actions[cache.index];
 
     const channel = parseInt(data.channel, 10);
     const message = data.message;
-    const storagewebhook = parseInt(data.storagewebhook)
-    const webhookname = this.evalMessage(data.webhookname, cache)
-    const webhookavatar = this.evalMessage(data.webhookavatar, cache)
+    const storagewebhook = parseInt(String(data.storagewebhook), 10) || 0;
+    const webhookname = this.evalMessage(data.webhookname, cache);
+    const webhookavatar = this.evalMessage(data.webhookavatar, cache);
+    let varwebhook = '';
+    let webhook = null;
     if (storagewebhook > 0) {
-      varwebhook = this.evalMessage(data.varwebhook, cache)
-      Mods = this.getMods()
-      webhook = Mods.getWebhook(storagewebhook, varwebhook, cache)
+      varwebhook = this.evalMessage(data.varwebhook, cache);
+      const Mods = this.getMods();
+      webhook = Mods.getWebhook(storagewebhook, varwebhook, cache);
     }
     if (data.channel === undefined || message === undefined) {
       return;
@@ -905,11 +906,11 @@ module.exports = {
     const overwrite = data.overwrite;
 
     let isEdit = 0;
-    if (data.editMessage === "intUpdate") {
+    if (data.editMessage === 'intUpdate') {
       isEdit = 2;
     } else {
       const editMessage = parseInt(data.editMessage, 10);
-      if (typeof editMessage === "number" && editMessage >= 0) {
+      if (typeof editMessage === 'number' && editMessage >= 0) {
         const editVarName = this.evalMessage(data.editMessageVarName, cache);
         const editObject = this.getVariable(editMessage, editVarName, cache);
         const { Message } = this.getDBM().DiscordJS;
@@ -926,10 +927,15 @@ module.exports = {
 
     let content;
 
-    if (data.embeds?.length > 0 || data.attachments?.length > 0 || data.buttons?.length > 0 || data.selectMenus?.length > 0) {
+    if (
+      data.embeds?.length > 0 ||
+      data.attachments?.length > 0 ||
+      data.buttons?.length > 0 ||
+      data.selectMenus?.length > 0
+    ) {
       content = this.evalMessage(message, cache);
     } else {
-      content = this.evalMessage(message || "\u200b", cache);
+      content = this.evalMessage(message || '\u200b', cache);
     }
 
     if (content) {
@@ -957,18 +963,18 @@ module.exports = {
         if (embedData.color) {
           let color = this.evalMessage(embedData.color, cache);
           // v14 compatibility: Convert "RANDOM" to random color number
-          if (color === "RANDOM" || color === "random") {
-            color = Math.floor(Math.random() * 0xFFFFFF);
+          if (color === 'RANDOM' || color === 'random') {
+            color = Math.floor(Math.random() * 0xffffff);
           }
           try {
             embed.setColor(color);
           } catch (e) {
             // If color conversion fails, try as number or default to random
-            const colorNum = parseInt(color, 16) || parseInt(color, 10) || Math.floor(Math.random() * 0xFFFFFF);
+            const colorNum = parseInt(color, 16) || parseInt(color, 10) || Math.floor(Math.random() * 0xffffff);
             embed.setColor(colorNum);
           }
         }
-        if (embedData.timestamp === "true") embed.setTimestamp();
+        if (embedData.timestamp === 'true') embed.setTimestamp();
         if (embedData.imageUrl) embed.setImage(this.evalMessage(embedData.imageUrl, cache));
         if (embedData.thumbUrl) embed.setThumbnail(this.evalMessage(embedData.thumbUrl, cache));
 
@@ -988,24 +994,24 @@ module.exports = {
             const f = fields[i];
             const fieldName = this.evalMessage(f.name || '\u200B', cache);
             let fieldValue = this.evalMessage(f.value || '\u200B', cache);
-            
+
             // Ensure field value is not empty and truncate if too long
             if (!fieldValue || fieldValue.trim() === '') {
               fieldValue = '\u200B';
             }
             // Discord embed field values have a max length of 1024 characters
             if (fieldValue.length > 1024) {
-              fieldValue = fieldValue.substring(0, 1021) + '...';
+              fieldValue = `${fieldValue.substring(0, 1021)}...`;
             }
             // Field names have a max length of 256 characters
-            const safeName = fieldName.length > 256 ? fieldName.substring(0, 253) + '...' : fieldName;
-            
+            const safeName = fieldName.length > 256 ? `${fieldName.substring(0, 253)}...` : fieldName;
+
             // Discord.js v14+ uses addFields instead of addField
             if (embed.addFields) {
-                embed.addFields({ name: safeName, value: fieldValue, inline: f.inline === "true" });
+              embed.addFields({ name: safeName, value: fieldValue, inline: f.inline === 'true' });
             } else {
-                // Fallback for older Discord.js versions
-                embed.addField(safeName, fieldValue, f.inline === "true");
+              // Fallback for older Discord.js versions
+              embed.addField(safeName, fieldValue, f.inline === 'true');
             }
           }
         }
@@ -1046,13 +1052,13 @@ module.exports = {
         const buttonData = this.generateButton(button, cache);
         this.addButtonToActionRowArray(componentsArr, this.evalMessage(button.row, cache), buttonData, cache);
 
-        if (button.mode !== "PERSISTENT") {
+        if (button.mode !== 'PERSISTENT') {
           awaitResponses.push({
-            type: "BUTTON",
-            time: button.time ? parseInt(this.evalMessage(button.time, cache)) || defaultTime : defaultTime,
+            type: 'BUTTON',
+            time: button.time ? parseInt(this.evalMessage(button.time, cache), 10) || defaultTime : defaultTime,
             id: this.evalMessage(button.id, cache),
-            user: button.mode.endsWith("PERSONAL") ? cache.getUser()?.id : null,
-            multi: button.mode.startsWith("MULTI"),
+            user: button.mode.endsWith('PERSONAL') ? cache.getUser()?.id : null,
+            multi: button.mode.startsWith('MULTI'),
             data: button,
           });
         }
@@ -1065,13 +1071,13 @@ module.exports = {
         const selectData = this.generateSelectMenu(select, cache);
         this.addSelectToActionRowArray(componentsArr, this.evalMessage(select.row, cache), selectData, cache);
 
-        if (select.mode !== "PERSISTENT") {
+        if (select.mode !== 'PERSISTENT') {
           awaitResponses.push({
-            type: "SELECT",
-            time: select.time ? parseInt(this.evalMessage(select.time, cache)) || defaultTime : defaultTime,
+            type: 'SELECT',
+            time: select.time ? parseInt(this.evalMessage(select.time, cache), 10) || defaultTime : defaultTime,
             id: this.evalMessage(select.id, cache),
-            user: select.mode.endsWith("PERSONAL") ? cache.getUser()?.id : null,
-            multi: select.mode.startsWith("MULTI"),
+            user: select.mode.endsWith('PERSONAL') ? cache.getUser()?.id : null,
+            multi: select.mode.startsWith('MULTI'),
             data: select,
           });
         }
@@ -1089,26 +1095,26 @@ module.exports = {
     if (componentsArr.length > 0) {
       const { DiscordJS } = this.getDBM();
       const isV14 = this.getDBM().isDiscordJSv14 ? this.getDBM().isDiscordJSv14() : false;
-      const ComponentType = isV14 ? DiscordJS.ComponentType : (DiscordJS.Constants?.MessageComponentTypes || {});
+      const ComponentType = isV14 ? DiscordJS.ComponentType : DiscordJS.Constants?.MessageComponentTypes || {};
       // ActionRow type: 1 in both v13 and v14
-      const actionRowType = isV14 ? (ComponentType.ActionRow || 1) : (ComponentType.ACTION_ROW || 1);
-      
+      const actionRowType = isV14 ? ComponentType.ActionRow || 1 : ComponentType.ACTION_ROW || 1;
+
       const newComponents = componentsArr
         .filter((comps) => comps.length > 0)
         .map(function (comps) {
           // Ensure components are plain objects with numeric types
-          const plainComponents = comps.map(comp => {
+          const plainComponents = comps.map((comp) => {
             if (comp && typeof comp === 'object') {
               // Ensure type is numeric
-              const compType = typeof comp.type === 'number' ? comp.type : (comp.type?.valueOf?.() || comp.type);
+              const compType = typeof comp.type === 'number' ? comp.type : comp.type?.valueOf?.() || comp.type;
               return {
                 ...comp,
-                type: compType
+                type: compType,
               };
             }
             return comp;
           });
-          
+
           return {
             type: actionRowType,
             components: plainComponents,
@@ -1119,11 +1125,11 @@ module.exports = {
     }
 
     if (storagewebhook > 0) {
-      if (webhookname !== "") {
-        messageOptions.username = webhookname
+      if (webhookname !== '') {
+        messageOptions.username = webhookname;
       }
-      if (webhookavatar !== "") {
-        messageOptions.avatarURL = await webhookavatar
+      if (webhookavatar !== '') {
+        messageOptions.avatarURL = await webhookavatar;
       }
     }
 
@@ -1137,81 +1143,77 @@ module.exports = {
       const isV14 = DBM.isDiscordJSv14 ? DBM.isDiscordJSv14() : false;
       const fs = require('fs');
       const path = require('path');
-      
+
       if (!Array.isArray(messageOptions.files) || overwrite) {
         messageOptions.files = [];
       }
       for (let i = 0; i < data.attachments.length; i++) {
-
-        if(data.attachments[i].type == "1"){
-          const { DiscordJS } = this.getDBM();
-          const Canvas = require('canvas')
+        if (data.attachments[i].type === '1') {
+          const Canvas = require('canvas');
           const attachment = data.attachments[i];
           const varnamer = this.evalMessage(attachment?.canvasname, cache);
           const varid = this.evalMessage(attachment?.canvasvar, cache);
-          const imagedata = this.getVariable(varid, varnamer, cache)
+          const imagedata = this.getVariable(varid, varnamer, cache);
           if (!imagedata) {
-            this.callNextAction(cache)
-            return
+            this.callNextAction(cache);
+            return;
           }
-          const image = new Canvas.Image()
-          image.src = imagedata
-          const canvas = Canvas.createCanvas(image.width, image.height)
-          const ctx = canvas.getContext('2d')
-          ctx.drawImage(image, 0, 0, image.width, image.height)
-          const buffer = canvas.toBuffer('image/png', { compressionLevel: data.attachments[i].compress })
-          const spoiler = !!attachment?.spoiler;
-          let name = attachment?.name || (spoiler ? Util.basename("image.png") : undefined);
-          
+          const image = new Canvas.Image();
+          image.src = imagedata;
+          const canvas = Canvas.createCanvas(image.width, image.height);
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(image, 0, 0, image.width, image.height);
+          const buffer = canvas.toBuffer('image/png', { compressionLevel: data.attachments[i].compress });
+          const spoiler = Boolean(attachment?.spoiler);
+          let name = attachment?.name || (spoiler ? Util.basename('image.png') : undefined);
+
           // Handle spoiler for v14 - prefix filename
           if (spoiler && isV14 && name) {
-            name = 'SPOILER_' + name;
+            name = `SPOILER_${name}`;
           }
-          
+
           const msgAttachment = new MessageAttachment(buffer, name);
           if (spoiler && !isV14) {
             msgAttachment.setSpoiler(true);
           }
           messageOptions.files.push(msgAttachment);
-
         }
-        if(data.attachments[i].type == "2"){
+        if (data.attachments[i].type === '2') {
           const { Images } = this.getDBM();
           const attachment = data.attachments[i];
           const varnamer = this.evalMessage(attachment?.canvasname, cache);
           const varid = this.evalMessage(attachment?.canvasvar, cache);
-          const imagedata = this.getVariable(varid, varnamer, cache)
-          const spoiler = !!attachment?.spoiler;
-          let name = attachment?.name || (spoiler ? Util.basename("image.png") : undefined);
-          
+          const imagedata = this.getVariable(varid, varnamer, cache);
+          const spoiler = Boolean(attachment?.spoiler);
+          let name = attachment?.name || (spoiler ? Util.basename('image.png') : undefined);
+
           // Handle spoiler for v14 - prefix filename
           if (spoiler && isV14 && name) {
-            name = 'SPOILER_' + name;
+            name = `SPOILER_${name}`;
           }
-          
-          const buffer = await Images.createBuffer(imagedata)
+
+          const buffer = await Images.createBuffer(imagedata);
           const msgAttachment = new MessageAttachment(buffer, name);
           if (spoiler && !isV14) {
             msgAttachment.setSpoiler(true);
           }
           messageOptions.files.push(msgAttachment);
-
         }
-        if(data.attachments[i].type == "0" || data.attachments[i].type == undefined){
+        if (data.attachments[i].type === '0' || data.attachments[i].type === undefined) {
           const attachment = data.attachments[i];
           const url = this.evalMessage(attachment?.url, cache);
           if (url) {
-            const spoiler = !!attachment?.spoiler;
-            
+            const spoiler = Boolean(attachment?.spoiler);
+
             // Trim and normalize URL to handle whitespace issues
             const normalizedUrl = String(url).trim();
-            
+
             // Check if URL is remote (http/https) or local file path
             const isRemoteUrl = normalizedUrl.startsWith('http://') || normalizedUrl.startsWith('https://');
-            
+
             let msgAttachment;
             let finalName = attachment?.name;
-            
+
             if (isRemoteUrl) {
               // Remote URL - for v14, we need to fetch it first and pass as buffer
               // For v13, we can pass URL string directly
@@ -1229,12 +1231,12 @@ module.exports = {
                       throw new Error('fetch is not available');
                     }
                   }
-                  
+
                   const response = await fetchModule(normalizedUrl);
                   if (!response.ok) {
                     throw new Error(`Failed to fetch remote URL: ${response.statusText}`);
                   }
-                  
+
                   // Get buffer from response (node-fetch v2 uses .buffer(), native fetch uses .arrayBuffer())
                   let buffer;
                   if (typeof response.buffer === 'function') {
@@ -1244,14 +1246,14 @@ module.exports = {
                   } else {
                     throw new Error('Unable to get buffer from response');
                   }
-                  
+
                   finalName = finalName || (spoiler ? Util.basename(normalizedUrl) : undefined);
-                  
+
                   // Handle spoiler for v14 - prefix filename
                   if (spoiler && finalName) {
-                    finalName = 'SPOILER_' + finalName;
+                    finalName = `SPOILER_${finalName}`;
                   }
-                  
+
                   msgAttachment = new MessageAttachment(buffer, finalName);
                 } else {
                   // v13: Pass URL string directly
@@ -1269,25 +1271,27 @@ module.exports = {
               // Local file path - read file as buffer
               try {
                 // Resolve file path (handle both relative and absolute paths)
-                const filePath = path.isAbsolute(normalizedUrl) ? normalizedUrl : path.resolve(process.cwd(), normalizedUrl);
-                
+                const filePath = path.isAbsolute(normalizedUrl)
+                  ? normalizedUrl
+                  : path.resolve(process.cwd(), normalizedUrl);
+
                 // Check if file exists
                 if (!fs.existsSync(filePath)) {
                   console.error(`[Send Message] File not found: ${filePath}`);
                   continue; // Skip this attachment
                 }
-                
+
                 // Read file as buffer
                 const buffer = fs.readFileSync(filePath);
-                
+
                 // Determine filename
                 finalName = finalName || path.basename(filePath);
-                
+
                 // Handle spoiler for v14 - prefix filename
                 if (spoiler && isV14 && finalName) {
-                  finalName = 'SPOILER_' + finalName;
+                  finalName = `SPOILER_${finalName}`;
                 }
-                
+
                 msgAttachment = new MessageAttachment(buffer, finalName);
                 if (spoiler && !isV14) {
                   msgAttachment.setSpoiler(true);
@@ -1297,7 +1301,7 @@ module.exports = {
                 continue; // Skip this attachment on error
               }
             }
-            
+
             messageOptions.files.push(msgAttachment);
           }
         }
@@ -1321,27 +1325,44 @@ module.exports = {
             const response = awaitResponses[i];
             const originalInteraction = cache.interaction?.__originalInteraction ?? cache.interaction;
             const tempVariables = cache.temp || {};
-            this.registerTemporaryInteraction(resultMsg.id, response.time, response.id, response.user, response.multi, (interaction) => {
-              if (response.data) {
-                interaction.__originalInteraction = originalInteraction;
-                if (response.type === "BUTTON") {
-                  this.preformActionsFromInteraction(interaction, response.data, cache.meta, tempVariables);
-                } else {
-                  this.preformActionsFromSelectInteraction(interaction, response.data, cache.meta, tempVariables);
+            this.registerTemporaryInteraction(
+              resultMsg.id,
+              response.time,
+              response.id,
+              response.user,
+              response.multi,
+              (interaction) => {
+                if (response.data) {
+                  interaction.__originalInteraction = originalInteraction;
+                  if (response.type === 'BUTTON') {
+                    this.preformActionsFromInteraction(interaction, response.data, cache.meta, tempVariables);
+                  } else {
+                    this.preformActionsFromSelectInteraction(interaction, response.data, cache.meta, tempVariables);
+                  }
                 }
-              }
-            });
+              },
+            );
           }
         } else {
           this.callNextAction(cache);
         }
       } catch (err) {
-        console.error("[Send Message] onComplete error:", err);
+        console.error('[Send Message] onComplete error:', err);
         const interaction = cache.interaction?.__originalInteraction ?? cache.interaction;
-        if (interaction && typeof interaction.editReply === "function" && interaction.replied === false && interaction.deferred) {
-          interaction.editReply({ content: "Something went wrong." }).catch(() => {});
-        } else if (interaction && typeof interaction.followUp === "function") {
-          interaction.followUp({ content: "Something went wrong.", flags: (this.getDBM().DiscordJS?.MessageFlags?.Ephemeral ?? 64) }).catch(() => {});
+        if (
+          interaction &&
+          typeof interaction.editReply === 'function' &&
+          interaction.replied === false &&
+          interaction.deferred
+        ) {
+          interaction.editReply({ content: 'Something went wrong.' }).catch(() => {});
+        } else if (interaction && typeof interaction.followUp === 'function') {
+          interaction
+            .followUp({
+              content: 'Something went wrong.',
+              flags: this.getDBM().DiscordJS?.MessageFlags?.Ephemeral ?? 64,
+            })
+            .catch(() => {});
         }
         this.callNextAction(cache);
       }
@@ -1349,7 +1370,7 @@ module.exports = {
 
     const isMessageTarget = target instanceof this.getDBM().DiscordJS.Message;
 
-    const sameId = target?.id?.length > 0 && (target?.id ?? "") === cache?.interaction?.channel?.id;
+    const sameId = target?.id?.length > 0 && (target?.id ?? '') === cache?.interaction?.channel?.id;
     const sameChannel = channel === 0 || sameId;
     const canReply = !isMessageTarget && cache?.interaction?.replied === false && sameChannel;
 
@@ -1359,45 +1380,39 @@ module.exports = {
       messageOptions._awaitResponses = awaitResponses;
       this.storeValue(messageOptions, storage, varName2, cache);
       this.callNextAction(cache);
-    }
-
-    else if (isEdit === 2) {
+    } else if (isEdit === 2) {
       let promise = null;
 
       const interaction = cache.interaction;
       const isMessageComponentInteraction =
-        typeof interaction?.isMessageComponent === "function" ? interaction.isMessageComponent() : false;
+        typeof interaction?.isMessageComponent === 'function' ? interaction.isMessageComponent() : false;
 
       defaultResultMsg = cache.interaction?.message ?? interaction?.message;
 
-      if (isMessageComponentInteraction && typeof interaction?.update === "function") {
+      if (isMessageComponentInteraction && typeof interaction?.update === 'function') {
         const DiscordJS = this.getDBM().DiscordJS;
         const MessageFlags = DiscordJS.MessageFlags;
         const srcMsgFlags = cache.interaction?.message?.flags;
         if (
           MessageFlags != null &&
           srcMsgFlags &&
-          typeof srcMsgFlags.has === "function" &&
+          typeof srcMsgFlags.has === 'function' &&
           srcMsgFlags.has(MessageFlags.Ephemeral)
         ) {
           const existing = messageOptions.flags;
           const eph = MessageFlags.Ephemeral;
           if (existing == null) {
             messageOptions.flags = eph;
-          } else if (typeof existing === "number") {
+          } else if (typeof existing === 'number') {
             if ((existing & eph) !== eph) {
               messageOptions.flags = existing | eph;
             }
-          } else if (existing && typeof existing.bitfield !== "undefined") {
+          } else if (existing && typeof existing.bitfield !== 'undefined') {
             const n = Number(existing.bitfield);
             if (!Number.isNaN(n) && (n & eph) !== eph) {
               messageOptions.flags = n | eph;
             }
-          } else if (
-            typeof existing?.add === "function" &&
-            typeof existing?.has === "function" &&
-            !existing.has(eph)
-          ) {
+          } else if (typeof existing?.add === 'function' && typeof existing?.has === 'function' && !existing.has(eph)) {
             messageOptions.flags = existing.add(eph);
           }
         }
@@ -1408,7 +1423,7 @@ module.exports = {
         this.displayError(
           data,
           cache,
-          "Send Message -> Message/Options to Edit -> Interaction Update / Could not find interaction to edit",
+          'Send Message -> Message/Options to Edit -> Interaction Update / Could not find interaction to edit',
         );
       }
 
@@ -1417,30 +1432,22 @@ module.exports = {
           .then(onComplete)
           .catch((err) => this.displayError(data, cache, err) || this.executeResults(false, data, cache));
       }
-    }
-
-    else if (Array.isArray(target)) {
-      this.callListFunc(target, "send", [messageOptions]).then(onComplete);
-    }
-
-    else if (isEdit === 1 && target?.edit) {
+    } else if (Array.isArray(target)) {
+      this.callListFunc(target, 'send', [messageOptions]).then(onComplete);
+    } else if (isEdit === 1 && target?.edit) {
       target
         .edit(messageOptions)
         .then(onComplete)
-        .catch((err) => this.displayError(data, cache, err) || this.executeResults(false, data, cache));;
-    }
-
-    else if (isMessageTarget && target?.reply) {
+        .catch((err) => this.displayError(data, cache, err) || this.executeResults(false, data, cache));
+    } else if (isMessageTarget && target?.reply) {
       target
         .reply(messageOptions)
         .then(onComplete)
         .catch((err) => this.displayError(data, cache, err) || this.executeResults(false, data, cache));
-    }
-
-    else if (data.reply === true && canReply) {
+    } else if (data.reply === true && canReply) {
       messageOptions.withResponse = true;
       if (data.ephemeral === true) {
-        messageOptions.flags = (this.getDBM().DiscordJS?.MessageFlags?.Ephemeral ?? 64);
+        messageOptions.flags = this.getDBM().DiscordJS?.MessageFlags?.Ephemeral ?? 64;
       }
       let promise = null;
       if (cache.interaction.deferred) {
@@ -1449,11 +1456,7 @@ module.exports = {
         promise = cache.interaction.reply(messageOptions);
       }
       promise.then(onComplete).catch((err) => this.displayError(data, cache, err));
-    }
-
-
-    else if (target?.send) {
-
+    } else if (target?.send) {
       if (storagewebhook > 0) {
         webhook
           .send(messageOptions)
@@ -1465,18 +1468,12 @@ module.exports = {
           .then(onComplete)
           .catch((err) => this.displayError(data, cache, err) || this.executeResults(false, data, cache));
       }
-
-    }
-
-
-
-    else {
+    } else {
       this.callNextAction(cache);
     }
-
   },
 
-  //---------------------------------------------------------------------
+  // ---------------------------------------------------------------------
   // Action Bot Mod Init
   //
   // An optional function for action mods. Upon the bot's initialization,
@@ -1487,13 +1484,13 @@ module.exports = {
   // If an action provides inputs for more actions within, be sure
   // to call the `this.prepareActions` function to ensure all actions are
   // recursively iterated through.
-  //---------------------------------------------------------------------
+  // ---------------------------------------------------------------------
 
   modInit(data) {
     if (Array.isArray(data?.buttons)) {
       for (let i = 0; i < data.buttons.length; i++) {
         const button = data.buttons[i];
-        if (button.mode === "PERSISTENT") {
+        if (button.mode === 'PERSISTENT') {
           this.registerButtonInteraction(button.id, button);
         }
         this.prepareActions(button.actions);
@@ -1502,7 +1499,7 @@ module.exports = {
     if (Array.isArray(data?.selectMenus)) {
       for (let i = 0; i < data.selectMenus.length; i++) {
         const select = data.selectMenus[i];
-        if (select.mode === "PERSISTENT") {
+        if (select.mode === 'PERSISTENT') {
           this.registerSelectMenuInteraction(select.id, select);
         }
         this.prepareActions(select.actions);
@@ -1510,14 +1507,14 @@ module.exports = {
     }
   },
 
-  //---------------------------------------------------------------------
+  // ---------------------------------------------------------------------
   // Action Bot Mod
   //
   // Upon initialization of the bot, this code is run. Using the bot's
   // DBM namespace, one can add/modify existing functions if necessary.
   // In order to reduce conflicts between mods, be sure to alias
   // functions you wish to overwrite.
-  //---------------------------------------------------------------------
+  // ---------------------------------------------------------------------
 
   mod() {},
 };

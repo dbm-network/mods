@@ -43,7 +43,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -73,8 +73,8 @@ module.exports = {
 	<input id="url" class="round" type="text" value="resources/"><br>
 </div>
 <div style="float: left; width: calc(50% - 12px);">
-  <span class="dbminputlabel">Volume (0 = min; 100 = max)</span><br>
-  <input id="volume" class="round" type="text" placeholder="Leave blank for automatic..."><br>
+	<span class="dbminputlabel">Volume (0 = min; 100 = max)</span><br>
+	<input id="volume" class="round" type="text" placeholder="Leave blank for automatic..."><br>
 	<span class="dbminputlabel">Bitrate</span><br>
 	<input id="bitrate" class="round" type="text" placeholder="Leave blank for automatic...">
 </div>
@@ -112,7 +112,7 @@ module.exports = {
   // so be sure to provide checks for variable existence.
   // ---------------------------------------------------------------------
 
-  action(cache) {
+  async action(cache) {
     const data = cache.actions[cache.index];
     const Audio = this.getDBM().Audio;
     const options = {};
@@ -128,7 +128,7 @@ module.exports = {
     const url = this.evalMessage(data.url, cache);
     if (url) {
       const info = ['file', options, url];
-      Audio.addAudio(info, cache.server, data.type === '0');
+      await Audio.addAudio(info, cache.server, data.type === '0');
     }
     this.callNextAction(cache);
   },

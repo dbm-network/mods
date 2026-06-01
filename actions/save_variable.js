@@ -36,7 +36,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -63,14 +63,14 @@ module.exports = {
     return `
 <div>
 	<div style="float: left; width: 35%;">
-		Source Variable:<br>
+		<span class="dbminputlabel">Save Variable</span>
 		<select id="storage" class="round" onchange="glob.refreshVariableList(this)">
 			<option value="2" selected>Server Variable</option>
 			<option value="3">Global Variable</option>
 		</select>
 	</div>
 	<div id="varNameContainer" style="float: right; width: 60%;">
-		Variable Name:<br>
+		<span class="dbminputlabel">Variable Name</span>
 		<input id="varName" class="round" type="text" list="variableList">
 	</div>
 </div>`;

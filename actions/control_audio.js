@@ -36,7 +36,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -94,7 +94,11 @@ module.exports = {
     const { Audio } = this.getDBM();
     const server = cache.server;
     const subscription = server && Audio.subscriptions.get(server.id);
-    if (!subscription) return this.callNextAction(cache);
+    if (!subscription) {
+      this.callNextAction(cache);
+      return;
+    }
+
     const action = parseInt(data.action, 10);
     switch (action) {
       case 0:

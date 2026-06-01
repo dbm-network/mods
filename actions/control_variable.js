@@ -50,7 +50,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -85,11 +85,12 @@ module.exports = {
 		<select id="changeType" class="round">
 			<option value="0" selected>Set Value</option>
 			<option value="1">Add Value</option>
+			<option value="2">Subtract Value</option>
 		</select>
 	</div>
 	<div style="float: right; width: 60%;">
 		<span class="dbminputlabel">Value</span><br>
-		<input id="value" class="round" type="text" name="is-eval"><br>
+		<input id="value" class="round" type="text" name="is-eval">
 	</div>
 </div>`;
   },
@@ -118,12 +119,15 @@ module.exports = {
     const varName = this.evalMessage(data.varName, cache);
     const storage = this.getVariable(type, varName, cache);
     const isAdd = data.changeType === '1';
+    const isSub = data.changeType === '2';
     let val = this.evalMessage(data.value, cache);
+
     try {
       val = this.eval(val, cache);
     } catch (e) {
       this.displayError(data, cache, e);
     }
+
     if (val !== undefined) {
       if (isAdd) {
         let result;
@@ -133,10 +137,19 @@ module.exports = {
           result = storage + val;
         }
         this.storeValue(result, type, varName, cache);
+      } else if (isSub) {
+        let result;
+        if (storage === undefined) {
+          result = val;
+        } else {
+          result = storage - val;
+        }
+        this.storeValue(result, type, varName, cache);
       } else {
         this.storeValue(val, type, varName, cache);
       }
     }
+
     this.callNextAction(cache);
   },
 

@@ -79,7 +79,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -178,10 +178,12 @@ module.exports = {
     const msg = cache.msg;
     const interactionOptions = cache.interaction?.options ?? null;
     if (!msg && !interactionOptions) {
-      return this.callNextAction(cache);
+      this.callNextAction(cache);
+      return;
     }
 
     const { Bot, Files } = this.getDBM();
+    const { ApplicationCommandOptionType } = this.getDBM().DiscordJS;
     const infoType = parseInt(data.info, 10);
     const index = parseInt(this.evalMessage(data.infoIndex, cache), 10) - 1;
 
@@ -191,126 +193,22 @@ module.exports = {
       if (content === null) {
         separator = Files.data.settings.separator || '\\s+';
         Bot.populateTagRegex();
-        const raw = String(msg.content || '');
-        const allowPrefixSpace = Files.data.settings.allowPrefixSpace === 'true';
-        const globalTag = String(Files.data.settings.tag || '');
-        const guildTag =
-          msg.guild && msg.guild.prefix != null && String(msg.guild.prefix).length > 0
-            ? String(msg.guild.prefix)
-            : globalTag;
-        const escapeRe = (s) => s.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
-        const prefixCandidates = [];
-        if (guildTag) {
-          prefixCandidates.push(guildTag);
-        }
-        if (guildTag === ';' && !prefixCandidates.includes('!')) {
-          prefixCandidates.push('!');
-        }
-        if (guildTag === '!' && !prefixCandidates.includes(';')) {
-          prefixCandidates.push(';');
-        }
-        if (globalTag && !prefixCandidates.includes(globalTag)) {
-          prefixCandidates.push(globalTag);
-        }
-
-        let cmdName = '';
-        try {
-          if (typeof Bot.checkTag === 'function') {
-            cmdName = Bot.checkTag(msg) || Bot.checkTag(raw) || '';
-          }
-        } catch (e) {
-          cmdName = '';
-        }
-        if (!cmdName) {
-          const firstTok = raw.split(new RegExp(separator))[0];
-          for (let pi = 0; pi < prefixCandidates.length; pi++) {
-            const t = prefixCandidates[pi];
-            if (t && firstTok.startsWith(t)) {
-              cmdName = firstTok.slice(t.length);
-              break;
-            }
-          }
-        }
-
-        let afterPrefix = raw;
-        let stripped = false;
-        for (let pi = 0; pi < prefixCandidates.length; pi++) {
-          const t = prefixCandidates[pi];
-          if (!t) {
-            continue;
-          }
-          const localTagRe = new RegExp(`^${escapeRe(t)}${allowPrefixSpace ? '\\s*' : ''}`);
-          if (localTagRe.test(raw)) {
-            afterPrefix = raw.replace(localTagRe, '');
-            stripped = true;
-            break;
-          }
-        }
-        if (!stripped && Bot.tagRegex && Bot.tagRegex.test(raw)) {
-          afterPrefix = raw.replace(Bot.tagRegex, '');
-        }
-
-        if (cmdName) {
-          afterPrefix = afterPrefix.replace(new RegExp(`^${escapeRe(cmdName)}\\b`), '').trimStart();
-        } else {
-          afterPrefix = afterPrefix.trimStart();
-        }
-        content = afterPrefix;
+        content = msg.content?.replace(Bot.tagRegex, '').replace(Bot.checkTag(msg.content), '').trimStart();
       }
       return content;
     };
 
     let source;
-    const resolveSlashOptionAtIndex = (opts, idx) => {
-      const arr = Array.isArray(opts?.data) ? opts.data : [];
-      if (arr.length === 0) {
-        return null;
-      }
-      const candidate = arr[idx];
-      let out = candidate != null ? this.getParameterFromParameterData(candidate) : null;
-      if (out === null || out === undefined) {
-        for (let i = 0; i < arr.length; i++) {
-          const o = arr[i];
-          if (!o || !Object.prototype.hasOwnProperty.call(o, 'value')) {
-            continue;
-          }
-          const r = this.getParameterFromParameterData(o);
-          if (r !== null && r !== undefined) {
-            out = r;
-            break;
-          }
-        }
-      }
-      if (
-        (out === null || out === undefined) &&
-        cache.interaction &&
-        typeof this.getParameterFromInteraction === 'function'
-      ) {
-        const named = arr[idx]?.name || arr[0]?.name;
-        if (named) {
-          try {
-            out = this.getParameterFromInteraction(cache.interaction, named);
-          } catch (_e) {
-            out = null;
-          }
-        }
-      }
-      return out;
-    };
-
     switch (infoType) {
       case 0: {
         if (interactionOptions) {
-          const result = resolveSlashOptionAtIndex(interactionOptions, index);
-          if (result !== null && result !== undefined) {
+          const result = this.getParameterFromParameterData(interactionOptions.data[index]);
+          if (result) {
             source = result;
           }
-        } else if (msg) {
-          const remainder = getContent();
-          if (remainder != null && remainder !== '') {
-            const params = content.split(new RegExp(separator));
-            source = params[index] || '';
-          }
+        } else if (msg && getContent()) {
+          const params = content.split(new RegExp(separator));
+          source = params[index] || '';
         }
         break;
       }
@@ -318,10 +216,9 @@ module.exports = {
       case 1: {
         if (interactionOptions) {
           const result = [];
-          const arr = Array.isArray(interactionOptions.data) ? interactionOptions.data : [];
           for (let i = 0; i < index; i++) {
-            const r = this.getParameterFromParameterData(arr[i]);
-            if (r !== null && r !== undefined) {
+            const r = this.getParameterFromParameterData(interactionOptions.data[i]);
+            if (r) {
               result.push(r);
             }
           }
@@ -344,7 +241,7 @@ module.exports = {
 
       case 2: {
         if (interactionOptions) {
-          const options = interactionOptions.data.filter((option) => option.type === 'USER');
+          const options = interactionOptions.data.filter((option) => option.type === ApplicationCommandOptionType.User);
           if (options[index]) {
             source = options[index].member ?? options[index].user;
           }
@@ -359,7 +256,7 @@ module.exports = {
 
       case 3: {
         if (interactionOptions) {
-          const options = interactionOptions.data.filter((option) => option.type === 'ROLE');
+          const options = interactionOptions.data.filter((option) => option.type === ApplicationCommandOptionType.Role);
           if (options[index]) {
             source = options[index].role;
           }
@@ -374,7 +271,9 @@ module.exports = {
 
       case 4: {
         if (interactionOptions) {
-          const options = interactionOptions.data.filter((option) => option.type === 'CHANNEL');
+          const options = interactionOptions.data.filter(
+            (option) => option.type === ApplicationCommandOptionType.Channel,
+          );
           if (options[index]) {
             source = options[index].channel;
           }
@@ -392,7 +291,7 @@ module.exports = {
       }
     }
 
-    if (typeof source !== 'undefined' && source !== null && (source !== '' || interactionOptions)) {
+    if (source) {
       const storage = parseInt(data.storage, 10);
       const varName = this.evalMessage(data.varName, cache);
       this.storeValue(source, storage, varName, cache);

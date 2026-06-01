@@ -35,7 +35,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -125,27 +125,31 @@ module.exports = {
     const varName3 = this.evalMessage(data.varName3, cache);
     const storage2 = parseInt(data.storage2, 10);
 
-    if (!Array.isArray(target) && !target?.send) return this.callNextAction(cache);
+    if (!Array.isArray(target) && !target?.send) {
+      this.callNextAction(cache);
+      return;
+    }
+
     Images.createBuffer(image)
       .then((buffer) => {
+        const obj = {
+          files: [new DiscordJS.AttachmentBuilder(buffer, { name: 'image.png' })],
+        };
+
+        if (data.message) {
+          obj.content = this.evalMessage(data.message, cache);
+        }
+
         if (Array.isArray(target)) {
-          this.callListFunc(target, 'send', [
-            {
-              content: this.evalMessage(data.message, cache),
-              files: [new DiscordJS.MessageAttachment(buffer, 'image.png')],
-            },
-          ])
-            .then((msg) => {
-              this.storeValue(msg, storage2, varName3, cache);
+          this.callListFunc(target, 'send', [obj])
+            .then((msgList) => {
+              this.storeValue(msgList, storage2, varName3, cache);
               this.callNextAction(cache);
             })
             .catch((err) => this.displayError(data, cache, err));
         } else if (target?.send) {
           target
-            .send({
-              content: this.evalMessage(data.message, cache),
-              files: [new DiscordJS.MessageAttachment(buffer, 'image.png')],
-            })
+            .send(obj)
             .then((msg) => {
               this.storeValue(msg, storage2, varName3, cache);
               this.callNextAction(cache);

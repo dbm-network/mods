@@ -23,15 +23,13 @@ WrexMODS.latest_changes = 'The module installer WORKS NOW';
 // rigid - fixed the **damn** module installer (from v12)
 
 WrexMODS.CheckAndInstallNodeModule = function (moduleName) {
-  return new Promise((resolve, reject) => {
-    try {
-      require('child_process').execSync(`npm i ${moduleName}`);
-      resolve(require(moduleName));
-    } catch (e) {
-      console.log(`Failed to Install ${moduleName}, please re-try or install manually with "npm i ${moduleName}"`);
-      reject(new Error('Installer Failed.'));
-    }
-  });
+  try {
+    require('child_process').execSync(`npm i ${moduleName}`, { stdio: 'ignore' });
+    return true;
+  } catch (e) {
+    console.log(`Failed to Install ${moduleName}, please re-try or install manually with "npm i ${moduleName}"`);
+    return false;
+  }
 };
 
 WrexMODS.require = function (moduleName) {
@@ -39,7 +37,11 @@ WrexMODS.require = function (moduleName) {
     return require(moduleName);
   } catch (e) {
     this.CheckAndInstallNodeModule(moduleName);
-    return require(moduleName);
+    try {
+      return require(moduleName);
+    } catch (e2) {
+      return null;
+    }
   }
 };
 
@@ -549,7 +551,12 @@ customaction.getWrexMods = function () {
 customaction.mod = function (DBM) {
   WrexMODS.DBM = DBM;
 
-  WrexMODS.CheckAndInstallNodeModule('axios');
+  // Avoid running `npm i` on every bot start. Only install if missing.
+  try {
+    require.resolve('axios');
+  } catch (e) {
+    WrexMODS.CheckAndInstallNodeModule('axios');
+  }
   // WrexMODS.CheckAndInstallNodeModule("extend");
   // WrexMODS.CheckAndInstallNodeModule("valid-url");
 

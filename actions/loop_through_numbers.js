@@ -40,7 +40,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -66,56 +66,56 @@ module.exports = {
   html(isEvent, data) {
     return `
 <tab-system>
-  <tab label="Iteration Options" icon="align right">
-    <div style="padding: 12px;">
-      <div style="display: flex; justify-content: space-between;">
-        <div style="width: calc(33% - 8px);">
-          <span class="dbminputlabel">Start Number</span><br>
-          <input id="startNum" class="round" type="text" value="1">
-        </div>
+	<tab label="Iteration Options" icon="align right">
+		<div style="padding: 12px;">
+			<div style="display: flex; justify-content: space-between;">
+				<div style="width: calc(33% - 8px);">
+					<span class="dbminputlabel">Start Number</span><br>
+					<input id="startNum" class="round" type="text" value="1">
+				</div>
 
-        <div style="width: calc(33% - 8px);">
-          <span class="dbminputlabel">End Number</span><br>
-          <input id="endNum" class="round" type="text" value="5">
-        </div>
+				<div style="width: calc(33% - 8px);">
+					<span class="dbminputlabel">End Number</span><br>
+					<input id="endNum" class="round" type="text" value="5">
+				</div>
 
-        <div style="width: calc(33% - 8px);">
-          <span class="dbminputlabel">Increment By</span><br>
-          <input id="increment" class="round" type="text" value="1">
-        </div>
-      </div>
-    </div>
-  </tab>
+				<div style="width: calc(33% - 8px);">
+					<span class="dbminputlabel">Increment By</span><br>
+					<input id="increment" class="round" type="text" value="1">
+				</div>
+			</div>
+		</div>
+	</tab>
 
-  <tab label="Loop Options" icon="cogs">
-    <div style="padding: 12px;">
-      <div style="display: flex; justify-content: space-between;">
-        <div style="width: calc(50% - 12px);">
-          <span class="dbminputlabel">Temp Var. Name (stores number)</span><br>
-          <input id="tempVarName" class="round" type="text" placeholder="Leave blank for none...">
-        </div>
+	<tab label="Loop Options" icon="cogs">
+		<div style="padding: 12px;">
+			<div style="display: flex; justify-content: space-between;">
+				<div style="width: calc(50% - 12px);">
+					<span class="dbminputlabel">Temp Var. Name (stores number)</span><br>
+					<input id="tempVarName" class="round" type="text" placeholder="Leave blank for none...">
+				</div>
 
-        <div style="width: calc(50% - 12px);">
-          <span class="dbminputlabel">Call Type</span><br>
-          <select id="type" class="round">
-            <option value="true" selected>Wait for Completion</option>
-            <option value="false">Process Simultaneously</option>
-          </select>
-        </div>
-      </div>
-    </div>
-  </tab>
+				<div style="width: calc(50% - 12px);">
+					<span class="dbminputlabel">Call Type</span><br>
+					<select id="type" class="round">
+						<option value="true" selected>Wait for Completion</option>
+						<option value="false">Process Simultaneously</option>
+					</select>
+				</div>
+			</div>
+		</div>
+	</tab>
 </tab-system>
 
 <br><br><br><br><br><br><br><br>
 
 <action-list-input id="actions" height="calc(100vh - 360px)">
-  <script class="setupTempVars">
-    const elem = document.getElementById("tempVarName");
-    if(elem?.value) {
-      tempVars.push([elem.value, "Number"]);
-    }
-  </script>
+	<script class="setupTempVars">
+		const elem = document.getElementById("tempVarName");
+		if(elem?.value) {
+			tempVars.push([elem.value, "Number"]);
+		}
+	</script>
 </action-list-input>`;
   },
 

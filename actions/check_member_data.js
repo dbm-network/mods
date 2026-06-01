@@ -35,7 +35,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -79,6 +79,8 @@ module.exports = {
 			<option value="4">Greater Than</option>
 			<option value="5">Includes</option>
 			<option value="6">Matches Regex</option>
+			<option value="7">Greater Than or Equal To</option>
+			<option value="8">Less Than or Equal To</option>
 		</select>
 	</div>
 </div>
@@ -167,8 +169,15 @@ module.exports = {
         case 6:
           result = Boolean(val1.match(new RegExp(`^${val2}$`, 'i')));
           break;
+        case 7:
+          result = val1 >= val2;
+          break;
+        case 8:
+          result = val1 <= val2;
+          break;
       }
     }
+
     this.executeResults(result, data?.branch ?? data, cache);
   },
 

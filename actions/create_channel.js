@@ -47,7 +47,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -74,12 +74,10 @@ module.exports = {
     return `
 <span class="dbminputlabel">Name</span><br>
 <input id="channelName" class="round" type="text">
-
 <br>
 
 <span class="dbminputlabel">Category ID</span><br>
 <input id= "categoryID" class="round" type="text" placeholder="Leave blank for default!">
-
 <br>
 
 <div style="float: left; width: calc(50% - 12px);">
@@ -94,14 +92,12 @@ module.exports = {
 <br><br><br><br>
 
 <hr class="subtlebar" style="margin-top: 0px;">
-
 <br>
 
 <div>
-  <span class="dbminputlabel">Reason</span>
-  <input id="reason" placeholder="Optional" class="round" type="text">
+	<span class="dbminputlabel">Reason</span>
+	<input id="reason" placeholder="Optional" class="round" type="text">
 </div>
-
 <br>
 
 <store-in-variable allowNone selectId="storage" variableInputId="varName" variableContainerId="varNameContainer"></store-in-variable>`;
@@ -130,10 +126,13 @@ module.exports = {
     const server = cache.server;
     if (!server?.channels?.create) {
       this.callNextAction(cache);
+      return;
     }
 
-    const name = this.evalMessage(data.channelName, cache);
-    const channelData = { reason: this.evalMessage(data.reason, cache) };
+    const channelData = {
+      reason: this.evalMessage(data.reason, cache),
+      name: this.evalMessage(data.channelName, cache),
+    };
     if (data.topic) {
       channelData.topic = this.evalMessage(data.topic, cache);
     }
@@ -145,7 +144,7 @@ module.exports = {
     }
 
     server.channels
-      .create(name, channelData)
+      .create(channelData)
       .then((channel) => {
         const storage = parseInt(data.storage, 10);
         const varName = this.evalMessage(data.varName, cache);

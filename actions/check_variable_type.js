@@ -35,7 +35,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -77,8 +77,8 @@ module.exports = {
 			<option value="7">Role</option>
 			<option value="8">Server</option>
 			<option value="9">Emoji</option>
-      <option value="10">Sticker</option>
-      <option value="11">Thread Channel</option>
+			<option value="10">Sticker</option>
+			<option value="11">Thread Channel</option>
 		</select>
 </div>
 
@@ -143,7 +143,7 @@ module.exports = {
           result = typeof variable === 'string';
           break;
         case 2:
-          result = variable instanceof this.getDBM().JIMP;
+          result = this.getDBM().Images.isImage(variable);
           break;
         case 3:
           result = variable instanceof DiscordJS.GuildMember;
@@ -152,10 +152,7 @@ module.exports = {
           result = variable instanceof DiscordJS.Message;
           break;
         case 5:
-          result =
-            variable instanceof DiscordJS.TextChannel ||
-            variable instanceof DiscordJS.NewsChannel ||
-            variable instanceof DiscordJS.StoreChannel;
+          result = variable instanceof DiscordJS.TextChannel || variable instanceof DiscordJS.NewsChannel;
           break;
         case 6:
           result = variable instanceof DiscordJS.VoiceChannel;
@@ -177,6 +174,7 @@ module.exports = {
           break;
       }
     }
+
     this.executeResults(result, data?.branch ?? data, cache);
   },
 

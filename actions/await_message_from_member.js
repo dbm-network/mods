@@ -50,7 +50,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -84,14 +84,14 @@ module.exports = {
 <br><br><br><br>
 
 <div style="padding-top: 8px;">
-  <div style="width: calc(50% - 12px); float: left;">
-  	<span class="dbminputlabel">Await Time (in Seconds)</span><br>
-  	<input id="time" class="round" type="text" style="width: 100%;" value="5"><br>
-  </div>
-  <div style="width: calc(50% - 12px); float: right;">
-    <span class="dbminputlabel">Number of Messages to Check</span><br>
-    <input id="count" class="round" type="text" style="width: 100%;" value="20"><br>
-  </div>
+	<div style="width: calc(50% - 12px); float: left;">
+		<span class="dbminputlabel">Await Time (in Seconds)</span><br>
+		<input id="time" class="round" type="text" style="width: 100%;" value="5"><br>
+	</div>
+	<div style="width: calc(50% - 12px); float: right;">
+		<span class="dbminputlabel">Number of Messages to Check</span><br>
+		<input id="count" class="round" type="text" style="width: 100%;" value="20"><br>
+	</div>
 </div>
 
 <br><br><br><br>
@@ -123,7 +123,10 @@ module.exports = {
     const channel = await this.getChannelFromData(data.channel, data.channelVarName, cache);
     const member = await this.getMemberFromData(data.member, data.memberVarName, cache);
 
-    if (!member || !channel?.createMessageCollector) return this.callNextAction(cache);
+    if (!member || !channel?.createMessageCollector) {
+      this.callNextAction(cache);
+      return;
+    }
 
     const maxProcessed = Math.min(parseInt(this.evalMessage(data.count, cache), 10), 200);
     const time = parseInt(this.evalMessage(data.time, cache) || '5', 10) * 1000;

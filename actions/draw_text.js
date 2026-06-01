@@ -35,7 +35,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -113,18 +113,21 @@ module.exports = {
       this.callNextAction(cache);
       return;
     }
+
     const fontName = this.evalMessage(data.font, cache);
     const x = parseInt(this.evalMessage(data.x, cache), 10);
     const y = parseInt(this.evalMessage(data.y, cache), 10);
     const width = data.width ? parseInt(this.evalMessage(data.width, cache), 10) : null;
     const text = this.evalMessage(data.text, cache);
-    const textStr = text != null && text !== undefined ? String(text) : '';
+
     Images.getFont(fontName)
       .then(
         function (font) {
-          const opts = { font, x, y, text: textStr };
-          if (width) opts.maxWidth = width;
-          image.print(opts);
+          if (width) {
+            image.print(font, x, y, text, width);
+          } else {
+            image.print(font, x, y, text);
+          }
           this.callNextAction(cache);
         }.bind(this),
       )

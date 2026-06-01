@@ -48,7 +48,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -79,8 +79,8 @@ module.exports = {
 		<select id="info" class="round">
 			<option value="0" selected>Role ID</option>
 			<option value="1">Role Name</option>
-      <option value="2">Role Color</option>
-      <option value="3">Role Position</option>
+			<option value="2">Role Color</option>
+			<option value="3">Role Position</option>
 		</select>
 	</div>
 	<div style="float: right; width: 55%;">
@@ -118,11 +118,13 @@ module.exports = {
       this.callNextAction(cache);
       return;
     }
+
     const data = cache.actions[cache.index];
     const info = parseInt(data.info, 10);
     const find = this.evalMessage(data.find, cache);
     const roles = server.roles.cache;
     let result;
+
     switch (info) {
       case 0:
         result = roles.get(find);

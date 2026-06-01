@@ -35,7 +35,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -80,10 +80,12 @@ module.exports = {
   // so be sure to provide checks for variable existence.
   // ---------------------------------------------------------------------
 
-  action(cache) {
+  async action(cache) {
     const server = cache.server;
     const { Audio } = this.getDBM();
-    if (server) Audio.disconnectFromVoice(server);
+    if (server) {
+      await Audio.disconnectFromVoice(server);
+    }
     this.callNextAction(cache);
   },
 

@@ -41,7 +41,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -71,67 +71,67 @@ module.exports = {
 <br><br><br><br>
 
 <div style="float: left; width: calc(50% - 12px);">
-  <span class="dbminputlabel">Components to Edit</span><br>
-  <select id="type" class="round" onchange="glob.onButtonSelectTypeChange(this)">
-    <option value="allSelects">All Select Menus</option>
-    <option value="sourceSelect" selected>Source Select Menu</option>
-    <option value="findSelect">Specific Select Menu</option>
-  </select>
+	<span class="dbminputlabel">Components to Edit</span><br>
+	<select id="type" class="round" onchange="glob.onButtonSelectTypeChange(this)">
+		<option value="allSelects">All Select Menus</option>
+		<option value="sourceSelect" selected>Source Select Menu</option>
+		<option value="findSelect">Specific Select Menu</option>
+	</select>
 </div>
 
 <div style="float: right; width: calc(50% - 12px);">
-  <div id="nameContainer">
-    <span class="dbminputlabel">Select Menu Label/ID</span><br>
-    <input id="searchValue" class="round" type="text">
-  </div>
+	<div id="nameContainer">
+		<span class="dbminputlabel">Select Menu Label/ID</span><br>
+		<input id="searchValue" class="round" type="text">
+	</div>
 </div>
 
 <br><br><br><br>
 
 <tab-system exclusiveTabData spreadOut id="optionChange">
 
-  <tab label="Add Option" icon="plus" fields='["label", "description", "value", "emoji"]'>
-    <div style="padding: 8px;">
-      <div style="float: left; width: calc(50% - 12px);">
-        <span class="dbminputlabel">Name</span>
-        <input id="label" class="round" type="text">
+	<tab label="Add Option" icon="plus" fields='["label", "description", "value", "emoji"]'>
+		<div style="padding: 8px;">
+			<div style="float: left; width: calc(50% - 12px);">
+				<span class="dbminputlabel">Name</span>
+				<input id="label" class="round" type="text">
 
-        <br>
+				<br>
 
-        <span class="dbminputlabel">Value</span>
-        <input id="value" placeholder="Passed to the temp variable..." class="round" type="text">
-      </div>
-      <div style="float: right; width: calc(50% - 12px);">
-        <span class="dbminputlabel">Description</span>
-        <input id="description" class="round" type="text">
+				<span class="dbminputlabel">Value</span>
+				<input id="value" placeholder="Passed to the temp variable..." class="round" type="text">
+			</div>
+			<div style="float: right; width: calc(50% - 12px);">
+				<span class="dbminputlabel">Description</span>
+				<input id="description" class="round" type="text">
 
-        <br>
+				<br>
 
-        <span class="dbminputlabel">Emoji</span>
-        <input id="emoji" placeholder="Leave blank for none..." class="round" type="text">
-      </div>
+				<span class="dbminputlabel">Emoji</span>
+				<input id="emoji" placeholder="Leave blank for none..." class="round" type="text">
+			</div>
 
-      <br><br><br><br><br><br>
-    </div>
-  </tab>
+			<br><br><br><br><br><br>
+		</div>
+	</tab>
 
-  <tab label="Remove Option" icon="x icon" fields='["type", "value"]'>
-    <div style="padding: 8px; margin-bottom: 10px;">
-      <div style="float: left; width: calc(50% - 12px);">
-        <span class="dbminputlabel">Remove Type</span><br>
-        <select id="type" class="round">
-          <option value="value" selected>Remove By Value</option>
-          <option value="label">Remove By Label</option>
-        </select>
-      </div>
-      <div id="removeValueContainer" style="float: right; width: calc(50% - 12px);">
-        <span class="dbminputlabel">Option Value to Remove</span>
-        <input id="value" class="round" type="text">
-      </div>
+	<tab label="Remove Option" icon="x icon" fields='["type", "value"]'>
+		<div style="padding: 8px; margin-bottom: 10px;">
+			<div style="float: left; width: calc(50% - 12px);">
+				<span class="dbminputlabel">Remove Type</span><br>
+				<select id="type" class="round">
+					<option value="value" selected>Remove By Value</option>
+					<option value="label">Remove By Label</option>
+				</select>
+			</div>
+			<div id="removeValueContainer" style="float: right; width: calc(50% - 12px);">
+				<span class="dbminputlabel">Option Value to Remove</span>
+				<input id="value" class="round" type="text">
+			</div>
 
-      <br><br>
-    </div>
-  </tab>
+			<br><br>
+		</div>
+	</tab>
 
 </tab-system>
 `;
@@ -171,7 +171,7 @@ module.exports = {
     const type = data.type;
 
     let sourceSelect = null;
-    if (cache.interaction.isSelectMenu()) {
+    if (cache.interaction.isStringSelectMenu()) {
       sourceSelect = cache.interaction.customId;
     }
 
@@ -204,11 +204,11 @@ module.exports = {
       if (select) {
         if (!select.options) select.options = [];
         if (newOptionData) {
-          select.options.push({ ...newOptionData });
+          select.addOptions({ ...newOptionData });
         } else if (removeOptionValue) {
-          select.options = select.options.filter((o) => o.value !== removeOptionValue);
+          select.setOptions(select.options.filter((o) => o.value !== removeOptionValue));
         } else if (removeOptionLabel) {
-          select.options = select.options.filter((o) => o.label !== removeOptionLabel);
+          select.setOptions(select.options.filter((o) => o.label !== removeOptionLabel));
         }
       }
     };
@@ -216,27 +216,31 @@ module.exports = {
     let components = null;
     let searchValue = null;
 
+    const { StringSelectMenuBuilder } = this.getDBM().DiscordJS;
+
     if (message?.components) {
-      const { MessageActionRow } = this.getDBM().DiscordJS;
+      const { ActionRowBuilder, ComponentType } = this.getDBM().DiscordJS;
       const oldComponents = message.components;
       const newComponents = [];
 
       for (let i = 0; i < oldComponents.length; i++) {
         const compData = oldComponents[i];
-        const comps = compData instanceof MessageActionRow ? compData.toJSON() : compData;
+        const comps = compData instanceof ActionRowBuilder ? compData.toJSON() : compData;
+        const newComps = [];
 
         for (let j = 0; j < comps.components.length; j++) {
-          const comp = comps.components[j];
+          const comp = StringSelectMenuBuilder.from(comps.components[j]);
+          const compData = comp.data;
 
           switch (type) {
             case 'allSelects': {
-              if (comp.type === 3 || comp.type === 'SELECT_MENU') {
+              if (compData.type === 3 || compData.type === ComponentType.SelectMenu) {
                 onSelectMenuFound(comp);
               }
               break;
             }
             case 'sourceSelect': {
-              if (comp.custom_id === sourceSelect) {
+              if (compData.custom_id === sourceSelect) {
                 onSelectMenuFound(comp);
               }
               break;
@@ -245,15 +249,26 @@ module.exports = {
               if (searchValue === null) {
                 searchValue = this.evalMessage(data.searchValue, cache);
               }
-              if (comp.custom_id === searchValue || comp.customId === searchValue || comp.label === searchValue) {
+              if (
+                compData.custom_id === searchValue ||
+                compData.customId === searchValue ||
+                compData.label === searchValue
+              ) {
                 onSelectMenuFound(comp);
               }
               break;
             }
           }
+
+          newComps.push(comp);
         }
 
-        newComponents.push(comps);
+        newComponents.push(
+          ActionRowBuilder.from({
+            data: oldComponents.data,
+            components: newComps,
+          }),
+        );
       }
 
       components = newComponents;

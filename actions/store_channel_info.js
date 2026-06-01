@@ -93,7 +93,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -165,6 +165,7 @@ module.exports = {
 
   async action(cache) {
     const data = cache.actions[cache.index];
+    const DiscordJS = this.getDBM().DiscordJS;
 
     const targetChannel = await this.getChannelFromData(data.channel, data.varName, cache);
 
@@ -199,7 +200,7 @@ module.exports = {
         result = targetChannel.nsfw;
         break;
       case 7:
-        result = targetChannel.type === 'DM';
+        result = targetChannel.type === DiscordJS.ChannelType.DM;
         break;
       case 8:
         result = targetChannel.deletable;

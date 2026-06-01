@@ -48,7 +48,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -75,13 +75,13 @@ module.exports = {
     return `
 <div>
 	<div style="float: left; width: 35%;">
-		Source List:<br>
+		<span class="dbminputlabel">Source List</span>
 		<select id="list" class="round" onchange="glob.listChange(this, 'varNameContainer')">
 			${data.lists[isEvent ? 1 : 0]}
 		</select>
 	</div>
 	<div id="varNameContainer" style="display: none; float: right; width: 60%;">
-		Variable Name:<br>
+		<span class="dbminputlabel">Variable Name</span>
 		<input id="varName" class="round" type="text" list="variableList"><br>
 	</div>
 </div>
@@ -132,7 +132,7 @@ module.exports = {
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    const list = await this.getListFromData(data.list, data.varName, cache);
+    const list = (await this.getListFromData(data.list, data.varName, cache)) ?? [];
 
     const start = this.evalMessage(data.start, cache).replace('\\n', '\n');
     const middle = this.evalMessage(data.middle, cache).replace('\\n', '\n');
@@ -147,7 +147,7 @@ module.exports = {
       }
     }
 
-    if (result) {
+    if (typeof result === 'string') {
       const varName2 = this.evalMessage(data.varName2, cache);
       const storage2 = parseInt(data.storage, 10);
       this.storeValue(result, storage2, varName2, cache);

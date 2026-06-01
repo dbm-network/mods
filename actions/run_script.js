@@ -47,7 +47,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -130,25 +130,9 @@ module.exports = {
     const result = this.eval(code, cache);
     const varName = this.evalMessage(data.varName, cache);
     const storage = parseInt(data.storage, 10);
-    const proceed = () => {
-      if (data.behavior === '0') {
-        this.callNextAction(cache);
-      }
-    };
-    if (result !== null && result !== undefined && typeof result.then === 'function') {
-      result
-        .then((resolved) => {
-          this.storeValue(resolved, storage, varName, cache);
-          proceed();
-        })
-        .catch((err) => {
-          console.error('[Run Script] async error:', err && err.message ? err.message : err);
-          this.storeValue(undefined, storage, varName, cache);
-          proceed();
-        });
-    } else {
-      this.storeValue(result, storage, varName, cache);
-      proceed();
+    this.storeValue(result, storage, varName, cache);
+    if (data.behavior === '0') {
+      this.callNextAction(cache);
     }
   },
 

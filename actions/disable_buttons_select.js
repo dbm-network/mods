@@ -35,7 +35,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -65,31 +65,31 @@ module.exports = {
 <br><br><br><br>
 
 <div style="float: left; width: calc(50% - 12px);">
-  <span class="dbminputlabel">Components to Disable</span><br>
-  <select id="type" class="round" onchange="glob.onButtonSelectTypeChange(this)">
-    <option value="all" selected>All Buttons and Select Menus</option>
-    <option value="allButtons">All Buttons</option>
-    <option value="allSelects">All Select Menus</option>
-    <option value="sourceButton">Source Button</option>
-    <option value="sourceSelect">Source Select Menu</option>
-    <option value="findButton">Specific Button</option>
-    <option value="findSelect">Specific Select Menu</option>
-  </select>
+	<span class="dbminputlabel">Components to Disable</span><br>
+	<select id="type" class="round" onchange="glob.onButtonSelectTypeChange(this)">
+		<option value="all" selected>All Buttons and Select Menus</option>
+		<option value="allButtons">All Buttons</option>
+		<option value="allSelects">All Select Menus</option>
+		<option value="sourceButton">Source Button</option>
+		<option value="sourceSelect">Source Select Menu</option>
+		<option value="findButton">Specific Button</option>
+		<option value="findSelect">Specific Select Menu</option>
+	</select>
 </div>
 
 <div style="float: right; width: calc(50% - 12px);">
-  <span class="dbminputlabel">Disable or Re-enable</span><br>
-  <select id="disable" class="round">
-    <option value="disable" selected>Disable</option>
-    <option value="reenable">Re-Enable</option>
-  </select>
+	<span class="dbminputlabel">Disable or Re-enable</span><br>
+	<select id="disable" class="round">
+		<option value="disable" selected>Disable</option>
+		<option value="reenable">Re-Enable</option>
+	</select>
 </div>
 
 <br><br><br><br>
 
 <div id="nameContainer" style="width: calc(50% - 12px)">
-  <span class="dbminputlabel">Component Label/ID</span><br>
-  <input id="searchValue" class="round" type="text">
+	<span class="dbminputlabel">Component Label/ID</span><br>
+	<input id="searchValue" class="round" type="text">
 </div>`;
   },
 
@@ -132,7 +132,7 @@ module.exports = {
     }
 
     let sourceSelect = null;
-    if (cache.interaction.isSelectMenu()) {
+    if (cache.interaction.isStringSelectMenu()) {
       sourceSelect = cache.interaction.customId;
     }
 
@@ -141,16 +141,18 @@ module.exports = {
     let searchValue = null;
 
     if (message?.components) {
-      const { MessageActionRow } = this.getDBM().DiscordJS;
+      const { ActionRowBuilder, ComponentType, Component } = this.getDBM().DiscordJS;
       const oldComponents = message.components;
       const newComponents = [];
 
       for (let i = 0; i < oldComponents.length; i++) {
         const compData = oldComponents[i];
-        const comps = compData instanceof MessageActionRow ? compData.toJSON() : compData;
+        const rowComps = compData instanceof ActionRowBuilder ? compData.toJSON() : compData;
+        const newRowComps = [];
 
-        for (let j = 0; j < comps.components.length; j++) {
-          const comp = comps.components[j];
+        for (let j = 0; j < rowComps.components.length; j++) {
+          const compStructure = rowComps.components[j];
+          const comp = compStructure instanceof Component ? compStructure.toJSON() : compStructure;
           const id = comp.custom_id ?? comp.customId;
 
           switch (type) {
@@ -159,11 +161,11 @@ module.exports = {
               break;
             }
             case 'allButtons': {
-              if (comp.type === 2 || comp.type === 'BUTTON') comp.disabled = disable;
+              if (comp.type === 2 || comp.type === ComponentType.Button) comp.disabled = disable;
               break;
             }
             case 'allSelects': {
-              if (comp.type === 3 || comp.type === 'SELECT_MENU') comp.disabled = disable;
+              if (comp.type === 3 || comp.type === ComponentType.SelectMenu) comp.disabled = disable;
               break;
             }
             case 'sourceButton': {
@@ -181,9 +183,16 @@ module.exports = {
               break;
             }
           }
+
+          newRowComps.push(comp);
         }
 
-        newComponents.push(comps);
+        newComponents.push(
+          ActionRowBuilder.from({
+            data: oldComponents.data,
+            components: newRowComps,
+          }),
+        );
       }
 
       components = newComponents;

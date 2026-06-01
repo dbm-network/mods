@@ -47,7 +47,7 @@ module.exports = {
   // This will make it so the patch version (0.0.X) is not checked.
   // ---------------------------------------------------------------------
 
-  meta: { version: '2.1.7', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
+  meta: { version: '2.2.0', preciseCheck: true, author: null, authorUrl: null, downloadUrl: null },
 
   // ---------------------------------------------------------------------
   // Action Fields
@@ -101,7 +101,7 @@ module.exports = {
     const data = cache.actions[cache.index];
     const member = await this.getMemberFromData(data.member, data.varName, cache);
     const Images = this.getDBM().Images;
-    Images.getImage(member.user.displayAvatarURL({ format: 'png' }))
+    Images.getImage(member.user.displayAvatarURL({ forceStatic: true, extension: 'png', size: 4096 }))
       .then((image) => {
         const varName2 = this.evalMessage(data.varName2, cache);
         const storage = parseInt(data.storage, 10);

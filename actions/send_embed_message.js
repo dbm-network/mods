@@ -45,7 +45,7 @@ module.exports = {
   // are also the names of the fields stored in the action's JSON data.
   // ---------------------------------------------------------------------
 
-  fields: ['storage', 'varName', 'channel', 'varName2', 'components', 'storage3', 'varName3'],
+  fields: ['storage', 'varName', 'channel', 'varName2', 'storage3', 'varName3'],
 
   // ---------------------------------------------------------------------
   // Action Storage Function
@@ -80,36 +80,11 @@ module.exports = {
 
 <br><br><br>
 
-<tab-system>
-	<tab label="Components V2 (Optional)" icon="puzzle piece">
-		${this.getV2ComponentsEditorHtml(isEvent, data)}
-	</tab>
-</tab-system>
-
-<br><br>
-
 <hr class="subtlebar" style="margin-bottom: 0px;">
 
 <br>
 
 <store-in-variable allowNone selectId="storage3" variableInputId="varName3" variableContainerId="varNameContainer3"></store-in-variable>`;
-  },
-
-  getV2ComponentsEditorHtml(isEvent, data) {
-    try {
-      const sendV2Action = require('./send_components_v2_MOD.js');
-      if (typeof sendV2Action?.html !== 'function') {
-        return `<div style="padding: 8px; color: #f66;">Components V2 editor is unavailable.</div>`;
-      }
-      const fullHtml = sendV2Action.html.call(this, isEvent, data);
-      const match = fullHtml.match(/<tab label="Components"[^>]*>([\s\S]*?)<\/tab>\s*<tab label="Settings"/i);
-      if (match?.[1]) return match[1];
-    } catch (err) {
-      return `<div style="padding: 8px; color: #f66;">Failed to load Components V2 editor: ${
-        err?.message ?? err
-      }</div>`;
-    }
-    return `<div style="padding: 8px; color: #f66;">Components V2 editor could not be parsed.</div>`;
   },
 
   // ---------------------------------------------------------------------
@@ -122,42 +97,6 @@ module.exports = {
 
   init() {},
 
-  onSave(data, helpers) {
-    if (Array.isArray(data?.components)) {
-      const genId = () => `msg-button-${helpers.generateUUID().substring(0, 7)}`;
-      const genSelectId = () => `msg-select-${helpers.generateUUID().substring(0, 7)}`;
-      for (const comp of data.components) {
-        if (Array.isArray(comp?.buttons)) {
-          for (const btn of comp.buttons) {
-            if (!btn.id || btn.id === '0') btn.id = genId();
-          }
-        }
-        if (Array.isArray(comp?.selectMenus)) {
-          for (const sel of comp.selectMenus) {
-            if (!sel.id || sel.id === '0') sel.id = genSelectId();
-          }
-        }
-      }
-    }
-    return data;
-  },
-
-  onPaste(data, helpers) {
-    if (Array.isArray(data?.components)) {
-      const genId = () => `msg-button-${helpers.generateUUID().substring(0, 7)}`;
-      const genSelectId = () => `msg-select-${helpers.generateUUID().substring(0, 7)}`;
-      for (const comp of data.components) {
-        if (Array.isArray(comp?.buttons)) {
-          for (const btn of comp.buttons) btn.id = genId();
-        }
-        if (Array.isArray(comp?.selectMenus)) {
-          for (const sel of comp.selectMenus) sel.id = genSelectId();
-        }
-      }
-    }
-    return data;
-  },
-
   // ---------------------------------------------------------------------
   // Action Bot Function
   //
@@ -168,40 +107,6 @@ module.exports = {
 
   async action(cache) {
     const data = cache.actions[cache.index];
-    if (Array.isArray(data.components) && data.components.length > 0) {
-      try {
-        const sendV2Action = require('./send_components_v2_MOD.js');
-        const delegatedAction = {
-          channel: data.channel,
-          varName: data.varName2,
-          varName2: data.varName3,
-          storage: data.storage3,
-          components: data.components,
-          reply: false,
-          dontReply: true,
-          ephemeral: false,
-          tts: false,
-          overwrite: false,
-          dontSend: false,
-          pinned: false,
-          editMessage: 'none',
-          editMessageVarName: '',
-          allowedMentionEveryone: false,
-          allowedMentionRole: false,
-          allowedMentionMember: false,
-        };
-        const delegatedCache = {
-          ...cache,
-          actions: [delegatedAction],
-          index: 0,
-        };
-        await sendV2Action.action.call(this, delegatedCache);
-        return;
-      } catch (err) {
-        this.displayError(data, cache, `[Send Embed Message] Failed Components V2 delegation: ${err?.message ?? err}`);
-        return this.callNextAction(cache);
-      }
-    }
 
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);
@@ -228,15 +133,6 @@ module.exports = {
         .catch((err) => this.displayError(data, cache, err));
     } else {
       this.callNextAction(cache);
-    }
-  },
-
-  modInit(data) {
-    if (Array.isArray(data?.components) && data.components.length > 0) {
-      const sendV2Action = require('./send_components_v2_MOD.js');
-      if (typeof sendV2Action?.modInit === 'function') {
-        sendV2Action.modInit.call(this, data);
-      }
     }
   },
 
