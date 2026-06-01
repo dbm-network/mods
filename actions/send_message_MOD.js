@@ -80,7 +80,7 @@ module.exports = {
   // ---------------------------------------------------------------------
 
   meta: {
-    version: '2.1.7',
+    version: '2.1.8',
     preciseCheck: true,
     author: 'Master3395',
     authorUrl: 'https://github.com/master3395/dbm-mods',
