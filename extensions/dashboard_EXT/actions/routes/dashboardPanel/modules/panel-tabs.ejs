@@ -1,0 +1,67 @@
+<% 
+// Panel tabs navigation module
+const mods = Array.isArray(data.mods) ? data.mods : [];
+const extensions = Array.isArray(data.extensions) ? data.extensions : [];
+const sectionOrder = [];
+const sectionMeta = {};
+
+mods.forEach((mod) => {
+    if (!sectionOrder.includes(mod.sectionID)) {
+        sectionOrder.push(mod.sectionID);
+        sectionMeta[mod.sectionID] = mod.section;
+    }
+});
+
+extensions.forEach((extension) => {
+    if (!sectionOrder.includes(extension.sectionID)) {
+        sectionOrder.push(extension.sectionID);
+        sectionMeta[extension.sectionID] = extension.section || extension.sectionID;
+    }
+});
+
+const templateBasePath = (typeof basePath !== 'undefined' && basePath) ? basePath : '';
+const giveawayAvailable = typeof data.giveawaySystemAvailable !== 'undefined' ? data.giveawaySystemAvailable : false;
+const serverExists = data.server ? true : false;
+const serverId = data.server && data.server.id ? data.server.id : null;
+const shouldShowGiveaways = giveawayAvailable && serverExists && serverId;
+%>
+<div class="panel-tabs-wrapper">
+    <nav class="panel-tabs" role="tablist">
+        <% sectionOrder.forEach((sectionId, index) => { %>
+            <button class="panel-tab-button <%= index === 0 ? 'active' : '' %>" data-panel-target="section-<%= sectionId %>">
+                <span><%= sectionMeta[sectionId] || sectionId %></span>
+            </button>
+        <% }); %>
+        <% if (shouldShowGiveaways) { %>
+        <button class="panel-tab-button" data-panel-target="giveaways-overview">
+            <i class="fas fa-gift"></i>
+            <span>Giveaways</span>
+        </button>
+        <button class="panel-tab-button" data-panel-target="giveaways-create">
+            <i class="fas fa-plus"></i>
+            <span>Create</span>
+        </button>
+        <button class="panel-tab-button" data-panel-target="giveaways-schedule">
+            <i class="fas fa-calendar-alt"></i>
+            <span>Schedule</span>
+        </button>
+        <button class="panel-tab-button" data-panel-target="giveaways-templates">
+            <i class="fas fa-file-alt"></i>
+            <span>Templates</span>
+        </button>
+        <button class="panel-tab-button" data-panel-target="giveaways-settings">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+        </button>
+        <button class="panel-tab-button" data-panel-target="giveaways-view-edit" style="display: none;" id="view-edit-tab">
+            <i class="fas fa-eye"></i>
+            <span>View/Edit</span>
+        </button>
+        <% } %>
+        <button class="panel-tab-button" data-panel-target="server-bot-settings">
+            <i class="fas fa-server"></i>
+            <span>Server Bot Settings</span>
+        </button>
+    </nav>
+</div>
+

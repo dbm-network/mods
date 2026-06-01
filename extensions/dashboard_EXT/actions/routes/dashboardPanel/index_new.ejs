@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= data.server?.name || 'Server' %> · Management Panel</title>
+    <meta name="description" content="Configure modules and extensions for <%= data.server?.name || 'your server' %> using the News Targeted Bot dashboard.">
+    <% 
+    const templateBasePath = (typeof basePath !== 'undefined' && basePath) ? basePath : '';
+    %>
+    <link rel="icon" type="image/x-icon" href="<%= templateBasePath %>/favicon.ico">
+    <link rel="stylesheet" href="<%= templateBasePath %>/shared/styles.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body class="main-layout">
+    <%- include('../../../views/shared/header.ejs', { data: data }) %>
+
+    <main>
+        <%
+            const serverName = data.server?.name || 'Unknown Server';
+        %>
+
+        <section class="page-wrapper page-wrapper--narrow" data-aos="fade-up">
+             <%- include('../../../views/shared/components/hero', {
+                 title: serverName,
+                 subtitle: 'Execute commands, review module settings, and extend your automation workflows without leaving the dashboard.',
+                 badge: 'Server Panel',
+                 panel: true
+             }) %>
+        </section>
+
+        <% if (data.commandData) { %>
+        <section class="page-wrapper page-wrapper--narrow" data-aos="fade-up" data-aos-delay="140">
+            <div class="page-section">
+                <div class="empty-state">
+                    <strong>Command executed successfully</strong>
+                <p><%= data.user && data.user.commandExecuted ? data.user.commandExecuted : 'The requested command completed. Review results inside your server.' %></p>
+                </div>
+            </div>
+        </section>
+        <% } %>
+
+        <% const panelDelay = data.commandData ? 220 : 160; %>
+        <section class="page-wrapper" data-aos="fade-up" data-aos-delay="<%= panelDelay %>">
+            <div class="page-section">
+            <div class="panel-layout">
+                <%- include('modules/panel-tabs.ejs', { data: data, basePath: templateBasePath, csrfToken: typeof csrfToken !== 'undefined' ? csrfToken : '' }) %>
+
+                <%- include('modules/panel-sections.ejs', { data: data, basePath: templateBasePath, csrfToken: typeof csrfToken !== 'undefined' ? csrfToken : '' }) %>
+                
+                <% if (data.giveawaySystemAvailable && data.server && data.server.id) { %>
+                    <%- include('modules/giveaways/overview.ejs', { data: data, basePath: templateBasePath, csrfToken: typeof csrfToken !== 'undefined' ? csrfToken : '' }) %>
+                    <%- include('modules/giveaways/create.ejs', { data: data, basePath: templateBasePath, csrfToken: typeof csrfToken !== 'undefined' ? csrfToken : '' }) %>
+                    <%- include('modules/giveaways/schedule.ejs', { data: data, basePath: templateBasePath, csrfToken: typeof csrfToken !== 'undefined' ? csrfToken : '' }) %>
+                    <%- include('modules/giveaways/templates.ejs', { data: data, basePath: templateBasePath, csrfToken: typeof csrfToken !== 'undefined' ? csrfToken : '' }) %>
+                    <%- include('modules/giveaways/settings.ejs', { data: data, basePath: templateBasePath, csrfToken: typeof csrfToken !== 'undefined' ? csrfToken : '' }) %>
+                    <%- include('modules/giveaways/view-edit.ejs', { data: data, basePath: templateBasePath, csrfToken: typeof csrfToken !== 'undefined' ? csrfToken : '' }) %>
+                <% } %>
+            </div>
+            </div>
+        </section>
+    </main>
+
+    <%- include('../../../views/shared/footer.ejs', { data: data }) %>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+
+        const navButtons = document.querySelectorAll('.panel-tab-button');
+        const panes = document.querySelectorAll('.panel-pane');
+
+        navButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                const targetId = button.getAttribute('data-panel-target');
+                if (!targetId) return;
+
+                navButtons.forEach((btn) => btn.classList.remove('active'));
+                panes.forEach((pane) => pane.classList.remove('active'));
+
+                button.classList.add('active');
+                const targetPane = document.getElementById(targetId);
+                if (targetPane) {
+                    targetPane.classList.add('active');
+                }
+            });
+        });
+
+        <% if (data.giveawaySystemAvailable) { %>
+        <%- include('modules/giveaways/scripts-core-part1.ejs', { data: data }) %>
+        <%- include('modules/giveaways/scripts-core-part2a.ejs', { data: data }) %>
+        <%- include('modules/giveaways/scripts-core-part2b.ejs', { data: data }) %>
+        <%- include('modules/giveaways/scripts-create.ejs', { data: data }) %>
+        <%- include('modules/giveaways/scripts-create-continued.ejs', { data: data }) %>
+        <% } %>
+    </script>
+</body>
+</html>
+

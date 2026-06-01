@@ -1,0 +1,363 @@
+<div class="dispatcher-card">
+    <header>
+        <h4>Command Dispatcher</h4>
+        <p>Launch classic bot commands remotely. The dashboard will drop the command in a channel as if you typed it inside Discord.</p>
+    </header>
+
+    <input type="hidden" name="server" value="<%= data.server?.id || '' %>">
+    <input type="hidden" name="serverType" value="id">
+    <input type="hidden" name="dispatcherMode" value="<%= data.commandDispatcher?.mode || 'prefix' %>" data-dispatcher-mode-hidden>
+
+    <div class="dispatcher-toggle">
+        <label class="<%= data.commandDispatcher?.mode === 'slash' ? '' : 'active' %>" data-dispatcher-mode="prefix">
+            <input type="radio" name="dispatcherModeToggle" value="prefix" <%= data.commandDispatcher?.mode !== 'slash' ? 'checked' : '' %>>
+            <span>Prefix Command</span>
+        </label>
+        <label class="<%= data.commandDispatcher?.mode === 'slash' ? 'active' : '' %>" data-dispatcher-mode="slash">
+            <input type="radio" name="dispatcherModeToggle" value="slash" <%= data.commandDispatcher?.mode === 'slash' ? 'checked' : '' %>>
+            <span>Slash Command</span>
+        </label>
+    </div>
+
+<div class="dispatcher-panel dispatcher-panel--prefix <%= data.commandDispatcher?.mode === 'slash' ? '' : 'active' %>" data-dispatcher-panel="prefix">
+        <div class="dispatcher-grid">
+            <label class="dispatcher-field">
+                <span>Channel</span>
+                <% if (Array.isArray(data.serverChannels) && data.serverChannels.length) { %>
+            <select class="form-control" name="channelId" required data-dispatcher-input="prefix" data-dispatcher-required="true" data-channel-select>
+                    <option value="" disabled selected>Select a text channel</option>
+                    <% data.serverChannels.filter((channel) => !channel.isThread).forEach((channel) => { %>
+                        <option value="<%= channel.id %>">#<%= channel.name %></option>
+                    <% }) %>
+                </select>
+                <% } else { %>
+            <input type="text" class="form-control" name="channelId" placeholder="Channel ID" required data-dispatcher-input="prefix" data-dispatcher-required="true">
+                <% } %>
+                <small>This is where the bot will post the command.</small>
+            </label>
+
+            <label class="dispatcher-field">
+                <span>Prefix</span>
+                <input type="text" class="form-control" value="<%= data.serverPrefix || data.mainPrefix || '!' %>" readonly>
+                <small>The dispatcher automatically prepends the live prefix.</small>
+            </label>
+        </div>
+
+        <label class="dispatcher-field">
+            <span>Command name</span>
+            <input type="text" class="form-control" name="commandName" placeholder="e.g. queue" required pattern="^[A-Za-z0-9_-]{1,50}$" data-dispatcher-input="prefix" data-dispatcher-required="true">
+            <small>Letters, numbers, dashes, and underscores only.</small>
+        </label>
+
+        <label class="dispatcher-field">
+            <span>Arguments (optional)</span>
+            <textarea class="form-control" name="commandArgs" rows="2" placeholder="user @NewsTargeted amount 3"></textarea>
+            <small>The command runs exactly as if you typed <code>prefix + command + arguments</code>.</small>
+        </label>
+    </div>
+
+    <div class="dispatcher-panel dispatcher-panel--slash <%= data.commandDispatcher?.mode === 'slash' ? 'active' : '' %>" data-dispatcher-panel="slash">
+        <label class="dispatcher-field">
+            <span>Slash command</span>
+            <select class="form-control" name="slashCommandId" data-slash-command-select data-dispatcher-input="slash" data-dispatcher-required="true" required>
+                <option value="" disabled selected>Select a slash command</option>
+                <% if (Array.isArray(data.slashCommands)) { %>
+                    <% data.slashCommands.forEach((command) => { %>
+                        <option value="<%= command._id %>" data-command-meta='<%= JSON.stringify({ description: command.description, parameters: command.parameters || [] }) %>'>
+                            /<%= command.name %>
+                        </option>
+                    <% }) %>
+                <% } %>
+            </select>
+            <small data-slash-command-description>Select a command to view its description and options.</small>
+        </label>
+
+        <div class="dispatcher-grid">
+            <label class="dispatcher-field">
+                <span>Response channel</span>
+                <% if (Array.isArray(data.serverChannels) && data.serverChannels.length) { %>
+                <select class="form-control" name="slashChannelId" data-dispatcher-input="slash" data-channel-select>
+                    <option value="">Default server channel</option>
+                    <% data.serverChannels.filter((channel) => !channel.isThread).forEach((channel) => { %>
+                        <option value="<%= channel.id %>">#<%= channel.name %></option>
+                    <% }) %>
+                </select>
+                <% } else { %>
+                <input type="text" class="form-control" name="slashChannelId" placeholder="Channel ID (optional)" data-dispatcher-input="slash">
+                <% } %>
+                <small>Responses post here when visibility is set to Public.</small>
+            </label>
+
+            <label class="dispatcher-field">
+                <span>Visibility</span>
+                <select class="form-control" name="slashVisibility" data-dispatcher-input="slash">
+                    <option value="auto" selected>Auto (follow action settings)</option>
+                    <option value="ephemeral">Private (dashboard only)</option>
+                    <option value="public">Public (post in channel)</option>
+                </select>
+                <small>Choose how responses should be surfaced unless overridden by the action itself.</small>
+            </label>
+        </div>
+
+        <div class="dispatcher-field" data-slash-parameters>
+            <span>Parameters</span>
+            <div class="dispatcher-empty-state">Select a slash command to configure its parameters.</div>
+        </div>
+    </div>
+</div>
+
+<style>
+.dispatcher-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.2rem;
+    background: rgba(34, 37, 45, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+}
+
+.dispatcher-card header h4 {
+    margin: 0;
+    color: #fff;
+    font-size: 1.2rem;
+}
+
+.dispatcher-card header p {
+    margin: 0.35rem 0 0;
+    color: #b3b8d4;
+    font-size: 0.95rem;
+}
+
+.dispatcher-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.dispatcher-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.dispatcher-field span {
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #92a0c6;
+    font-size: 0.78rem;
+}
+
+.dispatcher-field span small {
+    text-transform: none;
+    letter-spacing: normal;
+    font-size: 0.7rem;
+    color: #6f7cad;
+    margin-left: 0.35rem;
+}
+
+.dispatcher-field span em {
+    font-style: normal;
+    color: #b7c3ec;
+    margin-left: 0.35rem;
+}
+
+.dispatcher-field small {
+    color: #8390b8;
+    font-size: 0.78rem;
+}
+
+.dispatcher-toggle {
+    display: inline-flex;
+    gap: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 999px;
+    padding: 0.2rem;
+    background: rgba(0, 0, 0, 0.15);
+    margin-bottom: 0.75rem;
+}
+
+.dispatcher-toggle label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.25rem 0.9rem;
+    border-radius: 999px;
+    cursor: pointer;
+    color: #a8b3d9;
+    font-size: 0.85rem;
+}
+
+.dispatcher-toggle label.active {
+    background: rgba(88, 101, 242, 0.2);
+    color: #fff;
+}
+
+.dispatcher-toggle input {
+    display: none;
+}
+
+.dispatcher-panel {
+    display: none;
+}
+
+.dispatcher-panel.active {
+    display: block;
+}
+
+.dispatcher-parameters-grid {
+    display: grid;
+    gap: 0.9rem;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.dispatcher-empty-state {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 1rem;
+    color: #9fa8c8;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 600px) {
+    .dispatcher-card {
+        padding: 1rem;
+    }
+}
+</style>
+
+<script>
+(function dispatcherEnhancements() {
+    const modeToggle = document.querySelectorAll('[data-dispatcher-mode]');
+    const panels = document.querySelectorAll('[data-dispatcher-panel]');
+    const commandSelect = document.querySelector('[data-slash-command-select]');
+    const parametersContainer = document.querySelector('[data-slash-parameters]');
+    const descriptionLabel = document.querySelector('[data-slash-command-description]');
+    const dispatcherInputs = document.querySelectorAll('[data-dispatcher-input]');
+    const modeHiddenInput = document.querySelector('[data-dispatcher-mode-hidden]');
+    let currentMode = modeHiddenInput?.value || 'prefix';
+
+    const updateInputState = (mode) => {
+        dispatcherInputs.forEach((input) => {
+            const belongsTo = input.dataset.dispatcherInput;
+            const shouldEnable = belongsTo === mode;
+            input.disabled = !shouldEnable;
+            if (input.dataset.dispatcherRequired === 'true') {
+                if (shouldEnable) {
+                    input.setAttribute('required', 'required');
+                } else {
+                    input.removeAttribute('required');
+                }
+            }
+        });
+    };
+
+    updateInputState(currentMode);
+
+    modeToggle.forEach((label) => {
+        const radio = label.querySelector('input[type="radio"]');
+        if (!radio) return;
+        radio.checked = radio.value === currentMode;
+        radio.addEventListener('change', () => {
+            modeToggle.forEach((node) => node.classList.remove('active'));
+            label.classList.add('active');
+            const target = radio.value;
+            currentMode = target;
+            if (modeHiddenInput) {
+                modeHiddenInput.value = target;
+            }
+            panels.forEach((panel) => {
+                panel.classList.toggle('active', panel.dataset.dispatcherPanel === target);
+            });
+            updateInputState(target);
+        });
+    });
+
+    const renderParameters = (parameters = []) => {
+        if (!parametersContainer) return;
+        parametersContainer.innerHTML = '';
+        const wrapper = document.createElement('div');
+        wrapper.className = 'dispatcher-parameters-grid';
+
+        if (!parameters.length) {
+            parametersContainer.innerHTML = '<div class="dispatcher-empty-state">No parameters required for this command.</div>';
+            return;
+        }
+
+        parameters.forEach((param) => {
+            const field = document.createElement('label');
+            field.className = 'dispatcher-field';
+            field.innerHTML = `
+                <span>${param.name} <small>${(param.type || 'string').toLowerCase()}</small> ${param.required ? '<em>(required)</em>' : ''}</span>
+                <input type="text" class="form-control" name="slashParam_${param.name}" placeholder="${param.description || ''}" ${param.required ? 'required' : ''}>
+                <small>${param.description || 'Provide a value for this option.'}</small>
+            `;
+            wrapper.appendChild(field);
+            const input = field.querySelector('input');
+            if (input) {
+                input.dataset.dispatcherInput = 'slash';
+                if (param.required) {
+                    input.dataset.dispatcherRequired = 'true';
+                }
+                if (currentMode !== 'slash') {
+                    input.disabled = true;
+                    input.removeAttribute('required');
+                }
+            }
+        });
+
+        parametersContainer.appendChild(wrapper);
+    };
+
+    if (commandSelect) {
+        commandSelect.addEventListener('change', (event) => {
+            const option = event.target.selectedOptions[0];
+            const metaRaw = option?.dataset?.commandMeta;
+            if (!metaRaw) {
+                descriptionLabel.textContent = 'Select a slash command to view its description and options.';
+                renderParameters([]);
+                return;
+            }
+
+            try {
+                const meta = JSON.parse(metaRaw);
+                descriptionLabel.textContent = meta.description || 'No description provided.';
+                renderParameters(meta.parameters || []);
+            } catch (error) {
+                console.warn('Unable to parse command metadata', error);
+                descriptionLabel.textContent = 'Select a slash command to view its description and options.';
+                renderParameters([]);
+            }
+        });
+    }
+
+    const initChannelTypeAhead = () => {
+        const selects = document.querySelectorAll('[data-channel-select]');
+        selects.forEach((select) => {
+            let buffer = '';
+            let timer;
+            select.addEventListener('keydown', (event) => {
+                if (event.key.length === 1 && /[a-zA-Z0-9#]/.test(event.key)) {
+                    event.preventDefault();
+                    buffer += event.key.toLowerCase();
+                    clearTimeout(timer);
+                    timer = setTimeout(() => { buffer = ''; }, 600);
+                    const options = Array.from(select.options);
+                    const match = options.find((option) => option.textContent && option.textContent.toLowerCase().startsWith(buffer));
+                    if (match) {
+                        select.value = match.value;
+                    }
+                }
+            });
+            select.addEventListener('blur', () => {
+                buffer = '';
+                clearTimeout(timer);
+            });
+        });
+    };
+
+    initChannelTypeAhead();
+})();
+</script>
+

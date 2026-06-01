@@ -1,0 +1,12 @@
+{
+  "author": "News Targeted",
+  "version": "1.0.0",
+  "name": "Command Dispatcher",
+  "description": "Trigger a prefix command in this server without opening Discord.",
+  "section": "Bot Commands",
+  "sectionID": "bot-commands",
+  "dashboardMod": true,
+  "adminPanelMod": true,
+  "scriptFile": "index.js",
+  "webFile": "index.ejs"
+}

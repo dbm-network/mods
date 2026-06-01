@@ -1,0 +1,262 @@
+{
+  "clientId": "463029380751556610",
+  "clientSecret": "",
+  "port": 3000,
+  "tokenSecret": "v6j0h8heam",
+  "sessionSecret": "v6j0h8heam",
+  "callbackURLs": [
+    "http://localhost:3000/dashboard/callback",
+    "http://127.0.0.1:3000/dashboard/callback",
+    "http://IP:3000/dashboard/callback",
+    "https://IP:3000/dashboard/callback",
+    "http://dashboard.newstargeted.com/dashboard/callback",
+    "https://dashboard.newstargeted.com/dashboard/callback"
+  ],
+  "ownerIds": ["80357836940382208"],
+  "supportServer": "https://discord.gg/nx9Kzrk",
+  "navItems": [
+    {
+      "name": "Home",
+      "link": "/",
+      "icon": "fas fa-home",
+      "match": "/",
+      "requiresOwner": false
+    },
+    {
+      "name": "Dashboard",
+      "link": "/dashboard/@me",
+      "icon": "fas fa-tachometer-alt",
+      "match": "/dashboard",
+      "requiresOwner": false
+    },
+    {
+      "name": "Commands",
+      "link": "/commands",
+      "icon": "fas fa-terminal",
+      "match": "/commands",
+      "requiresOwner": false
+    },
+    {
+      "name": "Status",
+      "link": "/status",
+      "icon": "fas fa-chart-line",
+      "match": "/status",
+      "requiresOwner": false
+    },
+    {
+      "name": "Leaderboard",
+      "link": "/leaderboard",
+      "icon": "fas fa-trophy",
+      "match": "/leaderboard",
+      "requiresOwner": false
+    },
+    {
+      "name": "Changelog",
+      "link": "/changelog",
+      "icon": "fas fa-history",
+      "match": "/changelog",
+      "requiresOwner": false
+    },
+    {
+      "name": "Contact",
+      "link": "/contact",
+      "icon": "fas fa-envelope",
+      "match": "/contact",
+      "requiresOwner": false
+    },
+    {
+      "name": "Admin",
+      "link": "/admin",
+      "icon": "fas fa-crown",
+      "match": "/admin",
+      "requiresOwner": true
+    }
+  ],
+  "features": [
+    {
+      "name": "Enterprise Security",
+      "description": "Rate limiting, granular permissions, and a full audit trail keep your community safe 24/7."
+    },
+    {
+      "name": "Live Analytics",
+      "description": "Instantly gauge server performance with real-time charts, member insights, and actionable metrics."
+    },
+    {
+      "name": "Smart Automations",
+      "description": "Automated welcomes, moderation queues, and announcement scheduling reduce repetitive work."
+    },
+    {
+      "name": "Music & Entertainment",
+      "description": "High fidelity audio, playlists, and built-in fun commands to energise your members."
+    },
+    {
+      "name": "Powerful Integrations",
+      "description": "Connect with RSS, webhooks, and custom APIs to broadcast content everywhere."
+    },
+    {
+      "name": "Owner-Grade Controls",
+      "description": "Fine-tuned access controls, owner-only settings views, and configurable admin workflows."
+    }
+  ],
+  "rateLimit": {
+    "windowMs": 900000,
+    "maxRequests": 100
+  },
+  "logging": {
+    "level": "info",
+    "file": "logs/dashboard.log"
+  },
+  "botSettings": {
+    "commandPrefix": "!",
+    "status": {
+      "presence": "online",
+      "activity": "Watching over servers"
+    },
+    "language": "en",
+    "timezone": "Europe/Oslo",
+    "statusRefreshInterval": 5,
+    "moderation": {
+      "auditLogChannel": "#moderation-logs",
+      "autoModLevel": "balanced",
+      "muteRole": "Muted"
+    },
+    "music": {
+      "defaultVolume": 60,
+      "autoDisconnect": "enabled"
+    },
+    "security": {
+      "twoFactorRequired": "optional",
+      "sessionTimeout": 60
+    },
+    "advanced": {
+      "webhookProxy": "",
+      "debugLogging": "off"
+    }
+  },
+  "security": {
+    "cspPolicy": "default-src 'self'",
+    "hsts": false,
+    "trustProxyHttpsHeader": true,
+    "xssProtection": true,
+    "noSniff": true,
+    "frameOptions": "DENY"
+  },
+  "footer": {
+    "title": "News Targeted Bot",
+    "tagline": "Professional Discord Bot Management Dashboard by News Targeted",
+    "cols": [
+      {
+        "title": "Quick Links",
+        "links": [
+          {
+            "label": "Home",
+            "href": "/",
+            "requiresOwner": false
+          },
+          {
+            "label": "Dashboard",
+            "href": "/dashboard/@me",
+            "requiresOwner": false
+          },
+          {
+            "label": "Commands",
+            "href": "/commands",
+            "requiresOwner": false
+          },
+          {
+            "label": "Admin",
+            "href": "/admin",
+            "requiresOwner": true
+          }
+        ]
+      },
+      {
+        "title": "Support",
+        "links": [
+          {
+            "label": "Documentation",
+            "href": "/docs",
+            "requiresOwner": false
+          },
+          {
+            "label": "Contact Us",
+            "href": "/contact",
+            "requiresOwner": false
+          },
+          {
+            "label": "Status",
+            "href": "/status",
+            "requiresOwner": false
+          }
+        ]
+      },
+      {
+        "title": "Legal",
+        "links": [
+          {
+            "label": "Privacy Policy",
+            "href": "/privacy",
+            "requiresOwner": false
+          },
+          {
+            "label": "Terms of Service",
+            "href": "/terms",
+            "requiresOwner": false
+          },
+          {
+            "label": "Cookie Policy",
+            "href": "/cookies",
+            "requiresOwner": false
+          }
+        ]
+      }
+    ],
+    "social": [
+      {
+        "icon": "discord",
+        "href": "https://discord.gg/nx9Kzrk"
+      },
+      {
+        "icon": "github",
+        "href": "https://github.com/master3395"
+      },
+      {
+        "icon": "twitter",
+        "href": "https://twitter.com/newstargeted"
+      }
+    ],
+    "copyright": "© 2025 Master3395 / News Targeted. All rights reserved.",
+    "titleHtml": "<p>News Targeted Bot</p>\n",
+    "taglineHtml": "<p>Professional Discord Bot Management Dashboard by News Targeted</p>\n",
+    "copyrightHtml": "<p>© 2025 Master3395 / News Targeted. All rights reserved.</p>\n"
+  },
+  "seo": {
+    "defaultTitle": "News Targeted Bot Dashboard",
+    "defaultDescription": "Manage your News Targeted Discord bot with advanced tools, live stats, and secure integrations.",
+    "defaultKeywords": "news targeted, discord bot, dashboard, management, commands",
+    "defaultImage": "/images/social-card.png",
+    "twitterHandle": "@newstargeted",
+    "canonicalBase": "https://dashboard.newstargeted.com"
+  },
+  "cookieConsent": {
+    "enabled": true,
+    "message": "We use cookies to personalize content and analyze traffic. By clicking Accept, you agree to our use of cookies.",
+    "acceptText": "Accept",
+    "declineText": "Decline",
+    "learnMoreText": "Learn more",
+    "learnMoreLink": "/privacy",
+    "durationDays": 180
+  },
+  "jwtSecret": "v6j0h8heam",
+  "leaderboard": {
+    "enabled": true,
+    "database": {
+      "host": "localhost",
+      "user": "",
+      "password": "",
+      "database": ""
+    },
+    "tablesCreated": false,
+    "lastUpdated": 0
+  }
+}

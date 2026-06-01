@@ -1,0 +1,44 @@
+<% 
+const templateBasePath = (typeof basePath !== 'undefined' && basePath) ? basePath : '';
+%>
+<!-- Giveaways Schedule Pane -->
+<div class="panel-pane" id="giveaways-schedule" role="tabpanel">
+    <!-- Hidden CSRF token for API calls -->
+    <input type="hidden" name="_csrf" id="schedule-csrf-token" value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+    
+    <div class="panel-pane-header">
+        <h2>Scheduled Giveaways</h2>
+        <p>View and manage scheduled giveaways for this server.</p>
+    </div>
+    
+    <% if (data.giveawayData.giveaways.scheduled.length > 0) { %>
+    <div class="giveaway-grid">
+        <% data.giveawayData.giveaways.scheduled.forEach((giveaway, idx) => { %>
+        <div class="giveaway-card">
+            <div class="giveaway-card__header">
+                <h3><%= giveaway.prize || giveaway.name || 'Unnamed Giveaway' %></h3>
+                <span class="status-pill status-pill--scheduled">Scheduled</span>
+            </div>
+            <div class="giveaway-card__body">
+                <p class="giveaway-meta">
+                    <strong>Winners:</strong> <%= giveaway.winners || 1 %><br>
+                    <% if (giveaway.scheduledStart) { %>
+                    <strong>Starts:</strong> <span class="giveaway-time" data-start-time="<%= giveaway.scheduledStart %>"></span>
+                    <% } %>
+                </p>
+            </div>
+            <div class="giveaway-card__actions">
+                <button class="btn btn-sm btn-primary view-scheduled-giveaway-btn" data-giveaway-id="<%= giveaway.id %>">View</button>
+                <button class="btn btn-sm btn-danger cancel-scheduled-giveaway-btn" data-giveaway-id="<%= giveaway.id %>">Cancel</button>
+            </div>
+        </div>
+        <% }); %>
+    </div>
+    <% } else { %>
+    <div class="empty-state">
+        <h3>No Scheduled Giveaways</h3>
+        <p>You don't have any scheduled giveaways for this server yet. Click the "Create" tab to schedule one!</p>
+    </div>
+    <% } %>
+</div>
+

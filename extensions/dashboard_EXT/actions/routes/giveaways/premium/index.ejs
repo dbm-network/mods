@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= data.seo?.title || 'Premium Giveaways - News Targeted Bot Dashboard' %></title>
+    <meta name="description" content="<%= data.seo?.description || 'Unlock premium giveaway features' %>">
+    <% 
+    const templateBasePath = (typeof basePath !== 'undefined' && basePath) ? basePath : '';
+    %>
+    <link rel="icon" type="image/x-icon" href="<%= templateBasePath %>/favicon.ico">
+    <link rel="stylesheet" href="<%= templateBasePath %>/shared/styles.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body class="main-layout">
+    <%- include('../../../../views/shared/header.ejs', { data: data }) %>
+
+    <main>
+        <section class="page-wrapper page-wrapper--narrow" data-aos="fade-up">
+            <%- include('../../../../views/shared/components/hero', {
+                title: 'Premium Features',
+                subtitle: 'Unlock advanced giveaway features and customization options',
+                badge: 'Giveaway System',
+                panel: true
+            }) %>
+        </section>
+
+        <section class="page-wrapper" data-aos="fade-up" data-aos-delay="120">
+            <div class="page-section">
+                <% const serverIdParam = data.selectedServerId ? `?serverId=${data.selectedServerId}` : ''; %>
+                <div class="panel-tabs-wrapper">
+                    <nav class="panel-tabs" role="tablist">
+                        <a href="<%= templateBasePath %>/giveaways<%= serverIdParam %>" class="panel-tab-button">
+                            <i class="fas fa-list"></i>
+                            <span>Overview</span>
+                        </a>
+                        <a href="<%= templateBasePath %>/giveaways/schedule<%= serverIdParam %>" class="panel-tab-button">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>Schedule</span>
+                        </a>
+                        <a href="<%= templateBasePath %>/giveaways/templates<%= serverIdParam %>" class="panel-tab-button">
+                            <i class="fas fa-file-alt"></i>
+                            <span>Templates</span>
+                        </a>
+                        <a href="<%= templateBasePath %>/giveaways/settings<%= serverIdParam %>" class="panel-tab-button">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                        <a href="<%= templateBasePath %>/giveaways/premium<%= serverIdParam %>" class="panel-tab-button active">
+                            <i class="fas fa-star"></i>
+                            <span>Premium</span>
+                        </a>
+                    </nav>
+                </div>
+            </div>
+        </section>
+
+        <section class="page-wrapper" data-aos="fade-up" data-aos-delay="140">
+            <div class="page-section">
+                <div class="empty-state">
+                    <div style="font-size: 4rem; margin-bottom: 1rem;">
+                        <i class="fas fa-star" style="color: #ffd700;"></i>
+                    </div>
+                    <h3>Premium Features</h3>
+                    <p>Unlock advanced giveaway features including:</p>
+                    <ul style="text-align: left; max-width: 500px; margin: 1.5rem auto;">
+                        <li>Unlimited scheduled giveaways</li>
+                        <li>Custom embed designs</li>
+                        <li>Advanced analytics and statistics</li>
+                        <li>Priority support</li>
+                        <li>Exclusive premium templates</li>
+                        <li>Multi-server management</li>
+                    </ul>
+                    <div class="empty-state__actions" style="margin-top: 2rem;">
+                        <a href="#" class="btn btn-primary">
+                            <i class="fas fa-crown"></i> Upgrade to Premium
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <%- include('../../../../views/shared/footer.ejs', { data: data }) %>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+    </script>
+</body>
+</html>
+

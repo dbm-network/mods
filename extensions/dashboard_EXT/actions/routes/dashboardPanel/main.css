@@ -1,0 +1,93 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #2C2F33;
+}
+
+.loginBody {
+    padding-top: 40px;
+    margin-left: 100px;
+    padding-right: auto;
+    max-width: 25%;
+}
+
+.headerBrand {
+    font-size: 20px;
+}
+
+.headerBrandNavButtons {
+    font-size: 16px;
+}
+
+.sideNavBar {
+    max-width: 300px;
+}
+
+.navHeader {
+    background-color: #23272A;
+    color: white;
+    margin: 0;
+    padding: 0;
+}
+
+.lightBackground {
+    background-color: #2C2F33;
+    margin-top: -5px;
+    color: white;
+}
+
+.features {
+    font-size: large;
+    padding-bottom: 25px;
+}
+
+.featuresHeader {
+    color: #7289DA;
+    font-size: 25px;
+}
+
+.darkBackground {
+    background-color: #23272A;
+    margin-top: -5px;
+    color: white;
+}
+
+.featuresHeaderFooter {
+    color: #7289DA;
+    font-size: 20px;
+}
+
+.guild-icon {
+    margin-bottom: 15px;
+    margin-left: 15px;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+    vertical-align: middle;
+    display: inline-block;
+    text-decoration: none;
+    border: 2px solid white !important;
+}
+
+.guild-container {
+    display: block;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.guild-icon:hover {
+    border-radius: 15px;
+}
+
+.serv-container {
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+}
+
+.list-serv {
+    display: block;
+    list-style-type: disc;
+    padding: 0px;
+    list-style: none;
+    opacity: .9;
+}

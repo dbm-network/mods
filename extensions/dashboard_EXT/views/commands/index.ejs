@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= (data.seo && data.seo.title) || 'Commands · News Targeted Bot' %></title>
+    <meta name="description" content="<%= (data.seo && data.seo.description) || 'Browse, manage, and execute all News Targeted Bot commands from a single dashboard.' %>">
+    <% 
+    const templateBasePath = (typeof basePath !== 'undefined' && basePath) ? basePath : '';
+    %>
+    <link rel="icon" type="image/x-icon" href="<%= templateBasePath %>/favicon.ico">
+    <link rel="stylesheet" href="<%= templateBasePath %>/shared/styles.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body class="main-layout">
+    <%- include('../shared/header.ejs', { data: data }) %>
+
+    <main>
+        <%
+            const heroActions = [
+                { href: templateBasePath + '/dashboard/@me', label: 'Open Dashboard', className: 'btn btn-primary' }
+            ];
+            if (data.settings && data.settings.inviteLink) {
+                heroActions.push({ href: data.settings.inviteLink, label: 'Add to Server', className: 'btn btn-secondary', attrs: { target: '_blank', rel: 'noopener' } });
+            }
+        %>
+        <section class="page-wrapper page-wrapper--narrow page-wrapper--center" data-aos="fade-up">
+            <%- include('../shared/components/hero', {
+                title: 'All commands at your fingertips',
+                subtitle: 'Search, filter, and configure commands without leaving the dashboard. Everything is responsive, fast, and owner-ready.',
+                badge: 'Command Library',
+                actions: heroActions,
+                panel: true
+            }) %>
+        </section>
+
+        <section class="page-wrapper" data-aos="fade-up" data-aos-delay="120">
+            <div class="page-section">
+                <div class="page-kpi-grid">
+                    <div class="page-kpi">
+                        <h3>Total Commands</h3>
+                        <p><%= data.commandStats?.total || 0 %></p>
+                    </div>
+                    <div class="page-kpi">
+                        <h3>Slash Commands</h3>
+                        <p><%= data.commandStats?.slash || 0 %></p>
+                    </div>
+                    <div class="page-kpi">
+                        <h3>Prefix Commands</h3>
+                        <p><%= data.commandStats?.prefix || 0 %></p>
+                    </div>
+                    <div class="page-kpi">
+                        <h3>Categories</h3>
+                        <p><%= (data.commandStats?.categories || []).length %></p>
+            </div>
+                </div>
+
+                <div class="command-controls">
+                    <div class="control-group">
+                        <label for="commandSearch">Search</label>
+                        <input type="search" id="commandSearch" placeholder="Search commands by name, description, alias, or permissions">
+                    </div>
+                    <div class="control-group">
+                        <label for="commandTypeFilter">Command Type</label>
+                        <select id="commandTypeFilter">
+                            <option value="all">All Types</option>
+                            <% (data.commandTypes || []).forEach(type => { %>
+                                <option value="<%= type.key %>"><%= type.label %></option>
+                            <% }) %>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label for="commandCategoryFilter">Category</label>
+                        <select id="commandCategoryFilter">
+                            <option value="all">All Categories</option>
+                            <% (data.categories || []).forEach(category => { %>
+                                <option value="<%= category %>"><%= category %></option>
+                            <% }) %>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="page-wrapper" data-aos="fade-up" data-aos-delay="180">
+            <div class="page-section">
+                <%- include('../shared/components/section-header', {
+                    badge: 'Command Catalogue',
+                    title: 'Live sync with commands.json',
+                    description: 'These entries are loaded directly from your DBM project, covering both prefix, slash, context menu, and automation commands with their permissions and configuration.'
+                }) %>
+
+                <% const commandList = Array.isArray(data.commands) ? data.commands : []; %>
+                <% if (commandList.length) { %>
+                <div class="page-grid page-grid--three" id="commandsGrid">
+                    <% commandList.forEach((command, index) => { %>
+                    <article class="surface-card command-card" data-command-type="<%= command.typeKey %>" data-command-category="<%= command.category %>" data-command-search="<%= `${command.name} ${command.description} ${(command.aliases || []).join(' ')} ${command.permissions} ${command.typeLabel}`.toLowerCase().replace(/"/g, '&quot;') %>">
+                        <div class="surface-card__meta">
+                            <span class="status-pill <%= command.typeKey === 'slash' ? '' : command.typeKey === 'prefix' ? 'degraded' : '' %>">
+                                <i class="fas fa-code"></i>
+                                <%= command.typeLabel %>
+                            </span>
+                            <span class="inline-metric">
+                                <i class="fas fa-layer-group"></i>
+                                <%= command.category || 'General' %>
+                            </span>
+                        </div>
+                        <h3 class="surface-card__title"><%= command.name %></h3>
+                        <p><%= command.description %></p>
+
+                        <ul class="command-meta">
+                            <li><strong>Restriction:</strong> <%= command.restriction %></li>
+                            <li><strong>Permissions:</strong> <%= command.permissions %></li>
+                            <li><strong>Steps:</strong> <%= command.actions %></li>
+                        </ul>
+
+                        <% if (command.aliases && command.aliases.length) { %>
+                        <div class="command-aliases">
+                            <span>Aliases:</span>
+                            <%= command.aliases.join(', ') %>
+                    </div>
+                        <% } %>
+
+                        <% if (command.parameters && command.parameters.length) { %>
+                        <div class="command-parameters">
+                            <span>Parameters:</span>
+                            <ul>
+                                <% command.parameters.forEach(param => { %>
+                                <li><code><%= param.name %></code> — <%= param.description || 'No description' %></li>
+                                <% }); %>
+                            </ul>
+                    </div>
+                        <% } %>
+                </article>
+                <% }); %>
+                </div>
+                <div class="pagination" id="commandsPagination" aria-label="Command pagination"></div>
+                <% } else { %>
+                <div class="empty-state">
+                    <strong>No commands found</strong>
+                    <p>Create commands in Discord Bot Maker to populate this view.</p>
+                </div>
+                <% } %>
+            </div>
+        </section>
+
+        <section class="page-wrapper" data-aos="fade-up" data-aos-delay="240">
+            <div class="page-section">
+                <%- include('../shared/components/section-header', {
+                    badge: 'Automation Events',
+                    title: 'Reactive workflows from events.json',
+                    description: 'Stay ahead of server automation by monitoring every DBM event and its configured actions.'
+                }) %>
+
+                <div class="command-controls event-controls">
+                    <div class="control-group">
+                        <label for="eventSearch">Search Events</label>
+                        <input type="search" id="eventSearch" placeholder="Search events by name or trigger">
+                    </div>
+                </div>
+
+                <% const events = Array.isArray(data.events) ? data.events : []; %>
+                <% if (events.length) { %>
+                <div class="page-grid page-grid--two" id="eventsGrid">
+                    <% events.forEach((event, index) => { %>
+                    <article class="surface-card event-card" data-event-search="<%= `${event.name} ${event.trigger} ${event.description}`.toLowerCase().replace(/"/g, '&quot;') %>">
+                        <div class="surface-card__meta">
+                            <span class="status-pill">
+                                <i class="fas fa-bolt"></i>
+                                <%= event.trigger %>
+                            </span>
+                            <span class="inline-metric">
+                                <i class="fas fa-tasks"></i>
+                                <%= event.actions %> actions
+                            </span>
+                        </div>
+                        <h3 class="surface-card__title"><%= event.name %></h3>
+                        <p><%= event.description %></p>
+                    </article>
+                    <% }); %>
+                </div>
+                <% } else { %>
+                <div class="empty-state">
+                    <strong>No events registered</strong>
+                    <p>Create event handlers in DBM to see them listed here.</p>
+                </div>
+                <% } %>
+            </div>
+        </section>
+    </main>
+
+    <%- include('../shared/footer.ejs', { data: data }) %>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+
+        (function () {
+            const cards = Array.from(document.querySelectorAll('.command-card'));
+            const pagination = document.getElementById('commandsPagination');
+        const searchInput = document.getElementById('commandSearch');
+            const typeFilter = document.getElementById('commandTypeFilter');
+            const categoryFilter = document.getElementById('commandCategoryFilter');
+            const ITEMS_PER_PAGE = 24;
+            let currentPage = 1;
+
+            const applyFilters = () => {
+                const search = (searchInput?.value || '').trim().toLowerCase();
+                const type = typeFilter?.value || 'all';
+                const category = categoryFilter?.value || 'all';
+
+                const filtered = cards.filter(card => {
+                    const matchesSearch = !search || (card.dataset.commandSearch || '').includes(search);
+                    const matchesType = type === 'all' || card.dataset.commandType === type;
+                    const matchesCategory = category === 'all' || card.dataset.commandCategory === category;
+                    return matchesSearch && matchesType && matchesCategory;
+                });
+
+                const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE));
+                currentPage = Math.min(currentPage, totalPages);
+
+                cards.forEach(card => card.classList.add('hidden'));
+                filtered
+                    .slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)
+                    .forEach(card => card.classList.remove('hidden'));
+
+                renderPagination(totalPages, filtered.length);
+            };
+
+            const renderPagination = (totalPages, totalItems) => {
+                if (!pagination) return;
+                pagination.innerHTML = '';
+
+                if (totalItems === 0) {
+                    const empty = document.createElement('div');
+                    empty.className = 'pagination__empty';
+                    empty.textContent = 'No commands match your filters.';
+                    pagination.appendChild(empty);
+                    return;
+                }
+
+                if (totalPages <= 1) {
+                    return;
+        }
+
+                const createButton = (label, page, disabled = false, active = false) => {
+                    const button = document.createElement('button');
+                    button.type = 'button';
+                    button.className = 'pagination__button';
+                    if (active) button.classList.add('active');
+                    if (disabled) {
+                        button.classList.add('disabled');
+                        button.disabled = true;
+                    }
+                    button.textContent = label;
+            button.addEventListener('click', () => {
+                        currentPage = page;
+                        applyFilters();
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    });
+                    return button;
+                };
+
+                pagination.appendChild(createButton('Prev', Math.max(1, currentPage - 1), currentPage === 1));
+                for (let page = 1; page <= totalPages; page += 1) {
+                    pagination.appendChild(createButton(String(page), page, false, currentPage === page));
+                    if (page === 5 && totalPages > 7 && currentPage < totalPages - 2) {
+                        const ellipsis = document.createElement('span');
+                        ellipsis.className = 'pagination__ellipsis';
+                        ellipsis.textContent = '…';
+                        pagination.appendChild(ellipsis);
+                        pagination.appendChild(createButton(String(totalPages), totalPages, false, currentPage === totalPages));
+                        break;
+                    }
+                }
+                pagination.appendChild(createButton('Next', Math.min(totalPages, currentPage + 1), currentPage === totalPages));
+            };
+
+            searchInput?.addEventListener('input', () => {
+                currentPage = 1;
+                applyFilters();
+            });
+            typeFilter?.addEventListener('change', () => {
+                currentPage = 1;
+                applyFilters();
+            });
+            categoryFilter?.addEventListener('change', () => {
+                currentPage = 1;
+                applyFilters();
+            });
+
+            applyFilters();
+        })();
+
+        (function () {
+            const searchInput = document.getElementById('eventSearch');
+            const eventCards = Array.from(document.querySelectorAll('.event-card'));
+            if (!searchInput || !eventCards.length) return;
+
+            const filterEvents = () => {
+                const query = searchInput.value.trim().toLowerCase();
+                let visibleCount = 0;
+                eventCards.forEach(card => {
+                    const matches = !query || (card.dataset.eventSearch || '').includes(query);
+                    card.classList.toggle('hidden', !matches);
+                    if (matches) visibleCount += 1;
+                });
+
+                const container = document.getElementById('eventsGrid');
+                if (container) {
+                    container.classList.toggle('events-empty', visibleCount === 0);
+                }
+            };
+
+            searchInput.addEventListener('input', filterEvents);
+            filterEvents();
+        })();
+    </script>
+</body>
+</html>

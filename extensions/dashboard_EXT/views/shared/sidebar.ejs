@@ -1,0 +1,82 @@
+<%
+const templateBasePath = (data && data.basePath) ? data.basePath : "";
+const navItems = Array.isArray(data.navItems) ? data.navItems : [];
+const isOwner = Boolean(data.isOwner);
+const currentPath = data.currentPath || "/";
+const clientUser = data.client && data.client.user;
+const botName = clientUser ? clientUser.username : "Bot";
+const botAvatarId = clientUser && clientUser.avatar;
+const botAvatarExt = botAvatarId && botAvatarId.startsWith("a_") ? "gif" : "png";
+const botId = clientUser && clientUser.id;
+const botAvatarUrl = botId ? (botAvatarId ? `https://cdn.discordapp.com/avatars/${botId}/${botAvatarId}.${botAvatarExt}?size=64` : `https://cdn.discordapp.com/embed/avatars/${(botId || "0").toString().length % 5}.png`) : "";
+%>
+<!-- Left Sidebar: header = bot only; nav; then user section (once); footer = Login/Logout -->
+<div id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <div class="sidebar-header">
+            <div class="sidebar-brand-row">
+                <a href="<%= templateBasePath %>/" class="sidebar-brand">
+                    <% if (botAvatarUrl) { %>
+                    <img src="<%= botAvatarUrl %>" alt="" class="sidebar-bot-avatar">
+                    <% } else { %>
+                    <i class="fab fa-discord sidebar-brand-icon"></i>
+                    <% } %>
+                    <span class="sidebar-title-text"><%= botName %></span>
+                </a>
+                <button type="button" id="sidebarClose" class="sidebar-close" aria-label="Close sidebar">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="sidebar-header-actions">
+                <% if (data.user) { %>
+                <% const inviteLink = data.settings && data.settings.inviteLink ? data.settings.inviteLink : null; %>
+                <% if (inviteLink) { %><a href="<%= inviteLink %>" class="btn btn-primary btn-sm" target="_blank" rel="noopener"><i class="fas fa-plus-circle"></i></a><% } %>
+                <% } %>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <% navItems.forEach(item => {
+                if (item.requiresOwner && !isOwner) return;
+                const href = (item.link || "#").startsWith("http") ? item.link : templateBasePath + (item.link || "#");
+                const label = item.name || "Link";
+                const icon = item.icon || "fas fa-circle";
+                const matcher = item.match || href;
+                const active = currentPath && matcher !== "/" && matcher !== templateBasePath ? currentPath.startsWith(String(matcher).replace(templateBasePath, "")) || currentPath === href : (currentPath === href || currentPath === (templateBasePath + (item.link || "")));
+            %>
+            <a href="<%= href %>" class="sidebar-link <%= active ? "active" : "" %>">
+                <i class="<%= icon %>"></i>
+                <span><%= label %></span>
+            </a>
+            <% }); %>
+        </nav>
+        <% if (data.user) { %>
+        <div class="sidebar-user">
+            <% const avatarId = data.user.avatar; %>
+            <% const avatarExt = avatarId && avatarId.startsWith("a_") ? "gif" : "png"; %>
+            <% const fallbackIndex = Number(data.user.discriminator || 0) % 5; %>
+            <% const avatarUrl = data.user.id ? (avatarId ? `https://cdn.discordapp.com/avatars/${data.user.id}/${avatarId}.${avatarExt}?size=64` : `https://cdn.discordapp.com/embed/avatars/${fallbackIndex}.png`) : "https://cdn.discordapp.com/embed/avatars/0.png"; %>
+            <div class="sidebar-avatar"><img src="<%= avatarUrl %>" alt="" loading="lazy"></div>
+            <div class="sidebar-user-info">
+                <p class="sidebar-username"><%= data.user.username %></p>
+                <p class="sidebar-user-role">Dashboard</p>
+            </div>
+        </div>
+        <% } %>
+        <div class="sidebar-footer">
+            <% if (data.user) { %>
+            <form action="<%= templateBasePath %>/auth/logout" method="POST" class="sidebar-logout-form">
+                <input type="hidden" name="_csrf" value="<%= typeof csrfToken !== "undefined" ? csrfToken : "" %>">
+                <button type="submit" class="sidebar-logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Log out</span>
+                </button>
+            </form>
+            <% } else { %>
+            <% const inviteLink = data.settings && data.settings.inviteLink ? data.settings.inviteLink : null; %>
+            <% if (inviteLink) { %><a href="<%= inviteLink %>" class="btn btn-secondary sidebar-footer-btn" target="_blank" rel="noopener"><i class="fas fa-plus-circle"></i> Add to server</a><% } %>
+            <a href="<%= templateBasePath %>/auth/discord" class="btn btn-primary sidebar-footer-btn"><i class="fab fa-discord"></i> Login</a>
+            <% } %>
+        </div>
+    </div>
+</div>
+<div id="sidebarOverlay" class="sidebar-overlay" aria-hidden="true"></div>

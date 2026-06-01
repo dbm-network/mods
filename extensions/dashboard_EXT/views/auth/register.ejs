@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - <%= data.client.user.username %> Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../../../views/shared/styles.css">
+    <link rel="shortcut icon" href="<%= data.client.user.displayAvatarURL() || 'https://cdn.discordapp.com/embed/avatars/0.png' %>"/>
+    <meta name="theme-color" content="#7289DA" />
+    <style>
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+        
+        .auth-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .auth-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .auth-header h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        
+        .auth-header p {
+            color: #7f8c8d;
+            margin: 0;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #7289da;
+            box-shadow: 0 0 0 3px rgba(114, 137, 218, 0.1);
+        }
+        
+        .form-control.error {
+            border-color: #e74c3c;
+        }
+        
+        .form-control.valid {
+            border-color: #27ae60;
+        }
+        
+        .error-message {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .success-message {
+            color: #27ae60;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .password-strength {
+            margin-top: 5px;
+            font-size: 12px;
+        }
+        
+        .strength-bar {
+            height: 4px;
+            background: #e1e8ed;
+            border-radius: 2px;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+        
+        .strength-fill {
+            height: 100%;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+        
+        .strength-weak { background: #e74c3c; width: 25%; }
+        .strength-fair { background: #f39c12; width: 50%; }
+        .strength-good { background: #f1c40f; width: 75%; }
+        .strength-strong { background: #27ae60; width: 100%; }
+        
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #7289da, #5b6eae);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(114, 137, 218, 0.3);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: #7289da;
+            border: 2px solid #7289da;
+        }
+        
+        .btn-secondary:hover {
+            background: #7289da;
+            color: white;
+        }
+        
+        .auth-divider {
+            text-align: center;
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        .auth-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #e1e8ed;
+        }
+        
+        .auth-divider span {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 0 20px;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        
+        .auth-links {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .auth-links a {
+            color: #7289da;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        
+        .auth-links a:hover {
+            color: #5b6eae;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 10px;
+        }
+        
+        .loading i {
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .success-message-global {
+            background: #d4edda;
+            color: #155724;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #c3e6cb;
+            display: none;
+        }
+        
+        .error-message-global {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #f5c6cb;
+            display: none;
+        }
+        
+        .terms-checkbox {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        
+        .terms-checkbox input[type="checkbox"] {
+            margin-right: 10px;
+            margin-top: 2px;
+            transform: scale(1.2);
+        }
+        
+        .terms-checkbox label {
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        .terms-checkbox a {
+            color: #7289da;
+            text-decoration: none;
+        }
+        
+        .terms-checkbox a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1><i class="fas fa-user-plus"></i> Register</h1>
+                <p>Create your <%= data.client.user.username %> Dashboard account</p>
+            </div>
+
+            <div class="success-message-global" id="successMessage"></div>
+            <div class="error-message-global" id="errorMessage"></div>
+
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" class="form-control" required>
+                    <div class="error-message" id="usernameError"></div>
+                    <div class="success-message" id="usernameSuccess"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" class="form-control" required>
+                    <div class="error-message" id="emailError"></div>
+                    <div class="success-message" id="emailSuccess"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" class="form-control" required>
+                    <div class="password-strength">
+                        <div class="strength-bar">
+                            <div class="strength-fill" id="strengthBar"></div>
+                        </div>
+                        <span id="strengthText">Enter a password</span>
+                    </div>
+                    <div class="error-message" id="passwordError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" required>
+                    <div class="error-message" id="confirmPasswordError"></div>
+                    <div class="success-message" id="confirmPasswordSuccess"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="discordId">Discord ID (Optional)</label>
+                    <input type="text" id="discordId" name="discordId" class="form-control" placeholder="Link your Discord account">
+                    <div class="error-message" id="discordIdError"></div>
+                </div>
+
+                <div class="terms-checkbox">
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <label for="terms">
+                        I agree to the <a href="/terms" target="_blank">Terms of Service</a> and <a href="/privacy" target="_blank">Privacy Policy</a>
+                    </label>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-user-plus"></i> Create Account
+                </button>
+            </form>
+
+            <div class="auth-divider">
+                <span>OR</span>
+            </div>
+
+            <a href="/auth/discord" class="btn btn-secondary">
+                <i class="fab fa-discord"></i> Register with Discord
+            </a>
+
+            <div class="loading" id="loading">
+                <i class="fas fa-spinner"></i> Creating account...
+            </div>
+
+            <div class="auth-links">
+                <p>Already have an account? <a href="/auth/login">Login here</a></p>
+                <p><a href="/">← Back to Dashboard</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Password strength checker
+        document.getElementById('password').addEventListener('input', function() {
+            const password = this.value;
+            const strengthBar = document.getElementById('strengthBar');
+            const strengthText = document.getElementById('strengthText');
+            
+            let strength = 0;
+            let strengthClass = '';
+            let strengthLabel = '';
+            
+            if (password.length >= 8) strength++;
+            if (/[a-z]/.test(password)) strength++;
+            if (/[A-Z]/.test(password)) strength++;
+            if (/\d/.test(password)) strength++;
+            if (/[^A-Za-z0-9]/.test(password)) strength++;
+            
+            switch (strength) {
+                case 0:
+                case 1:
+                    strengthClass = 'strength-weak';
+                    strengthLabel = 'Weak';
+                    break;
+                case 2:
+                    strengthClass = 'strength-fair';
+                    strengthLabel = 'Fair';
+                    break;
+                case 3:
+                    strengthClass = 'strength-good';
+                    strengthLabel = 'Good';
+                    break;
+                case 4:
+                case 5:
+                    strengthClass = 'strength-strong';
+                    strengthLabel = 'Strong';
+                    break;
+            }
+            
+            strengthBar.className = 'strength-fill ' + strengthClass;
+            strengthText.textContent = strengthLabel;
+        });
+        
+        // Real-time validation
+        document.getElementById('username').addEventListener('blur', function() {
+            validateField('username', this.value, /^[a-zA-Z0-9_-]{3,50}$/, 'Username must be 3-50 characters and contain only letters, numbers, underscores, and hyphens');
+        });
+        
+        document.getElementById('email').addEventListener('blur', function() {
+            validateField('email', this.value, /^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Please enter a valid email address');
+        });
+        
+        document.getElementById('confirmPassword').addEventListener('input', function() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = this.value;
+            
+            if (confirmPassword && password === confirmPassword) {
+                showFieldSuccess('confirmPassword', 'Passwords match');
+                this.classList.add('valid');
+                this.classList.remove('error');
+            } else if (confirmPassword) {
+                showFieldError('confirmPassword', 'Passwords do not match');
+                this.classList.add('error');
+                this.classList.remove('valid');
+            } else {
+                clearFieldMessage('confirmPassword');
+                this.classList.remove('error', 'valid');
+            }
+        });
+        
+        function validateField(fieldName, value, regex, errorMessage) {
+            const field = document.getElementById(fieldName);
+            
+            if (!value) {
+                clearFieldMessage(fieldName);
+                field.classList.remove('error', 'valid');
+                return;
+            }
+            
+            if (regex.test(value)) {
+                showFieldSuccess(fieldName, 'Looks good!');
+                field.classList.add('valid');
+                field.classList.remove('error');
+            } else {
+                showFieldError(fieldName, errorMessage);
+                field.classList.add('error');
+                field.classList.remove('valid');
+            }
+        }
+        
+        function showFieldError(fieldName, message) {
+            const errorEl = document.getElementById(fieldName + 'Error');
+            const successEl = document.getElementById(fieldName + 'Success');
+            
+            if (errorEl) {
+                errorEl.textContent = message;
+                errorEl.style.display = 'block';
+            }
+            if (successEl) {
+                successEl.style.display = 'none';
+            }
+        }
+        
+        function showFieldSuccess(fieldName, message) {
+            const errorEl = document.getElementById(fieldName + 'Error');
+            const successEl = document.getElementById(fieldName + 'Success');
+            
+            if (successEl) {
+                successEl.textContent = message;
+                successEl.style.display = 'block';
+            }
+            if (errorEl) {
+                errorEl.style.display = 'none';
+            }
+        }
+        
+        function clearFieldMessage(fieldName) {
+            const errorEl = document.getElementById(fieldName + 'Error');
+            const successEl = document.getElementById(fieldName + 'Success');
+            
+            if (errorEl) errorEl.style.display = 'none';
+            if (successEl) successEl.style.display = 'none';
+        }
+        
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // Clear previous errors
+            clearErrors();
+            
+            // Validate required fields
+            if (!data.username || !data.email || !data.password || !data.confirmPassword) {
+                showError('Please fill in all required fields');
+                return;
+            }
+            
+            if (!data.terms) {
+                showError('Please accept the Terms of Service and Privacy Policy');
+                return;
+            }
+            
+            if (data.password !== data.confirmPassword) {
+                showError('Passwords do not match');
+                return;
+            }
+            
+            // Show loading
+            document.getElementById('loading').style.display = 'block';
+            
+            try {
+                const basePath = window.location.pathname.startsWith('/nt2') ? '/nt2' : '';
+                const response = await fetch(basePath + '/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showSuccess('Registration successful! Redirecting to login...');
+                    setTimeout(() => {
+                        const basePath = window.location.pathname.startsWith('/nt2') ? '/nt2' : '';
+                        window.location.href = basePath + '/auth/login';
+                    }, 2000);
+                } else {
+                    showError(result.message);
+                }
+            } catch (error) {
+                showError('An error occurred. Please try again.');
+                console.error('Registration error:', error);
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+            }
+        });
+        
+        function clearErrors() {
+            document.querySelectorAll('.error-message').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.form-control').forEach(el => el.classList.remove('error'));
+            document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'none';
+        }
+        
+        function showError(message) {
+            const errorEl = document.getElementById('errorMessage');
+            errorEl.textContent = message;
+            errorEl.style.display = 'block';
+        }
+        
+        function showSuccess(message) {
+            const successEl = document.getElementById('successMessage');
+            successEl.textContent = message;
+            successEl.style.display = 'block';
+        }
+        
+        // Check if user is already logged in
+        window.addEventListener('load', async function() {
+            try {
+                const basePath = window.location.pathname.startsWith('/nt2') ? '/nt2' : '';
+                const response = await fetch(basePath + '/auth/check');
+                const result = await response.json();
+                
+                if (result.success) {
+                    const basePath = window.location.pathname.startsWith('/nt2') ? '/nt2' : '';
+                    window.location.href = basePath + '/dashboard/@me';
+                }
+            } catch (error) {
+                // User not logged in, stay on register page
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= (data.seo && data.seo.title) || 'Documentation - News Targeted Bot Dashboard' %></title>
+    <meta name="description" content="<%= (data.seo && data.seo.description) || 'Complete documentation for News Targeted Bot - Learn how to use all features and commands.' %>">
+    <% const basePath = (typeof res !== 'undefined' && res.locals && res.locals.basePath) ? res.locals.basePath : ''; %>
+    <link rel="icon" type="image/x-icon" href="<%= basePath %>/favicon.ico">
+    <link rel="stylesheet" href="<%= basePath %>/shared/styles.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body class="main-layout">
+    <%- include('../shared/header.ejs', { data }) %>
+
+    <main>
+        <section class="page-wrapper page-wrapper--narrow page-wrapper--center" data-aos="fade-up">
+            <%- include('../shared/components/hero', {
+                title: 'Documentation',
+                subtitle: 'Complete guide to using News Targeted Bot',
+                panel: true
+            }) %>
+        </section>
+
+        <section class="page-wrapper" data-aos="fade-up" data-aos-delay="120">
+            <div class="page-section page-section--content">
+                <div class="surface-card" data-aos="fade-up">
+                    <h2>Getting Started</h2>
+                    <div class="data-grid data-grid--two">
+                        <div>
+                            <h3 id="installation">Installation</h3>
+                            <ol>
+                                <li>Click the "Invite Bot" button on the home page.</li>
+                                <li>Select your server from the dropdown.</li>
+                                <li>Grant the necessary permissions.</li>
+                                <li>Click "Authorize" to complete the setup.</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <h3 id="configuration">Configuration</h3>
+                            <ul>
+                                <li>Set up custom prefixes.</li>
+                                <li>Configure moderation settings.</li>
+                                <li>Enable/disable specific features.</li>
+                                <li>Set up automated responses.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="surface-card" data-aos="fade-up" data-aos-delay="80">
+                    <h2>Features</h2>
+                    <div class="data-grid data-grid--two">
+                        <div>
+                            <h3 id="commands">Commands</h3>
+                            <ul>
+                                <li><code>/help</code> — Display all available commands and their descriptions.</li>
+                                <li><code>/ping</code> — Check bot latency and response time.</li>
+                                <li><code>/info</code> — Display bot information and statistics.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 id="moderation">Moderation</h3>
+                            <ul>
+                                <li>Automated moderation workflows.</li>
+                                <li>Customizable punishment tiers.</li>
+                                <li>Audit logging integration.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="surface-card" data-aos="fade-up" data-aos-delay="160">
+                    <h2>Advanced Topics</h2>
+                    <div class="data-grid data-grid--two">
+                        <div>
+                            <h3 id="api">API Reference</h3>
+                            <p>Integrate external systems with webhook callbacks, REST endpoints, and secure API keys maintained in <code>config.php</code>.</p>
+                        </div>
+                        <div>
+                            <h3 id="troubleshooting">Troubleshooting</h3>
+                            <ul>
+                                <li>Verify bot permissions on the target server.</li>
+                                <li>Review logs within the dashboard `<code>/logs</code>` section.</li>
+                                <li>Confirm latest version via the status page.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <%- include('../shared/footer.ejs', { data }) %>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>AOS.init({ duration: 800, once: true });</script>
+</body>
+</html>

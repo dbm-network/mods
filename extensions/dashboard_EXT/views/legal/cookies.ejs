@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= (data.seo && data.seo.title) || 'Cookie Policy - News Targeted Bot Dashboard' %></title>
+    <meta name="description" content="<%= (data.seo && data.seo.description) || 'Cookie Policy for News Targeted Bot - Learn about how we use cookies and similar technologies.' %>">
+    <% const basePath = (typeof res !== 'undefined' && res.locals && res.locals.basePath) ? res.locals.basePath : ''; %>
+    <link rel="icon" type="image/x-icon" href="<%= basePath %>/favicon.ico">
+    <link rel="stylesheet" href="<%= basePath %>/shared/styles.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body class="main-layout">
+    <%- include('../shared/header.ejs', { data }) %>
+    
+    <main>
+        <section class="page-wrapper page-wrapper--narrow page-wrapper--center" data-aos="fade-up">
+            <%- include('../shared/components/hero', {
+                title: 'Cookie Policy',
+                subtitle: 'Last updated: January 2025',
+                panel: true
+            }) %>
+        </section>
+            
+        <section class="page-wrapper" data-aos="fade-up" data-aos-delay="120">
+            <div class="page-section page-section--content">
+                <section>
+                    <h2>What Are Cookies</h2>
+                    <p>Cookies are small text files that are placed on your computer or mobile device when you visit our website. They help us provide you with a better experience by remembering your preferences and settings.</p>
+                </section>
+                
+                <section>
+                    <h2>How We Use Cookies</h2>
+                    <p>We use cookies for the following purposes:</p>
+                    
+                    <h3>Essential Cookies</h3>
+                    <p>These cookies are necessary for the website to function properly. They enable basic functions like page navigation and access to secure areas of the website.</p>
+                    
+                    <h3>Analytics Cookies</h3>
+                    <p>These cookies help us understand how visitors interact with our website by collecting and reporting information anonymously.</p>
+                    
+                    <h3>Preference Cookies</h3>
+                    <p>These cookies enable the website to remember information that changes the way the website behaves or looks, such as your preferred language or region.</p>
+                </section>
+                
+                <section>
+                    <h2>Managing Cookies</h2>
+                    <p>You can control and/or delete cookies as you wish. You can delete all cookies that are already on your computer and you can set most browsers to prevent them from being placed.</p>
+                    
+                    <h3>Browser Settings</h3>
+                    <p>Most web browsers allow some control of most cookies through the browser settings. To find out more about cookies, including how to see what cookies have been set, visit <a href="https://www.aboutcookies.org" target="_blank" rel="noopener">www.aboutcookies.org</a>.</p>
+                </section>
+                
+                <section>
+                    <h2>Third-Party Cookies</h2>
+                    <p>We may also use third-party cookies from trusted partners to help us analyze how our website is used and to provide you with relevant advertising.</p>
+                </section>
+                
+                <section>
+                    <h2>Contact Us</h2>
+                    <% const dynamicContactUrl = (typeof contactUrl !== 'undefined' && contactUrl) ? contactUrl : '/contact'; %>
+                    <p>If you have any questions about our use of cookies, please contact us at <a href="<%= dynamicContactUrl %>"><%= dynamicContactUrl %></a></p>
+                </section>
+            </div>
+        </section>
+    </main>
+    
+    <%- include('../shared/footer.ejs', { data }) %>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>AOS.init({ duration: 800, once: true });</script>
+</body>
+</html>

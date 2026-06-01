@@ -1,0 +1,91 @@
+<div class="command-modal" id="commandModal" aria-hidden="true">
+    <div class="command-modal__overlay" data-command-modal-close></div>
+    <div class="command-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="commandModalTitle">
+        <header class="command-modal__header">
+            <div>
+                <span class="command-modal__badge" id="commandModalType">Command</span>
+                <h2 class="command-modal__title" id="commandModalTitle">Command Details</h2>
+                <p class="command-modal__subtitle" id="commandModalSubtitle"></p>
+            </div>
+            <button type="button" class="command-modal__close" aria-label="Close" data-command-modal-close>
+                <i class="fas fa-times"></i>
+            </button>
+        </header>
+
+        <div class="command-modal__content">
+            <section class="command-modal__section" id="commandModalMetaSection">
+                <h3>Summary</h3>
+                <dl class="command-modal__meta" id="commandModalMeta"></dl>
+            </section>
+
+            <section class="command-modal__section" id="commandModalActionsSection">
+                <h3>Steps</h3>
+                <ul class="command-modal__list" id="commandModalSteps"></ul>
+            </section>
+
+            <section class="command-modal__section" id="commandModalParametersSection">
+                <h3>Parameters</h3>
+                <ul class="command-modal__list" id="commandModalParameters"></ul>
+            </section>
+
+            <section class="command-modal__section" id="commandModalExecutionSection">
+                <h3>Execute Command</h3>
+                <form id="commandExecuteForm" novalidate>
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <input type="hidden" name="commandId" id="commandModalCommandId">
+                    <input type="hidden" name="commandKey" id="commandModalCommandKey">
+
+                    <div class="form-grid">
+                        <label class="command-target-group">
+                            Target Type
+                            <select name="targetType" id="commandModalTargetType" required>
+                                <option value="guild">Server (Guild)</option>
+                                <option value="channel">Channel</option>
+                                <option value="user">User / Direct Message</option>
+                            </select>
+                        </label>
+                        <label class="command-target-group" id="commandModalGuildGroup">
+                            Server
+                            <select name="guildId" id="commandModalGuild" required></select>
+                        </label>
+                    </div>
+
+                    <div class="form-grid command-target-advanced" id="commandModalChannelGroup">
+                        <label>
+                            Channel ID
+                            <input type="text" name="channelId" id="commandModalChannel" placeholder="123456789012345678" minlength="17" maxlength="21" pattern="[0-9]{17,21}">
+                        </label>
+                        <label>
+                            Send As Reply (Optional Message ID)
+                            <input type="text" name="messageId" id="commandModalMessage" placeholder="Reply message ID" minlength="17" maxlength="21" pattern="[0-9]{17,21}">
+                        </label>
+                    </div>
+
+                    <div class="form-grid command-target-advanced" id="commandModalUserGroup">
+                        <label>
+                            User ID
+                            <input type="text" name="userId" id="commandModalUser" placeholder="123456789012345678" minlength="17" maxlength="21" pattern="[0-9]{17,21}">
+                        </label>
+                    </div>
+
+                    <label class="command-modal__field">
+                        Additional Payload (JSON)
+                        <textarea name="payload" id="commandModalPayload" rows="4" placeholder='{"example":"value"}'></textarea>
+                    </label>
+
+                    <div class="command-modal__footnote" id="commandModalFootnote"></div>
+
+                    <div class="command-modal__messages" role="alert" id="commandModalMessages"></div>
+
+                    <div class="command-modal__footer">
+                        <button type="button" class="btn btn-secondary" data-command-modal-close>Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="commandModalExecute">
+                            <i class="fas fa-play"></i>
+                            <span>Execute</span>
+                        </button>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
+</div>

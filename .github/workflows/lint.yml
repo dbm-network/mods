@@ -10,26 +10,38 @@ on:
       - events
       - extensions
       - sharder
+      - bot.js
+      - bot.ts
+      - types.ts
 
 jobs:
   lint:
-    name: ESLint
+    name: ESLint (Node ${{ matrix.node-version }})
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # LTS (22, 24) plus Current line (25) from nodejs.org/dist/latest/. Node 26 omitted until setup-node lists it reliably.
+        node-version: [22, 24, 25]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Setup Node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           cache: npm
-          node-version: 16
+          node-version: ${{ matrix.node-version }}
 
       - name: Install dependencies
+        env:
+          # Lint does not need yt-dlp; postinstall hits GitHub API and can fail on rate limits without auth.
+          YOUTUBE_DL_SKIP_DOWNLOAD: '1'
+          GITHUB_TOKEN: ${{ github.token }}
         run: npm ci
 
-      - name: Run ESLint
-        run: npm run lint
+      - name: Run ESLint (JS + TS)
+        run: npm run lint:all
 
       - name: Run Prettier
         run: npm run prettier:check

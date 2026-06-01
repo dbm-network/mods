@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= data.seo?.title || 'View Giveaway - News Targeted Bot Dashboard' %></title>
+    <meta name="description" content="<%= data.seo?.description || 'View giveaway details' %>">
+    <% 
+    const templateBasePath = (typeof basePath !== 'undefined' && basePath) ? basePath : '';
+    %>
+    <link rel="icon" type="image/x-icon" href="<%= templateBasePath %>/favicon.ico">
+    <link rel="stylesheet" href="<%= templateBasePath %>/shared/styles.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body class="main-layout">
+    <%- include('../../../../views/shared/header.ejs', { data: data }) %>
+
+    <main>
+        <section class="page-wrapper page-wrapper--narrow" data-aos="fade-up">
+            <div class="page-actions">
+                <a href="<%= templateBasePath %>/giveaways" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Back to Giveaways
+                </a>
+                <% if (!data.giveaway.ended) { %>
+                <button class="btn btn-danger" id="end-giveaway-btn-view">End Giveaway</button>
+                <% } %>
+            </div>
+        </section>
+
+        <section class="page-wrapper" data-aos="fade-up" data-aos-delay="100">
+            <div class="page-section">
+                <div class="giveaway-card">
+                    <div class="giveaway-card__header">
+                        <h2><%= data.giveaway.prize || data.giveaway.name || 'Unnamed Giveaway' %></h2>
+                        <span class="status-pill <%= data.giveaway.ended ? 'status-pill--ended' : 'status-pill--active' %>">
+                            <%= data.giveaway.ended ? 'Ended' : 'Active' %>
+                        </span>
+                    </div>
+                    <div class="giveaway-card__body">
+                        <div class="giveaway-meta">
+                            <p><strong>Winners:</strong> <%= data.giveaway.winners || 1 %></p>
+                            <p><strong>Entries:</strong> <%= (data.giveaway.entries && data.giveaway.entries.length) || 0 %></p>
+                            <% if (data.giveaway.endTime) { %>
+                            <p><strong>Ends:</strong> <span class="giveaway-time" data-end-time="<%= data.giveaway.endTime %>"></span></p>
+                            <% } %>
+                            <% if (data.giveaway.endedAt) { %>
+                            <p><strong>Ended:</strong> <span class="giveaway-time" data-time="<%= data.giveaway.endedAt %>"></span></p>
+                            <% } %>
+                            <% if (data.giveaway.host) { %>
+                            <p><strong>Host:</strong> <%= data.giveaway.host %></p>
+                            <% } %>
+                            <% if (data.giveaway.winnerIds && data.giveaway.winnerIds.length > 0) { %>
+                            <p><strong>Winners:</strong> 
+                                <% data.giveaway.winnerIds.forEach((winnerId, index) => { %>
+                                    <span><@<%= winnerId %>></span><%= index < data.giveaway.winnerIds.length - 1 ? ', ' : '' %>
+                                <% }); %>
+                            </p>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <%- include('../../../../views/shared/footer.ejs', { data: data }) %>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+
+        const basePath = window.location.pathname.startsWith('/nt2') ? '/nt2' : '';
+        const giveawayId = '<%= data.giveaway.id %>';
+
+        function formatTime(timestamp) {
+            if (!timestamp) return 'N/A';
+            const date = new Date(parseInt(timestamp));
+            return date.toLocaleString();
+        }
+
+        function updateTimeElements() {
+            document.querySelectorAll('.giveaway-time').forEach(el => {
+                const endTime = el.getAttribute('data-end-time');
+                const time = el.getAttribute('data-time');
+                const timestamp = endTime || time;
+                if (timestamp) {
+                    el.textContent = formatTime(timestamp);
+                }
+            });
+        }
+
+        function endGiveaway() {
+            if (!confirm('Are you sure you want to end this giveaway?')) return;
+            fetch(basePath + '/api/giveaways/' + giveawayId + '/end', {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert('Failed to end giveaway: ' + (data.error || 'Unknown error'));
+                }
+            })
+            .catch(err => {
+                console.error('Error ending giveaway:', err);
+                alert('Failed to end giveaway');
+            });
+        }
+
+        updateTimeElements();
+        setInterval(updateTimeElements, 60000);
+        
+        // End giveaway button event listener
+        const endGiveawayBtn = document.getElementById('end-giveaway-btn-view');
+        if (endGiveawayBtn) {
+            endGiveawayBtn.addEventListener('click', endGiveaway);
+        }
+    </script>
+</body>
+</html>
+

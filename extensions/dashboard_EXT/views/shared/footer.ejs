@@ -1,0 +1,233 @@
+    <% const footer = data.footer || {}; %>
+    <% const cookieConsent = data.cookieConsent || {}; %>
+    <% const ownerSource = Array.isArray(data.ownerIds)
+        ? data.ownerIds
+        : Array.isArray(data.settings?.ownerIds)
+            ? data.settings.ownerIds
+            : Array.isArray(data.settings?.owner)
+                ? data.settings.owner
+                : Array.isArray(data.owner)
+                    ? data.owner
+                    : []; %>
+    <% const normalizedOwners = ownerSource
+        .map((id) => (id !== null && id !== undefined ? String(id).trim() : ''))
+        .filter(Boolean); %>
+    <% const currentUserId = data.user && data.user.id ? String(data.user.id) : null; %>
+    <% const computedIsOwner = currentUserId ? normalizedOwners.includes(currentUserId) : false; %>
+    <% const isOwner = typeof data.isOwner === 'boolean' ? data.isOwner || computedIsOwner : computedIsOwner; %>
+    </div><!-- /.main-with-sidebar -->
+    <footer class="footer" data-aos="fade-up">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <div class="brand-logo">
+                    <i class="fab fa-discord"></i>
+                </div>
+                <div>
+                    <h3><%- footer.titleHtml || footer.title || 'News Targeted Bot' %></h3>
+                    <p class="footer-description"><%- footer.taglineHtml || footer.tagline || 'Professional Discord Bot Management Dashboard by News Targeted' %></p>
+                    <% if (data.footerTextHtml) { %>
+                        <div class="footer-description footer-description--markdown"><%- data.footerTextHtml %></div>
+                    <% } %>
+                    <% if (Array.isArray(footer.social)) { %>
+                    <div class="social-links">
+                        <% footer.social.forEach(link => { %>
+                            <a class="social-link" href="<%= link.href %>" target="_blank" rel="noopener">
+                                <% if (link.icon === 'discord') { %>
+                                    <i class="fab fa-discord"></i>
+                                <% } else if (link.icon === 'github') { %>
+                                    <i class="fab fa-github"></i>
+                                <% } else if (link.icon === 'twitter') { %>
+                                    <i class="fab fa-twitter"></i>
+                                <% } else { %>
+                                    <i class="fas fa-external-link-alt"></i>
+                                <% } %>
+                            </a>
+                        <% }) %>
+                    </div>
+                    <% } %>
+                </div>
+            </div>
+
+            <div class="footer-links">
+                <% (footer.cols || []).forEach(col => {
+                    const rawLinks = Array.isArray(col.links) ? col.links : [];
+                    const visibleLinks = rawLinks.filter(link => {
+                        const href = typeof link.href === 'string' ? link.href : '';
+                        const requiresOwner = Boolean(link.requiresOwner) || href.startsWith('/admin');
+                        return !(requiresOwner && !isOwner);
+                    });
+                    if (visibleLinks.length === 0) {
+                        return;
+                    }
+                %>
+                    <div class="footer-column">
+                        <h3 class="footer-title"><%- (typeof renderMarkdown !== 'undefined' && renderMarkdown) ? renderMarkdown(col.title || '') : (col.title || '') %></h3>
+                        <ul class="footer-list">
+                            <% visibleLinks.forEach(link => { %>
+                                <li>
+                                    <a class="footer-link" href="<%= link.href %>" title="<%= link.href %>">
+                                        <span class="footer-link-label"><%- (typeof renderMarkdown !== 'undefined' && renderMarkdown) ? renderMarkdown(link.label || '') : (link.label || '') %></span>
+                                        <span class="footer-link-url" title="<%= link.href %>"><%= link.href %></span>
+                                    </a>
+                                </li>
+                            <% }) %>
+                        </ul>
+                    </div>
+                <% }) %>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="footer-bottom-content centered">
+                <% const defaultCopyright = `© ${new Date().getFullYear()} <a href="https://github.com/master3395" target="_blank" rel="noopener">Master3395</a> / <a href="https://newstargeted.com/" target="_blank" rel="noopener">News Targeted</a>. All rights reserved.`; %>
+                <% if (footer && footer.copyright) { %>
+                    <p class="copyright"><%- footer.copyrightHtml || footer.copyright.replace('Master3395', '<a href="https://github.com/master3395" target="_blank" rel="noopener">Master3395</a>').replace('News Targeted', '<a href="https://newstargeted.com/" target="_blank" rel="noopener">News Targeted</a>') %></p>
+                <% } else { %>
+                    <p class="copyright"><%- defaultCopyright %></p>
+                <% } %>
+                <% if (cookieConsent.enabled !== false) { %>
+                <button id="cookie-settings-link" class="link-button" type="button">Cookie Settings</button>
+                <% } %>
+            </div>
+        </div>
+    </footer>
+
+    <% if (cookieConsent.enabled !== false) { %>
+    <div id="cookie-consent-banner" class="cookie-banner" data-duration="<%= cookieConsent.durationDays || 180 %>">
+        <div class="cookie-banner__content">
+            <p class="cookie-banner__message"><%= cookieConsent.message || 'We use cookies to personalize content and analyze traffic.' %></p>
+            <div class="cookie-banner__actions">
+                <button class="btn btn-primary" id="cookie-accept"><%= cookieConsent.acceptText || 'Accept' %></button>
+                <button class="btn btn-secondary" id="cookie-decline"><%= cookieConsent.declineText || 'Decline' %></button>
+                <a class="cookie-banner__learn" href="<%= cookieConsent.learnMoreLink || '/privacy' %>"><%= cookieConsent.learnMoreText || 'Learn more' %></a>
+            </div>
+        </div>
+    </div>
+    <% } %>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        // Initialize AOS (guard if script blocked by CSP)
+        if (typeof AOS !== "undefined") {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true,
+                offset: 100
+            });
+        }
+
+        // Sidebar toggle (left sidebar layout)
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const sidebarClose = document.getElementById('sidebarClose');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        const SIDEBAR_STORAGE_KEY = 'dashboard-sidebar-closed';
+        if (sidebar) {
+            try {
+                if (localStorage.getItem(SIDEBAR_STORAGE_KEY) === '1') {
+                    document.body.classList.add('sidebar-closed');
+                }
+            } catch (e) {}
+        }
+        if (sidebar && sidebarToggle) {
+            sidebarToggle.addEventListener('click', function() {
+                document.body.classList.remove('sidebar-closed');
+                try { localStorage.removeItem(SIDEBAR_STORAGE_KEY); } catch (e) {}
+                sidebar.classList.add('open');
+                if (sidebarOverlay) { sidebarOverlay.classList.add('visible'); sidebarOverlay.setAttribute('aria-hidden', 'false'); }
+            });
+        }
+        if (sidebar && sidebarClose) {
+            sidebarClose.addEventListener('click', function() {
+                document.body.classList.add('sidebar-closed');
+                try { localStorage.setItem(SIDEBAR_STORAGE_KEY, '1'); } catch (e) {}
+                sidebar.classList.remove('open');
+                if (sidebarOverlay) { sidebarOverlay.classList.remove('visible'); sidebarOverlay.setAttribute('aria-hidden', 'true'); }
+            });
+        }
+        if (sidebar && sidebarOverlay) {
+            sidebarOverlay.addEventListener('click', function() {
+                document.body.classList.remove('sidebar-closed');
+                try { localStorage.removeItem(SIDEBAR_STORAGE_KEY); } catch (e) {}
+                sidebar.classList.remove('open');
+                sidebarOverlay.classList.remove('visible');
+                sidebarOverlay.setAttribute('aria-hidden', 'true');
+            });
+        }
+        const navToggle = document.getElementById('nav-toggle');
+        const navMenu = document.getElementById('nav-menu');
+        const settingsLink = document.getElementById('cookie-settings-link');
+        const userMenu = document.getElementById('user-menu');
+        const userDropdown = document.getElementById('user-dropdown');
+        
+        if (navToggle && navMenu) {
+            navToggle.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                navToggle.classList.toggle('active');
+            });
+        }
+
+        if (userMenu && userDropdown) {
+            userMenu.addEventListener('click', (event) => {
+                event.stopPropagation();
+                userDropdown.classList.toggle('open');
+            });
+
+            document.addEventListener('click', (event) => {
+                if (!userDropdown.contains(event.target)) {
+                    userDropdown.classList.remove('open');
+                }
+            });
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        const consentBanner = document.getElementById('cookie-consent-banner');
+        if (consentBanner) {
+            const cookieName = 'nt_dashboard_consent';
+            const acceptButton = document.getElementById('cookie-accept');
+            const declineButton = document.getElementById('cookie-decline');
+            const durationDays = parseInt(consentBanner.dataset.duration, 10) || 180;
+
+            const existing = document.cookie.split('; ').find(row => row.startsWith(cookieName + '='));
+            const showBanner = () => {
+                consentBanner.classList.add('visible');
+                consentBanner.classList.remove('hidden');
+            };
+
+            if (!existing) {
+                showBanner();
+            }
+
+            const setConsent = (value) => {
+                const expires = new Date();
+                expires.setTime(expires.getTime() + durationDays * 24 * 60 * 60 * 1000);
+                document.cookie = `${cookieName}=${value};expires=${expires.toUTCString()};path=/;SameSite=Lax`;
+                consentBanner.classList.remove('visible');
+                consentBanner.classList.add('hidden');
+            };
+
+            acceptButton?.addEventListener('click', () => setConsent('accepted'));
+            declineButton?.addEventListener('click', () => setConsent('declined'));
+            settingsLink?.addEventListener('click', () => {
+                document.cookie = `${cookieName}=;expires=${new Date(0).toUTCString()};path=/;SameSite=Lax`;
+                showBanner();
+            });
+        }
+    </script>
+</body>
+</html>

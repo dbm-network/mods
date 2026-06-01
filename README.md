@@ -1,6 +1,6 @@
 <p align="center">
   <a title="DBM Mods" href="https://discord.gg/djcvWRpgHm" target="_blank">
-    <img src="https://dl.dropboxusercontent.com/s/h1bscek2emoa1p2/mods-logo-dark.png" width="200" alt="DBM Mods" />
+    <img width="80" height="80" alt="DBM-Mods" src="https://github.com/user-attachments/assets/95f2a9da-e476-42f7-bb5b-4c0a9f0c71c7" />
   </a>
 </p>
 <p align="center">
@@ -16,6 +16,25 @@
 </p>
 
 [DBM Mods](https://discord.gg/djcvWRpgHm) is a community driven open source project meant to modify, extend, and improve [Discord Bot Maker](https://store.steampowered.com/app/682130/Discord_Bot_Maker/).
+
+## Compatibility
+
+- **Node.js:** 22.x+ (`package.json` engines: `>=22 <27`; CI runs on **22**, **24** (LTS), and **25** (Current); Node **26** is omitted from CI until `actions/setup-node` provides it reliably)
+- **DBM Versions:** 1.7, 2.2.0
+- **Discord.js Version:** 14.26.2
+- **Total Actions:** 515
+- **Total Events:** 47
+- **Total Extensions:** Includes dashboard, command info, server prefixes, topgg, pastebin, and more
+
+### Dashboard leaderboard database (MySQL / MariaDB)
+
+If you use the **dashboard** extension with the **leaderboard** feature, create the tables from [`sql/leveling_system_schema.sql`](sql/leveling_system_schema.sql):
+
+1. Copy `sql/leveling_system_schema.sql` to your **DBM bot project root** (next to `bot.js`), keeping the path `sql/leveling_system_schema.sql`.
+2. In `extensions/dashboard_EXT/config.json`, set `leaderboard.database` (`host`, `user`, `password`, `database`). Do not commit real credentials.
+3. In the dashboard admin UI, use the leaderboard database setup (or run the SQL manually in MySQL).
+
+This repository has been fully updated to support Discord.js v14.26.2 with all deprecated methods replaced (EmbedBuilder, ButtonBuilder, ActionRowBuilder, PermissionFlagsBits, etc.). All files are English-only and follow DBM best practices.
 
 # Downloads
 

@@ -127,7 +127,9 @@ module.exports = {
       const html = this.getVariable(source, sourceVarName, cache);
 
       const xpath = Mods.require('xpath');
-      const DOM = Mods.require('xmldom').DOMParser;
+      // Use @xmldom/xmldom instead of deprecated xmldom
+      const xmldom = Mods.require('@xmldom/xmldom') || Mods.require('xmldom');
+      const DOM = xmldom.DOMParser;
       const ent = Mods.require('ent');
 
       if (myXPath) {

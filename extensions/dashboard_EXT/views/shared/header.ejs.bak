@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <% const seoDefaults = data.seoDefaults || {}; %>
+    <% const seo = data.seo || {}; %>
+    <% const currentPath = data.currentPath || '/'; %>
+    <% const computedTitle = seo.title || data.title || seoDefaults.defaultTitle || 'News Targeted Bot Dashboard'; %>
+    <% const computedDescription = seo.description || data.description || seoDefaults.defaultDescription || 'Professional Discord Bot Dashboard by News Targeted'; %>
+    <% const computedKeywords = seo.keywords || seoDefaults.defaultKeywords || 'discord, bot, dashboard, management, news targeted'; %>
+    <% const computedImage = seo.image || seoDefaults.defaultImage || '/images/social-card.png'; %>
+    <% const canonicalBase = seoDefaults.canonicalBase ? seoDefaults.canonicalBase.replace(/\/$/, '') : null; %>
+    <% const computedCanonical = seo.canonical || (canonicalBase ? `${canonicalBase}${currentPath}` : null); %>
+    <% const twitterHandle = seoDefaults.twitterHandle || ''; %>
+    <title><%= computedTitle %></title>
+    
+    <% 
+    // basePath is set by middleware in res.locals.basePath
+    // Express automatically merges res.locals into template context
+    // Use a different variable name to avoid circular reference
+    const templateBasePath = (typeof basePath !== 'undefined' && basePath) ? basePath : '';
+    // Always show giveaway button - system is backward compatible
+    // Default to true to allow users to initialize the system
+    const giveawaySystemAvailable = typeof data.giveawaySystemAvailable !== 'undefined' 
+        ? (data.giveawaySystemAvailable !== false) 
+        : true;
+    %>
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="<%= templateBasePath %>/favicon.ico">
+    <% if (computedCanonical) { %>
+    <link rel="canonical" href="<%= computedCanonical %>">
+    <% } %>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="<%= templateBasePath %>/shared/styles.css">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Meta Tags -->
+    <meta name="description" content="<%= computedDescription %>">
+    <meta name="keywords" content="<%= computedKeywords %>">
+    <meta name="author" content="Master3395 / News Targeted">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="<%= computedTitle %>">
+    <meta property="og:description" content="<%= computedDescription %>">
+    <meta property="og:image" content="<%= computedImage %>">
+    <% if (computedCanonical) { %>
+    <meta property="og:url" content="<%= computedCanonical %>">
+    <% } %>
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<%= computedTitle %>">
+    <meta name="twitter:description" content="<%= computedDescription %>">
+    <meta name="twitter:image" content="<%= computedImage %>">
+    <% if (twitterHandle) { %>
+    <meta name="twitter:site" content="<%= twitterHandle %>">
+    <% } %>
+    <% const csrfValue = typeof csrfToken !== 'undefined' ? csrfToken : ''; %>
+    <script>
+        window.DashboardCsrfToken = "<%= csrfValue %>";
+    </script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" data-aos="fade-down">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <div class="brand-logo">
+                    <i class="fab fa-discord"></i>
+                </div>
+                <div class="brand-text">
+                    <span class="brand-title"><%= (data.client && data.client.user && data.client.user.username) ? data.client.user.username : 'News Targeted Bot' %></span>
+                    <span class="brand-subtitle">Discord Dashboard</span>
+                </div>
+            </div>
+            
+            <div class="nav-menu" id="nav-menu">
+                <% const navItems = Array.isArray(data.navItems) ? data.navItems : []; %>
+                <% const isOwner = Boolean(data.isOwner); %>
+                <% navItems.forEach(item => { 
+                    if (item.requiresOwner && !isOwner) { return; }
+                    const href = (item.link || '#').startsWith('http') ? item.link : basePath + (item.link || '#');
+                    const label = item.name || 'Link';
+                    const icon = item.icon || null;
+                    const matcher = item.match || href;
+                    const active = data.currentPath && matcher !== '/' ? data.currentPath.startsWith(matcher) : data.currentPath === href;
+                %>
+                    <a href="<%= href %>" class="nav-link <%= active ? 'active' : '' %>">
+                        <% if (icon) { %>
+                            <i class="<%= icon %>"></i>
+                        <% } %>
+                        <span><%= label %></span>
+                </a>
+                <% }) %>
+            </div>
+            
+            <div class="nav-actions">
+                <% const inviteLink = data.settings && data.settings.inviteLink ? data.settings.inviteLink : null; %>
+                <% if (data.user) { %>
+                    <% if (inviteLink) { %>
+                    <a href="<%= inviteLink %>" class="btn btn-primary nav-cta" target="_blank" rel="noopener">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>Add to server</span>
+                    </a>
+                    <% } %>
+                    <% const avatarId = data.user ? data.user.avatar : null; %>
+                    <% const avatarExt = avatarId && avatarId.startsWith('a_') ? 'gif' : 'png'; %>
+                    <% const fallbackIndex = Number(data.user && data.user.discriminator ? data.user.discriminator : 0) % 5; %>
+                    <% const avatarUrl = (data.user && data.user.id)
+                        ? (avatarId
+                            ? `https://cdn.discordapp.com/avatars/${data.user.id}/${avatarId}.${avatarExt}?size=128`
+                            : `https://cdn.discordapp.com/embed/avatars/${fallbackIndex}.png`)
+                        : 'https://cdn.discordapp.com/embed/avatars/0.png'; %>
+                    <div class="user-menu-wrapper">
+                        <div class="user-menu" id="user-menu">
+                        <div class="user-avatar">
+                                <img src="<%= avatarUrl %>" alt="<%= data.user.username %>">
+                        </div>
+                        <span class="user-name"><%= data.user.username %></span>
+                        <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="user-dropdown" id="user-dropdown">
+                            <form action="<%= templateBasePath %>/auth/logout" method="POST">
+                                <input type="hidden" name="_csrf" value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+                                <button type="submit">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    Log out
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                <% } else { %>
+                    <% if (inviteLink) { %>
+                    <a href="<%= inviteLink %>" class="btn btn-secondary nav-cta" target="_blank" rel="noopener">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>Add to server</span>
+                    </a>
+                    <% } %>
+                    <a href="<%= templateBasePath %>/auth/discord" class="btn btn-primary">
+                        <i class="fab fa-discord"></i>
+                        <span>Login</span>
+                    </a>
+                <% } %>
+            </div>
+            
+            <div class="nav-toggle" id="nav-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>

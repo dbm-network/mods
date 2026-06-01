@@ -1,0 +1,13 @@
+<div class="page-section__header">
+    <% if (typeof badge !== 'undefined' && badge) { %>
+        <span class="page-section__badge"><%= badge %></span>
+    <% } %>
+
+    <% if (typeof title !== 'undefined' && title) { %>
+        <h2><%= title %></h2>
+    <% } %>
+
+    <% if (typeof description !== 'undefined' && description) { %>
+        <p><%= description %></p>
+    <% } %>
+</div>

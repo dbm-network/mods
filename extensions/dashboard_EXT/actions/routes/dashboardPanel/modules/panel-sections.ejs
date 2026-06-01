@@ -1,0 +1,94 @@
+<% 
+// Panel sections for mods and extensions
+const mods = Array.isArray(data.mods) ? data.mods : [];
+const extensions = Array.isArray(data.extensions) ? data.extensions : [];
+const sectionOrder = [];
+const sectionMeta = {};
+
+mods.forEach((mod) => {
+    if (!sectionOrder.includes(mod.sectionID)) {
+        sectionOrder.push(mod.sectionID);
+        sectionMeta[mod.sectionID] = mod.section;
+    }
+});
+
+extensions.forEach((extension) => {
+    if (!sectionOrder.includes(extension.sectionID)) {
+        sectionOrder.push(extension.sectionID);
+        sectionMeta[extension.sectionID] = extension.section || extension.sectionID;
+    }
+});
+
+const templateBasePath = (typeof basePath !== 'undefined' && basePath) ? basePath : '';
+%>
+<section class="panel-content">
+    <% sectionOrder.forEach((sectionId, index) => {
+        const sectionMods = mods.filter(mod => mod.sectionID === sectionId);
+        const sectionExtensions = extensions.filter(ext => ext.sectionID === sectionId);
+    %>
+    <div class="panel-pane <%= index === 0 ? 'active' : '' %>" id="section-<%= sectionId %>" role="tabpanel">
+        <div class="panel-pane-header">
+            <h2><%= sectionMeta[sectionId] || sectionId %></h2>
+            <p>Manage commands and modules in this category. Execute custom actions or adjust extension settings inline.</p>
+        </div>
+
+        <% if (sectionMods.length > 0) { %>
+        <div class="page-grid page-grid--three">
+            <% sectionMods.forEach((mod) => { %>
+            <article class="surface-card panel-card">
+                <header class="panel-card-header">
+                    <div>
+                        <h3 class="card-title"><%= mod.name %></h3>
+                        <p class="card-description"><%= mod.description || 'Custom module' %></p>
+                    </div>
+                    <div class="panel-card-meta">
+                        <span>Version <strong><%= mod.version || '1.0.0' %></strong></span>
+                        <span>Author <strong><%= mod.author || 'Unknown' %></strong></span>
+                    </div>
+                </header>
+
+                <form action="<%= templateBasePath %>/api/<%= data.server.id %>/execute/<%= mod.name %>" method="POST" class="panel-form">
+                    <input type="hidden" name="_csrf" value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+                    <% if (mod.webFile) { %>
+                        <div class="panel-form-fields">
+                            <%- include(data.path.join(data.dirname, "../../mods", mod.name.toLowerCase().replace(/ /g,"_"), mod.webFile), { data: data }) %>
+                        </div>
+                    <% } else { %>
+                        <input type="hidden" name="execute" value="true">
+                    <% } %>
+                    <div class="page-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-play"></i>
+                            Execute
+                        </button>
+                    </div>
+                </form>
+            </article>
+            <% }); %>
+        </div>
+        <% } %>
+
+        <% sectionExtensions.forEach((extension) => { %>
+        <article class="surface-card panel-extension">
+            <header class="panel-card-header">
+                <div>
+                    <h3 class="card-title"><%= extension.section || extension.sectionID %></h3>
+                    <p class="card-description">Extension module</p>
+                </div>
+            </header>
+            <div class="panel-extension-body">
+                <%- include(data.path.join(data.dirname, "../../extensions", extension.name.toLowerCase().replace(/ /g,"_"), extension.webFile), { data: data }) %>
+            </div>
+        </article>
+        <% }); %>
+
+        <% if (sectionMods.length === 0 && sectionExtensions.length === 0) { %>
+        <div class="empty-state">
+            <strong>No modules registered</strong>
+            <p>This section currently has no executable modules or extensions configured.</p>
+        </div>
+        <% } %>
+    </div>
+    <% }); %>
+</section>
+

@@ -1,0 +1,126 @@
+/* Enhanced DBM Dashboard Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #1a1a1a;
+    color: #fff;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #2f3136;
+    border-radius: 8px;
+}
+
+.header h1 {
+    color: #7289da;
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.header p {
+    color: #b9bbbe;
+    font-size: 1.1em;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: #2f3136;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    transition: transform 0.2s;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+}
+
+.stat-card h3 {
+    color: #7289da;
+    margin-bottom: 10px;
+}
+
+.stat-card .number {
+    font-size: 2em;
+    font-weight: bold;
+    color: #43b581;
+}
+
+.btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.2s;
+}
+
+.btn-primary {
+    background: #7289da;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background: #5b6eae;
+}
+
+.btn-danger {
+    background: #f04747;
+    color: #fff;
+}
+
+.btn-danger:hover {
+    background: #d73a3a;
+}
+
+.btn-success {
+    background: #43b581;
+    color: #fff;
+}
+
+.btn-success:hover {
+    background: #3a9b6f;
+}
+
+.loading {
+    text-align: center;
+    padding: 20px;
+    color: #b9bbbe;
+}
+
+.error {
+    background: #f04747;
+    color: #fff;
+    padding: 10px;
+    border-radius: 4px;
+    margin: 10px 0;
+}
+
+.success {
+    background: #43b581;
+    color: #fff;
+    padding: 10px;
+    border-radius: 4px;
+    margin: 10px 0;
+}

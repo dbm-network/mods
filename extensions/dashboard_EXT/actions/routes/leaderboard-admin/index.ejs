@@ -1,0 +1,310 @@
+<article class="card-surface panel-card">
+    <header class="panel-card-header">
+        <div>
+            <h3 class="card-title">Leaderboard System</h3>
+            <p class="card-description">Configure and manage the leveling and leaderboard system.</p>
+        </div>
+    </header>
+    <div class="panel-form-fields">
+        <div id="leaderboard-status" class="form-status"></div>
+
+        <!-- Enable/Disable Toggle -->
+        <div class="form-group">
+            <label class="form-label">
+                <input type="checkbox" id="leaderboard-enabled" <%= data.leaderboardConfig?.enabled ? 'checked' : '' %>>
+                Enable Leaderboard System
+            </label>
+            <p class="form-help">When enabled, users can gain XP, levels, and streaks. Commands: /level, /leaderboard, /streak, /rank</p>
+        </div>
+
+        <!-- Database Configuration -->
+        <div class="form-section">
+            <h4>Database Configuration</h4>
+            <p class="form-help">Configure the MySQL database for the leaderboard system. All fields are required.</p>
+
+            <form id="leaderboard-db-form" class="panel-form">
+                <div class="form-group">
+                    <label class="form-label">
+                        Database Host
+                        <input type="text" id="db-host" name="host" value="<%= data.leaderboardConfig?.database?.host || 'localhost' %>" placeholder="localhost" required>
+                    </label>
+                    <p class="form-help">Default: localhost. Use a custom hostname if your database is on a different server.</p>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        Database Username
+                        <input type="text" id="db-user" name="user" value="<%= data.leaderboardConfig?.database?.user || '' %>" placeholder="database_user" required>
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        Database Password
+                        <input type="password" id="db-password" name="password" value="" placeholder="••••••••" <%= data.leaderboardConfig?.database?.passwordSet ? '' : 'required' %>>
+                    </label>
+                    <p class="form-help"><%= data.leaderboardConfig?.database?.passwordSet ? 'Leave blank to keep current password' : 'Enter database password' %></p>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        Database Name
+                        <input type="text" id="db-database" name="database" value="<%= data.leaderboardConfig?.database?.database || '' %>" placeholder="database_name" required>
+                    </label>
+                </div>
+
+                <div class="section-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i>
+                        Save Database Configuration
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Database Setup -->
+        <div class="form-section">
+            <h4>Database Setup</h4>
+            <p class="form-help">Create the required database tables for the leaderboard system. This will create the LevelingSystem and Streaks tables.</p>
+
+            <div class="form-status-info">
+                <% if (data.leaderboardConfig?.tablesCreated) { %>
+                <div class="status-success">
+                    <i class="fas fa-check-circle"></i>
+                    Database tables have been created.
+                </div>
+                <% } else { %>
+                <div class="status-warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Database tables have not been created yet.
+                </div>
+                <% } %>
+            </div>
+
+            <div class="section-actions">
+                <button type="button" id="leaderboard-setup-btn" class="btn btn-primary" <%= !data.leaderboardConfig?.database?.passwordSet ? 'disabled' : '' %>>
+                    <i class="fas fa-database"></i>
+                    Create Database Tables
+                </button>
+            </div>
+        </div>
+    </div>
+</article>
+
+<script>
+(function() {
+    const enabledCheckbox = document.getElementById('leaderboard-enabled');
+    const dbForm = document.getElementById('leaderboard-db-form');
+    const setupBtn = document.getElementById('leaderboard-setup-btn');
+    const statusDiv = document.getElementById('leaderboard-status');
+
+    function showStatus(message, type = 'info') {
+        statusDiv.innerHTML = `<div class="status-${type}">${message}</div>`;
+        setTimeout(() => {
+            statusDiv.innerHTML = '';
+        }, 5000);
+    }
+
+    // Get CSRF token
+    const csrfToken = '<%= data.csrfToken || "" %>';
+    const getCsrfHeader = () => {
+        if (csrfToken) {
+            return { 'X-CSRF-Token': csrfToken };
+        }
+        // Try to get from meta tag or window variable
+        const metaTag = document.querySelector('meta[name="csrf-token"]');
+        if (metaTag) {
+            return { 'X-CSRF-Token': metaTag.getAttribute('content') };
+        }
+        if (window.DashboardCsrfToken) {
+            return { 'X-CSRF-Token': window.DashboardCsrfToken };
+        }
+        return {};
+    };
+
+    // Toggle enabled/disabled
+    enabledCheckbox.addEventListener('change', async (e) => {
+        try {
+            const response = await fetch('/api/admin/leaderboard/toggle', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...getCsrfHeader()
+                },
+                credentials: 'same-origin',
+                body: JSON.stringify({
+                    enabled: e.target.checked
+                })
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                showStatus(result.message, 'success');
+            } else {
+                showStatus(result.error || 'Failed to update setting', 'error');
+                e.target.checked = !e.target.checked; // Revert checkbox
+            }
+        } catch (error) {
+            showStatus('Error: ' + error.message, 'error');
+            e.target.checked = !e.target.checked; // Revert checkbox
+        }
+    });
+
+    // Save database configuration
+    dbForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const formData = {
+            host: document.getElementById('db-host').value.trim(),
+            user: document.getElementById('db-user').value.trim(),
+            password: document.getElementById('db-password').value.trim(),
+            database: document.getElementById('db-database').value.trim()
+        };
+
+        if (!formData.host || !formData.user || !formData.database) {
+            showStatus('Please fill in all required fields', 'error');
+            return;
+        }
+
+        // If password is empty but was previously set, don't send it
+        if (!formData.password && <%= data.leaderboardConfig?.database?.passwordSet ? 'true' : 'false' %>) {
+            delete formData.password;
+        }
+
+        try {
+            const response = await fetch('/api/admin/leaderboard/database', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...getCsrfHeader()
+                },
+                credentials: 'same-origin',
+                body: JSON.stringify(formData)
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                showStatus(result.message, 'success');
+                setupBtn.disabled = false;
+                // Clear password field if saved
+                if (formData.password) {
+                    document.getElementById('db-password').value = '';
+                }
+            } else {
+                showStatus(result.error || 'Failed to save database configuration', 'error');
+            }
+        } catch (error) {
+            showStatus('Error: ' + error.message, 'error');
+        }
+    });
+
+    // Setup database tables
+    setupBtn.addEventListener('click', async () => {
+        if (!confirm('This will create/verify the LevelingSystem and Streaks tables in your database. Continue?')) {
+            return;
+        }
+
+        const originalText = setupBtn.innerHTML;
+        setupBtn.disabled = true;
+        setupBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Tables...';
+
+        try {
+            const response = await fetch('/api/admin/leaderboard/setup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...getCsrfHeader()
+                },
+                credentials: 'same-origin'
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                let errorMessage = 'Failed to create database tables';
+                try {
+                    const errorJson = JSON.parse(errorText);
+                    errorMessage = errorJson.error || errorMessage;
+                } catch (e) {
+                    errorMessage = `Server error: ${response.status} ${response.statusText}`;
+                }
+                showStatus(errorMessage, 'error');
+                setupBtn.disabled = false;
+                setupBtn.innerHTML = originalText;
+                return;
+            }
+
+            const result = await response.json();
+            if (result.success) {
+                showStatus(result.message || 'Database tables created/verified successfully!', 'success');
+                // Reload page after 2 seconds to show updated status
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
+            } else {
+                showStatus(result.error || 'Failed to create database tables', 'error');
+                setupBtn.disabled = false;
+                setupBtn.innerHTML = originalText;
+            }
+        } catch (error) {
+            console.error('Setup error:', error);
+            showStatus('Error: ' + (error.message || 'Network error occurred'), 'error');
+            setupBtn.disabled = false;
+            setupBtn.innerHTML = originalText;
+        }
+    });
+})();
+</script>
+
+<style>
+.form-section {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.form-section h4 {
+    margin-bottom: 0.5rem;
+    color: #fff;
+}
+
+.form-status {
+    margin-bottom: 1rem;
+}
+
+.status-success {
+    padding: 0.75rem;
+    background: rgba(34, 197, 94, 0.1);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    border-radius: 4px;
+    color: #4ade80;
+}
+
+.status-error {
+    padding: 0.75rem;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 4px;
+    color: #f87171;
+}
+
+.status-info {
+    padding: 0.75rem;
+    background: rgba(59, 130, 246, 0.1);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    border-radius: 4px;
+    color: #60a5fa;
+}
+
+.status-warning {
+    padding: 0.75rem;
+    background: rgba(234, 179, 8, 0.1);
+    border: 1px solid rgba(234, 179, 8, 0.3);
+    border-radius: 4px;
+    color: #fbbf24;
+}
+
+.form-status-info {
+    margin-bottom: 1rem;
+}
+</style>
+

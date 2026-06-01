@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= data.seo?.title || 'Giveaway Settings - News Targeted Bot Dashboard' %></title>
+    <meta name="description" content="<%= data.seo?.description || 'Configure giveaway settings' %>">
+    <% 
+    const templateBasePath = (typeof basePath !== 'undefined' && basePath) ? basePath : '';
+    %>
+    <link rel="icon" type="image/x-icon" href="<%= templateBasePath %>/favicon.ico">
+    <link rel="stylesheet" href="<%= templateBasePath %>/shared/styles.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body class="main-layout">
+    <%- include('../../../views/shared/header.ejs', { data: data }) %>
+
+    <main>
+        <section class="page-wrapper page-wrapper--narrow" data-aos="fade-up">
+            <%- include('../../../views/shared/components/hero', {
+                title: 'Giveaway Settings',
+                subtitle: 'Configure default giveaway settings for your server',
+                badge: 'Giveaway System',
+                panel: true
+            }) %>
+        </section>
+
+        <% if (!data.giveawaySystemAvailable) { %>
+        <section class="page-wrapper page-wrapper--narrow" data-aos="fade-up" data-aos-delay="100">
+            <div class="page-section">
+                <div class="empty-state">
+                    <h3>Giveaway System Not Initialized</h3>
+                    <p>The giveaway system files have not been created yet.</p>
+                </div>
+            </div>
+        </section>
+        <% } else { %>
+
+        <section class="page-wrapper" data-aos="fade-up" data-aos-delay="120">
+            <div class="page-section">
+                <% const serverIdParam = data.selectedServerId ? `?serverId=${data.selectedServerId}` : ''; %>
+                <div class="panel-tabs-wrapper">
+                    <nav class="panel-tabs" role="tablist">
+                        <a href="<%= templateBasePath %>/giveaways<%= serverIdParam %>" class="panel-tab-button">
+                            <i class="fas fa-list"></i>
+                            <span>Overview</span>
+                        </a>
+                        <a href="<%= templateBasePath %>/giveaways/schedule<%= serverIdParam %>" class="panel-tab-button">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>Schedule</span>
+                        </a>
+                        <a href="<%= templateBasePath %>/giveaways/templates<%= serverIdParam %>" class="panel-tab-button">
+                            <i class="fas fa-file-alt"></i>
+                            <span>Templates</span>
+                        </a>
+                        <a href="<%= templateBasePath %>/giveaways/settings<%= serverIdParam %>" class="panel-tab-button active">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                        <a href="<%= templateBasePath %>/giveaways/premium<%= serverIdParam %>" class="panel-tab-button">
+                            <i class="fas fa-star"></i>
+                            <span>Premium</span>
+                        </a>
+                    </nav>
+                </div>
+                
+                <% if (data.selectedServer) { %>
+                <div style="margin-top: 1rem; padding: 1rem; background: var(--surface-elevated); border-radius: var(--radius-md); display: flex; align-items: center; gap: 1rem;">
+                    <div style="font-weight: 600; color: var(--text-primary);">
+                        <i class="fas fa-server"></i> Configuring: <%= data.selectedServer.name %>
+                    </div>
+                    <a href="<%= templateBasePath %>/giveaways/settings" class="btn btn-sm btn-secondary">
+                        <i class="fas fa-times"></i> Clear Filter
+                    </a>
+                </div>
+                <% } %>
+                
+                <form id="settings-form" class="giveaway-form" style="margin-top: 1.5rem;">
+                    <div class="form-section">
+                        <h3>Server Selection</h3>
+                        <label class="form-field">
+                            <span>Select Server</span>
+                            <select name="serverId" class="form-control" required onchange="loadSettings(this.value)">
+                                <option value="">Select a server</option>
+                                <% if (Array.isArray(data.userServers)) { %>
+                                <% data.userServers.forEach(server => { %>
+                                <option value="<%= server.id %>" <%= server.id === data.selectedServerId ? 'selected' : '' %>><%= server.name %></option>
+                                <% }); %>
+                                <% } %>
+                            </select>
+                            <small>Select the server to configure giveaway settings for</small>
+                        </label>
+                    </div>
+
+                    <div class="giveaway-form-grid">
+                        <div class="giveaway-form-column">
+                            <div class="form-section">
+                                <h3>Basic Settings</h3>
+                                
+                                <label class="form-field">
+                                    <span>Prefix</span>
+                                    <input type="text" name="prefix" class="form-control" value="<%= data.settings.prefix || '!' %>" maxlength="10">
+                                    <small>Command prefix for giveaway commands</small>
+                                </label>
+
+                                <label class="form-field">
+                                    <span>Default Embed Color</span>
+                                    <div class="color-input-group">
+                                        <input type="color" name="defaultEmbedColor" class="form-control color-picker" value="<%= data.settings.defaultEmbedColor || '#338ac4' %>">
+                                        <input type="text" name="defaultEmbedColorText" class="form-control color-text" value="<%= data.settings.defaultEmbedColor || '#338ac4' %>" pattern="^#[0-9A-Fa-f]{6}$">
+                                    </div>
+                                </label>
+
+                                <label class="form-field">
+                                    <span>Default End Embed Color</span>
+                                    <div class="color-input-group">
+                                        <input type="color" name="defaultEndEmbedColor" class="form-control color-picker" value="<%= data.settings.defaultEndEmbedColor || '#f04747' %>">
+                                        <input type="text" name="defaultEndEmbedColorText" class="form-control color-text" value="<%= data.settings.defaultEndEmbedColor || '#f04747' %>" pattern="^#[0-9A-Fa-f]{6}$">
+                                    </div>
+                                </label>
+
+                                <label class="form-field form-toggle">
+                                    <div>
+                                        <span>Show Entry Captcha</span>
+                                        <small>Require captcha verification by default</small>
+                                    </div>
+                                    <input type="checkbox" name="showCaptcha" class="toggle-input" <%= data.settings.showCaptcha ? 'checked' : '' %>>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="giveaway-form-column">
+                            <div class="form-section">
+                                <h3>Default Messages</h3>
+                                
+                                <label class="form-field">
+                                    <span>Default Create Message</span>
+                                    <textarea name="defaultCreateMessage" class="form-control" rows="6" maxlength="1024"><%= data.settings.defaultCreateMessage || 'To enter click the 🎉 below!\nRequirements: N/A\nIf you win the giveaway, you have 24 hours to claim the reward.' %></textarea>
+                                    <small class="char-counter"><span id="create-message-count">0</span> / 1024</small>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <a href="<%= templateBasePath %>/giveaways" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary">Save Settings</button>
+                    </div>
+
+                    <div id="form-feedback" class="form-feedback" role="alert"></div>
+                </form>
+            </div>
+        </section>
+
+        <% } %>
+    </main>
+
+    <%- include('../../../views/shared/footer.ejs', { data: data }) %>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+
+        const basePath = window.location.pathname.startsWith('/nt2') ? '/nt2' : '';
+        const form = document.getElementById('settings-form');
+        const serverSelect = form.querySelector('select[name="serverId"]');
+        const createMessage = form.querySelector('textarea[name="defaultCreateMessage"]');
+        const createMessageCount = document.getElementById('create-message-count');
+
+        // Character counter
+        if (createMessage && createMessageCount) {
+            createMessage.addEventListener('input', () => {
+                createMessageCount.textContent = createMessage.value.length;
+            });
+            createMessageCount.textContent = createMessage.value.length;
+        }
+
+        // Color picker sync
+        document.querySelectorAll('.color-picker').forEach(picker => {
+            const textInput = picker.parentElement.querySelector('.color-text');
+            picker.addEventListener('input', () => {
+                textInput.value = picker.value;
+            });
+            textInput.addEventListener('input', () => {
+                if (/^#[0-9A-Fa-f]{6}$/i.test(textInput.value)) {
+                    picker.value = textInput.value;
+                }
+            });
+        });
+
+        // Load settings for server
+        function loadSettings(serverId) {
+            if (!serverId) return;
+            window.location.href = `${basePath}/giveaways/settings?server=${serverId}`;
+        }
+
+        // Form submission
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const serverId = serverSelect.value;
+            if (!serverId) {
+                alert('Please select a server');
+                return;
+            }
+
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const feedback = document.getElementById('form-feedback');
+            
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Saving...';
+            feedback.textContent = '';
+            feedback.className = 'form-feedback';
+
+            const formData = new FormData(form);
+            const settings = {
+                prefix: formData.get('prefix'),
+                defaultEmbedColor: formData.get('defaultEmbedColorText'),
+                defaultEndEmbedColor: formData.get('defaultEndEmbedColorText'),
+                defaultCreateMessage: formData.get('defaultCreateMessage'),
+                showCaptcha: formData.get('showCaptcha') === 'on'
+            };
+
+            try {
+                const response = await fetch(`${basePath}/api/giveaways/settings/${serverId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'same-origin',
+                    body: JSON.stringify(settings)
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    feedback.className = 'form-feedback success';
+                    feedback.textContent = 'Settings saved successfully!';
+                } else {
+                    feedback.className = 'form-feedback error';
+                    feedback.textContent = result.error || 'Failed to save settings';
+                }
+            } catch (error) {
+                feedback.className = 'form-feedback error';
+                feedback.textContent = 'Error saving settings: ' + error.message;
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Save Settings';
+            }
+        });
+    </script>
+</body>
+</html>
+

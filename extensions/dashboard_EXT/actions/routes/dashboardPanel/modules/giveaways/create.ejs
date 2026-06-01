@@ -1,0 +1,594 @@
+<!-- Giveaways Create Pane -->
+<div class="panel-pane" id="giveaways-create" role="tabpanel">
+    <div class="panel-pane-header">
+        <h2>Create Giveaway</h2>
+        <p>Set up a new giveaway for this server.</p>
+    </div>
+    
+    <form id="giveaway-create-form" class="giveaway-form">
+        <input type="hidden" name="_csrf" value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+        <input type="hidden" name="serverId" value="<%= data.server.id %>">
+        
+        <div class="giveaway-form-grid">
+            <!-- Left Column -->
+            <div class="giveaway-form-column">
+                <div class="form-section">
+                    <h3>Basic Settings</h3>
+                    
+                    <label class="form-field">
+                        <span>Prize / Name</span>
+                        <input type="text" name="prize" class="form-control" placeholder="e.g. Discord Nitro" required maxlength="256">
+                        <small>What is being given away?</small>
+                    </label>
+
+                    <label class="form-field">
+                        <span>Winners</span>
+                        <input type="number" name="winners" class="form-control" value="1" min="1" max="100" required>
+                        <small>Number of winners (1-100)</small>
+                    </label>
+
+                    <label class="form-field">
+                        <span>Duration</span>
+                        <input type="text" name="duration" class="form-control" placeholder="e.g. 7d, 2h, 30m" required pattern="^\d+[smhd]$" title="Format: number followed by s (seconds), m (minutes), h (hours), or d (days)">
+                        <small>Format: 7d (7 days), 2h (2 hours), 30m (30 minutes)</small>
+                    </label>
+
+                    <label class="form-field">
+                        <span>Channel</span>
+                        <div style="display: flex; gap: 0.5rem; align-items: flex-start;">
+                            <select name="channelId" id="channel-select" class="form-control" style="flex: 1;" required>
+                                <option value="">Select a channel</option>
+                            </select>
+                            <button type="button" id="load-channels-btn" class="btn btn-secondary" style="white-space: nowrap;">
+                                <i class="fas fa-sync-alt"></i> Load Channels
+                            </button>
+                        </div>
+                        <small>Channel where the giveaway will be posted. Click "Load Channels" to populate the list.</small>
+                    </label>
+
+                    <label class="form-field">
+                        <span>Description</span>
+                        <textarea name="description" class="form-control" rows="4" maxlength="2000" placeholder="Optional description for the giveaway"></textarea>
+                        <small>Optional description (max 2000 characters)</small>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Right Column -->
+            <div class="giveaway-form-column">
+                <div class="form-section">
+                    <h3>Embed Settings</h3>
+                    
+                    <label class="form-field">
+                        <span>Embed Color</span>
+                        <div class="color-input-group">
+                            <input type="color" name="embedColor" class="form-control color-picker" value="<%= data.giveawayData.settings?.defaultEmbedColor || '#338ac4' %>">
+                            <input type="text" name="embedColorText" class="form-control color-text" value="<%= data.giveawayData.settings?.defaultEmbedColor || '#338ac4' %>" pattern="^#[0-9A-Fa-f]{6}$">
+                        </div>
+                        <small>Color for the giveaway embed</small>
+                    </label>
+
+                    <label class="form-field">
+                        <span>Reaction Emoji</span>
+                        <input type="text" name="reactionEmoji" class="form-control" value="🎉" maxlength="10">
+                        <small>Emoji users react with to enter (default: 🎉)</small>
+                    </label>
+
+                    <label class="form-field">
+                        <span>Hosted By</span>
+                        <input type="text" name="hostedBy" class="form-control" placeholder="Optional host name" maxlength="100">
+                        <small>Optional: Who is hosting this giveaway?</small>
+                    </label>
+                    
+                    <label class="form-field">
+                        <span>Notification Role</span>
+                        <select name="notificationRole" id="notification-role-select" class="form-control">
+                            <option value="">None</option>
+                        </select>
+                        <small>Role to ping when giveaway is created (optional)</small>
+                    </label>
+                    
+                    <label class="form-field">
+                        <span>Thumbnail URL</span>
+                        <input type="url" name="thumbnail" class="form-control" placeholder="https://example.com/image.png" maxlength="500">
+                        <small>Small image shown in the top-right corner of the embed</small>
+                    </label>
+                    
+                    <label class="form-field">
+                        <span>Image URL</span>
+                        <input type="url" name="image" class="form-control" placeholder="https://example.com/image.png" maxlength="500">
+                        <small>Large image shown at the bottom of the embed</small>
+                    </label>
+                </div>
+                
+                <div class="form-section">
+                    <h3>Advanced Options</h3>
+                    
+                    <label class="form-field">
+                        <span>DM Message</span>
+                        <textarea name="dmMessage" class="form-control" rows="4" maxlength="1000" placeholder="Custom message to send to winners (optional)"></textarea>
+                        <small>Custom DM message for winners (overrides default)</small>
+                    </label>
+                    
+                    <label class="form-field">
+                        <span>DM Message Type</span>
+                        <div style="display: flex; gap: 0.5rem; align-items: flex-start;">
+                            <select name="dmMessageType" id="dm-message-type-select" class="form-control" style="flex: 1;">
+                                <option value="normal">Normal Message</option>
+                                <option value="embed">Embed Message</option>
+                            </select>
+                            <button type="button" id="embed-editor-btn" class="btn btn-secondary" style="display: none; white-space: nowrap;">
+                                <i class="fas fa-code"></i> Edit Embed
+                            </button>
+                        </div>
+                        <small>Format for winner DM messages</small>
+                    </label>
+                    
+                    <label class="form-field form-toggle">
+                        <div>
+                            <span>Ping Host in Winner DM</span>
+                            <small>Mention the giveaway host in winner DM messages</small>
+                        </div>
+                        <input type="checkbox" name="pingHostInDm" class="toggle-input">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    
+                    <label class="form-field">
+                        <span>Server End Message Type</span>
+                        <select name="serverMessageType" class="form-control">
+                            <option value="normal">Normal Message</option>
+                            <option value="embed">Embed Message</option>
+                        </select>
+                        <small>Format for server message when giveaway ends</small>
+                    </label>
+                    
+                    <label class="form-field form-toggle">
+                        <div>
+                            <span>Ping Host in Server Message</span>
+                            <small>Mention the giveaway host in server end message</small>
+                        </div>
+                        <input type="checkbox" name="pingHostInServer" class="toggle-input">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    
+                    <label class="form-field">
+                        <input type="checkbox" name="scheduled" id="scheduled-checkbox">
+                        <span>Schedule for later</span>
+                    </label>
+                    
+                    <div id="schedule-options" style="display: none; margin-top: 1rem;">
+                        <label class="form-field">
+                            <span>Start Date & Time</span>
+                            <input type="datetime-local" name="scheduledStart" class="form-control">
+                            <small>When should this giveaway start?</small>
+                        </label>
+                    </div>
+                    
+                    <label class="form-field">
+                        <span>Winner Role</span>
+                        <select name="winnerRole" id="winner-role-select" class="form-control">
+                            <option value="">Use server default</option>
+                        </select>
+                        <small>Role to assign to winners when giveaway ends</small>
+                    </label>
+                    
+                    <label class="form-field form-toggle">
+                        <div>
+                            <span>DM Winners</span>
+                            <small>Send DM to winners when they win</small>
+                        </div>
+                        <input type="checkbox" name="dmWinners" class="toggle-input">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    
+                    <label class="form-field form-toggle">
+                        <div>
+                            <span>DM Host</span>
+                            <small>Send DM to host when giveaway ends</small>
+                        </div>
+                        <input type="checkbox" name="dmHost" class="toggle-input">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Extra Entries Section -->
+        <div class="form-section" style="margin-top: 2rem; grid-column: 1 / -1;">
+            <h3>Extra Entries</h3>
+            <p style="margin-bottom: 1rem; color: var(--text-secondary);">Configure role-based entry bonuses. Users with these roles will get additional entries.</p>
+            
+            <div id="extra-entries-list">
+                <!-- Extra entries will be added here dynamically -->
+            </div>
+            
+            <button type="button" id="add-extra-entry-btn" class="btn btn-sm btn-secondary" style="margin-top: 1rem;">
+                <i class="fas fa-plus"></i> Add Role Entry Bonus
+            </button>
+        </div>
+        
+        <!-- Requirements Section -->
+        <div class="form-section" style="margin-top: 2rem; grid-column: 1 / -1;">
+            <h3>Requirements</h3>
+            <p style="margin-bottom: 1rem; color: var(--text-secondary);">Set requirements that users must meet to enter this giveaway.</p>
+            
+            <div class="form-section" style="background: var(--surface-elevated); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1rem;">
+                <h4 style="margin-bottom: 1rem; font-size: 0.95rem;">Message Requirements</h4>
+                
+                <div class="giveaway-form-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                    <label class="form-field">
+                        <span>Daily Messages</span>
+                        <input type="number" name="reqMessagesDaily" class="form-control" min="0" max="1000000000" placeholder="0">
+                        <small>Messages sent today (1-1 billion)</small>
+                    </label>
+                    
+                    <label class="form-field">
+                        <span>Weekly Messages</span>
+                        <input type="number" name="reqMessagesWeekly" class="form-control" min="0" max="1000000000" placeholder="0">
+                        <small>Messages sent this week (1-1 billion)</small>
+                    </label>
+                    
+                    <label class="form-field">
+                        <span>Monthly Messages</span>
+                        <input type="number" name="reqMessagesMonthly" class="form-control" min="0" max="1000000000" placeholder="0">
+                        <small>Messages sent this month (1-1 billion)</small>
+                    </label>
+                    
+                    <label class="form-field">
+                        <span>Total Messages</span>
+                        <input type="number" name="reqMessagesTotal" class="form-control" min="0" max="1000000000" placeholder="0">
+                        <small>Total messages ever (1-1 billion)</small>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="form-section" style="background: var(--surface-elevated); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1rem;">
+                <h4 style="margin-bottom: 1rem; font-size: 0.95rem;">Level & Role Requirements</h4>
+                
+                <label class="form-field">
+                    <span>Required Level</span>
+                    <input type="number" name="reqLevel" class="form-control" min="0" placeholder="0">
+                    <small>Minimum level required to participate</small>
+                </label>
+                
+                <label class="form-field">
+                    <span>Required Roles</span>
+                    <div id="required-roles-list">
+                        <!-- Required roles will be added here dynamically -->
+                    </div>
+                    <button type="button" id="add-required-role-btn" class="btn btn-sm btn-secondary" style="margin-top: 0.5rem;">
+                        <i class="fas fa-plus"></i> Add Required Role
+                    </button>
+                    <small>Roles users must have to participate (max 5, or unlimited with premium)</small>
+                </label>
+                
+                <label class="form-field">
+                    <span>Requirement Bypass Role</span>
+                    <select name="reqBypassRole" id="req-bypass-role-select" class="form-control">
+                        <option value="">None</option>
+                    </select>
+                    <small>Users with this role bypass all requirements (1 role only)</small>
+                </label>
+                
+                <label class="form-field">
+                    <span>Blacklisted Roles</span>
+                    <div id="blacklisted-roles-list">
+                        <!-- Blacklisted roles will be added here dynamically -->
+                    </div>
+                    <button type="button" id="add-blacklisted-role-btn" class="btn btn-sm btn-secondary" style="margin-top: 0.5rem;">
+                        <i class="fas fa-plus"></i> Add Blacklisted Role
+                    </button>
+                    <small>Roles that cannot participate (max 5, or unlimited with premium)</small>
+                </label>
+            </div>
+            
+            <label class="form-field">
+                <span>Custom Requirements</span>
+                <textarea name="reqCustom" class="form-control" rows="2" maxlength="500" placeholder="e.g. Must be level 10 or higher"></textarea>
+                <small>Any other custom requirements (optional)</small>
+            </label>
+            
+            <div class="form-section" style="background: var(--surface-elevated); padding: 1rem; border-radius: var(--radius-md); margin-top: 1rem;">
+                <h4 style="margin-bottom: 1rem; font-size: 0.95rem;">Entry Messages</h4>
+                
+                <label class="form-field">
+                    <span>Entry Confirmation Message</span>
+                    <textarea name="entryConfirmMessage" class="form-control" rows="2" maxlength="300" placeholder="DM sent when entry is confirmed"></textarea>
+                    <small>Message sent when participant's entry is confirmed (max 150 chars, or 300 with premium)</small>
+                </label>
+                
+                <label class="form-field">
+                    <span>Entry Deny Message</span>
+                    <textarea name="entryDenyMessage" class="form-control" rows="2" maxlength="300" placeholder="DM sent when entry is denied"></textarea>
+                    <small>Message sent when entry is denied for not meeting requirements (max 150 chars, or 300 with premium)</small>
+                </label>
+                
+                <label class="form-field">
+                    <span>Entry Remove Message</span>
+                    <textarea name="entryRemoveMessage" class="form-control" rows="2" maxlength="300" placeholder="DM sent when entry is removed"></textarea>
+                    <small>Message sent when entry is removed (max 150 chars, or 300 with premium)</small>
+                </label>
+                
+                <label class="form-field form-toggle">
+                    <div>
+                        <span>Persist Entries</span>
+                        <small>Don't remove entry when required role is removed</small>
+                    </div>
+                    <input type="checkbox" name="persistEntries" class="toggle-input">
+                    <span class="toggle-slider"></span>
+                </label>
+                
+                <label class="form-field form-toggle">
+                    <div>
+                        <span>Remove Entries on Edit</span>
+                        <small>Remove all entries when giveaway is edited</small>
+                    </div>
+                    <input type="checkbox" name="removeEntriesOnEdit" class="toggle-input">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            
+            <div class="form-section" style="background: var(--surface-elevated); padding: 1rem; border-radius: var(--radius-md); margin-top: 1rem;">
+                <h4 style="margin-bottom: 1rem; font-size: 0.95rem;">Winner Thread Settings</h4>
+                
+                <label class="form-field form-toggle">
+                    <div>
+                        <span>Create Winners Thread</span>
+                        <small>Create a thread for giveaway winners</small>
+                    </div>
+                    <input type="checkbox" name="createWinnersThread" id="create-winners-thread-checkbox" class="toggle-input">
+                    <span class="toggle-slider"></span>
+                </label>
+                
+                <div id="winners-thread-options" style="display: none; margin-top: 1rem;">
+                    <label class="form-field">
+                        <span>Thread Type</span>
+                        <select name="winnersThreadType" class="form-control">
+                            <option value="public">Public Thread</option>
+                            <option value="private">Private Thread</option>
+                        </select>
+                        <small>Type of thread to create</small>
+                    </label>
+                    
+                    <label class="form-field">
+                        <span>Thread Message</span>
+                        <textarea name="winnersThreadMessage" class="form-control" rows="3" maxlength="2000" placeholder="Message sent in the winners thread"></textarea>
+                        <small>Message to send in the winners thread</small>
+                    </label>
+                    
+                    <label class="form-field">
+                        <span>Thread Close Duration</span>
+                        <input type="text" name="winnersThreadCloseDuration" class="form-control" placeholder="e.g. 7d, 2h, 30m" pattern="^\d+[smhd]$">
+                        <small>Auto-close thread after duration (5 minutes - 100 days, premium feature)</small>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="form-section" style="background: var(--surface-elevated); padding: 1rem; border-radius: var(--radius-md); margin-top: 1rem;">
+                <h4 style="margin-bottom: 1rem; font-size: 0.95rem;">Winner Role Settings</h4>
+                
+                <label class="form-field">
+                    <span>Winner Role Remove Duration</span>
+                    <input type="text" name="winnerRoleRemoveDuration" class="form-control" placeholder="e.g. 7d, 2h, 30m" pattern="^\d+[smhd]$">
+                    <small>Remove winner role after duration (optional)</small>
+                </label>
+            </div>
+            
+            <div class="form-section" style="margin-top: 1rem;">
+                <label class="form-field form-toggle">
+                    <div>
+                        <span>Giveaway Drop (FEATURED)</span>
+                        <small>Auto-end when number of winners is reached</small>
+                    </div>
+                    <input type="checkbox" name="isDrop" class="toggle-input">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+        </div>
+        
+        <div class="page-actions" style="margin-top: 2rem;">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Create Giveaway
+            </button>
+            <button type="button" id="save-template-btn" class="btn btn-secondary">
+                <i class="fas fa-save"></i> Save as Template
+            </button>
+            <button type="reset" class="btn btn-secondary">
+                <i class="fas fa-undo"></i> Reset Form
+            </button>
+        </div>
+        
+        <div id="create-feedback" class="form-feedback" role="alert" style="margin-top: 1rem;"></div>
+    </form>
+</div>
+
+<!-- Embed Editor Modal -->
+<div id="embed-editor-modal" class="modal" style="display: none;">
+    <div class="modal-content" style="max-width: 900px; max-height: 90vh; overflow-y: auto;">
+        <div class="modal-header">
+            <h2>Discord Embed Editor</h2>
+            <button type="button" class="modal-close" id="embed-editor-close">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="embed-editor-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                <!-- Left Column: Form Fields -->
+                <div class="embed-editor-form">
+                    <div class="form-section">
+                        <h3>Basic Information</h3>
+                        
+                        <label class="form-field">
+                            <span>Title</span>
+                            <input type="text" id="embed-title" class="form-control" maxlength="256" placeholder="Embed title">
+                            <small>Main title of the embed</small>
+                        </label>
+                        
+                        <label class="form-field">
+                            <span>Description</span>
+                            <textarea id="embed-description" class="form-control" rows="4" maxlength="4096" placeholder="Embed description"></textarea>
+                            <small>Main description text (supports Discord markdown)</small>
+                        </label>
+                        
+                        <label class="form-field">
+                            <span>Color</span>
+                            <div class="color-input-group">
+                                <input type="color" id="embed-color-picker" class="form-control color-picker" value="#338ac4">
+                                <input type="text" id="embed-color-text" class="form-control color-text" value="#338ac4" pattern="^#[0-9A-Fa-f]{6}$">
+                            </div>
+                            <small>Embed border color</small>
+                        </label>
+                        
+                        <label class="form-field">
+                            <span>Author Name</span>
+                            <input type="text" id="embed-author-name" class="form-control" maxlength="256" placeholder="Author name">
+                            <small>Optional author name</small>
+                        </label>
+                        
+                        <label class="form-field">
+                            <span>Author Icon URL</span>
+                            <input type="url" id="embed-author-icon" class="form-control" maxlength="500" placeholder="https://example.com/icon.png">
+                            <small>Optional author icon URL</small>
+                        </label>
+                        
+                        <label class="form-field">
+                            <span>Footer Text</span>
+                            <input type="text" id="embed-footer-text" class="form-control" maxlength="2048" placeholder="Footer text">
+                            <small>Optional footer text</small>
+                        </label>
+                        
+                        <label class="form-field">
+                            <span>Footer Icon URL</span>
+                            <input type="url" id="embed-footer-icon" class="form-control" maxlength="500" placeholder="https://example.com/icon.png">
+                            <small>Optional footer icon URL</small>
+                        </label>
+                        
+                        <label class="form-field">
+                            <span>Thumbnail URL</span>
+                            <input type="url" id="embed-thumbnail" class="form-control" maxlength="500" placeholder="https://example.com/image.png">
+                            <small>Small image in top-right corner</small>
+                        </label>
+                        
+                        <label class="form-field">
+                            <span>Image URL</span>
+                            <input type="url" id="embed-image" class="form-control" maxlength="500" placeholder="https://example.com/image.png">
+                            <small>Large image at bottom of embed</small>
+                        </label>
+                        
+                        <label class="form-field form-toggle">
+                            <div>
+                                <span>Timestamp</span>
+                                <small>Show current timestamp in embed</small>
+                            </div>
+                            <input type="checkbox" id="embed-timestamp" class="toggle-input" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3>Fields</h3>
+                        <div id="embed-fields-list"></div>
+                        <button type="button" id="add-embed-field-btn" class="btn btn-sm btn-secondary" style="margin-top: 0.5rem;">
+                            <i class="fas fa-plus"></i> Add Field
+                        </button>
+                        <small>Add up to 25 fields to the embed</small>
+                    </div>
+                </div>
+                
+                <!-- Right Column: Preview -->
+                <div class="embed-editor-preview">
+                    <h3>Preview</h3>
+                    <div id="embed-preview" style="background: var(--surface-elevated); padding: 1rem; border-radius: var(--radius-md); border-left: 4px solid #338ac4; min-height: 200px;">
+                        <p style="color: var(--text-secondary); text-align: center; padding: 2rem;">Preview will appear here</p>
+                    </div>
+                    
+                    <div class="form-section" style="margin-top: 1.5rem;">
+                        <h3>Markdown Output</h3>
+                        <textarea id="embed-markdown-output" class="form-control" rows="8" readonly style="font-family: monospace; font-size: 0.9rem;"></textarea>
+                        <small>This markdown will be saved to the DM Message field</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer" style="display: flex; gap: 0.5rem; justify-content: flex-end; padding: 1rem; border-top: 1px solid var(--border);">
+            <button type="button" class="btn btn-secondary" id="embed-editor-cancel">Cancel</button>
+            <button type="button" class="btn btn-primary" id="embed-editor-save">Save to DM Message</button>
+        </div>
+    </div>
+</div>
+
+<style>
+.modal {
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: var(--text-secondary);
+    padding: 0;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.modal-close:hover {
+    color: var(--text);
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.modal-footer {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+    padding: 1rem;
+    border-top: 1px solid var(--border);
+}
+
+@media (max-width: 768px) {
+    .embed-editor-grid {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .modal-content {
+        max-width: 95vw !important;
+        margin: 1rem;
+    }
+}
+</style>
+

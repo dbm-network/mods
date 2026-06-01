@@ -1,0 +1,923 @@
+// Load channels and roles when create pane is shown
+// Use var for hoisting to prevent initialization errors
+var SERVER_ID = null;
+<% if (data.server && data.server.id) { %>
+SERVER_ID = '<%= data.server.id %>';
+<% } %>
+
+// basePath is already defined in scripts-core-part1.ejs as const
+// We just need to ensure we have a reference to it
+// Don't redeclare it - just use the existing one or fallback
+var getBasePath = function() {
+    if (typeof basePath !== 'undefined') {
+        return basePath;
+    }
+    return window.location.pathname.startsWith('/nt2') ? '/nt2' : '';
+};
+
+var rolesLoaded = false;
+var serverRoles = [];
+var createPane = null;
+var createTab = null;
+
+// Initialize DOM elements
+function initDOMElements() {
+    if (!createPane) {
+        createPane = document.getElementById('giveaways-create');
+    }
+    if (!createTab) {
+        createTab = document.querySelector('[data-panel-target="giveaways-create"]');
+    }
+    return createPane && createTab;
+}
+
+// Function to load channels from API (similar to loadServerRoles)
+async function loadServerChannels() {
+    if (!SERVER_ID) {
+        console.warn('[loadServerChannels] Server ID not available for loading channels');
+        return [];
+    }
+    try {
+        const basePathValue = getBasePath();
+        const url = basePathValue + '/api/servers/' + SERVER_ID + '/channels';
+        console.log('[loadServerChannels] Fetching channels from:', url);
+        console.log('[loadServerChannels] SERVER_ID:', SERVER_ID);
+        
+        // Disable cache for this request
+        const response = await fetch(url, {
+            cache: 'no-store',
+            headers: {
+                'Cache-Control': 'no-cache',
+                'Pragma': 'no-cache'
+            }
+        });
+        console.log('[loadServerChannels] Response status:', response.status, response.statusText);
+        console.log('[loadServerChannels] Response headers:', Object.fromEntries(response.headers.entries()));
+        
+        // Handle 304 Not Modified - force a fresh request
+        let result;
+        let actualResponse = response;
+        
+        if (response.status === 304) {
+            console.warn('[loadServerChannels] Received 304 Not Modified, forcing fresh request...');
+            actualResponse = await fetch(url + '?t=' + Date.now(), {
+                cache: 'no-store',
+                headers: {
+                    'Cache-Control': 'no-cache',
+                    'Pragma': 'no-cache'
+                }
+            });
+            console.log('[loadServerChannels] Fresh response status:', actualResponse.status);
+        }
+        
+        try {
+            const responseText = await actualResponse.text();
+            console.log('[loadServerChannels] Raw response:', responseText);
+            result = JSON.parse(responseText);
+        } catch (parseError) {
+            console.error('[loadServerChannels] Failed to parse JSON response:', parseError);
+            throw new Error('Invalid JSON response from server: ' + parseError.message);
+        }
+        
+        console.log('[loadServerChannels] Parsed result:', result);
+        
+        if (!actualResponse.ok) {
+            throw new Error('API error: ' + (result.error || actualResponse.statusText) + ' (Status: ' + actualResponse.status + ')');
+        }
+        
+        if (result.success && Array.isArray(result.data)) {
+            console.log(`[loadServerChannels] Successfully loaded ${result.data.length} channels`);
+            console.log('[loadServerChannels] Channel data:', result.data);
+            return result.data;
+        } else {
+            console.warn('[loadServerChannels] Channels API returned unsuccessful response:', result);
+            console.warn('[loadServerChannels] result.success:', result.success);
+            console.warn('[loadServerChannels] result.data type:', typeof result.data);
+            console.warn('[loadServerChannels] result.data is array:', Array.isArray(result.data));
+            if (result.data) {
+                console.warn('[loadServerChannels] result.data:', result.data);
+            }
+        }
+    } catch (error) {
+        console.error('[loadServerChannels] Error loading channels:', error);
+        console.error('[loadServerChannels] Error stack:', error.stack);
+    }
+    return [];
+}
+
+// Function to populate channel select - called manually via button
+async function populateChannelSelect() {
+    if (!SERVER_ID) {
+        alert('Server ID not available. Please refresh the page.');
+        console.error('[populateChannelSelect] SERVER_ID not available');
+        return;
+    }
+    
+    const channelSelect = document.getElementById('channel-select');
+    const loadBtn = document.getElementById('load-channels-btn');
+    
+    if (!channelSelect) {
+        console.error('[populateChannelSelect] Channel select element not found');
+        return;
+    }
+    
+    // Disable button and show loading state
+    if (loadBtn) {
+        loadBtn.disabled = true;
+        loadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+    }
+    
+    try {
+        const channels = await loadServerChannels();
+        
+        if (channels.length > 0) {
+            channelSelect.innerHTML = '<option value="">Select a channel</option>';
+            channels.forEach(channel => {
+                const option = document.createElement('option');
+                option.value = channel.id;
+                option.textContent = `#${channel.name}`;
+                channelSelect.appendChild(option);
+            });
+            console.log(`[populateChannelSelect] Successfully populated ${channels.length} channels`);
+            
+            if (loadBtn) {
+                loadBtn.innerHTML = '<i class="fas fa-check"></i> Loaded (' + channels.length + ')';
+                setTimeout(() => {
+                    loadBtn.disabled = false;
+                    loadBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Load Channels';
+                }, 2000);
+            }
+        } else {
+            console.warn('[populateChannelSelect] No channels returned from API');
+            console.warn('[populateChannelSelect] SERVER_ID:', SERVER_ID);
+            console.warn('[populateChannelSelect] API URL:', getBasePath() + '/api/servers/' + SERVER_ID + '/channels');
+            
+            // More helpful error message
+            const errorMsg = 'No channels found. This could mean:\n' +
+                '1. The bot doesn\'t have permission to view channels\n' +
+                '2. There are no text channels in this server\n' +
+                '3. The bot is not in the server\n\n' +
+                'Make sure the bot has the "View Channels" permission or "Administrator" role.';
+            alert(errorMsg);
+            
+            if (loadBtn) {
+                loadBtn.disabled = false;
+                loadBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> No Channels';
+                setTimeout(() => {
+                    loadBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Load Channels';
+                }, 3000);
+            }
+        }
+    } catch (error) {
+        console.error('[populateChannelSelect] Error:', error);
+        alert('Failed to load channels: ' + (error.message || 'Unknown error'));
+        if (loadBtn) {
+            loadBtn.disabled = false;
+            loadBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Load Channels';
+        }
+    }
+}
+
+// Legacy function name for compatibility
+async function loadChannels() {
+    await populateChannelSelect();
+    const channelSelect = document.getElementById('channel-select');
+    if (channelSelect) {
+        return channelSelect.options.length > 1;
+    }
+    return false;
+}
+
+async function loadServerRoles() {
+    if (rolesLoaded) {
+        return serverRoles;
+    }
+    if (!SERVER_ID) {
+        // Don't log warning - this is called before SERVER_ID might be set
+        return [];
+    }
+    try {
+        const basePathValue = getBasePath();
+        const url = basePathValue + '/api/servers/' + SERVER_ID + '/roles';
+        console.log('[loadServerRoles] Fetching roles from:', url);
+        
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error('Failed to fetch roles: ' + response.status + ' ' + response.statusText);
+        }
+        const result = await response.json();
+        if (result.success && Array.isArray(result.data)) {
+            serverRoles = result.data;
+            rolesLoaded = true;
+            console.log(`[loadServerRoles] Successfully loaded ${serverRoles.length} roles`);
+            return serverRoles;
+        } else {
+            console.warn('[loadServerRoles] Roles API returned unsuccessful response:', result);
+        }
+    } catch (error) {
+        console.error('[loadServerRoles] Error loading roles:', error);
+    }
+    return [];
+}
+
+// Function to populate all role selects
+async function populateRoleSelects() {
+    if (!SERVER_ID) {
+        // Don't log warning - SERVER_ID might not be set yet, which is fine
+        return;
+    }
+    
+    initDOMElements();
+    if (!createPane) {
+        console.warn('[populateRoleSelects] Create pane not found');
+        return;
+    }
+    
+    const roles = await loadServerRoles();
+    
+    // Populate notification role select
+    const notificationRoleSelect = createPane.querySelector('#notification-role-select');
+    if (notificationRoleSelect && notificationRoleSelect.options.length <= 1) {
+        notificationRoleSelect.innerHTML = '<option value="">None</option>';
+        roles.forEach(role => {
+            const option = document.createElement('option');
+            option.value = role.id;
+            option.textContent = `@${role.name}`;
+            notificationRoleSelect.appendChild(option);
+        });
+    }
+    
+    // Populate winner role select
+    const winnerRoleSelect = createPane.querySelector('#winner-role-select');
+    if (winnerRoleSelect && winnerRoleSelect.options.length <= 1) {
+        winnerRoleSelect.innerHTML = '<option value="">Use server default</option>';
+        roles.forEach(role => {
+            const option = document.createElement('option');
+            option.value = role.id;
+            option.textContent = `@${role.name}`;
+            winnerRoleSelect.appendChild(option);
+        });
+    }
+}
+
+// Function to load roles when pane becomes visible (channels load manually via button)
+async function loadPaneData() {
+    if (!SERVER_ID) {
+        console.warn('Cannot load pane data: Server ID not available');
+        return;
+    }
+    try {
+        // Only load roles automatically, channels load via button
+        await populateRoleSelects();
+    } catch (error) {
+        console.error('Error loading pane data:', error);
+    }
+}
+
+// Function to force load channels (can be called manually from console)
+window.forceLoadChannels = async function() {
+    console.log('=== [forceLoadChannels] Manual trigger ===');
+    console.log('[forceLoadChannels] SERVER_ID:', SERVER_ID);
+    console.log('[forceLoadChannels] getBasePath():', getBasePath());
+    
+    initDOMElements();
+    console.log('[forceLoadChannels] createPane:', createPane);
+    console.log('[forceLoadChannels] createTab:', createTab);
+    
+    // Find channel select
+    let channelSelect = null;
+    if (createPane) {
+        channelSelect = createPane.querySelector('select[name="channelId"]');
+    }
+    if (!channelSelect) {
+        channelSelect = document.querySelector('#giveaways-create select[name="channelId"]');
+    }
+    if (!channelSelect) {
+        channelSelect = document.querySelector('select[name="channelId"]');
+    }
+    
+    console.log('[forceLoadChannels] channelSelect found:', !!channelSelect);
+    if (channelSelect) {
+        console.log('[forceLoadChannels] Current options:', channelSelect.options.length);
+        console.log('[forceLoadChannels] Current options:', Array.from(channelSelect.options).map(o => ({ value: o.value, text: o.text })));
+    }
+    
+    const result = await loadChannels();
+    console.log('[forceLoadChannels] Load result:', result);
+    
+    // Verify after load
+    if (channelSelect) {
+        console.log('[forceLoadChannels] Options after load:', channelSelect.options.length);
+        console.log('[forceLoadChannels] Options after load:', Array.from(channelSelect.options).map(o => ({ value: o.value, text: o.text })));
+    }
+    
+    return result;
+};
+
+// Expose for debugging
+window.debugGiveawayChannels = {
+    SERVER_ID: function() { return SERVER_ID; },
+    loadChannels: loadChannels,
+    loadPaneData: loadPaneData,
+    createPane: function() { return createPane; },
+    createTab: function() { return createTab; }
+};
+
+// Initialize and set up event listeners
+function initializeGiveawayCreate() {
+    // Initialize DOM elements
+    initDOMElements();
+    
+    if (!createTab || !createPane) {
+        console.warn('[initializeGiveawayCreate] Create tab or pane not found, will retry...', {
+            hasTab: !!createTab,
+            hasPane: !!createPane
+        });
+        // Retry after a delay
+        setTimeout(initializeGiveawayCreate, 500);
+        return;
+    }
+    
+    console.log('[initializeGiveawayCreate] Initializing giveaway create functionality');
+    console.log('[initializeGiveawayCreate] SERVER_ID:', SERVER_ID);
+    console.log('[initializeGiveawayCreate] basePath:', getBasePath());
+    
+    // Load data when tab is clicked
+    createTab.addEventListener('click', function() {
+        console.log('[Tab Click] Loading pane data');
+        initDOMElements();
+        setTimeout(loadPaneData, 50);
+    });
+    
+    // Set up Load Channels button
+    const loadChannelsBtn = document.getElementById('load-channels-btn');
+    if (loadChannelsBtn) {
+        loadChannelsBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            populateChannelSelect();
+        });
+    } else {
+        console.warn('[initializeGiveawayCreate] Load Channels button not found');
+    }
+    
+    // Use MutationObserver to detect when pane becomes visible
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                initDOMElements();
+                if (createPane && createPane.classList.contains('active')) {
+                    console.log('[MutationObserver] Pane became active, loading data');
+                    setTimeout(loadPaneData, 50);
+                }
+            }
+        });
+    });
+    
+    observer.observe(createPane, {
+        attributes: true,
+        attributeFilter: ['class']
+    });
+    
+    // Load immediately on page load if server ID is available
+    if (SERVER_ID) {
+        console.log('[Initial Load] Server ID available:', SERVER_ID);
+        
+        // Load roles automatically (channels load manually via button)
+        function loadRolesNow() {
+            console.log('[Initial Load] Loading roles...');
+            populateRoleSelects().catch(err => console.error('[Initial Load] Error loading roles:', err));
+        }
+        
+        // Try loading roles multiple times
+        setTimeout(loadRolesNow, 100);
+        setTimeout(loadRolesNow, 500);
+        setTimeout(loadRolesNow, 1000);
+        
+        // Also load when pane becomes active
+        if (createPane && createPane.classList.contains('active')) {
+            console.log('[Initial Load] Pane is active, loading roles immediately');
+            setTimeout(loadRolesNow, 200);
+        }
+        
+        // Set up Load Channels button if it exists
+        setTimeout(function() {
+            const loadChannelsBtn = document.getElementById('load-channels-btn');
+            if (loadChannelsBtn) {
+                loadChannelsBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    populateChannelSelect();
+                });
+                console.log('[Initial Load] Load Channels button set up');
+            }
+        }, 500);
+    } else {
+        console.error('[Initial Load] ❌ SERVER_ID is not available!');
+    }
+}
+
+// Start initialization when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeGiveawayCreate);
+} else {
+    // DOM is already ready
+    setTimeout(initializeGiveawayCreate, 100);
+}
+
+// Extra entries management
+let extraEntryCounter = 0;
+const extraEntriesList = document.getElementById('extra-entries-list');
+const addExtraEntryBtn = document.getElementById('add-extra-entry-btn');
+
+function addExtraEntry(roleId = '', entryCount = 1) {
+    const entryId = 'extra-entry-' + (extraEntryCounter++);
+    const entryDiv = document.createElement('div');
+    entryDiv.className = 'extra-entry-item';
+    entryDiv.style.cssText = 'display: flex; gap: 1rem; align-items: center; padding: 1rem; background: var(--surface-elevated); border-radius: var(--radius-md); margin-bottom: 0.5rem;';
+    entryDiv.innerHTML = `
+        <select class="form-control extra-entry-role" style="flex: 1;" data-entry-id="${entryId}">
+            <option value="">Select role...</option>
+        </select>
+        <input type="number" class="form-control extra-entry-count" value="${entryCount}" min="1" max="250" style="width: 120px; max-width: 100%;" placeholder="Entries">
+        <button type="button" class="btn btn-sm btn-danger remove-extra-entry" data-entry-id="${entryId}">
+            <i class="fas fa-times"></i>
+        </button>
+    `;
+    extraEntriesList.appendChild(entryDiv);
+    
+    // Populate role select
+    const roleSelect = entryDiv.querySelector('.extra-entry-role');
+    loadServerRoles().then(roles => {
+        roles.forEach(role => {
+            const option = document.createElement('option');
+            option.value = role.id;
+            option.textContent = `@${role.name}`;
+            if (role.id === roleId) option.selected = true;
+            roleSelect.appendChild(option);
+        });
+    });
+    
+    // Remove button handler
+    entryDiv.querySelector('.remove-extra-entry').addEventListener('click', () => {
+        entryDiv.remove();
+    });
+}
+
+if (addExtraEntryBtn) {
+    addExtraEntryBtn.addEventListener('click', () => addExtraEntry());
+}
+
+// Required roles management
+let requiredRoleCounter = 0;
+const requiredRolesList = document.getElementById('required-roles-list');
+const addRequiredRoleBtn = document.getElementById('add-required-role-btn');
+
+function addRequiredRole(roleId = '') {
+    const roleItemId = 'required-role-' + (requiredRoleCounter++);
+    const roleDiv = document.createElement('div');
+    roleDiv.className = 'required-role-item';
+    roleDiv.style.cssText = 'display: flex; gap: 1rem; align-items: center; padding: 0.75rem; background: var(--surface); border-radius: var(--radius-sm); margin-bottom: 0.5rem;';
+    roleDiv.innerHTML = `
+        <select class="form-control required-role-select" style="flex: 1;" data-role-id="${roleItemId}">
+            <option value="">Select role...</option>
+        </select>
+        <button type="button" class="btn btn-sm btn-danger remove-required-role" data-role-id="${roleItemId}">
+            <i class="fas fa-times"></i>
+        </button>
+    `;
+    requiredRolesList.appendChild(roleDiv);
+    
+    // Populate role select
+    const roleSelect = roleDiv.querySelector('.required-role-select');
+    loadServerRoles().then(roles => {
+        roles.forEach(role => {
+            const option = document.createElement('option');
+            option.value = role.id;
+            option.textContent = `@${role.name}`;
+            if (role.id === roleId) option.selected = true;
+            roleSelect.appendChild(option);
+        });
+    });
+    
+    // Remove button handler
+    roleDiv.querySelector('.remove-required-role').addEventListener('click', () => {
+        roleDiv.remove();
+    });
+}
+
+if (addRequiredRoleBtn) {
+    addRequiredRoleBtn.addEventListener('click', () => addRequiredRole());
+}
+
+// Blacklisted roles management
+let blacklistedRoleCounter = 0;
+const blacklistedRolesList = document.getElementById('blacklisted-roles-list');
+const addBlacklistedRoleBtn = document.getElementById('add-blacklisted-role-btn');
+
+function addBlacklistedRole(roleId = '') {
+    const roleItemId = 'blacklisted-role-' + (blacklistedRoleCounter++);
+    const roleDiv = document.createElement('div');
+    roleDiv.className = 'blacklisted-role-item';
+    roleDiv.style.cssText = 'display: flex; gap: 1rem; align-items: center; padding: 0.75rem; background: var(--surface); border-radius: var(--radius-sm); margin-bottom: 0.5rem;';
+    roleDiv.innerHTML = `
+        <select class="form-control blacklisted-role-select" style="flex: 1;" data-role-id="${roleItemId}">
+            <option value="">Select role...</option>
+        </select>
+        <button type="button" class="btn btn-sm btn-danger remove-blacklisted-role" data-role-id="${roleItemId}">
+            <i class="fas fa-times"></i>
+        </button>
+    `;
+    blacklistedRolesList.appendChild(roleDiv);
+    
+    // Populate role select
+    const roleSelect = roleDiv.querySelector('.blacklisted-role-select');
+    loadServerRoles().then(roles => {
+        roles.forEach(role => {
+            const option = document.createElement('option');
+            option.value = role.id;
+            option.textContent = `@${role.name}`;
+            if (role.id === roleId) option.selected = true;
+            roleSelect.appendChild(option);
+        });
+    });
+    
+    // Remove button handler
+    roleDiv.querySelector('.remove-blacklisted-role').addEventListener('click', () => {
+        roleDiv.remove();
+    });
+}
+
+if (addBlacklistedRoleBtn) {
+    addBlacklistedRoleBtn.addEventListener('click', () => addBlacklistedRole());
+}
+
+// Populate bypass role select
+const reqBypassRoleSelect = document.getElementById('req-bypass-role-select');
+if (reqBypassRoleSelect) {
+    loadServerRoles().then(roles => {
+        roles.forEach(role => {
+            const option = document.createElement('option');
+            option.value = role.id;
+            option.textContent = `@${role.name}`;
+            reqBypassRoleSelect.appendChild(option);
+        });
+    });
+}
+
+// Winners thread toggle
+const createWinnersThreadCheckbox = document.getElementById('create-winners-thread-checkbox');
+const winnersThreadOptions = document.getElementById('winners-thread-options');
+if (createWinnersThreadCheckbox && winnersThreadOptions) {
+    createWinnersThreadCheckbox.addEventListener('change', function() {
+        winnersThreadOptions.style.display = this.checked ? 'block' : 'none';
+    });
+}
+
+// Embed Editor Functionality
+let embedFieldCounter = 0;
+
+// Show/hide embed editor button based on DM Message Type selection
+const dmMessageTypeSelect = document.getElementById('dm-message-type-select');
+const embedEditorBtn = document.getElementById('embed-editor-btn');
+const embedEditorModal = document.getElementById('embed-editor-modal');
+const embedEditorClose = document.getElementById('embed-editor-close');
+const embedEditorCancel = document.getElementById('embed-editor-cancel');
+const embedEditorSave = document.getElementById('embed-editor-save');
+const dmMessageTextarea = document.querySelector('textarea[name="dmMessage"]');
+
+if (dmMessageTypeSelect && embedEditorBtn) {
+    function updateEmbedButtonVisibility() {
+        embedEditorBtn.style.display = dmMessageTypeSelect.value === 'embed' ? 'block' : 'none';
+    }
+    
+    dmMessageTypeSelect.addEventListener('change', updateEmbedButtonVisibility);
+    updateEmbedButtonVisibility(); // Initial check
+}
+
+// Embed field management
+function addEmbedField(name = '', value = '', inline = false) {
+    const fieldsList = document.getElementById('embed-fields-list');
+    if (!fieldsList) return;
+    
+    const fieldId = 'embed-field-' + (embedFieldCounter++);
+    const fieldDiv = document.createElement('div');
+    fieldDiv.className = 'embed-field-item';
+    fieldDiv.style.cssText = 'padding: 1rem; background: var(--surface-elevated); border-radius: var(--radius-md); margin-bottom: 0.5rem;';
+    fieldDiv.innerHTML = `
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem;">
+            <input type="text" class="form-control embed-field-name" placeholder="Field name" value="${name}" maxlength="256">
+            <label class="form-field form-toggle" style="display: flex; align-items: center; gap: 0.5rem;">
+                <input type="checkbox" class="toggle-input embed-field-inline" ${inline ? 'checked' : ''}>
+                <span class="toggle-slider"></span>
+                <small>Inline</small>
+            </label>
+        </div>
+        <textarea class="form-control embed-field-value" rows="2" placeholder="Field value" maxlength="1024">${value}</textarea>
+        <button type="button" class="btn btn-sm btn-danger remove-embed-field" style="margin-top: 0.5rem;" data-field-id="${fieldId}">
+            <i class="fas fa-times"></i> Remove Field
+        </button>
+    `;
+    fieldsList.appendChild(fieldDiv);
+    
+    // Remove button handler
+    fieldDiv.querySelector('.remove-embed-field').addEventListener('click', () => {
+        fieldDiv.remove();
+        updateEmbedPreview();
+    });
+    
+    // Add change listeners
+    fieldDiv.querySelector('.embed-field-name').addEventListener('input', updateEmbedPreview);
+    fieldDiv.querySelector('.embed-field-value').addEventListener('input', updateEmbedPreview);
+    fieldDiv.querySelector('.embed-field-inline').addEventListener('change', updateEmbedPreview);
+}
+
+const addEmbedFieldBtn = document.getElementById('add-embed-field-btn');
+if (addEmbedFieldBtn) {
+    addEmbedFieldBtn.addEventListener('click', () => {
+        const fieldsList = document.getElementById('embed-fields-list');
+        if (fieldsList && fieldsList.children.length >= 25) {
+            alert('Maximum 25 fields allowed');
+            return;
+        }
+        addEmbedField();
+        updateEmbedPreview();
+    });
+}
+
+// Color picker sync for embed editor
+const embedColorPicker = document.getElementById('embed-color-picker');
+const embedColorText = document.getElementById('embed-color-text');
+if (embedColorPicker && embedColorText) {
+    embedColorPicker.addEventListener('input', () => {
+        embedColorText.value = embedColorPicker.value;
+        updateEmbedPreview();
+    });
+    embedColorText.addEventListener('input', () => {
+        if (/^#[0-9A-Fa-f]{6}$/i.test(embedColorText.value)) {
+            embedColorPicker.value = embedColorText.value;
+            updateEmbedPreview();
+        }
+    });
+}
+
+// Update embed preview
+function updateEmbedPreview() {
+    const preview = document.getElementById('embed-preview');
+    const markdownOutput = document.getElementById('embed-markdown-output');
+    if (!preview || !markdownOutput) return;
+    
+    // Get all form values
+    const title = document.getElementById('embed-title')?.value || '';
+    const description = document.getElementById('embed-description')?.value || '';
+    const color = document.getElementById('embed-color-text')?.value || '#338ac4';
+    const authorName = document.getElementById('embed-author-name')?.value || '';
+    const authorIcon = document.getElementById('embed-author-icon')?.value || '';
+    const footerText = document.getElementById('embed-footer-text')?.value || '';
+    const footerIcon = document.getElementById('embed-footer-icon')?.value || '';
+    const thumbnail = document.getElementById('embed-thumbnail')?.value || '';
+    const image = document.getElementById('embed-image')?.value || '';
+    const timestamp = document.getElementById('embed-timestamp')?.checked || false;
+    
+    // Get fields
+    const fields = [];
+    document.querySelectorAll('.embed-field-item').forEach(fieldDiv => {
+        const name = fieldDiv.querySelector('.embed-field-name')?.value || '';
+        const value = fieldDiv.querySelector('.embed-field-value')?.value || '';
+        const inline = fieldDiv.querySelector('.embed-field-inline')?.checked || false;
+        if (name || value) {
+            fields.push({ name, value, inline });
+        }
+    });
+    
+    // Build embed markdown
+    let markdown = '```json\n{\n';
+    markdown += '  "embeds": [{\n';
+    
+    if (title) markdown += `    "title": ${JSON.stringify(title)},\n`;
+    if (description) markdown += `    "description": ${JSON.stringify(description)},\n`;
+    if (color) markdown += `    "color": ${parseInt(color.replace('#', ''), 16)},\n`;
+    
+    if (authorName || authorIcon) {
+        markdown += '    "author": {\n';
+        if (authorName) markdown += `      "name": ${JSON.stringify(authorName)},\n`;
+        if (authorIcon) markdown += `      "icon_url": ${JSON.stringify(authorIcon)},\n`;
+        markdown = markdown.replace(/,\n$/, '\n');
+        markdown += '    },\n';
+    }
+    
+    if (fields.length > 0) {
+        markdown += '    "fields": [\n';
+        fields.forEach((field, index) => {
+            markdown += '      {\n';
+            markdown += `        "name": ${JSON.stringify(field.name)},\n`;
+            markdown += `        "value": ${JSON.stringify(field.value)},\n`;
+            markdown += `        "inline": ${field.inline}\n`;
+            markdown += '      }';
+            if (index < fields.length - 1) markdown += ',';
+            markdown += '\n';
+        });
+        markdown += '    ],\n';
+    }
+    
+    if (thumbnail) markdown += `    "thumbnail": { "url": ${JSON.stringify(thumbnail)} },\n`;
+    if (image) markdown += `    "image": { "url": ${JSON.stringify(image)} },\n`;
+    
+    if (footerText || footerIcon) {
+        markdown += '    "footer": {\n';
+        if (footerText) markdown += `      "text": ${JSON.stringify(footerText)},\n`;
+        if (footerIcon) markdown += `      "icon_url": ${JSON.stringify(footerIcon)},\n`;
+        markdown = markdown.replace(/,\n$/, '\n');
+        markdown += '    },\n';
+    }
+    
+    if (timestamp) markdown += '    "timestamp": "' + new Date().toISOString() + '",\n';
+    
+    markdown = markdown.replace(/,\n$/, '\n');
+    markdown += '  }]\n';
+    markdown += '}\n```';
+    
+    markdownOutput.value = markdown;
+    
+    // Update visual preview
+    let previewHTML = '';
+    if (title) previewHTML += `<div style="font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text);">${escapeHtml(title)}</div>`;
+    if (description) previewHTML += `<div style="margin-bottom: 1rem; color: var(--text-secondary); white-space: pre-wrap;">${escapeHtml(description)}</div>`;
+    
+    if (fields.length > 0) {
+        previewHTML += '<div style="margin-top: 1rem;">';
+        fields.forEach(function(field) {
+            var inlineStyle = field.inline ? 'display: inline-block; width: 48%; margin-right: 2%;' : '';
+            var fieldDiv = '<div style="margin-bottom: 0.75rem; ' + inlineStyle + '">';
+            fieldDiv += '<div style="font-weight: 600; color: var(--text); margin-bottom: 0.25rem;">' + escapeHtml(field.name) + '</div>';
+            fieldDiv += '<div style="color: var(--text-secondary); white-space: pre-wrap;">' + escapeHtml(field.value) + '</div>';
+            fieldDiv += '</div>';
+            previewHTML += fieldDiv;
+        });
+        previewHTML += '</div>';
+    }
+    
+    if (footerText) {
+        previewHTML += `<div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); font-size: 0.875rem; color: var(--text-secondary);">${escapeHtml(footerText)}</div>`;
+    }
+    
+    preview.style.borderLeftColor = color;
+    preview.innerHTML = previewHTML || '<p style="color: var(--text-secondary); text-align: center; padding: 2rem;">Preview will appear here</p>';
+}
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+// Add change listeners to all embed form fields
+const embedFormFields = [
+    'embed-title', 'embed-description', 'embed-author-name', 'embed-author-icon',
+    'embed-footer-text', 'embed-footer-icon', 'embed-thumbnail', 'embed-image', 'embed-timestamp'
+];
+
+embedFormFields.forEach(fieldId => {
+    const field = document.getElementById(fieldId);
+    if (field) {
+        field.addEventListener('input', updateEmbedPreview);
+        if (field.type === 'checkbox') {
+            field.addEventListener('change', updateEmbedPreview);
+        }
+    }
+});
+
+// Modal open/close handlers
+if (embedEditorBtn && embedEditorModal) {
+    embedEditorBtn.addEventListener('click', () => {
+        // Parse existing markdown if present
+        if (dmMessageTextarea && dmMessageTextarea.value.trim()) {
+            parseEmbedMarkdown(dmMessageTextarea.value);
+        } else {
+            // Reset form to defaults
+            const titleEl = document.getElementById('embed-title');
+            const descEl = document.getElementById('embed-description');
+            const colorTextEl = document.getElementById('embed-color-text');
+            const colorPickerEl = document.getElementById('embed-color-picker');
+            const fieldsListEl = document.getElementById('embed-fields-list');
+            
+            if (titleEl) titleEl.value = '';
+            if (descEl) descEl.value = '';
+            if (colorTextEl) colorTextEl.value = '#338ac4';
+            if (colorPickerEl) colorPickerEl.value = '#338ac4';
+            if (fieldsListEl) {
+                fieldsListEl.innerHTML = '';
+                embedFieldCounter = 0;
+            }
+        }
+        embedEditorModal.style.display = 'flex';
+        // Small delay to ensure DOM is ready
+        setTimeout(updateEmbedPreview, 100);
+    });
+}
+
+if (embedEditorClose) {
+    embedEditorClose.addEventListener('click', () => {
+        embedEditorModal.style.display = 'none';
+    });
+}
+
+if (embedEditorCancel) {
+    embedEditorCancel.addEventListener('click', () => {
+        embedEditorModal.style.display = 'none';
+    });
+}
+
+if (embedEditorSave) {
+    embedEditorSave.addEventListener('click', () => {
+        const markdownOutput = document.getElementById('embed-markdown-output');
+        if (markdownOutput && dmMessageTextarea) {
+            dmMessageTextarea.value = markdownOutput.value;
+        }
+        embedEditorModal.style.display = 'none';
+    });
+}
+
+// Close modal when clicking outside
+if (embedEditorModal) {
+    embedEditorModal.addEventListener('click', (e) => {
+        if (e.target === embedEditorModal) {
+            embedEditorModal.style.display = 'none';
+        }
+    });
+}
+
+// Parse existing embed markdown
+function parseEmbedMarkdown(markdown) {
+    try {
+        if (!markdown || typeof markdown !== 'string') return;
+        
+        // Extract JSON from markdown code block
+        const jsonMatch = markdown.match(/```json\s*([\s\S]*?)\s*```/);
+        if (!jsonMatch) return;
+        
+        const jsonStr = jsonMatch[1];
+        const data = JSON.parse(jsonStr);
+        
+        if (data.embeds && data.embeds[0]) {
+            const embed = data.embeds[0];
+            
+            const titleEl = document.getElementById('embed-title');
+            const descEl = document.getElementById('embed-description');
+            const colorTextEl = document.getElementById('embed-color-text');
+            const colorPickerEl = document.getElementById('embed-color-picker');
+            const authorNameEl = document.getElementById('embed-author-name');
+            const authorIconEl = document.getElementById('embed-author-icon');
+            const footerTextEl = document.getElementById('embed-footer-text');
+            const footerIconEl = document.getElementById('embed-footer-icon');
+            const thumbnailEl = document.getElementById('embed-thumbnail');
+            const imageEl = document.getElementById('embed-image');
+            const timestampEl = document.getElementById('embed-timestamp');
+            const fieldsListEl = document.getElementById('embed-fields-list');
+            
+            if (titleEl && embed.title) titleEl.value = embed.title;
+            if (descEl && embed.description) descEl.value = embed.description;
+            
+            if (colorTextEl && colorPickerEl && embed.color !== undefined) {
+                let colorHex;
+                if (typeof embed.color === 'number') {
+                    colorHex = '#' + embed.color.toString(16).padStart(6, '0');
+                } else if (typeof embed.color === 'string') {
+                    colorHex = embed.color.startsWith('#') ? embed.color : '#' + embed.color;
+                } else {
+                    colorHex = '#338ac4';
+                }
+                colorTextEl.value = colorHex;
+                colorPickerEl.value = colorHex;
+            }
+            
+            if (embed.author) {
+                if (authorNameEl && embed.author.name) authorNameEl.value = embed.author.name;
+                if (authorIconEl && embed.author.icon_url) authorIconEl.value = embed.author.icon_url;
+            }
+            
+            if (embed.footer) {
+                if (footerTextEl && embed.footer.text) footerTextEl.value = embed.footer.text;
+                if (footerIconEl && embed.footer.icon_url) footerIconEl.value = embed.footer.icon_url;
+            }
+            
+            if (thumbnailEl && embed.thumbnail && embed.thumbnail.url) thumbnailEl.value = embed.thumbnail.url;
+            if (imageEl && embed.image && embed.image.url) imageEl.value = embed.image.url;
+            if (timestampEl) timestampEl.checked = !!embed.timestamp;
+            
+            // Clear existing fields
+            if (fieldsListEl) {
+                fieldsListEl.innerHTML = '';
+                embedFieldCounter = 0;
+                
+                // Add fields
+                if (embed.fields && Array.isArray(embed.fields)) {
+                    embed.fields.forEach(field => {
+                        addEmbedField(field.name || '', field.value || '', field.inline || false);
+                    });
+                }
+            }
+        }
+    } catch (error) {
+        console.error('Error parsing embed markdown:', error);
+    }
+}
+

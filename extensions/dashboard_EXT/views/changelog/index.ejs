@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= data.seo?.title || 'Changelog - News Targeted Bot' %></title>
+    <meta name="description" content="<%= data.seo?.description || 'Complete version history and changelog for the News Targeted Bot Dashboard.' %>">
+    <meta name="keywords" content="<%= data.seo?.keywords || '' %>">
+    <% if (data.seo?.canonical) { %>
+    <link rel="canonical" href="<%= data.seo.canonical %>">
+    <% } %>
+
+    <% 
+    const templateBasePath = (typeof basePath !== 'undefined' && basePath) ? basePath : '';
+    %>
+    <link rel="icon" type="image/x-icon" href="<%= templateBasePath %>/favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="<%= templateBasePath %>/shared/styles.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        .changelog-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        .changelog-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .changelog-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+        .changelog-header p {
+            font-size: 1.1rem;
+            color: #9ca3af;
+        }
+        .version-explanation {
+            background: #1f2937;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        .version-explanation h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        .version-explanation h2 i {
+            color: #60a5fa;
+            margin-right: 0.5rem;
+        }
+        .version-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .version-type-card {
+            background: #374151;
+            border-radius: 0.5rem;
+            padding: 1rem;
+        }
+        .version-type-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+        .version-type-icon {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 0.75rem;
+            font-size: 0.875rem;
+        }
+        .version-type-icon.major {
+            background: #ef4444;
+        }
+        .version-type-icon.minor {
+            background: #f97316;
+        }
+        .version-type-icon.patch {
+            background: #10b981;
+        }
+        .version-type-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #fff;
+        }
+        .version-type-desc {
+            font-size: 0.875rem;
+            color: #d1d5db;
+            margin-bottom: 0.5rem;
+        }
+        .version-example {
+            background: #4b5563;
+            border-radius: 0.25rem;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.875rem;
+            font-family: monospace;
+            color: #fff;
+        }
+        .changelog-timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+        .timeline-line {
+            position: absolute;
+            left: 0.5rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #374151;
+        }
+        .version-card {
+            background: #1f2937;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            margin-left: 2rem;
+        }
+        .version-card::before {
+            content: '';
+            position: absolute;
+            left: -2.5rem;
+            top: 1.5rem;
+            width: 1rem;
+            height: 1rem;
+            border-radius: 50%;
+            border: 4px solid #111827;
+        }
+        .version-card.patch::before {
+            background: #10b981;
+        }
+        .version-card.minor::before {
+            background: #f97316;
+        }
+        .version-card.major::before {
+            background: #ef4444;
+        }
+        .version-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            margin-bottom: 1rem;
+        }
+        .version-header-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .copy-link-btn {
+            background: #374151;
+            border: 1px solid #4b5563;
+            color: #d1d5db;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+        }
+        .copy-link-btn:hover {
+            background: #4b5563;
+            color: #fff;
+        }
+        .copy-link-btn.copied {
+            background: #10b981;
+            border-color: #10b981;
+            color: #fff;
+        }
+        .version-header-content {
+            display: flex;
+            align-items: center;
+        }
+        .version-icon {
+            font-size: 1.25rem;
+            margin-right: 0.75rem;
+        }
+        .version-card.patch .version-icon {
+            color: #10b981;
+        }
+        .version-card.minor .version-icon {
+            color: #f97316;
+        }
+        .version-card.major .version-icon {
+            color: #ef4444;
+        }
+        .version-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #fff;
+        }
+        .version-date {
+            color: #9ca3af;
+            font-size: 0.875rem;
+        }
+        .version-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-transform: capitalize;
+        }
+        .version-card.patch .version-badge {
+            background: #10b981;
+            color: #fff;
+        }
+        .version-card.minor .version-badge {
+            background: #f97316;
+            color: #fff;
+        }
+        .version-card.major .version-badge {
+            background: #ef4444;
+            color: #fff;
+        }
+        .version-content {
+            border-top: 1px solid #374151;
+            padding-top: 1rem;
+            margin-top: 1rem;
+        }
+        .version-content h4 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 0.75rem;
+            margin-top: 1.5rem;
+        }
+        .version-content h4:first-child {
+            margin-top: 0;
+        }
+        .version-content ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .version-content li {
+            display: flex;
+            align-items: start;
+            color: #d1d5db;
+            margin-bottom: 0.5rem;
+        }
+        .version-content li i {
+            color: #10b981;
+            margin-right: 0.5rem;
+            margin-top: 0.25rem;
+        }
+        .empty-changelog {
+            text-align: center;
+            padding: 3rem;
+            color: #9ca3af;
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 3rem;
+            padding: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .pagination-info {
+            color: #9ca3af;
+            font-size: 0.875rem;
+            margin: 0 1rem;
+        }
+        .pagination-btn {
+            background: #374151;
+            border: 1px solid #4b5563;
+            color: #d1d5db;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .pagination-btn:hover:not(:disabled) {
+            background: #4b5563;
+            color: #fff;
+        }
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .pagination-btn.active {
+            background: #3b82f6;
+            border-color: #3b82f6;
+            color: #fff;
+        }
+        .pagination-goto {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0 1rem;
+        }
+        .pagination-goto input {
+            background: #374151;
+            border: 1px solid #4b5563;
+            color: #fff;
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            width: 60px;
+            text-align: center;
+        }
+        .pagination-goto input:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+        .pagination-goto button {
+            background: #3b82f6;
+            border: 1px solid #3b82f6;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .pagination-goto button:hover {
+            background: #2563eb;
+        }
+        .search-filter-container {
+            background: #1f2937;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .search-filter-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        @media (max-width: 768px) {
+            .search-filter-row {
+                grid-template-columns: 1fr;
+            }
+        }
+        .search-input-group {
+            position: relative;
+        }
+        .search-input-group input {
+            width: 100%;
+            padding: 0.75rem 2.5rem 0.75rem 1rem;
+            background: #374151;
+            border: 1px solid #4b5563;
+            border-radius: 0.375rem;
+            color: #fff;
+            font-size: 0.875rem;
+        }
+        .search-input-group input:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+        .search-input-group i {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af;
+        }
+        .filter-select {
+            width: 100%;
+            padding: 0.75rem;
+            background: #374151;
+            border: 1px solid #4b5563;
+            border-radius: 0.375rem;
+            color: #fff;
+            font-size: 0.875rem;
+            cursor: pointer;
+        }
+        .filter-select:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+        .filter-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .filter-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+        .filter-btn-primary {
+            background: #3b82f6;
+            color: #fff;
+        }
+        .filter-btn-primary:hover {
+            background: #2563eb;
+        }
+        .filter-btn-secondary {
+            background: #6b7280;
+            color: #fff;
+        }
+        .filter-btn-secondary:hover {
+            background: #4b5563;
+        }
+        .filter-results {
+            color: #9ca3af;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+        .version-card.hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body class="main-layout">
+    <%- include('../shared/header', { data: data }) %>
+
+    <main class="changelog-container">
+        <div class="changelog-header" data-aos="fade-up">
+            <h1><i class="fas fa-history mr-2"></i>Changelog</h1>
+            <p>Complete version history and changelog for the News Targeted Bot Dashboard</p>
+        </div>
+
+        <div class="search-filter-container" data-aos="fade-up" data-aos-delay="100">
+            <div class="search-filter-row">
+                <div class="search-input-group">
+                    <input type="text" id="search-input" placeholder="Search by version, title, or content..." autocomplete="off">
+                    <i class="fas fa-search"></i>
+                </div>
+                <select class="filter-select" id="type-filter">
+                    <option value="">All Types</option>
+                    <option value="major">Major</option>
+                    <option value="minor">Minor</option>
+                    <option value="patch">Patch</option>
+                </select>
+                <div class="filter-actions">
+                    <button class="filter-btn filter-btn-primary" id="apply-filter-btn">
+                        <i class="fas fa-filter"></i> Filter
+                    </button>
+                    <button class="filter-btn filter-btn-secondary" id="clear-filter-btn">
+                        <i class="fas fa-times"></i> Clear
+                    </button>
+                </div>
+            </div>
+            <div class="filter-results" id="filter-results"></div>
+        </div>
+
+        <div class="version-explanation" data-aos="fade-up" data-aos-delay="100">
+            <h2><i class="fas fa-info-circle"></i>Understanding Version Numbers</h2>
+            <p style="color: #9ca3af; margin-bottom: 1rem;">Our versioning follows semantic versioning (SemVer) to help you understand the impact of each update:</p>
+            <div class="version-grid">
+                <div class="version-type-card">
+                    <div class="version-type-header">
+                        <div class="version-type-icon major">
+                            <i class="fas fa-exclamation-triangle text-white"></i>
+                        </div>
+                        <h3 class="version-type-title">Major (X.0.0)</h3>
+                    </div>
+                    <p class="version-type-desc">Breaking changes that may require action from users.</p>
+                    <div class="version-example">2.8.0 → 3.0.0</div>
+                </div>
+                <div class="version-type-card">
+                    <div class="version-type-header">
+                        <div class="version-type-icon minor">
+                            <i class="fas fa-plus text-white"></i>
+                        </div>
+                        <h3 class="version-type-title">Minor (0.X.0)</h3>
+                    </div>
+                    <p class="version-type-desc">New features added in a backward-compatible manner.</p>
+                    <div class="version-example">3.0.0 → 3.1.0</div>
+                </div>
+                <div class="version-type-card">
+                    <div class="version-type-header">
+                        <div class="version-type-icon patch">
+                            <i class="fas fa-bug text-white"></i>
+                        </div>
+                        <h3 class="version-type-title">Patch (0.0.X)</h3>
+                    </div>
+                    <p class="version-type-desc">Bug fixes and minor improvements.</p>
+                    <div class="version-example">3.1.0 → 3.1.1</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="changelog-timeline" data-aos="fade-up" data-aos-delay="200">
+            <div class="timeline-line"></div>
+            <% if (data.changelog && data.changelog.entries && data.changelog.entries.length > 0) { %>
+                <% data.changelog.entries.forEach((entry, index) => { %>
+                    <% const versionId = entry.version.replace(/\./g, '-'); %>
+                    <div class="version-card <%= entry.type %>" 
+                         id="version-<%= versionId %>" 
+                         data-version="<%= entry.version %>" 
+                         data-type="<%= entry.type %>"
+                         data-title="<%= (entry.title || '').toLowerCase() %>"
+                         data-date="<%= entry.date %>"
+                         data-aos="fade-up" 
+                         data-aos-delay="<%= 300 + (index * 100) %>">
+                        <div class="version-header" data-version-id="<%= versionId %>">
+                            <div class="version-header-content">
+                                <i class="fas fa-<%= entry.type === 'major' ? 'exclamation-triangle' : entry.type === 'minor' ? 'plus' : 'bug' %> version-icon"></i>
+                                <div>
+                                    <h3 class="version-title">Version <%= entry.version %></h3>
+                                    <p class="version-date"><%= new Date(entry.date + 'T' + entry.time).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %> at <%= entry.time %></p>
+                                </div>
+                            </div>
+                            <div class="version-header-actions">
+                                <button class="copy-link-btn" data-version="<%= entry.version %>" data-version-id="<%= versionId %>" title="Copy link to this version">
+                                    <i class="fas fa-link"></i>
+                                    <span class="copy-link-text">Copy Link</span>
+                                </button>
+                                <span class="version-badge"><%= entry.type %></span>
+                                <i class="fas fa-chevron-down toggle-icon" id="icon-<%= versionId %>"></i>
+                            </div>
+                        </div>
+                        <div class="version-content" id="content-<%= versionId %>" style="display: none;">
+                            <% if (entry.title) { %>
+                                <h4 style="margin-top: 0;"><%= entry.title %></h4>
+                            <% } %>
+                            <% if (entry.categories) { %>
+                                <% Object.keys(entry.categories).forEach(category => { %>
+                                    <h4><%= category %></h4>
+                                    <ul>
+                                        <% entry.categories[category].forEach(item => { %>
+                                            <li>
+                                                <i class="fas fa-check"></i>
+                                                <span><%= item %></span>
+                                            </li>
+                                        <% }); %>
+                                    </ul>
+                                <% }); %>
+                            <% } %>
+                        </div>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <div class="empty-changelog">
+                    <i class="fas fa-inbox" style="font-size: 3rem; margin-bottom: 1rem; display: block;"></i>
+                    <p>No changelog entries available yet.</p>
+                </div>
+            <% } %>
+        </div>
+
+        <% if (data.pagination && data.pagination.totalPages > 1) { %>
+            <div class="pagination">
+                <button class="pagination-btn" data-page="1" <%= data.pagination.currentPage === 1 ? 'disabled' : '' %>>
+                    <i class="fas fa-angle-double-left"></i>
+                    First
+                </button>
+                <button class="pagination-btn" data-page="<%= data.pagination.currentPage - 1 %>" <%= data.pagination.currentPage === 1 ? 'disabled' : '' %>>
+                    <i class="fas fa-angle-left"></i>
+                    Previous
+                </button>
+                
+                <% 
+                const currentPage = data.pagination.currentPage;
+                const totalPages = data.pagination.totalPages;
+                let startPage = Math.max(1, currentPage - 2);
+                let endPage = Math.min(totalPages, currentPage + 2);
+                
+                if (startPage > 1) { %>
+                    <button class="pagination-btn" data-page="1">1</button>
+                    <% if (startPage > 2) { %>
+                        <span style="color: #9ca3af; padding: 0 0.5rem;">...</span>
+                    <% } %>
+                <% } %>
+                
+                <% for (let i = startPage; i <= endPage; i++) { %>
+                    <button class="pagination-btn <%= i === currentPage ? 'active' : '' %>" data-page="<%= i %>"><%= i %></button>
+                <% } %>
+                
+                <% if (endPage < totalPages) { %>
+                    <% if (endPage < totalPages - 1) { %>
+                        <span style="color: #9ca3af; padding: 0 0.5rem;">...</span>
+                    <% } %>
+                    <button class="pagination-btn" data-page="<%= totalPages %>"><%= totalPages %></button>
+                <% } %>
+                
+                <div class="pagination-goto">
+                    <span style="color: #9ca3af;">Go to:</span>
+                    <input type="number" id="goto-page-input" min="1" max="<%= totalPages %>" value="<%= currentPage %>">
+                    <button id="goto-page-btn">Go</button>
+                </div>
+                
+                <button class="pagination-btn" data-page="<%= data.pagination.currentPage + 1 %>" <%= data.pagination.currentPage === totalPages ? 'disabled' : '' %>>
+                    Next
+                    <i class="fas fa-angle-right"></i>
+                </button>
+                <button class="pagination-btn" data-page="<%= totalPages %>" <%= data.pagination.currentPage === totalPages ? 'disabled' : '' %>>
+                    Last
+                    <i class="fas fa-angle-double-right"></i>
+                </button>
+            </div>
+            
+            <div class="pagination-info" style="text-align: center; margin-top: 1rem;">
+                Showing <%= data.pagination.startIndex %>-<%= data.pagination.endIndex %> of <%= data.pagination.totalEntries %> entries
+            </div>
+        <% } %>
+    </main>
+
+    <%- include('../shared/footer', { data: data }) %>
+
+    <script>
+        // AOS is already loaded and initialized in shared footer
+        // No need to reload or reinitialize
+
+        // Toggle version content
+        function toggleVersion(versionId, scrollIntoView = false) {
+            const content = document.getElementById('content-' + versionId);
+            const icon = document.getElementById('icon-' + versionId);
+            
+            if (!content || !icon) return;
+            
+            const isOpen = content.style.display !== 'none';
+            
+            if (isOpen) {
+                content.style.display = 'none';
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            } else {
+                content.style.display = 'block';
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+                
+                if (scrollIntoView) {
+                    const versionCard = document.getElementById('version-' + versionId);
+                    if (versionCard) {
+                        setTimeout(() => {
+                            versionCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }, 100);
+                    }
+                }
+            }
+        }
+
+        // Setup version header and copy link functionality
+        function setupVersionInteractions() {
+            // Handle version header clicks
+            document.querySelectorAll('.version-header').forEach(header => {
+                header.addEventListener('click', function(e) {
+                    // Don't toggle if clicking the copy link button
+                    if (e.target.closest('.copy-link-btn')) {
+                        return;
+                    }
+                    const versionId = this.getAttribute('data-version-id');
+                    if (versionId) {
+                        toggleVersion(versionId);
+                    }
+                });
+            });
+
+            // Handle copy link button clicks
+            document.querySelectorAll('.copy-link-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation(); // Prevent version toggle
+                    
+                    const version = this.getAttribute('data-version');
+                    const versionId = this.getAttribute('data-version-id');
+                    const url = window.location.origin + window.location.pathname + '#v' + versionId;
+                    
+                    // Copy to clipboard
+                    navigator.clipboard.writeText(url).then(() => {
+                        const textSpan = this.querySelector('.copy-link-text');
+                        const originalText = textSpan.textContent;
+                        textSpan.textContent = 'Copied!';
+                        this.classList.add('copied');
+                        
+                        setTimeout(() => {
+                            textSpan.textContent = originalText;
+                            this.classList.remove('copied');
+                        }, 2000);
+                    }).catch(err => {
+                        console.error('Failed to copy link:', err);
+                        // Fallback for older browsers
+                        const textArea = document.createElement('textarea');
+                        textArea.value = url;
+                        textArea.style.position = 'fixed';
+                        textArea.style.opacity = '0';
+                        document.body.appendChild(textArea);
+                        textArea.select();
+                        try {
+                            document.execCommand('copy');
+                            const textSpan = this.querySelector('.copy-link-text');
+                            const originalText = textSpan.textContent;
+                            textSpan.textContent = 'Copied!';
+                            this.classList.add('copied');
+                            setTimeout(() => {
+                                textSpan.textContent = originalText;
+                                this.classList.remove('copied');
+                            }, 2000);
+                        } catch (err) {
+                            console.error('Fallback copy failed:', err);
+                        }
+                        document.body.removeChild(textArea);
+                    });
+                });
+            });
+
+            // Check for hash in URL and open corresponding version
+            function checkHashAndOpen() {
+                const hash = window.location.hash;
+                if (hash && hash.startsWith('#v')) {
+                    const versionId = hash.substring(2); // Remove '#v'
+                    const content = document.getElementById('content-' + versionId);
+                    if (content && content.style.display === 'none') {
+                        toggleVersion(versionId, true);
+                    }
+                }
+            }
+
+            // Check hash on load
+            checkHashAndOpen();
+
+            // Check hash on hash change (for browser back/forward)
+            window.addEventListener('hashchange', checkHashAndOpen);
+        }
+
+        // Search and filter functionality
+        let allEntries = [];
+        
+        // Store all entries data for client-side filtering
+        function initializeEntries() {
+            const versionCards = document.querySelectorAll('.version-card');
+            allEntries = Array.from(versionCards).map(card => ({
+                element: card,
+                version: card.getAttribute('data-version') || '',
+                type: card.getAttribute('data-type') || '',
+                title: card.getAttribute('data-title') || '',
+                date: card.getAttribute('data-date') || '',
+                content: card.textContent.toLowerCase()
+            }));
+        }
+
+        function applyFilters() {
+            const searchInput = document.getElementById('search-input');
+            const typeFilter = document.getElementById('type-filter');
+            
+            if (!searchInput || !typeFilter) {
+                console.error('Filter elements not found');
+                return;
+            }
+            
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            const typeFilterValue = typeFilter.value.toLowerCase();
+            
+            let visibleCount = 0;
+            
+            allEntries.forEach(entry => {
+                const matchesSearch = !searchTerm || 
+                    entry.version.toLowerCase().includes(searchTerm) ||
+                    entry.title.includes(searchTerm) ||
+                    entry.content.includes(searchTerm);
+                
+                const matchesType = !typeFilterValue || entry.type === typeFilterValue;
+                
+                if (matchesSearch && matchesType) {
+                    entry.element.classList.remove('hidden');
+                    visibleCount++;
+                } else {
+                    entry.element.classList.add('hidden');
+                }
+            });
+            
+            // Update filter results message
+            const resultsDiv = document.getElementById('filter-results');
+            if (resultsDiv) {
+                if (searchTerm || typeFilterValue) {
+                    if (visibleCount === 0) {
+                        resultsDiv.textContent = 'No entries match your filters.';
+                        resultsDiv.style.color = '#ef4444';
+                    } else {
+                        resultsDiv.textContent = `Showing ${visibleCount} of ${allEntries.length} entries`;
+                        resultsDiv.style.color = '#10b981';
+                    }
+                } else {
+                    resultsDiv.textContent = '';
+                }
+            }
+        }
+
+        function clearFilters() {
+            const searchInput = document.getElementById('search-input');
+            const typeFilter = document.getElementById('type-filter');
+            const resultsDiv = document.getElementById('filter-results');
+            
+            if (searchInput) searchInput.value = '';
+            if (typeFilter) typeFilter.value = '';
+            if (resultsDiv) resultsDiv.textContent = '';
+            
+            // Show all entries
+            allEntries.forEach(entry => {
+                entry.element.classList.remove('hidden');
+            });
+        }
+
+        // Setup all event listeners
+        function setupEventListeners() {
+            // Initialize entries first
+            initializeEntries();
+            
+            // Also setup version interactions
+            setupVersionInteractions();
+            
+            // Filter buttons
+            const applyFilterBtn = document.getElementById('apply-filter-btn');
+            const clearFilterBtn = document.getElementById('clear-filter-btn');
+            
+            if (applyFilterBtn) {
+                applyFilterBtn.addEventListener('click', applyFilters);
+            }
+            
+            if (clearFilterBtn) {
+                clearFilterBtn.addEventListener('click', clearFilters);
+            }
+            
+            // Search input
+            const searchInput = document.getElementById('search-input');
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        applyFilters();
+                    }
+                });
+                // Also filter on input change (debounced)
+                let searchTimeout;
+                searchInput.addEventListener('input', function() {
+                    clearTimeout(searchTimeout);
+                    searchTimeout = setTimeout(applyFilters, 300);
+                });
+            }
+            
+            // Pagination buttons
+            document.querySelectorAll('.pagination-btn[data-page]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if (!this.disabled) {
+                        const page = parseInt(this.getAttribute('data-page'));
+                        if (page) {
+                            goToPage(page);
+                        }
+                    }
+                });
+            });
+            
+            // Go to page button
+            const gotoPageBtn = document.getElementById('goto-page-btn');
+            const gotoPageInput = document.getElementById('goto-page-input');
+            
+            if (gotoPageBtn) {
+                gotoPageBtn.addEventListener('click', goToPageFromInput);
+            }
+            
+            if (gotoPageInput) {
+                gotoPageInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        goToPageFromInput();
+                    }
+                });
+            }
+        }
+        
+        // Setup on DOM ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', setupEventListeners);
+        } else {
+            setupEventListeners();
+        }
+
+        // Pagination functions
+        function goToPage(page) {
+            const url = new URL(window.location);
+            url.searchParams.set('page', page);
+            // Preserve hash if present
+            if (window.location.hash) {
+                url.hash = window.location.hash;
+            }
+            window.location.href = url.toString();
+        }
+
+        function goToPageFromInput() {
+            const input = document.getElementById('goto-page-input');
+            if (!input) return;
+            
+            const page = parseInt(input.value);
+            const totalPages = <% if (data.pagination) { %><%= data.pagination.totalPages %><% } else { %>1<% } %>;
+            const currentPage = <% if (data.pagination) { %><%= data.pagination.currentPage %><% } else { %>1<% } %>;
+            
+            if (isNaN(page) || page < 1 || page > totalPages) {
+                alert('Please enter a page number between 1 and ' + totalPages);
+                input.value = currentPage;
+                return;
+            }
+            
+            goToPage(page);
+        }
+    </script>
+</body>
+</html>
+

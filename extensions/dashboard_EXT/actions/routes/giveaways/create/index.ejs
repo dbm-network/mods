@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= data.seo?.title || 'Create Giveaway - News Targeted Bot Dashboard' %></title>
+    <meta name="description" content="<%= data.seo?.description || 'Create a new giveaway for your Discord server' %>">
+    <% 
+    const templateBasePath = (typeof basePath !== 'undefined' && basePath) ? basePath : '';
+    %>
+    <link rel="icon" type="image/x-icon" href="<%= templateBasePath %>/favicon.ico">
+    <link rel="stylesheet" href="<%= templateBasePath %>/shared/styles.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body class="main-layout">
+    <%- include('../../../../views/shared/header.ejs', { data: data }) %>
+
+    <main>
+        <section class="page-wrapper page-wrapper--narrow" data-aos="fade-up">
+            <%- include('../../../../views/shared/components/hero', {
+                title: 'Create Giveaway',
+                subtitle: 'Set up a new giveaway for your Discord server',
+                badge: 'Giveaway System',
+                panel: true
+            }) %>
+        </section>
+
+        <% if (!data.giveawaySystemAvailable) { %>
+        <section class="page-wrapper page-wrapper--narrow" data-aos="fade-up" data-aos-delay="100">
+            <div class="page-section">
+                <div class="empty-state">
+                    <h3>Initializing Giveaway System</h3>
+                    <p>The giveaway system will be initialized automatically when you submit the form below. Go ahead and create your first giveaway!</p>
+                </div>
+            </div>
+        </section>
+        <% } %>
+        
+        <% if (!data.userServers || data.userServers.length === 0) { %>
+        <section class="page-wrapper page-wrapper--narrow" data-aos="fade-up" data-aos-delay="100">
+            <div class="page-section">
+                <div class="empty-state">
+                    <h3>No Servers Found</h3>
+                    <p>You need to be in at least one server with the bot to create giveaways. <a href="<%= data.settings && data.settings.inviteLink ? data.settings.inviteLink : '#' %>" target="_blank" rel="noopener">Invite the bot</a> to your server.</p>
+                </div>
+            </div>
+        </section>
+        <% } else { %>
+
+        <section class="page-wrapper" data-aos="fade-up" data-aos-delay="120">
+            <div class="page-section">
+                <form id="giveaway-create-form" class="giveaway-form">
+                    <input type="hidden" name="_csrf" value="<%= data.csrfToken || '' %>">
+                    
+                    <div class="giveaway-form-grid">
+                        <!-- Left Column -->
+                        <div class="giveaway-form-column">
+                            <div class="form-section">
+                                <h3>Basic Settings</h3>
+                                
+                                <label class="form-field">
+                                    <span>Server</span>
+                                    <select name="serverId" class="form-control" required>
+                                        <option value="">Select a server</option>
+                                        <% if (Array.isArray(data.userServers)) { %>
+                                        <% data.userServers.forEach(server => { %>
+                                        <option value="<%= server.id %>" <%= data.selectedServerId && data.selectedServerId === server.id ? 'selected' : '' %>><%= server.name %></option>
+                                        <% }); %>
+                                        <% } %>
+                                    </select>
+                                    <small>Select the server where the giveaway will be created</small>
+                                </label>
+
+                                <label class="form-field">
+                                    <span>Prize / Name</span>
+                                    <input type="text" name="prize" class="form-control" placeholder="e.g. Discord Nitro" required maxlength="256">
+                                    <small>What is being given away?</small>
+                                </label>
+
+                                <label class="form-field">
+                                    <span>Winners</span>
+                                    <input type="number" name="winners" class="form-control" value="1" min="1" max="100" required>
+                                    <small>Number of winners (1-100)</small>
+                                </label>
+
+                                <label class="form-field">
+                                    <span>Duration</span>
+                                    <input type="text" name="duration" class="form-control" placeholder="e.g. 7d, 2h, 30m" required pattern="^\d+[smhd]$" title="Format: number followed by s (seconds), m (minutes), h (hours), or d (days)">
+                                    <small>Format: 7d (7 days), 2h (2 hours), 30m (30 minutes)</small>
+                                </label>
+
+                                <label class="form-field">
+                                    <span>Channel</span>
+                                    <select name="channelId" class="form-control" required>
+                                        <option value="">Select a channel</option>
+                                    </select>
+                                    <small>Channel where the giveaway will be posted</small>
+                                </label>
+
+                                <label class="form-field">
+                                    <span>Host (optional)</span>
+                                    <input type="text" name="host" class="form-control" placeholder="e.g. @user, @role, or custom text" maxlength="100">
+                                    <small>Who is hosting this giveaway? Leave empty to use yourself</small>
+                                </label>
+                            </div>
+
+                            <div class="form-section">
+                                <h3>Requirements</h3>
+                                
+                                <label class="form-field form-toggle">
+                                    <div>
+                                        <span>Required Roles</span>
+                                        <small>Roles users must have to enter</small>
+                                    </div>
+                                    <input type="checkbox" name="requireRoles" class="toggle-input">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                                <div class="form-field-conditional" data-conditional="requireRoles" style="display: none;">
+                                    <input type="text" name="requiredRoles" class="form-control" placeholder="Role IDs or mentions (comma separated)">
+                                </div>
+
+                                <label class="form-field form-toggle">
+                                    <div>
+                                        <span>Blacklisted Roles</span>
+                                        <small>Roles that cannot enter</small>
+                                    </div>
+                                    <input type="checkbox" name="blacklistRoles" class="toggle-input">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                                <div class="form-field-conditional" data-conditional="blacklistRoles" style="display: none;">
+                                    <input type="text" name="blacklistedRoles" class="form-control" placeholder="Role IDs or mentions (comma separated)">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Column -->
+                        <div class="giveaway-form-column">
+                            <div class="form-section">
+                                <h3>Embed Customization</h3>
+                                
+                                <label class="form-field">
+                                    <span>Embed Color (Start)</span>
+                                    <div class="color-input-group">
+                                        <input type="color" name="embedColor" class="form-control color-picker" value="<%= data.defaultSettings?.defaultEmbedColor || '#338ac4' %>">
+                                        <input type="text" name="embedColorText" class="form-control color-text" value="<%= data.defaultSettings?.defaultEmbedColor || '#338ac4' %>" pattern="^#[0-9A-Fa-f]{6}$">
+                                    </div>
+                                    <small>Color for the giveaway embed</small>
+                                </label>
+
+                                <label class="form-field">
+                                    <span>Embed Color (End)</span>
+                                    <div class="color-input-group">
+                                        <input type="color" name="endEmbedColor" class="form-control color-picker" value="<%= data.defaultSettings?.defaultEndEmbedColor || '#f04747' %>">
+                                        <input type="text" name="endEmbedColorText" class="form-control color-text" value="<%= data.defaultSettings?.defaultEndEmbedColor || '#f04747' %>" pattern="^#[0-9A-Fa-f]{6}$">
+                                    </div>
+                                    <small>Color when giveaway ends</small>
+                                </label>
+
+                                <label class="form-field form-toggle">
+                                    <div>
+                                        <span>Custom Create Message</span>
+                                        <small>Message sent when giveaway is created</small>
+                                    </div>
+                                    <input type="checkbox" name="useCreateMessage" class="toggle-input" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                                <div class="form-field-conditional" data-conditional="useCreateMessage">
+                                    <textarea name="createMessage" class="form-control" rows="4" maxlength="1024"><%= data.defaultSettings?.defaultCreateMessage || 'To enter click the 🎉 below!\nRequirements: N/A\nIf you win the giveaway, you have 24 hours to claim the reward.' %></textarea>
+                                    <small class="char-counter"><span id="create-message-count">0</span> / 1024</small>
+                                </div>
+                            </div>
+
+                            <div class="form-section">
+                                <h3>Advanced Options</h3>
+                                
+                                <label class="form-field form-toggle">
+                                    <div>
+                                        <span>Show Entry Captcha <span class="badge-featured">FEATURED</span></span>
+                                        <small>Require captcha verification to enter</small>
+                                    </div>
+                                    <input type="checkbox" name="showCaptcha" class="toggle-input">
+                                    <span class="toggle-slider"></span>
+                                </label>
+
+                                <label class="form-field form-toggle">
+                                    <div>
+                                        <span>Extra Entries</span>
+                                        <small>Give extra entries to specific roles</small>
+                                    </div>
+                                    <input type="checkbox" name="extraEntries" class="toggle-input">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                                <div class="form-field-conditional" data-conditional="extraEntries" style="display: none;">
+                                    <div id="extra-entries-list"></div>
+                                    <button type="button" class="btn btn-sm btn-secondary" onclick="addExtraEntry()">Add Role</button>
+                                </div>
+
+                                <label class="form-field form-toggle">
+                                    <div>
+                                        <span>Giveaway Drop</span>
+                                        <small>Auto-end when winner count is reached</small>
+                                    </div>
+                                    <input type="checkbox" name="giveawayDrop" class="toggle-input">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <a href="<%= templateBasePath %>/giveaways" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary">Create Giveaway</button>
+                    </div>
+
+                    <div id="form-feedback" class="form-feedback" role="alert"></div>
+                </form>
+            </div>
+        </section>
+
+        <% } %>
+    </main>
+
+    <%- include('../../../../views/shared/footer.ejs', { data: data }) %>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+
+        const basePath = window.location.pathname.startsWith('/nt2') ? '/nt2' : '';
+        const form = document.getElementById('giveaway-create-form');
+        const serverSelect = form.querySelector('select[name="serverId"]');
+        const channelSelect = form.querySelector('select[name="channelId"]');
+        let extraEntryCount = 0;
+
+        // Load channels when page loads if server is pre-selected
+        <% if (data.selectedServerId) { // EJS conditional: only include if server is pre-selected %>
+        window.addEventListener('DOMContentLoaded', async function() {
+            const preSelectedServerId = serverSelect.value;
+            if (preSelectedServerId) {
+                await loadChannels(preSelectedServerId);
+            }
+        });
+        <% } // End EJS conditional %>
+
+        // Load channels when server is selected
+        serverSelect.addEventListener('change', async function() {
+            await loadChannels(this.value);
+        });
+
+        async function loadChannels(serverId) {
+            if (!serverId) {
+                channelSelect.innerHTML = '<option value="">Select a channel</option>';
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${basePath}/api/servers/${serverId}/channels`);
+                const result = await response.json();
+                if (result.success && Array.isArray(result.data)) {
+                    channelSelect.innerHTML = '<option value="">Select a channel</option>';
+                    result.data.forEach(channel => {
+                        if (channel.type === 0) { // Text channel
+                            const option = document.createElement('option');
+                            option.value = channel.id;
+                            option.textContent = `#${channel.name}`;
+                            channelSelect.appendChild(option);
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading channels:', error);
+            }
+        }
+
+        // Color picker sync
+        document.querySelectorAll('.color-picker').forEach(picker => {
+            const textInput = picker.parentElement.querySelector('.color-text');
+            picker.addEventListener('input', () => {
+                textInput.value = picker.value;
+            });
+            textInput.addEventListener('input', () => {
+                if (/^#[0-9A-Fa-f]{6}$/i.test(textInput.value)) {
+                    picker.value = textInput.value;
+                }
+            });
+        });
+
+        // Toggle conditional fields
+        document.querySelectorAll('.toggle-input').forEach(toggle => {
+            toggle.addEventListener('change', function() {
+                const conditional = form.querySelector(`.form-field-conditional[data-conditional="${this.name}"]`);
+                if (conditional) {
+                    conditional.style.display = this.checked ? 'block' : 'none';
+                }
+            });
+        });
+
+        // Character counter
+        const createMessage = form.querySelector('textarea[name="createMessage"]');
+        const createMessageCount = document.getElementById('create-message-count');
+        if (createMessage && createMessageCount) {
+            createMessage.addEventListener('input', () => {
+                createMessageCount.textContent = createMessage.value.length;
+            });
+            createMessageCount.textContent = createMessage.value.length;
+        }
+
+        // Add extra entry
+        function addExtraEntry() {
+            const container = document.getElementById('extra-entries-list');
+            const entry = document.createElement('div');
+            entry.className = 'extra-entry-item';
+            entry.innerHTML = `
+                <input type="text" name="extraEntryRole_${extraEntryCount}" class="form-control" placeholder="Role ID or mention">
+                <input type="number" name="extraEntryCount_${extraEntryCount}" class="form-control" value="1" min="1" max="250">
+                <button type="button" class="btn btn-sm btn-danger" onclick="this.parentElement.remove()">Remove</button>
+            `;
+            container.appendChild(entry);
+            extraEntryCount++;
+        }
+
+        // Form submission
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const feedback = document.getElementById('form-feedback');
+            
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Creating...';
+            feedback.textContent = '';
+            feedback.className = 'form-feedback';
+
+            const formData = new FormData(form);
+            const giveaway = {
+                serverId: formData.get('serverId'),
+                channelId: formData.get('channelId'),
+                prize: formData.get('prize'),
+                winners: parseInt(formData.get('winners'), 10),
+                duration: formData.get('duration'),
+                host: formData.get('host') || null,
+                embedColor: formData.get('embedColorText'),
+                endEmbedColor: formData.get('endEmbedColorText'),
+                showCaptcha: formData.get('showCaptcha') === 'on',
+                giveawayDrop: formData.get('giveawayDrop') === 'on'
+            };
+
+            if (formData.get('useCreateMessage') === 'on') {
+                giveaway.createMessage = formData.get('createMessage');
+            }
+
+            if (formData.get('requireRoles') === 'on') {
+                giveaway.requiredRoles = formData.get('requiredRoles')?.split(',').map(r => r.trim()).filter(Boolean) || [];
+            }
+
+            if (formData.get('blacklistRoles') === 'on') {
+                giveaway.blacklistedRoles = formData.get('blacklistedRoles')?.split(',').map(r => r.trim()).filter(Boolean) || [];
+            }
+
+            if (formData.get('extraEntries') === 'on') {
+                giveaway.extraEntries = {};
+                for (let i = 0; i < extraEntryCount; i++) {
+                    const role = formData.get(`extraEntryRole_${i}`);
+                    const count = formData.get(`extraEntryCount_${i}`);
+                    if (role && count) {
+                        giveaway.extraEntries[role] = parseInt(count, 10);
+                    }
+                }
+            }
+
+            try {
+                const response = await fetch(`${basePath}/api/giveaways/create`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-Token': formData.get('_csrf') || ''
+                    },
+                    credentials: 'same-origin',
+                    body: JSON.stringify(giveaway)
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    feedback.className = 'form-feedback success';
+                    feedback.textContent = 'Giveaway created successfully! Redirecting...';
+                    setTimeout(() => {
+                        window.location.href = `${basePath}/giveaways`;
+                    }, 1500);
+                } else {
+                    feedback.className = 'form-feedback error';
+                    feedback.textContent = result.error || 'Failed to create giveaway';
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Create Giveaway';
+                }
+            } catch (error) {
+                feedback.className = 'form-feedback error';
+                feedback.textContent = 'Error creating giveaway: ' + error.message;
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Create Giveaway';
+            }
+        });
+    </script>
+</body>
+</html>
+

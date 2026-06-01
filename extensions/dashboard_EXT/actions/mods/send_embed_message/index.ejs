@@ -1,0 +1,453 @@
+<div class="embed-card">
+    <header class="embed-card__header">
+        <h4>Compose Embed Message</h4>
+        <p>Configure your embed content and deliver it instantly to the selected channel.</p>
+    </header>
+
+    <% if (data.isAdmin) { %>
+    <section class="embed-card__section">
+        <h5>Target Server</h5>
+        <div class="embed-grid">
+            <div class="embed-field">
+                <label>Find Server By</label>
+                <select class="form-control" name="serverType">
+                    <option value="id" selected>Guild ID</option>
+                    <option value="name">Guild Name</option>
+                </select>
+            </div>
+            <div class="embed-field">
+                <label>Guild ID / Guild Name</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    name="server"
+                    placeholder="Enter guild identifier"
+                    value="<%= data.server?.id || '' %>"
+                >
+            </div>
+        </div>
+        <small class="embed-hint">Defaulted to the server you are managing. Update only if you need to target another guild.</small>
+    </section>
+    <% } else { %>
+    <input type="hidden" name="server" value="<%= data.server?.id || '' %>">
+    <input type="hidden" name="serverType" value="id">
+    <section class="embed-card__section">
+        <h5>Target Server</h5>
+        <div class="embed-context">
+            <div>
+                <span class="embed-context__label">Server</span>
+                <strong class="embed-context__value"><%= data.server?.name || 'Unknown Server' %></strong>
+                <span class="embed-context__meta">ID: <%= data.server?.id || 'N/A' %></span>
+            </div>
+            <p class="embed-context__hint">Ensure the bot can send embeds in the channel you select.</p>
+        </div>
+    </section>
+    <% } %>
+
+    <section class="embed-card__section">
+        <h5>Target Channel</h5>
+        <div class="embed-grid">
+            <div class="embed-field">
+                <label>Find Channel By</label>
+                <select class="form-control" name="channelType">
+                    <option value="id" selected>Channel ID</option>
+                    <option value="name">Channel Name</option>
+                </select>
+            </div>
+            <div class="embed-field">
+                <label>Channel ID / Channel Name</label>
+                <input type="text" class="form-control" name="channel" placeholder="Enter channel identifier" required>
+            </div>
+        </div>
+    </section>
+
+    <section class="embed-card__section">
+        <h5>Embed Content</h5>
+        <div class="embed-grid embed-grid--equal">
+            <div class="embed-field">
+                <label>Title</label>
+                <input type="text" class="form-control" name="title" placeholder="Embed title" required>
+            </div>
+            <div class="embed-field">
+                <label>URL <span>(optional)</span></label>
+                <input type="url" class="form-control" name="url" placeholder="https://example.com/article">
+            </div>
+            <div class="embed-field">
+                <label>Author</label>
+                <input type="text" class="form-control" name="author" placeholder="Display name" required>
+            </div>
+            <div class="embed-field">
+                <label>Author Picture <span>(optional)</span></label>
+                <input type="url" class="form-control" name="authorpic" placeholder="https://cdn.discordapp.com/...">
+            </div>
+            <div class="embed-field">
+                <label>Embed Color <span>(HEX or RANDOM)</span></label>
+                <input type="text" class="form-control" name="color" placeholder="#7289DA or RANDOM">
+            </div>
+        </div>
+        <div class="embed-field">
+            <label>Description</label>
+            <div class="embed-markdown-editor" data-md-editor>
+                <div class="embed-markdown-toolbar" role="toolbar">
+                    <button type="button" data-md-command="bold" title="Bold (**text**)"><i class="fas fa-bold"></i></button>
+                    <button type="button" data-md-command="italic" title="Italic (_text_)"><i class="fas fa-italic"></i></button>
+                    <button type="button" data-md-command="strike" title="Strikethrough (~~text~~)"><i class="fas fa-strikethrough"></i></button>
+                    <button type="button" data-md-command="code" title="Inline code (`code`)"><i class="fas fa-code"></i></button>
+                    <button type="button" data-md-command="quote" title="Quote (> text)"><i class="fas fa-quote-right"></i></button>
+                    <button type="button" data-md-command="ul" title="Bullet list (- item)"><i class="fas fa-list-ul"></i></button>
+                    <button type="button" data-md-command="ol" title="Numbered list (1. item)"><i class="fas fa-list-ol"></i></button>
+                    <button type="button" data-md-command="link" title="Link [text](url)"><i class="fas fa-link"></i></button>
+                </div>
+                <div class="embed-markdown-tabs" role="tablist">
+                    <button type="button" data-md-tab="edit" class="active" aria-selected="true">Markdown</button>
+                    <button type="button" data-md-tab="preview" aria-selected="false">Preview</button>
+                </div>
+                <textarea class="form-control embed-markdown-input" name="description" data-md-input rows="6" placeholder="Describe your announcement or message..."></textarea>
+                <div class="embed-markdown-preview" data-md-preview hidden>
+                    <div class="embed-markdown-preview__inner" data-md-preview-inner></div>
+                </div>
+            </div>
+            <small>
+                Supports full Discord Markdown including <code>**bold**</code>, <code>_italic_</code>, <code>~~strike~~</code>, headings, lists, code blocks, quotes, and <code>[links](https://example.com)</code>.
+            </small>
+        </div>
+    </section>
+
+    <section class="embed-card__section">
+        <h5>Footer</h5>
+        <div class="embed-grid">
+            <div class="embed-field">
+                <label>Footer Text <span>(optional)</span></label>
+                <input type="text" class="form-control" name="footer" placeholder="Footer text">
+            </div>
+            <div class="embed-field">
+                <label>Footer Icon URL <span>(optional)</span></label>
+                <input type="url" class="form-control" name="footerurl" placeholder="https://cdn.discordapp.com/...">
+            </div>
+        </div>
+    </section>
+</div>
+
+<style>
+.embed-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.embed-card__header h4 {
+    margin: 0;
+    color: #fff;
+    font-size: 1.3rem;
+}
+
+.embed-card__header p {
+    margin: 0.35rem 0 0;
+    color: var(--discord-light, #b9bbbe);
+    font-size: 0.95rem;
+}
+
+.embed-card__section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    background: rgba(47, 49, 54, 0.55);
+    border: 1px solid rgba(114, 137, 218, 0.15);
+    border-radius: 12px;
+    padding: 1.1rem 1.25rem;
+}
+
+.embed-card__section h5 {
+    margin: 0;
+    font-size: 1rem;
+    color: #fff;
+    font-weight: 600;
+}
+
+.embed-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.embed-grid--equal {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.embed-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.embed-field label {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #b9bbbe;
+}
+
+.embed-field label span {
+    color: #748bdc;
+    font-weight: 500;
+    text-transform: none;
+}
+
+.embed-field small {
+    color: #888b91;
+    font-size: 0.8rem;
+}
+
+.embed-markdown-editor {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    background: rgba(32, 34, 37, 0.75);
+    border: 1px solid rgba(114, 137, 218, 0.18);
+    border-radius: 10px;
+    padding: 0.8rem;
+}
+
+.embed-markdown-toolbar {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+}
+
+.embed-markdown-toolbar button {
+    background: rgba(88, 101, 242, 0.12);
+    border: 1px solid rgba(114, 137, 218, 0.4);
+    color: #c7cbf5;
+    border-radius: 6px;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease, border 0.15s ease;
+}
+
+.embed-markdown-toolbar button:hover,
+.embed-markdown-toolbar button:focus {
+    background: rgba(88, 101, 242, 0.25);
+    border-color: rgba(114, 137, 218, 0.8);
+    color: #fff;
+}
+
+.embed-markdown-tabs {
+    display: inline-flex;
+    background: rgba(32, 34, 37, 0.9);
+    border-radius: 999px;
+    padding: 0.25rem;
+    gap: 0.25rem;
+    align-self: flex-start;
+}
+
+.embed-markdown-tabs button {
+    border: none;
+    background: transparent;
+    color: #b9bbbe;
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.embed-markdown-tabs button.active {
+    background: rgba(88, 101, 242, 0.22);
+    color: #fff;
+}
+
+.embed-markdown-input {
+    min-height: 170px;
+    resize: vertical;
+    font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+}
+
+.embed-markdown-preview {
+    border: 1px solid rgba(114, 137, 218, 0.25);
+    border-radius: 8px;
+    background: rgba(24, 26, 31, 0.85);
+    padding: 1rem;
+    color: #e6e8f5;
+    min-height: 170px;
+    overflow-y: auto;
+}
+
+.embed-markdown-preview__inner h1,
+.embed-markdown-preview__inner h2,
+.embed-markdown-preview__inner h3,
+.embed-markdown-preview__inner h4,
+.embed-markdown-preview__inner h5,
+.embed-markdown-preview__inner h6 {
+    margin: 0.6rem 0 0.4rem;
+    font-weight: 600;
+}
+
+.embed-markdown-preview__inner p {
+    margin: 0.4rem 0;
+}
+
+.embed-markdown-preview__inner code {
+    background: rgba(88, 101, 242, 0.18);
+    padding: 0.15rem 0.3rem;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+}
+
+.embed-markdown-preview__inner pre code {
+    display: block;
+    padding: 0.8rem;
+}
+
+.embed-markdown-preview__inner ul,
+.embed-markdown-preview__inner ol {
+    margin: 0.4rem 0 0.4rem 1.2rem;
+}
+
+.embed-hint {
+    color: #888b91;
+    font-size: 0.8rem;
+}
+
+.embed-context {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    background: rgba(32, 34, 37, 0.8);
+    border: 1px solid rgba(114, 137, 218, 0.12);
+}
+
+.embed-context__label {
+    display: block;
+    color: #b9bbbe;
+    font-size: 0.85rem;
+}
+
+.embed-context__value {
+    display: block;
+    color: #fff;
+    font-size: 1.05rem;
+}
+
+.embed-context__meta {
+    display: block;
+    color: #888b91;
+    font-size: 0.8rem;
+}
+
+.embed-context__hint {
+    color: #b9bbbe;
+    font-size: 0.85rem;
+    max-width: 260px;
+}
+
+@media (max-width: 768px) {
+    .embed-card__section {
+        padding: 1rem;
+    }
+
+    .embed-context {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .embed-markdown-toolbar {
+        justify-content: flex-start;
+    }
+}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+(() => {
+    const editors = document.querySelectorAll('[data-md-editor]');
+    if (!editors.length) return;
+
+    const insertAtCursor = (textarea, before, after = before) => {
+        const start = textarea.selectionStart ?? 0;
+        const end = textarea.selectionEnd ?? 0;
+        const value = textarea.value;
+        const selected = value.slice(start, end);
+        const replacement = before + selected + after;
+        textarea.value = value.slice(0, start) + replacement + value.slice(end);
+        const cursor = start + before.length + selected.length + after.length;
+        textarea.focus();
+        textarea.setSelectionRange(cursor, cursor);
+        textarea.dispatchEvent(new Event('input', { bubbles: true }));
+    };
+
+    const commands = {
+        bold: (textarea) => insertAtCursor(textarea, '**', '**'),
+        italic: (textarea) => insertAtCursor(textarea, '_', '_'),
+        strike: (textarea) => insertAtCursor(textarea, '~~', '~~'),
+        code: (textarea) => insertAtCursor(textarea, '`', '`'),
+        quote: (textarea) => insertAtCursor(textarea, '> ', ''),
+        ul: (textarea) => insertAtCursor(textarea, '- ', ''),
+        ol: (textarea) => insertAtCursor(textarea, '1. ', ''),
+        link: (textarea) => insertAtCursor(textarea, '[text](', ')')
+    };
+
+    editors.forEach((editor) => {
+        const textarea = editor.querySelector('[data-md-input]');
+        const preview = editor.querySelector('[data-md-preview]');
+        const previewInner = editor.querySelector('[data-md-preview-inner]');
+        const tabs = editor.querySelectorAll('[data-md-tab]');
+        const toolbarButtons = editor.querySelectorAll('[data-md-command]');
+
+        const updatePreview = () => {
+            const raw = textarea.value || '';
+            if (window.marked) {
+                previewInner.innerHTML = window.marked.parse(raw, { breaks: true });
+            } else {
+                previewInner.textContent = raw;
+            }
+        };
+
+        const setMode = (mode) => {
+            if (mode === 'preview') {
+                updatePreview();
+                preview.hidden = false;
+                textarea.style.display = 'none';
+            } else {
+                preview.hidden = true;
+                textarea.style.display = '';
+                textarea.focus();
+            }
+            tabs.forEach((tab) => {
+                const isActive = tab.dataset.mdTab === mode;
+                tab.classList.toggle('active', isActive);
+                tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+            });
+        };
+
+        tabs.forEach((tab) => {
+            tab.addEventListener('click', () => setMode(tab.dataset.mdTab));
+        });
+
+        toolbarButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                const command = commands[button.dataset.mdCommand];
+                if (command) {
+                    command(textarea);
+                }
+            });
+        });
+
+        textarea.addEventListener('input', () => {
+            if (!preview.hidden) {
+                updatePreview();
+            }
+        });
+
+        // initialize in edit mode
+        setMode('edit');
+    });
+})();
+</script>

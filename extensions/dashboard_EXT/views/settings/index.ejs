@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= (data.seo && data.seo.title) || 'Admin Control Center · News Targeted Bot' %></title>
+    <meta name="description" content="<%= (data.seo && data.seo.description) || 'Manage bot configuration and site presentation from a unified admin workspace.' %>">
+    <% const basePath = (typeof res !== 'undefined' && res.locals && res.locals.basePath) ? res.locals.basePath : ''; %>
+    <link rel="icon" type="image/x-icon" href="<%= basePath %>/favicon.ico">
+    <link rel="stylesheet" href="<%= basePath %>/shared/styles.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        :root {
+            --admin-surface: rgba(19, 22, 30, 0.85);
+            --admin-border: rgba(255, 255, 255, 0.05);
+            --admin-accent: #5865f2;
+            --admin-accent-soft: rgba(88, 101, 242, 0.15);
+        }
+
+        .admin-overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+
+        .admin-overview-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 16px;
+            background: var(--admin-surface);
+            border: 1px solid var(--admin-border);
+            backdrop-filter: blur(10px);
+        }
+
+        .admin-overview-card__icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: var(--admin-accent-soft);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #cdd3ff;
+            font-size: 1.2rem;
+        }
+
+        .admin-overview-card__label {
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.75rem;
+            color: #9fa6c2;
+        }
+
+        .admin-overview-card__value {
+            display: block;
+            font-size: 1.3rem;
+            color: #fff;
+        }
+
+        .admin-overview-card__hint {
+            color: #8b92b4;
+        }
+
+        .admin-console .page-section {
+            padding-top: 0;
+        }
+
+        .admin-settings-shell {
+            background: var(--admin-surface);
+            border-radius: 20px;
+            border: 1px solid var(--admin-border);
+            padding: 1.5rem;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+        }
+
+        .admin-tabs {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.25rem;
+        }
+
+        .admin-tab-btn {
+            border: 1px solid var(--admin-border);
+            background: rgba(255, 255, 255, 0.02);
+            color: #d5d9ff;
+            padding: 0.65rem 1.25rem;
+            border-radius: 999px;
+            font-size: 0.9rem;
+            display: inline-flex;
+            gap: 0.4rem;
+            align-items: center;
+            cursor: pointer;
+            transition: background 0.2s ease, color 0.2s ease, border 0.2s ease;
+        }
+
+        .admin-tab-btn.active {
+            background: var(--admin-accent);
+            border-color: transparent;
+            color: #fff;
+            box-shadow: 0 12px 30px rgba(88, 101, 242, 0.35);
+        }
+
+        .admin-panels {
+            position: relative;
+        }
+
+        .admin-panel {
+            display: none;
+            animation: fadeIn 0.35s ease;
+        }
+
+        .admin-panel.active {
+            display: block;
+        }
+
+        .settings-section {
+            background: rgba(9, 11, 17, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            padding: 1.25rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .settings-section h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .setting-item label {
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.8rem;
+            color: #9aa2c2;
+        }
+
+        .setting-item input,
+        .setting-item select,
+        .setting-item textarea {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            color: #fff;
+        }
+
+        .section-actions {
+            text-align: right;
+        }
+
+        .md-editor {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            background: rgba(6, 8, 14, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 0.75rem;
+        }
+
+        .md-toolbar {
+            display: flex;
+            gap: 0.35rem;
+            flex-wrap: wrap;
+        }
+
+        .md-toolbar button {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.02);
+            color: #d9defd;
+            cursor: pointer;
+        }
+
+        .md-tabs {
+            display: inline-flex;
+            gap: 0.25rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 999px;
+            padding: 0.2rem;
+            align-self: flex-start;
+        }
+
+        .md-tabs button {
+            border: none;
+            background: transparent;
+            color: #aeb5d6;
+            padding: 0.35rem 0.9rem;
+            border-radius: 999px;
+            cursor: pointer;
+        }
+
+        .md-tabs button.active {
+            background: var(--admin-accent);
+            color: #fff;
+        }
+
+        .md-input {
+            min-height: 140px;
+            resize: vertical;
+            font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+        }
+
+        .md-preview {
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 0.75rem;
+            max-height: 260px;
+            overflow-y: auto;
+        }
+
+        .md-preview__inner {
+            color: #e7ebff;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 720px) {
+            .admin-settings-shell {
+                padding: 1rem;
+            }
+
+            .settings-section {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body class="main-layout">
+    <% 
+        const bot = data.botSettings || {};
+        const site = data.siteSettings || {};
+        const oauth = data.oauth || {};
+        const alerts = data.alerts || {};
+        const botStatus = bot.status || {};
+        const moderation = bot.moderation || {};
+        const music = bot.music || {};
+        const security = bot.security || {};
+        const advanced = bot.advanced || {};
+        const csrfToken = data.csrfToken || '';
+        const activeTabKey = data.activeAdminTab === 'site' ? 'site' : 'bot';
+        const isBotTabActive = activeTabKey === 'bot';
+        const isSiteTabActive = !isBotTabActive;
+        const overviewStats = [
+            {
+                label: 'Active prefix',
+                value: bot.commandPrefix || '!',
+                icon: 'fas fa-terminal',
+                hint: 'Used for legacy commands'
+            },
+            {
+                label: 'Default timezone',
+                value: bot.timezone || 'UTC',
+                icon: 'fas fa-globe',
+                hint: 'Applies to scheduled tasks'
+            },
+            {
+                label: 'Support server',
+                value: site.supportServer ? 'Custom invite' : 'Not set',
+                icon: 'fas fa-life-ring',
+                hint: site.supportServer || 'Add an invite link for quick help'
+            },
+            {
+                label: 'OAuth client',
+                value: oauth.clientId ? `${String(oauth.clientId).slice(0, 6)}…` : 'Missing',
+                icon: 'fas fa-id-badge',
+                hint: oauth.clientId ? 'Client configured' : 'Update Discord credentials'
+            }
+        ];
+    %>
+    <%- include('../shared/header.ejs', { data: data }) %>
+
+    <main>
+        <% const adminActions = [
+            { href: '/dashboard/@me', label: 'Manage servers', className: 'btn btn-secondary' },
+            { href: '/commands', label: 'Command Library', className: 'btn btn-accent' }
+        ]; %>
+
+        <section class="page-wrapper page-wrapper--narrow page-wrapper--center" data-aos="fade-up">
+            <%- include('../shared/components/hero', {
+                title: 'Admin Control Center',
+                subtitle: 'Fine-tune bot behaviour and update global dashboard presentation from one secure location.',
+                badge: 'Owner Access',
+                actions: [],
+                panel: true
+            }) %>
+        </section>
+
+        <section class="page-wrapper page-wrapper--narrow" data-aos="fade-up" data-aos-delay="60">
+            <div class="admin-overview-grid">
+                <% overviewStats.forEach(function(stat) { %>
+                    <article class="admin-overview-card">
+                        <div class="admin-overview-card__icon">
+                            <i class="<%= stat.icon %>"></i>
+                        </div>
+                        <div class="admin-overview-card__body">
+                            <span class="admin-overview-card__label"><%= stat.label %></span>
+                            <strong class="admin-overview-card__value"><%= stat.value %></strong>
+                            <small class="admin-overview-card__hint"><%= stat.hint %></small>
+                        </div>
+                    </article>
+                <% }) %>
+            </div>
+        </section>
+
+        <% if (alerts && (alerts.botUpdated || alerts.siteUpdated || alerts.botError || alerts.siteError)) { %>
+        <section class="page-wrapper page-wrapper--narrow" data-aos="fade-up" data-aos-delay="80">
+            <div class="section-callout <%= alerts.botError || alerts.siteError ? 'error' : 'success' %>">
+                <% if (alerts.botUpdated === '1') { %>
+                    <h2>Bot settings updated</h2>
+                    <p>Your bot configuration changes are now stored in the dashboard configuration.</p>
+                <% } else if (alerts.botUpdated === '0' || alerts.botError) { %>
+                    <h2>Unable to save bot settings</h2>
+                    <p>Please review the submitted values and try again.</p>
+                <% } %>
+
+                <% if (alerts.siteUpdated === '1') { %>
+                    <h2>Site settings updated</h2>
+                    <p>Dashboard presentation updates are now active.</p>
+                <% } else if (alerts.siteUpdated === '0' || alerts.siteError) { %>
+                    <h2>Unable to save site settings</h2>
+                    <p>Verify the JSON payloads and required fields, then resubmit.</p>
+                <% } %>
+            </div>
+        </section>
+        <% } %>
+
+        <section class="page-wrapper admin-console" data-aos="fade-up" data-aos-delay="140">
+            <div class="page-section page-section--content">
+                <div class="admin-settings-shell">
+                    <div id="admin-feedback" class="section-callout" hidden aria-live="polite"></div>
+                    <div class="admin-tabs">
+                        <button class="admin-tab-btn <%= isBotTabActive ? 'active' : '' %>" data-tab="bot-settings"><i class="fas fa-server"></i> Bot Settings</button>
+                        <button class="admin-tab-btn <%= isSiteTabActive ? 'active' : '' %>" data-tab="site-settings"><i class="fas fa-swatchbook"></i> Site & Footer</button>
+                        <button class="admin-tab-btn" data-tab="leaderboard-settings"><i class="fas fa-trophy"></i> Leaderboard</button>
+                        <button class="admin-tab-btn" data-tab="giveaway-settings"><i class="fas fa-gift"></i> Giveaway</button>
+                    </div>
+
+                    <div class="admin-panels">
+                        <div class="admin-panel <%= isBotTabActive ? 'active' : '' %>" id="bot-settings">
+                            <form action="/admin/bot-settings" method="POST" class="settings-form">
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+                                <div class="settings-section">
+                                    <h3><i class="fas fa-robot"></i> Bot Configuration</h3>
+                                    <div class="setting-item">
+                                        <label for="botPrefix">Command Prefix</label>
+                                        <input type="text" id="botPrefix" name="commandPrefix" value="<%= bot.commandPrefix || '!' %>" placeholder="Enter command prefix" maxlength="5" required>
+                                        <p class="setting-description">The live prefix used before classic bot commands, loaded from the bot's DBM settings.</p>
+                                    </div>
+                                    <div class="setting-item">
+                                        <label for="botStatus">Bot Status</label>
+                                        <select id="botStatus" name="statusPresence">
+                                            <% (data.optionSets && data.optionSets.statusPresences || []).forEach(function(option) { %>
+                                                <option value="<%= option.value %>" <%= (botStatus.presence || 'online') === option.value ? 'selected' : '' %>><%= option.label %></option>
+                                            <% }) %>
+                                        </select>
+                                        <p class="setting-description">Set the presence shown in Discord.</p>
+                                    </div>
+                                    <div class="setting-item">
+                                        <label for="botActivity">Activity</label>
+                                        <input type="text" id="botActivity" name="statusActivity" value="<%= botStatus.activity || 'Watching over servers' %>" placeholder="Enter activity text" maxlength="60">
+                                        <p class="setting-description">Text displayed for playing/watching/listening activity.</p>
+                                    </div>
+                                </div>
+
+                                <div class="settings-section">
+                                    <h3><i class="fas fa-language"></i> Language & Localization</h3>
+                                    <div class="setting-item">
+                                        <label for="botLanguage">Default Language</label>
+                                        <select id="botLanguage" name="language">
+                                            <% (data.optionSets && data.optionSets.languages || []).forEach(function(option) { %>
+                                                <option value="<%= option.value %>" <%= (bot.language || 'en') === option.value ? 'selected' : '' %>><%= option.label %></option>
+                                            <% }) %>
+                                        </select>
+                                        <p class="setting-description">Default language for bot responses.</p>
+                                    </div>
+                                </div>
+
+                                <div class="settings-section">
+                                    <h3><i class="fas fa-clock"></i> Time & Scheduling</h3>
+                                    <div class="setting-item">
+                                        <label for="timezoneSelect">Default Timezone</label>
+                                        <select id="timezoneSelect" name="timezone">
+                                            <% const timezone = bot.timezone || 'UTC'; %>
+                                            <% (data.optionSets && data.optionSets.timezones || []).forEach(function(option) { %>
+                                                <option value="<%= option.value %>" <%= timezone === option.value ? 'selected' : '' %>><%= option.label %></option>
+                                            <% }) %>
+                                        </select>
+                                        <p class="setting-description">Timezone applied to scheduled automation.</p>
+                                    </div>
+                                    <div class="setting-item">
+                                        <label for="statusRefresh">Status Refresh Interval</label>
+                                        <input type="number" id="statusRefresh" name="statusRefresh" value="<%= bot.statusRefreshInterval || 5 %>" min="1" max="60" required>
+                                        <p class="setting-description">How often (in minutes) to refresh bot metrics.</p>
+                                    </div>
+                                </div>
+
+                                <div class="settings-section">
+                                    <h3><i class="fas fa-shield-alt"></i> Moderation Tools</h3>
+                                    <div class="setting-item">
+                                        <label for="auditLogChannel">Audit Log Channel</label>
+                                        <input type="text" id="auditLogChannel" name="moderationAuditLogChannel" value="<%= moderation.auditLogChannel || '#moderation-logs' %>" placeholder="#moderation-logs">
+                                        <p class="setting-description">Channel where moderation events are recorded.</p>
+                                    </div>
+                                    <div class="setting-item">
+                                        <label for="autoModLevel">Auto-Moderation Level</label>
+                                        <select id="autoModLevel" name="moderationAutoModLevel">
+                                            <% (data.optionSets && data.optionSets.moderationLevels || []).forEach(function(option) { %>
+                                                <option value="<%= option.value %>" <%= (moderation.autoModLevel || 'balanced') === option.value ? 'selected' : '' %>><%= option.label %></option>
+                                            <% }) %>
+                                        </select>
+                                        <p class="setting-description">Choose how aggressive automated moderation should be.</p>
+                                    </div>
+                                    <div class="setting-item">
+                                        <label for="muteRole">Mute Role</label>
+                                        <input type="text" id="muteRole" name="moderationMuteRole" value="<%= moderation.muteRole || 'Muted' %>" placeholder="Muted">
+                                        <p class="setting-description">Role applied to muted members.</p>
+                                    </div>
+                                </div>
+
+                                <div class="settings-section">
+                                    <h3><i class="fas fa-music"></i> Music Preferences</h3>
+                                    <div class="setting-item">
+                                        <label for="defaultVolume">Default Volume</label>
+                                        <input type="number" id="defaultVolume" name="musicDefaultVolume" value="<%= music.defaultVolume || 60 %>" min="0" max="100" required>
+                                        <p class="setting-description">Default playback volume for music commands.</p>
+                                    </div>
+                                    <div class="setting-item">
+                                        <label for="autoDisconnect">Auto Disconnect</label>
+                                        <select id="autoDisconnect" name="musicAutoDisconnect">
+                                            <% (data.optionSets && data.optionSets.autoDisconnect || []).forEach(function(option) { %>
+                                                <option value="<%= option.value %>" <%= (music.autoDisconnect || 'enabled') === option.value ? 'selected' : '' %>><%= option.label %></option>
+                                            <% }) %>
+                                        </select>
+                                        <p class="setting-description">Leave the voice channel when the queue empties.</p>
+                                    </div>
+                                </div>
+
+                                <div class="settings-section">
+                                    <h3><i class="fas fa-lock"></i> Security & Compliance</h3>
+                                    <div class="setting-item">
+                                        <label for="twoFactorRequired">Require Two-Factor Authentication</label>
+                                        <select id="twoFactorRequired" name="securityTwoFactorRequired">
+                                            <% (data.optionSets && data.optionSets.twoFactor || []).forEach(function(option) { %>
+                                                <option value="<%= option.value %>" <%= (security.twoFactorRequired || 'optional') === option.value ? 'selected' : '' %>><%= option.label %></option>
+                                            <% }) %>
+                                        </select>
+                                        <p class="setting-description">Force staff to enable 2FA before using the dashboard.</p>
+                                    </div>
+                                    <div class="setting-item">
+                                        <label for="sessionTimeout">Session Timeout (minutes)</label>
+                                        <input type="number" id="sessionTimeout" name="securitySessionTimeout" value="<%= security.sessionTimeout || 60 %>" min="5" max="240" required>
+                                        <p class="setting-description">Automatic logout after inactivity.</p>
+                                    </div>
+                                </div>
+
+                                <div class="settings-section">
+                                    <h3><i class="fas fa-tools"></i> Advanced</h3>
+                                    <div class="setting-item">
+                                        <label for="webhookProxy">Webhook Proxy</label>
+                                        <input type="url" id="webhookProxy" name="advancedWebhookProxy" value="<%= advanced.webhookProxy || '' %>" placeholder="https://proxy.example.com/hooks">
+                                        <p class="setting-description">Optional proxy endpoint for outbound webhooks.</p>
+                                    </div>
+                                    <div class="setting-item">
+                                        <label for="debugLogging">Debug Logging</label>
+                                        <select id="debugLogging" name="advancedDebugLogging">
+                                            <% (data.optionSets && data.optionSets.debugLogging || []).forEach(function(option) { %>
+                                                <option value="<%= option.value %>" <%= (advanced.debugLogging || 'off') === option.value ? 'selected' : '' %>><%= option.label %></option>
+                                            <% }) %>
+                                        </select>
+                                        <p class="setting-description">Control how much diagnostic information is captured.</p>
+                                    </div>
+                                </div>
+
+                                <div class="section-actions">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-save"></i>
+                                        Save Bot Settings
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="admin-panel <%= isSiteTabActive ? 'active' : '' %>" id="site-settings">
+                            <form action="/admin/site-settings" method="POST" class="settings-form">
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+                                <div class="settings-section">
+                                    <h3><i class="fas fa-clipboard-list"></i> Presentation</h3>
+                                    <div class="setting-item">
+                                        <label for="introText">Intro Text</label>
+                                        <textarea id="introText" name="introText" rows="3" required><%= site.introText || '' %></textarea>
+                                        <p class="setting-description">Hero message that appears on the dashboard landing page.</p>
+                                    </div>
+                                    <div class="setting-item">
+                                        <label for="footerText">Footer Text</label>
+                                        <div class="md-editor" data-md-editor>
+                                            <div class="md-toolbar" role="toolbar">
+                                                <button type="button" data-md-command="bold" title="Bold"><i class="fas fa-bold"></i></button>
+                                                <button type="button" data-md-command="italic" title="Italic"><i class="fas fa-italic"></i></button>
+                                                <button type="button" data-md-command="strike" title="Strikethrough"><i class="fas fa-strikethrough"></i></button>
+                                                <button type="button" data-md-command="code" title="Inline code"><i class="fas fa-code"></i></button>
+                                                <button type="button" data-md-command="quote" title="Quote"><i class="fas fa-quote-right"></i></button>
+                                                <button type="button" data-md-command="ul" title="Bullet list"><i class="fas fa-list-ul"></i></button>
+                                                <button type="button" data-md-command="ol" title="Numbered list"><i class="fas fa-list-ol"></i></button>
+                                                <button type="button" data-md-command="link" title="Link"><i class="fas fa-link"></i></button>
+                                            </div>
+                                            <div class="md-tabs" role="tablist">
+                                                <button type="button" data-md-tab="edit" class="active" aria-selected="true">Markdown</button>
+                                                <button type="button" data-md-tab="preview" aria-selected="false">Preview</button>
+                                            </div>
+                                            <textarea id="footerText" class="md-input" name="footerText" rows="4" data-md-input><%= site.footerText || '' %></textarea>
+                                            <div class="md-preview" data-md-preview hidden>
+                                                <div class="md-preview__inner" data-md-preview-inner></div>
+                                            </div>
+                                        </div>
+                                        <p class="setting-description">Supports full Markdown for links, emphasis, and lists. Preview updates in real time.</p>
+                                    </div>
+                                </div>
+
+                                <div class="settings-section">
+                                    <h3><i class="fas fa-id-badge"></i> OAuth & Integration</h3>
+                                    <div class="setting-item">
+                                        <label for="clientId">Discord Client ID</label>
+                                        <input type="text" id="clientId" name="clientId" value="<%= oauth.clientId || '' %>" placeholder="Enter Discord application client ID" required>
+                                        <p class="setting-description">Matches the application ID from the Discord Developer Portal.</p>
+                                    </div>
+                                    <div class="setting-item">
+                                        <label for="clientSecret">Discord Client Secret</label>
+                                        <input type="text" id="clientSecret" name="clientSecret" value="<%= oauth.clientSecret || '' %>" autocomplete="off" placeholder="Enter Discord client secret" required>
+                                        <p class="setting-description">Used for owner authentication. Keep this value private.</p>
+                                    </div>
+                                    <div class="setting-item">
+                                        <label for="callbackURLs">OAuth Callback URLs (one per line)</label>
+                                        <textarea id="callbackURLs" name="callbackURLs" rows="4" class="code-block"><%= (oauth.callbackURLs || []).join('\n') %></textarea>
+                                        <p class="setting-description">Each URL must also be listed under Redirects in the Discord Developer Portal.</p>
+                                    </div>
+                                </div>
+
+                                <div class="settings-section">
+                                    <h3><i class="fas fa-share-alt"></i> Links & Social</h3>
+                                    <div class="setting-item">
+                                        <label for="supportServer">Support Server Invite URL</label>
+                                        <input type="url" id="supportServer" name="supportServer" value="<%= site.supportServer || '' %>" placeholder="https://discord.gg/xxxx">
+                                    </div>
+                                    <div class="setting-item">
+                                        <label for="footerTitle">Footer Title</label>
+                                        <input type="text" id="footerTitle" name="footerTitle" value="<%= site.footer?.title || '' %>">
+                                    </div>
+                                    <div class="setting-item">
+                                        <label for="footerTagline">Footer Tagline</label>
+                                        <input type="text" id="footerTagline" name="footerTagline" value="<%= site.footer?.tagline || '' %>">
+                                    </div>
+                                    <div class="setting-item">
+                                        <label for="footerCopyright">Footer Copyright</label>
+                                        <input type="text" id="footerCopyright" name="footerCopyright" value="<%= site.footer?.copyright || '' %>">
+                                    </div>
+                                    <div class="setting-item">
+                                        <label for="contactWebhook">Contact Form Discord Webhook URL</label>
+                                        <input type="url" id="contactWebhook" name="contactWebhook" value="<%= site.contactWebhook || 'https://discord.com/api/webhooks/1440474027528290547/C50UrM7P9Dn4aTkwSuWjhoJ5utG4ACR4TCdk4-FZkFCkmzzcxUaCkvnaq3E_GPchM3CY' %>" placeholder="https://discord.com/api/webhooks/...">
+                                        <p class="setting-description">Discord webhook URL where contact form submissions will be sent. Leave empty to disable.</p>
+                                    </div>
+                                </div>
+
+                                <div class="settings-section">
+                                    <h3><i class="fas fa-link"></i> Footer Links & Navigation</h3>
+                                    <div class="setting-item">
+                                        <label for="footerSocial">Footer Social Links (Markdown)</label>
+                                        <textarea id="footerSocial" name="footerSocial" rows="6" placeholder="[Discord](https://discord.gg/nx9Kzrk) icon:discord&#10;[GitHub](https://github.com/master3395) icon:github&#10;[Twitter](https://twitter.com/newstargeted) icon:twitter"><%
+                                            const socialLinks = site.footer?.social || [];
+                                            if (Array.isArray(socialLinks) && socialLinks.length > 0) {
+                                                const markdownLines = [];
+                                                socialLinks.forEach(link => {
+                                                    const href = link.href || '';
+                                                    const icon = link.icon || 'external-link-alt';
+                                                    const label = link.label || href;
+                                                    markdownLines.push(`[${label}](${href}) icon:${icon}`);
+                                                });
+                                                %><%= markdownLines.join('\n') %><%
+                                            }
+                                        %></textarea>
+                                        <p class="setting-description">One link per line. Format: <code>[Label](URL) icon:icon-name</code><br>Available icons: <code>discord</code>, <code>github</code>, <code>twitter</code>, <code>external-link-alt</code></p>
+                                    </div>
+                                    <div class="setting-item">
+                                        <label for="footerColumns">Footer Navigation Columns (Markdown)</label>
+                                        <textarea id="footerColumns" name="footerColumns" rows="10" placeholder="## Quick Links&#10;- [Home](/),&#10;- [Dashboard](/dashboard/@me),&#10;- [Commands](/commands)&#10;&#10;## Support&#10;- [Contact](/contact),&#10;- [Status](/status) owner"><%
+                                            const footerCols = site.footer?.cols || [];
+                                            if (Array.isArray(footerCols) && footerCols.length > 0) {
+                                                const markdownLines = [];
+                                                footerCols.forEach(col => {
+                                                    markdownLines.push(`## ${col.title || 'Column'}`);
+                                                    if (Array.isArray(col.links)) {
+                                                        col.links.forEach(link => {
+                                                            const href = link.href || '/';
+                                                            const label = link.label || 'Link';
+                                                            const owner = link.requiresOwner ? ' owner' : '';
+                                                            markdownLines.push(`- [${label}](${href})${owner},`);
+                                                        });
+                                                    }
+                                                    markdownLines.push('');
+                                                });
+                                                %><%= markdownLines.join('\n') %><%
+                                            }
+                                        %></textarea>
+                                        <p class="setting-description">Use markdown format. Each column starts with <code>## Column Title</code> followed by links as <code>- [Label](URL)</code>. Add <code> owner</code> after the URL for owner-only links.</p>
+                                    </div>
+                                </div>
+
+                                <div class="section-actions">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-save"></i>
+                                        Save Site Settings
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="admin-panel" id="leaderboard-settings">
+                            <%- include('../../actions/routes/leaderboard-admin/index.ejs', { data: data }) %>
+                    </div>
+
+                        <div class="admin-panel" id="giveaway-settings">
+                            <article class="card-surface panel-card">
+                                <header class="panel-card-header">
+                                    <div>
+                                        <h3 class="card-title">Giveaway System</h3>
+                                        <p class="card-description">Configure giveaway settings and manage the giveaway system.</p>
+                                    </div>
+                                </header>
+                                <div class="panel-form-fields">
+                                    <div class="section-actions">
+                                        <a href="/giveaways/settings" class="btn btn-primary">
+                                            <i class="fas fa-cog"></i>
+                                            Open Giveaway Settings
+                                        </a>
+                                        <a href="/giveaways" class="btn btn-secondary">
+                                            <i class="fas fa-gift"></i>
+                                            View Giveaways
+                                        </a>
+                                    </div>
+                                    <% if (!data.giveawaySystemAvailable) { %>
+                                    <div class="section-callout mt-3">
+                                        <h3>Giveaway System Not Initialized</h3>
+                                        <p>The giveaway system files have not been created yet. Please ensure the giveaway extension is properly set up.</p>
+                                    </div>
+                                    <% } %>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <%- include('../shared/footer.ejs', { data: data }) %>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+
+        const tabButtons = document.querySelectorAll('.admin-tab-btn');
+        const tabContents = document.querySelectorAll('.admin-panel');
+
+        const setActiveTab = (targetId) => {
+            tabButtons.forEach((btn) => {
+                btn.classList.toggle('active', btn.dataset.tab === targetId);
+            });
+            tabContents.forEach((content) => {
+                content.classList.toggle('active', content.id === targetId);
+            });
+        };
+
+        // Get default tab from URL or use activeTabKey from server
+        const urlParams = new URLSearchParams(window.location.search);
+        const tabParam = urlParams.get('tab');
+        let defaultTabKey = 'bot-settings';
+        if (tabParam === 'site') {
+            defaultTabKey = 'site-settings';
+        } else if (tabParam === 'leaderboard') {
+            defaultTabKey = 'leaderboard-settings';
+        } else if (tabParam === 'giveaway') {
+            defaultTabKey = 'giveaway-settings';
+        } else {
+            // Use server-side activeTabKey if available
+            const activeTabKey = '<%= activeTabKey %>';
+            if (activeTabKey === 'site') {
+                defaultTabKey = 'site-settings';
+            }
+        }
+        setActiveTab(defaultTabKey);
+
+        tabButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                const target = button.dataset.tab;
+                if (target) {
+                    setActiveTab(target);
+                }
+            });
+        });
+
+        try {
+            const url = new URL(window.location.href);
+            let shouldRewrite = false;
+            ['botUpdated', 'siteUpdated', 'updated', 'tab'].forEach((param) => {
+                if (url.searchParams.has(param)) {
+                    url.searchParams.delete(param);
+                    shouldRewrite = true;
+                }
+            });
+            if (shouldRewrite) {
+                const newUrl = url.pathname + (url.searchParams.toString() ? `?${url.searchParams.toString()}` : '');
+                window.history.replaceState({}, document.title, newUrl);
+            }
+        } catch (error) {
+            console.warn('[Admin] Unable to update browser history:', error);
+        }
+
+        const feedbackContainer = document.getElementById('admin-feedback');
+        const showFeedback = (type, message) => {
+            if (!feedbackContainer) {
+                return;
+            }
+            feedbackContainer.classList.remove('error', 'success');
+            feedbackContainer.classList.add(type === 'error' ? 'error' : 'success');
+            feedbackContainer.textContent = message;
+            feedbackContainer.hidden = false;
+        };
+
+        const updateCsrfToken = (value) => {
+            if (!value) {
+                return;
+            }
+            document.querySelectorAll('input[name="_csrf"]').forEach((input) => {
+                input.value = value;
+            });
+        };
+
+        const enhanceForm = (form, tabKey) => {
+            if (!form) return;
+            form.addEventListener('submit', async (event) => {
+                if (!window.fetch) {
+                    return;
+                }
+                event.preventDefault();
+                const submitButton = form.querySelector('button[type="submit"]');
+                const originalText = submitButton ? submitButton.textContent : null;
+                if (submitButton) {
+                    submitButton.disabled = true;
+                    submitButton.textContent = 'Saving…';
+                }
+                try {
+                    const formData = new FormData(form);
+                    const body = new URLSearchParams();
+                    formData.forEach((value, key) => {
+                        body.append(key, value);
+                    });
+                    const currentCsrfToken = formData.get('_csrf') || '';
+                    const response = await fetch(form.action, {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'X-CSRF-Token': currentCsrfToken
+                        },
+                        credentials: 'same-origin',
+                        body
+                    });
+                    const result = await response.json();
+                    if (result && result.csrf) {
+                        updateCsrfToken(result.csrf);
+                    }
+                    if (!response.ok || !result.success) {
+                        throw new Error(result && result.message ? result.message : 'Unable to save changes.');
+                    }
+
+                    showFeedback('success', result.message || (tabKey === 'site-settings' ? 'Site settings updated.' : 'Bot settings updated.'));
+
+                    if (tabKey === 'site-settings' && result.settings) {
+                        if (typeof result.settings.introText === 'string') {
+                            form.querySelector('#introText').value = result.settings.introText;
+                        }
+                        if (typeof result.settings.footerText === 'string') {
+                            form.querySelector('#footerText').value = result.settings.footerText;
+                        }
+                        if (typeof result.settings.supportServer === 'string') {
+                            form.querySelector('#supportServer').value = result.settings.supportServer;
+                        }
+                        if (result.settings.footer) {
+                            form.querySelector('#footerSocial').value = JSON.stringify(result.settings.footer.social || [], null, 2);
+                            form.querySelector('#footerColumns').value = JSON.stringify(result.settings.footer.cols || [], null, 2);
+                        }
+                    }
+
+                    if (tabKey === 'site-settings' && result.oauth) {
+                        if (typeof result.oauth.clientId === 'string') {
+                            const input = form.querySelector('#clientId');
+                            if (input) input.value = result.oauth.clientId;
+                        }
+                        if (typeof result.oauth.clientSecret === 'string') {
+                            const input = form.querySelector('#clientSecret');
+                            if (input) input.value = result.oauth.clientSecret;
+                        }
+                        if (Array.isArray(result.oauth.callbackURLs)) {
+                            const textarea = form.querySelector('#callbackURLs');
+                            if (textarea) textarea.value = result.oauth.callbackURLs.join('\n');
+                        }
+                    }
+
+                    if (tabKey === 'bot-settings' && result.settings) {
+                        if (typeof result.settings.commandPrefix === 'string') {
+                            form.querySelector('#botPrefix').value = result.settings.commandPrefix;
+                        }
+                        if (result.settings.status) {
+                            if (typeof result.settings.status.presence === 'string') {
+                                form.querySelector('#botStatus').value = result.settings.status.presence;
+                            }
+                            if (typeof result.settings.status.activity === 'string') {
+                                form.querySelector('#botActivity').value = result.settings.status.activity;
+                            }
+                        }
+                        if (typeof result.settings.language === 'string') {
+                            form.querySelector('#botLanguage').value = result.settings.language;
+                        }
+                        if (typeof result.settings.timezone === 'string') {
+                            form.querySelector('#timezoneSelect').value = result.settings.timezone;
+                        }
+                        if (typeof result.settings.statusRefreshInterval !== 'undefined') {
+                            form.querySelector('#statusRefresh').value = result.settings.statusRefreshInterval;
+                        }
+                        if (result.settings.moderation) {
+                            if (typeof result.settings.moderation.auditLogChannel === 'string') {
+                                form.querySelector('#auditLogChannel').value = result.settings.moderation.auditLogChannel;
+                            }
+                            if (typeof result.settings.moderation.autoModLevel === 'string') {
+                                form.querySelector('#autoModLevel').value = result.settings.moderation.autoModLevel;
+                            }
+                            if (typeof result.settings.moderation.muteRole === 'string') {
+                                form.querySelector('#muteRole').value = result.settings.moderation.muteRole;
+                            }
+                        }
+                        if (result.settings.music) {
+                            if (typeof result.settings.music.defaultVolume !== 'undefined') {
+                                form.querySelector('#defaultVolume').value = result.settings.music.defaultVolume;
+                            }
+                            if (typeof result.settings.music.autoDisconnect === 'string') {
+                                form.querySelector('#autoDisconnect').value = result.settings.music.autoDisconnect;
+                            }
+                        }
+                        if (result.settings.security) {
+                            if (typeof result.settings.security.twoFactorRequired === 'string') {
+                                form.querySelector('#twoFactorRequired').value = result.settings.security.twoFactorRequired;
+                            }
+                            if (typeof result.settings.security.sessionTimeout !== 'undefined') {
+                                form.querySelector('#sessionTimeout').value = result.settings.security.sessionTimeout;
+                            }
+                        }
+                        if (result.settings.advanced) {
+                            if (typeof result.settings.advanced.webhookProxy === 'string') {
+                                form.querySelector('#webhookProxy').value = result.settings.advanced.webhookProxy;
+                            }
+                            if (typeof result.settings.advanced.debugLogging === 'string') {
+                                form.querySelector('#debugLogging').value = result.settings.advanced.debugLogging;
+                            }
+                        }
+                    }
+
+                    setActiveTab(tabKey);
+                } catch (error) {
+                    showFeedback('error', error.message || 'Unable to save changes.');
+                    if (tabKey) {
+                        setActiveTab(tabKey);
+                    }
+                } finally {
+                    if (submitButton) {
+                        submitButton.disabled = false;
+                        if (originalText) {
+                            submitButton.textContent = originalText;
+                        }
+                    }
+                }
+            });
+        };
+
+        enhanceForm(document.querySelector('#bot-settings form'), 'bot-settings');
+        enhanceForm(document.querySelector('#site-settings form'), 'site-settings');
+
+        (function initMarkdownEditors() {
+            const editors = document.querySelectorAll('[data-md-editor]');
+            if (!editors.length || typeof marked === 'undefined') {
+                return;
+            }
+
+            const applyWrapper = (textarea, before, after = before) => {
+                const start = textarea.selectionStart || 0;
+                const end = textarea.selectionEnd || 0;
+                const selected = textarea.value.slice(start, end);
+                const nextValue = textarea.value.slice(0, start) + before + selected + after + textarea.value.slice(end);
+                textarea.value = nextValue;
+                const cursor = start + before.length + selected.length + after.length;
+                textarea.focus();
+                textarea.setSelectionRange(cursor, cursor);
+                textarea.dispatchEvent(new Event('input', { bubbles: true }));
+            };
+
+            const commands = {
+                bold: (textarea) => applyWrapper(textarea, '**', '**'),
+                italic: (textarea) => applyWrapper(textarea, '_', '_'),
+                strike: (textarea) => applyWrapper(textarea, '~~', '~~'),
+                code: (textarea) => applyWrapper(textarea, '`', '`'),
+                quote: (textarea) => applyWrapper(textarea, '> ', ''),
+                ul: (textarea) => applyWrapper(textarea, '- ', ''),
+                ol: (textarea) => applyWrapper(textarea, '1. ', ''),
+                link: (textarea) => applyWrapper(textarea, '[text](', ')')
+            };
+
+            editors.forEach((editor) => {
+                const textarea = editor.querySelector('[data-md-input]');
+                const preview = editor.querySelector('[data-md-preview]');
+                const previewInner = editor.querySelector('[data-md-preview-inner]');
+                const tabButtons = editor.querySelectorAll('[data-md-tab]');
+
+                editor.querySelectorAll('[data-md-command]').forEach((cmd) => {
+                    cmd.addEventListener('click', () => {
+                        const action = cmd.dataset.mdCommand;
+                        if (commands[action]) {
+                            commands[action](textarea);
+                        }
+                    });
+                });
+
+                tabButtons.forEach((btn) => {
+                    btn.addEventListener('click', () => {
+                        tabButtons.forEach((tab) => tab.classList.remove('active'));
+                        btn.classList.add('active');
+
+                        if (btn.dataset.mdTab === 'preview') {
+                            if (previewInner) {
+                                previewInner.innerHTML = marked.parse(textarea.value || '');
+                            }
+                            preview.hidden = false;
+                            textarea.hidden = true;
+                        } else {
+                            preview.hidden = true;
+                            textarea.hidden = false;
+                        }
+                    });
+                });
+            });
+        })();
+    </script>
+</body>
+</html>

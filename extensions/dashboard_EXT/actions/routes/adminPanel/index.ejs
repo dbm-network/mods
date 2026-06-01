@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= data.client.user.username %> · Admin Panel</title>
+    <meta name="description" content="Owner tools for <%= data.client.user.username %> including footer, intro text, and advanced modules.">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/shared/styles.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body class="main-layout">
+    <%- include('../../../views/shared/header.ejs', { data: data }) %>
+
+    <main>
+        <section class="section-wrapper section-wrapper--narrow" data-aos="fade-up">
+            <div class="section-hero">
+                <span class="hero-eyebrow">Owner Settings</span>
+                <h1>Administer the News Targeted Dashboard</h1>
+                <p>Adjust global presentation, manage advanced modules, and review owner-only extensions in a single, streamlined experience.</p>
+                <div class="section-actions">
+                    <a href="<%= data.settings.inviteLink %>" class="btn btn-primary">
+                        <i class="fab fa-discord"></i>
+                        Invite Bot
+                    </a>
+                    <a href="<%= data.settings.supportServer %>" class="btn btn-secondary" target="_blank" rel="noopener">
+                        <i class="fas fa-life-ring"></i>
+                        Support Server
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <% 
+            const disabledModKeys = new Set(Array.isArray(data.disabledModKeys) ? data.disabledModKeys : []);
+            const normalizeModKey = (value) => String(value || '').toLowerCase().trim().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
+        %>
+
+        <% if (data.req?.query?.updated === '1') { %>
+        <section class="section-wrapper section-wrapper--narrow" data-aos="fade-up">
+            <div class="section-callout">
+                <h2>Settings saved</h2>
+                <p>Your dashboard presentation updates are now live.</p>
+        </div>
+    </section>
+        <% } else if (data.req?.query?.updated === '0') { %>
+        <section class="section-wrapper section-wrapper--narrow" data-aos="fade-up">
+            <div class="section-callout">
+                <h2>Save failed</h2>
+                <p>Please verify the JSON payloads for footer links and try again.</p>
+            </div>
+    </section>
+        <% } %>
+
+        <% if (data.req?.query?.commandsUpdated) { %>
+        <section class="section-wrapper section-wrapper--narrow" data-aos="fade-up">
+            <div class="section-callout">
+                <h2>Command status updated</h2>
+                <p>
+                    <code><%= data.req.query.command || 'command' %></code>
+                    is now
+                    <strong><%= data.req.query.status === 'disabled' ? 'disabled' : 'enabled' %></strong>.
+                </p>
+            </div>
+        </section>
+        <% } %>
+
+        <% if (data.req?.query?.prefixUpdated) { %>
+        <section class="section-wrapper section-wrapper--narrow" data-aos="fade-up">
+            <div class="section-callout <%= data.req.query.prefixUpdated === '1' ? 'success' : 'error' %>">
+                <% if (data.req.query.prefixUpdated === '1') { %>
+                <h2>Main prefix updated</h2>
+                <p>Your bot will now respond to <code><%= data.prefixManagement?.mainPrefix || data.botSettings?.commandPrefix || '!' %></code> by default.</p>
+                <% } else { %>
+                <h2>Unable to update main prefix</h2>
+                <p>Please provide a prefix between 1 and 10 characters.</p>
+                <% } %>
+            </div>
+        </section>
+        <% } %>
+
+        <% if (data.req?.query?.serverPrefixUpdated) { %>
+        <section class="section-wrapper section-wrapper--narrow" data-aos="fade-up">
+            <div class="section-callout <%= data.req.query.serverPrefixUpdated === '1' ? 'success' : 'error' %>">
+                <% if (data.req.query.serverPrefixUpdated === '1') { %>
+                <h2>Server prefix updated</h2>
+                <p>Guild <code><%= data.req.query.guild || 'unknown' %></code> now uses a custom prefix.</p>
+                <% } else { %>
+                <h2>Unable to update server prefix</h2>
+                <p>Verify the prefix value and try again.</p>
+                <% } %>
+            </div>
+        </section>
+        <% } %>
+ 
+        <section class="section-wrapper" data-aos="fade-up">
+            <% 
+                const mods = Array.isArray(data.mods) ? data.mods : [];
+                const extensions = Array.isArray(data.extensions) ? data.extensions : [];
+                const sectionOrder = [];
+                const sectionMeta = {};
+
+                // Add admin sections FIRST to ensure they always appear
+                const adminSections = [
+                    { id: 'webPanel', name: 'Dashboard Presentation' },
+                    { id: 'leaderboard', name: 'Leaderboard' },
+                    { id: 'giveaway', name: 'Giveaway' }
+                ];
+                adminSections.forEach((adminSection) => {
+                    sectionOrder.push(adminSection.id);
+                    sectionMeta[adminSection.id] = adminSection.name;
+                });
+
+                // Then add mods and extensions sections
+                mods.forEach((mod) => {
+                    if (mod.sectionID && !sectionOrder.includes(mod.sectionID)) {
+                        sectionOrder.push(mod.sectionID);
+                        sectionMeta[mod.sectionID] = mod.section || mod.sectionID;
+                    }
+                });
+
+                extensions.forEach((extension) => {
+                    if (extension.sectionID && !sectionOrder.includes(extension.sectionID)) {
+                        sectionOrder.push(extension.sectionID);
+                        sectionMeta[extension.sectionID] = extension.section || extension.sectionID;
+                    }
+                });
+            %>
+
+            <div class="panel-layout">
+                <aside class="panel-sidebar" role="tablist">
+                    <% sectionOrder.forEach((sectionId, index) => { %>
+                        <button class="panel-nav-button <%= index === 0 ? 'active' : '' %>" data-panel-target="admin-section-<%= sectionId %>">
+                            <span><%= sectionMeta[sectionId] || sectionId %></span>
+                        </button>
+                    <% }); %>
+                </aside>
+
+                <section class="panel-content">
+                    <% sectionOrder.forEach((sectionId, index) => {
+                        const sectionMods = mods.filter(mod => mod.sectionID === sectionId);
+                        const sectionExtensions = extensions.filter(ext => ext.sectionID === sectionId);
+                    %>
+                    <div class="panel-pane <%= index === 0 ? 'active' : '' %>" id="admin-section-<%= sectionId %>" role="tabpanel">
+                        <div class="panel-pane-header">
+                            <h2><%= sectionMeta[sectionId] || sectionId %></h2>
+                            <p>Owner-level configuration for this module group.</p>
+                    </div>
+
+                        <% if (sectionMods.length > 0) { %>
+                        <div class="panel-card-grid">
+                            <% sectionMods.forEach((mod) => { 
+                                const modKey = normalizeModKey(mod.name);
+                                const isDisabled = disabledModKeys.has(modKey);
+                            %>
+                            <article class="card-surface panel-card">
+                                <header class="panel-card-header">
+                                    <div>
+                                        <h3 class="card-title"><%= mod.name %></h3>
+                                        <p class="card-description"><%= mod.description || 'Owner-only module' %></p>
+                    </div>
+                                    <div class="panel-card-meta">
+                                        <span>Version <strong><%= mod.version || '1.0.0' %></strong></span>
+                                        <span>Author <strong><%= mod.author || 'Unknown' %></strong></span>
+                                        <span>Status <strong class="status-pill <%= isDisabled ? 'degraded' : '' %>"><%= isDisabled ? 'Disabled' : 'Enabled' %></strong></span>
+                                    </div>
+                                </header>
+
+                                <form action="/api/admin/execute/<%= mod.name %>" method="POST" class="panel-form">
+                                    <% if (mod.webFile) { %>
+                                        <div class="panel-form-fields">
+                                            <%- include(data.path.join(data.dirname, "../../mods", mod.name.toLowerCase().replace(/ /g,"_"), mod.webFile), { data: data }) %>
+                </div>
+                                    <% } else { %>
+                                        <input type="hidden" name="execute" value="true">
+                                    <% } %>
+                                    <div class="section-actions">
+                                        <button type="submit" class="btn btn-primary <%= isDisabled ? 'btn-disabled' : '' %>" <%= isDisabled ? 'disabled aria-disabled="true"' : '' %>>
+                                            <i class="fas fa-play"></i>
+                                            Execute
+                                        </button>
+                                    </div>
+                                </form>
+                                <form action="/api/admin/commands/toggle" method="POST" class="panel-form panel-form--inline">
+                                    <input type="hidden" name="commandName" value="<%= modKey %>">
+                                    <input type="hidden" name="action" value="<%= isDisabled ? 'enable' : 'disable' %>">
+                                    <div class="section-actions">
+                                        <button type="submit" class="btn <%= isDisabled ? 'btn-success' : 'btn-danger' %>">
+                                            <i class="fas <%= isDisabled ? 'fa-power-off' : 'fa-ban' %>"></i>
+                                            <span><%= isDisabled ? 'Enable Command' : 'Disable Command' %></span>
+                                        </button>
+                                    </div>
+                                </form>
+                                <% if (isDisabled) { %>
+                                <p class="panel-note">This command is hidden from server dashboards until you enable it again.</p>
+                                <% } %>
+                            </article>
+                            <% }); %>
+        </div>
+    <% } %>
+
+                        <% sectionExtensions.forEach((extension) => { %>
+                        <article class="card-surface panel-extension">
+                            <header class="panel-card-header">
+                                <div>
+                                    <h3 class="card-title"><%= extension.section || extension.sectionID %></h3>
+                                    <p class="card-description">Extension configuration</p>
+                                </div>
+                            </header>
+                            <div class="panel-extension-body">
+                                <%- include(data.path.join(data.dirname, "../../extensions", extension.name.toLowerCase().replace(/ /g,"_"), extension.webFile), { data: data }) %>
+                            </div>
+                        </article>
+                        <% }); %>
+
+                        <% if (sectionId === 'leaderboard') { %>
+                        <%- include('../../leaderboard-admin/index.ejs', { data: data }) %>
+                        <% } %>
+
+                        <% if (sectionId === 'giveaway') { %>
+                        <article class="card-surface panel-card">
+                            <header class="panel-card-header">
+                                <div>
+                                    <h3 class="card-title">Giveaway System</h3>
+                                    <p class="card-description">Configure giveaway settings and manage the giveaway system.</p>
+                                </div>
+                            </header>
+                            <div class="panel-form-fields">
+                                <% if (!data.giveawaySystemAvailable) { %>
+                                <div class="section-callout">
+                                    <h3>Giveaway System Not Initialized</h3>
+                                    <p>The giveaway system files have not been created yet.</p>
+                                </div>
+                                <% } else { %>
+                                <div class="section-actions">
+                                    <a href="/giveaways/settings" class="btn btn-primary">
+                                        <i class="fas fa-cog"></i>
+                                        Open Giveaway Settings
+                                    </a>
+                                    <a href="/giveaways" class="btn btn-secondary">
+                                        <i class="fas fa-list"></i>
+                                        View Giveaways
+                                    </a>
+                                </div>
+                                <p class="form-help">Use the buttons above to access the full giveaway management interface, including server-specific settings, templates, and scheduled giveaways.</p>
+                                <% } %>
+                            </div>
+                        </article>
+                        <% } %>
+
+                        <% if (sectionId === 'webPanel') { %>
+                        <article class="card-surface panel-card">
+                            <header class="panel-card-header">
+                                <div>
+                                    <h3 class="card-title">Changelog Management</h3>
+                                    <p class="card-description">Manage changelog entries for the dashboard.</p>
+                                </div>
+                            </header>
+                            <div class="panel-form-fields">
+                                <div class="section-actions">
+                                    <a href="/admin/changelog" class="btn btn-primary">
+                                        <i class="fas fa-history"></i>
+                                        Manage Changelog
+                                    </a>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="card-surface panel-card">
+                            <header class="panel-card-header">
+                                <div>
+                                    <h3 class="card-title">Prefix Management</h3>
+                                    <p class="card-description">Control the main command prefix and override prefixes for individual servers.</p>
+                                </div>
+                            </header>
+                            <div class="panel-form-fields">
+                                <form action="/api/admin/prefix/main" method="POST" class="panel-form main-prefix-form">
+                                    <label class="form-label">Main Prefix
+                                        <input type="text" name="prefix" maxlength="10" required value="<%= data.prefixManagement?.mainPrefix || data.botSettings?.commandPrefix || '!' %>">
+                                    </label>
+                                    <p class="form-help">This prefix applies to all servers unless a custom server prefix is defined.</p>
+                                    <div class="section-actions">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-save"></i>
+                                            Save Main Prefix
+                                        </button>
+                                    </div>
+                                </form>
+
+                                <div class="server-prefixes">
+                                    <h4>Server Overrides</h4>
+                                    <p class="form-help">Set a custom prefix for a specific server or remove it to fall back to the main prefix.</p>
+                                    <table class="prefix-table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Server</th>
+                                                <th scope="col">Prefix</th>
+                                                <th scope="col">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% if (Array.isArray(data.prefixManagement?.serverPrefixes) && data.prefixManagement.serverPrefixes.length) { %>
+                                                <% data.prefixManagement.serverPrefixes.forEach((server) => { %>
+                                                <tr>
+                                                    <td>
+                                                        <strong><%= server.name %></strong><br>
+                                                        <span class="prefix-table__id"><%= server.id %></span>
+                                                    </td>
+                                                    <td>
+                                                        <form action="/api/admin/prefix/server/<%= server.id %>" method="POST" class="panel-form prefix-inline-form">
+                                                            <input type="text" name="prefix" maxlength="10" required value="<%= server.prefix %>">
+                                                            <button type="submit" class="btn btn-primary">
+                                                                <i class="fas fa-save"></i>
+                                                                Update
+                                                            </button>
+                                                        </form>
+                                                    </td>
+                                                    <td>
+                                                        <% if (server.isCustom) { %>
+                                                        <button type="button" class="btn btn-secondary prefix-remove" data-guild="<%= server.id %>">
+                                                            <i class="fas fa-undo"></i>
+                                                            Remove Custom Prefix
+                                                        </button>
+                                                        <% } else { %>
+                                                        <span class="prefix-status">Using main prefix</span>
+                                                        <% } %>
+                                                    </td>
+                                                </tr>
+                                                <% }); %>
+                                            <% } else { %>
+                                            <tr>
+                                                <td colspan="3">No servers available or the bot is not connected to any guilds.</td>
+                                            </tr>
+                                            <% } %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="card-surface panel-card">
+                            <header class="panel-card-header">
+                                <div>
+                                    <h3 class="card-title">Dashboard Presentation</h3>
+                                    <p class="card-description">Update intro copy, footer links, and social metadata directly from the dashboard.</p>
+                                </div>
+                            </header>
+                            <form action="/api/admin/web" method="POST" class="panel-form">
+                                <div class="panel-form-fields">
+                                    <label class="form-label">Intro Text
+                                        <textarea name="introText" rows="3" required><%= data.settings.introText || '' %></textarea>
+                                    </label>
+
+                                    <label class="form-label">Support Server Invite URL
+                                        <input type="url" name="supportServer" value="<%= data.settings.supportServer || '' %>">
+                                    </label>
+
+                                    <label class="form-label">Footer Title
+                                        <input type="text" name="footerTitle" value="<%= data.settings.footer?.title || '' %>">
+                                    </label>
+
+                                    <label class="form-label">Footer Tagline
+                                        <input type="text" name="footerTagline" value="<%= data.settings.footer?.tagline || '' %>">
+                                    </label>
+
+                                    <label class="form-label">Footer Copyright
+                                        <input type="text" name="footerCopyright" value="<%= data.settings.footer?.copyright || '' %>">
+                                    </label>
+
+                                    <label class="form-label">Footer Text
+                                        <textarea name="footerText" rows="3"><%= data.settings.footerText || '' %></textarea>
+                                    </label>
+
+                                    <label class="form-label">Footer Social Links (JSON Array)
+                                        <textarea name="footerSocial" rows="4" class="code-block"><%= JSON.stringify(data.settings.footer?.social || [], null, 2) %></textarea>
+                                    </label>
+
+                                    <label class="form-label">Footer Columns (JSON Array)
+                                        <textarea name="footerColumns" rows="6" class="code-block"><%= JSON.stringify(data.settings.footer?.cols || [], null, 2) %></textarea>
+                                    </label>
+
+                                    <label class="form-label">Contact Form Discord Webhook URL
+                                        <input type="url" name="contactWebhook" value="<%= data.settings.contactWebhook || 'https://discord.com/api/webhooks/1440474027528290547/C50UrM7P9Dn4aTkwSuWjhoJ5utG4ACR4TCdk4-FZkFCkmzzcxUaCkvnaq3E_GPchM3CY' %>" placeholder="https://discord.com/api/webhooks/...">
+                                        <p class="form-help">Discord webhook URL where contact form submissions will be sent. Leave empty to disable.</p>
+                                    </label>
+                    </div>
+                                <div class="section-actions">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-save"></i>
+                                        Save Settings
+                                    </button>
+                    </div>
+                        </form>
+                        </article>
+                        <% } %>
+
+                        <% if (sectionMods.length === 0 && sectionExtensions.length === 0 && sectionId !== 'webPanel' && sectionId !== 'leaderboard' && sectionId !== 'giveaway') { %>
+                        <div class="section-callout">
+                            <h3>No modules registered</h3>
+                            <p>This section currently has no owner modules or extensions configured.</p>
+                        </div>
+                        <% } %>
+                    </div>
+                    <% }); %>
+                </section>
+            </div>
+        </section>
+    </main>
+
+    <%- include('../../../views/shared/footer.ejs', { data: data }) %>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+
+        const navButtons = document.querySelectorAll('.panel-nav-button');
+        const panes = document.querySelectorAll('.panel-pane');
+
+        navButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                const targetId = button.getAttribute('data-panel-target');
+                if (!targetId) return;
+
+                navButtons.forEach((btn) => btn.classList.remove('active'));
+                panes.forEach((pane) => pane.classList.remove('active'));
+
+                button.classList.add('active');
+                const targetPane = document.getElementById(targetId);
+                if (targetPane) {
+                    targetPane.classList.add('active');
+                }
+            });
+        });
+
+        document.querySelectorAll('.prefix-remove').forEach((button) => {
+            button.addEventListener('click', async () => {
+                const guildId = button.dataset.guild;
+                if (!guildId) return;
+
+                button.disabled = true;
+                try {
+                    const response = await fetch(`/api/admin/prefix/server/${guildId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Failed to remove prefix');
+                    }
+
+                    window.location.reload();
+                } catch (error) {
+                    console.error(error);
+                    button.disabled = false;
+                    alert('Could not remove the custom prefix. Please try again.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

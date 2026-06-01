@@ -1,0 +1,14 @@
+{
+  "author": "News Targeted",
+  "version": "1.0.0",
+  "name": "giveaways_create",
+  "description": "Create new giveaway",
+  "dashboardMod": true,
+  "adminPanelMod": false,
+  "scriptFiles": ["create_route.js"],
+  "isCustom": false,
+  "routeURL": "/giveaways/create",
+  "webFile": "index.ejs",
+  "cssFiles": [],
+  "loginRequired": true
+}

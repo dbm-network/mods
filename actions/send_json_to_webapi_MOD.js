@@ -1,3 +1,11 @@
+const _getFetch = () => {
+  if (typeof globalThis.fetch === 'function') return globalThis.fetch;
+  try {
+    const nf = require('node-fetch');
+    return nf.default || nf;
+  } catch (_) {}
+  return null;
+};
 module.exports = {
   name: 'Send Json to WebAPI',
   section: 'JSON Things',
@@ -164,7 +172,6 @@ module.exports = {
     const { Actions } = this.getDBM();
 
     const Mods = this.getMods();
-    const fetch = require('node-fetch');
 
     let url = this.evalMessage(data.postUrl, cache);
     const method = this.evalMessage(data.method, cache);
@@ -220,7 +227,13 @@ module.exports = {
               const value = header[1] || 'Unknown';
               setHeaders[key] = value;
 
-              if (debugMode) console.log(`Applied Header: ${lines[i]}`);
+              if (debugMode) {
+                const line = String(lines[i]);
+                const idx = line.indexOf(':');
+                const key = idx === -1 ? '' : line.slice(0, idx).trim().toLowerCase();
+                const safeLine = key === 'authorization' ? `${line.slice(0, idx + 1)} [REDACTED]` : line;
+                console.log(`Applied Header: ${safeLine}`);
+              }
             } else if (debugMode)
               console.error(
                 `WebAPI: Error: Custom Header line ${lines[i]} is wrongly formatted. You must split the key from the value with a colon (:)`,
@@ -228,7 +241,38 @@ module.exports = {
           }
         }
 
-        const jsonData = await fetch(url, { method, body: postJson, headers: setHeaders }).then((r) => r.json());
+        const fetchFn = _getFetch();
+        if (!fetchFn)
+          throw new Error('Send Json to WebAPI: fetch is not available. Use Node 18+ or install node-fetch.');
+        let jsonData;
+        try {
+          const res = await fetchFn(url, { method, body: postJson, headers: setHeaders });
+          const text = typeof res.text === 'function' ? await res.text() : '';
+          if (!text || !String(text).trim()) {
+            jsonData = null;
+          } else {
+            try {
+              jsonData = JSON.parse(text);
+            } catch (parseErr) {
+              const errJson = JSON.stringify({
+                error: parseErr.message || String(parseErr),
+                statusCode: res.status || 0,
+                success: false,
+                rawPreview: String(text).slice(0, 200),
+              });
+              if (debugMode) console.error('WebAPI: Response was not valid JSON:', parseErr.message || parseErr);
+              return this.storeValue(errJson, storage, varName, cache);
+            }
+          }
+        } catch (netErr) {
+          const errJson = JSON.stringify({
+            error: netErr.message || String(netErr),
+            statusCode: 0,
+            success: false,
+          });
+          if (debugMode) console.error(netErr.stack || netErr);
+          return this.storeValue(errJson, storage, varName, cache);
+        }
 
         try {
           if (jsonData) {

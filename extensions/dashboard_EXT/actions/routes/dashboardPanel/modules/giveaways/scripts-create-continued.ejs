@@ -1,0 +1,241 @@
+const createForm = document.getElementById('giveaway-create-form');
+if (createForm) {
+    let isSubmitting = false; // Prevent double-submit
+    
+    createForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Prevent double-submit
+        if (isSubmitting) {
+            console.warn('Form submission already in progress');
+            return;
+        }
+        
+        isSubmitting = true;
+        const feedback = document.getElementById('create-feedback');
+        const submitBtn = createForm.querySelector('button[type="submit"]');
+        
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating...';
+        feedback.textContent = '';
+        feedback.className = 'form-feedback';
+
+        const formData = new FormData(createForm);
+        const csrfToken = formData.get('_csrf');
+        
+        // Collect extra entries
+        const extraEntries = {};
+        document.querySelectorAll('.extra-entry-item').forEach(item => {
+            const roleId = item.querySelector('.extra-entry-role')?.value;
+            const entryCount = parseInt(item.querySelector('.extra-entry-count')?.value || '0', 10);
+            if (roleId && entryCount > 0) {
+                extraEntries[roleId] = entryCount;
+            }
+        });
+        
+        // Collect requirements
+        const requirements = {};
+        const reqDaily = parseInt(formData.get('reqMessagesDaily') || '0', 10);
+        const reqWeekly = parseInt(formData.get('reqMessagesWeekly') || '0', 10);
+        const reqMonthly = parseInt(formData.get('reqMessagesMonthly') || '0', 10);
+        const reqTotal = parseInt(formData.get('reqMessagesTotal') || '0', 10);
+        
+        if (reqDaily > 0 || reqWeekly > 0 || reqMonthly > 0 || reqTotal > 0) {
+            requirements.messages = {};
+            if (reqDaily > 0) requirements.messages.daily = reqDaily;
+            if (reqWeekly > 0) requirements.messages.weekly = reqWeekly;
+            if (reqMonthly > 0) requirements.messages.monthly = reqMonthly;
+            if (reqTotal > 0) requirements.messages.total = reqTotal;
+        }
+        
+        const requiredRoles = [];
+        document.querySelectorAll('.required-role-select').forEach(select => {
+            const roleId = select.value;
+            if (roleId) requiredRoles.push(roleId);
+        });
+        if (requiredRoles.length > 0) {
+            requirements.roles = requiredRoles;
+        }
+        
+        const reqLevel = parseInt(formData.get('reqLevel') || '0', 10);
+        if (reqLevel > 0) {
+            requirements.level = reqLevel;
+        }
+        
+        const reqBypassRole = formData.get('reqBypassRole');
+        if (reqBypassRole) {
+            requirements.bypassRole = reqBypassRole;
+        }
+        
+        const blacklistedRoles = [];
+        document.querySelectorAll('.blacklisted-role-select').forEach(select => {
+            const roleId = select.value;
+            if (roleId) blacklistedRoles.push(roleId);
+        });
+        if (blacklistedRoles.length > 0) {
+            requirements.blacklistedRoles = blacklistedRoles;
+        }
+        
+        const reqCustom = formData.get('reqCustom')?.trim();
+        if (reqCustom) {
+            requirements.custom = reqCustom;
+        }
+        
+        const giveawayData = {
+            serverId: formData.get('serverId'),
+            prize: formData.get('prize'),
+            winners: parseInt(formData.get('winners'), 10),
+            duration: formData.get('duration'),
+            channelId: formData.get('channelId'),
+            description: formData.get('description') || '',
+            embedColor: formData.get('embedColorText'),
+            reactionEmoji: formData.get('reactionEmoji') || '🎉',
+            hostedBy: formData.get('hostedBy') || '',
+            scheduled: formData.get('scheduled') === 'on',
+            scheduledStart: formData.get('scheduledStart') ? new Date(formData.get('scheduledStart')).getTime() : null,
+            winnerRole: formData.get('winnerRole') || null,
+            dmWinners: formData.get('dmWinners') === 'on',
+            dmHost: formData.get('dmHost') === 'on',
+            dmMessage: formData.get('dmMessage') || null,
+            dmMessageType: formData.get('dmMessageType') || 'normal',
+            pingHostInDm: formData.get('pingHostInDm') === 'on',
+            serverMessageType: formData.get('serverMessageType') || 'normal',
+            pingHostInServer: formData.get('pingHostInServer') === 'on',
+            notificationRole: formData.get('notificationRole') || null,
+            thumbnail: formData.get('thumbnail') || null,
+            image: formData.get('image') || null,
+            extraEntries: Object.keys(extraEntries).length > 0 ? extraEntries : null,
+            requirements: Object.keys(requirements).length > 0 ? requirements : null,
+            isDrop: formData.get('isDrop') === 'on',
+            entryConfirmMessage: formData.get('entryConfirmMessage') || null,
+            entryDenyMessage: formData.get('entryDenyMessage') || null,
+            entryRemoveMessage: formData.get('entryRemoveMessage') || null,
+            persistEntries: formData.get('persistEntries') === 'on',
+            removeEntriesOnEdit: formData.get('removeEntriesOnEdit') === 'on',
+            createWinnersThread: formData.get('createWinnersThread') === 'on',
+            winnersThreadType: formData.get('winnersThreadType') || 'public',
+            winnersThreadMessage: formData.get('winnersThreadMessage') || null,
+            winnersThreadCloseDuration: formData.get('winnersThreadCloseDuration') || null,
+            winnerRoleRemoveDuration: formData.get('winnerRoleRemoveDuration') || null,
+            _csrf: csrfToken // Include CSRF token in body
+        };
+
+        try {
+            const response = await fetch(basePath + '/api/giveaways/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': csrfToken // Also include as header
+                },
+                credentials: 'same-origin',
+                body: JSON.stringify(giveawayData)
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                feedback.className = 'form-feedback success';
+                feedback.textContent = 'Giveaway created successfully!';
+                createForm.reset();
+                // Switch to overview tab after 1 second
+                setTimeout(() => {
+                    const overviewTab = document.querySelector('[data-panel-target="giveaways-overview"]');
+                    if (overviewTab) {
+                        overviewTab.click();
+                        location.reload();
+                    }
+                }, 1000);
+            } else {
+                feedback.className = 'form-feedback error';
+                feedback.textContent = result.error || 'Failed to create giveaway';
+            }
+        } catch (error) {
+            feedback.className = 'form-feedback error';
+            feedback.textContent = 'Error creating giveaway: ' + error.message;
+        } finally {
+            isSubmitting = false;
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="fas fa-plus"></i> Create Giveaway';
+        }
+    });
+    
+    // Save as Template button handler
+    const saveTemplateBtn = document.getElementById('save-template-btn');
+    if (saveTemplateBtn) {
+        saveTemplateBtn.addEventListener('click', async function(e) {
+            e.preventDefault();
+            const feedback = document.getElementById('create-feedback');
+            const formData = new FormData(createForm);
+            const csrfToken = formData.get('_csrf');
+            
+            const templateData = {
+                name: formData.get('prize') || 'Untitled Template',
+                serverId: formData.get('serverId'),
+                prize: formData.get('prize'),
+                winners: parseInt(formData.get('winners'), 10) || 1,
+                duration: formData.get('duration') || '7d',
+                description: formData.get('description') || '',
+                embedColor: formData.get('embedColorText') || '#338ac4',
+                reactionEmoji: formData.get('reactionEmoji') || '🎉',
+                hostedBy: formData.get('hostedBy') || '',
+                _csrf: csrfToken
+            };
+            
+            try {
+                const response = await fetch(basePath + '/api/giveaways/templates', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-Token': csrfToken
+                    },
+                    credentials: 'same-origin',
+                    body: JSON.stringify(templateData)
+                });
+                
+                const result = await response.json();
+                if (result.success) {
+                    feedback.className = 'form-feedback success';
+                    feedback.textContent = 'Template saved successfully!';
+                    setTimeout(() => {
+                        feedback.textContent = '';
+                        feedback.className = 'form-feedback';
+                    }, 3000);
+                } else {
+                    feedback.className = 'form-feedback error';
+                    feedback.textContent = result.error || 'Failed to save template';
+                }
+            } catch (error) {
+                feedback.className = 'form-feedback error';
+                feedback.textContent = 'Error saving template: ' + error.message;
+            }
+        });
+    }
+
+    // Schedule checkbox toggle
+    const scheduledCheckbox = createForm.querySelector('#scheduled-checkbox');
+    const scheduleOptions = createForm.querySelector('#schedule-options');
+    if (scheduledCheckbox && scheduleOptions) {
+        scheduledCheckbox.addEventListener('change', function() {
+            scheduleOptions.style.display = this.checked ? 'block' : 'none';
+            if (this.checked) {
+                const now = new Date();
+                now.setMinutes(now.getMinutes() + 30); // Default to 30 minutes from now
+                const datetimeLocal = now.toISOString().slice(0, 16);
+                createForm.querySelector('[name="scheduledStart"]').value = datetimeLocal;
+            }
+        });
+    }
+
+    // Color picker sync
+    const colorPicker = createForm.querySelector('[name="embedColor"]');
+    const colorText = createForm.querySelector('[name="embedColorText"]');
+    if (colorPicker && colorText) {
+        colorPicker.addEventListener('input', () => {
+            colorText.value = colorPicker.value;
+        });
+        colorText.addEventListener('input', () => {
+            if (/^#[0-9A-Fa-f]{6}$/i.test(colorText.value)) {
+                colorPicker.value = colorText.value;
+            }
+        });
+    }
+}

@@ -1,0 +1,394 @@
+<!-- Giveaways View/Edit Pane -->
+<div class="panel-pane" id="giveaways-view-edit" role="tabpanel">
+    <div class="panel-pane-header">
+        <h2 id="view-edit-title">View/Edit Giveaway</h2>
+        <p id="view-edit-subtitle">View and edit giveaway details.</p>
+    </div>
+    
+    <div id="view-edit-loading" style="text-align: center; padding: 2rem;">
+        <i class="fas fa-spinner fa-spin"></i> Loading giveaway...
+    </div>
+    
+    <div id="view-edit-content" style="display: none;">
+        <form id="giveaway-edit-form" class="giveaway-form">
+            <input type="hidden" name="_csrf" value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+            <input type="hidden" name="giveawayId" id="edit-giveaway-id">
+            <input type="hidden" name="serverId" value="<%= data.server.id %>">
+            
+            <div class="giveaway-form-grid">
+                <div class="giveaway-form-column">
+                    <div class="form-section">
+                        <h3>Basic Settings</h3>
+                        
+                        <label class="form-field">
+                            <span>Prize / Name</span>
+                            <input type="text" name="prize" id="edit-prize" class="form-control" required maxlength="200">
+                        </label>
+                        
+                        <label class="form-field">
+                            <span>Winners</span>
+                            <input type="number" name="winners" id="edit-winners" class="form-control" min="1" max="100" value="1" required>
+                            <small>Number of winners (1-100)</small>
+                        </label>
+                        
+                        <label class="form-field">
+                            <span>Duration</span>
+                            <input type="text" name="duration" id="edit-duration" class="form-control" placeholder="7d" required>
+                            <small>Format: 7d (7 days), 2h (2 hours), 30m (30 minutes)</small>
+                        </label>
+                        
+                        <label class="form-field">
+                            <span>Channel</span>
+                            <select name="channelId" id="edit-channelId" class="form-control" required>
+                                <option value="">Select a channel...</option>
+                            </select>
+                            <small>Channel where the giveaway will be posted</small>
+                        </label>
+                        
+                        <label class="form-field">
+                            <span>Description</span>
+                            <textarea name="description" id="edit-description" class="form-control" rows="4" maxlength="2000"></textarea>
+                            <small>Optional description (max 2000 characters)</small>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="giveaway-form-column">
+                    <div class="form-section">
+                        <h3>Embed Settings</h3>
+                        
+                        <label class="form-field">
+                            <span>Embed Color</span>
+                            <div class="color-input-group">
+                                <input type="color" name="embedColor" id="edit-embedColor" class="form-control color-picker" value="#338ac4">
+                                <input type="text" name="embedColorText" id="edit-embedColorText" class="form-control color-text" value="#338ac4" pattern="^#[0-9A-Fa-f]{6}$">
+                            </div>
+                            <small>Color for the giveaway embed</small>
+                        </label>
+                        
+                        <label class="form-field">
+                            <span>Reaction Emoji</span>
+                            <input type="text" name="reactionEmoji" id="edit-reactionEmoji" class="form-control" value="🎉" maxlength="10">
+                            <small>Emoji users react with to enter (default: 🎉)</small>
+                        </label>
+                        
+                        <label class="form-field">
+                            <span>Hosted By</span>
+                            <input type="text" name="hostedBy" id="edit-hostedBy" class="form-control" placeholder="Optional host name" maxlength="100">
+                            <small>Optional: Who is hosting this giveaway?</small>
+                        </label>
+                        
+                        <label class="form-field">
+                            <span>Notification Role</span>
+                            <select name="notificationRole" id="edit-notificationRole" class="form-control">
+                                <option value="">None</option>
+                            </select>
+                            <small>Role to ping when giveaway is created (optional)</small>
+                        </label>
+                        
+                        <label class="form-field">
+                            <span>Thumbnail URL</span>
+                            <input type="url" name="thumbnail" id="edit-thumbnail" class="form-control" placeholder="https://example.com/image.png" maxlength="500">
+                            <small>Small image shown in the top-right corner of the embed</small>
+                        </label>
+                        
+                        <label class="form-field">
+                            <span>Image URL</span>
+                            <input type="url" name="image" id="edit-image" class="form-control" placeholder="https://example.com/image.png" maxlength="500">
+                            <small>Large image shown at the bottom of the embed</small>
+                        </label>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3>Advanced Options</h3>
+                        
+                        <label class="form-field">
+                            <span>Winner Role</span>
+                            <select name="winnerRole" id="edit-winnerRole" class="form-control">
+                                <option value="">Use server default</option>
+                            </select>
+                            <small>Role to assign to winners when giveaway ends</small>
+                        </label>
+                        
+                        <label class="form-field form-toggle">
+                            <div>
+                                <span>DM Winners</span>
+                                <small>Send DM to winners when they win</small>
+                            </div>
+                            <input type="checkbox" name="dmWinners" id="edit-dmWinners" class="toggle-input">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        
+                        <label class="form-field form-toggle">
+                            <div>
+                                <span>DM Host</span>
+                                <small>Send DM to host when giveaway ends</small>
+                            </div>
+                            <input type="checkbox" name="dmHost" id="edit-dmHost" class="toggle-input">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        
+                        <label class="form-field">
+                            <span>DM Message</span>
+                            <textarea name="dmMessage" id="edit-dmMessage" class="form-control" rows="4" maxlength="1000" placeholder="Custom message to send to winners (optional)"></textarea>
+                            <small>Custom DM message for winners (overrides default)</small>
+                        </label>
+                        
+                        <label class="form-field">
+                            <span>DM Message Type</span>
+                            <select name="dmMessageType" id="edit-dmMessageType" class="form-control">
+                                <option value="normal">Normal Message</option>
+                                <option value="embed">Embed Message</option>
+                            </select>
+                            <small>Format for winner DM messages</small>
+                        </label>
+                        
+                        <label class="form-field form-toggle">
+                            <div>
+                                <span>Ping Host in Winner DM</span>
+                                <small>Mention the giveaway host in winner DM messages</small>
+                            </div>
+                            <input type="checkbox" name="pingHostInDm" id="edit-pingHostInDm" class="toggle-input">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        
+                        <label class="form-field">
+                            <span>Server End Message Type</span>
+                            <select name="serverMessageType" id="edit-serverMessageType" class="form-control">
+                                <option value="normal">Normal Message</option>
+                                <option value="embed">Embed Message</option>
+                            </select>
+                            <small>Format for server message when giveaway ends</small>
+                        </label>
+                        
+                        <label class="form-field form-toggle">
+                            <div>
+                                <span>Ping Host in Server Message</span>
+                                <small>Mention the giveaway host in server end message</small>
+                            </div>
+                            <input type="checkbox" name="pingHostInServer" id="edit-pingHostInServer" class="toggle-input">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3>Giveaway Status</h3>
+                        <div id="giveaway-status-info" style="padding: 1rem; background: var(--surface-secondary); border-radius: 8px; margin-bottom: 1rem;">
+                            <p><strong>Status:</strong> <span id="status-text">-</span></p>
+                            <p><strong>Entries:</strong> <span id="entries-count">0</span></p>
+                            <p id="end-time-info" style="display: none;"><strong>Ends:</strong> <span id="end-time-text">-</span></p>
+                            <p id="start-time-info" style="display: none;"><strong>Starts:</strong> <span id="start-time-text">-</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Extra Entries Section -->
+            <div class="form-section" style="margin-top: 2rem; grid-column: 1 / -1;">
+                <h3>Extra Entries</h3>
+                <p style="margin-bottom: 1rem; color: var(--text-secondary);">Configure role-based entry bonuses. Users with these roles will get additional entries.</p>
+                
+                <div id="edit-extra-entries-list">
+                    <!-- Extra entries will be added here dynamically -->
+                </div>
+                
+                <button type="button" id="edit-add-extra-entry-btn" class="btn btn-sm btn-secondary" style="margin-top: 1rem;">
+                    <i class="fas fa-plus"></i> Add Role Entry Bonus
+                </button>
+            </div>
+            
+            <!-- Requirements Section -->
+            <div class="form-section" style="margin-top: 2rem; grid-column: 1 / -1;">
+                <h3>Requirements</h3>
+                <p style="margin-bottom: 1rem; color: var(--text-secondary);">Set requirements that users must meet to enter this giveaway.</p>
+                
+                <div class="form-section" style="background: var(--surface-elevated); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1rem;">
+                    <h4 style="margin-bottom: 1rem; font-size: 0.95rem;">Message Requirements</h4>
+                    
+                    <div class="giveaway-form-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <label class="form-field">
+                            <span>Daily Messages</span>
+                            <input type="number" name="reqMessagesDaily" id="edit-reqMessagesDaily" class="form-control" min="0" max="1000000000" placeholder="0">
+                            <small>Messages sent today (1-1 billion)</small>
+                        </label>
+                        
+                        <label class="form-field">
+                            <span>Weekly Messages</span>
+                            <input type="number" name="reqMessagesWeekly" id="edit-reqMessagesWeekly" class="form-control" min="0" max="1000000000" placeholder="0">
+                            <small>Messages sent this week (1-1 billion)</small>
+                        </label>
+                        
+                        <label class="form-field">
+                            <span>Monthly Messages</span>
+                            <input type="number" name="reqMessagesMonthly" id="edit-reqMessagesMonthly" class="form-control" min="0" max="1000000000" placeholder="0">
+                            <small>Messages sent this month (1-1 billion)</small>
+                        </label>
+                        
+                        <label class="form-field">
+                            <span>Total Messages</span>
+                            <input type="number" name="reqMessagesTotal" id="edit-reqMessagesTotal" class="form-control" min="0" max="1000000000" placeholder="0">
+                            <small>Total messages ever (1-1 billion)</small>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-section" style="background: var(--surface-elevated); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1rem;">
+                    <h4 style="margin-bottom: 1rem; font-size: 0.95rem;">Level & Role Requirements</h4>
+                    
+                    <label class="form-field">
+                        <span>Required Level</span>
+                        <input type="number" name="reqLevel" id="edit-reqLevel" class="form-control" min="0" placeholder="0">
+                        <small>Minimum level required to participate</small>
+                    </label>
+                    
+                    <label class="form-field">
+                        <span>Required Roles</span>
+                        <div id="edit-required-roles-list">
+                            <!-- Required roles will be added here dynamically -->
+                        </div>
+                        <button type="button" id="edit-add-required-role-btn" class="btn btn-sm btn-secondary" style="margin-top: 0.5rem;">
+                            <i class="fas fa-plus"></i> Add Required Role
+                        </button>
+                        <small>Roles users must have to participate (max 5, or unlimited with premium)</small>
+                    </label>
+                    
+                    <label class="form-field">
+                        <span>Requirement Bypass Role</span>
+                        <select name="reqBypassRole" id="edit-reqBypassRole" class="form-control">
+                            <option value="">None</option>
+                        </select>
+                        <small>Users with this role bypass all requirements (1 role only)</small>
+                    </label>
+                    
+                    <label class="form-field">
+                        <span>Blacklisted Roles</span>
+                        <div id="edit-blacklisted-roles-list">
+                            <!-- Blacklisted roles will be added here dynamically -->
+                        </div>
+                        <button type="button" id="edit-add-blacklisted-role-btn" class="btn btn-sm btn-secondary" style="margin-top: 0.5rem;">
+                            <i class="fas fa-plus"></i> Add Blacklisted Role
+                        </button>
+                        <small>Roles that cannot participate (max 5, or unlimited with premium)</small>
+                    </label>
+                </div>
+                
+                <label class="form-field">
+                    <span>Custom Requirements</span>
+                    <textarea name="reqCustom" id="edit-reqCustom" class="form-control" rows="2" maxlength="500" placeholder="e.g. Must be level 10 or higher"></textarea>
+                    <small>Any other custom requirements (optional)</small>
+                </label>
+                
+                <div class="form-section" style="background: var(--surface-elevated); padding: 1rem; border-radius: var(--radius-md); margin-top: 1rem;">
+                    <h4 style="margin-bottom: 1rem; font-size: 0.95rem;">Entry Messages</h4>
+                    
+                    <label class="form-field">
+                        <span>Entry Confirmation Message</span>
+                        <textarea name="entryConfirmMessage" id="edit-entryConfirmMessage" class="form-control" rows="2" maxlength="300" placeholder="DM sent when entry is confirmed"></textarea>
+                        <small>Message sent when participant's entry is confirmed (max 150 chars, or 300 with premium)</small>
+                    </label>
+                    
+                    <label class="form-field">
+                        <span>Entry Deny Message</span>
+                        <textarea name="entryDenyMessage" id="edit-entryDenyMessage" class="form-control" rows="2" maxlength="300" placeholder="DM sent when entry is denied"></textarea>
+                        <small>Message sent when entry is denied for not meeting requirements (max 150 chars, or 300 with premium)</small>
+                    </label>
+                    
+                    <label class="form-field">
+                        <span>Entry Remove Message</span>
+                        <textarea name="entryRemoveMessage" id="edit-entryRemoveMessage" class="form-control" rows="2" maxlength="300" placeholder="DM sent when entry is removed"></textarea>
+                        <small>Message sent when entry is removed (max 150 chars, or 300 with premium)</small>
+                    </label>
+                    
+                    <label class="form-field form-toggle">
+                        <div>
+                            <span>Persist Entries</span>
+                            <small>Don't remove entry when required role is removed</small>
+                        </div>
+                        <input type="checkbox" name="persistEntries" id="edit-persistEntries" class="toggle-input">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    
+                    <label class="form-field form-toggle">
+                        <div>
+                            <span>Remove Entries on Edit</span>
+                            <small>Remove all entries when giveaway is edited</small>
+                        </div>
+                        <input type="checkbox" name="removeEntriesOnEdit" id="edit-removeEntriesOnEdit" class="toggle-input">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="form-section" style="background: var(--surface-elevated); padding: 1rem; border-radius: var(--radius-md); margin-top: 1rem;">
+                    <h4 style="margin-bottom: 1rem; font-size: 0.95rem;">Winner Thread Settings</h4>
+                    
+                    <label class="form-field form-toggle">
+                        <div>
+                            <span>Create Winners Thread</span>
+                            <small>Create a thread for giveaway winners</small>
+                        </div>
+                        <input type="checkbox" name="createWinnersThread" id="edit-createWinnersThread" class="toggle-input">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    
+                    <div id="edit-winners-thread-options" style="display: none; margin-top: 1rem;">
+                        <label class="form-field">
+                            <span>Thread Type</span>
+                            <select name="winnersThreadType" id="edit-winnersThreadType" class="form-control">
+                                <option value="public">Public Thread</option>
+                                <option value="private">Private Thread</option>
+                            </select>
+                            <small>Type of thread to create</small>
+                        </label>
+                        
+                        <label class="form-field">
+                            <span>Thread Message</span>
+                            <textarea name="winnersThreadMessage" id="edit-winnersThreadMessage" class="form-control" rows="3" maxlength="2000" placeholder="Message sent in the winners thread"></textarea>
+                            <small>Message to send in the winners thread</small>
+                        </label>
+                        
+                        <label class="form-field">
+                            <span>Thread Close Duration</span>
+                            <input type="text" name="winnersThreadCloseDuration" id="edit-winnersThreadCloseDuration" class="form-control" placeholder="e.g. 7d, 2h, 30m" pattern="^\d+[smhd]$">
+                            <small>Auto-close thread after duration (5 minutes - 100 days, premium feature)</small>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-section" style="background: var(--surface-elevated); padding: 1rem; border-radius: var(--radius-md); margin-top: 1rem;">
+                    <h4 style="margin-bottom: 1rem; font-size: 0.95rem;">Winner Role Settings</h4>
+                    
+                    <label class="form-field">
+                        <span>Winner Role Remove Duration</span>
+                        <input type="text" name="winnerRoleRemoveDuration" id="edit-winnerRoleRemoveDuration" class="form-control" placeholder="e.g. 7d, 2h, 30m" pattern="^\d+[smhd]$">
+                        <small>Remove winner role after duration (optional)</small>
+                    </label>
+                </div>
+                
+                <div class="form-section" style="margin-top: 1rem;">
+                    <label class="form-field form-toggle">
+                        <div>
+                            <span>Giveaway Drop (FEATURED)</span>
+                            <small>Auto-end when number of winners is reached</small>
+                        </div>
+                        <input type="checkbox" name="isDrop" id="edit-isDrop" class="toggle-input">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="page-actions" style="margin-top: 2rem;">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Save Changes
+                </button>
+                <button type="button" id="cancel-edit-btn" class="btn btn-secondary">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button type="button" id="end-giveaway-btn" class="btn btn-danger" style="display: none;">
+                    <i class="fas fa-stop"></i> End Giveaway
+                </button>
+            </div>
+            
+            <div id="edit-feedback" class="form-feedback" role="alert" style="margin-top: 1rem;"></div>
+        </form>
+    </div>
+</div>

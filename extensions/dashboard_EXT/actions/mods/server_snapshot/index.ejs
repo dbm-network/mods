@@ -1,0 +1,122 @@
+<div class="snapshot-card">
+    <div class="snapshot-card__intro">
+        <h4>Instant Server Snapshot</h4>
+        <p>Send a futuristic status card to any text channel in this guild. Great for dashboards, announcement channels, or quick health checks.</p>
+    </div>
+
+    <input type="hidden" name="server" value="<%= data.server?.id || '' %>">
+    <input type="hidden" name="serverType" value="id">
+
+    <div class="snapshot-grid">
+        <label class="snapshot-field">
+            <span>Channel</span>
+            <% if (Array.isArray(data.serverChannels) && data.serverChannels.length) { %>
+            <select class="form-control" name="channelId" required>
+                <option value="" disabled selected>Select a channel</option>
+                <% data.serverChannels.forEach((channel) => { %>
+                    <option value="<%= channel.id %>">#<%= channel.name %></option>
+                <% }) %>
+            </select>
+            <% } else { %>
+            <input type="text" class="form-control" name="channelId" placeholder="Channel ID" required>
+            <% } %>
+            <small>Only text-capable channels appear here. Need a different one? Paste its ID.</small>
+        </label>
+
+        <label class="snapshot-field">
+            <span>Accent color</span>
+            <input type="text" class="form-control" name="accentColor" placeholder="#5865F2">
+            <small>Accepts HEX (#5865F2) or named colors. Leave empty for default.</small>
+        </label>
+
+        <label class="snapshot-field">
+            <span>Role to mention (optional)</span>
+            <input type="text" class="form-control" name="pingRole" placeholder="Role ID for notification">
+            <small>The role will be pinged once. Leave blank to skip.</small>
+        </label>
+    </div>
+
+    <label class="snapshot-field">
+        <span>Headline</span>
+        <input type="text" class="form-control" name="headline" maxlength="120" placeholder="Status update · News Targeted">
+    </label>
+
+    <label class="snapshot-field">
+        <span>Message</span>
+        <textarea class="form-control" name="message" rows="4" placeholder="Share context for this update, maintenance notice, or release note. Markdown is supported for bold, italic, lists, and links."></textarea>
+    </label>
+
+    <label class="snapshot-checkbox">
+        <input type="checkbox" name="includeStats" checked>
+        <span>Include live stats (members, channels, roles)</span>
+    </label>
+</div>
+
+<style>
+.snapshot-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    background: rgba(37, 40, 46, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 1.25rem;
+}
+
+.snapshot-card__intro h4 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: #fff;
+}
+
+.snapshot-card__intro p {
+    margin: 0.35rem 0 0;
+    color: #b3b8d4;
+    font-size: 0.95rem;
+}
+
+.snapshot-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.snapshot-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.snapshot-field span {
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 0.78rem;
+    color: #97a0c3;
+}
+
+.snapshot-field small {
+    color: #8c93b6;
+    font-size: 0.78rem;
+}
+
+.snapshot-checkbox {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+    color: #d5dcfb;
+    font-size: 0.9rem;
+}
+
+.snapshot-checkbox input {
+    accent-color: #5865f2;
+    width: 18px;
+    height: 18px;
+}
+
+@media (max-width: 600px) {
+    .snapshot-card {
+        padding: 1rem;
+    }
+}
+</style>
+

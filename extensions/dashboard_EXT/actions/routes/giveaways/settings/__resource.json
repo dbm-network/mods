@@ -1,0 +1,13 @@
+{
+  "author": "News Targeted",
+  "version": "1.0.0",
+  "name": "giveaways_settings",
+  "description": "Giveaway settings management",
+  "dashboardMod": true,
+  "adminPanelMod": false,
+  "scriptFiles": ["settings_route.js"],
+  "isCustom": false,
+  "routeURL": "/giveaways/settings",
+  "webFile": "index.ejs",
+  "cssFiles": []
+}

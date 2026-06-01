@@ -1,0 +1,100 @@
+<!-- Giveaways Overview Pane -->
+<div class="panel-pane" id="giveaways-overview" role="tabpanel">
+    <div class="panel-pane-header">
+        <h2>Giveaways</h2>
+        <p>Manage active, scheduled, and ended giveaways for this server.</p>
+    </div>
+    
+    <% if (data.giveawayData.giveaways.active.length > 0) { %>
+    <div style="margin-bottom: 2rem;">
+        <h3 style="margin-bottom: 1rem; font-size: 1.1rem;">Active Giveaways</h3>
+        <div class="giveaway-grid">
+            <% data.giveawayData.giveaways.active.forEach((giveaway, idx) => { %>
+            <div class="giveaway-card">
+                <div class="giveaway-card__header">
+                    <h3><%= giveaway.prize || giveaway.name || 'Unnamed Giveaway' %></h3>
+                    <span class="status-pill status-pill--active">Active</span>
+                </div>
+                <div class="giveaway-card__body">
+                    <p class="giveaway-meta">
+                        <strong>Winners:</strong> <%= giveaway.winners || 1 %><br>
+                        <strong>Entries:</strong> <%= (giveaway.entries && giveaway.entries.length) || 0 %><br>
+                        <% if (giveaway.endTime) { %>
+                        <strong>Ends:</strong> <span class="giveaway-time" data-end-time="<%= giveaway.endTime %>"></span>
+                        <% } %>
+                    </p>
+                </div>
+                <div class="giveaway-card__actions">
+                    <button class="btn btn-sm btn-primary view-giveaway-btn" data-giveaway-id="<%= giveaway.id %>">View</button>
+                    <button class="btn btn-sm btn-danger end-giveaway-btn" data-giveaway-id="<%= giveaway.id %>">End</button>
+                </div>
+            </div>
+            <% }); %>
+        </div>
+    </div>
+    <% } %>
+    
+    <% if (data.giveawayData.giveaways.scheduled.length > 0) { %>
+    <div style="margin-bottom: 2rem;">
+        <h3 style="margin-bottom: 1rem; font-size: 1.1rem;">Scheduled Giveaways</h3>
+        <div class="giveaway-grid">
+            <% data.giveawayData.giveaways.scheduled.forEach((giveaway, idx) => { %>
+            <div class="giveaway-card" data-giveaway-id="<%= giveaway.id %>">
+                <div class="giveaway-card__header">
+                    <h3><%= giveaway.prize || giveaway.name || 'Unnamed Giveaway' %></h3>
+                    <span class="status-pill status-pill--scheduled">Scheduled</span>
+                </div>
+                <div class="giveaway-card__body">
+                    <p class="giveaway-meta">
+                        <strong>Winners:</strong> <%= giveaway.winners || 1 %><br>
+                        <% if (giveaway.scheduledStart) { %>
+                        <strong>Starts:</strong> <span class="giveaway-time" data-start-time="<%= giveaway.scheduledStart %>"></span>
+                        <% } %>
+                    </p>
+                </div>
+            <div class="giveaway-card__actions">
+                <button class="btn btn-sm btn-primary view-giveaway-btn" data-giveaway-id="<%= giveaway.id %>">View</button>
+                <button class="btn btn-sm btn-danger delete-giveaway-btn" data-giveaway-id="<%= giveaway.id %>">Cancel</button>
+            </div>
+            </div>
+            <% }); %>
+        </div>
+    </div>
+    <% } %>
+    
+    <% if (data.giveawayData.giveaways.ended.length > 0) { %>
+    <div style="margin-bottom: 2rem;">
+        <h3 style="margin-bottom: 1rem; font-size: 1.1rem;">Recent Ended Giveaways</h3>
+        <div class="giveaway-grid">
+            <% data.giveawayData.giveaways.ended.forEach((giveaway, idx) => { %>
+            <div class="giveaway-card" data-giveaway-id="<%= giveaway.id %>">
+                <div class="giveaway-card__header">
+                    <h3><%= giveaway.prize || giveaway.name || 'Unnamed Giveaway' %></h3>
+                    <span class="status-pill status-pill--ended">Ended</span>
+                </div>
+                <div class="giveaway-card__body">
+                    <p class="giveaway-meta">
+                        <strong>Winners:</strong> <%= (giveaway.winnerIds && giveaway.winnerIds.length) || 0 %><br>
+                        <strong>Entries:</strong> <%= (giveaway.entries && giveaway.entries.length) || 0 %><br>
+                        <% if (giveaway.endedAt) { %>
+                        <strong>Ended:</strong> <span class="giveaway-time" data-time="<%= giveaway.endedAt %>"></span>
+                        <% } %>
+                    </p>
+                </div>
+                <div class="giveaway-card__actions">
+                    <button class="btn btn-sm btn-primary view-giveaway-btn" data-giveaway-id="<%= giveaway.id %>">View</button>
+                </div>
+            </div>
+            <% }); %>
+        </div>
+    </div>
+    <% } %>
+    
+    <% if (data.giveawayData.giveaways.active.length === 0 && data.giveawayData.giveaways.scheduled.length === 0 && data.giveawayData.giveaways.ended.length === 0) { %>
+    <div class="empty-state">
+        <h3>No Giveaways Yet</h3>
+        <p>Click the "Create" tab to create your first giveaway for this server!</p>
+    </div>
+    <% } %>
+</div>
+

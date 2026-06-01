@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= data.client.user.username %> · Dashboard Overview</title>
+    <meta name="description" content="Manage servers, monitor usage, and execute commands for the <%= data.client.user.username %> bot.">
+    <% 
+    // basePath is set by middleware in res.locals.basePath
+    // Express automatically merges res.locals into template context
+    const templateBasePath = (typeof basePath !== 'undefined' && basePath) ? basePath : '';
+    %>
+    <link rel="icon" type="image/x-icon" href="<%= templateBasePath %>/favicon.ico">
+    <link rel="stylesheet" href="<%= templateBasePath %>/shared/styles.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body class="main-layout">
+    <%- include('../shared/header.ejs', { data: data }) %>
+
+    <main>
+        <%
+            const displayName = data.user ? data.user.username : 'Commander';
+            const overviewActions = [];
+            if (data.inviteLink) {
+                overviewActions.push({ href: data.inviteLink, label: 'Invite to Server', className: 'btn btn-primary' });
+            }
+            overviewActions.push({ href: '/commands', label: 'Browse Commands', className: 'btn btn-secondary' });
+
+            const serversValue = (data.botStats && typeof data.botStats.servers === 'number') ? data.botStats.servers : (Array.isArray(data.guilds) ? data.guilds.length : 0);
+            const serversDisplay = typeof serversValue === 'number' ? serversValue.toLocaleString() : serversValue;
+            const usersValue = (data.botStats && typeof data.botStats.users === 'number') ? data.botStats.users : 0;
+            const usersDisplay = typeof usersValue === 'number' ? usersValue.toLocaleString() : usersValue;
+            const commandsValue = (data.botStats && typeof data.botStats.commands === 'number') ? data.botStats.commands : 0;
+            const commandsDisplay = typeof commandsValue === 'number' ? commandsValue.toLocaleString() : commandsValue;
+            const uptimeDisplay = (data.botStats && data.botStats.uptime) ? data.botStats.uptime : '--';
+        %>
+
+        <section class="page-wrapper page-wrapper--narrow" data-aos="fade-up">
+            <%- include('../shared/components/hero', {
+                title: `Welcome back, ${displayName}`,
+                subtitle: 'Monitor the health of your bot, review live metrics, and jump straight into the servers you manage.',
+                badge: 'Dashboard Overview',
+                actions: overviewActions,
+                panel: true
+            }) %>
+
+            <div class="page-kpi-grid" data-aos="fade-up" data-aos-delay="120">
+                <div class="page-kpi">
+                    <h3>Servers</h3>
+                    <p><%= serversDisplay %></p>
+                </div>
+                <div class="page-kpi">
+                    <h3>Users Served</h3>
+                    <p><%= usersDisplay %></p>
+                </div>
+                <div class="page-kpi">
+                    <h3>Commands Loaded</h3>
+                    <p><%= commandsDisplay %></p>
+                </div>
+                <div class="page-kpi">
+                    <h3>Uptime</h3>
+                    <p><%= uptimeDisplay %></p>
+                </div>
+            </div>
+        </section>
+
+        <section class="page-wrapper" data-aos="fade-up" data-aos-delay="160">
+            <div class="page-section">
+                <%- include('../shared/components/section-header', {
+                    badge: 'Your Servers',
+                    title: 'Select a guild to open its management hub',
+                    description: 'Only servers where you have administrative permissions are listed. Need to add the bot elsewhere? Invite it in seconds.'
+                }) %>
+
+            <% if (Array.isArray(data.guilds) && data.guilds.length > 0) { %>
+                    <div class="page-grid page-grid--three">
+                <% data.guilds.forEach((guild, index) => { %>
+                        <article class="surface-card" data-aos="fade-up" data-aos-delay="<%= (index % 3) * 120 %>">
+                            <div class="surface-card__icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                            <h3 class="surface-card__title"><%= guild.name %></h3>
+                            <p>Server ID: <code><%= guild.id %></code></p>
+                            <div class="page-actions">
+                                <a href="<%= templateBasePath %>/dashboard/@me/servers/<%= guild.id %>" class="btn btn-primary">Manage Server</a>
+                    </div>
+                </article>
+                <% }); %>
+            </div>
+            <% } else { %>
+                    <div class="empty-state">
+                        <strong>No manageable servers detected</strong>
+                <p>Join a server with administrator permissions or invite the bot using the button above to get started.</p>
+            </div>
+            <% } %>
+            </div>
+        </section>
+
+        <section class="page-wrapper page-wrapper--narrow" data-aos="fade-up" data-aos-delay="220">
+            <div class="page-section">
+                <%- include('../shared/components/hero', {
+                    title: 'Need deeper automation?',
+                    subtitle: 'Explore scheduled commands, moderation workflows, and analytics dashboards tailored for owners and staff.',
+                    actions: [
+                        { href: '/commands', label: 'Browse Commands', className: 'btn btn-secondary' },
+                        { href: '/status', label: 'Live Status', className: 'btn btn-accent' }
+                    ],
+                    panel: true
+                }) %>
+            </div>
+        </section>
+    </main>
+
+    <%- include('../shared/footer.ejs', { data: data }) %>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>AOS.init({ duration: 800, once: true });</script>
+</body>
+</html>

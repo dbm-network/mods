@@ -1,0 +1,47 @@
+<%
+    const panelFlag = typeof panel !== 'undefined' ? Boolean(panel) : false;
+    const alignLeftFlag = typeof alignLeft !== 'undefined' ? Boolean(alignLeft) : false;
+    const actionSource = typeof actions !== 'undefined' ? actions : [];
+    const actionList = Array.isArray(actionSource) ? actionSource : [];
+    const heroClasses = ['page-hero'];
+    if (panelFlag) {
+        heroClasses.push('page-hero--panel');
+    }
+    if (alignLeftFlag) {
+        heroClasses.push('page-hero--left');
+    }
+    if (typeof className === 'string' && className.trim().length) {
+        heroClasses.push(className.trim());
+    }
+%>
+<div class="<%= heroClasses.join(' ') %>">
+    <% if (typeof badge !== 'undefined' && badge) { %>
+        <span class="page-hero__badge"><%= badge %></span>
+    <% } %>
+
+    <h1 class="page-hero__title"><%= title %></h1>
+
+    <% if (typeof subtitleHtml !== 'undefined' && subtitleHtml) { %>
+        <div class="page-hero__subtitle page-hero__subtitle--markdown"><%- subtitleHtml %></div>
+    <% } else if (typeof subtitle !== 'undefined' && subtitle) { %>
+        <p class="page-hero__subtitle"><%= subtitle %></p>
+    <% } %>
+
+    <% if (actionList.length > 0) { %>
+        <div class="page-hero__actions">
+            <% actionList.forEach(function(action) { %>
+                <% if (!action) { return; } %>
+                <% const href = action.href || '#'; %>
+                <% const label = action.label || 'Learn more'; %>
+                <% const className = action.className || 'btn btn-primary'; %>
+                <% const attrs = action.attrs || {}; %>
+                <a href="<%= href %>" class="<%= className %>"
+                   <% Object.keys(attrs).forEach(function (key) { %>
+                       <%= key %>="<%= attrs[key] %>"
+                   <% }); %>>
+                    <%= label %>
+                </a>
+            <% }); %>
+        </div>
+    <% } %>
+</div>

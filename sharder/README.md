@@ -4,6 +4,15 @@
 
 Allows your bot created by Discord Bot Maker to take advantage of sharding!
 
+## Requirements
+
+- Node.js 18+
+- discord.js **14.26.2** or newer (matches the mods repository)
+- A valid bot token supplied in one of the following ways:
+  - `--token=YOUR_TOKEN_HERE`
+  - Environment variable (`DBM_SHARD_TOKEN`, `DISCORD_TOKEN`, `DBM_TOKEN`, `BOT_TOKEN`, or `TOKEN`)
+  - `data/settings.json` (encrypted or plain JSON)
+
 ## Installation
 
 Download the [ZIP file] and extract the file to your bot folder.
@@ -18,11 +27,16 @@ Open a Command Prompt window on the bot folder and run `node sharded-bot.js`. It
 
 ![node](https://i.imgur.com/AKuzOrR.png)
 
+Optional arguments:
+
+- `--shard_count=[number]` – Defaults to `auto` (discord.js determines the count)
+- `--startup=./index.js` – Defaults to `./bot.js`
+- `--timeout=[milliseconds]` – Defaults to `60000`, use `-1` to disable spawning timeout
+- `--token=YOUR_TOKEN` – Overrides any token discovered in settings or environment variables
+
 If you want to provide a different shard count, add `--shard_count=[number]` after `node sharded-bot.js`; ex. `node sharded-bot.js --shard_count=3`.
-The default `shard_count` flag is set to `auto` (determined by discord.js), which is fine for most bots.
 
 To change the bot startup file, add `--startup=./index.js` after `node sharded-bot.js`; ex. `node sharded-bot.js --startup=./index.js`.
-The default `startup` parameter is set to `bot.js`.
 
 **If you want to do anything across shards you will need to use** [`client.shard.broadcastEval()`]
 

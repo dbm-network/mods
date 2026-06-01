@@ -1,5 +1,45 @@
-.vscode
+# AI ingest HMAC secret (copy from example)
+api/ingest-config.local.php
+
+# Secure configuration
+config.php
+config.php.backup
+
+# Sensitive data
+data/servers.json
+data/settings.json
+data/backups/
+*.sqlite
+*.db
+
+# Node modules
+node_modules/
+extensions/*/node_modules/
+
+# Logs
+logs/
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
 .idea/
-node_modules
-.history
+*.swp
+*.swo
+
+# Backup directories
+*-backups/
+nt-backups/
+
+# Environment files
+.env
+.env.local
+
+config.secrets.json
+extensions/dashboard_EXT/data/giveaways/settings.json
+
+# ESLint cache
 .eslintcache

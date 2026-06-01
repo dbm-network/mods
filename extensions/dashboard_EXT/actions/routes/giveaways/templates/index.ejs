@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= data.seo?.title || 'Giveaway Templates - News Targeted Bot Dashboard' %></title>
+    <meta name="description" content="<%= data.seo?.description || 'Manage giveaway templates' %>">
+    <% 
+    const templateBasePath = (typeof basePath !== 'undefined' && basePath) ? basePath : '';
+    %>
+    <link rel="icon" type="image/x-icon" href="<%= templateBasePath %>/favicon.ico">
+    <link rel="stylesheet" href="<%= templateBasePath %>/shared/styles.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body class="main-layout">
+    <%- include('../../../views/shared/header.ejs', { data: data }) %>
+
+    <main>
+        <section class="page-wrapper page-wrapper--narrow" data-aos="fade-up">
+            <%- include('../../../views/shared/components/hero', {
+                title: 'Giveaway Templates',
+                subtitle: 'Save and reuse giveaway configurations',
+                badge: 'Giveaway System',
+                panel: true
+            }) %>
+        </section>
+
+        <% if (!data.giveawaySystemAvailable) { %>
+        <section class="page-wrapper page-wrapper--narrow" data-aos="fade-up" data-aos-delay="100">
+            <div class="page-section">
+                <div class="empty-state">
+                    <h3>Giveaway System Not Initialized</h3>
+                    <p>The giveaway system files have not been created yet.</p>
+                </div>
+            </div>
+        </section>
+        <% } else { %>
+
+        <section class="page-wrapper" data-aos="fade-up" data-aos-delay="120">
+            <div class="page-section">
+                <% const serverIdParam = data.selectedServerId ? `?serverId=${data.selectedServerId}` : ''; %>
+                <div class="panel-tabs-wrapper">
+                    <nav class="panel-tabs" role="tablist">
+                        <a href="<%= templateBasePath %>/giveaways<%= serverIdParam %>" class="panel-tab-button">
+                            <i class="fas fa-list"></i>
+                            <span>Overview</span>
+                        </a>
+                        <a href="<%= templateBasePath %>/giveaways/schedule<%= serverIdParam %>" class="panel-tab-button">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>Schedule</span>
+                        </a>
+                        <a href="<%= templateBasePath %>/giveaways/templates<%= serverIdParam %>" class="panel-tab-button active">
+                            <i class="fas fa-file-alt"></i>
+                            <span>Templates</span>
+                        </a>
+                        <a href="<%= templateBasePath %>/giveaways/settings<%= serverIdParam %>" class="panel-tab-button">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                        <a href="<%= templateBasePath %>/giveaways/premium<%= serverIdParam %>" class="panel-tab-button">
+                            <i class="fas fa-star"></i>
+                            <span>Premium</span>
+                        </a>
+                    </nav>
+                </div>
+                
+                <% if (data.selectedServer) { %>
+                <div style="margin-top: 1rem; padding: 1rem; background: var(--surface-elevated); border-radius: var(--radius-md); display: flex; align-items: center; gap: 1rem;">
+                    <div style="font-weight: 600; color: var(--text-primary);">
+                        <i class="fas fa-server"></i> Filtering by: <%= data.selectedServer.name %>
+                    </div>
+                    <a href="<%= templateBasePath %>/giveaways/templates" class="btn btn-sm btn-secondary">
+                        <i class="fas fa-times"></i> Clear Filter
+                    </a>
+                </div>
+                <% } %>
+                
+                <div class="page-actions" style="margin-top: 1.5rem;">
+                    <a href="<%= templateBasePath %>/giveaways/templates/create" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Create Template
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <% if (data.templates && data.templates.length > 0) { %>
+        <section class="page-wrapper" data-aos="fade-up" data-aos-delay="140">
+            <div class="page-section">
+                <div class="giveaway-grid">
+                    <% data.templates.forEach((template, index) => { %>
+                    <div class="giveaway-card" data-aos="fade-up" data-aos-delay="<%= 160 + (index * 20) %>">
+                        <div class="giveaway-card__header">
+                            <h3><%= template.name || 'Unnamed Template' %></h3>
+                        </div>
+                        <div class="giveaway-card__body">
+                            <p class="giveaway-meta">
+                                <strong>Prize:</strong> <%= template.prize || 'N/A' %><br>
+                                <strong>Winners:</strong> <%= template.winners || 1 %><br>
+                                <strong>Duration:</strong> <%= template.duration || 'N/A' %><br>
+                                <% if (template.createdAt) { %>
+                                <strong>Created:</strong> <span class="giveaway-time" data-time="<%= template.createdAt %>"></span>
+                                <% } %>
+                            </p>
+                        </div>
+                        <div class="giveaway-card__actions">
+                            <a href="<%= templateBasePath %>/giveaways/create?template=<%= template.id %>" class="btn btn-sm btn-primary">Use</a>
+                            <a href="<%= templateBasePath %>/giveaways/templates/<%= template.id %>/edit" class="btn btn-sm btn-secondary">Edit</a>
+                            <button class="btn btn-sm btn-danger" onclick="deleteTemplate('<%= template.id %>')">Delete</button>
+                        </div>
+                    </div>
+                    <% }); %>
+                </div>
+            </div>
+        </section>
+        <% } else { %>
+        <section class="page-wrapper" data-aos="fade-up" data-aos-delay="140">
+            <div class="page-section">
+                <div class="empty-state">
+                    <h3>No Templates Yet</h3>
+                    <p>Create your first template to save giveaway configurations for reuse!</p>
+                    <a href="<%= templateBasePath %>/giveaways/templates/create" class="btn btn-primary">Create Template</a>
+                </div>
+            </div>
+        </section>
+        <% } %>
+
+        <% } %>
+    </main>
+
+    <%- include('../../../views/shared/footer.ejs', { data: data }) %>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+
+        const basePath = window.location.pathname.startsWith('/nt2') ? '/nt2' : '';
+
+        function formatTime(timestamp) {
+            if (!timestamp) return 'N/A';
+            const date = new Date(parseInt(timestamp));
+            return date.toLocaleString();
+        }
+
+        function updateTimeElements() {
+            document.querySelectorAll('.giveaway-time').forEach(el => {
+                const time = el.getAttribute('data-time');
+                if (time) {
+                    el.textContent = formatTime(time);
+                }
+            });
+        }
+
+        function deleteTemplate(id) {
+            if (!confirm('Are you sure you want to delete this template?')) return;
+            fetch(basePath + '/api/giveaways/templates/' + id, {
+                method: 'DELETE',
+                credentials: 'same-origin'
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert('Failed to delete template: ' + (data.error || 'Unknown error'));
+                }
+            })
+            .catch(err => {
+                console.error('Error deleting template:', err);
+                alert('Failed to delete template');
+            });
+        }
+
+        updateTimeElements();
+    </script>
+</body>
+</html>
+

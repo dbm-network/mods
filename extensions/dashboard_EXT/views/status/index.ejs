@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= data.seo?.title || 'Status - News Targeted Bot' %></title>
+    <meta name="description" content="<%= data.seo?.description || 'Real-time status for News Targeted Bot services.' %>">
+    <meta name="keywords" content="<%= data.seo?.keywords || '' %>">
+    <% if (data.seo?.canonical) { %>
+    <link rel="canonical" href="<%= data.seo.canonical %>">
+    <% } %>
+
+    <% 
+    // basePath is set by middleware in res.locals.basePath
+    // Express automatically merges res.locals into template context
+    const templateBasePath = (typeof basePath !== 'undefined' && basePath) ? basePath : '';
+    %>
+    <link rel="icon" type="image/x-icon" href="<%= templateBasePath %>/favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="<%= templateBasePath %>/shared/styles.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body class="main-layout">
+    <%- include('../shared/header', { data: data }) %>
+
+    <main class="status-wrapper">
+        <section class="status-hero" data-aos="fade-up">
+            <span class="status-badge" id="overall-status">All Systems Operational</span>
+            <h1>Service Status</h1>
+            <p>Track live uptime and performance for every News Targeted Bot service.</p>
+        </section>
+
+        <section class="service-grid" data-aos="fade-up" data-aos-delay="100">
+            <article class="service-card" id="service-bot">
+                <div class="service-card__icon"><i class="fas fa-robot"></i></div>
+                <div class="service-card__body">
+                    <h2>Discord Bot</h2>
+                    <p>Core bot availability, command execution and latency.</p>
+                </div>
+                <div class="service-card__status status-pill operational" data-status-label>Operational</div>
+            </article>
+            <article class="service-card" id="service-dashboard">
+                <div class="service-card__icon"><i class="fas fa-globe"></i></div>
+                <div class="service-card__body">
+                    <h2>Dashboard</h2>
+                    <p>Web dashboard uptime, API performance and authentication.</p>
+                </div>
+                <div class="service-card__status status-pill operational" data-status-label>Operational</div>
+            </article>
+            <article class="service-card" id="service-database">
+                <div class="service-card__icon"><i class="fas fa-database"></i></div>
+                <div class="service-card__body">
+                    <h2>Database</h2>
+                    <p>Persistent storage, backups and scheduled maintenance.</p>
+                </div>
+                <div class="service-card__status status-pill operational" data-status-label>Operational</div>
+            </article>
+        </section>
+
+        <section class="metrics-grid" data-aos="fade-up" data-aos-delay="180">
+            <div class="metric-card">
+                <h3>Current Response Time</h3>
+                <p id="metric-response">-- ms</p>
+            </div>
+            <div class="metric-card">
+                <h3>Last Updated</h3>
+                <p id="metric-updated">--</p>
+            </div>
+            <div class="metric-card">
+                <h3>Active Guilds</h3>
+                <p id="metric-guilds">--</p>
+            </div>
+            <div class="metric-card">
+                <h3>Tracked Users</h3>
+                <p id="metric-users">--</p>
+            </div>
+        </section>
+
+        <section class="status-history" data-aos="fade-up" data-aos-delay="240">
+            <h2>Recent Activity</h2>
+            <p>Automated monitoring checks run every minute to ensure you stay informed. All times are shown in your local timezone.</p>
+            <ul id="status-log" class="status-log"></ul>
+        </section>
+    </main>
+
+    <%- include('../shared/footer', { data: data }) %>
+
+    <script>
+        const responseEl = document.getElementById('metric-response');
+        const updatedEl = document.getElementById('metric-updated');
+        const guildEl = document.getElementById('metric-guilds');
+        const usersEl = document.getElementById('metric-users');
+        const statusLog = document.getElementById('status-log');
+        const overallStatus = document.getElementById('overall-status');
+        const servicePills = document.querySelectorAll('[data-status-label]');
+
+        function renderLogEntry(message, healthy = true) {
+            const item = document.createElement('li');
+            item.className = healthy ? 'log-entry healthy' : 'log-entry degraded';
+            item.innerHTML = `
+                <span class="log-indicator"></span>
+                <div class="log-copy">
+                    <strong>${healthy ? 'Operational' : 'Notice'}</strong>
+                    <p>${message}</p>
+                </div>
+                <time>${new Date().toLocaleTimeString()}</time>
+            `;
+            statusLog.prepend(item);
+            while (statusLog.children.length > 6) {
+                statusLog.removeChild(statusLog.lastChild);
+            }
+        }
+
+        async function loadStatus() {
+            try {
+                const basePath = window.location.pathname.startsWith('/nt2') ? '/nt2' : '';
+                const response = await fetch(basePath + '/api/stats');
+                const result = await response.json();
+
+                if (!response.ok || !result.success) {
+                    throw new Error(result.error || 'Failed to fetch status');
+                }
+
+                const data = result.data;
+                responseEl.textContent = `${Math.max(0, Math.round(data.bot?.ping || data.ping || 0))} ms`;
+                updatedEl.textContent = new Date().toLocaleTimeString();
+                guildEl.textContent = (data.bot?.servers || data.servers || 0).toLocaleString();
+                usersEl.textContent = (data.bot?.users || data.users || 0).toLocaleString();
+
+                const healthy = (data.status || 'online').toLowerCase() === 'online';
+                overallStatus.textContent = healthy ? 'All Systems Operational' : 'Service Degradation';
+                overallStatus.classList.toggle('degraded', !healthy);
+
+                servicePills.forEach(pill => {
+                    pill.textContent = healthy ? 'Operational' : 'Degraded';
+                    pill.classList.toggle('degraded', !healthy);
+                });
+
+                renderLogEntry(healthy ? 'All monitored services are reporting healthy telemetry.' : 'One or more services reported elevated error rates.', healthy);
+            } catch (error) {
+                console.error('[status] Unable to load status metrics:', error);
+                overallStatus.textContent = 'Status Unavailable';
+                overallStatus.classList.add('degraded');
+                servicePills.forEach(pill => {
+                    pill.textContent = 'Unknown';
+                    pill.classList.add('degraded');
+                });
+                renderLogEntry('Failed to connect to the monitoring API. Retrying shortly.', false);
+            }
+        }
+
+        loadStatus();
+        setInterval(loadStatus, 30000);
+    </script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+    </script>
+</body>
+</html>

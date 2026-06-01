@@ -1,0 +1,14 @@
+{
+  "author": "News Targeted",
+  "version": "1.0.0",
+  "name": "giveaways_schedule",
+  "description": "Giveaway schedule management",
+  "dashboardMod": true,
+  "adminPanelMod": false,
+  "scriptFiles": ["schedule_route.js"],
+  "isCustom": false,
+  "routeURL": "/giveaways/schedule",
+  "webFile": "index.ejs",
+  "cssFiles": [],
+  "loginRequired": true
+}

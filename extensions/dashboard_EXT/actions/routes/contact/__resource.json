@@ -1,0 +1,13 @@
+{
+  "author": "News Targeted",
+  "version": "1.0.0",
+  "name": "contact_route",
+  "description": "Public contact page for the dashboard",
+  "dashboardMod": true,
+  "adminPanelMod": true,
+  "scriptFiles": ["contact_route.js"],
+  "isCustom": false,
+  "routeURL": "/contact",
+  "webFile": "index.ejs",
+  "cssFiles": ["contact.css"]
+}

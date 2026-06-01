@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= data.seo?.title || 'Giveaways - News Targeted Bot Dashboard' %></title>
+    <meta name="description" content="<%= data.seo?.description || 'Manage giveaways for your Discord server' %>">
+    <% 
+    const templateBasePath = (typeof basePath !== 'undefined' && basePath) ? basePath : '';
+    %>
+    <link rel="icon" type="image/x-icon" href="<%= templateBasePath %>/favicon.ico">
+    <link rel="stylesheet" href="<%= templateBasePath %>/shared/styles.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body class="main-layout">
+    <%- include('../../../views/shared/header.ejs', { data: data }) %>
+
+    <main>
+        <section class="page-wrapper page-wrapper--narrow" data-aos="fade-up">
+            <%- include('../../../views/shared/components/hero', {
+                title: 'Giveaways',
+                subtitle: 'Create, manage, and track giveaways for your Discord server',
+                badge: 'Giveaway System',
+                panel: true
+            }) %>
+        </section>
+
+        <% if (!data.giveawaySystemAvailable) { %>
+        <section class="page-wrapper page-wrapper--narrow" data-aos="fade-up" data-aos-delay="100">
+            <div class="page-section">
+                <div class="empty-state">
+                    <h3>Giveaway System Not Initialized</h3>
+                    <p>The giveaway system files have not been created yet. The system will be initialized automatically when you create your first giveaway.</p>
+                    <div class="empty-state__actions" style="margin-top: 1.5rem;">
+                        <a href="<%= templateBasePath %>/giveaways/create" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Create Your First Giveaway
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <% } else { %>
+
+        <section class="page-wrapper" data-aos="fade-up" data-aos-delay="120">
+            <div class="page-section">
+                <% const serverIdParam = data.selectedServerId ? `?serverId=${data.selectedServerId}` : ''; %>
+                <div class="panel-tabs-wrapper">
+                    <nav class="panel-tabs" role="tablist">
+                        <a href="<%= templateBasePath %>/giveaways<%= serverIdParam %>" class="panel-tab-button <%= data.currentPath === '/giveaways' || data.currentPath === '/giveaways/' ? 'active' : '' %>">
+                            <i class="fas fa-list"></i>
+                            <span>Overview</span>
+                        </a>
+                        <a href="<%= templateBasePath %>/giveaways/schedule<%= serverIdParam %>" class="panel-tab-button <%= data.currentPath && data.currentPath.startsWith('/giveaways/schedule') ? 'active' : '' %>">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>Schedule</span>
+                        </a>
+                        <a href="<%= templateBasePath %>/giveaways/templates<%= serverIdParam %>" class="panel-tab-button <%= data.currentPath && data.currentPath.startsWith('/giveaways/templates') ? 'active' : '' %>">
+                            <i class="fas fa-file-alt"></i>
+                            <span>Templates</span>
+                        </a>
+                        <a href="<%= templateBasePath %>/giveaways/settings<%= serverIdParam %>" class="panel-tab-button <%= data.currentPath && data.currentPath.startsWith('/giveaways/settings') ? 'active' : '' %>">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                        <a href="<%= templateBasePath %>/giveaways/premium<%= serverIdParam %>" class="panel-tab-button <%= data.currentPath && data.currentPath.startsWith('/giveaways/premium') ? 'active' : '' %>">
+                            <i class="fas fa-star"></i>
+                            <span>Premium</span>
+                        </a>
+                    </nav>
+                </div>
+                
+                <% if (data.selectedServer) { %>
+                <div style="margin-top: 1rem; padding: 1rem; background: var(--surface-elevated); border-radius: var(--radius-md); display: flex; align-items: center; gap: 1rem;">
+                    <div style="font-weight: 600; color: var(--text-primary);">
+                        <i class="fas fa-server"></i> Filtering by: <%= data.selectedServer.name %>
+                    </div>
+                    <a href="<%= templateBasePath %>/giveaways" class="btn btn-sm btn-secondary">
+                        <i class="fas fa-times"></i> Clear Filter
+                    </a>
+                </div>
+                <% } %>
+                
+                <div class="page-actions" style="margin-top: 1.5rem;">
+                    <a href="<%= templateBasePath %>/giveaways/create<%= serverIdParam %>" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Create Giveaway
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <% if (data.giveaways.active.length > 0) { %>
+        <section class="page-wrapper" data-aos="fade-up" data-aos-delay="140">
+            <div class="page-section">
+                <h2 class="page-section-title">Active Giveaways</h2>
+                <div class="giveaway-grid">
+                    <% data.giveaways.active.forEach((giveaway, index) => { %>
+                    <div class="giveaway-card" data-aos="fade-up" data-aos-delay="<%= 160 + (index * 20) %>">
+                        <div class="giveaway-card__header">
+                            <h3><%= giveaway.prize || giveaway.name || 'Unnamed Giveaway' %></h3>
+                            <span class="status-pill status-pill--active">Active</span>
+                        </div>
+                        <div class="giveaway-card__body">
+                            <p class="giveaway-meta">
+                                <strong>Winners:</strong> <%= giveaway.winners || 1 %><br>
+                                <strong>Entries:</strong> <%= (giveaway.entries && giveaway.entries.length) || 0 %><br>
+                                <% if (giveaway.endTime) { %>
+                                <strong>Ends:</strong> <span class="giveaway-time" data-end-time="<%= giveaway.endTime %>"></span>
+                                <% } %>
+                            </p>
+                        </div>
+                        <div class="giveaway-card__actions">
+                            <a href="<%= templateBasePath %>/giveaways/<%= giveaway.id %>" class="btn btn-sm btn-primary">View</a>
+                            <button class="btn btn-sm btn-danger" onclick="endGiveaway('<%= giveaway.id %>')">End</button>
+                        </div>
+                    </div>
+                    <% }); %>
+                </div>
+            </div>
+        </section>
+        <% } %>
+
+        <% if (data.giveaways.scheduled.length > 0) { %>
+        <section class="page-wrapper" data-aos="fade-up" data-aos-delay="180">
+            <div class="page-section">
+                <h2 class="page-section-title">Scheduled Giveaways</h2>
+                <div class="giveaway-grid">
+                    <% data.giveaways.scheduled.forEach((giveaway, index) => { %>
+                    <div class="giveaway-card" data-aos="fade-up" data-aos-delay="<%= 200 + (index * 20) %>">
+                        <div class="giveaway-card__header">
+                            <h3><%= giveaway.prize || giveaway.name || 'Unnamed Giveaway' %></h3>
+                            <span class="status-pill status-pill--scheduled">Scheduled</span>
+                        </div>
+                        <div class="giveaway-card__body">
+                            <p class="giveaway-meta">
+                                <strong>Winners:</strong> <%= giveaway.winners || 1 %><br>
+                                <% if (giveaway.scheduledStart) { %>
+                                <strong>Starts:</strong> <span class="giveaway-time" data-start-time="<%= giveaway.scheduledStart %>"></span>
+                                <% } %>
+                            </p>
+                        </div>
+                        <div class="giveaway-card__actions">
+                            <a href="<%= templateBasePath %>/giveaways/<%= giveaway.id %>" class="btn btn-sm btn-primary">View</a>
+                            <button class="btn btn-sm btn-danger" onclick="deleteGiveaway('<%= giveaway.id %>')">Cancel</button>
+                        </div>
+                    </div>
+                    <% }); %>
+                </div>
+            </div>
+        </section>
+        <% } %>
+
+        <% if (data.giveaways.ended.length > 0) { %>
+        <section class="page-wrapper" data-aos="fade-up" data-aos-delay="220">
+            <div class="page-section">
+                <h2 class="page-section-title">Ended Giveaways</h2>
+                <div class="giveaway-grid">
+                    <% data.giveaways.ended.slice(0, 10).forEach((giveaway, index) => { %>
+                    <div class="giveaway-card" data-aos="fade-up" data-aos-delay="<%= 240 + (index * 20) %>">
+                        <div class="giveaway-card__header">
+                            <h3><%= giveaway.prize || giveaway.name || 'Unnamed Giveaway' %></h3>
+                            <span class="status-pill status-pill--ended">Ended</span>
+                        </div>
+                        <div class="giveaway-card__body">
+                            <p class="giveaway-meta">
+                                <strong>Winners:</strong> <%= (giveaway.winnerIds && giveaway.winnerIds.length) || 0 %><br>
+                                <strong>Entries:</strong> <%= (giveaway.entries && giveaway.entries.length) || 0 %><br>
+                                <% if (giveaway.endedAt) { %>
+                                <strong>Ended:</strong> <span class="giveaway-time" data-time="<%= giveaway.endedAt %>"></span>
+                                <% } %>
+                            </p>
+                        </div>
+                        <div class="giveaway-card__actions">
+                            <a href="<%= templateBasePath %>/giveaways/<%= giveaway.id %>" class="btn btn-sm btn-primary">View</a>
+                        </div>
+                    </div>
+                    <% }); %>
+                </div>
+            </div>
+        </section>
+        <% } %>
+
+        <% if (data.giveaways.active.length === 0 && data.giveaways.scheduled.length === 0 && data.giveaways.ended.length === 0) { %>
+        <section class="page-wrapper" data-aos="fade-up" data-aos-delay="140">
+            <div class="page-section">
+                <div class="empty-state">
+                    <h3>No Giveaways Yet</h3>
+                    <p>Create your first giveaway to get started!</p>
+                    <a href="<%= templateBasePath %>/giveaways/create" class="btn btn-primary">Create Giveaway</a>
+                </div>
+            </div>
+        </section>
+        <% } %>
+
+        <% } %>
+    </main>
+
+    <%- include('../../../views/shared/footer.ejs', { data: data }) %>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+
+        const basePath = window.location.pathname.startsWith('/nt2') ? '/nt2' : '';
+
+        function formatTime(timestamp) {
+            if (!timestamp) return 'N/A';
+            const date = new Date(timestamp);
+            return date.toLocaleString();
+        }
+
+        function updateTimeElements() {
+            document.querySelectorAll('.giveaway-time').forEach(el => {
+                const endTime = el.getAttribute('data-end-time');
+                const startTime = el.getAttribute('data-start-time');
+                const time = el.getAttribute('data-time');
+                const timestamp = endTime || startTime || time;
+                if (timestamp) {
+                    el.textContent = formatTime(parseInt(timestamp));
+                }
+            });
+        }
+
+        function endGiveaway(id) {
+            if (!confirm('Are you sure you want to end this giveaway?')) return;
+            fetch(basePath + '/api/giveaways/' + id + '/end', {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert('Failed to end giveaway: ' + (data.error || 'Unknown error'));
+                }
+            })
+            .catch(err => {
+                console.error('Error ending giveaway:', err);
+                alert('Failed to end giveaway');
+            });
+        }
+
+        function deleteGiveaway(id) {
+            if (!confirm('Are you sure you want to cancel this scheduled giveaway?')) return;
+            fetch(basePath + '/api/giveaways/' + id, {
+                method: 'DELETE',
+                credentials: 'same-origin'
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert('Failed to delete giveaway: ' + (data.error || 'Unknown error'));
+                }
+            })
+            .catch(err => {
+                console.error('Error deleting giveaway:', err);
+                alert('Failed to delete giveaway');
+            });
+        }
+
+        updateTimeElements();
+        setInterval(updateTimeElements, 60000); // Update every minute
+    </script>
+</body>
+</html>
+

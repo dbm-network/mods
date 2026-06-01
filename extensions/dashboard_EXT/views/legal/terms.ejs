@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= (data.seo && data.seo.title) || 'Terms of Service - News Targeted Bot Dashboard' %></title>
+    <meta name="description" content="<%= (data.seo && data.seo.description) || 'Terms of Service for News Targeted Bot - Read our terms and conditions for using our services.' %>">
+    <% const basePath = (typeof res !== 'undefined' && res.locals && res.locals.basePath) ? res.locals.basePath : ''; %>
+    <link rel="icon" type="image/x-icon" href="<%= basePath %>/favicon.ico">
+    <link rel="stylesheet" href="<%= basePath %>/shared/styles.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body class="main-layout">
+    <%- include('../shared/header.ejs', { data }) %>
+    
+    <main>
+        <section class="page-wrapper page-wrapper--narrow page-wrapper--center" data-aos="fade-up">
+            <%- include('../shared/components/hero', {
+                title: 'Terms of Service',
+                subtitle: 'Last updated: January 2025',
+                panel: true
+            }) %>
+        </section>
+            
+        <section class="page-wrapper" data-aos="fade-up" data-aos-delay="120">
+            <div class="page-section page-section--content">
+                <section>
+                    <h2>Acceptance of Terms</h2>
+                    <p>By using News Targeted Bot, you agree to be bound by these Terms of Service and all applicable laws and regulations.</p>
+                </section>
+                
+                <section>
+                    <h2>Use License</h2>
+                    <p>Permission is granted to temporarily use News Targeted Bot for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title.</p>
+                </section>
+                
+                <section>
+                    <h2>Prohibited Uses</h2>
+                    <p>You may not use our service:</p>
+                    <ul>
+                        <li>For any unlawful purpose or to solicit others to perform unlawful acts</li>
+                        <li>To violate any international, federal, provincial, or state regulations, rules, laws, or local ordinances</li>
+                        <li>To infringe upon or violate our intellectual property rights or the intellectual property rights of others</li>
+                        <li>To harass, abuse, insult, harm, defame, slander, disparage, intimidate, or discriminate</li>
+                        <li>To submit false or misleading information</li>
+                        <li>To upload or transmit viruses or any other type of malicious code</li>
+                    </ul>
+                </section>
+                
+                <section>
+                    <h2>Service Availability</h2>
+                    <p>We strive to maintain high service availability but do not guarantee uninterrupted access. We reserve the right to modify or discontinue the service at any time.</p>
+                </section>
+                
+                <section>
+                    <h2>Limitation of Liability</h2>
+                    <p>In no event shall News Targeted Bot or its suppliers be liable for any damages arising out of the use or inability to use the service.</p>
+                </section>
+                
+                <section>
+                    <h2>Contact Information</h2>
+                    <% const dynamicContactUrl = (typeof contactUrl !== 'undefined' && contactUrl) ? contactUrl : '/contact'; %>
+                    <p>If you have any questions about these Terms of Service, please contact us at <a href="<%= dynamicContactUrl %>"><%= dynamicContactUrl %></a></p>
+                </section>
+            </div>
+        </section>
+    </main>
+    
+    <%- include('../shared/footer.ejs', { data }) %>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>AOS.init({ duration: 800, once: true });</script>
+</body>
+</html>

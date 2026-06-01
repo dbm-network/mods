@@ -1,0 +1,13 @@
+{
+  "author": "News Targeted",
+  "version": "1.0.0",
+  "name": "giveaways_templates",
+  "description": "Giveaway templates management",
+  "dashboardMod": true,
+  "adminPanelMod": false,
+  "scriptFiles": ["templates_route.js"],
+  "isCustom": false,
+  "routeURL": "/giveaways/templates",
+  "webFile": "index.ejs",
+  "cssFiles": []
+}

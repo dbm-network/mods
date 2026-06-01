@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= data.client.user.username %> · News Targeted Bot Dashboard</title>
+    <meta name="description" content="Manage the <%= data.client.user.username %> Discord bot with a secure, modern dashboard.">
+    <% const basePath = (typeof data !== 'undefined' && data.basePath) ? data.basePath : ((typeof res !== 'undefined' && res.locals && res.locals.basePath) ? res.locals.basePath : ''); %>
+</head>
+<body class="main-layout">
+    <%- include('../../../views/shared/header.ejs', { data: data }) %>
+    
+    <main>
+        <%
+            const heroTitle = `${data.client.user.username} — Discord Management, Evolved`;
+            const heroSubtitle = data.introText || 'Command your Discord community with a polished, secure control center featuring live analytics, powerful automations, and instant configuration tools.';
+            const heroSubtitleHtml = renderMarkdown(heroSubtitle);
+            const heroActions = [];
+            if (data.inviteLink) {
+                heroActions.push({ href: data.inviteLink, label: 'Invite the Bot', className: 'btn btn-primary' });
+            }
+            if (!data.user) {
+                heroActions.push({ href: basePath + '/auth/discord', label: 'Login with Discord', className: 'btn btn-accent' });
+            }
+            if (data.supportServer) {
+                heroActions.push({ href: data.supportServer, label: 'Support Server', className: 'btn btn-secondary', attrs: { target: '_blank', rel: 'noopener' } });
+            }
+        %>
+
+        <section class="page-wrapper page-wrapper--narrow page-wrapper--center" data-aos="fade-up">
+            <%- include('../../../views/shared/components/hero', {
+                title: heroTitle,
+                subtitleHtml: heroSubtitleHtml,
+                subtitle: heroSubtitle,
+                badge: 'News Targeted Bot',
+                actions: heroActions,
+                panel: true
+            }) %>
+
+            <div class="page-kpi-grid" data-aos="fade-up" data-aos-delay="120">
+                <div class="page-kpi">
+                    <h3>Servers</h3>
+                    <p id="metric-servers"><%= (data.botStats && typeof data.botStats.servers === 'number') ? data.botStats.servers.toLocaleString() : (data.botStats && data.botStats.servers) || '--' %></p>
+                            </div>
+                <div class="page-kpi">
+                    <h3>Users</h3>
+                    <p id="metric-users"><%= (data.botStats && typeof data.botStats.users === 'number') ? data.botStats.users.toLocaleString() : (data.botStats && data.botStats.users) || '--' %></p>
+                        </div>
+                <div class="page-kpi">
+                    <h3>Commands</h3>
+                    <p id="metric-commands"><%= (data.botStats && typeof data.botStats.commands === 'number') ? data.botStats.commands.toLocaleString() : (data.botStats && data.botStats.commands) || '--' %></p>
+                            </div>
+                <div class="page-kpi">
+                    <h3>Uptime</h3>
+                    <p id="metric-uptime"><%= (data.botStats && data.botStats.uptime) ? data.botStats.uptime : '--' %></p>
+                </div>
+            </div>
+        </section>
+
+        <section class="page-wrapper" data-aos="fade-up" data-aos-delay="160">
+            <div class="page-section">
+                <%- include('../../../views/shared/components/section-header', {
+                    badge: 'Highlights',
+                    title: 'Everything you need to keep your community thriving',
+                    description: 'From enterprise security to playful engagement tools, the News Targeted Bot comes stacked with modules you can shape to your server’s identity.'
+                }) %>
+                
+                <div class="page-grid page-grid--three">
+                    <% const features = Array.isArray(data.features) && data.features.length ? data.features : [
+                        { name: 'Enterprise Security', description: 'Rate limiting, granular permissions, and a full audit trail keep your community safe 24/7.' },
+                        { name: 'Live Analytics', description: 'Instantly gauge server performance with real-time charts, member insights, and actionable metrics.' },
+                        { name: 'Automations', description: 'Automated welcomes, moderation queues, and announcement scheduling reduce repetitive work.' },
+                        { name: 'Music & Entertainment', description: 'High fidelity audio, playlists, and built-in fun commands to energise your members.' },
+                        { name: 'Powerful Integrations', description: 'Connect with RSS, webhooks, and custom APIs to broadcast content everywhere.' },
+                        { name: 'Owner-Grade Controls', description: 'Fine-tuned access controls, owner-only settings views, and configurable admin workflows.' }
+                    ]; %>
+                    <% const featureIcons = ['fa-shield-alt','fa-chart-line','fa-robot','fa-music','fa-plug','fa-crown']; %>
+
+                    <% features.slice(0, 6).forEach((feature, index) => { %>
+                    <article class="surface-card" data-aos="fade-up" data-aos-delay="<%= (index % 3) * 120 %>">
+                        <div class="surface-card__icon">
+                            <i class="fas <%= featureIcons[index % featureIcons.length] || 'fa-star' %>"></i>
+                        </div>
+                        <h3 class="surface-card__title"><%= feature.name %></h3>
+                        <p><%= feature.description %></p>
+                    </article>
+                    <% }); %>
+                </div>
+            </div>
+        </section>
+
+        <section class="page-wrapper" data-aos="fade-up" data-aos-delay="200">
+            <div class="page-section">
+                <%- include('../../../views/shared/components/section-header', {
+                    badge: 'Control Center',
+                    title: 'Manage every server, command, and workflow from one place',
+                    description: 'Jump straight into actionable panels, configure automations, and review activity without touching a line of code.'
+                }) %>
+                
+                <div class="page-grid page-grid--two">
+                    <article class="surface-card">
+                        <div class="surface-card__icon">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                        <h3 class="surface-card__title">Visual Server Overview</h3>
+                        <p>Toggle between servers you manage, monitor key health metrics, and resolve incidents before members notice.</p>
+                        <div class="page-actions">
+                            <a href="<%= basePath %>/dashboard/@me" class="btn btn-primary">Open Dashboard</a>
+                        </div>
+                    </article>
+                    
+                    <article class="surface-card">
+                        <div class="surface-card__icon">
+                            <i class="fas fa-terminal"></i>
+                        </div>
+                        <h3 class="surface-card__title">Command Library</h3>
+                        <p>Browse every slash, prefix, and automation command with descriptions, usage hints, and owner-only toggles.</p>
+                        <div class="page-actions">
+                            <a href="<%= basePath %>/commands" class="btn btn-secondary">View Commands</a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <%
+            const ctaActions = [];
+            if (data.inviteLink) {
+                ctaActions.push({ href: data.inviteLink, label: 'Add to Discord', className: 'btn btn-primary' });
+            }
+            ctaActions.push({ href: '/status', label: 'View Status', className: 'btn btn-secondary' });
+            ctaActions.push({ href: '/contact', label: 'Talk to Us', className: 'btn btn-accent' });
+        %>
+        <section class="page-wrapper page-wrapper--narrow page-wrapper--center" data-aos="fade-up" data-aos-delay="240">
+            <div class="page-section">
+                <%- include('../../../views/shared/components/hero', {
+                    title: 'Ready to modernise your server?',
+                    subtitle: 'Deploy the News Targeted Bot today and give your moderators, owners, and members a premium experience across every device.',
+                    actions: ctaActions,
+                    panel: true
+                }) %>
+            </div>
+        </section>
+    </main>
+    
+    <%- include('../../../views/shared/footer.ejs', { data: data }) %>
+    
+    <script>
+
+        function formatNumber(value, isUsers = false) {
+            if (typeof value !== 'number') {
+                return value || '--';
+            }
+            return isUsers ? value.toLocaleString() : value.toString();
+                }
+                
+        function updateMetrics(statData) {
+            const metrics = {
+                servers: document.getElementById('metric-servers'),
+                users: document.getElementById('metric-users'),
+                commands: document.getElementById('metric-commands'),
+                uptime: document.getElementById('metric-uptime')
+            };
+            
+            if (!statData) {
+                console.warn('[Home] No stat data provided to updateMetrics');
+                return;
+            }
+            
+            if (metrics.servers) {
+            metrics.servers.textContent = formatNumber(statData.servers);
+            }
+            if (metrics.users) {
+            metrics.users.textContent = formatNumber(statData.users, true);
+            }
+            if (metrics.commands) {
+            metrics.commands.textContent = formatNumber(statData.commands);
+            }
+            if (metrics.uptime) {
+            metrics.uptime.textContent = statData.uptime || '--';
+            }
+        }
+
+        async function fetchStats() {
+            try {
+                const basePath = window.location.pathname.startsWith('/nt2') ? '/nt2' : '';
+                const apiUrl = basePath + '/api/stats';
+                console.log('[Home] Fetching stats from:', apiUrl);
+                
+                const response = await fetch(apiUrl, { 
+                    credentials: 'same-origin',
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch stats: ${response.status} ${response.statusText}`);
+                }
+                
+                const payload = await response.json();
+                console.log('[Home] Stats response:', payload);
+                
+                if (payload.success && payload.data) {
+                    updateMetrics(payload.data);
+                } else {
+                    console.warn('[Home] Stats response missing data:', payload);
+        }
+            } catch (error) {
+                console.error('[Home] Unable to load live statistics:', error.message, error);
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            console.log('[Home] DOM loaded, fetching stats...');
+            fetchStats();
+            setInterval(fetchStats, 30000);
+        });
+    </script>
+</body>
+</html>

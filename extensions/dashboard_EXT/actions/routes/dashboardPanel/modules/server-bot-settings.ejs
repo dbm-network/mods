@@ -1,0 +1,278 @@
+<!-- Server Bot Settings Pane -->
+<div class="panel-pane" id="server-bot-settings" role="tabpanel">
+    <!-- Server Feature Toggles -->
+    <div class="panel-card" style="margin-bottom: 1.5rem;">
+        <h3 style="margin-bottom: 1rem;">Server Features</h3>
+        <p class="form-help" style="margin-bottom: 1rem;">Enable or disable features for this server. These settings control whether features appear in the public leaderboard.</p>
+        
+        <div class="form-group" style="margin-bottom: 1rem;">
+            <label class="form-label" style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                <input type="checkbox" id="levelingEnabled" <%= (data.serverSettings?.levelingEnabled !== false) ? 'checked' : '' %> style="width: auto; margin: 0;">
+                <span>
+                    <strong>Leveling System</strong>
+                    <small style="display: block; color: #72767d; margin-top: 4px;">Enable XP, levels, streaks, and leaderboard for this server. When enabled, this server will appear in the public leaderboard. <strong>Enabled by default.</strong></small>
+                </span>
+            </label>
+        </div>
+        
+        <div class="form-group" style="margin-bottom: 1rem;">
+            <label class="form-label" style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                <input type="checkbox" id="giveawayEnabled" <%= data.serverSettings?.giveawayEnabled ? 'checked' : '' %> style="width: auto; margin: 0;">
+                <span>
+                    <strong>Giveaway System</strong>
+                    <small style="display: block; color: #72767d; margin-top: 4px;">Enable giveaway creation and management for this server.</small>
+                </span>
+            </label>
+        </div>
+        
+        <button type="button" id="save-feature-toggles" class="btn btn-primary" style="margin-top: 0.5rem;">
+            <i class="fas fa-save"></i> Save Feature Settings
+        </button>
+        <div id="feature-toggles-feedback" class="form-feedback" role="alert" style="margin-top: 1rem;"></div>
+    </div>
+    <div class="panel-pane-header">
+        <h2>Server Bot Settings</h2>
+        <p>Configure bot settings specific to this server. Works alongside <code>server_prefixes_EXT.js</code> extension if installed.</p>
+    </div>
+    
+    <form id="server-bot-settings-form" class="panel-form giveaway-form">
+        <input type="hidden" name="_csrf" value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+        <input type="hidden" name="serverId" value="<%= data.server.id %>">
+        
+        <div class="giveaway-form-grid">
+            <div class="giveaway-form-column">
+                <div class="form-section">
+                    <h3>Command Prefix</h3>
+                    
+                    <label class="form-field">
+                        <span>Bot Server Prefix</span>
+                        <input type="text" name="prefix" id="server-prefix-input" class="form-control" value="<%= data.serverPrefix || data.mainPrefix || '!' %>" maxlength="10" required>
+                        <small>Bot Server Prefix for prefix commands. Leave empty to use the default bot prefix (<%= data.mainPrefix || '!' %>).</small>
+                    </label>
+                    
+                    <div class="form-field">
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem;">
+                            <strong>Current Prefix:</strong> <code style="background: var(--surface-color); padding: 0.25rem 0.5rem; border-radius: 4px;"><%= data.serverPrefix || data.mainPrefix || '!' %></code>
+                        </p>
+                        <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 0.5rem;">
+                            This prefix will be used for all prefix commands in this server. If you set a custom prefix, it will override the default bot prefix for this server only.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="page-actions" style="margin-top: 2rem;">
+            <button type="submit" class="btn btn-primary" id="save-server-settings-btn">
+                <i class="fas fa-save"></i> Save Server Settings
+            </button>
+            <% if (data.serverPrefix && data.serverPrefix !== data.mainPrefix) { %>
+            <button type="button" class="btn btn-secondary" id="reset-server-prefix-btn" style="margin-left: 1rem;">
+                <i class="fas fa-undo"></i> Reset to Default
+            </button>
+            <% } %>
+        </div>
+        
+        <div id="server-settings-feedback" class="form-feedback" role="alert" style="margin-top: 1rem;"></div>
+    </form>
+</div>
+
+<script>
+(function() {
+    const basePath = window.location.pathname.startsWith('/nt2') ? '/nt2' : '';
+    const serverId = '<%= typeof data !== "undefined" && data.server && data.server.id ? data.server.id : "" %>';
+    const mainPrefix = '<%= typeof data !== "undefined" && data.mainPrefix ? data.mainPrefix : "!" %>';
+    
+    // Get CSRF token
+    function getCsrfToken() {
+        const csrfInput = document.querySelector('input[name="_csrf"]');
+        return csrfInput ? csrfInput.value : '';
+    }
+    
+    // Feature toggles
+    const levelingToggle = document.getElementById('levelingEnabled');
+    const giveawayToggle = document.getElementById('giveawayEnabled');
+    const saveFeatureTogglesBtn = document.getElementById('save-feature-toggles');
+    const featureTogglesFeedback = document.getElementById('feature-toggles-feedback');
+    
+    if (saveFeatureTogglesBtn) {
+        saveFeatureTogglesBtn.addEventListener('click', async () => {
+            const serverId = '<%= data.server?.id %>';
+            if (!serverId) {
+                featureTogglesFeedback.innerHTML = '<div class="form-error">Server ID not found</div>';
+                return;
+            }
+            
+            saveFeatureTogglesBtn.disabled = true;
+            saveFeatureTogglesBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+            
+            try {
+                const response = await fetch(`/api/server/${serverId}/settings`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-Token': '<%= data.csrfToken || "" %>'
+                    },
+                    credentials: 'same-origin',
+                    body: JSON.stringify({
+                        levelingEnabled: levelingToggle.checked,
+                        giveawayEnabled: giveawayToggle.checked
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    featureTogglesFeedback.innerHTML = '<div class="form-success">Feature settings saved successfully!</div>';
+                    setTimeout(() => {
+                        featureTogglesFeedback.innerHTML = '';
+                    }, 3000);
+                } else {
+                    featureTogglesFeedback.innerHTML = `<div class="form-error">Error: ${result.error || 'Failed to save settings'}</div>`;
+                }
+            } catch (error) {
+                featureTogglesFeedback.innerHTML = `<div class="form-error">Network error: ${error.message}</div>`;
+            } finally {
+                saveFeatureTogglesBtn.disabled = false;
+                saveFeatureTogglesBtn.innerHTML = '<i class="fas fa-save"></i> Save Feature Settings';
+            }
+        });
+    }
+    
+    const form = document.getElementById('server-bot-settings-form');
+    const feedback = document.getElementById('server-settings-feedback');
+    const saveBtn = document.getElementById('save-server-settings-btn');
+    const resetBtn = document.getElementById('reset-server-prefix-btn');
+    
+    if (form) {
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(form);
+            const prefix = formData.get('prefix')?.trim() || '';
+            
+            if (!prefix) {
+                feedback.className = 'form-feedback error';
+                feedback.textContent = 'Prefix cannot be empty';
+                feedback.style.display = 'block';
+                return;
+            }
+            
+            if (prefix.length > 10) {
+                feedback.className = 'form-feedback error';
+                feedback.textContent = 'Prefix cannot be longer than 10 characters';
+                feedback.style.display = 'block';
+                return;
+            }
+            
+            const originalText = saveBtn.innerHTML;
+            saveBtn.disabled = true;
+            saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+            feedback.style.display = 'none';
+            
+            try {
+                const csrfToken = getCsrfToken();
+                const response = await fetch(basePath + '/api/servers/' + serverId + '/prefix', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-Token': csrfToken
+                    },
+                    credentials: 'same-origin',
+                    body: JSON.stringify({ prefix: prefix })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    feedback.className = 'form-feedback success';
+                    feedback.textContent = 'Server prefix updated successfully!';
+                    feedback.style.display = 'block';
+                    
+                    // Update the current prefix display
+                    const currentPrefixEl = document.querySelector('#server-bot-settings code');
+                    if (currentPrefixEl) {
+                        currentPrefixEl.textContent = prefix;
+                    }
+                    
+                    // Show reset button if prefix is different from main
+                    if (resetBtn && prefix !== mainPrefix) {
+                        resetBtn.style.display = 'inline-block';
+                    } else if (resetBtn && prefix === mainPrefix) {
+                        resetBtn.style.display = 'none';
+                    }
+                    
+                    // Reload after 1.5 seconds
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1500);
+                } else {
+                    feedback.className = 'form-feedback error';
+                    feedback.textContent = result.error || 'Failed to update server prefix';
+                    feedback.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error updating server prefix:', error);
+                feedback.className = 'form-feedback error';
+                feedback.textContent = 'Failed to update server prefix. Please try again.';
+                feedback.style.display = 'block';
+            } finally {
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = originalText;
+            }
+        });
+    }
+    
+    if (resetBtn) {
+        resetBtn.addEventListener('click', async function() {
+            const mainPrefixValue = '<%= typeof data !== "undefined" && data.mainPrefix ? data.mainPrefix : "!" %>';
+            if (!confirm('Are you sure you want to reset the server prefix to the default bot prefix (' + mainPrefixValue + ')?')) {
+                return;
+            }
+            
+            const originalText = resetBtn.innerHTML;
+            resetBtn.disabled = true;
+            resetBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Resetting...';
+            feedback.style.display = 'none';
+            
+            try {
+                const csrfToken = getCsrfToken();
+                const response = await fetch(basePath + '/api/servers/' + serverId + '/prefix', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-Token': csrfToken
+                    },
+                    credentials: 'same-origin'
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    feedback.className = 'form-feedback success';
+                    feedback.textContent = 'Server prefix reset to default successfully!';
+                    feedback.style.display = 'block';
+                    
+                    // Reload after 1.5 seconds
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1500);
+                } else {
+                    feedback.className = 'form-feedback error';
+                    feedback.textContent = result.error || 'Failed to reset server prefix';
+                    feedback.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error resetting server prefix:', error);
+                feedback.className = 'form-feedback error';
+                feedback.textContent = 'Failed to reset server prefix. Please try again.';
+                feedback.style.display = 'block';
+            } finally {
+                resetBtn.disabled = false;
+                resetBtn.innerHTML = originalText;
+            }
+        });
+    }
+})();
+</script>
+

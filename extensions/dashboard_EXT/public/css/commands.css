@@ -1,0 +1,416 @@
+/* Commands page specific styling */
+
+.command-table-wrapper {
+    overflow-x: auto;
+    background: rgba(18, 25, 35, 0.6);
+    border-radius: 20px;
+    padding: 1.5rem;
+    box-shadow: 0 20px 60px rgba(12, 17, 28, 0.35);
+}
+
+.command-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 720px;
+}
+
+.command-table th,
+.command-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.command-table thead th {
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.65);
+}
+
+.command-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.command-name {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.command-title {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.command-description {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.55);
+}
+
+.command-alias-list {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.45);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.command-type-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    background: rgba(86, 132, 255, 0.15);
+    color: #a8bfff;
+    text-transform: uppercase;
+}
+
+.command-type-badge--prefix {
+    background: rgba(255, 174, 104, 0.15);
+    color: #ffb97e;
+}
+
+.command-type-badge--slash {
+    background: rgba(121, 235, 198, 0.2);
+    color: #a1f7dc;
+}
+
+.command-type-badge--includes-word,
+.command-type-badge--regex,
+.command-type-badge--any-message {
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.command-type-badge--user-menu,
+.command-type-badge--message-menu {
+    background: rgba(193, 153, 255, 0.18);
+    color: #d6baff;
+}
+
+.command-table__actions {
+    width: 140px;
+    text-align: right;
+}
+
+.command-open {
+    gap: 0.35rem;
+}
+
+.command-table tbody tr.is-hidden {
+    display: none;
+}
+
+.command-controls {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    margin-top: 1.5rem;
+}
+
+.command-controls .control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.command-controls .control-group--grow {
+    flex: 1 1 360px;
+}
+
+.command-controls input,
+.command-controls select {
+    background: rgba(12, 17, 28, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    color: #fff;
+    font-size: 0.95rem;
+}
+
+.command-controls label {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.65);
+    font-weight: 500;
+}
+
+.command-controls input:focus,
+.command-controls select:focus {
+    outline: none;
+    border-color: rgba(88, 140, 255, 0.6);
+    box-shadow: 0 0 0 3px rgba(88, 140, 255, 0.14);
+}
+
+.pagination {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.pagination__button {
+    background: rgba(12, 17, 28, 0.65);
+    color: rgba(255, 255, 255, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 0.6rem 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.pagination__button:hover:not(.disabled) {
+    border-color: rgba(88, 140, 255, 0.7);
+    color: #fff;
+}
+
+.pagination__button.active {
+    background: linear-gradient(135deg, #5f8dfc 0%, #856eff 100%);
+    color: #fff;
+    border-color: transparent;
+}
+
+.pagination__button.disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.pagination__ellipsis {
+    color: rgba(255, 255, 255, 0.35);
+    padding: 0 0.5rem;
+}
+
+.empty-state.is-hidden {
+    display: none;
+}
+
+.command-modal {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 9999;
+}
+
+.command-modal[aria-hidden="false"] {
+    pointer-events: auto;
+    opacity: 1;
+}
+
+.command-modal__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(5, 8, 13, 0.7);
+    backdrop-filter: blur(10px);
+}
+
+.command-modal__dialog {
+    position: relative;
+    width: min(820px, 90vw);
+    max-height: 90vh;
+    background: linear-gradient(145deg, rgba(20, 29, 45, 0.98), rgba(13, 20, 32, 0.95));
+    border-radius: 24px;
+    padding: 2.2rem;
+    box-shadow: 0 40px 120px rgba(6, 5, 22, 0.55);
+    overflow-y: auto;
+}
+
+.command-modal__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.command-modal__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: rgba(121, 181, 255, 0.2);
+    color: #a9d0ff;
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+    font-weight: 600;
+}
+
+.command-modal__title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-top: 0.75rem;
+}
+
+.command-modal__subtitle {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 0.4rem;
+}
+
+.command-modal__close {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.65);
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.command-modal__close:hover {
+    color: #fff;
+    transform: rotate(90deg);
+}
+
+.command-modal__section {
+    margin-bottom: 1.75rem;
+}
+
+.command-modal__section h3 {
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+    color: rgba(255, 255, 255, 0.65);
+}
+
+.command-modal__meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.6rem 1.5rem;
+    font-size: 0.85rem;
+}
+
+.command-modal__meta dt {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 600;
+}
+
+.command-modal__meta dd {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.command-modal__list {
+    display: grid;
+    gap: 0.65rem;
+    background: rgba(9, 14, 23, 0.55);
+    border-radius: 16px;
+    padding: 1.25rem 1.5rem;
+    list-style: none;
+    margin: 0;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.command-modal__list li {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.78);
+}
+
+.command-modal__field textarea {
+    width: 100%;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(9, 14, 23, 0.55);
+    color: #fff;
+    padding: 1rem 1.2rem;
+    font-family: inherit;
+    resize: vertical;
+    min-height: 140px;
+}
+
+.command-modal__field textarea:focus {
+    outline: none;
+    border-color: rgba(88, 140, 255, 0.6);
+    box-shadow: 0 0 0 3px rgba(88, 140, 255, 0.12);
+}
+
+.command-modal__footnote {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.45);
+    margin-top: 0.8rem;
+}
+
+.command-modal__messages {
+    margin-top: 1rem;
+    font-size: 0.88rem;
+    border-radius: 12px;
+    padding: 0.9rem 1rem;
+    display: none;
+}
+
+.command-modal__messages.success {
+    display: block;
+    background: rgba(87, 205, 145, 0.18);
+    color: #9ff0c8;
+    border: 1px solid rgba(133, 233, 190, 0.35);
+}
+
+.command-modal__messages.error {
+    display: block;
+    background: rgba(255, 102, 126, 0.16);
+    color: #ffa0b3;
+    border: 1px solid rgba(255, 147, 168, 0.3);
+}
+
+.command-modal__footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.command-target-advanced {
+    display: none;
+}
+
+.command-target-advanced.active {
+    display: grid;
+}
+
+.btn.btn-disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+body.modal-open {
+    overflow: hidden;
+}
+
+@media (max-width: 960px) {
+    .command-table {
+        min-width: unset;
+    }
+
+    .command-controls {
+        align-items: stretch;
+    }
+}
+
+@media (max-width: 720px) {
+    .command-modal__dialog {
+        padding: 1.6rem;
+        width: min(94vw, 640px);
+    }
+
+    .command-modal__meta {
+        grid-template-columns: 1fr;
+    }
+
+    .command-table__actions {
+        width: auto;
+    }
+}

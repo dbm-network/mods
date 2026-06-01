@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= (data.seo && data.seo.title) || 'Privacy Policy - News Targeted Bot Dashboard' %></title>
+    <meta name="description" content="<%= (data.seo && data.seo.description) || 'Privacy Policy for News Targeted Bot - Learn how we collect, use, and protect your data.' %>">
+    <% const basePath = (typeof res !== 'undefined' && res.locals && res.locals.basePath) ? res.locals.basePath : ''; %>
+    <link rel="icon" type="image/x-icon" href="<%= basePath %>/favicon.ico">
+    <link rel="stylesheet" href="<%= basePath %>/shared/styles.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body class="main-layout">
+    <%- include('../shared/header.ejs', { data }) %>
+    
+    <main>
+        <section class="page-wrapper page-wrapper--narrow page-wrapper--center" data-aos="fade-up">
+            <%- include('../shared/components/hero', {
+                title: 'Privacy Policy',
+                subtitle: 'Last updated: January 2025',
+                panel: true
+            }) %>
+        </section>
+            
+        <section class="page-wrapper" data-aos="fade-up" data-aos-delay="120">
+            <div class="page-section page-section--content">
+                <section>
+                    <h2>Information We Collect</h2>
+                    <p>We collect information you provide directly to us, such as when you create an account, use our services, or contact us for support.</p>
+                    
+                    <h3>Discord Information</h3>
+                    <ul>
+                        <li>Discord User ID</li>
+                        <li>Username and Discriminator</li>
+                        <li>Server information where the bot is used</li>
+                        <li>Command usage data (anonymized)</li>
+                    </ul>
+                </section>
+                
+                <section>
+                    <h2>How We Use Your Information</h2>
+                    <p>We use the information we collect to:</p>
+                    <ul>
+                        <li>Provide and maintain our services</li>
+                        <li>Process transactions and send related information</li>
+                        <li>Send technical notices and support messages</li>
+                        <li>Respond to your comments and questions</li>
+                        <li>Improve our services and develop new features</li>
+                    </ul>
+                </section>
+                
+                <section>
+                    <h2>Information Sharing</h2>
+                    <p>We do not sell, trade, or otherwise transfer your personal information to third parties without your consent, except as described in this policy.</p>
+                </section>
+                
+                <section>
+                    <h2>Data Security</h2>
+                    <p>We implement appropriate security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction.</p>
+                </section>
+                
+                <section>
+                    <h2>Contact Us</h2>
+                    <% const dynamicContactUrl = (typeof contactUrl !== 'undefined' && contactUrl) ? contactUrl : '/contact'; %>
+                    <p>If you have any questions about this Privacy Policy, please contact us at <a href="<%= dynamicContactUrl %>"><%= dynamicContactUrl %></a></p>
+                </section>
+            </div>
+        </section>
+    </main>
+    
+    <%- include('../shared/footer.ejs', { data }) %>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>AOS.init({ duration: 800, once: true });</script>
+</body>
+</html>

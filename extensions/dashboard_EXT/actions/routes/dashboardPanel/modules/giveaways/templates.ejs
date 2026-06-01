@@ -1,0 +1,40 @@
+<!-- Giveaways Templates Pane -->
+<div class="panel-pane" id="giveaways-templates" role="tabpanel">
+    <div class="panel-pane-header">
+        <h2>Giveaway Templates</h2>
+        <p>Save and reuse giveaway configurations for this server.</p>
+    </div>
+    
+    <% if (data.giveawayData.templates && data.giveawayData.templates.length > 0) { %>
+    <div class="giveaway-grid">
+        <% data.giveawayData.templates.forEach((template, idx) => { %>
+        <div class="giveaway-card">
+            <div class="giveaway-card__header">
+                <h3><%= template.name || 'Unnamed Template' %></h3>
+            </div>
+            <div class="giveaway-card__body">
+                <p class="giveaway-meta">
+                    <% if (template.prize) { %>
+                    <strong>Prize:</strong> <%= template.prize %><br>
+                    <% } %>
+                    <% if (template.winners) { %>
+                    <strong>Winners:</strong> <%= template.winners %><br>
+                    <% } %>
+                </p>
+            </div>
+            <div class="giveaway-card__actions">
+                <button class="btn btn-sm btn-primary use-template-btn" data-template-id="<%= template.id %>">Use</button>
+                <button class="btn btn-sm btn-secondary edit-template-btn" data-template-id="<%= template.id %>">Edit</button>
+                <button class="btn btn-sm btn-danger delete-template-btn" data-template-id="<%= template.id %>">Delete</button>
+            </div>
+        </div>
+        <% }); %>
+    </div>
+    <% } else { %>
+    <div class="empty-state">
+        <h3>No Templates</h3>
+        <p>Templates allow you to quickly set up giveaways with saved configurations. Templates will be available here once created.</p>
+    </div>
+    <% } %>
+</div>
+

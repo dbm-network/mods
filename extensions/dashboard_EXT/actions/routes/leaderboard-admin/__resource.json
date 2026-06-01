@@ -1,0 +1,12 @@
+{
+  "author": "Master3395",
+  "version": "1.0.0",
+  "name": "leaderboard_admin",
+  "description": "Leaderboard module configuration and database setup",
+  "dashboardMod": true,
+  "scriptFiles": ["leaderboard-admin_route.js"],
+  "isCustom": false,
+  "routeURL": null,
+  "adminPanelMod": true,
+  "loginRequired": false
+}

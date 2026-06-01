@@ -1,0 +1,13 @@
+{
+  "author": "Great Plains Modding",
+  "version": "1.0.0",
+  "name": "leaderboard_route",
+  "description": "Leveling system leaderboard",
+  "dashboardMod": true,
+  "adminPanelMod": false,
+  "scriptFiles": ["leaderboard_route.js"],
+  "isCustom": false,
+  "routeURL": "/leaderboard",
+  "webFile": "../../../views/leaderboard/index.ejs",
+  "loginRequired": false
+}

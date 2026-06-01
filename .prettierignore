@@ -1,1 +1,3 @@
 node_modules
+extensions/dashboard_EXT/actions/mods/send_embed_message/index.js
+actions/edit_embed_object_MOD.js

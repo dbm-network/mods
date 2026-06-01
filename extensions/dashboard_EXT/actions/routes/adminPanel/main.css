@@ -1,0 +1,155 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #2C2F33;
+}
+
+.loginBody {
+    padding-top: 40px;
+    margin-left: 100px;
+    padding-right: auto;
+    max-width: 25%;
+}
+
+.headerBrand {
+    font-size: 20px;
+}
+
+.headerBrandNavButtons {
+    font-size: 16px;
+}
+
+.sideNavBar {
+    max-width: 300px;
+}
+
+.navHeader {
+    background-color: #23272A;
+    color: white;
+    margin: 0;
+    padding: 0;
+}
+
+.lightBackground {
+    background-color: #2C2F33;
+    margin-top: -5px;
+    color: white;
+}
+
+.features {
+    font-size: large;
+    padding-bottom: 25px;
+}
+
+.featuresHeader {
+    color: #7289DA;
+    font-size: 25px;
+}
+
+.darkBackground {
+    background-color: #23272A;
+    margin-top: -5px;
+    color: white;
+}
+
+.featuresHeaderFooter {
+    color: #7289DA;
+    font-size: 20px;
+}
+
+.guild-icon {
+    margin-bottom: 15px;
+    margin-left: 15px;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+    vertical-align: middle;
+    display: inline-block;
+    text-decoration: none;
+    border: 2px solid white !important;
+}
+
+.guild-container {
+    display: block;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.guild-icon:hover {
+    border-radius: 15px;
+}
+
+.serv-container {
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+}
+
+.list-serv {
+    display: block;
+    list-style-type: disc;
+    padding: 0px;
+    list-style: none;
+    opacity: .9;
+}
+
+.panel-form--inline {
+    margin-top: 12px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.panel-form--inline .section-actions {
+    margin: 0;
+}
+
+.panel-note {
+    margin-top: 8px;
+    font-size: 0.9rem;
+    color: #ffb347;
+}
+
+.btn-disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.server-prefixes {
+    margin-top: 24px;
+}
+
+.prefix-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+}
+
+.prefix-table th,
+.prefix-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    text-align: left;
+}
+
+.prefix-table__id {
+    font-size: 0.8rem;
+    color: #b9bbbe;
+}
+
+.prefix-inline-form {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.prefix-inline-form input[type="text"] {
+    width: 120px;
+}
+
+.prefix-status {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    font-size: 0.85rem;
+}

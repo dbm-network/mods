@@ -55,7 +55,6 @@ module.exports = {
     'READ_MESSAGE_HISTORY',
     'MENTION_EVERYONE',
     'USE_EXTERNAL_EMOJIS',
-    'VIEW_GUILD_INSIGHT',
     'CONNECT',
     'SPEAK',
     'MUTE_MEMBERS',
@@ -69,14 +68,23 @@ module.exports = {
     'MANAGE_EMOJIS',
   ],
 
-  html() {
+  html(isEvent, data) {
     return `
-<div style="width: 550px; height: 350px; overflow-y: scroll;">
+<div style="width: 550px; height: 350px; overflow-y: scroll;" tabindex="-1" onfocus="if(window.glob&&window.glob.controlPermsRebuild){window.glob.controlPermsRebuild();}">
   <div style="padding-top: 8px;">
-    <store-in-variable dropdownLabel="Source Permissions" selectId="storage" variableContainerId="varNameContainer" variableInputId="varName"></store-in-variable>
+    <div style="float: left; width: 35%;">
+      <span class="dbminputlabel">Source Permissions</span><br>
+      <select id="storage" class="round" onchange="if(window.glob&&window.glob.controlPermsRebuild){window.glob.controlPermsRebuild();}">
+        ${data.variables[1]}
+      </select>
+    </div>
+    <div style="float: right; width: 60%;">
+      <span class="dbminputlabel">Variable Name</span><br>
+      <input id="varName" class="round" type="text" list="variableList" oninput="if(window.glob&&window.glob.controlPermsRebuild){window.glob.controlPermsRebuild();}">
+    </div>
   </div>
   <br><br><br>
-  
+
   <div style="padding-top: 8px;">
     <div id="checkbox" style="float: left; width: 80%;">
     </div>
@@ -85,8 +93,7 @@ module.exports = {
   },
 
   init() {
-    const { document } = this;
-    const checkbox = document.getElementById('checkbox');
+    const { glob, document } = this;
 
     const permissionsName = {
       ADMINISTRATOR: 'Administrator',
@@ -246,63 +253,61 @@ module.exports = {
       'Voice Channel Permissions': voicePermissions,
     };
 
-    const varName = document.getElementById('varName');
-    const list = document.getElementById('variableList');
-
-    varName.oninput = function oninput() {
-      if (list.children.length === 0) return;
-      let dataType;
+    function resolveDataType(doc) {
+      const varNameEl = doc.getElementById('varName');
+      const list = doc.getElementById('variableList');
+      if (!varNameEl || !list || list.children.length === 0) {
+        return 'All Permissions';
+      }
+      const { value } = varNameEl;
       for (let i = 0; i < list.children.length; i++) {
-        if (varName.value && list.children[i].value === varName.value) {
-          dataType = list.children[i].innerHTML;
-          break;
+        if (value && list.children[i].value === value) {
+          return list.children[i].innerHTML;
         }
       }
-      if (!dataType) dataType = 'All Permissions';
-      checkbox.innerHTML = '';
-      permissionsList[dataType].forEach((Permission) => {
-        const dom = document.createElement('select');
-        checkbox.innerHTML += `${permissionsName[Permission]}:<br>`;
-        dom.id = Permission;
+      return 'All Permissions';
+    }
+
+    glob.controlPermsRebuild = function controlPermsRebuild() {
+      const doc = document;
+      const checkbox = doc.getElementById('checkbox');
+      const varNameEl = doc.getElementById('varName');
+      if (!checkbox || !varNameEl) return;
+
+      while (checkbox.firstChild) {
+        checkbox.removeChild(checkbox.firstChild);
+      }
+
+      const dataType = resolveDataType(doc);
+      const permKeys = permissionsList[dataType] || permissionsList['All Permissions'];
+      const useRoleOptions = dataType === 'Role Permissions';
+      const optionSet = useRoleOptions ? options2 : options;
+
+      permKeys.forEach((permissionKey) => {
+        const label = doc.createElement('div');
+        label.style.marginTop = '4px';
+        label.textContent = `${permissionsName[permissionKey] || permissionKey}:`;
+        checkbox.appendChild(label);
+
+        const dom = doc.createElement('select');
+        dom.id = permissionKey;
         dom.className = 'round';
-        let option = options;
-        if (dataType === 'Role Permissions') option = options2;
-        option.forEach((option) => {
-          const op = document.createElement('option');
-          op.innerHTML = option;
-          op.value = option;
-          dom.add(op);
+        optionSet.forEach((opt) => {
+          const op = doc.createElement('option');
+          op.textContent = opt;
+          op.value = opt;
+          dom.appendChild(op);
         });
         checkbox.appendChild(dom);
-        checkbox.innerHTML += '<br>';
+
+        const br = doc.createElement('br');
+        checkbox.appendChild(br);
       });
     };
 
-    let dataType;
-    if (list.children.length !== 0) {
-      for (let i = 0; i < list.children.length; i++) {
-        if (list.children[i].value === varName.value) {
-          dataType = list.children[i].innerHTML;
-          break;
-        }
-      }
-    }
-    if (!dataType) dataType = 'All Permissions';
-    checkbox.innerHTML = '';
-    permissionsList[dataType].forEach((Permission) => {
-      const dom = document.createElement('select');
-      checkbox.innerHTML += `${permissionsName[Permission]}:<br>`;
-      dom.id = Permission;
-      dom.className = 'round';
-      options.forEach((option) => {
-        const op = document.createElement('option');
-        op.innerHTML = option;
-        op.value = option;
-        dom.add(op);
-      });
-      checkbox.appendChild(dom);
-      checkbox.innerHTML += '<br>';
-    });
+    setTimeout(() => {
+      glob.controlPermsRebuild();
+    }, 100);
   },
 
   async action(cache) {
@@ -311,10 +316,43 @@ module.exports = {
     const storage = parseInt(data.storage, 10);
     const varName = this.evalMessage(data.varName, cache);
     let permissions = this.getVariable(storage, varName, cache);
-    if (permissions.bitfield) {
-      const temp = permissions;
-      permissions = { allow: temp };
+
+    if (permissions === undefined || permissions === null) {
+      this.displayError(
+        data,
+        cache,
+        new Error(
+          'Control Permissions: source variable is undefined. Set the variable before this action (e.g. Create Permissions / Store Channel Permissions) and ensure the name matches (dbm-network/mods#652).',
+        ),
+      );
+      return;
     }
+
+    try {
+      if (typeof permissions === 'bigint' || (typeof permissions === 'number' && !Number.isNaN(permissions))) {
+        permissions = { allow: new Permissions(permissions) };
+      } else if (
+        permissions &&
+        typeof permissions === 'object' &&
+        Object.prototype.hasOwnProperty.call(permissions, 'bitfield') &&
+        permissions.allow === undefined &&
+        permissions.disallow === undefined
+      ) {
+        const temp = permissions;
+        permissions = { allow: temp };
+      } else if (typeof permissions !== 'object') {
+        this.displayError(
+          data,
+          cache,
+          new Error('Control Permissions: source variable must be a permissions object or a bitfield value.'),
+        );
+        return;
+      }
+    } catch (err) {
+      this.displayError(data, cache, err);
+      return;
+    }
+
     const permsArray = [
       'ADMINISTRATOR',
       'CREATE_INSTANT_INVITE',
@@ -366,12 +404,12 @@ module.exports = {
         if (permissions.inherit && permissions.inherit.includes(perms))
           permissions.inherit.splice(permissions.inherit.indexOf(perms), 1);
       } else if (data[perms] === 'Inherit') {
-        if (!permissions.inherit || !permissions.inherit.has(perms)) {
+        if (!permissions.inherit || !permissions.inherit.includes(perms)) {
           if (!permissions.inherit) permissions.inherit = [];
           permissions.inherit.push(perms);
         }
-        if (permissions.disallow.has(perms)) permissions.disallow.remove(perms);
-        if (permissions.allow.has(perms)) permissions.allow.remove(perms);
+        if (permissions.disallow && permissions.disallow.has(perms)) permissions.disallow.remove(perms);
+        if (permissions.allow && permissions.allow.has(perms)) permissions.allow.remove(perms);
       }
     });
     this.storeValue(permissions, storage, varName, cache);

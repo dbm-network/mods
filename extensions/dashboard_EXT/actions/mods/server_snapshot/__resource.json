@@ -1,0 +1,12 @@
+{
+  "author": "News Targeted",
+  "version": "1.0.0",
+  "name": "Server Snapshot",
+  "description": "Post a live status card with member and channel stats to this guild.",
+  "section": "Dashboard",
+  "sectionID": "dashboard",
+  "dashboardMod": true,
+  "adminPanelMod": true,
+  "scriptFile": "index.js",
+  "webFile": "index.ejs"
+}

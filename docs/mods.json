@@ -9,6 +9,21 @@
     "name": "Comment",
     "section": "Other Stuff"
   },
+  "add_item_to_object_MOD.js": {
+    "description": "Adds or edits an entry in an object",
+    "name": "Add Item to Object",
+    "section": "JSON Things"
+  },
+  "add_items_to_object_MOD.js": {
+    "description": "Adds or edits multiple entries in an object",
+    "name": "Add Items to Object",
+    "section": "JSON Things"
+  },
+  "add_member_to_thread_MOD.js": {
+    "description": "Add Member To Thread",
+    "name": "Add Member To Private Thread",
+    "section": "Channel Control"
+  },
   "anchor_create_MOD.js": {
     "description": "Create an anchor",
     "name": "Create Anchor",
@@ -254,15 +269,30 @@
     "name": "Create Category Channel",
     "section": "Channel Control"
   },
+  "create_forum_channel_MOD.js": {
+    "description": "Create Forum Channel",
+    "name": "Create Forum Channel",
+    "section": "Channel Control"
+  },
   "create_gif_MOD.js": {
     "description": "Create a gif",
     "name": "Create GIF",
     "section": "Image Editing"
   },
+  "create_object_MOD.js": {
+    "description": "Creates an object",
+    "name": "Create Object",
+    "section": "JSON Things"
+  },
   "create_permission_MOD.js": {
     "description": "Create specified permissions",
     "name": "Create Permissions",
     "section": "Permission Control"
+  },
+  "create_private_thread_MOD.js": {
+    "description": "Create Private Thread",
+    "name": "Create Private Thread",
+    "section": "Channel Control"
   },
   "create_server_MOD.js": {
     "description": "Create a server",
@@ -429,6 +459,16 @@
     "name": "Get Command Description",
     "section": "Other Stuff"
   },
+  "get_current_timestamp_MOD.js": {
+    "description": "Get and store the current timestamp in numeric, or markdown form.",
+    "name": "Get Current Timestamp",
+    "section": "Other Stuff"
+  },
+  "get_item_from_object_MOD.js": {
+    "description": "Stores the value of an entry from an object",
+    "name": "Get Item from Object",
+    "section": "JSON Things"
+  },
   "get_lyrics_MOD.js": {
     "description": "Get song lyrics",
     "name": "Get Song Lyrics",
@@ -500,9 +540,19 @@
     "section": "#DBM Mods"
   },
   "mod_info_MOD.js": {
-    "description": "A welcome/information message for modifications",
-    "name": "Welcome",
-    "section": "#DBM Mods"
+    "description": "shows MOD Info",
+    "name": "MOD Info",
+    "section": "Other Stuff"
+  },
+  "openai_action_MOD.js": {
+    "description": "Call OpenAI chat or image endpoints with robust configuration",
+    "name": "OpenAI Action",
+    "section": "Other Stuff"
+  },
+  "path_rank_MOD.js": {
+    "description": "Rank JSON data",
+    "name": "Path Rank",
+    "section": "Other Stuff"
   },
   "parse_from_stored_json_MOD.js": {
     "description": "Parse from stored Json",
@@ -543,6 +593,11 @@
     "description": "Remove an item from a queue",
     "name": "Remove from Queue MOD",
     "section": "Audio Control"
+  },
+  "remove_member_from_thread_MOD.js": {
+    "description": "Remove Member From Thread",
+    "name": "Remove Member From Private Thread",
+    "section": "Channel Control"
   },
   "remove_message_reactions_MOD.js": {
     "description": "Clear reactions from a message",
@@ -874,6 +929,11 @@
     "name": "Store Twitch Info",
     "section": "Other Stuff"
   },
+  "store_unix_timestamp_MOD.js": {
+    "description": "Stores The Current Unix Timestamp",
+    "name": "Store Unix Timestamp",
+    "section": "Other Stuff"
+  },
   "store_user_info_MOD.js": {
     "description": "Store user information",
     "name": "Store User Info",
@@ -900,7 +960,7 @@
     "section": "Permission Control"
   },
   "text_to_speech_MOD.js": {
-    "description": "Convert some text into TTS",
+    "description": "Convert text to speech (DBM 2.2.0; long text; requires npm install simple-tts-mp3; stores local MP3 path for Play File)",
     "name": "Text To Speech",
     "section": "Messaging"
   },
@@ -953,10 +1013,5 @@
     "description": "Search YouTube",
     "name": "YouTube Search",
     "section": "Audio Control"
-  },
-  "create_forum_channel_MOD.js": {
-    "description": "Create Forum Channel",
-    "name": "Create Forum Channel",
-    "section": "Channel Control"
   }
 }

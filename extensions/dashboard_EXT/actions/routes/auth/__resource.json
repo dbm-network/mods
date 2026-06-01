@@ -1,0 +1,18 @@
+{
+  "name": "auth",
+  "displayName": "Authentication",
+  "description": "User authentication routes for database login and registration",
+  "version": "1.0.0",
+  "author": "DBM Team",
+  "category": "Authentication",
+  "loginRequired": false,
+  "routeURL": "/auth",
+  "webFile": "index.ejs",
+  "cssFiles": [],
+  "scriptFiles": [],
+  "dependencies": ["database-auth", "bcrypt", "jsonwebtoken"],
+  "compatibility": "Node.js 16+",
+  "tags": ["auth", "login", "register", "database", "security"],
+  "icon": "fas fa-shield-alt",
+  "color": "#7289DA"
+}

@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= data.client.user.username %> - Server Management</title>
+    
+    <!-- Stylesheets -->
+    <% 
+    // basePath is set by middleware in res.locals.basePath
+    // Express automatically merges res.locals into template context
+    const templateBasePath = (typeof basePath !== 'undefined' && basePath) ? basePath : '';
+    %>
+    <link rel="stylesheet" href="<%= templateBasePath %>/shared/styles.css">
+    <link rel="shortcut icon" href="<%= data.client.user.displayAvatarURL() || 'https://cdn.discordapp.com/embed/avatars/0.png' %>" />
+    <meta name="theme-color" content="#5865F2" />
+    <meta name="description" content="Manage your Discord servers with <%= data.client.user.username %> bot">
+</head>
+
+<body>
+    <!-- Animated Background -->
+    <div class="animated-bg"></div>
+    
+    <!-- Header -->
+    <%- include('../../../views/shared/header.ejs', { data: data }) %>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Dashboard Hero -->
+        <section class="dashboard-hero">
+            <div class="dashboard-hero-container">
+                <div class="dashboard-hero-content">
+                    <div class="dashboard-avatar-container">
+                        <img src="<%= data.client.user.displayAvatarURL() || 'https://cdn.discordapp.com/embed/avatars/0.png' %>" 
+                             alt="<%= data.client.user.username %>" 
+                             class="dashboard-avatar">
+                        <div class="dashboard-status-indicator"></div>
+                    </div>
+                    
+                    <h1 class="dashboard-title">
+                        <span class="dashboard-title-main">Server Management</span>
+                        <span class="dashboard-title-sub">Manage your Discord servers</span>
+                    </h1>
+                    
+                    <p class="dashboard-description">
+                        Select a server below to manage its settings, commands, and configurations.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Servers Section -->
+        <section class="servers-section">
+            <div class="servers-container">
+                <div class="servers-header">
+                    <h2 class="servers-title">Your Servers</h2>
+                    <p class="servers-subtitle">Click on a server to manage its settings</p>
+                </div>
+                
+                <% if (data.guilds && data.guilds.length > 0) { %>
+                <div class="servers-grid">
+                    <% data.guilds.forEach((guild, index) => { %>
+                    <div class="server-card" data-aos="fade-up" data-aos-delay="<%= index * 100 %>">
+                        <a href="<%= templateBasePath %>/dashboard/@me/servers/<%= guild.id %>" class="server-link">
+                            <div class="server-icon-container">
+                                <% if (guild.icon) { %>
+                                <img src="https://cdn.discordapp.com/icons/<%= guild.id %>/<%= guild.icon %>.png?size=2048"
+                                     alt="<%= guild.name %>" 
+                                     class="server-icon" />
+                                <% } else { %>
+                                <div class="server-icon-placeholder" id="guild-<%= guild.id %>">
+                                    <%= guild.name.replace(/\w+/g, name => name[0]).replace(/\s/g, '') %>
+                                </div>
+                                <% } %>
+                            </div>
+                            
+                            <div class="server-info">
+                                <h3 class="server-name"><%= guild.name %></h3>
+                                <p class="server-id">ID: <%= guild.id %></p>
+                                <div class="server-permissions">
+                                    <span class="permission-badge admin">Admin</span>
+                                </div>
+                            </div>
+                            
+                            <div class="server-arrow">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+                                </svg>
+                            </div>
+                        </a>
+                    </div>
+                    <% }); %>
+                </div>
+                <% } else { %>
+                <div class="no-servers">
+                    <div class="no-servers-icon">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.013 12.013 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+                        </svg>
+                    </div>
+                    <h3 class="no-servers-title">No Servers Found</h3>
+                    <p class="no-servers-description">
+                        You don't have permission to manage any servers yet. 
+                        Make sure the bot is invited to your servers with proper permissions.
+                    </p>
+                    <% if (data.inviteLink) { %>
+                    <a href="<%= data.inviteLink %>" class="btn btn-primary">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.013 12.013 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+                        </svg>
+                        Invite Bot
+                    </a>
+                    <% } %>
+                </div>
+                <% } %>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Footer -->
+    <%- include('../../../views/shared/footer.ejs', { data: data }) %>
+    
+    <!-- AOS Animation Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Custom Scripts -->
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true
+        });
+    </script>
+</body>
+</html>
+
+<!-- Dashboard Styles -->
+<style>
+.main-content {
+    min-height: 100vh;
+    padding-top: 80px;
+}
+
+.dashboard-hero {
+    padding: 3rem 0 4rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.dashboard-hero-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    text-align: center;
+}
+
+.dashboard-hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.dashboard-avatar-container {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 2rem;
+}
+
+.dashboard-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 4px solid var(--discord-blurple);
+    box-shadow: var(--shadow-glow);
+    transition: var(--transition-smooth);
+}
+
+.dashboard-avatar:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(88, 101, 242, 0.5);
+}
+
+.dashboard-status-indicator {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    width: 20px;
+    height: 20px;
+    background: var(--discord-green);
+    border: 3px solid var(--discord-darkest);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+.dashboard-title {
+    margin-bottom: 1.5rem;
+}
+
+.dashboard-title-main {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+    line-height: 1.1;
+}
+
+.dashboard-title-sub {
+    display: block;
+    font-size: 1.2rem;
+    color: var(--discord-light);
+    font-weight: 400;
+}
+
+.dashboard-description {
+    font-size: 1.1rem;
+    color: var(--discord-lighter);
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.servers-section {
+    padding: 4rem 0;
+    background: rgba(35, 39, 42, 0.3);
+    backdrop-filter: blur(20px);
+}
+
+.servers-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.servers-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.servers-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--discord-white);
+    margin-bottom: 1rem;
+}
+
+.servers-subtitle {
+    font-size: 1.1rem;
+    color: var(--discord-light);
+}
+
+.servers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1.5rem;
+}
+
+.server-card {
+    background: rgba(44, 47, 51, 0.8);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(88, 101, 242, 0.2);
+    border-radius: 16px;
+    transition: var(--transition-smooth);
+    position: relative;
+    overflow: hidden;
+}
+
+.server-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--gradient-primary);
+    transform: scaleX(0);
+    transition: var(--transition-smooth);
+}
+
+.server-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--discord-blurple);
+}
+
+.server-card:hover::before {
+    transform: scaleX(1);
+}
+
+.server-link {
+    display: flex;
+    align-items: center;
+    padding: 1.5rem;
+    text-decoration: none;
+    color: inherit;
+    gap: 1rem;
+}
+
+.server-icon-container {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.server-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+.server-icon-placeholder {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    background: var(--gradient-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--discord-white);
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+.server-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.server-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--discord-white);
+    margin-bottom: 0.25rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.server-id {
+    font-size: 0.9rem;
+    color: var(--discord-light);
+    margin-bottom: 0.5rem;
+}
+
+.server-permissions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.permission-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.permission-badge.admin {
+    background: var(--discord-green);
+    color: var(--discord-darkest);
+}
+
+.server-arrow {
+    color: var(--discord-light);
+    transition: var(--transition-smooth);
+}
+
+.server-card:hover .server-arrow {
+    color: var(--discord-blurple);
+    transform: translateX(5px);
+}
+
+.no-servers {
+    text-align: center;
+    padding: 4rem 2rem;
+}
+
+.no-servers-icon {
+    color: var(--discord-light);
+    margin-bottom: 1.5rem;
+}
+
+.no-servers-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--discord-white);
+    margin-bottom: 1rem;
+}
+
+.no-servers-description {
+    color: var(--discord-light);
+    margin-bottom: 2rem;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media (max-width: 768px) {
+    .servers-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .server-link {
+        padding: 1rem;
+    }
+    
+    .server-icon, .server-icon-placeholder {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .dashboard-title-main {
+        font-size: 2rem;
+    }
+}
+</style>

@@ -1,0 +1,14 @@
+{
+  "author": "News Targeted",
+  "version": "1.0.0",
+  "name": "giveaways_premium",
+  "description": "Giveaway premium features",
+  "dashboardMod": true,
+  "adminPanelMod": false,
+  "scriptFiles": ["premium_route.js"],
+  "isCustom": false,
+  "routeURL": "/giveaways/premium",
+  "webFile": "index.ejs",
+  "cssFiles": [],
+  "loginRequired": true
+}

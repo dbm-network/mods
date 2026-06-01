@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= data.client.user.username %> · Leaderboard</title>
+    <meta name="description" content="View the leveling leaderboard for <%= data.client.user.username %> bot.">
+    <% 
+    const templateBasePath = (typeof basePath !== 'undefined' && basePath) ? basePath : '';
+    %>
+    <link rel="icon" type="image/x-icon" href="<%= templateBasePath %>/favicon.ico">
+    <link rel="stylesheet" href="<%= templateBasePath %>/shared/styles.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        .leaderboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .leaderboard-controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .leaderboard-toggle {
+            display: flex;
+            gap: 10px;
+            background: #2f3136;
+            padding: 8px;
+            border-radius: 8px;
+        }
+        .leaderboard-toggle button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            background: #36393f;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .leaderboard-toggle button.active {
+            background: #5865F2;
+            color: #fff;
+        }
+        .leaderboard-toggle button:hover {
+            background: #4752C4;
+        }
+        .leaderboard-table {
+            background: #2f3136;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .leaderboard-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .leaderboard-table th {
+            background: #36393f;
+            padding: 15px;
+            text-align: left;
+            color: #b9bbbe;
+            font-weight: 600;
+            border-bottom: 2px solid #202225;
+        }
+        .leaderboard-table td {
+            padding: 15px;
+            border-bottom: 1px solid #202225;
+            color: #dcddde;
+        }
+        .leaderboard-table tr:hover {
+            background: #36393f;
+        }
+        .rank-badge {
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #5865F2;
+            color: #fff;
+            text-align: center;
+            line-height: 32px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .rank-badge.gold {
+            background: #FFD700;
+            color: #000;
+        }
+        .rank-badge.silver {
+            background: #C0C0C0;
+            color: #000;
+        }
+        .rank-badge.bronze {
+            background: #CD7F32;
+            color: #fff;
+        }
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #b9bbbe;
+        }
+        .error {
+            background: #f04747;
+            color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .pagination {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+            align-items: center;
+        }
+        .pagination button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            background: #5865F2;
+            color: #fff;
+            cursor: pointer;
+        }
+        .pagination button:disabled {
+            background: #36393f;
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+        .pagination span {
+            color: #b9bbbe;
+        }
+        .filter-controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .filter-input, .filter-select {
+            padding: 8px 12px;
+            border: 1px solid #36393f;
+            border-radius: 6px;
+            background: #36393f;
+            color: #dcddde;
+            font-size: 14px;
+        }
+        .filter-input {
+            min-width: 200px;
+        }
+        .filter-select {
+            min-width: 120px;
+        }
+        .filter-input:focus, .filter-select:focus {
+            outline: none;
+            border-color: #5865F2;
+        }
+        .page-input {
+            width: 60px;
+            padding: 8px;
+            border: 1px solid #36393f;
+            border-radius: 6px;
+            background: #36393f;
+            color: #dcddde;
+            text-align: center;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .user-details {
+            display: flex;
+            flex-direction: column;
+        }
+        .user-name {
+            font-weight: 600;
+            color: #dcddde;
+        }
+        .user-id {
+            font-size: 12px;
+            color: #72767d;
+        }
+        .guild-details {
+            display: flex;
+            flex-direction: column;
+        }
+        .guild-name {
+            font-weight: 600;
+            color: #dcddde;
+        }
+        .guild-id {
+            font-size: 12px;
+            color: #72767d;
+        }
+        .sortable-header {
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            padding-right: 20px;
+        }
+        .sortable-header:hover {
+            background: #40444b;
+        }
+        .sortable-header::after {
+            content: ' ↕';
+            position: absolute;
+            right: 5px;
+            color: #72767d;
+            font-size: 12px;
+        }
+        .sortable-header.sort-asc::after {
+            content: ' ↑';
+            color: #5865F2;
+        }
+        .sortable-header.sort-desc::after {
+            content: ' ↓';
+            color: #5865F2;
+        }
+    </style>
+</head>
+<body class="main-layout">
+    <%- include('../shared/header.ejs', { data: data }) %>
+
+    <main>
+        <section class="page-wrapper" data-aos="fade-up">
+            <div class="leaderboard-container">
+                <%- include('../shared/components/hero', {
+                    title: 'Leveling Leaderboard',
+                    subtitle: 'See who\'s at the top of the leaderboard!',
+                    badge: 'Leaderboard',
+                    actions: [],
+                    panel: true
+                }) %>
+
+                <div class="leaderboard-controls" data-aos="fade-up" data-aos-delay="120">
+                    <div class="leaderboard-toggle">
+                        <button id="serverBtn" data-scope="server">🏆 Server</button>
+                        <button id="globalBtn" class="active" data-scope="global">🌍 Global</button>
+                    </div>
+                    <div class="filter-controls">
+                        <input type="text" id="searchInput" placeholder="Search by username, user ID, or server name..." class="filter-input">
+                        <input type="text" id="serverIdInput" placeholder="Filter by Server ID (e.g. 267294261941239808)..." class="filter-input">
+                        <select id="limitSelect" class="filter-select" title="Number of users to display">
+                            <option value="10">Top 10</option>
+                            <option value="20">Top 20</option>
+                            <option value="50">Top 50</option>
+                            <option value="75">Top 75</option>
+                            <option value="100">Top 100</option>
+                        </select>
+                        <select id="levelFilter" class="filter-select">
+                            <option value="">All Levels</option>
+                            <option value="0-10">Level 0-10</option>
+                            <option value="11-25">Level 11-25</option>
+                            <option value="26-50">Level 26-50</option>
+                            <option value="51-100">Level 51-100</option>
+                            <option value="100+">Level 100+</option>
+                        </select>
+                        <select id="xpFilter" class="filter-select">
+                            <option value="">All XP</option>
+                            <option value="0-100">0-100 XP</option>
+                            <option value="101-500">101-500 XP</option>
+                            <option value="501-1000">501-1,000 XP</option>
+                            <option value="1001-5000">1,001-5,000 XP</option>
+                            <option value="5000+">5,000+ XP</option>
+                        </select>
+                    </div>
+                    <div class="pagination">
+                        <button id="prevBtn" data-action="prev">Previous</button>
+                        <span id="pageInfo">Page 1</span>
+                        <input type="number" id="pageInput" min="1" value="1" class="page-input" placeholder="Page">
+                        <button id="goToPageBtn" data-action="goto">Go to Page</button>
+                        <button id="nextBtn" data-action="next">Next</button>
+                    </div>
+                </div>
+
+                <div class="leaderboard-table" data-aos="fade-up" data-aos-delay="160">
+                    <div id="loading" class="loading">Loading leaderboard...</div>
+                    <div id="error" class="error" style="display: none;"></div>
+                    <table id="leaderboardTable" style="display: none;">
+                        <thead>
+                            <tr>
+                                <th class="sortable-header" data-sort="rank" data-sort-type="number">Rank</th>
+                                <th class="sortable-header" data-sort="username" data-sort-type="string">User</th>
+                                <th class="sortable-header" data-sort="guildName" data-sort-type="string">Server</th>
+                                <th class="sortable-header" data-sort="level" data-sort-type="number">Level</th>
+                                <th class="sortable-header" data-sort="xp" data-sort-type="number">XP</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboardBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <%- include('../shared/footer.ejs', { data: data }) %>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+
+        let currentScope = 'global'; // Default to global
+        let currentPage = 1;
+        let maxPage = 1;
+        let limit = 10; // Dynamic limit, default to 10
+        
+        // Load limit preference from localStorage
+        function loadLimitPreference() {
+            try {
+                const savedLimit = localStorage.getItem('leaderboardLimit');
+                if (savedLimit && ['10', '20', '50', '75', '100'].includes(savedLimit)) {
+                    limit = parseInt(savedLimit, 10);
+                    const limitSelect = document.getElementById('limitSelect');
+                    if (limitSelect) {
+                        limitSelect.value = savedLimit;
+                    }
+                }
+            } catch (e) {
+                console.warn('[Leaderboard] Could not load limit preference:', e);
+            }
+        }
+        
+        // Save limit preference to localStorage
+        function saveLimitPreference(newLimit) {
+            try {
+                localStorage.setItem('leaderboardLimit', String(newLimit));
+            } catch (e) {
+                console.warn('[Leaderboard] Could not save limit preference:', e);
+            }
+        }
+        let allLeaderboardData = [];
+        let filteredData = [];
+        let sortColumn = 'rank';
+        let sortDirection = 'asc';
+
+        function getRankBadge(rank) {
+            if (rank === 1) return '<span class="rank-badge gold">🥇</span>';
+            if (rank === 2) return '<span class="rank-badge silver">🥈</span>';
+            if (rank === 3) return '<span class="rank-badge bronze">🥉</span>';
+            return `<span class="rank-badge">${rank}</span>`;
+        }
+
+        function getUserAvatar(userId, avatar, discriminator) {
+            if (avatar) {
+                const ext = avatar.startsWith('a_') ? 'gif' : 'png';
+                return `https://cdn.discordapp.com/avatars/${userId}/${avatar}.${ext}?size=128`;
+            }
+            // Use discriminator if available, otherwise use userID modulo
+            const avatarIndex = discriminator ? (parseInt(discriminator) % 5) : (parseInt(userId) % 5);
+            return `https://cdn.discordapp.com/embed/avatars/${avatarIndex}.png`;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function renderUserCell(user) {
+            // Get user data with proper fallbacks
+            const username = user.username || null;
+            const displayName = user.displayName || username || null;
+            const discriminator = user.discriminator || null;
+            const avatar = user.avatar || null;
+            
+            // Only show username if we have it, otherwise just show ID
+            const hasUsername = displayName || username;
+            
+            // Build display name - only use username/displayName if available
+            let fullDisplayName = null;
+            if (hasUsername) {
+                fullDisplayName = displayName || username;
+                if (discriminator && discriminator !== '0' && discriminator !== '0') {
+                    fullDisplayName += `#${discriminator}`;
+                }
+            }
+            
+            // Get avatar URL - always try to get a valid Discord avatar
+            const avatarUrl = getUserAvatar(user.userID, avatar, discriminator);
+            const fallbackAvatar = 'https://cdn.discordapp.com/embed/avatars/0.png';
+            
+            const img = document.createElement('img');
+            img.src = avatarUrl;
+            img.alt = fullDisplayName || user.userID;
+            img.className = 'user-avatar';
+            img.loading = 'lazy'; // Lazy load images for better performance
+            img.addEventListener('error', function() {
+                // If avatar fails, try default avatar
+                if (this.src !== fallbackAvatar) {
+                    this.src = fallbackAvatar;
+                }
+            });
+            
+            const userDetails = document.createElement('div');
+            userDetails.className = 'user-details';
+            
+            // Always show a top line: username or "Unknown User", then user ID below
+            const userName = document.createElement('span');
+            userName.className = 'user-name';
+            userName.textContent = fullDisplayName || 'Unknown User';
+            userDetails.appendChild(userName);
+            
+            const userId = document.createElement('span');
+            userId.className = 'user-id';
+            userId.textContent = user.userID;
+            userDetails.appendChild(userId);
+            
+            const userInfo = document.createElement('div');
+            userInfo.className = 'user-info';
+            userInfo.appendChild(img);
+            userInfo.appendChild(userDetails);
+            
+            return userInfo;
+        }
+
+        function renderGuildCell(entry) {
+            const guildDetails = document.createElement('div');
+            guildDetails.className = 'guild-details';
+            const guildName = document.createElement('span');
+            guildName.className = 'guild-name';
+            guildName.textContent = entry.guildName || 'Unknown Server';
+            guildDetails.appendChild(guildName);
+            const guildId = document.createElement('span');
+            guildId.className = 'guild-id';
+            guildId.textContent = entry.serverID || '';
+            guildDetails.appendChild(guildId);
+            return guildDetails;
+        }
+
+        function sortData(data) {
+            const sorted = [...data];
+            sorted.sort((a, b) => {
+                let aVal, bVal;
+                
+                switch (sortColumn) {
+                    case 'rank':
+                        aVal = a.rank || 0;
+                        bVal = b.rank || 0;
+                        break;
+                    case 'username':
+                        aVal = (a.displayName || a.username || `User ${a.userID}`).toLowerCase();
+                        bVal = (b.displayName || b.username || `User ${b.userID}`).toLowerCase();
+                        break;
+                    case 'guildName':
+                        aVal = (a.guildName || a.serverID || '').toLowerCase();
+                        bVal = (b.guildName || b.serverID || '').toLowerCase();
+                        break;
+                    case 'level':
+                        aVal = a.level || 0;
+                        bVal = b.level || 0;
+                        break;
+                    case 'xp':
+                        aVal = a.xp || 0;
+                        bVal = b.xp || 0;
+                        break;
+                    default:
+                        return 0;
+                }
+                
+                if (typeof aVal === 'string' && typeof bVal === 'string') {
+                    return sortDirection === 'asc' 
+                        ? aVal.localeCompare(bVal)
+                        : bVal.localeCompare(aVal);
+                } else {
+                    return sortDirection === 'asc' 
+                        ? aVal - bVal
+                        : bVal - aVal;
+                }
+            });
+            
+            // Recalculate ranks after sorting
+            sorted.forEach((entry, index) => {
+                entry.rank = index + 1;
+            });
+            
+            return sorted;
+        }
+
+        function applyFilters() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const serverIdFilter = document.getElementById('serverIdInput').value.trim();
+            const levelFilter = document.getElementById('levelFilter').value;
+            const xpFilter = document.getElementById('xpFilter').value;
+
+            // Start with all data (already limited to top 10 from API)
+            let tempFiltered = allLeaderboardData.filter(entry => {
+                // Search filter
+                if (searchTerm) {
+                    const username = (entry.username || '').toLowerCase();
+                    const displayName = (entry.displayName || '').toLowerCase();
+                    const userId = String(entry.userID);
+                    const guildName = (entry.guildName || '').toLowerCase();
+                    if (!username.includes(searchTerm) && !displayName.includes(searchTerm) && !userId.includes(searchTerm) && !guildName.includes(searchTerm)) {
+                        return false;
+                    }
+                }
+
+                // Server ID filter
+                if (serverIdFilter) {
+                    const entryServerId = String(entry.serverID || '');
+                    if (!entryServerId.includes(serverIdFilter)) {
+                        return false;
+                    }
+                }
+
+                // Level filter
+                if (levelFilter) {
+                    const level = entry.level || 0;
+                    if (levelFilter === '100+') {
+                        if (level < 100) return false;
+                    } else {
+                        const [min, max] = levelFilter.split('-').map(Number);
+                        if (level < min || level > max) return false;
+                    }
+                }
+
+                // XP filter
+                if (xpFilter) {
+                    const xp = entry.xp || 0;
+                    if (xpFilter === '5000+') {
+                        if (xp < 5000) return false;
+                    } else {
+                        const [min, max] = xpFilter.split('-').map(Number);
+                        if (xp < min || xp > max) return false;
+                    }
+                }
+
+                return true;
+            });
+
+            // Apply sorting
+            filteredData = sortData(tempFiltered);
+            
+            // Limit to selected number after filtering/sorting
+            if (filteredData.length > limit) {
+                filteredData = filteredData.slice(0, limit);
+            }
+
+            maxPage = Math.max(1, Math.ceil(filteredData.length / limit));
+            if (currentPage > maxPage) {
+                currentPage = maxPage;
+            }
+
+            renderLeaderboard();
+        }
+
+        function handleSort(column) {
+            // If clicking the same column, toggle direction
+            if (sortColumn === column) {
+                sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+            } else {
+                // New column, default to ascending
+                sortColumn = column;
+                sortDirection = 'asc';
+            }
+            
+            // Update header classes
+            document.querySelectorAll('.sortable-header').forEach(header => {
+                header.classList.remove('sort-asc', 'sort-desc');
+                if (header.dataset.sort === sortColumn) {
+                    header.classList.add(sortDirection === 'asc' ? 'sort-asc' : 'sort-desc');
+                }
+            });
+            
+            // Reapply filters (which includes sorting)
+            applyFilters();
+        }
+
+        function renderLeaderboard() {
+            const tbody = document.getElementById('leaderboardBody');
+            const table = document.getElementById('leaderboardTable');
+            const pageInfo = document.getElementById('pageInfo');
+            const pageInput = document.getElementById('pageInput');
+
+            tbody.innerHTML = '';
+
+            const startIndex = (currentPage - 1) * limit;
+            const endIndex = startIndex + limit;
+            const pageData = filteredData.slice(startIndex, endIndex);
+
+            if (pageData.length > 0) {
+                pageData.forEach(entry => {
+                    const row = document.createElement('tr');
+                    
+                    const rankCell = document.createElement('td');
+                    rankCell.innerHTML = getRankBadge(entry.rank);
+                    
+                    const userCell = document.createElement('td');
+                    const userInfoElement = renderUserCell(entry);
+                    userCell.appendChild(userInfoElement);
+                    
+                    // Debug: Log user data for first entry
+                    if (entry.rank === 1) {
+                        console.log('[Leaderboard] Rendering user cell for rank 1:', {
+                            userID: entry.userID,
+                            username: entry.username,
+                            displayName: entry.displayName,
+                            avatar: entry.avatar,
+                            discriminator: entry.discriminator,
+                            guildName: entry.guildName,
+                            serverID: entry.serverID
+                        });
+                    }
+                    
+                    const guildCell = document.createElement('td');
+                    guildCell.appendChild(renderGuildCell(entry));
+                    
+                    const levelCell = document.createElement('td');
+                    levelCell.textContent = entry.level || 0;
+                    
+                    const xpCell = document.createElement('td');
+                    xpCell.textContent = (entry.xp || 0).toLocaleString();
+                    
+                    row.appendChild(rankCell);
+                    row.appendChild(userCell);
+                    row.appendChild(guildCell);
+                    row.appendChild(levelCell);
+                    row.appendChild(xpCell);
+                    
+                    tbody.appendChild(row);
+                });
+
+                table.style.display = 'table';
+                pageInfo.textContent = `Page ${currentPage} of ${maxPage}`;
+                pageInput.value = currentPage;
+                pageInput.max = maxPage;
+
+                document.getElementById('prevBtn').disabled = currentPage === 1;
+                document.getElementById('nextBtn').disabled = currentPage >= maxPage;
+            } else {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 40px;">No users found matching your filters!</td></tr>';
+                table.style.display = 'table';
+            }
+        }
+
+        async function loadLeaderboard(scope) {
+            currentScope = scope;
+            currentPage = 1;
+            // Reset sorting when switching scope
+            sortColumn = 'rank';
+            sortDirection = 'asc';
+            
+            // Update sort indicators
+            document.querySelectorAll('.sortable-header').forEach(header => {
+                header.classList.remove('sort-asc', 'sort-desc');
+                if (header.dataset.sort === sortColumn) {
+                    header.classList.add('sort-asc');
+                }
+            });
+            
+            document.getElementById('serverBtn').classList.toggle('active', scope === 'server');
+            document.getElementById('globalBtn').classList.toggle('active', scope === 'global');
+            
+            // Clear filters when switching scope
+            document.getElementById('searchInput').value = '';
+            document.getElementById('serverIdInput').value = '';
+            document.getElementById('levelFilter').value = '';
+            document.getElementById('xpFilter').value = '';
+            
+            await fetchLeaderboard();
+        }
+
+        async function fetchLeaderboard(retryCount = 0) {
+            const loading = document.getElementById('loading');
+            const error = document.getElementById('error');
+            const table = document.getElementById('leaderboardTable');
+
+            loading.style.display = 'block';
+            error.style.display = 'none';
+            table.style.display = 'none';
+
+            try {
+                const serverId = currentScope === 'server' ? (window.currentServerId || '') : null;
+                let url = '/api/leaderboard?';
+                const params = [];
+                if (serverId) {
+                    params.push(`serverId=${encodeURIComponent(serverId)}`);
+                }
+                params.push(`scope=${encodeURIComponent(currentScope)}`);
+                params.push(`page=${currentPage}`);
+                params.push(`limit=${limit}`);
+                params.push('includeUsers=true');
+                url += params.join('&');
+
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'same-origin',
+                    cache: 'no-cache'
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                const result = await response.json();
+
+                if (result.success) {
+                    allLeaderboardData = result.data || [];
+                    console.log('[Leaderboard] Loaded', allLeaderboardData.length, 'entries');
+                    if (allLeaderboardData.length > 0) {
+                        console.log('[Leaderboard] Sample entry:', allLeaderboardData[0]);
+                        console.log('[Leaderboard] All entries:', allLeaderboardData);
+                    } else {
+                        console.warn('[Leaderboard] No data returned from API');
+                    }
+                    
+                    // Data is already limited by API, but ensure we don't exceed limit
+                    if (allLeaderboardData.length > limit) {
+                        allLeaderboardData = allLeaderboardData.slice(0, limit);
+                    }
+                    
+                    // Clear filters on initial load to show all data
+                    if (currentPage === 1 && !document.getElementById('searchInput').value && !document.getElementById('serverIdInput').value) {
+                        filteredData = [...allLeaderboardData];
+                        applyFilters();
+                    } else {
+                        applyFilters();
+                    }
+                } else {
+                    throw new Error(result.error || 'Failed to load leaderboard');
+                }
+            } catch (err) {
+                console.error('[Leaderboard] Fetch error:', err);
+                
+                // Retry logic for network errors
+                if (retryCount < 2 && (err.message.includes('Failed to fetch') || err.message.includes('Network'))) {
+                    console.log(`[Leaderboard] Retrying... (${retryCount + 1}/2)`);
+                    setTimeout(() => {
+                        fetchLeaderboard(retryCount + 1);
+                    }, 1000 * (retryCount + 1)); // Exponential backoff
+                    return;
+                }
+                
+                error.textContent = `Error: ${err.message}`;
+                error.style.display = 'block';
+            } finally {
+                loading.style.display = 'none';
+            }
+        }
+
+        function changePage(delta) {
+            const newPage = currentPage + delta;
+            if (newPage >= 1 && newPage <= maxPage) {
+                currentPage = newPage;
+                renderLeaderboard();
+            }
+        }
+
+        function goToPage() {
+            const pageInput = document.getElementById('pageInput');
+            const page = parseInt(pageInput.value);
+            if (page >= 1 && page <= maxPage) {
+                currentPage = page;
+                renderLeaderboard();
+            } else {
+                pageInput.value = currentPage;
+            }
+        }
+
+        // Event listeners (no inline handlers)
+        document.addEventListener('DOMContentLoaded', () => {
+            // Scope buttons
+            document.getElementById('serverBtn').addEventListener('click', () => loadLeaderboard('server'));
+            document.getElementById('globalBtn').addEventListener('click', () => loadLeaderboard('global'));
+
+            // Pagination buttons
+            document.getElementById('prevBtn').addEventListener('click', () => changePage(-1));
+            document.getElementById('nextBtn').addEventListener('click', () => changePage(1));
+            document.getElementById('goToPageBtn').addEventListener('click', goToPage);
+            document.getElementById('pageInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    goToPage();
+                }
+            });
+
+            // Filter inputs
+            document.getElementById('searchInput').addEventListener('input', applyFilters);
+            document.getElementById('serverIdInput').addEventListener('input', applyFilters);
+            document.getElementById('levelFilter').addEventListener('change', applyFilters);
+            document.getElementById('xpFilter').addEventListener('change', applyFilters);
+            
+            // Limit selector
+            const limitSelect = document.getElementById('limitSelect');
+            if (limitSelect) {
+                limitSelect.addEventListener('change', async (e) => {
+                    const newLimit = parseInt(e.target.value, 10);
+                    if (newLimit && newLimit !== limit) {
+                        limit = newLimit;
+                        saveLimitPreference(newLimit);
+                        currentPage = 1; // Reset to first page when changing limit
+                        await fetchLeaderboard(); // Reload with new limit
+                    }
+                });
+            }
+
+            // Sortable column headers
+            document.querySelectorAll('.sortable-header').forEach(header => {
+                header.addEventListener('click', () => {
+                    handleSort(header.dataset.sort);
+                });
+            });
+
+            // Set initial sort indicator
+            const initialSortHeader = document.querySelector(`[data-sort="${sortColumn}"]`);
+            if (initialSortHeader) {
+                initialSortHeader.classList.add('sort-asc');
+            }
+
+            // Load limit preference first
+            loadLimitPreference();
+            
+            // Initial load - check URL for server parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const serverParam = urlParams.get('server');
+            if (serverParam) {
+                currentScope = 'server';
+                window.currentServerId = serverParam;
+                document.getElementById('serverBtn').classList.add('active');
+                document.getElementById('globalBtn').classList.remove('active');
+            }
+            
+            loadLeaderboard(currentScope);
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,269 @@
+{
+  "entries": [
+    {
+      "version": "2.1.9",
+      "date": "2025-12-22",
+      "time": "19:00",
+      "type": "patch",
+      "title": "OAuth Login Error Handling Improvements",
+      "categories": {
+        "Fixed": [
+          "Fixed dashboard login OAuth error handling for Discord API rate limits",
+          "Improved error detection and parsing for rate limit responses",
+          "Enhanced user-friendly error messages for OAuth authentication failures"
+        ],
+        "Changed": [
+          "Updated OAuth callback error handling to detect Discord API rate limit errors",
+          "Improved error message display when rate limits are encountered",
+          "Better parsing of OAuth error data to identify specific failure types"
+        ]
+      }
+    },
+    {
+      "version": "2.1.8",
+      "date": "2025-11-24",
+      "time": "03:00",
+      "type": "minor",
+      "title": "Changelog System Implementation",
+      "categories": {
+        "Added": [
+          "Complete changelog system with JSON-based storage",
+          "Public changelog page at /changelog with version timeline",
+          "Admin changelog management interface at /admin/changelog",
+          "RESTful API endpoints for changelog CRUD operations",
+          "Changelog navigation link in main menu",
+          "Version type indicators (Major, Minor, Patch) with color coding",
+          "Expandable version cards with detailed change categories"
+        ],
+        "Changed": [
+          "Updated navigation menu to include Changelog link",
+          "Enhanced admin panel with changelog management section"
+        ]
+      }
+    },
+    {
+      "version": "2.0.0",
+      "date": "2020-12-17",
+      "time": "00:00",
+      "type": "patch",
+      "title": "Code Quality Improvements",
+      "categories": {
+        "Fixed": ["Fixed ESLint errors and warnings throughout codebase", "Improved code consistency and formatting"],
+        "Changed": ["Updated dependencies and build configuration", "General codebase maintenance and improvements"]
+      }
+    },
+    {
+      "version": "1.9.0",
+      "date": "2020-09-06",
+      "time": "00:00",
+      "type": "minor",
+      "title": "Documentation and Cleanup",
+      "categories": {
+        "Changed": ["Updated README.md with improved documentation", "Removed deprecated dashboard_EXT.js file"]
+      }
+    },
+    {
+      "version": "1.8.0",
+      "date": "2020-08-21",
+      "time": "00:00",
+      "type": "patch",
+      "title": "Code Refactoring",
+      "categories": {
+        "Fixed": [
+          "Removed unnecessary break statements",
+          "Fixed ESLint warnings and code style issues",
+          "Improved code readability and maintainability"
+        ]
+      }
+    },
+    {
+      "version": "1.7.0",
+      "date": "2020-08-20",
+      "time": "00:00",
+      "type": "minor",
+      "title": "Dashboard Panel Updates",
+      "categories": {
+        "Added": ["Enhanced dashboard panel functionality", "Improved user interface components"],
+        "Fixed": ["Fixed various dashboard extension issues", "Resolved panel rendering problems"]
+      }
+    },
+    {
+      "version": "1.6.0",
+      "date": "2020-08-03",
+      "time": "00:00",
+      "type": "patch",
+      "title": "Code Style Compliance",
+      "categories": {
+        "Changed": [
+          "Updated extensions to comply with current coding style",
+          "Standardized code formatting across all modules"
+        ]
+      }
+    },
+    {
+      "version": "1.5.0",
+      "date": "2020-07-16",
+      "time": "00:00",
+      "type": "major",
+      "title": "Discord.js v12 Migration",
+      "categories": {
+        "Changed": [
+          "Migrated codebase to Discord.js v12",
+          "Updated API calls to match v12 syntax",
+          "Refactored event handlers for v12 compatibility"
+        ],
+        "Breaking": ["Breaking changes: Requires Discord.js v12 or higher", "Some deprecated methods removed"]
+      }
+    },
+    {
+      "version": "1.4.0",
+      "date": "2020-06-21",
+      "time": "00:00",
+      "type": "minor",
+      "title": "Webhook Creation Feature",
+      "categories": {
+        "Added": ["Added create_webhook.js action for webhook management", "Enhanced webhook creation capabilities"]
+      }
+    },
+    {
+      "version": "1.3.0",
+      "date": "2020-05-17",
+      "time": "00:00",
+      "type": "patch",
+      "title": "Bot Ping Mod Update",
+      "categories": {
+        "Changed": ["Updated bot_ping_mod.js with improvements", "Enhanced ping measurement accuracy"]
+      }
+    },
+    {
+      "version": "1.2.0",
+      "date": "2020-04-23",
+      "time": "00:00",
+      "type": "minor",
+      "title": "Server Member Count Feature",
+      "categories": {
+        "Added": ["Added server member count functionality", "Implemented member count tracking and display"]
+      }
+    },
+    {
+      "version": "1.1.0",
+      "date": "2020-04-13",
+      "time": "00:00",
+      "type": "minor",
+      "title": "Dashboard Updates",
+      "categories": {
+        "Changed": ["Updated dashboard.js with new features", "Improved dashboard functionality and UI"]
+      }
+    },
+    {
+      "version": "1.0.5",
+      "date": "2020-04-01",
+      "time": "00:00",
+      "type": "minor",
+      "title": "Bulk Messages Feature",
+      "categories": {
+        "Added": ["Added bulk message deletion functionality", "Implemented efficient message management tools"]
+      }
+    },
+    {
+      "version": "1.0.4",
+      "date": "2020-03-23",
+      "time": "00:00",
+      "type": "minor",
+      "title": "Member Messaging Feature",
+      "categories": {
+        "Added": ["Added send message for members functionality", "Implemented member communication tools"]
+      }
+    },
+    {
+      "version": "1.0.3",
+      "date": "2020-03-11",
+      "time": "00:00",
+      "type": "minor",
+      "title": "Compatibility and Network Updates",
+      "categories": {
+        "Added": [
+          "Added check for old mods compatibility",
+          "Added variables for network extension",
+          "Added support for Silver's website integration"
+        ],
+        "Changed": ["Updated dashboard extension configuration"]
+      }
+    },
+    {
+      "version": "1.0.2",
+      "date": "2020-03-03",
+      "time": "00:00",
+      "type": "major",
+      "title": "Major Backend Update",
+      "categories": {
+        "Changed": [
+          "Major backend architecture improvements",
+          "Updated dbm_dashboard_EXT.js with new features",
+          "Enhanced extension system performance"
+        ]
+      }
+    },
+    {
+      "version": "1.0.1",
+      "date": "2020-02-25",
+      "time": "00:00",
+      "type": "patch",
+      "title": "File Cleanup",
+      "categories": {
+        "Removed": ["Removed deprecated dbm_dashboard_extension_EXT.js file"]
+      }
+    },
+    {
+      "version": "1.0.0",
+      "date": "2020-02-11",
+      "time": "00:00",
+      "type": "major",
+      "title": "Initial Release",
+      "categories": {
+        "Added": [
+          "Initial dashboard extension release",
+          "Core dashboard functionality",
+          "Main routes implementation",
+          "File naming standardization with _EXT suffix",
+          "Basic admin panel features"
+        ],
+        "Changed": [
+          "Renamed dbm_dashboard_extension.js to dbm_dashboard_EXT.js",
+          "Updated README.md with documentation"
+        ]
+      }
+    },
+    {
+      "version": "2.1.7",
+      "date": "2025-11-24",
+      "time": "02:00",
+      "type": "major",
+      "title": "New Dashboard Layout and OAuth Fixes",
+      "categories": {
+        "Added": [
+          "New dashboard layout with improved user interface",
+          "Enhanced error logging for OAuth authentication",
+          "Better Player initialization error handling"
+        ],
+        "Changed": [
+          "Removed /nt/ path configuration - now using root path only",
+          "Updated dashboard extension to match nt2 functionality",
+          "Simplified path handling for cleaner URL structure",
+          "Major dashboard redesign with modern UI components"
+        ],
+        "Fixed": [
+          "Fixed OAuth2 authentication with correct client ID configuration",
+          "Resolved VoiceStateUpdate error in discord-player initialization",
+          "Fixed callback URL resolution for root path authentication",
+          "Improved error handling in OAuth callback route"
+        ]
+      }
+    }
+  ],
+  "metadata": {
+    "lastUpdated": "2025-12-22T19:00:00Z",
+    "versionFormat": "semver",
+    "source": "Historical entries from https://github.com/your-a-nerd/mods/commits/master/extensions/dbm_dashboard"
+  }
+}

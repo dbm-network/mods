@@ -1,0 +1,529 @@
+// Giveaway system JavaScript
+const basePath = window.location.pathname.startsWith('/nt2') ? '/nt2' : '';
+
+// Get CSRF token from any form on the page
+function getCsrfToken() {
+    // Try multiple selectors to find CSRF token
+    const csrfInput = document.querySelector('input[name="_csrf"]') || 
+                      document.querySelector('#schedule-csrf-token') ||
+                      document.querySelector('input[type="hidden"][name="_csrf"]');
+    return csrfInput ? csrfInput.value : '';
+}
+
+function formatTime(timestamp) {
+    if (!timestamp) return 'N/A';
+    const date = new Date(parseInt(timestamp));
+    return date.toLocaleString();
+}
+
+function updateTimeElements() {
+    document.querySelectorAll('.giveaway-time').forEach(el => {
+        const endTime = el.getAttribute('data-end-time');
+        const startTime = el.getAttribute('data-start-time');
+        const time = el.getAttribute('data-time');
+        const timestamp = endTime || startTime || time;
+        if (timestamp) {
+            el.textContent = formatTime(timestamp);
+        }
+    });
+}
+
+function endGiveaway(id) {
+    if (!confirm('Are you sure you want to end this giveaway?')) return;
+    
+    const csrfToken = getCsrfToken();
+    if (!csrfToken) {
+        alert('CSRF token not found. Please refresh the page and try again.');
+        return;
+    }
+    
+    fetch(basePath + '/api/giveaways/' + id + '/end', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': csrfToken
+        }
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        } else {
+            alert('Failed to end giveaway: ' + (data.error || 'Unknown error'));
+        }
+    })
+    .catch(err => {
+        console.error('Error ending giveaway:', err);
+        alert('Failed to end giveaway');
+    });
+}
+
+function deleteGiveaway(id) {
+    if (!confirm('Are you sure you want to cancel this scheduled giveaway?')) return;
+    
+    const csrfToken = getCsrfToken();
+    if (!csrfToken) {
+        alert('CSRF token not found. Please refresh the page and try again.');
+        return;
+    }
+    
+    fetch(basePath + '/api/giveaways/' + id, {
+        method: 'DELETE',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': csrfToken
+        }
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        } else {
+            alert('Failed to delete giveaway: ' + (data.error || 'Unknown error'));
+        }
+    })
+    .catch(err => {
+        console.error('Error deleting giveaway:', err);
+        alert('Failed to delete giveaway');
+    });
+}
+
+function useTemplate(id) {
+    if (!id) return;
+    
+    // Switch to create tab and load template data
+    const createTab = document.querySelector('[data-panel-target="giveaways-create"]');
+    const createPane = document.getElementById('giveaways-create');
+    if (createTab && createPane) {
+        document.querySelectorAll('.panel-tab-button').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.panel-pane').forEach(pane => pane.classList.remove('active'));
+        createTab.classList.add('active');
+        createPane.classList.add('active');
+        
+        // Load template and populate form
+        fetch(basePath + '/api/giveaways/templates/id/' + id)
+            .then(res => res.json())
+            .then(result => {
+                if (result.success && result.data) {
+                    const template = result.data;
+                    const form = document.getElementById('giveaway-create-form');
+                    if (form) {
+                        if (template.prize) form.querySelector('[name="prize"]').value = template.prize;
+                        if (template.winners) form.querySelector('[name="winners"]').value = template.winners;
+                        if (template.duration) form.querySelector('[name="duration"]').value = template.duration;
+                        if (template.description) form.querySelector('[name="description"]').value = template.description;
+                        if (template.embedColor) {
+                            form.querySelector('[name="embedColor"]').value = template.embedColor;
+                            form.querySelector('[name="embedColorText"]').value = template.embedColor;
+                        }
+                        if (template.reactionEmoji) form.querySelector('[name="reactionEmoji"]').value = template.reactionEmoji;
+                        if (template.hostedBy) form.querySelector('[name="hostedBy"]').value = template.hostedBy;
+                        
+                        // Load channels if serverId is available
+                        if (template.serverId) {
+                            const serverSelect = form.querySelector('[name="serverId"]');
+                            if (serverSelect) {
+                                serverSelect.value = template.serverId;
+                                loadChannels(template.serverId, template.channelId);
+                            }
+                        }
+                    }
+                }
+            })
+            .catch(err => {
+                console.error('Error loading template:', err);
+                alert('Error loading template: ' + err.message);
+            });
+    }
+}
+
+function loadChannels(serverId, selectedChannelId) {
+    if (!serverId) return;
+    
+    const form = document.getElementById('giveaway-create-form');
+    if (!form) return;
+    
+    const channelSelect = form.querySelector('[name="channelId"]');
+    if (!channelSelect) return;
+    
+    channelSelect.innerHTML = '<option value="">Loading channels...</option>';
+    
+    fetch(basePath + '/api/servers/' + serverId + '/channels')
+        .then(res => res.json())
+        .then(result => {
+            if (result.success && result.data) {
+                channelSelect.innerHTML = '<option value="">Select a channel...</option>';
+                result.data.forEach(channel => {
+                    const option = document.createElement('option');
+                    option.value = channel.id;
+                    option.textContent = '#' + channel.name;
+                    if (channel.id === selectedChannelId) {
+                        option.selected = true;
+                    }
+                    channelSelect.appendChild(option);
+                });
+            } else {
+                channelSelect.innerHTML = '<option value="">Failed to load channels</option>';
+            }
+        })
+        .catch(err => {
+            console.error('Error loading channels:', err);
+            channelSelect.innerHTML = '<option value="">Error loading channels</option>';
+        });
+}
+
+// View/Edit Giveaway functionality
+function viewGiveaway(id) {
+    if (!id) return;
+    
+    const viewEditTab = document.getElementById('view-edit-tab');
+    const viewEditPane = document.getElementById('giveaways-view-edit');
+    const loadingDiv = document.getElementById('view-edit-loading');
+    const contentDiv = document.getElementById('view-edit-content');
+    
+    if (!viewEditTab || !viewEditPane) return;
+    
+    // Show loading
+    loadingDiv.style.display = 'block';
+    contentDiv.style.display = 'none';
+    
+    // Switch to view/edit tab
+    document.querySelectorAll('.panel-tab-button').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.panel-pane').forEach(pane => pane.classList.remove('active'));
+    viewEditTab.style.display = 'block';
+    viewEditTab.classList.add('active');
+    viewEditPane.classList.add('active');
+    
+    // Load giveaway data
+    fetch(basePath + '/api/giveaways/id/' + id)
+        .then(res => res.json())
+        .then(result => {
+            if (result.success && result.data) {
+                loadGiveawayIntoForm(result.data);
+                loadingDiv.style.display = 'none';
+                contentDiv.style.display = 'block';
+            } else {
+                loadingDiv.innerHTML = '<p style="color: var(--text-error);">Failed to load giveaway: ' + (result.error || 'Unknown error') + '</p>';
+            }
+        })
+        .catch(err => {
+            console.error('Error loading giveaway:', err);
+            loadingDiv.innerHTML = '<p style="color: var(--text-error);">Error loading giveaway: ' + err.message + '</p>';
+        });
+}
+
+function loadGiveawayIntoForm(giveaway) {
+    if (!giveaway) return;
+    
+    // Set form values
+    document.getElementById('edit-giveaway-id').value = giveaway.id || '';
+    document.getElementById('edit-prize').value = giveaway.prize || giveaway.name || '';
+    document.getElementById('edit-winners').value = giveaway.winners || 1;
+    document.getElementById('edit-duration').value = giveaway.duration || '7d';
+    document.getElementById('edit-description').value = giveaway.description || '';
+    document.getElementById('edit-embedColor').value = giveaway.embedColor || '#338ac4';
+    document.getElementById('edit-embedColorText').value = giveaway.embedColor || '#338ac4';
+    document.getElementById('edit-reactionEmoji').value = giveaway.reactionEmoji || '🎉';
+    document.getElementById('edit-hostedBy').value = giveaway.hostedBy || '';
+    document.getElementById('edit-dmMessage').value = giveaway.dmMessage || '';
+    document.getElementById('edit-dmWinners').checked = giveaway.dmWinners || false;
+    document.getElementById('edit-dmHost').checked = giveaway.dmHost || false;
+    document.getElementById('edit-dmMessageType').value = giveaway.dmMessageType || 'normal';
+    document.getElementById('edit-pingHostInDm').checked = giveaway.pingHostInDm || false;
+    document.getElementById('edit-serverMessageType').value = giveaway.serverMessageType || 'normal';
+    document.getElementById('edit-pingHostInServer').checked = giveaway.pingHostInServer || false;
+    document.getElementById('edit-thumbnail').value = giveaway.thumbnail || '';
+    document.getElementById('edit-image').value = giveaway.image || '';
+    
+    // Load extra entries
+    const editExtraEntriesList = document.getElementById('edit-extra-entries-list');
+    if (editExtraEntriesList) {
+        editExtraEntriesList.innerHTML = '';
+        if (giveaway.extraEntries && typeof giveaway.extraEntries === 'object') {
+            for (const [roleId, entryCount] of Object.entries(giveaway.extraEntries)) {
+                addEditExtraEntry(roleId, entryCount);
+            }
+        }
+    }
+    
+    // Load requirements
+    if (giveaway.requirements) {
+        if (giveaway.requirements.messages) {
+            document.getElementById('edit-reqMessagesDaily').value = giveaway.requirements.messages.daily || '';
+            document.getElementById('edit-reqMessagesWeekly').value = giveaway.requirements.messages.weekly || '';
+            document.getElementById('edit-reqMessagesMonthly').value = giveaway.requirements.messages.monthly || '';
+            document.getElementById('edit-reqMessagesTotal').value = giveaway.requirements.messages.total || '';
+        }
+        if (giveaway.requirements.level) {
+            document.getElementById('edit-reqLevel').value = giveaway.requirements.level || '';
+        }
+        if (giveaway.requirements.roles && Array.isArray(giveaway.requirements.roles)) {
+            const editRequiredRolesList = document.getElementById('edit-required-roles-list');
+            if (editRequiredRolesList) {
+                editRequiredRolesList.innerHTML = '';
+                giveaway.requirements.roles.forEach(roleId => {
+                    addEditRequiredRole(roleId);
+                });
+            }
+        }
+        if (giveaway.requirements.bypassRole) {
+            document.getElementById('edit-reqBypassRole').value = giveaway.requirements.bypassRole || '';
+        }
+        if (giveaway.requirements.blacklistedRoles && Array.isArray(giveaway.requirements.blacklistedRoles)) {
+            const editBlacklistedRolesList = document.getElementById('edit-blacklisted-roles-list');
+            if (editBlacklistedRolesList) {
+                editBlacklistedRolesList.innerHTML = '';
+                giveaway.requirements.blacklistedRoles.forEach(roleId => {
+                    addEditBlacklistedRole(roleId);
+                });
+            }
+        }
+        document.getElementById('edit-reqCustom').value = giveaway.requirements.custom || '';
+    }
+    
+    // Load entry messages
+    document.getElementById('edit-entryConfirmMessage').value = giveaway.entryConfirmMessage || '';
+    document.getElementById('edit-entryDenyMessage').value = giveaway.entryDenyMessage || '';
+    document.getElementById('edit-entryRemoveMessage').value = giveaway.entryRemoveMessage || '';
+    document.getElementById('edit-persistEntries').checked = giveaway.persistEntries || false;
+    document.getElementById('edit-removeEntriesOnEdit').checked = giveaway.removeEntriesOnEdit || false;
+    
+    // Load thread settings
+    document.getElementById('edit-createWinnersThread').checked = giveaway.createWinnersThread || false;
+    if (giveaway.createWinnersThread) {
+        document.getElementById('edit-winners-thread-options').style.display = 'block';
+    }
+    document.getElementById('edit-winnersThreadType').value = giveaway.winnersThreadType || 'public';
+    document.getElementById('edit-winnersThreadMessage').value = giveaway.winnersThreadMessage || '';
+    document.getElementById('edit-winnersThreadCloseDuration').value = giveaway.winnersThreadCloseDuration || '';
+    
+    // Load winner role remove duration
+    document.getElementById('edit-winnerRoleRemoveDuration').value = giveaway.winnerRoleRemoveDuration || '';
+    
+    // Load giveaway drop
+    document.getElementById('edit-isDrop').checked = giveaway.isDrop || false;
+    
+    // Update status info
+    const statusText = document.getElementById('status-text');
+    const entriesCount = document.getElementById('entries-count');
+    const endTimeInfo = document.getElementById('end-time-info');
+    const endTimeText = document.getElementById('end-time-text');
+    const startTimeInfo = document.getElementById('start-time-info');
+    const startTimeText = document.getElementById('start-time-text');
+    const endBtn = document.getElementById('end-giveaway-btn');
+    
+    if (giveaway.ended) {
+        statusText.textContent = 'Ended';
+        statusText.style.color = 'var(--text-error)';
+        endBtn.style.display = 'none';
+    } else if (giveaway.scheduled && !giveaway.started) {
+        statusText.textContent = 'Scheduled';
+        statusText.style.color = 'var(--accent-warning)';
+        endBtn.style.display = 'none';
+    } else {
+        statusText.textContent = 'Active';
+        statusText.style.color = 'var(--accent-success)';
+        endBtn.style.display = 'inline-block';
+    }
+    
+    entriesCount.textContent = (giveaway.entries && giveaway.entries.length) || 0;
+    
+    if (giveaway.endTime) {
+        endTimeInfo.style.display = 'block';
+        endTimeText.textContent = new Date(parseInt(giveaway.endTime)).toLocaleString();
+    } else {
+        endTimeInfo.style.display = 'none';
+    }
+    
+    if (giveaway.scheduledStart) {
+        startTimeInfo.style.display = 'block';
+        startTimeText.textContent = new Date(parseInt(giveaway.scheduledStart)).toLocaleString();
+    } else {
+        startTimeInfo.style.display = 'none';
+    }
+    
+    // Load channels
+    // Load roles for edit form
+    loadServerRoles().then(roles => {
+        // Populate winner role
+        const editWinnerRoleSelect = document.getElementById('edit-winnerRole');
+        if (editWinnerRoleSelect) {
+            const currentValue = giveaway.winnerRole || '';
+            editWinnerRoleSelect.innerHTML = '<option value="">Use server default</option>';
+            roles.forEach(role => {
+                const option = document.createElement('option');
+                option.value = role.id;
+                option.textContent = `@${role.name}`;
+                if (role.id === currentValue) option.selected = true;
+                editWinnerRoleSelect.appendChild(option);
+            });
+        }
+        
+        // Populate notification role
+        const editNotificationRoleSelect = document.getElementById('edit-notificationRole');
+        if (editNotificationRoleSelect) {
+            const currentValue = giveaway.notificationRole || '';
+            editNotificationRoleSelect.innerHTML = '<option value="">None</option>';
+            roles.forEach(role => {
+                const option = document.createElement('option');
+                option.value = role.id;
+                option.textContent = `@${role.name}`;
+                if (role.id === currentValue) option.selected = true;
+                editNotificationRoleSelect.appendChild(option);
+            });
+        }
+    });
+    
+    loadChannelsForEdit(giveaway.serverId, giveaway.channelId);
+}
+
+// Edit form extra entries management
+let editExtraEntryCounter = 0;
+const editExtraEntriesList = document.getElementById('edit-extra-entries-list');
+const editAddExtraEntryBtn = document.getElementById('edit-add-extra-entry-btn');
+
+function addEditExtraEntry(roleId = '', entryCount = 1) {
+    const entryId = 'edit-extra-entry-' + (editExtraEntryCounter++);
+    const entryDiv = document.createElement('div');
+    entryDiv.className = 'edit-extra-entry-item';
+    entryDiv.style.cssText = 'display: flex; gap: 1rem; align-items: center; padding: 1rem; background: var(--surface-elevated); border-radius: var(--radius-md); margin-bottom: 0.5rem;';
+    entryDiv.innerHTML = `
+        <select class="form-control edit-extra-entry-role" style="flex: 1;" data-entry-id="${entryId}">
+            <option value="">Select role...</option>
+        </select>
+        <input type="number" class="form-control edit-extra-entry-count" value="${entryCount}" min="1" max="250" style="width: 120px; max-width: 100%;" placeholder="Entries">
+        <button type="button" class="btn btn-sm btn-danger remove-edit-extra-entry" data-entry-id="${entryId}">
+            <i class="fas fa-times"></i>
+        </button>
+    `;
+    if (editExtraEntriesList) {
+        editExtraEntriesList.appendChild(entryDiv);
+    }
+    
+    // Populate role select
+    const roleSelect = entryDiv.querySelector('.edit-extra-entry-role');
+    loadServerRoles().then(roles => {
+        roles.forEach(role => {
+            const option = document.createElement('option');
+            option.value = role.id;
+            option.textContent = `@${role.name}`;
+            if (role.id === roleId) option.selected = true;
+            roleSelect.appendChild(option);
+        });
+    });
+    
+    // Remove button handler
+    entryDiv.querySelector('.remove-edit-extra-entry').addEventListener('click', () => {
+        entryDiv.remove();
+    });
+}
+
+if (editAddExtraEntryBtn) {
+    editAddExtraEntryBtn.addEventListener('click', () => addEditExtraEntry());
+}
+
+// Edit form required roles management
+let editRequiredRoleCounter = 0;
+const editRequiredRolesList = document.getElementById('edit-required-roles-list');
+const editAddRequiredRoleBtn = document.getElementById('edit-add-required-role-btn');
+
+function addEditRequiredRole(roleId = '') {
+    const roleItemId = 'edit-required-role-' + (editRequiredRoleCounter++);
+    const roleDiv = document.createElement('div');
+    roleDiv.className = 'edit-required-role-item';
+    roleDiv.style.cssText = 'display: flex; gap: 1rem; align-items: center; padding: 0.75rem; background: var(--surface); border-radius: var(--radius-sm); margin-bottom: 0.5rem;';
+    roleDiv.innerHTML = `
+        <select class="form-control edit-required-role-select" style="flex: 1;" data-role-id="${roleItemId}">
+            <option value="">Select role...</option>
+        </select>
+        <button type="button" class="btn btn-sm btn-danger remove-edit-required-role" data-role-id="${roleItemId}">
+            <i class="fas fa-times"></i>
+        </button>
+    `;
+    if (editRequiredRolesList) {
+        editRequiredRolesList.appendChild(roleDiv);
+    }
+    
+    // Populate role select
+    const roleSelect = roleDiv.querySelector('.edit-required-role-select');
+    loadServerRoles().then(roles => {
+        roles.forEach(role => {
+            const option = document.createElement('option');
+            option.value = role.id;
+            option.textContent = `@${role.name}`;
+            if (role.id === roleId) option.selected = true;
+            roleSelect.appendChild(option);
+        });
+    });
+    
+    // Remove button handler
+    roleDiv.querySelector('.remove-edit-required-role').addEventListener('click', () => {
+        roleDiv.remove();
+    });
+}
+
+if (editAddRequiredRoleBtn) {
+    editAddRequiredRoleBtn.addEventListener('click', () => addEditRequiredRole());
+}
+
+// Edit form blacklisted roles management
+let editBlacklistedRoleCounter = 0;
+const editBlacklistedRolesList = document.getElementById('edit-blacklisted-roles-list');
+const editAddBlacklistedRoleBtn = document.getElementById('edit-add-blacklisted-role-btn');
+
+function addEditBlacklistedRole(roleId = '') {
+    const roleItemId = 'edit-blacklisted-role-' + (editBlacklistedRoleCounter++);
+    const roleDiv = document.createElement('div');
+    roleDiv.className = 'edit-blacklisted-role-item';
+    roleDiv.style.cssText = 'display: flex; gap: 1rem; align-items: center; padding: 0.75rem; background: var(--surface); border-radius: var(--radius-sm); margin-bottom: 0.5rem;';
+    roleDiv.innerHTML = `
+        <select class="form-control edit-blacklisted-role-select" style="flex: 1;" data-role-id="${roleItemId}">
+            <option value="">Select role...</option>
+        </select>
+        <button type="button" class="btn btn-sm btn-danger remove-edit-blacklisted-role" data-role-id="${roleItemId}">
+            <i class="fas fa-times"></i>
+        </button>
+    `;
+    if (editBlacklistedRolesList) {
+        editBlacklistedRolesList.appendChild(roleDiv);
+    }
+    
+    // Populate role select
+    const roleSelect = roleDiv.querySelector('.edit-blacklisted-role-select');
+    loadServerRoles().then(roles => {
+        roles.forEach(role => {
+            const option = document.createElement('option');
+            option.value = role.id;
+            option.textContent = `@${role.name}`;
+            if (role.id === roleId) option.selected = true;
+            roleSelect.appendChild(option);
+        });
+    });
+    
+    // Remove button handler
+    roleDiv.querySelector('.remove-edit-blacklisted-role').addEventListener('click', () => {
+        roleDiv.remove();
+    });
+}
+
+if (editAddBlacklistedRoleBtn) {
+    editAddBlacklistedRoleBtn.addEventListener('click', () => addEditBlacklistedRole());
+}
+
+// Populate edit form bypass role select
+const editReqBypassRoleSelect = document.getElementById('edit-reqBypassRole');
+if (editReqBypassRoleSelect) {
+    loadServerRoles().then(roles => {
+        roles.forEach(role => {
+            const option = document.createElement('option');
+            option.value = role.id;
+            option.textContent = `@${role.name}`;
+            editReqBypassRoleSelect.appendChild(option);
+        });
+    });
+}
+
+// Edit form winners thread toggle
+const editCreateWinnersThreadCheckbox = document.getElementById('edit-createWinnersThread');

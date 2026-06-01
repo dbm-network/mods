@@ -1,0 +1,165 @@
+<!-- Giveaways Settings Pane -->
+<div class="panel-pane" id="giveaways-settings" role="tabpanel">
+    <div class="panel-pane-header">
+        <h2>Giveaway Settings</h2>
+        <p>Configure default giveaway settings for this server.</p>
+    </div>
+    
+    <form id="giveaway-settings-form" class="panel-form giveaway-form">
+        <input type="hidden" name="_csrf" value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+        <input type="hidden" name="serverId" value="<%= data.server.id %>">
+        
+        <div class="giveaway-form-grid">
+            <!-- Left Column -->
+            <div class="giveaway-form-column">
+                <div class="form-section">
+                    <h3>Basic Settings</h3>
+                    
+                    <div class="form-field">
+                        <span>Bot Server Prefix</span>
+                        <input type="text" class="form-control" value="<%= data.serverPrefix || data.mainPrefix || '!' %>" readonly style="background: var(--surface-color); cursor: not-allowed;">
+                        <small>Bot Server Prefix for prefix commands. Change this in <strong>Server Bot Settings</strong> tab.</small>
+                    </div>
+                    
+                    <label class="form-field">
+                        <span>Language</span>
+                        <select name="language" class="form-control">
+                            <option value="en" <%= (data.giveawayData.settings?.language || 'en') === 'en' ? 'selected' : '' %>>English</option>
+                            <option value="no" <%= data.giveawayData.settings?.language === 'no' ? 'selected' : '' %>>Norwegian</option>
+                        </select>
+                        <small>Language for bot messages</small>
+                    </label>
+                    
+                    <label class="form-field form-toggle">
+                        <div>
+                            <span>Show Entry Captcha</span>
+                            <small>Require captcha verification (FEATURED)</small>
+                        </div>
+                        <input type="checkbox" name="showCaptcha" class="toggle-input" <%= data.giveawayData.settings?.showCaptcha ? 'checked' : '' %>>
+                        <span class="toggle-slider"></span>
+                    </label>
+                    
+                    <label class="form-field form-toggle">
+                        <div>
+                            <span>Public Giveaways</span>
+                            <small>List giveaways in public page</small>
+                        </div>
+                        <input type="checkbox" name="publicGiveaways" class="toggle-input" <%= data.giveawayData.settings?.publicGiveaways ? 'checked' : '' %>>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="form-section">
+                    <h3>DM Settings</h3>
+                    
+                    <label class="form-field form-toggle">
+                        <div>
+                            <span>DM Giveaway Host</span>
+                            <small>DM host when giveaway ends</small>
+                        </div>
+                        <input type="checkbox" name="dmGiveawayHost" class="toggle-input" <%= data.giveawayData.settings?.dmGiveawayHost ? 'checked' : '' %>>
+                        <span class="toggle-slider"></span>
+                    </label>
+                    
+                    <label class="form-field form-toggle">
+                        <div>
+                            <span>DM Giveaway Winners</span>
+                            <small>DM winners when they win</small>
+                        </div>
+                        <input type="checkbox" name="dmGiveawayWinners" class="toggle-input" <%= data.giveawayData.settings?.dmGiveawayWinners ? 'checked' : '' %>>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="form-section">
+                    <h3>Default Embed Colors</h3>
+                    
+                    <label class="form-field">
+                        <span>Start Color</span>
+                        <div class="color-input-group">
+                            <input type="color" name="defaultEmbedColor" class="form-control color-picker" value="<%= data.giveawayData.settings?.defaultEmbedColor || '#338ac4' %>">
+                            <input type="text" name="defaultEmbedColorText" class="form-control color-text" value="<%= data.giveawayData.settings?.defaultEmbedColor || '#338ac4' %>" pattern="^#[0-9A-Fa-f]{6}$">
+                        </div>
+                    </label>
+                    
+                    <label class="form-field">
+                        <span>End Color</span>
+                        <div class="color-input-group">
+                            <input type="color" name="defaultEndEmbedColor" class="form-control color-picker" value="<%= data.giveawayData.settings?.defaultEndEmbedColor || '#f04747' %>">
+                            <input type="text" name="defaultEndEmbedColorText" class="form-control color-text" value="<%= data.giveawayData.settings?.defaultEndEmbedColor || '#f04747' %>" pattern="^#[0-9A-Fa-f]{6}$">
+                        </div>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Right Column -->
+            <div class="giveaway-form-column">
+                <div class="form-section">
+                    <h3>Role Management</h3>
+                    
+                    <label class="form-field">
+                        <span>Creator Roles (max 5)</span>
+                        <select name="creatorRoles" id="creator-roles-select" class="form-control" multiple size="5">
+                            <!-- Roles will be loaded dynamically -->
+                        </select>
+                        <small>Roles that can create/schedule giveaways only</small>
+                    </label>
+                    
+                    <label class="form-field">
+                        <span>Manager Roles (max 5)</span>
+                        <select name="managerRoles" id="manager-roles-select" class="form-control" multiple size="5">
+                            <!-- Roles will be loaded dynamically -->
+                        </select>
+                        <small>Roles that can access all giveaway commands and dashboard</small>
+                    </label>
+                    
+                    <label class="form-field">
+                        <span>Winner Role</span>
+                        <select name="winnerRole" id="settings-winner-role-select" class="form-control">
+                            <option value="">None</option>
+                        </select>
+                        <small>Role to assign to winners when giveaway ends</small>
+                    </label>
+                </div>
+                
+                <div class="form-section">
+                    <h3>Default Messages</h3>
+                    
+                    <label class="form-field">
+                        <span>Default Host</span>
+                        <input type="text" name="defaultHost" class="form-control" value="<%= data.giveawayData.settings?.defaultHost || '' %>" maxlength="200" placeholder="e.g. @User, @Role, or custom text">
+                        <small>Default host for all giveaways (user/role mention or text)</small>
+                    </label>
+                    
+                    <label class="form-field">
+                        <span>Create Message</span>
+                        <textarea name="defaultCreateMessage" class="form-control" rows="6" maxlength="1024"><%= data.giveawayData.settings?.defaultCreateMessage || 'To enter click the 🎉 below!\nRequirements: N/A\nIf you win the giveaway, you have 24 hours to claim the reward.' %></textarea>
+                        <small>Message sent after creating a giveaway</small>
+                    </label>
+                </div>
+                
+                <div class="form-section">
+                    <h3>Default Extra Entries</h3>
+                    <p style="margin-bottom: 1rem; color: var(--text-secondary); font-size: 0.9rem;">Configure default entry bonuses for roles (1-100, or 250 with premium)</p>
+                    
+                    <div id="default-extra-entries-list">
+                        <!-- Default extra entries will be added here dynamically -->
+                    </div>
+                    
+                    <button type="button" id="add-default-extra-entry-btn" class="btn btn-sm btn-secondary" style="margin-top: 1rem;">
+                        <i class="fas fa-plus"></i> Add Role Entry Bonus
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="page-actions" style="margin-top: 2rem;">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save"></i> Save Settings
+            </button>
+        </div>
+        
+        <div id="settings-feedback" class="form-feedback" role="alert" style="margin-top: 1rem;"></div>
+    </form>
+</div>
+

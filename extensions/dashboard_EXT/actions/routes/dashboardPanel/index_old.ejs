@@ -1,0 +1,2878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= data.server?.name || 'Server' %> · Management Panel</title>
+    <meta name="description" content="Configure modules and extensions for <%= data.server?.name || 'your server' %> using the News Targeted Bot dashboard.">
+    <% 
+    const templateBasePath = (typeof basePath !== 'undefined' && basePath) ? basePath : '';
+    %>
+    <link rel="icon" type="image/x-icon" href="<%= templateBasePath %>/favicon.ico">
+    <link rel="stylesheet" href="<%= templateBasePath %>/shared/styles.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body class="main-layout">
+    <%- include('../../../views/shared/header.ejs', { data: data }) %>
+
+    <main>
+        <%
+            const serverName = data.server?.name || 'Unknown Server';
+        %>
+
+        <section class="page-wrapper page-wrapper--narrow" data-aos="fade-up">
+             <%- include('../../../views/shared/components/hero', {
+                 title: serverName,
+                 subtitle: 'Execute commands, review module settings, and extend your automation workflows without leaving the dashboard.',
+                 badge: 'Server Panel',
+                 panel: true
+             }) %>
+        </section>
+
+        <% if (data.commandData) { %>
+        <section class="page-wrapper page-wrapper--narrow" data-aos="fade-up" data-aos-delay="140">
+            <div class="page-section">
+                <div class="empty-state">
+                    <strong>Command executed successfully</strong>
+                <p><%= data.user && data.user.commandExecuted ? data.user.commandExecuted : 'The requested command completed. Review results inside your server.' %></p>
+                </div>
+            </div>
+        </section>
+        <% } %>
+
+        <% const panelDelay = data.commandData ? 220 : 160; %>
+        <section class="page-wrapper" data-aos="fade-up" data-aos-delay="<%= panelDelay %>">
+            <div class="page-section">
+            <% 
+                const mods = Array.isArray(data.mods) ? data.mods : [];
+                const extensions = Array.isArray(data.extensions) ? data.extensions : [];
+                const sectionOrder = [];
+                const sectionMeta = {};
+
+                mods.forEach((mod) => {
+                    if (!sectionOrder.includes(mod.sectionID)) {
+                        sectionOrder.push(mod.sectionID);
+                        sectionMeta[mod.sectionID] = mod.section;
+                    }
+                });
+
+                extensions.forEach((extension) => {
+                    if (!sectionOrder.includes(extension.sectionID)) {
+                        sectionOrder.push(extension.sectionID);
+                        sectionMeta[extension.sectionID] = extension.section || extension.sectionID;
+                    }
+                });
+            %>
+
+            <div class="panel-layout">
+                <div class="panel-tabs-wrapper">
+                    <nav class="panel-tabs" role="tablist">
+                        <% sectionOrder.forEach((sectionId, index) => { %>
+                            <button class="panel-tab-button <%= index === 0 ? 'active' : '' %>" data-panel-target="section-<%= sectionId %>">
+                                <span><%= sectionMeta[sectionId] || sectionId %></span>
+                            </button>
+                        <% }); %>
+                        <% 
+                        // Debug: Check giveaway system availability
+                        const giveawayAvailable = typeof data.giveawaySystemAvailable !== 'undefined' ? data.giveawaySystemAvailable : false;
+                        const serverExists = data.server ? true : false;
+                        const serverId = data.server && data.server.id ? data.server.id : null;
+                        const shouldShowGiveaways = giveawayAvailable && serverExists && serverId;
+                        %>
+                        <!-- TEMPORARY DEBUG OUTPUT - Remove after fixing -->
+                        <% if (!shouldShowGiveaways) { %>
+                        <div style="background: #ff0000; color: #fff; padding: 10px; margin: 10px; border-radius: 5px;">
+                            <strong>DEBUG:</strong> Giveaway tabs hidden<br>
+                            Available: <%= giveawayAvailable %><br>
+                            Server Exists: <%= serverExists %><br>
+                            Server ID: <%= serverId || 'null' %><br>
+                            Type of giveawaySystemAvailable: <%= typeof data.giveawaySystemAvailable %><br>
+                            Type of server: <%= typeof data.server %>
+                        </div>
+                        <% } %>
+                        <% if (shouldShowGiveaways) { %>
+                        <button class="panel-tab-button" data-panel-target="giveaways-overview">
+                            <i class="fas fa-gift"></i>
+                            <span>Giveaways</span>
+                        </button>
+                        <button class="panel-tab-button" data-panel-target="giveaways-create">
+                            <i class="fas fa-plus"></i>
+                            <span>Create</span>
+                        </button>
+                        <button class="panel-tab-button" data-panel-target="giveaways-schedule">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>Schedule</span>
+                        </button>
+                        <button class="panel-tab-button" data-panel-target="giveaways-templates">
+                            <i class="fas fa-file-alt"></i>
+                            <span>Templates</span>
+                        </button>
+                        <button class="panel-tab-button" data-panel-target="giveaways-settings">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </button>
+                        <button class="panel-tab-button" data-panel-target="giveaways-view-edit" style="display: none;" id="view-edit-tab">
+                            <i class="fas fa-eye"></i>
+                            <span>View/Edit</span>
+                        </button>
+                        <% } %>
+                    </nav>
+                </div>
+
+                <section class="panel-content">
+                    <% sectionOrder.forEach((sectionId, index) => {
+                        const sectionMods = mods.filter(mod => mod.sectionID === sectionId);
+                        const sectionExtensions = extensions.filter(ext => ext.sectionID === sectionId);
+                    %>
+                    <div class="panel-pane <%= index === 0 ? 'active' : '' %>" id="section-<%= sectionId %>" role="tabpanel">
+                        <div class="panel-pane-header">
+                            <h2><%= sectionMeta[sectionId] || sectionId %></h2>
+                            <p>Manage commands and modules in this category. Execute custom actions or adjust extension settings inline.</p>
+                        </div>
+
+                        <% if (sectionMods.length > 0) { %>
+                        <div class="page-grid page-grid--three">
+                            <% sectionMods.forEach((mod) => { %>
+                            <article class="surface-card panel-card">
+                                <header class="panel-card-header">
+                                    <div>
+                                        <h3 class="card-title"><%= mod.name %></h3>
+                                        <p class="card-description"><%= mod.description || 'Custom module' %></p>
+                                    </div>
+                                    <div class="panel-card-meta">
+                                        <span>Version <strong><%= mod.version || '1.0.0' %></strong></span>
+                                        <span>Author <strong><%= mod.author || 'Unknown' %></strong></span>
+                                    </div>
+                                </header>
+
+                                <form action="<%= templateBasePath %>/api/<%= data.server.id %>/execute/<%= mod.name %>" method="POST" class="panel-form">
+                                    <input type="hidden" name="_csrf" value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+                                    <% if (mod.webFile) { %>
+                                        <div class="panel-form-fields">
+                                            <%- include(data.path.join(data.dirname, "../../mods", mod.name.toLowerCase().replace(/ /g,"_"), mod.webFile), { data: data }) %>
+                                        </div>
+                                    <% } else { %>
+                                        <input type="hidden" name="execute" value="true">
+                                    <% } %>
+                                    <div class="page-actions">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-play"></i>
+                                            Execute
+                                        </button>
+                                    </div>
+                                </form>
+                            </article>
+                            <% }); %>
+                        </div>
+                        <% } %>
+
+                        <% sectionExtensions.forEach((extension) => { %>
+                        <article class="surface-card panel-extension">
+                            <header class="panel-card-header">
+                                <div>
+                                    <h3 class="card-title"><%= extension.section || extension.sectionID %></h3>
+                                    <p class="card-description">Extension module</p>
+                                </div>
+                            </header>
+                            <div class="panel-extension-body">
+                                <%- include(data.path.join(data.dirname, "../../extensions", extension.name.toLowerCase().replace(/ /g,"_"), extension.webFile), { data: data }) %>
+                            </div>
+                        </article>
+                        <% }); %>
+
+                        <% if (sectionMods.length === 0 && sectionExtensions.length === 0) { %>
+                        <div class="empty-state">
+                            <strong>No modules registered</strong>
+                            <p>This section currently has no executable modules or extensions configured.</p>
+                        </div>
+                        <% } %>
+                    </div>
+                        <% }); %>
+                        
+                        <% if (data.giveawaySystemAvailable && data.server && data.server.id) { %>
+                        <!-- Giveaways Overview Pane -->
+                        <div class="panel-pane" id="giveaways-overview" role="tabpanel">
+                            <div class="panel-pane-header">
+                                <h2>Giveaways</h2>
+                                <p>Manage active, scheduled, and ended giveaways for this server.</p>
+                            </div>
+                            
+                            <% if (data.giveawayData.giveaways.active.length > 0) { %>
+                            <div style="margin-bottom: 2rem;">
+                                <h3 style="margin-bottom: 1rem; font-size: 1.1rem;">Active Giveaways</h3>
+                                <div class="giveaway-grid">
+                                    <% data.giveawayData.giveaways.active.forEach((giveaway, idx) => { %>
+                                    <div class="giveaway-card">
+                                        <div class="giveaway-card__header">
+                                            <h3><%= giveaway.prize || giveaway.name || 'Unnamed Giveaway' %></h3>
+                                            <span class="status-pill status-pill--active">Active</span>
+                                        </div>
+                                        <div class="giveaway-card__body">
+                                            <p class="giveaway-meta">
+                                                <strong>Winners:</strong> <%= giveaway.winners || 1 %><br>
+                                                <strong>Entries:</strong> <%= (giveaway.entries && giveaway.entries.length) || 0 %><br>
+                                                <% if (giveaway.endTime) { %>
+                                                <strong>Ends:</strong> <span class="giveaway-time" data-end-time="<%= giveaway.endTime %>"></span>
+                                                <% } %>
+                                            </p>
+                                        </div>
+                                        <div class="giveaway-card__actions">
+                                            <button class="btn btn-sm btn-primary view-giveaway-btn" data-giveaway-id="<%= giveaway.id %>">View</button>
+                                            <button class="btn btn-sm btn-danger end-giveaway-btn" data-giveaway-id="<%= giveaway.id %>">End</button>
+                                        </div>
+                                    </div>
+                                    <% }); %>
+                                </div>
+                            </div>
+                            <% } %>
+                            
+                            <% if (data.giveawayData.giveaways.scheduled.length > 0) { %>
+                            <div style="margin-bottom: 2rem;">
+                                <h3 style="margin-bottom: 1rem; font-size: 1.1rem;">Scheduled Giveaways</h3>
+                                <div class="giveaway-grid">
+                                    <% data.giveawayData.giveaways.scheduled.forEach((giveaway, idx) => { %>
+                                    <div class="giveaway-card" data-giveaway-id="<%= giveaway.id %>">
+                                        <div class="giveaway-card__header">
+                                            <h3><%= giveaway.prize || giveaway.name || 'Unnamed Giveaway' %></h3>
+                                            <span class="status-pill status-pill--scheduled">Scheduled</span>
+                                        </div>
+                                        <div class="giveaway-card__body">
+                                            <p class="giveaway-meta">
+                                                <strong>Winners:</strong> <%= giveaway.winners || 1 %><br>
+                                                <% if (giveaway.scheduledStart) { %>
+                                                <strong>Starts:</strong> <span class="giveaway-time" data-start-time="<%= giveaway.scheduledStart %>"></span>
+                                                <% } %>
+                                            </p>
+                                        </div>
+                                    <div class="giveaway-card__actions">
+                                        <button class="btn btn-sm btn-primary view-giveaway-btn" data-giveaway-id="<%= giveaway.id %>">View</button>
+                                        <button class="btn btn-sm btn-danger delete-giveaway-btn" data-giveaway-id="<%= giveaway.id %>">Cancel</button>
+                                    </div>
+                                    </div>
+                                    <% }); %>
+                                </div>
+                            </div>
+                            <% } %>
+                            
+                            <% if (data.giveawayData.giveaways.ended.length > 0) { %>
+                            <div style="margin-bottom: 2rem;">
+                                <h3 style="margin-bottom: 1rem; font-size: 1.1rem;">Recent Ended Giveaways</h3>
+                                <div class="giveaway-grid">
+                                    <% data.giveawayData.giveaways.ended.forEach((giveaway, idx) => { %>
+                                    <div class="giveaway-card" data-giveaway-id="<%= giveaway.id %>">
+                                        <div class="giveaway-card__header">
+                                            <h3><%= giveaway.prize || giveaway.name || 'Unnamed Giveaway' %></h3>
+                                            <span class="status-pill status-pill--ended">Ended</span>
+                                        </div>
+                                        <div class="giveaway-card__body">
+                                            <p class="giveaway-meta">
+                                                <strong>Winners:</strong> <%= (giveaway.winnerIds && giveaway.winnerIds.length) || 0 %><br>
+                                                <strong>Entries:</strong> <%= (giveaway.entries && giveaway.entries.length) || 0 %><br>
+                                                <% if (giveaway.endedAt) { %>
+                                                <strong>Ended:</strong> <span class="giveaway-time" data-time="<%= giveaway.endedAt %>"></span>
+                                                <% } %>
+                                            </p>
+                                        </div>
+                                        <div class="giveaway-card__actions">
+                                            <button class="btn btn-sm btn-primary view-giveaway-btn" data-giveaway-id="<%= giveaway.id %>">View</button>
+                                        </div>
+                                    </div>
+                                    <% }); %>
+                                </div>
+                            </div>
+                            <% } %>
+                            
+                            <% if (data.giveawayData.giveaways.active.length === 0 && data.giveawayData.giveaways.scheduled.length === 0 && data.giveawayData.giveaways.ended.length === 0) { %>
+                            <div class="empty-state">
+                                <h3>No Giveaways Yet</h3>
+                                <p>Click the "Create" tab to create your first giveaway for this server!</p>
+                            </div>
+                            <% } %>
+                        </div>
+                        
+                        <!-- Giveaways Create Pane -->
+                        <div class="panel-pane" id="giveaways-create" role="tabpanel">
+                            <div class="panel-pane-header">
+                                <h2>Create Giveaway</h2>
+                                <p>Set up a new giveaway for this server.</p>
+                            </div>
+                            
+                            <form id="giveaway-create-form" class="giveaway-form" style="max-width: 1200px;">
+                                <input type="hidden" name="_csrf" value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+                                <input type="hidden" name="serverId" value="<%= data.server.id %>">
+                                
+                                <div class="giveaway-form-grid">
+                                    <!-- Left Column -->
+                                    <div class="giveaway-form-column">
+                                        <div class="form-section">
+                                            <h3>Basic Settings</h3>
+                                            
+                                            <label class="form-field">
+                                                <span>Prize / Name</span>
+                                                <input type="text" name="prize" class="form-control" placeholder="e.g. Discord Nitro" required maxlength="256">
+                                                <small>What is being given away?</small>
+                                            </label>
+
+                                            <label class="form-field">
+                                                <span>Winners</span>
+                                                <input type="number" name="winners" class="form-control" value="1" min="1" max="100" required>
+                                                <small>Number of winners (1-100)</small>
+                                            </label>
+
+                                            <label class="form-field">
+                                                <span>Duration</span>
+                                                <input type="text" name="duration" class="form-control" placeholder="e.g. 7d, 2h, 30m" required pattern="^\d+[smhd]$" title="Format: number followed by s (seconds), m (minutes), h (hours), or d (days)">
+                                                <small>Format: 7d (7 days), 2h (2 hours), 30m (30 minutes)</small>
+                                            </label>
+
+                                            <label class="form-field">
+                                                <span>Channel</span>
+                                                <select name="channelId" class="form-control" required>
+                                                    <option value="">Select a channel</option>
+                                                </select>
+                                                <small>Channel where the giveaway will be posted</small>
+                                            </label>
+
+                                            <label class="form-field">
+                                                <span>Description</span>
+                                                <textarea name="description" class="form-control" rows="4" maxlength="2000" placeholder="Optional description for the giveaway"></textarea>
+                                                <small>Optional description (max 2000 characters)</small>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Right Column -->
+                                    <div class="giveaway-form-column">
+                                        <div class="form-section">
+                                            <h3>Embed Settings</h3>
+                                            
+                                            <label class="form-field">
+                                                <span>Embed Color</span>
+                                                <div class="color-input-group">
+                                                    <input type="color" name="embedColor" class="form-control color-picker" value="<%= data.giveawayData.settings?.defaultEmbedColor || '#338ac4' %>">
+                                                    <input type="text" name="embedColorText" class="form-control color-text" value="<%= data.giveawayData.settings?.defaultEmbedColor || '#338ac4' %>" pattern="^#[0-9A-Fa-f]{6}$">
+                                                </div>
+                                                <small>Color for the giveaway embed</small>
+                                            </label>
+
+                                            <label class="form-field">
+                                                <span>Reaction Emoji</span>
+                                                <input type="text" name="reactionEmoji" class="form-control" value="🎉" maxlength="10">
+                                                <small>Emoji users react with to enter (default: 🎉)</small>
+                                            </label>
+
+                                            <label class="form-field">
+                                                <span>Hosted By</span>
+                                                <input type="text" name="hostedBy" class="form-control" placeholder="Optional host name" maxlength="100">
+                                                <small>Optional: Who is hosting this giveaway?</small>
+                                            </label>
+                                            
+                                            <label class="form-field">
+                                                <span>Notification Role</span>
+                                                <select name="notificationRole" id="notification-role-select" class="form-control">
+                                                    <option value="">None</option>
+                                                </select>
+                                                <small>Role to ping when giveaway is created (optional)</small>
+                                            </label>
+                                            
+                                            <label class="form-field">
+                                                <span>Thumbnail URL</span>
+                                                <input type="url" name="thumbnail" class="form-control" placeholder="https://example.com/image.png" maxlength="500">
+                                                <small>Small image shown in the top-right corner of the embed</small>
+                                            </label>
+                                            
+                                            <label class="form-field">
+                                                <span>Image URL</span>
+                                                <input type="url" name="image" class="form-control" placeholder="https://example.com/image.png" maxlength="500">
+                                                <small>Large image shown at the bottom of the embed</small>
+                                            </label>
+                                        </div>
+                                        
+                                        <div class="form-section">
+                                            <h3>Advanced Options</h3>
+                                            
+                                            <label class="form-field">
+                                                <span>DM Message</span>
+                                                <textarea name="dmMessage" class="form-control" rows="4" maxlength="1000" placeholder="Custom message to send to winners (optional)"></textarea>
+                                                <small>Custom DM message for winners (overrides default)</small>
+                                            </label>
+                                            
+                                            <label class="form-field">
+                                                <span>DM Message Type</span>
+                                                <select name="dmMessageType" class="form-control">
+                                                    <option value="normal">Normal Message</option>
+                                                    <option value="embed">Embed Message</option>
+                                                </select>
+                                                <small>Format for winner DM messages</small>
+                                            </label>
+                                            
+                                            <label class="form-field form-toggle">
+                                                <div>
+                                                    <span>Ping Host in Winner DM</span>
+                                                    <small>Mention the giveaway host in winner DM messages</small>
+                                                </div>
+                                                <input type="checkbox" name="pingHostInDm" class="toggle-input">
+                                                <span class="toggle-slider"></span>
+                                            </label>
+                                            
+                                            <label class="form-field">
+                                                <span>Server End Message Type</span>
+                                                <select name="serverMessageType" class="form-control">
+                                                    <option value="normal">Normal Message</option>
+                                                    <option value="embed">Embed Message</option>
+                                                </select>
+                                                <small>Format for server message when giveaway ends</small>
+                                            </label>
+                                            
+                                            <label class="form-field form-toggle">
+                                                <div>
+                                                    <span>Ping Host in Server Message</span>
+                                                    <small>Mention the giveaway host in server end message</small>
+                                                </div>
+                                                <input type="checkbox" name="pingHostInServer" class="toggle-input">
+                                                <span class="toggle-slider"></span>
+                                            </label>
+                                            
+                                            <label class="form-field">
+                                                <input type="checkbox" name="scheduled" id="scheduled-checkbox">
+                                                <span>Schedule for later</span>
+                                            </label>
+                                            
+                                            <div id="schedule-options" style="display: none; margin-top: 1rem;">
+                                                <label class="form-field">
+                                                    <span>Start Date & Time</span>
+                                                    <input type="datetime-local" name="scheduledStart" class="form-control">
+                                                    <small>When should this giveaway start?</small>
+                                                </label>
+                                            </div>
+                                            
+                                            <label class="form-field">
+                                                <span>Winner Role</span>
+                                                <select name="winnerRole" id="winner-role-select" class="form-control">
+                                                    <option value="">Use server default</option>
+                                                </select>
+                                                <small>Role to assign to winners when giveaway ends</small>
+                                            </label>
+                                            
+                                            <label class="form-field form-toggle">
+                                                <div>
+                                                    <span>DM Winners</span>
+                                                    <small>Send DM to winners when they win</small>
+                                                </div>
+                                                <input type="checkbox" name="dmWinners" class="toggle-input">
+                                                <span class="toggle-slider"></span>
+                                            </label>
+                                            
+                                            <label class="form-field form-toggle">
+                                                <div>
+                                                    <span>DM Host</span>
+                                                    <small>Send DM to host when giveaway ends</small>
+                                                </div>
+                                                <input type="checkbox" name="dmHost" class="toggle-input">
+                                                <span class="toggle-slider"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Extra Entries Section -->
+                                <div class="form-section" style="margin-top: 2rem; grid-column: 1 / -1;">
+                                    <h3>Extra Entries</h3>
+                                    <p style="margin-bottom: 1rem; color: var(--text-secondary);">Configure role-based entry bonuses. Users with these roles will get additional entries.</p>
+                                    
+                                    <div id="extra-entries-list">
+                                        <!-- Extra entries will be added here dynamically -->
+                                    </div>
+                                    
+                                    <button type="button" id="add-extra-entry-btn" class="btn btn-sm btn-secondary" style="margin-top: 1rem;">
+                                        <i class="fas fa-plus"></i> Add Role Entry Bonus
+                                    </button>
+                                </div>
+                                
+                                <!-- Requirements Section -->
+                                <div class="form-section" style="margin-top: 2rem; grid-column: 1 / -1;">
+                                    <h3>Requirements</h3>
+                                    <p style="margin-bottom: 1rem; color: var(--text-secondary);">Set requirements that users must meet to enter this giveaway.</p>
+                                    
+                                    <div class="form-section" style="background: var(--surface-elevated); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1rem;">
+                                        <h4 style="margin-bottom: 1rem; font-size: 0.95rem;">Message Requirements</h4>
+                                        
+                                        <div class="giveaway-form-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                                            <label class="form-field">
+                                                <span>Daily Messages</span>
+                                                <input type="number" name="reqMessagesDaily" class="form-control" min="0" max="1000000000" placeholder="0">
+                                                <small>Messages sent today (1-1 billion)</small>
+                                            </label>
+                                            
+                                            <label class="form-field">
+                                                <span>Weekly Messages</span>
+                                                <input type="number" name="reqMessagesWeekly" class="form-control" min="0" max="1000000000" placeholder="0">
+                                                <small>Messages sent this week (1-1 billion)</small>
+                                            </label>
+                                            
+                                            <label class="form-field">
+                                                <span>Monthly Messages</span>
+                                                <input type="number" name="reqMessagesMonthly" class="form-control" min="0" max="1000000000" placeholder="0">
+                                                <small>Messages sent this month (1-1 billion)</small>
+                                            </label>
+                                            
+                                            <label class="form-field">
+                                                <span>Total Messages</span>
+                                                <input type="number" name="reqMessagesTotal" class="form-control" min="0" max="1000000000" placeholder="0">
+                                                <small>Total messages ever (1-1 billion)</small>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-section" style="background: var(--surface-elevated); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1rem;">
+                                        <h4 style="margin-bottom: 1rem; font-size: 0.95rem;">Level & Role Requirements</h4>
+                                        
+                                        <label class="form-field">
+                                            <span>Required Level</span>
+                                            <input type="number" name="reqLevel" class="form-control" min="0" placeholder="0">
+                                            <small>Minimum level required to participate</small>
+                                        </label>
+                                        
+                                        <label class="form-field">
+                                            <span>Required Roles</span>
+                                            <div id="required-roles-list">
+                                                <!-- Required roles will be added here dynamically -->
+                                            </div>
+                                            <button type="button" id="add-required-role-btn" class="btn btn-sm btn-secondary" style="margin-top: 0.5rem;">
+                                                <i class="fas fa-plus"></i> Add Required Role
+                                            </button>
+                                            <small>Roles users must have to participate (max 5, or unlimited with premium)</small>
+                                        </label>
+                                        
+                                        <label class="form-field">
+                                            <span>Requirement Bypass Role</span>
+                                            <select name="reqBypassRole" id="req-bypass-role-select" class="form-control">
+                                                <option value="">None</option>
+                                            </select>
+                                            <small>Users with this role bypass all requirements (1 role only)</small>
+                                        </label>
+                                        
+                                        <label class="form-field">
+                                            <span>Blacklisted Roles</span>
+                                            <div id="blacklisted-roles-list">
+                                                <!-- Blacklisted roles will be added here dynamically -->
+                                            </div>
+                                            <button type="button" id="add-blacklisted-role-btn" class="btn btn-sm btn-secondary" style="margin-top: 0.5rem;">
+                                                <i class="fas fa-plus"></i> Add Blacklisted Role
+                                            </button>
+                                            <small>Roles that cannot participate (max 5, or unlimited with premium)</small>
+                                        </label>
+                                    </div>
+                                    
+                                    <label class="form-field">
+                                        <span>Custom Requirements</span>
+                                        <textarea name="reqCustom" class="form-control" rows="2" maxlength="500" placeholder="e.g. Must be level 10 or higher"></textarea>
+                                        <small>Any other custom requirements (optional)</small>
+                                    </label>
+                                    
+                                    <div class="form-section" style="background: var(--surface-elevated); padding: 1rem; border-radius: var(--radius-md); margin-top: 1rem;">
+                                        <h4 style="margin-bottom: 1rem; font-size: 0.95rem;">Entry Messages</h4>
+                                        
+                                        <label class="form-field">
+                                            <span>Entry Confirmation Message</span>
+                                            <textarea name="entryConfirmMessage" class="form-control" rows="2" maxlength="300" placeholder="DM sent when entry is confirmed"></textarea>
+                                            <small>Message sent when participant's entry is confirmed (max 150 chars, or 300 with premium)</small>
+                                        </label>
+                                        
+                                        <label class="form-field">
+                                            <span>Entry Deny Message</span>
+                                            <textarea name="entryDenyMessage" class="form-control" rows="2" maxlength="300" placeholder="DM sent when entry is denied"></textarea>
+                                            <small>Message sent when entry is denied for not meeting requirements (max 150 chars, or 300 with premium)</small>
+                                        </label>
+                                        
+                                        <label class="form-field">
+                                            <span>Entry Remove Message</span>
+                                            <textarea name="entryRemoveMessage" class="form-control" rows="2" maxlength="300" placeholder="DM sent when entry is removed"></textarea>
+                                            <small>Message sent when entry is removed (max 150 chars, or 300 with premium)</small>
+                                        </label>
+                                        
+                                        <label class="form-field form-toggle">
+                                            <div>
+                                                <span>Persist Entries</span>
+                                                <small>Don't remove entry when required role is removed</small>
+                                            </div>
+                                            <input type="checkbox" name="persistEntries" class="toggle-input">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                        
+                                        <label class="form-field form-toggle">
+                                            <div>
+                                                <span>Remove Entries on Edit</span>
+                                                <small>Remove all entries when giveaway is edited</small>
+                                            </div>
+                                            <input type="checkbox" name="removeEntriesOnEdit" class="toggle-input">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="form-section" style="background: var(--surface-elevated); padding: 1rem; border-radius: var(--radius-md); margin-top: 1rem;">
+                                        <h4 style="margin-bottom: 1rem; font-size: 0.95rem;">Winner Thread Settings</h4>
+                                        
+                                        <label class="form-field form-toggle">
+                                            <div>
+                                                <span>Create Winners Thread</span>
+                                                <small>Create a thread for giveaway winners</small>
+                                            </div>
+                                            <input type="checkbox" name="createWinnersThread" id="create-winners-thread-checkbox" class="toggle-input">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                        
+                                        <div id="winners-thread-options" style="display: none; margin-top: 1rem;">
+                                            <label class="form-field">
+                                                <span>Thread Type</span>
+                                                <select name="winnersThreadType" class="form-control">
+                                                    <option value="public">Public Thread</option>
+                                                    <option value="private">Private Thread</option>
+                                                </select>
+                                                <small>Type of thread to create</small>
+                                            </label>
+                                            
+                                            <label class="form-field">
+                                                <span>Thread Message</span>
+                                                <textarea name="winnersThreadMessage" class="form-control" rows="3" maxlength="2000" placeholder="Message sent in the winners thread"></textarea>
+                                                <small>Message to send in the winners thread</small>
+                                            </label>
+                                            
+                                            <label class="form-field">
+                                                <span>Thread Close Duration</span>
+                                                <input type="text" name="winnersThreadCloseDuration" class="form-control" placeholder="e.g. 7d, 2h, 30m" pattern="^\d+[smhd]$">
+                                                <small>Auto-close thread after duration (5 minutes - 100 days, premium feature)</small>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-section" style="background: var(--surface-elevated); padding: 1rem; border-radius: var(--radius-md); margin-top: 1rem;">
+                                        <h4 style="margin-bottom: 1rem; font-size: 0.95rem;">Winner Role Settings</h4>
+                                        
+                                        <label class="form-field">
+                                            <span>Winner Role Remove Duration</span>
+                                            <input type="text" name="winnerRoleRemoveDuration" class="form-control" placeholder="e.g. 7d, 2h, 30m" pattern="^\d+[smhd]$">
+                                            <small>Remove winner role after duration (optional)</small>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="form-section" style="margin-top: 1rem;">
+                                        <label class="form-field form-toggle">
+                                            <div>
+                                                <span>Giveaway Drop (FEATURED)</span>
+                                                <small>Auto-end when number of winners is reached</small>
+                                            </div>
+                                            <input type="checkbox" name="isDrop" class="toggle-input">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="page-actions" style="margin-top: 2rem;">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-plus"></i> Create Giveaway
+                                    </button>
+                                    <button type="button" id="save-template-btn" class="btn btn-secondary">
+                                        <i class="fas fa-save"></i> Save as Template
+                                    </button>
+                                    <button type="reset" class="btn btn-secondary">
+                                        <i class="fas fa-undo"></i> Reset Form
+                                    </button>
+                                </div>
+                                
+                                <div id="create-feedback" class="form-feedback" role="alert" style="margin-top: 1rem;"></div>
+                            </form>
+                        </div>
+                        
+                        <!-- Giveaways Schedule Pane -->
+                        <div class="panel-pane" id="giveaways-schedule" role="tabpanel">
+                            <div class="panel-pane-header">
+                                <h2>Scheduled Giveaways</h2>
+                                <p>View and manage scheduled giveaways for this server.</p>
+                            </div>
+                            
+                            <% if (data.giveawayData.giveaways.scheduled.length > 0) { %>
+                            <div class="giveaway-grid">
+                                <% data.giveawayData.giveaways.scheduled.forEach((giveaway, idx) => { %>
+                                <div class="giveaway-card">
+                                    <div class="giveaway-card__header">
+                                        <h3><%= giveaway.prize || giveaway.name || 'Unnamed Giveaway' %></h3>
+                                        <span class="status-pill status-pill--scheduled">Scheduled</span>
+                                    </div>
+                                    <div class="giveaway-card__body">
+                                        <p class="giveaway-meta">
+                                            <strong>Winners:</strong> <%= giveaway.winners || 1 %><br>
+                                            <% if (giveaway.scheduledStart) { %>
+                                            <strong>Starts:</strong> <span class="giveaway-time" data-start-time="<%= giveaway.scheduledStart %>"></span>
+                                            <% } %>
+                                        </p>
+                                    </div>
+                                    <div class="giveaway-card__actions">
+                                        <a href="<%= templateBasePath %>/giveaways/<%= giveaway.id %>" class="btn btn-sm btn-primary">View</a>
+                                        <button class="btn btn-sm btn-danger" onclick="deleteGiveaway('<%= giveaway.id %>')">Cancel</button>
+                                    </div>
+                                </div>
+                                <% }); %>
+                            </div>
+                            <% } else { %>
+                            <div class="empty-state">
+                                <h3>No Scheduled Giveaways</h3>
+                                <p>You don't have any scheduled giveaways for this server yet. Click the "Create" tab to schedule one!</p>
+                            </div>
+                            <% } %>
+                        </div>
+                        
+                        <!-- Giveaways Templates Pane -->
+                        <div class="panel-pane" id="giveaways-templates" role="tabpanel">
+                            <div class="panel-pane-header">
+                                <h2>Giveaway Templates</h2>
+                                <p>Save and reuse giveaway configurations for this server.</p>
+                            </div>
+                            
+                            <% if (data.giveawayData.templates && data.giveawayData.templates.length > 0) { %>
+                            <div class="giveaway-grid">
+                                <% data.giveawayData.templates.forEach((template, idx) => { %>
+                                <div class="giveaway-card">
+                                    <div class="giveaway-card__header">
+                                        <h3><%= template.name || 'Unnamed Template' %></h3>
+                                    </div>
+                                    <div class="giveaway-card__body">
+                                        <p class="giveaway-meta">
+                                            <% if (template.prize) { %>
+                                            <strong>Prize:</strong> <%= template.prize %><br>
+                                            <% } %>
+                                            <% if (template.winners) { %>
+                                            <strong>Winners:</strong> <%= template.winners %><br>
+                                            <% } %>
+                                        </p>
+                                    </div>
+                                    <div class="giveaway-card__actions">
+                                        <button class="btn btn-sm btn-primary use-template-btn" data-template-id="<%= template.id %>">Use</button>
+                                        <button class="btn btn-sm btn-secondary edit-template-btn" data-template-id="<%= template.id %>">Edit</button>
+                                        <button class="btn btn-sm btn-danger delete-template-btn" data-template-id="<%= template.id %>">Delete</button>
+                                    </div>
+                                </div>
+                                <% }); %>
+                            </div>
+                            <% } else { %>
+                            <div class="empty-state">
+                                <h3>No Templates</h3>
+                                <p>Templates allow you to quickly set up giveaways with saved configurations. Templates will be available here once created.</p>
+                            </div>
+                            <% } %>
+                        </div>
+                        
+                        <!-- Giveaways Settings Pane -->
+                        <div class="panel-pane" id="giveaways-settings" role="tabpanel">
+                            <div class="panel-pane-header">
+                                <h2>Giveaway Settings</h2>
+                                <p>Configure default giveaway settings for this server.</p>
+                            </div>
+                            
+                            <form id="giveaway-settings-form" class="panel-form" style="max-width: 1200px;">
+                                <input type="hidden" name="_csrf" value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+                                <input type="hidden" name="serverId" value="<%= data.server.id %>">
+                                
+                                <div class="giveaway-form-grid">
+                                    <!-- Left Column -->
+                                    <div class="giveaway-form-column">
+                                        <div class="form-section">
+                                            <h3>Basic Settings</h3>
+                                            
+                                            <label class="form-field">
+                                                <span>Prefix</span>
+                                                <input type="text" name="prefix" class="form-control" value="<%= data.giveawayData.settings?.prefix || '!' %>" maxlength="10">
+                                                <small>Command prefix for giveaway commands</small>
+                                            </label>
+                                            
+                                            <label class="form-field">
+                                                <span>Language</span>
+                                                <select name="language" class="form-control">
+                                                    <option value="en" <%= (data.giveawayData.settings?.language || 'en') === 'en' ? 'selected' : '' %>>English</option>
+                                                    <option value="no" <%= data.giveawayData.settings?.language === 'no' ? 'selected' : '' %>>Norwegian</option>
+                                                </select>
+                                                <small>Language for bot messages</small>
+                                            </label>
+                                            
+                                            <label class="form-field form-toggle">
+                                                <div>
+                                                    <span>Show Entry Captcha</span>
+                                                    <small>Require captcha verification (FEATURED)</small>
+                                                </div>
+                                                <input type="checkbox" name="showCaptcha" class="toggle-input" <%= data.giveawayData.settings?.showCaptcha ? 'checked' : '' %>>
+                                                <span class="toggle-slider"></span>
+                                            </label>
+                                            
+                                            <label class="form-field form-toggle">
+                                                <div>
+                                                    <span>Public Giveaways</span>
+                                                    <small>List giveaways in public page</small>
+                                                </div>
+                                                <input type="checkbox" name="publicGiveaways" class="toggle-input" <%= data.giveawayData.settings?.publicGiveaways ? 'checked' : '' %>>
+                                                <span class="toggle-slider"></span>
+                                            </label>
+                                        </div>
+                                        
+                                        <div class="form-section">
+                                            <h3>DM Settings</h3>
+                                            
+                                            <label class="form-field form-toggle">
+                                                <div>
+                                                    <span>DM Giveaway Host</span>
+                                                    <small>DM host when giveaway ends</small>
+                                                </div>
+                                                <input type="checkbox" name="dmGiveawayHost" class="toggle-input" <%= data.giveawayData.settings?.dmGiveawayHost ? 'checked' : '' %>>
+                                                <span class="toggle-slider"></span>
+                                            </label>
+                                            
+                                            <label class="form-field form-toggle">
+                                                <div>
+                                                    <span>DM Giveaway Winners</span>
+                                                    <small>DM winners when they win</small>
+                                                </div>
+                                                <input type="checkbox" name="dmGiveawayWinners" class="toggle-input" <%= data.giveawayData.settings?.dmGiveawayWinners ? 'checked' : '' %>>
+                                                <span class="toggle-slider"></span>
+                                            </label>
+                                        </div>
+                                        
+                                        <div class="form-section">
+                                            <h3>Default Embed Colors</h3>
+                                            
+                                            <label class="form-field">
+                                                <span>Start Color</span>
+                                                <div class="color-input-group">
+                                                    <input type="color" name="defaultEmbedColor" class="form-control color-picker" value="<%= data.giveawayData.settings?.defaultEmbedColor || '#338ac4' %>">
+                                                    <input type="text" name="defaultEmbedColorText" class="form-control color-text" value="<%= data.giveawayData.settings?.defaultEmbedColor || '#338ac4' %>" pattern="^#[0-9A-Fa-f]{6}$">
+                                                </div>
+                                            </label>
+                                            
+                                            <label class="form-field">
+                                                <span>End Color</span>
+                                                <div class="color-input-group">
+                                                    <input type="color" name="defaultEndEmbedColor" class="form-control color-picker" value="<%= data.giveawayData.settings?.defaultEndEmbedColor || '#f04747' %>">
+                                                    <input type="text" name="defaultEndEmbedColorText" class="form-control color-text" value="<%= data.giveawayData.settings?.defaultEndEmbedColor || '#f04747' %>" pattern="^#[0-9A-Fa-f]{6}$">
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Right Column -->
+                                    <div class="giveaway-form-column">
+                                        <div class="form-section">
+                                            <h3>Role Management</h3>
+                                            
+                                            <label class="form-field">
+                                                <span>Creator Roles (max 5)</span>
+                                                <select name="creatorRoles" id="creator-roles-select" class="form-control" multiple size="5">
+                                                    <!-- Roles will be loaded dynamically -->
+                                                </select>
+                                                <small>Roles that can create/schedule giveaways only</small>
+                                            </label>
+                                            
+                                            <label class="form-field">
+                                                <span>Manager Roles (max 5)</span>
+                                                <select name="managerRoles" id="manager-roles-select" class="form-control" multiple size="5">
+                                                    <!-- Roles will be loaded dynamically -->
+                                                </select>
+                                                <small>Roles that can access all giveaway commands and dashboard</small>
+                                            </label>
+                                            
+                                            <label class="form-field">
+                                                <span>Winner Role</span>
+                                                <select name="winnerRole" id="settings-winner-role-select" class="form-control">
+                                                    <option value="">None</option>
+                                                </select>
+                                                <small>Role to assign to winners when giveaway ends</small>
+                                            </label>
+                                        </div>
+                                        
+                                        <div class="form-section">
+                                            <h3>Default Messages</h3>
+                                            
+                                            <label class="form-field">
+                                                <span>Default Host</span>
+                                                <input type="text" name="defaultHost" class="form-control" value="<%= data.giveawayData.settings?.defaultHost || '' %>" maxlength="200" placeholder="e.g. @User, @Role, or custom text">
+                                                <small>Default host for all giveaways (user/role mention or text)</small>
+                                            </label>
+                                            
+                                            <label class="form-field">
+                                                <span>Create Message</span>
+                                                <textarea name="defaultCreateMessage" class="form-control" rows="6" maxlength="1024"><%= data.giveawayData.settings?.defaultCreateMessage || 'To enter click the 🎉 below!\nRequirements: N/A\nIf you win the giveaway, you have 24 hours to claim the reward.' %></textarea>
+                                                <small>Message sent after creating a giveaway</small>
+                                            </label>
+                                        </div>
+                                        
+                                        <div class="form-section">
+                                            <h3>Default Extra Entries</h3>
+                                            <p style="margin-bottom: 1rem; color: var(--text-secondary); font-size: 0.9rem;">Configure default entry bonuses for roles (1-100, or 250 with premium)</p>
+                                            
+                                            <div id="default-extra-entries-list">
+                                                <!-- Default extra entries will be added here dynamically -->
+                                            </div>
+                                            
+                                            <button type="button" id="add-default-extra-entry-btn" class="btn btn-sm btn-secondary" style="margin-top: 1rem;">
+                                                <i class="fas fa-plus"></i> Add Role Entry Bonus
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="page-actions" style="margin-top: 2rem;">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-save"></i> Save Settings
+                                    </button>
+                                </div>
+                                
+                                <div id="settings-feedback" class="form-feedback" role="alert" style="margin-top: 1rem;"></div>
+                            </form>
+                        </div>
+                        
+                        <!-- Giveaways View/Edit Pane -->
+                        <div class="panel-pane" id="giveaways-view-edit" role="tabpanel">
+                            <div class="panel-pane-header">
+                                <h2 id="view-edit-title">View/Edit Giveaway</h2>
+                                <p id="view-edit-subtitle">View and edit giveaway details.</p>
+                            </div>
+                            
+                            <div id="view-edit-loading" style="text-align: center; padding: 2rem;">
+                                <i class="fas fa-spinner fa-spin"></i> Loading giveaway...
+                            </div>
+                            
+                            <div id="view-edit-content" style="display: none;">
+                                <form id="giveaway-edit-form" class="giveaway-form" style="max-width: 1200px;">
+                                    <input type="hidden" name="_csrf" value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+                                    <input type="hidden" name="giveawayId" id="edit-giveaway-id">
+                                    <input type="hidden" name="serverId" value="<%= data.server.id %>">
+                                    
+                                    <div class="giveaway-form-grid">
+                                        <div class="giveaway-form-column">
+                                            <div class="form-section">
+                                                <h3>Basic Settings</h3>
+                                                
+                                                <label class="form-field">
+                                                    <span>Prize / Name</span>
+                                                    <input type="text" name="prize" id="edit-prize" class="form-control" required maxlength="200">
+                                                </label>
+                                                
+                                                <label class="form-field">
+                                                    <span>Winners</span>
+                                                    <input type="number" name="winners" id="edit-winners" class="form-control" min="1" max="100" value="1" required>
+                                                    <small>Number of winners (1-100)</small>
+                                                </label>
+                                                
+                                                <label class="form-field">
+                                                    <span>Duration</span>
+                                                    <input type="text" name="duration" id="edit-duration" class="form-control" placeholder="7d" required>
+                                                    <small>Format: 7d (7 days), 2h (2 hours), 30m (30 minutes)</small>
+                                                </label>
+                                                
+                                                <label class="form-field">
+                                                    <span>Channel</span>
+                                                    <select name="channelId" id="edit-channelId" class="form-control" required>
+                                                        <option value="">Select a channel...</option>
+                                                    </select>
+                                                    <small>Channel where the giveaway will be posted</small>
+                                                </label>
+                                                
+                                                <label class="form-field">
+                                                    <span>Description</span>
+                                                    <textarea name="description" id="edit-description" class="form-control" rows="4" maxlength="2000"></textarea>
+                                                    <small>Optional description (max 2000 characters)</small>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="giveaway-form-column">
+                                            <div class="form-section">
+                                                <h3>Embed Settings</h3>
+                                                
+                                                <label class="form-field">
+                                                    <span>Embed Color</span>
+                                                    <div class="color-input-group">
+                                                        <input type="color" name="embedColor" id="edit-embedColor" class="form-control color-picker" value="#338ac4">
+                                                        <input type="text" name="embedColorText" id="edit-embedColorText" class="form-control color-text" value="#338ac4" pattern="^#[0-9A-Fa-f]{6}$">
+                                                    </div>
+                                                    <small>Color for the giveaway embed</small>
+                                                </label>
+                                                
+                                                <label class="form-field">
+                                                    <span>Reaction Emoji</span>
+                                                    <input type="text" name="reactionEmoji" id="edit-reactionEmoji" class="form-control" value="🎉" maxlength="10">
+                                                    <small>Emoji users react with to enter (default: 🎉)</small>
+                                                </label>
+                                                
+                                                <label class="form-field">
+                                                    <span>Hosted By</span>
+                                                    <input type="text" name="hostedBy" id="edit-hostedBy" class="form-control" placeholder="Optional host name" maxlength="100">
+                                                    <small>Optional: Who is hosting this giveaway?</small>
+                                                </label>
+                                                
+                                                <label class="form-field">
+                                                    <span>Notification Role</span>
+                                                    <select name="notificationRole" id="edit-notificationRole" class="form-control">
+                                                        <option value="">None</option>
+                                                    </select>
+                                                    <small>Role to ping when giveaway is created (optional)</small>
+                                                </label>
+                                                
+                                                <label class="form-field">
+                                                    <span>Thumbnail URL</span>
+                                                    <input type="url" name="thumbnail" id="edit-thumbnail" class="form-control" placeholder="https://example.com/image.png" maxlength="500">
+                                                    <small>Small image shown in the top-right corner of the embed</small>
+                                                </label>
+                                                
+                                                <label class="form-field">
+                                                    <span>Image URL</span>
+                                                    <input type="url" name="image" id="edit-image" class="form-control" placeholder="https://example.com/image.png" maxlength="500">
+                                                    <small>Large image shown at the bottom of the embed</small>
+                                                </label>
+                                            </div>
+                                            
+                                            <div class="form-section">
+                                                <h3>Advanced Options</h3>
+                                                
+                                                <label class="form-field">
+                                                    <span>Winner Role</span>
+                                                    <select name="winnerRole" id="edit-winnerRole" class="form-control">
+                                                        <option value="">Use server default</option>
+                                                    </select>
+                                                    <small>Role to assign to winners when giveaway ends</small>
+                                                </label>
+                                                
+                                                <label class="form-field form-toggle">
+                                                    <div>
+                                                        <span>DM Winners</span>
+                                                        <small>Send DM to winners when they win</small>
+                                                    </div>
+                                                    <input type="checkbox" name="dmWinners" id="edit-dmWinners" class="toggle-input">
+                                                    <span class="toggle-slider"></span>
+                                                </label>
+                                                
+                                                <label class="form-field form-toggle">
+                                                    <div>
+                                                        <span>DM Host</span>
+                                                        <small>Send DM to host when giveaway ends</small>
+                                                    </div>
+                                                    <input type="checkbox" name="dmHost" id="edit-dmHost" class="toggle-input">
+                                                    <span class="toggle-slider"></span>
+                                                </label>
+                                                
+                                                <label class="form-field">
+                                                    <span>DM Message</span>
+                                                    <textarea name="dmMessage" id="edit-dmMessage" class="form-control" rows="4" maxlength="1000" placeholder="Custom message to send to winners (optional)"></textarea>
+                                                    <small>Custom DM message for winners (overrides default)</small>
+                                                </label>
+                                                
+                                                <label class="form-field">
+                                                    <span>DM Message Type</span>
+                                                    <select name="dmMessageType" id="edit-dmMessageType" class="form-control">
+                                                        <option value="normal">Normal Message</option>
+                                                        <option value="embed">Embed Message</option>
+                                                    </select>
+                                                    <small>Format for winner DM messages</small>
+                                                </label>
+                                                
+                                                <label class="form-field form-toggle">
+                                                    <div>
+                                                        <span>Ping Host in Winner DM</span>
+                                                        <small>Mention the giveaway host in winner DM messages</small>
+                                                    </div>
+                                                    <input type="checkbox" name="pingHostInDm" id="edit-pingHostInDm" class="toggle-input">
+                                                    <span class="toggle-slider"></span>
+                                                </label>
+                                                
+                                                <label class="form-field">
+                                                    <span>Server End Message Type</span>
+                                                    <select name="serverMessageType" id="edit-serverMessageType" class="form-control">
+                                                        <option value="normal">Normal Message</option>
+                                                        <option value="embed">Embed Message</option>
+                                                    </select>
+                                                    <small>Format for server message when giveaway ends</small>
+                                                </label>
+                                                
+                                                <label class="form-field form-toggle">
+                                                    <div>
+                                                        <span>Ping Host in Server Message</span>
+                                                        <small>Mention the giveaway host in server end message</small>
+                                                    </div>
+                                                    <input type="checkbox" name="pingHostInServer" id="edit-pingHostInServer" class="toggle-input">
+                                                    <span class="toggle-slider"></span>
+                                                </label>
+                                            </div>
+                                            
+                                            <div class="form-section">
+                                                <h3>Giveaway Status</h3>
+                                                <div id="giveaway-status-info" style="padding: 1rem; background: var(--surface-secondary); border-radius: 8px; margin-bottom: 1rem;">
+                                                    <p><strong>Status:</strong> <span id="status-text">-</span></p>
+                                                    <p><strong>Entries:</strong> <span id="entries-count">0</span></p>
+                                                    <p id="end-time-info" style="display: none;"><strong>Ends:</strong> <span id="end-time-text">-</span></p>
+                                                    <p id="start-time-info" style="display: none;"><strong>Starts:</strong> <span id="start-time-text">-</span></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Extra Entries Section -->
+                                    <div class="form-section" style="margin-top: 2rem; grid-column: 1 / -1;">
+                                        <h3>Extra Entries</h3>
+                                        <p style="margin-bottom: 1rem; color: var(--text-secondary);">Configure role-based entry bonuses. Users with these roles will get additional entries.</p>
+                                        
+                                        <div id="edit-extra-entries-list">
+                                            <!-- Extra entries will be added here dynamically -->
+                                        </div>
+                                        
+                                        <button type="button" id="edit-add-extra-entry-btn" class="btn btn-sm btn-secondary" style="margin-top: 1rem;">
+                                            <i class="fas fa-plus"></i> Add Role Entry Bonus
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Requirements Section -->
+                                    <div class="form-section" style="margin-top: 2rem; grid-column: 1 / -1;">
+                                        <h3>Requirements</h3>
+                                        <p style="margin-bottom: 1rem; color: var(--text-secondary);">Set requirements that users must meet to enter this giveaway.</p>
+                                        
+                                        <div class="form-section" style="background: var(--surface-elevated); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1rem;">
+                                            <h4 style="margin-bottom: 1rem; font-size: 0.95rem;">Message Requirements</h4>
+                                            
+                                            <div class="giveaway-form-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                                                <label class="form-field">
+                                                    <span>Daily Messages</span>
+                                                    <input type="number" name="reqMessagesDaily" id="edit-reqMessagesDaily" class="form-control" min="0" max="1000000000" placeholder="0">
+                                                    <small>Messages sent today (1-1 billion)</small>
+                                                </label>
+                                                
+                                                <label class="form-field">
+                                                    <span>Weekly Messages</span>
+                                                    <input type="number" name="reqMessagesWeekly" id="edit-reqMessagesWeekly" class="form-control" min="0" max="1000000000" placeholder="0">
+                                                    <small>Messages sent this week (1-1 billion)</small>
+                                                </label>
+                                                
+                                                <label class="form-field">
+                                                    <span>Monthly Messages</span>
+                                                    <input type="number" name="reqMessagesMonthly" id="edit-reqMessagesMonthly" class="form-control" min="0" max="1000000000" placeholder="0">
+                                                    <small>Messages sent this month (1-1 billion)</small>
+                                                </label>
+                                                
+                                                <label class="form-field">
+                                                    <span>Total Messages</span>
+                                                    <input type="number" name="reqMessagesTotal" id="edit-reqMessagesTotal" class="form-control" min="0" max="1000000000" placeholder="0">
+                                                    <small>Total messages ever (1-1 billion)</small>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-section" style="background: var(--surface-elevated); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1rem;">
+                                            <h4 style="margin-bottom: 1rem; font-size: 0.95rem;">Level & Role Requirements</h4>
+                                            
+                                            <label class="form-field">
+                                                <span>Required Level</span>
+                                                <input type="number" name="reqLevel" id="edit-reqLevel" class="form-control" min="0" placeholder="0">
+                                                <small>Minimum level required to participate</small>
+                                            </label>
+                                            
+                                            <label class="form-field">
+                                                <span>Required Roles</span>
+                                                <div id="edit-required-roles-list">
+                                                    <!-- Required roles will be added here dynamically -->
+                                                </div>
+                                                <button type="button" id="edit-add-required-role-btn" class="btn btn-sm btn-secondary" style="margin-top: 0.5rem;">
+                                                    <i class="fas fa-plus"></i> Add Required Role
+                                                </button>
+                                                <small>Roles users must have to participate (max 5, or unlimited with premium)</small>
+                                            </label>
+                                            
+                                            <label class="form-field">
+                                                <span>Requirement Bypass Role</span>
+                                                <select name="reqBypassRole" id="edit-reqBypassRole" class="form-control">
+                                                    <option value="">None</option>
+                                                </select>
+                                                <small>Users with this role bypass all requirements (1 role only)</small>
+                                            </label>
+                                            
+                                            <label class="form-field">
+                                                <span>Blacklisted Roles</span>
+                                                <div id="edit-blacklisted-roles-list">
+                                                    <!-- Blacklisted roles will be added here dynamically -->
+                                                </div>
+                                                <button type="button" id="edit-add-blacklisted-role-btn" class="btn btn-sm btn-secondary" style="margin-top: 0.5rem;">
+                                                    <i class="fas fa-plus"></i> Add Blacklisted Role
+                                                </button>
+                                                <small>Roles that cannot participate (max 5, or unlimited with premium)</small>
+                                            </label>
+                                        </div>
+                                        
+                                        <label class="form-field">
+                                            <span>Custom Requirements</span>
+                                            <textarea name="reqCustom" id="edit-reqCustom" class="form-control" rows="2" maxlength="500" placeholder="e.g. Must be level 10 or higher"></textarea>
+                                            <small>Any other custom requirements (optional)</small>
+                                        </label>
+                                        
+                                        <div class="form-section" style="background: var(--surface-elevated); padding: 1rem; border-radius: var(--radius-md); margin-top: 1rem;">
+                                            <h4 style="margin-bottom: 1rem; font-size: 0.95rem;">Entry Messages</h4>
+                                            
+                                            <label class="form-field">
+                                                <span>Entry Confirmation Message</span>
+                                                <textarea name="entryConfirmMessage" id="edit-entryConfirmMessage" class="form-control" rows="2" maxlength="300" placeholder="DM sent when entry is confirmed"></textarea>
+                                                <small>Message sent when participant's entry is confirmed (max 150 chars, or 300 with premium)</small>
+                                            </label>
+                                            
+                                            <label class="form-field">
+                                                <span>Entry Deny Message</span>
+                                                <textarea name="entryDenyMessage" id="edit-entryDenyMessage" class="form-control" rows="2" maxlength="300" placeholder="DM sent when entry is denied"></textarea>
+                                                <small>Message sent when entry is denied for not meeting requirements (max 150 chars, or 300 with premium)</small>
+                                            </label>
+                                            
+                                            <label class="form-field">
+                                                <span>Entry Remove Message</span>
+                                                <textarea name="entryRemoveMessage" id="edit-entryRemoveMessage" class="form-control" rows="2" maxlength="300" placeholder="DM sent when entry is removed"></textarea>
+                                                <small>Message sent when entry is removed (max 150 chars, or 300 with premium)</small>
+                                            </label>
+                                            
+                                            <label class="form-field form-toggle">
+                                                <div>
+                                                    <span>Persist Entries</span>
+                                                    <small>Don't remove entry when required role is removed</small>
+                                                </div>
+                                                <input type="checkbox" name="persistEntries" id="edit-persistEntries" class="toggle-input">
+                                                <span class="toggle-slider"></span>
+                                            </label>
+                                            
+                                            <label class="form-field form-toggle">
+                                                <div>
+                                                    <span>Remove Entries on Edit</span>
+                                                    <small>Remove all entries when giveaway is edited</small>
+                                                </div>
+                                                <input type="checkbox" name="removeEntriesOnEdit" id="edit-removeEntriesOnEdit" class="toggle-input">
+                                                <span class="toggle-slider"></span>
+                                            </label>
+                                        </div>
+                                        
+                                        <div class="form-section" style="background: var(--surface-elevated); padding: 1rem; border-radius: var(--radius-md); margin-top: 1rem;">
+                                            <h4 style="margin-bottom: 1rem; font-size: 0.95rem;">Winner Thread Settings</h4>
+                                            
+                                            <label class="form-field form-toggle">
+                                                <div>
+                                                    <span>Create Winners Thread</span>
+                                                    <small>Create a thread for giveaway winners</small>
+                                                </div>
+                                                <input type="checkbox" name="createWinnersThread" id="edit-createWinnersThread" class="toggle-input">
+                                                <span class="toggle-slider"></span>
+                                            </label>
+                                            
+                                            <div id="edit-winners-thread-options" style="display: none; margin-top: 1rem;">
+                                                <label class="form-field">
+                                                    <span>Thread Type</span>
+                                                    <select name="winnersThreadType" id="edit-winnersThreadType" class="form-control">
+                                                        <option value="public">Public Thread</option>
+                                                        <option value="private">Private Thread</option>
+                                                    </select>
+                                                    <small>Type of thread to create</small>
+                                                </label>
+                                                
+                                                <label class="form-field">
+                                                    <span>Thread Message</span>
+                                                    <textarea name="winnersThreadMessage" id="edit-winnersThreadMessage" class="form-control" rows="3" maxlength="2000" placeholder="Message sent in the winners thread"></textarea>
+                                                    <small>Message to send in the winners thread</small>
+                                                </label>
+                                                
+                                                <label class="form-field">
+                                                    <span>Thread Close Duration</span>
+                                                    <input type="text" name="winnersThreadCloseDuration" id="edit-winnersThreadCloseDuration" class="form-control" placeholder="e.g. 7d, 2h, 30m" pattern="^\d+[smhd]$">
+                                                    <small>Auto-close thread after duration (5 minutes - 100 days, premium feature)</small>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-section" style="background: var(--surface-elevated); padding: 1rem; border-radius: var(--radius-md); margin-top: 1rem;">
+                                            <h4 style="margin-bottom: 1rem; font-size: 0.95rem;">Winner Role Settings</h4>
+                                            
+                                            <label class="form-field">
+                                                <span>Winner Role Remove Duration</span>
+                                                <input type="text" name="winnerRoleRemoveDuration" id="edit-winnerRoleRemoveDuration" class="form-control" placeholder="e.g. 7d, 2h, 30m" pattern="^\d+[smhd]$">
+                                                <small>Remove winner role after duration (optional)</small>
+                                            </label>
+                                        </div>
+                                        
+                                        <div class="form-section" style="margin-top: 1rem;">
+                                            <label class="form-field form-toggle">
+                                                <div>
+                                                    <span>Giveaway Drop (FEATURED)</span>
+                                                    <small>Auto-end when number of winners is reached</small>
+                                                </div>
+                                                <input type="checkbox" name="isDrop" id="edit-isDrop" class="toggle-input">
+                                                <span class="toggle-slider"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="page-actions" style="margin-top: 2rem;">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-save"></i> Save Changes
+                                        </button>
+                                        <button type="button" id="cancel-edit-btn" class="btn btn-secondary">
+                                            <i class="fas fa-times"></i> Cancel
+                                        </button>
+                                        <button type="button" id="end-giveaway-btn" class="btn btn-danger" style="display: none;">
+                                            <i class="fas fa-stop"></i> End Giveaway
+                                        </button>
+                                    </div>
+                                    
+                                    <div id="edit-feedback" class="form-feedback" role="alert" style="margin-top: 1rem;"></div>
+                                </form>
+                            </div>
+                        </div>
+                        <% } %>
+                </section>
+            </div>
+            </div>
+        </section>
+    </main>
+
+    <%- include('../../../views/shared/footer.ejs', { data: data }) %>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+
+        const navButtons = document.querySelectorAll('.panel-tab-button');
+        const panes = document.querySelectorAll('.panel-pane');
+
+        navButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                const targetId = button.getAttribute('data-panel-target');
+                if (!targetId) return;
+
+                navButtons.forEach((btn) => btn.classList.remove('active'));
+                panes.forEach((pane) => pane.classList.remove('active'));
+
+                button.classList.add('active');
+                const targetPane = document.getElementById(targetId);
+                if (targetPane) {
+                    targetPane.classList.add('active');
+                }
+            });
+        });
+
+        <% if (data.giveawaySystemAvailable) { // EJS conditional: only include giveaway JS if system is available %>
+        // Giveaway system JavaScript
+        const basePath = window.location.pathname.startsWith('/nt2') ? '/nt2' : '';
+
+        function formatTime(timestamp) {
+            if (!timestamp) return 'N/A';
+            const date = new Date(parseInt(timestamp));
+            return date.toLocaleString();
+        }
+
+        function updateTimeElements() {
+            document.querySelectorAll('.giveaway-time').forEach(el => {
+                const endTime = el.getAttribute('data-end-time');
+                const startTime = el.getAttribute('data-start-time');
+                const time = el.getAttribute('data-time');
+                const timestamp = endTime || startTime || time;
+                if (timestamp) {
+                    el.textContent = formatTime(timestamp);
+                }
+            });
+        }
+
+        function endGiveaway(id) {
+            if (!confirm('Are you sure you want to end this giveaway?')) return;
+            fetch(basePath + '/api/giveaways/' + id + '/end', {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: { 'Content-Type': 'application/json' }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert('Failed to end giveaway: ' + (data.error || 'Unknown error'));
+                }
+            })
+            .catch(err => {
+                console.error('Error ending giveaway:', err);
+                alert('Failed to end giveaway');
+            });
+        }
+
+        function deleteGiveaway(id) {
+            if (!confirm('Are you sure you want to cancel this scheduled giveaway?')) return;
+            fetch(basePath + '/api/giveaways/' + id, {
+                method: 'DELETE',
+                credentials: 'same-origin'
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert('Failed to delete giveaway: ' + (data.error || 'Unknown error'));
+                }
+            })
+            .catch(err => {
+                console.error('Error deleting giveaway:', err);
+                alert('Failed to delete giveaway');
+            });
+        }
+
+        function useTemplate(id) {
+            if (!id) return;
+            
+            // Switch to create tab and load template data
+            const createTab = document.querySelector('[data-panel-target="giveaways-create"]');
+            const createPane = document.getElementById('giveaways-create');
+            if (createTab && createPane) {
+                document.querySelectorAll('.panel-tab-button').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.panel-pane').forEach(pane => pane.classList.remove('active'));
+                createTab.classList.add('active');
+                createPane.classList.add('active');
+                
+                // Load template and populate form
+                fetch(basePath + '/api/giveaways/templates/id/' + id)
+                    .then(res => res.json())
+                    .then(result => {
+                        if (result.success && result.data) {
+                            const template = result.data;
+                            const form = document.getElementById('giveaway-create-form');
+                            if (form) {
+                                if (template.prize) form.querySelector('[name="prize"]').value = template.prize;
+                                if (template.winners) form.querySelector('[name="winners"]').value = template.winners;
+                                if (template.duration) form.querySelector('[name="duration"]').value = template.duration;
+                                if (template.description) form.querySelector('[name="description"]').value = template.description;
+                                if (template.embedColor) {
+                                    form.querySelector('[name="embedColor"]').value = template.embedColor;
+                                    form.querySelector('[name="embedColorText"]').value = template.embedColor;
+                                }
+                                if (template.reactionEmoji) form.querySelector('[name="reactionEmoji"]').value = template.reactionEmoji;
+                                if (template.hostedBy) form.querySelector('[name="hostedBy"]').value = template.hostedBy;
+                                
+                                // Load channels if serverId is available
+                                if (template.serverId) {
+                                    const serverSelect = form.querySelector('[name="serverId"]');
+                                    if (serverSelect) {
+                                        serverSelect.value = template.serverId;
+                                        loadChannels(template.serverId, template.channelId);
+                                    }
+                                }
+                            }
+                        }
+                    })
+                    .catch(err => {
+                        console.error('Error loading template:', err);
+                        alert('Error loading template: ' + err.message);
+                    });
+            }
+        }
+        
+        function loadChannels(serverId, selectedChannelId) {
+            if (!serverId) return;
+            
+            const form = document.getElementById('giveaway-create-form');
+            if (!form) return;
+            
+            const channelSelect = form.querySelector('[name="channelId"]');
+            if (!channelSelect) return;
+            
+            channelSelect.innerHTML = '<option value="">Loading channels...</option>';
+            
+            fetch(basePath + '/api/servers/' + serverId + '/channels')
+                .then(res => res.json())
+                .then(result => {
+                    if (result.success && result.data) {
+                        channelSelect.innerHTML = '<option value="">Select a channel...</option>';
+                        result.data.forEach(channel => {
+                            const option = document.createElement('option');
+                            option.value = channel.id;
+                            option.textContent = '#' + channel.name;
+                            if (channel.id === selectedChannelId) {
+                                option.selected = true;
+                            }
+                            channelSelect.appendChild(option);
+                        });
+                    } else {
+                        channelSelect.innerHTML = '<option value="">Failed to load channels</option>';
+                    }
+                })
+                .catch(err => {
+                    console.error('Error loading channels:', err);
+                    channelSelect.innerHTML = '<option value="">Error loading channels</option>';
+                });
+        }
+
+        // View/Edit Giveaway functionality
+        function viewGiveaway(id) {
+            if (!id) return;
+            
+            const viewEditTab = document.getElementById('view-edit-tab');
+            const viewEditPane = document.getElementById('giveaways-view-edit');
+            const loadingDiv = document.getElementById('view-edit-loading');
+            const contentDiv = document.getElementById('view-edit-content');
+            
+            if (!viewEditTab || !viewEditPane) return;
+            
+            // Show loading
+            loadingDiv.style.display = 'block';
+            contentDiv.style.display = 'none';
+            
+            // Switch to view/edit tab
+            document.querySelectorAll('.panel-tab-button').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.panel-pane').forEach(pane => pane.classList.remove('active'));
+            viewEditTab.style.display = 'block';
+            viewEditTab.classList.add('active');
+            viewEditPane.classList.add('active');
+            
+            // Load giveaway data
+            fetch(basePath + '/api/giveaways/id/' + id)
+                .then(res => res.json())
+                .then(result => {
+                    if (result.success && result.data) {
+                        loadGiveawayIntoForm(result.data);
+                        loadingDiv.style.display = 'none';
+                        contentDiv.style.display = 'block';
+                    } else {
+                        loadingDiv.innerHTML = '<p style="color: var(--text-error);">Failed to load giveaway: ' + (result.error || 'Unknown error') + '</p>';
+                    }
+                })
+                .catch(err => {
+                    console.error('Error loading giveaway:', err);
+                    loadingDiv.innerHTML = '<p style="color: var(--text-error);">Error loading giveaway: ' + err.message + '</p>';
+                });
+        }
+        
+        function loadGiveawayIntoForm(giveaway) {
+            if (!giveaway) return;
+            
+            // Set form values
+            document.getElementById('edit-giveaway-id').value = giveaway.id || '';
+            document.getElementById('edit-prize').value = giveaway.prize || giveaway.name || '';
+            document.getElementById('edit-winners').value = giveaway.winners || 1;
+            document.getElementById('edit-duration').value = giveaway.duration || '7d';
+            document.getElementById('edit-description').value = giveaway.description || '';
+            document.getElementById('edit-embedColor').value = giveaway.embedColor || '#338ac4';
+            document.getElementById('edit-embedColorText').value = giveaway.embedColor || '#338ac4';
+            document.getElementById('edit-reactionEmoji').value = giveaway.reactionEmoji || '🎉';
+            document.getElementById('edit-hostedBy').value = giveaway.hostedBy || '';
+            document.getElementById('edit-dmMessage').value = giveaway.dmMessage || '';
+            document.getElementById('edit-dmWinners').checked = giveaway.dmWinners || false;
+            document.getElementById('edit-dmHost').checked = giveaway.dmHost || false;
+            document.getElementById('edit-dmMessageType').value = giveaway.dmMessageType || 'normal';
+            document.getElementById('edit-pingHostInDm').checked = giveaway.pingHostInDm || false;
+            document.getElementById('edit-serverMessageType').value = giveaway.serverMessageType || 'normal';
+            document.getElementById('edit-pingHostInServer').checked = giveaway.pingHostInServer || false;
+            document.getElementById('edit-thumbnail').value = giveaway.thumbnail || '';
+            document.getElementById('edit-image').value = giveaway.image || '';
+            
+            // Load extra entries
+            const editExtraEntriesList = document.getElementById('edit-extra-entries-list');
+            if (editExtraEntriesList) {
+                editExtraEntriesList.innerHTML = '';
+                if (giveaway.extraEntries && typeof giveaway.extraEntries === 'object') {
+                    for (const [roleId, entryCount] of Object.entries(giveaway.extraEntries)) {
+                        addEditExtraEntry(roleId, entryCount);
+                    }
+                }
+            }
+            
+            // Load requirements
+            if (giveaway.requirements) {
+                if (giveaway.requirements.messages) {
+                    document.getElementById('edit-reqMessagesDaily').value = giveaway.requirements.messages.daily || '';
+                    document.getElementById('edit-reqMessagesWeekly').value = giveaway.requirements.messages.weekly || '';
+                    document.getElementById('edit-reqMessagesMonthly').value = giveaway.requirements.messages.monthly || '';
+                    document.getElementById('edit-reqMessagesTotal').value = giveaway.requirements.messages.total || '';
+                }
+                if (giveaway.requirements.level) {
+                    document.getElementById('edit-reqLevel').value = giveaway.requirements.level || '';
+                }
+                if (giveaway.requirements.roles && Array.isArray(giveaway.requirements.roles)) {
+                    const editRequiredRolesList = document.getElementById('edit-required-roles-list');
+                    if (editRequiredRolesList) {
+                        editRequiredRolesList.innerHTML = '';
+                        giveaway.requirements.roles.forEach(roleId => {
+                            addEditRequiredRole(roleId);
+                        });
+                    }
+                }
+                if (giveaway.requirements.bypassRole) {
+                    document.getElementById('edit-reqBypassRole').value = giveaway.requirements.bypassRole || '';
+                }
+                if (giveaway.requirements.blacklistedRoles && Array.isArray(giveaway.requirements.blacklistedRoles)) {
+                    const editBlacklistedRolesList = document.getElementById('edit-blacklisted-roles-list');
+                    if (editBlacklistedRolesList) {
+                        editBlacklistedRolesList.innerHTML = '';
+                        giveaway.requirements.blacklistedRoles.forEach(roleId => {
+                            addEditBlacklistedRole(roleId);
+                        });
+                    }
+                }
+                document.getElementById('edit-reqCustom').value = giveaway.requirements.custom || '';
+            }
+            
+            // Load entry messages
+            document.getElementById('edit-entryConfirmMessage').value = giveaway.entryConfirmMessage || '';
+            document.getElementById('edit-entryDenyMessage').value = giveaway.entryDenyMessage || '';
+            document.getElementById('edit-entryRemoveMessage').value = giveaway.entryRemoveMessage || '';
+            document.getElementById('edit-persistEntries').checked = giveaway.persistEntries || false;
+            document.getElementById('edit-removeEntriesOnEdit').checked = giveaway.removeEntriesOnEdit || false;
+            
+            // Load thread settings
+            document.getElementById('edit-createWinnersThread').checked = giveaway.createWinnersThread || false;
+            if (giveaway.createWinnersThread) {
+                document.getElementById('edit-winners-thread-options').style.display = 'block';
+            }
+            document.getElementById('edit-winnersThreadType').value = giveaway.winnersThreadType || 'public';
+            document.getElementById('edit-winnersThreadMessage').value = giveaway.winnersThreadMessage || '';
+            document.getElementById('edit-winnersThreadCloseDuration').value = giveaway.winnersThreadCloseDuration || '';
+            
+            // Load winner role remove duration
+            document.getElementById('edit-winnerRoleRemoveDuration').value = giveaway.winnerRoleRemoveDuration || '';
+            
+            // Load giveaway drop
+            document.getElementById('edit-isDrop').checked = giveaway.isDrop || false;
+            
+            // Update status info
+            const statusText = document.getElementById('status-text');
+            const entriesCount = document.getElementById('entries-count');
+            const endTimeInfo = document.getElementById('end-time-info');
+            const endTimeText = document.getElementById('end-time-text');
+            const startTimeInfo = document.getElementById('start-time-info');
+            const startTimeText = document.getElementById('start-time-text');
+            const endBtn = document.getElementById('end-giveaway-btn');
+            
+            if (giveaway.ended) {
+                statusText.textContent = 'Ended';
+                statusText.style.color = 'var(--text-error)';
+                endBtn.style.display = 'none';
+            } else if (giveaway.scheduled && !giveaway.started) {
+                statusText.textContent = 'Scheduled';
+                statusText.style.color = 'var(--accent-warning)';
+                endBtn.style.display = 'none';
+            } else {
+                statusText.textContent = 'Active';
+                statusText.style.color = 'var(--accent-success)';
+                endBtn.style.display = 'inline-block';
+            }
+            
+            entriesCount.textContent = (giveaway.entries && giveaway.entries.length) || 0;
+            
+            if (giveaway.endTime) {
+                endTimeInfo.style.display = 'block';
+                endTimeText.textContent = new Date(parseInt(giveaway.endTime)).toLocaleString();
+            } else {
+                endTimeInfo.style.display = 'none';
+            }
+            
+            if (giveaway.scheduledStart) {
+                startTimeInfo.style.display = 'block';
+                startTimeText.textContent = new Date(parseInt(giveaway.scheduledStart)).toLocaleString();
+            } else {
+                startTimeInfo.style.display = 'none';
+            }
+            
+            // Load channels
+            // Load roles for edit form
+            loadServerRoles().then(roles => {
+                // Populate winner role
+                const editWinnerRoleSelect = document.getElementById('edit-winnerRole');
+                if (editWinnerRoleSelect) {
+                    const currentValue = giveaway.winnerRole || '';
+                    editWinnerRoleSelect.innerHTML = '<option value="">Use server default</option>';
+                    roles.forEach(role => {
+                        const option = document.createElement('option');
+                        option.value = role.id;
+                        option.textContent = `@${role.name}`;
+                        if (role.id === currentValue) option.selected = true;
+                        editWinnerRoleSelect.appendChild(option);
+                    });
+                }
+                
+                // Populate notification role
+                const editNotificationRoleSelect = document.getElementById('edit-notificationRole');
+                if (editNotificationRoleSelect) {
+                    const currentValue = giveaway.notificationRole || '';
+                    editNotificationRoleSelect.innerHTML = '<option value="">None</option>';
+                    roles.forEach(role => {
+                        const option = document.createElement('option');
+                        option.value = role.id;
+                        option.textContent = `@${role.name}`;
+                        if (role.id === currentValue) option.selected = true;
+                        editNotificationRoleSelect.appendChild(option);
+                    });
+                }
+            });
+            
+            loadChannelsForEdit(giveaway.serverId, giveaway.channelId);
+        }
+        
+        // Edit form extra entries management
+        let editExtraEntryCounter = 0;
+        const editExtraEntriesList = document.getElementById('edit-extra-entries-list');
+        const editAddExtraEntryBtn = document.getElementById('edit-add-extra-entry-btn');
+        
+        function addEditExtraEntry(roleId = '', entryCount = 1) {
+            const entryId = 'edit-extra-entry-' + (editExtraEntryCounter++);
+            const entryDiv = document.createElement('div');
+            entryDiv.className = 'edit-extra-entry-item';
+            entryDiv.style.cssText = 'display: flex; gap: 1rem; align-items: center; padding: 1rem; background: var(--surface-elevated); border-radius: var(--radius-md); margin-bottom: 0.5rem;';
+            entryDiv.innerHTML = `
+                <select class="form-control edit-extra-entry-role" style="flex: 1;" data-entry-id="${entryId}">
+                    <option value="">Select role...</option>
+                </select>
+                <input type="number" class="form-control edit-extra-entry-count" value="${entryCount}" min="1" max="250" style="width: 120px;" placeholder="Entries">
+                <button type="button" class="btn btn-sm btn-danger remove-edit-extra-entry" data-entry-id="${entryId}">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            if (editExtraEntriesList) {
+                editExtraEntriesList.appendChild(entryDiv);
+            }
+            
+            // Populate role select
+            const roleSelect = entryDiv.querySelector('.edit-extra-entry-role');
+            loadServerRoles().then(roles => {
+                roles.forEach(role => {
+                    const option = document.createElement('option');
+                    option.value = role.id;
+                    option.textContent = `@${role.name}`;
+                    if (role.id === roleId) option.selected = true;
+                    roleSelect.appendChild(option);
+                });
+            });
+            
+            // Remove button handler
+            entryDiv.querySelector('.remove-edit-extra-entry').addEventListener('click', () => {
+                entryDiv.remove();
+            });
+        }
+        
+        if (editAddExtraEntryBtn) {
+            editAddExtraEntryBtn.addEventListener('click', () => addEditExtraEntry());
+        }
+        
+        // Edit form required roles management
+        let editRequiredRoleCounter = 0;
+        const editRequiredRolesList = document.getElementById('edit-required-roles-list');
+        const editAddRequiredRoleBtn = document.getElementById('edit-add-required-role-btn');
+        
+        function addEditRequiredRole(roleId = '') {
+            const roleItemId = 'edit-required-role-' + (editRequiredRoleCounter++);
+            const roleDiv = document.createElement('div');
+            roleDiv.className = 'edit-required-role-item';
+            roleDiv.style.cssText = 'display: flex; gap: 1rem; align-items: center; padding: 0.75rem; background: var(--surface); border-radius: var(--radius-sm); margin-bottom: 0.5rem;';
+            roleDiv.innerHTML = `
+                <select class="form-control edit-required-role-select" style="flex: 1;" data-role-id="${roleItemId}">
+                    <option value="">Select role...</option>
+                </select>
+                <button type="button" class="btn btn-sm btn-danger remove-edit-required-role" data-role-id="${roleItemId}">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            if (editRequiredRolesList) {
+                editRequiredRolesList.appendChild(roleDiv);
+            }
+            
+            // Populate role select
+            const roleSelect = roleDiv.querySelector('.edit-required-role-select');
+            loadServerRoles().then(roles => {
+                roles.forEach(role => {
+                    const option = document.createElement('option');
+                    option.value = role.id;
+                    option.textContent = `@${role.name}`;
+                    if (role.id === roleId) option.selected = true;
+                    roleSelect.appendChild(option);
+                });
+            });
+            
+            // Remove button handler
+            roleDiv.querySelector('.remove-edit-required-role').addEventListener('click', () => {
+                roleDiv.remove();
+            });
+        }
+        
+        if (editAddRequiredRoleBtn) {
+            editAddRequiredRoleBtn.addEventListener('click', () => addEditRequiredRole());
+        }
+        
+        // Edit form blacklisted roles management
+        let editBlacklistedRoleCounter = 0;
+        const editBlacklistedRolesList = document.getElementById('edit-blacklisted-roles-list');
+        const editAddBlacklistedRoleBtn = document.getElementById('edit-add-blacklisted-role-btn');
+        
+        function addEditBlacklistedRole(roleId = '') {
+            const roleItemId = 'edit-blacklisted-role-' + (editBlacklistedRoleCounter++);
+            const roleDiv = document.createElement('div');
+            roleDiv.className = 'edit-blacklisted-role-item';
+            roleDiv.style.cssText = 'display: flex; gap: 1rem; align-items: center; padding: 0.75rem; background: var(--surface); border-radius: var(--radius-sm); margin-bottom: 0.5rem;';
+            roleDiv.innerHTML = `
+                <select class="form-control edit-blacklisted-role-select" style="flex: 1;" data-role-id="${roleItemId}">
+                    <option value="">Select role...</option>
+                </select>
+                <button type="button" class="btn btn-sm btn-danger remove-edit-blacklisted-role" data-role-id="${roleItemId}">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            if (editBlacklistedRolesList) {
+                editBlacklistedRolesList.appendChild(roleDiv);
+            }
+            
+            // Populate role select
+            const roleSelect = roleDiv.querySelector('.edit-blacklisted-role-select');
+            loadServerRoles().then(roles => {
+                roles.forEach(role => {
+                    const option = document.createElement('option');
+                    option.value = role.id;
+                    option.textContent = `@${role.name}`;
+                    if (role.id === roleId) option.selected = true;
+                    roleSelect.appendChild(option);
+                });
+            });
+            
+            // Remove button handler
+            roleDiv.querySelector('.remove-edit-blacklisted-role').addEventListener('click', () => {
+                roleDiv.remove();
+            });
+        }
+        
+        if (editAddBlacklistedRoleBtn) {
+            editAddBlacklistedRoleBtn.addEventListener('click', () => addEditBlacklistedRole());
+        }
+        
+        // Populate edit form bypass role select
+        const editReqBypassRoleSelect = document.getElementById('edit-reqBypassRole');
+        if (editReqBypassRoleSelect) {
+            loadServerRoles().then(roles => {
+                roles.forEach(role => {
+                    const option = document.createElement('option');
+                    option.value = role.id;
+                    option.textContent = `@${role.name}`;
+                    editReqBypassRoleSelect.appendChild(option);
+                });
+            });
+        }
+        
+        // Edit form winners thread toggle
+        const editCreateWinnersThreadCheckbox = document.getElementById('edit-createWinnersThread');
+        const editWinnersThreadOptions = document.getElementById('edit-winners-thread-options');
+        if (editCreateWinnersThreadCheckbox && editWinnersThreadOptions) {
+            editCreateWinnersThreadCheckbox.addEventListener('change', function() {
+                editWinnersThreadOptions.style.display = this.checked ? 'block' : 'none';
+            });
+        }
+        
+        function loadChannelsForEdit(serverId, selectedChannelId) {
+            if (!serverId) return;
+            
+            const channelSelect = document.getElementById('edit-channelId');
+            channelSelect.innerHTML = '<option value="">Loading channels...</option>';
+            
+            fetch(basePath + '/api/servers/' + serverId + '/channels')
+                .then(res => res.json())
+                .then(result => {
+                    if (result.success && result.data) {
+                        channelSelect.innerHTML = '<option value="">Select a channel...</option>';
+                        result.data.forEach(channel => {
+                            const option = document.createElement('option');
+                            option.value = channel.id;
+                            option.textContent = '#' + channel.name;
+                            if (channel.id === selectedChannelId) {
+                                option.selected = true;
+                            }
+                            channelSelect.appendChild(option);
+                        });
+                    } else {
+                        channelSelect.innerHTML = '<option value="">Failed to load channels</option>';
+                    }
+                })
+                .catch(err => {
+                    console.error('Error loading channels:', err);
+                    channelSelect.innerHTML = '<option value="">Error loading channels</option>';
+                });
+        }
+        
+        // Event listeners for view/edit buttons
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('view-giveaway-btn') || e.target.closest('.view-giveaway-btn')) {
+                const btn = e.target.classList.contains('view-giveaway-btn') ? e.target : e.target.closest('.view-giveaway-btn');
+                const id = btn.getAttribute('data-giveaway-id');
+                if (id) viewGiveaway(id);
+            }
+            
+            if (e.target.classList.contains('end-giveaway-btn') || e.target.closest('.end-giveaway-btn')) {
+                const btn = e.target.classList.contains('end-giveaway-btn') ? e.target : e.target.closest('.end-giveaway-btn');
+                const id = btn.getAttribute('data-giveaway-id');
+                if (id) endGiveaway(id);
+            }
+            
+            if (e.target.classList.contains('delete-giveaway-btn') || e.target.closest('.delete-giveaway-btn')) {
+                const btn = e.target.classList.contains('delete-giveaway-btn') ? e.target : e.target.closest('.delete-giveaway-btn');
+                const id = btn.getAttribute('data-giveaway-id');
+                if (id) deleteGiveaway(id);
+            }
+        });
+
+        // Edit form submission
+        const editForm = document.getElementById('giveaway-edit-form');
+        if (editForm) {
+            editForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const feedback = document.getElementById('edit-feedback');
+                const submitBtn = editForm.querySelector('button[type="submit"]');
+                const formData = new FormData(editForm);
+                const csrfToken = formData.get('_csrf');
+                const giveawayId = formData.get('giveawayId');
+                
+                if (!giveawayId) {
+                    feedback.className = 'form-feedback error';
+                    feedback.textContent = 'Invalid giveaway ID';
+                    return;
+                }
+                
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+                feedback.textContent = '';
+                feedback.className = 'form-feedback';
+                
+                // Collect extra entries
+                const extraEntries = {};
+                document.querySelectorAll('.edit-extra-entry-item').forEach(item => {
+                    const roleId = item.querySelector('.edit-extra-entry-role')?.value;
+                    const entryCount = parseInt(item.querySelector('.edit-extra-entry-count')?.value || '0', 10);
+                    if (roleId && entryCount > 0) {
+                        extraEntries[roleId] = entryCount;
+                    }
+                });
+                
+                // Collect requirements
+                const requirements = {};
+                const reqDaily = parseInt(formData.get('reqMessagesDaily') || '0', 10);
+                const reqWeekly = parseInt(formData.get('reqMessagesWeekly') || '0', 10);
+                const reqMonthly = parseInt(formData.get('reqMessagesMonthly') || '0', 10);
+                const reqTotal = parseInt(formData.get('reqMessagesTotal') || '0', 10);
+                
+                if (reqDaily > 0 || reqWeekly > 0 || reqMonthly > 0 || reqTotal > 0) {
+                    requirements.messages = {};
+                    if (reqDaily > 0) requirements.messages.daily = reqDaily;
+                    if (reqWeekly > 0) requirements.messages.weekly = reqWeekly;
+                    if (reqMonthly > 0) requirements.messages.monthly = reqMonthly;
+                    if (reqTotal > 0) requirements.messages.total = reqTotal;
+                }
+                
+                const requiredRoles = [];
+                document.querySelectorAll('.edit-required-role-select').forEach(select => {
+                    const roleId = select.value;
+                    if (roleId) requiredRoles.push(roleId);
+                });
+                if (requiredRoles.length > 0) {
+                    requirements.roles = requiredRoles;
+                }
+                
+                const reqLevel = parseInt(formData.get('reqLevel') || '0', 10);
+                if (reqLevel > 0) {
+                    requirements.level = reqLevel;
+                }
+                
+                const reqBypassRole = formData.get('reqBypassRole');
+                if (reqBypassRole) {
+                    requirements.bypassRole = reqBypassRole;
+                }
+                
+                const blacklistedRoles = [];
+                document.querySelectorAll('.edit-blacklisted-role-select').forEach(select => {
+                    const roleId = select.value;
+                    if (roleId) blacklistedRoles.push(roleId);
+                });
+                if (blacklistedRoles.length > 0) {
+                    requirements.blacklistedRoles = blacklistedRoles;
+                }
+                
+                const reqCustom = formData.get('reqCustom')?.trim();
+                if (reqCustom) {
+                    requirements.custom = reqCustom;
+                }
+                
+                const updateData = {
+                    prize: formData.get('prize'),
+                    winners: parseInt(formData.get('winners'), 10),
+                    duration: formData.get('duration'),
+                    channelId: formData.get('channelId'),
+                    description: formData.get('description') || '',
+                    embedColor: formData.get('embedColorText'),
+                    reactionEmoji: formData.get('reactionEmoji') || '🎉',
+                    hostedBy: formData.get('hostedBy') || '',
+                    winnerRole: formData.get('winnerRole') || null,
+                    dmWinners: formData.get('dmWinners') === 'on',
+                    dmHost: formData.get('dmHost') === 'on',
+                    dmMessage: formData.get('dmMessage') || null,
+                    dmMessageType: formData.get('dmMessageType') || 'normal',
+                    pingHostInDm: formData.get('pingHostInDm') === 'on',
+                    serverMessageType: formData.get('serverMessageType') || 'normal',
+                    pingHostInServer: formData.get('pingHostInServer') === 'on',
+                    notificationRole: formData.get('notificationRole') || null,
+                    thumbnail: formData.get('thumbnail') || null,
+                    image: formData.get('image') || null,
+                    extraEntries: Object.keys(extraEntries).length > 0 ? extraEntries : null,
+                    requirements: Object.keys(requirements).length > 0 ? requirements : null,
+                    isDrop: formData.get('isDrop') === 'on',
+                    entryConfirmMessage: formData.get('entryConfirmMessage') || null,
+                    entryDenyMessage: formData.get('entryDenyMessage') || null,
+                    entryRemoveMessage: formData.get('entryRemoveMessage') || null,
+                    persistEntries: formData.get('persistEntries') === 'on',
+                    removeEntriesOnEdit: formData.get('removeEntriesOnEdit') === 'on',
+                    createWinnersThread: formData.get('createWinnersThread') === 'on',
+                    winnersThreadType: formData.get('winnersThreadType') || 'public',
+                    winnersThreadMessage: formData.get('winnersThreadMessage') || null,
+                    winnersThreadCloseDuration: formData.get('winnersThreadCloseDuration') || null,
+                    winnerRoleRemoveDuration: formData.get('winnerRoleRemoveDuration') || null,
+                    _csrf: csrfToken
+                };
+                
+                try {
+                    const response = await fetch(basePath + '/api/giveaways/' + giveawayId, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-Token': csrfToken
+                        },
+                        credentials: 'same-origin',
+                        body: JSON.stringify(updateData)
+                    });
+                    
+                    const result = await response.json();
+                    if (result.success) {
+                        feedback.className = 'form-feedback success';
+                        feedback.textContent = 'Giveaway updated successfully!';
+                        setTimeout(() => {
+                            // Reload to show updated data
+                            location.reload();
+                        }, 1000);
+                    } else {
+                        feedback.className = 'form-feedback error';
+                        feedback.textContent = result.error || 'Failed to update giveaway';
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = '<i class="fas fa-save"></i> Save Changes';
+                    }
+                } catch (error) {
+                    feedback.className = 'form-feedback error';
+                    feedback.textContent = 'Error updating giveaway: ' + error.message;
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="fas fa-save"></i> Save Changes';
+                }
+            });
+            
+            // Cancel button
+            const cancelBtn = document.getElementById('cancel-edit-btn');
+            if (cancelBtn) {
+                cancelBtn.addEventListener('click', function() {
+                    const overviewTab = document.querySelector('[data-panel-target="giveaways-overview"]');
+                    const viewEditTab = document.getElementById('view-edit-tab');
+                    if (overviewTab) {
+                        viewEditTab.style.display = 'none';
+                        overviewTab.click();
+                    }
+                });
+            }
+            
+            // End giveaway button (in edit form)
+            const endBtnInForm = document.getElementById('end-giveaway-btn');
+            if (endBtnInForm) {
+                endBtnInForm.addEventListener('click', function() {
+                    const giveawayId = document.getElementById('edit-giveaway-id').value;
+                    if (giveawayId && confirm('Are you sure you want to end this giveaway?')) {
+                        endGiveaway(giveawayId);
+                    }
+                });
+            }
+            
+            // Color picker sync for edit form
+            const editColorPicker = document.getElementById('edit-embedColor');
+            const editColorText = document.getElementById('edit-embedColorText');
+            if (editColorPicker && editColorText) {
+                editColorPicker.addEventListener('input', () => {
+                    editColorText.value = editColorPicker.value;
+                });
+                editColorText.addEventListener('input', () => {
+                    if (/^#[0-9A-Fa-f]{6}$/i.test(editColorText.value)) {
+                        editColorPicker.value = editColorText.value;
+                    }
+                });
+            }
+        }
+        
+        function editTemplate(id) {
+            // For now, just show a message - template editing can be added later
+            if (!id) return;
+            
+            // Load template data and populate create form for editing
+            fetch(basePath + '/api/giveaways/templates/id/' + id)
+                .then(res => res.json())
+                .then(result => {
+                    if (result.success && result.data) {
+                        const template = result.data;
+                        const form = document.getElementById('giveaway-create-form');
+                        if (form) {
+                            // Switch to create tab
+                            const createTab = document.querySelector('[data-panel-target="giveaways-create"]');
+                            if (createTab) {
+                                createTab.click();
+                            }
+                            
+                            // Pre-fill form with template data
+                            if (template.prize) form.querySelector('[name="prize"]').value = template.prize;
+                            if (template.winners) form.querySelector('[name="winners"]').value = template.winners;
+                            if (template.duration) form.querySelector('[name="duration"]').value = template.duration;
+                            if (template.description) form.querySelector('[name="description"]').value = template.description;
+                            if (template.embedColor) {
+                                form.querySelector('[name="embedColor"]').value = template.embedColor;
+                                form.querySelector('[name="embedColorText"]').value = template.embedColor;
+                            }
+                            if (template.reactionEmoji) form.querySelector('[name="reactionEmoji"]').value = template.reactionEmoji;
+                            if (template.hostedBy) form.querySelector('[name="hostedBy"]').value = template.hostedBy;
+                            
+                            // Load channels if serverId is available
+                            if (template.serverId) {
+                                const serverSelect = form.querySelector('[name="serverId"]');
+                                if (serverSelect) {
+                                    serverSelect.value = template.serverId;
+                                    loadChannels(template.serverId, template.channelId);
+                                }
+                            }
+                            
+                            // Show success message
+                            const feedback = document.getElementById('create-feedback');
+                            if (feedback) {
+                                feedback.className = 'form-feedback success';
+                                feedback.textContent = 'Template loaded! You can now edit and save as a new template or update the existing one.';
+                                setTimeout(() => {
+                                    feedback.textContent = '';
+                                    feedback.className = 'form-feedback';
+                                }, 5000);
+                            }
+                        }
+                    } else {
+                        alert('Failed to load template: ' + (result.error || 'Unknown error'));
+                    }
+                })
+                .catch(err => {
+                    console.error('Error loading template:', err);
+                    alert('Error loading template: ' + err.message);
+                });
+        }
+        
+        // Template event listeners (added after other event listeners to avoid conflicts)
+        if (!document._templateListenersAdded) {
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('use-template-btn') || e.target.closest('.use-template-btn')) {
+                    const btn = e.target.classList.contains('use-template-btn') ? e.target : e.target.closest('.use-template-btn');
+                    const id = btn.getAttribute('data-template-id');
+                    if (id) useTemplate(id);
+                }
+                
+                if (e.target.classList.contains('edit-template-btn') || e.target.closest('.edit-template-btn')) {
+                    const btn = e.target.classList.contains('edit-template-btn') ? e.target : e.target.closest('.edit-template-btn');
+                    const id = btn.getAttribute('data-template-id');
+                    if (id) editTemplate(id);
+                }
+                
+                if (e.target.classList.contains('delete-template-btn') || e.target.closest('.delete-template-btn')) {
+                    const btn = e.target.classList.contains('delete-template-btn') ? e.target : e.target.closest('.delete-template-btn');
+                    const id = btn.getAttribute('data-template-id');
+                    if (id) deleteTemplate(id);
+                }
+            });
+            document._templateListenersAdded = true;
+        }
+        
+        function deleteTemplate(id) {
+            if (!id || !confirm('Are you sure you want to delete this template? This action cannot be undone.')) return;
+            
+            const form = document.getElementById('giveaway-create-form');
+            const csrfToken = form ? form.querySelector('[name="_csrf"]')?.value : '';
+            
+            fetch(basePath + '/api/giveaways/templates/' + id, {
+                method: 'DELETE',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': csrfToken
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert('Failed to delete template: ' + (data.error || 'Unknown error'));
+                }
+            })
+            .catch(err => {
+                console.error('Error deleting template:', err);
+                alert('Failed to delete template: ' + err.message);
+            });
+        }
+
+        // Load roles for settings page
+        const settingsPane = document.getElementById('giveaways-settings');
+        const settingsTab = document.querySelector('[data-panel-target="giveaways-settings"]');
+        if (settingsTab && settingsPane) {
+            settingsTab.addEventListener('click', async function() {
+                const creatorRolesSelect = settingsPane.querySelector('#creator-roles-select');
+                const managerRolesSelect = settingsPane.querySelector('#manager-roles-select');
+                const winnerRoleSelect = settingsPane.querySelector('#settings-winner-role-select');
+                
+                if ((creatorRolesSelect && creatorRolesSelect.options.length <= 0) || 
+                    (managerRolesSelect && managerRolesSelect.options.length <= 0) ||
+                    (winnerRoleSelect && winnerRoleSelect.options.length <= 1)) {
+                    const roles = await loadServerRoles();
+                    
+                    // Populate creator roles
+                    if (creatorRolesSelect) {
+                        roles.forEach(role => {
+                            const option = document.createElement('option');
+                            option.value = role.id;
+                            option.textContent = `@${role.name}`;
+                            if (data.giveawayData.settings?.creatorRoles?.includes(role.id)) {
+                                option.selected = true;
+                            }
+                            creatorRolesSelect.appendChild(option);
+                        });
+                    }
+                    
+                    // Populate manager roles
+                    if (managerRolesSelect) {
+                        roles.forEach(role => {
+                            const option = document.createElement('option');
+                            option.value = role.id;
+                            option.textContent = `@${role.name}`;
+                            if (data.giveawayData.settings?.managerRoles?.includes(role.id)) {
+                                option.selected = true;
+                            }
+                            managerRolesSelect.appendChild(option);
+                        });
+                    }
+                    
+                    // Populate winner role
+                    if (winnerRoleSelect) {
+                        roles.forEach(role => {
+                            const option = document.createElement('option');
+                            option.value = role.id;
+                            option.textContent = `@${role.name}`;
+                            if (data.giveawayData.settings?.winnerRole === role.id) {
+                                option.selected = true;
+                            }
+                            winnerRoleSelect.appendChild(option);
+                        });
+                    }
+                }
+                
+                // Load default extra entries
+                const defaultExtraEntries = data.giveawayData.settings?.defaultExtraEntries || {};
+                const defaultExtraEntriesList = settingsPane.querySelector('#default-extra-entries-list');
+                if (defaultExtraEntriesList && Object.keys(defaultExtraEntries).length > 0) {
+                    defaultExtraEntriesList.innerHTML = '';
+                    for (const [roleId, entryCount] of Object.entries(defaultExtraEntries)) {
+                        addDefaultExtraEntry(roleId, entryCount);
+                    }
+                }
+            });
+        }
+        
+        // Default extra entries management for settings
+        let defaultExtraEntryCounter = 0;
+        const defaultExtraEntriesList = document.getElementById('default-extra-entries-list');
+        const addDefaultExtraEntryBtn = document.getElementById('add-default-extra-entry-btn');
+        
+        function addDefaultExtraEntry(roleId = '', entryCount = 1) {
+            const entryId = 'default-extra-entry-' + (defaultExtraEntryCounter++);
+            const entryDiv = document.createElement('div');
+            entryDiv.className = 'default-extra-entry-item';
+            entryDiv.style.cssText = 'display: flex; gap: 1rem; align-items: center; padding: 1rem; background: var(--surface-elevated); border-radius: var(--radius-md); margin-bottom: 0.5rem;';
+            entryDiv.innerHTML = `
+                <select class="form-control default-extra-entry-role" style="flex: 1;" data-entry-id="${entryId}">
+                    <option value="">Select role...</option>
+                </select>
+                <input type="number" class="form-control default-extra-entry-count" value="${entryCount}" min="1" max="250" style="width: 120px;" placeholder="Entries">
+                <button type="button" class="btn btn-sm btn-danger remove-default-extra-entry" data-entry-id="${entryId}">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            if (defaultExtraEntriesList) {
+                defaultExtraEntriesList.appendChild(entryDiv);
+            }
+            
+            // Populate role select
+            const roleSelect = entryDiv.querySelector('.default-extra-entry-role');
+            loadServerRoles().then(roles => {
+                roles.forEach(role => {
+                    const option = document.createElement('option');
+                    option.value = role.id;
+                    option.textContent = `@${role.name}`;
+                    if (role.id === roleId) option.selected = true;
+                    roleSelect.appendChild(option);
+                });
+            });
+            
+            // Remove button handler
+            entryDiv.querySelector('.remove-default-extra-entry').addEventListener('click', () => {
+                entryDiv.remove();
+            });
+        }
+        
+        if (addDefaultExtraEntryBtn) {
+            addDefaultExtraEntryBtn.addEventListener('click', () => addDefaultExtraEntry());
+        }
+
+        // Settings form submission
+        const settingsForm = document.getElementById('giveaway-settings-form');
+        if (settingsForm) {
+            settingsForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const feedback = document.getElementById('settings-feedback');
+                const submitBtn = settingsForm.querySelector('button[type="submit"]');
+                
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+                feedback.textContent = '';
+                feedback.className = 'form-feedback';
+
+                const formData = new FormData(settingsForm);
+                
+                // Collect creator roles (max 5)
+                const creatorRoles = Array.from(settingsForm.querySelector('#creator-roles-select')?.selectedOptions || [])
+                    .map(opt => opt.value)
+                    .slice(0, 5);
+                
+                // Collect manager roles (max 5)
+                const managerRoles = Array.from(settingsForm.querySelector('#manager-roles-select')?.selectedOptions || [])
+                    .map(opt => opt.value)
+                    .slice(0, 5);
+                
+                // Collect default extra entries
+                const defaultExtraEntries = {};
+                document.querySelectorAll('.default-extra-entry-item').forEach(item => {
+                    const roleId = item.querySelector('.default-extra-entry-role')?.value;
+                    const entryCount = parseInt(item.querySelector('.default-extra-entry-count')?.value || '0', 10);
+                    if (roleId && entryCount > 0) {
+                        defaultExtraEntries[roleId] = entryCount;
+                    }
+                });
+                
+                const settings = {
+                    prefix: formData.get('prefix') || '!',
+                    language: formData.get('language') || 'en',
+                    creatorRoles: creatorRoles,
+                    managerRoles: managerRoles,
+                    dmGiveawayHost: formData.get('dmGiveawayHost') === 'on',
+                    dmGiveawayWinners: formData.get('dmGiveawayWinners') === 'on',
+                    winnerRole: formData.get('winnerRole') || null,
+                    showCaptcha: formData.get('showCaptcha') === 'on',
+                    publicGiveaways: formData.get('publicGiveaways') === 'on',
+                    defaultExtraEntries: Object.keys(defaultExtraEntries).length > 0 ? defaultExtraEntries : {},
+                    defaultEmbedColor: formData.get('defaultEmbedColorText'),
+                    defaultEndEmbedColor: formData.get('defaultEndEmbedColorText'),
+                    defaultHost: formData.get('defaultHost') || null,
+                    defaultCreateMessage: formData.get('defaultCreateMessage')
+                };
+
+                try {
+                    const response = await fetch(basePath + '/api/giveaways/settings/' + formData.get('serverId'), {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        credentials: 'same-origin',
+                        body: JSON.stringify(settings)
+                    });
+
+                    const result = await response.json();
+                    if (result.success) {
+                        feedback.className = 'form-feedback success';
+                        feedback.textContent = 'Settings saved successfully!';
+                    } else {
+                        feedback.className = 'form-feedback error';
+                        feedback.textContent = result.error || 'Failed to save settings';
+                    }
+                } catch (error) {
+                    feedback.className = 'form-feedback error';
+                    feedback.textContent = 'Error saving settings: ' + error.message;
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="fas fa-save"></i> Save Settings';
+                }
+            });
+        }
+
+        // Color picker sync
+        document.querySelectorAll('.color-picker').forEach(picker => {
+            const textInput = picker.parentElement.querySelector('.color-text');
+            if (textInput) {
+                picker.addEventListener('input', () => {
+                    textInput.value = picker.value;
+                });
+                textInput.addEventListener('input', () => {
+                    if (/^#[0-9A-Fa-f]{6}$/i.test(textInput.value)) {
+                        picker.value = textInput.value;
+                    }
+                });
+            }
+        });
+
+        updateTimeElements();
+        setInterval(updateTimeElements, 60000); // Update every minute
+
+        // Load channels and roles when create pane is shown
+        const createPane = document.getElementById('giveaways-create');
+        const createTab = document.querySelector('[data-panel-target="giveaways-create"]');
+        let rolesLoaded = false;
+        let serverRoles = [];
+        
+        async function loadServerRoles() {
+            if (rolesLoaded) return serverRoles;
+            try {
+                const response = await fetch(basePath + '/api/servers/<%= data.server.id %>/roles');
+                const result = await response.json();
+                if (result.success && Array.isArray(result.data)) {
+                    serverRoles = result.data;
+                    rolesLoaded = true;
+                    return serverRoles;
+                }
+            } catch (error) {
+                console.error('Error loading roles:', error);
+            }
+            return [];
+        }
+        
+        if (createTab && createPane) {
+            createTab.addEventListener('click', async function() {
+                const channelSelect = createPane.querySelector('select[name="channelId"]');
+                if (channelSelect && channelSelect.options.length === 1) {
+                    // Load channels for the server
+                    try {
+                        const response = await fetch(basePath + '/api/servers/<%= data.server.id %>/channels');
+                        const result = await response.json();
+                        if (result.success && Array.isArray(result.data)) {
+                            channelSelect.innerHTML = '<option value="">Select a channel</option>';
+                            result.data.forEach(channel => {
+                                if (channel.type === 0) { // Text channel
+                                    const option = document.createElement('option');
+                                    option.value = channel.id;
+                                    option.textContent = `#${channel.name}`;
+                                    channelSelect.appendChild(option);
+                                }
+                            });
+                        }
+                    } catch (error) {
+                        console.error('Error loading channels:', error);
+                    }
+                }
+                
+                // Load roles for winner role select
+                const winnerRoleSelect = createPane.querySelector('#winner-role-select');
+                if (winnerRoleSelect && winnerRoleSelect.options.length <= 1) {
+                    const roles = await loadServerRoles();
+                    roles.forEach(role => {
+                        const option = document.createElement('option');
+                        option.value = role.id;
+                        option.textContent = `@${role.name}`;
+                        winnerRoleSelect.appendChild(option);
+                    });
+                }
+            });
+        }
+        
+        // Extra entries management
+        let extraEntryCounter = 0;
+        const extraEntriesList = document.getElementById('extra-entries-list');
+        const addExtraEntryBtn = document.getElementById('add-extra-entry-btn');
+        
+        function addExtraEntry(roleId = '', entryCount = 1) {
+            const entryId = 'extra-entry-' + (extraEntryCounter++);
+            const entryDiv = document.createElement('div');
+            entryDiv.className = 'extra-entry-item';
+            entryDiv.style.cssText = 'display: flex; gap: 1rem; align-items: center; padding: 1rem; background: var(--surface-elevated); border-radius: var(--radius-md); margin-bottom: 0.5rem;';
+            entryDiv.innerHTML = `
+                <select class="form-control extra-entry-role" style="flex: 1;" data-entry-id="${entryId}">
+                    <option value="">Select role...</option>
+                </select>
+                <input type="number" class="form-control extra-entry-count" value="${entryCount}" min="1" max="250" style="width: 120px;" placeholder="Entries">
+                <button type="button" class="btn btn-sm btn-danger remove-extra-entry" data-entry-id="${entryId}">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            extraEntriesList.appendChild(entryDiv);
+            
+            // Populate role select
+            const roleSelect = entryDiv.querySelector('.extra-entry-role');
+            loadServerRoles().then(roles => {
+                roles.forEach(role => {
+                    const option = document.createElement('option');
+                    option.value = role.id;
+                    option.textContent = `@${role.name}`;
+                    if (role.id === roleId) option.selected = true;
+                    roleSelect.appendChild(option);
+                });
+            });
+            
+            // Remove button handler
+            entryDiv.querySelector('.remove-extra-entry').addEventListener('click', () => {
+                entryDiv.remove();
+            });
+        }
+        
+        if (addExtraEntryBtn) {
+            addExtraEntryBtn.addEventListener('click', () => addExtraEntry());
+        }
+        
+        // Required roles management
+        let requiredRoleCounter = 0;
+        const requiredRolesList = document.getElementById('required-roles-list');
+        const addRequiredRoleBtn = document.getElementById('add-required-role-btn');
+        
+        function addRequiredRole(roleId = '') {
+            const roleItemId = 'required-role-' + (requiredRoleCounter++);
+            const roleDiv = document.createElement('div');
+            roleDiv.className = 'required-role-item';
+            roleDiv.style.cssText = 'display: flex; gap: 1rem; align-items: center; padding: 0.75rem; background: var(--surface); border-radius: var(--radius-sm); margin-bottom: 0.5rem;';
+            roleDiv.innerHTML = `
+                <select class="form-control required-role-select" style="flex: 1;" data-role-id="${roleItemId}">
+                    <option value="">Select role...</option>
+                </select>
+                <button type="button" class="btn btn-sm btn-danger remove-required-role" data-role-id="${roleItemId}">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            requiredRolesList.appendChild(roleDiv);
+            
+            // Populate role select
+            const roleSelect = roleDiv.querySelector('.required-role-select');
+            loadServerRoles().then(roles => {
+                roles.forEach(role => {
+                    const option = document.createElement('option');
+                    option.value = role.id;
+                    option.textContent = `@${role.name}`;
+                    if (role.id === roleId) option.selected = true;
+                    roleSelect.appendChild(option);
+                });
+            });
+            
+            // Remove button handler
+            roleDiv.querySelector('.remove-required-role').addEventListener('click', () => {
+                roleDiv.remove();
+            });
+        }
+        
+        if (addRequiredRoleBtn) {
+            addRequiredRoleBtn.addEventListener('click', () => addRequiredRole());
+        }
+        
+        // Blacklisted roles management
+        let blacklistedRoleCounter = 0;
+        const blacklistedRolesList = document.getElementById('blacklisted-roles-list');
+        const addBlacklistedRoleBtn = document.getElementById('add-blacklisted-role-btn');
+        
+        function addBlacklistedRole(roleId = '') {
+            const roleItemId = 'blacklisted-role-' + (blacklistedRoleCounter++);
+            const roleDiv = document.createElement('div');
+            roleDiv.className = 'blacklisted-role-item';
+            roleDiv.style.cssText = 'display: flex; gap: 1rem; align-items: center; padding: 0.75rem; background: var(--surface); border-radius: var(--radius-sm); margin-bottom: 0.5rem;';
+            roleDiv.innerHTML = `
+                <select class="form-control blacklisted-role-select" style="flex: 1;" data-role-id="${roleItemId}">
+                    <option value="">Select role...</option>
+                </select>
+                <button type="button" class="btn btn-sm btn-danger remove-blacklisted-role" data-role-id="${roleItemId}">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            blacklistedRolesList.appendChild(roleDiv);
+            
+            // Populate role select
+            const roleSelect = roleDiv.querySelector('.blacklisted-role-select');
+            loadServerRoles().then(roles => {
+                roles.forEach(role => {
+                    const option = document.createElement('option');
+                    option.value = role.id;
+                    option.textContent = `@${role.name}`;
+                    if (role.id === roleId) option.selected = true;
+                    roleSelect.appendChild(option);
+                });
+            });
+            
+            // Remove button handler
+            roleDiv.querySelector('.remove-blacklisted-role').addEventListener('click', () => {
+                roleDiv.remove();
+            });
+        }
+        
+        if (addBlacklistedRoleBtn) {
+            addBlacklistedRoleBtn.addEventListener('click', () => addBlacklistedRole());
+        }
+        
+        // Populate bypass role select
+        const reqBypassRoleSelect = document.getElementById('req-bypass-role-select');
+        if (reqBypassRoleSelect) {
+            loadServerRoles().then(roles => {
+                roles.forEach(role => {
+                    const option = document.createElement('option');
+                    option.value = role.id;
+                    option.textContent = `@${role.name}`;
+                    reqBypassRoleSelect.appendChild(option);
+                });
+            });
+        }
+        
+        // Winners thread toggle
+        const createWinnersThreadCheckbox = document.getElementById('create-winners-thread-checkbox');
+        const winnersThreadOptions = document.getElementById('winners-thread-options');
+        if (createWinnersThreadCheckbox && winnersThreadOptions) {
+            createWinnersThreadCheckbox.addEventListener('change', function() {
+                winnersThreadOptions.style.display = this.checked ? 'block' : 'none';
+            });
+        }
+
+        // Create giveaway form submission
+        const createForm = document.getElementById('giveaway-create-form');
+        if (createForm) {
+            let isSubmitting = false; // Prevent double-submit
+            
+            createForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Prevent double-submit
+                if (isSubmitting) {
+                    console.warn('Form submission already in progress');
+                    return;
+                }
+                
+                isSubmitting = true;
+                const feedback = document.getElementById('create-feedback');
+                const submitBtn = createForm.querySelector('button[type="submit"]');
+                
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating...';
+                feedback.textContent = '';
+                feedback.className = 'form-feedback';
+
+                const formData = new FormData(createForm);
+                const csrfToken = formData.get('_csrf');
+                
+                // Collect extra entries
+                const extraEntries = {};
+                document.querySelectorAll('.extra-entry-item').forEach(item => {
+                    const roleId = item.querySelector('.extra-entry-role')?.value;
+                    const entryCount = parseInt(item.querySelector('.extra-entry-count')?.value || '0', 10);
+                    if (roleId && entryCount > 0) {
+                        extraEntries[roleId] = entryCount;
+                    }
+                });
+                
+                // Collect requirements
+                const requirements = {};
+                const reqDaily = parseInt(formData.get('reqMessagesDaily') || '0', 10);
+                const reqWeekly = parseInt(formData.get('reqMessagesWeekly') || '0', 10);
+                const reqMonthly = parseInt(formData.get('reqMessagesMonthly') || '0', 10);
+                const reqTotal = parseInt(formData.get('reqMessagesTotal') || '0', 10);
+                
+                if (reqDaily > 0 || reqWeekly > 0 || reqMonthly > 0 || reqTotal > 0) {
+                    requirements.messages = {};
+                    if (reqDaily > 0) requirements.messages.daily = reqDaily;
+                    if (reqWeekly > 0) requirements.messages.weekly = reqWeekly;
+                    if (reqMonthly > 0) requirements.messages.monthly = reqMonthly;
+                    if (reqTotal > 0) requirements.messages.total = reqTotal;
+                }
+                
+                const requiredRoles = [];
+                document.querySelectorAll('.required-role-select').forEach(select => {
+                    const roleId = select.value;
+                    if (roleId) requiredRoles.push(roleId);
+                });
+                if (requiredRoles.length > 0) {
+                    requirements.roles = requiredRoles;
+                }
+                
+                const reqLevel = parseInt(formData.get('reqLevel') || '0', 10);
+                if (reqLevel > 0) {
+                    requirements.level = reqLevel;
+                }
+                
+                const reqBypassRole = formData.get('reqBypassRole');
+                if (reqBypassRole) {
+                    requirements.bypassRole = reqBypassRole;
+                }
+                
+                const blacklistedRoles = [];
+                document.querySelectorAll('.blacklisted-role-select').forEach(select => {
+                    const roleId = select.value;
+                    if (roleId) blacklistedRoles.push(roleId);
+                });
+                if (blacklistedRoles.length > 0) {
+                    requirements.blacklistedRoles = blacklistedRoles;
+                }
+                
+                const reqCustom = formData.get('reqCustom')?.trim();
+                if (reqCustom) {
+                    requirements.custom = reqCustom;
+                }
+                
+                const giveawayData = {
+                    serverId: formData.get('serverId'),
+                    prize: formData.get('prize'),
+                    winners: parseInt(formData.get('winners'), 10),
+                    duration: formData.get('duration'),
+                    channelId: formData.get('channelId'),
+                    description: formData.get('description') || '',
+                    embedColor: formData.get('embedColorText'),
+                    reactionEmoji: formData.get('reactionEmoji') || '🎉',
+                    hostedBy: formData.get('hostedBy') || '',
+                    scheduled: formData.get('scheduled') === 'on',
+                    scheduledStart: formData.get('scheduledStart') ? new Date(formData.get('scheduledStart')).getTime() : null,
+                    winnerRole: formData.get('winnerRole') || null,
+                    dmWinners: formData.get('dmWinners') === 'on',
+                    dmHost: formData.get('dmHost') === 'on',
+                    dmMessage: formData.get('dmMessage') || null,
+                    dmMessageType: formData.get('dmMessageType') || 'normal',
+                    pingHostInDm: formData.get('pingHostInDm') === 'on',
+                    serverMessageType: formData.get('serverMessageType') || 'normal',
+                    pingHostInServer: formData.get('pingHostInServer') === 'on',
+                    notificationRole: formData.get('notificationRole') || null,
+                    thumbnail: formData.get('thumbnail') || null,
+                    image: formData.get('image') || null,
+                    extraEntries: Object.keys(extraEntries).length > 0 ? extraEntries : null,
+                    requirements: Object.keys(requirements).length > 0 ? requirements : null,
+                    isDrop: formData.get('isDrop') === 'on',
+                    entryConfirmMessage: formData.get('entryConfirmMessage') || null,
+                    entryDenyMessage: formData.get('entryDenyMessage') || null,
+                    entryRemoveMessage: formData.get('entryRemoveMessage') || null,
+                    persistEntries: formData.get('persistEntries') === 'on',
+                    removeEntriesOnEdit: formData.get('removeEntriesOnEdit') === 'on',
+                    createWinnersThread: formData.get('createWinnersThread') === 'on',
+                    winnersThreadType: formData.get('winnersThreadType') || 'public',
+                    winnersThreadMessage: formData.get('winnersThreadMessage') || null,
+                    winnersThreadCloseDuration: formData.get('winnersThreadCloseDuration') || null,
+                    winnerRoleRemoveDuration: formData.get('winnerRoleRemoveDuration') || null,
+                    _csrf: csrfToken // Include CSRF token in body
+                };
+
+                try {
+                    const response = await fetch(basePath + '/api/giveaways/create', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-Token': csrfToken // Also include as header
+                        },
+                        credentials: 'same-origin',
+                        body: JSON.stringify(giveawayData)
+                    });
+
+                    const result = await response.json();
+                    if (result.success) {
+                        feedback.className = 'form-feedback success';
+                        feedback.textContent = 'Giveaway created successfully!';
+                        createForm.reset();
+                        // Switch to overview tab after 1 second
+                        setTimeout(() => {
+                            const overviewTab = document.querySelector('[data-panel-target="giveaways-overview"]');
+                            if (overviewTab) {
+                                overviewTab.click();
+                                location.reload();
+                            }
+                        }, 1000);
+                    } else {
+                        feedback.className = 'form-feedback error';
+                        feedback.textContent = result.error || 'Failed to create giveaway';
+                    }
+                } catch (error) {
+                    feedback.className = 'form-feedback error';
+                    feedback.textContent = 'Error creating giveaway: ' + error.message;
+                } finally {
+                    isSubmitting = false;
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="fas fa-plus"></i> Create Giveaway';
+                }
+            });
+            
+            // Save as Template button handler
+            const saveTemplateBtn = document.getElementById('save-template-btn');
+            if (saveTemplateBtn) {
+                saveTemplateBtn.addEventListener('click', async function(e) {
+                    e.preventDefault();
+                    const feedback = document.getElementById('create-feedback');
+                    const formData = new FormData(createForm);
+                    const csrfToken = formData.get('_csrf');
+                    
+                    const templateData = {
+                        name: formData.get('prize') || 'Untitled Template',
+                        serverId: formData.get('serverId'),
+                        prize: formData.get('prize'),
+                        winners: parseInt(formData.get('winners'), 10) || 1,
+                        duration: formData.get('duration') || '7d',
+                        description: formData.get('description') || '',
+                        embedColor: formData.get('embedColorText') || '#338ac4',
+                        reactionEmoji: formData.get('reactionEmoji') || '🎉',
+                        hostedBy: formData.get('hostedBy') || '',
+                        _csrf: csrfToken
+                    };
+                    
+                    try {
+                        const response = await fetch(basePath + '/api/giveaways/templates', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-Token': csrfToken
+                            },
+                            credentials: 'same-origin',
+                            body: JSON.stringify(templateData)
+                        });
+                        
+                        const result = await response.json();
+                        if (result.success) {
+                            feedback.className = 'form-feedback success';
+                            feedback.textContent = 'Template saved successfully!';
+                            setTimeout(() => {
+                                feedback.textContent = '';
+                                feedback.className = 'form-feedback';
+                            }, 3000);
+                        } else {
+                            feedback.className = 'form-feedback error';
+                            feedback.textContent = result.error || 'Failed to save template';
+                        }
+                    } catch (error) {
+                        feedback.className = 'form-feedback error';
+                        feedback.textContent = 'Error saving template: ' + error.message;
+                    }
+                });
+            }
+
+            // Schedule checkbox toggle
+            const scheduledCheckbox = createForm.querySelector('#scheduled-checkbox');
+            const scheduleOptions = createForm.querySelector('#schedule-options');
+            if (scheduledCheckbox && scheduleOptions) {
+                scheduledCheckbox.addEventListener('change', function() {
+                    scheduleOptions.style.display = this.checked ? 'block' : 'none';
+                    if (this.checked) {
+                        const now = new Date();
+                        now.setMinutes(now.getMinutes() + 30); // Default to 30 minutes from now
+                        const datetimeLocal = now.toISOString().slice(0, 16);
+                        createForm.querySelector('[name="scheduledStart"]').value = datetimeLocal;
+                    }
+                });
+            }
+
+            // Color picker sync
+            const colorPicker = createForm.querySelector('[name="embedColor"]');
+            const colorText = createForm.querySelector('[name="embedColorText"]');
+            if (colorPicker && colorText) {
+                colorPicker.addEventListener('input', () => {
+                    colorText.value = colorPicker.value;
+                });
+                colorText.addEventListener('input', () => {
+                    if (/^#[0-9A-Fa-f]{6}$/i.test(colorText.value)) {
+                        colorPicker.value = colorText.value;
+                    }
+                });
+            }
+        }
+        <% } // End EJS conditional: giveaway system JavaScript %>
+    </script>
+</body>
+</html>

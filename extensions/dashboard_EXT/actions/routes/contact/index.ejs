@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= data.seo?.title || 'Contact - News Targeted Bot' %></title>
+    <meta name="description" content="<%= data.seo?.description || 'Reach out to the News Targeted Bot team.' %>">
+    <meta name="keywords" content="<%= data.seo?.keywords || '' %>">
+    <% if (data.seo?.canonical) { %>
+    <link rel="canonical" href="<%= data.seo.canonical %>">
+    <% } %>
+    <% if (data.seo?.image) { %>
+    <meta property="og:image" content="<%= data.seo.image %>">
+    <meta name="twitter:image" content="<%= data.seo.image %>">
+    <% } %>
+
+    <% 
+    // basePath is set by middleware in res.locals.basePath
+    // Express automatically merges res.locals into template context
+    const templateBasePath = (typeof basePath !== 'undefined' && basePath) ? basePath : '';
+    %>
+    <link rel="icon" type="image/x-icon" href="<%= templateBasePath %>/favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="<%= templateBasePath %>/shared/styles.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body class="main-layout">
+    <%- include('../../../views/shared/header.ejs', { data: data }) %>
+
+    <main class="contact-wrapper">
+        <section class="contact-hero" data-aos="fade-up">
+            <h1>Contact Us</h1>
+            <p>Have a question, feature request, or need help with the News Targeted Bot? Send us a message directly.</p>
+        </section>
+
+        <section class="contact-content" data-aos="fade-up" data-aos-delay="100">
+            <div class="contact-card">
+                <h2>Send a Message</h2>
+                <p class="contact-card__subtitle">Your message is delivered directly to our private Discord support queue.</p>
+                <form id="contact-form" autocomplete="off">
+                    <input type="hidden" name="_csrf" value="<%= data.csrfToken || '' %>">
+                    <div class="form-grid">
+                        <label>
+                            Name
+                            <input type="text" name="name" placeholder="Jane Doe" required minlength="2" maxlength="120">
+                        </label>
+                        <label>
+                            Email
+                            <input type="email" name="email" placeholder="you@example.com" required>
+                        </label>
+                    </div>
+                    <label>
+                        Subject
+                        <input type="text" name="subject" placeholder="How can we help?" required minlength="3" maxlength="150">
+                    </label>
+                    <label>
+                        Message
+                        <textarea name="message" rows="6" placeholder="Share as much detail as possible so we can assist quickly." required minlength="10" maxlength="1024"></textarea>
+                    </label>
+                    <div class="form-meta">
+                        <span class="char-counter" id="contact-message-counter" aria-live="polite">
+                            <span data-counter-current>0</span> / <span data-counter-max>1024</span>
+                        </span>
+                        <span class="char-helper">Markdown formatting counts toward the limit.</span>
+                    </div>
+                    <button type="submit" class="btn-primary" id="contact-submit">Send Message</button>
+                    <p class="form-feedback" id="contact-feedback" role="alert" aria-live="polite"></p>
+                </form>
+            </div>
+
+            <aside class="contact-sidebar">
+                <div class="sidebar-card" data-aos="fade-up" data-aos-delay="150">
+                    <h3>Support Response</h3>
+                    <p>We will follow up through Discord once the team reviews your ticket. Be sure your DMs are open so we can reach you quickly.</p>
+                </div>
+
+                <div class="sidebar-card" data-aos="fade-up" data-aos-delay="200">
+                    <h3>Community Support</h3>
+                    <p>Need immediate help? Join the Discord support server for live status updates and priority assistance.</p>
+                    <a class="btn-secondary" href="<%= data.client ? data.client.supportServer || data.supportServer || 'https://discord.gg/nx9Kzrk' : 'https://discord.gg/nx9Kzrk' %>" target="_blank" rel="noopener">Join Support Server</a>
+                </div>
+            </aside>
+        </section>
+    </main>
+
+    <%- include('../../../views/shared/footer.ejs', { data: data }) %>
+
+    <script>
+        const form = document.getElementById('contact-form');
+        const submitBtn = document.getElementById('contact-submit');
+        const feedback = document.getElementById('contact-feedback');
+        const messageField = form.querySelector('textarea[name="message"]');
+        const counter = document.getElementById('contact-message-counter');
+        const counterCurrent = counter ? counter.querySelector('[data-counter-current]') : null;
+        const counterMax = counter ? counter.querySelector('[data-counter-max]') : null;
+        const maxChars = messageField ? parseInt(messageField.getAttribute('maxlength') || '4000', 10) : 4000;
+
+        function updateCharacterCounter() {
+            if (!messageField || !counter || !counterCurrent || !counterMax) {
+                return;
+            }
+
+            const used = messageField.value.length;
+            counterCurrent.textContent = used.toString();
+            counterMax.textContent = maxChars.toString();
+
+            counter.classList.toggle('char-counter--warning', used >= Math.floor(maxChars * 0.85) && used < maxChars);
+            counter.classList.toggle('char-counter--danger', used >= maxChars);
+        }
+
+        async function submitContact(event) {
+            event.preventDefault();
+            feedback.textContent = '';
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending…';
+
+            const formData = new FormData(form);
+            const payload = Object.fromEntries(formData.entries());
+            const csrfField = form.querySelector('input[name="_csrf"]');
+
+            try {
+                const headers = {
+                    'Content-Type': 'application/json'
+                };
+                if (payload._csrf) {
+                    headers['X-CSRF-Token'] = payload._csrf;
+                }
+
+                const basePath = window.location.pathname.startsWith('/nt2') ? '/nt2' : '';
+                const response = await fetch(basePath + '/contact', {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    headers,
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                if (!response.ok || !result.success) {
+                    if (result.csrf && csrfField) {
+                        csrfField.value = result.csrf;
+                    }
+                    updateCharacterCounter();
+                    throw new Error(result.error || 'Unable to send your message.');
+                }
+
+                const nextToken = result.csrf || payload._csrf || '';
+                form.reset();
+                if (csrfField) {
+                    csrfField.value = nextToken;
+                }
+                updateCharacterCounter();
+
+                feedback.classList.remove('error');
+                feedback.classList.add('success');
+                feedback.textContent = 'Thanks! Your message has been sent.';
+            } catch (error) {
+                feedback.classList.remove('success');
+                feedback.classList.add('error');
+                feedback.textContent = error.message || 'Something went wrong. Please try again later.';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
+            }
+        }
+
+        if (messageField) {
+            updateCharacterCounter();
+            messageField.addEventListener('input', updateCharacterCounter);
+        }
+
+        form.addEventListener('submit', submitContact);
+    </script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+    </script>
+</body>
+</html>

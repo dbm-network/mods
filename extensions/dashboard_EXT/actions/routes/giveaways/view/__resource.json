@@ -1,0 +1,13 @@
+{
+  "author": "News Targeted",
+  "version": "1.0.0",
+  "name": "giveaways_view",
+  "description": "View and edit individual giveaway",
+  "dashboardMod": true,
+  "adminPanelMod": false,
+  "scriptFiles": ["view_route.js"],
+  "isCustom": false,
+  "routeURL": "/giveaways/:id",
+  "webFile": "index.ejs",
+  "cssFiles": []
+}

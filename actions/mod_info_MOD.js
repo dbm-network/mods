@@ -134,7 +134,7 @@ span.discord_code_blocks {
     Thank you for using the DBM Mod Collection!<br>
     If you want to tell us something, join the Discord Guild below.
     And if something doesn't work feel free to create an issue on GitHub
-    or open <span class="discord_channel wrexlink" data-url="https://discordapp.com/channels/374961173524643843/374961417016573962">#support</span> and describe your problem.
+    or open <span class="discord_channel wrexlink" data-url="https://discord.com/channels/374961173524643843/374961417016573962">#support</span> and describe your problem.
 
     <h3 style="color: #fff">Discord:</h3>
     Join the Discord Guild to stay updated and be able to suggest things.<br>

@@ -1,0 +1,13 @@
+{
+  "author": "News Targeted",
+  "version": "1.0.0",
+  "name": "giveaways",
+  "description": "Giveaway management system for the dashboard",
+  "dashboardMod": true,
+  "adminPanelMod": false,
+  "scriptFiles": ["giveaways_route.js"],
+  "isCustom": false,
+  "routeURL": "/giveaways",
+  "webFile": "index.ejs",
+  "cssFiles": []
+}

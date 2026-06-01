@@ -1,0 +1,66 @@
+                defaultExtraEntries[roleId] = entryCount;
+            }
+        });
+        
+        const settings = {
+            // Prefix is now managed in Server Bot Settings, not here
+            language: formData.get('language') || 'en',
+            creatorRoles: creatorRoles,
+            managerRoles: managerRoles,
+            dmGiveawayHost: formData.get('dmGiveawayHost') === 'on',
+            dmGiveawayWinners: formData.get('dmGiveawayWinners') === 'on',
+            winnerRole: formData.get('winnerRole') || null,
+            showCaptcha: formData.get('showCaptcha') === 'on',
+            publicGiveaways: formData.get('publicGiveaways') === 'on',
+            defaultExtraEntries: Object.keys(defaultExtraEntries).length > 0 ? defaultExtraEntries : {},
+            defaultEmbedColor: formData.get('defaultEmbedColorText'),
+            defaultEndEmbedColor: formData.get('defaultEndEmbedColorText'),
+            defaultHost: formData.get('defaultHost') || null,
+            defaultCreateMessage: formData.get('defaultCreateMessage')
+        };
+
+        try {
+            const response = await fetch(basePath + '/api/giveaways/settings/' + formData.get('serverId'), {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'same-origin',
+                body: JSON.stringify(settings)
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                feedback.className = 'form-feedback success';
+                feedback.textContent = 'Settings saved successfully!';
+            } else {
+                feedback.className = 'form-feedback error';
+                feedback.textContent = result.error || 'Failed to save settings';
+            }
+        } catch (error) {
+            feedback.className = 'form-feedback error';
+            feedback.textContent = 'Error saving settings: ' + error.message;
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="fas fa-save"></i> Save Settings';
+        }
+    });
+}
+
+// Color picker sync
+document.querySelectorAll('.color-picker').forEach(picker => {
+    const textInput = picker.parentElement.querySelector('.color-text');
+    if (textInput) {
+        picker.addEventListener('input', () => {
+            textInput.value = picker.value;
+        });
+        textInput.addEventListener('input', () => {
+            if (/^#[0-9A-Fa-f]{6}$/i.test(textInput.value)) {
+                picker.value = textInput.value;
+            }
+        });
+    }
+});
+
+updateTimeElements();
+setInterval(updateTimeElements, 60000); // Update every minute
